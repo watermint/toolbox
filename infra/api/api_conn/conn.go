@@ -11,6 +11,14 @@ const (
 	ServiceGoogle          = "google"
 )
 
+var (
+	Services = []string{
+		ServiceDropbox,
+		ServiceDropboxBusiness,
+		ServiceGithub,
+	}
+)
+
 type Connection interface {
 	// Connect to api
 	Connect(ctl app_control.Control) (err error)

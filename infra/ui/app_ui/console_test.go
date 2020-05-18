@@ -27,6 +27,7 @@ func TestConImpl(t *testing.T) {
 	c.Success(m)
 	c.Failure(m)
 	c.Progress(m)
+	c.Quote(m)
 	c.Code("puts 'hello'")
 	c.IsConsole()
 	c.IsWeb()

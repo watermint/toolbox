@@ -29,13 +29,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options
 
-| Option             | Description                               | Default        |
-|--------------------|-------------------------------------------|----------------|
-| `-badge`           | Include badges of build status            | true           |
-| `-command-path`    | Relative path to generate command manuals | doc/generated/ |
-| `-filename`        | Filename                                  | README.md      |
-| `-lang`            | Language                                  |                |
-| `-markdown-readme` | Generate README as markdown format        | false          |
+| Option          | Description                               | Default        |
+|-----------------|-------------------------------------------|----------------|
+| `-badge`        | Include badges of build status            | true           |
+| `-command-path` | Relative path to generate command manuals | doc/generated/ |
+| `-filename`     | Filename                                  | README.md      |
+| `-lang`         | Language                                  |                |
 
 Common options:
 

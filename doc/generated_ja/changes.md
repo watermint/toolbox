@@ -73,15 +73,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_audit"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -95,15 +91,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -117,15 +109,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_info"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -139,15 +127,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -161,16 +145,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -184,15 +163,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_info"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        true,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -224,16 +199,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Full": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Full": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        true,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -265,22 +235,19 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
+  	... // 7 identical fields
+  	ConnUsePersonal: true,
+  	ConnUseBusiness: true,
   	ConnScopes: map[string]string{
-- 		"Audit": "business_audit",
-- 		"File":  "business_file",
-- 		"Full":  "user_full",
-- 		"Info":  "business_info",
-- 		"Mgmt":  "business_management",
+  		"Audit":  "business_audit",
+  		"File":   "business_file",
+  		"Full":   "user_full",
++ 		"Github": "github_repo",
+  		"Info":   "business_info",
+  		"Mgmt":   "business_management",
   	},
 - 	Services:  nil,
-+ 	Services:  []string{},
++ 	Services:  []string{"dropbox", "dropbox_business", "github"},
   	IsSecret:  true,
   	IsConsole: false,
   	... // 6 identical fields
@@ -294,24 +261,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-  	ConnScopes: map[string]string{
-- 		"Audit": "business_audit",
-- 		"File":  "business_file",
-- 		"Full":  "user_full",
-- 		"Info":  "business_info",
-- 		"Mgmt":  "business_management",
-  	},
-- 	Services:  nil,
-+ 	Services:  []string{},
-  	IsSecret:  true,
-  	IsConsole: false,
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Audit": "business_audit", "File": "business_file", "Full": "user_full", "Info": "business_info", "Mgmt": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox", "dropbox_business"},
+  	IsSecret:        true,
+  	IsConsole:       false,
   	... // 6 identical fields
   }
 ```
@@ -348,7 +304,20 @@
 + 	Services:        []string{},
   	IsSecret:        true,
   	IsConsole:       false,
-  	... // 6 identical fields
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "Filename", Desc: "Filename", Default: "README.md", TypeName: "string"},
+  		&{Name: "Lang", Desc: "Language", TypeName: "domain.common.model.mo_string.opt_string"},
+- 		&{
+- 			Name:     "MarkdownReadme",
+- 			Desc:     "Generate README as markdown format",
+- 			Default:  "false",
+- 			TypeName: "bool",
+- 		},
+  	},
   }
 ```
 # コマンド仕様の変更: `dev dummy`
@@ -455,11 +424,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"ConnGithub": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        true,
   	IsConsole:       true,
   	... // 6 identical fields
@@ -509,16 +480,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /DROPBOX/PATH/TO/PROCESS",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        true,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -616,20 +582,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-left left -left-path /path/to/compare -right right -right-path /path/to/compare",
-  	CliNote:         "If you want to compare different path in same account, please specify same alias name to `-left` and `-right`.",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-  	ConnScopes: map[string]string{
-- 		"Left":  "user_full",
-- 		"Right": "user_full",
-  	},
-- 	Services:  nil,
-+ 	Services:  []string{},
-  	IsSecret:  false,
-  	IsConsole: false,
+  	ConnScopes:      map[string]string{"Left": "user_full", "Right": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
   	... // 6 identical fields
   }
 ```
@@ -641,16 +600,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-local-path /path/to/local -dropbox-path /path/on/dropbox",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -664,16 +618,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-src /SRC/PATH -dst /DST/PATH",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -687,16 +636,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /PATH/TO/DELETE",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -728,16 +672,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -751,16 +690,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -774,16 +708,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-file /path/to/data/file -path /path/to/import",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -797,16 +726,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-url URL -path /path/to/import",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -820,16 +744,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /path",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -843,16 +762,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-from /from/path -to /path/to",
-  	CliNote:         "Please add `-dry-run=false` option after verify integrity of expected result.",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -866,16 +780,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-src /SRC/PATH -dst /DST/PATH",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -889,20 +798,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-src source -src-path /path/src -dst dest -dst-path /path/dest",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-  	ConnScopes: map[string]string{
-- 		"Dst": "user_full",
-- 		"Src": "user_full",
-  	},
-- 	Services:  nil,
-+ 	Services:  []string{},
-  	IsSecret:  false,
-  	IsConsole: false,
+  	ConnScopes:      map[string]string{"Dst": "user_full", "Src": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
   	... // 6 identical fields
   }
 ```
@@ -914,16 +816,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /DROPBOX/PATH/TO/RESTORE",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -937,16 +834,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -960,16 +852,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -983,16 +870,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1006,16 +888,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1029,16 +906,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1052,16 +924,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /DROPBOX/PATH/TO/WATCH",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1075,16 +942,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /DROPBOX/PATH/OF/FILEREQUEST",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1098,16 +960,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1121,16 +978,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1144,16 +996,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1167,15 +1014,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1189,15 +1032,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1211,15 +1050,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1233,15 +1068,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_info"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1255,15 +1086,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1277,15 +1104,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1299,15 +1122,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_info"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1321,15 +1140,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1410,16 +1225,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-dropbox-path /DROPBOX/PATH/TO/UPLOAD",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1493,15 +1303,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1515,15 +1321,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1537,15 +1339,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1559,15 +1357,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_info"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 3 identical fields
@@ -1592,15 +1386,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1614,15 +1404,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1636,15 +1422,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1658,15 +1440,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1680,19 +1458,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-  	ConnScopes: map[string]string{
-- 		"Dst": "business_file",
-- 		"Src": "business_file",
-  	},
-- 	Services:  nil,
-+ 	Services:  []string{},
-  	IsSecret:  false,
-  	IsConsole: false,
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Dst": "business_file", "Src": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
   	... // 6 identical fields
   }
 ```
@@ -1704,15 +1476,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1726,15 +1494,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1748,15 +1512,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_management"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1770,11 +1530,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1788,11 +1550,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1806,11 +1570,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1824,11 +1590,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1842,11 +1610,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1860,11 +1630,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1878,11 +1650,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1896,11 +1670,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 8 identical fields
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
   	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"github"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1914,16 +1690,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1937,16 +1708,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1960,16 +1726,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /path/to/share",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -1983,16 +1744,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /path/to/delete",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2006,16 +1762,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-url SHAREDLINK_URL",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2029,16 +1780,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
+  	... // 8 identical fields
   	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{},
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2052,15 +1798,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_audit"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2074,15 +1816,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_audit"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2096,15 +1834,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_audit"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2118,15 +1852,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_audit"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2140,15 +1870,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 3 identical fields
@@ -2204,15 +1930,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 3 identical fields
@@ -2243,15 +1965,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2265,15 +1983,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2287,20 +2001,13 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-  	ConnScopes: map[string]string{
-- 		"File": "business_file",
-- 		"Info": "business_info",
-- 		"Mgmt": "business_management",
-  	},
-- 	Services:  nil,
-+ 	Services:  []string{},
-  	IsSecret:  false,
-  	IsConsole: false,
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"File": "business_file", "Info": "business_info", "Mgmt": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
   	... // 6 identical fields
   }
 ```
@@ -2312,15 +2019,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_info"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2334,15 +2037,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        true,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2356,15 +2055,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2378,15 +2073,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_info"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2400,15 +2091,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2422,15 +2109,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2444,15 +2127,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2466,15 +2145,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2488,15 +2163,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2510,15 +2181,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2532,15 +2199,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2554,15 +2217,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2576,15 +2235,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2598,15 +2253,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2638,15 +2289,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2660,15 +2307,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2682,15 +2325,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields
@@ -2704,15 +2343,11 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 6 identical fields
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-- 	ConnUseBusiness: true,
-+ 	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{},
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
 - 	Services:        nil,
-+ 	Services:        []string{},
++ 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
   	... // 6 identical fields

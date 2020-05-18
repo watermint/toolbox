@@ -87,9 +87,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -116,9 +120,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -145,9 +153,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -174,9 +186,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -202,10 +218,14 @@
     "path": "connect user_file",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -232,9 +252,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
@@ -323,10 +347,14 @@
     "path": "dev ci artifact connect",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Full": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
@@ -524,10 +552,21 @@
     "path": "dev ci auth connect",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_personal": true,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Audit": "business_audit",
+      "File": "business_file",
+      "Full": "user_full",
+      "Github": "github_repo",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "services": [
+      "dropbox",
+      "dropbox_business",
+      "github"
+    ],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
@@ -588,10 +627,19 @@
     "path": "dev ci auth export",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_personal": true,
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Audit": "business_audit",
+      "File": "business_file",
+      "Full": "user_full",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "services": [
+      "dropbox",
+      "dropbox_business"
+    ],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
@@ -719,13 +767,6 @@
         "desc": "Language",
         "default": "",
         "type_name": "domain.common.model.mo_string.opt_string",
-        "type_attr": null
-      },
-      {
-        "name": "MarkdownReadme",
-        "desc": "Generate README as markdown format",
-        "default": "false",
-        "type_name": "bool",
         "type_attr": null
       }
     ]
@@ -908,8 +949,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "ConnGithub": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": true,
     "is_console": true,
     "is_experimental": false,
@@ -1044,10 +1089,14 @@
     "path": "dev test monkey",
     "cli_args": "-path /DROPBOX/PATH/TO/PROCESS",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": true,
     "is_console": false,
     "is_experimental": false,
@@ -1303,10 +1352,15 @@
     "path": "file compare account",
     "cli_args": "-left left -left-path /path/to/compare -right right -right-path /path/to/compare",
     "cli_note": "If you want to compare different path in same account, please specify same alias name to `-left` and `-right`.",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Left": "user_full",
+      "Right": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -1396,10 +1450,14 @@
     "path": "file compare local",
     "cli_args": "-local-path /path/to/local -dropbox-path /path/on/dropbox",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -1526,10 +1584,14 @@
     "path": "file copy",
     "cli_args": "-src /SRC/PATH -dst /DST/PATH",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -1569,10 +1631,14 @@
     "path": "file delete",
     "cli_args": "-path /PATH/TO/DELETE",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -1673,10 +1739,14 @@
     "path": "file download",
     "cli_args": "-dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -1749,10 +1819,14 @@
     "path": "file export doc",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/FILE -local-path /LOCAL/PATH/TO/EXPORT",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -1829,10 +1903,14 @@
     "path": "file import batch url",
     "cli_args": "-file /path/to/data/file -path /path/to/import",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -1936,10 +2014,14 @@
     "path": "file import url",
     "cli_args": "-url URL -path /path/to/import",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2014,10 +2096,14 @@
     "path": "file list",
     "cli_args": "-path /path",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2102,10 +2188,14 @@
     "path": "file merge",
     "cli_args": "-from /from/path -to /path/to",
     "cli_note": "Please add `-dry-run=false` option after verify integrity of expected result.",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2166,10 +2256,14 @@
     "path": "file move",
     "cli_args": "-src /SRC/PATH -dst /DST/PATH",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2209,10 +2303,15 @@
     "path": "file replication",
     "cli_args": "-src source -src-path /path/src -dst dest -dst-path /path/dest",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Dst": "user_full",
+      "Src": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2302,10 +2401,14 @@
     "path": "file restore",
     "cli_args": "-path /DROPBOX/PATH/TO/RESTORE",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -2381,10 +2484,14 @@
     "path": "file search content",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2471,10 +2578,14 @@
     "path": "file search name",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2561,10 +2672,14 @@
     "path": "file sync preflight up",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2733,10 +2848,14 @@
     "path": "file sync up",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -2923,10 +3042,14 @@
     "path": "file upload",
     "cli_args": "-local-path /PATH/TO/UPLOAD -dropbox-path /DROPBOX/PATH",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3113,10 +3236,14 @@
     "path": "file watch",
     "cli_args": "-path /DROPBOX/PATH/TO/WATCH",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3156,10 +3283,14 @@
     "path": "filerequest create",
     "cli_args": "-path /DROPBOX/PATH/OF/FILEREQUEST",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3258,10 +3389,14 @@
     "path": "filerequest delete closed",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3330,10 +3465,14 @@
     "path": "filerequest delete url",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3416,10 +3555,14 @@
     "path": "filerequest list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3489,9 +3632,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3556,9 +3703,13 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3635,9 +3786,13 @@
     "cli_args": "-name GROUP_NAME",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3671,9 +3826,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3719,9 +3878,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3797,9 +3960,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3875,9 +4042,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -3939,9 +4110,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -4138,10 +4313,14 @@
     "path": "job history ship",
     "cli_args": "-dropbox-path /DROPBOX/PATH/TO/UPLOAD",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -4483,9 +4662,13 @@
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -4614,9 +4797,13 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -4688,9 +4875,13 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -4762,9 +4953,13 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -4890,9 +5085,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -4965,9 +5164,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5009,9 +5212,13 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5104,9 +5311,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5160,9 +5371,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5283,9 +5498,14 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Dst": "business_file",
+      "Src": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5366,9 +5586,13 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5485,9 +5709,13 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5597,9 +5825,13 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -5719,8 +5951,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -5785,8 +6021,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -5833,8 +6073,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -5911,8 +6155,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -5988,8 +6236,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -6086,8 +6338,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -6186,8 +6442,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -6252,8 +6512,12 @@
     "cli_note": "",
     "conn_use_personal": false,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "github_repo"
+    },
+    "services": [
+      "github"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": true,
@@ -6354,10 +6618,14 @@
     "path": "sharedfolder list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -6430,10 +6698,14 @@
     "path": "sharedfolder member list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -6506,10 +6778,14 @@
     "path": "sharedlink create",
     "cli_args": "-path /path/to/share",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -6600,10 +6876,14 @@
     "path": "sharedlink delete",
     "cli_args": "-path /path/to/delete",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -6682,10 +6962,14 @@
     "path": "sharedlink file list",
     "cli_args": "-url SHAREDLINK_URL",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -6756,10 +7040,14 @@
     "path": "sharedlink list",
     "cli_args": "",
     "cli_note": "",
-    "conn_use_personal": false,
+    "conn_use_personal": true,
     "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_scopes": {
+      "Peer": "user_full"
+    },
+    "services": [
+      "dropbox"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -6817,9 +7105,13 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -7015,9 +7307,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -7128,9 +7424,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -7245,9 +7545,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_audit"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -7404,9 +7708,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -7525,9 +7833,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -7610,9 +7922,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -7742,9 +8058,13 @@
     "cli_args": "-file /path/to/data/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -8043,9 +8363,15 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "File": "business_file",
+      "Info": "business_info",
+      "Mgmt": "business_management"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -8706,9 +9032,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -8762,9 +9092,13 @@
     "cli_args": "-file /PATH/TO/DATA_FILE.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": true,
     "is_console": false,
     "is_experimental": true,
@@ -8991,9 +9325,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9075,9 +9413,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_info"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9147,9 +9489,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9223,9 +9569,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9337,9 +9687,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9459,9 +9813,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9507,9 +9865,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9582,9 +9944,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9673,9 +10039,13 @@
     "cli_args": "-days 28",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9842,9 +10212,13 @@
     "cli_args": "-name TEAMFOLDER_NAME",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9878,9 +10252,13 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -9961,9 +10339,13 @@
     "cli_args": "-file /path/to/file.csv",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -10126,9 +10508,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -10198,9 +10584,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -10285,9 +10675,13 @@
     "cli_args": "",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,
@@ -10337,9 +10731,13 @@
     "cli_args": "-name TEAMFOLDER_NAME",
     "cli_note": "",
     "conn_use_personal": false,
-    "conn_use_business": false,
-    "conn_scopes": {},
-    "services": [],
+    "conn_use_business": true,
+    "conn_scopes": {
+      "Peer": "business_file"
+    },
+    "services": [
+      "dropbox_business"
+    ],
     "is_secret": false,
     "is_console": false,
     "is_experimental": false,

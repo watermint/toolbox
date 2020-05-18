@@ -89,6 +89,10 @@ func (z conImpl) Error(m app_msg.Message) {
 	es_color.Colorfln(z.wr, es_color.ColorRed, false, z.mc.Compile(m))
 }
 
+func (z conImpl) Quote(m app_msg.Message) {
+	es_color.Colorfln(z.wr, es_color.ColorGreen, false, z.mc.Compile(m))
+}
+
 func (z conImpl) Break() {
 	_, _ = fmt.Fprintln(z.wr)
 }

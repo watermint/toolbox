@@ -87,6 +87,12 @@ func (z proxyImpl) Error(m app_msg.Message) {
 	})
 }
 
+func (z proxyImpl) Quote(m app_msg.Message) {
+	z.withMsg("quote", m, func() {
+		z.sy.Quote(m)
+	})
+}
+
 func (z proxyImpl) Break() {
 	z.mx.Do(func() {
 		z.sy.Break()

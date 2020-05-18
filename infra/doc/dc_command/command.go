@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/io/es_line"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
@@ -264,7 +265,7 @@ func (z *Commands) Generate(ctl app_control.Control, r rc_recipe.Recipe) error {
 			return err
 		}
 	}
-	return tmpl.Execute(NewRemoveRedundantLinesWriter(out), params)
+	return tmpl.Execute(es_line.NewRemoveRedundantLinesWriter(out), params)
 }
 
 func (z *Commands) GenerateAll(ctl app_control.Control) error {

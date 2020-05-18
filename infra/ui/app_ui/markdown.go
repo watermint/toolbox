@@ -3,21 +3,24 @@ package app_ui
 import (
 	"bytes"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/io/es_line"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"io"
+	"strings"
 )
 
 func MakeMarkdown(mc app_msg_container.Container, f func(ui UI)) string {
 	var buf bytes.Buffer
+	rlw := es_line.NewRemoveRedundantLinesWriter(&buf)
 	lg := esl.Default()
 	ui := NewProxy(
 		&mdImpl{
 			mc: mc,
-			wr: &buf,
+			wr: rlw,
 			dg: es_dialogue.DenyAll(),
 		},
 		lg,
@@ -66,6 +69,13 @@ func (z mdImpl) InfoTable(name string) Table {
 
 func (z mdImpl) Error(m app_msg.Message) {
 	_, _ = fmt.Fprintf(z.wr, "**ERROR**: %s\n", z.mc.Compile(m))
+}
+
+func (z mdImpl) Quote(m app_msg.Message) {
+	text := z.mc.Compile(m)
+	for _, line := range strings.Split(text, "\n") {
+		_, _ = fmt.Fprintf(z.wr, "> %s\n", line)
+	}
 }
 
 func (z mdImpl) Break() {

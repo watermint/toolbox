@@ -27,6 +27,9 @@ type Spec interface {
 	// Path signature of the recipe
 	Path() (path []string, name string)
 
+	// Id of the recipe spec. Id format is path + name of Path() connected with `-` (dash).
+	SpecId() string
+
 	// Recipe path on cli
 	CliPath() string
 

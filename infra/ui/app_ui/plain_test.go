@@ -26,6 +26,7 @@ func TestMakeConsoleDemo(t *testing.T) {
 		ui.Success(m)
 		ui.Failure(m)
 		ui.Progress(m)
+		ui.Quote(m)
 		ui.Code("puts 'hello'")
 		ui.IsConsole()
 		ui.IsWeb()

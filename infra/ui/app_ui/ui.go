@@ -52,6 +52,9 @@ type Syntax interface {
 	// Code block
 	Code(code string)
 
+	// Quote
+	Quote(m app_msg.Message)
+
 	// Link to artifact
 	Link(artifact rp_artifact.Artifact)
 

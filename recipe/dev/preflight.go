@@ -155,7 +155,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*Doc)
 				rr.Badge = true
-				rr.MarkdownReadme = true
 				rr.Lang = mo_string.NewOptional(langCode)
 				rr.Filename = fmt.Sprintf("README%s.md", suffix)
 				rr.CommandPath = path

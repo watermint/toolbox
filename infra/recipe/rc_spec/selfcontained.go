@@ -73,6 +73,10 @@ type specValueSelfContained struct {
 	repo       rc_recipe.Repository
 }
 
+func (z *specValueSelfContained) SpecId() string {
+	return strings.Join(append(z.path, z.name), "-")
+}
+
 func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 	feeds := make([]*dc_recipe.Feed, 0)
 	feedNames := make([]string, 0)
@@ -312,7 +316,8 @@ func (z *specValueSelfContained) Feeds() map[string]fd_file.Spec {
 
 func (z *specValueSelfContained) Services() []string {
 	services := make([]string, 0)
-	for _, c := range z.repo.Conns() {
+	conns := z.repo.Conns()
+	for _, c := range conns {
 		services = append(services, c.ServiceName())
 	}
 	return es_array.NewByString(services...).Unique().Sort().AsStringArray()

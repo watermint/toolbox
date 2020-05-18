@@ -110,6 +110,10 @@ func (z plainImpl) Progress(m app_msg.Message) {
 	_, _ = fmt.Fprintln(z.wr, z.mc.Compile(m))
 }
 
+func (z plainImpl) Quote(m app_msg.Message) {
+	_, _ = fmt.Fprintln(z.wr, z.mc.Compile(m))
+}
+
 func (z plainImpl) Code(code string) {
 	_, _ = fmt.Fprintln(z.wr, code)
 }
