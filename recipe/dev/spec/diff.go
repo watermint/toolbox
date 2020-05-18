@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"compress/gzip"
 	"encoding/json"
 	"github.com/google/go-cmp/cmp"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
@@ -52,19 +53,36 @@ func (z *Diff) Preset() {
 }
 
 func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*dc_recipe.Recipe, err error) {
-	fn := "spec.json"
+	fn := "spec.json.gz"
 	if relName != "" {
-		fn = "spec_" + relName + ".json"
+		fn = "spec_" + relName + ".json.gz"
 	}
 	p := filepath.Join("doc/generated", fn)
 	l := c.Log().With(esl.String("path", p))
 	l.Debug("Loading")
 
-	j, err := ioutil.ReadFile(p)
+	f, err := os.Open(p)
 	if err != nil {
 		l.Error("unable to read spec", esl.Error(err))
 		return nil, err
 	}
+	defer func() {
+		_ = f.Close()
+	}()
+	g, err := gzip.NewReader(f)
+	if err != nil {
+		l.Error("unable to read spec", esl.Error(err))
+		return nil, err
+	}
+	defer func() {
+		_ = g.Close()
+	}()
+	j, err := ioutil.ReadAll(g)
+	if err != nil {
+		l.Error("unable to read spec", esl.Error(err))
+		return nil, err
+	}
+
 	r = make(map[string]*dc_recipe.Recipe)
 	if err = json.Unmarshal(j, &r); err != nil {
 		l.Error("Unable to unmarshal spec", esl.Error(err))

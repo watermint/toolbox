@@ -18,16 +18,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `config enable`
 
@@ -36,16 +36,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `config features`
 
@@ -54,16 +54,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_audit`
 
@@ -72,16 +72,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_audit"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_file`
 
@@ -90,16 +90,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_info`
 
@@ -108,16 +108,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_info"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect business_mgmt`
 
@@ -126,16 +126,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `connect user_file`
 
@@ -144,16 +144,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev async`
 
@@ -162,16 +162,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_info"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev catalogue`
 
@@ -180,16 +180,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev ci artifact connect`
 
@@ -198,16 +198,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Full": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Full": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev ci artifact up`
 
@@ -216,16 +216,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev ci auth connect`
 
@@ -234,24 +234,24 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: true,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"Audit":  "business_audit",
-  		"File":   "business_file",
-  		"Full":   "user_full",
-+ 		"Github": "github_repo",
-  		"Info":   "business_info",
-  		"Mgmt":   "business_management",
-  	},
-- 	Services:  nil,
-+ 	Services:  []string{"dropbox", "dropbox_business", "github"},
-  	IsSecret:  true,
-  	IsConsole: false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: true,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"Audit":  "business_audit",
+  		"File":   "business_file",
+  		"Full":   "user_full",
++ 		"Github": "github_repo",
+  		"Info":   "business_info",
+  		"Mgmt":   "business_management",
+  	},
+- 	Services:  nil,
++ 	Services:  []string{"dropbox", "dropbox_business", "github"},
+  	IsSecret:  true,
+  	IsConsole: false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev ci auth export`
 
@@ -260,16 +260,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Audit": "business_audit", "File": "business_file", "Full": "user_full", "Info": "business_info", "Mgmt": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox", "dropbox_business"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Audit": "business_audit", "File": "business_file", "Full": "user_full", "Info": "business_info", "Mgmt": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox", "dropbox_business"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev ci auth import`
 
@@ -278,16 +278,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev doc`
 
@@ -296,29 +296,29 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 3 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 2 identical elements
-  		&{Name: "Filename", Desc: "Filename", Default: "README.md", TypeName: "string"},
-  		&{Name: "Lang", Desc: "Language", TypeName: "domain.common.model.mo_string.opt_string"},
-- 		&{
-- 			Name:     "MarkdownReadme",
-- 			Desc:     "Generate README as markdown format",
-- 			Default:  "false",
-- 			TypeName: "bool",
-- 		},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "Filename", Desc: "Filename", Default: "README.md", TypeName: "string"},
+  		&{Name: "Lang", Desc: "Language", TypeName: "domain.common.model.mo_string.opt_string"},
+- 		&{
+- 			Name:     "MarkdownReadme",
+- 			Desc:     "Generate README as markdown format",
+- 			Default:  "false",
+- 			TypeName: "bool",
+- 		},
+  	},
+  }
 ```
 # コマンド仕様の変更: `dev dummy`
 
@@ -327,16 +327,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev echo`
 
@@ -345,22 +345,22 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	IsExperimental:  false,
-  	IsIrreversible:  false,
-- 	IsTransient:     false,
-+ 	IsTransient:     true,
-  	Reports:         nil,
-  	Feeds:           nil,
-  	Values:          []*dc_recipe.Value{&{Name: "Text", Desc: "Text to echo", TypeName: "string"}},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	IsExperimental:  false,
+  	IsIrreversible:  false,
+- 	IsTransient:     false,
++ 	IsTransient:     true,
+  	Reports:         nil,
+  	Feeds:           nil,
+  	Values:          []*dc_recipe.Value{&{Name: "Text", Desc: "Text to echo", TypeName: "string"}},
+  }
 ```
 # コマンド仕様の変更: `dev kvs dump`
 
@@ -369,16 +369,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev preflight`
 
@@ -387,16 +387,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev release candidate`
 
@@ -405,16 +405,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev release publish`
 
@@ -423,18 +423,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"ConnGithub": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        true,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"ConnGithub": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        true,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev spec diff`
 
@@ -443,16 +443,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev spec doc`
 
@@ -461,16 +461,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev test monkey`
 
@@ -479,16 +479,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev test recipe`
 
@@ -497,16 +497,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev test resources`
 
@@ -515,22 +515,22 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	IsExperimental:  false,
-  	IsIrreversible:  false,
-- 	IsTransient:     false,
-+ 	IsTransient:     true,
-  	Reports:         nil,
-  	Feeds:           nil,
-  	Values:          []*dc_recipe.Value{},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	IsExperimental:  false,
+  	IsIrreversible:  false,
+- 	IsTransient:     false,
++ 	IsTransient:     true,
+  	Reports:         nil,
+  	Feeds:           nil,
+  	Values:          []*dc_recipe.Value{},
+  }
 ```
 # コマンド仕様の変更: `dev util curl`
 
@@ -539,22 +539,22 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       true,
-  	IsExperimental:  false,
-  	IsIrreversible:  false,
-- 	IsTransient:     false,
-+ 	IsTransient:     true,
-  	Reports:         nil,
-  	Feeds:           nil,
-  	Values:          []*dc_recipe.Value{&{Name: "BufferSize", Desc: "Size of buffer", Default: "65536", TypeName: "domain.common.model.mo_int.range_int", TypeAttr: map[string]interface{}{"max": float64(2.097152e+06), "min": float64(1024), "value": float64(65536)}}, &{Name: "Record", Desc: "Capture record(s) for the test", TypeName: "string"}},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       true,
+  	IsExperimental:  false,
+  	IsIrreversible:  false,
+- 	IsTransient:     false,
++ 	IsTransient:     true,
+  	Reports:         nil,
+  	Feeds:           nil,
+  	Values:          []*dc_recipe.Value{&{Name: "BufferSize", Desc: "Size of buffer", Default: "65536", TypeName: "domain.common.model.mo_int.range_int", TypeAttr: map[string]interface{}{"max": float64(2.097152e+06), "min": float64(1024), "value": float64(65536)}}, &{Name: "Record", Desc: "Capture record(s) for the test", TypeName: "string"}},
+  }
 ```
 # コマンド仕様の変更: `dev util wait`
 
@@ -563,16 +563,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        true,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        true,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file compare account`
 
@@ -581,16 +581,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Left": "user_full", "Right": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Left": "user_full", "Right": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file compare local`
 
@@ -599,16 +599,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file copy`
 
@@ -617,16 +617,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file delete`
 
@@ -635,16 +635,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file dispatch local`
 
@@ -653,16 +653,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file download`
 
@@ -671,16 +671,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file export doc`
 
@@ -689,16 +689,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file import batch url`
 
@@ -707,16 +707,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file import url`
 
@@ -725,16 +725,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file list`
 
@@ -743,16 +743,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file merge`
 
@@ -761,16 +761,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file move`
 
@@ -779,16 +779,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file replication`
 
@@ -797,16 +797,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Dst": "user_full", "Src": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Dst": "user_full", "Src": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file restore`
 
@@ -815,16 +815,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file search content`
 
@@ -833,16 +833,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file search name`
 
@@ -851,16 +851,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file sync preflight up`
 
@@ -869,16 +869,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file sync up`
 
@@ -887,16 +887,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file upload`
 
@@ -905,16 +905,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `file watch`
 
@@ -923,16 +923,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `filerequest create`
 
@@ -941,16 +941,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `filerequest delete closed`
 
@@ -959,16 +959,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `filerequest delete url`
 
@@ -977,16 +977,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `filerequest list`
 
@@ -995,16 +995,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group add`
 
@@ -1013,16 +1013,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group batch delete`
 
@@ -1031,16 +1031,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group delete`
 
@@ -1049,16 +1049,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group list`
 
@@ -1067,16 +1067,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_info"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group member add`
 
@@ -1085,16 +1085,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group member delete`
 
@@ -1103,16 +1103,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group member list`
 
@@ -1121,16 +1121,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_info"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `group rename`
 
@@ -1139,16 +1139,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `job history archive`
 
@@ -1157,16 +1157,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `job history delete`
 
@@ -1175,16 +1175,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `job history list`
 
@@ -1193,29 +1193,29 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	IsExperimental:  false,
-  	IsIrreversible:  false,
-- 	IsTransient:     false,
-+ 	IsTransient:     true,
-  	Reports:         nil,
-  	Feeds:           nil,
-- 	Values:          []*dc_recipe.Value{},
-+ 	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name:     "Path",
-+ 			Desc:     "Path to workspace",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-+ 		},
-+ 	},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	IsExperimental:  false,
+  	IsIrreversible:  false,
+- 	IsTransient:     false,
++ 	IsTransient:     true,
+  	Reports:         nil,
+  	Feeds:           nil,
+- 	Values:          []*dc_recipe.Value{},
++ 	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name:     "Path",
++ 			Desc:     "Path to workspace",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 	},
+  }
 ```
 # コマンド仕様の変更: `job history ship`
 
@@ -1224,16 +1224,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `job loop`
 
@@ -1242,16 +1242,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `job run`
 
@@ -1260,16 +1260,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       true,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       true,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `license`
 
@@ -1278,22 +1278,22 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	IsExperimental:  false,
-  	IsIrreversible:  false,
-- 	IsTransient:     false,
-+ 	IsTransient:     true,
-  	Reports:         nil,
-  	Feeds:           nil,
-  	Values:          []*dc_recipe.Value{},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	IsExperimental:  false,
+  	IsIrreversible:  false,
+- 	IsTransient:     false,
++ 	IsTransient:     true,
+  	Reports:         nil,
+  	Feeds:           nil,
+  	Values:          []*dc_recipe.Value{},
+  }
 ```
 # コマンド仕様の変更: `member delete`
 
@@ -1302,16 +1302,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member detach`
 
@@ -1320,16 +1320,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member invite`
 
@@ -1338,16 +1338,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member list`
 
@@ -1356,27 +1356,27 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_info"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 3 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name:     "IncludeDeleted",
-+ 			Desc:     "Include deleted members.",
-+ 			Default:  "false",
-+ 			TypeName: "bool",
-+ 		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name:     "IncludeDeleted",
++ 			Desc:     "Include deleted members.",
++ 			Default:  "false",
++ 			TypeName: "bool",
++ 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info"},
+  	},
+  }
 ```
 # コマンド仕様の変更: `member quota list`
 
@@ -1385,16 +1385,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member quota update`
 
@@ -1403,16 +1403,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member quota usage`
 
@@ -1421,16 +1421,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member reinvite`
 
@@ -1439,16 +1439,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member replication`
 
@@ -1457,16 +1457,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Dst": "business_file", "Src": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Dst": "business_file", "Src": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member update email`
 
@@ -1475,16 +1475,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member update externalid`
 
@@ -1493,16 +1493,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `member update profile`
 
@@ -1511,16 +1511,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github issue list`
 
@@ -1529,18 +1529,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github profile`
 
@@ -1549,18 +1549,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github release asset download`
 
@@ -1569,18 +1569,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github release asset list`
 
@@ -1589,18 +1589,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github release asset upload`
 
@@ -1609,18 +1609,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github release draft`
 
@@ -1629,18 +1629,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github release list`
 
@@ -1649,18 +1649,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `services github tag create`
 
@@ -1669,18 +1669,18 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{},
-+ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-- 	Services:        nil,
-+ 	Services:        []string{"github"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{},
++ 	ConnScopes:      map[string]string{"Peer": "github_repo"},
+- 	Services:        nil,
++ 	Services:        []string{"github"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `sharedfolder list`
 
@@ -1689,16 +1689,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `sharedfolder member list`
 
@@ -1707,16 +1707,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `sharedlink create`
 
@@ -1725,16 +1725,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `sharedlink delete`
 
@@ -1743,16 +1743,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `sharedlink file list`
 
@@ -1761,16 +1761,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `sharedlink list`
 
@@ -1779,16 +1779,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{"Peer": "user_full"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{"Peer": "user_full"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team activity batch user`
 
@@ -1797,16 +1797,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_audit"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team activity daily event`
 
@@ -1815,16 +1815,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_audit"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team activity event`
 
@@ -1833,16 +1833,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_audit"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team activity user`
 
@@ -1851,16 +1851,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_audit"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_audit"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team content member`
 
@@ -1869,58 +1869,58 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 3 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name: "FolderName",
-+ 			Desc: "Filter by folder name. Filter by exact match to the name.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNamePrefix",
-+ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNameSuffix",
-+ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
-+ 		},
-+ 		&{
-+ 			Name: "MemberTypeExternal",
-+ 			Desc: "Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.",
-+ 		},
-+ 		&{
-+ 			Name: "MemberTypeInternal",
-+ 			Desc: "Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.",
-+ 		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "Filter by folder name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
++ 		},
++ 		&{
++ 			Name: "MemberTypeExternal",
++ 			Desc: "Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.",
++ 		},
++ 		&{
++ 			Name: "MemberTypeInternal",
++ 			Desc: "Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.",
++ 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
+  	},
+  }
 ```
 ## 変更されたレポート: membership
 
 ```
-  &dc_recipe.Report{
-  	Name: "membership",
-  	Desc: "This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.",
-  	Columns: []*dc_recipe.ReportColumn{
-  		... // 5 identical elements
-  		&{Name: "member_name", Desc: "Name of this member"},
-  		&{Name: "member_email", Desc: "Email address of this member"},
-+ 		&{
-+ 			Name: "same_team",
-+ 			Desc: "Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not.",
-+ 		},
-  	},
-  }
+  &dc_recipe.Report{
+  	Name: "membership",
+  	Desc: "This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.",
+  	Columns: []*dc_recipe.ReportColumn{
+  		... // 5 identical elements
+  		&{Name: "member_name", Desc: "Name of this member"},
+  		&{Name: "member_email", Desc: "Email address of this member"},
++ 		&{
++ 			Name: "same_team",
++ 			Desc: "Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not.",
++ 		},
+  	},
+  }
 ```
 # コマンド仕様の変更: `team content policy`
 
@@ -1929,33 +1929,33 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 3 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name: "FolderName",
-+ 			Desc: "Filter by folder name. Filter by exact match to the name.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNamePrefix",
-+ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
-+ 		},
-+ 		&{
-+ 			Name: "FolderNameSuffix",
-+ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
-+ 		},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "Filter by folder name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "Filter by folder name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "Filter by folder name. Filter by name match to the suffix.",
++ 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file"},
+  	},
+  }
 ```
 # コマンド仕様の変更: `team device list`
 
@@ -1964,16 +1964,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team device unlink`
 
@@ -1982,16 +1982,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team diag explorer`
 
@@ -2000,16 +2000,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"File": "business_file", "Info": "business_info", "Mgmt": "business_management"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"File": "business_file", "Info": "business_info", "Mgmt": "business_management"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team feature`
 
@@ -2018,16 +2018,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_info"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team filerequest clone`
 
@@ -2036,16 +2036,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team filerequest list`
 
@@ -2054,16 +2054,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team info`
 
@@ -2072,16 +2072,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_info"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_info"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team linkedapp list`
 
@@ -2090,16 +2090,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team namespace file list`
 
@@ -2108,16 +2108,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team namespace file size`
 
@@ -2126,16 +2126,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team namespace list`
 
@@ -2144,16 +2144,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team namespace member list`
 
@@ -2162,16 +2162,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team sharedlink list`
 
@@ -2180,16 +2180,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `team sharedlink update expiry`
 
@@ -2198,16 +2198,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder archive`
 
@@ -2216,16 +2216,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder batch archive`
 
@@ -2234,16 +2234,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder batch permdelete`
 
@@ -2252,16 +2252,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder batch replication`
 
@@ -2270,16 +2270,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder file list`
 
@@ -2288,16 +2288,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder file size`
 
@@ -2306,16 +2306,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder list`
 
@@ -2324,16 +2324,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder permdelete`
 
@@ -2342,16 +2342,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      map[string]string{"Peer": "business_file"},
-- 	Services:        nil,
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      map[string]string{"Peer": "business_file"},
+- 	Services:        nil,
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `teamfolder replication`
 
@@ -2360,16 +2360,16 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 6 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 6 identical fields
+  }
 ```
 # コマンド仕様の変更: `version`
 
@@ -2378,20 +2378,20 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      map[string]string{},
-- 	Services:        nil,
-+ 	Services:        []string{},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	IsExperimental:  false,
-  	IsIrreversible:  false,
-- 	IsTransient:     false,
-+ 	IsTransient:     true,
-  	Reports:         nil,
-  	Feeds:           nil,
-  	Values:          []*dc_recipe.Value{},
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      map[string]string{},
+- 	Services:        nil,
++ 	Services:        []string{},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	IsExperimental:  false,
+  	IsIrreversible:  false,
+- 	IsTransient:     false,
++ 	IsTransient:     true,
+  	Reports:         nil,
+  	Feeds:           nil,
+  	Values:          []*dc_recipe.Value{},
+  }
 ```

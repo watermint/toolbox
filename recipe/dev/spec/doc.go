@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"compress/gzip"
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
@@ -37,33 +38,39 @@ func (z *Doc) traverseCatalogue(c app_control.Control) error {
 		sd[d.Path] = d
 	}
 
-	var w io.WriteCloser
-	var err error
-	shouldClose := false
-	if !z.FilePath.IsExists() {
-		w = es_stdout.NewDefaultOut(c.Feature().IsTest())
-	} else {
-		w, err = os.Create(z.FilePath.Value())
-		if err != nil {
-			l.Error("Unable to create spec file", esl.Error(err), esl.String("path", z.FilePath.Value()))
+	jeOut := func(w io.Writer) error {
+		je := json.NewEncoder(w)
+		je.SetIndent("", "  ")
+		je.SetEscapeHTML(false)
+		if err := je.Encode(sd); err != nil {
+			l.Error("Unable to generate spec doc", esl.Error(err))
 			return err
 		}
-		shouldClose = true
+		return nil
 	}
-	defer func() {
-		if shouldClose {
-			w.Close()
-		}
-	}()
 
-	je := json.NewEncoder(w)
-	je.SetIndent("", "  ")
-	je.SetEscapeHTML(false)
-	if err := je.Encode(sd); err != nil {
-		l.Error("Unable to generate spec doc", esl.Error(err))
+	var w io.WriteCloser
+	var err error
+	if !z.FilePath.IsExists() {
+		w = es_stdout.NewDefaultOut(c.Feature().IsTest())
+		return jeOut(w)
+	}
+
+	w, err = os.Create(z.FilePath.Value())
+	if err != nil {
+		l.Error("Unable to create spec file", esl.Error(err), esl.String("path", z.FilePath.Value()))
 		return err
 	}
-	return nil
+	defer func() {
+		_ = w.Close()
+	}()
+
+	gw := gzip.NewWriter(w)
+	defer func() {
+		_ = gw.Flush()
+		_ = gw.Close()
+	}()
+	return jeOut(gw)
 }
 
 func (z *Doc) Exec(c app_control.Control) error {

@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/recipe/dev/spec"
+	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -74,7 +75,7 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 		switch {
 		case nameLower == "changes.md":
 			return true
-		case strings.HasPrefix(nameLower, "spec") && strings.HasSuffix(nameLower, ".json"):
+		case strings.HasPrefix(nameLower, "spec") && strings.HasSuffix(nameLower, ".json.gz"):
 			return true
 		default:
 			return false
@@ -108,17 +109,28 @@ func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) e
 		l.Debug("Skip for test")
 		return nil
 	}
-	s, err := ioutil.ReadFile(filepath.Join(path, "spec.json"))
+	src := filepath.Join(path, "spec.json.gz")
+	dst := filepath.Join(path, fmt.Sprintf("spec_%d.json.gz", release))
+
+	s, err := os.Open(src)
 	if err != nil {
 		l.Error("Unable to open current spec file", esl.Error(err))
 		return err
 	}
-	err = ioutil.WriteFile(filepath.Join(path, fmt.Sprintf("spec_%d.json", release)), s, 0644)
+	defer func() {
+		_ = s.Close()
+	}()
+	d, err := os.Create(dst)
 	if err != nil {
 		l.Error("Unable to create version spec file", esl.Error(err))
 		return err
 	}
-	return nil
+	defer func() {
+		_ = d.Close()
+	}()
+
+	_, err = io.Copy(d, s)
+	return err
 }
 
 func (z *Preflight) Exec(c app_control.Control) error {
@@ -168,7 +180,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Doc)
 				rr.Lang = mo_string.NewOptional(langCode)
-				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json"))
+				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json.gz"))
 			})
 			if err != nil {
 				l.Error("Failed to generate documents", esl.Error(err))
