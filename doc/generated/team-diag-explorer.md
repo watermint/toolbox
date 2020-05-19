@@ -103,41 +103,22 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: team_folder
+## Report: usage
 
-This report shows a list of team folders in the team.
-The command will generate a report in three different formats. `team_folder.csv`, `team_folder.json`, and `team_folder.xlsx`.
+This report shows current storage usage of users.
+The command will generate a report in three different formats. `usage.csv`, `usage.json`, and `usage.xlsx`.
 
-| Column                 | Description                                                                                |
-|------------------------|--------------------------------------------------------------------------------------------|
-| name                   | The name of the team folder.                                                               |
-| status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
-| is_team_shared_dropbox |                                                                                            |
-| sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
-## Report: namespace_file
-
-This report shows a list of namespaces in the team.
-The command will generate a report in three different formats. `namespace_file.csv`, `namespace_file.json`, and `namespace_file.xlsx`.
-
-| Column                 | Description                                                                                            |
-|------------------------|--------------------------------------------------------------------------------------------------------|
-| namespace_type         | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)             |
-| namespace_name         | The name of this namespace                                                                             |
-| namespace_member_email | If this is a team member or app folder, the email address of the owning team member.                   |
-| tag                    | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                   | The last component of the path (including extension).                                                  |
-| path_display           | The cased path to be used for display purposes only.                                                   |
-| client_modified        | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified        | The last time the file was modified on Dropbox.                                                        |
-| size                   | The file size in bytes.                                                                                |
+| Column     | Description                                              |
+|------------|----------------------------------------------------------|
+| email      | Email address of the account                             |
+| used_gb    | The user's total space usage (in GB, 1GB = 1024 MB).     |
+| used_bytes | The user's total space usage (bytes).                    |
+| allocation | The user's space allocation (individual, or team)        |
+| allocated  | The total space allocated to the user's account (bytes). |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
 ## Report: member_quota
 
 This report shows a list of custom quota settings for each team members.
@@ -151,27 +132,25 @@ The command will generate a report in three different formats. `member_quota.csv
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
-## Report: shared_link
+## Report: member
 
-This report shows a list of shared links with the shared link owner team member.
-The command will generate a report in three different formats. `shared_link.csv`, `shared_link.json`, and `shared_link.xlsx`.
+This report shows a list of members.
+The command will generate a report in three different formats. `member.csv`, `member.json`, and `member.xlsx`.
 
-| Column     | Description                                                                                                                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| email      | Email address of user.                                                                                                                                                                                                  |
-| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
-| surname    | Surname of the link owner                                                                                                                                                                                               |
-| given_name | Given name of the link owner                                                                                                                                                                                            |
+| Column         | Description                                                                                    |
+|----------------|------------------------------------------------------------------------------------------------|
+| email          | Email address of user.                                                                         |
+| email_verified | Is true if the user's email is verified to be owned by the user.                               |
+| status         | The user's status as a member of a specific team. (active/invited/suspended/removed)           |
+| given_name     | Also known as a first name                                                                     |
+| surname        | Also known as a last name or family name.                                                      |
+| display_name   | A name that can be used directly to represent the name of a user's Dropbox account.            |
+| joined_on      | The date and time the user joined as a member of a specific team.                              |
+| role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
 ## Report: info
 
 This report shows a list of team information.
@@ -192,24 +171,6 @@ The command will generate a report in three different formats. `info.csv`, `info
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
-## Report: group_member
-
-This report shows a list of groups and their members.
-The command will generate a report in three different formats. `group_member.csv`, `group_member.json`, and `group_member.xlsx`.
-
-| Column                | Description                                                                           |
-|-----------------------|---------------------------------------------------------------------------------------|
-| group_name            | Name of a group.                                                                      |
-| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| access_type           | The role that the user has in the group (member/owner)                                |
-| email                 | Email address of user.                                                                |
-| status                | The user's status as a member of a specific team. (active/invited/suspended/removed)  |
-| surname               | Also known as a last name or family name.                                             |
-| given_name            | Also known as a first name                                                            |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
 ## Report: namespace
 
 This report shows a list of namespaces in the team.
@@ -224,78 +185,6 @@ The command will generate a report in three different formats. `namespace.csv`, 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
-## Report: group
-
-This report shows a list of groups in the team.
-The command will generate a report in three different formats. `group.csv`, `group.json`, and `group.xlsx`.
-
-| Column                | Description                                                                           |
-|-----------------------|---------------------------------------------------------------------------------------|
-| group_name            | Name of a group                                                                       |
-| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
-| member_count          | The number of members in the group.                                                   |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
-## Report: file_request
-
-This report shows a list of file requests with the file request owner team member.
-The command will generate a report in three different formats. `file_request.csv`, `file_request.json`, and `file_request.xlsx`.
-
-| Column                      | Description                                                                   |
-|-----------------------------|-------------------------------------------------------------------------------|
-| email                       | Email address of this file request owner.                                     |
-| status                      | The user status of this file request owner (active/invited/suspended/removed) |
-| surname                     | Surname of this file request owner.                                           |
-| given_name                  | Given name of this file request owner.                                        |
-| url                         | The URL of the file request.                                                  |
-| title                       | The title of the file request.                                                |
-| created                     | When this file request was created.                                           |
-| is_open                     | Whether or not the file request is open.                                      |
-| file_count                  | The number of files this file request has received.                           |
-| destination                 | The path of the folder in the Dropbox where uploaded files will be sent       |
-| deadline                    | The deadline for this file request.                                           |
-| deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
-## Report: namespace_member
-
-This report shows a list of members of namespaces in the team.
-The command will generate a report in three different formats. `namespace_member.csv`, `namespace_member.json`, and `namespace_member.xlsx`.
-
-| Column             | Description                                                                                               |
-|--------------------|-----------------------------------------------------------------------------------------------------------|
-| namespace_name     | The name of this namespace                                                                                |
-| namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
-| entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
-| entry_is_inherited | True if the member has access from a parent folder                                                        |
-| email              | Email address of user.                                                                                    |
-| display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
-| group_name         | Name of the group                                                                                         |
-| invitee_email      | Email address of invitee for this folder                                                                  |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
-## Report: feature
-
-This report shows a list of team features and their settings.
-The command will generate a report in three different formats. `feature.csv`, `feature.json`, and `feature.xlsx`.
-
-| Column                      | Description                                       |
-|-----------------------------|---------------------------------------------------|
-| upload_api_rate_limit       | The number of upload API calls allowed per month. |
-| upload_api_rate_limit_count | The number of upload API called this month.       |
-| has_team_shared_dropbox     | Does this team have a shared team root.           |
-| has_team_file_events        | Does this team have file events.                  |
-| has_team_selective_sync     | Does this team have team selective sync enabled.  |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
 ## Report: namespace_size
 
 This report shows the transaction result.
@@ -317,25 +206,38 @@ The command will generate a report in three different formats. `namespace_size.c
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
-## Report: member
+## Report: group_member
 
-This report shows a list of members.
-The command will generate a report in three different formats. `member.csv`, `member.json`, and `member.xlsx`.
+This report shows a list of groups and their members.
+The command will generate a report in three different formats. `group_member.csv`, `group_member.json`, and `group_member.xlsx`.
 
-| Column         | Description                                                                                    |
-|----------------|------------------------------------------------------------------------------------------------|
-| email          | Email address of user.                                                                         |
-| email_verified | Is true if the user's email is verified to be owned by the user.                               |
-| status         | The user's status as a member of a specific team. (active/invited/suspended/removed)           |
-| given_name     | Also known as a first name                                                                     |
-| surname        | Also known as a last name or family name.                                                      |
-| display_name   | A name that can be used directly to represent the name of a user's Dropbox account.            |
-| joined_on      | The date and time the user joined as a member of a specific team.                              |
-| role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
+| Column                | Description                                                                           |
+|-----------------------|---------------------------------------------------------------------------------------|
+| group_name            | Name of a group.                                                                      |
+| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
+| access_type           | The role that the user has in the group (member/owner)                                |
+| email                 | Email address of user.                                                                |
+| status                | The user's status as a member of a specific team. (active/invited/suspended/removed)  |
+| surname               | Also known as a last name or family name.                                             |
+| given_name            | Also known as a first name                                                            |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
+## Report: group
+
+This report shows a list of groups in the team.
+The command will generate a report in three different formats. `group.csv`, `group.json`, and `group.xlsx`.
+
+| Column                | Description                                                                           |
+|-----------------------|---------------------------------------------------------------------------------------|
+| group_name            | Name of a group                                                                       |
+| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
+| member_count          | The number of members in the group.                                                   |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
 ## Report: device
 
 This report shows a list of current existing sessions in the team with team member information.
@@ -371,6 +273,81 @@ The command will generate a report in three different formats. `device.csv`, `de
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
+## Report: team_folder
+
+This report shows a list of team folders in the team.
+The command will generate a report in three different formats. `team_folder.csv`, `team_folder.json`, and `team_folder.xlsx`.
+
+| Column                 | Description                                                                                |
+|------------------------|--------------------------------------------------------------------------------------------|
+| name                   | The name of the team folder.                                                               |
+| status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
+| is_team_shared_dropbox |                                                                                            |
+| sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
+## Report: shared_link
+
+This report shows a list of shared links with the shared link owner team member.
+The command will generate a report in three different formats. `shared_link.csv`, `shared_link.json`, and `shared_link.xlsx`.
+
+| Column     | Description                                                                                                                                                                                                             |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| url        | URL of the shared link.                                                                                                                                                                                                 |
+| name       | The linked file name (including extension).                                                                                                                                                                             |
+| expires    | Expiration time, if set.                                                                                                                                                                                                |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| email      | Email address of user.                                                                                                                                                                                                  |
+| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| surname    | Surname of the link owner                                                                                                                                                                                               |
+| given_name | Given name of the link owner                                                                                                                                                                                            |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+## Report: feature
+
+This report shows a list of team features and their settings.
+The command will generate a report in three different formats. `feature.csv`, `feature.json`, and `feature.xlsx`.
+
+| Column                      | Description                                       |
+|-----------------------------|---------------------------------------------------|
+| upload_api_rate_limit       | The number of upload API calls allowed per month. |
+| upload_api_rate_limit_count | The number of upload API called this month.       |
+| has_team_shared_dropbox     | Does this team have a shared team root.           |
+| has_team_file_events        | Does this team have file events.                  |
+| has_team_selective_sync     | Does this team have team selective sync enabled.  |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
+## Report: file_request
+
+This report shows a list of file requests with the file request owner team member.
+The command will generate a report in three different formats. `file_request.csv`, `file_request.json`, and `file_request.xlsx`.
+
+| Column                      | Description                                                                   |
+|-----------------------------|-------------------------------------------------------------------------------|
+| email                       | Email address of this file request owner.                                     |
+| status                      | The user status of this file request owner (active/invited/suspended/removed) |
+| surname                     | Surname of this file request owner.                                           |
+| given_name                  | Given name of this file request owner.                                        |
+| url                         | The URL of the file request.                                                  |
+| title                       | The title of the file request.                                                |
+| created                     | When this file request was created.                                           |
+| is_open                     | Whether or not the file request is open.                                      |
+| file_count                  | The number of files this file request has received.                           |
+| destination                 | The path of the folder in the Dropbox where uploaded files will be sent       |
+| deadline                    | The deadline for this file request.                                           |
+| deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
 ## Report: linked_app
 
 This report shows a list of linked app with the user of the app.
@@ -392,22 +369,45 @@ The command will generate a report in three different formats. `linked_app.csv`,
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
-## Report: usage
+## Report: namespace_member
 
-This report shows current storage usage of users.
-The command will generate a report in three different formats. `usage.csv`, `usage.json`, and `usage.xlsx`.
+This report shows a list of members of namespaces in the team.
+The command will generate a report in three different formats. `namespace_member.csv`, `namespace_member.json`, and `namespace_member.xlsx`.
 
-| Column     | Description                                              |
-|------------|----------------------------------------------------------|
-| email      | Email address of the account                             |
-| used_gb    | The user's total space usage (in GB, 1GB = 1024 MB).     |
-| used_bytes | The user's total space usage (bytes).                    |
-| allocation | The user's space allocation (individual, or team)        |
-| allocated  | The total space allocated to the user's account (bytes). |
+| Column             | Description                                                                                               |
+|--------------------|-----------------------------------------------------------------------------------------------------------|
+| namespace_name     | The name of this namespace                                                                                |
+| namespace_type     | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)                |
+| entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| entry_is_inherited | True if the member has access from a parent folder                                                        |
+| email              | Email address of user.                                                                                    |
+| display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
+| group_name         | Name of the group                                                                                         |
+| invitee_email      | Email address of invitee for this folder                                                                  |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
+## Report: namespace_file
+
+This report shows a list of namespaces in the team.
+The command will generate a report in three different formats. `namespace_file.csv`, `namespace_file.json`, and `namespace_file.xlsx`.
+
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| namespace_type         | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder)             |
+| namespace_name         | The name of this namespace                                                                             |
+| namespace_member_email | If this is a team member or app folder, the email address of the owning team member.                   |
+| tag                    | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name                   | The last component of the path (including extension).                                                  |
+| path_display           | The cased path to be used for display purposes only.                                                   |
+| client_modified        | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified        | The last time the file was modified on Dropbox.                                                        |
+| size                   | The file size in bytes.                                                                                |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
 
 # Proxy configuration
 

@@ -102,6 +102,24 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## Report: summary
+
+This report shows a summary of the upload results.
+The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
+
+| Column           | Description                                         |
+|------------------|-----------------------------------------------------|
+| upload_start     | Time of start uploading                             |
+| upload_end       | Time of finish uploading                            |
+| num_bytes        | Total upload size (Bytes)                           |
+| num_files_error  | The number of files failed or got an error.         |
+| num_files_upload | The number of files uploaded or to upload.          |
+| num_files_skip   | The number of files skipped or to skip.             |
+| num_api_call     | The number of estimated upload API call for upload. |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 ## Report: uploaded
 
 This report shows the transaction result.
@@ -144,24 +162,6 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
-## Report: summary
-
-This report shows a summary of the upload results.
-The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
-
-| Column           | Description                                         |
-|------------------|-----------------------------------------------------|
-| upload_start     | Time of start uploading                             |
-| upload_end       | Time of finish uploading                            |
-| num_bytes        | Total upload size (Bytes)                           |
-| num_files_error  | The number of files failed or got an error.         |
-| num_files_upload | The number of files uploaded or to upload.          |
-| num_files_skip   | The number of files skipped or to skip.             |
-| num_api_call     | The number of estimated upload API call for upload. |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 
 # Proxy configuration
 

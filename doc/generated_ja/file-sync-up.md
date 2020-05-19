@@ -2,31 +2,31 @@
 
 Dropboxと上り方向で同期します (非可逆な操作です)
 
-# Security
+# セキュリティ
 
-`watermint toolbox` stores credentials into the file system. That is located at below path:
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
 
-| OS      | Path                                                               |
+| OS      | パス                                                               |
 |---------|--------------------------------------------------------------------|
 | Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
 | macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
-Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+方法は次のヘルプセンター記事をご参照ください:
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
-## Auth scopes
+## 認可スコープ
 
-| Label     | Description         |
-|-----------|---------------------|
-| user_full | Dropbox Full access |
+| ラベル    | 説明                     |
+|-----------|--------------------------|
+| user_full | Dropbox へのフルアクセス |
 
-# Authorization
+# 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -44,10 +44,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 認証コードを入力してください
 ```
 
-# Usage
+# 利用方法
 
-This document uses the Desktop folder for command example.
-## Run
+このドキュメントは"デスクトップ"フォルダを例として使用します.
+## 実行
 
 Windows:
 ```
@@ -60,25 +60,25 @@ macOS, Linux:
 $HOME/Desktop/tbx file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
-You may find the message like:
-> "tbx" was blocked from use because it is not from an identified developer.
+macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
+次のようなメッセージが表示されています:
+> "tbx"は開発元を確認できないため、使用がブロックされました。
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-## Options:
+## オプション:
 
-| Option           | Description                                                                                                                                               | Default |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-chunk-size-kb` | アップロードチャンク容量(Kバイト)                                                                                                                         | 153600  |
-| `-dropbox-path`  | 転送先のDropboxパス                                                                                                                                       |         |
-| `-fail-on-error` | 処理でエラーが発生した場合にエラーを返します. このコマンドはこのフラグが指定されない場合はどのエラーも返しません. 全てのエラーはレポートに書き込まれます. | false   |
-| `-local-path`    | ローカルファイルのパス                                                                                                                                    |         |
-| `-peer`          | アカウントの別名                                                                                                                                          | default |
+| オプション       | 説明                                                                                                                                                      | デフォルト |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-chunk-size-kb` | アップロードチャンク容量(Kバイト)                                                                                                                         | 153600     |
+| `-dropbox-path`  | 転送先のDropboxパス                                                                                                                                       |            |
+| `-fail-on-error` | 処理でエラーが発生した場合にエラーを返します. このコマンドはこのフラグが指定されない場合はどのエラーも返しません. 全てのエラーはレポートに書き込まれます. | false      |
+| `-local-path`    | ローカルファイルのパス                                                                                                                                    |            |
+| `-peer`          | アカウントの別名                                                                                                                                          | default    |
 
-## Common options:
+## 共通のオプション:
 
-| Option            | Description                                                                                        | Default        |
+| オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -92,22 +92,22 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# Results
+# 実行結果
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
 
-| OS      | Path pattern                                | Example                                                |
+| OS      | パスのパターン                              | 例                                                     |
 |---------|---------------------------------------------|--------------------------------------------------------|
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: skipped
+## レポート: skipped
 
 このレポートは処理結果を出力します.
-The command will generate a report in three different formats. `skipped.csv`, `skipped.json`, and `skipped.xlsx`.
+このコマンドはレポートを3種類の書式で出力します. `skipped.csv`, `skipped.json`, ならびに `skipped.xlsx`.
 
-| Column                 | Description                                                  |
+| 列                     | 説明                                                         |
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |
@@ -120,36 +120,15 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 | result.size            | ファイルサイズ(バイト単位)                                   |
 | result.content_hash    | ファイルコンテンツのハッシュ                                 |
 
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
-## Report: uploaded
-
-このレポートは処理結果を出力します.
-The command will generate a report in three different formats. `uploaded.csv`, `uploaded.json`, and `uploaded.xlsx`.
-
-| Column                 | Description                                                  |
-|------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
-| input.file             | ローカルファイルのパス                                       |
-| input.size             | ローカルファイルのサイズ                                     |
-| result.name            | 名称                                                         |
-| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| result.server_modified | Dropbox上で最後に更新された日時                              |
-| result.size            | ファイルサイズ(バイト単位)                                   |
-| result.content_hash    | ファイルコンテンツのハッシュ                                 |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
-## Report: summary
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+## レポート: summary
 
 このレポートはアップロード結果の概要を出力します.
-The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
+このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
 
-| Column           | Description                                      |
+| 列               | 説明                                             |
 |------------------|--------------------------------------------------|
 | upload_start     | アップロード開始日時                             |
 | upload_end       | アップロード終了日時                             |
@@ -159,11 +138,32 @@ The command will generate a report in three different formats. `summary.csv`, `s
 | num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
 | num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+## レポート: uploaded
 
-# Proxy configuration
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `uploaded.csv`, `uploaded.json`, ならびに `uploaded.xlsx`.
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+| 列                     | 説明                                                         |
+|------------------------|--------------------------------------------------------------|
+| status                 | 処理の状態                                                   |
+| reason                 | 失敗またはスキップの理由                                     |
+| input.file             | ローカルファイルのパス                                       |
+| input.size             | ローカルファイルのサイズ                                     |
+| result.name            | 名称                                                         |
+| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified | Dropbox上で最後に更新された日時                              |
+| result.size            | ファイルサイズ(バイト単位)                                   |
+| result.content_hash    | ファイルコンテンツのハッシュ                                 |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+
+# ネットワークプロクシの設定
+
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 

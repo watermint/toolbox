@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"sort"
+	"strings"
 )
 
 func NewReport(spec rc_recipe.Spec) dc_section.Section {
@@ -54,6 +56,10 @@ func (z Report) Body(ui app_ui.UI) {
 		)
 	})
 
+	reports := z.spec.Reports()
+	sort.Slice(reports, func(i, j int) bool {
+		return strings.Compare(reports[i].Name(), reports[j].Name()) < 0
+	})
 	for _, rs := range z.spec.Reports() {
 		z.bodyReport(ui, rs)
 	}

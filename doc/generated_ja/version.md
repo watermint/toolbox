@@ -2,10 +2,10 @@
 
 バージョン情報 
 
-# Usage
+# 利用方法
 
-This document uses the Desktop folder for command example.
-## Run
+このドキュメントは"デスクトップ"フォルダを例として使用します.
+## 実行
 
 Windows:
 ```
@@ -18,15 +18,15 @@ macOS, Linux:
 $HOME/Desktop/tbx version 
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
-You may find the message like:
-> "tbx" was blocked from use because it is not from an identified developer.
+macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
+次のようなメッセージが表示されています:
+> "tbx"は開発元を確認できないため、使用がブロックされました。
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-## Common options:
+## 共通のオプション:
 
-| Option            | Description                                                                                        | Default        |
+| オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -40,32 +40,32 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# Results
+# 実行結果
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
 
-| OS      | Path pattern                                | Example                                                |
+| OS      | パスのパターン                              | 例                                                     |
 |---------|---------------------------------------------|--------------------------------------------------------|
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: versions
+## レポート: versions
 
 コンポーネントとバージョン情報.
-The command will generate a report in three different formats. `versions.csv`, `versions.json`, and `versions.xlsx`.
+このコマンドはレポートを3種類の書式で出力します. `versions.csv`, `versions.json`, ならびに `versions.xlsx`.
 
-| Column    | Description    |
+| 列        | 説明           |
 |-----------|----------------|
 | key       | キー           |
 | component | コンポーネント |
 | version   | バージョン     |
 
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`, ...
 
-# Proxy configuration
+# ネットワークプロクシの設定
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 

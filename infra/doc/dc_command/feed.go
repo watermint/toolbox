@@ -33,7 +33,8 @@ func (z Feed) Title() app_msg.Message {
 }
 
 func (z Feed) Body(ui app_ui.UI) {
-	for _, fs := range z.spec.Feeds() {
+	feeds := z.spec.Feeds()
+	for _, fs := range feeds {
 		z.bodyFeed(ui, fs)
 	}
 }

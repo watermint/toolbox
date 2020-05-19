@@ -5,26 +5,24 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-Set of tool commands for Dropbox and Dropbox Business.
+DropboxおよびDropbox Business向けのツールセット
 
-# Licensing & Disclaimers
+# ライセンスと免責条項
 
-watermint toolbox is licensed under the MIT license.
-Please see LICENSE.md or LICENSE.txt for more detail.
+watermint toolboxはMITライセンスのもと配布されています.
+詳細はファイル LICENSE.mdまたは LICENSE.txt ご参照ください.
 
-Please carefully note:
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+以下にご留意ください:
+> ソフトウェアは「現状のまま」で、明示であるか暗黙であるかを問わず、何らの保証もなく提供されます。ここでいう保証とは、商品性、特定の目的への適合性、および権利非侵害についての保証も含みますが、それに限定されるものではありません。
 
-# Built executable
+# ビルド済み実行ファイル
 
-Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).
+コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます. ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
 
-# Usage
+# 利用方法
 
-`tbx` have various features. Run without an option for a list of supported commands and options.
-You can see available commands and options by running executable without arguments like below.
+`tbx` にはたくさんの機能があります. オプションなしで実行をするとサポートされているコマンドやオプションの一覧が表示されます.
+つぎのように引数なしで実行すると利用可能なコマンド・オプションがご確認いただけます.
 
 ```
 % ./tbx
@@ -60,32 +58,32 @@ DropboxおよびDropbox Business向けのツールセット
    version       バージョン情報                
 ```
 
-# Commands
+# コマンド
 
-## Utilities
+## ユーティリティー
 
-| Command                                                                          | Description                                      |
-|----------------------------------------------------------------------------------|--------------------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)                             | 機能を無効化します.                              |
-| [config enable](doc/generated_ja/config-enable.md)                               | 機能を有効化します.                              |
-| [config features](doc/generated_ja/config-features.md)                           | 利用可能なオプション機能一覧.                    |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md)                   | ローカルファイルを整理します                     |
-| [job history archive](doc/generated_ja/job-history-archive.md)                   | ジョブのアーカイブ                               |
-| [job history delete](doc/generated_ja/job-history-delete.md)                     | 古いジョブ履歴の削除                             |
-| [job history list](doc/generated_ja/job-history-list.md)                         | ジョブ履歴の表示                                 |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)                               | Retrieve logs of specified Job ID                |
-| [job log kind](doc/generated_ja/job-log-kind.md)                                 | Concatenate and print logs of specified log kind |
-| [job log last](doc/generated_ja/job-log-last.md)                                 | Print the last job log files                     |
-| [job loop](doc/generated_ja/job-loop.md)                                         | 指定日時までrunbookを実行します.                 |
-| [job run](doc/generated_ja/job-run.md)                                           | *.runbookoファイルにてワークフローを実行します   |
-| [license](doc/generated_ja/license.md)                                           | ライセンス情報を表示します                       |
-| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md) | チームフォルダの一括レプリケーション             |
-| [teamfolder replication](doc/generated_ja/teamfolder-replication.md)             | チームフォルダを他のチームに複製します           |
-| [version](doc/generated_ja/version.md)                                           | バージョン情報                                   |
+| コマンド                                                                         | 説明                                           |
+|----------------------------------------------------------------------------------|------------------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)                             | 機能を無効化します.                            |
+| [config enable](doc/generated_ja/config-enable.md)                               | 機能を有効化します.                            |
+| [config features](doc/generated_ja/config-features.md)                           | 利用可能なオプション機能一覧.                  |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md)                   | ローカルファイルを整理します                   |
+| [job history archive](doc/generated_ja/job-history-archive.md)                   | ジョブのアーカイブ                             |
+| [job history delete](doc/generated_ja/job-history-delete.md)                     | 古いジョブ履歴の削除                           |
+| [job history list](doc/generated_ja/job-history-list.md)                         | ジョブ履歴の表示                               |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)                               | 指定したジョブIDのログを取得する               |
+| [job log kind](doc/generated_ja/job-log-kind.md)                                 | 指定種別のログを結合して出力します             |
+| [job log last](doc/generated_ja/job-log-last.md)                                 | 最後のジョブのログファイルを出力.              |
+| [job loop](doc/generated_ja/job-loop.md)                                         | 指定日時までrunbookを実行します.               |
+| [job run](doc/generated_ja/job-run.md)                                           | *.runbookoファイルにてワークフローを実行します |
+| [license](doc/generated_ja/license.md)                                           | ライセンス情報を表示します                     |
+| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md) | チームフォルダの一括レプリケーション           |
+| [teamfolder replication](doc/generated_ja/teamfolder-replication.md)             | チームフォルダを他のチームに複製します         |
+| [version](doc/generated_ja/version.md)                                           | バージョン情報                                 |
 
-## Dropbox (Individual account)
+## Dropbox (個人アカウント)
 
-| Command                                                                    | Description                                                        |
+| コマンド                                                                   | 説明                                                               |
 |----------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                               |
 | [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                             |
@@ -121,7 +119,7 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Dropbox Business
 
-| Command                                                                            | Description                                                    |
+| コマンド                                                                           | 説明                                                           |
 |------------------------------------------------------------------------------------|----------------------------------------------------------------|
 | [connect business_audit](doc/generated_ja/connect-business_audit.md)               | チーム監査アクセスに接続する                                   |
 | [connect business_file](doc/generated_ja/connect-business_file.md)                 | チームファイルアクセスに接続する                               |
@@ -135,7 +133,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                     |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                     |
 | [group rename](doc/generated_ja/group-rename.md)                                   | グループの改名                                                 |
-| [member clear externalid](doc/generated_ja/member-clear-externalid.md)             | Clear external_id of members                                   |
+| [member clear externalid](doc/generated_ja/member-clear-externalid.md)             | メンバーのexternal_idを初期化します                            |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                           |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します            |
 | [member invite](doc/generated_ja/member-invite.md)                                 | メンバーを招待します                                           |
@@ -177,7 +175,7 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## GitHub
 
-| Command                                                                                              | Description                                  |
+| コマンド                                                                                             | 説明                                         |
 |------------------------------------------------------------------------------------------------------|----------------------------------------------|
 | [services github issue list](doc/generated_ja/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧 |
 | [services github profile](doc/generated_ja/services-github-profile.md)                               | 認証したユーザーの情報を取得                 |

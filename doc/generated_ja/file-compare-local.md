@@ -2,31 +2,31 @@
 
 ローカルフォルダとDropboxフォルダの内容を比較します 
 
-# Security
+# セキュリティ
 
-`watermint toolbox` stores credentials into the file system. That is located at below path:
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
 
-| OS      | Path                                                               |
+| OS      | パス                                                               |
 |---------|--------------------------------------------------------------------|
 | Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
 | macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
-Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+方法は次のヘルプセンター記事をご参照ください:
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
-## Auth scopes
+## 認可スコープ
 
-| Label     | Description         |
-|-----------|---------------------|
-| user_full | Dropbox Full access |
+| ラベル    | 説明                     |
+|-----------|--------------------------|
+| user_full | Dropbox へのフルアクセス |
 
-# Authorization
+# 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -44,10 +44,10 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 認証コードを入力してください
 ```
 
-# Usage
+# 利用方法
 
-This document uses the Desktop folder for command example.
-## Run
+このドキュメントは"デスクトップ"フォルダを例として使用します.
+## 実行
 
 Windows:
 ```
@@ -60,23 +60,23 @@ macOS, Linux:
 $HOME/Desktop/tbx file compare local -local-path /path/to/local -dropbox-path /path/on/dropbox
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
-You may find the message like:
-> "tbx" was blocked from use because it is not from an identified developer.
+macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
+次のようなメッセージが表示されています:
+> "tbx"は開発元を確認できないため、使用がブロックされました。
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-## Options:
+## オプション:
 
-| Option          | Description      | Default |
-|-----------------|------------------|---------|
-| `-dropbox-path` | Dropbox上のパス  |         |
-| `-local-path`   | ローカルパス     |         |
-| `-peer`         | アカウントの別名 | default |
+| オプション      | 説明             | デフォルト |
+|-----------------|------------------|------------|
+| `-dropbox-path` | Dropbox上のパス  |            |
+| `-local-path`   | ローカルパス     |            |
+| `-peer`         | アカウントの別名 | default    |
 
-## Common options:
+## 共通のオプション:
 
-| Option            | Description                                                                                        | Default        |
+| オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -90,22 +90,22 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# Results
+# 実行結果
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
 
-| OS      | Path pattern                                | Example                                                |
+| OS      | パスのパターン                              | 例                                                     |
 |---------|---------------------------------------------|--------------------------------------------------------|
 | Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: diff
+## レポート: diff
 
 このレポートはフォルダ間の差分を出力します.
-The command will generate a report in three different formats. `diff.csv`, `diff.json`, and `diff.xlsx`.
+このコマンドはレポートを3種類の書式で出力します. `diff.csv`, `diff.json`, ならびに `diff.xlsx`.
 
-| Column     | Description                                                                                                                                                                                    |
+| 列         | 説明                                                                                                                                                                                           |
 |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | diff_type  | 差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない. |
 | left_path  | 左のパス                                                                                                                                                                                       |
@@ -117,15 +117,15 @@ The command will generate a report in three different formats. `diff.csv`, `diff
 | right_size | 右ファイルのサイズ                                                                                                                                                                             |
 | right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
 
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
-## Report: skip
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
+## レポート: skip
 
 このレポートはフォルダ間の差分を出力します.
-The command will generate a report in three different formats. `skip.csv`, `skip.json`, and `skip.xlsx`.
+このコマンドはレポートを3種類の書式で出力します. `skip.csv`, `skip.json`, ならびに `skip.xlsx`.
 
-| Column     | Description                                                                                                                                                                                    |
+| 列         | 説明                                                                                                                                                                                           |
 |------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | diff_type  | 差分のタイプ`file_content_diff`: コンテンツハッシュの差分, `{left|right}_file_missing`: 左または右のファイルが見つからない, `{left|right}_folder_missing`: 左または右のフォルダが見つからない. |
 | left_path  | 左のパス                                                                                                                                                                                       |
@@ -137,11 +137,11 @@ The command will generate a report in three different formats. `skip.csv`, `skip
 | right_size | 右ファイルのサイズ                                                                                                                                                                             |
 | right_hash | 右ファイルのコンテンツハッシュ                                                                                                                                                                 |
 
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`, ...
 
-# Proxy configuration
+# ネットワークプロクシの設定
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 
