@@ -65,6 +65,9 @@ func (z *mlContainer) Compile(m app_msg.Message) string {
 			}
 		}
 	}
+	if mo, ok := m.(app_msg.MessageOptional); ok && mo.Optional() {
+		return ""
+	}
 	qt_missingmsg.Record().NotFound(m.Key())
 	l.Warn("Unable to find message resource", esl.String("key", m.Key()))
 	return AltCompile(m)

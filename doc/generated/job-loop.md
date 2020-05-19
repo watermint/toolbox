@@ -1,23 +1,20 @@
-# job loop 
+# job loop
 
 Run runbook until specified date/time (Experimental)
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe job loop -runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook -until "2020-04-01 17:58:38"
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx job loop -runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook -until "2020-04-01 17:58:38"
 ```
 
@@ -27,7 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option              | Description              | Default |
 |---------------------|--------------------------|---------|
@@ -36,7 +33,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-runbook-path`     | Path to runbook          |         |
 | `-until`            | Run until this date/time |         |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

@@ -37,6 +37,9 @@ func (z proxyImpl) WithTable(name string, f func(t Table)) {
 }
 
 func (z proxyImpl) verifyKey(m app_msg.Message) {
+	if mo, ok := m.(app_msg.MessageOptional); ok && mo.Optional() {
+		return
+	}
 	k := m.Key()
 	if !z.sy.Messages().Exists(m) {
 		z.lg.Debug("Message key not found", esl.String("key", k))

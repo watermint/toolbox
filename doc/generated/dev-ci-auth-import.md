@@ -1,23 +1,20 @@
-# dev ci auth import 
+# dev ci auth import
 
 Import auth tokens of end to end test from environment variable 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev ci auth import 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev ci auth import 
 ```
 
@@ -27,14 +24,14 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option       | Description               | Default                |
 |--------------|---------------------------|------------------------|
 | `-env-name`  | Environment variable name | TOOLBOX_ENDTOEND_TOKEN |
 | `-peer-name` | Account alias             | end_to_end_test        |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

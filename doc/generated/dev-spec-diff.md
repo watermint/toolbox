@@ -1,23 +1,20 @@
-# dev spec diff 
+# dev spec diff
 
 Compare spec of two releases 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev spec diff 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev spec diff 
 ```
 
@@ -27,7 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option       | Description         | Default |
 |--------------|---------------------|---------|
@@ -36,7 +33,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-release-1` | Release name 1      |         |
 | `-release-2` | Release name 2      |         |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

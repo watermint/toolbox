@@ -100,12 +100,14 @@ func (z *mdTableImpl) Flush() {
 		fmtBorder += strings.Repeat("-", c+2) + "|"
 	}
 
+	_, _ = fmt.Fprintln(z.wr)
 	printCols(z.header)
 	_, _ = fmt.Fprintln(z.wr, fmtBorder)
 	for _, row := range z.rows {
 		printCols(row)
 	}
 	_, _ = fmt.Fprintln(z.wr, "")
+	_, _ = fmt.Fprintln(z.wr)
 
 	z.limiter.Flush()
 }

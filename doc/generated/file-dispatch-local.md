@@ -1,23 +1,20 @@
-# file dispatch local 
+# file dispatch local
 
 Dispatch local files (Irreversible operation)
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe file dispatch local -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx file dispatch local -file /PATH/TO/DATA_FILE.csv
 ```
 
@@ -27,14 +24,14 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option     | Description       | Default |
 |------------|-------------------|---------|
 | `-file`    | Path to data file |         |
 | `-preview` | Preview mode      | false   |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|
@@ -54,9 +51,9 @@ Common options:
 
 ## Format: File
 
-Data file for dispatch rules. 
+Data file for dispatch rules.
 
-| Column              | Description                                   | Value example                             |
+| Column              | Description                                   | Example                                   |
 |---------------------|-----------------------------------------------|-------------------------------------------|
 | suffix              | Source file name suffix                       | .pdf                                      |
 | source_path         | Source path                                   | <no value>/Downloads                      |
@@ -65,8 +62,7 @@ Data file for dispatch rules.
 | dest_file_pattern   | Destination file name pattern                 | TBX_<no value>-<no value>-<no value>      |
 
 The first line is a header line. The program will accept file without the header.
-
-```csv
+```
 suffix,source_path,source_file_pattern,dest_path_pattern,dest_file_pattern
 .pdf,<no value>/Downloads,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/Document/<no value>-<no value>,TBX_<no value>-<no value>-<no value>
 ```

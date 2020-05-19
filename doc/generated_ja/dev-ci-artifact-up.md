@@ -1,43 +1,40 @@
-# dev ci artifact up 
+# dev ci artifact up
 
 CI成果物をアップロードします 
 
-# 利用方法
+# Usage
 
-このドキュメントは"デスクトップ"フォルダを例として使用します.
-
-## 実行
+This document uses the Desktop folder for command example.
+## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev ci artifact up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev ci artifact up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT
 ```
 
-macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
-次のようなメッセージが表示されています:
-> "tbx"は開発元を確認できないため、使用がブロックされました。
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
+> "tbx" was blocked from use because it is not from an identified developer.
 
-"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## オプション
+## Options:
 
-| オプション      | 説明                                   | デフォルト |
-|-----------------|----------------------------------------|------------|
-| `-dropbox-path` | アップロード先Dropboxパス              |            |
-| `-local-path`   | アップロードするローカルファイルのパス |            |
-| `-peer-name`    | アカウントの別名                       | deploy     |
+| Option          | Description                            | Default |
+|-----------------|----------------------------------------|---------|
+| `-dropbox-path` | アップロード先Dropboxパス              |         |
+| `-local-path`   | アップロードするローカルファイルのパス |         |
+| `-peer-name`    | アカウントの別名                       | deploy  |
 
-共通のオプション:
+## Common options:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -51,58 +48,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# ネットワークプロクシの設定
+# Results
 
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
-# 実行結果
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+## Report: summary
 
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-## レポート: skipped 
-このレポートは処理結果を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `skipped.csv`
-* `skipped.xlsx`
-* `skipped.json`
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
-
-| 列                     | 説明                                                         |
-|------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
-| input.file             | ローカルファイルのパス                                       |
-| input.size             | ローカルファイルのサイズ                                     |
-| result.name            | 名称                                                         |
-| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| result.server_modified | Dropbox上で最後に更新された日時                              |
-| result.size            | ファイルサイズ(バイト単位)                                   |
-| result.content_hash    | ファイルコンテンツのハッシュ                                 |
-
-## レポート: summary 
 このレポートはアップロード結果の概要を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `summary.csv`
-* `summary.xlsx`
-* `summary.json`
+The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
-
-| 列               | 説明                                             |
+| Column           | Description                                      |
 |------------------|--------------------------------------------------|
 | upload_start     | アップロード開始日時                             |
 | upload_end       | アップロード終了日時                             |
@@ -112,19 +73,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
 | num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
-## レポート: uploaded 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+## Report: uploaded
+
 このレポートは処理結果を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `uploaded.csv`
-* `uploaded.xlsx`
-* `uploaded.json`
+The command will generate a report in three different formats. `uploaded.csv`, `uploaded.json`, and `uploaded.xlsx`.
 
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
-
-| 列                     | 説明                                                         |
+| Column                 | Description                                                  |
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |
@@ -136,4 +93,33 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | result.server_modified | Dropbox上で最後に更新された日時                              |
 | result.size            | ファイルサイズ(バイト単位)                                   |
 | result.content_hash    | ファイルコンテンツのハッシュ                                 |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+## Report: skipped
+
+このレポートは処理結果を出力します.
+The command will generate a report in three different formats. `skipped.csv`, `skipped.json`, and `skipped.xlsx`.
+
+| Column                 | Description                                                  |
+|------------------------|--------------------------------------------------------------|
+| status                 | 処理の状態                                                   |
+| reason                 | 失敗またはスキップの理由                                     |
+| input.file             | ローカルファイルのパス                                       |
+| input.size             | ローカルファイルのサイズ                                     |
+| result.name            | 名称                                                         |
+| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified | Dropbox上で最後に更新された日時                              |
+| result.size            | ファイルサイズ(バイト単位)                                   |
+| result.content_hash    | ファイルコンテンツのハッシュ                                 |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+
+# Proxy configuration
+
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

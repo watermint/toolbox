@@ -1,23 +1,20 @@
-# job log jobid 
+# job log jobid
 
 Retrieve logs of specified Job ID 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe job log jobid 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx job log jobid 
 ```
 
@@ -27,7 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option  | Description           | Default |
 |---------|-----------------------|---------|
@@ -35,7 +32,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-kind` | Kind of log           | toolbox |
 | `-path` | Path to the workspace |         |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

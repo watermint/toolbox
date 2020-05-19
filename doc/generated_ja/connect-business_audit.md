@@ -1,77 +1,32 @@
-# connect business_audit 
+# connect business_audit
 
 チーム監査アクセスに接続する 
 
-# セキュリティ
+# Security
 
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+`watermint toolbox` stores credentials into the file system. That is located at below path:
 
-| OS       | Path                                                               |
-| -------- | ------------------------------------------------------------------ |
-| Windows  | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+| OS      | Path                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+Please do not share those files to anyone including Dropbox support.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
-方法は次のヘルプセンター記事をご参照ください:
+Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
-このコマンドは次のアクセスタイプを処理に利用します:
-* Dropbox Business Auditing
+## Auth scopes
 
-# 利用方法
+| Label          | Description               |
+|----------------|---------------------------|
+| business_audit | Dropbox Business Auditing |
 
-このドキュメントは"デスクトップ"フォルダを例として使用します.
+# Authorization
 
-## 実行
-
-Windows:
-
-```powershell
-cd $HOME\Desktop
-.\tbx.exe connect business_audit 
-```
-
-macOS, Linux:
-
-```bash
-$HOME/Desktop/tbx connect business_audit 
-```
-
-macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
-次のようなメッセージが表示されています:
-> "tbx"は開発元を確認できないため、使用がブロックされました。
-
-"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
-
-## オプション
-
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-peer`    | アカウントの別名 | default    |
-
-共通のオプション:
-
-| オプション        | 説明                                                                                               | デフォルト     |
-|-------------------|----------------------------------------------------------------------------------------------------|----------------|
-| `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
-| `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
-| `-budget-memory`  | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |
-| `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
-| `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
-| `-debug`          | デバッグモードを有効にする                                                                         | false          |
-| `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
-| `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
-| `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
-| `-secure`         | トークンをファイルに保存しません                                                                   | false          |
-| `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# 認可
-
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -87,10 +42,53 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 2. 'Allow'をクリックします (先にログインしておく必要があります):
 3. 認証コードをコピーします:
 認証コードを入力してください
-
 ```
 
-# ネットワークプロクシの設定
+# Usage
 
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
+This document uses the Desktop folder for command example.
+## Run
+
+Windows:
+```
+cd $HOME\Desktop
+.\tbx.exe connect business_audit 
+```
+
+macOS, Linux:
+```
+$HOME/Desktop/tbx connect business_audit 
+```
+
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
+> "tbx" was blocked from use because it is not from an identified developer.
+
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+
+## Options:
+
+| Option  | Description      | Default |
+|---------|------------------|---------|
+| `-peer` | アカウントの別名 | default |
+
+## Common options:
+
+| Option            | Description                                                                                        | Default        |
+|-------------------|----------------------------------------------------------------------------------------------------|----------------|
+| `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
+| `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
+| `-budget-memory`  | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |
+| `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
+| `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
+| `-debug`          | デバッグモードを有効にする                                                                         | false          |
+| `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
+| `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
+| `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
+| `-secure`         | トークンをファイルに保存しません                                                                   | false          |
+| `-workspace`      | ワークスペースへのパス                                                                             |                |
+
+# Proxy configuration
+
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

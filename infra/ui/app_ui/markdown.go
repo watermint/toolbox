@@ -122,7 +122,11 @@ func (z mdImpl) Progress(m app_msg.Message) {
 }
 
 func (z mdImpl) Code(code string) {
-	_, _ = fmt.Fprintf(z.wr, "```\n%s```\n", code)
+	_, _ = fmt.Fprintf(z.wr, "```\n%s", code)
+	if !strings.HasSuffix(code, "\n") {
+		_, _ = fmt.Fprintf(z.wr, "\n")
+	}
+	_, _ = fmt.Fprintf(z.wr, "```\n")
 }
 
 func (z mdImpl) Link(artifact rp_artifact.Artifact) {

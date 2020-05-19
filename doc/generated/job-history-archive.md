@@ -1,23 +1,20 @@
-# job history archive 
+# job history archive
 
 Archive jobs 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe job history archive 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx job history archive 
 ```
 
@@ -27,13 +24,13 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option  | Description     | Default |
 |---------|-----------------|---------|
 | `-days` | Target days old | 7       |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

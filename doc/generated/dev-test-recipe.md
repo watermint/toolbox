@@ -1,23 +1,20 @@
-# dev test recipe 
+# dev test recipe
 
 Test recipe 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev test recipe 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev test recipe 
 ```
 
@@ -27,7 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option        | Description                         | Default |
 |---------------|-------------------------------------|---------|
@@ -36,7 +33,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-single`     | Recipe name to test                 |         |
 | `-verbose`    | Verbose output for testing          | false   |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

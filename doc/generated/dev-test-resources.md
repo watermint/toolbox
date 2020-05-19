@@ -1,23 +1,20 @@
-# dev test resources 
+# dev test resources
 
 Binary quality test 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev test resources 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev test resources 
 ```
 
@@ -27,9 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
-
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

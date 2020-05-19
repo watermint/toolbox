@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
@@ -13,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"io"
@@ -20,6 +22,60 @@ import (
 	"sort"
 	"strings"
 )
+
+var (
+	ErrorCliArgSuggestFound = errors.New("cli.arg message might required")
+)
+
+func SuggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) error {
+	l := ctl.Log()
+	spec := rc_spec.New(r)
+	if ctl.UI().Exists(spec.CliArgs()) {
+		return nil
+	}
+
+	suggests := make([]string, 0)
+	for _, valName := range spec.ValueNames() {
+		v := spec.Value(valName)
+		valArg := "-" + strcase.ToKebab(valName) + " "
+		switch vt := v.(type) {
+		case *rc_value.ValueMoUrlUrl:
+			suggests = append(suggests, valArg+"URL")
+
+		case *rc_value.ValueMoPathFileSystemPath:
+			suggests = append(suggests, valArg+"/LOCAL/PATH/TO/PROCESS")
+
+		case *rc_value.ValueMoPathDropboxPath:
+			suggests = append(suggests, valArg+"/DROPBOX/PATH/TO/PROCESS")
+
+		case *rc_value.ValueFdFileRowFeed:
+			suggests = append(suggests, valArg+"/PATH/TO/DATA_FILE.csv")
+
+		case *rc_value.ValueMoTimeTime:
+			if vt.IsOptional() {
+				continue
+			}
+			suggests = append(suggests, valArg+`\"2020-04-01 17:58:38\"`)
+
+		default:
+			l.Debug("Skip suggest", esl.Any("value", vt))
+		}
+	}
+	if len(suggests) > 0 {
+		msgCliArgs := spec.CliArgs()
+		l.Error("cli.arg might required",
+			esl.String("key", msgCliArgs.Key()),
+			esl.String("suggest", strings.Join(suggests, " ")))
+
+		SuggestMessages(ctl, func(out io.Writer) {
+			fmt.Fprintf(out, `"%s":"%s",`, msgCliArgs.Key(), strings.Join(suggests, " "))
+			fmt.Fprintln(out)
+		})
+
+		return ErrorCliArgSuggestFound
+	}
+	return nil
+}
 
 func SuggestMessages(ctl app_control.Control, suggest func(out io.Writer)) {
 	out := es_stdout.NewDefaultOut(ctl.Feature().IsTest())

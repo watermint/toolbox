@@ -1,61 +1,81 @@
-# team filerequest clone 
+# team filerequest clone
 
 ファイルリクエストを入力データに従い複製します (試験的実装かつ非可逆な操作です)
 
-# セキュリティ
+# Security
 
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+`watermint toolbox` stores credentials into the file system. That is located at below path:
 
-| OS       | Path                                                               |
-| -------- | ------------------------------------------------------------------ |
-| Windows  | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+| OS      | Path                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+Please do not share those files to anyone including Dropbox support.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
-方法は次のヘルプセンター記事をご参照ください:
+Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
-このコマンドは次のアクセスタイプを処理に利用します:
-* Dropbox Business File access
+## Auth scopes
 
-# 利用方法
+| Label         | Description                  |
+|---------------|------------------------------|
+| business_file | Dropbox Business File access |
 
-このドキュメントは"デスクトップ"フォルダを例として使用します.
+# Authorization
 
-## 実行
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
+
+# Usage
+
+This document uses the Desktop folder for command example.
+## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe team filerequest clone -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx team filerequest clone -file /PATH/TO/DATA_FILE.csv
 ```
 
-macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
-次のようなメッセージが表示されています:
-> "tbx"は開発元を確認できないため、使用がブロックされました。
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
+> "tbx" was blocked from use because it is not from an identified developer.
 
-"このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## オプション
+## Options:
 
-| オプション | 説明                   | デフォルト |
-|------------|------------------------|------------|
-| `-file`    | データファイルへのパス |            |
-| `-peer`    | アカウントの別名       | default    |
+| Option  | Description            | Default |
+|---------|------------------------|---------|
+| `-file` | データファイルへのパス |         |
+| `-peer` | アカウントの別名       | default |
 
-共通のオプション:
+## Common options:
 
-| オプション        | 説明                                                                                               | デフォルト     |
+| Option            | Description                                                                                        | Default        |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
 | `-auto-open`      | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`   | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
@@ -69,13 +89,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# ファイル書式
+# File formats
 
-## 書式: File
+## Format: File
 
-このレポートはチームメンバーのもつファイルリクエストを一覧します. 
+このレポートはチームメンバーのもつファイルリクエストを一覧します.
 
-| 列                          | 説明                                                                      | 値の例                                             |
+| Column                      | Description                                                               | Example                                            |
 |-----------------------------|---------------------------------------------------------------------------|----------------------------------------------------|
 | account_id                  | ファイルリクエスト所有者のアカウントID                                    | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx           |
 | team_member_id              | ファイルリクエスト所有者のチームメンバーとしてのID                        | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          |
@@ -93,62 +113,28 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | deadline                    | ファイルリクエストの締め切り.                                             | 2019-10-20T23:47:33Z                               |
 | deadline_allow_late_uploads | 設定されている場合、締め切りを超えてもアップロードが許可されている        | seven_days                                         |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
-
-```csv
+The first line is a header line. The program will accept file without the header.
+```
 account_id,team_member_id,email,status,surname,given_name,file_request_id,url,title,created,is_open,file_count,destination,deadline,deadline_allow_late_uploads
 dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john@example.com,active,Smith,John,xxxxxxxxxxxxxxxxxx,https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx,写真コンテスト,2019-09-20T23:47:33Z,true,3,/Photo contest entries,2019-10-20T23:47:33Z,seven_days
 ```
 
-# 認可
+# Results
 
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
-```
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-watermint toolbox xx.x.xxx
-==========================
+## Report: operation_log
 
-© 2016-2020 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-
-```
-
-# ネットワークプロクシの設定
-
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
-
-## レポート: operation_log 
 このレポートは処理結果を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `operation_log.csv`
-* `operation_log.xlsx`
-* `operation_log.json`
+The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
-
-| 列                                 | 説明                                                                      |
+| Column                             | Description                                                               |
 |------------------------------------|---------------------------------------------------------------------------|
 | status                             | 処理の状態                                                                |
 | reason                             | 失敗またはスキップの理由                                                  |
@@ -176,4 +162,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | result.destination                 | アップロードされたファイルが置かれるDropboxフォルダのパス                 |
 | result.deadline                    | ファイルリクエストの締め切り.                                             |
 | result.deadline_allow_late_uploads | 設定されている場合、締め切りを超えてもアップロードが許可されている        |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+
+# Proxy configuration
+
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

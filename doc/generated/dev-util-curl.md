@@ -1,23 +1,20 @@
-# dev util curl 
+# dev util curl
 
 Generate cURL preview from capture log 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev util curl 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev util curl 
 ```
 
@@ -27,14 +24,14 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option         | Description                    | Default |
 |----------------|--------------------------------|---------|
 | `-buffer-size` | Size of buffer                 | 65536   |
 | `-record`      | Capture record(s) for the test |         |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

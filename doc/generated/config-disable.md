@@ -1,23 +1,20 @@
-# config disable 
+# config disable
 
 Disable a feature. 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe config disable 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx config disable 
 ```
 
@@ -27,13 +24,13 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option | Description  | Default |
 |--------|--------------|---------|
 | `-key` | Feature key. |         |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

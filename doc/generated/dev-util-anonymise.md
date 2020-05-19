@@ -1,23 +1,20 @@
-# dev util anonymise 
+# dev util anonymise
 
 Anonymise capture log 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev util anonymise 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev util anonymise 
 ```
 
@@ -27,7 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option                | Description                                               | Default |
 |-----------------------|-----------------------------------------------------------|---------|
@@ -36,7 +33,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-job-id-name-suffix` | Filter by job id name Filter by name match to the suffix. |         |
 | `-path`               | Path to the workspace                                     |         |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|
