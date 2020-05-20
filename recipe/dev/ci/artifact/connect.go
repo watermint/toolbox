@@ -39,7 +39,7 @@ func (z *Connect) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	o := es_stdout.NewDefaultOut(c.Feature().IsTest())
+	o := es_stdout.NewDefaultOut(c.Feature())
 	o.Write(b)
 	o.Write([]byte("\n"))
 	o.Close()

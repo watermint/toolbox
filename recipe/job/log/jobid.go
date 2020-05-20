@@ -32,7 +32,7 @@ func (z *Jobid) Exec(c app_control.Control) error {
 		return err
 	}
 
-	out := es_stdout.NewDefaultOut(c.Feature().IsTest())
+	out := es_stdout.NewDefaultOut(c.Feature())
 
 	for _, h := range histories {
 		if h.JobId() != z.Id {

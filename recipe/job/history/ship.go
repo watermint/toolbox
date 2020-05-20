@@ -15,6 +15,11 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
+	"time"
+)
+
+const (
+	ThresholdAssumeRunning = 8 * time.Hour
 )
 
 type Ship struct {
@@ -43,9 +48,21 @@ func (z *Ship) Exec(c app_control.Control) error {
 		return err
 	}
 
+	assumeRunningThreshold := time.Now().Add(-ThresholdAssumeRunning)
+
 	for _, h := range histories {
 		if h.JobId() == c.Workspace().JobId() {
 			l.Debug("Skip current job")
+			continue
+		}
+		if ts, found := h.TimeStart(); found && ts.After(assumeRunningThreshold) {
+			if _, found := h.TimeFinish(); !found {
+				l.Debug("Skip running jobs")
+				continue
+			}
+		}
+		if h.IsNested() {
+			l.Debug("Skip nested job")
 			continue
 		}
 		si := &ShipInfo{

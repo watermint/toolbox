@@ -52,7 +52,7 @@ func (z *Doc) traverseCatalogue(c app_control.Control) error {
 	var w io.WriteCloser
 	var err error
 	if !z.FilePath.IsExists() {
-		w = es_stdout.NewDefaultOut(c.Feature().IsTest())
+		w = es_stdout.NewDefaultOut(c.Feature())
 		return jeOut(w)
 	}
 

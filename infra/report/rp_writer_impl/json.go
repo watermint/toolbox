@@ -42,7 +42,7 @@ func (z *jsonWriter) Name() string {
 func (z *jsonWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) (err error) {
 	z.ctl = ctl
 	if z.toStdout {
-		z.w = es_stdout.NewDefaultOut(false)
+		z.w = es_stdout.NewDirectOut()
 		return nil
 	}
 	l := ctl.Log()

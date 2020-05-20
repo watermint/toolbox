@@ -32,7 +32,7 @@ func (z *Curl) Preset() {
 
 func (z *Curl) Exec(c app_control.Control) error {
 	l := c.Log()
-	w := es_stdout.NewDefaultOut(c.Feature().IsTest())
+	w := es_stdout.NewDefaultOut(c.Feature())
 	bw := bufio.NewWriter(w)
 	defer bw.Flush()
 	var r io.Reader

@@ -87,15 +87,15 @@ func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
 		return app_ui.NewDiscard(mc, lg)
 
 	case out == app_opt.OutputText:
-		w := es_stdout.NewDefaultOut(false)
+		w := es_stdout.NewDirectOut()
 		return app_ui.NewConsole(mc, lg, w, es_dialogue.New(w))
 
 	case out == app_opt.OutputMarkdown:
-		w := es_stdout.NewDefaultOut(false)
+		w := es_stdout.NewDirectOut()
 		return app_ui.NewMarkdown(mc, lg, w, es_dialogue.New(w))
 
 	default:
-		w := es_stdout.NewDefaultOut(false)
+		w := es_stdout.NewDirectOut()
 		u := app_ui.NewConsole(mc, lg, w, es_dialogue.New(w))
 		u.Error(MRun.ErrorUnsupportedOutput.With("Output", opt.Output))
 
@@ -112,7 +112,7 @@ func (z *bsImpl) verifyMessages(ui app_ui.UI, l esl.Logger) {
 		}
 		missing := qt_missingmsg.Record().Missing()
 		if len(missing) > 0 {
-			w := es_stdout.NewDefaultOut(false)
+			w := es_stdout.NewDirectOut()
 			for _, k := range missing {
 				l.Error("Key missing", esl.String("key", k))
 				_, _ = fmt.Fprintf(w, `"%s":"",\n`, k)
@@ -208,7 +208,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 func (z bsImpl) bootUI() app_ui.UI {
 	lg := esl.Default()
 	mc := app_msg_container_impl.NewContainer()
-	wr := es_stdout.NewDefaultOut(false)
+	wr := es_stdout.NewDirectOut()
 	dg := es_dialogue.New(wr)
 	return app_ui.NewConsole(mc, lg, wr, dg)
 }

@@ -257,7 +257,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	var w io.WriteCloser
 	shouldClose := false
 	if !z.FilePath.IsExists() {
-		w = es_stdout.NewDefaultOut(c.Feature().IsTest())
+		w = es_stdout.NewDefaultOut(c.Feature())
 	} else {
 		var err error
 		w, err = os.Create(z.FilePath.Value())

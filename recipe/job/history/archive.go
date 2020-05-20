@@ -34,6 +34,11 @@ func (z *Archive) Exec(c app_control.Control) error {
 			continue
 		}
 		if h.JobId() == c.Workspace().JobId() {
+			l.Debug("Skip current job")
+			continue
+		}
+		if h.IsNested() {
+			l.Debug("Skip nested job")
 			continue
 		}
 		if ts.After(threshold) {

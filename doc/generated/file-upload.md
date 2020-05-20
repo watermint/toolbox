@@ -102,45 +102,6 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: uploaded
-
-This report shows the transaction result.
-The command will generate a report in three different formats. `uploaded.csv`, `uploaded.json`, and `uploaded.xlsx`.
-
-| Column                 | Description                                                                                            |
-|------------------------|--------------------------------------------------------------------------------------------------------|
-| status                 | Status of the operation                                                                                |
-| reason                 | Reason of failure or skipped operation                                                                 |
-| input.file             | Local file path                                                                                        |
-| input.size             | Local file size                                                                                        |
-| result.name            | The last component of the path (including extension).                                                  |
-| result.path_display    | The cased path to be used for display purposes only.                                                   |
-| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified | The last time the file was modified on Dropbox.                                                        |
-| result.size            | The file size in bytes.                                                                                |
-| result.content_hash    | A hash of the file content.                                                                            |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
-## Report: summary
-
-This report shows a summary of the upload results.
-The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
-
-| Column           | Description                                         |
-|------------------|-----------------------------------------------------|
-| upload_start     | Time of start uploading                             |
-| upload_end       | Time of finish uploading                            |
-| num_bytes        | Total upload size (Bytes)                           |
-| num_files_error  | The number of files failed or got an error.         |
-| num_files_upload | The number of files uploaded or to upload.          |
-| num_files_skip   | The number of files skipped or to skip.             |
-| num_api_call     | The number of estimated upload API call for upload. |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 ## Report: skipped
 
 This report shows the transaction result.
@@ -162,6 +123,45 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+## Report: summary
+
+This report shows a summary of the upload results.
+The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
+
+| Column           | Description                                         |
+|------------------|-----------------------------------------------------|
+| upload_start     | Time of start uploading                             |
+| upload_end       | Time of finish uploading                            |
+| num_bytes        | Total upload size (Bytes)                           |
+| num_files_error  | The number of files failed or got an error.         |
+| num_files_upload | The number of files uploaded or to upload.          |
+| num_files_skip   | The number of files skipped or to skip.             |
+| num_api_call     | The number of estimated upload API call for upload. |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+## Report: uploaded
+
+This report shows the transaction result.
+The command will generate a report in three different formats. `uploaded.csv`, `uploaded.json`, and `uploaded.xlsx`.
+
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| status                 | Status of the operation                                                                                |
+| reason                 | Reason of failure or skipped operation                                                                 |
+| input.file             | Local file path                                                                                        |
+| input.size             | Local file size                                                                                        |
+| result.name            | The last component of the path (including extension).                                                  |
+| result.path_display    | The cased path to be used for display purposes only.                                                   |
+| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified | The last time the file was modified on Dropbox.                                                        |
+| result.size            | The file size in bytes.                                                                                |
+| result.content_hash    | A hash of the file content.                                                                            |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
 
 # Proxy configuration
 

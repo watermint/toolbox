@@ -11,7 +11,15 @@ import (
 	"sync"
 )
 
-func NewDefaultOut(test bool) io.WriteCloser {
+type Feature interface {
+	IsQuiet() bool
+	IsTest() bool
+}
+
+func newDefaultOut(test, quiet bool) io.WriteCloser {
+	if quiet {
+		return &syncOut{co: ioutil.Discard}
+	}
 	if test {
 		if qt_secure.IsSecureEndToEndTest() {
 			return &syncOut{co: ioutil.Discard}
@@ -25,6 +33,18 @@ func NewDefaultOut(test bool) io.WriteCloser {
 			return newWriteCloser(os.Stdout)
 		}
 	}
+}
+
+func NewDefaultOut(feature Feature) io.WriteCloser {
+	return newDefaultOut(feature.IsTest(), feature.IsQuiet())
+}
+
+func NewTestOut() io.WriteCloser {
+	return newDefaultOut(true, false)
+}
+
+func NewDirectOut() io.WriteCloser {
+	return newDefaultOut(false, false)
 }
 
 func newWriteCloser(co io.Writer) io.WriteCloser {

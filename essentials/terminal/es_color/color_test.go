@@ -6,7 +6,7 @@ import (
 )
 
 func TestFprintf(t *testing.T) {
-	w := es_stdout.NewDefaultOut(true)
+	w := es_stdout.NewTestOut()
 	Colorfln(w, ColorBlue, false, "Hello %d", 123)
 	Colorfln(w, ColorCyan, true, "Hello %d", 123)
 	Colorfln(w, ColorGreen, false, "Hello %d %s", 123, "world")

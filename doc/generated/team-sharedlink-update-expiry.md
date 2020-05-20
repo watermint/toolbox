@@ -101,6 +101,27 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## Report: skipped
+
+This report shows a list of shared links with the shared link owner team member.
+The command will generate a report in three different formats. `skipped.csv`, `skipped.json`, and `skipped.xlsx`.
+
+| Column     | Description                                                                                                                                                                                                             |
+|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| url        | URL of the shared link.                                                                                                                                                                                                 |
+| name       | The linked file name (including extension).                                                                                                                                                                             |
+| expires    | Expiration time, if set.                                                                                                                                                                                                |
+| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| email      | Email address of user.                                                                                                                                                                                                  |
+| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
+| surname    | Surname of the link owner                                                                                                                                                                                               |
+| given_name | Given name of the link owner                                                                                                                                                                                            |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 ## Report: updated
 
 This report shows the transaction result.
@@ -125,27 +146,6 @@ The command will generate a report in three different formats. `updated.csv`, `u
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`, ...
-## Report: skipped
-
-This report shows a list of shared links with the shared link owner team member.
-The command will generate a report in three different formats. `skipped.csv`, `skipped.json`, and `skipped.xlsx`.
-
-| Column     | Description                                                                                                                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
-| email      | Email address of user.                                                                                                                                                                                                  |
-| status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
-| surname    | Surname of the link owner                                                                                                                                                                                               |
-| given_name | Given name of the link owner                                                                                                                                                                                            |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 
 # Proxy configuration
 

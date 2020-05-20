@@ -78,7 +78,7 @@ func SuggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) error {
 }
 
 func SuggestMessages(ctl app_control.Control, suggest func(out io.Writer)) {
-	out := es_stdout.NewDefaultOut(ctl.Feature().IsTest())
+	out := es_stdout.NewDefaultOut(ctl.Feature())
 	fmt.Fprintln(out, "Please add those messages to message resource files:")
 	fmt.Fprintln(out, "====================================================")
 	suggest(out)

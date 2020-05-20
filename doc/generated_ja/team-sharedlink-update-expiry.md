@@ -101,6 +101,27 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## レポート: skipped
+
+このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `skipped.csv`, `skipped.json`, ならびに `skipped.xlsx`.
+
+| 列         | 説明                                                                 |
+|------------|----------------------------------------------------------------------|
+| tag        | エントリーの種別 (file, または folder)                               |
+| url        | 共有リンクのURL.                                                     |
+| name       | リンク先ファイル名称                                                 |
+| expires    | 有効期限 (設定されている場合)                                        |
+| path_lower | パス (すべて小文字に変換).                                           |
+| visibility | 共有リンクの開示範囲                                                 |
+| email      | ユーザーのメールアドレス                                             |
+| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| surname    | リンク所有者の名字                                                   |
+| given_name | リンク所有者の名                                                     |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 ## レポート: updated
 
 このレポートは処理結果を出力します.
@@ -125,27 +146,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`, ...
-## レポート: skipped
-
-このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `skipped.csv`, `skipped.json`, ならびに `skipped.xlsx`.
-
-| 列         | 説明                                                                 |
-|------------|----------------------------------------------------------------------|
-| tag        | エントリーの種別 (file, または folder)                               |
-| url        | 共有リンクのURL.                                                     |
-| name       | リンク先ファイル名称                                                 |
-| expires    | 有効期限 (設定されている場合)                                        |
-| path_lower | パス (すべて小文字に変換).                                           |
-| visibility | 共有リンクの開示範囲                                                 |
-| email      | ユーザーのメールアドレス                                             |
-| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| surname    | リンク所有者の名字                                                   |
-| given_name | リンク所有者の名                                                     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

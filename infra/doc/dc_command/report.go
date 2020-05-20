@@ -60,7 +60,7 @@ func (z Report) Body(ui app_ui.UI) {
 	sort.Slice(reports, func(i, j int) bool {
 		return strings.Compare(reports[i].Name(), reports[j].Name()) < 0
 	})
-	for _, rs := range z.spec.Reports() {
+	for _, rs := range reports {
 		z.bodyReport(ui, rs)
 	}
 }

@@ -93,7 +93,7 @@ func testWithFile(t *testing.T, content string, f func(in *os.File, out io.Write
 		t.Error(err)
 	}
 
-	f(g, es_stdout.NewDefaultOut(true))
+	f(g, es_stdout.NewTestOut())
 }
 
 func TestDlgImpl_AskProceed(t *testing.T) {

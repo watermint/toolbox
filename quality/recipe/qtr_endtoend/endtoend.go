@@ -98,7 +98,7 @@ func Resources() (ui app_ui.UI) {
 	if qt_secure.IsSecureEndToEndTest() || app.IsProduction() {
 		return app_ui.NewDiscard(mc, lg)
 	} else {
-		return app_ui.NewConsole(mc, lg, es_stdout.NewDefaultOut(true), es_dialogue.DenyAll())
+		return app_ui.NewConsole(mc, lg, es_stdout.NewTestOut(), es_dialogue.DenyAll())
 	}
 }
 

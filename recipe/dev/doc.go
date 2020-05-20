@@ -35,7 +35,7 @@ func (z *Doc) Preset() {
 
 func (z *Doc) genDoc(path string, doc string, c app_control.Control) error {
 	if c.Feature().IsTest() {
-		out := es_stdout.NewDefaultOut(c.Feature().IsTest())
+		out := es_stdout.NewDefaultOut(c.Feature())
 		_, _ = fmt.Fprintln(out, doc)
 		return nil
 	} else {

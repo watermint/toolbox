@@ -103,6 +103,57 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## レポート: device
+
+このレポートではチーム内の既存セッションとメンバー情報を一覧できます.
+このコマンドはレポートを3種類の書式で出力します. `device.csv`, `device.json`, ならびに `device.xlsx`.
+
+| 列                            | 説明                                                                   |
+|-------------------------------|------------------------------------------------------------------------|
+| team_member_id                | チームにおけるメンバーのID                                             |
+| email                         | ユーザーのメールアドレス                                               |
+| status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
+| given_name                    | 名                                                                     |
+| surname                       | 名字                                                                   |
+| display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
+| device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
+| id                            | セッションID                                                           |
+| user_agent                    | ホストデバイスの情報                                                   |
+| os                            | ホストOSの情報                                                         |
+| browser                       | Webセッションのブラウザ情報                                            |
+| ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         |
+| country                       | このセッションの最終アクティビティの国                                 |
+| created                       | セッションが作成された日時                                             |
+| updated                       | このセッションの最終アクティビティの日時                               |
+| expires                       | このセッションが失効する日時                                           |
+| host_name                     | デスクトップホストの名称                                               |
+| client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        |
+| client_version                | Dropboxクライアントバージョン                                          |
+| platform                      | ホストプラットホームの情報                                             |
+| is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     |
+| device_name                   | デバイス名                                                             |
+| os_version                    | ホストOSのバージョン                                                   |
+| last_carrier                  | このデバイスで利用された最後のキャリア                                 |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
+## レポート: feature
+
+このレポートはチームの機能と設定を一覧します.
+このコマンドはレポートを3種類の書式で出力します. `feature.csv`, `feature.json`, ならびに `feature.xlsx`.
+
+| 列                          | 説明                                                   |
+|-----------------------------|--------------------------------------------------------|
+| upload_api_rate_limit       | 毎月利用可能なアップロードAPIコール回数                |
+| upload_api_rate_limit_count | この月に利用されたアップロードAPIコール回数            |
+| has_team_shared_dropbox     | このチームが共有されたチームルートを持っているかどうか |
+| has_team_file_events        | このチームがファイルイベント機能を持っているかどうか   |
+| has_team_selective_sync     | このチームがチーム選択型同期を有効化しているかどうか   |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
 ## レポート: file_request
 
 このレポートはチームメンバーのもつファイルリクエストを一覧します.
@@ -140,60 +191,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
-## レポート: namespace_file
-
-このレポートはチームの名前空間を一覧します.
-このコマンドはレポートを3種類の書式で出力します. `namespace_file.csv`, `namespace_file.json`, ならびに `namespace_file.xlsx`.
-
-| 列                     | 説明                                                                                            |
-|------------------------|-------------------------------------------------------------------------------------------------|
-| namespace_type         | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
-| namespace_name         | 名前空間の名称                                                                                  |
-| namespace_member_email | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
-| tag                    | エントリーの種別`file`, `folder`, または `deleted`                                              |
-| name                   | 名称                                                                                            |
-| path_display           | パス (表示目的で大文字小文字を区別する).                                                        |
-| client_modified        | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
-| server_modified        | Dropbox上で最後に更新された日時                                                                 |
-| size                   | ファイルサイズ(バイト単位)                                                                      |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
-## レポート: shared_link
-
-このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `shared_link.csv`, `shared_link.json`, ならびに `shared_link.xlsx`.
-
-| 列         | 説明                                                                 |
-|------------|----------------------------------------------------------------------|
-| tag        | エントリーの種別 (file, または folder)                               |
-| url        | 共有リンクのURL.                                                     |
-| name       | リンク先ファイル名称                                                 |
-| expires    | 有効期限 (設定されている場合)                                        |
-| path_lower | パス (すべて小文字に変換).                                           |
-| visibility | 共有リンクの開示範囲                                                 |
-| email      | ユーザーのメールアドレス                                             |
-| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| surname    | リンク所有者の名字                                                   |
-| given_name | リンク所有者の名                                                     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
-## レポート: member_quota
-
-このレポートはチームメンバーのカスタム容量上限の設定を出力します.
-このコマンドはレポートを3種類の書式で出力します. `member_quota.csv`, `member_quota.json`, ならびに `member_quota.xlsx`.
-
-| 列    | 説明                                                                |
-|-------|---------------------------------------------------------------------|
-| email | ユーザーのメールアドレス                                            |
-| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
 ## レポート: group_member
 
 このレポートはグループとメンバーを一覧します.
@@ -212,90 +209,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
-## レポート: namespace
-
-このレポートはチームの名前空間を一覧します.
-このコマンドはレポートを3種類の書式で出力します. `namespace.csv`, `namespace.json`, ならびに `namespace.xlsx`.
-
-| 列             | 説明                                                                                   |
-|----------------|----------------------------------------------------------------------------------------|
-| name           | 名前空間の名称                                                                         |
-| namespace_type | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
-## レポート: feature
-
-このレポートはチームの機能と設定を一覧します.
-このコマンドはレポートを3種類の書式で出力します. `feature.csv`, `feature.json`, ならびに `feature.xlsx`.
-
-| 列                          | 説明                                                   |
-|-----------------------------|--------------------------------------------------------|
-| upload_api_rate_limit       | 毎月利用可能なアップロードAPIコール回数                |
-| upload_api_rate_limit_count | この月に利用されたアップロードAPIコール回数            |
-| has_team_shared_dropbox     | このチームが共有されたチームルートを持っているかどうか |
-| has_team_file_events        | このチームがファイルイベント機能を持っているかどうか   |
-| has_team_selective_sync     | このチームがチーム選択型同期を有効化しているかどうか   |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
-## レポート: member
-
-このレポートはメンバー一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `member.csv`, `member.json`, ならびに `member.xlsx`.
-
-| 列             | 説明                                                                                            |
-|----------------|-------------------------------------------------------------------------------------------------|
-| email          | ユーザーのメールアドレス                                                                        |
-| email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
-| status         | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
-| given_name     | 名                                                                                              |
-| surname        | 名字                                                                                            |
-| display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
-| joined_on      | メンバーがチームに参加した日時.                                                                 |
-| role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
-## レポート: device
-
-このレポートではチーム内の既存セッションとメンバー情報を一覧できます.
-このコマンドはレポートを3種類の書式で出力します. `device.csv`, `device.json`, ならびに `device.xlsx`.
-
-| 列                            | 説明                                                                   |
-|-------------------------------|------------------------------------------------------------------------|
-| team_member_id                | チームにおけるメンバーのID                                             |
-| email                         | ユーザーのメールアドレス                                               |
-| status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
-| given_name                    | 名                                                                     |
-| surname                       | 名字                                                                   |
-| display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
-| device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
-| id                            | セッションID                                                           |
-| user_agent                    | ホストデバイスの情報                                                   |
-| os                            | ホストOSの情報                                                         |
-| browser                       | Webセッションのブラウザ情報                                            |
-| ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         |
-| country                       | このセッションの最終アクティビティの国                                 |
-| created                       | セッションが作成された日時                                             |
-| updated                       | このセッションの最終アクティビティの日時                               |
-| expires                       | このセッションが失効する日時                                           |
-| host_name                     | デスクトップホストの名称                                               |
-| client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        |
-| client_version                | Dropboxクライアントバージョン                                          |
-| platform                      | ホストプラットホームの情報                                             |
-| is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     |
-| device_name                   | デバイス名                                                             |
-| os_version                    | ホストOSのバージョン                                                   |
-| last_carrier                  | このデバイスで利用された最後のキャリア                                 |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
 ## レポート: info
 
 このレポートはチームの情報を一覧します.
@@ -316,56 +229,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
-## レポート: usage
-
-このレポートはユーザーの現在のストレージ利用容量を出力します.
-このコマンドはレポートを3種類の書式で出力します. `usage.csv`, `usage.json`, ならびに `usage.xlsx`.
-
-| 列         | 説明                                                    |
-|------------|---------------------------------------------------------|
-| email      | アカウントのメールアドレス                              |
-| used_gb    | このユーザーの合計利用スペース (in GB, 1GB = 1024 MB).  |
-| used_bytes | ユーザーの合計利用要領 (bytes).                         |
-| allocation | このユーザーの利用容量の付与先 (individual, or team)    |
-| allocated  | このユーザーアカウントに確保されている合計容量 (bytes). |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
-## レポート: team_folder
-
-このレポートはチーム内のチームフォルダを一覧します.
-このコマンドはレポートを3種類の書式で出力します. `team_folder.csv`, `team_folder.json`, ならびに `team_folder.xlsx`.
-
-| 列                     | 説明                                                                                 |
-|------------------------|--------------------------------------------------------------------------------------|
-| name                   | チームフォルダの名称                                                                 |
-| status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
-| is_team_shared_dropbox |                                                                                      |
-| sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
-## レポート: namespace_member
-
-このレポートは名前空間とそのメンバー一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `namespace_member.csv`, `namespace_member.json`, ならびに `namespace_member.xlsx`.
-
-| 列                 | 説明                                                                                                 |
-|--------------------|------------------------------------------------------------------------------------------------------|
-| namespace_name     | 名前空間の名称                                                                                       |
-| namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
-| entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
-| entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
-| email              | ユーザーのメールアドレス                                                                             |
-| display_name       | セッションのタイプ (web_session, desktop_client, または mobile_client)                               |
-| group_name         | グループ名称                                                                                         |
-| invitee_email      | このフォルダに招待されたメールアドレス                                                               |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
 ## レポート: linked_app
 
 このレポートは接続済みアプリケーションと利用ユーザーを一覧します.
@@ -387,6 +250,91 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
+## レポート: member
+
+このレポートはメンバー一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `member.csv`, `member.json`, ならびに `member.xlsx`.
+
+| 列             | 説明                                                                                            |
+|----------------|-------------------------------------------------------------------------------------------------|
+| email          | ユーザーのメールアドレス                                                                        |
+| email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| status         | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| given_name     | 名                                                                                              |
+| surname        | 名字                                                                                            |
+| display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
+| joined_on      | メンバーがチームに参加した日時.                                                                 |
+| role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+## レポート: member_quota
+
+このレポートはチームメンバーのカスタム容量上限の設定を出力します.
+このコマンドはレポートを3種類の書式で出力します. `member_quota.csv`, `member_quota.json`, ならびに `member_quota.xlsx`.
+
+| 列    | 説明                                                                |
+|-------|---------------------------------------------------------------------|
+| email | ユーザーのメールアドレス                                            |
+| quota | カスタムの容量制限GB (1 TB = 1024 GB). 0の場合、容量制限をしません. |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
+## レポート: namespace
+
+このレポートはチームの名前空間を一覧します.
+このコマンドはレポートを3種類の書式で出力します. `namespace.csv`, `namespace.json`, ならびに `namespace.xlsx`.
+
+| 列             | 説明                                                                                   |
+|----------------|----------------------------------------------------------------------------------------|
+| name           | 名前空間の名称                                                                         |
+| namespace_type | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
+## レポート: namespace_file
+
+このレポートはチームの名前空間を一覧します.
+このコマンドはレポートを3種類の書式で出力します. `namespace_file.csv`, `namespace_file.json`, ならびに `namespace_file.xlsx`.
+
+| 列                     | 説明                                                                                            |
+|------------------------|-------------------------------------------------------------------------------------------------|
+| namespace_type         | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
+| namespace_name         | 名前空間の名称                                                                                  |
+| namespace_member_email | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
+| tag                    | エントリーの種別`file`, `folder`, または `deleted`                                              |
+| name                   | 名称                                                                                            |
+| path_display           | パス (表示目的で大文字小文字を区別する).                                                        |
+| client_modified        | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
+| server_modified        | Dropbox上で最後に更新された日時                                                                 |
+| size                   | ファイルサイズ(バイト単位)                                                                      |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+## レポート: namespace_member
+
+このレポートは名前空間とそのメンバー一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `namespace_member.csv`, `namespace_member.json`, ならびに `namespace_member.xlsx`.
+
+| 列                 | 説明                                                                                                 |
+|--------------------|------------------------------------------------------------------------------------------------------|
+| namespace_name     | 名前空間の名称                                                                                       |
+| namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
+| entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
+| email              | ユーザーのメールアドレス                                                                             |
+| display_name       | セッションのタイプ (web_session, desktop_client, または mobile_client)                               |
+| group_name         | グループ名称                                                                                         |
+| invitee_email      | このフォルダに招待されたメールアドレス                                                               |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
 ## レポート: namespace_size
 
 このレポートは処理結果を出力します.
@@ -408,6 +356,58 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+## レポート: shared_link
+
+このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `shared_link.csv`, `shared_link.json`, ならびに `shared_link.xlsx`.
+
+| 列         | 説明                                                                 |
+|------------|----------------------------------------------------------------------|
+| tag        | エントリーの種別 (file, または folder)                               |
+| url        | 共有リンクのURL.                                                     |
+| name       | リンク先ファイル名称                                                 |
+| expires    | 有効期限 (設定されている場合)                                        |
+| path_lower | パス (すべて小文字に変換).                                           |
+| visibility | 共有リンクの開示範囲                                                 |
+| email      | ユーザーのメールアドレス                                             |
+| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| surname    | リンク所有者の名字                                                   |
+| given_name | リンク所有者の名                                                     |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+## レポート: team_folder
+
+このレポートはチーム内のチームフォルダを一覧します.
+このコマンドはレポートを3種類の書式で出力します. `team_folder.csv`, `team_folder.json`, ならびに `team_folder.xlsx`.
+
+| 列                     | 説明                                                                                 |
+|------------------------|--------------------------------------------------------------------------------------|
+| name                   | チームフォルダの名称                                                                 |
+| status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
+| is_team_shared_dropbox |                                                                                      |
+| sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
+## レポート: usage
+
+このレポートはユーザーの現在のストレージ利用容量を出力します.
+このコマンドはレポートを3種類の書式で出力します. `usage.csv`, `usage.json`, ならびに `usage.xlsx`.
+
+| 列         | 説明                                                    |
+|------------|---------------------------------------------------------|
+| email      | アカウントのメールアドレス                              |
+| used_gb    | このユーザーの合計利用スペース (in GB, 1GB = 1024 MB).  |
+| used_bytes | ユーザーの合計利用要領 (bytes).                         |
+| allocation | このユーザーの利用容量の付与先 (individual, or team)    |
+| allocated  | このユーザーアカウントに確保されている合計容量 (bytes). |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

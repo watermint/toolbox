@@ -15,6 +15,9 @@ type History interface {
 	TimeStart() (t time.Time, found bool)
 	TimeFinish() (t time.Time, found bool)
 
+	// True when the job is nested job.
+	IsNested() bool
+
 	// Archive this job data
 	Archive() (path string, err error)
 

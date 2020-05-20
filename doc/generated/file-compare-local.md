@@ -100,26 +100,6 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: skip
-
-This report shows a difference between to folders.
-The command will generate a report in three different formats. `skip.csv`, `skip.json`, and `skip.xlsx`.
-
-| Column     | Description                                                                                                                                                                            |
-|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
-| left_path  | path of left                                                                                                                                                                           |
-| left_kind  | folder or file                                                                                                                                                                         |
-| left_size  | size of left file                                                                                                                                                                      |
-| left_hash  | Content hash of left file                                                                                                                                                              |
-| right_path | path of right                                                                                                                                                                          |
-| right_kind | folder of file                                                                                                                                                                         |
-| right_size | size of right file                                                                                                                                                                     |
-| right_hash | Content hash of right file                                                                                                                                                             |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`, ...
 ## Report: diff
 
 This report shows a difference between to folders.
@@ -140,6 +120,26 @@ The command will generate a report in three different formats. `diff.csv`, `diff
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
+## Report: skip
+
+This report shows a difference between to folders.
+The command will generate a report in three different formats. `skip.csv`, `skip.json`, and `skip.xlsx`.
+
+| Column     | Description                                                                                                                                                                            |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| diff_type  | Type of difference. `file_content_diff`: different content hash, `{left|right}_file_missing`: left or right file missing, `{left|right}_folder_missing`: left or right folder missing. |
+| left_path  | path of left                                                                                                                                                                           |
+| left_kind  | folder or file                                                                                                                                                                         |
+| left_size  | size of left file                                                                                                                                                                      |
+| left_hash  | Content hash of left file                                                                                                                                                              |
+| right_path | path of right                                                                                                                                                                          |
+| right_kind | folder of file                                                                                                                                                                         |
+| right_size | size of right file                                                                                                                                                                     |
+| right_hash | Content hash of right file                                                                                                                                                             |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skip_0000.xlsx`, `skip_0001.xlsx`, `skip_0002.xlsx`, ...
 
 # Proxy configuration
 

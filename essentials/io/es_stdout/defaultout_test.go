@@ -1,15 +1,17 @@
 package es_stdout
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestNewDefaultOut(t *testing.T) {
 	{
-		w := NewDefaultOut(true)
+		w := newDefaultOut(true, false)
 		w.Write([]byte("hello"))
 		w.Close()
 	}
 	{
-		w := NewDefaultOut(false)
+		w := newDefaultOut(false, false)
 		w.Write([]byte("Hello"))
 		w.Close()
 	}

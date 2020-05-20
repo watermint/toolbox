@@ -102,45 +102,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: uploaded
-
-このレポートは処理結果を出力します.
-このコマンドはレポートを3種類の書式で出力します. `uploaded.csv`, `uploaded.json`, ならびに `uploaded.xlsx`.
-
-| 列                     | 説明                                                         |
-|------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
-| input.file             | ローカルファイルのパス                                       |
-| input.size             | ローカルファイルのサイズ                                     |
-| result.name            | 名称                                                         |
-| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| result.server_modified | Dropbox上で最後に更新された日時                              |
-| result.size            | ファイルサイズ(バイト単位)                                   |
-| result.content_hash    | ファイルコンテンツのハッシュ                                 |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
-## レポート: summary
-
-このレポートはアップロード結果の概要を出力します.
-このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
-
-| 列               | 説明                                             |
-|------------------|--------------------------------------------------|
-| upload_start     | アップロード開始日時                             |
-| upload_end       | アップロード終了日時                             |
-| num_bytes        | 合計アップロードサイズ (バイト)                  |
-| num_files_error  | 失敗またはエラーが発生したファイル数.            |
-| num_files_upload | アップロード済みまたはアップロード対象ファイル数 |
-| num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
-| num_api_call     | この処理によって消費される見積アップロードAPI数  |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
 ## レポート: skipped
 
 このレポートは処理結果を出力します.
@@ -162,6 +123,45 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+## レポート: summary
+
+このレポートはアップロード結果の概要を出力します.
+このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
+
+| 列               | 説明                                             |
+|------------------|--------------------------------------------------|
+| upload_start     | アップロード開始日時                             |
+| upload_end       | アップロード終了日時                             |
+| num_bytes        | 合計アップロードサイズ (バイト)                  |
+| num_files_error  | 失敗またはエラーが発生したファイル数.            |
+| num_files_upload | アップロード済みまたはアップロード対象ファイル数 |
+| num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
+| num_api_call     | この処理によって消費される見積アップロードAPI数  |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+## レポート: uploaded
+
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `uploaded.csv`, `uploaded.json`, ならびに `uploaded.xlsx`.
+
+| 列                     | 説明                                                         |
+|------------------------|--------------------------------------------------------------|
+| status                 | 処理の状態                                                   |
+| reason                 | 失敗またはスキップの理由                                     |
+| input.file             | ローカルファイルのパス                                       |
+| input.size             | ローカルファイルのサイズ                                     |
+| result.name            | 名称                                                         |
+| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified | Dropbox上で最後に更新された日時                              |
+| result.size            | ファイルサイズ(バイト単位)                                   |
+| result.content_hash    | ファイルコンテンツのハッシュ                                 |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

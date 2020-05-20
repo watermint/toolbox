@@ -56,6 +56,7 @@ func newHistory(app app_workspace.Application, jobId []string) (h app_job.Histor
 	return &History{
 		ws:     ws,
 		jobId:  fqj,
+		nested: len(jobId) > 1,
 		start:  start,
 		finish: finish,
 	}, true
@@ -64,8 +65,13 @@ func newHistory(app app_workspace.Application, jobId []string) (h app_job.Histor
 type History struct {
 	ws     app_workspace.Workspace
 	jobId  string
+	nested bool
 	start  *app_job.StartLog
 	finish *app_job.ResultLog
+}
+
+func (z History) IsNested() bool {
+	return z.nested
 }
 
 func (z History) JobPath() string {

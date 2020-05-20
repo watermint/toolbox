@@ -32,7 +32,7 @@ func TestStructTypeGenerator_Generate(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		out := es_stdout.NewDefaultOut(ctl.Feature().IsTest())
+		out := es_stdout.NewDefaultOut(ctl.Feature())
 		_, _ = out.Write(src)
 	})
 }
