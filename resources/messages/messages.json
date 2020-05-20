@@ -2002,6 +2002,8 @@
   "web.error.server.detail": "Please see logs for more detail.",
   "web.error.server.header": "Server error",
   "web.home.message": "Welcome {{.User}}",
+  "infra.doc.dc_readme.release.homebrew_desc": "First, you need to install Homebrew. Please refer the instruction on [the official site](https://brew.sh/). Then run following commands to install watermint toolbox.",
+  "infra.doc.dc_readme.release.homebrew_header": "Installing using Homebrew on macOS",
   "web.job.result.failure": "Failure (error: {{.Error}})",
   "web.job.result.success": "Success"
 }

@@ -21,6 +21,14 @@ Please carefully note:
 
 Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).
 
+## Installing using Homebrew on macOS
+
+First, you need to install Homebrew. Please refer the instruction on [the official site](https://brew.sh/). Then run following commands to install watermint toolbox.
+```
+brew tap watermint/toolbox
+brew install toolbox
+```
+
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
