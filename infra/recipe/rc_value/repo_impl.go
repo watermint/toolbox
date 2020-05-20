@@ -209,6 +209,11 @@ func (z *RepositoryImpl) Conns() map[string]api_conn.Connection {
 				conns[k] = conn
 			}
 		}
+		if vc, ok := v.(rc_recipe.ValueConns); ok {
+			for k, c := range vc.Conns() {
+				conns[k] = c
+			}
+		}
 	}
 	return conns
 }

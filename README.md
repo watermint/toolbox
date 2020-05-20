@@ -64,24 +64,22 @@ Available commands:
 
 ## Utilities
 
-| Command                                                                       | Description                                      |
-|-------------------------------------------------------------------------------|--------------------------------------------------|
-| [config disable](doc/generated/config-disable.md)                             | Disable a feature.                               |
-| [config enable](doc/generated/config-enable.md)                               | Enable a feature.                                |
-| [config features](doc/generated/config-features.md)                           | List available optional features.                |
-| [file dispatch local](doc/generated/file-dispatch-local.md)                   | Dispatch local files                             |
-| [job history archive](doc/generated/job-history-archive.md)                   | Archive jobs                                     |
-| [job history delete](doc/generated/job-history-delete.md)                     | Delete old job history                           |
-| [job history list](doc/generated/job-history-list.md)                         | Show job history                                 |
-| [job log jobid](doc/generated/job-log-jobid.md)                               | Retrieve logs of specified Job ID                |
-| [job log kind](doc/generated/job-log-kind.md)                                 | Concatenate and print logs of specified log kind |
-| [job log last](doc/generated/job-log-last.md)                                 | Print the last job log files                     |
-| [job loop](doc/generated/job-loop.md)                                         | Run runbook until specified date/time            |
-| [job run](doc/generated/job-run.md)                                           | Run workflow with *.runbook file                 |
-| [license](doc/generated/license.md)                                           | Show license information                         |
-| [teamfolder batch replication](doc/generated/teamfolder-batch-replication.md) | Batch replication of team folders                |
-| [teamfolder replication](doc/generated/teamfolder-replication.md)             | Replicate a team folder to the other team        |
-| [version](doc/generated/version.md)                                           | Show version                                     |
+| Command                                                     | Description                                      |
+|-------------------------------------------------------------|--------------------------------------------------|
+| [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
+| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
+| [config features](doc/generated/config-features.md)         | List available optional features.                |
+| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
+| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
+| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
+| [job history list](doc/generated/job-history-list.md)       | Show job history                                 |
+| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
+| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
+| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
+| [job loop](doc/generated/job-loop.md)                       | Run runbook until specified date/time            |
+| [job run](doc/generated/job-run.md)                         | Run workflow with *.runbook file                 |
+| [license](doc/generated/license.md)                         | Show license information                         |
+| [version](doc/generated/version.md)                         | Show version                                     |
 
 ## Dropbox (Individual account)
 
@@ -170,10 +168,12 @@ Available commands:
 | [teamfolder archive](doc/generated/teamfolder-archive.md)                       | Archive team folder                                           |
 | [teamfolder batch archive](doc/generated/teamfolder-batch-archive.md)           | Archiving team folders                                        |
 | [teamfolder batch permdelete](doc/generated/teamfolder-batch-permdelete.md)     | Permanently delete team folders                               |
+| [teamfolder batch replication](doc/generated/teamfolder-batch-replication.md)   | Batch replication of team folders                             |
 | [teamfolder file list](doc/generated/teamfolder-file-list.md)                   | List files in team folders                                    |
 | [teamfolder file size](doc/generated/teamfolder-file-size.md)                   | Calculate size of team folders                                |
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
+| [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
 
 ## GitHub
 

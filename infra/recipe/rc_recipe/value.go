@@ -73,6 +73,13 @@ type ValueConn interface {
 	Conn() (conn api_conn.Connection, valid bool)
 }
 
+type ValueConns interface {
+	Value
+
+	// True when the value is type of connection, and return the instance of the connection
+	Conns() map[string]api_conn.Connection
+}
+
 type ValueMessage interface {
 	Value
 
