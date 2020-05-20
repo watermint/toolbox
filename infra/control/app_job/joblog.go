@@ -12,7 +12,31 @@ const (
 	FinishLogName = "result.log"
 )
 
-func create(path string, d interface{}) error {
+type StartLog struct {
+	Name        string                 `json:"name"`
+	ValueObject map[string]interface{} `json:"value_object"`
+	CommonOpts  map[string]interface{} `json:"common_opts"`
+	TimeStart   string                 `json:"time_start,omitempty"`
+	AppName     string                 `json:"app_name"`
+	AppHash     string                 `json:"app_hash"`
+	AppVersion  string                 `json:"app_version"`
+}
+
+func (z StartLog) Write(ws app_workspace.Workspace) error {
+	return write(filepath.Join(ws.Log(), StartLogName), z)
+}
+
+type ResultLog struct {
+	Success    bool   `json:"success"`
+	TimeFinish string `json:"time_finish"`
+	Error      string `json:"error"`
+}
+
+func (z ResultLog) Write(ws app_workspace.Workspace) error {
+	return write(filepath.Join(ws.Log(), FinishLogName), z)
+}
+
+func write(path string, d interface{}) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return err
@@ -27,28 +51,4 @@ func create(path string, d interface{}) error {
 		return err
 	}
 	return nil
-}
-
-type StartLog struct {
-	Name        string                 `json:"name"`
-	ValueObject map[string]interface{} `json:"value_object"`
-	CommonOpts  map[string]interface{} `json:"common_opts"`
-	TimeStart   string                 `json:"time_start,omitempty"`
-	AppName     string                 `json:"app_name"`
-	AppHash     string                 `json:"app_hash"`
-	AppVersion  string                 `json:"app_version"`
-}
-
-func (z StartLog) Create(ws app_workspace.Workspace) error {
-	return create(filepath.Join(ws.Log(), StartLogName), z)
-}
-
-type ResultLog struct {
-	Success    bool   `json:"success"`
-	TimeFinish string `json:"time_finish"`
-	Error      string `json:"error"`
-}
-
-func (z ResultLog) Create(ws app_workspace.Workspace) error {
-	return create(filepath.Join(ws.Log(), FinishLogName), z)
 }

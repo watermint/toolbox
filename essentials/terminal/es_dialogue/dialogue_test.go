@@ -2,7 +2,7 @@ package es_dialogue
 
 import (
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
 	"io/ioutil"
 	"os"
@@ -93,11 +93,11 @@ func testWithFile(t *testing.T, content string, f func(in *os.File, out io.Write
 		t.Error(err)
 	}
 
-	f(g, es_stdout.NewDefaultOut(true))
+	f(g, es_stdout.NewTestOut())
 }
 
 func TestDlgImpl_AskProceed(t *testing.T) {
-	l := es_log.Default()
+	l := esl.Default()
 	testWithFile(t, "yes", func(in *os.File, out io.Writer) {
 		d := &dlgImpl{in: in, wr: out}
 		d.AskProceed(func() {
@@ -107,7 +107,7 @@ func TestDlgImpl_AskProceed(t *testing.T) {
 }
 
 func TestDlgImpl_AskCont(t *testing.T) {
-	l := es_log.Default()
+	l := esl.Default()
 	p := func() {
 		l.Debug("ask cont")
 	}
@@ -129,7 +129,7 @@ func TestDlgImpl_AskCont(t *testing.T) {
 }
 
 func TestDlgImpl_AskText(t *testing.T) {
-	l := es_log.Default()
+	l := esl.Default()
 	p := func() {
 		l.Debug("ask text")
 	}
@@ -145,7 +145,7 @@ func TestDlgImpl_AskText(t *testing.T) {
 }
 
 func TestDlgImpl_AskSecure(t *testing.T) {
-	l := es_log.Default()
+	l := esl.Default()
 	testWithFile(t, "yes", func(in *os.File, out io.Writer) {
 		d := &dlgImpl{in: in, wr: out}
 		_, _ = d.AskSecure(func() {

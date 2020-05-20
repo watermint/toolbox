@@ -2,7 +2,7 @@ package util
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -16,7 +16,7 @@ type Wait struct {
 }
 
 func (z *Wait) Exec(c app_control.Control) error {
-	c.Log().Info("Wait", es_log.Int("seconds", z.Seconds.Value()))
+	c.Log().Info("Wait", esl.Int("seconds", z.Seconds.Value()))
 	time.Sleep(time.Duration(z.Seconds.Value()) * 1000 * time.Millisecond)
 	return nil
 }

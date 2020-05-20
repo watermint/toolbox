@@ -1,16 +1,18 @@
 package es_generate
 
 import (
+	"bytes"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
-	"io"
+	"go/format"
 	"strings"
 	"text/template"
 )
 
 type Generator interface {
 	// Generate source with templateName
-	Generate(tmplName string, out io.Writer) error
+	Generate(tmplName string) (src []byte, err error)
 }
 
 func NewStructTypeGenerator(ctl app_control.Control, sts []*StructType) Generator {
@@ -25,7 +27,8 @@ type structTypeGenerator struct {
 	sts []*StructType
 }
 
-func (z *structTypeGenerator) Generate(tmplName string, out io.Writer) error {
+func (z *structTypeGenerator) Generate(tmplName string) ([]byte, error) {
+	l := esl.Default().With(esl.String("tmpl", tmplName))
 	makeAlias := func(pkg string) string {
 		return strings.ReplaceAll(pkg, "/", "")
 	}
@@ -46,16 +49,31 @@ func (z *structTypeGenerator) Generate(tmplName string, out io.Writer) error {
 
 	t0, err := app_resource.Bundle().Templates().Bytes(tmplName)
 	if err != nil {
-		return err
+		l.Debug("Unable to load the template", esl.Error(err))
+		return nil, err
 	}
 	t1, err := template.New(tmplName).Parse(string(t0))
 	if err != nil {
-		return err
+		l.Debug("Unable to parse the template", esl.Error(err))
+		return nil, err
 	}
-	err = t1.Execute(out, map[string]interface{}{
+	var buf bytes.Buffer
+	err = t1.Execute(&buf, map[string]interface{}{
 		"ImportAliases": aliases,
 		"Imports":       packages,
 		"Objects":       aliasObjects,
 	})
-	return err
+	if err != nil {
+		l.Debug("Unable to execute the template", esl.Error(err))
+		return nil, err
+	}
+
+	// Format
+	src, err := format.Source(buf.Bytes())
+	if err != nil {
+		l.Warn("Unable to execute go format", esl.Error(err))
+		return buf.Bytes(), nil
+	}
+
+	return src, nil
 }

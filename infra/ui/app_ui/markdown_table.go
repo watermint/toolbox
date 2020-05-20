@@ -3,7 +3,7 @@ package app_ui
 import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -60,7 +60,7 @@ func (z *mdTableImpl) RowRaw(m ...string) {
 }
 
 func (z *mdTableImpl) Flush() {
-	l := es_log.Default()
+	l := esl.Default()
 	numCols := len(z.header)
 	cols := make([]int, numCols)
 
@@ -83,8 +83,8 @@ func (z *mdTableImpl) Flush() {
 				padding = es_number.Max(cols[i]-es_width.Width(c), 0).Int()
 			} else {
 				l.Debug("Number of columns exceeds header columns",
-					es_log.Int("i", i),
-					es_log.Strings("row", row))
+					esl.Int("i", i),
+					esl.Strings("row", row))
 				padding = 1
 			}
 			_, _ = fmt.Fprint(z.wr, " ")
@@ -100,12 +100,14 @@ func (z *mdTableImpl) Flush() {
 		fmtBorder += strings.Repeat("-", c+2) + "|"
 	}
 
+	_, _ = fmt.Fprintln(z.wr)
 	printCols(z.header)
 	_, _ = fmt.Fprintln(z.wr, fmtBorder)
 	for _, row := range z.rows {
 		printCols(row)
 	}
 	_, _ = fmt.Fprintln(z.wr, "")
+	_, _ = fmt.Fprintln(z.wr)
 
 	z.limiter.Flush()
 }

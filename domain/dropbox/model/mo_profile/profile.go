@@ -2,6 +2,13 @@ package mo_profile
 
 import "encoding/json"
 
+const (
+	StatusActive    = "active"
+	StatusInvited   = "invited"
+	StatusSuspended = "suspended"
+	StatusRemoved   = "removed"
+)
+
 type Profile struct {
 	Raw                   json.RawMessage
 	TeamMemberId          string `path:"team_member_id" json:"team_member_id"`
@@ -19,4 +26,22 @@ type Profile struct {
 	AccountType           string `path:"account_type.\\.tag" json:"account_type"`
 	JoinedOn              string `path:"joined_on" json:"joined_on"`
 	IsDirectoryRestricted bool   `path:"is_directory_restricted" json:"is_directory_restricted"`
+}
+
+func (z Profile) IsActive() bool {
+	return z.Status == StatusActive
+}
+func (z Profile) IsInvited() bool {
+	return z.Status == StatusInvited
+}
+func (z Profile) IsSuspended() bool {
+	return z.Status == StatusSuspended
+}
+func (z Profile) IsRemoved() bool {
+	return z.Status == StatusRemoved
+}
+
+// True when the status is active or suspended.
+func (z Profile) IsAccepted() bool {
+	return z.Status == StatusActive || z.Status == StatusSuspended
 }

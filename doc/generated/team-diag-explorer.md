@@ -1,4 +1,4 @@
-# team diag explorer 
+# team diag explorer
 
 Report whole team information 
 
@@ -6,11 +6,11 @@ Report whole team information
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
 
-| OS       | Path                                                               |
-| -------- | ------------------------------------------------------------------ |
-| Windows  | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+| OS      | Path                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
 Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
@@ -18,63 +18,17 @@ You can delete those files after use if you want to remove it. If you want to ma
 Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
-This command use following access type(s) during the operation:
-* Dropbox Business File access* Dropbox Business Information access
+## Auth scopes
 
-# Usage
-
-This document uses the Desktop folder for command example.
-
-## Run
-
-Windows:
-
-```powershell
-cd $HOME\Desktop
-.\tbx.exe team diag explorer 
-```
-
-macOS, Linux:
-
-```bash
-$HOME/Desktop/tbx team diag explorer 
-```
-
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
-You may find the message like:
-> "tbx" was blocked from use because it is not from an identified developer.
-
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
-
-## Options
-
-| Option  | Description                         | Default |
-|---------|-------------------------------------|---------|
-| `-all`  | Include additional reports          | false   |
-| `-file` | Dropbox Business file access        | default |
-| `-info` | Dropbox Business information access | default |
-| `-mgmt` | Dropbox Business management         | default |
-
-Common options:
-
-| Option            | Description                                                                      | Default              |
-|-------------------|----------------------------------------------------------------------------------|----------------------|
-| `-auto-open`      | Auto open URL or artifact folder                                                 | false                |
-| `-bandwidth-kb`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                   | normal               |
-| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)             | normal               |
-| `-concurrency`    | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`          | Enable debug mode                                                                | false                |
-| `-output`         | Output format (none/text/markdown/json)                                          | text                 |
-| `-proxy`          | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`         | Do not store tokens into a file                                                  | false                |
-| `-workspace`      | Workspace path                                                                   |                      |
+| Label               | Description                         |
+|---------------------|-------------------------------------|
+| business_file       | Dropbox Business File access        |
+| business_info       | Dropbox Business Information access |
+| business_management | Dropbox Business management         |
 
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -90,34 +44,69 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 2. Click 'Allow' (you might have to login first):
 3. Copy the authorisation code:
 Enter the authorisation code
-
 ```
 
-# Proxy configuration
+# Usage
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+This document uses the Desktop folder for command example.
+## Run
+
+Windows:
+```
+cd $HOME\Desktop
+.\tbx.exe team diag explorer 
+```
+
+macOS, Linux:
+```
+$HOME/Desktop/tbx team diag explorer 
+```
+
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
+> "tbx" was blocked from use because it is not from an identified developer.
+
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+
+## Options:
+
+| Option  | Description                         | Default |
+|---------|-------------------------------------|---------|
+| `-all`  | Include additional reports          | false   |
+| `-file` | Dropbox Business file access        | default |
+| `-info` | Dropbox Business information access | default |
+| `-mgmt` | Dropbox Business management         | default |
+
+## Common options:
+
+| Option            | Description                                                                      | Default              |
+|-------------------|----------------------------------------------------------------------------------|----------------------|
+| `-auto-open`      | Auto open URL or artifact folder                                                 | false                |
+| `-bandwidth-kb`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
+| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                   | normal               |
+| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)             | normal               |
+| `-concurrency`    | Maximum concurrency for running operation                                        | Number of processors |
+| `-debug`          | Enable debug mode                                                                | false                |
+| `-output`         | Output format (none/text/markdown/json)                                          | text                 |
+| `-proxy`          | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
+| `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
+| `-secure`         | Do not store tokens into a file                                                  | false                |
+| `-workspace`      | Workspace path                                                                   |                      |
 
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: device 
+## Report: device
+
 This report shows a list of current existing sessions in the team with team member information.
-Report files are generated in three formats like below;
-* `device.csv`
-* `device.xlsx`
-* `device.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`...   
+The command will generate a report in three different formats. `device.csv`, `device.json`, and `device.xlsx`.
 
 | Column                        | Description                                                                          |
 |-------------------------------|--------------------------------------------------------------------------------------|
@@ -146,17 +135,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | os_version                    | The hosting OS version.                                                              |
 | last_carrier                  | Last carrier used by the device.                                                     |
 
-## Report: feature 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
+## Report: feature
+
 This report shows a list of team features and their settings.
-Report files are generated in three formats like below;
-* `feature.csv`
-* `feature.xlsx`
-* `feature.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`...   
+The command will generate a report in three different formats. `feature.csv`, `feature.json`, and `feature.xlsx`.
 
 | Column                      | Description                                       |
 |-----------------------------|---------------------------------------------------|
@@ -166,17 +151,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | has_team_file_events        | Does this team have file events.                  |
 | has_team_selective_sync     | Does this team have team selective sync enabled.  |
 
-## Report: file_request 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
+## Report: file_request
+
 This report shows a list of file requests with the file request owner team member.
-Report files are generated in three formats like below;
-* `file_request.csv`
-* `file_request.xlsx`
-* `file_request.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`...   
+The command will generate a report in three different formats. `file_request.csv`, `file_request.json`, and `file_request.xlsx`.
 
 | Column                      | Description                                                                   |
 |-----------------------------|-------------------------------------------------------------------------------|
@@ -193,17 +174,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | deadline                    | The deadline for this file request.                                           |
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
 
-## Report: group 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
+## Report: group
+
 This report shows a list of groups in the team.
-Report files are generated in three formats like below;
-* `group.csv`
-* `group.xlsx`
-* `group.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`...   
+The command will generate a report in three different formats. `group.csv`, `group.json`, and `group.xlsx`.
 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
@@ -211,17 +188,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
 | member_count          | The number of members in the group.                                                   |
 
-## Report: group_member 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
+## Report: group_member
+
 This report shows a list of groups and their members.
-Report files are generated in three formats like below;
-* `group_member.csv`
-* `group_member.xlsx`
-* `group_member.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`...   
+The command will generate a report in three different formats. `group_member.csv`, `group_member.json`, and `group_member.xlsx`.
 
 | Column                | Description                                                                           |
 |-----------------------|---------------------------------------------------------------------------------------|
@@ -233,17 +206,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | surname               | Also known as a last name or family name.                                             |
 | given_name            | Also known as a first name                                                            |
 
-## Report: info 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
+## Report: info
+
 This report shows a list of team information.
-Report files are generated in three formats like below;
-* `info.csv`
-* `info.xlsx`
-* `info.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`...   
+The command will generate a report in three different formats. `info.csv`, `info.json`, and `info.xlsx`.
 
 | Column                      | Description                                                                                                   |
 |-----------------------------|---------------------------------------------------------------------------------------------------------------|
@@ -257,17 +226,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | policy_emm_state            | This describes the Enterprise Mobility Management (EMM) state for this team (disabled, optional, or required) |
 | policy_office_add_in        | The admin policy around the Dropbox Office Add-In for this team (disabled, or enabled)                        |
 
-## Report: linked_app 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
+## Report: linked_app
+
 This report shows a list of linked app with the user of the app.
-Report files are generated in three formats like below;
-* `linked_app.csv`
-* `linked_app.xlsx`
-* `linked_app.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`...   
+The command will generate a report in three different formats. `linked_app.csv`, `linked_app.json`, and `linked_app.xlsx`.
 
 | Column        | Description                                                                          |
 |---------------|--------------------------------------------------------------------------------------|
@@ -282,17 +247,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | publisher_url | The application publisher name.                                                      |
 | linked        | The time this application was linked                                                 |
 
-## Report: member 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
+## Report: member
+
 This report shows a list of members.
-Report files are generated in three formats like below;
-* `member.csv`
-* `member.xlsx`
-* `member.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`...   
+The command will generate a report in three different formats. `member.csv`, `member.json`, and `member.xlsx`.
 
 | Column         | Description                                                                                    |
 |----------------|------------------------------------------------------------------------------------------------|
@@ -305,34 +266,26 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | joined_on      | The date and time the user joined as a member of a specific team.                              |
 | role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 
-## Report: member_quota 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+## Report: member_quota
+
 This report shows a list of custom quota settings for each team members.
-Report files are generated in three formats like below;
-* `member_quota.csv`
-* `member_quota.xlsx`
-* `member_quota.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`...   
+The command will generate a report in three different formats. `member_quota.csv`, `member_quota.json`, and `member_quota.xlsx`.
 
 | Column | Description                                                                 |
 |--------|-----------------------------------------------------------------------------|
 | email  | Email address of user.                                                      |
 | quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. |
 
-## Report: namespace 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
+## Report: namespace
+
 This report shows a list of namespaces in the team.
-Report files are generated in three formats like below;
-* `namespace.csv`
-* `namespace.xlsx`
-* `namespace.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`...   
+The command will generate a report in three different formats. `namespace.csv`, `namespace.json`, and `namespace.xlsx`.
 
 | Column         | Description                                                                                |
 |----------------|--------------------------------------------------------------------------------------------|
@@ -340,17 +293,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | namespace_type | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
 | team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
 
-## Report: namespace_file 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
+## Report: namespace_file
+
 This report shows a list of namespaces in the team.
-Report files are generated in three formats like below;
-* `namespace_file.csv`
-* `namespace_file.xlsx`
-* `namespace_file.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`...   
+The command will generate a report in three different formats. `namespace_file.csv`, `namespace_file.json`, and `namespace_file.xlsx`.
 
 | Column                 | Description                                                                                            |
 |------------------------|--------------------------------------------------------------------------------------------------------|
@@ -364,17 +313,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | server_modified        | The last time the file was modified on Dropbox.                                                        |
 | size                   | The file size in bytes.                                                                                |
 
-## Report: namespace_member 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+## Report: namespace_member
+
 This report shows a list of members of namespaces in the team.
-Report files are generated in three formats like below;
-* `namespace_member.csv`
-* `namespace_member.xlsx`
-* `namespace_member.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`...   
+The command will generate a report in three different formats. `namespace_member.csv`, `namespace_member.json`, and `namespace_member.xlsx`.
 
 | Column             | Description                                                                                               |
 |--------------------|-----------------------------------------------------------------------------------------------------------|
@@ -387,17 +332,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | group_name         | Name of the group                                                                                         |
 | invitee_email      | Email address of invitee for this folder                                                                  |
 
-## Report: namespace_size 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
+## Report: namespace_size
+
 This report shows the transaction result.
-Report files are generated in three formats like below;
-* `namespace_size.csv`
-* `namespace_size.xlsx`
-* `namespace_size.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`...   
+The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
 
 | Column                  | Description                                                                                |
 |-------------------------|--------------------------------------------------------------------------------------------|
@@ -412,17 +353,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.size             | Size of the folder                                                                         |
 | result.api_complexity   | Folder complexity index for API operations                                                 |
 
-## Report: shared_link 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+## Report: shared_link
+
 This report shows a list of shared links with the shared link owner team member.
-Report files are generated in three formats like below;
-* `shared_link.csv`
-* `shared_link.xlsx`
-* `shared_link.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`...   
+The command will generate a report in three different formats. `shared_link.csv`, `shared_link.json`, and `shared_link.xlsx`.
 
 | Column     | Description                                                                                                                                                                                                             |
 |------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -437,17 +374,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | surname    | Surname of the link owner                                                                                                                                                                                               |
 | given_name | Given name of the link owner                                                                                                                                                                                            |
 
-## Report: team_folder 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+## Report: team_folder
+
 This report shows a list of team folders in the team.
-Report files are generated in three formats like below;
-* `team_folder.csv`
-* `team_folder.xlsx`
-* `team_folder.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`...   
+The command will generate a report in three different formats. `team_folder.csv`, `team_folder.json`, and `team_folder.xlsx`.
 
 | Column                 | Description                                                                                |
 |------------------------|--------------------------------------------------------------------------------------------|
@@ -456,17 +389,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | is_team_shared_dropbox |                                                                                            |
 | sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
-## Report: usage 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
+## Report: usage
+
 This report shows current storage usage of users.
-Report files are generated in three formats like below;
-* `usage.csv`
-* `usage.xlsx`
-* `usage.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`...   
+The command will generate a report in three different formats. `usage.csv`, `usage.json`, and `usage.xlsx`.
 
 | Column     | Description                                              |
 |------------|----------------------------------------------------------|
@@ -475,4 +404,12 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | used_bytes | The user's total space usage (bytes).                    |
 | allocation | The user's space allocation (individual, or team)        |
 | allocated  | The total space allocated to the user's account (bytes). |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `usage_0000.xlsx`, `usage_0001.xlsx`, `usage_0002.xlsx`, ...
+
+# Proxy configuration
+
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

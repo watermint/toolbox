@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"reflect"
 	"strings"
 )
@@ -29,7 +29,7 @@ func ParseModel(v interface{}, j gjson.Result) error {
 	vv := reflect.ValueOf(v).Elem()
 	vt := vv.Type()
 
-	l := es_log.Default().With(es_log.String("valueType", vt.Name()))
+	l := esl.Default().With(esl.String("valueType", vt.Name()))
 
 	for i := vt.NumField() - 1; i >= 0; i-- {
 		vtf := vt.Field(i)
@@ -54,7 +54,7 @@ func ParseModel(v interface{}, j gjson.Result) error {
 		jv := j.Get(path)
 		if !jv.Exists() {
 			if required {
-				l.Error("Missing required field", es_log.String("field", vtf.Name), es_log.String("path", p))
+				l.Error("Missing required field", esl.String("field", vtf.Name), esl.String("path", p))
 				return errors.New("missing required field")
 			}
 			continue
@@ -73,7 +73,7 @@ func ParseModel(v interface{}, j gjson.Result) error {
 			vvf.SetFloat(jv.Float())
 
 		default:
-			l.Error("unexpected type found", es_log.String("type.kind", vtf.Type.Kind().String()))
+			l.Error("unexpected type found", esl.String("type.kind", vtf.Type.Kind().String()))
 			return errors.New("unexpected type found")
 		}
 	}
@@ -95,7 +95,7 @@ func ParseModelPathRaw(v interface{}, j json.RawMessage, path string) error {
 func CombineRaw(raws map[string]json.RawMessage) json.RawMessage {
 	b, err := json.Marshal(raws)
 	if err != nil {
-		es_log.Default().Error("Unable to marshal", es_log.Error(err))
+		esl.Default().Error("Unable to marshal", esl.Error(err))
 		return json.RawMessage("{}")
 	}
 	return b

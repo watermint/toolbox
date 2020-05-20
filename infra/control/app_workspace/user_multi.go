@@ -1,7 +1,7 @@
 package app_workspace
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
 )
 
@@ -25,7 +25,7 @@ func NewMultiApp(home string) (Application, error) {
 
 func NewMultiUser(app Application, userHash string) (MultiUser, error) {
 	mu := &multiUser{
-		home: filepath.Join(app.Home(), nameUser, userHash),
+		home: filepath.Join(app.Home(), NameUser, userHash),
 	}
 	err := mu.setup()
 	if err != nil {
@@ -68,7 +68,7 @@ func (z *multiUser) UserHome() string {
 }
 
 func (z *multiUser) Secrets() string {
-	return filepath.Join(z.UserHome(), nameSecrets)
+	return filepath.Join(z.UserHome(), NameSecrets)
 }
 
 func (z *multiUser) setup() error {
@@ -89,19 +89,19 @@ type multiJob struct {
 }
 
 func (z *multiJob) KVS() string {
-	t, err := z.Descendant(nameKvs)
+	t, err := z.Descendant(NameKvs)
 	if err != nil {
-		es_log.Default().Error("Unable to create KVS folder", es_log.Error(err))
-		t = filepath.Join(z.Job(), nameKvs)
+		esl.Default().Error("Unable to create KVS folder", esl.Error(err))
+		t = filepath.Join(z.Job(), NameKvs)
 	}
 	return t
 }
 
 func (z *multiJob) Test() string {
-	t, err := z.Descendant(nameTest)
+	t, err := z.Descendant(NameTest)
 	if err != nil {
-		es_log.Default().Error("Unable to create test folder", es_log.Error(err))
-		t = filepath.Join(z.Job(), nameTest)
+		esl.Default().Error("Unable to create test folder", esl.Error(err))
+		t = filepath.Join(z.Job(), NameTest)
 	}
 	return t
 }
@@ -115,7 +115,7 @@ func (z *multiJob) Secrets() string {
 }
 
 func (z *multiJob) Job() string {
-	return filepath.Join(z.user.UserHome(), nameJobs, z.JobId())
+	return filepath.Join(z.user.UserHome(), NameJobs, z.JobId())
 }
 
 func (z *multiJob) JobId() string {
@@ -123,11 +123,11 @@ func (z *multiJob) JobId() string {
 }
 
 func (z *multiJob) Report() string {
-	return filepath.Join(z.Job(), nameReport)
+	return filepath.Join(z.Job(), NameReport)
 }
 
 func (z *multiJob) Log() string {
-	return filepath.Join(z.Job(), nameLogs)
+	return filepath.Join(z.Job(), NameLogs)
 }
 
 func (z *multiJob) Descendant(name string) (path string, err error) {

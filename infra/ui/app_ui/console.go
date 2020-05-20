@@ -1,9 +1,8 @@
 package app_ui
 
 import (
-	"bytes"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/essentials/terminal/es_color"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
@@ -15,7 +14,7 @@ import (
 	"strings"
 )
 
-func NewDiscard(mc app_msg_container.Container, lg es_log.Logger) UI {
+func NewDiscard(mc app_msg_container.Container, lg esl.Logger) UI {
 	out := ioutil.Discard
 	return NewConsole(
 		mc,
@@ -25,7 +24,7 @@ func NewDiscard(mc app_msg_container.Container, lg es_log.Logger) UI {
 	)
 }
 
-func NewConsole(mc app_msg_container.Container, lg es_log.Logger, wr io.Writer, dg es_dialogue.Dialogue) UI {
+func NewConsole(mc app_msg_container.Container, lg esl.Logger, wr io.Writer, dg es_dialogue.Dialogue) UI {
 	return NewProxy(
 		&conImpl{
 			mc: mc,
@@ -34,22 +33,6 @@ func NewConsole(mc app_msg_container.Container, lg es_log.Logger, wr io.Writer, 
 		},
 		lg,
 	)
-}
-
-func MakeConsoleDemo(mc app_msg_container.Container, f func(ui UI)) string {
-	var buf bytes.Buffer
-	lg := es_log.Default()
-	ui := NewProxy(
-		&conImpl{
-			mc: mc,
-			wr: &buf,
-			dg: es_dialogue.DenyAll(),
-		},
-		lg,
-	)
-	f(ui)
-
-	return buf.String()
 }
 
 type MsgConsole struct {
@@ -104,6 +87,10 @@ func (z conImpl) InfoTable(name string) Table {
 
 func (z conImpl) Error(m app_msg.Message) {
 	es_color.Colorfln(z.wr, es_color.ColorRed, false, z.mc.Compile(m))
+}
+
+func (z conImpl) Quote(m app_msg.Message) {
+	es_color.Colorfln(z.wr, es_color.ColorGreen, false, z.mc.Compile(m))
 }
 
 func (z conImpl) Break() {

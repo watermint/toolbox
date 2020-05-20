@@ -3,7 +3,7 @@ package api_auth_impl
 import (
 	"context"
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/app"
@@ -42,7 +42,7 @@ func (z *Redirect) PeerName() string {
 }
 
 func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
-	l := z.ctl.Log().With(es_log.String("scope", scope), es_log.String("peerName", z.peerName))
+	l := z.ctl.Log().With(esl.String("scope", scope), esl.String("peerName", z.peerName))
 	ui := z.ctl.UI()
 
 	if f, found := z.ctl.Feature().OptInGet(&OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
@@ -64,7 +64,7 @@ func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 
 	l.Debug("Starting sequence")
 	if err := cb.Flow(); err != nil {
-		l.Debug("Failure on the flow", es_log.Error(err))
+		l.Debug("Failure on the flow", esl.Error(err))
 		return nil, err
 	}
 
@@ -74,7 +74,7 @@ func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 		return nil, ErrorOAuthSequenceStopped
 	}
 	if !result {
-		l.Debug("Auth failure", es_log.Error(err))
+		l.Debug("Auth failure", esl.Error(err))
 		if err != nil {
 			return nil, err
 		} else {
@@ -117,7 +117,7 @@ func (z *RedirectService) Result() (done, result bool, err error) {
 }
 
 func (z *RedirectService) Url(redirectUrl string) string {
-	l := z.ctl.Log().With(es_log.String("peerName", z.peerName), es_log.String("scope", z.scope))
+	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.String("scope", z.scope))
 	cfg := z.app.Config(z.scope)
 	url := cfg.AuthCodeURL(
 		z.state,
@@ -125,25 +125,25 @@ func (z *RedirectService) Url(redirectUrl string) string {
 		oauth2.SetAuthURLParam("response_type", "code"),
 		oauth2.SetAuthURLParam("redirect_uri", redirectUrl),
 	)
-	l.Debug("generated url", es_log.String("url", url))
+	l.Debug("generated url", esl.String("url", url))
 	z.redirectUrl = redirectUrl
 	return url
 }
 
 func (z *RedirectService) Verify(state, code string) bool {
-	l := z.ctl.Log().With(es_log.String("peerName", z.peerName), es_log.String("scope", z.scope))
+	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.String("scope", z.scope))
 
 	if z.state != state {
-		l.Debug("invalid state (csrf token)", es_log.String("given", state), es_log.String("expected", z.state))
+		l.Debug("invalid state (csrf token)", esl.String("given", state), esl.String("expected", z.state))
 		return false
 	}
 
 	cfg := z.app.Config(z.scope)
 	cfg.RedirectURL = z.redirectUrl
-	l.Debug("exchange", es_log.String("redirect", z.redirectUrl), es_log.Any("cfg", cfg))
+	l.Debug("exchange", esl.String("redirect", z.redirectUrl), esl.Any("cfg", cfg))
 	token, err := cfg.Exchange(context.Background(), code)
 	if err != nil {
-		l.Debug("Verification failure", es_log.Error(err))
+		l.Debug("Verification failure", esl.Error(err))
 		t := false
 		z.token = nil
 		z.result = &t

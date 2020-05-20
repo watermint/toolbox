@@ -1,9 +1,27 @@
 package app_workspace
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
 )
+
+func newWorkspace(home string) (Workspace, error) {
+	sw := &singleWorkspace{
+		home:  home,
+		jobId: NewJobId(),
+	}
+	if err := sw.setup(); err != nil {
+		return nil, err
+	}
+	return sw, nil
+}
+
+func newWorkspaceWithJobIdNoSetup(home, jobId string) Workspace {
+	return &singleWorkspace{
+		home:  home,
+		jobId: jobId,
+	}
+}
 
 type singleWorkspace struct {
 	home  string
@@ -43,15 +61,15 @@ func (z *singleWorkspace) Home() string {
 }
 
 func (z *singleWorkspace) Log() string {
-	return filepath.Join(z.Job(), nameLogs)
+	return filepath.Join(z.Job(), NameLogs)
 }
 
 func (z *singleWorkspace) Secrets() string {
-	return filepath.Join(z.home, nameSecrets)
+	return filepath.Join(z.home, NameSecrets)
 }
 
 func (z *singleWorkspace) Job() string {
-	return filepath.Join(z.home, nameJobs, z.jobId)
+	return filepath.Join(z.home, NameJobs, z.jobId)
 }
 
 func (z *singleWorkspace) Descendant(name string) (path string, err error) {
@@ -59,23 +77,23 @@ func (z *singleWorkspace) Descendant(name string) (path string, err error) {
 }
 
 func (z *singleWorkspace) Report() string {
-	return filepath.Join(z.Job(), nameReport)
+	return filepath.Join(z.Job(), NameReport)
 }
 
 func (z *singleWorkspace) KVS() string {
-	t, err := z.Descendant(nameKvs)
+	t, err := z.Descendant(NameKvs)
 	if err != nil {
-		es_log.Default().Error("Unable to create KVS folder", es_log.Error(err))
-		t = filepath.Join(z.Job(), nameKvs)
+		esl.Default().Error("Unable to create KVS folder", esl.Error(err))
+		t = filepath.Join(z.Job(), NameKvs)
 	}
 	return t
 }
 
 func (z *singleWorkspace) Test() string {
-	t, err := z.Descendant(nameTest)
+	t, err := z.Descendant(NameTest)
 	if err != nil {
-		es_log.Default().Error("Unable to create test folder", es_log.Error(err))
-		t = filepath.Join(z.Job(), nameTest)
+		esl.Default().Error("Unable to create test folder", esl.Error(err))
+		t = filepath.Join(z.Job(), NameTest)
 	}
 	return t
 }

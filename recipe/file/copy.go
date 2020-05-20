@@ -26,6 +26,18 @@ func (z *Copy) Exec(c app_control.Control) error {
 }
 
 func (z *Copy) Test(c app_control.Control) error {
+	// replay test
+	{
+		err := rc_exec.ExecReplay(c, &Copy{}, "recipe-file-copy.json.gz", func(r rc_recipe.Recipe) {
+			m := r.(*Copy)
+			m.Src = qtr_endtoend.NewTestDropboxFolderPath("src")
+			m.Dst = qtr_endtoend.NewTestDropboxFolderPath("dst")
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	err := rc_exec.ExecMock(c, &Copy{}, func(r rc_recipe.Recipe) {
 		m := r.(*Copy)
 		m.Src = qtr_endtoend.NewTestDropboxFolderPath("src")

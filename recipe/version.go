@@ -17,6 +17,7 @@ type VersionInfo struct {
 }
 
 type Version struct {
+	rc_recipe.RemarkTransient
 	Versions        rp_model.RowReport
 	HeaderAppHash   app_msg.Message
 	HeaderBuildTime app_msg.Message

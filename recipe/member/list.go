@@ -13,8 +13,9 @@ import (
 )
 
 type List struct {
-	Peer   dbx_conn.ConnBusinessInfo
-	Member rp_model.RowReport
+	Peer           dbx_conn.ConnBusinessInfo
+	Member         rp_model.RowReport
+	IncludeDeleted bool
 }
 
 func (z *List) Preset() {
@@ -34,6 +35,9 @@ func (z *List) Preset() {
 }
 
 func (z *List) Test(c app_control.Control) error {
+	if err := rc_exec.ExecReplay(c, &List{}, "recipe-member-list.json.gz", rc_recipe.NoCustomValues); err != nil {
+		return err
+	}
 	if err := rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
@@ -46,7 +50,7 @@ func (z *List) Test(c app_control.Control) error {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Context()).List(sv_member.IncludeDeleted(z.IncludeDeleted))
 	if err != nil {
 		return err
 	}

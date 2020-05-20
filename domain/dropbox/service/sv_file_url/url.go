@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	url2 "net/url"
 	"path/filepath"
@@ -25,7 +25,7 @@ func New(ctx dbx_context.Context) Url {
 func PathWithName(base mo_path.DropboxPath, url string) (path mo_path.DropboxPath) {
 	u, err := url2.Parse(url)
 	if err != nil {
-		es_log.Default().Debug("Unable to parse url", es_log.Error(err), es_log.String("url", url))
+		esl.Default().Debug("Unable to parse url", esl.Error(err), esl.String("url", url))
 		n := filepath.Base(url)
 		return base.ChildPath(n)
 	}

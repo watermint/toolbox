@@ -2,12 +2,12 @@ package gh_request
 
 import (
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/network/nw_client"
 	"net/http"
 )
 
@@ -26,16 +26,16 @@ type Builder struct {
 	data   api_request.RequestData
 }
 
-func (z Builder) Log() es_log.Logger {
+func (z Builder) Log() esl.Logger {
 	l := z.ctl.Log()
 	if z.method != "" {
-		l = l.With(es_log.String("method", z.method))
+		l = l.With(esl.String("method", z.method))
 	}
 	if z.url != "" {
-		l = l.With(es_log.String("url", z.url))
+		l = l.With(esl.String("url", z.url))
 	}
 	if z.token != nil {
-		l = l.With(es_log.String("scope", z.token.Scope()))
+		l = l.With(esl.String("scope", z.token.Scope()))
 	}
 	return l
 }
@@ -107,7 +107,7 @@ func (z Builder) Build() (*http.Request, error) {
 	rc := z.reqContent()
 	req, err := nw_client.NewHttpRequest(z.method, url, rc)
 	if err != nil {
-		l.Debug("Unable create request", es_log.Error(err))
+		l.Debug("Unable create request", esl.Error(err))
 		return nil, err
 	}
 	headers := z.reqHeaders()

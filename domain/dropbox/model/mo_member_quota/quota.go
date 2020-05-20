@@ -3,7 +3,7 @@ package mo_member_quota
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
@@ -46,7 +46,7 @@ func NewMemberQuota(member *mo_member.Member, quota *Quota) (mq *MemberQuota) {
 
 	mq = &MemberQuota{}
 	if err := api_parser.ParseModelRaw(mq, raw); err != nil {
-		es_log.Default().Warn("unexpected data format", es_log.Error(err))
+		esl.Default().Warn("unexpected data format", esl.Error(err))
 		// return empty
 		return mq
 	}

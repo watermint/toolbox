@@ -2,7 +2,7 @@ package app_ui
 
 import (
 	"github.com/watermint/toolbox/essentials/collections/es_number"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"testing"
@@ -13,7 +13,7 @@ func TestConImpl(t *testing.T) {
 	mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{
 		m.Key(): "Ping {{.Message}}",
 	})
-	lg := es_log.Default()
+	lg := esl.Default()
 	c := NewDiscard(mc, lg)
 	c.Header(m)
 	c.SubHeader(m)
@@ -27,6 +27,7 @@ func TestConImpl(t *testing.T) {
 	c.Success(m)
 	c.Failure(m)
 	c.Progress(m)
+	c.Quote(m)
 	c.Code("puts 'hello'")
 	c.IsConsole()
 	c.IsWeb()

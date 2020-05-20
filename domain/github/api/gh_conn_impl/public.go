@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_auth"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -12,8 +13,12 @@ type ConnGithubPublic struct {
 	ctl  app_control.Control
 }
 
+func (z *ConnGithubPublic) ServiceName() string {
+	return api_conn.ServiceGithub
+}
+
 func (z *ConnGithubPublic) ScopeLabel() string {
-	return gh_auth.ScopeNoScope
+	return gh_auth.ScopeLabelPublic
 }
 
 func (z *ConnGithubPublic) PeerName() string {

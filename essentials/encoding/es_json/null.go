@@ -12,6 +12,10 @@ func Null() Json {
 type nullImpl struct {
 }
 
+func (z nullImpl) RawString() string {
+	return ""
+}
+
 func (z nullImpl) FindArrayEach(path string, f func(e Json) error) error {
 	return ErrorNotFound
 }

@@ -1,13 +1,14 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 )
@@ -18,6 +19,7 @@ type TeamScanner struct {
 	teamOwnedNamespaces map[string]bool
 	scanner             ScanNamespace
 	queue               rc_worker.Queue
+	filter              mo_filter.Filter
 }
 
 func (z *TeamScanner) namespacesOfTeam() error {
@@ -28,7 +30,7 @@ func (z *TeamScanner) namespacesOfTeam() error {
 	if err != nil {
 		return err
 	}
-	l = l.With(es_log.String("admin", admin.Email))
+	l = l.With(esl.String("admin", admin.Email))
 
 	l.Debug("Scanning team folders")
 	teamfolders, err := sv_teamfolder.New(z.ctx).List()
@@ -46,13 +48,20 @@ func (z *TeamScanner) namespacesOfTeam() error {
 	z.teamOwnedNamespaces = make(map[string]bool)
 	teamOwnedNamespaceWithName := make(map[string]string)
 	for _, f := range teamfolders {
-		z.teamOwnedNamespaces[f.TeamFolderId] = true
-		teamOwnedNamespaceWithName[f.TeamFolderId] = f.Name
+		if z.filter.Accept(f.Name) {
+			z.teamOwnedNamespaces[f.TeamFolderId] = true
+			teamOwnedNamespaceWithName[f.TeamFolderId] = f.Name
+		}
 	}
 	for _, n := range namespaces {
+		if !z.filter.Accept(n.Name) {
+			l.Debug("Skip folder that unmatched to filter condition", esl.String("name", n.Name))
+			continue
+		}
+
 		switch n.NamespaceType {
 		case "app_folder", "team_member_folder":
-			l.Debug("Skip non-shared namespace", es_log.Any("namespace", n))
+			l.Debug("Skip non-shared namespace", esl.Any("namespace", n))
 
 		default:
 			z.teamOwnedNamespaces[n.NamespaceId] = true
@@ -76,6 +85,7 @@ func (z *TeamScanner) namespaceOfMember(member *mo_member.Member) error {
 		Context:             z.ctx.AsMemberId(member.TeamMemberId),
 		TeamOwnedNamespaces: z.teamOwnedNamespaces,
 		Scanner:             z.scanner,
+		Folder:              z.filter,
 	})
 	return nil
 }

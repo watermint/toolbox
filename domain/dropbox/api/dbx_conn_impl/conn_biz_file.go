@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -16,6 +17,10 @@ type connBusinessFile struct {
 	name   string
 	verify bool
 	ctx    dbx_context.Context
+}
+
+func (z *connBusinessFile) ServiceName() string {
+	return api_conn.ServiceDropboxBusiness
 }
 
 func (z *connBusinessFile) SetPreVerify(enabled bool) {

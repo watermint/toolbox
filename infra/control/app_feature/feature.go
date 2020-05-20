@@ -3,8 +3,10 @@ package app_feature
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os/user"
 	"time"
@@ -15,10 +17,11 @@ type Feature interface {
 	IsDebug() bool
 	IsTest() bool
 	IsTestWithMock() bool
+	IsTestWithReplay() (replay []nw_replay.Response, enabled bool)
 	IsQuiet() bool
 	IsSecure() bool
-	IsLowMemory() bool
 	IsAutoOpen() bool
+	IsTransient() bool
 
 	// UI format
 	UIFormat() string
@@ -30,10 +33,10 @@ type Feature interface {
 	Home() string
 
 	// Budget for memory usage
-	BudgetMemory() string
+	BudgetMemory() app_budget.Budget
 
 	// Budget for storage usage
-	BudgetStorage() string
+	BudgetStorage() app_budget.Budget
 
 	// Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)
@@ -44,11 +47,14 @@ type Feature interface {
 	// With test mode
 	AsTest(useMock bool) Feature
 
+	// With test mode
+	AsReplayTest(replay []nw_replay.Response) Feature
+
 	// With quiet mode, but this will not guarantee UI/log are converted into quiet mode.
 	AsQuiet() Feature
 
 	// Console log level
-	ConsoleLogLevel() es_log.Level
+	ConsoleLogLevel() esl.Level
 }
 
 type OptIn interface {

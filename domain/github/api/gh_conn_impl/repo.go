@@ -5,8 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -23,14 +24,18 @@ type ConnGithubRepo struct {
 	ctx  gh_context.Context
 }
 
+func (z *ConnGithubRepo) ServiceName() string {
+	return api_conn.ServiceGithub
+}
+
 func (z *ConnGithubRepo) ScopeLabel() string {
-	return gh_auth.ScopeRepo
+	return gh_auth.ScopeLabelRepo
 }
 
 func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 	l := ctl.Log()
 	ui := ctl.UI()
-	scope := z.ScopeLabel()
+	scope := gh_auth.ScopeRepo
 
 	if ctl.Feature().IsTestWithMock() {
 		l.Debug("Test with mock")
@@ -51,7 +56,7 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 		l.Debug("Enable cache")
 		a = api_auth_impl.NewConsoleCache(ctl, a)
 	}
-	l.Debug("Start auth sequence", es_log.String("scope", scope))
+	l.Debug("Start auth sequence", esl.String("scope", scope))
 	ac, err := a.Auth(scope)
 	if err != nil {
 		return err

@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
@@ -30,7 +30,7 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	for _, tt := range tts {
 		_, err := ConnectTest(tt, app.PeerEndToEndTest, ctl)
 		if err != nil {
-			ctl.Log().Debug("Token is not available for the token type", es_log.String("tokenType", tt), es_log.Error(err))
+			ctl.Log().Debug("Token is not available for the token type", esl.String("tokenType", tt), esl.Error(err))
 			return false
 		}
 	}
@@ -38,14 +38,14 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 }
 
 func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx dbx_context.Context, err error) {
-	l := ctl.Log().With(es_log.String("tokenType", tokenType), es_log.String("peerName", peerName))
+	l := ctl.Log().With(esl.String("tokenType", tokenType), esl.String("peerName", peerName))
 	l.Debug("Connect for testing")
 	if qt_endtoend.IsSkipEndToEndTest() {
 		return nil, qt_errors.ErrorSkipEndToEndTest
 	}
 	peers := []string{peerName, app.PeerEndToEndTest}
 	for _, peer := range peers {
-		l.Debug("Retrieve cache from peer", es_log.String("peer", peer))
+		l.Debug("Retrieve cache from peer", esl.String("peer", peer))
 		a := api_auth_impl.NewConsoleCacheOnly(ctl, peer)
 		if c, err := a.Auth(tokenType); err == nil {
 			return dbx_context_impl.New(ctl, c), nil
@@ -55,12 +55,16 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx dbx_c
 }
 
 func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx dbx_context.Context, err error) {
-	l := ctl.Log().With(es_log.String("tokenType", tokenType), es_log.String("peerName", peerName))
+	l := ctl.Log().With(esl.String("tokenType", tokenType), esl.String("peerName", peerName))
 	ui := ctl.UI()
 
 	if ctl.Feature().IsTestWithMock() {
 		l.Debug("Test with mock")
 		return dbx_context_impl.NewMock(ctl), nil
+	}
+	if replay, enabled := ctl.Feature().IsTestWithReplay(); enabled {
+		l.Debug("Test with replay")
+		return dbx_context_impl.NewReplayMock(ctl, replay), nil
 	}
 
 	switch {

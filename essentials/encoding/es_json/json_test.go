@@ -240,3 +240,47 @@ func TestJsonFindModel(t *testing.T) {
 		}
 	}
 }
+
+func TestJsonModelType(t *testing.T) {
+	type Order struct {
+		Code    string `path:"code"`
+		Valid   string `path:"valid"` // string form
+		IsValid bool   `path:"valid"` // bool form
+	}
+
+	// `valid` exists
+	{
+		m := `{"code":"A1234","valid":true}`
+		m1 := &Order{}
+		if j, err := ParseString(m); err != nil {
+			t.Error(err)
+		} else if err := j.Model(m1); err != nil {
+			t.Error(err)
+		} else {
+			if x := m1.IsValid; !x {
+				t.Error(x)
+			}
+			if x := m1.Valid; x != "true" {
+				t.Error(x)
+			}
+		}
+	}
+
+	// `valid` is not exists
+	{
+		m := `{"code":"A1234"}`
+		m1 := &Order{}
+		if j, err := ParseString(m); err != nil {
+			t.Error(err)
+		} else if err := j.Model(m1); err != nil {
+			t.Error(err)
+		} else {
+			if x := m1.IsValid; x {
+				t.Error(x)
+			}
+			if x := m1.Valid; x != "" {
+				t.Error(x)
+			}
+		}
+	}
+}

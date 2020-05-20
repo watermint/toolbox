@@ -11,12 +11,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
-	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -57,13 +57,13 @@ type UserWorker struct {
 }
 
 func (z *UserWorker) Exec() error {
-	l := z.Ctl.Log().With(es_log.String("UserEmail", z.UserEmail))
+	l := z.Ctl.Log().With(esl.String("UserEmail", z.UserEmail))
 	ui := z.Ctl.UI()
 	ui.Info(MUser.ProgressScanningUser.With("Email", z.UserEmail))
 
 	member, err := sv_member.New(z.Context).ResolveByEmail(z.UserEmail)
 	if err != nil {
-		l.Debug("user not found", es_log.Error(err))
+		l.Debug("user not found", esl.Error(err))
 		ui.Error(MUser.ErrorUserNotFound.With("Email", z.UserEmail).With("Error", err))
 		return err
 	}
@@ -73,7 +73,7 @@ func (z *UserWorker) Exec() error {
 			return z.EventCache.Update(func(kvs kv_kvs.Kvs) error {
 				seq, err := kvs.NextSequence(strings.Join([]string{keySeqPrefix, member.Email}, keySeparator))
 				if err != nil {
-					l.Debug("Unable to generate seq", es_log.Error(err))
+					l.Debug("Unable to generate seq", esl.Error(err))
 					// pseudo seq
 					seq = rand.Uint64()
 				}
@@ -81,7 +81,7 @@ func (z *UserWorker) Exec() error {
 				app_ui.ShowProgressWithMessage(ui, MUser.ProgressScanningUserEvent)
 
 				if err = kvs.PutJson(key, event.Raw); err != nil {
-					l.Debug("Unable to store data", es_log.Error(err))
+					l.Debug("Unable to store data", esl.Error(err))
 					return err
 				}
 				return nil
@@ -146,7 +146,7 @@ func (z *User) Exec(c app_control.Control) error {
 	}()
 
 	if err != nil {
-		l.Debug("Failure during reading model", es_log.Error(err))
+		l.Debug("Failure during reading model", esl.Error(err))
 		return err
 	}
 
@@ -157,7 +157,7 @@ func (z *User) Exec(c app_control.Control) error {
 			case len(ks) == 2 && ks[0] == keySeqPrefix:
 				return nil
 			case len(ks) != 3:
-				l.Debug("Invalid key format", es_log.String("key", key), es_log.Strings("ks", ks))
+				l.Debug("Invalid key format", esl.String("key", key), esl.Strings("ks", ks))
 				return errors.New("invalid key format")
 			}
 			//ts := ks[0]
@@ -165,10 +165,10 @@ func (z *User) Exec(c app_control.Control) error {
 			//seq := ks[2]
 			ur := userReps[email]
 
-			ll := l.With(es_log.String("email", email))
+			ll := l.With(esl.String("email", email))
 			ev := &mo_activity.Event{}
 			if err = api_parser.ParseModelRaw(ev, value); err != nil {
-				ll.Debug("Unable to parse model", es_log.Error(err))
+				ll.Debug("Unable to parse model", esl.Error(err))
 				return err
 			}
 			ec := ev.Compatible()

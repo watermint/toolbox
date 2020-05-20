@@ -1,7 +1,7 @@
 package es_http
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"net/http"
 	"sync"
@@ -36,7 +36,7 @@ var (
 	total = &counterImpl{}
 )
 
-func reportLoop(t *time.Ticker, l es_log.Logger) {
+func reportLoop(t *time.Ticker, l esl.Logger) {
 	for n := range t.C {
 		_ = n.Unix()
 		dumpStats(l)
@@ -48,24 +48,24 @@ func Log(req *http.Request, res *http.Response) {
 	total.Log(req, res)
 }
 
-func dumpStats(l es_log.Logger) {
+func dumpStats(l esl.Logger) {
 	cpm, qps, sps := mon.Traffic()
 	tcc, tql, tsl := total.Summary()
 	cc, ql, sl := mon.Summary()
 	l.Debug("Network stats",
-		es_log.Int64("CallPerMin", cpm),
-		es_log.Int64("ReqBytesPerSec", qps),
-		es_log.Int64("ResBytesPerSec", sps),
-		es_log.Int64("IntervalCallCount", cc),
-		es_log.Int64("IntervalReqContentLen", ql),
-		es_log.Int64("IntervalResContentLen", sl),
-		es_log.Int64("TotalCallCount", tcc),
-		es_log.Int64("TotalReqContentLen", tql),
-		es_log.Int64("TotalResContentLen", tsl),
+		esl.Int64("CallPerMin", cpm),
+		esl.Int64("ReqBytesPerSec", qps),
+		esl.Int64("ResBytesPerSec", sps),
+		esl.Int64("IntervalCallCount", cc),
+		esl.Int64("IntervalReqContentLen", ql),
+		esl.Int64("IntervalResContentLen", sl),
+		esl.Int64("TotalCallCount", tcc),
+		esl.Int64("TotalReqContentLen", tql),
+		esl.Int64("TotalResContentLen", tsl),
 	)
 }
 
-func LaunchReporting(l es_log.Logger) {
+func LaunchReporting(l esl.Logger) {
 	t := time.NewTicker(reportInterval)
 	go reportLoop(t, l)
 	app_shutdown.AddShutdownHook(func() {
@@ -73,12 +73,12 @@ func LaunchReporting(l es_log.Logger) {
 	})
 }
 
-func DumpStats(l es_log.Logger) {
+func DumpStats(l esl.Logger) {
 	cc, ql, sl := mon.Summary()
 	l.Debug("Network summary",
-		es_log.Int64("CallCount", cc),
-		es_log.Int64("ReqContentLength", ql),
-		es_log.Int64("ResContentLength", sl),
+		esl.Int64("CallCount", cc),
+		esl.Int64("ReqContentLength", ql),
+		esl.Int64("ResContentLength", sl),
 	)
 }
 

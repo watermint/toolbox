@@ -6,8 +6,8 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/http/es_context"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/essentials/log/es_log"
-	"github.com/watermint/toolbox/infra/network/nw_bandwidth"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -39,8 +39,8 @@ func Read(ctx es_context.Context, resBody io.ReadCloser) (es_response.Body, erro
 
 func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body es_response.Body, err error) {
 	l := ctx.Log().With(
-		es_log.Int("readBufSize", readBufSize),
-		es_log.Int("readChunkSize", readChunkSize))
+		esl.Int("readBufSize", readBufSize),
+		esl.Int("readChunkSize", readChunkSize))
 	// Subtract single chunk size from read buf size, for not to exceed read buffer.
 	readBufSize = readBufSize - readChunkSize
 	if readBufSize < 1 {
@@ -53,14 +53,14 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 	defer func() {
 		// close response body, due to it's a duty of a caller.
 		if err := resBody.Close(); err != nil {
-			l.Debug("Unable to close response body", es_log.Error(err))
+			l.Debug("Unable to close response body", esl.Error(err))
 		}
 	}()
 
 	// ready content into the buffer
 	for {
 		if bodyBuf.Len() > readBufSize {
-			l.Debug("Body size exceeds read buffer size", es_log.Int("readBytes", bodyBuf.Len()))
+			l.Debug("Body size exceeds read buffer size", esl.Int("readBytes", bodyBuf.Len()))
 			break
 		}
 		n, err := io.CopyN(&bodyBuf, bodyReader, int64(readChunkSize))
@@ -76,8 +76,8 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 
 		default:
 			l.Debug("Body read error",
-				es_log.Int("readBytes", bodyBuf.Len()),
-				es_log.Error(err))
+				esl.Int("readBytes", bodyBuf.Len()),
+				esl.Error(err))
 			return nil, err
 		}
 	}
@@ -85,22 +85,22 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 	// Create file
 	bodyFile, err := ioutil.TempFile("", ctx.ClientHash())
 	if err != nil {
-		l.Debug("Unable to create file", es_log.Error(err))
+		l.Debug("Unable to create file", esl.Error(err))
 		return nil, err
 	}
 
 	// Keep the file safer
 	if err := bodyFile.Chmod(0600); err != nil {
-		l.Debug("Unable to change file mode", es_log.Error(err))
+		l.Debug("Unable to change file mode", esl.Error(err))
 		return nil, err
 	}
 
 	cleanupOnError := func() {
 		if err := bodyFile.Close(); err != nil {
-			l.Debug("Error on closing body file", es_log.Error(err))
+			l.Debug("Error on closing body file", esl.Error(err))
 		}
 		if err := os.Remove(bodyFile.Name()); err != nil {
-			l.Debug("Error on removing the file", es_log.Error(err))
+			l.Debug("Error on removing the file", esl.Error(err))
 		}
 	}
 
@@ -109,15 +109,15 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 	fileBuf := bufio.NewWriter(bodyFile)
 	fileBytes, err := io.Copy(fileBuf, &bodyBuf)
 	if err != nil {
-		l.Debug("Unable to write read body buffer", es_log.Error(err))
+		l.Debug("Unable to write read body buffer", esl.Error(err))
 		cleanupOnError()
 		return nil, err
 	}
 
 	if fileBytes != readBodyBufSize {
 		l.Debug("Buffer content mismatch",
-			es_log.Int64("writtenToFile", fileBytes),
-			es_log.Int64("bodyBufferSize", readBodyBufSize))
+			esl.Int64("writtenToFile", fileBytes),
+			esl.Int64("bodyBufferSize", readBodyBufSize))
 		cleanupOnError()
 		return nil, ErrorInvalidBufferState
 	}
@@ -131,13 +131,13 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 		case io.EOF:
 			if err := fileBuf.Flush(); err != nil {
 				l.Debug("Unable to flush content into the file",
-					es_log.Int64("readBytes", fileBytes),
-					es_log.Error(err))
+					esl.Int64("readBytes", fileBytes),
+					esl.Error(err))
 				cleanupOnError()
 				return nil, err
 			}
 			if err := bodyFile.Close(); err != nil {
-				l.Debug("Unable to close file", es_log.Error(err))
+				l.Debug("Unable to close file", esl.Error(err))
 				cleanupOnError()
 				return nil, err
 			}
@@ -151,8 +151,8 @@ func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkS
 
 		default:
 			l.Debug("Body read error",
-				es_log.Int64("readBytes", fileBytes),
-				es_log.Error(err))
+				esl.Int64("readBytes", fileBytes),
+				esl.Error(err))
 			return nil, err
 		}
 	}

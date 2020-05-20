@@ -50,7 +50,7 @@ func (z conTableImpl) Row(m ...app_msg.Message) {
 	z.RowRaw(ms...)
 }
 
-func (z *conTableImpl) RowRaw(m ...string) {
+func (z conTableImpl) RowRaw(m ...string) {
 	z.limiter.Row(func() {
 		_, _ = fmt.Fprintln(z.wr, strings.Join(m, "\t"))
 	})

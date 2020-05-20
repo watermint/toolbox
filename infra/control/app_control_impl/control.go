@@ -2,7 +2,7 @@ package app_control_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/lang"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -22,7 +22,7 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app
 }
 
 func ForkQuiet(ctl app_control.Control, name string) (app_control.Control, error) {
-	wb, err := app_workspace.ForkBundleWithLevel(ctl.WorkBundle(), name, es_log.LevelQuiet)
+	wb, err := app_workspace.ForkBundleWithLevel(ctl.WorkBundle(), name, esl.LevelQuiet)
 	if err != nil {
 		return nil, err
 	}
@@ -36,7 +36,9 @@ func WithForkedQuiet(ctl app_control.Control, name string, f func(c app_control.
 	if err != nil {
 		return err
 	}
-	defer cf.WorkBundle().Close()
+	defer func() {
+		_ = cf.WorkBundle().Close()
+	}()
 	return f(cf)
 }
 
@@ -47,7 +49,7 @@ type ctlImpl struct {
 }
 
 func (z ctlImpl) WithLang(targetLang string) app_control.Control {
-	l := z.Log().With(es_log.String("targetLang", targetLang))
+	l := z.Log().With(esl.String("targetLang", targetLang))
 	usrLang := lang.Select(targetLang, lang.Supported)
 	priority := lang.Priority(usrLang)
 	containers := make(map[lang.Iso639One]app_msg_container.Container)
@@ -56,8 +58,8 @@ func (z ctlImpl) WithLang(targetLang string) app_control.Control {
 		mc, err := app_msg_container_impl.NewSingle(la)
 		if err != nil {
 			l.Debug("Unable to load resource for language",
-				es_log.String("la", la.String()),
-				es_log.Error(err))
+				esl.String("la", la.String()),
+				esl.Error(err))
 			return z
 		}
 		containers[la.Code()] = mc
@@ -107,10 +109,10 @@ func (z ctlImpl) UI() app_ui.UI {
 	return z.ui
 }
 
-func (z ctlImpl) Log() es_log.Logger {
+func (z ctlImpl) Log() esl.Logger {
 	return z.wb.Logger().Logger()
 }
 
-func (z ctlImpl) Capture() es_log.Logger {
+func (z ctlImpl) Capture() esl.Logger {
 	return z.wb.Capture().Logger()
 }

@@ -2,8 +2,10 @@ package rc_spec
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_options"
@@ -71,6 +73,10 @@ type specValueSelfContained struct {
 	repo       rc_recipe.Repository
 }
 
+func (z *specValueSelfContained) SpecId() string {
+	return strings.Join(append(z.path, z.name), "-")
+}
+
 func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 	feeds := make([]*dc_recipe.Feed, 0)
 	feedNames := make([]string, 0)
@@ -111,16 +117,26 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 			dv = app_msg.Raw(z.ValueDefault(vn))
 		}
 		v := z.Value(vn)
-		tn, ta := v.Spec()
-		values = append(values,
-			&dc_recipe.Value{
-				Name:     vn,
-				Default:  ui.Text(dv),
-				Desc:     ui.Text(z.ValueDesc(vn)),
-				TypeName: tn,
-				TypeAttr: ta,
-			},
-		)
+		if v == nil {
+			values = append(values,
+				&dc_recipe.Value{
+					Name:    vn,
+					Default: ui.Text(dv),
+					Desc:    ui.Text(z.ValueDesc(vn)),
+				},
+			)
+		} else {
+			tn, ta := v.Spec()
+			values = append(values,
+				&dc_recipe.Value{
+					Name:     vn,
+					Default:  ui.Text(dv),
+					Desc:     ui.Text(z.ValueDesc(vn)),
+					TypeName: tn,
+					TypeAttr: ta,
+				},
+			)
+		}
 	}
 
 	return &dc_recipe.Recipe{
@@ -134,10 +150,12 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		ConnUsePersonal: z.ConnUsePersonal(),
 		ConnUseBusiness: z.ConnUseBusiness(),
 		ConnScopes:      z.ConnScopeMap(),
+		Services:        z.Services(),
 		IsSecret:        z.IsSecret(),
 		IsConsole:       z.IsConsole(),
 		IsExperimental:  z.IsExperimental(),
 		IsIrreversible:  z.IsIrreversible(),
+		IsTransient:     z.IsTransient(),
 		Feeds:           feeds,
 		Reports:         reports,
 		Values:          values,
@@ -196,6 +214,13 @@ func (z *specValueSelfContained) IsExperimental() bool {
 func (z *specValueSelfContained) IsIrreversible() bool {
 	if z.annotation != nil {
 		return z.annotation.IsIrreversible()
+	}
+	return false
+}
+
+func (z *specValueSelfContained) IsTransient() bool {
+	if z.annotation != nil {
+		return z.annotation.IsTransient()
 	}
 	return false
 }
@@ -289,10 +314,19 @@ func (z *specValueSelfContained) Feeds() map[string]fd_file.Spec {
 	return z.repo.FeedSpecs()
 }
 
+func (z *specValueSelfContained) Services() []string {
+	services := make([]string, 0)
+	conns := z.repo.Conns()
+	for _, c := range conns {
+		services = append(services, c.ServiceName())
+	}
+	return es_array.NewByString(services...).Unique().Sort().AsStringArray()
+}
+
 func (z *specValueSelfContained) ConnUsePersonal() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.IsPersonal() {
+		if c.ServiceName() == api_conn.ServiceDropbox {
 			use = true
 		}
 	}
@@ -302,7 +336,7 @@ func (z *specValueSelfContained) ConnUsePersonal() bool {
 func (z *specValueSelfContained) ConnUseBusiness() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.IsBusiness() {
+		if c.ServiceName() == api_conn.ServiceDropboxBusiness {
 			use = true
 		}
 	}
@@ -323,13 +357,13 @@ func (z *specValueSelfContained) ConnScopes() []string {
 }
 
 func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, err error) {
-	l := ctl.Log().With(es_log.String("name", z.name))
+	l := ctl.Log().With(esl.String("name", z.name))
 	rcp = z.repo.Apply()
 	custom(rcp)
 	z.repo.ApplyCustom()
 	_, err = z.repo.SpinUp(ctl)
 	if err != nil {
-		l.Debug("Unable to spin up", es_log.Error(err))
+		l.Debug("Unable to spin up", esl.Error(err))
 		return nil, err
 	}
 	return rcp, nil

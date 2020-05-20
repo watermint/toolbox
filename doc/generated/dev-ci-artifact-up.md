@@ -1,23 +1,20 @@
-# dev ci artifact up 
+# dev ci artifact up
 
 Upload CI artifact 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev ci artifact up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev ci artifact up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT
 ```
 
@@ -27,7 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option          | Description            | Default |
 |-----------------|------------------------|---------|
@@ -35,7 +32,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-local-path`   | Local path to upload   |         |
 | `-peer-name`    | Account alias          | deploy  |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|
@@ -51,31 +48,20 @@ Common options:
 | `-secure`         | Do not store tokens into a file                                                  | false                |
 | `-workspace`      | Workspace path                                                                   |                      |
 
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
-
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: skipped 
+## Report: skipped
+
 This report shows the transaction result.
-Report files are generated in three formats like below;
-* `skipped.csv`
-* `skipped.xlsx`
-* `skipped.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
+The command will generate a report in three different formats. `skipped.csv`, `skipped.json`, and `skipped.xlsx`.
 
 | Column                 | Description                                                                                            |
 |------------------------|--------------------------------------------------------------------------------------------------------|
@@ -90,17 +76,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.size            | The file size in bytes.                                                                                |
 | result.content_hash    | A hash of the file content.                                                                            |
 
-## Report: summary 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+## Report: summary
+
 This report shows a summary of the upload results.
-Report files are generated in three formats like below;
-* `summary.csv`
-* `summary.xlsx`
-* `summary.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
+The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
 | Column           | Description                                         |
 |------------------|-----------------------------------------------------|
@@ -112,17 +94,13 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | num_files_skip   | The number of files skipped or to skip.             |
 | num_api_call     | The number of estimated upload API call for upload. |
 
-## Report: uploaded 
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+## Report: uploaded
+
 This report shows the transaction result.
-Report files are generated in three formats like below;
-* `uploaded.csv`
-* `uploaded.xlsx`
-* `uploaded.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
+The command will generate a report in three different formats. `uploaded.csv`, `uploaded.json`, and `uploaded.xlsx`.
 
 | Column                 | Description                                                                                            |
 |------------------------|--------------------------------------------------------------------------------------------------------|
@@ -136,4 +114,12 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.server_modified | The last time the file was modified on Dropbox.                                                        |
 | result.size            | The file size in bytes.                                                                                |
 | result.content_hash    | A hash of the file content.                                                                            |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+
+# Proxy configuration
+
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

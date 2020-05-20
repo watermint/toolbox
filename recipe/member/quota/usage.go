@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_usage"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_usage"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -38,12 +38,12 @@ type UsageWorker struct {
 func (z *UsageWorker) Exec() error {
 	ui := z.ctl.UI()
 	ui.Progress(MUsage.ProgressScan.With("MemberEmail", z.member.Email))
-	l := z.ctl.Log().With(es_log.Any("member", z.member))
+	l := z.ctl.Log().With(esl.Any("member", z.member))
 	l.Debug("Scanning")
 
 	usage, err := sv_usage.New(z.ctx.AsMemberId(z.member.TeamMemberId)).Resolve()
 	if err != nil {
-		l.Debug("Unable to scan usage data", es_log.Error(err))
+		l.Debug("Unable to scan usage data", esl.Error(err))
 		return err
 	}
 

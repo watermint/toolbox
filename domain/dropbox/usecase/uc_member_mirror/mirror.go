@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
 	"strings"
 )
@@ -28,23 +28,23 @@ type mirrorImpl struct {
 	ctxFileDst dbx_context.Context
 }
 
-func (z *mirrorImpl) log() es_log.Logger {
+func (z *mirrorImpl) log() esl.Logger {
 	return z.ctxFileSrc.Log()
 }
 
 func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
-	l := z.log().With(es_log.String("srcEmail", srcEmail), es_log.String("dstEmail", dstEmail))
+	l := z.log().With(esl.String("srcEmail", srcEmail), esl.String("dstEmail", dstEmail))
 	l.Debug("Start mirroring process")
 
 	l.Debug("Lookup member profiles")
 	srcProfile, err := sv_member.New(z.ctxFileSrc).ResolveByEmail(srcEmail)
 	if err != nil {
-		l.Error("Unable to lookup member", es_log.String("lookupEmail", srcEmail), es_log.Error(err))
+		l.Error("Unable to lookup member", esl.String("lookupEmail", srcEmail), esl.Error(err))
 		return err
 	}
 	dstProfile, err := sv_member.New(z.ctxFileDst).ResolveByEmail(dstEmail)
 	if err != nil {
-		l.Error("Unable to lookup member", es_log.String("lookupEmail", dstEmail), es_log.Error(err))
+		l.Error("Unable to lookup member", esl.String("lookupEmail", dstEmail), esl.Error(err))
 		return err
 	}
 
@@ -55,7 +55,7 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 	// shared folder list of src member (for excluding mirror)
 	sharedFolders, err := sv_sharedfolder.New(z.ctxFileSrc.AsMemberId(srcProfile.TeamMemberId)).List()
 	if err != nil {
-		l.Error("Unable to list shared folders", es_log.Error(err))
+		l.Error("Unable to list shared folders", esl.Error(err))
 		return err
 	}
 
@@ -73,7 +73,7 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 		for _, e := range excludePaths {
 			r, err := filepath.Rel(p, e)
 			if err != nil {
-				l.Error("unable to determine file path", es_log.Error(err))
+				l.Error("unable to determine file path", esl.Error(err))
 			} else {
 				// other side of the folder
 				switch {
@@ -102,7 +102,7 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 	// mirror path
 	var mirrorPath func(p string) error
 	mirrorPath = func(p string) error {
-		ll := l.With(es_log.String("p", p))
+		ll := l.With(esl.String("p", p))
 		path := mo_path.NewDropboxPath(p)
 
 		// mirror path unless the path is or has exclusion path
@@ -113,7 +113,7 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 		ll.Debug("Given path have descendant(s) of exclusion")
 		entries, err := sv_file.NewFiles(ctxFileSrcAsMember).List(path)
 		if err != nil {
-			ll.Error("Unable to list files", es_log.Error(err))
+			ll.Error("Unable to list files", esl.Error(err))
 			return err
 		}
 
@@ -122,7 +122,7 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 		for _, entry := range entries {
 			if folder, e := entry.Folder(); e {
 				if isExclusionPath(folder.PathLower()) {
-					ll.Debug("Skip shared folder", es_log.Any("folder", folder))
+					ll.Debug("Skip shared folder", esl.Any("folder", folder))
 				} else {
 					// recurse into mirror path
 					lastErr = mirrorPath(folder.PathLower())

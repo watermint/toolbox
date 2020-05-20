@@ -1,8 +1,10 @@
 package history
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -10,7 +12,9 @@ import (
 )
 
 type List struct {
-	Log rp_model.RowReport
+	rc_recipe.RemarkTransient
+	Path mo_string.OptionalString
+	Log  rp_model.RowReport
 }
 
 type JobRecord struct {
@@ -22,8 +26,22 @@ type JobRecord struct {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	historian := app_job_impl.NewHistorian(c)
-	histories := historian.Histories()
+	home := ""
+	if z.Path.IsExists() {
+		home = z.Path.Value()
+	}
+
+	// default non transient workspace
+	ws, err := app_workspace.NewWorkspace(home, false)
+	if err != nil {
+		return err
+	}
+
+	historian := app_job_impl.NewHistorian(ws)
+	histories, err := historian.Histories()
+	if err != nil {
+		return err
+	}
 	if err := z.Log.Open(); err != nil {
 		return err
 	}

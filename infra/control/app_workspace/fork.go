@@ -1,7 +1,7 @@
 package app_workspace
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
 	"strings"
 )
@@ -42,7 +42,7 @@ func (z *forkWorkspace) setup() (err error) {
 }
 
 func (z *forkWorkspace) Home() string {
-	return filepath.Join(z.parent.Job(), z.name)
+	return z.parent.Home()
 }
 
 func (z *forkWorkspace) Secrets() string {
@@ -58,29 +58,29 @@ func (z *forkWorkspace) JobId() string {
 }
 
 func (z *forkWorkspace) Log() string {
-	return filepath.Join(z.Job(), nameLogs)
+	return filepath.Join(z.Job(), NameLogs)
 }
 
 func (z *forkWorkspace) Test() string {
-	t, err := z.Descendant(nameTest)
+	t, err := z.Descendant(NameTest)
 	if err != nil {
-		es_log.Default().Error("Unable to create test folder", es_log.Error(err))
-		t = filepath.Join(z.Job(), nameTest)
+		esl.Default().Error("Unable to create test folder", esl.Error(err))
+		t = filepath.Join(z.Job(), NameTest)
 	}
 	return t
 }
 
 func (z *forkWorkspace) KVS() string {
-	t, err := z.Descendant(nameKvs)
+	t, err := z.Descendant(NameKvs)
 	if err != nil {
-		es_log.Default().Error("Unable to create KVS folder", es_log.Error(err))
-		t = filepath.Join(z.Job(), nameKvs)
+		esl.Default().Error("Unable to create KVS folder", esl.Error(err))
+		t = filepath.Join(z.Job(), NameKvs)
 	}
 	return t
 }
 
 func (z *forkWorkspace) Report() string {
-	return filepath.Join(z.Job(), nameReport)
+	return filepath.Join(z.Job(), NameReport)
 }
 
 func (z *forkWorkspace) Descendant(name string) (path string, err error) {

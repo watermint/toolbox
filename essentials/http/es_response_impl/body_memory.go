@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_context"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/essentials/log/es_encode"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/log/esl_encode"
 	"io/ioutil"
 	"os"
 )
@@ -42,7 +42,7 @@ func (z bodyMemoryImpl) BodyString() string {
 func (z bodyMemoryImpl) AsJson() (es_json.Json, error) {
 	l := z.ctx.Log()
 	if !gjson.ValidBytes(z.content) {
-		l.Debug("Invalid bytes", es_log.Any("bytes", es_encode.ByteDigest(z.content)))
+		l.Debug("Invalid bytes", esl.Any("bytes", esl_encode.ByteDigest(z.content)))
 		return nil, es_response.ErrorContentIsNotAJSON
 	}
 	return es_json.Parse(z.content)
@@ -52,24 +52,24 @@ func toFile(ctx es_context.Context, content []byte) (string, error) {
 	l := ctx.Log()
 	p, err := ioutil.TempFile("", ctx.ClientHash())
 	if err != nil {
-		l.Debug("Unable to create temp file", es_log.Error(err))
+		l.Debug("Unable to create temp file", esl.Error(err))
 		return "", err
 	}
 	cleanupOnError := func() {
 		if err := p.Close(); err != nil {
-			l.Debug("unable to close", es_log.Error(err))
+			l.Debug("unable to close", esl.Error(err))
 		}
 		if err := os.Remove(p.Name()); err != nil {
-			l.Debug("unable to remove", es_log.Error(err))
+			l.Debug("unable to remove", esl.Error(err))
 		}
 	}
 	if err := ioutil.WriteFile(p.Name(), content, 0600); err != nil {
-		l.Debug("Unable to write", es_log.Error(err))
+		l.Debug("Unable to write", esl.Error(err))
 		cleanupOnError()
 		return "", err
 	}
 	if err := p.Close(); err != nil {
-		l.Debug("unable to close", es_log.Error(err))
+		l.Debug("unable to close", esl.Error(err))
 		cleanupOnError()
 		return "", err
 	}

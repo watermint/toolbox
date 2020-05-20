@@ -1,4 +1,4 @@
-# team filerequest clone 
+# team filerequest clone
 
 Clone file requests by given data (Experimental, and Irreversible operation)
 
@@ -6,11 +6,11 @@ Clone file requests by given data (Experimental, and Irreversible operation)
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
 
-| OS       | Path                                                               |
-| -------- | ------------------------------------------------------------------ |
-| Windows  | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+| OS      | Path                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
 Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
@@ -18,25 +18,45 @@ You can delete those files after use if you want to remove it. If you want to ma
 Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
-This command use following access type(s) during the operation:
-* Dropbox Business File access
+## Auth scopes
+
+| Label         | Description                  |
+|---------------|------------------------------|
+| business_file | Dropbox Business File access |
+
+# Authorization
+
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
+
+1. Visit the URL for the auth dialogue:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. Click 'Allow' (you might have to login first):
+3. Copy the authorisation code:
+Enter the authorisation code
+```
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe team filerequest clone -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx team filerequest clone -file /PATH/TO/DATA_FILE.csv
 ```
 
@@ -46,14 +66,14 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option  | Description       | Default |
 |---------|-------------------|---------|
 | `-file` | Path to data file |         |
 | `-peer` | Account alias     | default |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|
@@ -73,9 +93,9 @@ Common options:
 
 ## Format: File
 
-This report shows a list of file requests with the file request owner team member. 
+This report shows a list of file requests with the file request owner team member.
 
-| Column                      | Description                                                                   | Value example                                      |
+| Column                      | Description                                                                   | Example                                            |
 |-----------------------------|-------------------------------------------------------------------------------|----------------------------------------------------|
 | account_id                  | Account ID of this file request owner.                                        | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx           |
 | team_member_id              | ID of file request owner user as a member of a team                           | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx          |
@@ -94,59 +114,25 @@ This report shows a list of file requests with the file request owner team membe
 | deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           | seven_days                                         |
 
 The first line is a header line. The program will accept file without the header.
-
-```csv
+```
 account_id,team_member_id,email,status,surname,given_name,file_request_id,url,title,created,is_open,file_count,destination,deadline,deadline_allow_late_uploads
 dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john@example.com,active,Smith,John,xxxxxxxxxxxxxxxxxx,https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx,Photo contest submission,2019-09-20T23:47:33Z,true,3,/Photo contest entries,2019-10-20T23:47:33Z,seven_days
 ```
-
-# Authorization
-
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
-
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2020 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
-
-```
-
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: operation_log 
+## Report: operation_log
+
 This report shows the transaction result.
-Report files are generated in three formats like below;
-* `operation_log.csv`
-* `operation_log.xlsx`
-* `operation_log.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
+The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
 | Column                             | Description                                                                   |
 |------------------------------------|-------------------------------------------------------------------------------|
@@ -176,4 +162,12 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 | result.destination                 | The path of the folder in the Dropbox where uploaded files will be sent       |
 | result.deadline                    | The deadline for this file request.                                           |
 | result.deadline_allow_late_uploads | If set, allow uploads after the deadline has passed                           |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+
+# Proxy configuration
+
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

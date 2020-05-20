@@ -1,7 +1,7 @@
 package es_memory
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"runtime"
 	"time"
@@ -11,14 +11,14 @@ const (
 	reportInterval = 5 * 1000 * time.Millisecond
 )
 
-func reportLoop(t *time.Ticker, l es_log.Logger) {
+func reportLoop(t *time.Ticker, l esl.Logger) {
 	for n := range t.C {
 		_ = n.Unix()
 		DumpMemStats(l)
 	}
 }
 
-func LaunchReporting(l es_log.Logger) {
+func LaunchReporting(l esl.Logger) {
 	t := time.NewTicker(reportInterval)
 	go reportLoop(t, l)
 	app_shutdown.AddShutdownHook(func() {
@@ -26,30 +26,30 @@ func LaunchReporting(l es_log.Logger) {
 	})
 }
 
-func DumpMemStats(l es_log.Logger) {
+func DumpMemStats(l esl.Logger) {
 	var mem runtime.MemStats
 	runtime.ReadMemStats(&mem)
-	l.Debug("Sys", es_log.Uint64("Sys", mem.Sys), es_log.Uint64("OtherSys", mem.OtherSys))
+	l.Debug("Sys", esl.Uint64("Sys", mem.Sys), esl.Uint64("OtherSys", mem.OtherSys))
 	l.Debug("Heap stats",
-		es_log.Uint64("TotalAlloc", mem.TotalAlloc),
-		es_log.Uint64("HeapAlloc", mem.HeapAlloc),
-		es_log.Uint64("HeapSys", mem.HeapSys),
-		es_log.Uint64("HeapInuse", mem.HeapInuse),
-		es_log.Uint64("HeapReleased", mem.HeapReleased),
-		es_log.Uint64("Mallocs", mem.Mallocs),
-		es_log.Uint64("Free", mem.Frees),
-		es_log.Uint64("Live", mem.Mallocs-mem.Frees),
+		esl.Uint64("TotalAlloc", mem.TotalAlloc),
+		esl.Uint64("HeapAlloc", mem.HeapAlloc),
+		esl.Uint64("HeapSys", mem.HeapSys),
+		esl.Uint64("HeapInuse", mem.HeapInuse),
+		esl.Uint64("HeapReleased", mem.HeapReleased),
+		esl.Uint64("Mallocs", mem.Mallocs),
+		esl.Uint64("Free", mem.Frees),
+		esl.Uint64("Live", mem.Mallocs-mem.Frees),
 	)
 	l.Debug("Stack stats",
-		es_log.Uint64("StackInUse", mem.StackInuse),
-		es_log.Uint64("StackSys", mem.StackSys),
+		esl.Uint64("StackInUse", mem.StackInuse),
+		esl.Uint64("StackSys", mem.StackSys),
 	)
 	l.Debug("GC stats",
-		es_log.Uint64("GCSys", mem.GCSys),
-		es_log.Uint64("NextGC", mem.NextGC),
-		es_log.Uint64("LastGC", mem.LastGC),
-		es_log.Uint64("PauseTotalNS", mem.PauseTotalNs),
-		es_log.Uint32("NumGC", mem.NumGC),
-		es_log.Uint32("NumForcedGC", mem.NumForcedGC),
+		esl.Uint64("GCSys", mem.GCSys),
+		esl.Uint64("NextGC", mem.NextGC),
+		esl.Uint64("LastGC", mem.LastGC),
+		esl.Uint64("PauseTotalNS", mem.PauseTotalNs),
+		esl.Uint32("NumGC", mem.NumGC),
+		esl.Uint32("NumForcedGC", mem.NumForcedGC),
 	)
 }

@@ -3,7 +3,7 @@ package mo_filerequest
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
@@ -55,7 +55,7 @@ func NewMemberFileRequest(fr *FileRequest, member *mo_member.Member) *MemberFile
 
 	mfr := &MemberFileRequest{}
 	if err := api_parser.ParseModelRaw(mfr, raw); err != nil {
-		es_log.Default().Warn("unexpected data format", es_log.Error(err))
+		esl.Default().Warn("unexpected data format", esl.Error(err))
 		// return empty
 		return mfr
 	}

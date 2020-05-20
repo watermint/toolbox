@@ -5,11 +5,12 @@ import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/quality/demo/qdm_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
@@ -41,13 +42,29 @@ func (z *Up) Exec(c app_control.Control) error {
 		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
 	})
 	if z.FailOnError && err != nil {
-		l.Debug("Return error", es_log.Error(err))
+		l.Debug("Return error", esl.Error(err))
 		return err
 	}
 	return nil
 }
 
 func (z *Up) Test(c app_control.Control) error {
+	// replay test
+	{
+		sc, err := qdm_file.NewScenario(false)
+		if err != nil {
+			return err
+		}
+		err = rc_exec.ExecReplay(c, &Up{}, "recipe-file-sync-up.json.gz", func(r rc_recipe.Recipe) {
+			m := r.(*Up)
+			m.LocalPath = mo_path2.NewExistingFileSystemPath(sc.LocalPath)
+			m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("file-sync-up")
+		})
+		if err != nil {
+			return err
+		}
+	}
+
 	err := rc_exec.ExecMock(c, &Up{}, func(r rc_recipe.Recipe) {
 		m := r.(*Up)
 		m.LocalPath = qtr_endtoend.NewTestExistingFileSystemFolderPath(c, "up")

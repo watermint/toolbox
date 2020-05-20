@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 var (
@@ -12,10 +12,10 @@ var (
 )
 
 func Headers(r interface{}, isHidden func(name string) bool) (headers []string, err error) {
-	l := es_log.Default()
+	l := esl.Default()
 	b, err := json.Marshal(r)
 	if err != nil {
-		l.Debug("Unable to marshal", es_log.Error(err))
+		l.Debug("Unable to marshal", esl.Error(err))
 		return nil, err
 	}
 	if !gjson.ValidBytes(b) {
@@ -51,10 +51,10 @@ func Headers(r interface{}, isHidden func(name string) bool) (headers []string, 
 }
 
 func Parse(r interface{}) (s gjson.Result, err error) {
-	l := es_log.Default()
+	l := esl.Default()
 	b, err := json.Marshal(r)
 	if err != nil {
-		l.Debug("Unable to marshal", es_log.Error(err))
+		l.Debug("Unable to marshal", esl.Error(err))
 		return gjson.Parse("{}"), ErrorInvalidRowDataFormat
 	}
 	if !gjson.ValidBytes(b) {

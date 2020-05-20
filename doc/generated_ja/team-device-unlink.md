@@ -1,4 +1,4 @@
-# team device unlink 
+# team device unlink
 
 デバイスのセッションを解除します (非可逆な操作です)
 
@@ -6,11 +6,11 @@
 
 `watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
 
-| OS       | Path                                                               |
-| -------- | ------------------------------------------------------------------ |
-| Windows  | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS    | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux    | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+| OS      | パス                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
 これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
@@ -18,25 +18,45 @@
 方法は次のヘルプセンター記事をご参照ください:
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
-このコマンドは次のアクセスタイプを処理に利用します:
-* Dropbox Business File access
+## 認可スコープ
+
+| ラベル        | 説明                              |
+|---------------|-----------------------------------|
+| business_file | Dropbox Business ファイルアクセス |
+
+# 認可
+
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe team device unlink -file /path/to/data/file.csv
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx team device unlink -file /path/to/data/file.csv
 ```
 
@@ -46,7 +66,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-## オプション
+## オプション:
 
 | オプション          | 説明                                       | デフォルト |
 |---------------------|--------------------------------------------|------------|
@@ -54,7 +74,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-file`             | データファイル                             |            |
 | `-peer`             | アカウントの別名                           | default    |
 
-共通のオプション:
+## 共通のオプション:
 
 | オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
@@ -74,9 +94,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-このレポートではチーム内の既存セッションとメンバー情報を一覧できます. 
+このレポートではチーム内の既存セッションとメンバー情報を一覧できます.
 
-| 列                            | 説明                                                                   | 値の例                                     |
+| 列                            | 説明                                                                   | 例                                         |
 |-------------------------------|------------------------------------------------------------------------|--------------------------------------------|
 | team_member_id                | チームにおけるメンバーのID                                             | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  |
 | email                         | ユーザーのメールアドレス                                               | john.smith@example.com                     |
@@ -108,59 +128,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | last_carrier                  | このデバイスで利用された最後のキャリア                                 |                                            |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
-
-```csv
+```
 team_member_id,email,status,given_name,surname,familiar_name,display_name,abbreviated_name,external_id,account_id,device_tag,id,user_agent,os,browser,ip_address,country,created,updated,expires,host_name,client_type,client_version,platform,is_delete_on_unlink_supported,device_name,os_version,last_carrier
 dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,,dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,,,,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,,,
 ```
-
-# 認可
-
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2020 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-
-```
-
-# ネットワークプロクシの設定
-
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 
 # 実行結果
 
 作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
 
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: operation_log 
+## レポート: operation_log
+
 このレポートは処理結果を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `operation_log.csv`
-* `operation_log.xlsx`
-* `operation_log.json`
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`...   
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
 | 列                                  | 説明                                                                   |
 |-------------------------------------|------------------------------------------------------------------------|
@@ -190,4 +176,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 | input.device_name                   | デバイス名                                                             |
 | input.os_version                    | ホストOSのバージョン                                                   |
 | input.last_carrier                  | このデバイスで利用された最後のキャリア                                 |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+
+# ネットワークプロクシの設定
+
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 

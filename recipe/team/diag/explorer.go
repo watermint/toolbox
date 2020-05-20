@@ -2,7 +2,7 @@ package diag
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -32,12 +32,12 @@ type exploreRecipe struct {
 func (z exploreRecipe) exec(c app_control.Control) error {
 	spec := rc_spec.New(z.recipe)
 	name := strings.ReplaceAll(spec.CliPath(), " ", "-")
-	l := c.Log().With(es_log.String("Name", name))
-	l.Info("Execute:", es_log.String("Title", c.UI().Text(spec.Title())))
+	l := c.Log().With(esl.String("Name", name))
+	l.Info("Execute:", esl.String("Title", c.UI().Text(spec.Title())))
 
 	return app_control_impl.WithForkedQuiet(c, name, func(cf app_control.Control) error {
 		if err := rc_exec.Exec(cf, z.recipe, z.custom); err != nil {
-			l.Error("Recipe failed", es_log.Error(err))
+			l.Error("Recipe failed", esl.Error(err))
 			return err
 		}
 		return nil

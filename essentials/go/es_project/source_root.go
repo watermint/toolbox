@@ -2,7 +2,7 @@ package es_project
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -14,16 +14,16 @@ var (
 )
 
 func DetectRepositoryRoot() (string, error) {
-	l := es_log.Default()
+	l := esl.Default()
 	isRoot := func(p string) bool {
-		ll := l.With(es_log.String("path", p))
+		ll := l.With(esl.String("path", p))
 		rootFiles := map[string]bool{
 			"tbx.go":    false,
 			"README.md": false,
 		}
 		entries, err := ioutil.ReadDir(p)
 		if err != nil {
-			ll.Debug("unable to read directory", es_log.Error(err))
+			ll.Debug("unable to read directory", esl.Error(err))
 			return false
 		}
 		for _, entry := range entries {
@@ -62,6 +62,6 @@ func DetectRepositoryRoot() (string, error) {
 		}
 	}
 
-	l.Debug("unable to retrieve working directory", es_log.Error(err))
+	l.Debug("unable to retrieve working directory", esl.Error(err))
 	return "", ErrorUnableToResolveRepositoryRoot
 }

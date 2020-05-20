@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"os"
@@ -32,15 +32,15 @@ func (z *UploadWorker) Exec() (err error) {
 	ui := z.ctl.UI()
 	upRow := &UploadRow{File: z.localFilePath}
 	l := z.ctl.Log().With(
-		es_log.String("dropboxBasePath", z.dropboxBasePath),
-		es_log.String("localBasePath", z.localBasePath),
-		es_log.String("localFilePath", z.localFilePath),
+		esl.String("dropboxBasePath", z.dropboxBasePath),
+		esl.String("localBasePath", z.localBasePath),
+		esl.String("localFilePath", z.localFilePath),
 	)
 	l.Debug("Prepare upload")
 
 	rel, err := es_filepath.Rel(z.localBasePath, filepath.Dir(z.localFilePath))
 	if err != nil {
-		l.Debug("unable to calculate rel path", es_log.Error(err))
+		l.Debug("unable to calculate rel path", esl.Error(err))
 		z.upload.Uploaded.Failure(err, upRow)
 		z.status.error()
 		return err
@@ -50,7 +50,7 @@ func (z *UploadWorker) Exec() (err error) {
 	case rel == ".":
 		l.Debug("upload to base path")
 	case strings.HasPrefix(rel, ".."):
-		l.Debug("invalid rel path", es_log.String("rel", rel))
+		l.Debug("invalid rel path", esl.String("rel", rel))
 		z.upload.Uploaded.Failure(errors.New("invalid path"), &UploadRow{File: z.localFilePath})
 		z.status.error()
 		return errors.New("invalid rel path")

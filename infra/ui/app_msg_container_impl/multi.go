@@ -2,7 +2,7 @@ package app_msg_container_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/lang"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
@@ -21,23 +21,34 @@ type mlContainer struct {
 }
 
 func (z mlContainer) Text(key string) string {
-	l := es_log.Default()
+	l := esl.Default()
 	for _, la := range z.priority {
 		if c, ok := z.containers[la.Code()]; ok {
-			if c.Exists(key) {
+			if c.ExistsKey(key) {
 				return c.Text(key)
 			}
 		}
 	}
 	qt_missingmsg.Record().NotFound(key)
-	l.Warn("Unable to find message resource", es_log.String("key", key))
+	l.Warn("Unable to find message resource", esl.String("key", key))
 	return AltText(key)
 }
 
-func (z *mlContainer) Exists(key string) bool {
+func (z *mlContainer) Exists(msg app_msg.Message) bool {
 	for _, la := range z.priority {
 		if c, ok := z.containers[la.Code()]; ok {
-			if c.Exists(key) {
+			if c.Exists(msg) {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (z *mlContainer) ExistsKey(key string) bool {
+	for _, la := range z.priority {
+		if c, ok := z.containers[la.Code()]; ok {
+			if c.ExistsKey(key) {
 				return true
 			}
 		}
@@ -46,15 +57,18 @@ func (z *mlContainer) Exists(key string) bool {
 }
 
 func (z *mlContainer) Compile(m app_msg.Message) string {
-	l := es_log.Default()
+	l := esl.Default()
 	for _, la := range z.priority {
 		if c, ok := z.containers[la.Code()]; ok {
-			if c.Exists(m.Key()) {
+			if c.Exists(m) {
 				return c.Compile(m)
 			}
 		}
 	}
+	if mo, ok := m.(app_msg.MessageOptional); ok && mo.Optional() {
+		return ""
+	}
 	qt_missingmsg.Record().NotFound(m.Key())
-	l.Warn("Unable to find message resource", es_log.String("key", m.Key()))
+	l.Warn("Unable to find message resource", esl.String("key", m.Key()))
 	return AltCompile(m)
 }

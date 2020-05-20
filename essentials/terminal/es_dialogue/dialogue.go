@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/eiannone/keyboard"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"golang.org/x/crypto/ssh/terminal"
 	"io"
 	"os"
@@ -81,7 +81,7 @@ func (z dlgImpl) AskProceed(p Prompt) {
 }
 
 func (z dlgImpl) AskCont(p Prompt, v VerifyCont) (c bool) {
-	l := es_log.Default()
+	l := esl.Default()
 	r := bufio.NewReader(z.in)
 	for {
 		// prompt
@@ -95,14 +95,14 @@ func (z dlgImpl) AskCont(p Prompt, v VerifyCont) (c bool) {
 		}
 		// return on error including io.EOF
 		if err != nil {
-			l.Debug("Error or cancelled", es_log.Error(err))
+			l.Debug("Error or cancelled", esl.Error(err))
 			return false
 		}
 	}
 }
 
 func (z dlgImpl) AskText(p Prompt, v VerifyText) (t string, cancel bool) {
-	l := es_log.Default()
+	l := esl.Default()
 	r := bufio.NewReader(z.in)
 	for {
 		// prompt
@@ -117,7 +117,7 @@ func (z dlgImpl) AskText(p Prompt, v VerifyText) (t string, cancel bool) {
 
 		// return on error including io.EOF
 		if err != nil {
-			l.Debug("Error or cancelled", es_log.Error(err))
+			l.Debug("Error or cancelled", esl.Error(err))
 			return "", true
 		}
 	}
@@ -129,7 +129,7 @@ func (z dlgImpl) AskSecure(p Prompt) (t string, cancel bool) {
 		return "", true
 	}
 
-	l := es_log.Default()
+	l := esl.Default()
 	for {
 		// prompt
 		p()
@@ -137,7 +137,7 @@ func (z dlgImpl) AskSecure(p Prompt) (t string, cancel bool) {
 		// read password
 		s, err := terminal.ReadPassword(int(z.in.Fd()))
 		if err != nil {
-			l.Debug("Unable to read password", es_log.Error(err))
+			l.Debug("Unable to read password", esl.Error(err))
 			return "", true
 		}
 		_, _ = fmt.Fprintln(z.wr)

@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"strings"
 	"time"
@@ -54,7 +54,7 @@ func (z asyncImpl) handleNoDotTag(ao dbx_async.AsyncOpts, res es_response.Respon
 				return dbx_async.NewIncomplete(res)
 
 			} else {
-				l.Debug("Wait for async", es_log.Duration("wait", z.pollDuration(ao)))
+				l.Debug("Wait for async", esl.Duration("wait", z.pollDuration(ao)))
 				time.Sleep(z.pollDuration(ao))
 				return z.handleAsyncJobId(ao, res, resJson, asyncJobIdTrimSpace)
 			}
@@ -65,11 +65,11 @@ func (z asyncImpl) handleNoDotTag(ao dbx_async.AsyncOpts, res es_response.Respon
 }
 
 func (z asyncImpl) handleTag(ao dbx_async.AsyncOpts, res es_response.Response, resJson es_json.Json, tag, asyncJobId string) (asyncRes dbx_async.Response) {
-	l := z.ctx.Log().With(es_log.String("tag", tag), es_log.String("asyncJobId", asyncJobId))
+	l := z.ctx.Log().With(esl.String("tag", tag), esl.String("asyncJobId", asyncJobId))
 
 	switch tag {
 	case "async_job_id":
-		l.Debug("Waiting for complete", es_log.Duration("wait", z.pollDuration(ao)))
+		l.Debug("Waiting for complete", esl.Duration("wait", z.pollDuration(ao)))
 		return z.handleAsyncJobId(ao, res, resJson, "")
 
 	case "complete":
@@ -81,15 +81,15 @@ func (z asyncImpl) handleTag(ao dbx_async.AsyncOpts, res es_response.Response, r
 		}
 
 	case "in_progress":
-		l.Debug("In Progress", es_log.Duration("wait", z.pollDuration(ao)))
+		l.Debug("In Progress", esl.Duration("wait", z.pollDuration(ao)))
 		time.Sleep(z.pollDuration(ao))
 		return z.handleAsyncJobId(ao, res, resJson, asyncJobId)
 
 	case "failed":
-		l.Debug("Failed", es_log.ByteString("body", resJson.Raw()))
+		l.Debug("Failed", esl.ByteString("body", resJson.Raw()))
 
 		if reason, found := resJson.Find("failed"); found {
-			l.Debug("Reason of failure", es_log.ByteString("reason", reason.Raw()))
+			l.Debug("Reason of failure", esl.ByteString("reason", reason.Raw()))
 		}
 		return dbx_async.NewIncomplete(res)
 
@@ -105,8 +105,8 @@ func (z asyncImpl) handlePoll(ao dbx_async.AsyncOpts, res es_response.Response, 
 		return dbx_async.NewIncomplete(res)
 	}
 
-	l := z.ctx.Log().With(es_log.String("async_job_id", asyncJobId))
-	l.Debug("Handle poll", es_log.ByteString("body", resJson.Raw()))
+	l := z.ctx.Log().With(esl.String("async_job_id", asyncJobId))
+	l.Debug("Handle poll", esl.ByteString("body", resJson.Raw()))
 	if tagJson, found := resJson.Find("\\.tag"); !found {
 		return z.handleNoDotTag(ao, res, resJson)
 	} else if tag, found := tagJson.String(); found {
@@ -116,7 +116,7 @@ func (z asyncImpl) handlePoll(ao dbx_async.AsyncOpts, res es_response.Response, 
 }
 
 func (z asyncImpl) findAsyncJobId(resJson es_json.Json, asyncJobId string) (newAsyncJobId string, err error) {
-	l := z.ctx.Log().With(es_log.String("asyncJobId", asyncJobId))
+	l := z.ctx.Log().With(esl.String("asyncJobId", asyncJobId))
 	if asyncJobId != "" {
 		return asyncJobId, nil
 	}
@@ -125,7 +125,7 @@ func (z asyncImpl) findAsyncJobId(resJson es_json.Json, asyncJobId string) (newA
 		return "", ErrorAsyncJobIdNotFound
 	} else {
 		if id, found := asyncJobIdTag.String(); found {
-			l.Debug("updating async job id value", es_log.String("id", id))
+			l.Debug("updating async job id value", esl.String("id", id))
 			return id, nil
 		} else {
 			l.Debug("async job id tag is not a string")
@@ -145,7 +145,7 @@ func (z asyncImpl) handleAsyncJobId(ao dbx_async.AsyncOpts, res es_response.Resp
 		}{
 			AsyncJobId: aji,
 		}
-		ll := l.With(es_log.String("asyncJobId", aji))
+		ll := l.With(esl.String("asyncJobId", aji))
 		ll.Debug("make status call")
 		res := z.ctx.Post(ao.StatusEndpoint, api_request.Param(p))
 		if !res.IsSuccess() {

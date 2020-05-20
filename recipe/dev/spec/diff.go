@@ -1,11 +1,12 @@
 package spec
 
 import (
+	"compress/gzip"
 	"encoding/json"
 	"github.com/google/go-cmp/cmp"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
@@ -52,22 +53,39 @@ func (z *Diff) Preset() {
 }
 
 func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*dc_recipe.Recipe, err error) {
-	fn := "spec.json"
+	fn := "spec.json.gz"
 	if relName != "" {
-		fn = "spec_" + relName + ".json"
+		fn = "spec_" + relName + ".json.gz"
 	}
 	p := filepath.Join("doc/generated", fn)
-	l := c.Log().With(es_log.String("path", p))
+	l := c.Log().With(esl.String("path", p))
 	l.Debug("Loading")
 
-	j, err := ioutil.ReadFile(p)
+	f, err := os.Open(p)
 	if err != nil {
-		l.Error("unable to read spec", es_log.Error(err))
+		l.Error("unable to read spec", esl.Error(err))
 		return nil, err
 	}
+	defer func() {
+		_ = f.Close()
+	}()
+	g, err := gzip.NewReader(f)
+	if err != nil {
+		l.Error("unable to read spec", esl.Error(err))
+		return nil, err
+	}
+	defer func() {
+		_ = g.Close()
+	}()
+	j, err := ioutil.ReadAll(g)
+	if err != nil {
+		l.Error("unable to read spec", esl.Error(err))
+		return nil, err
+	}
+
 	r = make(map[string]*dc_recipe.Recipe)
 	if err = json.Unmarshal(j, &r); err != nil {
-		l.Error("Unable to unmarshal spec", es_log.Error(err))
+		l.Error("Unable to unmarshal spec", esl.Error(err))
 		return nil, err
 	}
 	return r, nil
@@ -239,12 +257,12 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	var w io.WriteCloser
 	shouldClose := false
 	if !z.FilePath.IsExists() {
-		w = es_stdout.NewDefaultOut(c.Feature().IsTest())
+		w = es_stdout.NewDefaultOut(c.Feature())
 	} else {
 		var err error
 		w, err = os.Create(z.FilePath.Value())
 		if err != nil {
-			l.Error("Unable to create file", es_log.Error(err), es_log.String("path", z.FilePath.Value()))
+			l.Error("Unable to create file", esl.Error(err), esl.String("path", z.FilePath.Value()))
 			return err
 		}
 		shouldClose = true

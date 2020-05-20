@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -63,7 +64,7 @@ func (z *ValueDbxConnBusinessInfo) SpinDown(ctl app_control.Control) error {
 	return nil
 }
 
-func (z *ValueDbxConnBusinessInfo) Conn() (conn dbx_conn.ConnDropboxApi, valid bool) {
+func (z *ValueDbxConnBusinessInfo) Conn() (conn api_conn.Connection, valid bool) {
 	return z.conn, true
 }
 

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
@@ -42,7 +42,7 @@ func (z *jsonWriter) Name() string {
 func (z *jsonWriter) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) (err error) {
 	z.ctl = ctl
 	if z.toStdout {
-		z.w = es_stdout.NewDefaultOut(false)
+		z.w = es_stdout.NewDirectOut()
 		return nil
 	}
 	l := ctl.Log()
@@ -52,11 +52,11 @@ func (z *jsonWriter) Open(ctl app_control.Control, model interface{}, opts ...rp
 	}
 
 	z.path = filepath.Join(ctl.Workspace().Report(), z.Name()+ro.ReportSuffix+".json")
-	l = l.With(es_log.String("path", z.path))
+	l = l.With(esl.String("path", z.path))
 	l.Debug("Create new json report")
 	z.file, err = os.Create(z.path)
 	if err != nil {
-		l.Error("Unable to create file", es_log.Error(err))
+		l.Error("Unable to create file", esl.Error(err))
 		return err
 	}
 	z.w = z.file
@@ -90,7 +90,7 @@ func (z *jsonWriter) Row(r interface{}) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 	z.index++
-	l := z.ctl.Log().With(es_log.String("path", z.path))
+	l := z.ctl.Log().With(esl.String("path", z.path))
 	if r == nil {
 		z.warnZero.Do(func() {
 			l.Error("Empty row found")
@@ -111,7 +111,7 @@ func (z *jsonWriter) Row(r interface{}) {
 	enc.SetIndent("", "")
 	err := enc.Encode(r)
 	if err != nil {
-		l.Debug("Unable to unmarshal", es_log.Error(err))
+		l.Debug("Unable to unmarshal", esl.Error(err))
 		return
 	}
 	z.w.Write(buf.Bytes())
@@ -121,16 +121,16 @@ func (z *jsonWriter) Close() {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
-	l := z.ctl.Log().With(es_log.String("path", z.path))
+	l := z.ctl.Log().With(esl.String("path", z.path))
 
 	if z.file != nil {
 		err := z.file.Close()
-		l.Debug("File closed", es_log.Error(err))
+		l.Debug("File closed", esl.Error(err))
 
 		if z.index < 1 && z.ctl.Feature().IsProduction() && !z.ctl.Feature().IsTest() {
 			l.Debug("Try removing empty report file")
 			err := os.Remove(z.path)
-			l.Debug("Removed or had an error (ignore)", es_log.Error(err))
+			l.Debug("Removed or had an error (ignore)", esl.Error(err))
 		}
 		z.file = nil
 	}

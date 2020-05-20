@@ -1,23 +1,20 @@
-# file dispatch local 
+# file dispatch local
 
 ローカルファイルを整理します (非可逆な操作です)
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe file dispatch local -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx file dispatch local -file /PATH/TO/DATA_FILE.csv
 ```
 
@@ -27,14 +24,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-## オプション
+## オプション:
 
 | オプション | 説明                   | デフォルト |
 |------------|------------------------|------------|
 | `-file`    | データファイルへのパス |            |
 | `-preview` | プレビューモード       | false      |
 
-共通のオプション:
+## 共通のオプション:
 
 | オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
@@ -54,9 +51,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-整理ルールのデータファイル. 
+整理ルールのデータファイル.
 
-| 列                  | 説明                                  | 値の例                                        |
+| 列                  | 説明                                  | 例                                            |
 |---------------------|---------------------------------------|-----------------------------------------------|
 | suffix              | ファイル名の拡張子                    | .pdf                                          |
 | source_path         | 元のパス                              | <no value>/ダウンロード                       |
@@ -65,8 +62,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | dest_file_pattern   | 転送先ファイル名のパターン            | TBX_<no value>-<no value>-<no value>          |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
-
-```csv
+```
 suffix,source_path,source_file_pattern,dest_path_pattern,dest_file_pattern
 .pdf,<no value>/ダウンロード,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/ドキュメント/<no value>-<no value>,TBX_<no value>-<no value>-<no value>
 ```

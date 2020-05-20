@@ -2,18 +2,18 @@ package app_ui
 
 import (
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 )
 
-func NewProxy(sy Syntax, lg es_log.Logger) UI {
+func NewProxy(sy Syntax, lg esl.Logger) UI {
 	id := newId()
 	return &proxyImpl{
 		id: id,
-		lg: lg.With(es_log.String("id", id)),
+		lg: lg.With(esl.String("id", id)),
 		sy: sy,
 		mx: es_mutex.New(),
 	}
@@ -21,7 +21,7 @@ func NewProxy(sy Syntax, lg es_log.Logger) UI {
 
 type proxyImpl struct {
 	id string
-	lg es_log.Logger
+	lg esl.Logger
 	sy Syntax
 	mx es_mutex.Mutex
 }
@@ -37,9 +37,12 @@ func (z proxyImpl) WithTable(name string, f func(t Table)) {
 }
 
 func (z proxyImpl) verifyKey(m app_msg.Message) {
+	if mo, ok := m.(app_msg.MessageOptional); ok && mo.Optional() {
+		return
+	}
 	k := m.Key()
-	if !z.sy.Messages().Exists(k) {
-		z.lg.Debug("Message key not found", es_log.String("key", k))
+	if !z.sy.Messages().Exists(m) {
+		z.lg.Debug("Message key not found", esl.String("key", k))
 		qt_missingmsg.Record().NotFound(k)
 	}
 }
@@ -48,9 +51,9 @@ func (z proxyImpl) withMsg(action string, m app_msg.Message, f func()) {
 	z.verifyKey(m)
 	z.lg.Debug(
 		z.TextOrEmpty(m),
-		es_log.String("action", action),
-		es_log.String("key", m.Key()),
-		es_log.Any("params", m.Params()))
+		esl.String("action", action),
+		esl.String("key", m.Key()),
+		esl.Any("params", m.Params()))
 	z.mx.Do(f)
 }
 
@@ -74,7 +77,7 @@ func (z proxyImpl) Info(m app_msg.Message) {
 
 func (z proxyImpl) InfoTable(name string) Table {
 	return proxyTableImpl{
-		lg: z.lg.With(es_log.String("name", name)),
+		lg: z.lg.With(esl.String("name", name)),
 		mc: z.sy.Messages(),
 		mx: es_mutex.New(),
 		it: z.sy.InfoTable(name),
@@ -87,6 +90,12 @@ func (z proxyImpl) Error(m app_msg.Message) {
 	})
 }
 
+func (z proxyImpl) Quote(m app_msg.Message) {
+	z.withMsg("quote", m, func() {
+		z.sy.Quote(m)
+	})
+}
+
 func (z proxyImpl) Break() {
 	z.mx.Do(func() {
 		z.sy.Break()
@@ -94,7 +103,7 @@ func (z proxyImpl) Break() {
 }
 
 func (z proxyImpl) Exists(m app_msg.Message) bool {
-	return z.sy.Messages().Exists(m.Key())
+	return z.sy.Messages().Exists(m)
 }
 
 func (z proxyImpl) Text(m app_msg.Message) string {
@@ -102,7 +111,7 @@ func (z proxyImpl) Text(m app_msg.Message) string {
 }
 
 func (z proxyImpl) TextOrEmpty(m app_msg.Message) string {
-	if z.sy.Messages().Exists(m.Key()) {
+	if z.sy.Messages().Exists(m) {
 		return z.sy.Messages().Compile(m)
 	} else {
 		return ""
@@ -155,14 +164,14 @@ func (z proxyImpl) Progress(m app_msg.Message) {
 }
 
 func (z proxyImpl) Code(code string) {
-	z.lg.Debug("code", es_log.String("code", code))
+	z.lg.Debug("code", esl.String("code", code))
 	z.mx.Do(func() {
 		z.sy.Code(code)
 	})
 }
 
 func (z proxyImpl) Link(artifact rp_artifact.Artifact) {
-	z.lg.Debug("artifact", es_log.Any("artifact", artifact))
+	z.lg.Debug("artifact", esl.Any("artifact", artifact))
 	z.mx.Do(func() {
 		z.sy.Link(artifact)
 	})

@@ -2,14 +2,14 @@ package app_ui
 
 import (
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 )
 
 type proxyTableImpl struct {
-	lg es_log.Logger
+	lg esl.Logger
 	mc app_msg_container.Container
 	mx es_mutex.Mutex
 	it Table
@@ -18,8 +18,8 @@ type proxyTableImpl struct {
 func (z proxyTableImpl) verifyMessages(ms []app_msg.Message) {
 	for _, m := range ms {
 		k := m.Key()
-		if !z.mc.Exists(k) {
-			z.lg.Debug("Message key not found", es_log.String("key", k))
+		if !z.mc.Exists(m) {
+			z.lg.Debug("Message key not found", esl.String("key", k))
 			qt_missingmsg.Record().NotFound(k)
 		}
 	}

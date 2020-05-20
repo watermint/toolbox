@@ -1,10 +1,11 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -14,10 +15,11 @@ type MemberScannerWorker struct {
 	Member              *mo_member.Member
 	TeamOwnedNamespaces map[string]bool // namespace Id -> true
 	Scanner             ScanNamespace
+	Folder              mo_filter.Filter
 }
 
 func (z *MemberScannerWorker) Exec() error {
-	l := z.Context.Log().With(es_log.String("member", z.Member.Email))
+	l := z.Context.Log().With(esl.String("member", z.Member.Email))
 	ui := z.Control.UI()
 
 	l.Debug("Scanning member")
@@ -29,8 +31,12 @@ func (z *MemberScannerWorker) Exec() error {
 	}
 
 	for _, f := range folders {
+		if !z.Folder.Accept(f.Name) {
+			l.Debug("Skip folder that unmatched to filter condition", esl.String("name", f.Name))
+			continue
+		}
 		if z.TeamOwnedNamespaces[f.SharedFolderId] {
-			l.Debug("Skip team owned folder", es_log.Any("folder", f))
+			l.Debug("Skip team owned folder", esl.Any("folder", f))
 			continue
 		}
 		z.Scanner.Scan(z.Control, z.Context, f.Name, f.SharedFolderId)

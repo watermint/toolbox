@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -40,11 +40,11 @@ func (z *Dummy) Test(c app_control.Control) error {
 }
 
 func (z *Dummy) Exec(c app_control.Control) error {
-	l := c.Log().With(es_log.String("path", z.Path))
+	l := c.Log().With(esl.String("path", z.Path))
 
 	f, err := os.Open(z.Path)
 	if err != nil {
-		l.Error("Unable to open file", es_log.Error(err))
+		l.Error("Unable to open file", esl.Error(err))
 		return err
 	}
 	defer f.Close()
@@ -59,13 +59,13 @@ func (z *Dummy) Exec(c app_control.Control) error {
 			return nil
 
 		case err != nil:
-			l.Error("Unable to read", es_log.Error(err))
+			l.Error("Unable to read", esl.Error(err))
 			return err
 		}
 
 		de := &DummyEntry{}
 		if err = json.Unmarshal(line, de); err != nil {
-			l.Error("Unable to unmarshal", es_log.Error(err))
+			l.Error("Unable to unmarshal", esl.Error(err))
 			return err
 		}
 
@@ -75,7 +75,7 @@ func (z *Dummy) Exec(c app_control.Control) error {
 
 		entries++
 		if z.MaxEntry.Value() != 0 && entries >= z.MaxEntry.Value() {
-			l.Info("Suspend", es_log.Int("entries", entries))
+			l.Info("Suspend", esl.Int("entries", entries))
 			return nil
 		}
 	}
@@ -89,28 +89,28 @@ func (z *Dummy) create(c app_control.Control, base string, de *DummyEntry) error
 		dir := z.anonPath(filepath.ToSlash(filepath.Dir(de.PathDisplay)))
 		name := z.anonFileName(filepath.Base(de.PathDisplay))
 		path := filepath.Join(dir, name)
-		l.Debug("File", es_log.String("file", path))
+		l.Debug("File", esl.String("file", path))
 		pp := filepath.Join(base, dir)
 		_, err := z.getOrCreate(pp)
 		if err != nil {
-			l.Debug("Folder create", es_log.String("folder", path), es_log.Error(err))
+			l.Debug("Folder create", esl.String("folder", path), esl.Error(err))
 			return err
 		}
 		f, err := os.Create(filepath.Join(pp, name))
 		if err != nil {
-			l.Debug("Unable to create", es_log.Error(err))
+			l.Debug("Unable to create", esl.Error(err))
 			return err
 		}
 		f.Close()
 
 	case "folder":
 		path := z.anonPath(de.PathDisplay)
-		l.Debug("Folder", es_log.String("folder", path))
+		l.Debug("Folder", esl.String("folder", path))
 
 		pp := filepath.Join(base, path)
 		_, err := z.getOrCreate(pp)
 		if err != nil {
-			l.Debug("Folder create", es_log.String("folder", path), es_log.Error(err))
+			l.Debug("Folder create", esl.String("folder", path), esl.Error(err))
 			return err
 		}
 	}

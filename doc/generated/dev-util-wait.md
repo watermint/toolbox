@@ -1,23 +1,20 @@
-# dev util wait 
+# dev util wait
 
 Wait for specified seconds 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev util wait 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev util wait 
 ```
 
@@ -27,13 +24,13 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
+## Options:
 
 | Option     | Description  | Default |
 |------------|--------------|---------|
 | `-seconds` | Wait seconds | 1       |
 
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|

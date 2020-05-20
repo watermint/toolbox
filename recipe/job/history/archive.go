@@ -2,7 +2,7 @@ package history
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -19,8 +19,11 @@ type Archive struct {
 }
 
 func (z *Archive) Exec(c app_control.Control) error {
-	historian := app_job_impl.NewHistorian(c)
-	histories := historian.Histories()
+	historian := app_job_impl.NewHistorian(c.Workspace())
+	histories, err := historian.Histories()
+	if err != nil {
+		return err
+	}
 	threshold := time.Now().Add(time.Duration(-z.Days.Value()*24) * time.Hour)
 	l := c.Log()
 
@@ -31,16 +34,21 @@ func (z *Archive) Exec(c app_control.Control) error {
 			continue
 		}
 		if h.JobId() == c.Workspace().JobId() {
+			l.Debug("Skip current job")
+			continue
+		}
+		if h.IsNested() {
+			l.Debug("Skip nested job")
 			continue
 		}
 		if ts.After(threshold) {
-			l.Debug("Skip: Time start is in range of retain", es_log.String("jobId", h.JobId()))
+			l.Debug("Skip: Time start is in range of retain", esl.String("jobId", h.JobId()))
 			continue
 		}
 		c.UI().Info(z.ProgressArchiving.With("JobId", h.JobId()))
 		_, err := h.Archive()
 		if err != nil {
-			l.Debug("Unable to archive", es_log.Error(err), es_log.Any("history", h))
+			l.Debug("Unable to archive", esl.Error(err), esl.Any("history", h))
 			c.UI().Error(z.ErrorFailedArchive.With("JobId", h.JobId()).With("Error", err.Error()))
 		}
 	}

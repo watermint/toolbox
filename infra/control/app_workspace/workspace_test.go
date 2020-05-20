@@ -35,7 +35,7 @@ func TestNewWorkspace(t *testing.T) {
 		_ = os.RemoveAll(p)
 	}()
 
-	ws, err := NewWorkspace(p)
+	ws, err := NewWorkspace(p, false)
 	if err != nil {
 		t.Error(err)
 	}

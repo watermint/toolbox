@@ -1,23 +1,20 @@
-# dev ci artifact up 
+# dev ci artifact up
 
 CI成果物をアップロードします 
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe dev ci artifact up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx dev ci artifact up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/ARTIFACT
 ```
 
@@ -27,7 +24,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
-## オプション
+## オプション:
 
 | オプション      | 説明                                   | デフォルト |
 |-----------------|----------------------------------------|------------|
@@ -35,7 +32,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-local-path`   | アップロードするローカルファイルのパス |            |
 | `-peer-name`    | アカウントの別名                       | deploy     |
 
-共通のオプション:
+## 共通のオプション:
 
 | オプション        | 説明                                                                                               | デフォルト     |
 |-------------------|----------------------------------------------------------------------------------------------------|----------------|
@@ -51,31 +48,20 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# ネットワークプロクシの設定
-
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
-
 # 実行結果
 
 作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
 
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: skipped 
+## レポート: skipped
+
 このレポートは処理結果を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `skipped.csv`
-* `skipped.xlsx`
-* `skipped.json`
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`...   
+このコマンドはレポートを3種類の書式で出力します. `skipped.csv`, `skipped.json`, ならびに `skipped.xlsx`.
 
 | 列                     | 説明                                                         |
 |------------------------|--------------------------------------------------------------|
@@ -90,17 +76,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | result.size            | ファイルサイズ(バイト単位)                                   |
 | result.content_hash    | ファイルコンテンツのハッシュ                                 |
 
-## レポート: summary 
-このレポートはアップロード結果の概要を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `summary.csv`
-* `summary.xlsx`
-* `summary.json`
-
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`...   
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+## レポート: summary
+
+このレポートはアップロード結果の概要を出力します.
+このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
 
 | 列               | 説明                                             |
 |------------------|--------------------------------------------------|
@@ -112,17 +94,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
 | num_api_call     | この処理によって消費される見積アップロードAPI数  |
 
-## レポート: uploaded 
-このレポートは処理結果を出力します.
-レポートファイルは次の3種類のフォーマットで出力されます;
-* `uploaded.csv`
-* `uploaded.xlsx`
-* `uploaded.json`
-
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます;
-`uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`...   
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
+## レポート: uploaded
+
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `uploaded.csv`, `uploaded.json`, ならびに `uploaded.xlsx`.
 
 | 列                     | 説明                                                         |
 |------------------------|--------------------------------------------------------------|
@@ -136,4 +114,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | result.server_modified | Dropbox上で最後に更新された日時                              |
 | result.size            | ファイルサイズ(バイト単位)                                   |
 | result.content_hash    | ファイルコンテンツのハッシュ                                 |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
+
+# ネットワークプロクシの設定
+
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 

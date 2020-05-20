@@ -1,7 +1,7 @@
 package app_job_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_http"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
 	"github.com/watermint/toolbox/infra/app"
@@ -42,7 +42,7 @@ func (z launchImpl) recordStartLog() error {
 		AppHash:     app.Hash,
 		AppVersion:  app.Version,
 	}
-	return sl.Create(z.wb.Workspace())
+	return sl.Write(z.wb.Workspace())
 }
 
 func (z launchImpl) recordResultLog(err error) error {
@@ -55,14 +55,18 @@ func (z launchImpl) recordResultLog(err error) error {
 		TimeFinish: time.Now().Format(time.RFC3339),
 		Error:      errText,
 	}
-	return rl.Create(z.wb.Workspace())
+	return rl.Write(z.wb.Workspace())
 }
 
 func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	lg := z.wb.Logger().Logger()
 	sm := z.wb.Summary().Logger()
-	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace())
+	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
 	ctl = app_control_impl.New(z.wb, z.ui, fe)
+
+	if ctl.Feature().IsTransient() {
+		return ctl, nil
+	}
 
 	if err := z.recordStartLog(); err != nil {
 		return nil, err
@@ -73,16 +77,20 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	es_memory.LaunchReporting(lg)
 
 	sm.Debug("Up completed",
-		es_log.String("name", app.Name),
-		es_log.String("ver", app.Version),
-		es_log.String("hash", app.Hash),
-		es_log.String("recipe", z.rcp.CliPath()),
+		esl.String("name", app.Name),
+		esl.String("ver", app.Version),
+		esl.String("hash", app.Hash),
+		esl.String("recipe", z.rcp.CliPath()),
 	)
 
 	return ctl, nil
 }
 
 func (z launchImpl) Down(err error, ctl app_control.Control) {
+	if ctl.Feature().IsTransient() {
+		return
+	}
+
 	sm := ctl.WorkBundle().Summary().Logger()
 	ui := ctl.UI()
 
@@ -97,7 +105,7 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	_ = z.recordResultLog(err)
 
-	sm.Debug("Down completed", es_log.Error(err))
+	sm.Debug("Down completed", esl.Error(err))
 
 	// Close work bundle
 	_ = z.wb.Close()

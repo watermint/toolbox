@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
@@ -52,7 +52,7 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 	onEntry := func(entry es_json.Json) error {
 		m, found := entry.FindString("team_member_id")
 		if !found {
-			z.ctx.Log().Debug("no `team_member_id` field found", es_log.ByteString("entry", entry.Raw()))
+			z.ctx.Log().Debug("no `team_member_id` field found", esl.ByteString("entry", entry.Raw()))
 			return errors.New("team_member_id not found")
 		}
 		teamMemberId := m
@@ -62,7 +62,7 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 				for _, w := range ws {
 					mw := &mo_device.Web{}
 					if err := w.Model(mw); err != nil {
-						z.ctx.Log().Debug("unable to parse web_session", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
+						z.ctx.Log().Debug("unable to parse web_session", esl.Error(err), esl.ByteString("entry", entry.Raw()))
 						return err
 					}
 					mw.TeamMemberId = teamMemberId
@@ -77,7 +77,7 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 				for _, d := range ds {
 					md := &mo_device.Desktop{}
 					if err := d.Model(md); err != nil {
-						z.ctx.Log().Debug("unable to parse desktop_session", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
+						z.ctx.Log().Debug("unable to parse desktop_session", esl.Error(err), esl.ByteString("entry", entry.Raw()))
 						return err
 					}
 					md.TeamMemberId = teamMemberId
@@ -92,7 +92,7 @@ func (z *sessionImpl) List() (sessions []mo_device.Session, err error) {
 				for _, m := range ms {
 					mm := &mo_device.Mobile{}
 					if err := m.Model(mm); err != nil {
-						z.ctx.Log().Debug("unable to parse desktop_session", es_log.Error(err), es_log.ByteString("entry", entry.Raw()))
+						z.ctx.Log().Debug("unable to parse desktop_session", esl.Error(err), esl.ByteString("entry", entry.Raw()))
 						return err
 					}
 					mm.TeamMemberId = teamMemberId

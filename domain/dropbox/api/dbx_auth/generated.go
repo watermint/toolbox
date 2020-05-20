@@ -1,7 +1,7 @@
 package dbx_auth
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -68,7 +68,7 @@ func (z *Generated) generatedTokenInstruction(scope string) {
 		api = "Dropbox Business API"
 		toa = "Team member management"
 	default:
-		z.ctl.Log().Error("Undefined token type", es_log.String("type", scope))
+		z.ctl.Log().Error("Undefined token type", esl.String("type", scope))
 	}
 
 	ui.Info(MGenerated.GeneratedToken1.With("API", api).With("TypeOfAccess", toa))

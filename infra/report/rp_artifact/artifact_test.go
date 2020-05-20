@@ -10,7 +10,7 @@ import (
 
 func TestArtifacts(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "artifact", false, func(path string) {
-		ws, err := app_workspace.NewWorkspace(path)
+		ws, err := app_workspace.NewWorkspace(path, false)
 		if err != nil {
 			t.Error(err)
 			return

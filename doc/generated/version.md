@@ -1,23 +1,20 @@
-# version 
+# version
 
 Show version 
 
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
-```powershell
+```
 cd $HOME\Desktop
 .\tbx.exe version 
 ```
 
 macOS, Linux:
-
-```bash
+```
 $HOME/Desktop/tbx version 
 ```
 
@@ -27,9 +24,7 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options
-
-Common options:
+## Common options:
 
 | Option            | Description                                                                      | Default              |
 |-------------------|----------------------------------------------------------------------------------|----------------------|
@@ -45,35 +40,32 @@ Common options:
 | `-secure`         | Do not store tokens into a file                                                  | false                |
 | `-workspace`      | Workspace path                                                                   |                      |
 
-# Proxy configuration
-
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
-
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
-| OS      | Path                                                                                                      |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` (e.g. C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports) |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /Users/bob/.toolbox/jobs/20190909-115959.597/reports)        |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports` (e.g. /home/bob/.toolbox/jobs/20190909-115959.597/reports)         |
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: versions 
+## Report: versions
+
 Components and version information.
-Report files are generated in three formats like below;
-* `versions.csv`
-* `versions.xlsx`
-* `versions.json`
-
-But if you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows;
-`versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`...   
+The command will generate a report in three different formats. `versions.csv`, `versions.json`, and `versions.xlsx`.
 
 | Column    | Description |
 |-----------|-------------|
 | key       | Key         |
 | component | Component   |
 | version   | Version     |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`, ...
+
+# Proxy configuration
+
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

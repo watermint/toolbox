@@ -3,10 +3,10 @@ package content
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/kvs/kv_kvs"
-	"github.com/watermint/toolbox/infra/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 )
 
@@ -34,7 +34,7 @@ type NamespaceMemberScannerWorker struct {
 }
 
 func (z *NamespaceMemberScannerWorker) Exec() error {
-	l := z.Context.Log().With(es_log.String("namespaceId", z.NamespaceId), es_log.String("namespaceName", z.NamespaceName))
+	l := z.Context.Log().With(esl.String("namespaceId", z.NamespaceId), esl.String("namespaceName", z.NamespaceName))
 	ui := z.Control.UI()
 
 	l.Debug("Scanning membership")
@@ -42,7 +42,7 @@ func (z *NamespaceMemberScannerWorker) Exec() error {
 
 	members, err := sv_sharedfolder_member.NewBySharedFolderId(z.Context, z.NamespaceId).List()
 	if err != nil {
-		l.Debug("Unable to retrieve membership", es_log.Error(err))
+		l.Debug("Unable to retrieve membership", esl.Error(err))
 		return err
 	}
 

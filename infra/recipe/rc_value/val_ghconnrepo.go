@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn_impl"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -20,6 +21,10 @@ func newValueGhConnGithubRepo(peerName string) rc_recipe.Value {
 type ValueGhConnGithubRepo struct {
 	conn     gh_conn.ConnGithubRepo
 	peerName string
+}
+
+func (z *ValueGhConnGithubRepo) Conn() (conn api_conn.Connection, valid bool) {
+	return z.conn, true
 }
 
 func (z *ValueGhConnGithubRepo) ValueText() string {

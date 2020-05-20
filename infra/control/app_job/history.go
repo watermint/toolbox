@@ -7,6 +7,7 @@ import (
 
 type History interface {
 	JobId() string
+	JobPath() string
 	RecipeName() string
 	Recipe() (r rc_recipe.Spec, found bool)
 	AppName() string
@@ -14,11 +15,15 @@ type History interface {
 	TimeStart() (t time.Time, found bool)
 	TimeFinish() (t time.Time, found bool)
 
-	// Archive job history
-	Archive() (path string, err error)
-	Delete() error
-}
+	// True when the job is nested job.
+	IsNested() bool
 
-type Historian interface {
-	Histories() (histories []History)
+	// Archive this job data
+	Archive() (path string, err error)
+
+	// Delete this job data
+	Delete() error
+
+	// Log files. logs are guaranteed sorted by their file names.
+	Logs() (logs []LogFile, err error)
 }

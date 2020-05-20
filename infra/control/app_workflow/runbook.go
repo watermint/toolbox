@@ -6,7 +6,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -106,7 +106,7 @@ func (z *RunBook) Verify(c app_control.Control) (lastErr error) {
 }
 
 func (z *RunBook) runRecipe(workerName string, step *RunStep, rg rc_group.Group, c app_control.Control) error {
-	l := c.Log().With(es_log.String("workerName", workerName), es_log.String("stepName", step.Name))
+	l := c.Log().With(esl.String("workerName", workerName), esl.String("stepName", step.Name))
 	ui := c.UI()
 	ui.Info(MRunBook.ProgressRecipeStart.With("Worker", workerName).With("Args", strings.Join(step.Args, " ")))
 	_, rOrig, args, err := rg.Select(step.Args)
@@ -126,7 +126,7 @@ func (z *RunBook) runRecipe(workerName string, step *RunStep, rg rc_group.Group,
 	return app_workspace.WithFork(c.WorkBundle(), runName, func(fwb app_workspace.Bundle) error {
 		cf := c.WithBundle(fwb)
 
-		l.Debug("Run step", es_log.Any("vo", r.Debug()))
+		l.Debug("Run step", esl.Any("vo", r.Debug()))
 		if err = rc_exec.ExecSpec(cf, r, rc_recipe.NoCustomValues); err != nil {
 			ui.Error(MRunBook.ErrorRecipeFailed.With("Error", err))
 			return err
@@ -140,11 +140,11 @@ func (z *RunBook) runWorker(wg *sync.WaitGroup, workerErrors []error, workerName
 	wg.Add(1)
 	defer wg.Done()
 
-	l := c.Log().With(es_log.String("worker", workerName), es_log.String("goroutine", es_goroutine.GetGoRoutineName()))
+	l := c.Log().With(esl.String("worker", workerName), esl.String("goroutine", es_goroutine.GetGoRoutineName()))
 	l.Info("Worker start")
 	for _, step := range steps {
 		if err := z.runRecipe(workerName, step, rg, c); err != nil {
-			l.Error("Failed exec recipe", es_log.Error(err))
+			l.Error("Failed exec recipe", esl.Error(err))
 			workerErrors = append(workerErrors, err)
 			return err
 		}
@@ -175,14 +175,14 @@ func (z *RunBook) Run(c app_control.Control) error {
 	wg.Wait()
 	l.Info("Workers finished")
 	if len(workerErrors) > 0 {
-		l.Error("One or more errors from workers", es_log.Errors("worker", workerErrors))
+		l.Error("One or more errors from workers", esl.Errors("worker", workerErrors))
 		return workerErrors[0]
 	}
 	return nil
 }
 
 func NewRunBook(path string) (rb *RunBook, found bool) {
-	l := es_log.Default()
+	l := esl.Default()
 	_, err := os.Lstat(path)
 	if err != nil {
 		return nil, false
@@ -190,13 +190,13 @@ func NewRunBook(path string) (rb *RunBook, found bool) {
 
 	content, err := es_unicode.BomAwareReadBytes(path)
 	if err != nil {
-		l.Error("Unable to read the runbook file", es_log.Error(err))
+		l.Error("Unable to read the runbook file", esl.Error(err))
 		return nil, false
 	}
 
 	rb = &RunBook{}
 	if err = json.Unmarshal(content, rb); err != nil {
-		l.Error("Unable to unmarshal the runbook file", es_log.Error(err))
+		l.Error("Unable to unmarshal the runbook file", esl.Error(err))
 		return nil, false
 	}
 

@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/lang"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -44,12 +44,12 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 		code := la.CodeString()
 		suffix := la.Suffix()
 
-		ll := l.With(es_log.String("Language", code))
+		ll := l.With(esl.String("Language", code))
 		ll.Info("Verify messages for language")
 
 		msgRaw, err := app_resource.Bundle().Messages().Bytes(fmt.Sprintf("messages%s.json", suffix))
 		if err != nil {
-			ll.Error("Unable to load message resource", es_log.Error(err))
+			ll.Error("Unable to load message resource", esl.Error(err))
 			return err
 		}
 		msgs := make(map[string]string)
@@ -60,7 +60,7 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 		missing := false
 		for k, v := range enMessages {
 			if _, ok := msgs[k]; !ok {
-				ll.Warn("Missing key", es_log.String("key", k), es_log.String("message", v))
+				ll.Warn("Missing key", esl.String("key", k), esl.String("message", v))
 				missing = true
 			}
 		}
@@ -107,7 +107,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 
 func (z *Candidate) Test(c app_control.Control) error {
 	err := z.verifyMessages(c)
-	c.Log().Debug("Verify message result", es_log.Error(err))
+	c.Log().Debug("Verify message result", esl.Error(err))
 
 	return qt_errors.ErrorNoTestRequired
 }

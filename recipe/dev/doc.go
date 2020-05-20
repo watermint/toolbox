@@ -1,23 +1,30 @@
 package dev
 
 import (
+	"fmt"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_command"
+	"github.com/watermint/toolbox/infra/doc/dc_readme"
+	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"io/ioutil"
+	"path/filepath"
 )
 
 type Doc struct {
 	rc_recipe.RemarkSecret
-	Badge          bool
-	MarkdownReadme bool
-	Lang           mo_string.OptionalString
-	Filename       string
-	CommandPath    string
+	Badge       bool
+	Lang        mo_string.OptionalString
+	Filename    string
+	CommandPath string
 }
 
 func (z *Doc) Preset() {
@@ -26,21 +33,59 @@ func (z *Doc) Preset() {
 	z.CommandPath = "doc/generated/"
 }
 
+func (z *Doc) genDoc(path string, doc string, c app_control.Control) error {
+	if c.Feature().IsTest() {
+		out := es_stdout.NewDefaultOut(c.Feature())
+		_, _ = fmt.Fprintln(out, doc)
+		return nil
+	} else {
+		return ioutil.WriteFile(path, []byte(doc), 0644)
+	}
+}
+
+func (z *Doc) genReadme(c app_control.Control) error {
+	l := c.Log()
+	l.Info("Generating README", esl.String("file", z.Filename))
+	sec := dc_readme.New(z.Badge, z.CommandPath)
+	doc := dc_section.Document(c.Messages(), sec...)
+
+	return z.genDoc(z.Filename, doc, c)
+}
+
+func (z *Doc) genCommands(c app_control.Control) error {
+	recipes := app_catalogue.Current().Recipes()
+	l := c.Log()
+
+	for _, r := range recipes {
+		spec := rc_spec.New(r)
+
+		l.Info("Generating command manual", esl.String("command", spec.CliPath()))
+		sec := dc_command.New(spec)
+		doc := dc_section.Document(c.Messages(), sec...)
+		path := filepath.Join(z.CommandPath, spec.SpecId()+".md")
+
+		if err := z.genDoc(path, doc, c); err != nil {
+			return err
+		}
+		if err := qt_messages.SuggestCliArgs(c, r); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (z *Doc) Exec(ctl app_control.Control) error {
 	l := ctl.Log()
 
 	if z.Lang.IsExists() {
 		ctl = ctl.WithLang(z.Lang.Value())
 	}
-
-	rme := dc_command.NewReadme(ctl, z.Filename, z.Badge, z.MarkdownReadme, z.CommandPath)
-	cmd := dc_command.NewCommandWithPath(z.CommandPath)
-	if err := rme.Generate(); err != nil {
-		l.Error("Failed to generate README", es_log.Error(err))
+	if err := z.genReadme(ctl); err != nil {
+		l.Error("Failed to generate README", esl.Error(err))
 		return err
 	}
-	if err := cmd.GenerateAll(ctl); err != nil {
-		l.Error("Failed to generate command manuals", es_log.Error(err))
+	if err := z.genCommands(ctl); err != nil {
+		l.Error("Failed to generate command manuals", esl.Error(err))
 		return err
 	}
 

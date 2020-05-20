@@ -3,7 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -51,10 +51,10 @@ func (z *ValueMoUrlUrl) ApplyPreset(v0 interface{}) {
 }
 
 func (z *ValueMoUrlUrl) Apply() (v interface{}) {
-	l := es_log.Default()
+	l := esl.Default()
 	u, err := mo_url.NewUrl(z.rawUrl)
 	if err != nil {
-		l.Debug("Unable to parse", es_log.String("url", z.rawUrl), es_log.Error(err))
+		l.Debug("Unable to parse", esl.String("url", z.rawUrl), esl.Error(err))
 	} else {
 		z.url = u
 	}
@@ -68,14 +68,14 @@ func (z *ValueMoUrlUrl) Debug() interface{} {
 }
 
 func (z *ValueMoUrlUrl) SpinUp(ctl app_control.Control) error {
-	l := es_log.Default()
+	l := esl.Default()
 	if z.rawUrl == "" {
 		return ErrorMissingRequiredOption
 	}
 
 	u, err := mo_url.NewUrl(z.rawUrl)
 	if err != nil {
-		l.Debug("Unable to parse", es_log.String("url", z.rawUrl), es_log.Error(err))
+		l.Debug("Unable to parse", esl.String("url", z.rawUrl), esl.Error(err))
 		return ErrorInvalidValue
 	} else {
 		z.url = u

@@ -3,7 +3,7 @@ package gh_response
 import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
-	"github.com/watermint/toolbox/infra/network/nw_retry"
+	"github.com/watermint/toolbox/essentials/network/nw_retry"
 )
 
 func AssertResponse(res es_response.Response) es_response.Response {

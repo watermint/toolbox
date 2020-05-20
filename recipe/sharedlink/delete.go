@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -66,7 +66,7 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
 		err = sv_sharedlink.New(z.Peer.Context()).Remove(link)
 		if err != nil {
-			l.Debug("Unable to remove link", es_log.Error(err), es_log.Any("link", link))
+			l.Debug("Unable to remove link", esl.Error(err), esl.Any("link", link))
 			z.SharedLink.Failure(err, link)
 			lastErr = err
 		} else {
@@ -78,7 +78,7 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 
 func (z *Delete) removeRecursive(c app_control.Control) error {
 	ui := c.UI()
-	l := c.Log().With(es_log.String("path", z.Path.Path()))
+	l := c.Log().With(esl.String("path", z.Path.Path()))
 	links, err := sv_sharedlink.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
@@ -90,10 +90,10 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 
 	var lastErr error
 	for _, link := range links {
-		l = l.With(es_log.String("linkPath", link.LinkPathLower()))
+		l = l.With(esl.String("linkPath", link.LinkPathLower()))
 		rel, err := filepath.Rel(strings.ToLower(z.Path.Path()), link.LinkPathLower())
 		if err != nil {
-			l.Debug("Skip due to path calc error", es_log.Error(err))
+			l.Debug("Skip due to path calc error", esl.Error(err))
 			continue
 		}
 		if strings.HasPrefix(rel, "..") {
@@ -104,7 +104,7 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
 		err = sv_sharedlink.New(z.Peer.Context()).Remove(link)
 		if err != nil {
-			l.Debug("Unable to remove link", es_log.Error(err), es_log.Any("link", link))
+			l.Debug("Unable to remove link", esl.Error(err), esl.Any("link", link))
 			z.SharedLink.Failure(err, link)
 			lastErr = err
 		} else {

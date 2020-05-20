@@ -1,7 +1,7 @@
 package app_control
 
 import (
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
@@ -14,10 +14,10 @@ type Control interface {
 	UI() app_ui.UI
 
 	// Logger
-	Log() es_log.Logger
+	Log() esl.Logger
 
 	// HTTP Capture logger
-	Capture() es_log.Logger
+	Capture() esl.Logger
 
 	// Workspace
 	Workspace() app_workspace.Workspace

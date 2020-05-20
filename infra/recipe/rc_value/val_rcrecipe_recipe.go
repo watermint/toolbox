@@ -2,6 +2,7 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -25,6 +26,11 @@ type ValueRcRecipeRecipe struct {
 	name       string
 	recipe     rc_recipe.Recipe
 	recipeType reflect.Type
+}
+
+func (z *ValueRcRecipeRecipe) Conns() map[string]api_conn.Connection {
+	spec := NewRepository(z.recipe)
+	return spec.Conns()
 }
 
 func (z *ValueRcRecipeRecipe) Spec() (typeName string, typeAttr interface{}) {

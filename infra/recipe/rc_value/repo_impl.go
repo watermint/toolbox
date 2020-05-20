@@ -5,9 +5,10 @@ import (
 	"flag"
 	"fmt"
 	"github.com/iancoleman/strcase"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/common/model/mo_multi"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -22,29 +23,30 @@ import (
 
 var (
 	valueTypes = []rc_recipe.Value{
-		newValueBool(),
-		newValueInt(),
-		newValueString(),
-		newValueKvStorageStorage(""),
 		newValueAppMsgMessage("", app_msg.Raw("")),
-		newValueMoTimeTime(""),
-		newValueMoPathDropboxPath(""),
-		newValueMoPathFileSystemPath(""),
-		newValueMoUrlUrl(""),
-		newValueRcRecipeRecipe("", nil),
+		newValueBool(),
+		newValueDbxConnBusinessAudit(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnBusinessFile(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnBusinessInfo(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnBusinessMgmt(dbx_conn_impl.DefaultPeerName),
-		newValueDbxConnBusinessFile(dbx_conn_impl.DefaultPeerName),
-		newValueDbxConnBusinessAudit(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnUserFile(dbx_conn_impl.DefaultPeerName),
+		newValueFdFileRowFeed(""),
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
+		newValueInt(),
+		newValueKvStorageStorage(""),
+		newValueMoFilter(""),
+		newValueMoPathDropboxPath(""),
+		newValueMoPathFileSystemPath(""),
+		newValueMoTimeTime(""),
+		newValueMoUrlUrl(""),
+		newValueOptionalString(),
+		newValueRangeInt(),
+		newValueRcRecipeRecipe("", nil),
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
-		newValueFdFileRowFeed(""),
-		newValueOptionalString(),
 		newValueSelectString(),
-		newValueRangeInt(),
+		newValueString(),
 	}
 
 	ErrorMissingRequiredOption = errors.New("missing required option")
@@ -64,7 +66,7 @@ func valueOfType(t reflect.Type, r interface{}, name string) rc_recipe.Value {
 
 // Returns nil if the given rcp is not supported type.
 func NewRepository(scr interface{}) rc_recipe.Repository {
-	l := es_log.Default()
+	l := esl.Default()
 
 	// Create a new recipe instance
 	srt := reflect.ValueOf(scr).Elem().Type()
@@ -75,7 +77,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 	rv := reflect.ValueOf(rcp).Elem()
 
 	if rt.Kind() != reflect.Struct {
-		l.Error("Recipe is not a struct", es_log.String("name", rt.Name()), es_log.String("pkg", rt.PkgPath()))
+		l.Error("Recipe is not a struct", esl.String("name", rt.Name()), esl.String("pkg", rt.PkgPath()))
 		return nil
 	}
 
@@ -88,17 +90,17 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		var rtf = rt.Field(i)
 		var rvf = rv.Field(i)
 		fn := rtf.Name
-		ll := l.With(es_log.String("fieldName", fn))
+		ll := l.With(esl.String("fieldName", fn))
 
 		vot := valueOfType(rtf.Type, rcp, fn)
 		if vot != nil {
-			ll.Debug("Set value", es_log.Any("debug", vot.Debug()))
+			ll.Debug("Set value", esl.Any("debug", vot.Debug()))
 			vals[fn] = vot
 			fieldValue[fn] = rvf
 
 			vi := vot.Init()
 			if vi != nil {
-				ll.Debug("Set initial value", es_log.Any("valueInstance", vi))
+				ll.Debug("Set initial value", esl.Any("valueInstance", vi))
 				switch rtf.Type.Kind() {
 				case reflect.Bool:
 					rvf.SetBool(vi.(bool))
@@ -139,10 +141,10 @@ type RepositoryImpl struct {
 }
 
 func (z *RepositoryImpl) ApplyCustom() {
-	l := es_log.Default()
+	l := esl.Default()
 	for k, v := range z.values {
 		f := z.fieldValue[k]
-		l.Debug("Apply preset", es_log.String("k", k), es_log.Any("v", f.Interface()))
+		l.Debug("Apply preset", esl.String("k", k), esl.Any("v", f.Interface()))
 		v.ApplyPreset(f.Interface())
 	}
 }
@@ -175,7 +177,12 @@ func (z *RepositoryImpl) Messages() []app_msg.Message {
 func (z *RepositoryImpl) FieldNames() []string {
 	names := make([]string, 0)
 	for k, v := range z.values {
-		if v.Bind() != nil {
+		switch b := v.Bind().(type) {
+		case nil:
+			continue
+		case mo_multi.MultiValue:
+			names = append(names, b.Fields()...)
+		default:
 			names = append(names, k)
 		}
 	}
@@ -184,8 +191,9 @@ func (z *RepositoryImpl) FieldNames() []string {
 }
 
 func (z *RepositoryImpl) FieldValueText(name string) string {
-	v := z.values[name]
-	if cv, ok := v.(rc_recipe.ValueCustomValueText); ok {
+	if v, ok := z.values[name]; !ok {
+		return "" // Might be nested value in MultiValue
+	} else if cv, ok := v.(rc_recipe.ValueCustomValueText); ok {
 		return cv.ValueText()
 	} else {
 		av := v.Apply()
@@ -193,12 +201,17 @@ func (z *RepositoryImpl) FieldValueText(name string) string {
 	}
 }
 
-func (z *RepositoryImpl) Conns() map[string]dbx_conn.ConnDropboxApi {
-	conns := make(map[string]dbx_conn.ConnDropboxApi)
+func (z *RepositoryImpl) Conns() map[string]api_conn.Connection {
+	conns := make(map[string]api_conn.Connection)
 	for k, v := range z.values {
 		if vc, ok := v.(rc_recipe.ValueConn); ok {
 			if conn, ok := vc.Conn(); ok {
 				conns[k] = conn
+			}
+		}
+		if vc, ok := v.(rc_recipe.ValueConns); ok {
+			for k, c := range vc.Conns() {
+				conns[k] = c
 			}
 		}
 	}
@@ -257,7 +270,7 @@ func (z *RepositoryImpl) ReportSpecs() map[string]rp_model.Spec {
 }
 
 func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
-	l := es_log.Default()
+	l := esl.Default()
 	for k, v := range z.values {
 		fv, ok := z.fieldValue[k]
 		if !ok {
@@ -266,16 +279,16 @@ func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
 		av := v.Apply()
 		switch fv.Type().Kind() {
 		case reflect.Bool:
-			l.Debug("apply bool", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply bool", esl.String("k", k), esl.Any("av", av))
 			fv.SetBool(av.(bool))
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			l.Debug("apply int", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply int", esl.String("k", k), esl.Any("av", av))
 			fv.SetInt(av.(int64))
 		case reflect.String:
-			l.Debug("apply string", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply string", esl.String("k", k), esl.Any("av", av))
 			fv.SetString(av.(string))
 		default:
-			l.Debug("apply interface", es_log.String("k", k), es_log.Any("av", av))
+			l.Debug("apply interface", esl.String("k", k), esl.Any("av", av))
 			fv.Set(reflect.ValueOf(av))
 		}
 	}
@@ -306,7 +319,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 				prompt = true
 			}
 		}
-		l.Debug("spin up", es_log.String("k", k), es_log.Any("v.debug", v.Debug()))
+		l.Debug("spin up", esl.String("k", k), esl.Any("v.debug", v.Debug()))
 
 		err := v.SpinUp(ctl)
 		switch err {
@@ -326,7 +339,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 
 		default:
 			// TODO: replace with UI message
-			l.Error("Invalid argument, or unable to spin up", es_log.String("key", k), es_log.Error(err))
+			l.Error("Invalid argument, or unable to spin up", esl.String("key", k), esl.Error(err))
 			lastErr = err
 		}
 	}
@@ -350,7 +363,7 @@ func (z *RepositoryImpl) SpinDown(ctl app_control.Control) error {
 		if err != nil {
 			lastErr = err
 			// TODO: replace with UI message
-			l.Error("Unable to spin down", es_log.String("key", k), es_log.Error(err))
+			l.Error("Unable to spin down", esl.String("key", k), esl.Error(err))
 		}
 	}
 	if lastErr != nil {
@@ -373,16 +386,22 @@ func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 				f.Int64Var(bv, flagName, *bv, ui.Text(flagDesc))
 			case *string:
 				f.StringVar(bv, flagName, *bv, ui.Text(flagDesc))
+			case mo_multi.MultiValue:
+				bv.ApplyFlags(f, flagDesc, ui)
 			}
 		}
 	}
 }
 
-func (z *RepositoryImpl) fieldMessageKey(name string) string {
+func (z *RepositoryImpl) fieldMessageKeyBase() string {
 	key := z.rcpName
 	key = strings.ReplaceAll(key, app.Pkg+"/", "")
 	key = strings.ReplaceAll(key, "/", ".")
-	return key + ".flag." + strcase.ToSnake(name)
+	return key + ".flag."
+}
+
+func (z *RepositoryImpl) fieldMessageKey(name string) string {
+	return z.fieldMessageKeyBase() + strcase.ToSnake(name)
 }
 
 func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional {
@@ -390,7 +409,20 @@ func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional
 }
 
 func (z *RepositoryImpl) FieldDesc(name string) app_msg.Message {
-	return app_msg.CreateMessage(z.fieldMessageKey(name))
+	msg := app_msg.CreateMessage(z.fieldMessageKey(name))
+	for k, v := range z.values {
+		if k == name {
+			return msg
+		}
+		switch v0 := v.Bind().(type) {
+		case mo_multi.MultiValue:
+			if strings.HasPrefix(name, v0.Name()) {
+				base := app_msg.CreateMessage(z.fieldMessageKeyBase() + strcase.ToSnake(v0.Name()))
+				return v0.FieldDesc(base, name)
+			}
+		}
+	}
+	return msg
 }
 
 func (z *RepositoryImpl) Debug() map[string]interface{} {

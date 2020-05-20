@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -98,7 +98,7 @@ func (z *Externalid) Test(c app_control.Control) error {
 			}
 
 			if !dbx_util.RegexEmail.MatchString(row.Email) {
-				l.Error("invalid email address", es_log.String("email", row.Email))
+				l.Error("invalid email address", esl.String("email", row.Email))
 				return errors.New("invalid input")
 			}
 			pair[row.Email] = row.ExternalId + " " + time.Now().Format("2006-01-02T15-04-05")

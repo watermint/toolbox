@@ -4,9 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/log/es_log"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/atomic"
+	"io/ioutil"
 	"os"
 	"os/user"
 	"path/filepath"
@@ -60,13 +61,13 @@ type Workspace interface {
 }
 
 const (
-	nameSecrets = "secrets"
-	nameUser    = "user"
-	nameJobs    = "jobs"
-	nameLogs    = "logs"
-	nameReport  = "report"
-	nameTest    = "test"
-	nameKvs     = "kvs"
+	NameSecrets = "secrets"
+	NameUser    = "user"
+	NameJobs    = "jobs"
+	NameLogs    = "logs"
+	NameReport  = "report"
+	NameTest    = "test"
+	NameKvs     = "kvs"
 	JobIdFormat = "20060102-150405"
 )
 
@@ -90,44 +91,58 @@ func DefaultAppPath() (path string, err error) {
 	return filepath.Join(u.HomeDir, ".toolbox"), nil
 }
 
-func newWorkspaceWithPath(path string) (ws Workspace, err error) {
-	sws := &singleWorkspace{
-		home:  path,
-		jobId: NewJobId(),
+func NewWorkspace(home string, transient bool) (Workspace, error) {
+	if transient {
+		if path, err := ioutil.TempDir("", "transient"); err != nil {
+			return nil, err
+		} else {
+			return newWorkspaceWithJobIdNoSetup(path, NewJobId()), nil
+		}
 	}
-	err = sws.setup()
-	return sws, err
-}
 
-func NewWorkspace(home string) (Workspace, error) {
 	if home == "" {
 		if path, err := DefaultAppPath(); err != nil {
 			return nil, err
 		} else {
-			return newWorkspaceWithPath(path)
+			return newWorkspace(path)
 		}
 	} else {
 		if path, err := es_filepath.FormatPathWithPredefinedVariables(home); err != nil {
 			return nil, err
 		} else {
-			return newWorkspaceWithPath(path)
+			return newWorkspace(path)
 		}
 	}
 }
 
+// Create workspace instance by job path.
+// This will not create directories. Just matches to existing folder structure.
+// Returns error if a
+func NewWorkspaceByJobPath(home Application, jobId string) (ws Workspace, err error) {
+	ws = newWorkspaceWithJobIdNoSetup(home.Home(), jobId)
+	p, err := os.Lstat(ws.Log())
+	if err != nil {
+		return nil, err
+	}
+	if p.IsDir() {
+		return ws, nil
+	}
+	return nil, errors.New("given path look like not a workspace path")
+}
+
 // create or get fully qualified path
 func getOrCreate(fqp string) (path string, err error) {
-	l := es_log.Default().With(es_log.String("path", fqp))
+	l := esl.Default().With(esl.String("path", fqp))
 	st, err := os.Stat(fqp)
 	switch {
 	case err != nil && os.IsNotExist(err):
 		err = os.MkdirAll(fqp, 0701)
 		if err != nil {
-			l.Error("Unable to create workspace path", es_log.Error(err))
+			l.Error("Unable to create workspace path", esl.Error(err))
 			return "", err
 		}
 	case err != nil:
-		l.Error("Unable to setup path", es_log.Error(err))
+		l.Error("Unable to setup path", esl.Error(err))
 		return "", err
 
 	case !st.IsDir():
@@ -135,7 +150,7 @@ func getOrCreate(fqp string) (path string, err error) {
 		return "", errors.New("workspace path is not a directory")
 
 	case st.Mode()&0700 == 0:
-		l.Error("No permission to read and write at workspace path", es_log.Any("mode", st.Mode()))
+		l.Error("No permission to read and write at workspace path", esl.Any("mode", st.Mode()))
 		return "", errors.New("no permission")
 	}
 	return fqp, nil
