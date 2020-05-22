@@ -1,6 +1,7 @@
 package rc_exec
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -23,6 +24,9 @@ func ExecMock(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_reci
 // Execute with mock test mode
 func ExecReplay(ctl app_control.Control, r rc_recipe.Recipe, replayName string, custom func(r rc_recipe.Recipe)) error {
 	replay, err := qt_replay.LoadReplay(replayName)
+	if _, ok := err.(*json.SyntaxError); ok {
+		return err
+	}
 	if err != nil {
 		return qt_errors.ErrorNotEnoughResource
 	}

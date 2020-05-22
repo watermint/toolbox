@@ -70,7 +70,11 @@ func (z asyncImpl) handleTag(ao dbx_async.AsyncOpts, res es_response.Response, r
 	switch tag {
 	case "async_job_id":
 		l.Debug("Waiting for complete", esl.Duration("wait", z.pollDuration(ao)))
-		return z.handleAsyncJobId(ao, res, resJson, "")
+		if jid, ok := resJson.FindString("async_job_id"); ok {
+			return z.handleAsyncJobId(ao, res, resJson, jid)
+		} else {
+			return z.handleAsyncJobId(ao, res, resJson, "")
+		}
 
 	case "complete":
 		l.Debug("Complete")

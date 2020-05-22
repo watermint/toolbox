@@ -68,11 +68,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option       | Description                                                                  | Default |
-|--------------|------------------------------------------------------------------------------|---------|
-| `-file`      | Data file                                                                    |         |
-| `-peer`      | Account alias                                                                | default |
-| `-wipe-data` | If true, controls if the user's data will be deleted on their linked devices | true    |
+| Option                                  | Description                                                                          | Default |
+|-----------------------------------------|--------------------------------------------------------------------------------------|---------|
+| `-file`                                 | Data file                                                                            |         |
+| `-peer`                                 | Account alias                                                                        | default |
+| `-transfer-dest-member`                 | If provided, files from the deleted member account will be transferred to this user. |         |
+| `-transfer-notify-admin-email-on-error` | If provided, errors during the transfer process will be sent via email to this user. |         |
+| `-wipe-data`                            | If true, controls if the user's data will be deleted on their linked devices         | true    |
 
 ## Common options:
 

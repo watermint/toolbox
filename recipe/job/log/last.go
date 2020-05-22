@@ -44,7 +44,7 @@ func (z *Last) Exec(c app_control.Control) error {
 		return err
 	}
 
-	out := es_stdout.NewDefaultOut(c.Feature())
+	out := es_stdout.NewDirectOut()
 	for _, lf := range logs {
 		if app_job.LogFileType(z.Kind.Value()) != lf.Type() {
 			l.Debug("skip non target log type", esl.String("name", lf.Name()), esl.Any("type", lf.Type()))

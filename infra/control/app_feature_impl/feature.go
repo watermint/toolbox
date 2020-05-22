@@ -42,6 +42,7 @@ type featureImpl struct {
 
 func (z featureImpl) AsReplayTest(replay []nw_replay.Response) app_feature.Feature {
 	z.replay = replay
+	z.test = true
 	return z
 }
 

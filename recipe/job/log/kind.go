@@ -31,7 +31,7 @@ func (z *Kind) Exec(c app_control.Control) error {
 		return err
 	}
 
-	out := es_stdout.NewDefaultOut(c.Feature())
+	out := es_stdout.NewDirectOut()
 
 	for _, h := range histories {
 		logs, err := h.Logs()

@@ -15,6 +15,9 @@ func TestFilterImpl_Accept(t *testing.T) {
 	if fl.Name() != "Hello" {
 		t.Error(fl.Name())
 	}
+	if x := fl.IsEnabled(); x {
+		t.Error(x)
+	}
 	fl.SetOptions(NewNameFilter(), NewNameSuffixFilter())
 	fields := es_array.NewByString(fl.Fields()...)
 	expected := es_array.NewByString("HelloName", "HelloNameSuffix")

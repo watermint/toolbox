@@ -79,7 +79,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedev.Async{},
 		&recipedev.Catalogue{},
 		&recipedev.Doc{},
-		&recipedev.Dummy{},
 		&recipedev.Echo{},
 		&recipedev.Preflight{},
 		&recipedevciartifact.Connect{},

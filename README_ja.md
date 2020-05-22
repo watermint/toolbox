@@ -19,6 +19,14 @@ watermint toolboxはMITライセンスのもと配布されています.
 
 コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます. ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
 
+## Installing using Homebrew on macOS
+
+First, you need to install Homebrew. Please refer the instruction on [the official site](https://brew.sh/). Then run following commands to install watermint toolbox.
+```
+brew tap watermint/toolbox
+brew install toolbox
+```
+
 # 利用方法
 
 `tbx` にはたくさんの機能があります. オプションなしで実行をするとサポートされているコマンドやオプションの一覧が表示されます.

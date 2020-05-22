@@ -915,6 +915,8 @@
   "infra.doc.dc_readme.license.body_license_quote": "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.",
   "infra.doc.dc_readme.license.body_license_remarks": "Please carefully note:",
   "infra.doc.dc_readme.license.header_title": "Licensing & Disclaimers",
+  "infra.doc.dc_readme.release.homebrew_desc": "First, you need to install Homebrew. Please refer the instruction on [the official site](https://brew.sh/). Then run following commands to install watermint toolbox.",
+  "infra.doc.dc_readme.release.homebrew_header": "Installing using Homebrew on macOS",
   "infra.doc.dc_readme.release.release_body": "Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).",
   "infra.doc.dc_readme.release.release_header": "Built executable",
   "infra.doc.dc_readme.usage.usage_body": "`tbx` have various features. Run without an option for a list of supported commands and options.\nYou can see available commands and options by running executable without arguments like below.",
@@ -1537,6 +1539,8 @@
   "recipe.member.delete.cli.args": "-file /path/to/data/file.csv",
   "recipe.member.delete.flag.file": "Data file",
   "recipe.member.delete.flag.peer": "Account alias",
+  "recipe.member.delete.flag.transfer_dest_member": "If provided, files from the deleted member account will be transferred to this user.",
+  "recipe.member.delete.flag.transfer_notify_admin_email_on_error": "If provided, errors during the transfer process will be sent via email to this user.",
   "recipe.member.delete.flag.wipe_data": "If true, controls if the user's data will be deleted on their linked devices",
   "recipe.member.delete.title": "Delete members",
   "recipe.member.delete_row.desc": "Data file for deleting team members.",
@@ -2002,8 +2006,6 @@
   "web.error.server.detail": "Please see logs for more detail.",
   "web.error.server.header": "Server error",
   "web.home.message": "Welcome {{.User}}",
-  "infra.doc.dc_readme.release.homebrew_desc": "First, you need to install Homebrew. Please refer the instruction on [the official site](https://brew.sh/). Then run following commands to install watermint toolbox.",
-  "infra.doc.dc_readme.release.homebrew_header": "Installing using Homebrew on macOS",
   "web.job.result.failure": "Failure (error: {{.Error}})",
   "web.job.result.success": "Success"
 }

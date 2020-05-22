@@ -20,6 +20,10 @@ type Filter interface {
 
 	// Debug information
 	Debug() interface{}
+
+	// Weather the filter enabled or not.
+	// Note: Accept() will return true when the filter is not enabled.
+	IsEnabled() bool
 }
 
 type FilterOpt interface {
@@ -48,6 +52,15 @@ func New(name string) Filter {
 type filterImpl struct {
 	name    string
 	filters []FilterOpt
+}
+
+func (z *filterImpl) IsEnabled() bool {
+	for _, f := range z.filters {
+		if f.Enabled() {
+			return true
+		}
+	}
+	return false
 }
 
 func (z *filterImpl) Debug() interface{} {
