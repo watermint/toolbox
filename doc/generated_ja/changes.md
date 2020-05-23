@@ -3,9 +3,10 @@
 # 追加されたコマンド
 
 
-| コマンド            | タイトル                 |
-|---------------------|--------------------------|
-| dev util image jpeg | Create dummy image files |
+| コマンド                    | タイトル                               |
+|-----------------------------|----------------------------------------|
+| dev util image jpeg         | Create dummy image files               |
+| services github content get | Get content metadata of the repository |
 
 
 

@@ -3,9 +3,10 @@
 # Commands added
 
 
-| Command             | Title                    |
-|---------------------|--------------------------|
-| dev util image jpeg | Create dummy image files |
+| Command                     | Title                                  |
+|-----------------------------|----------------------------------------|
+| dev util image jpeg         | Create dummy image files               |
+| services github content get | Get content metadata of the repository |
 
 
 
