@@ -73,6 +73,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-owner`      | Owner of the repository |         |
 | `-path`       | Path to the content     |         |
 | `-peer`       | Account alias           | default |
+| `-ref`        | Name of reference       |         |
 | `-repository` | Name of the repository  |         |
 
 ## Common options:

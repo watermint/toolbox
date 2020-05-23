@@ -1667,6 +1667,7 @@
   "recipe.services.github.content.get.flag.owner": "Owner of the repository",
   "recipe.services.github.content.get.flag.path": "Path to the content",
   "recipe.services.github.content.get.flag.peer": "Account alias",
+  "recipe.services.github.content.get.flag.ref": "Name of reference",
   "recipe.services.github.content.get.flag.repository": "Name of the repository",
   "recipe.services.github.content.get.title": "Get content metadata of the repository",
   "recipe.services.github.content.title": "Operation for GitHub Contents",

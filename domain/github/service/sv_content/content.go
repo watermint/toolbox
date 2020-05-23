@@ -53,7 +53,7 @@ func Branch(branch string) ContentOpt {
 }
 
 type ParamRef struct {
-	Ref string `json:"ref"`
+	Ref string `json:"ref" url:"ref"`
 }
 
 func New(ctx gh_context.Context, owner, repo string) Content {

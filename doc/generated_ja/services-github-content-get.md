@@ -73,6 +73,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-owner`      | Owner of the repository |            |
 | `-path`       | Path to the content     |            |
 | `-peer`       | Account alias           | default    |
+| `-ref`        | Name of reference       |            |
 | `-repository` | Name of the repository  |            |
 
 ## 共通のオプション:

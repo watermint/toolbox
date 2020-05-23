@@ -40,6 +40,9 @@ func (z RequestData) ParamJson() json.RawMessage {
 // Returns query string like "?key=value&key2=value2". Returns empty string if an error occurred.
 func (z RequestData) ParamQuery() string {
 	l := esl.Default()
+	if z.p == nil {
+		return ""
+	}
 	q, err := query.Values(z.p)
 	if err != nil {
 		l.Debug("unable to make query", esl.Error(err), esl.Any("p", z.p))

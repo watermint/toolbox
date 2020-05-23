@@ -1,6 +1,7 @@
 package content
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/model/mo_content"
 	"github.com/watermint/toolbox/domain/github/service/sv_content"
@@ -14,6 +15,7 @@ type Get struct {
 	Owner      string
 	Repository string
 	Path       string
+	Ref        mo_string.OptionalString
 	Content    rp_model.RowReport
 	Peer       gh_conn.ConnGithubRepo
 }
@@ -26,8 +28,11 @@ func (z *Get) Exec(c app_control.Control) error {
 	if err := z.Content.Open(); err != nil {
 		return err
 	}
-
-	cts, err := sv_content.New(z.Peer.Context(), z.Owner, z.Repository).Get(z.Path)
+	opts := make([]sv_content.ContentOpt, 0)
+	if z.Ref.IsExists() {
+		opts = append(opts, sv_content.Ref(z.Ref.Value()))
+	}
+	cts, err := sv_content.New(z.Peer.Context(), z.Owner, z.Repository).Get(z.Path, opts...)
 	if err != nil {
 		return err
 	}
