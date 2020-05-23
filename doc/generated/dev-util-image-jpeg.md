@@ -1,6 +1,6 @@
-# dev dummy
+# dev util image jpeg
 
-Create dummy files 
+Create dummy image files 
 
 # Usage
 
@@ -10,12 +10,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev dummy 
+.\tbx.exe dev util image jpeg -path /LOCAL/PATH/TO/PROCESS
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev dummy 
+$HOME/Desktop/tbx dev util image jpeg -path /LOCAL/PATH/TO/PROCESS
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -26,11 +26,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option       | Description              | Default |
-|--------------|--------------------------|---------|
-| `-dest`      | Dummy file destination   |         |
-| `-max-entry` | Maximum entries          | 0       |
-| `-path`      | Path to dummy entry file |         |
+| Option         | Description                 | Default    |
+|----------------|-----------------------------|------------|
+| `-count`       | Number of files to generate | 10         |
+| `-height`      | Height                      | 1080       |
+| `-name-prefix` | Filename prefix             | test_image |
+| `-path`        | Path to generate files      |            |
+| `-quality`     | Quality of jpeg             | 75         |
+| `-width`       | Width                       | 1920       |
 
 ## Common options:
 

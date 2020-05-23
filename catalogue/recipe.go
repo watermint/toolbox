@@ -15,6 +15,7 @@ import (
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
+	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
 	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
@@ -97,6 +98,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},
 		&recipedevutil.Wait{},
+		&recipedevutilimage.Jpeg{},
 		&recipefile.Copy{},
 		&recipefile.Delete{},
 		&recipefile.Download{},
