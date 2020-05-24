@@ -16,7 +16,7 @@ var (
 
 type Content interface {
 	Get(path string, opts ...ContentOpt) (c mo_content.Contents, err error)
-	Put(path, message, content string, ots ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error)
+	Put(path, message, content string, opts ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error)
 }
 
 type ContentOpt func(o contentOpts) contentOpts
@@ -107,8 +107,8 @@ func (z ctsImpl) Get(path string, opts ...ContentOpt) (c mo_content.Contents, er
 	}
 }
 
-func (z ctsImpl) Put(path, message, content string, ots ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error) {
-	co := contentOpts{}.Apply(ots...)
+func (z ctsImpl) Put(path, message, content string, opts ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error) {
+	co := contentOpts{}.Apply(opts...)
 	endpoint := z.makePath(path)
 
 	req := struct {

@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
+	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
@@ -23,6 +24,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/ingredient/release/homebrew"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
@@ -36,6 +38,12 @@ import (
 var (
 	ErrorBuildIsNotReadyForRelease = errors.New("the build does not satisfy release criteria")
 	ErrorNoArtifactFound           = errors.New("no artifact found")
+)
+
+const (
+	homebrewRepoOwner  = "watermint"
+	homebrewRepoName   = "homebrew-toolbox"
+	homebrewRepoBranch = "current"
 )
 
 type Publish struct {
@@ -294,8 +302,27 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 			continue
 		}
 		l.Info("Uploaded", esl.Any("asset", a.Name))
+		if strings.Contains(a.Name, "mac") {
+			l.Info("updating Homebrew formula", esl.String("asset", a.Name))
+			if err := z.updateHomebrewFormula(c, p, a); err != nil {
+				return err
+			}
+		}
 	}
 	return nil
+}
+
+func (z *Publish) updateHomebrewFormula(c app_control.Control, path string, asset *mo_release_asset.Asset) error {
+	return rc_exec.Exec(c, &homebrew.Formula{}, func(r rc_recipe.Recipe) {
+		m := r.(*homebrew.Formula)
+		m.Owner = homebrewRepoOwner
+		m.Repository = homebrewRepoName
+		m.Branch = homebrewRepoBranch
+		m.AssetPath = mo_path2.NewExistingFileSystemPath(path)
+		m.DownloadUrl = asset.DownloadUrl
+		m.Message = "Release " + app.Version
+		m.FormulaName = "toolbox.rb"
+	})
 }
 
 func (z *Publish) Exec(c app_control.Control) error {
