@@ -313,13 +313,14 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 }
 
 func (z *Publish) updateHomebrewFormula(c app_control.Control, path string, asset *mo_release_asset.Asset) error {
+	name := filepath.Base(path)
 	return rc_exec.Exec(c, &homebrew.Formula{}, func(r rc_recipe.Recipe) {
 		m := r.(*homebrew.Formula)
 		m.Owner = homebrewRepoOwner
 		m.Repository = homebrewRepoName
 		m.Branch = homebrewRepoBranch
 		m.AssetPath = mo_path2.NewExistingFileSystemPath(path)
-		m.DownloadUrl = asset.DownloadUrl
+		m.DownloadUrl = "https://github.com/watermint/toolbox/releases/download/" + app.Version + "/" + name
 		m.Message = "Release " + app.Version
 		m.FormulaName = "toolbox.rb"
 	})
