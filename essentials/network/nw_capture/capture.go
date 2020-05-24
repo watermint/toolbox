@@ -109,15 +109,26 @@ type Res struct {
 func (z *Res) Apply(res es_response.Response, resErr error) {
 	z.ResponseCode = res.Code()
 	z.ResponseProto = res.Proto()
-	z.ContentLength = res.Success().ContentLength()
-	if res.Success().IsFile() {
-		z.ResponseBody = ""
+
+	if res.IsSuccess() {
+		z.ContentLength = res.Success().ContentLength()
+		if res.Success().IsFile() {
+			z.ResponseBody = ""
+		} else {
+			z.ResponseBody = res.Success().BodyString()
+		}
 	} else {
-		z.ResponseBody = res.Success().BodyString()
+		if resErr != nil {
+			z.ResponseError = resErr.Error()
+		}
+		z.ContentLength = res.Alt().ContentLength()
+		if res.Alt().IsFile() {
+			z.ResponseBody = ""
+		} else {
+			z.ResponseBody = res.Alt().BodyString()
+		}
 	}
-	if resErr != nil {
-		z.ResponseError = resErr.Error()
-	}
+
 	z.ResponseHeaders = res.Headers()
 }
 

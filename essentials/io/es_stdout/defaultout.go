@@ -35,6 +35,10 @@ func newDefaultOut(test, quiet bool) io.WriteCloser {
 	}
 }
 
+func NewDiscard() io.WriteCloser {
+	return &syncOut{co: ioutil.Discard}
+}
+
 func NewDefaultOut(feature Feature) io.WriteCloser {
 	return newDefaultOut(feature.IsTest(), feature.IsQuiet())
 }

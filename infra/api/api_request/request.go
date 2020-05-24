@@ -21,6 +21,7 @@ const (
 
 type RequestData struct {
 	p interface{}
+	q interface{}
 	h map[string]string
 	c es_rewinder.ReadRewinder
 }
@@ -40,9 +41,12 @@ func (z RequestData) ParamJson() json.RawMessage {
 // Returns query string like "?key=value&key2=value2". Returns empty string if an error occurred.
 func (z RequestData) ParamQuery() string {
 	l := esl.Default()
-	q, err := query.Values(z.p)
+	if z.q == nil {
+		return ""
+	}
+	q, err := query.Values(z.q)
 	if err != nil {
-		l.Debug("unable to make query", esl.Error(err), esl.Any("p", z.p))
+		l.Debug("unable to make query", esl.Error(err), esl.Any("q", z.q))
 		return ""
 	} else {
 		return "?" + q.Encode()
@@ -64,6 +68,13 @@ func (z RequestData) Content() es_rewinder.ReadRewinder {
 }
 
 type RequestDatum func(d RequestData) RequestData
+
+func Query(q interface{}) RequestDatum {
+	return func(d RequestData) RequestData {
+		d.q = q
+		return d
+	}
+}
 
 func Param(p interface{}) RequestDatum {
 	return func(d RequestData) RequestData {

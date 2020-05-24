@@ -130,9 +130,11 @@ func AddWithDirectoryRestricted() AddOpt {
 
 type RemoveOpt func(opt *removeOptions) *removeOptions
 type removeOptions struct {
-	wipeData         bool
-	keepAccount      bool
-	retainTeamShares bool
+	wipeData           bool
+	keepAccount        bool
+	retainTeamShares   bool
+	transferDestEmail  string
+	transferAdminEmail string
 }
 
 // Downgrade the member to a Basic account.
@@ -152,6 +154,18 @@ func RemoveWipeData() RemoveOpt {
 func RetainTeamShares() RemoveOpt {
 	return func(opt *removeOptions) *removeOptions {
 		opt.retainTeamShares = true
+		return opt
+	}
+}
+func TransferDest(email string) RemoveOpt {
+	return func(opt *removeOptions) *removeOptions {
+		opt.transferDestEmail = email
+		return opt
+	}
+}
+func TransferNotifyAdminOnError(email string) RemoveOpt {
+	return func(opt *removeOptions) *removeOptions {
+		opt.transferAdminEmail = email
 		return opt
 	}
 }
@@ -289,23 +303,42 @@ func (z *memberImpl) Remove(member *mo_member.Member, opts ...RemoveOpt) (err er
 	for _, o := range opts {
 		o(ro)
 	}
-	type US struct {
+	type SelectorId struct {
 		Tag          string `json:".tag"`
 		TeamMemberId string `json:"team_member_id"`
 	}
+	type SelectorEmail struct {
+		Tag   string `json:".tag"`
+		Email string `json:"email"`
+	}
 	p := struct {
-		User             US   `json:"user"`
-		WipeData         bool `json:"wipe_data"`
-		KeepAccount      bool `json:"keep_account"`
-		RetainTeamShares bool `json:"retain_team_shares"`
+		User             SelectorId     `json:"user"`
+		WipeData         bool           `json:"wipe_data"`
+		KeepAccount      bool           `json:"keep_account"`
+		RetainTeamShares bool           `json:"retain_team_shares"`
+		TransferDestId   *SelectorEmail `json:"transfer_dest_id,omitempty"`
+		TransferAdminId  *SelectorEmail `json:"transfer_admin_id,omitempty"`
 	}{
-		User: US{
+		User: SelectorId{
 			Tag:          "team_member_id",
 			TeamMemberId: member.TeamMemberId,
 		},
 		WipeData:         ro.wipeData,
 		KeepAccount:      ro.keepAccount,
 		RetainTeamShares: ro.retainTeamShares,
+	}
+
+	if ro.transferDestEmail != "" {
+		p.TransferDestId = &SelectorEmail{
+			Tag:   "email",
+			Email: ro.transferDestEmail,
+		}
+	}
+	if ro.transferAdminEmail != "" {
+		p.TransferAdminId = &SelectorEmail{
+			Tag:   "email",
+			Email: ro.transferAdminEmail,
+		}
 	}
 
 	res := z.ctx.Async("team/members/remove", api_request.Param(p)).Call(

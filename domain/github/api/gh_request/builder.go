@@ -95,9 +95,9 @@ func (z Builder) reqContent() es_rewinder.ReadRewinder {
 }
 
 func (z Builder) reqParamString() string {
-	if z.data.Content() == nil {
-		return ""
-	}
+	//if z.data.Content() == nil {
+	//	return ""
+	//}
 	return z.data.ParamQuery()
 }
 

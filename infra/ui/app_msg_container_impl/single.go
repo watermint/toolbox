@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
+	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
 	"strings"
 	"text/template"
 )
@@ -53,6 +54,7 @@ type sglContainer struct {
 
 func (z sglContainer) Text(key string) string {
 	if msg, ok := z.messages[key]; !ok {
+		qt_missingmsg.Record().NotFound(key)
 		return AltText(key)
 	} else {
 		return msg
@@ -63,11 +65,11 @@ func (z sglContainer) Exists(msg app_msg.Message) bool {
 	switch m := msg.(type) {
 	case app_msg.MessageComplex:
 		for _, mm := range m.Messages() {
-			if z.ExistsKey(mm.Key()) {
-				return true
+			if !z.ExistsKey(mm.Key()) {
+				return false
 			}
 		}
-		return false
+		return true
 
 	default:
 		return z.ExistsKey(msg.Key())
@@ -129,6 +131,7 @@ func (z sglContainer) Compile(m app_msg.Message) string {
 			if m0.Optional() {
 				return ""
 			} else {
+				qt_missingmsg.Record().NotFound(key)
 				return AltCompile(m)
 			}
 		} else {
@@ -137,6 +140,7 @@ func (z sglContainer) Compile(m app_msg.Message) string {
 
 	default:
 		if msg, ok := z.messages[key]; !ok {
+			qt_missingmsg.Record().NotFound(key)
 			return AltCompile(m)
 		} else {
 			return z.compileMessage(m, msg)

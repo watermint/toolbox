@@ -19,6 +19,14 @@ watermint toolboxはMITライセンスのもと配布されています.
 
 コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます. ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
 
+## macOSでHomebrewを使いインストール
+
+まずHomebrewをインストールします. 手順は [オフィシャルサイト](https://brew.sh/)を参照してください. 次のコマンドを実行してwatermint toolboxをインストールします.
+```
+brew tap watermint/toolbox
+brew install toolbox
+```
+
 # 利用方法
 
 `tbx` にはたくさんの機能があります. オプションなしで実行をするとサポートされているコマンドやオプションの一覧が表示されます.
@@ -175,14 +183,16 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## GitHub
 
-| コマンド                                                                                             | 説明                                         |
-|------------------------------------------------------------------------------------------------------|----------------------------------------------|
-| [services github issue list](doc/generated_ja/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧 |
-| [services github profile](doc/generated_ja/services-github-profile.md)                               | 認証したユーザーの情報を取得                 |
-| [services github release asset download](doc/generated_ja/services-github-release-asset-download.md) | アセットをダウンロードします                 |
-| [services github release asset list](doc/generated_ja/services-github-release-asset-list.md)         | GitHubリリースの成果物一覧                   |
-| [services github release asset upload](doc/generated_ja/services-github-release-asset-upload.md)     | GitHub リリースへ成果物をアップロードします  |
-| [services github release draft](doc/generated_ja/services-github-release-draft.md)                   | リリースの下書きを作成                       |
-| [services github release list](doc/generated_ja/services-github-release-list.md)                     | リリースの一覧                               |
-| [services github tag create](doc/generated_ja/services-github-tag-create.md)                         | レポジトリにタグを作成します                 |
+| コマンド                                                                                             | 説明                                             |
+|------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| [services github content get](doc/generated_ja/services-github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.    |
+| [services github content put](doc/generated_ja/services-github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します |
+| [services github issue list](doc/generated_ja/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧     |
+| [services github profile](doc/generated_ja/services-github-profile.md)                               | 認証したユーザーの情報を取得                     |
+| [services github release asset download](doc/generated_ja/services-github-release-asset-download.md) | アセットをダウンロードします                     |
+| [services github release asset list](doc/generated_ja/services-github-release-asset-list.md)         | GitHubリリースの成果物一覧                       |
+| [services github release asset upload](doc/generated_ja/services-github-release-asset-upload.md)     | GitHub リリースへ成果物をアップロードします      |
+| [services github release draft](doc/generated_ja/services-github-release-draft.md)                   | リリースの下書きを作成                           |
+| [services github release list](doc/generated_ja/services-github-release-list.md)                     | リリースの一覧                                   |
+| [services github tag create](doc/generated_ja/services-github-tag-create.md)                         | レポジトリにタグを作成します                     |
 

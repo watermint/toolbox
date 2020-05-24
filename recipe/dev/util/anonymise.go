@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
@@ -123,7 +124,16 @@ func (z Anon) handleString(s string) string {
 func (z Anon) handleObject(o map[string]es_json.Json) interface{} {
 	va := make(map[string]interface{})
 	for k, v := range o {
-		va[k] = z.handleValue(v)
+		switch k {
+		case "error_summary":
+			if vs, ok := v.String(); ok {
+				va[k] = vs
+			} else {
+				va[k] = v
+			}
+		default:
+			va[k] = z.handleValue(v)
+		}
 	}
 	return va
 }
@@ -178,9 +188,15 @@ func (z Anon) Anonymise(j es_json.Json) (json.RawMessage, error) {
 			case "body":
 				body, err := es_json.ParseString(v.RawString())
 				if err != nil {
-					return nil, err
+					res[k] = v
+				} else {
+					av := z.handleValue(body)
+					if ab, err := json.Marshal(av); err != nil {
+						return nil, err
+					} else {
+						res[k] = string(ab)
+					}
 				}
-				res[k] = z.handleValue(body)
 			case "headers":
 				if headers, found := v.Object(); found {
 					resHeaders := make(map[string]interface{})
@@ -201,7 +217,7 @@ func (z Anon) Anonymise(j es_json.Json) (json.RawMessage, error) {
 		}
 	}
 
-	ajb, err := json.MarshalIndent(res, "", strings.Repeat(" ", jsonIndent))
+	ajb, err := json.Marshal(res)
 	if err != nil {
 		l := esl.Default()
 		l.Error("Unable to marshal", esl.Error(err))
@@ -255,39 +271,58 @@ func (z *Anonymise) anonymize(out io.Writer, lg app_job.LogFile) error {
 			return err
 		}
 		_, _ = out.Write(anonBody)
+		_, _ = fmt.Fprintln(out)
 	}
 
 	return nil
 }
 
-func (z *Anonymise) Exec(c app_control.Control) error {
-	l := esl.Default()
-	histories, err := app_job_impl.GetHistories(z.Path)
+func (z *Anonymise) execHistory(history app_job.History, c app_control.Control) error {
+	l := c.Log()
+	logs, err := history.Logs()
 	if err != nil {
+		l.Debug("Unable to retrieve logs", esl.Error(err))
 		return err
 	}
+	out := es_stdout.NewDirectOut()
+	for _, lg := range logs {
+		if lg.Type() != app_job.LogFileTypeCapture {
+			l.Debug("Skip", esl.String("type", string(lg.Type())), esl.String("name", lg.Name()))
+			continue
+		}
+		if err := z.anonymize(out, lg); err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
-	out := es_stdout.NewDefaultOut(c.Feature())
+func (z *Anonymise) execByFilter(histories []app_job.History, c app_control.Control) error {
+	l := c.Log()
 	for _, h := range histories {
 		if !z.JobId.Accept(h.JobId()) {
 			l.Debug("Skip", esl.String("jobId", h.JobId()))
 			continue
 		}
-		logs, err := h.Logs()
-		if err != nil {
-			l.Debug("Unable to retrieve logs", esl.Error(err))
+		if err := z.execHistory(h, c); err != nil {
 			return err
 		}
-		for _, lg := range logs {
-			if lg.Type() != app_job.LogFileTypeCapture {
-				l.Debug("Skip", esl.String("type", string(lg.Type())), esl.String("name", lg.Name()))
-				continue
-			}
-			if err := z.anonymize(out, lg); err != nil {
-				return err
-			}
-		}
 	}
+	return nil
+}
+
+func (z *Anonymise) Exec(c app_control.Control) error {
+	histories, err := app_job_impl.GetHistories(z.Path)
+	if err != nil {
+		return err
+	}
+
+	if z.JobId.IsEnabled() {
+		return z.execByFilter(histories, c)
+	} else if len(histories) > 0 {
+		return z.execHistory(histories[len(histories)-1], c)
+	}
+
 	return nil
 }
 

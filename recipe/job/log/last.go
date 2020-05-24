@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"io"
 )
 
 type Last struct {
@@ -44,7 +45,13 @@ func (z *Last) Exec(c app_control.Control) error {
 		return err
 	}
 
-	out := es_stdout.NewDefaultOut(c.Feature())
+	var out io.WriteCloser
+	if c.Feature().IsTest() {
+		out = es_stdout.NewDiscard()
+	} else {
+		out = es_stdout.NewDirectOut()
+	}
+
 	for _, lf := range logs {
 		if app_job.LogFileType(z.Kind.Value()) != lf.Type() {
 			l.Debug("skip non target log type", esl.String("name", lf.Name()), esl.Any("type", lf.Type()))

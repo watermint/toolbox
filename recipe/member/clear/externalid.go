@@ -2,7 +2,6 @@ package clear
 
 import (
 	"errors"
-	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -74,7 +73,7 @@ func (z *Externalid) Test(c app_control.Control) error {
 	{
 		dummyEmails := make([]string, 0)
 		for i := 0; i < 8; i++ {
-			dummyEmails = append(dummyEmails, fmt.Sprintf("test%d@example.com", i))
+			dummyEmails = append(dummyEmails, "xxxxxxxx@xxxxxxxxx.xxx")
 		}
 		content := strings.Join(dummyEmails, "\n")
 		path, err := qt_file.MakeTestFile("member.csv", content)

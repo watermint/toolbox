@@ -1,6 +1,6 @@
-# dev dummy
+# dev util image jpeg
 
-ダミーファイルを作成します 
+ダミー画像ファイルを作成します 
 
 # 利用方法
 
@@ -10,12 +10,12 @@
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev dummy 
+.\tbx.exe dev util image jpeg -path /LOCAL/PATH/TO/PROCESS
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev dummy 
+$HOME/Desktop/tbx dev util image jpeg -path /LOCAL/PATH/TO/PROCESS
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,11 +26,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                           | デフォルト |
-|--------------|--------------------------------|------------|
-| `-dest`      | ダミーファイルの位置           |            |
-| `-max-entry` | 最大エントリ数                 | 0          |
-| `-path`      | ダミーファイルエントリへのパス |            |
+| オプション     | 説明                       | デフォルト |
+|----------------|----------------------------|------------|
+| `-count`       | 生成するファイル数         | 10         |
+| `-height`      | 高さ                       | 1080       |
+| `-name-prefix` | ファイル名のプリフィックス | test_image |
+| `-path`        | ファイルを生成するパス     |            |
+| `-quality`     | JPEGの品質                 | 75         |
+| `-width`       | 幅                         | 1920       |
 
 ## 共通のオプション:
 

@@ -21,6 +21,9 @@ type Post interface {
 type Get interface {
 	Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
 }
+type Put interface {
+	Put(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
+}
 
 type Context interface {
 	es_context.Context

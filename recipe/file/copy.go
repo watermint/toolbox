@@ -33,7 +33,7 @@ func (z *Copy) Test(c app_control.Control) error {
 			m.Src = qtr_endtoend.NewTestDropboxFolderPath("src")
 			m.Dst = qtr_endtoend.NewTestDropboxFolderPath("dst")
 		})
-		if err != nil {
+		if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
 			return err
 		}
 	}

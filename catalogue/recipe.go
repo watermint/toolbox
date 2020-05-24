@@ -15,6 +15,7 @@ import (
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
+	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
 	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
@@ -37,6 +38,7 @@ import (
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
+	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
 	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
 	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
@@ -79,7 +81,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedev.Async{},
 		&recipedev.Catalogue{},
 		&recipedev.Doc{},
-		&recipedev.Dummy{},
 		&recipedev.Echo{},
 		&recipedev.Preflight{},
 		&recipedevciartifact.Connect{},
@@ -98,6 +99,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},
 		&recipedevutil.Wait{},
+		&recipedevutilimage.Jpeg{},
 		&recipefile.Copy{},
 		&recipefile.Delete{},
 		&recipefile.Download{},
@@ -153,6 +155,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipememberupdate.Externalid{},
 		&recipememberupdate.Profile{},
 		&recipeservicesgithub.Profile{},
+		&recipeservicesgithubcontent.Get{},
+		&recipeservicesgithubcontent.Put{},
 		&recipeservicesgithubissue.List{},
 		&recipeservicesgithubrelease.Draft{},
 		&recipeservicesgithubrelease.List{},

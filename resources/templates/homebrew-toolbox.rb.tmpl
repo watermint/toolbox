@@ -1,0 +1,10 @@
+class Toolbox < Formula
+  desc "CLI tools for Dropbox and Dropbox Business"
+  homepage "https://github.com/watermint/toolbox"
+  url "{{.DownloadUrl}}"
+  sha256 "{{.Sha256}}"
+
+  def install
+    bin.install "tbx"
+  end
+end

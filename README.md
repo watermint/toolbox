@@ -21,6 +21,14 @@ Please carefully note:
 
 Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).
 
+## Installing using Homebrew on macOS
+
+First, you need to install Homebrew. Please refer the instruction on [the official site](https://brew.sh/). Then run following commands to install watermint toolbox.
+```
+brew tap watermint/toolbox
+brew install toolbox
+```
+
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
@@ -179,6 +187,8 @@ Available commands:
 
 | Command                                                                                           | Description                                         |
 |---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| [services github content get](doc/generated/services-github-content-get.md)                       | Get content metadata of the repository              |
+| [services github content put](doc/generated/services-github-content-put.md)                       | Put small text content into the repository          |
 | [services github issue list](doc/generated/services-github-issue-list.md)                         | List issues of the public/private GitHub repository |
 | [services github profile](doc/generated/services-github-profile.md)                               | Get the authenticated user                          |
 | [services github release asset download](doc/generated/services-github-release-asset-download.md) | Download assets                                     |

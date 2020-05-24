@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
+	"errors"
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
@@ -24,14 +25,14 @@ func LoadReplay(name string) (rr []nw_replay.Response, err error) {
 	rp := filepath.Join(tp, "replay", name)
 
 	l.Debug("Loading replay", esl.String("path", rp))
-	b, err := ioutil.ReadFile(rp)
+	all, err := ioutil.ReadFile(rp)
 	if err != nil {
 		l.Debug("Unable to load", esl.Error(err))
 		return nil, err
 	}
 
 	if strings.HasSuffix(name, ".gz") {
-		cr, err := gzip.NewReader(bytes.NewReader(b))
+		cr, err := gzip.NewReader(bytes.NewReader(all))
 		if err != nil {
 			l.Debug("Unable to create gzip reader", esl.Error(err))
 			return nil, err
@@ -41,12 +42,31 @@ func LoadReplay(name string) (rr []nw_replay.Response, err error) {
 			l.Debug("unable to uncompress", esl.Error(err))
 			return nil, err
 		}
-		b = cbr.Bytes()
+		all = cbr.Bytes()
 	}
 
-	if err := json.Unmarshal(b, &rr); err != nil {
-		l.Debug("Unable to unmarshal", esl.Error(err))
-		return nil, err
+	// if an array of Response
+	if err := json.Unmarshal(all, &rr); err == nil {
+		return rr, nil
+	}
+
+	rr = make([]nw_replay.Response, 0)
+	chunks := strings.Split(string(all), "\n")
+	for _, chunk := range chunks {
+		if len(strings.TrimSpace(chunk)) < 1 {
+			continue
+		}
+		res := nw_replay.Response{}
+		if err := json.Unmarshal([]byte(chunk), &res); err != nil {
+			l.Debug("Unable to unmarshal", esl.Error(err))
+			return nil, err
+		}
+		rr = append(rr, res)
+	}
+
+	if len(rr) < 1 {
+		l.Error("No replay loaded")
+		return nil, errors.New("no replay loaded")
 	}
 
 	l.Debug("Replay loaded", esl.Int("numRecords", len(rr)))
