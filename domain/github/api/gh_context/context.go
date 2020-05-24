@@ -6,5 +6,6 @@ type Context interface {
 	api_context.Context
 	api_context.Post
 	api_context.Get
+	api_context.Put
 	api_context.Upload
 }

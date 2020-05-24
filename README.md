@@ -188,6 +188,7 @@ Available commands:
 | Command                                                                                           | Description                                         |
 |---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
 | [services github content get](doc/generated/services-github-content-get.md)                       | Get content metadata of the repository              |
+| [services github content put](doc/generated/services-github-content-put.md)                       | Put small text content into the repository          |
 | [services github issue list](doc/generated/services-github-issue-list.md)                         | List issues of the public/private GitHub repository |
 | [services github profile](doc/generated/services-github-profile.md)                               | Get the authenticated user                          |
 | [services github release asset download](doc/generated/services-github-release-asset-download.md) | Download assets                                     |

@@ -156,6 +156,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipememberupdate.Profile{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
+		&recipeservicesgithubcontent.Put{},
 		&recipeservicesgithubissue.List{},
 		&recipeservicesgithubrelease.Draft{},
 		&recipeservicesgithubrelease.List{},

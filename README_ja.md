@@ -186,6 +186,7 @@ DropboxおよびDropbox Business向けのツールセット
 | コマンド                                                                                             | 説明                                         |
 |------------------------------------------------------------------------------------------------------|----------------------------------------------|
 | [services github content get](doc/generated_ja/services-github-content-get.md)                       | Get content metadata of the repository       |
+| [services github content put](doc/generated_ja/services-github-content-put.md)                       | Put small text content into the repository   |
 | [services github issue list](doc/generated_ja/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧 |
 | [services github profile](doc/generated_ja/services-github-profile.md)                               | 認証したユーザーの情報を取得                 |
 | [services github release asset download](doc/generated_ja/services-github-release-asset-download.md) | アセットをダウンロードします                 |

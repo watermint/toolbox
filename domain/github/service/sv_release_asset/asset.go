@@ -1,7 +1,6 @@
 package sv_release_asset
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
@@ -12,10 +11,6 @@ import (
 	"mime"
 	"os"
 	"path/filepath"
-)
-
-var (
-	ErrorUnexpectedResponse = errors.New("unexpected response")
 )
 
 type Asset interface {
@@ -65,7 +60,7 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 		esl.String("path", file.Path()),
 	)
 	endpoint := "repos/" + z.owner + "/" + z.repository + "/releases/" + z.release + "/assets"
-	p := struct {
+	q := struct {
 		Name string `url:"name"`
 	}{
 		Name: filepath.Base(file.Path()),
@@ -74,7 +69,7 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 
 	l.Debug("upload params",
 		esl.String("endpoint", endpoint),
-		esl.Any("param", p),
+		esl.Any("param", q),
 		esl.String("contentType", contentType))
 
 	r, err := os.Open(file.Path())
@@ -90,7 +85,7 @@ func (z *assetImpl) Upload(file mo_path.ExistingFileSystemPath) (asset *mo_relea
 
 	res := z.ctx.Upload(endpoint,
 		api_request.Content(rr),
-		api_request.Param(p),
+		api_request.Query(q),
 		api_request.Header(api_request.ReqHeaderContentType, contentType))
 	if err, fail := res.Failure(); fail {
 		return nil, err

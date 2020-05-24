@@ -1,6 +1,8 @@
 package sv_content
 
 import (
+	"encoding/base64"
+	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/model/mo_commit"
 	"github.com/watermint/toolbox/domain/github/model/mo_content"
@@ -8,9 +10,13 @@ import (
 	"strings"
 )
 
+var (
+	ErrorUnexpectedFormat = errors.New("unexpected format")
+)
+
 type Content interface {
 	Get(path string, opts ...ContentOpt) (c mo_content.Contents, err error)
-	CreateOrUpdate(message, content string, pts ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error)
+	Put(path, message, content string, ots ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error)
 }
 
 type ContentOpt func(o contentOpts) contentOpts
@@ -87,7 +93,7 @@ func (z ctsImpl) Get(path string, opts ...ContentOpt) (c mo_content.Contents, er
 
 	d := make([]api_request.RequestDatum, 0)
 	if co.ref != "" {
-		d = append(d, api_request.Param(&ParamRef{Ref: co.ref}))
+		d = append(d, api_request.Query(&ParamRef{Ref: co.ref}))
 	}
 
 	res := z.ctx.Get(endpoint, d...)
@@ -101,6 +107,33 @@ func (z ctsImpl) Get(path string, opts ...ContentOpt) (c mo_content.Contents, er
 	}
 }
 
-func (z ctsImpl) CreateOrUpdate(message, content string, pts ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error) {
-	panic("implement me")
+func (z ctsImpl) Put(path, message, content string, ots ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error) {
+	co := contentOpts{}.Apply(ots...)
+	endpoint := z.makePath(path)
+
+	req := struct {
+		Message string `json:"message"`
+		Content string `json:"content"`
+		Sha     string `json:"sha,omitempty"`
+		Branch  string `json:"branch,omitempty"`
+	}{
+		Message: message,
+		Content: base64.StdEncoding.EncodeToString([]byte(content)),
+		Sha:     co.sha,
+		Branch:  co.branch,
+	}
+
+	res := z.ctx.Put(endpoint, api_request.Param(&req))
+	if err, fail := res.Failure(); fail {
+		return cts, commit, err
+	}
+
+	j := res.Success().Json()
+	if err := j.FindModel("content", &cts); err != nil {
+		return cts, commit, err
+	}
+	if err := j.FindModel("commit", &commit); err != nil {
+		return cts, commit, err
+	}
+	return cts, commit, nil
 }
