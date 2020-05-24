@@ -1,6 +1,6 @@
 # services github content put
 
-Put small text content into the repository 
+レポジトリに小さなテキストコンテンツを格納します 
 
 # セキュリティ
 
@@ -68,15 +68,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                    | デフォルト |
-|---------------|-------------------------|------------|
-| `-branch`     | Name of the branch      |            |
-| `-content`    | Path to a content file  |            |
-| `-message`    | Commit message          |            |
-| `-owner`      | Owner of the repository |            |
-| `-path`       | Path to the content     |            |
-| `-peer`       | Account alias           | default    |
-| `-repository` | Name of the repository  |            |
+| オプション    | 説明                       | デフォルト |
+|---------------|----------------------------|------------|
+| `-branch`     | ブランチ名                 |            |
+| `-content`    | コンテンツファイルへのパス |            |
+| `-message`    | コミットメッセージ         |            |
+| `-owner`      | レポジトリの所有者         |            |
+| `-path`       | コンテンツへのパス.        |            |
+| `-peer`       | アカウントの別名           | default    |
+| `-repository` | レポジトリ名               |            |
 
 ## 共通のオプション:
 
@@ -106,13 +106,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: commit
 
-Commit information
+コミット情報
 このコマンドはレポートを3種類の書式で出力します. `commit.csv`, `commit.json`, ならびに `commit.xlsx`.
 
-| 列  | 説明               |
-|-----|--------------------|
-| sha | SHA1 of the commit |
-| url | URL of the commit  |
+| 列  | 説明           |
+|-----|----------------|
+| sha | コミットのSHA1 |
+| url | コミットのURL  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

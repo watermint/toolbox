@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"io"
 )
 
 type Kind struct {
@@ -31,7 +32,12 @@ func (z *Kind) Exec(c app_control.Control) error {
 		return err
 	}
 
-	out := es_stdout.NewDirectOut()
+	var out io.WriteCloser
+	if c.Feature().IsTest() {
+		out = es_stdout.NewDiscard()
+	} else {
+		out = es_stdout.NewDirectOut()
+	}
 
 	for _, h := range histories {
 		logs, err := h.Logs()

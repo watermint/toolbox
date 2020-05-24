@@ -1,6 +1,6 @@
 # dev util image jpeg
 
-Create dummy image files 
+ダミー画像ファイルを作成します 
 
 # 利用方法
 
@@ -26,14 +26,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                        | デフォルト |
-|----------------|-----------------------------|------------|
-| `-count`       | Number of files to generate | 10         |
-| `-height`      | Height                      | 1080       |
-| `-name-prefix` | Filename prefix             | test_image |
-| `-path`        | Path to generate files      |            |
-| `-quality`     | Quality of jpeg             | 75         |
-| `-width`       | Width                       | 1920       |
+| オプション     | 説明                       | デフォルト |
+|----------------|----------------------------|------------|
+| `-count`       | 生成するファイル数         | 10         |
+| `-height`      | 高さ                       | 1080       |
+| `-name-prefix` | ファイル名のプリフィックス | test_image |
+| `-path`        | ファイルを生成するパス     |            |
+| `-quality`     | JPEGの品質                 | 75         |
+| `-width`       | 幅                         | 1920       |
 
 ## 共通のオプション:
 

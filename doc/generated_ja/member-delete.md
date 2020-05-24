@@ -68,13 +68,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                              | 説明                                                                                 | デフォルト |
-|-----------------------------------------|--------------------------------------------------------------------------------------|------------|
-| `-file`                                 | データファイル                                                                       |            |
-| `-peer`                                 | アカウントの別名                                                                     | default    |
-| `-transfer-dest-member`                 | If provided, files from the deleted member account will be transferred to this user. |            |
-| `-transfer-notify-admin-email-on-error` | If provided, errors during the transfer process will be sent via email to this user. |            |
-| `-wipe-data`                            | 指定した場合にはユーザーのデータがリンクされたデバイスから削除されます               | true       |
+| オプション                              | 説明                                                                            | デフォルト |
+|-----------------------------------------|---------------------------------------------------------------------------------|------------|
+| `-file`                                 | データファイル                                                                  |            |
+| `-peer`                                 | アカウントの別名                                                                | default    |
+| `-transfer-dest-member`                 | 指定された場合は、指定ユーザーに削除するメンバーのコンテンツを転送します.       |            |
+| `-transfer-notify-admin-email-on-error` | 指定された場合は、転送時にエラーが発生した時にこのユーザーにメールを送信します. |            |
+| `-wipe-data`                            | 指定した場合にはユーザーのデータがリンクされたデバイスから削除されます          | true       |
 
 ## 共通のオプション:
 

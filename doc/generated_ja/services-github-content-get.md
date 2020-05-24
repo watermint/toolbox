@@ -1,6 +1,6 @@
 # services github content get
 
-Get content metadata of the repository 
+レポジトリのコンテンツメタデータを取得します. 
 
 # セキュリティ
 
@@ -68,13 +68,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                    | デフォルト |
-|---------------|-------------------------|------------|
-| `-owner`      | Owner of the repository |            |
-| `-path`       | Path to the content     |            |
-| `-peer`       | Account alias           | default    |
-| `-ref`        | Name of reference       |            |
-| `-repository` | Name of the repository  |            |
+| オプション    | 説明                | デフォルト |
+|---------------|---------------------|------------|
+| `-owner`      | レポジトリの所有者  |            |
+| `-path`       | コンテンツへのパス. |            |
+| `-peer`       | アカウントの別名    | default    |
+| `-ref`        | リファレンス名      |            |
+| `-repository` | レポジトリ名        |            |
 
 ## 共通のオプション:
 
@@ -104,17 +104,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: content
 
-Content metadata
+コンテンツのメタデータ
 このコマンドはレポートを3種類の書式で出力します. `content.csv`, `content.json`, ならびに `content.xlsx`.
 
-| 列     | 説明            |
-|--------|-----------------|
-| type   | Type of content |
-| name   | Name            |
-| path   | Path            |
-| sha    | SHA1            |
-| size   | Size            |
-| target | Symlink target  |
+| 列     | 説明                     |
+|--------|--------------------------|
+| type   | コンテンツ種別           |
+| name   | 名称                     |
+| path   | パス                     |
+| sha    | SHA1                     |
+| size   | サイズ                   |
+| target | シンボリックリンクの宛先 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
