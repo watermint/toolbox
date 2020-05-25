@@ -325,8 +325,8 @@ func trapPanic(ctl app_control.Control) {
 	err := recover()
 	if err != nil {
 		l.Debug("Recovery from panic")
-		ui.Error(MRun.ErrorPanic.With("Error", err))
-		ui.Error(MRun.ErrorPanicInstruction.With("JobPath", ctl.Workspace().Job()))
+		l.Error(ui.Text(MRun.ErrorPanic.With("Error", err)))
+		l.Error(ui.Text(MRun.ErrorPanicInstruction.With("JobPath", ctl.Workspace().Job())))
 
 		for depth := 0; ; depth++ {
 			_, file, line, ok := runtime.Caller(depth)
