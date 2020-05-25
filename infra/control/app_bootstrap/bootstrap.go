@@ -313,8 +313,8 @@ func trapSignal(sig chan os.Signal, ctl app_control.Control) {
 				break
 			}
 		}
-		ui.Error(MRun.ErrorInterrupted)
-		ui.Error(MRun.ErrorInterruptedInstruction.With("JobPath", ctl.Workspace().Job()))
+		l.Error(ui.Text(MRun.ErrorInterrupted))
+		l.Error(ui.Text(MRun.ErrorInterruptedInstruction.With("JobPath", ctl.Workspace().Job())))
 		app_exit.Abort(app_exit.FatalInterrupted)
 	}
 }
