@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
-	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
@@ -304,7 +303,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 		l.Info("Uploaded", esl.Any("asset", a.Name))
 		if strings.Contains(a.Name, "mac") {
 			l.Info("updating Homebrew formula", esl.String("asset", a.Name))
-			if err := z.updateHomebrewFormula(c, p, a); err != nil {
+			if err := z.updateHomebrewFormula(c, p); err != nil {
 				return err
 			}
 		}
@@ -312,7 +311,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 	return nil
 }
 
-func (z *Publish) updateHomebrewFormula(c app_control.Control, path string, asset *mo_release_asset.Asset) error {
+func (z *Publish) updateHomebrewFormula(c app_control.Control, path string) error {
 	name := filepath.Base(path)
 	return rc_exec.Exec(c, &homebrew.Formula{}, func(r rc_recipe.Recipe) {
 		m := r.(*homebrew.Formula)

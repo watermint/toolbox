@@ -1223,6 +1223,7 @@
   "recipe.dev.util.image.jpeg.flag.name_prefix": "Filename prefix",
   "recipe.dev.util.image.jpeg.flag.path": "Path to generate files",
   "recipe.dev.util.image.jpeg.flag.quality": "Quality of jpeg",
+  "recipe.dev.util.image.jpeg.flag.seed": "Random seed",
   "recipe.dev.util.image.jpeg.flag.width": "Width",
   "recipe.dev.util.image.jpeg.title": "Create dummy image files",
   "recipe.dev.util.image.title": "Utilities for images",

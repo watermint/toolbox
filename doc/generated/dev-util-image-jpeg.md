@@ -33,6 +33,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-name-prefix` | Filename prefix             | test_image |
 | `-path`        | Path to generate files      |            |
 | `-quality`     | Quality of jpeg             | 75         |
+| `-seed`        | Random seed                 | 1          |
 | `-width`       | Width                       | 1920       |
 
 ## Common options:
