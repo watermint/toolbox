@@ -26,7 +26,7 @@ type Up struct {
 }
 
 func (z *Up) Preset() {
-	z.ChunkSizeKb.SetRange(1, 150*1024, 150*1024)
+	z.ChunkSizeKb.SetRange(1, 150*1024, 4*1024)
 }
 
 func (z *Up) Exec(c app_control.Control) error {
