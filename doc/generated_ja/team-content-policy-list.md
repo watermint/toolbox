@@ -1,4 +1,4 @@
-# team content policy
+# team content policy list
 
 チームフォルダと共有フォルダのポリシー一覧 
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team content policy 
+.\tbx.exe team content policy list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team content policy 
+$HOME/Desktop/tbx team content policy list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

@@ -1,4 +1,4 @@
-package content
+package uc_team_content
 
 import (
 	"errors"
@@ -23,11 +23,11 @@ type ScanNamespace interface {
 }
 
 type ScanNamespaceMetadataAndMembership struct {
-	metadata   ScanNamespace
-	membership ScanNamespace
+	Metadata   ScanNamespace
+	Membership ScanNamespace
 }
 
 func (z *ScanNamespaceMetadataAndMembership) Scan(ctl app_control.Control, ctx dbx_context.Context, namespaceName string, namespaceId string) {
-	z.membership.Scan(ctl, ctx, namespaceName, namespaceId)
-	z.metadata.Scan(ctl, ctx, namespaceName, namespaceId)
+	z.Membership.Scan(ctl, ctx, namespaceName, namespaceId)
+	z.Metadata.Scan(ctl, ctx, namespaceName, namespaceId)
 }

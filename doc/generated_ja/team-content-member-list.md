@@ -1,4 +1,4 @@
-# team content member
+# team content member list
 
 チームフォルダや共有フォルダのメンバー一覧 
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team content member 
+.\tbx.exe team content member list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team content member 
+$HOME/Desktop/tbx team content member list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

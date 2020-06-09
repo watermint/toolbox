@@ -13,6 +13,7 @@ import (
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
+	domaindropboxusecaseuc_team_content "github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	essentialskvskv_storage_impl "github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
@@ -41,7 +42,6 @@ import (
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
-	recipeteamcontent "github.com/watermint/toolbox/recipe/team/content"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
@@ -62,6 +62,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_local.MsgCompare{},
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
+		&domaindropboxusecaseuc_team_content.MsgScan{},
 		&essentialskvskv_storage_impl.MsgStorage{},
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},
@@ -99,7 +100,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&recipesharedfoldermember.MsgList{},
 		&recipeteamactivity.MsgUser{},
 		&recipeteamactivitybatch.MsgUser{},
-		&recipeteamcontent.MsgScan{},
 		&recipeteamdevice.MsgUnlink{},
 		&recipeteamfilerequest.MsgList{},
 		&recipeteamnamespacemember.MsgList{},

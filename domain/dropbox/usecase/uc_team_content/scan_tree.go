@@ -1,4 +1,4 @@
-package content
+package uc_team_content
 
 import (
 	"errors"
@@ -132,20 +132,20 @@ func (z *TeamFolderNestedFolderScanWorker) Exec() error {
 
 // Use breadth first search for file tree
 type TeamFolderScanner struct {
-	ctl      app_control.Control
-	ctx      dbx_context.Context
-	metadata kv_storage.Storage
-	tree     kv_storage.Storage
+	Ctl      app_control.Control
+	Ctx      dbx_context.Context
+	Metadata kv_storage.Storage
+	Tree     kv_storage.Storage
 }
 
 func (z *TeamFolderScanner) parentChildRelationship() (relation map[string]string, err error) {
-	l := z.ctl.Log()
+	l := z.Ctl.Log()
 	l.Debug("Making mapping of parent-child relationship")
 
 	// namespace_id -> parent namespace_id
 	relation = make(map[string]string)
 
-	err = z.metadata.View(func(kvs kv_kvs.Kvs) error {
+	err = z.Metadata.View(func(kvs kv_kvs.Kvs) error {
 		return kvs.ForEachModel(&mo_sharedfolder.SharedFolder{}, func(key string, m interface{}) error {
 			ns := m.(*mo_sharedfolder.SharedFolder)
 			relation[ns.SharedFolderId] = ns.ParentSharedFolderId
@@ -161,7 +161,7 @@ func (z *TeamFolderScanner) parentChildRelationship() (relation map[string]strin
 }
 
 func (z *TeamFolderScanner) namespaceToTopNamespaceId() (top map[string]string, err error) {
-	l := z.ctl.Log()
+	l := z.Ctl.Log()
 	// namespace_id -> top level namespace_id
 	top = make(map[string]string)
 
@@ -195,7 +195,7 @@ func (z *TeamFolderScanner) namespaceToTopNamespaceId() (top map[string]string, 
 }
 
 func (z *TeamFolderScanner) nestedFolderNamespaceIds() (nested map[string][]string, others []string, err error) {
-	l := z.ctl.Log()
+	l := z.Ctl.Log()
 
 	// team_folder's namespace_id -> array of nested team folder namespace_id
 	nested = make(map[string][]string)
@@ -227,18 +227,18 @@ func (z *TeamFolderScanner) nestedFolderNamespaceIds() (nested map[string][]stri
 }
 
 func (z *TeamFolderScanner) Scan() error {
-	l := z.ctl.Log()
-	queue := z.ctl.NewQueue()
+	l := z.Ctl.Log()
+	queue := z.Ctl.NewQueue()
 	nested, others, err := z.nestedFolderNamespaceIds()
 	if err != nil {
 		return err
 	}
 	for nsid, descendants := range nested {
 		queue.Enqueue(&TeamFolderNestedFolderScanWorker{
-			ctl:          z.ctl,
-			ctx:          z.ctx,
-			metadata:     z.metadata,
-			tree:         z.tree,
+			ctl:          z.Ctl,
+			ctx:          z.Ctx,
+			metadata:     z.Metadata,
+			tree:         z.Tree,
 			teamFolderId: nsid,
 			descendants:  descendants,
 		})
@@ -247,12 +247,12 @@ func (z *TeamFolderScanner) Scan() error {
 	var lastErr error
 
 	for _, nsid := range others {
-		err := z.metadata.View(func(kvs kv_kvs.Kvs) error {
+		err := z.Metadata.View(func(kvs kv_kvs.Kvs) error {
 			meta := &mo_sharedfolder.SharedFolder{}
 			if err := kvs.GetJsonModel(nsid, meta); err != nil {
 				return err
 			}
-			return z.tree.Update(func(kvs kv_kvs.Kvs) error {
+			return z.Tree.Update(func(kvs kv_kvs.Kvs) error {
 				return kvs.PutJsonModel(nsid, &Tree{
 					NamespaceId:   nsid,
 					NamespaceName: meta.Name,

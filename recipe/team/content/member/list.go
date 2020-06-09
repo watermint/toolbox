@@ -1,4 +1,4 @@
-package content
+package member
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -16,7 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
-type Member struct {
+type List struct {
 	Peer               dbx_conn.ConnBusinessFile
 	Metadata           kv_storage.Storage
 	MembershipList     kv_storage.Storage
@@ -53,7 +54,7 @@ type NoMember struct {
 	FolderType    string `json:"folder_type"`
 }
 
-func (z *Member) Preset() {
+func (z *List) Preset() {
 	z.Membership.SetModel(
 		&Membership{},
 		rp_model.HiddenColumns(
@@ -84,23 +85,23 @@ func (z *Member) Preset() {
 	)
 }
 
-func (z *Member) Exec(c app_control.Control) error {
+func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	q := c.NewQueue()
-	s := &TeamScanner{
-		ctx:    z.Peer.Context(),
-		ctl:    c,
-		queue:  q,
-		filter: z.Folder,
-		scanner: &ScanNamespaceMetadataAndMembership{
-			metadata: &ScanNamespaceMetadata{
-				metadata: z.Metadata,
-				queue:    q,
+	s := &uc_team_content.TeamScanner{
+		Ctx:    z.Peer.Context(),
+		Ctl:    c,
+		Queue:  q,
+		Filter: z.Folder,
+		Scanner: &uc_team_content.ScanNamespaceMetadataAndMembership{
+			Metadata: &uc_team_content.ScanNamespaceMetadata{
+				Metadata: z.Metadata,
+				Queue:    q,
 			},
-			membership: &ScanNamespaceMembership{
-				membership: z.MembershipList,
-				queue:      q,
+			Membership: &uc_team_content.ScanNamespaceMembership{
+				Membership: z.MembershipList,
+				Queue:      q,
 			},
 		},
 	}
@@ -130,19 +131,19 @@ func (z *Member) Exec(c app_control.Control) error {
 		return err
 	}
 
-	st := &TeamFolderScanner{
-		ctl:      c,
-		ctx:      z.Peer.Context().AsAdminId(admin.TeamMemberId),
-		metadata: z.Metadata,
-		tree:     z.Tree,
+	st := &uc_team_content.TeamFolderScanner{
+		Ctl:      c,
+		Ctx:      z.Peer.Context().AsAdminId(admin.TeamMemberId),
+		Metadata: z.Metadata,
+		Tree:     z.Tree,
 	}
 	if err := st.Scan(); err != nil {
 		return err
 	}
 
 	return z.Tree.View(func(treeKvs kv_kvs.Kvs) error {
-		return treeKvs.ForEachModel(&Tree{}, func(key string, m interface{}) error {
-			t := m.(*Tree)
+		return treeKvs.ForEachModel(&uc_team_content.Tree{}, func(key string, m interface{}) error {
+			t := m.(*uc_team_content.Tree)
 			ll := l.With(esl.String("nsid", t.NamespaceId))
 			ll.Debug("Preparing for report")
 			meta := &mo_sharedfolder.SharedFolder{}
@@ -213,8 +214,8 @@ func (z *Member) Exec(c app_control.Control) error {
 	})
 }
 
-func (z *Member) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Member{}, rc_recipe.NoCustomValues)
+func (z *List) Test(c app_control.Control) error {
+	return rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues)
 }
 
 func FolderType(m *mo_sharedfolder.SharedFolder) string {

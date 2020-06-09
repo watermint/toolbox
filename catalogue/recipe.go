@@ -51,7 +51,8 @@ import (
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
-	recipeteamcontent "github.com/watermint/toolbox/recipe/team/content"
+	recipeteamcontentmember "github.com/watermint/toolbox/recipe/team/content/member"
+	recipeteamcontentpolicy "github.com/watermint/toolbox/recipe/team/content/policy"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
@@ -176,8 +177,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamactivity.User{},
 		&recipeteamactivitybatch.User{},
 		&recipeteamactivitydaily.Event{},
-		&recipeteamcontent.Member{},
-		&recipeteamcontent.Policy{},
+		&recipeteamcontentmember.List{},
+		&recipeteamcontentpolicy.List{},
 		&recipeteamdevice.List{},
 		&recipeteamdevice.Unlink{},
 		&recipeteamdiag.Explorer{},

@@ -1,4 +1,4 @@
-package content
+package policy
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestPolicy_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Policy{})
+	qtr_endtoend.TestRecipe(t, &List{})
 }
