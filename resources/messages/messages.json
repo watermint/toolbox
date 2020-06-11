@@ -824,6 +824,7 @@
   "infra.control.app_bootstrap.msg_run.error_too_many_arguments": "Extra arguments provided but not defined: {{.Args}}\nProvided command and arguments: {{.AllArgs}}",
   "infra.control.app_bootstrap.msg_run.error_unable_to_format_path": "Unable to format path with given variables: {{.Error}}",
   "infra.control.app_bootstrap.msg_run.error_unsupported_output": "Unsupported output format: {{.Output}}",
+  "infra.control.app_bootstrap.msg_run.progress_interrupted_shutdown": "Interrupted: Shutdown...",
   "infra.control.app_opt.common_opts.flag.auto_open": "Auto open URL or artifact folder",
   "infra.control.app_opt.common_opts.flag.bandwidth_kb": "Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited",
   "infra.control.app_opt.common_opts.flag.budget_memory": "Memory budget (limits some feature to reduce memory footprint)",

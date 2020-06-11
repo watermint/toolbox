@@ -824,6 +824,7 @@
   "infra.control.app_bootstrap.msg_run.error_too_many_arguments": "追加の引数が指定されましたが未定義の引数です: {{.Args}}\n指定されたコマンドと引数: {{.AllArgs}}",
   "infra.control.app_bootstrap.msg_run.error_unable_to_format_path": "指定された変数を使ってパスを特定できませんでした: {{.Error}}",
   "infra.control.app_bootstrap.msg_run.error_unsupported_output": "サポート外の出力書式です: {{.Output}}",
+  "infra.control.app_bootstrap.msg_run.progress_interrupted_shutdown": "中断されました: シャットダウンしています...",
   "infra.control.app_opt.common_opts.flag.auto_open": "成果物フォルダまたはURLを自動で開く",
   "infra.control.app_opt.common_opts.flag.bandwidth_kb": "コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない",
   "infra.control.app_opt.common_opts.flag.budget_memory": "メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)",

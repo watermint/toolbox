@@ -48,6 +48,7 @@ type msgRun struct {
 	ErrorRecipeFailed           app_msg.Message
 	ErrorUnsupportedOutput      app_msg.Message
 	ErrorInitialization         app_msg.Message
+	ProgressInterruptedShutdown app_msg.Message
 }
 
 var (
@@ -296,6 +297,7 @@ func trapSignal(sig chan os.Signal, ctl app_control.Control) {
 	ui := ctl.UI()
 	for s := range sig {
 		// fatal shutdown
+		l.Info(ui.Text(MRun.ProgressInterruptedShutdown))
 		l.Debug("Signal", esl.Any("signal", s))
 		pc := make([]uintptr, 16)
 		n := runtime.Callers(0, pc)
