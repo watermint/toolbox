@@ -15,7 +15,6 @@ func NewProxy(sy Syntax, lg esl.Logger) UI {
 		id: id,
 		lg: lg.With(esl.String("id", id)),
 		sy: sy,
-		mx: es_mutex.New(),
 	}
 }
 
@@ -23,7 +22,6 @@ type proxyImpl struct {
 	id string
 	lg esl.Logger
 	sy Syntax
-	mx es_mutex.Mutex
 }
 
 func (z proxyImpl) Messages() app_msg_container.Container {
@@ -54,7 +52,7 @@ func (z proxyImpl) withMsg(action string, m app_msg.Message, f func()) {
 		esl.String("action", action),
 		esl.String("key", m.Key()),
 		esl.Any("params", m.Params()))
-	z.mx.Do(f)
+	f()
 }
 
 func (z proxyImpl) Header(m app_msg.Message) {
@@ -97,9 +95,7 @@ func (z proxyImpl) Quote(m app_msg.Message) {
 }
 
 func (z proxyImpl) Break() {
-	z.mx.Do(func() {
-		z.sy.Break()
-	})
+	z.sy.Break()
 }
 
 func (z proxyImpl) Exists(m app_msg.Message) bool {
@@ -165,16 +161,12 @@ func (z proxyImpl) Progress(m app_msg.Message) {
 
 func (z proxyImpl) Code(code string) {
 	z.lg.Debug("code", esl.String("code", code))
-	z.mx.Do(func() {
-		z.sy.Code(code)
-	})
+	z.sy.Code(code)
 }
 
 func (z proxyImpl) Link(artifact rp_artifact.Artifact) {
 	z.lg.Debug("artifact", esl.Any("artifact", artifact))
-	z.mx.Do(func() {
-		z.sy.Link(artifact)
-	})
+	z.sy.Link(artifact)
 }
 
 func (z proxyImpl) IsConsole() bool {

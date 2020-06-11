@@ -92,21 +92,23 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 		for {
 			time.Sleep(statusReportInterval)
 
-			dur := time.Now().Sub(status.summary.UploadStart) / (1000 * time.Millisecond)
+			ss := status.summary
+
+			dur := time.Now().Sub(ss.UploadStart) / (1000 * time.Millisecond)
 			if dur == 0 {
 				continue
 			}
 
-			kps := status.summary.NumBytes / int64(dur) / 1024
+			kps := ss.NumBytes / int64(dur) / 1024
 
-			c.UI().Info(z.ProgressSummary.
+			c.UI().Progress(z.ProgressSummary.
 				With("Time", time.Now().Truncate(1000*time.Millisecond).Format("15:04:05")).
-				With("NumFileUpload", status.summary.NumFilesUpload).
-				With("NumFileSkip", status.summary.NumFilesSkip).
-				With("NumFileError", status.summary.NumFilesError).
-				With("NumBytes", status.summary.NumBytes/1_048_576).
+				With("NumFileUpload", ss.NumFilesUpload).
+				With("NumFileSkip", ss.NumFilesSkip).
+				With("NumFileError", ss.NumFilesError).
+				With("NumBytes", ss.NumBytes/1_048_576).
 				With("Kps", kps).
-				With("NumApiCall", status.summary.NumApiCall))
+				With("NumApiCall", ss.NumApiCall))
 		}
 	}()
 
