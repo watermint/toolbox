@@ -1754,6 +1754,7 @@
   "recipe.services.github.tag.create_tag.tag.desc": "タグ名",
   "recipe.services.github.tag.title": "GitHub上のレポジトリにgit tag操作を行います",
   "recipe.services.github.title": "GitHub向けのコマンド",
+  "recipe.services.title": "各種サービス向けコマンド",
   "recipe.sharedfolder.list.flag.peer": "アカウントの別名",
   "recipe.sharedfolder.list.title": "共有フォルダの一覧",
   "recipe.sharedfolder.member.list.flag.peer": "アカウントの別名",
