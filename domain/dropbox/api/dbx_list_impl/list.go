@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -158,5 +159,9 @@ func (z listImpl) listContinue(lo dbx_list.ListOpts, cursor string) dbx_response
 
 func (z listImpl) Call(opts ...dbx_list.ListOpt) dbx_response.Response {
 	lo := dbx_list.Combined(opts)
+	if lo.ContinueEndpoint == "" {
+		z.log(lo).Error("Continue endpoint is not defined", esl.Any("opts", lo))
+		app_exit.Abort(app_exit.FatalPanic)
+	}
 	return z.list(lo)
 }
