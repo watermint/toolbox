@@ -2,7 +2,6 @@ package app_job_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/log/stats/es_http"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -73,7 +72,6 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	}
 
 	// Launch monitor
-	es_http.LaunchReporting(lg)
 	es_memory.LaunchReporting(lg)
 
 	sm.Debug("Up completed",
@@ -101,7 +99,6 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	// Dump stats
 	es_memory.DumpMemStats(sm)
-	es_http.DumpStats(sm)
 
 	_ = z.recordResultLog(err)
 

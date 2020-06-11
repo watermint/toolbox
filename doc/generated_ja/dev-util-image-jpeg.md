@@ -33,6 +33,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-name-prefix` | ファイル名のプリフィックス | test_image |
 | `-path`        | ファイルを生成するパス     |            |
 | `-quality`     | JPEGの品質                 | 75         |
+| `-seed`        | 乱数のシード               | 1          |
 | `-width`       | 幅                         | 1920       |
 
 ## 共通のオプション:

@@ -39,6 +39,7 @@ func (z *namespaceImpl) List() (namespaces []*mo_namespace.Namespace, err error)
 	}
 
 	req := z.ctx.List("team/namespaces/list", api_request.Param(p)).Call(
+		dbx_list.Continue("team/namespaces/list/continue"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("namespaces"),
 		dbx_list.OnEntry(func(entry es_json.Json) error {

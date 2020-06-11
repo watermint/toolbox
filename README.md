@@ -158,8 +158,8 @@ Available commands:
 | [team activity daily event](doc/generated/team-activity-daily-event.md)         | Report activities by day                                      |
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
 | [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |
-| [team content member](doc/generated/team-content-member.md)                     | List team folder & shared folder members                      |
-| [team content policy](doc/generated/team-content-policy.md)                     | List policies of team folders and shared folders in the team  |
+| [team content member list](doc/generated/team-content-member-list.md)           | List team folder & shared folder members                      |
+| [team content policy list](doc/generated/team-content-policy-list.md)           | List policies of team folders and shared folders in the team  |
 | [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |
 | [team diag explorer](doc/generated/team-diag-explorer.md)                       | Report whole team information                                 |

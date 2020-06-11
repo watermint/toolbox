@@ -1,4 +1,4 @@
-package content
+package uc_team_content
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
@@ -11,17 +11,17 @@ import (
 )
 
 type ScanNamespaceMembership struct {
-	membership kv_storage.Storage
-	queue      rc_worker.Queue
+	Membership kv_storage.Storage
+	Queue      rc_worker.Queue
 }
 
 func (z *ScanNamespaceMembership) Scan(ctl app_control.Control, ctx dbx_context.Context, namespaceName string, namespaceId string) {
-	z.queue.Enqueue(&NamespaceMemberScannerWorker{
+	z.Queue.Enqueue(&NamespaceMemberScannerWorker{
 		Control:       ctl,
 		Context:       ctx,
 		NamespaceName: namespaceName,
 		NamespaceId:   namespaceId,
-		Membership:    z.membership,
+		Membership:    z.Membership,
 	})
 }
 

@@ -26,8 +26,8 @@ type UploadOpts struct {
 }
 
 const (
-	MaxChunkSize     = 150 * 1_048_576 // 150MB
-	DefaultChunkSize = MaxChunkSize
+	MaxChunkSize     = 150 * 1_048_576 // 150MiB
+	DefaultChunkSize = 4 * 1_048_576   // 4MiB
 )
 
 var (

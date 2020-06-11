@@ -75,7 +75,10 @@ func (z *groupImpl) AddToPath(fullPath []string, relPath []string, name string, 
 		p0 := relPath[0]
 		sg, ok := z.subGroups[p0]
 		if !ok {
-			sg = newGroupWithPath(fullPath, p0)
+			sp := make([]string, 0)
+			sp = append(sp, z.path...)
+			sp = append(sp, p0)
+			sg = newGroupWithPath(sp, p0)
 			z.subGroups[p0] = sg
 		}
 		sg.AddToPath(fullPath, relPath[1:], name, r)

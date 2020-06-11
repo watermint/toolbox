@@ -1,4 +1,4 @@
-package content
+package uc_team_content
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
@@ -11,17 +11,17 @@ import (
 )
 
 type ScanNamespaceMetadata struct {
-	metadata kv_storage.Storage
-	queue    rc_worker.Queue
+	Metadata kv_storage.Storage
+	Queue    rc_worker.Queue
 }
 
 func (z *ScanNamespaceMetadata) Scan(ctl app_control.Control, ctx dbx_context.Context, namespaceName string, namespaceId string) {
-	z.queue.Enqueue(&MetadataScannerWorker{
+	z.Queue.Enqueue(&MetadataScannerWorker{
 		Control:       ctl,
 		Context:       ctx,
 		NamespaceName: namespaceName,
 		NamespaceId:   namespaceId,
-		Metadata:      z.metadata,
+		Metadata:      z.Metadata,
 	})
 }
 

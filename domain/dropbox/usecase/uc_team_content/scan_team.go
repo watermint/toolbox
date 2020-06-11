@@ -1,4 +1,4 @@
-package content
+package uc_team_content
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
@@ -14,47 +14,47 @@ import (
 )
 
 type TeamScanner struct {
-	ctx                 dbx_context.Context
-	ctl                 app_control.Control
-	teamOwnedNamespaces map[string]bool
-	scanner             ScanNamespace
-	queue               rc_worker.Queue
-	filter              mo_filter.Filter
+	Ctx                 dbx_context.Context
+	Ctl                 app_control.Control
+	TeamOwnedNamespaces map[string]bool
+	Scanner             ScanNamespace
+	Queue               rc_worker.Queue
+	Filter              mo_filter.Filter
 }
 
 func (z *TeamScanner) namespacesOfTeam() error {
-	l := z.ctx.Log()
+	l := z.Ctx.Log()
 
 	l.Debug("Scanning admin")
-	admin, err := sv_profile.NewTeam(z.ctx).Admin()
+	admin, err := sv_profile.NewTeam(z.Ctx).Admin()
 	if err != nil {
 		return err
 	}
 	l = l.With(esl.String("admin", admin.Email))
 
 	l.Debug("Scanning team folders")
-	teamfolders, err := sv_teamfolder.New(z.ctx).List()
+	teamfolders, err := sv_teamfolder.New(z.Ctx).List()
 	if err != nil {
 		return err
 	}
 
 	l.Debug("Scanning namespaces")
-	namespaces, err := sv_namespace.New(z.ctx).List()
+	namespaces, err := sv_namespace.New(z.Ctx).List()
 	if err != nil {
 		return err
 	}
 
 	l.Debug("Computing duplicates")
-	z.teamOwnedNamespaces = make(map[string]bool)
+	z.TeamOwnedNamespaces = make(map[string]bool)
 	teamOwnedNamespaceWithName := make(map[string]string)
 	for _, f := range teamfolders {
-		if z.filter.Accept(f.Name) {
-			z.teamOwnedNamespaces[f.TeamFolderId] = true
+		if z.Filter.Accept(f.Name) {
+			z.TeamOwnedNamespaces[f.TeamFolderId] = true
 			teamOwnedNamespaceWithName[f.TeamFolderId] = f.Name
 		}
 	}
 	for _, n := range namespaces {
-		if !z.filter.Accept(n.Name) {
+		if !z.Filter.Accept(n.Name) {
 			l.Debug("Skip folder that unmatched to filter condition", esl.String("name", n.Name))
 			continue
 		}
@@ -64,14 +64,14 @@ func (z *TeamScanner) namespacesOfTeam() error {
 			l.Debug("Skip non-shared namespace", esl.Any("namespace", n))
 
 		default:
-			z.teamOwnedNamespaces[n.NamespaceId] = true
+			z.TeamOwnedNamespaces[n.NamespaceId] = true
 			teamOwnedNamespaceWithName[n.NamespaceId] = n.Name
 		}
 	}
 
 	l.Debug("Enqueue to metadata scan")
 	for id, name := range teamOwnedNamespaceWithName {
-		z.scanner.Scan(z.ctl, z.ctx.AsAdminId(admin.TeamMemberId), name, id)
+		z.Scanner.Scan(z.Ctl, z.Ctx.AsAdminId(admin.TeamMemberId), name, id)
 	}
 
 	l.Debug("Metadata of teams finished")
@@ -79,27 +79,27 @@ func (z *TeamScanner) namespacesOfTeam() error {
 }
 
 func (z *TeamScanner) namespaceOfMember(member *mo_member.Member) error {
-	z.queue.Enqueue(&MemberScannerWorker{
+	z.Queue.Enqueue(&MemberScannerWorker{
 		Member:              member,
-		Control:             z.ctl,
-		Context:             z.ctx.AsMemberId(member.TeamMemberId),
-		TeamOwnedNamespaces: z.teamOwnedNamespaces,
-		Scanner:             z.scanner,
-		Folder:              z.filter,
+		Control:             z.Ctl,
+		Context:             z.Ctx.AsMemberId(member.TeamMemberId),
+		TeamOwnedNamespaces: z.TeamOwnedNamespaces,
+		Scanner:             z.Scanner,
+		Folder:              z.Filter,
 	})
 	return nil
 }
 
 func (z *TeamScanner) iterateMembers(f func(member *mo_member.Member) error) error {
-	l := z.ctl.Log()
+	l := z.Ctl.Log()
 
-	if z.teamOwnedNamespaces == nil {
+	if z.TeamOwnedNamespaces == nil {
 		l.Debug("Team owned namespaces is not initialized")
 		return ErrorTeamOwnedNamespaceIsNotInitialized
 	}
 
 	l.Debug("Scanning members")
-	members, err := sv_member.New(z.ctx).List()
+	members, err := sv_member.New(z.Ctx).List()
 	if err != nil {
 		return err
 	}

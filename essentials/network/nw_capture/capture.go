@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/log/stats/es_http"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -38,9 +37,6 @@ func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (re
 	} else {
 		res = es_response_impl.New(ctx, hRes)
 	}
-
-	// Monitor stats
-	es_http.Log(hReq, hRes)
 
 	// Capture
 	cp := NewCapture(ctx.Capture())

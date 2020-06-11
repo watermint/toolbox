@@ -1,4 +1,4 @@
-# team content policy
+# team content policy list
 
 List policies of team folders and shared folders in the team 
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team content policy 
+.\tbx.exe team content policy list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team content policy 
+$HOME/Desktop/tbx team content policy list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

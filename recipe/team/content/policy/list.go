@@ -1,10 +1,11 @@
-package content
+package policy
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -14,7 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
-type Policy struct {
+type List struct {
 	Peer     dbx_conn.ConnBusinessFile
 	Metadata kv_storage.Storage
 	Tree     kv_storage.Storage
@@ -35,7 +36,7 @@ type FolderPolicy struct {
 	PolicyViewerInfo   string `json:"policy_viewer_info"`
 }
 
-func (z *Policy) Preset() {
+func (z *List) Preset() {
 	z.Policy.SetModel(
 		&FolderPolicy{},
 		rp_model.HiddenColumns(
@@ -51,18 +52,18 @@ func (z *Policy) Preset() {
 	)
 }
 
-func (z *Policy) Exec(c app_control.Control) error {
+func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	q := c.NewQueue()
-	s := &TeamScanner{
-		ctx:    z.Peer.Context(),
-		ctl:    c,
-		queue:  q,
-		filter: z.Folder,
-		scanner: &ScanNamespaceMetadata{
-			metadata: z.Metadata,
-			queue:    q,
+	s := &uc_team_content.TeamScanner{
+		Ctx:    z.Peer.Context(),
+		Ctl:    c,
+		Queue:  q,
+		Filter: z.Folder,
+		Scanner: &uc_team_content.ScanNamespaceMetadata{
+			Metadata: z.Metadata,
+			Queue:    q,
 		},
 	}
 	if err := s.Scan(); err != nil {
@@ -75,11 +76,11 @@ func (z *Policy) Exec(c app_control.Control) error {
 		return err
 	}
 
-	st := &TeamFolderScanner{
-		ctl:      c,
-		ctx:      z.Peer.Context().AsAdminId(admin.TeamMemberId),
-		metadata: z.Metadata,
-		tree:     z.Tree,
+	st := &uc_team_content.TeamFolderScanner{
+		Ctl:      c,
+		Ctx:      z.Peer.Context().AsAdminId(admin.TeamMemberId),
+		Metadata: z.Metadata,
+		Tree:     z.Tree,
 	}
 	if err := st.Scan(); err != nil {
 		return err
@@ -88,8 +89,8 @@ func (z *Policy) Exec(c app_control.Control) error {
 		return err
 	}
 	return z.Tree.View(func(treeKvs kv_kvs.Kvs) error {
-		return treeKvs.ForEachModel(&Tree{}, func(key string, m interface{}) error {
-			t := m.(*Tree)
+		return treeKvs.ForEachModel(&uc_team_content.Tree{}, func(key string, m interface{}) error {
+			t := m.(*uc_team_content.Tree)
 			ll := l.With(esl.String("nsid", t.NamespaceId))
 			ll.Debug("Preparing for report")
 			meta := &mo_sharedfolder.SharedFolder{}
@@ -117,6 +118,6 @@ func (z *Policy) Exec(c app_control.Control) error {
 	})
 }
 
-func (z *Policy) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Policy{}, rc_recipe.NoCustomValues)
+func (z *List) Test(c app_control.Control) error {
+	return rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues)
 }

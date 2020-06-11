@@ -70,7 +70,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option           | Description                                                                                                                                                           | Default |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-chunk-size-kb` | Upload chunk size in KB                                                                                                                                               | 153600  |
+| `-chunk-size-kb` | Upload chunk size in KB                                                                                                                                               | 4096    |
 | `-dropbox-path`  | Destination Dropbox path                                                                                                                                              |         |
 | `-fail-on-error` | Returns error when any error happens while the operation. This command will not return any error when this flag is not enabled. All errors are written in the report. | false   |
 | `-local-path`    | Local file path                                                                                                                                                       |         |

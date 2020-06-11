@@ -1,4 +1,4 @@
-# team content member
+# team content member list
 
 List team folder & shared folder members 
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team content member 
+.\tbx.exe team content member list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team content member 
+$HOME/Desktop/tbx team content member list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

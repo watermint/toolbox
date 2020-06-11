@@ -48,6 +48,7 @@ type msgRun struct {
 	ErrorRecipeFailed           app_msg.Message
 	ErrorUnsupportedOutput      app_msg.Message
 	ErrorInitialization         app_msg.Message
+	ProgressInterruptedShutdown app_msg.Message
 }
 
 var (
@@ -296,6 +297,7 @@ func trapSignal(sig chan os.Signal, ctl app_control.Control) {
 	ui := ctl.UI()
 	for s := range sig {
 		// fatal shutdown
+		l.Info(ui.Text(MRun.ProgressInterruptedShutdown))
 		l.Debug("Signal", esl.Any("signal", s))
 		pc := make([]uintptr, 16)
 		n := runtime.Callers(0, pc)
@@ -313,8 +315,8 @@ func trapSignal(sig chan os.Signal, ctl app_control.Control) {
 				break
 			}
 		}
-		ui.Error(MRun.ErrorInterrupted)
-		ui.Error(MRun.ErrorInterruptedInstruction.With("JobPath", ctl.Workspace().Job()))
+		l.Error(ui.Text(MRun.ErrorInterrupted))
+		l.Error(ui.Text(MRun.ErrorInterruptedInstruction.With("JobPath", ctl.Workspace().Job())))
 		app_exit.Abort(app_exit.FatalInterrupted)
 	}
 }
@@ -325,8 +327,8 @@ func trapPanic(ctl app_control.Control) {
 	err := recover()
 	if err != nil {
 		l.Debug("Recovery from panic")
-		ui.Error(MRun.ErrorPanic.With("Error", err))
-		ui.Error(MRun.ErrorPanicInstruction.With("JobPath", ctl.Workspace().Job()))
+		l.Error(ui.Text(MRun.ErrorPanic.With("Error", err)))
+		l.Error(ui.Text(MRun.ErrorPanicInstruction.With("JobPath", ctl.Workspace().Job())))
 
 		for depth := 0; ; depth++ {
 			_, file, line, ok := runtime.Caller(depth)

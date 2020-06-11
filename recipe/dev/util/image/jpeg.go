@@ -31,6 +31,7 @@ type Jpeg struct {
 	Height     mo_int.RangeInt
 	Quality    mo_int.RangeInt
 	Count      mo_int.RangeInt
+	Seed       int
 	Created    app_msg.Message
 }
 
@@ -39,10 +40,11 @@ func (z *Jpeg) Preset() {
 	z.Height.SetRange(1, maxJpegResolution, 1080)
 	z.Quality.SetRange(1, 100, jpeg.DefaultQuality)
 	z.Count.SetRange(1, math.MaxInt16, 10)
+	z.Seed = 1
 	z.NamePrefix = "test_image"
 }
 
-func (z *Jpeg) create(index int, c app_control.Control) error {
+func (z *Jpeg) create(rs *rand.Rand, index int, c app_control.Control) error {
 	w, h := z.Width.Value(), z.Height.Value()
 	q := z.Quality.Value()
 	l := c.Log().With(esl.Int("index", index), esl.Int("width", w), esl.Int("height", h), esl.Int("quality", q))
@@ -54,10 +56,10 @@ func (z *Jpeg) create(index int, c app_control.Control) error {
 	for x := 0; x < w; x++ {
 		for y := 0; y < h; y++ {
 			plane.Set(x, y, color.CMYK{
-				C: uint8(rand.Intn(math.MaxUint8)),
-				M: uint8(rand.Intn(math.MaxUint8)),
-				Y: uint8(rand.Intn(math.MaxUint8)),
-				K: uint8(rand.Intn(math.MaxUint8)),
+				C: uint8(rs.Intn(math.MaxUint8)),
+				M: uint8(rs.Intn(math.MaxUint8)),
+				Y: uint8(rs.Intn(math.MaxUint8)),
+				K: uint8(rs.Intn(math.MaxUint8)),
 			})
 		}
 	}
@@ -80,8 +82,10 @@ func (z *Jpeg) create(index int, c app_control.Control) error {
 }
 
 func (z *Jpeg) Exec(c app_control.Control) error {
+	rs := rand.New(rand.NewSource(int64(z.Seed)))
+
 	for i := 0; i < z.Count.Value(); i++ {
-		if err := z.create(i, c); err != nil {
+		if err := z.create(rs, i, c); err != nil {
 			return err
 		}
 	}

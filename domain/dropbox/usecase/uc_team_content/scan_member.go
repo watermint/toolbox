@@ -1,4 +1,4 @@
-package content
+package uc_team_content
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
