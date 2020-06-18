@@ -81,7 +81,7 @@ func NewJobId() string {
 
 func DefaultAppPath() (path string, err error) {
 	if eh := os.Getenv(app.EnvNameToolboxHome); eh != "" {
-		return "", nil
+		return eh, nil
 	}
 
 	u, err := user.Current()
