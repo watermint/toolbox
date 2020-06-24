@@ -31,3 +31,27 @@ func (z *ScanNamespaceMetadataAndMembership) Scan(ctl app_control.Control, ctx d
 	z.Membership.Scan(ctl, ctx, namespaceName, namespaceId)
 	z.Metadata.Scan(ctl, ctx, namespaceName, namespaceId)
 }
+
+type Membership struct {
+	NamespaceId   string `json:"namespace_id"`
+	NamespaceName string `json:"namespace_name"`
+	Path          string `json:"path"`
+	FolderType    string `json:"folder_type"`
+	OwnerTeamId   string `json:"owner_team_id"`
+	OwnerTeamName string `json:"owner_team_name"`
+	AccessType    string `json:"access_type"`
+	MemberType    string `json:"member_type"`
+	MemberId      string `json:"member_id"`
+	MemberName    string `json:"member_name"`
+	MemberEmail   string `json:"member_email"`
+	SameTeam      string `json:"same_team"`
+}
+
+type NoMember struct {
+	OwnerTeamId   string `json:"owner_team_id"`
+	OwnerTeamName string `json:"owner_team_name"`
+	NamespaceId   string `json:"namespace_id"`
+	NamespaceName string `json:"namespace_name"`
+	Path          string `json:"path"`
+	FolderType    string `json:"folder_type"`
+}
