@@ -65,6 +65,7 @@ import (
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
 	recipeteamfolderbatch "github.com/watermint/toolbox/recipe/teamfolder/batch"
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
+	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 )
 
 func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
@@ -200,5 +201,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderbatch.Replication{},
 		&recipeteamfolderfile.List{},
 		&recipeteamfolderfile.Size{},
+		&recipeteamfoldermember.List{},
 	}
 }

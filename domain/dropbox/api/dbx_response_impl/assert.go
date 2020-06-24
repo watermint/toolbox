@@ -11,7 +11,8 @@ import (
 )
 
 var (
-	ErrorBadContentResponse = errors.New("bad response from server: res_code 400 with html body")
+	ErrorBadContentResponse  = errors.New("bad response from server: res_code 400 with html body")
+	ErrorInternalServerError = errors.New("internal server error")
 )
 
 func AssertResponse(res es_response.Response) es_response.Response {
@@ -28,6 +29,11 @@ func AssertResponse(res es_response.Response) es_response.Response {
 
 	case dbx_context.DropboxApiErrorRateLimit:
 		return es_response_impl.NewTransportErrorResponse(nw_retry.NewErrorRateLimitFromHeadersFallback(res.Headers()), res)
+	}
+
+	// Internal server error
+	if res.Code()/100 == 5 {
+		return es_response_impl.NewTransportErrorResponse(ErrorInternalServerError, res)
 	}
 
 	return res
