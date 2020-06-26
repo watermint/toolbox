@@ -51,7 +51,7 @@ type UserWorker struct {
 	Context    dbx_context.Context
 	StartTime  string
 	EndTime    string
-	Category   string
+	Category   mo_string.OptionalString
 	EventCache kv_storage.Storage
 	UserEmail  string
 }
@@ -66,6 +66,14 @@ func (z *UserWorker) Exec() error {
 		l.Debug("user not found", esl.Error(err))
 		ui.Error(MUser.ErrorUserNotFound.With("Email", z.UserEmail).With("Error", err))
 		return err
+	}
+
+	opts := make([]sv_activity.ListOpt, 0)
+	opts = append(opts, sv_activity.AccountId(member.AccountId))
+	opts = append(opts, sv_activity.StartTime(z.StartTime))
+	opts = append(opts, sv_activity.EndTime(z.EndTime))
+	if z.Category.IsExists() {
+		opts = append(opts, sv_activity.Category(z.Category.Value()))
 	}
 
 	return sv_activity.New(z.Context).List(
@@ -87,10 +95,7 @@ func (z *UserWorker) Exec() error {
 				return nil
 			})
 		},
-		sv_activity.AccountId(member.AccountId),
-		sv_activity.StartTime(z.StartTime),
-		sv_activity.EndTime(z.EndTime),
-		sv_activity.Category(z.Category),
+		opts...,
 	)
 }
 
@@ -130,7 +135,7 @@ func (z *User) Exec(c app_control.Control) error {
 			Context:    z.Peer.Context(),
 			StartTime:  z.StartTime.Iso8601(),
 			EndTime:    z.EndTime.Iso8601(),
-			Category:   z.Category.Value(),
+			Category:   z.Category,
 			EventCache: z.EventCache,
 			UserEmail:  e.Email,
 		})
