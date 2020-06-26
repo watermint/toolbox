@@ -3,6 +3,7 @@
 .coverprofile
 tbx.runbook
 *.iml
+*.prof
 *.secret
 *.tokens
 *.afdesign

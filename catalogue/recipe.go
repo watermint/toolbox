@@ -95,6 +95,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevrelease.Publish{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
+		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},

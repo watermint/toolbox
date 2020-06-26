@@ -19,6 +19,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_exit"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_resource"
@@ -102,6 +103,22 @@ func Resources() (ui app_ui.UI) {
 	}
 }
 
+func MustCreateControl() (ctl app_control.Control, jl app_job.Launcher) {
+	ui := Resources()
+	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel(), false)
+	if err != nil {
+		panic(err)
+	}
+	com := app_opt.Default()
+	nop := rc_spec.New(&rc_recipe.Nop{})
+	jl = app_job_impl.NewLauncher(ui, wb, com, nop)
+	ctl, err = jl.Up()
+	if err != nil {
+		panic(err)
+	}
+	return ctl, jl
+}
+
 func TestWithDbxContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 	TestWithControl(t, func(ctl app_control.Control) {
 		ctx := dbx_context_impl.NewMock(ctl)
@@ -121,22 +138,18 @@ func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_contex
 	})
 }
 
+func BenchmarkWithControl(b *testing.B, twc func(ctl app_control.Control)) {
+	nw_ratelimit.SetTestMode(true)
+	ctl, jl := MustCreateControl()
+
+	twc(ctl.WithFeature(ctl.Feature().AsTest(false)))
+
+	jl.Down(nil, ctl)
+}
+
 func TestWithControl(t *testing.T, twc func(ctl app_control.Control)) {
 	nw_ratelimit.SetTestMode(true)
-	ui := Resources()
-	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel(), false)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	com := app_opt.Default()
-	nop := rc_spec.New(&rc_recipe.Nop{})
-	jl := app_job_impl.NewLauncher(ui, wb, com, nop)
-	ctl, err := jl.Up()
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	ctl, jl := MustCreateControl()
 
 	twc(ctl.WithFeature(ctl.Feature().AsTest(false)))
 

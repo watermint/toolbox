@@ -180,6 +180,7 @@ Available commands:
 | [teamfolder file list](doc/generated/teamfolder-file-list.md)                   | List files in team folders                                    |
 | [teamfolder file size](doc/generated/teamfolder-file-size.md)                   | Calculate size of team folders                                |
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
+| [teamfolder member list](doc/generated/teamfolder-member-list.md)               | List team folder members                                      |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
 | [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
 
