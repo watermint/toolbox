@@ -1,6 +1,7 @@
 package test
 
 import (
+	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -33,8 +34,9 @@ func (z *Kvsfootprint) Exec(c app_control.Control) error {
 	for i := 0; i < z.Count; i++ {
 		ui.Progress(z.ProgressLoop.With("Index", i+1))
 		sk := func(entry mo_file.Entry) {
+			key := fmt.Sprintf("%x:%s", i, entry.PathDisplay())
 			err := z.Entries.Update(func(kvs kv_kvs.Kvs) error {
-				return kvs.PutJson(entry.PathDisplay(), entry.Concrete().Raw)
+				return kvs.PutJson(key, entry.Concrete().Raw)
 			})
 			if err != nil {
 				l.Debug("Unable to store", esl.Error(err))
