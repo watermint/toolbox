@@ -3,11 +3,10 @@ package sv_file_content
 import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"os"
 )
 
@@ -30,13 +29,14 @@ func (z *exportImpl) Export(path mo_path.DropboxPath) (export *mo_file.Export, l
 	}{
 		Path: path.Path(),
 	}
-	q, err := dbx_util.HeaderSafeJson(p)
+
+	q, err := dbx_request.DropboxApiArg(p)
 	if err != nil {
 		l.Debug("unable to marshal parameter", esl.Error(err))
 		return nil, nil, err
 	}
 
-	res := z.ctx.Download("files/export", api_request.Header(api_request.ReqHeaderDropboxApiArg, q))
+	res := z.ctx.Download("files/export", q)
 	if err, f := res.Failure(); f {
 		return nil, nil, err
 	}
