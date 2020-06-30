@@ -81,7 +81,7 @@ func (z *List) Exec(c app_control.Control) error {
 			},
 		},
 	}
-	if err := s.Scan(); err != nil {
+	if err := s.ScanTeamOnly(); err != nil {
 		return err
 	}
 	q.Wait()
@@ -191,7 +191,14 @@ func (z *List) Exec(c app_control.Control) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues)
+	{
+		err := rc_exec.ExecReplay(c, &List{}, "recipe-teamfolder-member-list.json.gz", rc_recipe.NoCustomValues)
+		if err != nil {
+			return err
+		}
+	}
+
+	return rc_exec.ExecMock(c, &List{}, rc_recipe.NoCustomValues)
 }
 
 func FolderType(m *mo_sharedfolder.SharedFolder) string {

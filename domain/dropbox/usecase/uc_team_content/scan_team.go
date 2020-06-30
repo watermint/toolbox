@@ -116,7 +116,7 @@ func (z *TeamScanner) namespacesOfMembers() error {
 	return z.iterateMembers(z.namespaceOfMember)
 }
 
-func (z *TeamScanner) Scan() error {
+func (z *TeamScanner) ScanAll() error {
 	if err := z.namespacesOfTeam(); err != nil {
 		return err
 	}
@@ -124,4 +124,9 @@ func (z *TeamScanner) Scan() error {
 		return err
 	}
 	return nil
+}
+
+// Scan team namespaces
+func (z *TeamScanner) ScanTeamOnly() error {
+	return z.namespacesOfTeam()
 }

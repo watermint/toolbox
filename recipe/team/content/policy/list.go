@@ -66,7 +66,7 @@ func (z *List) Exec(c app_control.Control) error {
 			Queue:    q,
 		},
 	}
-	if err := s.Scan(); err != nil {
+	if err := s.ScanAll(); err != nil {
 		return err
 	}
 	q.Wait()
