@@ -170,6 +170,7 @@ Available commands:
 | [team namespace member list](doc/generated/team-namespace-member-list.md)       | List members of shared folders and team folders in the team   |
 | [team sharedlink list](doc/generated/team-sharedlink-list.md)                   | List of shared links                                          |
 | [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md) | Update expiration date of public shared links within the team |
+| [teamfolder add](doc/generated/teamfolder-add.md)                               | Add team folder to the team                                   |
 | [teamfolder archive](doc/generated/teamfolder-archive.md)                       | Archive team folder                                           |
 | [teamfolder batch archive](doc/generated/teamfolder-batch-archive.md)           | Archiving team folders                                        |
 | [teamfolder batch permdelete](doc/generated/teamfolder-batch-permdelete.md)     | Permanently delete team folders                               |

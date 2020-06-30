@@ -168,6 +168,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team namespace member list](doc/generated_ja/team-namespace-member-list.md)       | チームフォルダ以下のファイル・フォルダを一覧                   |
 | [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                   | 共有リンクの一覧                                               |
 | [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md) | チーム内の公開されている共有リンクについて有効期限を更新します |
+| [teamfolder add](doc/generated_ja/teamfolder-add.md)                               | チームフォルダを追加します                                     |
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                       | チームフォルダのアーカイブ                                     |
 | [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)           | 複数のチームフォルダをアーカイブします                         |
 | [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)     | 複数のチームフォルダを完全に削除します                         |

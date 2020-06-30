@@ -191,6 +191,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamnamespacemember.List{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkupdate.Expiry{},
+		&recipeteamfolder.Add{},
 		&recipeteamfolder.Archive{},
 		&recipeteamfolder.List{},
 		&recipeteamfolder.Permdelete{},

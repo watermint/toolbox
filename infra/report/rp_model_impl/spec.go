@@ -108,6 +108,9 @@ func (z *ColumnSpec) Model() interface{} {
 }
 
 func (z *ColumnSpec) Desc() app_msg.Message {
+	if z.model == nil {
+		panic("Report model is not defined")
+	}
 	key := es_reflect.Key(app.Pkg, z.model) + ".desc"
 	return app_msg.CreateMessage(key)
 }
