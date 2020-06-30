@@ -23,6 +23,9 @@ type Feature interface {
 	IsAutoOpen() bool
 	IsTransient() bool
 
+	// Is the experiment enabled or not.
+	Experiment(name string) bool
+
 	// UI format
 	UIFormat() string
 

@@ -20,7 +20,11 @@ type Kvsfootprint struct {
 	rc_recipe.RemarkConsole
 	Count        int
 	Peer         dbx_conn.ConnUserFile
-	Entries      kv_storage.Storage
+	Entries1     kv_storage.Storage
+	Entries2     kv_storage.Storage
+	Entries3     kv_storage.Storage
+	Entries4     kv_storage.Storage
+	Entries5     kv_storage.Storage
 	ProgressLoop app_msg.Message
 }
 
@@ -31,21 +35,38 @@ func (z *Kvsfootprint) Preset() {
 func (z *Kvsfootprint) Exec(c app_control.Control) error {
 	l := c.Log()
 	ui := c.UI()
+
+	storages := []kv_storage.Storage{
+		z.Entries1,
+		z.Entries2,
+		z.Entries3,
+		z.Entries4,
+		z.Entries5,
+	}
+
 	for i := 0; i < z.Count; i++ {
 		ui.Progress(z.ProgressLoop.With("Index", i+1))
-		sk := func(entry mo_file.Entry) {
-			key := fmt.Sprintf("%x:%s", i, entry.PathDisplay())
-			err := z.Entries.Update(func(kvs kv_kvs.Kvs) error {
-				return kvs.PutJson(key, entry.Concrete().Raw)
-			})
-			if err != nil {
-				l.Debug("Unable to store", esl.Error(err))
+		for _, storage := range storages {
+			sk := func(entry mo_file.Entry) {
+				key := fmt.Sprintf("%x:%s", i, entry.PathDisplay())
+				err := storage.Update(func(kvs kv_kvs.Kvs) error {
+					return kvs.PutJson(key, entry.Concrete().Raw)
+				})
+				if err != nil {
+					l.Debug("Unable to store", esl.Error(err))
+				}
 			}
-		}
-		err := sv_file.NewFiles(z.Peer.Context()).ListChunked(
-			mo_path.NewDropboxPath("/"), sk, sv_file.Recursive())
-		if err != nil {
-			return err
+			err := sv_file.NewFiles(z.Peer.Context()).ListChunked(
+				mo_path.NewDropboxPath("/"), sk, sv_file.Recursive())
+			if err != nil {
+				return err
+			}
+
+			_ = storage.View(func(kvs kv_kvs.Kvs) error {
+				return kvs.ForEach(func(key string, value []byte) error {
+					return nil
+				})
+			})
 		}
 	}
 	return nil

@@ -1,12 +1,19 @@
 package esl_rotate
 
 import (
+	"context"
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
+	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	"github.com/watermint/toolbox/essentials/file/es_gzip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"os"
 	"sync"
+	"time"
+)
+
+const (
+	RotateEnqueueTimeout = 10 * time.Second
 )
 
 type MsgPurge struct {
@@ -121,13 +128,15 @@ func enqueuePurge(m MsgPurge) {
 	}
 }
 
-func rotateOut(m MsgOut) bool {
-	if queueOut != nil {
-		queueOut <- m
-		return true
-	} else {
-		return false
-	}
+func rotateOut(m MsgOut) (ok bool) {
+	ok = false
+	es_timeout.DoWithTimeout(RotateEnqueueTimeout, func(ctx context.Context) {
+		if queueOut != nil {
+			queueOut <- m
+			ok = true
+		}
+	})
+	return
 }
 
 func enqueueRotate(m MsgRotate) {

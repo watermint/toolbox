@@ -43,3 +43,32 @@ func TestFeatureImpl_OptInGetSet(t *testing.T) {
 		t.Error(sfo3, found)
 	}
 }
+
+func TestFeatureImpl_Experiment(t *testing.T) {
+	p, err := ioutil.TempDir("", "feature")
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	ws, err := app_workspace.NewWorkspace(p, false)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	defer func() {
+		_ = os.RemoveAll(p)
+	}()
+	com := app_opt.Default()
+	com.Experiment = "experiment1,experiment2"
+	fe := NewFeature(com, ws, true)
+
+	if e := fe.Experiment("experiment1"); !e {
+		t.Error(e)
+	}
+	if e := fe.Experiment("experiment2"); !e {
+		t.Error(e)
+	}
+	if e := fe.Experiment("experiment3"); e {
+		t.Error(e)
+	}
+}

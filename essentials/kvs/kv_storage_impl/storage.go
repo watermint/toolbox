@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_badger"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os"
@@ -102,7 +101,7 @@ func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 	opts = opts.WithMaxTableSize(16 * 1_048_576)
 	opts = opts.WithNumCompactors(1)
 	opts = opts.WithNumMemtables(1)
-	if z.ctl.Feature().BudgetMemory() == app_budget.BudgetLow {
+	if !z.ctl.Feature().Experiment(app.ExperimentKvsStorageUseInMemory) {
 		opts = opts.WithInMemory(false)
 		opts = opts.WithKeepL0InMemory(false)
 	}

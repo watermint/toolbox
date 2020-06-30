@@ -11,7 +11,7 @@ import (
 type proxyTableImpl struct {
 	lg esl.Logger
 	mc app_msg_container.Container
-	mx es_mutex.Mutex
+	mx es_mutex.MutexWithTimeout
 	it Table
 }
 
