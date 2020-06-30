@@ -18,7 +18,7 @@ func LoadReplay(name string) (rr []nw_replay.Response, err error) {
 	l := esl.Default().With(esl.String("name", name))
 	root, err := es_project.DetectRepositoryRoot()
 	if err != nil {
-		l.Error("Test path not found")
+		l.Warn("Test path not found")
 		return nil, err
 	}
 	tp := filepath.Join(root, "test")
