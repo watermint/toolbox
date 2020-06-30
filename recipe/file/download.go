@@ -82,18 +82,21 @@ func (z *Download) Test(c app_control.Control) error {
 			m.DropboxPath = mo_path.NewDropboxPath("/watermint-toolbox-test/watermint-toolbox.txt")
 			m.LocalPath = mo_path2.NewFileSystemPath(path)
 		})
-		if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
-			return err
+		if err2, _ := qt_errors.ErrorsForTest(c.Log(), err); err2 != nil {
+			return err2
 		}
 
-		testFile := filepath.Join(path, "watermint-toolbox.txt")
-		testFileInfo, err := os.Lstat(testFile)
-		if err != nil {
-			return err
-		}
+		// in case the test passed
+		if err == nil {
+			testFile := filepath.Join(path, "watermint-toolbox.txt")
+			testFileInfo, err := os.Lstat(testFile)
+			if err != nil {
+				return err
+			}
 
-		if !testFileInfo.ModTime().Equal(time.Unix(1593502474, 0)) {
-			return errors.New("invalid mod time")
+			if !testFileInfo.ModTime().Equal(time.Unix(1593502474, 0)) {
+				return errors.New("invalid mod time")
+			}
 		}
 	}
 
