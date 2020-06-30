@@ -26,9 +26,14 @@ type RequestData struct {
 	c es_rewinder.ReadRewinder
 }
 
-// Returns JSON form of param. Returns `null` string if an error occurred.
+// Convert into JSON form of param. Returns `null` string if an error occurred.
+// Returns empty string when the parameter is null.
 func (z RequestData) ParamJson() json.RawMessage {
 	l := esl.Default()
+	if z.p == nil {
+		l.Debug("Paramter is null")
+		return json.RawMessage{}
+	}
 	q, err := json.Marshal(z.p)
 	if err != nil {
 		l.Debug("unable to marshal param", esl.Error(err), esl.Any("p", z.p))

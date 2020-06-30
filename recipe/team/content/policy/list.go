@@ -23,22 +23,9 @@ type List struct {
 	Folder   mo_filter.Filter
 }
 
-type FolderPolicy struct {
-	NamespaceId        string `json:"namespace_id"`
-	NamespaceName      string `json:"namespace_name"`
-	Path               string `json:"path"`
-	IsTeamFolder       bool   `json:"is_team_folder"`
-	OwnerTeamId        string `json:"owner_team_id"`
-	OwnerTeamName      string `json:"owner_team_name"`
-	PolicyManageAccess string `json:"policy_manage_access"`
-	PolicySharedLink   string `json:"policy_shared_link"`
-	PolicyMember       string `json:"policy_member"`
-	PolicyViewerInfo   string `json:"policy_viewer_info"`
-}
-
 func (z *List) Preset() {
 	z.Policy.SetModel(
-		&FolderPolicy{},
+		&uc_team_content.FolderPolicy{},
 		rp_model.HiddenColumns(
 			"owner_team_id",
 			"namespace_id",
@@ -66,7 +53,7 @@ func (z *List) Exec(c app_control.Control) error {
 			Queue:    q,
 		},
 	}
-	if err := s.Scan(); err != nil {
+	if err := s.ScanAll(); err != nil {
 		return err
 	}
 	q.Wait()
@@ -101,7 +88,7 @@ func (z *List) Exec(c app_control.Control) error {
 				ll.Debug("Unable to get metadata for the namespace", esl.Error(err))
 				return err
 			}
-			z.Policy.Row(&FolderPolicy{
+			z.Policy.Row(&uc_team_content.FolderPolicy{
 				NamespaceId:        t.NamespaceId,
 				NamespaceName:      t.NamespaceName,
 				Path:               t.RelativePath,

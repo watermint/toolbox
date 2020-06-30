@@ -96,14 +96,27 @@ func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 	l.Debug("Open database")
 	opts := badger.DefaultOptions(path)
 	opts = opts.WithLogger(lgw_badger.New(l))
-	opts = opts.WithMaxCacheSize(32 * 1_048_576) // 32MB
+	opts = opts.WithMaxBfCacheSize(4 * 1_048_576)
+	opts = opts.WithMaxCacheSize(16 * 1_048_576)
+	opts = opts.WithMaxTableSize(16 * 1_048_576)
 	opts = opts.WithNumCompactors(1)
+	opts = opts.WithNumMemtables(1)
+	if !z.ctl.Feature().Experiment(app.ExperimentKvsStorageUseInMemory) {
+		opts = opts.WithInMemory(false)
+		opts = opts.WithKeepL0InMemory(false)
+	}
+	if z.ctl.Feature().Experiment(app.ExperimentKvsStorageCompressionSnappy) {
+		opts = opts.WithCompression(options.Snappy)
+		opts = opts.WithCompactL0OnClose(true)
+	} else if z.ctl.Feature().Experiment(app.ExperimentKvsStorageCompressionZstd) {
+		opts = opts.WithCompression(options.ZSTD)
+		opts = opts.WithCompactL0OnClose(true)
+	}
 	opts = opts.WithTableLoadingMode(options.FileIO)
 
 	// Use lesser ValueLogFileSize for Windows 32bit environment
 	if app.IsWindows() && runtime.GOARCH == "386" {
 		opts = opts.WithValueLogFileSize(2 << 20)
-		opts = opts.WithNumMemtables(2)
 	}
 
 	z.db, err = badger.Open(opts)

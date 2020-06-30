@@ -3,13 +3,16 @@ package esl_rotate
 import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
+	"github.com/watermint/toolbox/essentials/io/es_timeout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
 	"os"
+	"time"
 )
 
 const (
 	logFileExtension = ".log"
+	logWriteTimeout  = 15 * time.Second
 )
 
 var (
@@ -36,10 +39,11 @@ func NewWriter(basePath, baseName string) Writer {
 
 // This implementation is fully stateful
 type writerImpl struct {
-	current *os.File
-	ro      RotateOpts
-	written int64
-	m       es_mutex.Mutex
+	current       *os.File
+	currentWriter es_timeout.TimeoutWriter
+	ro            RotateOpts
+	written       int64
+	m             es_mutex.MutexWithTimeout
 }
 
 func (z *writerImpl) UpdateOpt(opt RotateOpt) {
@@ -52,7 +56,7 @@ func (z *writerImpl) Write(p []byte) (n int, err error) {
 			err = ErrorLogFileNotAvailable
 			return
 		}
-		n, err = z.current.Write(p)
+		n, err = z.currentWriter.Write(p)
 		z.written += int64(n)
 		if err != nil {
 			return
@@ -96,6 +100,7 @@ func (z *writerImpl) createCurrent() (err error) {
 
 	l.Debug("create", esl.String("path", path))
 	z.current, err = os.Create(path)
+	z.currentWriter = es_timeout.New(z.current, logWriteTimeout)
 	return
 }
 
@@ -123,6 +128,7 @@ func (z *writerImpl) closeCurrent() (err error) {
 		l.Error("Unable to close current log file", esl.String("path", name), esl.Error(err))
 	}
 	z.current = nil
+	z.currentWriter = nil
 
 	ror := rotateOut(MsgOut{
 		Path: name,

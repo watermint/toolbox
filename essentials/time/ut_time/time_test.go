@@ -1,6 +1,19 @@
 package ut_time
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
+
+func TestParseTimestamp(t *testing.T) {
+	tm, ok := ParseTimestamp("2020-06-30T06:00:05Z")
+	if !ok {
+		t.Error(ok)
+	}
+	if !tm.Equal(time.Unix(1593496805, 0)) {
+		t.Error(tm)
+	}
+}
 
 func TestDaily(t *testing.T) {
 	{

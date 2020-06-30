@@ -13,6 +13,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 const (
@@ -38,6 +39,16 @@ type featureImpl struct {
 	testWithMock bool
 	transient    bool
 	replay       []nw_replay.Response
+}
+
+func (z featureImpl) Experiment(name string) bool {
+	experiments := strings.Split(z.com.Experiment, ",")
+	for _, experiment := range experiments {
+		if experiment == name {
+			return true
+		}
+	}
+	return false
 }
 
 func (z featureImpl) AsReplayTest(replay []nw_replay.Response) app_feature.Feature {

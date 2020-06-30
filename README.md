@@ -58,7 +58,6 @@ Available commands:
    file          File operation                   
    filerequest   File request operation           
    group         Group management                 
-   job           Job operation                    
    license       Show license information         
    member        Team member management           
    sharedfolder  Shared folder                    
@@ -84,8 +83,6 @@ Available commands:
 | [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
 | [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
 | [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
-| [job loop](doc/generated/job-loop.md)                       | Run runbook until specified date/time            |
-| [job run](doc/generated/job-run.md)                         | Run workflow with *.runbook file                 |
 | [license](doc/generated/license.md)                         | Show license information                         |
 | [version](doc/generated/version.md)                         | Show version                                     |
 
@@ -173,6 +170,7 @@ Available commands:
 | [team namespace member list](doc/generated/team-namespace-member-list.md)       | List members of shared folders and team folders in the team   |
 | [team sharedlink list](doc/generated/team-sharedlink-list.md)                   | List of shared links                                          |
 | [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md) | Update expiration date of public shared links within the team |
+| [teamfolder add](doc/generated/teamfolder-add.md)                               | Add team folder to the team                                   |
 | [teamfolder archive](doc/generated/teamfolder-archive.md)                       | Archive team folder                                           |
 | [teamfolder batch archive](doc/generated/teamfolder-batch-archive.md)           | Archiving team folders                                        |
 | [teamfolder batch permdelete](doc/generated/teamfolder-batch-permdelete.md)     | Permanently delete team folders                               |
@@ -180,7 +178,9 @@ Available commands:
 | [teamfolder file list](doc/generated/teamfolder-file-list.md)                   | List files in team folders                                    |
 | [teamfolder file size](doc/generated/teamfolder-file-size.md)                   | Calculate size of team folders                                |
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
+| [teamfolder member list](doc/generated/teamfolder-member-list.md)               | List team folder members                                      |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
+| [teamfolder policy list](doc/generated/teamfolder-policy-list.md)               | List policies of team folders                                 |
 | [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
 
 ## GitHub

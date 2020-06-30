@@ -30,33 +30,9 @@ type List struct {
 	memberTypeExternal mo_sharedfolder_member.FolderMemberFilter
 }
 
-type Membership struct {
-	NamespaceId   string `json:"namespace_id"`
-	NamespaceName string `json:"namespace_name"`
-	Path          string `json:"path"`
-	FolderType    string `json:"folder_type"`
-	OwnerTeamId   string `json:"owner_team_id"`
-	OwnerTeamName string `json:"owner_team_name"`
-	AccessType    string `json:"access_type"`
-	MemberType    string `json:"member_type"`
-	MemberId      string `json:"member_id"`
-	MemberName    string `json:"member_name"`
-	MemberEmail   string `json:"member_email"`
-	SameTeam      string `json:"same_team"`
-}
-
-type NoMember struct {
-	OwnerTeamId   string `json:"owner_team_id"`
-	OwnerTeamName string `json:"owner_team_name"`
-	NamespaceId   string `json:"namespace_id"`
-	NamespaceName string `json:"namespace_name"`
-	Path          string `json:"path"`
-	FolderType    string `json:"folder_type"`
-}
-
 func (z *List) Preset() {
 	z.Membership.SetModel(
-		&Membership{},
+		&uc_team_content.Membership{},
 		rp_model.HiddenColumns(
 			"owner_team_id",
 			"namespace_id",
@@ -65,7 +41,7 @@ func (z *List) Preset() {
 		),
 	)
 	z.NoMember.SetModel(
-		&NoMember{},
+		&uc_team_content.NoMember{},
 		rp_model.HiddenColumns(
 			"owner_team_id",
 			"namespace_id",
@@ -105,7 +81,7 @@ func (z *List) Exec(c app_control.Control) error {
 			},
 		},
 	}
-	if err := s.Scan(); err != nil {
+	if err := s.ScanAll(); err != nil {
 		return err
 	}
 	q.Wait()
@@ -161,7 +137,7 @@ func (z *List) Exec(c app_control.Control) error {
 					return err
 				}
 				if len(members) < 1 {
-					z.NoMember.Row(&NoMember{
+					z.NoMember.Row(&uc_team_content.NoMember{
 						OwnerTeamId:   meta.OwnerTeamId,
 						OwnerTeamName: meta.OwnerTeamName,
 						NamespaceId:   meta.SharedFolderId,
@@ -188,7 +164,7 @@ func (z *List) Exec(c app_control.Control) error {
 						memberEmail = e.InviteeEmail
 					}
 
-					ms := &Membership{
+					ms := &uc_team_content.Membership{
 						OwnerTeamId:   meta.OwnerTeamId,
 						OwnerTeamName: meta.OwnerTeamName,
 						NamespaceId:   meta.SharedFolderId,

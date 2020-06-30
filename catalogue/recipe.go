@@ -30,7 +30,6 @@ import (
 	recipegroup "github.com/watermint/toolbox/recipe/group"
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
-	recipejob "github.com/watermint/toolbox/recipe/job"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
@@ -65,6 +64,8 @@ import (
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
 	recipeteamfolderbatch "github.com/watermint/toolbox/recipe/teamfolder/batch"
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
+	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
+	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
 )
 
 func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
@@ -94,6 +95,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevrelease.Publish{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
+		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
@@ -133,8 +135,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmember.Add{},
 		&recipegroupmember.Delete{},
 		&recipegroupmember.List{},
-		&recipejob.Loop{},
-		&recipejob.Run{},
 		&recipejobhistory.Archive{},
 		&recipejobhistory.Delete{},
 		&recipejobhistory.List{},
@@ -191,6 +191,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamnamespacemember.List{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkupdate.Expiry{},
+		&recipeteamfolder.Add{},
 		&recipeteamfolder.Archive{},
 		&recipeteamfolder.List{},
 		&recipeteamfolder.Permdelete{},
@@ -200,5 +201,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderbatch.Replication{},
 		&recipeteamfolderfile.List{},
 		&recipeteamfolderfile.Size{},
+		&recipeteamfoldermember.List{},
+		&recipeteamfolderpolicy.List{},
 	}
 }

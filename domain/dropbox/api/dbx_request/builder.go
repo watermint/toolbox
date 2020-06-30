@@ -143,7 +143,7 @@ func (z Builder) reqHeaders() map[string]string {
 			headers[api_request.ReqHeaderDropboxApiArg] = p
 		}
 		headers[api_request.ReqHeaderContentType] = "application/octet-stream"
-	} else {
+	} else if len(z.data.ParamJson()) > 0 {
 		headers[api_request.ReqHeaderContentType] = "application/json"
 	}
 	for k, v := range z.data.Headers() {

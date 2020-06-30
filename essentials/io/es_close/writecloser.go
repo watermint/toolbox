@@ -2,41 +2,61 @@ package es_close
 
 import (
 	"bytes"
-	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
+	"errors"
+	"fmt"
 	"io"
 )
 
 func New(w io.WriteCloser) io.WriteCloser {
 	return &WriteCloser{
 		w: w,
-		s: es_mutex.New(),
 	}
 }
 
 type WriteCloser struct {
 	w io.WriteCloser
-	s es_mutex.Mutex
 }
 
 func (z *WriteCloser) Write(p []byte) (n int, err error) {
-	z.s.Do(func() {
-		if z.w != nil {
-			n, err = z.w.Write(p)
-		} else {
-			// report data all written to caller to conform interface definition.
-			n = len(p)
+	// Catch exceptions in case the writer closed in race condition
+	defer func() {
+		r := recover()
+		if r != nil {
+			switch e := r.(type) {
+			case error:
+				err = e
+			default:
+				err = errors.New(fmt.Sprintf("%v", e))
+			}
 		}
-	})
+	}()
+
+	if z.w != nil {
+		n, err = z.w.Write(p)
+	} else {
+		// report data all written to caller to conform interface definition.
+		n = len(p)
+	}
 	return
 }
 
 func (z *WriteCloser) Close() (err error) {
-	z.s.Do(func() {
-		if z.w != nil {
-			err = z.w.Close()
-			z.w = nil
+	defer func() {
+		r := recover()
+		if r != nil {
+			switch e := r.(type) {
+			case error:
+				err = e
+			default:
+				err = errors.New(fmt.Sprintf("%v", e))
+			}
 		}
-	})
+	}()
+
+	if z.w != nil {
+		err = z.w.Close()
+		z.w = nil
+	}
 	return
 }
 

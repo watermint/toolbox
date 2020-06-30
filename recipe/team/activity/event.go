@@ -2,6 +2,7 @@ package activity
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
@@ -19,7 +20,7 @@ type Event struct {
 	Peer      dbx_conn.ConnBusinessAudit
 	StartTime mo_time.TimeOptional
 	EndTime   mo_time.TimeOptional
-	Category  string
+	Category  mo_string.OptionalString
 	Event     rp_model.RowReport
 }
 
@@ -37,11 +38,14 @@ func (z *Event) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	return sv_activity.New(z.Peer.Context()).List(handler,
-		sv_activity.StartTime(z.StartTime.Iso8601()),
-		sv_activity.EndTime(z.EndTime.Iso8601()),
-		sv_activity.Category(z.Category),
-	)
+	opts := make([]sv_activity.ListOpt, 0)
+	opts = append(opts, sv_activity.StartTime(z.StartTime.Iso8601()))
+	opts = append(opts, sv_activity.EndTime(z.EndTime.Iso8601()))
+	if z.Category.IsExists() {
+		opts = append(opts, sv_activity.Category(z.Category.Value()))
+	}
+
+	return sv_activity.New(z.Peer.Context()).List(handler, opts...)
 }
 
 func (z *Event) Test(c app_control.Control) error {
@@ -50,7 +54,7 @@ func (z *Event) Test(c app_control.Control) error {
 		if t, ok := rc.StartTime.(*mo_time.TimeImpl); ok {
 			t.UpdateTime(time.Now().Add(-10 * time.Minute).Format(dbx_util.DateTimeFormat))
 		}
-		rc.Category = "logins"
+		rc.Category = mo_string.NewOptional("logins")
 	})
 	if err != nil {
 		return err

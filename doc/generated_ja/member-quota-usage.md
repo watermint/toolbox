@@ -82,6 +82,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
+| `-experiment`     | 実験的機能を有効化する                                                                             |                |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |

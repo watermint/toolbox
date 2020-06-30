@@ -56,7 +56,6 @@ DropboxおよびDropbox Business向けのツールセット
    file          ファイル操作                 
    filerequest   ファイルリクエストの操作           
    group         グループ管理                 
-   job           ジョブの操作                 
    license       ライセンス情報を表示します          
    member        チームメンバーの管理             
    sharedfolder  共有フォルダ                 
@@ -70,22 +69,20 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                       | 説明                                           |
-|----------------------------------------------------------------|------------------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                            |
-| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                            |
-| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.                  |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します                   |
-| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                             |
-| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除                           |
-| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                               |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する               |
-| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します             |
-| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.              |
-| [job loop](doc/generated_ja/job-loop.md)                       | 指定日時までrunbookを実行します.               |
-| [job run](doc/generated_ja/job-run.md)                         | *.runbookoファイルにてワークフローを実行します |
-| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します                     |
-| [version](doc/generated_ja/version.md)                         | バージョン情報                                 |
+| コマンド                                                       | 説明                               |
+|----------------------------------------------------------------|------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
+| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
+| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
+| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
+| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
+| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                   |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する   |
+| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します |
+| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.  |
+| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します         |
+| [version](doc/generated_ja/version.md)                         | バージョン情報                     |
 
 ## Dropbox (個人アカウント)
 
@@ -171,6 +168,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team namespace member list](doc/generated_ja/team-namespace-member-list.md)       | チームフォルダ以下のファイル・フォルダを一覧                   |
 | [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                   | 共有リンクの一覧                                               |
 | [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md) | チーム内の公開されている共有リンクについて有効期限を更新します |
+| [teamfolder add](doc/generated_ja/teamfolder-add.md)                               | チームフォルダを追加します                                     |
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                       | チームフォルダのアーカイブ                                     |
 | [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)           | 複数のチームフォルダをアーカイブします                         |
 | [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)     | 複数のチームフォルダを完全に削除します                         |
@@ -178,7 +176,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | チームフォルダの一覧                                           |
 | [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | チームフォルダのサイズを計算                                   |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                           |
+| [teamfolder member list](doc/generated_ja/teamfolder-member-list.md)               | チームフォルダのメンバー一覧                                   |
 | [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                               |
+| [teamfolder policy list](doc/generated_ja/teamfolder-policy-list.md)               | チームフォルダのポリシー一覧                                   |
 | [teamfolder replication](doc/generated_ja/teamfolder-replication.md)               | チームフォルダを他のチームに複製します                         |
 
 ## GitHub

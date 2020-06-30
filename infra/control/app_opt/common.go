@@ -29,6 +29,9 @@ type CommonOpts struct {
 	// Enable debug mode
 	Debug bool
 
+	// Enable experiments
+	Experiment string
+
 	// Memory budget
 	BudgetMemory mo_string.SelectString
 
@@ -56,6 +59,7 @@ func (z *CommonOpts) Preset() {
 	z.BandwidthKb = 0
 	z.Concurrency = runtime.NumCPU()
 	z.Debug = false
+	z.Experiment = ""
 	z.BudgetMemory.SetOptions([]string{BudgetLow, BudgetNormal}, BudgetNormal)
 	z.BudgetStorage.SetOptions(app_budget.StorageBudgets, string(app_budget.DefaultBudget))
 	z.Output.SetOptions([]string{OutputText, OutputMarkdown, OutputJson, OutputNone}, OutputText)

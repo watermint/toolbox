@@ -1,6 +1,48 @@
-# job run
+# dev test kvsfootprint
 
-*.runbookoファイルにてワークフローを実行します (試験的実装です)
+KVSのメモリフットプリントをテストします 
+
+# セキュリティ
+
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+
+| OS      | パス                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+
+方法は次のヘルプセンター記事をご参照ください:
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+
+## 認可スコープ
+
+| ラベル    | 説明                     |
+|-----------|--------------------------|
+| user_full | Dropbox へのフルアクセス |
+
+# 認可
+
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
 
 # 利用方法
 
@@ -10,12 +52,12 @@
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe job run -runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook
+.\tbx.exe dev test kvsfootprint 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx job run -runbook-path /LOCAL/PATH/TO/RUNBOOK.runbook
+$HOME/Desktop/tbx dev test kvsfootprint 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,9 +68,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明             | デフォルト |
-|-----------------|------------------|------------|
-| `-runbook-path` | Runbookへのパス. |            |
+| オプション     | 説明                     | デフォルト |
+|----------------|--------------------------|------------|
+| `-count`       | テスト回数               | 1          |
+| `-duplicate`   | 重複レコードを作成します | 1          |
+| `-num-entries` | 書き込みするエントリ数   | 1          |
+| `-peer`        | アカウントの別名         | default    |
 
 ## 共通のオプション:
 
@@ -40,6 +85,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
+| `-experiment`     | 実験的機能を有効化する                                                                             |                |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |

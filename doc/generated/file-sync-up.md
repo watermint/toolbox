@@ -70,7 +70,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option           | Description                                                                                                                                                           | Default |
 |------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-chunk-size-kb` | Upload chunk size in KB                                                                                                                                               | 4096    |
+| `-chunk-size-kb` | Upload chunk size in KB                                                                                                                                               | 65536   |
 | `-dropbox-path`  | Destination Dropbox path                                                                                                                                              |         |
 | `-fail-on-error` | Returns error when any error happens while the operation. This command will not return any error when this flag is not enabled. All errors are written in the report. | false   |
 | `-local-path`    | Local file path                                                                                                                                                       |         |
@@ -86,6 +86,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)             | normal               |
 | `-concurrency`    | Maximum concurrency for running operation                                        | Number of processors |
 | `-debug`          | Enable debug mode                                                                | false                |
+| `-experiment`     | Enable experimental feature(s).                                                  |                      |
 | `-output`         | Output format (none/text/markdown/json)                                          | text                 |
 | `-proxy`          | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
 | `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |

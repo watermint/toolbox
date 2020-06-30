@@ -31,3 +31,40 @@ func (z *ScanNamespaceMetadataAndMembership) Scan(ctl app_control.Control, ctx d
 	z.Membership.Scan(ctl, ctx, namespaceName, namespaceId)
 	z.Metadata.Scan(ctl, ctx, namespaceName, namespaceId)
 }
+
+type Membership struct {
+	NamespaceId   string `json:"namespace_id"`
+	NamespaceName string `json:"namespace_name"`
+	Path          string `json:"path"`
+	FolderType    string `json:"folder_type"`
+	OwnerTeamId   string `json:"owner_team_id"`
+	OwnerTeamName string `json:"owner_team_name"`
+	AccessType    string `json:"access_type"`
+	MemberType    string `json:"member_type"`
+	MemberId      string `json:"member_id"`
+	MemberName    string `json:"member_name"`
+	MemberEmail   string `json:"member_email"`
+	SameTeam      string `json:"same_team"`
+}
+
+type NoMember struct {
+	OwnerTeamId   string `json:"owner_team_id"`
+	OwnerTeamName string `json:"owner_team_name"`
+	NamespaceId   string `json:"namespace_id"`
+	NamespaceName string `json:"namespace_name"`
+	Path          string `json:"path"`
+	FolderType    string `json:"folder_type"`
+}
+
+type FolderPolicy struct {
+	NamespaceId        string `json:"namespace_id"`
+	NamespaceName      string `json:"namespace_name"`
+	Path               string `json:"path"`
+	IsTeamFolder       bool   `json:"is_team_folder"`
+	OwnerTeamId        string `json:"owner_team_id"`
+	OwnerTeamName      string `json:"owner_team_name"`
+	PolicyManageAccess string `json:"policy_manage_access"`
+	PolicySharedLink   string `json:"policy_shared_link"`
+	PolicyMember       string `json:"policy_member"`
+	PolicyViewerInfo   string `json:"policy_viewer_info"`
+}
