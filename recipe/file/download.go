@@ -1,6 +1,7 @@
 package file
 
 import (
+	"errors"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -11,9 +12,12 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 type Download struct {
@@ -64,6 +68,35 @@ func (z *Download) Exec(c app_control.Control) error {
 }
 
 func (z *Download) Test(c app_control.Control) error {
+	// replay test
+	{
+		path, err := qt_file.MakeTestFolder("download", false)
+		if err != nil {
+			return err
+		}
+		defer func() {
+			_ = os.RemoveAll(path)
+		}()
+		err = rc_exec.ExecReplay(c, &Download{}, "recipe-file-download.json.gz", func(r rc_recipe.Recipe) {
+			m := r.(*Download)
+			m.DropboxPath = mo_path.NewDropboxPath("/watermint-toolbox-test/watermint-toolbox.txt")
+			m.LocalPath = mo_path2.NewFileSystemPath(path)
+		})
+		if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
+			return err
+		}
+
+		testFile := filepath.Join(path, "watermint-toolbox.txt")
+		testFileInfo, err := os.Lstat(testFile)
+		if err != nil {
+			return err
+		}
+
+		if !testFileInfo.ModTime().Equal(time.Unix(1593502474, 0)) {
+			return errors.New("invalid mod time")
+		}
+	}
+
 	return rc_exec.ExecMock(c, &Download{}, func(r rc_recipe.Recipe) {
 		m := r.(*Download)
 		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "download")
