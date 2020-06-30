@@ -31,6 +31,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-dropbox-path` | アップロード先Dropboxパス              |            |
 | `-local-path`   | アップロードするローカルファイルのパス |            |
 | `-peer-name`    | アカウントの別名                       | deploy     |
+| `-timeout`      | Operation timeout in seconds           | 30         |
 
 ## 共通のオプション:
 

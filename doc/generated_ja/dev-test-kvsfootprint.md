@@ -68,10 +68,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-count`   | Test count    | 1          |
-| `-peer`    | Account alias | default    |
+| オプション     | 説明                               | デフォルト |
+|----------------|------------------------------------|------------|
+| `-count`       | Test count                         | 1          |
+| `-duplicate`   | Create duplicated records          | 1          |
+| `-num-entries` | Specify number of entries to write | 1          |
+| `-peer`        | Account alias                      | default    |
 
 ## 共通のオプション:
 

@@ -105,6 +105,13 @@ func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 		opts = opts.WithInMemory(false)
 		opts = opts.WithKeepL0InMemory(false)
 	}
+	if z.ctl.Feature().Experiment(app.ExperimentKvsStorageCompressionSnappy) {
+		opts = opts.WithCompression(options.Snappy)
+		opts = opts.WithCompactL0OnClose(true)
+	} else if z.ctl.Feature().Experiment(app.ExperimentKvsStorageCompressionZstd) {
+		opts = opts.WithCompression(options.ZSTD)
+		opts = opts.WithCompactL0OnClose(true)
+	}
 	opts = opts.WithTableLoadingMode(options.FileIO)
 
 	// Use lesser ValueLogFileSize for Windows 32bit environment

@@ -68,10 +68,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option   | Description   | Default |
-|----------|---------------|---------|
-| `-count` | Test count    | 1       |
-| `-peer`  | Account alias | default |
+| Option         | Description                        | Default |
+|----------------|------------------------------------|---------|
+| `-count`       | Test count                         | 1       |
+| `-duplicate`   | Create duplicated records          | 1       |
+| `-num-entries` | Specify number of entries to write | 1       |
+| `-peer`        | Account alias                      | default |
 
 ## Common options:
 
