@@ -3,11 +3,14 @@ package sv_file_content
 import (
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/time/ut_time"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"os"
+	"time"
 )
 
 type Download interface {
@@ -30,7 +33,13 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 		Path: path.Path(),
 	}
 
-	res := z.ctx.Download("files/download", api_request.Param(p))
+	q, err := dbx_util.HeaderSafeJson(p)
+	if err != nil {
+		l.Debug("unable to marshal parameter", esl.Error(err))
+		return nil, nil, err
+	}
+
+	res := z.ctx.Download("files/download", api_request.Header(api_request.ReqHeaderDropboxApiArg, q))
 	if err, f := res.Failure(); f {
 		return nil, nil, err
 	}
@@ -51,6 +60,15 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 		}
 
 		return nil, nil, err
+	}
+
+	// update file timestamp
+	clientModified := entry.Concrete().ClientModified
+	ftm, ok := ut_time.ParseTimestamp(clientModified)
+	if !ok {
+		l.Debug("Unable to parse client modified", esl.String("client_modified", clientModified))
+	} else if err := os.Chtimes(contentFilePath, time.Now(), ftm); err != nil {
+		l.Debug("Unable to change time", esl.Error(err))
 	}
 	return entry, mo_path2.NewFileSystemPath(contentFilePath), nil
 }
