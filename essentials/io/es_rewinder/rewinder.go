@@ -2,6 +2,7 @@ package es_rewinder
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"io"
@@ -12,6 +13,14 @@ type ReadRewinder interface {
 	io.Reader
 	Rewind() error
 	Length() int64
+}
+
+func NewReadRewinderJsonStruct(c interface{}) (rr ReadRewinder, err error) {
+	b, err := json.Marshal(c)
+	if err != nil {
+		return nil, err
+	}
+	return NewReadRewinderOnMemory(b), nil
 }
 
 func NewReadRewinderOnMemory(c []byte) ReadRewinder {

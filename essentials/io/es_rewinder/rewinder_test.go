@@ -8,6 +8,23 @@ import (
 	"testing"
 )
 
+func TestNewReadRewinderJsonStruct(t *testing.T) {
+	d := struct {
+		SKU  string `json:"sku"`
+		Name string `json:"name"`
+	}{
+		SKU:  "S100",
+		Name: "Smartphone",
+	}
+	rr, err := NewReadRewinderJsonStruct(d)
+	if err != nil {
+		t.Error(err)
+	}
+	if rr.Length() < 1 {
+		t.Error(rr.Length())
+	}
+}
+
 func TestReaderRewinderWithLimit_Read(t *testing.T) {
 	d, err := ioutil.TempDir("", "read_rewinder")
 	if err != nil {
