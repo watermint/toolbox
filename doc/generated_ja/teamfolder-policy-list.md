@@ -1,6 +1,6 @@
-# team content policy list
+# teamfolder policy list
 
-チームフォルダと共有フォルダのポリシー一覧 
+List policies of team folders 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team content policy list 
+.\tbx.exe teamfolder policy list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team content policy list 
+$HOME/Desktop/tbx teamfolder policy list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,12 +68,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション            | 説明                                                        | デフォルト |
-|-----------------------|-------------------------------------------------------------|------------|
-| `-folder-name`        | フォルダ名によるフィルター. 名前による完全一致でフィルター. |            |
-| `-folder-name-prefix` | フォルダ名によるフィルター. 名前の前方一致によるフィルター. |            |
-| `-folder-name-suffix` | フォルダ名によるフィルター. 名前の後方一致によるフィルター. |            |
-| `-peer`               | アカウントの別名                                            | default    |
+| オプション            | 説明                                                       | デフォルト |
+|-----------------------|------------------------------------------------------------|------------|
+| `-folder-name`        | Filter by folder name. Filter by exact match to the name.  |            |
+| `-folder-name-prefix` | Filter by folder name. Filter by name match to the prefix. |            |
+| `-folder-name-suffix` | Filter by folder name. Filter by name match to the suffix. |            |
+| `-peer`               | Account alias                                              | default    |
 
 ## 共通のオプション:
 

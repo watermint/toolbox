@@ -180,6 +180,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                           |
 | [teamfolder member list](doc/generated_ja/teamfolder-member-list.md)               | List team folder members                                       |
 | [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                               |
+| [teamfolder policy list](doc/generated_ja/teamfolder-policy-list.md)               | List policies of team folders                                  |
 | [teamfolder replication](doc/generated_ja/teamfolder-replication.md)               | チームフォルダを他のチームに複製します                         |
 
 ## GitHub

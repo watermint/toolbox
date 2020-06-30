@@ -182,6 +182,7 @@ Available commands:
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
 | [teamfolder member list](doc/generated/teamfolder-member-list.md)               | List team folder members                                      |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
+| [teamfolder policy list](doc/generated/teamfolder-policy-list.md)               | List policies of team folders                                 |
 | [teamfolder replication](doc/generated/teamfolder-replication.md)               | Replicate a team folder to the other team                     |
 
 ## GitHub

@@ -191,13 +191,6 @@ func (z *List) Exec(c app_control.Control) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	{
-		err := rc_exec.ExecReplay(c, &List{}, "recipe-teamfolder-member-list.json.gz", rc_recipe.NoCustomValues)
-		if err != nil {
-			return err
-		}
-	}
-
 	return rc_exec.ExecMock(c, &List{}, rc_recipe.NoCustomValues)
 }
 

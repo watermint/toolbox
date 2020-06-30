@@ -3,10 +3,11 @@
 # 追加されたコマンド
 
 
-| コマンド               | タイトル                  |
-|------------------------|---------------------------|
-| dev test kvsfootprint  | Test KVS memory footprint |
-| teamfolder member list | List team folder members  |
+| コマンド               | タイトル                      |
+|------------------------|-------------------------------|
+| dev test kvsfootprint  | Test KVS memory footprint     |
+| teamfolder member list | List team folder members      |
+| teamfolder policy list | List policies of team folders |
 
 
 
@@ -89,5 +90,28 @@
   		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...},
   		&{Name: "StartTime", Desc: "Starting time (inclusive)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
   	},
+  }
+```
+# コマンド仕様の変更: `team diag explorer`
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"File": "business_file",
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
+- 		"Peer": "business_file",
++ 		"Peer": "business_info",
+  	},
+  	Services: {"dropbox_business"},
+  	IsSecret: false,
+  	... // 7 identical fields
   }
 ```
