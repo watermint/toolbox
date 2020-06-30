@@ -58,7 +58,6 @@ Available commands:
    file          File operation                   
    filerequest   File request operation           
    group         Group management                 
-   job           Job operation                    
    license       Show license information         
    member        Team member management           
    sharedfolder  Shared folder                    
@@ -84,8 +83,6 @@ Available commands:
 | [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
 | [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
 | [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
-| [job loop](doc/generated/job-loop.md)                       | Run runbook until specified date/time            |
-| [job run](doc/generated/job-run.md)                         | Run workflow with *.runbook file                 |
 | [license](doc/generated/license.md)                         | Show license information                         |
 | [version](doc/generated/version.md)                         | Show version                                     |
 

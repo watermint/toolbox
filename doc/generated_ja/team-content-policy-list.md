@@ -85,7 +85,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
-| `-experiment`     | Enable experimental feature(s).                                                                    |                |
+| `-experiment`     | 実験的機能を有効化する                                                                             |                |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
@@ -104,18 +104,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: policy
 
-This report shows a list of shared folders and team folders with their current policy settings.
+このレポートでは共有フォルダならびにチームフォルダについて、現在のポリシー設定を一覧できます.
 このコマンドはレポートを3種類の書式で出力します. `policy.csv`, `policy.json`, ならびに `policy.xlsx`.
 
-| 列                   | 説明                                                                                                     |
-|----------------------|----------------------------------------------------------------------------------------------------------|
-| path                 | Path                                                                                                     |
-| is_team_folder       | `true` if the folder is a team folder, or inside of a team folder                                        |
-| owner_team_name      | Team name of the team that owns the folder                                                               |
-| policy_manage_access | Who can add and remove members from this shared folder.                                                  |
-| policy_shared_link   | Who links can be shared with.                                                                            |
-| policy_member        | Who can be a member of this shared folder, taking into account both the folder and the team-wide policy. |
-| policy_viewer_info   | Who can enable/disable viewer info for this shared folder.                                               |
+| 列                   | 説明                                                                                                            |
+|----------------------|-----------------------------------------------------------------------------------------------------------------|
+| path                 | パス                                                                                                            |
+| is_team_folder       | チームフォルダまたはチームフォルダ下のフォルダの場合 `true`                                                     |
+| owner_team_name      | このフォルダを所有するチームの名前                                                                              |
+| policy_manage_access | このフォルダへメンバーを追加したり削除できるユーザー                                                            |
+| policy_shared_link   | このフォルダの共有リンクを誰が利用できるか                                                                      |
+| policy_member        | このフォルダへ、誰がメンバーになることができるか. フォルダならびにチーム全体ポリシーが適用された結果のポリシー. |
+| policy_viewer_info   | だれが閲覧社情報を有効化・無効化できるか                                                                        |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

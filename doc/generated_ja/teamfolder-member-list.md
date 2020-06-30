@@ -1,6 +1,6 @@
 # teamfolder member list
 
-List team folder members 
+チームフォルダのメンバー一覧 
 
 # セキュリティ
 
@@ -68,14 +68,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション              | 説明                                                                                                                               | デフォルト |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                          |            |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                         |            |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                         |            |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member. |            |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.     |            |
-| `-peer`                 | Account alias                                                                                                                      | default    |
+| オプション              | 説明                                                                                                                                               | デフォルト |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-folder-name`          | フォルダ名によるフィルター. 名前による完全一致でフィルター.                                                                                        |            |
+| `-folder-name-prefix`   | フォルダ名によるフィルター. 名前の前方一致によるフィルター.                                                                                        |            |
+| `-folder-name-suffix`   | フォルダ名によるフィルター. 名前の後方一致によるフィルター.                                                                                        |            |
+| `-member-type-external` | フォルダメンバーによるフィルター. 外部メンバーのみを残します (同じチームにいないメンバー). 注意: 招待済ユーザーは外部ユーザーとしてマークされます. |            |
+| `-member-type-internal` | フォルダメンバーによるフィルター. 内部メンバーのみを残します (同じチームのメンバー)注意: 招待済ユーザーは外部ユーザーとしてマークされます.         |            |
+| `-peer`                 | アカウントの別名                                                                                                                                   | default    |
 
 ## 共通のオプション:
 
@@ -87,7 +87,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-budget-storage` | ストレージの利用目標 (ストレージ利用を減らすためログ、機能を限定します)                            | normal         |
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
-| `-experiment`     | Enable experimental feature(s).                                                                    |                |
+| `-experiment`     | 実験的機能を有効化する                                                                             |                |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
@@ -106,33 +106,33 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: membership
 
-This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.
+このレポートは共有フォルダまたはチームフォルダと、そのメンバーを一覧できます. フォルダに複数メンバーがいる場合には、メンバーは1行ずつ出力されます.
 このコマンドはレポートを3種類の書式で出力します. `membership.csv`, `membership.json`, ならびに `membership.xlsx`.
 
-| 列              | 説明                                                                                                                                 |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| path            | Path                                                                                                                                 |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                             |
-| owner_team_name | Team name of the team that owns the folder                                                                                           |
-| access_type     | User's access level for this folder                                                                                                  |
-| member_type     | Type of this member (user, group, or invitee)                                                                                        |
-| member_name     | Name of this member                                                                                                                  |
-| member_email    | Email address of this member                                                                                                         |
-| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
+| 列              | 説明                                                                                                             |
+|-----------------|------------------------------------------------------------------------------------------------------------------|
+| path            | パス                                                                                                             |
+| folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ) |
+| owner_team_name | このフォルダを所有するチームの名前                                                                               |
+| access_type     | このフォルダに対するユーザーのアクセスレベル                                                                     |
+| member_type     | メンバーの種類 (user, group または invitee)                                                                      |
+| member_name     | このメンバーの名前                                                                                               |
+| member_email    | このメンバーのメールアドレス                                                                                     |
+| same_team       | メンバーが同じチームかどうか. もしメンバーが同じチームかどうか判定できない場合は空白を返します.                  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
 ## レポート: no_member
 
-This report shows folders without members.
+このレポートはメンバーのいないフォルダの一覧を出力します.
 このコマンドはレポートを3種類の書式で出力します. `no_member.csv`, `no_member.json`, ならびに `no_member.xlsx`.
 
-| 列              | 説明                                                                                                     |
-|-----------------|----------------------------------------------------------------------------------------------------------|
-| owner_team_name | Team name of the team that owns the folder                                                               |
-| path            | Path                                                                                                     |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
+| 列              | 説明                                                                                                             |
+|-----------------|------------------------------------------------------------------------------------------------------------------|
+| owner_team_name | このフォルダを所有するチームの名前                                                                               |
+| path            | パス                                                                                                             |
+| folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ) |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

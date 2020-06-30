@@ -19,7 +19,6 @@ import (
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
 	infraapiapi_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
-	infracontrolapp_workflow "github.com/watermint/toolbox/infra/control/app_workflow"
 	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infrafeedfd_file_impl "github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	infrareciperc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
@@ -70,7 +69,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&essentialsnetworknw_diag.MsgNetwork{},
 		&infraapiapi_auth_impl.MsgApiAuth{},
 		&infraapiapi_callback.MsgCallback{},
-		&infracontrolapp_workflow.MsgRunBook{},
 		&infradocdc_options.MsgDoc{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
 		&infrareciperc_group.MsgHeader{},
