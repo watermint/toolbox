@@ -49,12 +49,6 @@ const (
 	EnvNameToolboxHome = "TOOLBOX_HOME"
 )
 
-// Test resources
-const (
-	// Keys for ControlTestExtension keys
-	CtlTestExtUseMock = "use_mock"
-)
-
 // Document
 const (
 	// Project status badge
@@ -67,9 +61,13 @@ const (
 	ProjectLogo = `![watermint toolbox](resources/images/watermint-toolbox-256x256.png)`
 )
 
-// Log prefix
 const (
+	// Log prefix
 	LogToolbox = "toolbox"
 	LogCapture = "capture"
 	LogSummary = "summary"
+
+	// Log names
+	LogNameStart  = "recipe.log"
+	LogNameFinish = "result.log"
 )

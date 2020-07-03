@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -23,12 +24,13 @@ const (
 )
 
 type Ship struct {
-	Peer               dbx_conn.ConnUserFile
-	DropboxPath        mo_path.DropboxPath
-	ProgressUploading  app_msg.Message
-	ErrorFailedArchive app_msg.Message
-	ErrorFailedUpload  app_msg.Message
-	OperationLog       rp_model.TransactionReport
+	Peer                       dbx_conn.ConnUserFile
+	DropboxPath                mo_path.DropboxPath
+	ProgressUploading          app_msg.Message
+	ErrorFailedArchive         app_msg.Message
+	ErrorFailedUpload          app_msg.Message
+	SkipUnsupportedHistoryType app_msg.Message
+	OperationLog               rp_model.TransactionReport
 }
 
 type ShipInfo struct {
@@ -70,24 +72,29 @@ func (z *Ship) Exec(c app_control.Control) error {
 			RecipeName: h.RecipeName(),
 		}
 		c.UI().Info(z.ProgressUploading.With("JobId", h.JobId()))
-		path, err := h.Archive()
-		if err != nil {
-			l.Debug("Unable to archive", esl.Error(err), esl.Any("history", h))
-			c.UI().Error(z.ErrorFailedArchive.With("JobId", h.JobId()).With("Error", err.Error()))
-			z.OperationLog.Failure(err, si)
-			continue
+		if ho, ok := h.(app_job.HistoryOperation); ok {
+			path, err := ho.Archive()
+			if err != nil {
+				l.Debug("Unable to archive", esl.Error(err), esl.Any("history", h))
+				c.UI().Error(z.ErrorFailedArchive.With("JobId", h.JobId()).With("Error", err.Error()))
+				z.OperationLog.Failure(err, si)
+				continue
+			}
+			entry, err := sv_file_content.NewUpload(z.Peer.Context()).Add(z.DropboxPath, path)
+			if err != nil {
+				l.Debug("Unable to upload", esl.Error(err), esl.Any("history", h))
+				c.UI().Error(z.ErrorFailedUpload.With("JobId", h.JobId()).With("Error", err.Error()))
+				z.OperationLog.Failure(err, si)
+				continue
+			}
+			if err = os.Remove(path); err != nil {
+				l.Debug("Unable to remove archive", esl.Error(err), esl.String("path", path))
+			}
+			z.OperationLog.Success(si, entry.Concrete())
+		} else {
+			z.OperationLog.Skip(z.SkipUnsupportedHistoryType, si)
 		}
-		entry, err := sv_file_content.NewUpload(z.Peer.Context()).Add(z.DropboxPath, path)
-		if err != nil {
-			l.Debug("Unable to upload", esl.Error(err), esl.Any("history", h))
-			c.UI().Error(z.ErrorFailedUpload.With("JobId", h.JobId()).With("Error", err.Error()))
-			z.OperationLog.Failure(err, si)
-			continue
-		}
-		if err = os.Remove(path); err != nil {
-			l.Debug("Unable to remove archive", esl.Error(err), esl.String("path", path))
-		}
-		z.OperationLog.Success(si, entry.Concrete())
+
 	}
 	return nil
 }

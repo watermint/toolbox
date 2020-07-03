@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/file/es_zip"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	app2 "github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -43,8 +44,8 @@ func newHistory(app app_workspace.Application, jobId []string) (h app_job.Histor
 		return nil, false
 	}
 
-	startLogPath := filepath.Join(ws.Log(), app_job.StartLogName)
-	finishLogPath := filepath.Join(ws.Log(), app_job.FinishLogName)
+	startLogPath := filepath.Join(ws.Log(), app2.LogNameStart)
+	finishLogPath := filepath.Join(ws.Log(), app2.LogNameFinish)
 	if err := parse(startLogPath, start); err != nil {
 		l.Debug("Unable to load start log", esl.Error(err))
 		//return nil, false
@@ -62,12 +63,54 @@ func newHistory(app app_workspace.Application, jobId []string) (h app_job.Histor
 	}, true
 }
 
+func getRecipe(name string) (r rc_recipe.Spec, found bool) {
+	cat := app_catalogue.Current()
+	_, r, _, err := cat.RootGroup().Select(strings.Split(name, " "))
+	if err != nil {
+		return nil, false
+	}
+	return r, true
+}
+
+func getLogs(path string) (logs []app_job.LogFile, err error) {
+	l := esl.Default()
+	logs = make([]app_job.LogFile, 0)
+	entries, err := ioutil.ReadDir(path)
+	if err != nil {
+		l.Debug("")
+		return nil, err
+	}
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			continue
+		}
+		p := filepath.Join(path, entry.Name())
+		lf, err := newLogFile(p)
+		if err != nil {
+			l.Debug("the file is not a log", esl.Error(err), esl.String("name", entry.Name()))
+			continue
+		}
+
+		logs = append(logs, lf)
+	}
+	sort.Slice(logs, func(i, j int) bool {
+		return strings.Compare(logs[i].Name(), logs[j].Name()) < 0
+	})
+	l.Debug("logs found", esl.Int("entries", len(logs)))
+	return
+}
+
 type History struct {
 	ws     app_workspace.Workspace
 	jobId  string
 	nested bool
 	start  *app_job.StartLog
 	finish *app_job.ResultLog
+}
+
+func (z History) IsOrphaned() bool {
+	return false
 }
 
 func (z History) IsNested() bool {
@@ -87,12 +130,7 @@ func (z History) RecipeName() string {
 }
 
 func (z History) Recipe() (r rc_recipe.Spec, found bool) {
-	cat := app_catalogue.Current()
-	_, r, _, err := cat.RootGroup().Select(strings.Split(z.start.Name, " "))
-	if err != nil {
-		return nil, false
-	}
-	return r, true
+	return getRecipe(z.start.Name)
 }
 
 func (z History) AppName() string {
@@ -104,32 +142,11 @@ func (z History) AppVersion() string {
 }
 
 func (z History) TimeStart() (t time.Time, found bool) {
-	l := esl.Default()
-	if z.start == nil || z.start.TimeStart == "" {
-		if t, err := time.Parse(app_workspace.JobIdFormat, z.jobId); err == nil {
-			return t, true
-		}
-		return time.Time{}, false
-	}
-	t, err := time.Parse(time.RFC3339, z.start.TimeStart)
-	if err != nil {
-		l.Debug("Unable to parse time", esl.Error(err), esl.String("time", z.start.TimeStart))
-		return time.Time{}, false
-	}
-	return t, true
+	return app_job.TimeFromLog(z.start, z.jobId)
 }
 
 func (z History) TimeFinish() (t time.Time, found bool) {
-	l := esl.Default()
-	if z.finish == nil || z.finish.TimeFinish == "" {
-		return time.Time{}, false
-	}
-	t, err := time.Parse(time.RFC3339, z.finish.TimeFinish)
-	if err != nil {
-		l.Debug("Unable to parse time", esl.Error(err), esl.String("time", z.finish.TimeFinish))
-		return time.Time{}, false
-	}
-	return t, true
+	return app_job.TimeFromLog(z.finish, "")
 }
 
 func (z History) Delete() error {
@@ -170,30 +187,5 @@ func (z History) Archive() (path string, err error) {
 }
 
 func (z History) Logs() (logs []app_job.LogFile, err error) {
-	l := esl.Default()
-	logs = make([]app_job.LogFile, 0)
-	entries, err := ioutil.ReadDir(z.ws.Log())
-	if err != nil {
-		l.Debug("")
-		return nil, err
-	}
-
-	for _, entry := range entries {
-		if entry.IsDir() {
-			continue
-		}
-		p := filepath.Join(z.ws.Log(), entry.Name())
-		lf, err := newLogFile(p)
-		if err != nil {
-			l.Debug("the file is not a log", esl.Error(err), esl.String("name", entry.Name()))
-			continue
-		}
-
-		logs = append(logs, lf)
-	}
-	sort.Slice(logs, func(i, j int) bool {
-		return strings.Compare(logs[i].Name(), logs[j].Name()) < 0
-	})
-	l.Debug("logs found", esl.Int("entries", len(logs)))
-	return
+	return getLogs(z.ws.Log())
 }

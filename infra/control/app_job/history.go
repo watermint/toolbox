@@ -18,12 +18,19 @@ type History interface {
 	// True when the job is nested job.
 	IsNested() bool
 
+	// True when the job is isolated from workspace.
+	IsOrphaned() bool
+
+	// Log files. logs are guaranteed sorted by their file names.
+	Logs() (logs []LogFile, err error)
+}
+
+type HistoryOperation interface {
+	History
+
 	// Archive this job data
 	Archive() (path string, err error)
 
 	// Delete this job data
 	Delete() error
-
-	// Log files. logs are guaranteed sorted by their file names.
-	Logs() (logs []LogFile, err error)
 }
