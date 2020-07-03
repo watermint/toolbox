@@ -48,7 +48,11 @@ func (z OrphanHistory) IsOrphaned() bool {
 }
 
 func (z OrphanHistory) JobId() string {
-	return z.start.JobId
+	if z.start.JobId != "" {
+		return z.start.JobId
+	} else {
+		return z.start.TimeStart
+	}
 }
 
 func (z OrphanHistory) JobPath() string {

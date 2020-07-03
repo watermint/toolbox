@@ -121,21 +121,16 @@ func (z Historian) Histories() (histories []app_job.History, err error) {
 	h, err1 := z.scanWorkspace(path, []string{})
 	if err1 != nil {
 		l.Debug("unable to scan path", esl.Error(err1))
+		// scan 2: orphaned history
+		h2, err2 := z.scanOrphaned(z.ws.Home())
+		if err2 != nil {
+			l.Debug("Unable to scan log path", esl.Error(err2))
+			return nil, err1
+		} else {
+			histories = append(histories, h2...)
+		}
 	} else {
 		histories = append(histories, h...)
-	}
-
-	// scan 2: orphaned history
-	h2, err2 := z.scanOrphaned(z.ws.Home())
-	if err2 != nil {
-		l.Debug("Unable to scan log path", esl.Error(err2))
-	} else {
-		histories = append(histories, h2...)
-	}
-
-	// in case both folder scans failed
-	if err1 != nil && err2 != nil {
-		return nil, err1
 	}
 
 	sort.Slice(histories, func(i, j int) bool {
