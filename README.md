@@ -76,6 +76,7 @@ Available commands:
 | [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
 | [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
 | [config features](doc/generated/config-features.md)         | List available optional features.                |
+| [dev diag throughput](doc/generated/dev-diag-throughput.md) | Evaluate throughput from capture logs            |
 | [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
 | [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
 | [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
