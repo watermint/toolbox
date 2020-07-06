@@ -119,7 +119,7 @@ func (z Historian) Histories() (histories []app_job.History, err error) {
 
 	// scan 1: workspace history
 	h, err1 := z.scanWorkspace(path, []string{})
-	if err1 != nil {
+	if err1 != nil || len(h) < 1 {
 		l.Debug("unable to scan path", esl.Error(err1))
 		// scan 2: orphaned history
 		h2, err2 := z.scanOrphaned(z.ws.Home())

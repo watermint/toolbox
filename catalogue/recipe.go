@@ -91,6 +91,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevciauth.Connect{},
 		&recipedevciauth.Export{},
 		&recipedevciauth.Import{},
+		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Dump{},
 		&recipedevrelease.Candidate{},

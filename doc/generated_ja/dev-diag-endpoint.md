@@ -1,6 +1,6 @@
-# dev diag throughput
+# dev diag endpoint
 
-Evaluate throughput from capture logs 
+List endpoints 
 
 # 利用方法
 
@@ -10,12 +10,12 @@ Evaluate throughput from capture logs
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev diag throughput 
+.\tbx.exe dev diag endpoint 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev diag throughput 
+$HOME/Desktop/tbx dev diag endpoint 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,12 +26,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                            | デフォルト              |
-|----------------|---------------------------------|-------------------------|
-| `-bucket`      | Bucket size in milliseconds     | 1000                    |
-| `-job-id`      | Specify Job ID                  |                         |
-| `-path`        | Path to workspace               |                         |
-| `-time-format` | Time format in go's time format | 2006-01-02 15:04:05.999 |
+| オプション | 説明                  | デフォルト |
+|------------|-----------------------|------------|
+| `-job-id`  | Job Id to diagnosis   |            |
+| `-path`    | Path to the workspace |            |
 
 ## 共通のオプション:
 
@@ -62,18 +60,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: report
 
-Throughput
+Endpoint statistics
 このコマンドはレポートを3種類の書式で出力します. `report.csv`, `report.json`, ならびに `report.xlsx`.
 
-| 列                  | 説明                                                             |
-|---------------------|------------------------------------------------------------------|
-| time                | Timestamp                                                        |
-| success_concurrency | Number of concurrent requests of success                         |
-| success_sent        | Sum of sent bytes of success requests in the bucket in bytes     |
-| success_received    | Sum of received bytes of success requests in the bucket in bytes |
-| failure_concurrency | Number of concurrent requests of failure                         |
-| failure_sent        | Sum of sent bytes of failed requests in the bucket in bytes      |
-| failure_received    | Sum of received bytes of failed requests in the bucket in bytes  |
+| 列            | 説明                       |
+|---------------|----------------------------|
+| endpoint      | Endpoint URL               |
+| count         | Number of requests         |
+| count_success | Number of success requests |
+| count_failure | Number of failed requests  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

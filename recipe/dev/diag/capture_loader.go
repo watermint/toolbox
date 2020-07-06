@@ -22,7 +22,7 @@ var (
 	MLoader = app_msg.Apply(&MsgLoader{}).(*MsgLoader)
 )
 
-type CaptureHandler func(rec nw_capture.Record)
+type CaptureHandler func(history app_job.History, rec nw_capture.Record)
 
 type CaptureLoader struct {
 	Ctl   app_control.Control
@@ -65,14 +65,14 @@ func (z CaptureLoader) loadCaptures(h app_job.History, handler CaptureHandler) e
 		if log.Type() != app_job.LogFileTypeCapture {
 			continue
 		}
-		if err := z.loadCapture(log, handler); err != nil {
+		if err := z.loadCapture(h, log, handler); err != nil {
 			l.Debug("Unable to load capture", esl.Error(err))
 		}
 	}
 	return nil
 }
 
-func (z CaptureLoader) loadCapture(log app_job.LogFile, handler CaptureHandler) error {
+func (z CaptureLoader) loadCapture(history app_job.History, log app_job.LogFile, handler CaptureHandler) error {
 	l := z.Ctl.Log().With(esl.String("path", log.Path()))
 
 	var buf bytes.Buffer
@@ -106,7 +106,7 @@ func (z CaptureLoader) loadCapture(log app_job.LogFile, handler CaptureHandler) 
 		}
 
 		if prefix.Len() < 1 {
-			if err := z.handleLine(line, handler); err != nil {
+			if err := z.handleLine(history, line, handler); err != nil {
 				l.Debug("Failed process line", esl.Error(err))
 			}
 		} else {
@@ -118,7 +118,7 @@ func (z CaptureLoader) loadCapture(log app_job.LogFile, handler CaptureHandler) 
 				prefix.Reset()
 				continue
 			}
-			if err := z.handleLine(prefix.Bytes(), handler); err != nil {
+			if err := z.handleLine(history, prefix.Bytes(), handler); err != nil {
 				l.Debug("Failed process line", esl.Error(err))
 			}
 			prefix.Reset()
@@ -126,7 +126,7 @@ func (z CaptureLoader) loadCapture(log app_job.LogFile, handler CaptureHandler) 
 	}
 }
 
-func (z CaptureLoader) handleLine(line []byte, handler CaptureHandler) error {
+func (z CaptureLoader) handleLine(history app_job.History, line []byte, handler CaptureHandler) error {
 	l := z.Ctl.Log()
 	rec := nw_capture.Record{}
 	if err := json.Unmarshal(line, &rec); err != nil {
@@ -134,6 +134,6 @@ func (z CaptureLoader) handleLine(line []byte, handler CaptureHandler) error {
 		return err
 	}
 
-	handler(rec)
+	handler(history, rec)
 	return nil
 }

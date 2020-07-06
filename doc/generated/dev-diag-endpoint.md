@@ -1,6 +1,6 @@
-# dev diag throughput
+# dev diag endpoint
 
-Evaluate throughput from capture logs 
+List endpoints 
 
 # Usage
 
@@ -10,12 +10,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev diag throughput 
+.\tbx.exe dev diag endpoint 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev diag throughput 
+$HOME/Desktop/tbx dev diag endpoint 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -26,12 +26,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                     | Default                 |
-|----------------|---------------------------------|-------------------------|
-| `-bucket`      | Bucket size in milliseconds     | 1000                    |
-| `-job-id`      | Specify Job ID                  |                         |
-| `-path`        | Path to workspace               |                         |
-| `-time-format` | Time format in go's time format | 2006-01-02 15:04:05.999 |
+| Option    | Description           | Default |
+|-----------|-----------------------|---------|
+| `-job-id` | Job Id to diagnosis   |         |
+| `-path`   | Path to the workspace |         |
 
 ## Common options:
 
@@ -62,18 +60,15 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: report
 
-Throughput
+Endpoint statistics
 The command will generate a report in three different formats. `report.csv`, `report.json`, and `report.xlsx`.
 
-| Column              | Description                                                      |
-|---------------------|------------------------------------------------------------------|
-| time                | Timestamp                                                        |
-| success_concurrency | Number of concurrent requests of success                         |
-| success_sent        | Sum of sent bytes of success requests in the bucket in bytes     |
-| success_received    | Sum of received bytes of success requests in the bucket in bytes |
-| failure_concurrency | Number of concurrent requests of failure                         |
-| failure_sent        | Sum of sent bytes of failed requests in the bucket in bytes      |
-| failure_received    | Sum of received bytes of failed requests in the bucket in bytes  |
+| Column        | Description                |
+|---------------|----------------------------|
+| endpoint      | Endpoint URL               |
+| count         | Number of requests         |
+| count_success | Number of success requests |
+| count_failure | Number of failed requests  |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

@@ -69,21 +69,20 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                       | 説明                                  |
-|----------------------------------------------------------------|---------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                   |
-| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                   |
-| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.         |
-| [dev diag throughput](doc/generated_ja/dev-diag-throughput.md) | Evaluate throughput from capture logs |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します          |
-| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                    |
-| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除                  |
-| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                      |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する      |
-| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します    |
-| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.     |
-| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します            |
-| [version](doc/generated_ja/version.md)                         | バージョン情報                        |
+| コマンド                                                       | 説明                               |
+|----------------------------------------------------------------|------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
+| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
+| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
+| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
+| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
+| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                   |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する   |
+| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します |
+| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.  |
+| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します         |
+| [version](doc/generated_ja/version.md)                         | バージョン情報                     |
 
 ## Dropbox (個人アカウント)
 

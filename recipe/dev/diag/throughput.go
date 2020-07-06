@@ -1,10 +1,12 @@
 package diag
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -14,17 +16,21 @@ import (
 
 type ThroughputRow struct {
 	Time               string `json:"time"`
+	Concurrency        int    `json:"concurrency"`
+	SuccessConcurrency int    `json:"success_concurrency"`
 	SuccessSent        int64  `json:"success_sent"`
 	SuccessReceived    int64  `json:"success_received"`
-	SuccessConcurrency int    `json:"success_concurrency"`
+	FailureConcurrency int    `json:"failure_concurrency"`
 	FailureSent        int64  `json:"failure_sent"`
 	FailureReceived    int64  `json:"failure_received"`
-	FailureConcurrency int    `json:"failure_concurrency"`
 }
 
 type Throughput struct {
+	rc_recipe.RemarkSecret
+	rc_recipe.RemarkConsole
 	JobId      mo_string.OptionalString
 	Path       mo_string.OptionalString
+	Endpoint   mo_filter.Filter
 	Bucket     int // bucket time in milli seconds
 	Report     rp_model.RowReport
 	TimeFormat string
@@ -34,12 +40,23 @@ type Throughput struct {
 
 func (z *Throughput) Preset() {
 	z.Report.SetModel(&ThroughputRow{})
+	z.Endpoint.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
+	)
 	z.Bucket = 1000
 	z.TimeFormat = "2006-01-02 15:04:05.999"
 }
 
-func (z *Throughput) handleRecord(rec nw_capture.Record) {
+func (z *Throughput) handleRecord(history app_job.History, rec nw_capture.Record) {
 	l := esl.Default()
+
+	if !z.Endpoint.Accept(rec.Req.RequestUrl) {
+		l.Debug("Skip", esl.String("endpoint", rec.Req.RequestUrl))
+		return
+	}
+
 	t, err := time.Parse("2006-01-02T15:04:05.999Z0700", rec.Time)
 	// skip the record with invalid time format
 	if err != nil {
@@ -62,32 +79,25 @@ func (z *Throughput) handleRecord(rec nw_capture.Record) {
 	}
 	bs := sent / bl
 	br := recv / bl
-	isSuccess := true
-	if rec.Res == nil {
-		isSuccess = false
-	} else {
-		code := rec.Res.ResponseCode / 100
-		switch code {
-		case 4, 5:
-			isSuccess = false
-		}
-	}
 
 	for b := bt; b.Equal(be) || b.Before(be); b = b.Add(time.Duration(z.Bucket) * time.Millisecond) {
 		if bucket, ok := z.buckets[b]; ok {
-			if isSuccess {
+			if rec.IsSuccess() {
+				bucket.Concurrency++
 				bucket.SuccessConcurrency++
 				bucket.SuccessSent += bs
 				bucket.SuccessReceived += br
 			} else {
+				bucket.Concurrency++
 				bucket.FailureConcurrency++
 				bucket.FailureSent += bs
 				bucket.FailureReceived += br
 			}
 		} else {
-			if isSuccess {
+			if rec.IsSuccess() {
 				z.buckets[b] = &ThroughputRow{
 					Time:               b.Format(z.TimeFormat),
+					Concurrency:        1,
 					SuccessSent:        bs,
 					SuccessReceived:    br,
 					SuccessConcurrency: 1,
@@ -98,6 +108,7 @@ func (z *Throughput) handleRecord(rec nw_capture.Record) {
 			} else {
 				z.buckets[b] = &ThroughputRow{
 					Time:               b.Format(z.TimeFormat),
+					Concurrency:        1,
 					SuccessSent:        0,
 					SuccessReceived:    0,
 					SuccessConcurrency: 0,
