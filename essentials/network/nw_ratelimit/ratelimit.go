@@ -207,7 +207,7 @@ func (z *limitStateImpl) UpdateRetryAfter(hash, endpoint string, retryAfter time
 
 	key := z.keyHash(hash, endpoint)
 	ra, ok := z.retryAfter[key]
-	if !ok || ra.After(retryAfter) {
+	if !ok || ra.Before(retryAfter) {
 		z.retryAfter[key] = retryAfter
 	}
 }

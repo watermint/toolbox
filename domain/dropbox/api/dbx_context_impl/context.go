@@ -13,8 +13,10 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_rest"
+	"github.com/watermint/toolbox/essentials/network/nw_simulator"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"net/http"
@@ -43,13 +45,29 @@ func NewReplayMock(ctl app_control.Control, rr []nw_replay.Response) dbx_context
 }
 
 func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
-	client := nw_rest.New(
-		nw_rest.Assert(dbx_response_impl.AssertResponse))
+	l := ctl.Log()
+	opts := make([]nw_rest.ClientOpt, 0)
+	opts = append(opts, nw_rest.Assert(dbx_response_impl.AssertResponse))
+	if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow20) {
+		l.Debug("Experiment: Network conditioner enabled: 20%")
+		opts = append(opts, nw_rest.Conditioner(20, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
+	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow40) {
+		l.Debug("Experiment: Network conditioner enabled: 40%")
+		opts = append(opts, nw_rest.Conditioner(40, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
+	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow100) {
+		l.Debug("Experiment: Network conditioner enabled: 100%")
+		opts = append(opts, nw_rest.Conditioner(100, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
+	}
+	client := nw_rest.New(opts...)
 	return &ctxImpl{
 		client:  client,
 		ctl:     ctl,
 		builder: dbx_request.NewBuilder(ctl, token),
 	}
+}
+
+func decorateRateLimit(res *http.Response) {
+
 }
 
 type ctxImpl struct {

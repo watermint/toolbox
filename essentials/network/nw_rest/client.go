@@ -2,11 +2,13 @@ package nw_rest
 
 import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_http"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
+	"github.com/watermint/toolbox/essentials/network/nw_simulator"
 	"github.com/watermint/toolbox/infra/api/api_context"
 )
 
@@ -14,9 +16,13 @@ import (
 type AssertResponse func(res es_response.Response) es_response.Response
 
 type ClientOpts struct {
-	Assert     AssertResponse
-	Mock       bool
-	ReplayMock []nw_replay.Response
+	Assert                AssertResponse
+	Mock                  bool
+	ReplayMock            []nw_replay.Response
+	ConditionerRate       int
+	ConditionerDecorator  nw_simulator.ResponseDecorator
+	ConditionerHeaderType nw_simulator.RetryAfterHeaderType
+	conditionerEnabled    bool
 }
 
 func (z ClientOpts) Apply(opts ...ClientOpt) ClientOpts {
@@ -54,7 +60,19 @@ func Assert(ar AssertResponse) ClientOpt {
 	}
 }
 
+func Conditioner(rate int, headerType nw_simulator.RetryAfterHeaderType, decorator nw_simulator.ResponseDecorator) ClientOpt {
+	return func(o ClientOpts) ClientOpts {
+		o.ConditionerRate = rate
+		o.ConditionerHeaderType = headerType
+		o.ConditionerDecorator = decorator
+		o.conditionerEnabled = true
+		return o
+	}
+}
+
 func New(opts ...ClientOpt) nw_client.Rest {
+	l := esl.Default()
+
 	co := ClientOpts{}.Apply(opts...)
 	var hc nw_client.Http
 	switch {
@@ -66,8 +84,26 @@ func New(opts ...ClientOpt) nw_client.Rest {
 		hc = nw_http.NewClient()
 	}
 
-	c0 := NewAssert(co.Assert, nw_capture.New(hc))
-	return nw_retry.NewRetry(nw_retry.NewRatelimit(c0))
+	var c0, c1, c2 nw_client.Rest
+
+	// Layer 0: capture
+	c0 = nw_capture.New(hc)
+
+	// Layer 1: simulator
+	if co.conditionerEnabled {
+		l.Debug("Network conditioner enabled",
+			esl.Int("Rate", co.ConditionerRate),
+			esl.Int("HeaderType", int(co.ConditionerHeaderType)))
+		c1 = nw_simulator.New(c0, co.ConditionerRate, co.ConditionerHeaderType, co.ConditionerDecorator)
+	} else {
+		c1 = c0
+	}
+
+	// Layer 2: assert
+	c2 = NewAssert(co.Assert, c1)
+
+	// Layer 3: retry
+	return nw_retry.NewRetry(nw_retry.NewRatelimit(c2))
 }
 
 func NewAssert(assert AssertResponse, client nw_client.Rest) nw_client.Rest {
