@@ -125,7 +125,7 @@ func (z *writerImpl) closeCurrent() (err error) {
 
 	l.Debug("Close", esl.String("name", name), esl.Error(err))
 	if err != nil {
-		l.Error("Unable to close current log file", esl.String("path", name), esl.Error(err))
+		l.Warn("Unable to close current log file", esl.String("path", name), esl.Error(err))
 	}
 	z.current = nil
 	z.currentWriter = nil
@@ -135,7 +135,7 @@ func (z *writerImpl) closeCurrent() (err error) {
 		Opts: z.ro,
 	})
 	if !ror {
-		l.Error("Unable to enqueue rotate out", esl.String("path", name))
+		l.Warn("Unable to enqueue rotate out", esl.String("path", name))
 	}
 
 	return

@@ -857,6 +857,7 @@
   "infra.control.app_opt.common_opts.flag.concurrency.default": "Number of processors",
   "infra.control.app_opt.common_opts.flag.debug": "Enable debug mode",
   "infra.control.app_opt.common_opts.flag.experiment": "Enable experimental feature(s).",
+  "infra.control.app_opt.common_opts.flag.lang": "Display language",
   "infra.control.app_opt.common_opts.flag.low_memory": "Low memory footprint mode",
   "infra.control.app_opt.common_opts.flag.output": "Output format (none/text/markdown/json)",
   "infra.control.app_opt.common_opts.flag.proxy": "HTTP/HTTPS proxy (hostname:port)",

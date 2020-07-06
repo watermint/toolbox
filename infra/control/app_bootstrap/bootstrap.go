@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"github.com/watermint/toolbox/essentials/network/nw_concurrency"
@@ -26,6 +27,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/ingredient/bootstrap"
@@ -75,7 +77,23 @@ type bsImpl struct {
 }
 
 func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
-	mc := app_msg_container_impl.NewContainer()
+	var mc app_msg_container.Container
+	var err error
+
+	switch opt.Lang.Value() {
+	case app_opt.LangEnglish:
+		mc, err = app_msg_container_impl.NewSingle(lang.English)
+		if err != nil {
+			panic(err)
+		}
+	case app_opt.LangJapanese:
+		mc, err = app_msg_container_impl.NewSingle(lang.Japanese)
+		if err != nil {
+			panic(err)
+		}
+	default:
+		mc = app_msg_container_impl.NewContainer()
+	}
 	out := opt.Output.Value()
 	lg := esl.Default()
 
