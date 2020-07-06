@@ -26,12 +26,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                     | Default                 |
-|----------------|---------------------------------|-------------------------|
-| `-bucket`      | Bucket size in milliseconds     | 1000                    |
-| `-job-id`      | Specify Job ID                  |                         |
-| `-path`        | Path to workspace               |                         |
-| `-time-format` | Time format in go's time format | 2006-01-02 15:04:05.999 |
+| Option                  | Description                                             | Default                 |
+|-------------------------|---------------------------------------------------------|-------------------------|
+| `-bucket`               | Bucket size in milliseconds                             | 1000                    |
+| `-endpoint-name`        | Filter by endpoint. Filter by exact match to the name.  |                         |
+| `-endpoint-name-prefix` | Filter by endpoint. Filter by name match to the prefix. |                         |
+| `-endpoint-name-suffix` | Filter by endpoint. Filter by name match to the suffix. |                         |
+| `-job-id`               | Specify Job ID                                          |                         |
+| `-path`                 | Path to workspace                                       |                         |
+| `-time-format`          | Time format in go's time format                         | 2006-01-02 15:04:05.999 |
 
 ## Common options:
 
@@ -68,6 +71,7 @@ The command will generate a report in three different formats. `report.csv`, `re
 | Column              | Description                                                      |
 |---------------------|------------------------------------------------------------------|
 | time                | Timestamp                                                        |
+| concurrency         | Concurrency.                                                     |
 | success_concurrency | Number of concurrent requests of success                         |
 | success_sent        | Sum of sent bytes of success requests in the bucket in bytes     |
 | success_received    | Sum of received bytes of success requests in the bucket in bytes |

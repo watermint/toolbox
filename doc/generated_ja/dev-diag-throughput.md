@@ -1,6 +1,6 @@
 # dev diag throughput
 
-Evaluate throughput from capture logs 
+キャプチャログからスループットを評価 
 
 # 利用方法
 
@@ -26,12 +26,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                            | デフォルト              |
-|----------------|---------------------------------|-------------------------|
-| `-bucket`      | Bucket size in milliseconds     | 1000                    |
-| `-job-id`      | Specify Job ID                  |                         |
-| `-path`        | Path to workspace               |                         |
-| `-time-format` | Time format in go's time format | 2006-01-02 15:04:05.999 |
+| オプション              | 説明                                                            | デフォルト              |
+|-------------------------|-----------------------------------------------------------------|-------------------------|
+| `-bucket`               | バケットサイズ (ミリ秒)                                         | 1000                    |
+| `-endpoint-name`        | エンドポイントによりフィルター. 名前による完全一致でフィルター. |                         |
+| `-endpoint-name-prefix` | エンドポイントによりフィルター. 名前の前方一致によるフィルター. |                         |
+| `-endpoint-name-suffix` | エンドポイントによりフィルター. 名前の後方一致によるフィルター. |                         |
+| `-job-id`               | ジョブIDの指定                                                  |                         |
+| `-path`                 | ワークスペースへのパス.                                         |                         |
+| `-time-format`          | 日時フォーマット (Goの日付フォーマット)                         | 2006-01-02 15:04:05.999 |
 
 ## 共通のオプション:
 
@@ -62,18 +65,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: report
 
-Throughput
+スループット
 このコマンドはレポートを3種類の書式で出力します. `report.csv`, `report.json`, ならびに `report.xlsx`.
 
-| 列                  | 説明                                                             |
-|---------------------|------------------------------------------------------------------|
-| time                | Timestamp                                                        |
-| success_concurrency | Number of concurrent requests of success                         |
-| success_sent        | Sum of sent bytes of success requests in the bucket in bytes     |
-| success_received    | Sum of received bytes of success requests in the bucket in bytes |
-| failure_concurrency | Number of concurrent requests of failure                         |
-| failure_sent        | Sum of sent bytes of failed requests in the bucket in bytes      |
-| failure_received    | Sum of received bytes of failed requests in the bucket in bytes  |
+| 列                  | 説明                                             |
+|---------------------|--------------------------------------------------|
+| time                | タイムスタンプ                                   |
+| concurrency         | 並列数                                           |
+| success_concurrency | 成功したリクエストの並列数                       |
+| success_sent        | 成功したリクエストのバケットあたりの送信バイト数 |
+| success_received    | 成功したリクエストのバケットあたりの受信バイト数 |
+| failure_concurrency | 失敗したリクエストの並列数                       |
+| failure_sent        | 失敗したリクエストのバケットあたりの送信バイト数 |
+| failure_received    | 失敗したリクエストのバケットあたりの受信バイト数 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

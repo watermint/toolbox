@@ -1,6 +1,6 @@
 # dev diag endpoint
 
-List endpoints 
+エンドポイントを一覧 
 
 # 利用方法
 
@@ -26,10 +26,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                  | デフォルト |
-|------------|-----------------------|------------|
-| `-job-id`  | Job Id to diagnosis   |            |
-| `-path`    | Path to the workspace |            |
+| オプション | 説明                    | デフォルト |
+|------------|-------------------------|------------|
+| `-job-id`  | 検査するJob ID          |            |
+| `-path`    | ワークスペースへのパス. |            |
 
 ## 共通のオプション:
 
@@ -60,15 +60,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: report
 
-Endpoint statistics
+エンドポイントの統計
 このコマンドはレポートを3種類の書式で出力します. `report.csv`, `report.json`, ならびに `report.xlsx`.
 
-| 列            | 説明                       |
-|---------------|----------------------------|
-| endpoint      | Endpoint URL               |
-| count         | Number of requests         |
-| count_success | Number of success requests |
-| count_failure | Number of failed requests  |
+| 列            | 説明              |
+|---------------|-------------------|
+| endpoint      | エンドポイントURL |
+| count         | リクエスト数      |
+| count_success | 成功リクエスト数  |
+| count_failure | 失敗リクエスト数  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
