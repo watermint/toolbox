@@ -66,6 +66,17 @@ type Record struct {
 	Latency int64  `json:"latency"`
 }
 
+func (z Record) IsSuccess() bool {
+	if z.Res == nil {
+		return false
+	}
+	switch z.Res.ResponseCode / 100 {
+	case 4, 5:
+		return false
+	}
+	return true
+}
+
 type Req struct {
 	RequestMethod  string            `json:"method"`
 	RequestUrl     string            `json:"url"`

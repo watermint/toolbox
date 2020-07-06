@@ -3,6 +3,7 @@ package app_job_impl
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_budget"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -50,6 +51,9 @@ func TestHistory(t *testing.T) {
 			t.Error(r, found)
 		}
 
+		if job.IsOrphaned() {
+			t.Error(job.IsOrphaned())
+		}
 		if job.AppName() == "" {
 			t.Error(job.AppName())
 		}
@@ -104,7 +108,9 @@ func TestHistory_Archive(t *testing.T) {
 			t.Error(err)
 		}
 
-		if arcPath, err := job.Archive(); err != nil {
+		jo := job.(app_job.HistoryOperation)
+
+		if arcPath, err := jo.Archive(); err != nil {
 			t.Error(path, err)
 		} else if f, err := os.Lstat(arcPath); err != nil && !f.IsDir() {
 			t.Error(f, err)
@@ -150,7 +156,9 @@ func TestHistory_Delete(t *testing.T) {
 			t.Error(err)
 		}
 
-		if err := job.Delete(); err != nil {
+		jo := job.(app_job.HistoryOperation)
+
+		if err := jo.Delete(); err != nil {
 			t.Error(path, err)
 		}
 

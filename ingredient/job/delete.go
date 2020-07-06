@@ -3,6 +3,7 @@ package job
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -44,10 +45,14 @@ func (z *Delete) Exec(c app_control.Control) error {
 			continue
 		}
 		c.UI().Info(z.ProgressDeleting.With("JobId", h.JobId()))
-		err := h.Delete()
-		if err != nil {
-			l.Debug("Unable to archive", esl.Error(err), esl.Any("history", h))
-			c.UI().Error(z.ProgressDeleting.With("JobId", h.JobId()).With("Error", err.Error()))
+		if ho, ok := h.(app_job.HistoryOperation); ok {
+			err := ho.Delete()
+			if err != nil {
+				l.Debug("Unable to archive", esl.Error(err), esl.Any("history", h))
+				c.UI().Error(z.ProgressDeleting.With("JobId", h.JobId()).With("Error", err.Error()))
+			}
+		} else {
+			l.Warn("This history is not supported to delete", esl.String("jobId", h.JobId()))
 		}
 	}
 	return nil

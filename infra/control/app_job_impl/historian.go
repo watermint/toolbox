@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -32,7 +33,7 @@ func (z Historian) isHistory(jobIds []string) (app_job.History, bool) {
 	}
 }
 
-func (z Historian) scanPath(path string, parentJobId []string) (histories []app_job.History, err error) {
+func (z Historian) scanWorkspace(path string, parentJobId []string) (histories []app_job.History, err error) {
 	l := esl.Default()
 	sp := path
 	histories = make([]app_job.History, 0)
@@ -63,7 +64,7 @@ func (z Historian) scanPath(path string, parentJobId []string) (histories []app_
 		if h, found := z.isHistory(jp); found {
 			histories = append(histories, h)
 		}
-		children, err := z.scanPath(path, jp)
+		children, err := z.scanWorkspace(path, jp)
 		if err != nil {
 			l.Debug("No job history found in child due to an error. Ignore", esl.Error(err))
 			continue
@@ -73,11 +74,64 @@ func (z Historian) scanPath(path string, parentJobId []string) (histories []app_
 	return
 }
 
-func (z Historian) Histories() (histories []app_job.History, err error) {
-	histories = make([]app_job.History, 0)
+func (z Historian) scanOrphaned(path string) (histories []app_job.History, err error) {
+	l := esl.Default().With(esl.String("path", path))
 
+	histories = make([]app_job.History, 0)
+	pls, err := os.Lstat(path)
+	if err != nil || !pls.IsDir() {
+		l.Debug("The path is not exist or a folder")
+		return histories, err
+	}
+
+	his, ok := newOrphanHistory(path)
+	if ok {
+		histories = append(histories, his)
+		return histories, nil
+	}
+
+	entries, err := ioutil.ReadDir(path)
+	if err != nil {
+		l.Debug("Unable to read a folder", esl.Error(err))
+		return histories, err
+	}
+
+	for _, entry := range entries {
+		if entry.IsDir() {
+			p := filepath.Join(path, entry.Name())
+			h2, err := z.scanOrphaned(p)
+			if err == nil {
+				l.Debug("Histories found under the path", esl.String("path2", p))
+				histories = append(histories, h2...)
+			}
+		}
+	}
+	return histories, nil
+}
+
+func (z Historian) Histories() (histories []app_job.History, err error) {
+	l := esl.Default()
+
+	histories = make([]app_job.History, 0)
 	path := filepath.Join(z.ws.Home(), app_workspace.NameJobs)
-	histories, err = z.scanPath(path, []string{})
+
+	l = l.With(esl.String("path", path))
+
+	// scan 1: workspace history
+	h, err1 := z.scanWorkspace(path, []string{})
+	if err1 != nil || len(h) < 1 {
+		l.Debug("unable to scan path", esl.Error(err1))
+		// scan 2: orphaned history
+		h2, err2 := z.scanOrphaned(z.ws.Home())
+		if err2 != nil {
+			l.Debug("Unable to scan log path", esl.Error(err2))
+			return nil, err1
+		} else {
+			histories = append(histories, h2...)
+		}
+	} else {
+		histories = append(histories, h...)
+	}
 
 	sort.Slice(histories, func(i, j int) bool {
 		return strings.Compare(histories[i].JobId(), histories[j].JobId()) < 0

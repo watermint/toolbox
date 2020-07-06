@@ -35,6 +35,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-concurrency`    | Maximum concurrency for running operation                                        | Number of processors |
 | `-debug`          | Enable debug mode                                                                | false                |
 | `-experiment`     | Enable experimental feature(s).                                                  |                      |
+| `-lang`           | Display language                                                                 | auto                 |
 | `-output`         | Output format (none/text/markdown/json)                                          | text                 |
 | `-proxy`          | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
 | `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |

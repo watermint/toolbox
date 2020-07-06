@@ -30,6 +30,7 @@ import (
 	infrauiapp_ui "github.com/watermint/toolbox/infra/ui/app_ui"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
 	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
+	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipefile "github.com/watermint/toolbox/recipe/file"
 	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
@@ -85,6 +86,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&ingredientfile.MsgUpload{},
 		&ingredientteamnamespacefile.MsgList{},
 		&ingredientteamnamespacefile.MsgSize{},
+		&recipedevdiag.MsgLoader{},
 		&recipefile.MsgRestore{},
 		&recipefiledispatch.MsgLocal{},
 		&recipefileimportbatch.MsgUrl{},

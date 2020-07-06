@@ -42,14 +42,6 @@ func ClientHash(seeds ...[]string) string {
 	return fmt.Sprintf("%x", sha256.Sum224([]byte(strings.Join(all, ","))))
 }
 
-func NewGetRequest(url string, content es_rewinder.ReadRewinder) (*http.Request, error) {
-	return NewHttpRequest(http.MethodGet, url, content)
-}
-
-func NewPostRequest(url string, content es_rewinder.ReadRewinder) (*http.Request, error) {
-	return NewHttpRequest(http.MethodPost, url, content)
-}
-
 func NewHttpRequest(method, url string, content es_rewinder.ReadRewinder) (*http.Request, error) {
 	l := esl.Default()
 	if err := content.Rewind(); err != nil {

@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -46,10 +47,14 @@ func (z *Archive) Exec(c app_control.Control) error {
 			continue
 		}
 		c.UI().Info(z.ProgressArchiving.With("JobId", h.JobId()))
-		_, err := h.Archive()
-		if err != nil {
-			l.Debug("Unable to archive", esl.Error(err), esl.Any("history", h))
-			c.UI().Error(z.ErrorFailedArchive.With("JobId", h.JobId()).With("Error", err.Error()))
+		if ho, ok := h.(app_job.HistoryOperation); ok {
+			_, err := ho.Archive()
+			if err != nil {
+				l.Debug("Unable to archive", esl.Error(err), esl.Any("history", h))
+				c.UI().Error(z.ErrorFailedArchive.With("JobId", h.JobId()).With("Error", err.Error()))
+			}
+		} else {
+			l.Warn("The history type is not designed for archive", esl.String("JobId", h.JobId()))
 		}
 	}
 

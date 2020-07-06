@@ -14,6 +14,9 @@ const (
 	BudgetLow       = "low"
 	BudgetNormal    = "normal"
 	BudgetUnlimited = "unlimited"
+	LangAuto        = "auto"
+	LangEnglish     = "en"
+	LangJapanese    = "ja"
 )
 
 type CommonOpts struct {
@@ -31,6 +34,9 @@ type CommonOpts struct {
 
 	// Enable experiments
 	Experiment string
+
+	// Language
+	Lang mo_string.SelectString
 
 	// Memory budget
 	BudgetMemory mo_string.SelectString
@@ -62,6 +68,7 @@ func (z *CommonOpts) Preset() {
 	z.Experiment = ""
 	z.BudgetMemory.SetOptions([]string{BudgetLow, BudgetNormal}, BudgetNormal)
 	z.BudgetStorage.SetOptions(app_budget.StorageBudgets, string(app_budget.DefaultBudget))
+	z.Lang.SetOptions([]string{LangAuto, LangEnglish, LangJapanese}, LangAuto)
 	z.Output.SetOptions([]string{OutputText, OutputMarkdown, OutputJson, OutputNone}, OutputText)
 	z.Proxy = mo_string.NewOptional("")
 	z.Quiet = false
@@ -75,6 +82,7 @@ func Default() CommonOpts {
 	com.Proxy = mo_string.NewOptional("")
 	com.BudgetMemory = mo_string.NewSelect()
 	com.BudgetStorage = mo_string.NewSelect()
+	com.Lang = mo_string.NewSelect()
 	com.Output = mo_string.NewSelect()
 	com.Preset()
 	return com

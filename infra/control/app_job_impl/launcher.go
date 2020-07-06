@@ -32,10 +32,11 @@ type launchImpl struct {
 	rcp rc_recipe.Spec
 }
 
-func (z launchImpl) recordStartLog() error {
+func (z launchImpl) recordStartLog(ctl app_control.Control) error {
 	sl := app_job.StartLog{
 		Name:        z.rcp.CliPath(),
 		ValueObject: z.rcp.Debug(),
+		JobId:       ctl.Workspace().JobId(),
 		TimeStart:   time.Now().Format(time.RFC3339),
 		AppName:     app.Name,
 		AppHash:     app.Hash,
@@ -67,7 +68,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 		return ctl, nil
 	}
 
-	if err := z.recordStartLog(); err != nil {
+	if err := z.recordStartLog(ctl); err != nil {
 		return nil, err
 	}
 
