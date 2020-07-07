@@ -16,13 +16,21 @@ import (
 type AssertResponse func(res es_response.Response) es_response.Response
 
 type ClientOpts struct {
-	Assert                AssertResponse
-	Mock                  bool
-	ReplayMock            []nw_replay.Response
-	ConditionerRate       int
-	ConditionerDecorator  nw_simulator.ResponseDecorator
-	ConditionerHeaderType nw_simulator.RetryAfterHeaderType
-	conditionerEnabled    bool
+	Assert     AssertResponse
+	Mock       bool
+	ReplayMock []nw_replay.Response
+
+	// rate limit simulator
+	rateLimitRate       int
+	rateLimitDecorator  nw_simulator.ResponseDecorator
+	rateLimitHeaderType nw_simulator.RetryAfterHeaderType
+	rateLimitEnabled    bool
+
+	// server error simulator
+	serverErrorRate      int
+	serverErrorDecorator nw_simulator.ResponseDecorator
+	serverErrorCode      int
+	serverErrorEnabled   bool
 }
 
 func (z ClientOpts) Apply(opts ...ClientOpt) ClientOpts {
@@ -60,12 +68,22 @@ func Assert(ar AssertResponse) ClientOpt {
 	}
 }
 
-func Conditioner(rate int, headerType nw_simulator.RetryAfterHeaderType, decorator nw_simulator.ResponseDecorator) ClientOpt {
+func RateLimitSimulator(rate int, headerType nw_simulator.RetryAfterHeaderType, decorator nw_simulator.ResponseDecorator) ClientOpt {
 	return func(o ClientOpts) ClientOpts {
-		o.ConditionerRate = rate
-		o.ConditionerHeaderType = headerType
-		o.ConditionerDecorator = decorator
-		o.conditionerEnabled = true
+		o.rateLimitRate = rate
+		o.rateLimitHeaderType = headerType
+		o.rateLimitDecorator = decorator
+		o.rateLimitEnabled = true
+		return o
+	}
+}
+
+func ServerErrorSimulator(rate int, code int, decorator nw_simulator.ResponseDecorator) ClientOpt {
+	return func(o ClientOpts) ClientOpts {
+		o.serverErrorEnabled = true
+		o.serverErrorRate = rate
+		o.serverErrorCode = code
+		o.serverErrorDecorator = decorator
 		return o
 	}
 }
@@ -84,26 +102,36 @@ func New(opts ...ClientOpt) nw_client.Rest {
 		hc = nw_http.NewClient()
 	}
 
-	var c0, c1, c2 nw_client.Rest
+	var c0, c1, c2, c3 nw_client.Rest
 
 	// Layer 0: capture
 	c0 = nw_capture.New(hc)
 
-	// Layer 1: simulator
-	if co.conditionerEnabled {
-		l.Debug("Network conditioner enabled",
-			esl.Int("Rate", co.ConditionerRate),
-			esl.Int("HeaderType", int(co.ConditionerHeaderType)))
-		c1 = nw_simulator.New(c0, co.ConditionerRate, co.ConditionerHeaderType, co.ConditionerDecorator)
+	// Layer 1: rate limit simulator
+	if co.rateLimitEnabled {
+		l.Debug("Rate limit simulator enabled",
+			esl.Int("Rate", co.rateLimitRate),
+			esl.Int("HeaderType", int(co.rateLimitHeaderType)))
+		c1 = nw_simulator.NewRateLimit(c0, co.rateLimitRate, co.rateLimitHeaderType, co.rateLimitDecorator)
 	} else {
 		c1 = c0
 	}
 
-	// Layer 2: assert
-	c2 = NewAssert(co.Assert, c1)
+	// Layer 2: server error simulator
+	if co.serverErrorEnabled {
+		l.Debug("Server error simulator enabled",
+			esl.Int("Rate", co.serverErrorRate),
+			esl.Int("Code", co.serverErrorCode))
+		c2 = nw_simulator.NewServerError(c1, co.serverErrorRate, co.serverErrorCode, co.serverErrorDecorator)
+	} else {
+		c2 = c1
+	}
 
-	// Layer 3: retry
-	return nw_retry.NewRetry(nw_retry.NewRatelimit(c2))
+	// Layer 3: assert
+	c3 = NewAssert(co.Assert, c2)
+
+	// Layer 4: retry
+	return nw_retry.NewRetry(nw_retry.NewRatelimit(c3))
 }
 
 func NewAssert(assert AssertResponse, client nw_client.Rest) nw_client.Rest {
