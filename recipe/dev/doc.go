@@ -22,7 +22,7 @@ import (
 type Doc struct {
 	rc_recipe.RemarkSecret
 	Badge       bool
-	Lang        mo_string.OptionalString
+	DocLang     mo_string.OptionalString
 	Filename    string
 	CommandPath string
 }
@@ -77,8 +77,8 @@ func (z *Doc) genCommands(c app_control.Control) error {
 func (z *Doc) Exec(ctl app_control.Control) error {
 	l := ctl.Log()
 
-	if z.Lang.IsExists() {
-		ctl = ctl.WithLang(z.Lang.Value())
+	if z.DocLang.IsExists() {
+		ctl = ctl.WithLang(z.DocLang.Value())
 	}
 	if err := z.genReadme(ctl); err != nil {
 		l.Error("Failed to generate README", esl.Error(err))

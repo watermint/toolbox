@@ -14,4 +14,6 @@ RUN go get github.com/jstemmer/go-junit-report
 RUN mkdir /dist
 ENV PROJECT_ROOT=/app
 
+ADD . $PROJECT_ROOT
 WORKDIR $PROJECT_ROOT
+

@@ -30,8 +30,8 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |-----------------|-------------------------------------------|----------------|
 | `-badge`        | Include badges of build status            | true           |
 | `-command-path` | Relative path to generate command manuals | doc/generated/ |
+| `-doc-lang`     | Language                                  |                |
 | `-filename`     | Filename                                  | README.md      |
-| `-lang`         | Language                                  |                |
 
 ## Common options:
 
