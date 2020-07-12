@@ -36,6 +36,7 @@ func (z *List) Exec(c app_control.Control) error {
 		rc.IncludeSharedFolder = z.IncludeSharedFolder
 		rc.IncludeTeamFolder = z.IncludeTeamFolder
 		rc.Name = z.Name
+		rc.Peer = z.Peer
 	})
 }
 

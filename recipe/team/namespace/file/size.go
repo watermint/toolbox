@@ -37,6 +37,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		rc.IncludeMemberFolder = z.IncludeMemberFolder
 		rc.IncludeAppFolder = z.IncludeAppFolder
 		rc.Depth = z.Depth.Value()
+		rc.Peer = z.Peer
 	})
 }
 
