@@ -84,21 +84,6 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 		}
 		return dbx_context_impl.New(ctl, ctx), nil
 
-	case ui.IsWeb():
-		l.Debug("Connect through web UI")
-		a := dbx_auth_attr.NewWeb(ctl)
-		tokens, err := a.List(tokenType)
-		if err != nil {
-			return nil, err
-		}
-		for _, t := range tokens {
-			if t.PeerName() == peerName {
-				c := dbx_context_impl.New(ctl, t)
-				return c, nil
-			}
-		}
-		l.Debug("No peer found in existing connection")
-		return nil, errors.New("no peer found")
 	}
 
 	l.Debug("Unsupported UI type")
