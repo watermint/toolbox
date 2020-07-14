@@ -52,7 +52,6 @@ func (z *ValueDbxConnBusinessAudit) ApplyPreset(v0 interface{}) {
 
 func (z *ValueDbxConnBusinessAudit) Apply() (v interface{}) {
 	z.conn.SetPeerName(z.peerName)
-	dbx_conn_impl.EnsurePreVerify(z.conn)
 	return z.conn
 }
 

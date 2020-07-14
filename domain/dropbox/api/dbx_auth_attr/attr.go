@@ -25,11 +25,11 @@ func (z *Attr) PeerName() string {
 	return z.auth.PeerName()
 }
 
-func (z *Attr) Auth(scope string) (token api_auth.Context, err error) {
-	l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.String("scope", scope))
+func (z *Attr) Auth(scopes []string) (token api_auth.Context, err error) {
+	l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.Strings("scopes", scopes))
 	ui := z.ctl.UI()
 
-	tc, err := z.auth.Auth(scope)
+	tc, err := z.auth.Auth(scopes)
 	if err != nil {
 		return nil, err
 	}

@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
+	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
@@ -35,7 +36,7 @@ func (z Builder) Log() esl.Logger {
 		l = l.With(esl.String("url", z.url))
 	}
 	if z.token != nil {
-		l = l.With(esl.String("scope", z.token.Scope()))
+		l = l.With(esl.Strings("scopes", z.token.Scopes()))
 	}
 	return l
 }
@@ -58,7 +59,7 @@ func (z Builder) ClientHash() string {
 		st = []string{
 			"p", z.token.PeerName(),
 			"t", z.token.Token().AccessToken,
-			"y", z.token.Scope(),
+			"y", strings.Join(z.token.Scopes(), ","),
 		}
 	}
 

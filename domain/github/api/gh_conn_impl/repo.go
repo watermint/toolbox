@@ -57,7 +57,7 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 		a = api_auth_impl.NewConsoleCache(ctl, a)
 	}
 	l.Debug("Start auth sequence", esl.String("scope", scope))
-	ac, err := a.Auth(scope)
+	ac, err := a.Auth([]string{scope})
 	if err != nil {
 		return err
 	}

@@ -14,6 +14,7 @@ import (
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
+	recipedevstage "github.com/watermint/toolbox/recipe/dev/stage"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
@@ -98,6 +99,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevrelease.Publish{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
+		&recipedevstage.Scoped{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},

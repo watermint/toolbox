@@ -1,22 +1,21 @@
 package dbx_auth_attr
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func NewConsole(c app_control.Control, peerName string) api_auth.Console {
+func NewConsole(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
 	l := c.Log().With(esl.String("peerName", peerName))
 	var oa api_auth.Console
 
 	// Make redirect impl. hidden for while
 	if f, found := c.Feature().OptInGet(&api_auth_impl.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
-		oa = api_auth_impl.NewConsoleRedirect(c, peerName, dbx_auth.NewApp(c))
+		oa = api_auth_impl.NewConsoleRedirect(c, peerName, app)
 	} else {
-		oa = api_auth_impl.NewConsoleOAuth(c, peerName)
+		oa = api_auth_impl.NewConsoleOAuth(c, peerName, app)
 	}
 	aa := NewConsoleAttr(c, oa)
 	if c.Feature().IsSecure() {

@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
+	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
@@ -87,7 +88,7 @@ func (z Builder) ContentHash() string {
 		st = []string{
 			"p", z.token.PeerName(),
 			"t", z.token.Token().AccessToken,
-			"y", z.token.Scope(),
+			"y", strings.Join(z.token.Scopes(), ","),
 		}
 	}
 	if z.basePath != nil {

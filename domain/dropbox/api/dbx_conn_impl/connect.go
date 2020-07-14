@@ -28,7 +28,7 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	}
 
 	for _, tt := range tts {
-		_, err := ConnectTest(tt, app.PeerEndToEndTest, ctl)
+		_, err := ConnectTest([]string{tt}, app.PeerEndToEndTest, ctl)
 		if err != nil {
 			ctl.Log().Debug("Token is not available for the token type", esl.String("tokenType", tt), esl.Error(err))
 			return false
@@ -37,8 +37,8 @@ func IsEndToEndTokenAllAvailable(ctl app_control.Control) bool {
 	return true
 }
 
-func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx dbx_context.Context, err error) {
-	l := ctl.Log().With(esl.String("tokenType", tokenType), esl.String("peerName", peerName))
+func ConnectTest(scopes []string, peerName string, ctl app_control.Control) (ctx dbx_context.Context, err error) {
+	l := ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", peerName))
 	l.Debug("Connect for testing")
 	if qt_endtoend.IsSkipEndToEndTest() {
 		return nil, qt_errors.ErrorSkipEndToEndTest
@@ -47,15 +47,15 @@ func ConnectTest(tokenType, peerName string, ctl app_control.Control) (ctx dbx_c
 	for _, peer := range peers {
 		l.Debug("Retrieve cache from peer", esl.String("peer", peer))
 		a := api_auth_impl.NewConsoleCacheOnly(ctl, peer)
-		if c, err := a.Auth(tokenType); err == nil {
+		if c, err := a.Auth(scopes); err == nil {
 			return dbx_context_impl.New(ctl, c), nil
 		}
 	}
 	return nil, qt_errors.ErrorNotEnoughResource
 }
 
-func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (ctx dbx_context.Context, err error) {
-	l := ctl.Log().With(esl.String("tokenType", tokenType), esl.String("peerName", peerName))
+func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.App) (ctx dbx_context.Context, err error) {
+	l := ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", peerName))
 	ui := ctl.UI()
 
 	if ctl.Feature().IsTestWithMock() {
@@ -73,12 +73,12 @@ func connect(tokenType, peerName string, verify bool, ctl app_control.Control) (
 			l.Debug("Skip end to end test")
 			return dbx_context_impl.NewMock(ctl), nil
 		}
-		return ConnectTest(tokenType, peerName, ctl)
+		return ConnectTest(scopes, peerName, ctl)
 
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")
-		c := dbx_auth_attr.NewConsole(ctl, peerName)
-		ctx, err := c.Auth(tokenType)
+		c := dbx_auth_attr.NewConsole(ctl, peerName, app)
+		ctx, err := c.Auth(scopes)
 		if err != nil {
 			return nil, err
 		}

@@ -16,10 +16,16 @@ var (
 
 // Returns description of the account
 func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.Context, err error) {
-	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.String("scope", ctx.Scope()))
+	scopes := ctx.Scopes()
+	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 	ui := ctl.UI()
 
-	switch ctx.Scope() {
+	if len(scopes) != 1 {
+		l.Debug("Skip verification")
+		return ctx, nil
+	}
+
+	switch scopes[0] {
 	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
 		apiCtx := dbx_context_impl.New(ctl, ctx)
 		res := apiCtx.Post("users/get_current_account")
@@ -66,6 +72,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
 
 	default:
-		return nil, ErrorNoVerification
+		l.Debug("Skip verification")
+		return ctx, nil
 	}
 }

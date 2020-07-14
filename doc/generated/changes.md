@@ -1,5 +1,14 @@
 # Changes between `Release 71` to `Release 72`
 
+# Commands added
+
+
+| Command          | Title                         |
+|------------------|-------------------------------|
+| dev stage scoped | Dropbox scoped OAuth app test |
+
+
+
 # Command spec changed: `dev doc`
 
 

@@ -1,6 +1,7 @@
 package dbx_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
@@ -14,21 +15,12 @@ func NewConnBusinessMgmt(name string) dbx_conn.ConnBusinessMgmt {
 }
 
 type connBusinessMgmt struct {
-	name   string
-	verify bool
-	ctx    dbx_context.Context
+	name string
+	ctx  dbx_context.Context
 }
 
 func (z *connBusinessMgmt) ServiceName() string {
 	return api_conn.ServiceDropboxBusiness
-}
-
-func (z *connBusinessMgmt) SetPreVerify(enabled bool) {
-	z.verify = enabled
-}
-
-func (z *connBusinessMgmt) IsPreVerify() bool {
-	return z.verify
 }
 
 func (z *connBusinessMgmt) ScopeLabel() string {
@@ -56,7 +48,7 @@ func (z *connBusinessMgmt) Context() dbx_context.Context {
 }
 
 func (z *connBusinessMgmt) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(z.ScopeLabel(), z.name, z.verify, ctl)
+	z.ctx, err = connect([]string{z.ScopeLabel()}, z.name, ctl, dbx_auth.NewLegacyApp(ctl))
 	return err
 }
 

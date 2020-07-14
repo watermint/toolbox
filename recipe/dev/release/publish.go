@@ -191,7 +191,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 
 	if c.Feature().IsProduction() {
 		l.Info("Prepare resources")
-		if !api_auth_impl.IsCacheAvailable(c, app.PeerEndToEndTest, []string{
+		if !api_auth_impl.IsLegacyCacheAvailable(c, app.PeerEndToEndTest, []string{
 			api_auth.DropboxTokenFull,
 			api_auth.DropboxTokenBusinessAudit,
 			api_auth.DropboxTokenBusinessManagement,

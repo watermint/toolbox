@@ -28,7 +28,7 @@ func (z *Connect) Exec(c app_control.Control) error {
 	e := make(map[string]*oauth2.Token)
 	a := api_auth_impl.NewConsoleCacheOnly(c, z.Full.PeerName())
 	for _, s := range auth.Scopes {
-		t, err := a.Auth(s)
+		t, err := a.Auth([]string{s})
 		if err != nil {
 			l.Info("Skip export", esl.Error(err), esl.String("scope", s))
 			continue

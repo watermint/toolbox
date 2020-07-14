@@ -91,6 +91,7 @@ Available commands:
 | Command                                                                 | Description                                      |
 |-------------------------------------------------------------------------|--------------------------------------------------|
 | [connect user_file](doc/generated/connect-user_file.md)                 | Connect to user file access                      |
+| [dev stage scoped](doc/generated/dev-stage-scoped.md)                   | Dropbox scoped OAuth app test                    |
 | [file compare account](doc/generated/file-compare-account.md)           | Compare files of two accounts                    |
 | [file compare local](doc/generated/file-compare-local.md)               | Compare local folders and Dropbox folders        |
 | [file copy](doc/generated/file-copy.md)                                 | Copy files                                       |

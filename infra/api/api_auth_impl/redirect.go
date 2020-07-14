@@ -41,8 +41,8 @@ func (z *Redirect) PeerName() string {
 	return z.peerName
 }
 
-func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
-	l := z.ctl.Log().With(esl.String("scope", scope), esl.String("peerName", z.peerName))
+func (z *Redirect) Auth(scopes []string) (token api_auth.Context, err error) {
+	l := z.ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", z.peerName))
 	ui := z.ctl.UI()
 
 	if f, found := z.ctl.Feature().OptInGet(&OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
@@ -55,7 +55,7 @@ func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 		ctl:      z.ctl,
 		app:      z.app,
 		peerName: z.peerName,
-		scope:    scope,
+		scopes:   scopes,
 		state:    sc_random.MustGenerateRandomString(8),
 		result:   nil,
 		token:    nil,
@@ -89,14 +89,14 @@ func (z *Redirect) Auth(scope string) (token api_auth.Context, err error) {
 	}
 
 	l.Debug("Auth success")
-	return api_auth.NewContext(t, z.peerName, scope), nil
+	return api_auth.NewContext(t, z.peerName, scopes), nil
 }
 
 type RedirectService struct {
 	ctl         app_control.Control
 	app         api_auth.App
 	peerName    string
-	scope       string
+	scopes      []string
 	state       string
 	result      *bool
 	resultErr   error
@@ -117,8 +117,8 @@ func (z *RedirectService) Result() (done, result bool, err error) {
 }
 
 func (z *RedirectService) Url(redirectUrl string) string {
-	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.String("scope", z.scope))
-	cfg := z.app.Config(z.scope)
+	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.Strings("scopes", z.scopes))
+	cfg := z.app.Config(z.scopes)
 	url := cfg.AuthCodeURL(
 		z.state,
 		oauth2.SetAuthURLParam("client_id", cfg.ClientID),
@@ -131,14 +131,14 @@ func (z *RedirectService) Url(redirectUrl string) string {
 }
 
 func (z *RedirectService) Verify(state, code string) bool {
-	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.String("scope", z.scope))
+	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.Strings("scopes", z.scopes))
 
 	if z.state != state {
 		l.Debug("invalid state (csrf token)", esl.String("given", state), esl.String("expected", z.state))
 		return false
 	}
 
-	cfg := z.app.Config(z.scope)
+	cfg := z.app.Config(z.scopes)
 	cfg.RedirectURL = z.redirectUrl
 	l.Debug("exchange", esl.String("redirect", z.redirectUrl), esl.Any("cfg", cfg))
 	token, err := cfg.Exchange(context.Background(), code)

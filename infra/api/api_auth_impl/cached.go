@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_token"
+	"sort"
+	"strings"
 )
 
 func NewConsoleCacheOnly(c app_control.Control, peerName string) api_auth.Console {
@@ -20,10 +22,10 @@ func NewConsoleCache(c app_control.Control, auth api_auth.Console) api_auth.Cons
 	}
 }
 
-func IsCacheAvailable(c app_control.Control, peerName string, scopes []string) bool {
+func IsLegacyCacheAvailable(c app_control.Control, peerName string, scopes []string) bool {
 	for _, s := range scopes {
 		co := NewConsoleCacheOnly(c, peerName)
-		_, err := co.Auth(s)
+		_, err := co.Auth([]string{s})
 		if err != nil {
 			return false
 		}
@@ -45,21 +47,23 @@ func (z *Cached) Purge(scope string) {
 	z.s.Purge(scope)
 }
 
-func (z *Cached) Auth(scope string) (tc api_auth.Context, err error) {
-	l := z.ctl.Log().With(esl.String("peerName", z.auth.PeerName()), esl.String("scope", scope))
-	t, err := z.s.Get(scope)
+func (z *Cached) Auth(scopes []string) (tc api_auth.Context, err error) {
+	sort.Strings(scopes)
+	cacheKey := strings.Join(scopes, ",")
+	l := z.ctl.Log().With(esl.String("peerName", z.auth.PeerName()), esl.Strings("scopes", scopes))
+	t, err := z.s.Get(cacheKey)
 	if err != nil {
 		l.Debug("Unable to load from the cache", esl.Error(err))
 	} else {
-		return api_auth.NewContext(t, z.auth.PeerName(), scope), nil
+		return api_auth.NewContext(t, z.auth.PeerName(), scopes), nil
 	}
-	tc, err = z.auth.Auth(scope)
+	tc, err = z.auth.Auth(scopes)
 	if err != nil {
 		return nil, err
 	}
 
 	l.Debug("Update cache")
-	if err := z.s.Put(scope, tc.Token()); err != nil {
+	if err := z.s.Put(cacheKey, tc.Token()); err != nil {
 		l.Debug("Unable to update cache", esl.Error(err))
 		// fall thru
 	}
