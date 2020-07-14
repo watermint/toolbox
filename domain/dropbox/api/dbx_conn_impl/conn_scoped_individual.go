@@ -56,7 +56,7 @@ func (z *connScopedIndividual) IsBusiness() bool {
 	return false
 }
 
-func (z *connScopedIndividual) SetScopes(scopes []string) {
+func (z *connScopedIndividual) SetScopes(scopes ...string) {
 	z.scopes = scopes
 }
 

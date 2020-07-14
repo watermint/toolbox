@@ -17,7 +17,7 @@ type ConnScopedDropboxApi interface {
 	IsBusiness() bool
 
 	// Update scopes
-	SetScopes(scopes []string)
+	SetScopes(scopes ...string)
 
 	// Scopes
 	Scopes() []string

@@ -14,7 +14,7 @@ type ValueDbxConnScopedIndividualRecipe struct {
 }
 
 func (z *ValueDbxConnScopedIndividualRecipe) Preset() {
-	z.Peer.SetScopes([]string{dbx_auth.ScopeFilesMetadataRead})
+	z.Peer.SetScopes(dbx_auth.ScopeFilesMetadataRead)
 }
 
 func (z *ValueDbxConnScopedIndividualRecipe) Exec(c app_control.Control) error {

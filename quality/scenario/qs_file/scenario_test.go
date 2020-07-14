@@ -84,7 +84,7 @@ func execScenario(t *testing.T, ctl app_control.Control, short bool, f func(scen
 		l.Info("Skip end to end test")
 		return
 	}
-	if _, err := dbx_conn_impl.ConnectTest(api_auth.DropboxTokenFull, app.PeerEndToEndTest, ctl); err != nil {
+	if _, err := dbx_conn_impl.ConnectTest([]string{api_auth.DropboxTokenFull}, app.PeerEndToEndTest, ctl); err != nil {
 		l.Info("Skip: no end to end test resource found")
 		return
 	}

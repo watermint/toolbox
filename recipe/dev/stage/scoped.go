@@ -19,7 +19,7 @@ type Scoped struct {
 }
 
 func (z *Scoped) Preset() {
-	z.Peer.SetScopes([]string{dbx_auth.ScopeFilesContentRead})
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
 	z.List.SetModel(&mo_file.ConcreteEntry{})
 }
 
