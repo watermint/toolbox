@@ -89,7 +89,7 @@ func (z *Redirect) Auth(scopes []string) (token api_auth.Context, err error) {
 	}
 
 	l.Debug("Auth success")
-	return api_auth.NewContext(t, z.peerName, scopes), nil
+	return api_auth.NewContext(t, z.app.Config(scopes), z.peerName, scopes), nil
 }
 
 type RedirectService struct {

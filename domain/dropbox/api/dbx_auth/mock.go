@@ -20,6 +20,10 @@ type MockContext struct {
 	preset   *oauth2.Token
 }
 
+func (z *MockContext) Config() *oauth2.Config {
+	return &oauth2.Config{}
+}
+
 func (z *MockContext) Token() *oauth2.Token {
 	return z.preset
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
@@ -197,7 +198,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 			api_auth.DropboxTokenBusinessManagement,
 			api_auth.DropboxTokenBusinessFile,
 			api_auth.DropboxTokenBusinessInfo,
-		}) {
+		}, dbx_auth.NewLegacyApp(c)) {
 			return qt_errors.ErrorNotEnoughResource
 		}
 	}

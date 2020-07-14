@@ -38,7 +38,7 @@ func (z *Import) Exec(c app_control.Control) error {
 	}
 
 	pa := dbx_auth.NewMockWithPreset(z.PeerName, tokens)
-	ca := api_auth_impl.NewConsoleCache(c, pa)
+	ca := api_auth_impl.NewConsoleCache(c, pa, dbx_auth.NewLegacyApp(c))
 
 	for _, scope := range Scopes {
 		if _, err := ca.Auth([]string{scope}); err != nil {

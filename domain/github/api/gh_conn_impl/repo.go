@@ -51,10 +51,11 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 		l.Debug("non console UI is not supported")
 		return qt_errors.ErrorUnsupportedUI
 	}
-	a := api_auth_impl.NewConsoleRedirect(ctl, z.name, gh_auth.NewApp(ctl))
+	au := gh_auth.NewApp(ctl)
+	a := api_auth_impl.NewConsoleRedirect(ctl, z.name, au)
 	if !ctl.Feature().IsSecure() {
 		l.Debug("Enable cache")
-		a = api_auth_impl.NewConsoleCache(ctl, a)
+		a = api_auth_impl.NewConsoleCache(ctl, a, au)
 	}
 	l.Debug("Start auth sequence", esl.String("scope", scope))
 	ac, err := a.Auth([]string{scope})

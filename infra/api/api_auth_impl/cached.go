@@ -10,21 +10,22 @@ import (
 	"strings"
 )
 
-func NewConsoleCacheOnly(c app_control.Control, peerName string) api_auth.Console {
-	return NewConsoleCache(c, dbx_auth.NewConsoleNoAuth(peerName))
+func NewConsoleCacheOnly(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
+	return NewConsoleCache(c, dbx_auth.NewConsoleNoAuth(peerName), app)
 }
 
-func NewConsoleCache(c app_control.Control, auth api_auth.Console) api_auth.Console {
+func NewConsoleCache(c app_control.Control, auth api_auth.Console, app api_auth.App) api_auth.Console {
 	return &Cached{
+		app:  app,
 		ctl:  c,
 		auth: auth,
 		s:    sc_token.NewObfuscated(c, auth.PeerName()),
 	}
 }
 
-func IsLegacyCacheAvailable(c app_control.Control, peerName string, scopes []string) bool {
+func IsLegacyCacheAvailable(c app_control.Control, peerName string, scopes []string, app api_auth.App) bool {
 	for _, s := range scopes {
-		co := NewConsoleCacheOnly(c, peerName)
+		co := NewConsoleCacheOnly(c, peerName, app)
 		_, err := co.Auth([]string{s})
 		if err != nil {
 			return false
@@ -34,6 +35,7 @@ func IsLegacyCacheAvailable(c app_control.Control, peerName string, scopes []str
 }
 
 type Cached struct {
+	app  api_auth.App
 	ctl  app_control.Control
 	auth api_auth.Console
 	s    sc_token.Storage
@@ -55,7 +57,7 @@ func (z *Cached) Auth(scopes []string) (tc api_auth.Context, err error) {
 	if err != nil {
 		l.Debug("Unable to load from the cache", esl.Error(err))
 	} else {
-		return api_auth.NewContext(t, z.auth.PeerName(), scopes), nil
+		return api_auth.NewContext(t, z.app.Config(scopes), z.auth.PeerName(), scopes), nil
 	}
 	tc, err = z.auth.Auth(scopes)
 	if err != nil {

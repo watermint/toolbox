@@ -17,18 +17,19 @@ func NewConsole(c app_control.Control, peerName string, app api_auth.App) api_au
 	} else {
 		oa = api_auth_impl.NewConsoleOAuth(c, peerName, app)
 	}
-	aa := NewConsoleAttr(c, oa)
+	aa := NewConsoleAttr(c, oa, app)
 	if c.Feature().IsSecure() {
 		l.Debug("Skip caching")
 		return aa
 	}
 	l.Debug("Token cache enabled")
-	ca := api_auth_impl.NewConsoleCache(c, aa)
+	ca := api_auth_impl.NewConsoleCache(c, aa, app)
 	return ca
 }
 
-func NewConsoleAttr(c app_control.Control, auth api_auth.Console) api_auth.Console {
+func NewConsoleAttr(c app_control.Control, auth api_auth.Console, app api_auth.App) api_auth.Console {
 	return &Attr{
+		app:  app,
 		ctl:  c,
 		auth: auth,
 	}

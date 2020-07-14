@@ -17,13 +17,13 @@ func TestNoAuth(t *testing.T) {
 }
 
 func TestContext(t *testing.T) {
-	c := NewContext(&oauth2.Token{}, "test-context", []string{"test-scope"})
+	c := NewContext(&oauth2.Token{}, &oauth2.Config{}, "test-context", []string{"test-scope"})
 	if c.IsNoAuth() || c.PeerName() != "test-context" || c.Scopes()[0] != "test-scope" ||
 		c.Description() != "" || c.Supplemental() != "" || c.Token() == nil {
 		t.Error("invalid")
 	}
 
-	c = NewContextWithAttr(c, "test-desc", "test-suppl")
+	c = NewContextWithAttr(c, &oauth2.Config{}, "test-desc", "test-suppl")
 	if c.IsNoAuth() || c.PeerName() != "test-context" || c.Scopes()[0] != "test-scope" ||
 		c.Description() != "test-desc" || c.Supplemental() != "test-suppl" || c.Token() == nil {
 		t.Error("invalid")

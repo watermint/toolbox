@@ -9,17 +9,14 @@ import (
 	"time"
 )
 
-func NewClient() nw_client.Http {
+func NewClient(client *http.Client) nw_client.Http {
 	return &Client{
-		client: http.Client{
-			Jar:     nil,
-			Timeout: 1 * time.Minute,
-		},
+		client: client,
 	}
 }
 
 type Client struct {
-	client http.Client
+	client *http.Client
 }
 
 // Call RPC. res will be nil on an error

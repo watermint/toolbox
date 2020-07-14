@@ -12,7 +12,7 @@ import (
 func TestAttr_Auth(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ma := dbx_auth.NewMock("test-mock")
-		aa := dbx_auth_attr.NewConsoleAttr(ctl, ma)
+		aa := dbx_auth_attr.NewConsoleAttr(ctl, ma, dbx_auth.NewLegacyApp(ctl))
 		if aa.PeerName() != "test-mock" {
 			t.Error(aa.PeerName())
 		}

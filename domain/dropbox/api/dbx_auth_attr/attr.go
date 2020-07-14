@@ -17,6 +17,7 @@ var (
 )
 
 type Attr struct {
+	app  api_auth.App
 	ctl  app_control.Control
 	auth api_auth.Console
 }
@@ -36,7 +37,7 @@ func (z *Attr) Auth(scopes []string) (token api_auth.Context, err error) {
 
 	l.Debug("Start verify token")
 
-	tc, err = VerifyToken(tc, z.ctl)
+	tc, err = VerifyToken(tc, z.ctl, z.app)
 	if err != nil {
 		l.Debug("failed verify token", esl.Error(err))
 		ui.Error(MAttr.ErrorVerifyFailed.With("Error", err))

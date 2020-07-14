@@ -10,6 +10,8 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/essentials/network/nw_simulator"
 	"github.com/watermint/toolbox/infra/api/api_context"
+	"net/http"
+	"time"
 )
 
 // Assert broken response or rate limit for retry
@@ -19,6 +21,8 @@ type ClientOpts struct {
 	Assert     AssertResponse
 	Mock       bool
 	ReplayMock []nw_replay.Response
+
+	client *http.Client
 
 	// rate limit simulator
 	rateLimitRate       int
@@ -46,6 +50,13 @@ func (z ClientOpts) Apply(opts ...ClientOpt) ClientOpts {
 }
 
 type ClientOpt func(o ClientOpts) ClientOpts
+
+func Client(client *http.Client) ClientOpt {
+	return func(o ClientOpts) ClientOpts {
+		o.client = client
+		return o
+	}
+}
 
 func Mock() ClientOpt {
 	return func(o ClientOpts) ClientOpts {
@@ -99,7 +110,11 @@ func New(opts ...ClientOpt) nw_client.Rest {
 	case len(co.ReplayMock) > 0:
 		hc = nw_replay.NewReplay(co.ReplayMock)
 	default:
-		hc = nw_http.NewClient()
+		if co.client != nil {
+			hc = nw_http.NewClient(co.client)
+		} else {
+			hc = nw_http.NewClient(&http.Client{Timeout: 1 * time.Minute})
+		}
 	}
 
 	var c0, c1, c2, c3 nw_client.Rest

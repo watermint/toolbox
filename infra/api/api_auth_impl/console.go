@@ -53,7 +53,7 @@ func (z *Console) Auth(scopes []string) (tc api_auth.Context, err error) {
 		ui.Error(MApiAuth.FailedOrCancelled.With("Cause", err))
 		return nil, err
 	}
-	return api_auth.NewContext(t, z.peerName, scopes), nil
+	return api_auth.NewContext(t, z.app.Config(scopes), z.peerName, scopes), nil
 }
 
 func (z *Console) oauthStart(scopes []string) (*oauth2.Token, error) {

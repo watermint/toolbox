@@ -1,6 +1,7 @@
 package dbx_context_impl
 
 import (
+	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
@@ -72,6 +73,8 @@ func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
 		l.Debug("Experiment: Network conditioner enabled: 100%")
 		opts = append(opts, nw_rest.ServerErrorSimulator(100, http.StatusInternalServerError, decorateServerError))
 	}
+
+	opts = append(opts, nw_rest.Client(token.Config().Client(context.Background(), token.Token())))
 
 	client := nw_rest.New(opts...)
 	return &ctxImpl{

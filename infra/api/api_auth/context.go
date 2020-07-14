@@ -4,16 +4,18 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func NewContext(token *oauth2.Token, peerName string, scopes []string) Context {
+func NewContext(token *oauth2.Token, cfg *oauth2.Config, peerName string, scopes []string) Context {
 	return &contextImpl{
+		cfg:      cfg,
 		token:    token,
 		scopes:   scopes,
 		peerName: peerName,
 	}
 }
 
-func NewContextWithAttr(c Context, desc, suppl string) Context {
+func NewContextWithAttr(c Context, cfg *oauth2.Config, desc, suppl string) Context {
 	return &contextImpl{
+		cfg:      cfg,
 		token:    c.Token(),
 		peerName: c.PeerName(),
 		scopes:   c.Scopes(),
@@ -24,6 +26,7 @@ func NewContextWithAttr(c Context, desc, suppl string) Context {
 
 // Auth context
 type Context interface {
+	Config() *oauth2.Config
 	Token() *oauth2.Token
 	Scopes() []string
 	PeerName() string
@@ -37,6 +40,10 @@ func NewNoAuth() Context {
 }
 
 type noAuthContext struct {
+}
+
+func (z *noAuthContext) Config() *oauth2.Config {
+	return &oauth2.Config{}
 }
 
 func (z *noAuthContext) Scopes() []string {
@@ -64,11 +71,16 @@ func (z *noAuthContext) IsNoAuth() bool {
 }
 
 type contextImpl struct {
+	cfg      *oauth2.Config
 	token    *oauth2.Token
 	peerName string
 	scopes   []string
 	desc     string
 	suppl    string
+}
+
+func (z *contextImpl) Config() *oauth2.Config {
+	return z.cfg
 }
 
 func (z *contextImpl) Scopes() []string {
