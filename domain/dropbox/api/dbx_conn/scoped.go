@@ -6,15 +6,9 @@ import (
 )
 
 type ConnScopedDropboxApi interface {
-	api_conn.Connection
+	api_conn.ScopedConnection
 
 	Context() dbx_context.Context
-
-	// Update scopes
-	SetScopes(scopes ...string)
-
-	// Scopes
-	Scopes() []string
 }
 
 type ConnScopedTeam interface {

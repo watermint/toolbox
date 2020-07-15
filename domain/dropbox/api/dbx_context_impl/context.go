@@ -101,7 +101,7 @@ func (z ctxImpl) UI() app_ui.UI {
 }
 
 func (z ctxImpl) ClientHash() string {
-	return z.builder.ContentHash()
+	return z.builder.ClientHash()
 }
 
 func (z ctxImpl) Log() esl.Logger {

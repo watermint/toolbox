@@ -2,31 +2,31 @@ package rc_value
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/domain/github/api/gh_conn"
+	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"testing"
 )
 
-type ValueGhConnGithubPrivateRecipe struct {
-	Peer gh_conn.ConnGithubRepo
+type ValueGoogConnMailRecipe struct {
+	Peer goog_conn.ConnGoogleMail
 }
 
-func (z *ValueGhConnGithubPrivateRecipe) Preset() {
+func (z *ValueGoogConnMailRecipe) Preset() {
 	z.Peer.SetPeerName("value_test")
 }
 
-func (z *ValueGhConnGithubPrivateRecipe) Exec(c app_control.Control) error {
+func (z *ValueGoogConnMailRecipe) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *ValueGhConnGithubPrivateRecipe) Test(c app_control.Control) error {
+func (z *ValueGoogConnMailRecipe) Test(c app_control.Control) error {
 	return nil
 }
 
-func TestValueGhConnGithubPrivate(t *testing.T) {
+func TestValueGoogConn(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
-		rcp0 := &ValueGhConnGithubPrivateRecipe{}
+		rcp0 := &ValueGoogConnMailRecipe{}
 		repo := NewRepository(rcp0)
 
 		// Parse flags
@@ -39,7 +39,7 @@ func TestValueGhConnGithubPrivate(t *testing.T) {
 
 		// Apply parsed values
 		rcp1 := repo.Apply()
-		mod1 := rcp1.(*ValueGhConnGithubPrivateRecipe)
+		mod1 := rcp1.(*ValueGoogConnMailRecipe)
 		if mod1.Peer.PeerName() != "by_argument" {
 			t.Error(mod1)
 		}
@@ -51,7 +51,7 @@ func TestValueGhConnGithubPrivate(t *testing.T) {
 			t.Error(err)
 			return err
 		}
-		mod2 := rcp2.(*ValueGhConnGithubPrivateRecipe)
+		mod2 := rcp2.(*ValueGoogConnMailRecipe)
 		if mod1.Peer.PeerName() != "by_argument" {
 			t.Error(mod2)
 		}

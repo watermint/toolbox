@@ -56,9 +56,8 @@ func (z *App) UsePKCE() bool {
 	return false
 }
 
-// Config with scopes that concatenated by ","
 func (z *App) Config(scopes []string) *oauth2.Config {
-	key, secret := z.res.Key(api_auth.Google)
+	key, secret := z.res.Key(api_auth.GoogleMail)
 	return &oauth2.Config{
 		ClientID:     key,
 		ClientSecret: secret,

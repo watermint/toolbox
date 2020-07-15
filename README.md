@@ -198,3 +198,9 @@ Available commands:
 | [services github release list](doc/generated/services-github-release-list.md)                     | List releases                                       |
 | [services github tag create](doc/generated/services-github-tag-create.md)                         | Create a tag on the repository                      |
 
+## Google Gmail
+
+| Command                                                                             | Description       |
+|-------------------------------------------------------------------------------------|-------------------|
+| [services google mail label list](doc/generated/services-google-mail-label-list.md) | List email labels |
+

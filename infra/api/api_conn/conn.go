@@ -8,7 +8,7 @@ const (
 	ServiceDropbox         = "dropbox"
 	ServiceDropboxBusiness = "dropbox_business"
 	ServiceGithub          = "github"
-	ServiceGoogle          = "google"
+	ServiceGoogleMail      = "google_mail"
 )
 
 var (
@@ -16,6 +16,7 @@ var (
 		ServiceDropbox,
 		ServiceDropboxBusiness,
 		ServiceGithub,
+		ServiceGoogleMail,
 	}
 )
 
@@ -34,4 +35,14 @@ type Connection interface {
 
 	// Name tag of the service
 	ServiceName() string
+}
+
+type ScopedConnection interface {
+	Connection
+
+	// Update scopes
+	SetScopes(scopes ...string)
+
+	// Scopes
+	Scopes() []string
 }

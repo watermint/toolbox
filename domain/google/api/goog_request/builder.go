@@ -1,4 +1,4 @@
-package gh_request
+package goog_request
 
 import (
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
@@ -32,6 +32,13 @@ type builderImpl struct {
 	data   api_request.RequestData
 }
 
+func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
+	z.method = method
+	z.url = url
+	z.data = data
+	return z
+}
+
 func (z builderImpl) Log() esl.Logger {
 	l := z.ctl.Log()
 	if z.method != "" {
@@ -44,14 +51,6 @@ func (z builderImpl) Log() esl.Logger {
 		l = l.With(esl.Strings("scopes", z.token.Scopes()))
 	}
 	return l
-}
-
-func (z builderImpl) Endpoint() string {
-	return z.url
-}
-
-func (z builderImpl) Param() string {
-	return string(z.data.ParamJson())
 }
 
 func (z builderImpl) ClientHash() string {
@@ -71,11 +70,12 @@ func (z builderImpl) ClientHash() string {
 	return nw_client.ClientHash(sr, st)
 }
 
-func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
-	z.method = method
-	z.url = url
-	z.data = data
-	return z
+func (z builderImpl) Endpoint() string {
+	return z.url
+}
+
+func (z builderImpl) Param() string {
+	return string(z.data.ParamJson())
 }
 
 func (z builderImpl) reqHeaders() map[string]string {
@@ -100,16 +100,9 @@ func (z builderImpl) reqContent() es_rewinder.ReadRewinder {
 	return es_rewinder.NewReadRewinderOnMemory(z.data.ParamJson())
 }
 
-func (z builderImpl) reqParamString() string {
-	//if z.data.Content() == nil {
-	//	return ""
-	//}
-	return z.data.ParamQuery()
-}
-
 func (z builderImpl) Build() (*http.Request, error) {
 	l := z.Log()
-	url := z.url + z.reqParamString()
+	url := z.url + z.data.ParamQuery()
 	rc := z.reqContent()
 	req, err := nw_client.NewHttpRequest(z.method, url, rc)
 	if err != nil {

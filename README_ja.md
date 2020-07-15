@@ -196,3 +196,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [services github release list](doc/generated_ja/services-github-release-list.md)                     | リリースの一覧                                   |
 | [services github tag create](doc/generated_ja/services-github-tag-create.md)                         | レポジトリにタグを作成します                     |
 
+## Google Gmail
+
+| コマンド                                                                               | 説明              |
+|----------------------------------------------------------------------------------------|-------------------|
+| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md) | List email labels |
+

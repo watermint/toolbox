@@ -14,7 +14,7 @@ const (
 	DropboxScopedIndividual        = "dropbox_scoped_individual"
 	DropboxScopedTeam              = "dropbox_scoped_team"
 	Github                         = "github"
-	Google                         = "google"
+	GoogleMail                     = "google_mail"
 )
 
 // Application key/secret manager
