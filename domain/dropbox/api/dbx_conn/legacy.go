@@ -9,12 +9,6 @@ type ConnLegacyDropboxApi interface {
 	api_conn.Connection
 
 	Context() dbx_context.Context
-
-	// True when the connection type is personal
-	IsPersonal() bool
-
-	// True when the connection type is business
-	IsBusiness() bool
 }
 
 type ConnUserFile interface {

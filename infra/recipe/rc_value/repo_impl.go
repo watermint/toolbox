@@ -31,6 +31,7 @@ var (
 		newValueDbxConnBusinessMgmt(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnUserFile(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnScopedIndividual(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnScopedTeam(dbx_conn_impl.DefaultPeerName),
 		newValueFdFileRowFeed(""),
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),

@@ -10,12 +10,6 @@ type ConnScopedDropboxApi interface {
 
 	Context() dbx_context.Context
 
-	// True when the connection type is personal
-	IsPersonal() bool
-
-	// True when the connection type is business
-	IsBusiness() bool
-
 	// Update scopes
 	SetScopes(scopes ...string)
 

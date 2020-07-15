@@ -17,12 +17,14 @@ You can delete those files after use if you want to remove it. If you want to ma
 
 Please see below help article for more detail:
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
 
 | Label                     | Description                       |
 |---------------------------|-----------------------------------|
 | dropbox_scoped_individual | Dropbox Individual account access |
+| dropbox_scoped_team       | Dropbox team access               |
 
 # Authorization
 
@@ -68,9 +70,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default                            |
-|---------|---------------|------------------------------------|
-| `-peer` | Account alias | &{Peer [files.content.read] <nil>} |
+| Option        | Description                  | Default                                     |
+|---------------|------------------------------|---------------------------------------------|
+| `-individual` | Account alias for individual | &{Individual [files.content.read] <nil>}    |
+| `-team`       | Account alias for team       | &{Team [members.read team_info.read] <nil>} |
 
 ## Common options:
 
@@ -100,10 +103,10 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: list
+## Report: file_list
 
 This report shows a list of metadata of files or folders in the path.
-The command will generate a report in three different formats. `list.csv`, `list.json`, and `list.xlsx`.
+The command will generate a report in three different formats. `file_list.csv`, `file_list.json`, and `file_list.xlsx`.
 
 | Column                  | Description                                                                                            |
 |-------------------------|--------------------------------------------------------------------------------------------------------|
@@ -122,7 +125,34 @@ The command will generate a report in three different formats. `list.csv`, `list
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `list_0000.xlsx`, `list_0001.xlsx`, `list_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+## Report: member_list
+
+This report shows a list of members.
+The command will generate a report in three different formats. `member_list.csv`, `member_list.json`, and `member_list.xlsx`.
+
+| Column           | Description                                                                                                          |
+|------------------|----------------------------------------------------------------------------------------------------------------------|
+| team_member_id   | ID of user as a member of a team.                                                                                    |
+| email            | Email address of user.                                                                                               |
+| email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
+| status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
+| given_name       | Also known as a first name                                                                                           |
+| surname          | Also known as a last name or family name.                                                                            |
+| familiar_name    | Locale-dependent name                                                                                                |
+| display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
+| abbreviated_name | An abbreviated form of the person's name.                                                                            |
+| member_folder_id | The namespace id of the user's root folder.                                                                          |
+| external_id      | External ID that a team can attach to the user.                                                                      |
+| account_id       | A user's account identifier.                                                                                         |
+| persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
+| joined_on        | The date and time the user joined as a member of a specific team.                                                    |
+| role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
+| tag              | Operation tag                                                                                                        |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_list_0000.xlsx`, `member_list_0001.xlsx`, `member_list_0002.xlsx`, ...
 
 # Proxy configuration
 

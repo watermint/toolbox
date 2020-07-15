@@ -17,12 +17,14 @@ Dropbox scoped OAuth app test
 
 方法は次のヘルプセンター記事をご参照ください:
 * Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
 
 | ラベル                    | 説明                              |
 |---------------------------|-----------------------------------|
 | dropbox_scoped_individual | Dropbox Individual account access |
+| dropbox_scoped_team       | Dropbox team access               |
 
 # 認可
 
@@ -68,9 +70,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト                         |
-|------------|---------------|------------------------------------|
-| `-peer`    | Account alias | &{Peer [files.content.read] <nil>} |
+| オプション    | 説明                         | デフォルト                                  |
+|---------------|------------------------------|---------------------------------------------|
+| `-individual` | Account alias for individual | &{Individual [files.content.read] <nil>}    |
+| `-team`       | Account alias for team       | &{Team [members.read team_info.read] <nil>} |
 
 ## 共通のオプション:
 
@@ -100,10 +103,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: list
+## レポート: file_list
 
 このレポートはファイルとフォルダのメタデータを出力します.
-このコマンドはレポートを3種類の書式で出力します. `list.csv`, `list.json`, ならびに `list.xlsx`.
+このコマンドはレポートを3種類の書式で出力します. `file_list.csv`, `file_list.json`, ならびに `file_list.xlsx`.
 
 | 列                      | 説明                                                                                       |
 |-------------------------|--------------------------------------------------------------------------------------------|
@@ -122,7 +125,34 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `list_0000.xlsx`, `list_0001.xlsx`, `list_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+## レポート: member_list
+
+このレポートはメンバー一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `member_list.csv`, `member_list.json`, ならびに `member_list.xlsx`.
+
+| 列               | 説明                                                                                            |
+|------------------|-------------------------------------------------------------------------------------------------|
+| team_member_id   | チームにおけるメンバーのID                                                                      |
+| email            | ユーザーのメールアドレス                                                                        |
+| email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| status           | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| given_name       | 名                                                                                              |
+| surname          | 名字                                                                                            |
+| familiar_name    | ロケール依存の名前                                                                              |
+| display_name     | ユーザーのDropboxアカウントの表示名称                                                           |
+| abbreviated_name | ユーザーの省略名称                                                                              |
+| member_folder_id | ユーザールートフォルダの名前空間ID.                                                             |
+| external_id      | このユーザーに関連づけられた外部ID                                                              |
+| account_id       | ユーザーのアカウントID                                                                          |
+| persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
+| joined_on        | メンバーがチームに参加した日時.                                                                 |
+| role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| tag              | 処理のタグ                                                                                      |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_list_0000.xlsx`, `member_list_0001.xlsx`, `member_list_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

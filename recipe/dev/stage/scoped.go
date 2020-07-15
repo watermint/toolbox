@@ -4,8 +4,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -14,27 +18,52 @@ import (
 
 // Staging recipe for Dropbox scoped OAuth
 type Scoped struct {
-	Peer dbx_conn.ConnScopedIndividual
-	List rp_model.RowReport
+	rc_recipe.RemarkSecret
+	Individual dbx_conn.ConnScopedIndividual
+	Team       dbx_conn.ConnScopedTeam
+	FileList   rp_model.RowReport
+	MemberList rp_model.RowReport
 }
 
 func (z *Scoped) Preset() {
-	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
-	z.List.SetModel(&mo_file.ConcreteEntry{})
+	z.Individual.SetScopes(dbx_auth.ScopeFilesContentRead)
+	z.Team.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeTeamInfoRead,
+	)
+	z.FileList.SetModel(&mo_file.ConcreteEntry{})
+	z.MemberList.SetModel(&mo_member.Member{})
 }
 
 func (z *Scoped) Exec(c app_control.Control) error {
-	if err := z.List.Open(); err != nil {
+	if err := z.FileList.Open(); err != nil {
 		return err
 	}
-	entries, err := sv_file.NewFiles(z.Peer.Context()).List(mo_path.NewDropboxPath("/"))
+	entries, err := sv_file.NewFiles(z.Individual.Context()).List(mo_path.NewDropboxPath("/"))
 	if err != nil {
 		return err
 	}
-
 	for _, entry := range entries {
-		z.List.Row(entry)
+		z.FileList.Row(entry)
 	}
+
+	if err := z.MemberList.Open(); err != nil {
+		return err
+	}
+	members, err := sv_member.New(z.Team.Context()).List()
+	if err != nil {
+		return err
+	}
+	for _, member := range members {
+		z.MemberList.Row(member)
+	}
+
+	admin, err := sv_profile.NewTeam(z.Team.Context()).Admin()
+	if err != nil {
+		return err
+	}
+	c.Log().Info("Admin", esl.Any("admin", admin))
+
 	return nil
 }
 

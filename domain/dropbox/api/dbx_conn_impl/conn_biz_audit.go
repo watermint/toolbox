@@ -27,14 +27,6 @@ func (z *connBusinessAudit) ScopeLabel() string {
 	return api_auth.DropboxTokenBusinessAudit
 }
 
-func (z *connBusinessAudit) IsPersonal() bool {
-	return false
-}
-
-func (z *connBusinessAudit) IsBusiness() bool {
-	return true
-}
-
 func (z *connBusinessAudit) SetPeerName(name string) {
 	z.name = name
 }

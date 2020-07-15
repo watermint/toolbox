@@ -48,14 +48,6 @@ func (z *connScopedIndividual) Context() dbx_context.Context {
 	return z.ctx
 }
 
-func (z *connScopedIndividual) IsPersonal() bool {
-	return true
-}
-
-func (z *connScopedIndividual) IsBusiness() bool {
-	return false
-}
-
 func (z *connScopedIndividual) SetScopes(scopes ...string) {
 	z.scopes = scopes
 }

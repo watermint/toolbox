@@ -52,7 +52,7 @@ func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res
 			return res
 		}
 
-		// In case oauth2 failure such as
+		// Do not retry for oauth2 failure such as:
 		// oauth2: token expired and refresh token is not set
 		if strings.Contains(er.Error(), "oauth2") {
 			return res
