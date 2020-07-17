@@ -198,7 +198,8 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Google Gmail
 
-| コマンド                                                                               | 説明              |
-|----------------------------------------------------------------------------------------|-------------------|
-| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md) | List email labels |
+| コマンド                                                                                   | 説明              |
+|--------------------------------------------------------------------------------------------|-------------------|
+| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md)     | List email labels |
+| [services google mail message list](doc/generated_ja/services-google-mail-message-list.md) | List messages     |
 

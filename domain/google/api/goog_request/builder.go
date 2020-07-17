@@ -1,6 +1,7 @@
 package goog_request
 
 import (
+	"github.com/google/go-querystring/query"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
@@ -9,13 +10,15 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
+	url2 "net/url"
 	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
 	return &builderImpl{
-		ctl:   ctl,
-		token: token,
+		disablePretty: true,
+		ctl:           ctl,
+		token:         token,
 	}
 }
 
@@ -25,11 +28,12 @@ type Builder interface {
 }
 
 type builderImpl struct {
-	ctl    app_control.Control
-	token  api_auth.Context
-	method string
-	url    string
-	data   api_request.RequestData
+	disablePretty bool
+	ctl           app_control.Control
+	token         api_auth.Context
+	method        string
+	url           string
+	data          api_request.RequestData
 }
 
 func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
@@ -100,11 +104,35 @@ func (z builderImpl) reqContent() es_rewinder.ReadRewinder {
 	return es_rewinder.NewReadRewinderOnMemory(z.data.ParamJson())
 }
 
-func (z builderImpl) Build() (*http.Request, error) {
+func (z builderImpl) Build() (req *http.Request, err error) {
 	l := z.Log()
-	url := z.url + z.data.ParamQuery()
+	var url string
+	if z.disablePretty {
+		var queryValue url2.Values
+		if z.data.Query() == nil {
+			queryValue, err = query.Values(struct {
+				Pretty bool `url:"$prettyPrint"`
+			}{
+				Pretty: false,
+			})
+			if err != nil {
+				l.Debug("Unable to create query params", esl.Error(err))
+				return nil, err
+			}
+		} else {
+			queryValue, err = query.Values(z.data.Query())
+			if err != nil {
+				l.Debug("Unable to create query params", esl.Error(err))
+				return nil, err
+			}
+			queryValue.Add("$prettyPrint", "false")
+		}
+		url = z.url + "?" + queryValue.Encode()
+	} else {
+		url = z.url + z.data.ParamQuery()
+	}
 	rc := z.reqContent()
-	req, err := nw_client.NewHttpRequest(z.method, url, rc)
+	req, err = nw_client.NewHttpRequest(z.method, url, rc)
 	if err != nil {
 		l.Debug("Unable create request", esl.Error(err))
 		return nil, err

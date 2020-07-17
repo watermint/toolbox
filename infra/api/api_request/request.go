@@ -58,8 +58,14 @@ func (z RequestData) ParamQuery() string {
 	}
 }
 
+// Returns raw param data
 func (z RequestData) Param() interface{} {
 	return z.p
+}
+
+// Returns raw query data
+func (z RequestData) Query() interface{} {
+	return z.q
 }
 
 func (z RequestData) Headers() map[string]string {

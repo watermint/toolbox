@@ -200,7 +200,8 @@ Available commands:
 
 ## Google Gmail
 
-| Command                                                                             | Description       |
-|-------------------------------------------------------------------------------------|-------------------|
-| [services google mail label list](doc/generated/services-google-mail-label-list.md) | List email labels |
+| Command                                                                                 | Description       |
+|-----------------------------------------------------------------------------------------|-------------------|
+| [services google mail label list](doc/generated/services-google-mail-label-list.md)     | List email labels |
+| [services google mail message list](doc/generated/services-google-mail-message-list.md) | List messages     |
 
