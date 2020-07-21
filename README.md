@@ -202,6 +202,8 @@ Available commands:
 
 | Command                                                                                 | Description       |
 |-----------------------------------------------------------------------------------------|-------------------|
+| [services google mail filter list](doc/generated/services-google-mail-filter-list.md)   | List filters      |
 | [services google mail label list](doc/generated/services-google-mail-label-list.md)     | List email labels |
 | [services google mail message list](doc/generated/services-google-mail-message-list.md) | List messages     |
+| [services google mail thread list](doc/generated/services-google-mail-thread-list.md)   | List threads      |
 

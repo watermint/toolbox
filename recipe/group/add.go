@@ -61,8 +61,8 @@ func (z *Add) Test(c app_control.Control) error {
 
 func (z *Add) Preset() {
 	z.ManagementType.SetOptions(
-		[]string{"company_managed", "user_managed"},
 		"company_managed",
+		"company_managed", "user_managed",
 	)
 	z.AddedGroup.SetModel(
 		&mo_group.Group{},

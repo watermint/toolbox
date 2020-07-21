@@ -1,6 +1,6 @@
-# services google mail message list
+# services google mail filter list
 
-List messages 
+List filters 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail message list 
+.\tbx.exe services google mail filter list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail message list 
+$HOME/Desktop/tbx services google mail filter list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -70,7 +70,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option     | Description                                                                    | Default                                                           |
 |------------|--------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-format`  | The format to return the message in.                                           | metadata                                                          |
 | `-peer`    | Account alias                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
 | `-user-id` | User id. The special value 'me' can be used to indicate the authenticated user | me                                                                |
 
@@ -102,23 +101,22 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: messages
+## Report: filters
 
-Message resource
-The command will generate a report in three different formats. `messages.csv`, `messages.json`, and `messages.xlsx`.
+Gmail filter
+The command will generate a report in three different formats. `filters.csv`, `filters.json`, and `filters.xlsx`.
 
-| Column   | Description |
-|----------|-------------|
-| date     | Date        |
-| subject  | Subject     |
-| to       | To          |
-| cc       | Cc          |
-| from     | From        |
-| reply_to | Reply-To    |
+| Column                 | Description                                                              |
+|------------------------|--------------------------------------------------------------------------|
+| criteria_from          | Filter criteria: The sender's display name or email address.             |
+| criteria_to            | Filter criteria: The recipient's display name or email address.          |
+| criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |
+| criteria_query         | Filter criteria: Only return messages matching the specified query.      |
+| criteria_negated_query | Filter criteria: Only return messages not matching the specified query.  |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `messages_0000.xlsx`, `messages_0001.xlsx`, `messages_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `filters_0000.xlsx`, `filters_0001.xlsx`, `filters_0002.xlsx`, ...
 
 # Proxy configuration
 

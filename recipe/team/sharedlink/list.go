@@ -61,8 +61,8 @@ type List struct {
 
 func (z *List) Preset() {
 	z.Visibility.SetOptions(
-		[]string{"public", "team_only", "password", "team_and_password", "shared_folder_only"},
 		"public",
+		"public", "team_only", "password", "team_and_password", "shared_folder_only",
 	)
 	z.SharedLink.SetModel(
 		&mo_sharedlink.SharedLinkMember{},

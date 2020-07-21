@@ -1,6 +1,6 @@
-# services google mail message list
+# services google mail thread list
 
-List messages 
+List threads 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail message list 
+.\tbx.exe services google mail thread list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail message list 
+$HOME/Desktop/tbx services google mail thread list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -70,7 +70,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option     | Description                                                                    | Default                                                           |
 |------------|--------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-format`  | The format to return the message in.                                           | metadata                                                          |
 | `-peer`    | Account alias                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
 | `-user-id` | User id. The special value 'me' can be used to indicate the authenticated user | me                                                                |
 
@@ -102,23 +101,18 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: messages
+## Report: threads
 
-Message resource
-The command will generate a report in three different formats. `messages.csv`, `messages.json`, and `messages.xlsx`.
+Gmail thread
+The command will generate a report in three different formats. `threads.csv`, `threads.json`, and `threads.xlsx`.
 
-| Column   | Description |
-|----------|-------------|
-| date     | Date        |
-| subject  | Subject     |
-| to       | To          |
-| cc       | Cc          |
-| from     | From        |
-| reply_to | Reply-To    |
+| Column  | Description                       |
+|---------|-----------------------------------|
+| snippet | A short part of the message text. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `messages_0000.xlsx`, `messages_0001.xlsx`, `messages_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `threads_0000.xlsx`, `threads_0001.xlsx`, `threads_0002.xlsx`, ...
 
 # Proxy configuration
 

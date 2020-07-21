@@ -14,8 +14,8 @@ type ValueMoStringSelectRecipe struct {
 }
 
 func (z *ValueMoStringSelectRecipe) Preset() {
-	z.LeaveDefault.SetOptions([]string{"orange", "apple", "grape"}, "orange")
-	z.UpdateByArg.SetOptions([]string{"soba", "udon", "somen"}, "soba")
+	z.LeaveDefault.SetOptions("orange", "orange", "apple", "grape")
+	z.UpdateByArg.SetOptions("soba", "soba", "udon", "somen")
 }
 
 func (z *ValueMoStringSelectRecipe) Exec(c app_control.Control) error {

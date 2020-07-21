@@ -28,8 +28,8 @@ func (z *Add) Preset() {
 		),
 	)
 	z.SyncSetting.SetOptions(
-		[]string{"default", "not_synced"},
 		"default",
+		"default", "not_synced",
 	)
 }
 

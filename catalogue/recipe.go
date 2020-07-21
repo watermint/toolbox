@@ -44,8 +44,10 @@ import (
 	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
 	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
 	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
+	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
 	recipeservicesgooglemaillabel "github.com/watermint/toolbox/recipe/services/google/mail/label"
 	recipeservicesgooglemailmessage "github.com/watermint/toolbox/recipe/services/google/mail/message"
+	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
@@ -173,8 +175,10 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgithubreleaseasset.List{},
 		&recipeservicesgithubreleaseasset.Upload{},
 		&recipeservicesgithubtag.Create{},
+		&recipeservicesgooglemailfilter.List{},
 		&recipeservicesgooglemaillabel.List{},
 		&recipeservicesgooglemailmessage.List{},
+		&recipeservicesgooglemailthread.List{},
 		&recipesharedfolder.List{},
 		&recipesharedfoldermember.List{},
 		&recipesharedlink.Create{},

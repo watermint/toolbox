@@ -1,6 +1,7 @@
 package message
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/domain/google/model/mo_message"
@@ -15,6 +16,7 @@ type List struct {
 	Peer     goog_conn.ConnGoogleMail
 	Messages rp_model.RowReport
 	UserId   string
+	Format   mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -26,6 +28,10 @@ func (z *List) Preset() {
 			"id",
 			"thread_id",
 		),
+	)
+	z.Format.SetOptions(
+		sv_message.FormatMetadata,
+		sv_message.FormatFull, sv_message.FormatMetadata, sv_message.FormatMinimal, sv_message.FormatRaw,
 	)
 	z.UserId = "me"
 }
@@ -40,7 +46,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 	for _, msgId := range messages {
-		message, err := svm.Resolve(msgId.Id)
+		message, err := svm.Resolve(msgId.Id, sv_message.ResolveFormat(z.Format.Value()))
 		if err != nil {
 			return err
 		}

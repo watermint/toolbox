@@ -7,6 +7,13 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
+const (
+	FormatFull     = "full"
+	FormatMetadata = "metadata"
+	FormatMinimal  = "minimal"
+	FormatRaw      = "raw"
+)
+
 type Message interface {
 	Resolve(id string, opts ...ResolveOpt) (message *mo_message.Message, err error)
 	List() (messages []*mo_message.Message, err error)

@@ -4,7 +4,7 @@ import "testing"
 
 func TestSelectString(t *testing.T) {
 	s1 := NewSelect()
-	s1.SetOptions([]string{"apple", "orange", "grape"}, "orange")
+	s1.SetOptions("orange", "apple", "orange", "grape")
 	if !s1.IsValid() {
 		t.Error(s1.IsValid())
 	}

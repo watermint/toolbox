@@ -1,6 +1,6 @@
-# services google mail message list
+# services google mail thread list
 
-List messages 
+List threads 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail message list 
+.\tbx.exe services google mail thread list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail message list 
+$HOME/Desktop/tbx services google mail thread list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -70,7 +70,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション | 説明                                                                           | デフォルト                                                        |
 |------------|--------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-format`  | The format to return the message in.                                           | metadata                                                          |
 | `-peer`    | Account alias                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
 | `-user-id` | User id. The special value 'me' can be used to indicate the authenticated user | me                                                                |
 
@@ -102,23 +101,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: messages
+## レポート: threads
 
-Message resource
-このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
+Gmail thread
+このコマンドはレポートを3種類の書式で出力します. `threads.csv`, `threads.json`, ならびに `threads.xlsx`.
 
-| 列       | 説明     |
-|----------|----------|
-| date     | Date     |
-| subject  | Subject  |
-| to       | To       |
-| cc       | Cc       |
-| from     | From     |
-| reply_to | Reply-To |
+| 列      | 説明                              |
+|---------|-----------------------------------|
+| snippet | A short part of the message text. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `messages_0000.xlsx`, `messages_0001.xlsx`, `messages_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `threads_0000.xlsx`, `threads_0001.xlsx`, `threads_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
