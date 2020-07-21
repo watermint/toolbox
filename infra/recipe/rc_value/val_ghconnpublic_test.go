@@ -32,17 +32,6 @@ func TestValueGhConnGithubPublic(t *testing.T) {
 		// Parse flags
 		flg := flag.NewFlagSet("value", flag.ContinueOnError)
 		repo.ApplyFlags(flg, c.UI())
-		if err := flg.Parse([]string{"-peer", "by_argument"}); err != nil {
-			t.Error(err)
-			return err
-		}
-
-		// Apply parsed values
-		rcp1 := repo.Apply()
-		mod1 := rcp1.(*ValueGhConnGithubPublicRecipe)
-		if mod1.Peer.PeerName() != "by_argument" {
-			t.Error(mod1)
-		}
 
 		// Spin up
 		ct := c.WithFeature(c.Feature().AsTest(true))
@@ -52,7 +41,7 @@ func TestValueGhConnGithubPublic(t *testing.T) {
 			return err
 		}
 		mod2 := rcp2.(*ValueGhConnGithubPublicRecipe)
-		if mod1.Peer.PeerName() != "by_argument" {
+		if mod2.Peer.Context().ClientHash() != "" {
 			t.Error(mod2)
 		}
 
