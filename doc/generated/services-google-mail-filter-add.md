@@ -1,6 +1,6 @@
-# services google mail label list
+# services google mail filter add
 
-List email labels 
+Add a filter. 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail label list 
+.\tbx.exe services google mail filter add 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail label list 
+$HOME/Desktop/tbx services google mail filter add 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,10 +68,22 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                                                    | Default                                                         |
-|------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.labels] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                              |
+| Option                      | Description                                                                                                    | Default                                                                 |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `-add-labels`               | List of labels to add to the message, separated by ','.                                                        |                                                                         |
+| `-criteria-exclude-chats`   | Whether the response should exclude chats.                                                                     | false                                                                   |
+| `-criteria-from`            | The sender's display name or email address.                                                                    |                                                                         |
+| `-criteria-has-attachment`  | Messages that have any attachment.                                                                             | false                                                                   |
+| `-criteria-negated-query`   | Only return messages not matching the specified query.                                                         |                                                                         |
+| `-criteria-no-attachment`   | Messages that does not have any attachment.                                                                    | false                                                                   |
+| `-criteria-query`           | Only return messages matching the specified query.                                                             |                                                                         |
+| `-criteria-size`            | The size of the entire RFC822 message in bytes, including all headers and attachments.                         | 0                                                                       |
+| `-criteria-size-comparison` | How the message size in bytes should be in relation to the size field.                                         |                                                                         |
+| `-criteria-to`              | The recipient's display name or email address. Includes recipients in the "to", "cc", and "bcc" header fields. |                                                                         |
+| `-forward`                  | Email address that the message should be forwarded to.                                                         |                                                                         |
+| `-peer`                     | Account alias                                                                                                  | &{default [https://www.googleapis.com/auth/gmail.settings.basic] <nil>} |
+| `-remove-labels`            | List of labels to remove from the message, separated by ','.                                                   |                                                                         |
+| `-user-id`                  | The user's email address. The special value me can be used to indicate the authenticated user.                 | me                                                                      |
 
 ## Common options:
 
@@ -101,19 +113,23 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: labels
+## Report: filter
 
-Label
-The command will generate a report in three different formats. `labels.csv`, `labels.json`, and `labels.xlsx`.
+Gmail filter
+The command will generate a report in three different formats. `filter.csv`, `filter.json`, and `filter.xlsx`.
 
-| Column | Description       |
-|--------|-------------------|
-| name   | Name of the label |
-| type   | Type of the label |
+| Column                 | Description                                                              |
+|------------------------|--------------------------------------------------------------------------|
+| id                     | Filter Id                                                                |
+| criteria_from          | Filter criteria: The sender's display name or email address.             |
+| criteria_to            | Filter criteria: The recipient's display name or email address.          |
+| criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |
+| criteria_query         | Filter criteria: Only return messages matching the specified query.      |
+| criteria_negated_query | Filter criteria: Only return messages not matching the specified query.  |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `labels_0000.xlsx`, `labels_0001.xlsx`, `labels_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `filter_0000.xlsx`, `filter_0001.xlsx`, `filter_0002.xlsx`, ...
 
 # Proxy configuration
 

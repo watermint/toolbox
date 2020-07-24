@@ -1,6 +1,6 @@
-# services google mail label list
+# services google mail filter delete
 
-List email labels 
+Delete a filter 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail label list 
+.\tbx.exe services google mail filter delete 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail label list 
+$HOME/Desktop/tbx services google mail filter delete 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,10 +68,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                                                    | Default                                                         |
-|------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.labels] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                              |
+| Option     | Description                                                                                    | Default                                                                 |
+|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `-id`      | Filter Id                                                                                      |                                                                         |
+| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.settings.basic] <nil>} |
+| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                      |
 
 ## Common options:
 
@@ -90,30 +91,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`         | Do not store tokens into a file                                                  | false                |
 | `-workspace`      | Workspace path                                                                   |                      |
-
-# Results
-
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path pattern                                | Example                                                |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## Report: labels
-
-Label
-The command will generate a report in three different formats. `labels.csv`, `labels.json`, and `labels.xlsx`.
-
-| Column | Description       |
-|--------|-------------------|
-| name   | Name of the label |
-| type   | Type of the label |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `labels_0000.xlsx`, `labels_0001.xlsx`, `labels_0002.xlsx`, ...
 
 # Proxy configuration
 

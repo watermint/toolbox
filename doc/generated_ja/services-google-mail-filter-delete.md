@@ -1,6 +1,6 @@
-# services google mail label list
+# services google mail filter delete
 
-ラベルのリスト 
+フィルタの削除 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail label list 
+.\tbx.exe services google mail filter delete 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail label list 
+$HOME/Desktop/tbx services google mail filter delete 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,10 +68,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                        | デフォルト                                                      |
-|------------|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-peer`    | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.labels] <nil>} |
-| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                              |
+| オプション | 説明                                                                                        | デフォルト                                                              |
+|------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| `-id`      | フィルターID                                                                                |                                                                         |
+| `-peer`    | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.settings.basic] <nil>} |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                                      |
 
 ## 共通のオプション:
 
@@ -90,30 +91,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: labels
-
-ラベル
-このコマンドはレポートを3種類の書式で出力します. `labels.csv`, `labels.json`, ならびに `labels.xlsx`.
-
-| 列   | 説明         |
-|------|--------------|
-| name | ラベル名     |
-| type | ラベルの種類 |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `labels_0000.xlsx`, `labels_0001.xlsx`, `labels_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

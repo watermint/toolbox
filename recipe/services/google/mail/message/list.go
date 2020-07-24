@@ -1,14 +1,12 @@
 package message
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/domain/google/model/mo_message"
 	"github.com/watermint/toolbox/domain/google/service/sv_label"
 	"github.com/watermint/toolbox/domain/google/service/sv_message"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -62,32 +60,10 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 	if z.Labels.IsExists() {
 		l.Debug("Build query param: labels")
-		queryLabels := strings.Split(z.Labels.Value(), ",")
-		queryLabelIds := make([]string, 0)
-		labels, err := sv_label.New(z.Peer.Context(), z.UserId).List()
+		queryLabelNames := strings.Split(z.Labels.Value(), ",")
+		queryLabelIds, err := sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, queryLabelNames)
 		if err != nil {
-			l.Debug("Unable to retrieve labels", esl.Error(err))
 			return err
-		}
-		missing := false
-		for _, q := range queryLabels {
-			found := false
-			for _, label := range labels {
-				if q == label.Name {
-					l.Debug("Label found", esl.Any("label", label))
-					queryLabelIds = append(queryLabelIds, label.Id)
-					found = true
-					break
-				}
-			}
-			if !found {
-				l.Debug("One or more labels not found", esl.String("queryLabel", q))
-				ui.Error(z.ErrorLabelNotFound.With("Label", q))
-				missing = true
-			}
-		}
-		if missing {
-			return errors.New("missing one or more labels")
 		}
 		queries = append(queries, sv_message.LabelIds(queryLabelIds))
 	}

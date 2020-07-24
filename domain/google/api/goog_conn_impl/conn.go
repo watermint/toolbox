@@ -34,6 +34,10 @@ func (z *connGoogleMail) Connect(ctl app_control.Control) (err error) {
 		z.ctx = goog_context_impl.NewMock(ctl)
 		return nil
 	}
+	if replay, enabled := ctl.Feature().IsTestWithReplay(); enabled {
+		z.ctx = goog_context_impl.NewReplayMock(ctl, replay)
+		return nil
+	}
 	if ac != nil {
 		z.ctx = goog_context_impl.New(ctl, ac)
 		return nil

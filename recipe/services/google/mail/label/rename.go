@@ -2,6 +2,7 @@ package label
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/domain/google/model/mo_label"
 	"github.com/watermint/toolbox/domain/google/service/sv_label"
@@ -23,6 +24,9 @@ type Rename struct {
 }
 
 func (z *Rename) Preset() {
+	z.Peer.SetScopes(
+		goog_auth.ScopeGmailLabels,
+	)
 	z.Label.SetModel(&mo_label.Label{})
 	z.UserId = "me"
 }
@@ -48,6 +52,7 @@ func (z *Rename) Exec(c app_control.Control) error {
 				return err
 			}
 			z.Label.Row(label)
+			return nil
 		}
 	}
 	c.UI().Error(z.ErrorLabelNotFound.With("Label", z.CurrentName))
@@ -55,6 +60,15 @@ func (z *Rename) Exec(c app_control.Control) error {
 }
 
 func (z *Rename) Test(c app_control.Control) error {
+	err := rc_exec.ExecReplay(c, &Rename{}, "recipe-services-google-mail-label-rename.json.gz", func(r rc_recipe.Recipe) {
+		m := r.(*Rename)
+		m.CurrentName = "xxxx"
+		m.NewName = "test-new"
+	})
+	if err != nil {
+		return err
+	}
+
 	return rc_exec.ExecMock(c, &Rename{}, func(r rc_recipe.Recipe) {
 		m := r.(*Rename)
 		m.CurrentName = "test"

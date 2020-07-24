@@ -68,11 +68,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                                                    | Default             |
-|------------|------------------------------------------------------------------------------------------------|---------------------|
-| `-name`    | Name of the label                                                                              |                     |
-| `-peer`    | Account alias                                                                                  | &{default [] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                  |
+| Option     | Description                                                                                    | Default                                                         |
+|------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `-name`    | Name of the label                                                                              |                                                                 |
+| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.labels] <nil>} |
+| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                              |
 
 ## Common options:
 

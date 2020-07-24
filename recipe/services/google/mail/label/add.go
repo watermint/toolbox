@@ -2,6 +2,7 @@ package label
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/domain/google/model/mo_label"
 	"github.com/watermint/toolbox/domain/google/service/sv_label"
@@ -23,9 +24,12 @@ type Add struct {
 }
 
 func (z *Add) Preset() {
+	z.Peer.SetScopes(
+		goog_auth.ScopeGmailLabels,
+	)
 	z.Label.SetModel(&mo_label.Label{})
 	z.UserId = "me"
-	z.LabelListVisibility.SetOptions(sv_label.VisibilityMessageListShow, sv_label.VisibilityLabelList...)
+	z.LabelListVisibility.SetOptions(sv_label.VisibilityLabelListShow, sv_label.VisibilityLabelList...)
 	z.MessageListVisibility.SetOptions(sv_label.VisibilityMessageListShow, sv_label.VisibilityMessageList...)
 	z.ColorText.SetOptions("", sv_label.ValidColors...)
 	z.ColorBackground.SetOptions("", sv_label.ValidColors...)
@@ -50,6 +54,14 @@ func (z *Add) Exec(c app_control.Control) error {
 }
 
 func (z *Add) Test(c app_control.Control) error {
+	err := rc_exec.ExecReplay(c, &Add{}, "recipe-services-google-mail-label-add.json.gz", func(r rc_recipe.Recipe) {
+		m := r.(*Add)
+		m.Name = "test"
+	})
+	if err != nil {
+		return err
+	}
+
 	return rc_exec.ExecMock(c, &Add{}, func(r rc_recipe.Recipe) {
 		m := r.(*Add)
 		m.Name = "test"

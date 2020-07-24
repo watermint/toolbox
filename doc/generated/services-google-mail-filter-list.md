@@ -108,6 +108,7 @@ The command will generate a report in three different formats. `filters.csv`, `f
 
 | Column                 | Description                                                              |
 |------------------------|--------------------------------------------------------------------------|
+| id                     | Filter Id                                                                |
 | criteria_from          | Filter criteria: The sender's display name or email address.             |
 | criteria_to            | Filter criteria: The recipient's display name or email address.          |
 | criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |

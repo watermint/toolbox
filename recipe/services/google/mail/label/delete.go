@@ -2,6 +2,7 @@ package label
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/domain/google/service/sv_label"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -19,6 +20,9 @@ type Delete struct {
 }
 
 func (z *Delete) Preset() {
+	z.Peer.SetScopes(
+		goog_auth.ScopeGmailLabels,
+	)
 	z.UserId = "me"
 }
 
@@ -36,9 +40,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		if label.Name == z.Name {
 			ll.Debug("Target label found")
 			err := svl.Remove(label.Id)
-			if err != nil {
-				return err
-			}
+			return err
 		}
 	}
 	c.UI().Error(z.ErrorLabelNotFound.With("Label", z.Name))
@@ -46,6 +48,14 @@ func (z *Delete) Exec(c app_control.Control) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
+	err := rc_exec.ExecReplay(c, &Delete{}, "recipe-services-google-mail-label-delete.json.gz", func(r rc_recipe.Recipe) {
+		m := r.(*Delete)
+		m.Name = "xxxx"
+	})
+	if err != nil {
+		return err
+	}
+
 	return rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*Delete)
 		m.Name = "delete_test"

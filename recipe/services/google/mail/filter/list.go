@@ -21,11 +21,7 @@ func (z *List) Preset() {
 	z.Peer.SetScopes(
 		goog_auth.ScopeGmailReadonly,
 	)
-	z.Filters.SetModel(&mo_filter.Filter{},
-		rp_model.HiddenColumns(
-			"id",
-		),
-	)
+	z.Filters.SetModel(&mo_filter.Filter{})
 	z.UserId = "me"
 }
 

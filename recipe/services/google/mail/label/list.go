@@ -19,7 +19,7 @@ type List struct {
 
 func (z *List) Preset() {
 	z.Peer.SetScopes(
-		goog_auth.ScopeGmailReadonly,
+		goog_auth.ScopeGmailLabels,
 	)
 	z.Labels.SetModel(&mo_label.Label{},
 		rp_model.HiddenColumns(

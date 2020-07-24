@@ -175,6 +175,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgithubreleaseasset.List{},
 		&recipeservicesgithubreleaseasset.Upload{},
 		&recipeservicesgithubtag.Create{},
+		&recipeservicesgooglemailfilter.Add{},
+		&recipeservicesgooglemailfilter.Delete{},
 		&recipeservicesgooglemailfilter.List{},
 		&recipeservicesgooglemaillabel.Add{},
 		&recipeservicesgooglemaillabel.Delete{},

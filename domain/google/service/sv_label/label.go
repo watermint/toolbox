@@ -1,84 +1,26 @@
 package sv_label
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/google/api/goog_context"
 	"github.com/watermint/toolbox/domain/google/model/mo_label"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
+)
+
+var (
+	ErrorLabelNotFoundForName = errors.New("label not found for the name")
 )
 
 type Label interface {
 	Add(name string, opts ...Opt) (label *mo_label.Label, err error)
 	Update(id string, opts ...Opt) (label *mo_label.Label, err error)
 	Remove(id string) error
+	ResolveByName(name string) (label *mo_label.Label, err error)
+	// Return labels when all labels found.
+	ResolveByNames(names []string) (labels []*mo_label.Label, missing []string, err error)
 	List() (labels []*mo_label.Label, err error)
-}
-
-type Opts struct {
-	LabelListVisibility   string
-	MessageListVisibility string
-	ColorBackground       string
-	ColorText             string
-	Name                  string
-}
-type Opt func(o Opts) Opts
-
-func (z Opts) Apply(opts ...Opt) Opts {
-	switch len(opts) {
-	case 0:
-		return z
-	case 1:
-		return opts[0](z)
-	default:
-		return opts[0](z).Apply(opts[1:]...)
-	}
-}
-
-func (z Opts) Param() LabelParam {
-	p := LabelParam{
-		Name:                  z.Name,
-		LabelListVisibility:   z.LabelListVisibility,
-		MessageListVisibility: z.MessageListVisibility,
-	}
-	if z.ColorText != "" || z.ColorBackground != "" {
-		p.Color = &LabelColorParam{
-			BackgroundColor: z.ColorBackground,
-			TextColor:       z.ColorText,
-		}
-	}
-	return p
-}
-
-func Name(v string) Opt {
-	return func(o Opts) Opts {
-		o.Name = v
-		return o
-	}
-}
-
-func LabelListVisibility(v string) Opt {
-	return func(o Opts) Opts {
-		o.LabelListVisibility = v
-		return o
-	}
-}
-func MessageListVisibility(v string) Opt {
-	return func(o Opts) Opts {
-		o.MessageListVisibility = v
-		return o
-	}
-}
-func ColorBackground(c string) Opt {
-	return func(o Opts) Opts {
-		o.ColorBackground = c
-		return o
-	}
-}
-func ColorText(c string) Opt {
-	return func(o Opts) Opts {
-		o.ColorText = c
-		return o
-	}
 }
 
 func New(ctx goog_context.Context, userId string) Label {
@@ -98,6 +40,41 @@ type LabelParam struct {
 type labelImpl struct {
 	ctx    goog_context.Context
 	userId string
+}
+
+func (z labelImpl) ResolveByNames(names []string) (labels []*mo_label.Label, missing []string, err error) {
+	l := z.ctx.Log()
+	labels = make([]*mo_label.Label, 0)
+	missing = make([]string, 0)
+	var missingErr error
+	for _, name := range names {
+		l.Debug("Resolve", esl.String("name", name))
+		label, err := z.ResolveByName(name)
+		if err != nil {
+			missingErr = err
+			missing = append(missing, name)
+		} else {
+			labels = append(labels, label)
+		}
+	}
+	if missingErr == nil {
+		return labels, missing, nil
+	} else {
+		return nil, missing, missingErr
+	}
+}
+
+func (z labelImpl) ResolveByName(name string) (label *mo_label.Label, err error) {
+	labels, err := z.List()
+	if err != nil {
+		return nil, err
+	}
+	for _, x := range labels {
+		if x.Name == name {
+			return x, nil
+		}
+	}
+	return nil, ErrorLabelNotFoundForName
 }
 
 func (z labelImpl) Add(name string, opts ...Opt) (label *mo_label.Label, err error) {
