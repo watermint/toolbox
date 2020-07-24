@@ -1,6 +1,6 @@
-# services google mail thread list
+# services google mail label delete
 
-List threads 
+Delete a label 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail thread list 
+.\tbx.exe services google mail label delete 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail thread list 
+$HOME/Desktop/tbx services google mail label delete 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,10 +68,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                           | デフォルト                                                        |
-|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| オプション | 説明                                                                                           | デフォルト          |
+|------------|------------------------------------------------------------------------------------------------|---------------------|
+| `-name`    | Name of the label                                                                              |                     |
+| `-peer`    | Account alias                                                                                  | &{default [] <nil>} |
+| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                  |
 
 ## 共通のオプション:
 
@@ -90,29 +91,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: threads
-
-Gmail thread
-このコマンドはレポートを3種類の書式で出力します. `threads.csv`, `threads.json`, ならびに `threads.xlsx`.
-
-| 列      | 説明                              |
-|---------|-----------------------------------|
-| snippet | A short part of the message text. |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `threads_0000.xlsx`, `threads_0001.xlsx`, `threads_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

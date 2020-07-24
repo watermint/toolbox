@@ -1,6 +1,9 @@
 package mo_filter
 
+import "encoding/json"
+
 type Filter struct {
+	Raw                  json.RawMessage
 	Id                   string `json:"id" path:"id"`
 	CriteriaFrom         string `json:"criteria_from" path:"criteria.from"`
 	CriteriaTo           string `json:"criteria_to" path:"criteria.to"`

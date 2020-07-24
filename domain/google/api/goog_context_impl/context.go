@@ -72,6 +72,15 @@ func (z ctxImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_res
 	return z.client.Call(&z, b)
 }
 
+func (z ctxImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+	b := z.builder.With(
+		http.MethodDelete,
+		ApiEndpoint+endpoint,
+		api_request.Combine(d),
+	)
+	return z.client.Call(&z, b)
+}
+
 func (z ctxImpl) ClientHash() string {
 	return z.builder.ClientHash()
 }

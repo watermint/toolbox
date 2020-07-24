@@ -1,6 +1,6 @@
-# services google mail filter list
+# services google mail label rename
 
-List filters 
+Rename a label 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail filter list 
+.\tbx.exe services google mail label rename 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail filter list 
+$HOME/Desktop/tbx services google mail label rename 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,10 +68,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                                                    | Default                                                           |
-|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| Option          | Description                                                                                    | Default             |
+|-----------------|------------------------------------------------------------------------------------------------|---------------------|
+| `-current-name` | Current label name                                                                             |                     |
+| `-new-name`     | New label name                                                                                 |                     |
+| `-peer`         | Account alias                                                                                  | &{default [] <nil>} |
+| `-user-id`      | The user's email address. The special value me can be used to indicate the authenticated user. | me                  |
 
 ## Common options:
 
@@ -101,22 +103,20 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: filters
+## Report: label
 
-Gmail filter
-The command will generate a report in three different formats. `filters.csv`, `filters.json`, and `filters.xlsx`.
+Label
+The command will generate a report in three different formats. `label.csv`, `label.json`, and `label.xlsx`.
 
-| Column                 | Description                                                              |
-|------------------------|--------------------------------------------------------------------------|
-| criteria_from          | Filter criteria: The sender's display name or email address.             |
-| criteria_to            | Filter criteria: The recipient's display name or email address.          |
-| criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |
-| criteria_query         | Filter criteria: Only return messages matching the specified query.      |
-| criteria_negated_query | Filter criteria: Only return messages not matching the specified query.  |
+| Column | Description       |
+|--------|-------------------|
+| id     | Label Id          |
+| name   | Name of the label |
+| type   | Type of the label |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `filters_0000.xlsx`, `filters_0001.xlsx`, `filters_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `label_0000.xlsx`, `label_0001.xlsx`, `label_0002.xlsx`, ...
 
 # Proxy configuration
 

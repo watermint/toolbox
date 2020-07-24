@@ -68,10 +68,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                           | デフォルト                                                        |
-|------------|--------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | User id. The special value 'me' can be used to indicate the authenticated user | me                                                                |
+| オプション | 説明                                                                                           | デフォルト                                                        |
+|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
+| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
 
 ## 共通のオプション:
 

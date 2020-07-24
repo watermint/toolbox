@@ -68,11 +68,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                           | デフォルト                                                        |
-|------------|--------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-format`  | The format to return the message in.                                           | metadata                                                          |
-| `-peer`    | Account alias                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | User id. The special value 'me' can be used to indicate the authenticated user | me                                                                |
+| オプション            | 説明                                                                                           | デフォルト                                                        |
+|-----------------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `-format`             | The format to return the message in.                                                           | metadata                                                          |
+| `-include-spam-trash` | Include messages from SPAM and TRASH in the results.                                           | false                                                             |
+| `-labels`             | Only return messages with labels that match all of the specified labels.                       |                                                                   |
+| `-max-results`        | Maximum number of messages to return.                                                          | 20                                                                |
+| `-peer`               | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
+| `-query`              | Only return messages matching the specified query.                                             |                                                                   |
+| `-user-id`            | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
 
 ## 共通のオプション:
 

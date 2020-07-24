@@ -1,6 +1,6 @@
-# services google mail filter list
+# services google mail label delete
 
-List filters 
+Delete a label 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail filter list 
+.\tbx.exe services google mail label delete 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail filter list 
+$HOME/Desktop/tbx services google mail label delete 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,10 +68,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                                                    | Default                                                           |
-|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| Option     | Description                                                                                    | Default             |
+|------------|------------------------------------------------------------------------------------------------|---------------------|
+| `-name`    | Name of the label                                                                              |                     |
+| `-peer`    | Account alias                                                                                  | &{default [] <nil>} |
+| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                  |
 
 ## Common options:
 
@@ -90,33 +91,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
 | `-secure`         | Do not store tokens into a file                                                  | false                |
 | `-workspace`      | Workspace path                                                                   |                      |
-
-# Results
-
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path pattern                                | Example                                                |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## Report: filters
-
-Gmail filter
-The command will generate a report in three different formats. `filters.csv`, `filters.json`, and `filters.xlsx`.
-
-| Column                 | Description                                                              |
-|------------------------|--------------------------------------------------------------------------|
-| criteria_from          | Filter criteria: The sender's display name or email address.             |
-| criteria_to            | Filter criteria: The recipient's display name or email address.          |
-| criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |
-| criteria_query         | Filter criteria: Only return messages matching the specified query.      |
-| criteria_negated_query | Filter criteria: Only return messages not matching the specified query.  |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `filters_0000.xlsx`, `filters_0001.xlsx`, `filters_0002.xlsx`, ...
 
 # Proxy configuration
 

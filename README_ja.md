@@ -201,7 +201,10 @@ DropboxおよびDropbox Business向けのツールセット
 | コマンド                                                                                   | 説明              |
 |--------------------------------------------------------------------------------------------|-------------------|
 | [services google mail filter list](doc/generated_ja/services-google-mail-filter-list.md)   | List filters      |
+| [services google mail label add](doc/generated_ja/services-google-mail-label-add.md)       | Add a label       |
+| [services google mail label delete](doc/generated_ja/services-google-mail-label-delete.md) | Delete a label    |
 | [services google mail label list](doc/generated_ja/services-google-mail-label-list.md)     | List email labels |
+| [services google mail label rename](doc/generated_ja/services-google-mail-label-rename.md) | Rename a label    |
 | [services google mail message list](doc/generated_ja/services-google-mail-message-list.md) | List messages     |
 | [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)   | List threads      |
 

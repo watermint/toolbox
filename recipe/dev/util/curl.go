@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/tdewolff/parse/buffer"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
@@ -22,7 +23,7 @@ type Curl struct {
 	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
 	rc_recipe.RemarkTransient
-	Record     string
+	Record     mo_string.OptionalString
 	BufferSize mo_int.RangeInt
 }
 
@@ -37,8 +38,8 @@ func (z *Curl) Exec(c app_control.Control) error {
 	defer bw.Flush()
 	var r io.Reader
 	r = os.Stdin
-	if z.Record != "" {
-		r = buffer.NewReader([]byte(z.Record))
+	if z.Record.IsExists() {
+		r = buffer.NewReader([]byte(z.Record.Value()))
 	}
 	br := bufio.NewReaderSize(r, z.BufferSize.Value())
 	for {
@@ -95,6 +96,6 @@ func (z *Curl) Exec(c app_control.Control) error {
 func (z *Curl) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Curl{}, func(r rc_recipe.Recipe) {
 		m := r.(*Curl)
-		m.Record = `{"time":"2020-02-27T18:34:58.677+0900","req":{"method":"POST","url":"https://api.dropboxapi.com/2/files/create_folder_v2","param":"{\"path\":\"/watermint-toolbox-test/2020-02-27T18-34-37/file-sync-up/d-e-f\",\"autorename\":false}","headers":{"Authorization":"Bearer <secret>","Content-Type":"application/json"},"content_length":92},"res":{"code":429,"headers":{"Content-Disposition":"attachment; filename='error'","Content-Security-Policy":"sandbox; frame-ancestors 'none'","Content-Type":"application/json","Date":"Thu, 27 Feb 2020 09:34:58 GMT","Retry-After":"1","Server":"nginx","X-Content-Type-Options":"nosniff","X-Dropbox-Request-Id":"0b3e28a4804b2b99a4eab9c48e07536a","X-Frame-Options":"DENY"},"json":{"error_summary":"too_many_write_operations/.","error":{"reason":{".tag":"too_many_write_operations"}}},"content_length":108},"latency":857121385}`
+		m.Record = mo_string.NewOptional(`{"time":"2020-02-27T18:34:58.677+0900","req":{"method":"POST","url":"https://api.dropboxapi.com/2/files/create_folder_v2","param":"{\"path\":\"/watermint-toolbox-test/2020-02-27T18-34-37/file-sync-up/d-e-f\",\"autorename\":false}","headers":{"Authorization":"Bearer <secret>","Content-Type":"application/json"},"content_length":92},"res":{"code":429,"headers":{"Content-Disposition":"attachment; filename='error'","Content-Security-Policy":"sandbox; frame-ancestors 'none'","Content-Type":"application/json","Date":"Thu, 27 Feb 2020 09:34:58 GMT","Retry-After":"1","Server":"nginx","X-Content-Type-Options":"nosniff","X-Dropbox-Request-Id":"0b3e28a4804b2b99a4eab9c48e07536a","X-Frame-Options":"DENY"},"json":{"error_summary":"too_many_write_operations/.","error":{"reason":{".tag":"too_many_write_operations"}}},"content_length":108},"latency":857121385}`)
 	})
 }
