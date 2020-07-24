@@ -1,6 +1,6 @@
 # services google mail label list
 
-List email labels 
+ラベルのリスト 
 
 # セキュリティ
 
@@ -68,10 +68,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                           | デフォルト                                                        |
-|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| オプション | 説明                                                                                        | デフォルト                                                        |
+|------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `-peer`    | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                                |
 
 ## 共通のオプション:
 
@@ -103,13 +103,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: labels
 
-Label
+ラベル
 このコマンドはレポートを3種類の書式で出力します. `labels.csv`, `labels.json`, ならびに `labels.xlsx`.
 
-| 列   | 説明              |
-|------|-------------------|
-| name | Name of the label |
-| type | Type of the label |
+| 列   | 説明         |
+|------|--------------|
+| name | ラベル名     |
+| type | ラベルの種類 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

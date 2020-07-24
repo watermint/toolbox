@@ -1,6 +1,6 @@
 # dev stage scoped
 
-Dropbox scoped OAuth app test 
+Dropboxのスコープ付きOAuthアプリテスト 
 
 # セキュリティ
 
@@ -21,10 +21,10 @@ Dropbox scoped OAuth app test
 
 ## 認可スコープ
 
-| ラベル                    | 説明                              |
-|---------------------------|-----------------------------------|
-| dropbox_scoped_individual | Dropbox Individual account access |
-| dropbox_scoped_team       | Dropbox team access               |
+| ラベル                    | 説明                     |
+|---------------------------|--------------------------|
+| dropbox_scoped_individual | Dropbox (個人アカウント) |
+| dropbox_scoped_team       | Dropbox (チーム)         |
 
 # 認可
 
@@ -72,8 +72,8 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション    | 説明                         | デフォルト                                  |
 |---------------|------------------------------|---------------------------------------------|
-| `-individual` | Account alias for individual | &{Individual [files.content.read] <nil>}    |
-| `-team`       | Account alias for team       | &{Team [members.read team_info.read] <nil>} |
+| `-individual` | 個人向けのアカウントの別名   | &{Individual [files.content.read] <nil>}    |
+| `-team`       | チーム向けのアカウントの別名 | &{Team [members.read team_info.read] <nil>} |
 
 ## 共通のオプション:
 

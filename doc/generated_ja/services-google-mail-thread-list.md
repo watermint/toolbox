@@ -1,6 +1,6 @@
 # services google mail thread list
 
-List threads 
+スレッド一覧 
 
 # セキュリティ
 
@@ -68,10 +68,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                           | デフォルト                                                        |
-|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| オプション | 説明                                                                                        | デフォルト                                                        |
+|------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `-peer`    | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                                |
 
 ## 共通のオプション:
 
@@ -103,12 +103,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: threads
 
-Gmail thread
+Gmail スレッド
 このコマンドはレポートを3種類の書式で出力します. `threads.csv`, `threads.json`, ならびに `threads.xlsx`.
 
-| 列      | 説明                              |
-|---------|-----------------------------------|
-| snippet | A short part of the message text. |
+| 列      | 説明                      |
+|---------|---------------------------|
+| snippet | メッセージ本文の短い部分. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

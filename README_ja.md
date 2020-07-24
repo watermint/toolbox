@@ -198,13 +198,13 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Google Gmail
 
-| コマンド                                                                                   | 説明              |
-|--------------------------------------------------------------------------------------------|-------------------|
-| [services google mail filter list](doc/generated_ja/services-google-mail-filter-list.md)   | List filters      |
-| [services google mail label add](doc/generated_ja/services-google-mail-label-add.md)       | Add a label       |
-| [services google mail label delete](doc/generated_ja/services-google-mail-label-delete.md) | Delete a label    |
-| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md)     | List email labels |
-| [services google mail label rename](doc/generated_ja/services-google-mail-label-rename.md) | Rename a label    |
-| [services google mail message list](doc/generated_ja/services-google-mail-message-list.md) | List messages     |
-| [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)   | List threads      |
+| コマンド                                                                                   | 説明                   |
+|--------------------------------------------------------------------------------------------|------------------------|
+| [services google mail filter list](doc/generated_ja/services-google-mail-filter-list.md)   | フィルターの一覧       |
+| [services google mail label add](doc/generated_ja/services-google-mail-label-add.md)       | ラベルの追加           |
+| [services google mail label delete](doc/generated_ja/services-google-mail-label-delete.md) | ラベルの削除.          |
+| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md)     | ラベルのリスト         |
+| [services google mail label rename](doc/generated_ja/services-google-mail-label-rename.md) | ラベルの名前を変更する |
+| [services google mail message list](doc/generated_ja/services-google-mail-message-list.md) | メッセージの一覧       |
+| [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)   | スレッド一覧           |
 

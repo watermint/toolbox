@@ -1,6 +1,6 @@
 # services google mail message list
 
-List messages 
+メッセージの一覧 
 
 # セキュリティ
 
@@ -68,15 +68,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション            | 説明                                                                                           | デフォルト                                                        |
-|-----------------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-format`             | The format to return the message in.                                                           | metadata                                                          |
-| `-include-spam-trash` | Include messages from SPAM and TRASH in the results.                                           | false                                                             |
-| `-labels`             | Only return messages with labels that match all of the specified labels.                       |                                                                   |
-| `-max-results`        | Maximum number of messages to return.                                                          | 20                                                                |
-| `-peer`               | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-query`              | Only return messages matching the specified query.                                             |                                                                   |
-| `-user-id`            | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| オプション            | 説明                                                                                        | デフォルト                                                        |
+|-----------------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `-format`             | メッセージを返すフォーマット.                                                               | metadata                                                          |
+| `-include-spam-trash` | SPAMやTRASHからのメッセージを結果に含める.                                                  | false                                                             |
+| `-labels`             | 指定されたラベルにすべて一致するラベルを持つメッセージのみを返します.                       |                                                                   |
+| `-max-results`        | 返すメッセージの最大数.                                                                     | 20                                                                |
+| `-peer`               | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
+| `-query`              | 指定されたクエリにマッチするメッセージのみを返します.                                       |                                                                   |
+| `-user-id`            | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                                |
 
 ## 共通のオプション:
 
@@ -108,13 +108,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: messages
 
-Message resource
+メッセージリソース
 このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
 
 | 列       | 説明     |
 |----------|----------|
-| date     | Date     |
-| subject  | Subject  |
+| date     | 日付     |
+| subject  | 表題     |
 | to       | To       |
 | cc       | Cc       |
 | from     | From     |

@@ -1,6 +1,6 @@
 # services google mail label rename
 
-Rename a label 
+ラベルの名前を変更する 
 
 # セキュリティ
 
@@ -68,12 +68,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                                                                                           | デフォルト          |
-|-----------------|------------------------------------------------------------------------------------------------|---------------------|
-| `-current-name` | Current label name                                                                             |                     |
-| `-new-name`     | New label name                                                                                 |                     |
-| `-peer`         | Account alias                                                                                  | &{default [] <nil>} |
-| `-user-id`      | The user's email address. The special value me can be used to indicate the authenticated user. | me                  |
+| オプション      | 説明                                                                                        | デフォルト          |
+|-----------------|---------------------------------------------------------------------------------------------|---------------------|
+| `-current-name` | 現在のラベル名                                                                              |                     |
+| `-new-name`     | 新しいラベル名                                                                              |                     |
+| `-peer`         | アカウントの別名                                                                            | &{default [] <nil>} |
+| `-user-id`      | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                  |
 
 ## 共通のオプション:
 
@@ -105,14 +105,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: label
 
-Label
+ラベル
 このコマンドはレポートを3種類の書式で出力します. `label.csv`, `label.json`, ならびに `label.xlsx`.
 
-| 列   | 説明              |
-|------|-------------------|
-| id   | Label Id          |
-| name | Name of the label |
-| type | Type of the label |
+| 列   | 説明         |
+|------|--------------|
+| id   | ラベルID     |
+| name | ラベル名     |
+| type | ラベルの種類 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

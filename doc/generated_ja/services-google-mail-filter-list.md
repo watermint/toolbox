@@ -1,6 +1,6 @@
 # services google mail filter list
 
-List filters 
+フィルターの一覧 
 
 # セキュリティ
 
@@ -68,10 +68,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                           | デフォルト                                                        |
-|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| オプション | 説明                                                                                        | デフォルト                                                        |
+|------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `-peer`    | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                                |
 
 ## 共通のオプション:
 
@@ -103,16 +103,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: filters
 
-Gmail filter
+Gmail フィルタ
 このコマンドはレポートを3種類の書式で出力します. `filters.csv`, `filters.json`, ならびに `filters.xlsx`.
 
-| 列                     | 説明                                                                     |
-|------------------------|--------------------------------------------------------------------------|
-| criteria_from          | Filter criteria: The sender's display name or email address.             |
-| criteria_to            | Filter criteria: The recipient's display name or email address.          |
-| criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |
-| criteria_query         | Filter criteria: Only return messages matching the specified query.      |
-| criteria_negated_query | Filter criteria: Only return messages not matching the specified query.  |
+| 列                     | 説明                                                                  |
+|------------------------|-----------------------------------------------------------------------|
+| criteria_from          | フィルター条件: 送信者の表示名またはメールアドレス                    |
+| criteria_to            | フィルタ条件: 受信者の表示名またはメールアドレス.                     |
+| criteria_subject       | フィルタ条件: メッセージの件名にある大文字小文字を区別しないフレーズ. |
+| criteria_query         | フィルタ条件: 指定されたクエリにマッチするメッセージのみを返します.   |
+| criteria_negated_query | フィルタ条件: 指定されたクエリにマッチしないメッセージのみを返します. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
