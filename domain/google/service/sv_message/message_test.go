@@ -34,7 +34,7 @@ func TestMsgImpl_Update(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		mc := goog_context_impl.NewMock(ctl)
 		sv := New(mc, "me")
-		_, err := sv.Update("123", AddLabelIds("full"))
+		_, err := sv.Update("123", AddLabelIds([]string{"test"}), RemoveLabelIds([]string{"INBOX"}))
 		if err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
