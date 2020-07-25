@@ -68,15 +68,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                     | Description                                                                                    | Default                                                         |
-|----------------------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-color-background`        | The background color.                                                                          |                                                                 |
-| `-color-text`              | The text color.                                                                                |                                                                 |
-| `-label-list-visibility`   | The visibility of the label in the label list in the Gmail web interface.                      | labelShow                                                       |
-| `-message-list-visibility` | The visibility of messages with this label in the message list in the Gmail web interface      | show                                                            |
-| `-name`                    | Name of the label                                                                              |                                                                 |
-| `-peer`                    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.labels] <nil>} |
-| `-user-id`                 | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                              |
+| Option                     | Description                                                                                    | Default   |
+|----------------------------|------------------------------------------------------------------------------------------------|-----------|
+| `-color-background`        | The background color.                                                                          |           |
+| `-color-text`              | The text color.                                                                                |           |
+| `-label-list-visibility`   | The visibility of the label in the label list in the Gmail web interface.                      | labelShow |
+| `-message-list-visibility` | The visibility of messages with this label in the message list in the Gmail web interface      | show      |
+| `-name`                    | Name of the label                                                                              |           |
+| `-peer`                    | Account alias                                                                                  | default   |
+| `-user-id`                 | The user's email address. The special value me can be used to indicate the authenticated user. | me        |
 
 ## Common options:
 

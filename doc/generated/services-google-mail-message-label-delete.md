@@ -68,12 +68,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                                                                    | Default                                                         |
-|---------------|------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-label`      | Label names to remove this message.                                                            |                                                                 |
-| `-message-id` | The immutable ID of the message.                                                               |                                                                 |
-| `-peer`       | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.modify] <nil>} |
-| `-user-id`    | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                              |
+| Option        | Description                                                                                    | Default |
+|---------------|------------------------------------------------------------------------------------------------|---------|
+| `-label`      | Label names to remove this message.                                                            |         |
+| `-message-id` | The immutable ID of the message.                                                               |         |
+| `-peer`       | Account alias                                                                                  | default |
+| `-user-id`    | The user's email address. The special value me can be used to indicate the authenticated user. | me      |
 
 ## Common options:
 

@@ -67,6 +67,10 @@ func (z *ValueGoogConnMail) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.conn), z.conn.Scopes()
 }
 
+func (z *ValueGoogConnMail) ValueText() string {
+	return z.peerName
+}
+
 func (z *ValueGoogConnMail) Conn() (conn api_conn.Connection, valid bool) {
 	return z.conn, true
 }

@@ -25,6 +25,10 @@ func (z *ValueGhConnGithubPublic) Conn() (conn api_conn.Connection, valid bool) 
 	return z.conn, true
 }
 
+func (z *ValueGhConnGithubPublic) ValueText() string {
+	return ""
+}
+
 func (z *ValueGhConnGithubPublic) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.conn), nil
 }

@@ -68,10 +68,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                                                    | Default                                                           |
-|------------|------------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `-peer`    | Account alias                                                                                  | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me                                                                |
+| Option     | Description                                                                                    | Default |
+|------------|------------------------------------------------------------------------------------------------|---------|
+| `-peer`    | Account alias                                                                                  | default |
+| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me      |
 
 ## Common options:
 
