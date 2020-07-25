@@ -10,13 +10,14 @@ import (
 )
 
 var (
-	ErrorLabelNotFoundForName = errors.New("label not found for the name")
+	ErrorLabelNotFound = errors.New("label not found")
 )
 
 type Label interface {
 	Add(name string, opts ...Opt) (label *mo_label.Label, err error)
 	Update(id string, opts ...Opt) (label *mo_label.Label, err error)
 	Remove(id string) error
+	Resolve(id string) (label *mo_label.Label, err error)
 	ResolveByName(name string) (label *mo_label.Label, err error)
 	// Return labels when all labels found.
 	ResolveByNames(names []string) (labels []*mo_label.Label, missing []string, err error)
@@ -40,6 +41,19 @@ type LabelParam struct {
 type labelImpl struct {
 	ctx    goog_context.Context
 	userId string
+}
+
+func (z labelImpl) Resolve(id string) (label *mo_label.Label, err error) {
+	labels, err := z.List()
+	if err != nil {
+		return nil, err
+	}
+	for _, label := range labels {
+		if label.Id == id {
+			return label, nil
+		}
+	}
+	return nil, ErrorLabelNotFound
 }
 
 func (z labelImpl) ResolveByNames(names []string) (labels []*mo_label.Label, missing []string, err error) {
@@ -74,7 +88,7 @@ func (z labelImpl) ResolveByName(name string) (label *mo_label.Label, err error)
 			return x, nil
 		}
 	}
-	return nil, ErrorLabelNotFoundForName
+	return nil, ErrorLabelNotFound
 }
 
 func (z labelImpl) Add(name string, opts ...Opt) (label *mo_label.Label, err error) {
@@ -126,6 +140,9 @@ func (z labelImpl) List() (labels []*mo_label.Label, err error) {
 		return nil, err
 	}
 	labels = make([]*mo_label.Label, 0)
+	if _, found := j.Find("labels"); !found {
+		return labels, nil
+	}
 	err = j.FindArrayEach("labels", func(e es_json.Json) error {
 		m := &mo_label.Label{}
 		if err := e.Model(m); err != nil {

@@ -34,6 +34,7 @@ type Add struct {
 
 func (z *Add) Preset() {
 	z.Peer.SetScopes(
+		goog_auth.ScopeGmailModify,
 		goog_auth.ScopeGmailSettingsBasic,
 	)
 	z.Filter.SetModel(&mo_filter.Filter{})
@@ -96,7 +97,16 @@ func (z *Add) Exec(c app_control.Control) error {
 }
 
 func (z *Add) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Add{}, func(r rc_recipe.Recipe) {
+	err := rc_exec.ExecReplay(c, &Add{}, "recipe-services-google-mail-filter-add.json.gz", func(r rc_recipe.Recipe) {
+		m := r.(*Add)
+		m.AddLabels = mo_string.NewOptional("xxxxx")
+		m.CriteriaQuery = mo_string.NewOptional("from:@google.com")
+	})
+	if err != nil {
+		return err
+	}
+
+	return rc_exec.ExecMock(c, &Add{}, func(r rc_recipe.Recipe) {
 		m := r.(*Add)
 		m.CriteriaFrom = mo_string.NewOptional("@gmail.com")
 		m.Forward = mo_string.NewOptional("toolbox@example.com")

@@ -29,3 +29,14 @@ func TestMsgImpl_Resolve(t *testing.T) {
 		}
 	})
 }
+
+func TestMsgImpl_Update(t *testing.T) {
+	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
+		mc := goog_context_impl.NewMock(ctl)
+		sv := New(mc, "me")
+		_, err := sv.Update("123", AddLabelIds("full"))
+		if err != qt_errors.ErrorMock {
+			t.Error(err)
+		}
+	})
+}

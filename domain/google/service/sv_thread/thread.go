@@ -64,6 +64,9 @@ func (z threadImpl) List() (threads []*mo_thread.Thread, err error) {
 		return nil, err
 	}
 	threads = make([]*mo_thread.Thread, 0)
+	if _, found := j.Find("threads"); !found {
+		return threads, nil
+	}
 	err = j.FindArrayEach("threads", func(e es_json.Json) error {
 		m := &mo_thread.Thread{}
 		if err := e.Model(m); err != nil {

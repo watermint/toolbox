@@ -1,6 +1,6 @@
-# services google mail filter add
+# services google mail message processed list
 
-フィルターを追加します. 
+処理された形式でメッセージを一覧表示します. 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail filter add 
+.\tbx.exe services google mail message processed list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail filter add 
+$HOME/Desktop/tbx services google mail message processed list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,22 +68,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                  | 説明                                                                                        | デフォルト                                                                                                           |
-|-----------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| `-add-labels`               | ','で区切られたメッセージに追加するラベルのリスト.                                          |                                                                                                                      |
-| `-criteria-exclude-chats`   | チャットを除外するかどうか                                                                  | false                                                                                                                |
-| `-criteria-from`            | 送信者の表示名またはメールアドレス.                                                         |                                                                                                                      |
-| `-criteria-has-attachment`  | 添付ファイルがあるメッセージ.                                                               | false                                                                                                                |
-| `-criteria-negated-query`   | 指定されたクエリにマッチしないメッセージのみを返します.                                     |                                                                                                                      |
-| `-criteria-no-attachment`   | 添付ファイルがないメッセージ.                                                               | false                                                                                                                |
-| `-criteria-query`           | 指定されたクエリにマッチするメッセージのみを返します.                                       |                                                                                                                      |
-| `-criteria-size`            | すべてのヘッダと添付ファイルを含む、RFC822 メッセージ全体のサイズをバイト単位で指定します.  | 0                                                                                                                    |
-| `-criteria-size-comparison` | メッセージのサイズをどのようにバイト数で表すかは、サイズフィールドとの関係で決まります.     |                                                                                                                      |
-| `-criteria-to`              | 受信者の表示名またはメールアドレス. to"、"cc"、"bcc"ヘッダフィールドの受信者を含む.         |                                                                                                                      |
-| `-forward`                  | メッセージの転送先となるメールアドレス.                                                     |                                                                                                                      |
-| `-peer`                     | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.modify https://www.googleapis.com/auth/gmail.settings.basic] <nil>} |
-| `-remove-labels`            | ','で区切られたメッセージから削除するラベルのリスト.                                        |                                                                                                                      |
-| `-user-id`                  | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                                                                                   |
+| オプション            | 説明                                                                                        | デフォルト                                                        |
+|-----------------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------|
+| `-format`             | メッセージを返すフォーマット.                                                               | metadata                                                          |
+| `-include-spam-trash` | SPAMやTRASHからのメッセージを結果に含める.                                                  | false                                                             |
+| `-labels`             | 指定されたラベルにすべて一致するラベルを持つメッセージのみを返します.                       |                                                                   |
+| `-max-results`        | 返すメッセージの最大数.                                                                     | 20                                                                |
+| `-peer`               | アカウントの別名                                                                            | &{default [https://www.googleapis.com/auth/gmail.readonly] <nil>} |
+| `-query`              | 指定されたクエリにマッチするメッセージのみを返します.                                       |                                                                   |
+| `-user-id`            | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me                                                                |
 
 ## 共通のオプション:
 
@@ -113,23 +106,30 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: filter
+## レポート: messages
 
-Gmail フィルタ
-このコマンドはレポートを3種類の書式で出力します. `filter.csv`, `filter.json`, ならびに `filter.xlsx`.
+処理済みメッセージ
+このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
 
-| 列                     | 説明                                                                  |
-|------------------------|-----------------------------------------------------------------------|
-| id                     | フィルターID                                                          |
-| criteria_from          | フィルター条件: 送信者の表示名またはメールアドレス                    |
-| criteria_to            | フィルタ条件: 受信者の表示名またはメールアドレス.                     |
-| criteria_subject       | フィルタ条件: メッセージの件名にある大文字小文字を区別しないフレーズ. |
-| criteria_query         | フィルタ条件: 指定されたクエリにマッチするメッセージのみを返します.   |
-| criteria_negated_query | フィルタ条件: 指定されたクエリにマッチしないメッセージのみを返します. |
+| 列                | 説明                                                                   |
+|-------------------|------------------------------------------------------------------------|
+| id                | メッセージの不変ID                                                     |
+| thread_id         | メッセージが属するスレッドのID                                         |
+| history_id        | このメッセージを修正した最後の履歴レコードのID.                        |
+| date_internal     | 受信箱内の順序を決定する内部メッセージ作成タイムスタンプ（エポック秒） |
+| date_8601         | ISO8601の日付/時刻フォーマットの日付ヘッダ値                           |
+| date_unix         | 日付ヘッダーのUNIX時刻                                                 |
+| subject           | メッセージの件名                                                       |
+| label_ids         | このメッセージに適用されているラベルのIDのリストです                   |
+| label_names       | このメッセージに適用されるラベルの名前のリスト.                        |
+| label_type_user   | このメッセージに適用されたユーザーラベルのIDのリスト.                  |
+| label_type_system | このメッセージに適用されるシステムラベルのIDのリスト.                  |
+| size_estimate     | メッセージの推定サイズ (バイト単位)                                    |
+| original          | 元のメッセージデータ                                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `filter_0000.xlsx`, `filter_0001.xlsx`, `filter_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `messages_0000.xlsx`, `messages_0001.xlsx`, `messages_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

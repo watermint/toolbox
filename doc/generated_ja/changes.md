@@ -3,19 +3,22 @@
 # 追加されたコマンド
 
 
-| コマンド                           | タイトル                      |
-|------------------------------------|-------------------------------|
-| dev stage gmail                    | Gmail command                 |
-| dev stage scoped                   | Dropbox scoped OAuth app test |
-| services google mail filter add    | Add a filter.                 |
-| services google mail filter delete | Delete a filter               |
-| services google mail filter list   | List filters                  |
-| services google mail label add     | Add a label                   |
-| services google mail label delete  | Delete a label                |
-| services google mail label list    | List email labels             |
-| services google mail label rename  | Rename a label                |
-| services google mail message list  | List messages                 |
-| services google mail thread list   | List threads                  |
+| コマンド                                    | タイトル                           |
+|---------------------------------------------|------------------------------------|
+| dev stage gmail                             | Gmail command                      |
+| dev stage scoped                            | Dropbox scoped OAuth app test      |
+| services google mail filter add             | Add a filter.                      |
+| services google mail filter delete          | Delete a filter                    |
+| services google mail filter list            | List filters                       |
+| services google mail label add              | Add a label                        |
+| services google mail label delete           | Delete a label                     |
+| services google mail label list             | List email labels                  |
+| services google mail label rename           | Rename a label                     |
+| services google mail message label add      | Add labels to the message          |
+| services google mail message label delete   | Remove labels from the message     |
+| services google mail message list           | List messages                      |
+| services google mail message processed list | List messages in processed format. |
+| services google mail thread list            | List threads                       |
 
 
 
@@ -69,28 +72,5 @@
   			TypeAttr: nil,
   		},
   	},
-  }
-```
-# コマンド仕様の変更: `team diag explorer`
-
-
-## 設定が変更されたコマンド
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 7 identical fields
   }
 ```

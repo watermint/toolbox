@@ -171,6 +171,9 @@ func (z filterImpl) List() (filters []*mo_filter.Filter, err error) {
 		return nil, err
 	}
 	filters = make([]*mo_filter.Filter, 0)
+	if _, found := j.Find("filter"); !found {
+		return filters, nil
+	}
 	err = j.FindArrayEach("filter", func(e es_json.Json) error {
 		m := &mo_filter.Filter{}
 		if err := e.Model(m); err != nil {

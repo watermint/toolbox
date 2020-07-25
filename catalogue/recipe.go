@@ -47,6 +47,8 @@ import (
 	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
 	recipeservicesgooglemaillabel "github.com/watermint/toolbox/recipe/services/google/mail/label"
 	recipeservicesgooglemailmessage "github.com/watermint/toolbox/recipe/services/google/mail/message"
+	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
+	recipeservicesgooglemailmessageprocessed "github.com/watermint/toolbox/recipe/services/google/mail/message/processed"
 	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -183,6 +185,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglemaillabel.List{},
 		&recipeservicesgooglemaillabel.Rename{},
 		&recipeservicesgooglemailmessage.List{},
+		&recipeservicesgooglemailmessagelabel.Add{},
+		&recipeservicesgooglemailmessagelabel.Delete{},
+		&recipeservicesgooglemailmessageprocessed.List{},
 		&recipeservicesgooglemailthread.List{},
 		&recipesharedfolder.List{},
 		&recipesharedfoldermember.List{},
