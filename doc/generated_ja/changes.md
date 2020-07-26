@@ -29,24 +29,26 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Badge", Desc: "Include badges of build status", Default: "true", TypeName: "bool", ...},
-  		&{Name: "CommandPath", Desc: "Relative path to generate command manuals", Default: "doc/generated/", TypeName: "string", ...},
-- 		&{Name: "Filename", Desc: "Filename", Default: "README.md", TypeName: "string"},
-  		&{
-- 			Name:    "Lang",
-+ 			Name:    "DocLang",
-  			Desc:    "Language",
-  			Default: "",
-  			... // 2 identical fields
-  		},
-+ 		&{Name: "Filename", Desc: "Filename", Default: "README.md", TypeName: "string"},
-  	},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Badge", Desc: "Include badges of build status", Default: "true", TypeName: "bool", ...},
+  		&{Name: "CommandPath", Desc: "Relative path to generate command manuals", Default: "doc/generated/", TypeName: "string", ...},
++ 		&{
++ 			Name:     "DocLang",
++ 			Desc:     "Language",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
+  		&{Name: "Filename", Desc: "Filename", Default: "README.md", TypeName: "string", ...},
+- 		&{
+- 			Name:     "Lang",
+- 			Desc:     "Language",
+- 			TypeName: "domain.common.model.mo_string.opt_string",
+- 		},
+  	},
+  }
 ```
 # コマンド仕様の変更: `dev util curl`
 
@@ -55,43 +57,20 @@
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "BufferSize", Desc: "Size of buffer", Default: "65536", TypeName: "domain.common.model.mo_int.range_int", ...},
-  		&{
-  			Name:     "Record",
-  			Desc:     "Capture record(s) for the test",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  	},
-  }
-```
-# コマンド仕様の変更: `team diag explorer`
-
-
-## 設定が変更されたコマンド
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 7 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "BufferSize", Desc: "Size of buffer", Default: "65536", TypeName: "domain.common.model.mo_int.range_int", ...},
+  		&{
+  			Name:     "Record",
+  			Desc:     "Capture record(s) for the test",
+  			Default:  "",
+- 			TypeName: "string",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  	},
+  }
 ```

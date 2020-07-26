@@ -70,6 +70,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option                      | Description                                                                                                    | Default |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------|---------|
+| `-add-label-if-not-exist`   | Create a label if it is not exist.                                                                             | false   |
 | `-add-labels`               | List of labels to add to the message, separated by ','.                                                        |         |
 | `-criteria-exclude-chats`   | Whether the response should exclude chats.                                                                     | false   |
 | `-criteria-from`            | The sender's display name or email address.                                                                    |         |

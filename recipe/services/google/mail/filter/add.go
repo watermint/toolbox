@@ -30,6 +30,7 @@ type Add struct {
 	AddLabels              mo_string.OptionalString
 	RemoveLabels           mo_string.OptionalString
 	Forward                mo_string.OptionalString
+	AddLabelIfNotExist     bool
 }
 
 func (z *Add) Preset() {
@@ -69,7 +70,13 @@ func (z *Add) Exec(c app_control.Control) error {
 	}
 	if z.AddLabels.IsExists() {
 		labelNames := strings.Split(z.AddLabels.Value(), ",")
-		labelIds, err := sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		var labelIds []string
+		var err error
+		if z.AddLabelIfNotExist {
+			labelIds, err = sv_label.FindOrAddLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		} else {
+			labelIds, err = sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		}
 		if err != nil {
 			return err
 		}
@@ -77,7 +84,13 @@ func (z *Add) Exec(c app_control.Control) error {
 	}
 	if z.RemoveLabels.IsExists() {
 		labelNames := strings.Split(z.RemoveLabels.Value(), ",")
-		labelIds, err := sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		var labelIds []string
+		var err error
+		if z.AddLabelIfNotExist {
+			labelIds, err = sv_label.FindOrAddLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		} else {
+			labelIds, err = sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		}
 		if err != nil {
 			return err
 		}

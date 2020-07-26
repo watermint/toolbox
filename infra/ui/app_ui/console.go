@@ -82,7 +82,8 @@ func (z conImpl) Info(m app_msg.Message) {
 }
 
 func (z conImpl) InfoTable(name string) Table {
-	return newConTable(z, z.wr, z.mc, name)
+	//	return newConTable(z, z.wr, z.mc, name)
+	return newMdTable(z, z.wr, z.mc, name)
 }
 
 func (z conImpl) Error(m app_msg.Message) {
