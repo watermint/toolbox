@@ -188,7 +188,7 @@ func (z *Add) Test(c app_control.Control) error {
 		_ = os.Remove(f)
 	}()
 
-	return rc_exec.ExecReplay(c, &Add{}, "recipe-services-google-mail-filter-batch-add.json", func(r rc_recipe.Recipe) {
+	return rc_exec.ExecReplay(c, &Add{}, "recipe-services-google-mail-filter-batch-add.json.gz", func(r rc_recipe.Recipe) {
 		m := r.(*Add)
 		m.ApplyToInboxMessages = true
 		m.AddLabelIfNotExist = true
