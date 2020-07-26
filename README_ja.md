@@ -201,6 +201,7 @@ DropboxおよびDropbox Business向けのツールセット
 | コマンド                                                                                                       | 説明                                        |
 |----------------------------------------------------------------------------------------------------------------|---------------------------------------------|
 | [services google mail filter add](doc/generated_ja/services-google-mail-filter-add.md)                         | フィルターを追加します.                     |
+| [services google mail filter batch add](doc/generated_ja/services-google-mail-filter-batch-add.md)             | クエリによるラベルの一括追加・削除          |
 | [services google mail filter delete](doc/generated_ja/services-google-mail-filter-delete.md)                   | フィルタの削除                              |
 | [services google mail filter list](doc/generated_ja/services-google-mail-filter-list.md)                       | フィルターの一覧                            |
 | [services google mail label add](doc/generated_ja/services-google-mail-label-add.md)                           | ラベルの追加                                |

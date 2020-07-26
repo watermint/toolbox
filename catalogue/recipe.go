@@ -45,6 +45,7 @@ import (
 	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
 	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
 	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
+	recipeservicesgooglemailfilterbatch "github.com/watermint/toolbox/recipe/services/google/mail/filter/batch"
 	recipeservicesgooglemaillabel "github.com/watermint/toolbox/recipe/services/google/mail/label"
 	recipeservicesgooglemailmessage "github.com/watermint/toolbox/recipe/services/google/mail/message"
 	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
@@ -180,6 +181,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglemailfilter.Add{},
 		&recipeservicesgooglemailfilter.Delete{},
 		&recipeservicesgooglemailfilter.List{},
+		&recipeservicesgooglemailfilterbatch.Add{},
 		&recipeservicesgooglemaillabel.Add{},
 		&recipeservicesgooglemaillabel.Delete{},
 		&recipeservicesgooglemaillabel.List{},

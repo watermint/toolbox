@@ -1,6 +1,6 @@
-# services google mail message label add
+# services google mail filter batch add
 
-Add labels to the message 
+Batch adding/deleting labels with query 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail message label add 
+.\tbx.exe services google mail filter batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail message label add 
+$HOME/Desktop/tbx services google mail filter batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,13 +68,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                    | Description                                                                                    | Default |
-|---------------------------|------------------------------------------------------------------------------------------------|---------|
-| `-add-label-if-not-exist` | Create a label if it is not exist.                                                             | false   |
-| `-label`                  | Label names to add this message.                                                               |         |
-| `-message-id`             | The immutable ID of the message.                                                               |         |
-| `-peer`                   | Account alias                                                                                  | default |
-| `-user-id`                | The user's email address. The special value me can be used to indicate the authenticated user. | me      |
+| Option                     | Description                                                                                    | Default |
+|----------------------------|------------------------------------------------------------------------------------------------|---------|
+| `-add-label-if-not-exist`  | Create a label if it is not exist.                                                             | false   |
+| `-apply-to-inbox-messages` | Apply labels to messages satisfy query in INBOX.                                               | false   |
+| `-file`                    | Path to data file                                                                              |         |
+| `-peer`                    | Account alias                                                                                  | default |
+| `-user-id`                 | The user's email address. The special value me can be used to indicate the authenticated user. | me      |
 
 ## Common options:
 
@@ -94,6 +94,24 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-secure`         | Do not store tokens into a file                                                  | false                |
 | `-workspace`      | Workspace path                                                                   |                      |
 
+# File formats
+
+## Format: File
+
+Filter data to add.
+
+| Column        | Description                                        | Example          |
+|---------------|----------------------------------------------------|------------------|
+| query         | Only return messages matching the specified query. | from:@google.com |
+| add_labels    | Label names to add, separated by ';'               | my_label         |
+| delete_labels | Label names to delete, separated by ';'            | my_label,INBOX   |
+
+The first line is a header line. The program will accept file without the header.
+```
+query,add_labels,delete_labels
+from:@google.com,my_label,"my_label,INBOX"
+```
+
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
@@ -104,10 +122,32 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: message
+## Report: filters
+
+This report shows the transaction result.
+The command will generate a report in three different formats. `filters.csv`, `filters.json`, and `filters.xlsx`.
+
+| Column                        | Description                                                              |
+|-------------------------------|--------------------------------------------------------------------------|
+| status                        | Status of the operation                                                  |
+| reason                        | Reason of failure or skipped operation                                   |
+| input.query                   | Only return messages matching the specified query.                       |
+| input.add_labels              | Label names to add, separated by ';'                                     |
+| input.delete_labels           | Label names to delete, separated by ';'                                  |
+| result.id                     | Filter Id                                                                |
+| result.criteria_from          | Filter criteria: The sender's display name or email address.             |
+| result.criteria_to            | Filter criteria: The recipient's display name or email address.          |
+| result.criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |
+| result.criteria_query         | Filter criteria: Only return messages matching the specified query.      |
+| result.criteria_negated_query | Filter criteria: Only return messages not matching the specified query.  |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `filters_0000.xlsx`, `filters_0001.xlsx`, `filters_0002.xlsx`, ...
+## Report: messages
 
 Message resource
-The command will generate a report in three different formats. `message.csv`, `message.json`, and `message.xlsx`.
+The command will generate a report in three different formats. `messages.csv`, `messages.json`, and `messages.xlsx`.
 
 | Column    | Description                                  |
 |-----------|----------------------------------------------|
@@ -122,7 +162,7 @@ The command will generate a report in three different formats. `message.csv`, `m
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `message_0000.xlsx`, `message_0001.xlsx`, `message_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `messages_0000.xlsx`, `messages_0001.xlsx`, `messages_0002.xlsx`, ...
 
 # Proxy configuration
 

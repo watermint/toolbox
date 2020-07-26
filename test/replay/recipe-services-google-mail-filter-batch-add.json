@@ -1,0 +1,84 @@
+{
+  "body": "{\"labels\":[{\"id\":\"xxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxx\",\"type\":\"system\"},{\"id\":\"xxxx\",\"name\":\"xxxx\",\"type\":\"system\"},{\"id\":\"xxxxx\",\"name\":\"xxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxxxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxxx\",\"type\":\"system\"},{\"id\":\"xxxxx\",\"name\":\"xxxxx\",\"type\":\"system\"},{\"id\":\"xxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxxxxxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxxxxxxxxxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxxxxxxxxxxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxxxxxxxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxxxxxxxxxxxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxxxxxxxxxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxxxxxxxxxxxxxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxxxxxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"hide\",\"name\":\"xxxxxxxxxxxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxx\",\"name\":\"xxxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxx\",\"name\":\"xxxxxx\",\"type\":\"system\"},{\"id\":\"xxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"show\",\"name\":\"waterland\",\"type\":\"user\"}]}",
+  "code": 200,
+  "content_length": 1478,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxx\",\"labelListVisibility\":\"xxxxxxxxx\",\"messageListVisibility\":\"show\",\"name\":\"xxxxxxxx/xxxxxx.xxx\"}",
+  "code": 200,
+  "content_length": 110,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"action\":{\"addLabelIds\":[\"xxxxxxx\"]},\"criteria\":{\"query\":\"from:\"},\"id\":\"xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 124,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"messages\":[{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"},{\"id\":\"xxxxxxxxxxxxxxxx\",\"threadId\":\"xxxxxxxxxxxxxxxx\"}],\"resultSizeEstimate\":10}",
+  "code": 200,
+  "content_length": 598,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 125,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 115,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 115,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 115,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 115,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 115,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 115,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 114,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxxx\",\"xxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 105,
+  "proto": "HTTP/2.0"
+}
+{
+  "body": "{\"id\":\"xxxxxxxxxxxxxxxx\",\"labelIds\":[\"xxxxxx\",\"xxxxxxx\",\"xxxxxxxxxxxxxxxx\",\"xxxxx\"],\"threadId\":\"xxxxxxxxxxxxxxxx\"}",
+  "code": 200,
+  "content_length": 114,
+  "proto": "HTTP/2.0"
+}

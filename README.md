@@ -200,18 +200,19 @@ Available commands:
 
 ## Google Gmail
 
-| Command                                                                                                     | Description                        |
-|-------------------------------------------------------------------------------------------------------------|------------------------------------|
-| [services google mail filter add](doc/generated/services-google-mail-filter-add.md)                         | Add a filter.                      |
-| [services google mail filter delete](doc/generated/services-google-mail-filter-delete.md)                   | Delete a filter                    |
-| [services google mail filter list](doc/generated/services-google-mail-filter-list.md)                       | List filters                       |
-| [services google mail label add](doc/generated/services-google-mail-label-add.md)                           | Add a label                        |
-| [services google mail label delete](doc/generated/services-google-mail-label-delete.md)                     | Delete a label                     |
-| [services google mail label list](doc/generated/services-google-mail-label-list.md)                         | List email labels                  |
-| [services google mail label rename](doc/generated/services-google-mail-label-rename.md)                     | Rename a label                     |
-| [services google mail message label add](doc/generated/services-google-mail-message-label-add.md)           | Add labels to the message          |
-| [services google mail message label delete](doc/generated/services-google-mail-message-label-delete.md)     | Remove labels from the message     |
-| [services google mail message list](doc/generated/services-google-mail-message-list.md)                     | List messages                      |
-| [services google mail message processed list](doc/generated/services-google-mail-message-processed-list.md) | List messages in processed format. |
-| [services google mail thread list](doc/generated/services-google-mail-thread-list.md)                       | List threads                       |
+| Command                                                                                                     | Description                             |
+|-------------------------------------------------------------------------------------------------------------|-----------------------------------------|
+| [services google mail filter add](doc/generated/services-google-mail-filter-add.md)                         | Add a filter.                           |
+| [services google mail filter batch add](doc/generated/services-google-mail-filter-batch-add.md)             | Batch adding/deleting labels with query |
+| [services google mail filter delete](doc/generated/services-google-mail-filter-delete.md)                   | Delete a filter                         |
+| [services google mail filter list](doc/generated/services-google-mail-filter-list.md)                       | List filters                            |
+| [services google mail label add](doc/generated/services-google-mail-label-add.md)                           | Add a label                             |
+| [services google mail label delete](doc/generated/services-google-mail-label-delete.md)                     | Delete a label                          |
+| [services google mail label list](doc/generated/services-google-mail-label-list.md)                         | List email labels                       |
+| [services google mail label rename](doc/generated/services-google-mail-label-rename.md)                     | Rename a label                          |
+| [services google mail message label add](doc/generated/services-google-mail-message-label-add.md)           | Add labels to the message               |
+| [services google mail message label delete](doc/generated/services-google-mail-message-label-delete.md)     | Remove labels from the message          |
+| [services google mail message list](doc/generated/services-google-mail-message-list.md)                     | List messages                           |
+| [services google mail message processed list](doc/generated/services-google-mail-message-processed-list.md) | List messages in processed format.      |
+| [services google mail thread list](doc/generated/services-google-mail-thread-list.md)                       | List threads                            |
 

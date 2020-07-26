@@ -1,6 +1,6 @@
-# services google mail message label add
+# services google mail filter batch add
 
-メッセージにラベルを追加 
+クエリによるラベルの一括追加・削除 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail message label add 
+.\tbx.exe services google mail filter batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail message label add 
+$HOME/Desktop/tbx services google mail filter batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,13 +68,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                | 説明                                                                                        | デフォルト |
-|---------------------------|---------------------------------------------------------------------------------------------|------------|
-| `-add-label-if-not-exist` | ラベルが存在しない場合はラベルを作成します.                                                 | false      |
-| `-label`                  | このメッセージを追加するラベル名.                                                           |            |
-| `-message-id`             | メッセージの不変ID                                                                          |            |
-| `-peer`                   | アカウントの別名                                                                            | default    |
-| `-user-id`                | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |
+| オプション                 | 説明                                                                                        | デフォルト |
+|----------------------------|---------------------------------------------------------------------------------------------|------------|
+| `-add-label-if-not-exist`  | ラベルが存在しない場合はラベルを作成します.                                                 | false      |
+| `-apply-to-inbox-messages` | INBOX内のクエリを満たすメッセージにラベルを適用します.                                      | false      |
+| `-file`                    | データファイルへのパス                                                                      |            |
+| `-peer`                    | アカウントの別名                                                                            | default    |
+| `-user-id`                 | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |
 
 ## 共通のオプション:
 
@@ -94,6 +94,24 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
+# ファイル書式
+
+## 書式: File
+
+追加するデータをフィルタリングします
+
+| 列            | 説明                                                  | 例               |
+|---------------|-------------------------------------------------------|------------------|
+| query         | 指定されたクエリにマッチするメッセージのみを返します. | from:@google.com |
+| add_labels    | ';' で区切られた追加するラベル名                      | my_label         |
+| delete_labels | ';' で区切られた削除するラベル名                      | my_label,INBOX   |
+
+最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+```
+query,add_labels,delete_labels
+from:@google.com,my_label,"my_label,INBOX"
+```
+
 # 実行結果
 
 作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
@@ -104,10 +122,32 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: message
+## レポート: filters
+
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `filters.csv`, `filters.json`, ならびに `filters.xlsx`.
+
+| 列                            | 説明                                                                  |
+|-------------------------------|-----------------------------------------------------------------------|
+| status                        | 処理の状態                                                            |
+| reason                        | 失敗またはスキップの理由                                              |
+| input.query                   | 指定されたクエリにマッチするメッセージのみを返します.                 |
+| input.add_labels              | ';' で区切られた追加するラベル名                                      |
+| input.delete_labels           | ';' で区切られた削除するラベル名                                      |
+| result.id                     | フィルターID                                                          |
+| result.criteria_from          | フィルター条件: 送信者の表示名またはメールアドレス                    |
+| result.criteria_to            | フィルタ条件: 受信者の表示名またはメールアドレス.                     |
+| result.criteria_subject       | フィルタ条件: メッセージの件名にある大文字小文字を区別しないフレーズ. |
+| result.criteria_query         | フィルタ条件: 指定されたクエリにマッチするメッセージのみを返します.   |
+| result.criteria_negated_query | フィルタ条件: 指定されたクエリにマッチしないメッセージのみを返します. |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `filters_0000.xlsx`, `filters_0001.xlsx`, `filters_0002.xlsx`, ...
+## レポート: messages
 
 メッセージリソース
-このコマンドはレポートを3種類の書式で出力します. `message.csv`, `message.json`, ならびに `message.xlsx`.
+このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
 
 | 列        | 説明                           |
 |-----------|--------------------------------|
@@ -122,7 +162,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `message_0000.xlsx`, `message_0001.xlsx`, `message_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `messages_0000.xlsx`, `messages_0001.xlsx`, `messages_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

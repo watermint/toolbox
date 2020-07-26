@@ -21,6 +21,7 @@ type Add struct {
 	Label               string
 	Message             rp_model.RowReport
 	ErrorLabelsNotFound app_msg.Message
+	AddLabelIfNotExist  bool
 }
 
 func (z *Add) Preset() {
@@ -33,14 +34,12 @@ func (z *Add) Preset() {
 
 func (z *Add) Exec(c app_control.Control) error {
 	labelNames := strings.Split(z.Label, ",")
-	labels, missing, err := sv_label.NewCached(z.Peer.Context(), z.UserId).ResolveByNames(labelNames)
-	if err != nil {
-		c.UI().Error(z.ErrorLabelsNotFound.With("Labels", strings.Join(missing, ",")))
-		return err
-	}
-	labelIds := make([]string, 0)
-	for _, label := range labels {
-		labelIds = append(labelIds, label.Id)
+	var labelIds []string
+	var err error
+	if z.AddLabelIfNotExist {
+		labelIds, err = sv_label.FindOrAddLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+	} else {
+		labelIds, err = sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
 	}
 	if err := z.Message.Open(); err != nil {
 		return err
