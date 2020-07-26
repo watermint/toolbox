@@ -127,19 +127,15 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows the transaction result.
 The command will generate a report in three different formats. `filters.csv`, `filters.json`, and `filters.xlsx`.
 
-| Column                        | Description                                                              |
-|-------------------------------|--------------------------------------------------------------------------|
-| status                        | Status of the operation                                                  |
-| reason                        | Reason of failure or skipped operation                                   |
-| input.query                   | Only return messages matching the specified query.                       |
-| input.add_labels              | Label names to add, separated by ';'                                     |
-| input.delete_labels           | Label names to delete, separated by ';'                                  |
-| result.id                     | Filter Id                                                                |
-| result.criteria_from          | Filter criteria: The sender's display name or email address.             |
-| result.criteria_to            | Filter criteria: The recipient's display name or email address.          |
-| result.criteria_subject       | Filter criteria: Case-insensitive phrase found in the message's subject. |
-| result.criteria_query         | Filter criteria: Only return messages matching the specified query.      |
-| result.criteria_negated_query | Filter criteria: Only return messages not matching the specified query.  |
+| Column                | Description                                                         |
+|-----------------------|---------------------------------------------------------------------|
+| status                | Status of the operation                                             |
+| reason                | Reason of failure or skipped operation                              |
+| input.query           | Only return messages matching the specified query.                  |
+| input.add_labels      | Label names to add, separated by ';'                                |
+| input.delete_labels   | Label names to delete, separated by ';'                             |
+| result.id             | Filter Id                                                           |
+| result.criteria_query | Filter criteria: Only return messages matching the specified query. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

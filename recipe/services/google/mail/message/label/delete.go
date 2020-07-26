@@ -60,5 +60,4 @@ func (z *Delete) Test(c app_control.Control) error {
 		m.MessageId = "abc123def456"
 		m.Label = "test"
 	})
-
 }
