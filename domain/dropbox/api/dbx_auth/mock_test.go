@@ -11,7 +11,7 @@ func TestMockConsoleAuth_Auth(t *testing.T) {
 		if a.PeerName() != "test-mock" {
 			t.Error(a.PeerName())
 		}
-		c, err := a.Auth("test-scope")
+		c, err := a.Auth([]string{"test-scope"})
 		if err != nil {
 			t.Error(err)
 		}
@@ -27,7 +27,7 @@ func TestMockConsoleAuth_Auth(t *testing.T) {
 		if a.PeerName() != "test-mock" {
 			t.Error(a.PeerName())
 		}
-		c, err := a.Auth("test-scope")
+		c, err := a.Auth([]string{"test-scope"})
 		if err != nil {
 			t.Error(err)
 		}
@@ -40,7 +40,7 @@ func TestMockConsoleAuth_Auth(t *testing.T) {
 func TestMockContext(t *testing.T) {
 	c := &MockContext{
 		peerName: "test-peer",
-		scope:    "test-scope",
+		scopes:   []string{"test-scope"},
 		preset:   &oauth2.Token{},
 	}
 	if c.IsNoAuth() {
@@ -49,7 +49,7 @@ func TestMockContext(t *testing.T) {
 	if c.PeerName() != "test-peer" {
 		t.Error("invalid")
 	}
-	if c.Scope() != "test-scope" {
+	if c.Scopes()[0] != "test-scope" {
 		t.Error("invalid")
 	}
 	if c.Description() != "" {

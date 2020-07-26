@@ -2,14 +2,14 @@ package rc_value
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"testing"
 )
 
 type ValueGhConnGithubPrivateRecipe struct {
-	Peer dbx_conn.ConnBusinessMgmt
+	Peer gh_conn.ConnGithubRepo
 }
 
 func (z *ValueGhConnGithubPrivateRecipe) Preset() {

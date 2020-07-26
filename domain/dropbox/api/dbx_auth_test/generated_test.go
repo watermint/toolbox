@@ -15,7 +15,7 @@ func TestGenerated_Auth(t *testing.T) {
 		if a.PeerName() != "test-generated-auth" {
 			t.Error(a.PeerName())
 		}
-		_, err := a.Auth(api_auth.DropboxTokenBusinessInfo)
+		_, err := a.Auth([]string{api_auth.DropboxTokenBusinessInfo})
 		if err != app.ErrorUserCancelled {
 			t.Error(err)
 		}

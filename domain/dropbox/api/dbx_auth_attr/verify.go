@@ -15,11 +15,17 @@ var (
 )
 
 // Returns description of the account
-func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.Context, err error) {
-	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.String("scope", ctx.Scope()))
+func VerifyToken(ctx api_auth.Context, ctl app_control.Control, app api_auth.App) (actx api_auth.Context, err error) {
+	scopes := ctx.Scopes()
+	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 	ui := ctl.UI()
 
-	switch ctx.Scope() {
+	if len(scopes) != 1 {
+		l.Debug("Skip verification")
+		return ctx, nil
+	}
+
+	switch scopes[0] {
 	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
 		apiCtx := dbx_context_impl.New(ctl, ctx)
 		res := apiCtx.Post("users/get_current_account")
@@ -39,7 +45,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		}
 		l.Debug("Token Verified", esl.String("desc", desc))
 
-		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
+		return api_auth.NewContextWithAttr(ctx, app.Config(scopes), desc, suppl), nil
 
 	case api_auth.DropboxTokenBusinessInfo,
 		api_auth.DropboxTokenBusinessManagement,
@@ -63,9 +69,10 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control) (actx api_auth.C
 		suppl := ui.Text(MAttr.AttrTeamLicenses.With("Licenses", supplLic))
 		l.Debug("Token Verified", esl.String("desc", desc), esl.String("suppl", suppl))
 
-		return api_auth.NewContextWithAttr(ctx, desc, suppl), nil
+		return api_auth.NewContextWithAttr(ctx, app.Config(scopes), desc, suppl), nil
 
 	default:
-		return nil, ErrorNoVerification
+		l.Debug("Skip verification")
+		return ctx, nil
 	}
 }

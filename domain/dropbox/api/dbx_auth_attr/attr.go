@@ -17,6 +17,7 @@ var (
 )
 
 type Attr struct {
+	app  api_auth.App
 	ctl  app_control.Control
 	auth api_auth.Console
 }
@@ -25,18 +26,18 @@ func (z *Attr) PeerName() string {
 	return z.auth.PeerName()
 }
 
-func (z *Attr) Auth(scope string) (token api_auth.Context, err error) {
-	l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.String("scope", scope))
+func (z *Attr) Auth(scopes []string) (token api_auth.Context, err error) {
+	l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.Strings("scopes", scopes))
 	ui := z.ctl.UI()
 
-	tc, err := z.auth.Auth(scope)
+	tc, err := z.auth.Auth(scopes)
 	if err != nil {
 		return nil, err
 	}
 
 	l.Debug("Start verify token")
 
-	tc, err = VerifyToken(tc, z.ctl)
+	tc, err = VerifyToken(tc, z.ctl, z.app)
 	if err != nil {
 		l.Debug("failed verify token", esl.Error(err))
 		ui.Error(MAttr.ErrorVerifyFailed.With("Error", err))

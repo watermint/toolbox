@@ -7,20 +7,21 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func DropboxOAuthEndpoint() oauth2.Endpoint {
-	return oauth2.Endpoint{
-		AuthURL:  "https://www.dropbox.com/oauth2/authorize",
-		TokenURL: "https://api.dropboxapi.com/oauth2/token",
-	}
-}
-
-type App struct {
+type Legacy struct {
 	ctl app_control.Control
 	res api_appkey.Resource
 }
 
-func (z *App) Config(tokenType string) *oauth2.Config {
-	key, secret := z.AppKey(tokenType)
+func (z *Legacy) UsePKCE() bool {
+	return false
+}
+
+func (z *Legacy) Config(scopes []string) *oauth2.Config {
+	if len(scopes) != 1 {
+		panic("Unsupported scope type")
+	}
+	scope := scopes[0]
+	key, secret := z.res.Key(scope)
 	return &oauth2.Config{
 		ClientID:     key,
 		ClientSecret: secret,
@@ -29,12 +30,8 @@ func (z *App) Config(tokenType string) *oauth2.Config {
 	}
 }
 
-func (z *App) AppKey(tokenType string) (key, secret string) {
-	return z.res.Key(tokenType)
-}
-
-func NewApp(ctl app_control.Control) api_auth.App {
-	a := &App{
+func NewLegacyApp(ctl app_control.Control) api_auth.App {
+	a := &Legacy{
 		ctl: ctl,
 		res: api_appkey.New(ctl),
 	}

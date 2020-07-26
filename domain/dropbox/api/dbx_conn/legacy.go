@@ -5,39 +5,33 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_conn"
 )
 
-type ConnDropboxApi interface {
+type ConnLegacyDropboxApi interface {
 	api_conn.Connection
 
 	Context() dbx_context.Context
-
-	// True when the connection type is personal
-	IsPersonal() bool
-
-	// True when the connection type is business
-	IsBusiness() bool
 }
 
 type ConnUserFile interface {
-	ConnDropboxApi
+	ConnLegacyDropboxApi
 	IsUserFile()
 }
 
 type ConnBusinessAudit interface {
-	ConnDropboxApi
+	ConnLegacyDropboxApi
 	IsBusinessAudit()
 }
 
 type ConnBusinessInfo interface {
-	ConnDropboxApi
+	ConnLegacyDropboxApi
 	IsBusinessInfo()
 }
 
 type ConnBusinessMgmt interface {
-	ConnDropboxApi
+	ConnLegacyDropboxApi
 	IsBusinessMgmt()
 }
 
 type ConnBusinessFile interface {
-	ConnDropboxApi
+	ConnLegacyDropboxApi
 	IsBusinessFile()
 }

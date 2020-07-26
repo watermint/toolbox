@@ -2,6 +2,7 @@ package artifact
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -26,9 +27,9 @@ func (z *Connect) Preset() {
 func (z *Connect) Exec(c app_control.Control) error {
 	l := c.Log()
 	e := make(map[string]*oauth2.Token)
-	a := api_auth_impl.NewConsoleCacheOnly(c, z.Full.PeerName())
+	a := api_auth_impl.NewConsoleCacheOnly(c, z.Full.PeerName(), dbx_auth.NewLegacyApp(c))
 	for _, s := range auth.Scopes {
-		t, err := a.Auth(s)
+		t, err := a.Auth([]string{s})
 		if err != nil {
 			l.Info("Skip export", esl.Error(err), esl.String("scope", s))
 			continue

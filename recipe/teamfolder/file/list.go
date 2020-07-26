@@ -22,6 +22,7 @@ func (z *List) Exec(c app_control.Control) error {
 		rc := r.(*namespacefile.List)
 		rc.IncludeTeamFolder = true
 		rc.IncludeSharedFolder = false
+		rc.Peer = z.Peer
 	})
 }
 

@@ -22,7 +22,7 @@ type Jobid struct {
 }
 
 func (z *Jobid) Preset() {
-	z.Kind.SetOptions(app_job.LogFileTypes, string(app_job.LogFileTypeToolbox))
+	z.Kind.SetOptions(string(app_job.LogFileTypeToolbox), app_job.LogFileTypes...)
 }
 
 func (z *Jobid) Exec(c app_control.Control) error {

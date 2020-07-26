@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
-	"strings"
 )
 
 const (
@@ -53,17 +52,16 @@ type App struct {
 	res api_appkey.Resource
 }
 
-func (z *App) AppKey(scope string) (key, secret string) {
-	return z.res.Key(scope)
+func (z *App) UsePKCE() bool {
+	return false
 }
 
-// Config with scopes that concatenated by ","
-func (z *App) Config(scope string) *oauth2.Config {
-	key, secret := z.AppKey(scope)
+func (z *App) Config(scopes []string) *oauth2.Config {
+	key, secret := z.res.Key(api_auth.GoogleMail)
 	return &oauth2.Config{
 		ClientID:     key,
 		ClientSecret: secret,
 		Endpoint:     google.Endpoint,
-		Scopes:       strings.Split(scope, ","),
+		Scopes:       scopes,
 	}
 }

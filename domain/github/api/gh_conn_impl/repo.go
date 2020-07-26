@@ -5,12 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/infra/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 func NewConnGithubRepo(name string) gh_conn.ConnGithubRepo {
@@ -33,36 +30,16 @@ func (z *ConnGithubRepo) ScopeLabel() string {
 }
 
 func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
-	l := ctl.Log()
-	ui := ctl.UI()
-	scope := gh_auth.ScopeRepo
-
-	if ctl.Feature().IsTestWithMock() {
-		l.Debug("Test with mock")
+	ac, useMock, err := api_conn_impl.Connect([]string{gh_auth.ScopeRepo}, z.name, gh_auth.NewApp(ctl), ctl)
+	if useMock {
 		z.ctx = gh_context_impl.NewMock(ctl)
 		return nil
 	}
-	if ctl.Feature().IsTest() && qt_endtoend.IsSkipEndToEndTest() {
-		l.Debug("Skip end to end test")
-		z.ctx = gh_context_impl.NewMock(ctl)
+	if ac != nil {
+		z.ctx = gh_context_impl.New(ctl, ac)
 		return nil
 	}
-	if !ui.IsConsole() {
-		l.Debug("non console UI is not supported")
-		return qt_errors.ErrorUnsupportedUI
-	}
-	a := api_auth_impl.NewConsoleRedirect(ctl, z.name, gh_auth.NewApp(ctl))
-	if !ctl.Feature().IsSecure() {
-		l.Debug("Enable cache")
-		a = api_auth_impl.NewConsoleCache(ctl, a)
-	}
-	l.Debug("Start auth sequence", esl.String("scope", scope))
-	ac, err := a.Auth(scope)
-	if err != nil {
-		return err
-	}
-	z.ctx = gh_context_impl.New(ctl, ac)
-	return nil
+	return err
 }
 
 func (z *ConnGithubRepo) PeerName() string {

@@ -160,7 +160,7 @@ type Expiry struct {
 
 func (z *Expiry) Preset() {
 	z.Days.SetRange(0, math.MaxInt32, 0)
-	z.Visibility.SetOptions([]string{"public", "team_only", "password", "team_and_password", "shared_folder_only"}, "public")
+	z.Visibility.SetOptions("public", "public", "team_only", "password", "team_and_password", "shared_folder_only")
 	z.Skipped.SetModel(&mo_sharedlink.SharedLinkMember{}, rp_model.HiddenColumns(
 		"shared_link_id",
 		"account_id",

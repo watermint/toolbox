@@ -59,8 +59,8 @@ func (z *Name) Test(c app_control.Control) error {
 
 func (z *Name) Preset() {
 	z.Category.SetOptions(
-		[]string{"", "image", "document", "pdf", "spreadsheet", "presentation", "audio", "video", "folder", "paper", "others"},
 		"",
+		"", "image", "document", "pdf", "spreadsheet", "presentation", "audio", "video", "folder", "paper", "others",
 	)
 	z.Matches.SetModel(&mo_file.MatchHighlighted{},
 		rp_model.HiddenColumns(

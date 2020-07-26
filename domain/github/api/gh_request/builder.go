@@ -9,16 +9,22 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
+	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
-	return Builder{
+	return &builderImpl{
 		ctl:   ctl,
 		token: token,
 	}
 }
 
-type Builder struct {
+type Builder interface {
+	api_request.Builder
+	With(method, url string, data api_request.RequestData) Builder
+}
+
+type builderImpl struct {
 	ctl    app_control.Control
 	token  api_auth.Context
 	method string
@@ -26,7 +32,7 @@ type Builder struct {
 	data   api_request.RequestData
 }
 
-func (z Builder) Log() esl.Logger {
+func (z builderImpl) Log() esl.Logger {
 	l := z.ctl.Log()
 	if z.method != "" {
 		l = l.With(esl.String("method", z.method))
@@ -35,20 +41,20 @@ func (z Builder) Log() esl.Logger {
 		l = l.With(esl.String("url", z.url))
 	}
 	if z.token != nil {
-		l = l.With(esl.String("scope", z.token.Scope()))
+		l = l.With(esl.Strings("scopes", z.token.Scopes()))
 	}
 	return l
 }
 
-func (z Builder) Endpoint() string {
+func (z builderImpl) Endpoint() string {
 	return z.url
 }
 
-func (z Builder) Param() string {
+func (z builderImpl) Param() string {
 	return string(z.data.ParamJson())
 }
 
-func (z Builder) ClientHash() string {
+func (z builderImpl) ClientHash() string {
 	var sr, st []string
 	sr = []string{
 		"m", z.method,
@@ -58,21 +64,21 @@ func (z Builder) ClientHash() string {
 		st = []string{
 			"p", z.token.PeerName(),
 			"t", z.token.Token().AccessToken,
-			"y", z.token.Scope(),
+			"y", strings.Join(z.token.Scopes(), ","),
 		}
 	}
 
 	return nw_client.ClientHash(sr, st)
 }
 
-func (z Builder) With(method, url string, data api_request.RequestData) Builder {
+func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
 	z.method = method
 	z.url = url
 	z.data = data
 	return z
 }
 
-func (z Builder) reqHeaders() map[string]string {
+func (z builderImpl) reqHeaders() map[string]string {
 	headers := make(map[string]string)
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
 	if z.token != nil && !z.token.IsNoAuth() {
@@ -87,21 +93,21 @@ func (z Builder) reqHeaders() map[string]string {
 	return headers
 }
 
-func (z Builder) reqContent() es_rewinder.ReadRewinder {
+func (z builderImpl) reqContent() es_rewinder.ReadRewinder {
 	if z.data.Content() != nil {
 		return z.data.Content()
 	}
 	return es_rewinder.NewReadRewinderOnMemory(z.data.ParamJson())
 }
 
-func (z Builder) reqParamString() string {
+func (z builderImpl) reqParamString() string {
 	//if z.data.Content() == nil {
 	//	return ""
 	//}
 	return z.data.ParamQuery()
 }
 
-func (z Builder) Build() (*http.Request, error) {
+func (z builderImpl) Build() (*http.Request, error) {
 	l := z.Log()
 	url := z.url + z.reqParamString()
 	rc := z.reqContent()

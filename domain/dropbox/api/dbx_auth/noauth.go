@@ -21,6 +21,6 @@ func (z *NoAuth) PeerName() string {
 	return z.peerName
 }
 
-func (z *NoAuth) Auth(scope string) (tc api_auth.Context, err error) {
+func (z *NoAuth) Auth(scopes []string) (tc api_auth.Context, err error) {
 	return nil, ErrorNoAuthDefined
 }

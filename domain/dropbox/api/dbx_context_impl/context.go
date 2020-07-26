@@ -1,6 +1,7 @@
 package dbx_context_impl
 
 import (
+	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
@@ -48,16 +49,33 @@ func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
 	l := ctl.Log()
 	opts := make([]nw_rest.ClientOpt, 0)
 	opts = append(opts, nw_rest.Assert(dbx_response_impl.AssertResponse))
+
+	// too many requests error simulator
 	if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow20) {
 		l.Debug("Experiment: Network conditioner enabled: 20%")
-		opts = append(opts, nw_rest.Conditioner(20, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
+		opts = append(opts, nw_rest.RateLimitSimulator(20, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
 	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow40) {
 		l.Debug("Experiment: Network conditioner enabled: 40%")
-		opts = append(opts, nw_rest.Conditioner(40, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
+		opts = append(opts, nw_rest.RateLimitSimulator(40, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
 	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow100) {
 		l.Debug("Experiment: Network conditioner enabled: 100%")
-		opts = append(opts, nw_rest.Conditioner(100, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
+		opts = append(opts, nw_rest.RateLimitSimulator(100, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
 	}
+
+	// server error simulator
+	if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerError20) {
+		l.Debug("Experiment: Network conditioner enabled: 20%")
+		opts = append(opts, nw_rest.ServerErrorSimulator(20, http.StatusInternalServerError, decorateServerError))
+	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerError40) {
+		l.Debug("Experiment: Network conditioner enabled: 40%")
+		opts = append(opts, nw_rest.ServerErrorSimulator(40, http.StatusInternalServerError, decorateServerError))
+	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerError100) {
+		l.Debug("Experiment: Network conditioner enabled: 100%")
+		opts = append(opts, nw_rest.ServerErrorSimulator(100, http.StatusInternalServerError, decorateServerError))
+	}
+
+	opts = append(opts, nw_rest.Client(token.Config().Client(context.Background(), token.Token())))
+
 	client := nw_rest.New(opts...)
 	return &ctxImpl{
 		client:  client,
@@ -66,8 +84,10 @@ func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
 	}
 }
 
-func decorateRateLimit(res *http.Response) {
+func decorateRateLimit(endpoint string, res *http.Response) {
+}
 
+func decorateServerError(endpoint string, res *http.Response) {
 }
 
 type ctxImpl struct {
@@ -81,7 +101,7 @@ func (z ctxImpl) UI() app_ui.UI {
 }
 
 func (z ctxImpl) ClientHash() string {
-	return z.builder.ContentHash()
+	return z.builder.ClientHash()
 }
 
 func (z ctxImpl) Log() esl.Logger {

@@ -140,7 +140,7 @@ fi
 echo --------------------
 echo BUILD: Generating documents
 
-$BUILD_PATH/linux/tbx license -quiet >$BUILD_PATH/LICENSE.txt
+$BUILD_PATH/linux/tbx license -output markdown >$BUILD_PATH/LICENSE.txt
 $BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false >$BUILD_PATH/README.txt
 
 echo --------------------

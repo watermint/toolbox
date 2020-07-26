@@ -22,7 +22,7 @@ type Last struct {
 }
 
 func (z *Last) Preset() {
-	z.Kind.SetOptions(app_job.LogFileTypes, string(app_job.LogFileTypeToolbox))
+	z.Kind.SetOptions(string(app_job.LogFileTypeToolbox), app_job.LogFileTypes...)
 }
 
 func (z *Last) Exec(c app_control.Control) error {

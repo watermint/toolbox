@@ -14,6 +14,7 @@ import (
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
 	domaindropboxusecaseuc_team_content "github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
+	domaingoogleservicesv_label "github.com/watermint/toolbox/domain/google/service/sv_label"
 	essentialskvskv_storage_impl "github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
@@ -63,6 +64,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
 		&domaindropboxusecaseuc_team_content.MsgScan{},
+		&domaingoogleservicesv_label.MsgFindLabel{},
 		&essentialskvskv_storage_impl.MsgStorage{},
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},

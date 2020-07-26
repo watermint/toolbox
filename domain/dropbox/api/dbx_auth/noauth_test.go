@@ -7,7 +7,7 @@ import (
 
 func TestNoAuth_Auth(t *testing.T) {
 	a := api_auth.NewNoAuth()
-	if a.PeerName() != "" || a.Scope() != "" || a.Supplemental() != "" || a.Description() != "" {
+	if a.PeerName() != "" || len(a.Scopes()) != 0 || a.Supplemental() != "" || a.Description() != "" {
 		t.Error("invalid")
 	}
 	if !a.IsNoAuth() {

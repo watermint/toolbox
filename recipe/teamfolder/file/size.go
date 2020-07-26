@@ -27,6 +27,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		rc.IncludeSharedFolder = false
 		rc.IncludeTeamFolder = false
 		rc.Depth = z.Depth.Value()
+		rc.Peer = z.Peer
 	})
 }
 

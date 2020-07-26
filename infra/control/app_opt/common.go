@@ -66,10 +66,10 @@ func (z *CommonOpts) Preset() {
 	z.Concurrency = runtime.NumCPU()
 	z.Debug = false
 	z.Experiment = ""
-	z.BudgetMemory.SetOptions([]string{BudgetLow, BudgetNormal}, BudgetNormal)
-	z.BudgetStorage.SetOptions(app_budget.StorageBudgets, string(app_budget.DefaultBudget))
-	z.Lang.SetOptions([]string{LangAuto, LangEnglish, LangJapanese}, LangAuto)
-	z.Output.SetOptions([]string{OutputText, OutputMarkdown, OutputJson, OutputNone}, OutputText)
+	z.BudgetMemory.SetOptions(BudgetNormal, BudgetLow, BudgetNormal)
+	z.BudgetStorage.SetOptions(string(app_budget.DefaultBudget), app_budget.StorageBudgets...)
+	z.Lang.SetOptions(LangAuto, LangAuto, LangEnglish, LangJapanese)
+	z.Output.SetOptions(OutputText, OutputText, OutputMarkdown, OutputJson, OutputNone)
 	z.Proxy = mo_string.NewOptional("")
 	z.Quiet = false
 	z.Secure = false

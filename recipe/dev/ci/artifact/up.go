@@ -3,6 +3,7 @@ package artifact
 import (
 	"context"
 	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
@@ -48,8 +49,8 @@ func (z *Up) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName)
-	ctx, err := a.Auth(api_auth.DropboxTokenFull)
+	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
+	ctx, err := a.Auth([]string{api_auth.DropboxTokenFull})
 	if err != nil {
 		l.Info("Skip operation")
 		return nil

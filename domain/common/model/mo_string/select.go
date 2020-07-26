@@ -5,7 +5,7 @@ import "github.com/watermint/toolbox/essentials/log/esl"
 type SelectString interface {
 	String
 	Options() []string
-	SetOptions(opts []string, selected string)
+	SetOptions(selected string, opts ...string)
 	SetSelect(selected string)
 	IsValid() bool
 }
@@ -30,7 +30,7 @@ func (z *selectString) Options() []string {
 	return z.opts
 }
 
-func (z *selectString) SetOptions(opts []string, selected string) {
+func (z *selectString) SetOptions(selected string, opts ...string) {
 	z.opts = opts
 	z.SetSelect(selected)
 }

@@ -4,23 +4,19 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/essentials/network/nw_concurrency"
-	"github.com/watermint/toolbox/essentials/network/nw_ratelimit"
+	"github.com/watermint/toolbox/essentials/network/nw_throttle"
 	"net/http"
 	"time"
 )
 
-func NewClient() nw_client.Http {
+func NewClient(client *http.Client) nw_client.Http {
 	return &Client{
-		client: http.Client{
-			Jar:     nil,
-			Timeout: 1 * time.Minute,
-		},
+		client: client,
 	}
 }
 
 type Client struct {
-	client http.Client
+	client *http.Client
 }
 
 // Call RPC. res will be nil on an error
@@ -31,12 +27,12 @@ func (z *Client) Call(hash, endpoint string, req *http.Request) (res *http.Respo
 	)
 
 	l.Debug("Call")
-	nw_ratelimit.WaitIfRequired(hash, endpoint)
-	nw_concurrency.Start()
-	callStart := time.Now()
-	res, err = z.client.Do(req)
-	callEnd := time.Now()
-	nw_concurrency.End()
+	var callStart, callEnd time.Time
+	nw_throttle.Throttle(hash, endpoint, func() {
+		callStart = time.Now()
+		res, err = z.client.Do(req)
+		callEnd = time.Now()
+	})
 
 	latency = callEnd.Sub(callStart)
 

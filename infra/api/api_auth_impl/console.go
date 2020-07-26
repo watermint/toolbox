@@ -2,7 +2,8 @@ package api_auth_impl
 
 import (
 	"context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"crypto/sha256"
+	"encoding/base64"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
@@ -23,10 +24,10 @@ var (
 	MApiAuth = app_msg.Apply(&MsgApiAuth{}).(*MsgApiAuth)
 )
 
-func NewConsoleOAuth(c app_control.Control, peerName string) api_auth.Console {
+func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
 	return &Console{
 		ctl:      c,
-		app:      dbx_auth.NewApp(c),
+		app:      app,
 		peerName: peerName,
 	}
 }
@@ -41,30 +42,27 @@ func (z *Console) PeerName() string {
 	return z.peerName
 }
 
-func (z *Console) Auth(scope string) (tc api_auth.Context, err error) {
-	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.String("scope", scope))
+func (z *Console) Auth(scopes []string) (tc api_auth.Context, err error) {
+	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.Strings("scopes", scopes))
 	ui := z.ctl.UI()
 
 	l.Debug("Start OAuth sequence")
-	t, err := z.oauthStart(scope)
+	t, err := z.oauthStart(scopes)
 	if err != nil {
 		l.Debug("Authentication finished with an error", esl.Error(err))
 		ui.Error(MApiAuth.FailedOrCancelled.With("Cause", err))
 		return nil, err
 	}
-	return api_auth.NewContext(t, z.peerName, scope), nil
+	return api_auth.NewContext(t, z.app.Config(scopes), z.peerName, scopes), nil
 }
 
-func (z *Console) oauthStart(scope string) (*oauth2.Token, error) {
+func (z *Console) oauthStart(scopes []string) (*oauth2.Token, error) {
 	l := z.ctl.Log()
 	l.Debug("Start OAuth sequence")
-	state, err := sc_random.GenerateRandomString(8)
-	if err != nil {
-		l.Error("Unable to generate `state`", esl.Error(err))
-		return nil, err
-	}
+	state := sc_random.MustGenerateRandomString(8)
+	challenge := sc_random.MustGenerateRandomString(64)
 
-	tok, err := z.oauthAskCode(scope, state)
+	tok, err := z.oauthAskCode(scopes, state, challenge)
 	if err != nil {
 		l.Debug("Authentication failed due to the error", esl.Error(err))
 		return nil, err
@@ -72,18 +70,41 @@ func (z *Console) oauthStart(scope string) (*oauth2.Token, error) {
 	return tok, nil
 }
 
-func (z *Console) oauthUrl(cfg *oauth2.Config, state string) string {
-	return cfg.AuthCodeURL(
-		state,
-		oauth2.SetAuthURLParam("response_type", "code"),
-	)
+func (z *Console) oauthUrl(cfg *oauth2.Config, state, challenge string) string {
+	if z.app.UsePKCE() {
+		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
+		s256a32 := sha256.Sum256([]byte(challenge64))
+		s256 := make([]byte, len(s256a32))
+		copy(s256[:], s256a32[:])
+		s256e := base64.RawURLEncoding.EncodeToString(s256)
+		return cfg.AuthCodeURL(
+			state,
+			oauth2.SetAuthURLParam("code_challenge", s256e),
+			oauth2.SetAuthURLParam("code_challenge_method", "S256"),
+			oauth2.SetAuthURLParam("response_type", "code"),
+			oauth2.SetAuthURLParam("token_access_type", "offline"),
+		)
+	} else {
+		return cfg.AuthCodeURL(
+			state,
+			oauth2.SetAuthURLParam("response_type", "code"),
+		)
+	}
 }
 
-func (z *Console) oauthExchange(cfg *oauth2.Config, code string) (*oauth2.Token, error) {
-	return cfg.Exchange(context.Background(), code)
+func (z *Console) oauthExchange(cfg *oauth2.Config, code, challenge string) (*oauth2.Token, error) {
+	if z.app.UsePKCE() {
+		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
+		return cfg.Exchange(context.Background(),
+			code,
+			oauth2.SetAuthURLParam("code_verifier", challenge64),
+		)
+	} else {
+		return cfg.Exchange(context.Background(), code)
+	}
 }
 
-func (z *Console) oauthCode(state string) string {
+func (z *Console) oauthCode(state, challenge string) string {
 	ui := z.ctl.UI()
 	for {
 		code, cancel := ui.AskText(MApiAuth.OauthSeq2)
@@ -97,17 +118,17 @@ func (z *Console) oauthCode(state string) string {
 	}
 }
 
-func (z *Console) oauthAskCode(tokenType, state string) (*oauth2.Token, error) {
+func (z *Console) oauthAskCode(scopes []string, state, challenge string) (*oauth2.Token, error) {
 	ui := z.ctl.UI()
-	cfg := z.app.Config(tokenType)
-	url := z.oauthUrl(cfg, state)
+	cfg := z.app.Config(scopes)
+	url := z.oauthUrl(cfg, state, challenge)
 
 	ui.Info(MApiAuth.OauthSeq1.With("Url", url))
 
-	code := z.oauthCode(state)
+	code := z.oauthCode(state, challenge)
 	if code == "" {
 		return nil, app.ErrorUserCancelled
 	}
 
-	return z.oauthExchange(cfg, code)
+	return z.oauthExchange(cfg, code, challenge)
 }

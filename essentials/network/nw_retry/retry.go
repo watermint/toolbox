@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_ratelimit"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"strings"
 	"time"
 )
 
@@ -48,6 +49,12 @@ func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res
 
 	default:
 		if re, cont := qt_errors.ErrorsForTest(ctx.Log(), er); cont || re == nil {
+			return res
+		}
+
+		// Do not retry for oauth2 failure such as:
+		// oauth2: token expired and refresh token is not set
+		if strings.Contains(er.Error(), "oauth2") {
 			return res
 		}
 		abort := nw_ratelimit.AddError(ctx.ClientHash(), req.Endpoint(), er)

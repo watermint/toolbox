@@ -14,6 +14,7 @@ import (
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
+	recipedevstage "github.com/watermint/toolbox/recipe/dev/stage"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
@@ -43,6 +44,13 @@ import (
 	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
 	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
 	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
+	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
+	recipeservicesgooglemailfilterbatch "github.com/watermint/toolbox/recipe/services/google/mail/filter/batch"
+	recipeservicesgooglemaillabel "github.com/watermint/toolbox/recipe/services/google/mail/label"
+	recipeservicesgooglemailmessage "github.com/watermint/toolbox/recipe/services/google/mail/message"
+	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
+	recipeservicesgooglemailmessageprocessed "github.com/watermint/toolbox/recipe/services/google/mail/message/processed"
+	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
@@ -98,6 +106,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevrelease.Publish{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
+		&recipedevstage.Gmail{},
+		&recipedevstage.Scoped{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
@@ -168,6 +178,19 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgithubreleaseasset.List{},
 		&recipeservicesgithubreleaseasset.Upload{},
 		&recipeservicesgithubtag.Create{},
+		&recipeservicesgooglemailfilter.Add{},
+		&recipeservicesgooglemailfilter.Delete{},
+		&recipeservicesgooglemailfilter.List{},
+		&recipeservicesgooglemailfilterbatch.Add{},
+		&recipeservicesgooglemaillabel.Add{},
+		&recipeservicesgooglemaillabel.Delete{},
+		&recipeservicesgooglemaillabel.List{},
+		&recipeservicesgooglemaillabel.Rename{},
+		&recipeservicesgooglemailmessage.List{},
+		&recipeservicesgooglemailmessagelabel.Add{},
+		&recipeservicesgooglemailmessagelabel.Delete{},
+		&recipeservicesgooglemailmessageprocessed.List{},
+		&recipeservicesgooglemailthread.List{},
 		&recipesharedfolder.List{},
 		&recipesharedfoldermember.List{},
 		&recipesharedlink.Create{},

@@ -11,7 +11,7 @@ const (
 	MaxLastErrors                  = 100
 	SameErrorThreshold             = 80
 	LastErrorRecycleTimeMultiplier = 100
-	ShortWait                      = 3 * 1000 * time.Millisecond
+	ShortWait                      = 3 * time.Second
 	LongWait                       = 1 * time.Minute
 	LongWaitAlertThreshold         = 5 * time.Minute
 )

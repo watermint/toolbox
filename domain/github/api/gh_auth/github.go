@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/github"
-	"strings"
 )
 
 const (
@@ -43,16 +42,16 @@ type App struct {
 	res api_appkey.Resource
 }
 
-func (z *App) AppKey(scope string) (key, secret string) {
-	return z.res.Key(scope)
+func (z *App) UsePKCE() bool {
+	return false
 }
 
-func (z *App) Config(scope string) *oauth2.Config {
-	key, secret := z.AppKey(api_auth.Github)
+func (z *App) Config(scopes []string) *oauth2.Config {
+	key, secret := z.res.Key(api_auth.Github)
 	return &oauth2.Config{
 		ClientID:     key,
 		ClientSecret: secret,
 		Endpoint:     github.Endpoint,
-		Scopes:       strings.Split(scope, ","),
+		Scopes:       scopes,
 	}
 }

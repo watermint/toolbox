@@ -196,3 +196,21 @@ DropboxおよびDropbox Business向けのツールセット
 | [services github release list](doc/generated_ja/services-github-release-list.md)                     | リリースの一覧                                   |
 | [services github tag create](doc/generated_ja/services-github-tag-create.md)                         | レポジトリにタグを作成します                     |
 
+## Google Gmail
+
+| コマンド                                                                                                       | 説明                                        |
+|----------------------------------------------------------------------------------------------------------------|---------------------------------------------|
+| [services google mail filter add](doc/generated_ja/services-google-mail-filter-add.md)                         | フィルターを追加します.                     |
+| [services google mail filter batch add](doc/generated_ja/services-google-mail-filter-batch-add.md)             | クエリによるラベルの一括追加・削除          |
+| [services google mail filter delete](doc/generated_ja/services-google-mail-filter-delete.md)                   | フィルタの削除                              |
+| [services google mail filter list](doc/generated_ja/services-google-mail-filter-list.md)                       | フィルターの一覧                            |
+| [services google mail label add](doc/generated_ja/services-google-mail-label-add.md)                           | ラベルの追加                                |
+| [services google mail label delete](doc/generated_ja/services-google-mail-label-delete.md)                     | ラベルの削除.                               |
+| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md)                         | ラベルのリスト                              |
+| [services google mail label rename](doc/generated_ja/services-google-mail-label-rename.md)                     | ラベルの名前を変更する                      |
+| [services google mail message label add](doc/generated_ja/services-google-mail-message-label-add.md)           | メッセージにラベルを追加                    |
+| [services google mail message label delete](doc/generated_ja/services-google-mail-message-label-delete.md)     | メッセージからラベルを削除する              |
+| [services google mail message list](doc/generated_ja/services-google-mail-message-list.md)                     | メッセージの一覧                            |
+| [services google mail message processed list](doc/generated_ja/services-google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します. |
+| [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)                       | スレッド一覧                                |
+

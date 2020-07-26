@@ -36,14 +36,15 @@ const (
 )
 
 type MsgCallback struct {
-	MsgOpenUrlOnYourBrowser app_msg.Message
-	MsgHitEnterToProceed    app_msg.Message
-	MsgResultSuccessHeader  app_msg.Message
-	MsgResultSuccessBody    app_msg.Message
-	MsgResultFailureHeader  app_msg.Message
-	MsgResultFailureBody    app_msg.Message
-	MsgHelloHeader          app_msg.Message
-	MsgHelloBody            app_msg.Message
+	MsgOpenUrlOnYourBrowser      app_msg.Message
+	MsgErrorOpenUrlOnYourBrowser app_msg.Message
+	MsgHitEnterToProceed         app_msg.Message
+	MsgResultSuccessHeader       app_msg.Message
+	MsgResultSuccessBody         app_msg.Message
+	MsgResultFailureHeader       app_msg.Message
+	MsgResultFailureBody         app_msg.Message
+	MsgHelloHeader               app_msg.Message
+	MsgHelloBody                 app_msg.Message
 }
 
 var (
@@ -189,11 +190,14 @@ func (z *callbackImpl) openUrl(authUrl string) {
 	ui := z.ctl.UI()
 
 	l.Debug("opening auth url", esl.String("url", authUrl))
+	ui.Info(MCallback.MsgOpenUrlOnYourBrowser)
+	ui.Code(authUrl)
+	ui.Break()
 	ui.AskProceed(MCallback.MsgHitEnterToProceed)
 
 	if err := z.opener.Open(authUrl, true); err != nil {
 		l.Debug("Unable to open, ask user to open the url")
-		ui.Info(MCallback.MsgOpenUrlOnYourBrowser.With("Url", authUrl))
+		ui.Info(MCallback.MsgErrorOpenUrlOnYourBrowser.With("Url", authUrl))
 	}
 }
 

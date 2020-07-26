@@ -24,6 +24,9 @@ type Get interface {
 type Put interface {
 	Put(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
 }
+type Delete interface {
+	Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
+}
 
 type Context interface {
 	es_context.Context

@@ -6,9 +6,8 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/essentials/network/nw_concurrency"
-	"github.com/watermint/toolbox/essentials/network/nw_ratelimit"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
+	"github.com/watermint/toolbox/essentials/network/nw_throttle"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"io/ioutil"
 	"math/rand"
@@ -26,13 +25,13 @@ const (
 )
 
 type RetryAfterHeaderType int
-type ResponseDecorator func(res *http.Response)
+type ResponseDecorator func(endpoint string, res *http.Response)
 
-func NoDecorator(res *http.Response) {
+func NoDecorator(endpoint string, res *http.Response) {
 }
 
-func New(client nw_client.Rest, rate int, headerType RetryAfterHeaderType, decorator ResponseDecorator) nw_client.Rest {
-	return &narrowClient{
+func NewRateLimit(client nw_client.Rest, rate int, headerType RetryAfterHeaderType, decorator ResponseDecorator) nw_client.Rest {
+	return &rateLimitClient{
 		rate:       rate,
 		headerType: headerType,
 		decorator:  decorator,
@@ -40,7 +39,7 @@ func New(client nw_client.Rest, rate int, headerType RetryAfterHeaderType, decor
 	}
 }
 
-type narrowClient struct {
+type rateLimitClient struct {
 	// too many requests error rate in percent
 	rate int
 
@@ -54,7 +53,7 @@ type narrowClient struct {
 	client nw_client.Rest
 }
 
-func (z narrowClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
+func (z rateLimitClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
 	if rand.Intn(100) >= z.rate {
 		return z.client.Call(ctx, req)
 	} else {
@@ -85,16 +84,15 @@ func (z narrowClient) Call(ctx api_context.Context, req nw_client.RequestBuilder
 		}
 
 		if z.decorator != nil {
-			z.decorator(hr)
+			z.decorator(req.Endpoint(), hr)
 		}
 		if hr.Body == nil {
 			hr.Body = ioutil.NopCloser(&bytes.Buffer{})
 		}
 
-		nw_ratelimit.WaitIfRequired(ctx.ClientHash(), req.Endpoint())
-		nw_concurrency.Start()
-		res := es_response_impl.New(ctx, hr)
-		nw_concurrency.End()
+		nw_throttle.Throttle(ctx.ClientHash(), req.Endpoint(), func() {
+			res = es_response_impl.New(ctx, hr)
+		})
 		return res
 	}
 }

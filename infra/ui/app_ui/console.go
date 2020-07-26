@@ -78,19 +78,20 @@ func (z conImpl) SubHeader(m app_msg.Message) {
 }
 
 func (z conImpl) Info(m app_msg.Message) {
-	es_color.Colorfln(z.wr, es_color.ColorWhite, false, z.mc.Compile(m))
+	es_color.Colorfln(z.wr, es_color.ColorWhite, false, "%s", z.mc.Compile(m))
 }
 
 func (z conImpl) InfoTable(name string) Table {
-	return newConTable(z, z.wr, z.mc, name)
+	//	return newConTable(z, z.wr, z.mc, name)
+	return newMdTable(z, z.wr, z.mc, name)
 }
 
 func (z conImpl) Error(m app_msg.Message) {
-	es_color.Colorfln(z.wr, es_color.ColorRed, false, z.mc.Compile(m))
+	es_color.Colorfln(z.wr, es_color.ColorRed, false, "%s", z.mc.Compile(m))
 }
 
 func (z conImpl) Quote(m app_msg.Message) {
-	es_color.Colorfln(z.wr, es_color.ColorGreen, false, z.mc.Compile(m))
+	es_color.Colorfln(z.wr, es_color.ColorGreen, false, "%s", z.mc.Compile(m))
 }
 
 func (z conImpl) Break() {
@@ -99,45 +100,45 @@ func (z conImpl) Break() {
 
 func (z conImpl) AskProceed(m app_msg.Message) {
 	z.dg.AskProceed(func() {
-		es_color.Colorfln(z.wr, es_color.ColorCyan, false, z.mc.Compile(m))
+		es_color.Colorfln(z.wr, es_color.ColorCyan, false, "%s", z.mc.Compile(m))
 	})
 }
 
 func (z conImpl) AskCont(m app_msg.Message) (cont bool) {
 	p := func() {
-		es_color.Colorfln(z.wr, es_color.ColorCyan, false, z.mc.Compile(m))
+		es_color.Colorfln(z.wr, es_color.ColorCyan, false, "%s", z.mc.Compile(m))
 	}
 	return z.dg.AskCont(p, es_dialogue.YesNoCont)
 }
 
 func (z conImpl) AskText(m app_msg.Message) (text string, cancel bool) {
 	p := func() {
-		es_color.Colorfln(z.wr, es_color.ColorCyan, false, z.mc.Compile(m))
+		es_color.Colorfln(z.wr, es_color.ColorCyan, false, "%s", z.mc.Compile(m))
 	}
 	return z.dg.AskText(p, es_dialogue.NonEmptyText)
 }
 
 func (z conImpl) AskSecure(m app_msg.Message) (secure string, cancel bool) {
 	p := func() {
-		es_color.Colorfln(z.wr, es_color.ColorCyan, false, z.mc.Compile(m))
+		es_color.Colorfln(z.wr, es_color.ColorCyan, false, "%s", z.mc.Compile(m))
 	}
 	return z.dg.AskSecure(p)
 }
 
 func (z conImpl) Success(m app_msg.Message) {
-	es_color.Colorfln(z.wr, es_color.ColorGreen, false, z.mc.Compile(m))
+	es_color.Colorfln(z.wr, es_color.ColorGreen, false, "%s", z.mc.Compile(m))
 }
 
 func (z conImpl) Failure(m app_msg.Message) {
-	es_color.Colorfln(z.wr, es_color.ColorRed, false, z.mc.Compile(m))
+	es_color.Colorfln(z.wr, es_color.ColorRed, false, "%s", z.mc.Compile(m))
 }
 
 func (z conImpl) Progress(m app_msg.Message) {
-	es_color.Colorfln(z.wr, es_color.ColorCyan, false, z.mc.Compile(m))
+	es_color.Colorfln(z.wr, es_color.ColorCyan, false, "%s", z.mc.Compile(m))
 }
 
 func (z conImpl) Code(code string) {
-	es_color.Colorfln(z.wr, es_color.ColorBlue, false, code)
+	es_color.Colorfln(z.wr, es_color.ColorBlue, false, "%s", code)
 }
 
 func (z conImpl) Link(artifact rp_artifact.Artifact) {

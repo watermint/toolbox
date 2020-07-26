@@ -1,6 +1,7 @@
 package dbx_auth
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
@@ -35,12 +36,12 @@ func (z *Generated) PeerName() string {
 	return z.peerName
 }
 
-func (z *Generated) Auth(scope string) (tc api_auth.Context, err error) {
-	token, err := z.generatedToken(scope)
+func (z *Generated) Auth(scopes []string) (tc api_auth.Context, err error) {
+	token, err := z.generatedToken(scopes)
 	if err != nil {
 		return nil, err
 	}
-	return api_auth.NewContext(token, z.peerName, scope), nil
+	return api_auth.NewContext(token, &oauth2.Config{}, z.peerName, scopes), nil
 }
 
 func (z *Generated) generatedTokenInstruction(scope string) {
@@ -74,7 +75,12 @@ func (z *Generated) generatedTokenInstruction(scope string) {
 	ui.Info(MGenerated.GeneratedToken1.With("API", api).With("TypeOfAccess", toa))
 }
 
-func (z *Generated) generatedToken(scope string) (*oauth2.Token, error) {
+func (z *Generated) generatedToken(scopes []string) (*oauth2.Token, error) {
+	if len(scopes) != 1 {
+		esl.Default().Warn("Unsupported scopes", esl.Strings("scopes", scopes))
+		return nil, errors.New("unsupported scope")
+	}
+	scope := scopes[0]
 	ui := z.ctl.UI()
 	z.generatedTokenInstruction(scope)
 	for {
