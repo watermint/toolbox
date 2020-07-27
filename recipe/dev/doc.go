@@ -23,13 +23,15 @@ type Doc struct {
 	rc_recipe.RemarkSecret
 	Badge       bool
 	DocLang     mo_string.OptionalString
-	Filename    string
+	Readme      string
+	Security    string
 	CommandPath string
 }
 
 func (z *Doc) Preset() {
 	z.Badge = true
-	z.Filename = "README.md"
+	z.Readme = "README.md"
+	z.Security = "SECURITY_AND_PRIVACY.md"
 	z.CommandPath = "doc/generated/"
 }
 
@@ -45,11 +47,20 @@ func (z *Doc) genDoc(path string, doc string, c app_control.Control) error {
 
 func (z *Doc) genReadme(c app_control.Control) error {
 	l := c.Log()
-	l.Info("Generating README", esl.String("file", z.Filename))
+	l.Info("Generating README", esl.String("file", z.Readme))
 	sec := dc_readme.New(z.Badge, z.CommandPath)
 	doc := dc_section.Document(c.Messages(), sec...)
 
-	return z.genDoc(z.Filename, doc, c)
+	return z.genDoc(z.Readme, doc, c)
+}
+
+func (z *Doc) genSecurity(c app_control.Control) error {
+	l := c.Log()
+	l.Info("Generating SECURITY_AND_PRIVACY", esl.String("file", z.Security))
+	sec := dc_readme.NewSecurity()
+	doc := dc_section.Document(c.Messages(), sec)
+
+	return z.genDoc(z.Security, doc, c)
 }
 
 func (z *Doc) genCommands(c app_control.Control) error {
@@ -82,6 +93,10 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	}
 	if err := z.genReadme(ctl); err != nil {
 		l.Error("Failed to generate README", esl.Error(err))
+		return err
+	}
+	if err := z.genSecurity(ctl); err != nil {
+		l.Error("Failed to generate SECURITY_AND_PRIVACY", esl.Error(err))
 		return err
 	}
 	if err := z.genCommands(ctl); err != nil {

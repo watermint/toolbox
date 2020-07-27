@@ -168,7 +168,8 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				rr := r.(*Doc)
 				rr.Badge = true
 				rr.DocLang = mo_string.NewOptional(langCode)
-				rr.Filename = fmt.Sprintf("README%s.md", suffix)
+				rr.Readme = fmt.Sprintf("README%s.md", suffix)
+				rr.Security = fmt.Sprintf("SECURITY_AND_PRIVACY%s.md", suffix)
 				rr.CommandPath = path
 			})
 			if err != nil {
