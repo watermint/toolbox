@@ -162,18 +162,20 @@ func (z *Add) Exec(c app_control.Control) error {
 		addLabels, removeLabels, err := z.addDeleteLabels(row, c)
 		if err != nil {
 			z.Filters.Failure(err, row)
-			return err
+			return nil
 		}
 
 		filter, err := z.addFilter(row.Query, addLabels, removeLabels, c)
 		if err != nil {
 			z.Filters.Failure(err, row)
-			return err
+			return nil
 		}
 		z.Filters.Success(row, filter)
 
 		if z.ApplyToExistingMessages {
-			return z.processMessages(row.Query, addLabels, removeLabels, c)
+			err = z.processMessages(row.Query, addLabels, removeLabels, c)
+			z.Filters.Failure(err, row)
+			return nil
 		}
 		return nil
 	})
