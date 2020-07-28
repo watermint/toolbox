@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_context"
 	"github.com/watermint/toolbox/domain/google/api/goog_request"
+	"github.com/watermint/toolbox/domain/google/api/goog_response_impl"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
@@ -69,7 +70,7 @@ func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_res
 		ApiEndpoint+endpoint,
 		api_request.Combine(d),
 	)
-	return z.client.Call(&z, b)
+	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
 func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
@@ -78,7 +79,7 @@ func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_re
 		ApiEndpoint+endpoint,
 		api_request.Combine(d),
 	)
-	return z.client.Call(&z, b)
+	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
 func (z ctxImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
@@ -87,7 +88,7 @@ func (z ctxImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_res
 		ApiEndpoint+endpoint,
 		api_request.Combine(d),
 	)
-	return z.client.Call(&z, b)
+	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
 func (z ctxImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
@@ -96,7 +97,7 @@ func (z ctxImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_
 		ApiEndpoint+endpoint,
 		api_request.Combine(d),
 	)
-	return z.client.Call(&z, b)
+	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
 func (z ctxImpl) ClientHash() string {
