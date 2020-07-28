@@ -226,12 +226,9 @@ func (z msgImpl) List(q ...QueryOpt) (messages []*mo_message.Message, err error)
 			return nil, err
 		}
 		messages = append(messages, chunk...)
-		if nextPageToken == "" || (maxResults != 0 && maxResults <= len(messages)) {
+		if nextPageToken == "" || (0 < maxResults && maxResults <= len(messages)) {
 			return messages, nil
 		}
 		app_ui.ShowLongRunningProgress(z.ctx.UI(), z.userId, MProgress.ProgressRetrieve)
-		opts = QueryOpts{
-			MaxResults: maxResults,
-		}
 	}
 }
