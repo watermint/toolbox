@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_context"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 type Notify interface {
@@ -26,6 +27,9 @@ type Put interface {
 }
 type Delete interface {
 	Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response)
+}
+type UI interface {
+	UI() app_ui.UI
 }
 
 type Context interface {

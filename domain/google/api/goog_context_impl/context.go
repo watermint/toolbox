@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"net/http"
 )
 
@@ -56,6 +57,10 @@ type ctxImpl struct {
 	builder goog_request.Builder
 	client  nw_client.Rest
 	ctl     app_control.Control
+}
+
+func (z ctxImpl) UI() app_ui.UI {
+	return z.ctl.UI()
 }
 
 func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {

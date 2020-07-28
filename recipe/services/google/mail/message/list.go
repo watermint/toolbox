@@ -76,7 +76,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 	for i, msgId := range messages {
-		ui.Progress(z.ProgressGetMessage.With("Index", i+1))
+		ui.Progress(z.ProgressGetMessage.With("Index", i+1).With("Total", len(messages)))
 		message, err := svm.Resolve(msgId.Id, sv_message.ResolveFormat(z.Format.Value()))
 		if err != nil {
 			return err
