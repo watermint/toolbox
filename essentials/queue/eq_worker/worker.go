@@ -9,7 +9,7 @@ import (
 )
 
 type Worker interface {
-	Startup()
+	Startup(numWorker int)
 	Wait()
 }
 
@@ -35,11 +35,14 @@ func (z *workerImpl) logger() esl.Logger {
 	return z.l.With(esl.String("routine", es_goroutine.GetGoRoutineName()))
 }
 
-func (z *workerImpl) Startup() {
-	l := z.logger()
+func (z *workerImpl) Startup(numWorker int) {
+	l := z.logger().With(esl.Int("numWorker", numWorker))
 	l.Debug("Startup worker")
-	z.wg.Add(1)
-	go z.loop()
+	for i := 0; i < numWorker; i++ {
+		l.Debug("Starting worker", esl.Int("workerId", i))
+		z.wg.Add(1)
+		go z.loop()
+	}
 }
 
 func (z *workerImpl) Wait() {

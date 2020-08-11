@@ -10,19 +10,25 @@ import (
 )
 
 type Queue interface {
+	// Enqueue data into the queue.
 	Enqueue(p interface{})
+
 	Batch(batchId string) Queue
-	Wait()
-	//Suspend()
 }
 
-func New(l esl.Logger, factory eq_pipe.Factory, f interface{}, ctx ...interface{}) Queue {
+type RootQueue interface {
+	Queue
+	Wait()
+	Suspend() (session eq_bundle.Session, err error)
+}
+
+func New(l esl.Logger, numWorker int, factory eq_pipe.Factory, f interface{}, ctx ...interface{}) RootQueue {
 	bundle := eq_bundle.NewSimple(l, factory)
 	mould := eq_mould.New(bundle, f, ctx...)
 	pump := eq_pump.New(l, bundle)
 	pumpChan := pump.Start()
 	worker := eq_worker.New(l, mould, pumpChan)
-	worker.Startup()
+	worker.Startup(numWorker)
 
 	return &queueImpl{
 		l:      l,
@@ -41,6 +47,23 @@ type queueImpl struct {
 	worker eq_worker.Worker
 }
 
+func (z queueImpl) Suspend() (session eq_bundle.Session, err error) {
+	l := z.l
+
+	l.Debug("Pump shutdown")
+	z.pump.Shutdown()
+	l.Debug("Pump shutdown: Done")
+
+	l.Debug("Waiting for Worker")
+	z.worker.Wait()
+	l.Debug("Waiting for Worker: Done")
+
+	l.Debug("Preserve")
+	session, err = z.bundle.Preserve()
+	l.Debug("Preserve: Done", esl.Any("session", session), esl.Error(err))
+	return
+}
+
 func (z queueImpl) Wait() {
 	l := z.l
 
@@ -51,6 +74,10 @@ func (z queueImpl) Wait() {
 	l.Debug("Waiting for Worker")
 	z.worker.Wait()
 	l.Debug("Waiting for Worker: Done")
+
+	l.Debug("Waiting for Bundle close")
+	z.bundle.Close()
+	l.Debug("Waiting for Bundle close: Done")
 }
 
 func (z queueImpl) Enqueue(p interface{}) {

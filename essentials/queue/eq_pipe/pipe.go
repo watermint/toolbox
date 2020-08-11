@@ -13,11 +13,16 @@ type Pipe interface {
 	// Size of the pipe.
 	Size() int
 
-	// Close this pipe.
+	// Close & clean up this pipe.
 	Close()
+
+	// Close & preserve the state
+	Preserve() (id SessionId, err error)
 }
 
 // Pipe factory
 type Factory interface {
 	New(batchId string) Pipe
 }
+
+type SessionId string

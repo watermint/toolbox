@@ -8,7 +8,7 @@ import (
 )
 
 func TestPumpImpl_Start(t *testing.T) {
-	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple())
+	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple(esl.Default()))
 	pump := New(esl.Default(), bundle)
 	pump.Start()
 	pump.Close()

@@ -9,8 +9,14 @@ import (
 )
 
 type Pump interface {
+	// Start the pump.
 	Start() chan eq_bundle.Data
+
+	// Wait & close the pump
 	Close()
+
+	// Stop the pump
+	Shutdown()
 }
 
 func New(l esl.Logger, bundle eq_bundle.Bundle) Pump {
@@ -48,6 +54,16 @@ func (z *pumpImpl) Start() chan eq_bundle.Data {
 	return z.c
 }
 
+func (z *pumpImpl) Shutdown() {
+	l := z.logger()
+
+	l.Debug("Try Shutdown")
+	z.closeOnce.Do(func() {
+		l.Debug("Shutdown")
+		close(z.c)
+	})
+}
+
 func (z *pumpImpl) Close() {
 	l := z.logger()
 
@@ -56,11 +72,7 @@ func (z *pumpImpl) Close() {
 	z.closeCond.Wait()
 	z.closeCondLock.Unlock()
 
-	l.Debug("Try Shutdown")
-	z.closeOnce.Do(func() {
-		l.Debug("Shutdown")
-		close(z.c)
-	})
+	z.Shutdown()
 }
 
 func (z *pumpImpl) loop() {

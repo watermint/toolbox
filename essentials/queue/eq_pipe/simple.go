@@ -2,9 +2,14 @@ package eq_pipe
 
 import (
 	"container/list"
+	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"reflect"
 	"sync"
+)
+
+var (
+	ErrorPreserveIsNotSupported = errors.New("this pipe does not support preserve")
 )
 
 func NewSimple(l esl.Logger) Factory {
@@ -28,6 +33,10 @@ type simpleImpl struct {
 	lg esl.Logger
 	l  *list.List
 	m  sync.Mutex
+}
+
+func (z *simpleImpl) Preserve() (id SessionId, err error) {
+	return "", ErrorPreserveIsNotSupported
 }
 
 func (z *simpleImpl) Delete(d []byte) {

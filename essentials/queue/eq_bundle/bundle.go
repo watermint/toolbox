@@ -3,6 +3,7 @@ package eq_bundle
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"time"
 )
 
@@ -24,6 +25,14 @@ type Bundle interface {
 
 	// Close this bundle.
 	Close()
+
+	// Preserve this bundle.
+	Preserve() (session Session, err error)
+}
+
+type Session struct {
+	Pipes      map[string]eq_pipe.SessionId `json:"pipes"`
+	InProgress eq_pipe.SessionId            `json:"in_progress"`
 }
 
 func NewData(batchId string, d []byte) Data {

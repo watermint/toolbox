@@ -26,6 +26,36 @@ type simpleImpl struct {
 	currentBatchId string
 }
 
+func (z *simpleImpl) Preserve() (session Session, err error) {
+	session.Pipes = make(map[string]eq_pipe.SessionId)
+	l := z.logger
+	l.Debug("Preserve")
+
+	z.pipesMutex.Lock()
+	defer z.pipesMutex.Unlock()
+
+	for batchId, pipe := range z.pipes {
+		ll := l.With(esl.String("batchId", batchId))
+		ll.Debug("Preserve")
+		sessionId, err := pipe.Preserve()
+		if err != nil {
+			l.Debug("Unable to preserve pipe", esl.Error(err))
+			return session, err
+		}
+		session.Pipes[batchId] = sessionId
+	}
+
+	l.Debug("Preserve In progress pipe")
+	session.InProgress, err = z.wip.Preserve()
+	if err != nil {
+		l.Debug("Unable to preserve pipe", esl.Error(err))
+		return session, err
+	}
+
+	l.Debug("Bundle preserved", esl.Any("session", session))
+	return session, nil
+}
+
 func (z *simpleImpl) Complete(d Data) {
 	l := z.logger
 	l.Debug("Mark as completed")

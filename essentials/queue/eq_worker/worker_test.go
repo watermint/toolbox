@@ -10,7 +10,7 @@ import (
 )
 
 func TestWorkerImpl(t *testing.T) {
-	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple())
+	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple(esl.Default()))
 	processor := func(v string) {
 		l := esl.Default()
 		l.Info("Process", esl.String("v", v))
@@ -19,8 +19,8 @@ func TestWorkerImpl(t *testing.T) {
 
 	c := make(chan eq_bundle.Data)
 	worker := New(esl.Default(), mould, c)
-	worker.Startup()
-	worker.Startup()
+	worker.Startup(1)
+	worker.Startup(2)
 
 	go func() {
 		for {
