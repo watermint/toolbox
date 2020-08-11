@@ -71,7 +71,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション                    | 説明                                                                                        | デフォルト |
 |-------------------------------|---------------------------------------------------------------------------------------------|------------|
 | `-add-label-if-not-exist`     | ラベルが存在しない場合はラベルを作成します.                                                 | false      |
-| `-apply-to-existing-messages` | Apply labels to existing messages that satisfy the query.                                   | false      |
+| `-apply-to-existing-messages` | クエリを満たす既存のメッセージにラベルを適用します.                                         | false      |
 | `-file`                       | データファイルへのパス                                                                      |            |
 | `-peer`                       | アカウントの別名                                                                            | default    |
 | `-user-id`                    | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |

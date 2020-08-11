@@ -19,12 +19,23 @@ type Flavor int
 func newFlavor(f Flavor) zapcoreuber.Encoder {
 	switch f {
 	case FlavorConsole:
-		return zapcoreuber.NewConsoleEncoder(zapcoreuber.EncoderConfig{
-			LevelKey:       "level",
-			MessageKey:     "msg",
-			EncodeDuration: zapcoreuber.StringDurationEncoder,
-			EncodeLevel:    zapTerminalEncodeLevel(),
-		})
+		if es_env.IsEnabled(app.EnvNameDebugVerbose) {
+			return zapcoreuber.NewConsoleEncoder(zapcoreuber.EncoderConfig{
+				LevelKey:       "level",
+				MessageKey:     "msg",
+				CallerKey:      "caller",
+				EncodeCaller:   zapcoreuber.ShortCallerEncoder,
+				EncodeDuration: zapcoreuber.StringDurationEncoder,
+				EncodeLevel:    zapTerminalEncodeLevel(),
+			})
+		} else {
+			return zapcoreuber.NewConsoleEncoder(zapcoreuber.EncoderConfig{
+				LevelKey:       "level",
+				MessageKey:     "msg",
+				EncodeDuration: zapcoreuber.StringDurationEncoder,
+				EncodeLevel:    zapTerminalEncodeLevel(),
+			})
+		}
 	case FlavorFileStandard:
 		return zapcoreuber.NewJSONEncoder(zapcoreuber.EncoderConfig{
 			TimeKey:        "time",

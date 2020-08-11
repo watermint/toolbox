@@ -2,66 +2,25 @@ package queue
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"testing"
 )
 
-type MockControl struct {
-	Logger esl.Logger
-}
-
-func (z MockControl) Log() esl.Logger {
-	return z.Logger
-}
-
-type MockConn struct {
-	peerName string
-}
-
-func (z MockConn) PeerName() string {
-	return z.peerName
-}
-
-type WorkData struct {
-	UserId string `json:"user_id"`
-}
-
-func TestQueue_Dequeue(t *testing.T) {
-	ctl := MockControl{
-		Logger: esl.Default().With(esl.Bool("FromContext", true)),
+func TestQueueImpl_Enqueue(t *testing.T) {
+	l := esl.Default()
+	processor := func(userId string) {
+		l.Info("Greet", esl.String("UserId", userId))
 	}
-	conn := MockConn{
-		peerName: "default",
-	}
+	factory := eq_pipe.NewSimple(l)
+	queue := New(l, factory, processor)
 
-	// struct ptr
-	{
-		queue := NewQueue(func(w *WorkData, ctl MockControl, mockConn MockConn) {
-			ctl.Log().Info("UserId", esl.String("userId", w.UserId), esl.String("peerName", mockConn.PeerName()))
-		}, ctl, conn)
-		queue.Enqueue(&WorkData{
-			UserId: "U001",
-		})
-		queue.Dequeue()
-	}
+	queue.Enqueue("U-001")
 
-	// struct
-	{
-		queue := NewQueue(func(w WorkData, ctl MockControl) {
-			ctl.Log().Info("UserId", esl.String("userId", w.UserId))
-		}, ctl)
-		queue.Enqueue(WorkData{
-			UserId: "U002",
-		})
-		queue.Dequeue()
-	}
+	b1 := queue.Batch("B01")
+	b1.Enqueue("UB-001")
+	b1.Enqueue("UB-002")
 
-	// plain string with error return
-	{
-		queue := NewQueue(func(userId string, ctl MockControl) error {
-			ctl.Log().Info("UserId", esl.String("userId", userId))
-			return nil
-		}, ctl)
-		queue.Enqueue("U003")
-		queue.Dequeue()
-	}
+	queue.Enqueue("U-002")
+
+	queue.Wait()
 }

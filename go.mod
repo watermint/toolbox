@@ -3,7 +3,7 @@ module github.com/watermint/toolbox
 go 1.14
 
 require (
-	cloud.google.com/go v0.61.0 // indirect
+	cloud.google.com/go v0.63.0 // indirect
 	github.com/DataDog/zstd v1.4.5 // indirect
 	github.com/GeertJohan/go.rice v1.0.1-0.20191102153406-d954009f7238
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
@@ -15,7 +15,6 @@ require (
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-playground/validator/v10 v10.3.0 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
-	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/google/go-cmp v0.5.1
 	github.com/google/go-querystring v1.0.0
 	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
@@ -35,18 +34,15 @@ require (
 	github.com/tealeg/xlsx v1.0.5
 	github.com/tidwall/gjson v1.6.0
 	github.com/tidwall/pretty v1.0.1 // indirect
+	github.com/vbauerster/mpb/v5 v5.2.4
 	github.com/watermint/bwlimit v0.0.0-20170711090810-815207958550
 	go.uber.org/atomic v1.6.0
 	go.uber.org/zap v1.15.0
-	golang.org/x/crypto v0.0.0-20200709230013-948cd5f35899
+	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
-	golang.org/x/lint v0.0.0-20200302205851-738671d3881b // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208
-	golang.org/x/sys v0.0.0-20200724161237-0e2f3a69832c // indirect
+	golang.org/x/sys v0.0.0-20200806125547-5acd03effb82 // indirect
 	golang.org/x/text v0.3.3
-	google.golang.org/appengine v1.6.6 // indirect
-	google.golang.org/protobuf v1.25.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
-	honnef.co/go/tools v0.0.1-2020.1.4 // indirect
 )
