@@ -35,7 +35,7 @@ func TestQueue_Dequeue(t *testing.T) {
 	conn := MockConn{
 		peerName: "default",
 	}
-	storage := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple())
+	storage := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple(esl.Default()))
 
 	// struct ptr
 	{
@@ -91,7 +91,7 @@ func TestMouldImpl_Batch(t *testing.T) {
 	ctl := MockControl{
 		Logger: esl.Default().With(esl.Bool("FromContext", true)),
 	}
-	storage := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple())
+	storage := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple(esl.Default()))
 
 	// struct
 	{
