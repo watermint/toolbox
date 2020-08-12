@@ -22,7 +22,11 @@ type Pipe interface {
 
 // Pipe factory
 type Factory interface {
+	// Create a new pipe
 	New(batchId string) Pipe
+
+	// Restore a pipe from the session
+	Restore(id SessionId) (pipe Pipe, err error)
 }
 
 type SessionId string

@@ -7,7 +7,7 @@ import (
 )
 
 func TestSimpleImpl_Size(t *testing.T) {
-	factory := NewSimple(esl.Default())
+	factory := NewTransientSimple(esl.Default())
 	pipe := factory.New("root")
 	if x := pipe.Size(); x != 0 {
 		t.Error(x)
@@ -23,7 +23,7 @@ func TestSimpleImpl_Size(t *testing.T) {
 }
 
 func TestSimpleImpl_Delete(t *testing.T) {
-	factory := NewSimple(esl.Default())
+	factory := NewTransientSimple(esl.Default())
 	pipe := factory.New("root")
 	if x := pipe.Size(); x != 0 {
 		t.Error(x)
@@ -39,7 +39,7 @@ func TestSimpleImpl_Delete(t *testing.T) {
 }
 
 func TestSimpleImpl_Dequeue(t *testing.T) {
-	factory := NewSimple(esl.Default())
+	factory := NewTransientSimple(esl.Default())
 	pipe := factory.New("root")
 	if x := pipe.Size(); x != 0 {
 		t.Error(x)

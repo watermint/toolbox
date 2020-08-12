@@ -8,6 +8,11 @@ import (
 	"time"
 )
 
+var (
+	// Duration of sleep when the bundle is empty.
+	PollInterval = 50 * time.Millisecond
+)
+
 type Pump interface {
 	// Start the pump.
 	Start() chan eq_bundle.Data
@@ -38,6 +43,8 @@ type pumpImpl struct {
 	closeCondLock *sync.Mutex
 	closeCond     *sync.Cond
 	closeOnce     sync.Once
+	pumpRunning   sync.WaitGroup
+	pumpShutdown  bool
 }
 
 func (z *pumpImpl) logger() esl.Logger {
@@ -49,6 +56,7 @@ func (z *pumpImpl) Start() chan eq_bundle.Data {
 	l.Debug("Try start")
 	z.startOnce.Do(func() {
 		l.Debug("Start")
+		z.pumpRunning.Add(1)
 		go z.loop()
 	})
 	return z.c
@@ -62,6 +70,8 @@ func (z *pumpImpl) Shutdown() {
 		l.Debug("Shutdown")
 		close(z.c)
 	})
+	z.pumpShutdown = true
+	z.pumpRunning.Wait()
 }
 
 func (z *pumpImpl) Close() {
@@ -77,7 +87,16 @@ func (z *pumpImpl) Close() {
 
 func (z *pumpImpl) loop() {
 	l := z.logger()
+	defer func() {
+		l.Debug("Exit from the loop")
+		z.pumpRunning.Done()
+	}()
+
 	for {
+		if z.pumpShutdown {
+			l.Debug("Shutdown the loop")
+			return
+		}
 		d, found := z.bundle.Fetch()
 		l.Debug("Fetch", esl.Bool("found", found))
 		if found {
@@ -90,7 +109,7 @@ func (z *pumpImpl) loop() {
 			z.closeCond.Broadcast()
 
 			l.Debug("Data not found, waiting for data")
-			time.Sleep(50 * time.Millisecond)
+			time.Sleep(PollInterval)
 		}
 	}
 }

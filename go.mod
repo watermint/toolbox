@@ -17,6 +17,7 @@ require (
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/google/go-cmp v0.5.1
 	github.com/google/go-querystring v1.0.0
+	github.com/google/uuid v1.1.1
 	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/mattn/go-colorable v0.1.7
@@ -34,7 +35,6 @@ require (
 	github.com/tealeg/xlsx v1.0.5
 	github.com/tidwall/gjson v1.6.0
 	github.com/tidwall/pretty v1.0.1 // indirect
-	github.com/vbauerster/mpb/v5 v5.2.4
 	github.com/watermint/bwlimit v0.0.0-20170711090810-815207958550
 	go.uber.org/atomic v1.6.0
 	go.uber.org/zap v1.15.0
@@ -42,7 +42,7 @@ require (
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208
-	golang.org/x/sys v0.0.0-20200806125547-5acd03effb82 // indirect
+	golang.org/x/sys v0.0.0-20200810151505-1b9f1253b3ed // indirect
 	golang.org/x/text v0.3.3
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )

@@ -11,7 +11,7 @@ import (
 )
 
 func TestSimpleImpl_BasicBehavior(t *testing.T) {
-	factory := eq_pipe.NewSimple(esl.Default())
+	factory := eq_pipe.NewTransientSimple(esl.Default())
 	bundle := NewSimple(esl.Default(), factory)
 
 	d1 := NewData("", []byte("D00-001"))
@@ -49,7 +49,7 @@ func TestSimpleImpl_BasicBehavior(t *testing.T) {
 }
 
 func TestSimpleImpl_Concurrent(t *testing.T) {
-	factory := eq_pipe.NewSimple(esl.Default())
+	factory := eq_pipe.NewTransientSimple(esl.Default())
 	bundle := NewSimple(esl.Default(), factory)
 
 	wgPush := sync.WaitGroup{}

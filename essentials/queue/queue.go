@@ -24,6 +24,10 @@ type RootQueue interface {
 
 func New(l esl.Logger, numWorker int, factory eq_pipe.Factory, f interface{}, ctx ...interface{}) RootQueue {
 	bundle := eq_bundle.NewSimple(l, factory)
+	return NewWithBundle(l, numWorker, bundle, f, ctx...)
+}
+
+func NewWithBundle(l esl.Logger, numWorker int, bundle eq_bundle.Bundle, f interface{}, ctx ...interface{}) RootQueue {
 	mould := eq_mould.New(bundle, f, ctx...)
 	pump := eq_pump.New(l, bundle)
 	pumpChan := pump.Start()
@@ -37,6 +41,17 @@ func New(l esl.Logger, numWorker int, factory eq_pipe.Factory, f interface{}, ct
 		pump:   pump,
 		worker: worker,
 	}
+}
+
+func Restore(l esl.Logger, numWorker int, factory eq_pipe.Factory, session eq_bundle.Session, f interface{}, ctx ...interface{}) (rq RootQueue, err error) {
+	l.Debug("Restore bundle", esl.Any("session", session))
+	bundle, err := eq_bundle.RestoreSimple(l, factory, session)
+	if err != nil {
+		l.Debug("Unable to restore the bundle", esl.Error(err))
+		return nil, err
+	}
+
+	return NewWithBundle(l, numWorker, bundle, f, ctx...), nil
 }
 
 type queueImpl struct {

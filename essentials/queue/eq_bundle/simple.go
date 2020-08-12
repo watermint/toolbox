@@ -7,13 +7,60 @@ import (
 )
 
 func NewSimple(logger esl.Logger, factory eq_pipe.Factory) Bundle {
+	return newSimple(logger, factory, factory.New(""), make(map[string]eq_pipe.Pipe))
+}
+
+func newSimple(logger esl.Logger, factory eq_pipe.Factory, wip eq_pipe.Pipe, pipes map[string]eq_pipe.Pipe) Bundle {
 	return &simpleImpl{
 		logger:     logger,
 		factory:    factory,
-		pipes:      make(map[string]eq_pipe.Pipe),
+		pipes:      pipes,
 		pipesMutex: &sync.Mutex{},
-		wip:        factory.New(""),
+		wip:        wip,
 	}
+}
+
+func RestoreSimple(logger esl.Logger, factory eq_pipe.Factory, session Session) (b Bundle, err error) {
+	l := logger.With(esl.Any("session", session))
+
+	l.Debug("Restore InProgress Pipe", esl.String("sessionId", string(session.InProgress)))
+	wip, err := factory.Restore(session.InProgress)
+	if err != nil {
+		l.Debug("Unable to restore InProgress Pipe", esl.Error(err))
+		return nil, err
+	}
+
+	pipes := make(map[string]eq_pipe.Pipe)
+	for batchId, sessionId := range session.Pipes {
+		ll := l.With(esl.String("batchId", batchId), esl.String("sessionId", string(sessionId)))
+		ll.Debug("Restore Pipe")
+
+		pipe, err := factory.Restore(sessionId)
+		if err != nil {
+			ll.Debug("Unable to restore Pipe", esl.Error(err))
+			return nil, err
+		}
+
+		pipes[batchId] = pipe
+	}
+
+	// Enqueue In progress data into the pipe
+	b = newSimple(logger, factory, wip, pipes)
+
+	l.Debug("Dequeue from In Progress pipe")
+	for p := wip.Dequeue(); p != nil; p = wip.Dequeue() {
+		l.Debug("Dequeue data", esl.Binary("p", p))
+		d, err := FromBytes(p)
+		if err != nil {
+			l.Debug("Unable to unmarshal bytes", esl.Error(err))
+			return nil, err
+		}
+
+		l.Debug("Enqueue data", esl.String("batchId", d.BatchId))
+		b.Enqueue(d)
+	}
+
+	return b, nil
 }
 
 type simpleImpl struct {

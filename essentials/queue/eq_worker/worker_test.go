@@ -10,7 +10,7 @@ import (
 )
 
 func TestWorkerImpl(t *testing.T) {
-	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple(esl.Default()))
+	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewTransientSimple(esl.Default()))
 	processor := func(v string) {
 		l := esl.Default()
 		l.Info("Process", esl.String("v", v))

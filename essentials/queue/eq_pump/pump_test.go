@@ -7,9 +7,16 @@ import (
 	"testing"
 )
 
-func TestPumpImpl_Start(t *testing.T) {
-	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewSimple(esl.Default()))
+func TestPumpImpl_StartClose(t *testing.T) {
+	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewTransientSimple(esl.Default()))
 	pump := New(esl.Default(), bundle)
 	pump.Start()
 	pump.Close()
+}
+
+func TestPumpImpl_StartShutdown(t *testing.T) {
+	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewTransientSimple(esl.Default()))
+	pump := New(esl.Default(), bundle)
+	pump.Start()
+	pump.Shutdown()
 }
