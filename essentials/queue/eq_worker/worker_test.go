@@ -22,7 +22,13 @@ func TestWorkerImpl(t *testing.T) {
 	worker.Startup(1)
 	worker.Startup(2)
 
+	l := esl.Default()
 	go func() {
+		defer func() {
+			if err := recover(); err != nil {
+				l.Debug("In case of timing issue; The channel already closed", esl.Any("err", err))
+			}
+		}()
 		for {
 			d, found := bundle.Fetch()
 			if found {
