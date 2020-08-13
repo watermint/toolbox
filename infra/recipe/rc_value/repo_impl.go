@@ -36,6 +36,7 @@ var (
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
+		newValueAsConnAsana(dbx_conn_impl.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),

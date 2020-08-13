@@ -80,23 +80,6 @@ DropboxおよびDropbox Business向けのツールセット
 
 # コマンド
 
-## ユーティリティー
-
-| コマンド                                                       | 説明                               |
-|----------------------------------------------------------------|------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
-| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
-| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
-| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
-| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
-| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                   |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する   |
-| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します |
-| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.  |
-| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します         |
-| [version](doc/generated_ja/version.md)                         | バージョン情報                     |
-
 ## Dropbox (個人アカウント)
 
 | コマンド                                                                   | 説明                                                               |
@@ -226,4 +209,31 @@ DropboxおよびDropbox Business向けのツールセット
 | [services google mail message list](doc/generated_ja/services-google-mail-message-list.md)                     | メッセージの一覧                            |
 | [services google mail message processed list](doc/generated_ja/services-google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します. |
 | [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)                       | スレッド一覧                                |
+
+## Asana
+
+| コマンド                                                                                           | 説明                             |
+|----------------------------------------------------------------------------------------------------|----------------------------------|
+| [services asana team list](doc/generated_ja/services-asana-team-list.md)                           | チームのリスト                   |
+| [services asana team project list](doc/generated_ja/services-asana-team-project-list.md)           | チームのプロジェクト一覧         |
+| [services asana team task list](doc/generated_ja/services-asana-team-task-list.md)                 | チームのタスク一覧               |
+| [services asana workspace list](doc/generated_ja/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
+| [services asana workspace project list](doc/generated_ja/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
+
+## ユーティリティー
+
+| コマンド                                                       | 説明                               |
+|----------------------------------------------------------------|------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
+| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
+| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
+| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
+| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
+| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                   |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する   |
+| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します |
+| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.  |
+| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します         |
+| [version](doc/generated_ja/version.md)                         | バージョン情報                     |
 

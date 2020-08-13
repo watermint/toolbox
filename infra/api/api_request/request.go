@@ -31,7 +31,7 @@ type RequestData struct {
 func (z RequestData) ParamJson() json.RawMessage {
 	l := esl.Default()
 	if z.p == nil {
-		l.Debug("Paramter is null")
+		l.Debug("Parameter is null")
 		return json.RawMessage{}
 	}
 	q, err := json.Marshal(z.p)

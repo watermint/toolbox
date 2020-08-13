@@ -82,23 +82,6 @@ Available commands:
 
 # Commands
 
-## Utilities
-
-| Command                                                     | Description                                      |
-|-------------------------------------------------------------|--------------------------------------------------|
-| [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
-| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
-| [config features](doc/generated/config-features.md)         | List available optional features.                |
-| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
-| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
-| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
-| [job history list](doc/generated/job-history-list.md)       | Show job history                                 |
-| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
-| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
-| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
-| [license](doc/generated/license.md)                         | Show license information                         |
-| [version](doc/generated/version.md)                         | Show version                                     |
-
 ## Dropbox (Individual account)
 
 | Command                                                                 | Description                                      |
@@ -228,4 +211,31 @@ Available commands:
 | [services google mail message list](doc/generated/services-google-mail-message-list.md)                     | List messages                           |
 | [services google mail message processed list](doc/generated/services-google-mail-message-processed-list.md) | List messages in processed format.      |
 | [services google mail thread list](doc/generated/services-google-mail-thread-list.md)                       | List threads                            |
+
+## Asana
+
+| Command                                                                                         | Description                    |
+|-------------------------------------------------------------------------------------------------|--------------------------------|
+| [services asana team list](doc/generated/services-asana-team-list.md)                           | List team                      |
+| [services asana team project list](doc/generated/services-asana-team-project-list.md)           | List projects of the team      |
+| [services asana team task list](doc/generated/services-asana-team-task-list.md)                 | List task of the team          |
+| [services asana workspace list](doc/generated/services-asana-workspace-list.md)                 | List workspaces                |
+| [services asana workspace project list](doc/generated/services-asana-workspace-project-list.md) | List projects of the workspace |
+
+## Utilities
+
+| Command                                                     | Description                                      |
+|-------------------------------------------------------------|--------------------------------------------------|
+| [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
+| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
+| [config features](doc/generated/config-features.md)         | List available optional features.                |
+| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
+| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
+| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
+| [job history list](doc/generated/job-history-list.md)       | Show job history                                 |
+| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
+| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
+| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
+| [license](doc/generated/license.md)                         | Show license information                         |
+| [version](doc/generated/version.md)                         | Show version                                     |
 

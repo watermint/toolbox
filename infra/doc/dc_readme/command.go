@@ -2,7 +2,7 @@ package dc_readme
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array"
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -76,12 +76,18 @@ func (z Command) recipes() []rc_recipe.Recipe {
 
 func (z Command) services() []string {
 	recipes := z.recipes()
+	availSvc := make(map[string]bool)
 	services := make([]string, 0)
 	for _, recipe := range recipes {
 		spec := rc_spec.New(recipe)
-		services = append(services, z.serviceKey(spec))
+		availSvc[z.serviceKey(spec)] = true
 	}
-	return es_array.NewByString(services...).Unique().Sort().AsStringArray()
+	for _, svc := range api_conn.Services {
+		if availSvc[svc] {
+			services = append(services, svc)
+		}
+	}
+	return services
 }
 
 func (z Command) specForService(services string) []rc_recipe.Spec {

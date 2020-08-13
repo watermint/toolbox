@@ -38,6 +38,11 @@ import (
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
+	recipeservicesasanateam "github.com/watermint/toolbox/recipe/services/asana/team"
+	recipeservicesasanateamproject "github.com/watermint/toolbox/recipe/services/asana/team/project"
+	recipeservicesasanateamtask "github.com/watermint/toolbox/recipe/services/asana/team/task"
+	recipeservicesasanaworkspace "github.com/watermint/toolbox/recipe/services/asana/workspace"
+	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
@@ -168,6 +173,11 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipememberupdate.Email{},
 		&recipememberupdate.Externalid{},
 		&recipememberupdate.Profile{},
+		&recipeservicesasanateam.List{},
+		&recipeservicesasanateamproject.List{},
+		&recipeservicesasanateamtask.List{},
+		&recipeservicesasanaworkspace.List{},
+		&recipeservicesasanaworkspaceproject.List{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},
