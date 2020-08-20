@@ -114,7 +114,7 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 	l.Debug("upload", esl.Int("chunkSize", z.ChunkSizeKb))
 	up := sv_file_content.NewUpload(z.Context, sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 
 	info, err := os.Lstat(localPath)
 	if err != nil {

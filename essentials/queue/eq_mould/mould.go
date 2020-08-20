@@ -12,14 +12,17 @@ type Mould interface {
 	Pour(p interface{})
 
 	// Process the data
-	Process(d eq_bundle.Data)
+	Process(b eq_bundle.Barrel)
 
 	// With batchId
 	Batch(batchId string) Mould
+
+	// Mould identifier
+	MouldId() string
 }
 
-func New(s eq_bundle.Bundle, f interface{}, ctx ...interface{}) Mould {
-	l := esl.Default()
+func New(mouldId string, s eq_bundle.Bundle, f interface{}, ctx ...interface{}) Mould {
+	l := esl.Default().With(esl.String("mouldId", mouldId))
 
 	if s == nil {
 		l.Debug("No storage")
@@ -78,6 +81,7 @@ func New(s eq_bundle.Bundle, f interface{}, ctx ...interface{}) Mould {
 	}
 
 	return &mouldImpl{
+		mouldId:       mouldId,
 		ctx:           ctx,
 		storage:       s,
 		handler:       f,
@@ -95,6 +99,7 @@ type mouldImpl struct {
 	ctx     []interface{}
 	storage eq_bundle.Bundle
 
+	mouldId string
 	batchId string
 
 	handler       interface{}
@@ -107,15 +112,23 @@ type mouldImpl struct {
 	hasErrorOut   bool
 }
 
+func (z mouldImpl) MouldId() string {
+	return z.mouldId
+}
+
 func (z mouldImpl) Batch(batchId string) Mould {
 	z.batchId = batchId
 	return &z
 }
 
+func (z mouldImpl) logger() esl.Logger {
+	return esl.Default().With(esl.String("mouldId", z.mouldId), esl.String("batchId", z.batchId))
+}
+
 // p is the execution parameter.
 // The value must be serializable into JSON format.
 func (z mouldImpl) Pour(p interface{}) {
-	l := esl.Default()
+	l := z.logger()
 
 	// validate param type
 	if z.paramIsPtr {
@@ -142,21 +155,21 @@ func (z mouldImpl) Pour(p interface{}) {
 		panic(err)
 	}
 
-	d := eq_bundle.NewData(z.batchId, msg)
+	d := eq_bundle.NewBarrel(z.mouldId, z.batchId, msg)
 	l.Debug("Enqueue", esl.Any("Data", d))
 	z.storage.Enqueue(d)
 }
 
-func (z mouldImpl) Process(d eq_bundle.Data) {
-	l := esl.Default()
+func (z mouldImpl) Process(b eq_bundle.Barrel) {
+	l := z.logger()
 	p := reflect.New(z.paramType).Interface()
 
-	if err := json.Unmarshal(d.D, p); err != nil {
+	if err := json.Unmarshal(b.D, p); err != nil {
 		l.Debug("Unable to unmarshal", esl.Error(err))
 		panic(err)
 	}
 
-	l.Debug("param after unmarshal", esl.Any("p", p), esl.String("batchId", d.BatchId))
+	l.Debug("param after unmarshal", esl.Any("p", p), esl.String("batchId", b.BatchId))
 
 	v := reflect.ValueOf(p)
 	if !z.paramIsPtr {
@@ -173,11 +186,17 @@ func (z mouldImpl) Process(d eq_bundle.Data) {
 	out := z.handlerValue.Call(params)
 	if z.hasErrorOut {
 		// Do not verify len(out), and type of the value. That is verified on creation.
-		outErr := out[0].Interface().(error)
-		l.Debug("Error form the processor", esl.Error(outErr))
+		outVal := out[0].Interface()
+		if outVal == nil {
+			l.Debug("Looks like success")
+		} else if outErr, ok := outVal.(error); ok {
+			l.Debug("Error form the processor", esl.Error(outErr))
+		} else {
+			l.Debug("Unknown value type", esl.Any("out", outVal))
+		}
 	}
 
-	l.Debug("Mark as completed", esl.Any("Data", d))
-	z.storage.Complete(d)
-	l.Debug("Completed", esl.Any("Data", d))
+	l.Debug("Mark as completed", esl.Any("Data", b))
+	z.storage.Complete(b)
+	l.Debug("Completed", esl.Any("Data", b))
 }

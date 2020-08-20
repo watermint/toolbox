@@ -3,24 +3,40 @@ package eq_bundle
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
+	"github.com/watermint/toolbox/essentials/queue/eq_progress"
 	"sync"
 )
 
-func NewSimple(logger esl.Logger, factory eq_pipe.Factory) Bundle {
-	return newSimple(logger, factory, factory.New(""), make(map[string]eq_pipe.Pipe))
+func NewSimple(logger esl.Logger,
+	progress eq_progress.Progress,
+	factory eq_pipe.Factory) Bundle {
+	return newSimple(logger, progress, factory, factory.New(""), make(map[string]eq_pipe.Pipe))
 }
 
-func newSimple(logger esl.Logger, factory eq_pipe.Factory, wip eq_pipe.Pipe, pipes map[string]eq_pipe.Pipe) Bundle {
+func newSimple(logger esl.Logger,
+	progress eq_progress.Progress,
+	factory eq_pipe.Factory,
+	wip eq_pipe.Pipe,
+	pipes map[string]eq_pipe.Pipe) Bundle {
 	return &simpleImpl{
-		logger:     logger,
-		factory:    factory,
-		pipes:      pipes,
-		pipesMutex: &sync.Mutex{},
-		wip:        wip,
+		logger:         logger,
+		progress:       progress,
+		factory:        factory,
+		pipes:          pipes,
+		pipesMutex:     &sync.Mutex{},
+		statsTotal:     make(map[string]int),
+		statsCompleted: make(map[string]int),
+		wip:            wip,
+		batchId:        "",
+		currentBatchId: "",
 	}
 }
 
-func RestoreSimple(logger esl.Logger, factory eq_pipe.Factory, session Session) (b Bundle, err error) {
+func RestoreSimple(logger esl.Logger,
+	progress eq_progress.Progress,
+	factory eq_pipe.Factory,
+	session Session) (b Bundle, err error) {
+
 	l := logger.With(esl.Any("session", session))
 
 	l.Debug("Restore InProgress Pipe", esl.String("sessionId", string(session.InProgress)))
@@ -45,7 +61,7 @@ func RestoreSimple(logger esl.Logger, factory eq_pipe.Factory, session Session) 
 	}
 
 	// Enqueue In progress data into the pipe
-	b = newSimple(logger, factory, wip, pipes)
+	b = newSimple(logger, progress, factory, wip, pipes)
 
 	l.Debug("Dequeue from In Progress pipe")
 	for p := wip.Dequeue(); p != nil; p = wip.Dequeue() {
@@ -65,12 +81,19 @@ func RestoreSimple(logger esl.Logger, factory eq_pipe.Factory, session Session) 
 
 type simpleImpl struct {
 	logger         esl.Logger
+	progress       eq_progress.Progress
 	factory        eq_pipe.Factory
 	pipes          map[string]eq_pipe.Pipe
 	pipesMutex     *sync.Mutex
+	statsTotal     map[string]int
+	statsCompleted map[string]int
 	wip            eq_pipe.Pipe
 	batchId        string
 	currentBatchId string
+}
+
+func (z *simpleImpl) SizeInProgress() int {
+	return z.wip.Size()
 }
 
 func (z *simpleImpl) Preserve() (session Session, err error) {
@@ -103,11 +126,41 @@ func (z *simpleImpl) Preserve() (session Session, err error) {
 	return session, nil
 }
 
-func (z *simpleImpl) Complete(d Data) {
+func (z *simpleImpl) noLockCallHandler(batchBarrel, mouldId, batchId string, handler func(mouldId, batchId string, completed, total int)) {
 	l := z.logger
 	l.Debug("Mark as completed")
 
-	z.wip.Delete(d.ToBytes())
+	if handler != nil {
+		if total, ok := z.statsTotal[batchBarrel]; ok {
+			if completed, ok := z.statsCompleted[batchBarrel]; ok {
+				l.Debug("Call handler", esl.Int("completed", completed), esl.Int("total", total))
+				handler(mouldId, batchId, completed, total)
+			}
+		}
+	}
+}
+
+func (z *simpleImpl) Complete(b Barrel) {
+	bb := b.BarrelBatch()
+
+	l := z.logger.With(esl.String("barrelBatch", bb))
+	l.Debug("Mark as completed")
+
+	z.pipesMutex.Lock()
+	defer z.pipesMutex.Unlock()
+
+	if completed, ok := z.statsCompleted[bb]; ok {
+		z.statsCompleted[bb] = completed + 1
+	} else {
+		z.statsCompleted[bb] = 1
+	}
+
+	// Call OnCompletedHandler
+	if z.progress != nil {
+		z.noLockCallHandler(bb, b.MouldId, b.BatchId, z.progress.OnComplete)
+	}
+
+	z.wip.Delete(b.ToBytes())
 }
 
 func (z *simpleImpl) Close() {
@@ -123,24 +176,37 @@ func (z *simpleImpl) Close() {
 	z.pipes = make(map[string]eq_pipe.Pipe)
 }
 
-func (z *simpleImpl) Enqueue(d Data) {
+func (z *simpleImpl) Enqueue(b Barrel) {
+	bb := b.BarrelBatch()
+
+	l := z.logger.With(esl.String("barrelBatch", bb))
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
-	l := z.logger.With(esl.String("batchId", d.BatchId))
 	l.Debug("Enqueue bundle")
 
-	pipe, ok := z.pipes[d.BatchId]
+	if total, ok := z.statsTotal[bb]; ok {
+		z.statsTotal[bb] = total + 1
+	} else {
+		z.statsTotal[bb] = 1
+	}
+
+	// Call OnCompletedHandler
+	if z.progress != nil {
+		z.noLockCallHandler(bb, b.MouldId, b.BatchId, z.progress.OnEnqueue)
+	}
+
+	pipe, ok := z.pipes[bb]
 	if !ok {
 		l.Debug("A pipe not found for the BatchId, create a new pipe")
-		pipe = z.factory.New(d.BatchId)
-		z.pipes[d.BatchId] = pipe
+		pipe = z.factory.New(bb)
+		z.pipes[bb] = pipe
 	}
-	pipe.Enqueue(d.ToBytes())
+	pipe.Enqueue(b.ToBytes())
 	l.Debug("Enqueue bundle: Done")
 }
 
-func (z *simpleImpl) Fetch() (d Data, found bool) {
+func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
@@ -172,7 +238,7 @@ func (z *simpleImpl) Fetch() (d Data, found bool) {
 		if len(z.pipes) < 1 {
 			l.Debug("No more pipes")
 			z.currentBatchId = ""
-			return d, false
+			return b, false
 		}
 
 		// find next

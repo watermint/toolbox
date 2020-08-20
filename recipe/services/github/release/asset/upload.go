@@ -124,7 +124,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	q.Enqueue(&UploadWorker{
 		file:       z.Asset,
 		owner:      z.Owner,

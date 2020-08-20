@@ -15,7 +15,7 @@ var (
 
 type Pump interface {
 	// Start the pump.
-	Start() chan eq_bundle.Data
+	Start() chan eq_bundle.Barrel
 
 	// Wait & close the pump
 	Close()
@@ -29,7 +29,7 @@ func New(l esl.Logger, bundle eq_bundle.Bundle) Pump {
 	return &pumpImpl{
 		l:             l,
 		bundle:        bundle,
-		c:             make(chan eq_bundle.Data),
+		c:             make(chan eq_bundle.Barrel),
 		closeCondLock: ccl,
 		closeCond:     sync.NewCond(ccl),
 	}
@@ -39,7 +39,7 @@ type pumpImpl struct {
 	l             esl.Logger
 	bundle        eq_bundle.Bundle
 	startOnce     sync.Once
-	c             chan eq_bundle.Data
+	c             chan eq_bundle.Barrel
 	closeCondLock *sync.Mutex
 	closeCond     *sync.Cond
 	closeOnce     sync.Once
@@ -51,7 +51,7 @@ func (z *pumpImpl) logger() esl.Logger {
 	return z.l.With(esl.String("routine", es_goroutine.GetGoRoutineName()))
 }
 
-func (z *pumpImpl) Start() chan eq_bundle.Data {
+func (z *pumpImpl) Start() chan eq_bundle.Barrel {
 	l := z.logger()
 	l.Debug("Try start")
 	z.startOnce.Do(func() {
@@ -97,16 +97,20 @@ func (z *pumpImpl) loop() {
 			l.Debug("Shutdown the loop")
 			return
 		}
-		d, found := z.bundle.Fetch()
+		barrel, found := z.bundle.Fetch()
 		l.Debug("Fetch", esl.Bool("found", found))
 		if found {
-			if channelClosed := z.send(d); channelClosed {
+			if channelClosed := z.send(barrel); channelClosed {
 				l.Debug("Channel closed, exit loop")
 				return
 			}
 		} else {
-			l.Debug("Data not found, broadcast close cond")
-			z.closeCond.Broadcast()
+			if s := z.bundle.SizeInProgress(); s < 1 {
+				l.Debug("Data not found, broadcast close cond")
+				z.closeCond.Broadcast()
+			} else {
+				l.Debug("The worker still in progress", esl.Int("InProgressSize", s))
+			}
 
 			l.Debug("Data not found, waiting for data")
 			time.Sleep(PollInterval)
@@ -114,7 +118,7 @@ func (z *pumpImpl) loop() {
 	}
 }
 
-func (z *pumpImpl) send(d eq_bundle.Data) (channelClosed bool) {
+func (z *pumpImpl) send(barrel eq_bundle.Barrel) (channelClosed bool) {
 	l := z.logger()
 	defer func() {
 		if err := recover(); err != nil {
@@ -125,6 +129,6 @@ func (z *pumpImpl) send(d eq_bundle.Data) (channelClosed bool) {
 
 	channelClosed = false
 	l.Debug("Push to the channel")
-	z.c <- d
+	z.c <- barrel
 	return channelClosed
 }

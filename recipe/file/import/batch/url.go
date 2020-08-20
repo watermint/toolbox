@@ -90,7 +90,7 @@ func (z *Url) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		r := m.(*UrlRow)
 		var path string

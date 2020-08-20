@@ -12,9 +12,9 @@ import (
 
 func TestSimpleImpl_BasicBehavior(t *testing.T) {
 	factory := eq_pipe.NewTransientSimple(esl.Default())
-	bundle := NewSimple(esl.Default(), factory)
+	bundle := NewSimple(esl.Default(), nil, factory)
 
-	d1 := NewData("", []byte("D00-001"))
+	d1 := NewBarrel("", "", []byte("D00-001"))
 
 	// ensure the queue is empty
 	if sizes, total := bundle.Size(); total != 0 {
@@ -50,7 +50,7 @@ func TestSimpleImpl_BasicBehavior(t *testing.T) {
 
 func TestSimpleImpl_Concurrent(t *testing.T) {
 	factory := eq_pipe.NewTransientSimple(esl.Default())
-	bundle := NewSimple(esl.Default(), factory)
+	bundle := NewSimple(esl.Default(), nil, factory)
 
 	wgPush := sync.WaitGroup{}
 	wgFetch := sync.WaitGroup{}
@@ -61,7 +61,7 @@ func TestSimpleImpl_Concurrent(t *testing.T) {
 		l := esl.Default().With(esl.Int("Pusher", id))
 		for j := 0; j < 100; j++ {
 			b := fmt.Sprintf("D%02d-%03d", id, j)
-			d := NewData(fmt.Sprintf("B%02d", id), []byte(b))
+			d := NewBarrel("m1", fmt.Sprintf("B%02d", id), []byte(b))
 			l.Debug("Push", esl.Any("packet", d), esl.ByteString("data", d.D))
 			bundle.Enqueue(d)
 			time.Sleep(waitUnit)

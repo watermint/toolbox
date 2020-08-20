@@ -31,19 +31,28 @@ func (z *List) Preset() {
 	)
 }
 
-func (z *List) listProjects(c app_control.Control, ws *mo_workspace.Workspace) error {
+func (z *List) listProject(prjCompact *mo_project.Project, c app_control.Control) error {
+	svp := sv_project.New(z.Peer.Context())
+	prj, err := svp.Resolve(prjCompact.Gid)
+	if err != nil {
+		return err
+	}
+	z.Projects.Row(prj)
+	return nil
+}
+
+func (z *List) listProjects(ws *mo_workspace.Workspace, c app_control.Control) error {
 	c.UI().Progress(z.ProgressWorkspace.With("Name", ws.Name))
 	svp := sv_project.New(z.Peer.Context())
 	prjs, err := svp.List(sv_project.Workspace(ws))
 	if err != nil {
 		return err
 	}
+
 	for _, prjCompact := range prjs {
-		prj, err := svp.Resolve(prjCompact.Gid)
-		if err != nil {
+		if err := z.listProject(prjCompact, c); err != nil {
 			return err
 		}
-		z.Projects.Row(prj)
 	}
 	return nil
 }
@@ -69,7 +78,7 @@ func (z *List) Exec(c app_control.Control) error {
 			continue
 		}
 		if z.Workspace.Accept(ws.Name) || z.Workspace.Accept(ws.Gid) {
-			if err := z.listProjects(c, ws); err != nil {
+			if err := z.listProjects(ws, c); err != nil {
 				return err
 			}
 		}

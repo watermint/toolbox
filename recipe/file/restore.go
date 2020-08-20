@@ -106,7 +106,7 @@ func (z *Restore) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 
 	count := 0
 	handler := func(entry mo_file.Entry) {

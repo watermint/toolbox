@@ -1,6 +1,6 @@
 module github.com/watermint/toolbox
 
-go 1.14
+go 1.15
 
 require (
 	cloud.google.com/go v0.63.0 // indirect
@@ -18,7 +18,7 @@ require (
 	github.com/google/go-cmp v0.5.1
 	github.com/google/go-querystring v1.0.0
 	github.com/google/uuid v1.1.1
-	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
+	github.com/iancoleman/strcase v0.1.0
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/mattn/go-colorable v0.1.7
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
@@ -35,14 +35,16 @@ require (
 	github.com/tealeg/xlsx v1.0.5
 	github.com/tidwall/gjson v1.6.0
 	github.com/tidwall/pretty v1.0.1 // indirect
+	github.com/vbauerster/mpb/v5 v5.3.0
 	github.com/watermint/bwlimit v0.0.0-20170711090810-815207958550
 	go.uber.org/atomic v1.6.0
 	go.uber.org/zap v1.15.0
 	golang.org/x/crypto v0.0.0-20200728195943-123391ffb6de
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
+	golang.org/x/net v0.0.0-20200813134508-3edf25e44fcc // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208
-	golang.org/x/sys v0.0.0-20200810151505-1b9f1253b3ed // indirect
+	golang.org/x/sys v0.0.0-20200817155316-9781c653f443 // indirect
 	golang.org/x/text v0.3.3
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 )

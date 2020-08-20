@@ -1,4 +1,4 @@
-package queue
+package eq_queue
 
 import (
 	"fmt"
@@ -22,7 +22,10 @@ func TestQueueImpl_Enqueue(t *testing.T) {
 		l.Info("Greet", esl.String("UserId", userId))
 	}
 	factory := eq_pipe.NewTransientSimple(l)
-	queue := New(l, 2, factory, processor)
+	qd := New(Factory(factory), Logger(l), NumWorker(1))
+	qd.Define("u", processor)
+	container := qd.Current()
+	queue := container.MustGet("u")
 
 	queue.Enqueue("U-001")
 
@@ -32,7 +35,7 @@ func TestQueueImpl_Enqueue(t *testing.T) {
 
 	queue.Enqueue("U-002")
 
-	queue.Wait()
+	container.Wait()
 }
 
 func TestQueueImpl_Suspend_Transient(t *testing.T) {
@@ -44,14 +47,17 @@ func TestQueueImpl_Suspend_Transient(t *testing.T) {
 		l.Info("Greet", esl.String("UserId", userId))
 	}
 	factory := eq_pipe.NewTransientSimple(l)
-	queue := New(l, 1, factory, processor)
+	qd := New(Factory(factory), Logger(l), NumWorker(1))
+	qd.Define("u", processor)
+	container := qd.Current()
+	queue := container.MustGet("u")
 
 	queue.Enqueue("U-001")
 	queue.Enqueue("U-002")
 	queue.Enqueue("U-003")
 	queue.Enqueue("U-004")
 
-	session, err := queue.Suspend()
+	session, err := container.Suspend()
 	if err != eq_pipe_preserve.ErrorSessionIsNotAvailable {
 		t.Error(session, err)
 	}
@@ -75,7 +81,10 @@ func TestQueueImpl_Suspend(t *testing.T) {
 		}
 		preserver := eq_pipe_preserve.NewFactory(l, path)
 		factory := eq_pipe.NewSimple(l, preserver)
-		queue := New(l, 1, factory, processor)
+		qd := New(Factory(factory), Logger(l), NumWorker(1))
+		qd.Define("u", processor)
+		container := qd.Current()
+		queue := container.MustGet("u")
 
 		for _, d := range dataSeq {
 			queue.Enqueue(d)
@@ -99,7 +108,7 @@ func TestQueueImpl_Suspend(t *testing.T) {
 			t.Error(x)
 		}
 
-		session, err := queue.Suspend()
+		session, err := container.Suspend()
 		if err != nil {
 			t.Error(session, err)
 		}
@@ -112,7 +121,7 @@ func TestQueueImpl_Suspend(t *testing.T) {
 		}
 
 		// Restore
-		restored, err := Restore(l, 1, factory, session, processor)
+		restored, err := qd.Restore(session)
 		if err != nil {
 			t.Error(err)
 		}

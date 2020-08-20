@@ -84,7 +84,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	for _, member := range members {
 		q.Enqueue(&ListWorker{
 			member:     member,

@@ -81,7 +81,7 @@ func (z *Async) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 
 	// Launch additional routines (because only single routine running when the recipe
 	// run through test

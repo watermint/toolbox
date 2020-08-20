@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
-	"github.com/watermint/toolbox/essentials/queue/eq_mould"
+	"github.com/watermint/toolbox/essentials/queue/eq_registry"
 	"sync"
 )
 
@@ -13,19 +13,19 @@ type Worker interface {
 	Wait()
 }
 
-func New(l esl.Logger, m eq_mould.Mould, c chan eq_bundle.Data) Worker {
+func New(l esl.Logger, reg eq_registry.Registry, c chan eq_bundle.Barrel) Worker {
 	return &workerImpl{
+		reg:      reg,
 		c:        c,
 		l:        l,
-		m:        m,
 		shutdown: make(chan struct{}),
 	}
 }
 
 type workerImpl struct {
-	c            chan eq_bundle.Data
+	reg          eq_registry.Registry
+	c            chan eq_bundle.Barrel
 	l            esl.Logger
-	m            eq_mould.Mould
 	wg           sync.WaitGroup
 	shutdown     chan struct{}
 	shutdownOnce sync.Once
@@ -55,10 +55,15 @@ func (z *workerImpl) Wait() {
 func (z *workerImpl) loop() {
 	l := z.logger()
 
-	for d := range z.c {
-		ll := l.With(esl.String("batchId", d.BatchId))
+	for barrel := range z.c {
+		ll := l.With(esl.String("mouldId", barrel.MouldId), esl.String("batchId", barrel.BatchId))
+		mould, found := z.reg.Get(barrel.MouldId)
+		if !found {
+			ll.Warn("Mould not found for mouldId, skip processing")
+			continue
+		}
 		ll.Debug("Process: Start")
-		z.m.Process(d)
+		mould.Process(barrel)
 		ll.Debug("Process: Done")
 	}
 	l.Debug("End loop")

@@ -70,7 +70,7 @@ func (z *Usage) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	for _, member := range members {
 		q.Enqueue(&UsageWorker{
 			member: member,

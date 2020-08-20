@@ -89,7 +89,7 @@ func (z *Update) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 
 	err = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		mq := m.(*mo_member_quota.MemberQuota)

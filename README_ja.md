@@ -64,18 +64,19 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
-   config        watermint toolbox の設定  
-   connect       アカウントに接続する             
-   file          ファイル操作                 
-   filerequest   ファイルリクエストの操作           
-   group         グループ管理                 
-   license       ライセンス情報を表示します          
-   member        チームメンバーの管理             
-   sharedfolder  共有フォルダ                 
-   sharedlink    個人アカウントの共有リンク          
-   team          Dropbox Business チーム   
-   teamfolder    チームフォルダの管理             
-   version       バージョン情報                
+[1mコマンド      説明                     備考[0m
+config        watermint toolbox の設定  
+connect       アカウントに接続する             
+file          ファイル操作                 
+filerequest   ファイルリクエストの操作           
+group         グループ管理                 
+license       ライセンス情報を表示します          
+member        チームメンバーの管理             
+sharedfolder  共有フォルダ                 
+sharedlink    個人アカウントの共有リンク          
+team          Dropbox Business チーム   
+teamfolder    チームフォルダの管理             
+version       バージョン情報                
 ```
 
 # コマンド

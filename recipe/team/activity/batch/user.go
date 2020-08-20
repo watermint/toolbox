@@ -119,7 +119,7 @@ func (z *User) Exec(c app_control.Control) error {
 
 	userReps := make(map[string]rp_model.RowReport)
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		e := m.(*UserEmail)
 

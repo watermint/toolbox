@@ -112,7 +112,7 @@ func (z *Email) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	err = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*EmailRow)
 		ll := l.With(esl.Any("row", row))

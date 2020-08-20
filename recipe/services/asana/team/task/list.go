@@ -49,52 +49,60 @@ func (z *List) Preset() {
 	)
 }
 
-func (z *List) listTask(c app_control.Control, prj *mo_project.Project) error {
-	c.UI().Progress(z.ProgressProject.With("Name", prj.Name))
+func (z *List) listTask(taskCompact *mo_task.Task, c app_control.Control) error {
+	svt := sv_task.New(z.Peer.Context())
+	task, err := svt.Resolve(taskCompact.Gid)
+	if err != nil {
+		return err
+	}
+	z.Tasks.Row(task)
+	return nil
+}
+
+func (z *List) listTasks(prj *mo_project.Project, c app_control.Control) error {
+	//c.UI().Progress(z.ProgressProject.With("Name", prj.Name))
 	svt := sv_task.New(z.Peer.Context())
 	tasks, err := svt.List(sv_task.Project(prj))
 	if err != nil {
 		return err
 	}
+
+	queue := c.Queue().Current().MustGet("task")
+
 	for _, taskCompact := range tasks {
-		task, err := svt.Resolve(taskCompact.Gid)
-		if err != nil {
-			return err
-		}
-		z.Tasks.Row(task)
+		queue.Enqueue(taskCompact)
 	}
 	return nil
 }
 
-func (z *List) listProjects(c app_control.Control, team *mo_team.Team) error {
-	c.UI().Progress(z.ProgressTeam.With("Name", team.Name))
+func (z *List) listProjects(team *mo_team.Team, c app_control.Control) error {
+	//c.UI().Progress(z.ProgressTeam.With("Name", team.Name))
 	prjs, err := sv_project.New(z.Peer.Context()).List(sv_project.Team(team))
 	if err != nil {
 		return err
 	}
 
+	queue := c.Queue().Current().MustGet("tasks")
 	for _, prj := range prjs {
 		if z.Project.Accept(prj.Name) || z.Project.Accept(prj.Gid) {
-			if err := z.listTask(c, prj); err != nil {
-				return err
-			}
+			queue.Enqueue(prj)
 		}
 	}
 	return nil
 }
 
-func (z *List) listTeam(c app_control.Control, ws *mo_workspace.Workspace) error {
-	c.UI().Progress(z.ProgressWorkspace.With("Name", ws.Name))
+func (z *List) listTeam(ws *mo_workspace.Workspace, c app_control.Control) error {
+	//c.UI().Progress(z.ProgressWorkspace.With("Name", ws.Name))
 	teams, err := sv_team.New(z.Peer.Context()).List(sv_team.Workspace(ws))
 	if err != nil {
 		return err
 	}
 
+	queue := c.Queue().Current().MustGet("projects")
+
 	for _, team := range teams {
 		if z.Team.Accept(team.Name) || z.Team.Accept(team.Gid) {
-			if err := z.listProjects(c, team); err != nil {
-				return err
-			}
+			queue.Enqueue(team)
 		}
 	}
 	return nil
@@ -111,6 +119,15 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
+	qd := c.Queue()
+	qd.Define("team", z.listTeam, c)
+	qd.Define("projects", z.listProjects, c)
+	qd.Define("tasks", z.listTasks, c)
+	qd.Define("task", z.listTask, c)
+
+	qc := qd.Current()
+	queue := qc.MustGet("team")
+
 	for _, wsCompact := range workspaces {
 		ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
 		if err != nil {
@@ -121,11 +138,10 @@ func (z *List) Exec(c app_control.Control) error {
 			continue
 		}
 		if z.Workspace.Accept(ws.Name) || z.Workspace.Accept(ws.Gid) {
-			if err := z.listTeam(c, ws); err != nil {
-				return err
-			}
+			queue.Enqueue(ws)
 		}
 	}
+	qc.Wait()
 
 	return nil
 }

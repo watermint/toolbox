@@ -120,7 +120,7 @@ func (z *Size) Exec(c app_control.Control) error {
 
 	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	for _, namespace := range namespaces {
 		process := false
 		switch {

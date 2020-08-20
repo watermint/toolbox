@@ -228,7 +228,7 @@ func (z *TeamFolderScanner) nestedFolderNamespaceIds() (nested map[string][]stri
 
 func (z *TeamFolderScanner) Scan() error {
 	l := z.Ctl.Log()
-	queue := z.Ctl.NewQueue()
+	queue := z.Ctl.NewLegacyQueue()
 	nested, others, err := z.nestedFolderNamespaceIds()
 	if err != nil {
 		return err

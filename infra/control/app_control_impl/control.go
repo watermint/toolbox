@@ -1,8 +1,13 @@
 package app_control_impl
 
 import (
+	"github.com/vbauerster/mpb/v5"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
+	"github.com/watermint/toolbox/essentials/queue/eq_pipe_preserve"
+	"github.com/watermint/toolbox/essentials/queue/eq_progress"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -14,7 +19,27 @@ import (
 )
 
 func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app_control.Control {
+	l := wb.Logger().Logger()
+	preservePath := wb.Workspace().KVS()
+	preserve := eq_pipe_preserve.NewFactory(l, preservePath)
+	factory := eq_pipe.NewSimple(l, preserve)
+	progress := eq_progress.NewBar(
+		//		mpb.WithOutput(es_stdout.NewDefaultOut(z.feature)),
+		mpb.WithWidth(72),
+	)
+	if feature.IsQuiet() {
+		progress = nil
+	}
+
+	q := eq_queue.New(
+		eq_queue.Logger(l),
+		eq_queue.Progress(progress),
+		eq_queue.NumWorker(feature.Concurrency()),
+		eq_queue.Factory(factory),
+	)
+
 	return &ctlImpl{
+		queue:   q,
 		wb:      wb,
 		ui:      ui,
 		feature: feature,
@@ -46,6 +71,11 @@ type ctlImpl struct {
 	feature app_feature.Feature
 	ui      app_ui.UI
 	wb      app_workspace.Bundle
+	queue   eq_queue.Definition
+}
+
+func (z ctlImpl) Queue() eq_queue.Definition {
+	return z.queue
 }
 
 func (z ctlImpl) WithLang(targetLang string) app_control.Control {
@@ -93,7 +123,7 @@ func (z ctlImpl) Messages() app_msg_container.Container {
 	return z.ui.Messages()
 }
 
-func (z ctlImpl) NewQueue() rc_worker.Queue {
+func (z ctlImpl) NewLegacyQueue() rc_worker.Queue {
 	return rc_worker_impl.NewQueue(z, z.feature.Concurrency())
 }
 

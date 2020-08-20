@@ -3,22 +3,28 @@ package eq_worker
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
-	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
+	"github.com/watermint/toolbox/essentials/queue/eq_registry"
 	"testing"
 	"time"
 )
 
 func TestWorkerImpl(t *testing.T) {
-	bundle := eq_bundle.NewSimple(esl.Default(), eq_pipe.NewTransientSimple(esl.Default()))
+	bundle := eq_bundle.NewSimple(esl.Default(), nil, eq_pipe.NewTransientSimple(esl.Default()))
 	processor := func(v string) {
 		l := esl.Default()
 		l.Info("Process", esl.String("v", v))
 	}
-	mould := eq_mould.New(bundle, processor)
 
-	c := make(chan eq_bundle.Data)
-	worker := New(esl.Default(), mould, c)
+	c := make(chan eq_bundle.Barrel)
+	reg := eq_registry.New(bundle)
+	reg.Define("m", processor)
+	mould, found := reg.Get("m")
+	if !found {
+		t.Error(found)
+		return
+	}
+	worker := New(esl.Default(), reg, c)
 	worker.Startup(1)
 	worker.Startup(2)
 

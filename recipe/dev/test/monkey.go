@@ -107,7 +107,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 	l := c.Log()
 	l.Info("Monkey test start", esl.Int("Distribution", z.Distribution.Value()), esl.Int("Running time", z.Seconds.Value()))
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	go func() {
 		for {
 			err := sem.Acquire(context.Background(), 1)

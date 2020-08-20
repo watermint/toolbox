@@ -1,4 +1,4 @@
-package eq_status
+package eq_progress
 
 import (
 	"testing"

@@ -103,7 +103,7 @@ func (z *scaleWorker) Exec() error {
 		current.ApiComplexity = 1
 	}
 
-	q := z.ctl.NewQueue()
+	q := z.ctl.NewLegacyQueue()
 	for _, entry := range entries {
 		current.CountDescendant++
 		if f, e := entry.File(); e {
@@ -159,7 +159,7 @@ func (z *scaleImpl) Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path
 	ed := newErrorDict()
 	svc := sv_file.NewFiles(z.ctx)
 
-	q := z.ctl.NewQueue()
+	q := z.ctl.NewLegacyQueue()
 	q.Enqueue(&scaleWorker{
 		ctl:      z.ctl,
 		ctx:      z.ctx,

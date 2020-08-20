@@ -62,7 +62,7 @@ func (z *ExpiryScanWorker) Exec() error {
 		return err
 	}
 
-	q := z.ctl.NewQueue()
+	q := z.ctl.NewLegacyQueue()
 
 	for _, link := range links {
 		ll := l.With(esl.Any("link", link))
@@ -217,7 +217,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 
 	for _, member := range members {
 		q.Enqueue(&ExpiryScanWorker{

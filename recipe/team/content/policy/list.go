@@ -42,7 +42,7 @@ func (z *List) Preset() {
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	s := &uc_team_content.TeamScanner{
 		Ctx:    z.Peer.Context(),
 		Ctl:    c,

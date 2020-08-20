@@ -2,6 +2,7 @@ package app_control
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
@@ -29,7 +30,10 @@ type Control interface {
 	Feature() app_feature.Feature
 
 	// Create new worker queue
-	NewQueue() rc_worker.Queue
+	NewLegacyQueue() rc_worker.Queue
+
+	// Create new worker queue
+	Queue() eq_queue.Definition
 
 	// Workspace bundle
 	WorkBundle() app_workspace.Bundle

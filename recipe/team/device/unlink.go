@@ -81,7 +81,7 @@ func (z *Unlink) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		q.Enqueue(&UnlinkWorker{
 			session: m.(*mo_device.MemberSession),
