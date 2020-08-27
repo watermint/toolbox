@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/recipe/dev"
+	"github.com/watermint/toolbox/recipe/dev/build"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
 )
@@ -81,7 +81,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 	}
 
 	l.Info("Preview process")
-	err := rc_exec.Exec(c, &dev.Preflight{}, rc_recipe.NoCustomValues)
+	err := rc_exec.Exec(c, &build.Preflight{}, rc_recipe.NoCustomValues)
 	if err != nil {
 		return err
 	}

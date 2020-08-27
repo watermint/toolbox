@@ -38,7 +38,7 @@ Configure environment variable `TOOLBOX_APPKEYS` like below
 To build an executable, please use Docker like below.
 
 ```bash
-$ docker build -t toolbox . && rm -fr /tmp/dist && docker run -v /tmp/dist:/dist:rw --rm toolbox
+$ docker-compose -f docker-compose.yml build && docker-compose -f docker-compose.yml run build
 ```
 
 # Enhance code
@@ -64,11 +64,11 @@ mapped into `file.copy.<key>`, and `file.copy_vo.<key>`.
 
 ## Before commit
 
-Please run command `dev preflight` to ensure all message resources and documents are available.
+Please run command `dev build preflight` to ensure all message resources and documents are available.
 
 ```bash
 $ cd /path/to/PROJECT_ROOT
-$ go run tbx.go dev preflight
+$ go run tbx.go dev build preflight
 ``` 
 
 # Test process
@@ -104,5 +104,9 @@ $ go run tbx.go dev release candidate
 
 ## Publish Release
 
-Please run `publish_release.sh` on macOs, to test binaries.
-The script will generate draft release notes when all tests succeed.
+Please run command `dev release publish` to upload assets on to the github account, and create draft releases.
+
+```bash
+$ cd /path/to/PROJECT_ROOT
+$ go run tbx.go dev release publish 
+```

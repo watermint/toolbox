@@ -7,7 +7,7 @@ import (
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
 	recipeconnect "github.com/watermint/toolbox/recipe/connect"
-	recipedev "github.com/watermint/toolbox/recipe/dev"
+	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
@@ -94,11 +94,11 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconnect.BusinessInfo{},
 		&recipeconnect.BusinessMgmt{},
 		&recipeconnect.UserFile{},
-		&recipedev.Async{},
-		&recipedev.Catalogue{},
-		&recipedev.Doc{},
-		&recipedev.Echo{},
-		&recipedev.Preflight{},
+		&recipedevbuild.Catalogue{},
+		&recipedevbuild.Doc{},
+		&recipedevbuild.License{},
+		&recipedevbuild.Preflight{},
+		&recipedevbuild.Readme{},
 		&recipedevciartifact.Connect{},
 		&recipedevciartifact.Up{},
 		&recipedevciauth.Connect{},
@@ -113,6 +113,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Scoped{},
+		&recipedevtest.Async{},
+		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},

@@ -1,4 +1,4 @@
-package dev
+package test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"

@@ -3,50 +3,36 @@
 # Commands added
 
 
-| Command                               | Title                          |
-|---------------------------------------|--------------------------------|
-| services asana team list              | List team                      |
-| services asana team project list      | List projects of the team      |
-| services asana team task list         | List task of the team          |
-| services asana workspace list         | List workspaces                |
-| services asana workspace project list | List projects of the workspace |
+| Command                               | Title                                 |
+|---------------------------------------|---------------------------------------|
+| dev build catalogue                   | Generate catalogue                    |
+| dev build doc                         | Document generator                    |
+| dev build license                     | Generate LICENSE.txt                  |
+| dev build preflight                   | Process prerequisites for the release |
+| dev build readme                      | Generate README.txt                   |
+| dev test async                        | Async framework test                  |
+| dev test echo                         | Echo text                             |
+| services asana team list              | List team                             |
+| services asana team project list      | List projects of the team             |
+| services asana team task list         | List task of the team                 |
+| services asana workspace list         | List workspaces                       |
+| services asana workspace project list | List projects of the workspace        |
 
 
 
-# Command spec changed: `dev doc`
+# Commands deleted
 
 
-## Command configuration changed
+| Command       | Title                                 |
+|---------------|---------------------------------------|
+| dev async     | Async framework test                  |
+| dev catalogue | Generate catalogue                    |
+| dev doc       | Document generator                    |
+| dev echo      | Echo text                             |
+| dev preflight | Process prerequisites for the release |
 
 
-```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Badge", Desc: "Include badges of build status", Default: "true", TypeName: "bool", ...},
-  		&{Name: "CommandPath", Desc: "Relative path to generate command manuals", Default: "doc/generated/", TypeName: "string", ...},
-  		&{Name: "DocLang", Desc: "Language", TypeName: "domain.common.model.mo_string.opt_string"},
-+ 		&{
-+ 			Name:     "Readme",
-+ 			Desc:     "Filename of README",
-+ 			Default:  "README.md",
-+ 			TypeName: "string",
-+ 		},
-  		&{
-- 			Name:     "Filename",
-+ 			Name:     "Security",
-- 			Desc:     "Filename",
-+ 			Desc:     "Filename of SECURITY_AND_PRIVACY",
-- 			Default:  "README.md",
-+ 			Default:  "SECURITY_AND_PRIVACY.md",
-  			TypeName: "string",
-  			TypeAttr: nil,
-  		},
-  	},
-  }
-```
+
 # Command spec changed: `file list`
 
 
@@ -103,26 +89,6 @@
 # Command spec changed: `team diag explorer`
 
 
-## Command configuration changed
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 7 identical fields
-  }
-```
 ## Added report(s)
 
 

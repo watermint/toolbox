@@ -1,4 +1,4 @@
-package dev
+package build
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
