@@ -1,6 +1,6 @@
 # dev build preflight
 
-Process prerequisites for the release 
+リリースに向けて必要な事前準備を実施 
 
 # 利用方法
 

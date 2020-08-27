@@ -68,15 +68,17 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                   | Description                                                       | Default |
-|--------------------------|-------------------------------------------------------------------|---------|
-| `-depth`                 | Report entry for all files and directories depth directories deep | 1       |
-| `-include-app-folder`    | If true, include app folders                                      | false   |
-| `-include-member-folder` | if true, include team member folders                              | false   |
-| `-include-shared-folder` | If true, include shared folders                                   | true    |
-| `-include-team-folder`   | If true, include team folders                                     | true    |
-| `-name`                  | List only for the folder matched to the name                      |         |
-| `-peer`                  | Account alias                                                     | default |
+| Option                   | Description                                                                       | Default |
+|--------------------------|-----------------------------------------------------------------------------------|---------|
+| `-depth`                 | Report entry for all files and directories depth directories deep                 | 1       |
+| `-folder-name`           | List only for the folder matched to the name. Filter by exact match to the name.  |         |
+| `-folder-name-prefix`    | List only for the folder matched to the name. Filter by name match to the prefix. |         |
+| `-folder-name-suffix`    | List only for the folder matched to the name. Filter by name match to the suffix. |         |
+| `-include-app-folder`    | If true, include app folders                                                      | false   |
+| `-include-member-folder` | if true, include team member folders                                              | false   |
+| `-include-shared-folder` | If true, include shared folders                                                   | true    |
+| `-include-team-folder`   | If true, include team folders                                                     | true    |
+| `-peer`                  | Account alias                                                                     | default |
 
 ## Common options:
 

@@ -149,8 +149,8 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |-----------------|--------------------------|
 | status          | 処理の状態               |
 | reason          | 失敗またはスキップの理由 |
-| input.namespace | Namespace                |
-| input.path      | Path                     |
+| input.namespace | 名前空間                 |
+| input.path      | パス                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

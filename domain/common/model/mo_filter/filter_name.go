@@ -8,6 +8,12 @@ func NewNameFilter() FilterOpt {
 	return &nameFilterOpt{}
 }
 
+func NewTestNameFilter(name string) FilterOpt {
+	return &nameFilterOpt{
+		name: name,
+	}
+}
+
 type nameFilterOpt struct {
 	name string
 }

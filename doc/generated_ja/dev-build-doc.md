@@ -1,6 +1,6 @@
 # dev build doc
 
-Document generator 
+ドキュメントを生成 
 
 # 利用方法
 
@@ -26,13 +26,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                                      | デフォルト              |
-|-----------------|-------------------------------------------|-------------------------|
-| `-badge`        | Include badges of build status            | true                    |
-| `-command-path` | Relative path to generate command manuals | doc/generated/          |
-| `-doc-lang`     | Language                                  |                         |
-| `-readme`       | Filename of README                        | README.md               |
-| `-security`     | Filename of SECURITY_AND_PRIVACY          | SECURITY_AND_PRIVACY.md |
+| オプション      | 説明                                 | デフォルト              |
+|-----------------|--------------------------------------|-------------------------|
+| `-badge`        | ビルド状態のバッジを含める           | true                    |
+| `-command-path` | コマンドマニュアルを作成する相対パス | doc/generated/          |
+| `-doc-lang`     | 言語                                 |                         |
+| `-readme`       | README のファイル名                  | README.md               |
+| `-security`     | SECURITY_AND_PRIVACYのファイル名     | SECURITY_AND_PRIVACY.md |
 
 ## 共通のオプション:
 

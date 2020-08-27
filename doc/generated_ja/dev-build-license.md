@@ -1,6 +1,6 @@
 # dev build license
 
-Generate LICENSE.txt 
+LICENSE.txtの生成 
 
 # 利用方法
 
@@ -26,10 +26,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                                         | デフォルト |
-|----------------|----------------------------------------------|------------|
-| `-dest-path`   | Dest path                                    |            |
-| `-source-path` | Path to licenses (go-licenses output folder) |            |
+| オプション     | 説明                                          | デフォルト |
+|----------------|-----------------------------------------------|------------|
+| `-dest-path`   | 出力先パス                                    |            |
+| `-source-path` | ライセンスへのパス (go-licenses 出力フォルダ) |            |
 
 ## 共通のオプション:
 

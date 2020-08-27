@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -12,9 +13,15 @@ import (
 type List struct {
 	Peer     dbx_conn.ConnBusinessFile
 	FileList *namespacefile.List
+	Folder   mo_filter.Filter
 }
 
 func (z *List) Preset() {
+	z.Folder.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -23,6 +30,7 @@ func (z *List) Exec(c app_control.Control) error {
 		rc.IncludeTeamFolder = true
 		rc.IncludeSharedFolder = false
 		rc.Peer = z.Peer
+		rc.Folder = z.Folder
 	})
 }
 

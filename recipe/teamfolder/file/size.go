@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -15,10 +16,16 @@ type Size struct {
 	Peer     dbx_conn.ConnBusinessFile
 	FileSize *namespacefile.Size
 	Depth    mo_int.RangeInt
+	Folder   mo_filter.Filter
 }
 
 func (z *Size) Preset() {
 	z.Depth.SetRange(1, math.MaxInt32, 1)
+	z.Folder.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
+	)
 }
 
 func (z *Size) Exec(c app_control.Control) error {
@@ -27,6 +34,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		rc.IncludeSharedFolder = false
 		rc.IncludeTeamFolder = false
 		rc.Depth = z.Depth.Value()
+		rc.Folder = z.Folder
 		rc.Peer = z.Peer
 	})
 }

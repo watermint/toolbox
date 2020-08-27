@@ -29,7 +29,7 @@ func (z *rowLimitImpl) Row(f func()) {
 		f()
 	}
 	if z.numRows%consoleNumRowsThreshold == 0 {
-		z.sy.Info(MConsole.Progress.
+		z.sy.Progress(MConsole.Progress.
 			With("Label", z.name).
 			With("Progress", z.numRows))
 	}
@@ -37,7 +37,7 @@ func (z *rowLimitImpl) Row(f func()) {
 
 func (z *rowLimitImpl) Flush() {
 	if z.numRows >= consoleNumRowsThreshold {
-		z.sy.Info(MConsole.LargeReport.
+		z.sy.Progress(MConsole.LargeReport.
 			With("Label", z.name).
 			With("Num", z.numRows))
 	}

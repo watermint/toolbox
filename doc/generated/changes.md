@@ -109,6 +109,18 @@
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "List only for the folder matched to the name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the suffix.",
++ 		},
   		&{Name: "IncludeDeleted", Desc: "If true, deleted file or folder will be returned", Default: "false", TypeName: "bool", ...},
 - 		&{
 - 			Name:     "IncludeMediaInfo",
@@ -118,7 +130,13 @@
 - 		},
   		&{Name: "IncludeMemberFolder", Desc: "If true, include team member folders", Default: "false", TypeName: "bool", ...},
   		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool", ...},
-  		... // 3 identical elements
+  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool", ...},
+- 		&{
+- 			Name:     "Name",
+- 			Desc:     "List only for the folder matched to the name",
+- 			TypeName: "domain.common.model.mo_string.opt_string",
+- 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
   	},
   }
 ```
@@ -133,6 +151,41 @@
 # Command spec changed: `team namespace file size`
 
 
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Depth", Desc: "Report entry for all files and directories depth directories deep", Default: "1", TypeName: "domain.common.model.mo_int.range_int", ...},
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "List only for the folder matched to the name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the suffix.",
++ 		},
+  		&{Name: "IncludeAppFolder", Desc: "If true, include app folders", Default: "false", TypeName: "bool", ...},
+  		&{Name: "IncludeMemberFolder", Desc: "if true, include team member folders", Default: "false", TypeName: "bool", ...},
+  		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool", ...},
+  		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool", ...},
+- 		&{
+- 			Name:     "Name",
+- 			Desc:     "List only for the folder matched to the name",
+- 			TypeName: "domain.common.model.mo_string.opt_string",
+- 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
+  	},
+  }
+```
 ## Added report(s)
 
 
@@ -144,6 +197,31 @@
 # Command spec changed: `teamfolder file list`
 
 
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "List only for the folder matched to the name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the suffix.",
++ 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
+  	},
+  }
+```
 ## Added report(s)
 
 
@@ -155,6 +233,32 @@
 # Command spec changed: `teamfolder file size`
 
 
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Depth", Desc: "Depth", Default: "1", TypeName: "domain.common.model.mo_int.range_int", ...},
++ 		&{
++ 			Name: "FolderName",
++ 			Desc: "List only for the folder matched to the name. Filter by exact match to the name.",
++ 		},
++ 		&{
++ 			Name: "FolderNamePrefix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the prefix.",
++ 		},
++ 		&{
++ 			Name: "FolderNameSuffix",
++ 			Desc: "List only for the folder matched to the name. Filter by name match to the suffix.",
++ 		},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
+  	},
+  }
+```
 ## Added report(s)
 
 

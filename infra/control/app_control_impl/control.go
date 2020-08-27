@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe_preserve"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/infra/control/app_ambient"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -81,11 +82,13 @@ func (z ctlImpl) DefineQueue(f func(d eq_queue.Definition)) {
 func (z ctlImpl) ExecQueue(f func(qc eq_queue.Container)) {
 	l := z.Log()
 	container := z.queue.Current()
+	app_ambient.Current.SuppressProgress()
 	l.Debug("Start queue operation")
 	f(container)
 	l.Debug("Queue operation finished, wait for all tasks completed")
 	container.Wait()
 	l.Debug("All tasks completed")
+	app_ambient.Current.ResumeProgress()
 }
 
 func (z ctlImpl) Queue(queueId string) eq_queue.Queue {

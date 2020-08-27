@@ -35,6 +35,9 @@ func (z *License) Exec(c app_control.Control) error {
 	licenseData, err := app_resource.Bundle().Data().Bytes("licenses.json")
 	if err != nil {
 		ui.Error(z.ErrorLicenseInfoNotFound)
+		if c.Feature().IsTest() {
+			return nil
+		}
 		return err
 	}
 	licenses := &dc_license.Licenses{}

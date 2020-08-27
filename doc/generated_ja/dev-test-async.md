@@ -1,6 +1,6 @@
 # dev test async
 
-Async framework test 
+非同期処理フレームワークテスト 
 
 # セキュリティ
 
@@ -70,8 +70,8 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション          | 説明             | デフォルト |
 |---------------------|------------------|------------|
-| `-peer`             | Account alias    | default    |
-| `-run-concurrently` | run concurrently | false      |
+| `-peer`             | アカウントの別名 | default    |
+| `-run-concurrently` | 並列実行         | false      |
 
 ## 共通のオプション:
 

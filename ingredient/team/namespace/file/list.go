@@ -2,7 +2,7 @@ package file
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -27,8 +27,8 @@ type List struct {
 	IncludeMemberFolder bool
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
-	Name                mo_string.OptionalString
 	NamespaceFile       rp_model.RowReport
+	Folder              mo_filter.Filter
 	Errors              rp_model.TransactionReport
 }
 
@@ -48,6 +48,11 @@ func (z *List) Preset() {
 		),
 	)
 	z.Errors.SetModel(&uc_file_traverse.TraverseEntry{}, nil)
+	z.Folder.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -123,8 +128,8 @@ func (z *List) Exec(c app_control.Control) error {
 				l.Debug("Skip", esl.Any("namespace", namespace))
 				continue
 			}
-			if z.Name.IsExists() && namespace.Name != z.Name.Value() {
-				l.Debug("Skip", esl.Any("namespace", namespace), esl.String("filter", z.Name.Value()))
+			if !z.Folder.Accept(namespace.Name) {
+				l.Debug("Skip", esl.Any("namespace", namespace))
 				continue
 			}
 
@@ -142,7 +147,9 @@ func (z *List) Exec(c app_control.Control) error {
 func (z *List) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &List{}, func(r rc_recipe.Recipe) {
 		rc := r.(*List)
-		rc.Name = mo_string.NewOptional(qtr_endtoend.TestTeamFolderName)
+		rc.Folder.SetOptions(
+			mo_filter.NewTestNameFilter(qtr_endtoend.TestTeamFolderName),
+		)
 	})
 	if err != nil {
 		return err

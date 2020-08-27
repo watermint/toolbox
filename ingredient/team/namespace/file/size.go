@@ -2,7 +2,7 @@ package file
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
@@ -28,7 +28,7 @@ type Size struct {
 	IncludeTeamFolder   bool
 	IncludeMemberFolder bool
 	IncludeAppFolder    bool
-	Name                mo_string.OptionalString
+	Folder              mo_filter.Filter
 	Depth               int
 	NamespaceSize       rp_model.TransactionReport
 	Errors              rp_model.TransactionReport
@@ -46,6 +46,11 @@ func (z *Size) Preset() {
 			"input.team_member_id",
 			"input.namespace_id",
 		),
+	)
+	z.Folder.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
 	)
 	z.Errors.SetModel(&uc_file_traverse.TraverseEntry{}, nil)
 	z.IncludeSharedFolder = true
@@ -130,8 +135,8 @@ func (z *Size) Exec(c app_control.Control) error {
 				l.Debug("Skip", esl.Any("namespace", namespace))
 				continue
 			}
-			if z.Name.IsExists() && namespace.Name != z.Name.Value() {
-				l.Debug("Skip", esl.Any("namespace", namespace), esl.String("filter", z.Name.Value()))
+			if !z.Folder.Accept(namespace.Name) {
+				l.Debug("Skip", esl.Any("namespace", namespace))
 				continue
 			}
 
@@ -160,7 +165,7 @@ func (z *Size) Exec(c app_control.Control) error {
 func (z *Size) Test(c app_control.Control) error {
 	err := rc_exec.Exec(c, &Size{}, func(r rc_recipe.Recipe) {
 		rc := r.(*Size)
-		rc.Name = mo_string.NewOptional(qtr_endtoend.TestTeamFolderName)
+		rc.Folder.SetOptions(mo_filter.NewTestNameFilter(qtr_endtoend.TestTeamFolderName))
 		rc.IncludeTeamFolder = false
 		rc.Depth = 1
 
