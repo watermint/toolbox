@@ -32,16 +32,6 @@ func TestSumImplPathsOfEntry(t *testing.T) {
 			t.Error(cmp.Diff(expected, actual))
 		}
 	}
-	{
-		expected := []string{"/", "/a"}
-		actual := s.pathsOfEntry("/a/c.dat")
-		sort.Strings(expected)
-		sort.Strings(actual)
-		if !reflect.DeepEqual(expected, actual) {
-			t.Error(cmp.Diff(expected, actual))
-		}
-	}
-
 }
 
 func TestSumImpl_Add(t *testing.T) {
