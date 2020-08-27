@@ -115,7 +115,7 @@ func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 	opts = opts.WithTableLoadingMode(options.FileIO)
 
 	// Use lesser ValueLogFileSize for Windows 32bit environment
-	if app.IsWindows() && runtime.GOARCH == "386" {
+	if runtime.GOARCH == "386" {
 		opts = opts.WithValueLogFileSize(2 << 20)
 	}
 
