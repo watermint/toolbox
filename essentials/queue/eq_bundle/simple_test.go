@@ -17,16 +17,16 @@ func TestSimpleImpl_BasicBehavior(t *testing.T) {
 	d1 := NewBarrel("", "", []byte("D00-001"))
 
 	// ensure the queue is empty
-	if sizes, total := bundle.Size(); total != 0 {
-		t.Error(sizes, total)
+	if total := bundle.Size(); total != 0 {
+		t.Error(total)
 	}
 
 	// enqueue
 	bundle.Enqueue(d1)
 
 	// ensure queued
-	if sizes, total := bundle.Size(); total != 1 {
-		t.Error(sizes, total)
+	if total := bundle.Size(); total != 1 {
+		t.Error(total)
 	}
 
 	// fetch and compare

@@ -12,10 +12,9 @@ func TestFilesImpl_ListChunked(t *testing.T) {
 	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		err := sv.ListChunked(qtr_endtoend.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
-			Recursive(),
-			IncludeMediaInfo(),
-			IncludeDeleted(),
-			IncludeHasExplicitSharedMembers(),
+			Recursive(true),
+			IncludeDeleted(true),
+			IncludeHasExplicitSharedMembers(true),
 		)
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)
@@ -27,10 +26,9 @@ func TestFilesImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
 		_, err := sv.List(qtr_endtoend.NewTestDropboxFolderPath(),
-			Recursive(),
-			IncludeMediaInfo(),
-			IncludeDeleted(),
-			IncludeHasExplicitSharedMembers(),
+			Recursive(true),
+			IncludeDeleted(true),
+			IncludeHasExplicitSharedMembers(true),
 		)
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)

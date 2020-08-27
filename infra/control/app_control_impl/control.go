@@ -74,8 +74,22 @@ type ctlImpl struct {
 	queue   eq_queue.Definition
 }
 
-func (z ctlImpl) Queue() eq_queue.Definition {
-	return z.queue
+func (z ctlImpl) DefineQueue(f func(d eq_queue.Definition)) {
+	f(z.queue)
+}
+
+func (z ctlImpl) ExecQueue(f func(qc eq_queue.Container)) {
+	l := z.Log()
+	container := z.queue.Current()
+	l.Debug("Start queue operation")
+	f(container)
+	l.Debug("Queue operation finished, wait for all tasks completed")
+	container.Wait()
+	l.Debug("All tasks completed")
+}
+
+func (z ctlImpl) Queue(queueId string) eq_queue.Queue {
+	return z.queue.Current().MustGet(queueId)
 }
 
 func (z ctlImpl) WithLang(targetLang string) app_control.Control {

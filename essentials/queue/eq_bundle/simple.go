@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
+	"github.com/watermint/toolbox/essentials/queue/eq_stat"
 	"sync"
 )
 
@@ -19,16 +20,15 @@ func newSimple(logger esl.Logger,
 	wip eq_pipe.Pipe,
 	pipes map[string]eq_pipe.Pipe) Bundle {
 	return &simpleImpl{
-		logger:         logger,
-		progress:       progress,
-		factory:        factory,
-		pipes:          pipes,
-		pipesMutex:     &sync.Mutex{},
-		statsTotal:     make(map[string]int),
-		statsCompleted: make(map[string]int),
-		wip:            wip,
-		batchId:        "",
-		currentBatchId: "",
+		logger:             logger,
+		progress:           progress,
+		factory:            factory,
+		pipes:              pipes,
+		pipesMutex:         &sync.Mutex{},
+		stat:               eq_stat.New(),
+		wip:                wip,
+		batchId:            "",
+		currentBatchBarrel: "",
 	}
 }
 
@@ -80,16 +80,15 @@ func RestoreSimple(logger esl.Logger,
 }
 
 type simpleImpl struct {
-	logger         esl.Logger
-	progress       eq_progress.Progress
-	factory        eq_pipe.Factory
-	pipes          map[string]eq_pipe.Pipe
-	pipesMutex     *sync.Mutex
-	statsTotal     map[string]int
-	statsCompleted map[string]int
-	wip            eq_pipe.Pipe
-	batchId        string
-	currentBatchId string
+	logger             esl.Logger
+	progress           eq_progress.Progress
+	factory            eq_pipe.Factory
+	pipes              map[string]eq_pipe.Pipe
+	pipesMutex         *sync.Mutex
+	stat               eq_stat.Stat
+	wip                eq_pipe.Pipe
+	batchId            string
+	currentBatchBarrel string
 }
 
 func (z *simpleImpl) SizeInProgress() int {
@@ -126,20 +125,6 @@ func (z *simpleImpl) Preserve() (session Session, err error) {
 	return session, nil
 }
 
-func (z *simpleImpl) noLockCallHandler(batchBarrel, mouldId, batchId string, handler func(mouldId, batchId string, completed, total int)) {
-	l := z.logger
-	l.Debug("Mark as completed")
-
-	if handler != nil {
-		if total, ok := z.statsTotal[batchBarrel]; ok {
-			if completed, ok := z.statsCompleted[batchBarrel]; ok {
-				l.Debug("Call handler", esl.Int("completed", completed), esl.Int("total", total))
-				handler(mouldId, batchId, completed, total)
-			}
-		}
-	}
-}
-
 func (z *simpleImpl) Complete(b Barrel) {
 	bb := b.BarrelBatch()
 
@@ -149,15 +134,11 @@ func (z *simpleImpl) Complete(b Barrel) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
-	if completed, ok := z.statsCompleted[bb]; ok {
-		z.statsCompleted[bb] = completed + 1
-	} else {
-		z.statsCompleted[bb] = 1
-	}
+	z.stat.IncrComplete(b.MouldId, b.BatchId)
 
 	// Call OnCompletedHandler
 	if z.progress != nil {
-		z.noLockCallHandler(bb, b.MouldId, b.BatchId, z.progress.OnComplete)
+		z.progress.OnComplete(b.MouldId, b.BatchId, z.stat)
 	}
 
 	z.wip.Delete(b.ToBytes())
@@ -185,15 +166,11 @@ func (z *simpleImpl) Enqueue(b Barrel) {
 
 	l.Debug("Enqueue bundle")
 
-	if total, ok := z.statsTotal[bb]; ok {
-		z.statsTotal[bb] = total + 1
-	} else {
-		z.statsTotal[bb] = 1
-	}
+	z.stat.IncrEnqueue(b.MouldId, b.BatchId)
 
 	// Call OnCompletedHandler
 	if z.progress != nil {
-		z.noLockCallHandler(bb, b.MouldId, b.BatchId, z.progress.OnEnqueue)
+		z.progress.OnEnqueue(b.MouldId, b.BatchId, z.stat)
 	}
 
 	pipe, ok := z.pipes[bb]
@@ -210,11 +187,11 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
-	l := z.logger.With(esl.String("currentBatchId", z.currentBatchId))
+	l := z.logger.With(esl.String("currentBatchId", z.currentBatchBarrel))
 	l.Debug("Fetch from currentBatchId")
 
 	for {
-		if pipe, ok := z.pipes[z.currentBatchId]; ok {
+		if pipe, ok := z.pipes[z.currentBatchBarrel]; ok {
 			l.Debug("The pipe found with currentBatchId")
 			if d0 := pipe.Dequeue(); d0 != nil {
 				l.Debug("Data found, dequeue success")
@@ -229,7 +206,7 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 
 			l.Debug("Data not found, closing the pipe")
 			pipe.Close()
-			delete(z.pipes, z.currentBatchId)
+			delete(z.pipes, z.currentBatchBarrel)
 
 			// fall thru
 		}
@@ -237,7 +214,7 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 		// finish when no more pipes found
 		if len(z.pipes) < 1 {
 			l.Debug("No more pipes")
-			z.currentBatchId = ""
+			z.currentBatchBarrel = ""
 			return b, false
 		}
 
@@ -245,22 +222,21 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 		l.Debug("Find next currentBatchId")
 		for b := range z.pipes {
 			l.Debug("Next pipe", esl.String("batchId", b))
-			z.currentBatchId = b
+			z.currentBatchBarrel = b
 			break
 		}
 	}
 }
 
-func (z *simpleImpl) Size() (sizes map[string]int, total int) {
+func (z *simpleImpl) Size() int {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
-	sizes = make(map[string]int)
-	for b, pipe := range z.pipes {
+	total := z.wip.Size()
+	for _, pipe := range z.pipes {
 		s := pipe.Size()
-		sizes[b] = s
 		total += s
 	}
 
-	return
+	return total
 }

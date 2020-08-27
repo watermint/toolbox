@@ -65,7 +65,7 @@ func (z *Kvsfootprint) Exec(c app_control.Control) error {
 					}
 				}
 				err := sv_file.NewFiles(z.Peer.Context()).ListChunked(
-					mo_path.NewDropboxPath("/"), sk, sv_file.Recursive())
+					mo_path.NewDropboxPath("/"), sk, sv_file.Recursive(true))
 				if err != nil {
 					return err
 				}

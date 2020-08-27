@@ -3,6 +3,7 @@ package eq_progress
 import (
 	"github.com/vbauerster/mpb/v5"
 	"github.com/vbauerster/mpb/v5/decor"
+	"github.com/watermint/toolbox/essentials/queue/eq_stat"
 	"sync"
 	"time"
 )
@@ -16,68 +17,79 @@ const (
 func NewBar(opts ...mpb.ContainerOption) Progress {
 	return &barImpl{
 		barLock:   sync.Mutex{},
-		bars:      make(map[string]*mpb.Bar),
+		barBatch:  make(map[string]*mpb.Bar),
+		barTask:   make(map[string]*mpb.Bar),
 		container: mpb.New(opts...),
 	}
 }
 
 type barImpl struct {
 	barLock     sync.Mutex
-	bars        map[string]*mpb.Bar
+	barTask     map[string]*mpb.Bar
+	barBatch    map[string]*mpb.Bar
 	container   *mpb.Progress
 	lastRefresh time.Time
 }
 
-func (z *barImpl) noLockNewBar(mouldId, batchId string, total int) *mpb.Bar {
+func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) *mpb.Bar {
 	mouldName := mouldId
 	digestLen := 16
 	if len(mouldName) > digestLen {
 		mouldName = mouldName[len(mouldName)-digestLen:]
 	}
-	batchName := batchId
-	if len(mouldName) > digestLen {
-		batchName = batchName[len(batchName)-digestLen:]
-	}
 
 	return z.container.AddBar(int64(total),
 		mpb.PrependDecorators(
 			decor.Name(mouldName+" ", decor.WC{W: digestLen}),
-			decor.Name(batchName+" ", decor.WC{W: digestLen}),
-			decor.OnComplete(decor.AverageETA(decor.ET_STYLE_HHMM, decor.WC{W: 5}), "Done"),
+			decor.Name(typeName+" ", decor.WC{W: 5}),
 		),
-		mpb.AppendDecorators(decor.Counters(0, "%d / %d")),
+		mpb.AppendDecorators(
+			decor.Counters(0, "%d / %d"),
+		),
 	)
 }
 
-func (z *barImpl) noLockGetBar(mouldId, batchId string, total int) (bar *mpb.Bar, new bool) {
-	batchBarrel := mouldId + "/" + batchId
-	if bar, ok := z.bars[batchBarrel]; ok {
-		return bar, false
+func (z *barImpl) noLockGetBar(mouldId string, totalTask, totalBatch int) (barTask, barBatch *mpb.Bar, new bool) {
+	if barTask, ok := z.barTask[mouldId]; ok {
+		if barBatch, ok := z.barBatch[mouldId]; ok {
+			return barTask, barBatch, false
+		}
 	}
 
-	bar = z.noLockNewBar(mouldId, batchId, total)
-	z.bars[batchBarrel] = bar
-	return bar, true
+	barBatch = z.noLockNewBar(mouldId, totalBatch, "Batch")
+	barTask = z.noLockNewBar(mouldId, totalTask, "Task ")
+	z.barBatch[mouldId] = barBatch
+	z.barTask[mouldId] = barTask
+	return barTask, barBatch, true
 }
 
-func (z *barImpl) onChange(mouldId, batchId string, completed, total int) {
+func (z *barImpl) onChange(mouldId, batchId string, stat eq_stat.Stat) {
 	z.barLock.Lock()
 	defer z.barLock.Unlock()
 
-	bar, newBar := z.noLockGetBar(mouldId, batchId, total)
+	batchCompleted, batchTotal := stat.StatBatch(mouldId)
+	taskCompleted, taskTotal := stat.StatTask(mouldId)
 
-	if newBar || completed == total || z.lastRefresh.Add(minRefreshInterval).Before(time.Now()) {
-		bar.SetCurrent(int64(completed))
-		bar.SetTotal(int64(total), false)
+	barTask, barBatch, newBar := z.noLockGetBar(mouldId, taskTotal, batchTotal)
+
+	if newBar ||
+		batchCompleted == batchTotal ||
+		taskCompleted == taskTotal ||
+		z.lastRefresh.Add(minRefreshInterval).Before(time.Now()) {
+
+		barTask.SetCurrent(int64(taskCompleted))
+		barTask.SetTotal(int64(taskTotal), false)
+		barBatch.SetCurrent(int64(batchCompleted))
+		barBatch.SetTotal(int64(batchTotal), false)
 
 		z.lastRefresh = time.Now()
 	}
 }
 
-func (z *barImpl) OnComplete(mouldId, batchId string, completed, total int) {
-	z.onChange(mouldId, batchId, completed, total)
+func (z *barImpl) OnComplete(mouldId, batchId string, stat eq_stat.Stat) {
+	z.onChange(mouldId, batchId, stat)
 }
 
-func (z *barImpl) OnEnqueue(mouldId, batchId string, completed, total int) {
-	z.onChange(mouldId, batchId, completed, total)
+func (z *barImpl) OnEnqueue(mouldId, batchId string, stat eq_stat.Stat) {
+	z.onChange(mouldId, batchId, stat)
 }

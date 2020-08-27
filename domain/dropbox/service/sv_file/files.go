@@ -20,35 +20,52 @@ type Files interface {
 	Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error)
 }
 
-type ListOpt func(opt *ListOpts) *ListOpts
+type ListOpt func(opt ListOpts) ListOpts
 type ListOpts struct {
-	Recursive                       bool
-	IncludeMediaInfo                bool
-	IncludeDeleted                  bool
-	IncludeHasExplicitSharedMembers bool
+	Path                            string `json:"path"`
+	Limit                           *int   `json:"limit,omitempty"`
+	Recursive                       bool   `json:"recursive,omitempty"`
+	IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
+	IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
+	IncludeNonDownloadableFiles     bool   `json:"include_non_downloadable_files"` // should not omitempty, default is true
 }
 
-func Recursive() ListOpt {
-	return func(opt *ListOpts) *ListOpts {
-		opt.Recursive = true
+func MakeListOpts(path mo_path.DropboxPath, opts []ListOpt) ListOpts {
+	o := ListOpts{
+		Path:                            path.Path(),
+		Limit:                           nil,
+		Recursive:                       false,
+		IncludeDeleted:                  false,
+		IncludeHasExplicitSharedMembers: false,
+		IncludeNonDownloadableFiles:     true,
+	}
+	for _, opt := range opts {
+		o = opt(o)
+	}
+	return o
+}
+
+func Recursive(enabled bool) ListOpt {
+	return func(opt ListOpts) ListOpts {
+		opt.Recursive = enabled
 		return opt
 	}
 }
-func IncludeMediaInfo() ListOpt {
-	return func(opt *ListOpts) *ListOpts {
-		opt.IncludeMediaInfo = true
+func IncludeDeleted(enabled bool) ListOpt {
+	return func(opt ListOpts) ListOpts {
+		opt.IncludeDeleted = enabled
 		return opt
 	}
 }
-func IncludeDeleted() ListOpt {
-	return func(opt *ListOpts) *ListOpts {
-		opt.IncludeDeleted = true
+func IncludeHasExplicitSharedMembers(enabled bool) ListOpt {
+	return func(opt ListOpts) ListOpts {
+		opt.IncludeHasExplicitSharedMembers = enabled
 		return opt
 	}
 }
-func IncludeHasExplicitSharedMembers() ListOpt {
-	return func(opt *ListOpts) *ListOpts {
-		opt.IncludeHasExplicitSharedMembers = true
+func IncludeNonDownloadableFiles(enabled bool) ListOpt {
+	return func(opt ListOpts) ListOpts {
+		opt.IncludeNonDownloadableFiles = enabled
 		return opt
 	}
 }
@@ -188,25 +205,7 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 }
 
 func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
-	lo := &ListOpts{}
-	for _, o := range opts {
-		o(lo)
-	}
-
-	p := struct {
-		Path                            string `json:"path"`
-		Recursive                       bool   `json:"recursive,omitempty"`
-		IncludeMediaInfo                bool   `json:"include_media_info,omitempty"`
-		IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
-		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
-		Limit                           int    `json:"limit,omitempty"`
-	}{
-		Path:                            path.Path(),
-		Recursive:                       lo.Recursive,
-		IncludeMediaInfo:                lo.IncludeMediaInfo,
-		IncludeDeleted:                  lo.IncludeDeleted,
-		IncludeHasExplicitSharedMembers: lo.IncludeHasExplicitSharedMembers,
-	}
+	p := MakeListOpts(path, opts)
 
 	type Cursor struct {
 		Cursor string `path:"cursor" json:"cursor"`
@@ -262,13 +261,11 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
 	p := struct {
 		Path                            string `json:"path"`
-		IncludeMediaInfo                bool   `json:"include_media_info,omitempty"`
 		IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
 		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
 	}{
 		Path:                            path.Path(),
 		IncludeHasExplicitSharedMembers: true,
-		IncludeMediaInfo:                true,
 		IncludeDeleted:                  false,
 	}
 	res := z.ctx.Post("files/get_metadata", api_request.Param(p))
@@ -292,30 +289,7 @@ func (z *filesImpl) List(path mo_path.DropboxPath, opts ...ListOpt) (entries []m
 }
 
 func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
-	lo := &ListOpts{}
-	for _, o := range opts {
-		o(lo)
-	}
-
-	pp := path.Path()
-	if pp == "/" {
-		pp = ""
-	}
-
-	p := struct {
-		Path                            string `json:"path"`
-		Recursive                       bool   `json:"recursive,omitempty"`
-		IncludeMediaInfo                bool   `json:"include_media_info,omitempty"`
-		IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
-		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
-		Limit                           int    `json:"limit,omitempty"`
-	}{
-		Path:                            pp,
-		Recursive:                       lo.Recursive,
-		IncludeMediaInfo:                lo.IncludeMediaInfo,
-		IncludeDeleted:                  lo.IncludeDeleted,
-		IncludeHasExplicitSharedMembers: lo.IncludeHasExplicitSharedMembers,
-	}
+	p := MakeListOpts(path, opts)
 
 	res := z.ctx.List("files/list_folder", api_request.Param(p)).Call(
 		dbx_list.Continue("files/list_folder/continue"),

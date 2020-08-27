@@ -4,91 +4,32 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_traverse"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
-type MsgList struct {
-	ErrorScanFailed app_msg.Message
-	ProgressScan    app_msg.Message
-}
-
-var (
-	MList = app_msg.Apply(&MsgList{}).(*MsgList)
-)
-
-type ListWorker struct {
-	namespace        *mo_namespace.Namespace
-	idToMember       map[string]*mo_member.Member
-	ctx              dbx_context.Context
-	ctl              app_control.Control
-	rep              rp_model.RowReport
-	IncludeMediaInfo bool
-	IncludeDeleted   bool
-}
-
-func (z *ListWorker) Exec() error {
-	ui := z.ctl.UI()
-	ui.Progress(MList.ProgressScan.
-		With("NamespaceName", z.namespace.Name).
-		With("NamespaceId", z.namespace.NamespaceId))
-
-	l := z.ctl.Log().With(esl.Any("namespace", z.namespace))
-
-	ctn := z.ctx.WithPath(dbx_context.Namespace(z.namespace.NamespaceId))
-
-	opts := make([]sv_file.ListOpt, 0)
-	if z.IncludeDeleted {
-		opts = append(opts, sv_file.IncludeDeleted())
-	}
-	if z.IncludeMediaInfo {
-		opts = append(opts, sv_file.IncludeMediaInfo())
-	}
-	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers())
-	opts = append(opts, sv_file.Recursive())
-
-	err := sv_file.NewFiles(ctn).ListChunked(mo_path.NewDropboxPath(""), func(entry mo_file.Entry) {
-		ne := mo_namespace.NewNamespaceEntry(z.namespace, entry.Concrete())
-		if m, e := z.idToMember[z.namespace.TeamMemberId]; e {
-			ne.NamespaceMemberEmail = m.Email
-		}
-		z.rep.Row(ne)
-	}, opts...)
-
-	if err != nil {
-		l.Debug("Unable to traverse", esl.Error(err))
-		ui.Error(MList.ErrorScanFailed.
-			With("NamespaceName", z.namespace.Name).
-			With("NamespaceId", z.namespace.NamespaceId).
-			With("Error", err.Error()))
-		return err
-	}
-	return nil
-}
-
 type List struct {
 	Peer                dbx_conn.ConnBusinessFile
-	IncludeMediaInfo    bool
 	IncludeDeleted      bool
 	IncludeMemberFolder bool
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	Name                mo_string.OptionalString
 	NamespaceFile       rp_model.RowReport
+	Errors              rp_model.TransactionReport
 }
 
 func (z *List) Preset() {
@@ -106,6 +47,7 @@ func (z *List) Preset() {
 			"parent_shared_folder_id",
 		),
 	)
+	z.Errors.SetModel(&uc_file_traverse.TraverseEntry{}, nil)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -131,41 +73,69 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
+	if err := z.Errors.Open(); err != nil {
+		return err
+	}
+
 	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
 
-	q := c.NewLegacyQueue()
-	for _, namespace := range namespaces {
-		process := false
-		switch {
-		case z.IncludeTeamFolder && namespace.NamespaceType == "team_folder":
-			process = true
-		case z.IncludeSharedFolder && namespace.NamespaceType == "shared_folder":
-			process = true
-		case z.IncludeMemberFolder && namespace.NamespaceType == "team_member_folder":
-			process = true
-		case z.IncludeMemberFolder && namespace.NamespaceType == "app_folder":
-			process = true
+	handlerEntries := func(te uc_file_traverse.TraverseEntry, entries []mo_file.Entry) {
+		for _, entry := range entries {
+			ne := mo_namespace.NewNamespaceEntry(te.Namespace, entry.Concrete())
+			if m, e := idToMember[te.Namespace.TeamMemberId]; e {
+				ne.NamespaceMemberEmail = m.Email
+			}
+			z.NamespaceFile.Row(ne)
 		}
-		if !process {
-			l.Debug("Skip", esl.Any("namespace", namespace))
-			continue
-		}
-		if z.Name.IsExists() && namespace.Name != z.Name.Value() {
-			l.Debug("Skip", esl.Any("namespace", namespace), esl.String("filter", z.Name.Value()))
-			continue
-		}
-
-		q.Enqueue(&ListWorker{
-			namespace:        namespace,
-			idToMember:       idToMember,
-			ctx:              cta,
-			rep:              z.NamespaceFile,
-			IncludeDeleted:   z.IncludeDeleted,
-			IncludeMediaInfo: z.IncludeMediaInfo,
-			ctl:              c,
-		})
 	}
-	q.Wait()
+	handlerError := func(te uc_file_traverse.TraverseEntry, err error) {
+		z.Errors.Failure(err, &te)
+	}
+
+	traverseQueueId := "namespace"
+	traverse := uc_file_traverse.NewTraverse(
+		cta,
+		c,
+		traverseQueueId,
+		handlerEntries,
+		handlerError,
+		sv_file.IncludeDeleted(z.IncludeDeleted),
+		sv_file.IncludeHasExplicitSharedMembers(true),
+	)
+
+	c.DefineQueue(func(d eq_queue.Definition) {
+		d.Define(traverseQueueId, traverse.Traverse)
+	})
+	c.ExecQueue(func(qc eq_queue.Container) {
+		for _, namespace := range namespaces {
+			process := false
+			switch {
+			case z.IncludeTeamFolder && namespace.NamespaceType == "team_folder":
+				process = true
+			case z.IncludeSharedFolder && namespace.NamespaceType == "shared_folder":
+				process = true
+			case z.IncludeMemberFolder && namespace.NamespaceType == "team_member_folder":
+				process = true
+			case z.IncludeMemberFolder && namespace.NamespaceType == "app_folder":
+				process = true
+			}
+			if !process {
+				l.Debug("Skip", esl.Any("namespace", namespace))
+				continue
+			}
+			if z.Name.IsExists() && namespace.Name != z.Name.Value() {
+				l.Debug("Skip", esl.Any("namespace", namespace), esl.String("filter", z.Name.Value()))
+				continue
+			}
+
+			q := qc.MustGet(traverseQueueId).Batch(namespace.NamespaceId)
+			q.Enqueue(uc_file_traverse.TraverseEntry{
+				Namespace: namespace,
+				Path:      "/",
+			})
+		}
+	})
+
 	return nil
 }
 

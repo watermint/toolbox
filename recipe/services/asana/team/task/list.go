@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/asana/service/sv_workspace"
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -67,8 +68,7 @@ func (z *List) listTasks(prj *mo_project.Project, c app_control.Control) error {
 		return err
 	}
 
-	queue := c.Queue().Current().MustGet("task")
-
+	queue := c.Queue("task").Batch(prj.Gid)
 	for _, taskCompact := range tasks {
 		queue.Enqueue(taskCompact)
 	}
@@ -82,7 +82,7 @@ func (z *List) listProjects(team *mo_team.Team, c app_control.Control) error {
 		return err
 	}
 
-	queue := c.Queue().Current().MustGet("tasks")
+	queue := c.Queue("tasks").Batch(team.Gid)
 	for _, prj := range prjs {
 		if z.Project.Accept(prj.Name) || z.Project.Accept(prj.Gid) {
 			queue.Enqueue(prj)
@@ -98,7 +98,7 @@ func (z *List) listTeam(ws *mo_workspace.Workspace, c app_control.Control) error
 		return err
 	}
 
-	queue := c.Queue().Current().MustGet("projects")
+	queue := c.Queue("projects").Batch(ws.Gid)
 
 	for _, team := range teams {
 		if z.Team.Accept(team.Name) || z.Team.Accept(team.Gid) {
@@ -119,29 +119,31 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	qd := c.Queue()
-	qd.Define("team", z.listTeam, c)
-	qd.Define("projects", z.listProjects, c)
-	qd.Define("tasks", z.listTasks, c)
-	qd.Define("task", z.listTask, c)
+	c.DefineQueue(func(d eq_queue.Definition) {
+		d.Define("team", z.listTeam, c)
+		d.Define("projects", z.listProjects, c)
+		d.Define("tasks", z.listTasks, c)
+		d.Define("task", z.listTask, c)
+	})
 
-	qc := qd.Current()
-	queue := qc.MustGet("team")
+	c.ExecQueue(func(qc eq_queue.Container) {
+		queue := qc.MustGet("team")
 
-	for _, wsCompact := range workspaces {
-		ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
-		if err != nil {
-			return err
+		for _, wsCompact := range workspaces {
+			ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
+			if err != nil {
+				l.Warn("Unable to retrieve workspace", esl.Error(err))
+				continue
+			}
+			if !ws.IsOrganization {
+				l.Debug("Skip non organization workspace", esl.Any("workspace", ws))
+				continue
+			}
+			if z.Workspace.Accept(ws.Name) || z.Workspace.Accept(ws.Gid) {
+				queue.Enqueue(ws)
+			}
 		}
-		if !ws.IsOrganization {
-			l.Debug("Skip non organization workspace", esl.Any("workspace", ws))
-			continue
-		}
-		if z.Workspace.Accept(ws.Name) || z.Workspace.Accept(ws.Gid) {
-			queue.Enqueue(ws)
-		}
-	}
-	qc.Wait()
+	})
 
 	return nil
 }

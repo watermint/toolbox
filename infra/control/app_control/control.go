@@ -32,8 +32,14 @@ type Control interface {
 	// Create new worker queue
 	NewLegacyQueue() rc_worker.Queue
 
+	// Define queue functions
+	DefineQueue(f func(d eq_queue.Definition))
+
+	// Execute and wait for the queue task
+	ExecQueue(f func(qc eq_queue.Container))
+
 	// Create new worker queue
-	Queue() eq_queue.Definition
+	Queue(queueId string) eq_queue.Queue
 
 	// Workspace bundle
 	WorkBundle() app_workspace.Bundle

@@ -24,6 +24,21 @@ const (
 	PathArrayFirst       = "0"
 )
 
+func ToJsonString(v interface{}) string {
+	switch w := v.(type) {
+	case Json:
+		return w.RawString()
+	default:
+		r, err := json.Marshal(w)
+		if err != nil {
+			l := esl.Default()
+			l.Warn("Unable to marshal JSON", esl.Error(err))
+			return "null"
+		}
+		return string(r)
+	}
+}
+
 // Wrapper of gjson
 type Json interface {
 	// Raw JSON message
@@ -120,7 +135,7 @@ type wrapperImpl struct {
 }
 
 func (z wrapperImpl) RawString() string {
-	return z.r.Str
+	return string(z.Raw())
 }
 
 func (z wrapperImpl) FindArrayEach(path string, f func(e Json) error) error {

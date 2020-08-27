@@ -14,12 +14,11 @@ import (
 )
 
 type List struct {
-	Peer             dbx_conn.ConnUserFile
-	Path             mo_path.DropboxPath
-	Recursive        bool
-	IncludeDeleted   bool
-	IncludeMediaInfo bool
-	FileList         rp_model.RowReport
+	Peer           dbx_conn.ConnUserFile
+	Path           mo_path.DropboxPath
+	Recursive      bool
+	IncludeDeleted bool
+	FileList       rp_model.RowReport
 }
 
 func (z *List) Preset() {
@@ -40,16 +39,9 @@ func (z *List) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 
 	opts := make([]sv_file.ListOpt, 0)
-	if z.IncludeDeleted {
-		opts = append(opts, sv_file.IncludeDeleted())
-	}
-	if z.IncludeMediaInfo {
-		opts = append(opts, sv_file.IncludeMediaInfo())
-	}
-	if z.Recursive {
-		opts = append(opts, sv_file.Recursive())
-	}
-	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers())
+	opts = append(opts, sv_file.IncludeDeleted(z.IncludeDeleted))
+	opts = append(opts, sv_file.Recursive(z.Recursive))
+	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers(true))
 
 	if err := z.FileList.Open(); err != nil {
 		return err

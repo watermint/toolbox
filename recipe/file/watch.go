@@ -19,9 +19,7 @@ type Watch struct {
 func (z *Watch) Exec(c app_control.Control) error {
 	ctx := z.Peer.Context()
 	opts := make([]sv_file.ListOpt, 0)
-	if z.Recursive {
-		opts = append(opts, sv_file.Recursive())
-	}
+	opts = append(opts, sv_file.Recursive(z.Recursive))
 	w := rp_writer_impl.NewJsonWriter("entries", c, true)
 	if err := w.Open(c, &mo_file.ConcreteEntry{}); err != nil {
 		return err

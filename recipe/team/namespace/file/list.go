@@ -12,7 +12,6 @@ import (
 
 type List struct {
 	Peer                dbx_conn.ConnBusinessFile
-	IncludeMediaInfo    bool
 	IncludeDeleted      bool
 	IncludeMemberFolder bool
 	IncludeSharedFolder bool
@@ -30,7 +29,6 @@ func (z *List) Preset() {
 func (z *List) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.NamespaceFileList, func(r rc_recipe.Recipe) {
 		rc := r.(*file.List)
-		rc.IncludeMediaInfo = z.IncludeMediaInfo
 		rc.IncludeDeleted = z.IncludeDeleted
 		rc.IncludeMemberFolder = z.IncludeMemberFolder
 		rc.IncludeSharedFolder = z.IncludeSharedFolder

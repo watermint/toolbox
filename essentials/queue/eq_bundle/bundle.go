@@ -17,8 +17,8 @@ type Bundle interface {
 	// Mark data as completed
 	Complete(b Barrel)
 
-	// Queue storage size per batchId
-	Size() (sizes map[string]int, total int)
+	// Size of uncompleted tasks.
+	Size() (total int)
 
 	// Size of the InProgress queue
 	SizeInProgress() int
