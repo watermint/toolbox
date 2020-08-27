@@ -68,15 +68,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション               | 説明                                                                       | デフォルト |
-|--------------------------|----------------------------------------------------------------------------|------------|
-| `-include-deleted`       | 指定された場合、削除済みのファイルやフォルダが含めます                     | false      |
-| `-include-media-info`    | 指定された場合、JSONレポートに写真や動画ファイルへのメデイア情報を含めます | false      |
-| `-include-member-folder` | 指定された場合、チームメンバーのフォルダを含めます                         | false      |
-| `-include-shared-folder` | Trueの場合、共有フォルダを含めます                                         | true       |
-| `-include-team-folder`   | Trueの場合、チームフォルダを含めます                                       | true       |
-| `-name`                  | 指定された名前に一致するフォルダのみを一覧します                           |            |
-| `-peer`                  | アカウントの別名                                                           | default    |
+| オプション               | 説明                                                   | デフォルト |
+|--------------------------|--------------------------------------------------------|------------|
+| `-include-deleted`       | 指定された場合、削除済みのファイルやフォルダが含めます | false      |
+| `-include-member-folder` | 指定された場合、チームメンバーのフォルダを含めます     | false      |
+| `-include-shared-folder` | Trueの場合、共有フォルダを含めます                     | true       |
+| `-include-team-folder`   | Trueの場合、チームフォルダを含めます                   | true       |
+| `-name`                  | 指定された名前に一致するフォルダのみを一覧します       |            |
+| `-peer`                  | アカウントの別名                                       | default    |
 
 ## 共通のオプション:
 
@@ -106,6 +105,21 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## レポート: errors
+
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `errors.csv`, `errors.json`, ならびに `errors.xlsx`.
+
+| 列              | 説明                     |
+|-----------------|--------------------------|
+| status          | 処理の状態               |
+| reason          | 失敗またはスキップの理由 |
+| input.namespace | Namespace                |
+| input.path      | Path                     |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 ## レポート: namespace_file
 
 このレポートはチームの名前空間を一覧します.

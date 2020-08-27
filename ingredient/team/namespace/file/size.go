@@ -47,6 +47,7 @@ func (z *Size) Preset() {
 			"input.namespace_id",
 		),
 	)
+	z.Errors.SetModel(&uc_file_traverse.TraverseEntry{}, nil)
 	z.IncludeSharedFolder = true
 	z.IncludeTeamFolder = true
 	z.Depth = 1

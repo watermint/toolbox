@@ -68,13 +68,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                | Description               | Default |
-|-----------------------|---------------------------|---------|
-| `-include-deleted`    | Include deleted files     | false   |
-| `-include-media-info` | Include media information | false   |
-| `-path`               | Path                      |         |
-| `-peer`               | Account alias             | default |
-| `-recursive`          | List recursively          | false   |
+| Option             | Description           | Default |
+|--------------------|-----------------------|---------|
+| `-include-deleted` | Include deleted files | false   |
+| `-path`            | Path                  |         |
+| `-peer`            | Account alias         | default |
+| `-recursive`       | List recursively      | false   |
 
 ## Common options:
 

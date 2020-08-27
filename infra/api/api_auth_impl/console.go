@@ -15,9 +15,10 @@ import (
 )
 
 type MsgApiAuth struct {
-	FailedOrCancelled app_msg.Message
-	OauthSeq1         app_msg.Message
-	OauthSeq2         app_msg.Message
+	FailedOrCancelled   app_msg.Message
+	ProgressAuthSuccess app_msg.Message
+	OauthSeq1           app_msg.Message
+	OauthSeq2           app_msg.Message
 }
 
 var (
@@ -53,6 +54,7 @@ func (z *Console) Auth(scopes []string) (tc api_auth.Context, err error) {
 		ui.Error(MApiAuth.FailedOrCancelled.With("Cause", err))
 		return nil, err
 	}
+	ui.Progress(MApiAuth.ProgressAuthSuccess)
 	return api_auth.NewContext(t, z.app.Config(scopes), z.peerName, scopes), nil
 }
 

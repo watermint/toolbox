@@ -106,6 +106,21 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## Report: errors
+
+This report shows the transaction result.
+The command will generate a report in three different formats. `errors.csv`, `errors.json`, and `errors.xlsx`.
+
+| Column          | Description                            |
+|-----------------|----------------------------------------|
+| status          | Status of the operation                |
+| reason          | Reason of failure or skipped operation |
+| input.namespace | Namespace                              |
+| input.path      | Path                                   |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 ## Report: namespace_size
 
 This report shows the transaction result.

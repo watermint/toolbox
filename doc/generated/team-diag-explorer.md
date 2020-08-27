@@ -140,6 +140,21 @@ The command will generate a report in three different formats. `device.csv`, `de
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
+## Report: errors
+
+This report shows the transaction result.
+The command will generate a report in three different formats. `errors.csv`, `errors.json`, and `errors.xlsx`.
+
+| Column          | Description                            |
+|-----------------|----------------------------------------|
+| status          | Status of the operation                |
+| reason          | Reason of failure or skipped operation |
+| input.namespace | Namespace                              |
+| input.path      | Path                                   |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 ## Report: feature
 
 This report shows a list of team features and their settings.
