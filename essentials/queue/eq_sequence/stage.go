@@ -5,21 +5,27 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_ambient"
 )
 
+func New(opt ...eq_queue.Opt) Sequence {
+	return &seqImpl{
+		opt: opt,
+	}
+}
+
+// Batch sequence stage:
 type Stage interface {
+	// Define function. This function must be called before Get.
 	Define(queueId string, f interface{}, ctx ...interface{})
 
+	// Get queue by id.
 	Get(queueId string) eq_queue.Queue
 }
 
-type StageController interface {
-	Stage
-
-	Exec()
-}
-
+// Batch sequence
 type Sequence interface {
+	// Do single stage
 	Do(exec func(s Stage))
 
+	// Do single stage, then returns next stage.
 	DoThen(exec func(s Stage)) Sequence
 }
 
@@ -58,10 +64,4 @@ func (z *seqImpl) DoThen(exec func(s Stage)) Sequence {
 	app_ambient.Current.ResumeProgress()
 
 	return z
-}
-
-func New(opt ...eq_queue.Opt) Sequence {
-	return &seqImpl{
-		opt: opt,
-	}
 }
