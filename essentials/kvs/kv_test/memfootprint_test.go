@@ -17,7 +17,7 @@ func BenchmarkMemoryFootprint(b *testing.B) {
 	mul := 10
 	qtr_endtoend.BenchmarkWithControl(b, func(ctl app_control.Control) {
 		var err error
-		db := kv_storage_impl.New("benchmark-memory-footprint")
+		db := kv_storage_impl.InternalNewBadger("benchmark-memory-footprint")
 		if err := db.Open(ctl); err != nil {
 			b.Error(err)
 			return

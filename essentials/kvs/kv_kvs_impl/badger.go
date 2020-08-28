@@ -9,7 +9,7 @@ import (
 	"reflect"
 )
 
-func New(ctl app_control.Control, db *badger.DB, tx *badger.Txn) kv_kvs.Kvs {
+func NewBadger(ctl app_control.Control, db *badger.DB, tx *badger.Txn) kv_kvs.Kvs {
 	return &badgerWrapper{
 		ctl: ctl,
 		db:  db,
@@ -25,22 +25,6 @@ type badgerWrapper struct {
 
 func (z *badgerWrapper) PutRaw(key, value []byte) error {
 	return z.tx.Set(key, value)
-}
-
-func (z *badgerWrapper) NextSequence(name string) (uint64, error) {
-	l := z.ctl.Log().With(esl.String("name", name))
-	seq, err := z.db.GetSequence([]byte(name), 100)
-	if err != nil {
-		l.Debug("Unable to get seq", esl.Error(err))
-		return 0, err
-	}
-	defer seq.Release()
-	s, err := seq.Next()
-	if err != nil {
-		l.Debug("Unable to generate seq", esl.Error(err))
-		return 0, err
-	}
-	return s, nil
 }
 
 func (z *badgerWrapper) PutString(key string, value string) error {

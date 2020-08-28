@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs_impl"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_badger"
 	"github.com/watermint/toolbox/infra/app"
@@ -27,16 +26,7 @@ var (
 	MStorage = app_msg.Apply(&MsgStorage{}).(*MsgStorage)
 )
 
-func NewWithPath(ctl app_control.Control, path string) (kv_storage.Storage, error) {
-	name := filepath.Base(path)
-	bw := &badgerWrapper{ctl: ctl, name: name}
-	if err := bw.openWithPath(name, path); err != nil {
-		return nil, err
-	}
-	return bw, nil
-}
-
-func New(name string) kv_storage.Storage {
+func InternalNewBadger(name string) Storage {
 	bw := &badgerWrapper{name: name}
 	return bw
 }
@@ -49,6 +39,12 @@ type badgerWrapper struct {
 	closed bool
 }
 
+func (z *badgerWrapper) OpenWithPath(ctl app_control.Control, path string) error {
+	z.name = filepath.Base(path)
+	z.ctl = ctl
+	return z.openWithPath(z.name, path)
+}
+
 func (z *badgerWrapper) Open(ctl app_control.Control) error {
 	z.ctl = ctl
 	return z.init(z.name)
@@ -56,13 +52,13 @@ func (z *badgerWrapper) Open(ctl app_control.Control) error {
 
 func (z *badgerWrapper) View(f func(kv kv_kvs.Kvs) error) error {
 	return z.db.View(func(tx *badger.Txn) error {
-		return f(kv_kvs_impl.New(z.ctl, z.db, tx))
+		return f(kv_kvs_impl.NewBadger(z.ctl, z.db, tx))
 	})
 }
 
 func (z *badgerWrapper) Update(f func(kv kv_kvs.Kvs) error) error {
 	return z.db.Update(func(tx *badger.Txn) error {
-		return f(kv_kvs_impl.New(z.ctl, z.db, tx))
+		return f(kv_kvs_impl.NewBadger(z.ctl, z.db, tx))
 	})
 }
 
@@ -101,14 +97,14 @@ func (z *badgerWrapper) openWithPath(name, path string) (err error) {
 	opts = opts.WithMaxTableSize(16 * 1_048_576)
 	opts = opts.WithNumCompactors(1)
 	opts = opts.WithNumMemtables(1)
-	if !z.ctl.Feature().Experiment(app.ExperimentKvsStorageUseInMemory) {
+	if !z.ctl.Feature().Experiment(app.ExperimentKvsStorageBadgerUseInMemory) {
 		opts = opts.WithInMemory(false)
 		opts = opts.WithKeepL0InMemory(false)
 	}
-	if z.ctl.Feature().Experiment(app.ExperimentKvsStorageCompressionSnappy) {
+	if z.ctl.Feature().Experiment(app.ExperimentKvsStorageBadgerCompressionSnappy) {
 		opts = opts.WithCompression(options.Snappy)
 		opts = opts.WithCompactL0OnClose(true)
-	} else if z.ctl.Feature().Experiment(app.ExperimentKvsStorageCompressionZstd) {
+	} else if z.ctl.Feature().Experiment(app.ExperimentKvsStorageBadgerCompressionZstd) {
 		opts = opts.WithCompression(options.ZSTD)
 		opts = opts.WithCompactL0OnClose(true)
 	}

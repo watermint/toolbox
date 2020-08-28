@@ -23,7 +23,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"math/rand"
+	"go.uber.org/atomic"
 	"strings"
 )
 
@@ -76,15 +76,12 @@ func (z *UserWorker) Exec() error {
 		opts = append(opts, sv_activity.Category(z.Category.Value()))
 	}
 
+	eventSeq := atomic.Int64{}
+
 	return sv_activity.New(z.Context).List(
 		func(event *mo_activity.Event) error {
 			return z.EventCache.Update(func(kvs kv_kvs.Kvs) error {
-				seq, err := kvs.NextSequence(strings.Join([]string{keySeqPrefix, member.Email}, keySeparator))
-				if err != nil {
-					l.Debug("Unable to generate seq", esl.Error(err))
-					// pseudo seq
-					seq = rand.Uint64()
-				}
+				seq := eventSeq.Inc()
 				key := strings.Join([]string{event.Timestamp, z.UserEmail, fmt.Sprintf("%d", seq)}, keySeparator)
 				app_ui.ShowProgressWithMessage(ui, MUser.ProgressScanningUserEvent)
 

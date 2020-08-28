@@ -27,6 +27,7 @@ require (
 	github.com/onsi/gomega v1.9.0 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pkg/profile v1.5.0
+	github.com/prologic/bitcask v0.3.6
 	github.com/rapid7/go-get-proxied v0.0.0-20181210221417-16249a544090
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
 	github.com/stretchr/testify v1.6.1 // indirect
