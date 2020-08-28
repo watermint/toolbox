@@ -3,12 +3,16 @@ package es_stdout
 import (
 	"errors"
 	"github.com/mattn/go-colorable"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_terminfo"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"io"
 	"io/ioutil"
 	"os"
+	"time"
+)
+
+const (
+	DefaultTimeout = 5 * time.Second
 )
 
 var (
@@ -18,6 +22,11 @@ var (
 type Feature interface {
 	IsQuiet() bool
 	IsTest() bool
+}
+
+type deadlineWriter interface {
+	io.WriteCloser
+	SetDeadline(t time.Time) error
 }
 
 func newDefaultOut(test, quiet bool) io.WriteCloser {
@@ -74,8 +83,6 @@ func (z syncOut) Write(p []byte) (n int, err error) {
 	// https://github.com/watermint/toolbox/issues/411
 	defer func() {
 		if r := recover(); err != nil {
-			l := esl.Default()
-			l.Debug("Recovery from the syncOut error", esl.Any("r", r))
 			if errVal, ok := r.(error); ok {
 				err = errVal
 			} else {
@@ -83,6 +90,10 @@ func (z syncOut) Write(p []byte) (n int, err error) {
 			}
 		}
 	}()
+
+	if w, ok := z.co.(deadlineWriter); ok {
+		_ = w.SetDeadline(time.Now().Add(DefaultTimeout))
+	}
 	return z.co.Write(p)
 }
 
