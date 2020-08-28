@@ -10,7 +10,10 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
+	"os"
+	"path/filepath"
 )
 
 type Readme struct {
@@ -41,5 +44,16 @@ func (z *Readme) Exec(c app_control.Control) error {
 }
 
 func (z *Readme) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Readme{}, rc_recipe.NoCustomValues)
+	path, err := qt_file.MakeTestFolder("readme", false)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.RemoveAll(path)
+	}()
+
+	return rc_exec.Exec(c, &Readme{}, func(r rc_recipe.Recipe) {
+		m := r.(*Readme)
+		m.Path = mo_path.NewFileSystemPath(filepath.Join(path, "README.txt"))
+	})
 }

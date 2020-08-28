@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 )
 
 type License struct {
@@ -57,5 +58,6 @@ func (z *License) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &License{}, func(r rc_recipe.Recipe) {
 		m := r.(*License)
 		m.SourcePath = mo_path.NewExistingFileSystemPath(path)
+		m.DestPath = mo_path.NewFileSystemPath(filepath.Join(path, "licenses.json"))
 	})
 }
