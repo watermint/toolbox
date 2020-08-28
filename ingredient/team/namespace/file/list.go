@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_traverse"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -108,10 +108,9 @@ func (z *List) Exec(c app_control.Control) error {
 		sv_file.IncludeHasExplicitSharedMembers(true),
 	)
 
-	c.DefineQueue(func(d eq_queue.Definition) {
-		d.Define(traverseQueueId, traverse.Traverse)
-	})
-	c.ExecQueue(func(qc eq_queue.Container) {
+	c.Sequence().Do(func(stage eq_sequence.Stage) {
+		stage.Define(traverseQueueId, traverse.Traverse, stage)
+		q := stage.Get(traverseQueueId)
 		for _, namespace := range namespaces {
 			process := false
 			switch {
@@ -133,8 +132,8 @@ func (z *List) Exec(c app_control.Control) error {
 				continue
 			}
 
-			q := qc.MustGet(traverseQueueId).Batch(namespace.NamespaceId)
-			q.Enqueue(uc_file_traverse.TraverseEntry{
+			qb := q.Batch(namespace.NamespaceId)
+			qb.Enqueue(uc_file_traverse.TraverseEntry{
 				Namespace: namespace,
 				Path:      "/",
 			})

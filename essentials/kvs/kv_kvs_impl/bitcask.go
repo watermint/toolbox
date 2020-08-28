@@ -160,6 +160,6 @@ func (z *bcImpl) ForEachModel(model interface{}, f func(key string, m interface{
 			l.Debug("Unable to unmarshal", esl.Error(err))
 			return err
 		}
-		return f(string(key), value)
+		return f(string(key), m)
 	})
 }

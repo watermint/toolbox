@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -38,7 +39,7 @@ type Traverse struct {
 	handlerError TraverseErrorHandler
 }
 
-func (z Traverse) Traverse(te TraverseEntry) error {
+func (z Traverse) Traverse(te TraverseEntry, stage eq_sequence.Stage) error {
 	l := z.ctx.Log().With(esl.String("namespace", te.Namespace.NamespaceId), esl.String("path", te.Path))
 	ctn := z.ctx.WithPath(dbx_context.Namespace(te.Namespace.NamespaceId))
 
@@ -52,7 +53,7 @@ func (z Traverse) Traverse(te TraverseEntry) error {
 	}
 	z.handler(te, entries)
 
-	q := z.ctl.Queue(z.queueId).Batch(te.Namespace.NamespaceId)
+	q := stage.Get(z.queueId).Batch(te.Namespace.NamespaceId)
 	for _, entry := range entries {
 		ll := l.With(esl.String("descendantPath", entry.PathDisplay()))
 		ll.Debug("Process descendant")

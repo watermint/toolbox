@@ -25,18 +25,18 @@ func New(mouldId string, s eq_bundle.Bundle, f interface{}, ctx ...interface{}) 
 	l := esl.Default().With(esl.String("mouldId", mouldId))
 
 	if s == nil {
-		l.Debug("No storage")
+		l.Warn("No storage")
 		panic("No storage for the queue")
 	}
 
 	handlerType := reflect.TypeOf(f)
 	handlerValue := reflect.ValueOf(f)
 	if handlerType.Kind() != reflect.Func {
-		l.Debug("f is not a func")
+		l.Warn("f is not a func")
 		panic("f is not a func")
 	}
 	if handlerType.NumIn() != 1+len(ctx) {
-		l.Debug("f must have one + num ctx arguments")
+		l.Warn("f must have one + num ctx arguments")
 		panic("f must have one + num ctx arguments")
 	}
 	paramType := handlerType.In(0)
@@ -51,7 +51,7 @@ func New(mouldId string, s eq_bundle.Bundle, f interface{}, ctx ...interface{}) 
 	case reflect.Bool, reflect.Int, reflect.String, reflect.Struct:
 		l.Debug("first in param have serializable type")
 	default:
-		l.Debug("first in param does not have serializable type", esl.Any("kind", paramTypeKind))
+		l.Warn("first in param does not have serializable type", esl.Any("kind", paramTypeKind))
 		panic("f param type is not serializable")
 	}
 
@@ -59,7 +59,7 @@ func New(mouldId string, s eq_bundle.Bundle, f interface{}, ctx ...interface{}) 
 		ctxType := reflect.TypeOf(c)
 		argCtxType := handlerType.In(i + 1)
 		if !ctxType.ConvertibleTo(argCtxType) {
-			l.Debug("invalid param", esl.Int("index", i+1), esl.Any("expected", argCtxType), esl.Any("actual", ctxType))
+			l.Warn("invalid param", esl.Int("index", i+1), esl.Any("expected", argCtxType), esl.Any("actual", ctxType))
 			panic("invalid param type")
 		}
 	}
@@ -72,11 +72,11 @@ func New(mouldId string, s eq_bundle.Bundle, f interface{}, ctx ...interface{}) 
 		if handlerType.Out(0).AssignableTo(reflect.TypeOf((*error)(nil)).Elem()) {
 			hasErrorOut = true
 		} else {
-			l.Debug("f return type must be no return or error", esl.Int("numOut", handlerType.NumOut()))
+			l.Warn("f return type must be no return or error", esl.Int("numOut", handlerType.NumOut()))
 			panic("f return type must be no return or error")
 		}
 	default:
-		l.Debug("f has two or more returns", esl.Int("numOut", handlerType.NumOut()))
+		l.Warn("f has two or more returns", esl.Int("numOut", handlerType.NumOut()))
 		panic("f has two or more returns")
 	}
 

@@ -2,7 +2,7 @@ package app_control
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
@@ -32,14 +32,8 @@ type Control interface {
 	// Create new worker queue
 	NewLegacyQueue() rc_worker.Queue
 
-	// Define queue functions
-	DefineQueue(f func(d eq_queue.Definition))
-
-	// Execute and wait for the queue task
-	ExecQueue(f func(qc eq_queue.Container))
-
-	// Create new worker queue
-	Queue(queueId string) eq_queue.Queue
+	// Async queue sequence
+	Sequence() eq_sequence.Sequence
 
 	// Workspace bundle
 	WorkBundle() app_workspace.Bundle

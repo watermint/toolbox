@@ -13,7 +13,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_traverse"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -115,10 +115,8 @@ func (z *Size) Exec(c app_control.Control) error {
 		handlerError,
 	)
 
-	c.DefineQueue(func(d eq_queue.Definition) {
-		d.Define(traverseQueueId, traverse.Traverse)
-	})
-	c.ExecQueue(func(qc eq_queue.Container) {
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define(traverseQueueId, traverse.Traverse, s)
 		for _, namespace := range namespaces {
 			process := false
 			switch {
@@ -140,7 +138,7 @@ func (z *Size) Exec(c app_control.Control) error {
 				continue
 			}
 
-			q := c.Queue(traverseQueueId).Batch(namespace.NamespaceId)
+			q := s.Get(traverseQueueId).Batch(namespace.NamespaceId)
 			q.Enqueue(uc_file_traverse.TraverseEntry{
 				Namespace: namespace,
 				Path:      "/",

@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/asana/service/sv_workspace"
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -50,7 +50,7 @@ func (z *List) Preset() {
 	)
 }
 
-func (z *List) listTask(taskCompact *mo_task.Task, c app_control.Control) error {
+func (z *List) listTask(taskCompact *mo_task.Task, s eq_sequence.Stage) error {
 	svt := sv_task.New(z.Peer.Context())
 	task, err := svt.Resolve(taskCompact.Gid)
 	if err != nil {
@@ -60,7 +60,7 @@ func (z *List) listTask(taskCompact *mo_task.Task, c app_control.Control) error 
 	return nil
 }
 
-func (z *List) listTasks(prj *mo_project.Project, c app_control.Control) error {
+func (z *List) listTasks(prj *mo_project.Project, s eq_sequence.Stage) error {
 	//c.UI().Progress(z.ProgressProject.With("Name", prj.Name))
 	svt := sv_task.New(z.Peer.Context())
 	tasks, err := svt.List(sv_task.Project(prj))
@@ -68,21 +68,21 @@ func (z *List) listTasks(prj *mo_project.Project, c app_control.Control) error {
 		return err
 	}
 
-	queue := c.Queue("task").Batch(prj.Gid)
+	queue := s.Get("task").Batch(prj.Gid)
 	for _, taskCompact := range tasks {
 		queue.Enqueue(taskCompact)
 	}
 	return nil
 }
 
-func (z *List) listProjects(team *mo_team.Team, c app_control.Control) error {
+func (z *List) listProjects(team *mo_team.Team, s eq_sequence.Stage) error {
 	//c.UI().Progress(z.ProgressTeam.With("Name", team.Name))
 	prjs, err := sv_project.New(z.Peer.Context()).List(sv_project.Team(team))
 	if err != nil {
 		return err
 	}
 
-	queue := c.Queue("tasks").Batch(team.Gid)
+	queue := s.Get("tasks").Batch(team.Gid)
 	for _, prj := range prjs {
 		if z.Project.Accept(prj.Name) || z.Project.Accept(prj.Gid) {
 			queue.Enqueue(prj)
@@ -91,14 +91,14 @@ func (z *List) listProjects(team *mo_team.Team, c app_control.Control) error {
 	return nil
 }
 
-func (z *List) listTeam(ws *mo_workspace.Workspace, c app_control.Control) error {
+func (z *List) listTeam(ws *mo_workspace.Workspace, s eq_sequence.Stage) error {
 	//c.UI().Progress(z.ProgressWorkspace.With("Name", ws.Name))
 	teams, err := sv_team.New(z.Peer.Context()).List(sv_team.Workspace(ws))
 	if err != nil {
 		return err
 	}
 
-	queue := c.Queue("projects").Batch(ws.Gid)
+	queue := s.Get("projects").Batch(ws.Gid)
 
 	for _, team := range teams {
 		if z.Team.Accept(team.Name) || z.Team.Accept(team.Gid) {
@@ -119,15 +119,13 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	c.DefineQueue(func(d eq_queue.Definition) {
-		d.Define("team", z.listTeam, c)
-		d.Define("projects", z.listProjects, c)
-		d.Define("tasks", z.listTasks, c)
-		d.Define("task", z.listTask, c)
-	})
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("team", z.listTeam, s)
+		s.Define("projects", z.listProjects, s)
+		s.Define("tasks", z.listTasks, s)
+		s.Define("task", z.listTask, s)
 
-	c.ExecQueue(func(qc eq_queue.Container) {
-		queue := qc.MustGet("team")
+		q := s.Get("team")
 
 		for _, wsCompact := range workspaces {
 			ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
@@ -140,7 +138,7 @@ func (z *List) Exec(c app_control.Control) error {
 				continue
 			}
 			if z.Workspace.Accept(ws.Name) || z.Workspace.Accept(ws.Gid) {
-				queue.Enqueue(ws)
+				q.Enqueue(ws)
 			}
 		}
 	})

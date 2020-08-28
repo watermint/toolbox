@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe_preserve"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_ambient"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
@@ -38,9 +39,16 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app
 		eq_queue.NumWorker(feature.Concurrency()),
 		eq_queue.Factory(factory),
 	)
+	seq := eq_sequence.New(
+		eq_queue.Logger(l),
+		eq_queue.Progress(progress),
+		eq_queue.NumWorker(feature.Concurrency()),
+		eq_queue.Factory(factory),
+	)
 
 	return &ctlImpl{
 		queue:   q,
+		seq:     seq,
 		wb:      wb,
 		ui:      ui,
 		feature: feature,
@@ -73,6 +81,11 @@ type ctlImpl struct {
 	ui      app_ui.UI
 	wb      app_workspace.Bundle
 	queue   eq_queue.Definition
+	seq     eq_sequence.Sequence
+}
+
+func (z ctlImpl) Sequence() eq_sequence.Sequence {
+	return z.seq
 }
 
 func (z ctlImpl) DefineQueue(f func(d eq_queue.Definition)) {
