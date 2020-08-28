@@ -1,14 +1,18 @@
 package es_stdout
 
 import (
+	"errors"
 	"github.com/mattn/go-colorable"
-	"github.com/watermint/toolbox/essentials/runtime/es_env"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_terminfo"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"io"
 	"io/ioutil"
 	"os"
-	"sync"
+)
+
+var (
+	ErrorGeneralIOFailure = errors.New("general i/o error")
 )
 
 type Feature interface {
@@ -52,23 +56,8 @@ func NewDirectOut() io.WriteCloser {
 }
 
 func newWriteCloser(co io.Writer) io.WriteCloser {
-	if es_env.IsEnabled("TOOLBOX_ASYNC_CONSOLE") {
-		return newAsync(co)
-	} else {
-		return newSync(co)
-	}
+	return newSync(co)
 }
-
-type AsyncMsg struct {
-	Wr      io.Writer
-	Payload []byte
-}
-
-var (
-	asyncQueue         = make(chan *AsyncMsg, 100)
-	discardQueue       = make(chan *AsyncMsg)
-	asyncQueueLauncher sync.Once
-)
 
 func newSync(co io.Writer) io.WriteCloser {
 	return &syncOut{
@@ -81,49 +70,22 @@ type syncOut struct {
 }
 
 func (z syncOut) Write(p []byte) (n int, err error) {
+	// Recovery option for I/O error
+	// https://github.com/watermint/toolbox/issues/411
+	defer func() {
+		if r := recover(); err != nil {
+			l := esl.Default()
+			l.Debug("Recovery from the syncOut error", esl.Any("r", r))
+			if errVal, ok := r.(error); ok {
+				err = errVal
+			} else {
+				err = ErrorGeneralIOFailure
+			}
+		}
+	}()
 	return z.co.Write(p)
 }
 
 func (z syncOut) Close() error {
-	return nil
-}
-
-func asyncLoop() {
-	for m := range asyncQueue {
-		m.Wr.Write(m.Payload)
-	}
-}
-func discardLoop() {
-	for range discardQueue {
-	}
-}
-
-func newAsync(co io.Writer) io.WriteCloser {
-	asyncQueueLauncher.Do(func() {
-		go asyncLoop()
-		go discardLoop()
-	})
-	return &asyncOut{
-		co: co,
-	}
-}
-
-type asyncOut struct {
-	co io.Writer
-}
-
-func (z *asyncOut) Write(p []byte) (n int, err error) {
-	m := &AsyncMsg{
-		Wr:      z.co,
-		Payload: p,
-	}
-	select {
-	case asyncQueue <- m:
-	case discardQueue <- m:
-	}
-	return len(p), nil
-}
-
-func (z *asyncOut) Close() error {
 	return nil
 }
