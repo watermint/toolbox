@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -72,6 +73,8 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
+	l := c.Log()
+
 	gsv := sv_group.New(z.Peer.Context())
 	groups, err := gsv.List()
 	if err != nil {
@@ -82,17 +85,30 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewLegacyQueue()
-	for _, group := range groups {
-		w := &ListWorker{
-			group: group,
-			ctl:   c,
-			conn:  z.Peer.Context(),
-			rep:   z.GroupMember,
+	memberList := func(group *mo_group.Group) error {
+		ll := l.With(esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("Group", group))
+		ll.Debug("Scan group")
+
+		msv := sv_group_member.New(z.Peer.Context(), group)
+		members, err := msv.List()
+		if err != nil {
+			ll.Debug("Unable to list members", esl.Error(err))
+			return err
 		}
-		q.Enqueue(w)
+		for _, m := range members {
+			row := mo_group_member.NewGroupMember(group, m)
+			z.GroupMember.Row(row)
+		}
+		return nil
 	}
-	q.Wait()
+
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("memberList", memberList)
+		q := s.Get("memberList")
+		for _, group := range groups {
+			q.Enqueue(group)
+		}
+	})
 
 	return nil
 }

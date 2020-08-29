@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
-	"github.com/watermint/toolbox/infra/control/app_ambient"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -33,12 +32,6 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app
 		progress = nil
 	}
 
-	q := eq_queue.New(
-		eq_queue.Logger(l),
-		eq_queue.Progress(progress),
-		eq_queue.NumWorker(feature.Concurrency()),
-		eq_queue.Factory(factory),
-	)
 	seq := eq_sequence.New(
 		eq_queue.Logger(l),
 		eq_queue.Progress(progress),
@@ -47,7 +40,6 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app
 	)
 
 	return &ctlImpl{
-		queue:   q,
 		seq:     seq,
 		wb:      wb,
 		ui:      ui,
@@ -80,32 +72,11 @@ type ctlImpl struct {
 	feature app_feature.Feature
 	ui      app_ui.UI
 	wb      app_workspace.Bundle
-	queue   eq_queue.Definition
 	seq     eq_sequence.Sequence
 }
 
 func (z ctlImpl) Sequence() eq_sequence.Sequence {
 	return z.seq
-}
-
-func (z ctlImpl) DefineQueue(f func(d eq_queue.Definition)) {
-	f(z.queue)
-}
-
-func (z ctlImpl) ExecQueue(f func(qc eq_queue.Container)) {
-	l := z.Log()
-	container := z.queue.Current()
-	app_ambient.Current.SuppressProgress()
-	l.Debug("Start queue operation")
-	f(container)
-	l.Debug("Queue operation finished, wait for all tasks completed")
-	container.Wait()
-	l.Debug("All tasks completed")
-	app_ambient.Current.ResumeProgress()
-}
-
-func (z ctlImpl) Queue(queueId string) eq_queue.Queue {
-	return z.queue.Current().MustGet(queueId)
 }
 
 func (z ctlImpl) WithLang(targetLang string) app_control.Control {
