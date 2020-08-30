@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
-	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
@@ -15,7 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, er app_job.ErrorReport) app_control.Control {
+func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, er app_error.ErrorReport) app_control.Control {
 	return &ctlImpl{
 		seq:         seq,
 		wb:          wb,
@@ -51,7 +51,7 @@ type ctlImpl struct {
 	ui          app_ui.UI
 	wb          app_workspace.Bundle
 	seq         eq_sequence.Sequence
-	errorReport app_job.ErrorReport
+	errorReport app_error.ErrorReport
 }
 
 func (z ctlImpl) Close() {

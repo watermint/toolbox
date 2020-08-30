@@ -119,7 +119,7 @@ func TestSumImpl_Add(t *testing.T) {
 	}
 
 	entries := make([]mo_file.Entry, 0)
-	for i := 1; i <= apiComplexityThreshold; i++ {
+	for i := 1; i <= mo_file_size.ApiComplexityThreshold; i++ {
 		entries = append(entries, &mo_file.File{
 			Size:             int64(i),
 			EntryPathDisplay: fmt.Sprintf("/a/b/c/w%d.dat", i),
@@ -127,26 +127,26 @@ func TestSumImpl_Add(t *testing.T) {
 		})
 	}
 	s.Eval("/a/b/c", entries)
-	v := int64((1 + apiComplexityThreshold) * apiComplexityThreshold / 2)
+	v := int64((1 + mo_file_size.ApiComplexityThreshold) * mo_file_size.ApiComplexityThreshold / 2)
 
 	cp = 0
 	s.Each(func(path mo_path.DropboxPath, size mo_file_size.Size) {
 		switch path.Path() {
 		case "/a/b":
 			cp++
-			if size.Size != 1234+v || size.CountFolder != 0 || size.CountFile != apiComplexityThreshold+1 {
+			if size.Size != 1234+v || size.CountFolder != 0 || size.CountFile != mo_file_size.ApiComplexityThreshold+1 {
 				t.Error(es_json.ToJsonString(size))
 			}
 		case "/a":
 			cp++
-			if size.Size != 3579+v || size.CountFolder != 1 || size.CountFile != apiComplexityThreshold+2 ||
-				size.ApiComplexity != apiComplexityThreshold+1+2 {
+			if size.Size != 3579+v || size.CountFolder != 1 || size.CountFile != mo_file_size.ApiComplexityThreshold+2 ||
+				size.ApiComplexity != mo_file_size.ApiComplexityThreshold+1+2 {
 				t.Error(es_json.ToJsonString(size))
 			}
 		case "":
 			cp++
-			if size.Size != 7035+v || size.CountFolder != 2 || size.CountFile != apiComplexityThreshold+3 ||
-				size.ApiComplexity != apiComplexityThreshold+2+3 {
+			if size.Size != 7035+v || size.CountFolder != 2 || size.CountFile != mo_file_size.ApiComplexityThreshold+3 ||
+				size.ApiComplexity != mo_file_size.ApiComplexityThreshold+2+3 {
 				t.Error(es_json.ToJsonString(size))
 			}
 		default:

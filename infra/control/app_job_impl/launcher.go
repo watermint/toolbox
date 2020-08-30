@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature_impl"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_opt"
@@ -80,7 +81,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 		progress = nil
 	}
 
-	er := NewErrorReport(lg, z.wb, z.ui)
+	er := app_error.NewErrorReport(lg, z.wb, z.ui)
 
 	seq := eq_sequence.New(
 		eq_queue.Logger(lg),

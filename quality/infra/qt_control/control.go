@@ -2,9 +2,12 @@ package qt_control
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature_impl"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -31,7 +34,10 @@ func WithControl(f func(c app_control.Control) error) error {
 	fe := app_feature_impl.NewFeature(com, wb.Workspace(), false)
 	mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{})
 	ui := app_ui.NewDiscard(mc, wb.Logger().Logger())
-	ctl := app_control_impl.New(wb, ui, fe)
+	seq := eq_sequence.New(
+		eq_queue.NumWorker(fe.Concurrency()),
+	)
+	ctl := app_control_impl.New(wb, ui, fe, seq, app_error.NewMock())
 
 	return f(ctl)
 }

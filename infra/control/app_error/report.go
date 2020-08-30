@@ -1,4 +1,4 @@
-package app_job
+package app_error
 
 import (
 	"encoding/json"
