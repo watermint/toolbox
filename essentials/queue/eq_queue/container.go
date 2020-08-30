@@ -28,7 +28,7 @@ func newContainer(definition Definition, opts Opts) Container {
 }
 
 func newContainerWithBundle(definition Definition, bundle eq_bundle.Bundle, opts Opts) Container {
-	reg := eq_registry.New(bundle)
+	reg := eq_registry.New(bundle, opts.errorHandler)
 	pump := eq_pump.New(opts.logger, bundle)
 	pumpChan := pump.Start()
 	worker := eq_worker.New(opts.logger, reg, pumpChan)

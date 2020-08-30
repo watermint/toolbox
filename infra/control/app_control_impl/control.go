@@ -1,16 +1,12 @@
 package app_control_impl
 
 import (
-	"github.com/vbauerster/mpb/v5"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
-	"github.com/watermint/toolbox/essentials/queue/eq_pipe_preserve"
-	"github.com/watermint/toolbox/essentials/queue/eq_progress"
-	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
+	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
@@ -19,31 +15,13 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app_control.Control {
-	l := wb.Logger().Logger()
-	preservePath := wb.Workspace().KVS()
-	preserve := eq_pipe_preserve.NewFactory(l, preservePath)
-	factory := eq_pipe.NewSimple(l, preserve)
-	progress := eq_progress.NewBar(
-		//		mpb.WithOutput(es_stdout.NewDefaultOut(z.feature)),
-		mpb.WithWidth(72),
-	)
-	if feature.IsQuiet() {
-		progress = nil
-	}
-
-	seq := eq_sequence.New(
-		eq_queue.Logger(l),
-		eq_queue.Progress(progress),
-		eq_queue.NumWorker(feature.Concurrency()),
-		eq_queue.Factory(factory),
-	)
-
+func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, er app_job.ErrorReport) app_control.Control {
 	return &ctlImpl{
-		seq:     seq,
-		wb:      wb,
-		ui:      ui,
-		feature: feature,
+		seq:         seq,
+		wb:          wb,
+		ui:          ui,
+		feature:     feature,
+		errorReport: er,
 	}
 }
 
@@ -69,10 +47,15 @@ func WithForkedQuiet(ctl app_control.Control, name string, f func(c app_control.
 }
 
 type ctlImpl struct {
-	feature app_feature.Feature
-	ui      app_ui.UI
-	wb      app_workspace.Bundle
-	seq     eq_sequence.Sequence
+	feature     app_feature.Feature
+	ui          app_ui.UI
+	wb          app_workspace.Bundle
+	seq         eq_sequence.Sequence
+	errorReport app_job.ErrorReport
+}
+
+func (z ctlImpl) Close() {
+	z.errorReport.Down()
 }
 
 func (z ctlImpl) Sequence() eq_sequence.Sequence {

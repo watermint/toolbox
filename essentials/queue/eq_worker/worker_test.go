@@ -17,7 +17,7 @@ func TestWorkerImpl(t *testing.T) {
 	}
 
 	c := make(chan eq_bundle.Barrel)
-	reg := eq_registry.New(bundle)
+	reg := eq_registry.New(bundle, nil)
 	reg.Define("m", processor)
 	mould, found := reg.Get("m")
 	if !found {

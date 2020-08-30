@@ -2,15 +2,17 @@ package eq_queue
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
 )
 
 type Opts struct {
-	logger    esl.Logger
-	numWorker int
-	factory   eq_pipe.Factory
-	progress  eq_progress.Progress
+	logger       esl.Logger
+	numWorker    int
+	factory      eq_pipe.Factory
+	progress     eq_progress.Progress
+	errorHandler eq_mould.ErrorHandler
 }
 
 func (z Opts) Apply(opts ...Opt) Opts {
@@ -59,6 +61,13 @@ func Progress(p eq_progress.Progress) Opt {
 func Factory(f eq_pipe.Factory) Opt {
 	return func(o Opts) Opts {
 		o.factory = f
+		return o
+	}
+}
+
+func ErrorHandler(eh eq_mould.ErrorHandler) Opt {
+	return func(o Opts) Opts {
+		o.errorHandler = eh
 		return o
 	}
 }

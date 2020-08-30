@@ -7,12 +7,14 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"go.uber.org/atomic"
 	"sync"
 )
 
 func NewTransactionReport(name string) *TransactionReport {
 	return &TransactionReport{
 		name: name,
+		rows: atomic.NewInt64(0),
 	}
 }
 
@@ -23,6 +25,11 @@ type TransactionReport struct {
 	model interface{}
 	opts  []rp_model.ReportOpt
 	mutex sync.Mutex
+	rows  *atomic.Int64
+}
+
+func (z *TransactionReport) Rows() int64 {
+	return z.rows.Load()
 }
 
 func (z *TransactionReport) Spec() rp_model.Spec {
@@ -56,7 +63,7 @@ func (z *TransactionReport) Open(opts ...rp_model.ReportOpt) error {
 	defer z.mutex.Unlock()
 
 	if z.w == nil {
-		z.w = rp_writer_impl.NewCascade(z.name, z.ctl)
+		z.w = rp_writer_impl.New(z.name, z.ctl)
 	}
 	allOpts := make([]rp_model.ReportOpt, 0)
 	allOpts = append(allOpts, z.opts...)
@@ -86,6 +93,7 @@ func (z *TransactionReport) Success(input interface{}, result interface{}) {
 		Input:     input,
 		Result:    result,
 	})
+	z.rows.Inc()
 }
 
 func (z *TransactionReport) Failure(err error, input interface{}) {
@@ -106,6 +114,7 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 		Input:     input,
 		Result:    nil,
 	})
+	z.rows.Inc()
 }
 
 func (z *TransactionReport) Skip(reason app_msg.Message, input interface{}) {
@@ -120,6 +129,7 @@ func (z *TransactionReport) Skip(reason app_msg.Message, input interface{}) {
 		Input:     input,
 		Result:    nil,
 	})
+	z.rows.Inc()
 }
 
 func (z *TransactionReport) SetModel(input interface{}, result interface{}, opts ...rp_model.ReportOpt) {

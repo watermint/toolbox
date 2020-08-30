@@ -21,7 +21,9 @@ type Mould interface {
 	MouldId() string
 }
 
-func New(mouldId string, s eq_bundle.Bundle, f interface{}, ctx ...interface{}) Mould {
+type ErrorHandler func(err error, mouldId, batchId string, p interface{})
+
+func New(mouldId string, s eq_bundle.Bundle, eh ErrorHandler, f interface{}, ctx ...interface{}) Mould {
 	l := esl.Default().With(esl.String("mouldId", mouldId))
 
 	if s == nil {
@@ -92,6 +94,7 @@ func New(mouldId string, s eq_bundle.Bundle, f interface{}, ctx ...interface{}) 
 		paramTypeKind: paramTypeKind,
 		paramTypeOrig: paramTypeOrig,
 		hasErrorOut:   hasErrorOut,
+		errorHandler:  eh,
 	}
 }
 
@@ -110,6 +113,7 @@ type mouldImpl struct {
 	paramTypeKind reflect.Kind
 	paramIsPtr    bool
 	hasErrorOut   bool
+	errorHandler  ErrorHandler
 }
 
 func (z mouldImpl) MouldId() string {
@@ -191,6 +195,10 @@ func (z mouldImpl) Process(b eq_bundle.Barrel) {
 			l.Debug("Looks like success")
 		} else if outErr, ok := outVal.(error); ok {
 			l.Debug("Error form the processor", esl.Error(outErr))
+			if z.errorHandler != nil {
+				l.Debug("Call error handler")
+				z.errorHandler(outErr, b.MouldId, b.BatchId, p)
+			}
 		} else {
 			l.Debug("Unknown value type", esl.Any("out", outVal))
 		}

@@ -1,8 +1,14 @@
 package app_job_impl
 
 import (
+	"github.com/vbauerster/mpb/v5"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
+	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
+	"github.com/watermint/toolbox/essentials/queue/eq_pipe_preserve"
+	"github.com/watermint/toolbox/essentials/queue/eq_progress"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
@@ -62,7 +68,33 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	lg := z.wb.Logger().Logger()
 	sm := z.wb.Summary().Logger()
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
-	ctl = app_control_impl.New(z.wb, z.ui, fe)
+
+	preservePath := z.wb.Workspace().KVS()
+	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
+	factory := eq_pipe.NewSimple(lg, preserve)
+	progress := eq_progress.NewBar(
+		//		mpb.WithOutput(es_stdout.NewDefaultOut(z.feature)),
+		mpb.WithWidth(72),
+	)
+	if fe.IsQuiet() {
+		progress = nil
+	}
+
+	er := NewErrorReport(lg, z.wb, z.ui)
+
+	seq := eq_sequence.New(
+		eq_queue.Logger(lg),
+		eq_queue.Progress(progress),
+		eq_queue.NumWorker(fe.Concurrency()),
+		eq_queue.Factory(factory),
+		eq_queue.ErrorHandler(er.ErrorHandler),
+	)
+
+	ctl = app_control_impl.New(z.wb, z.ui, fe, seq, er)
+
+	if err := er.Up(ctl); err != nil {
+		return nil, err
+	}
 
 	if ctl.Feature().IsTransient() {
 		return ctl, nil
@@ -92,6 +124,10 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	sm := ctl.WorkBundle().Summary().Logger()
 	ui := ctl.UI()
+
+	if cc, ok := ctl.(app_control.ControlCloser); ok {
+		cc.Close()
+	}
 
 	artifacts := rp_artifact.Artifacts(ctl.Workspace())
 	for _, artifact := range artifacts {

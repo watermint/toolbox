@@ -914,6 +914,7 @@
   "infra.control.app_bootstrap.msg_run.error_unable_to_format_path": "Unable to format path with given variables: {{.Error}}",
   "infra.control.app_bootstrap.msg_run.error_unsupported_output": "Unsupported output format: {{.Output}}",
   "infra.control.app_bootstrap.msg_run.progress_interrupted_shutdown": "Interrupted: Shutdown...",
+  "infra.control.app_job_impl.msg_error_report.error_one_or_more_operation_errors": "{{.Errors}} error(s). Please see `operation_error` reports under `{{.ReportPath}}` for more details.",
   "infra.control.app_opt.common_opts.flag.auto_open": "Auto open URL or artifact folder",
   "infra.control.app_opt.common_opts.flag.bandwidth_kb": "Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited",
   "infra.control.app_opt.common_opts.flag.budget_memory": "Memory budget (limits some feature to reduce memory footprint)",

@@ -12,22 +12,24 @@ type Registry interface {
 	Get(mouldId string) (mould eq_mould.Mould, found bool)
 }
 
-func New(bundle eq_bundle.Bundle) Registry {
+func New(bundle eq_bundle.Bundle, eh eq_mould.ErrorHandler) Registry {
 	return &regImpl{
-		bundle:     bundle,
-		moulds:     make(map[string]eq_mould.Mould),
-		mouldsLock: sync.Mutex{},
+		bundle:       bundle,
+		moulds:       make(map[string]eq_mould.Mould),
+		mouldsLock:   sync.Mutex{},
+		errorHandler: eh,
 	}
 }
 
 type regImpl struct {
-	bundle     eq_bundle.Bundle
-	moulds     map[string]eq_mould.Mould
-	mouldsLock sync.Mutex
+	bundle       eq_bundle.Bundle
+	moulds       map[string]eq_mould.Mould
+	mouldsLock   sync.Mutex
+	errorHandler eq_mould.ErrorHandler
 }
 
 func (z *regImpl) Define(mouldId string, f interface{}, ctx ...interface{}) eq_mould.Mould {
-	mould := eq_mould.New(mouldId, z.bundle, f, ctx...)
+	mould := eq_mould.New(mouldId, z.bundle, z.errorHandler, f, ctx...)
 	z.moulds[mouldId] = mould
 	return mould
 }

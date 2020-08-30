@@ -50,3 +50,9 @@ type Control interface {
 	// Fork control with bundle
 	WithBundle(wb app_workspace.Bundle) Control
 }
+
+type ControlCloser interface {
+	Control
+
+	Close()
+}

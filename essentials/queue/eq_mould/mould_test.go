@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
+	"go.uber.org/atomic"
 	"testing"
 )
 
@@ -45,7 +46,7 @@ func TestQueue_Dequeue(t *testing.T) {
 		f := func(w *WorkData, ctl MockControl, mockConn MockConn) {
 			ctl.Log().Info("UserId", esl.String("userId", w.UserId), esl.String("peerName", mockConn.PeerName()))
 		}
-		mould := New("alpha", storage, f, ctl, conn)
+		mould := New("alpha", storage, nil, f, ctl, conn)
 		mould.Pour(&WorkData{
 			UserId: "U001",
 		})
@@ -59,7 +60,7 @@ func TestQueue_Dequeue(t *testing.T) {
 		f := func(w WorkData, ctl MockControl) {
 			ctl.Log().Info("UserId", esl.String("userId", w.UserId))
 		}
-		mould := New("alpha", storage, f, ctl)
+		mould := New("alpha", storage, nil, f, ctl)
 		mould.Pour(WorkData{
 			UserId: "U002",
 		})
@@ -78,14 +79,21 @@ func TestQueue_Dequeue(t *testing.T) {
 
 	// plain string with error return
 	{
+		ehCkpt := atomic.NewInt32(0)
+		eh := func(err error, mouldId, batchId string, p interface{}) {
+			ctl.Log().Info("Got an error", esl.String("mouldId", mouldId), esl.String("batchId", batchId), esl.Any("param", p), esl.Error(err), esl.Int32("ckpt", ehCkpt.Inc()))
+		}
 		f := func(userId string, ctl MockControl) error {
 			ctl.Log().Info("UserId", esl.String("userId", userId))
 			return errors.New("this is wrong")
 		}
-		mould := New("alpha", storage, f, ctl)
+		mould := New("alpha", storage, eh, f, ctl)
 		mould.Pour("U003")
 		if d, found := storage.Fetch(); found {
 			mould.Process(d)
+		}
+		if x := ehCkpt.Load(); x != 1 {
+			t.Error(x)
 		}
 	}
 }
@@ -101,7 +109,7 @@ func TestMouldImpl_Batch(t *testing.T) {
 		f := func(userId string, ctl MockControl) {
 			ctl.Log().Info("UserId", esl.String("userId", userId))
 		}
-		mould := New("alpha", storage, f, ctl)
+		mould := New("alpha", storage, nil, f, ctl)
 		b01 := mould.Batch("B01")
 		b02 := mould.Batch("B02")
 		b01.Pour("B01_001")
