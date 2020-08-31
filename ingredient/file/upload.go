@@ -268,6 +268,12 @@ func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath strin
 
 func (z *Upload) Exec(c app_control.Control) error {
 	l := c.Log().With(esl.String("src", z.LocalPath.Path()), esl.String("dest", z.DropboxPath.Path()))
+	localPath, err := filepath.Abs(z.LocalPath.Path())
+	if err != nil {
+		l.Debug("Unable to calc abs path", esl.Error(err), esl.String("localPath", z.LocalPath.Path()))
+		return err
+	}
+	localPath = filepath.Clean(localPath)
 	if err := z.Uploaded.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
@@ -278,7 +284,8 @@ func (z *Upload) Exec(c app_control.Control) error {
 		return err
 	}
 	l.Debug("Start uploading")
-	_, err := z.exec(c, z.LocalPath.Path(), z.DropboxPath.Path(), z.EstimateOnly)
+
+	_, err = z.exec(c, localPath, z.DropboxPath.Path(), z.EstimateOnly)
 	l.Debug("Finished", esl.Error(err))
 	return err
 }

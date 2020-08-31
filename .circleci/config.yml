@@ -12,6 +12,7 @@ jobs:
       - run: ./.circleci/prepare.sh
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
+      - run: go get github.com/google/go-licenses
       - run: ./build.sh
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
