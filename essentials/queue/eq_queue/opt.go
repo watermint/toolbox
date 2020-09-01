@@ -2,6 +2,7 @@ package eq_queue
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
@@ -13,6 +14,7 @@ type Opts struct {
 	factory      eq_pipe.Factory
 	progress     eq_progress.Progress
 	errorHandler eq_mould.ErrorHandler
+	policy       eq_bundle.FetchPolicy
 }
 
 func (z Opts) Apply(opts ...Opt) Opts {
@@ -32,6 +34,7 @@ func defaultOpts() Opts {
 		numWorker: 1,
 		progress:  nil,
 		factory:   eq_pipe.NewTransientSimple(esl.Default()),
+		policy:    eq_bundle.FetchSequential,
 	}
 }
 
@@ -40,6 +43,13 @@ type Opt func(o Opts) Opts
 func Logger(l esl.Logger) Opt {
 	return func(o Opts) Opts {
 		o.logger = l
+		return o
+	}
+}
+
+func FetchPolicy(p eq_bundle.FetchPolicy) Opt {
+	return func(o Opts) Opts {
+		o.policy = p
 		return o
 	}
 }

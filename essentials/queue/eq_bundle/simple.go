@@ -5,34 +5,50 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
 	"github.com/watermint/toolbox/essentials/queue/eq_stat"
+	"math/rand"
 	"sync"
 )
 
+const (
+	FetchSequential FetchPolicy = "sequential"
+	FetchRandom     FetchPolicy = "random"
+)
+
+var (
+	FetchPolicies = []FetchPolicy{FetchSequential, FetchRandom}
+)
+
+type FetchPolicy string
+
 func NewSimple(logger esl.Logger,
+	policy FetchPolicy,
 	progress eq_progress.Progress,
 	factory eq_pipe.Factory) Bundle {
-	return newSimple(logger, progress, factory, factory.New(""), make(map[string]eq_pipe.Pipe))
+	return newSimple(logger, policy, progress, factory, factory.New(""), make(map[string]eq_pipe.Pipe))
 }
 
 func newSimple(logger esl.Logger,
+	policy FetchPolicy,
 	progress eq_progress.Progress,
 	factory eq_pipe.Factory,
 	wip eq_pipe.Pipe,
 	pipes map[string]eq_pipe.Pipe) Bundle {
 	return &simpleImpl{
-		logger:             logger,
-		progress:           progress,
-		factory:            factory,
-		pipes:              pipes,
-		pipesMutex:         &sync.Mutex{},
-		stat:               eq_stat.New(),
-		wip:                wip,
-		batchId:            "",
-		currentBatchBarrel: "",
+		logger:                       logger,
+		policy:                       policy,
+		progress:                     progress,
+		factory:                      factory,
+		pipes:                        pipes,
+		pipesMutex:                   &sync.Mutex{},
+		stat:                         eq_stat.New(),
+		wip:                          wip,
+		batchId:                      "",
+		sequentialCurrentBatchBarrel: "",
 	}
 }
 
 func RestoreSimple(logger esl.Logger,
+	policy FetchPolicy,
 	progress eq_progress.Progress,
 	factory eq_pipe.Factory,
 	session Session) (b Bundle, err error) {
@@ -61,7 +77,7 @@ func RestoreSimple(logger esl.Logger,
 	}
 
 	// Enqueue In progress data into the pipe
-	b = newSimple(logger, progress, factory, wip, pipes)
+	b = newSimple(logger, policy, progress, factory, wip, pipes)
 
 	l.Debug("Dequeue from In Progress pipe")
 	for p := wip.Dequeue(); p != nil; p = wip.Dequeue() {
@@ -80,15 +96,16 @@ func RestoreSimple(logger esl.Logger,
 }
 
 type simpleImpl struct {
-	logger             esl.Logger
-	progress           eq_progress.Progress
-	factory            eq_pipe.Factory
-	pipes              map[string]eq_pipe.Pipe
-	pipesMutex         *sync.Mutex
-	stat               eq_stat.Stat
-	wip                eq_pipe.Pipe
-	batchId            string
-	currentBatchBarrel string
+	logger                       esl.Logger
+	policy                       FetchPolicy
+	progress                     eq_progress.Progress
+	factory                      eq_pipe.Factory
+	pipes                        map[string]eq_pipe.Pipe
+	pipesMutex                   *sync.Mutex
+	stat                         eq_stat.Stat
+	wip                          eq_pipe.Pipe
+	batchId                      string
+	sequentialCurrentBatchBarrel string
 }
 
 func (z *simpleImpl) SizeInProgress() int {
@@ -183,15 +200,15 @@ func (z *simpleImpl) Enqueue(b Barrel) {
 	l.Debug("Enqueue bundle: Done")
 }
 
-func (z *simpleImpl) Fetch() (b Barrel, found bool) {
+func (z *simpleImpl) fetchSequential() (b Barrel, found bool) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
-	l := z.logger.With(esl.String("currentBatchId", z.currentBatchBarrel))
-	l.Debug("Fetch from currentBatchId")
+	l := z.logger.With(esl.String("currentBatchId", z.sequentialCurrentBatchBarrel))
+	l.Debug("Sequential fetch from currentBatchId")
 
 	for {
-		if pipe, ok := z.pipes[z.currentBatchBarrel]; ok {
+		if pipe, ok := z.pipes[z.sequentialCurrentBatchBarrel]; ok {
 			l.Debug("The pipe found with currentBatchId")
 			if d0 := pipe.Dequeue(); d0 != nil {
 				l.Debug("Data found, dequeue success")
@@ -206,7 +223,7 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 
 			l.Debug("Data not found, closing the pipe")
 			pipe.Close()
-			delete(z.pipes, z.currentBatchBarrel)
+			delete(z.pipes, z.sequentialCurrentBatchBarrel)
 
 			// fall thru
 		}
@@ -214,7 +231,7 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 		// finish when no more pipes found
 		if len(z.pipes) < 1 {
 			l.Debug("No more pipes")
-			z.currentBatchBarrel = ""
+			z.sequentialCurrentBatchBarrel = ""
 			return b, false
 		}
 
@@ -222,9 +239,62 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 		l.Debug("Find next currentBatchId")
 		for b := range z.pipes {
 			l.Debug("Next pipe", esl.String("batchId", b))
-			z.currentBatchBarrel = b
+			z.sequentialCurrentBatchBarrel = b
 			break
 		}
+	}
+}
+
+func (z *simpleImpl) fetchRandom() (b Barrel, found bool) {
+	z.pipesMutex.Lock()
+	defer z.pipesMutex.Unlock()
+
+	l := z.logger
+
+	for {
+		if len(z.pipes) < 1 {
+			l.Debug("No more pipes")
+			return b, false
+		}
+
+		r := rand.Intn(len(z.pipes))
+		keys := make([]string, 0)
+		for k := range z.pipes {
+			keys = append(keys, k)
+		}
+		key := keys[r]
+		ll := l.With(esl.String("batchBarrel", key))
+		ll.Debug("Pick pipe key")
+		pipe := z.pipes[key]
+
+		ll.Debug("The pipe found with currentBatchId")
+		if d0 := pipe.Dequeue(); d0 != nil {
+			ll.Debug("Data found, dequeue success")
+			d, err := FromBytes(d0)
+			if err != nil {
+				ll.Debug("Unable to unmarshal the message", esl.Error(err), esl.Binary("data", d0))
+				return d, false
+			}
+			z.wip.Enqueue(d0)
+			return d, true
+		}
+
+		ll.Debug("Data not found, closing the pipe")
+		pipe.Close()
+		delete(z.pipes, key)
+	}
+}
+
+func (z *simpleImpl) Fetch() (b Barrel, found bool) {
+	switch z.policy {
+	case FetchSequential:
+		return z.fetchSequential()
+	case FetchRandom:
+		return z.fetchRandom()
+	default:
+		z.logger.Debug("Unknown fetch policy, fallback to sequential policy",
+			esl.Any("policy", z.policy))
+		return z.fetchSequential()
 	}
 }
 

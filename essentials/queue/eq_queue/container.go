@@ -23,7 +23,7 @@ type Container interface {
 }
 
 func newContainer(definition Definition, opts Opts) Container {
-	bundle := eq_bundle.NewSimple(opts.logger, opts.progress, opts.factory)
+	bundle := eq_bundle.NewSimple(opts.logger, opts.policy, opts.progress, opts.factory)
 	return newContainerWithBundle(definition, bundle, opts)
 }
 

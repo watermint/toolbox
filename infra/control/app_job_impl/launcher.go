@@ -4,6 +4,7 @@ import (
 	"github.com/vbauerster/mpb/v5"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
+	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe_preserve"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
@@ -83,8 +84,17 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 
 	er := app_error.NewErrorReport(lg, z.wb, z.ui)
 
+	batchPolicy := eq_bundle.FetchSequential
+	if fe.Experiment(app.ExperimentBatchRandom) {
+		batchPolicy = eq_bundle.FetchRandom
+	}
+	if fe.Experiment(app.ExperimentBatchSequential) {
+		batchPolicy = eq_bundle.FetchSequential
+	}
+
 	seq := eq_sequence.New(
 		eq_queue.Logger(lg),
+		eq_queue.FetchPolicy(batchPolicy),
 		eq_queue.Progress(progress),
 		eq_queue.NumWorker(fe.Concurrency()),
 		eq_queue.Factory(factory),
