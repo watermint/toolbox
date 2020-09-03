@@ -1,6 +1,7 @@
 package app_control
 
 import (
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_feature"
@@ -34,6 +35,9 @@ type Control interface {
 
 	// Async queue sequence
 	Sequence() eq_sequence.Sequence
+
+	// Create new KVS. The caller must close the storage before exit.
+	NewKvs(name string) (kvs kv_storage.Storage, err error)
 
 	// Workspace bundle
 	WorkBundle() app_workspace.Bundle

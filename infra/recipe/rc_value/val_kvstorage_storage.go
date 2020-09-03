@@ -56,7 +56,8 @@ func (z *ValueKvStorageStorage) Debug() interface{} {
 }
 
 func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
-	return z.storage.Open(ctl)
+	storage := z.storage.(kv_storage_impl.Storage)
+	return storage.Open(ctl)
 }
 
 func (z *ValueKvStorageStorage) SpinDown(ctl app_control.Control) error {

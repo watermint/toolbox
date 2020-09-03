@@ -25,6 +25,6 @@ func GenerateRandomString(size int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	encoded := base64.URLEncoding.EncodeToString(seq)
+	encoded := base64.RawStdEncoding.EncodeToString(seq)
 	return encoded[:size], nil
 }

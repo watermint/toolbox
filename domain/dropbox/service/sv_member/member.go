@@ -23,6 +23,7 @@ var (
 type Member interface {
 	Update(member *mo_member.Member, opts ...UpdateOpt) (updated *mo_member.Member, err error)
 	List(opts ...ListOpt) (members []*mo_member.Member, err error)
+	ListEach(f func(member *mo_member.Member) bool, opts ...ListOpt) error
 	Resolve(teamMemberId string) (member *mo_member.Member, err error)
 	ResolveByEmail(email string) (member *mo_member.Member, err error)
 	Add(email string, opts ...AddOpt) (member *mo_member.Member, err error)
@@ -194,6 +195,10 @@ func newTest(ctx dbx_context.Context) Member {
 type cachedMember struct {
 	impl    Member
 	members []*mo_member.Member
+}
+
+func (z *cachedMember) ListEach(f func(member *mo_member.Member) bool, opts ...ListOpt) error {
+	return z.ListEach(f, opts...)
 }
 
 func (z *cachedMember) Update(member *mo_member.Member, opts ...UpdateOpt) (updated *mo_member.Member, err error) {
@@ -476,8 +481,16 @@ func (z *memberImpl) ResolveByEmail(email string) (member *mo_member.Member, err
 }
 
 func (z *memberImpl) List(opts ...ListOpt) (members []*mo_member.Member, err error) {
-	lo := listOpts{}.Apply(opts...)
 	members = make([]*mo_member.Member, 0)
+	err = z.ListEach(func(member *mo_member.Member) bool {
+		members = append(members, member)
+		return true
+	})
+	return
+}
+
+func (z *memberImpl) ListEach(f func(member *mo_member.Member) bool, opts ...ListOpt) (err error) {
+	lo := listOpts{}.Apply(opts...)
 	p := struct {
 		IncludeRemoved bool `json:"include_removed,omitempty"`
 		Limit          int  `json:"limit,omitempty"`
@@ -486,6 +499,7 @@ func (z *memberImpl) List(opts ...ListOpt) (members []*mo_member.Member, err err
 		Limit:          z.limit,
 	}
 
+	ErrorBreak := errors.New("break")
 	res := z.ctx.List("team/members/list", api_request.Param(p)).Call(
 		dbx_list.Continue("team/members/list/continue"),
 		dbx_list.UseHasMore(),
@@ -495,12 +509,17 @@ func (z *memberImpl) List(opts ...ListOpt) (members []*mo_member.Member, err err
 			if err := entry.Model(m); err != nil {
 				return err
 			}
-			members = append(members, m)
+			if f(m) {
+				return ErrorBreak
+			}
 			return nil
 		}),
 	)
 	if err, fail := res.Failure(); fail {
-		return nil, err
+		if err == ErrorBreak {
+			return nil
+		}
+		return err
 	}
-	return members, nil
+	return nil
 }

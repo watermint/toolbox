@@ -1,6 +1,8 @@
 package app_control_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
@@ -52,6 +54,13 @@ type ctlImpl struct {
 	wb          app_workspace.Bundle
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
+}
+
+func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
+	kvs0 := kv_storage_impl.New(name).(kv_storage_impl.Storage)
+	kvs = kvs0
+	err = kvs0.Open(z)
+	return
 }
 
 func (z ctlImpl) Close() {

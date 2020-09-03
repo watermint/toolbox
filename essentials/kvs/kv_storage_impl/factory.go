@@ -21,6 +21,9 @@ func NewWithPath(ctl app_control.Control, path string) (kv_storage.Storage, erro
 type Storage interface {
 	kv_storage.Storage
 
+	// Open KVS storage
+	Open(ctl app_control.Control) error
+
 	OpenWithPath(ctl app_control.Control, path string) error
 }
 

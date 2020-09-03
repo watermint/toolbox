@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_column"
@@ -75,7 +74,7 @@ func (z *Sorted) Row(r interface{}) {
 	}
 }
 
-func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
+func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) (err error) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
@@ -84,12 +83,11 @@ func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_mod
 		o(ro)
 	}
 
-	z.ctl = ctl
-	z.storage = kv_storage_impl.New("rp_writer_sorted-" + z.name + ro.ReportSuffix)
-
 	l := ctl.Log().With(esl.String("name", z.name))
 
-	if err := z.storage.Open(ctl); err != nil {
+	z.ctl = ctl
+	z.storage, err = ctl.NewKvs("rp_writer_sorted-" + z.name + ro.ReportSuffix)
+	if err != nil {
 		l.Debug("Unable to create storage")
 		return err
 	}

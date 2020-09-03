@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -61,7 +62,7 @@ func (z *List) Preset() {
 	)
 }
 
-func (z *List) Exec(c app_control.Control) error {
+func (z *List) execLegacy(c app_control.Control) error {
 	l := c.Log()
 
 	q := c.NewLegacyQueue()
@@ -188,6 +189,23 @@ func (z *List) Exec(c app_control.Control) error {
 			})
 		})
 	})
+}
+
+func (z *List) execNew(c app_control.Control) error {
+	l := c.Log()
+	scanner := uc_teamfolder.New(c, z.Peer.Context())
+	folders, err := scanner.Scan(z.Folder)
+	if err != nil {
+		return err
+	}
+	for _, folder := range folders {
+		l.Info("Team folder", esl.Any("folder", folder))
+	}
+	return nil
+}
+
+func (z *List) Exec(c app_control.Control) error {
+	return z.execNew(c)
 }
 
 func (z *List) Test(c app_control.Control) error {

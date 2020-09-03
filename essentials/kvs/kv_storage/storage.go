@@ -2,14 +2,10 @@ package kv_storage
 
 import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
-	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
 // Storage interface.
 type Storage interface {
-	// Open KVS storage
-	Open(ctl app_control.Control) error
-
 	// Close KVS storage
 	Close()
 
