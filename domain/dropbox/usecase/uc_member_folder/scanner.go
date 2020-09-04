@@ -1,6 +1,7 @@
 package uc_member_folder
 
 import (
+	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -21,7 +22,7 @@ type MemberNamespace struct {
 }
 
 type Scanner interface {
-	Scan() (namespaces []*MemberNamespace, err error)
+	Scan(filter mo_filter.Filter) (namespaces []*MemberNamespace, err error)
 }
 
 func New(ctl app_control.Control, ctx dbx_context.Context) Scanner {
@@ -76,7 +77,7 @@ func (z scanImpl) scanNamespace(member *mo_member.Member, storageNamespace kv_st
 	return nil
 }
 
-func (z scanImpl) Scan() (namespaces []*MemberNamespace, err error) {
+func (z scanImpl) Scan(filter mo_filter.Filter) (namespaces []*MemberNamespace, err error) {
 	l := z.ctl.Log()
 	scanSessionId := sc_random.MustGenerateRandomString(8)
 	namespaces = make([]*MemberNamespace, 0)
@@ -98,7 +99,9 @@ func (z scanImpl) Scan() (namespaces []*MemberNamespace, err error) {
 	err = storageNamespace.View(func(kvs kv_kvs.Kvs) error {
 		return kvs.ForEachModel(&MemberNamespace{}, func(key string, m interface{}) error {
 			namespace := m.(*MemberNamespace)
-			namespaces = append(namespaces, namespace)
+			if filter.Accept(namespace.Namespace.Name) {
+				namespaces = append(namespaces, namespace)
+			}
 			return nil
 		})
 	})

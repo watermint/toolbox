@@ -84,6 +84,21 @@ func NewNoMember(sf *mo_sharedfolder.SharedFolder, path string) *NoMember {
 	}
 }
 
+func NewFolderPolicy(sf *mo_sharedfolder.SharedFolder, path string) *FolderPolicy {
+	return &FolderPolicy{
+		NamespaceId:        sf.SharedFolderId,
+		NamespaceName:      sf.Name,
+		Path:               folderPath(sf, path),
+		IsTeamFolder:       sf.IsTeamFolder || sf.IsInsideTeamFolder,
+		OwnerTeamId:        sf.OwnerTeamId,
+		OwnerTeamName:      sf.OwnerTeamName,
+		PolicyManageAccess: sf.PolicyManageAccess,
+		PolicySharedLink:   sf.PolicySharedLink,
+		PolicyMember:       sf.PolicyMember,
+		PolicyViewerInfo:   sf.PolicyViewerInfo,
+	}
+}
+
 func folderType(m *mo_sharedfolder.SharedFolder) string {
 	switch {
 	case m.IsTeamFolder, m.IsInsideTeamFolder:

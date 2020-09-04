@@ -3,12 +3,8 @@ package policy
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
-	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -16,11 +12,9 @@ import (
 )
 
 type List struct {
-	Peer     dbx_conn.ConnBusinessFile
-	Metadata kv_storage.Storage
-	Tree     kv_storage.Storage
-	Policy   rp_model.RowReport
-	Folder   mo_filter.Filter
+	Peer   dbx_conn.ConnBusinessFile
+	Policy rp_model.RowReport
+	Folder mo_filter.Filter
 }
 
 func (z *List) Preset() {
@@ -40,69 +34,20 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	l := c.Log()
-
-	q := c.NewLegacyQueue()
-	s := &uc_team_content.TeamScanner{
-		Ctx:    z.Peer.Context(),
-		Ctl:    c,
-		Queue:  q,
-		Filter: z.Folder,
-		Scanner: &uc_team_content.ScanNamespaceMetadata{
-			Metadata: z.Metadata,
-			Queue:    q,
-		},
-	}
-	if err := s.ScanTeamOnly(); err != nil {
-		return err
-	}
-	q.Wait()
-
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	teamFolderScanner := uc_teamfolder.New(c, z.Peer.Context())
+	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err
 	}
 
-	st := &uc_team_content.TeamFolderScanner{
-		Ctl:      c,
-		Ctx:      z.Peer.Context().AsAdminId(admin.TeamMemberId),
-		Metadata: z.Metadata,
-		Tree:     z.Tree,
+	for _, teamFolder := range teamFolders {
+		z.Policy.Row(uc_team_content.NewFolderPolicy(teamFolder.TeamFolder, ""))
+		for path, descendant := range teamFolder.NestedFolders {
+			z.Policy.Row(uc_team_content.NewFolderPolicy(descendant, path))
+		}
 	}
-	if err := st.Scan(); err != nil {
-		return err
-	}
-	if err := z.Policy.Open(); err != nil {
-		return err
-	}
-	return z.Tree.View(func(treeKvs kv_kvs.Kvs) error {
-		return treeKvs.ForEachModel(&uc_team_content.Tree{}, func(key string, m interface{}) error {
-			t := m.(*uc_team_content.Tree)
-			ll := l.With(esl.String("nsid", t.NamespaceId))
-			ll.Debug("Preparing for report")
-			meta := &mo_sharedfolder.SharedFolder{}
-			err := z.Metadata.View(func(metaKvs kv_kvs.Kvs) error {
-				return metaKvs.GetJsonModel(t.NamespaceId, meta)
-			})
-			if err != nil {
-				ll.Debug("Unable to get metadata for the namespace", esl.Error(err))
-				return err
-			}
-			z.Policy.Row(&uc_team_content.FolderPolicy{
-				NamespaceId:        t.NamespaceId,
-				NamespaceName:      t.NamespaceName,
-				Path:               t.RelativePath,
-				IsTeamFolder:       meta.IsTeamFolder || meta.IsInsideTeamFolder,
-				OwnerTeamId:        meta.OwnerTeamId,
-				OwnerTeamName:      meta.OwnerTeamName,
-				PolicyManageAccess: meta.PolicyManageAccess,
-				PolicySharedLink:   meta.PolicySharedLink,
-				PolicyMember:       meta.PolicyMember,
-				PolicyViewerInfo:   meta.PolicyViewerInfo,
-			})
-			return nil
-		})
-	})
+
+	return nil
 }
 
 func (z *List) Test(c app_control.Control) error {

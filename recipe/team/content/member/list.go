@@ -93,7 +93,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	memberFolderScanner := uc_member_folder.New(c, z.Peer.Context())
-	memberFolders, err := memberFolderScanner.Scan()
+	memberFolders, err := memberFolderScanner.Scan(z.Folder)
 	if err != nil {
 		l.Debug("Failed to scan member folders", esl.Error(err))
 		c.UI().Error(z.ErrorUnableToScanMemberFolders.With("Error", err))
