@@ -57,6 +57,7 @@ func (z *smallCache) Row(r interface{}) {
 
 	if !z.opened {
 		_ = z.writer.Open(z.ctl, z.model, z.opts...)
+		z.opened = true
 	}
 
 	if z.numRows < z.cacheThreshold {
@@ -83,4 +84,5 @@ func (z *smallCache) Close() {
 
 	z.noLockFlush()
 	z.writer.Close()
+	z.opened = false
 }

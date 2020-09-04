@@ -318,6 +318,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 		switch errScan {
 		case nil, ErrorScanCompleted:
 			l.Debug("Scan finished")
+			return nil
 
 		case ErrorScanTimeout:
 			l.Debug("Scan timeout")
@@ -346,12 +347,12 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 					return err
 				}
 			}
+			return nil
 
 		default:
 			l.Debug("The error occurred on scanning team folder", esl.Error(err))
 			return err
 		}
-		return nil
 	}
 
 	// Finish if there is no descendants
