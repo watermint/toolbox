@@ -13,7 +13,7 @@ func TestScanImpl_Scan(t *testing.T) {
 		qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 			s := New(ctl, ctx)
 			_, err := s.Scan()
-			if err != qt_errors.ErrorMock {
+			if err != qt_errors.ErrorMock && err != nil {
 				t.Error(err)
 			}
 		})

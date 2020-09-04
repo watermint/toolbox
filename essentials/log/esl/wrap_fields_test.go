@@ -109,9 +109,10 @@ func TestStrings(t *testing.T) {
 }
 func TestTime(t *testing.T) {
 	content := time.Now()
+	contentFormatted := content.Format(time.RFC3339)
 	z := Time("key", content)
 	y := z.zap()
-	if !y.Equals(zapuber.Time("key", content)) {
+	if !y.Equals(zapuber.String("key", contentFormatted)) {
 		t.Error(z)
 	}
 }
