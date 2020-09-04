@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type MsgErrorReport struct {
@@ -49,6 +50,9 @@ func (z *errorReportImpl) Down() {
 }
 
 func (z *errorReportImpl) ErrorHandler(err error, mouldId, batchId string, p interface{}) {
+	if err == qt_errors.ErrorMock {
+		return
+	}
 	d, em := json.Marshal(p)
 	if em != nil {
 		z.lg.Debug("Unable to marshal", esl.Error(err))
