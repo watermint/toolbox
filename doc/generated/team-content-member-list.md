@@ -68,14 +68,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                  | Description                                                                                                                        | Default |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                          |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                         |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                         |         |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member. |         |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.     |         |
-| `-peer`                 | Account alias                                                                                                                      | default |
+| Option                  | Description                                                                                                                                                                        | Default |
+|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                          |         |
+| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |         |
+| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |         |
+| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.                                                 |         |
+| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.                                                     |         |
+| `-peer`                 | Account alias                                                                                                                                                                      | default |
+| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short   |
 
 ## Common options:
 

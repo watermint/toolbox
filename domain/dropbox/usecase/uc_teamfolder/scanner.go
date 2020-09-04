@@ -21,7 +21,21 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"math"
+	"time"
 )
+
+var (
+	scanShortTimeout = 3 * time.Minute
+	scanLongTimeout  = 3 * time.Hour
+)
+
+const (
+	ScanTimeoutShort   ScanTimeoutMode = "short"
+	ScanTimeoutLong    ScanTimeoutMode = "long"
+	ScanTimeoutAltPath                 = "/:ERROR-SCAN-TIMEOUT:/"
+)
+
+type ScanTimeoutMode string
 
 type TeamFolder struct {
 	// team folder metadata
@@ -53,16 +67,18 @@ type Scanner interface {
 	Scan(filter mo_filter.Filter) (teamFolders []*TeamFolder, err error)
 }
 
-func New(ctl app_control.Control, ctx dbx_context.Context) Scanner {
+func New(ctl app_control.Control, ctx dbx_context.Context, scanTimeout ScanTimeoutMode) Scanner {
 	return &scanImpl{
-		ctl: ctl,
-		ctx: ctx,
+		ctl:         ctl,
+		ctx:         ctx,
+		scanTimeout: scanTimeout,
 	}
 }
 
 type scanImpl struct {
-	ctl app_control.Control
-	ctx dbx_context.Context
+	ctl         app_control.Control
+	ctx         dbx_context.Context
+	scanTimeout ScanTimeoutMode
 }
 
 func (z scanImpl) scanNamespace(sessionId string, stg eq_sequence.Stage, storageNamespace kv_storage.Storage) (err error) {
@@ -230,6 +246,15 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 	}
 
 	ErrorScanCompleted := errors.New("scan completed")
+	ErrorScanTimeout := errors.New("scan timeout")
+
+	timeout := time.Now()
+	switch z.scanTimeout {
+	case ScanTimeoutShort:
+		timeout = timeout.Add(scanShortTimeout)
+	case ScanTimeoutLong:
+		timeout = timeout.Add(scanLongTimeout)
+	}
 
 	scanDeferred := make([]mo_path.DropboxPath, 0)
 
@@ -273,6 +298,11 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 			return ErrorScanCompleted
 		}
 
+		// Return if the time exceed timeout
+		if time.Now().After(timeout) {
+			return ErrorScanTimeout
+		}
+
 		// Dive into descendants
 		for _, entry := range entries {
 			if f, ok := entry.Folder(); ok {
@@ -284,6 +314,46 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 		return nil
 	}
 
+	handleScanResult := func(errScan error) error {
+		switch errScan {
+		case nil, ErrorScanCompleted:
+			l.Debug("Scan finished")
+
+		case ErrorScanTimeout:
+			l.Debug("Scan timeout")
+			for nsid, ok := range traverse {
+				ll := l.With(esl.String("descendant", nsid))
+				ll.Debug("Ensure descendants")
+				if ok {
+					continue
+				}
+
+				l.Debug("Retrieve shared folder metadata")
+				sf, err := sv_sharedfolder.New(z.ctx).Resolve(nsid)
+				if err != nil {
+					l.Debug("Unable to retrieve folder metadata", esl.Error(err))
+					return err
+				}
+
+				err = storageNested.Update(func(kvs kv_kvs.Kvs) error {
+					return kvs.PutJsonModel(sf.SharedFolderId, &TeamFolderNested{
+						NamespaceId:   sf.SharedFolderId,
+						NamespaceName: sf.Name,
+						RelativePath:  teamFolderName + ScanTimeoutAltPath + sf.Name,
+					})
+				})
+				if err != nil {
+					return err
+				}
+			}
+
+		default:
+			l.Debug("The error occurred on scanning team folder", esl.Error(err))
+			return err
+		}
+		return nil
+	}
+
 	// Finish if there is no descendants
 	if completed() {
 		l.Debug("No descendants found")
@@ -291,9 +361,9 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 	}
 
 	// Scan first two levels
-	if errScan := scan(mo_path.NewDropboxPath(""), 1, 2); errScan != nil && errScan != ErrorScanCompleted {
-		l.Debug("The error occurred on scanning team folder", esl.Error(err))
-		return err
+	if errScan := handleScanResult(scan(mo_path.NewDropboxPath(""), 1, 2)); errScan != nil {
+		l.Debug("Unable to scan", esl.Error(errScan))
+		return errScan
 	}
 
 	// If not found in first two levels, search
@@ -305,7 +375,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 	if !completed() {
 		for _, dp := range scanDeferred {
 			l.Debug("Scanning deferred path", esl.String("path", dp.Path()))
-			if errScan := scan(dp, 1, math.MaxInt32); errScan != nil && errScan != ErrorScanCompleted {
+			if errScan := handleScanResult(scan(dp, 1, math.MaxInt32)); errScan != nil {
 				l.Debug("The error occurred on scanning team folder", esl.Error(err))
 				return err
 			}

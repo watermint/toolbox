@@ -2,6 +2,7 @@ package policy
 
 import (
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
+	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_member_folder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
@@ -18,6 +19,7 @@ type List struct {
 	Peer                           dbx_conn.ConnBusinessFile
 	Policy                         rp_model.RowReport
 	Folder                         mo_filter.Filter
+	ScanTimeout                    mo_string.SelectString
 	ErrorUnableToScanMemberFolders app_msg.Message
 }
 
@@ -35,12 +37,16 @@ func (z *List) Preset() {
 		mo_filter.NewNamePrefixFilter(),
 		mo_filter.NewNameSuffixFilter(),
 	)
+	z.ScanTimeout.SetOptions(string(uc_teamfolder.ScanTimeoutShort),
+		string(uc_teamfolder.ScanTimeoutShort),
+		string(uc_teamfolder.ScanTimeoutLong),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	teamFolderScanner := uc_teamfolder.New(c, z.Peer.Context())
+	teamFolderScanner := uc_teamfolder.New(c, z.Peer.Context(), uc_teamfolder.ScanTimeoutMode(z.ScanTimeout.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err

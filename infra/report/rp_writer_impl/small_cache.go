@@ -28,6 +28,10 @@ func NewSmallCacheWithThreshold(name string, writer rp_writer.Writer, threshold 
 // Cache first X rows.
 // Pass through to the child writer once row exceeds threshold (no cache).
 type smallCache struct {
+	ctl            app_control.Control
+	model          interface{}
+	opts           []rp_model.ReportOpt
+	opened         bool
 	name           string
 	cache          []interface{}
 	cacheMutex     sync.Mutex
@@ -51,6 +55,10 @@ func (z *smallCache) Row(r interface{}) {
 	z.cacheMutex.Lock()
 	defer z.cacheMutex.Unlock()
 
+	if !z.opened {
+		_ = z.writer.Open(z.ctl, z.model, z.opts...)
+	}
+
 	if z.numRows < z.cacheThreshold {
 		z.cache = append(z.cache, r)
 	} else if z.numRows == z.cacheThreshold {
@@ -63,7 +71,10 @@ func (z *smallCache) Row(r interface{}) {
 }
 
 func (z *smallCache) Open(ctl app_control.Control, model interface{}, opts ...rp_model.ReportOpt) error {
-	return z.writer.Open(ctl, model, opts...)
+	z.ctl = ctl
+	z.model = model
+	z.opts = opts
+	return nil
 }
 
 func (z *smallCache) Close() {

@@ -86,6 +86,56 @@
   	},
   }
 ```
+# コマンド仕様の変更: `team content member list`
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 4 identical elements
+  		&{Name: "MemberTypeInternal", Desc: "Filter folder members. Keep only members are internal (in the sa"...},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
++ 		&{
++ 			Name:     "ScanTimeout",
++ 			Desc:     "Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEA"...,
++ 			Default:  "short",
++ 			TypeName: "domain.common.model.mo_string.select_string",
++ 			TypeAttr: map[string]interface{}{"options": []interface{}{string("short"), string("long")}},
++ 		},
+  	},
+  }
+```
+# コマンド仕様の変更: `team content policy list`
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "FolderNameSuffix", Desc: "Filter by folder name. Filter by name match to the suffix."},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
++ 		&{
++ 			Name:     "ScanTimeout",
++ 			Desc:     "Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEA"...,
++ 			Default:  "short",
++ 			TypeName: "domain.common.model.mo_string.select_string",
++ 			TypeAttr: map[string]interface{}{"options": []interface{}{string("short"), string("long")}},
++ 		},
+  	},
+  }
+```
 # コマンド仕様の変更: `team diag explorer`
 
 
@@ -267,3 +317,53 @@
 | errors | This report shows the transaction result. |
 
 
+# コマンド仕様の変更: `teamfolder member list`
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 4 identical elements
+  		&{Name: "MemberTypeInternal", Desc: "Filter folder members. Keep only members are internal (in the sa"...},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
++ 		&{
++ 			Name:     "ScanTimeout",
++ 			Desc:     "Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEA"...,
++ 			Default:  "short",
++ 			TypeName: "domain.common.model.mo_string.select_string",
++ 			TypeAttr: map[string]interface{}{"options": []interface{}{string("short"), string("long")}},
++ 		},
+  	},
+  }
+```
+# コマンド仕様の変更: `teamfolder policy list`
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "FolderNameSuffix", Desc: "Filter by folder name. Filter by name match to the suffix."},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
++ 		&{
++ 			Name:     "ScanTimeout",
++ 			Desc:     "Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEA"...,
++ 			Default:  "short",
++ 			TypeName: "domain.common.model.mo_string.select_string",
++ 			TypeAttr: map[string]interface{}{"options": []interface{}{string("short"), string("long")}},
++ 		},
+  	},
+  }
+```
