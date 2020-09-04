@@ -101,7 +101,7 @@ type searchOpts struct {
 	fileStatus        string
 	fileNameOnly      bool
 	fileExtension     string
-	fileCategories    string
+	fileCategories    []string
 	includeHighlights bool
 }
 
@@ -135,7 +135,7 @@ func SearchFileExtension(ext string) SearchOpt {
 		return opt
 	}
 }
-func SearchCategories(cat string) SearchOpt {
+func SearchCategories(cat ...string) SearchOpt {
 	return func(opt *searchOpts) *searchOpts {
 		opt.fileCategories = cat
 		return opt
@@ -159,11 +159,11 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 		o(so)
 	}
 	type SO struct {
-		MaxResults     *int   `json:"max_results,omitempty"`
-		FileStatus     string `json:"file_status,omitempty"`
-		FilenameOnly   bool   `json:"filename_only,omitempty"`
-		FileExtensions string `json:"file_extensions,omitempty"`
-		FileCategories string `json:"file_categories,omitempty"`
+		MaxResults     *int     `json:"max_results,omitempty"`
+		FileStatus     string   `json:"file_status,omitempty"`
+		FilenameOnly   bool     `json:"filename_only,omitempty"`
+		FileExtensions string   `json:"file_extensions,omitempty"`
+		FileCategories []string `json:"file_categories,omitempty"`
 	}
 	sos := &SO{
 		MaxResults:     so.maxResults,

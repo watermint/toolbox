@@ -35,3 +35,7 @@ type UI interface {
 type Context interface {
 	es_context.Context
 }
+
+type QualityContext interface {
+	NoRetryOnError() bool
+}

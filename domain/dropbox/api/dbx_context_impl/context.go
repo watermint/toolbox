@@ -94,6 +94,16 @@ type ctxImpl struct {
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder dbx_request.Builder
+	noRetry bool
+}
+
+func (z ctxImpl) NoRetryOnError() bool {
+	return z.noRetry
+}
+
+func (z ctxImpl) NoRetry() dbx_context.Context {
+	z.noRetry = true
+	return z
 }
 
 func (z ctxImpl) UI() app_ui.UI {

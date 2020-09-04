@@ -16,24 +16,50 @@ const (
 
 func NewBar(opts ...mpb.ContainerOption) Progress {
 	return &barImpl{
-		barLock:   sync.Mutex{},
-		barBatch:  make(map[string]*mpb.Bar),
-		barTask:   make(map[string]*mpb.Bar),
-		container: mpb.New(opts...),
+		barLock:       sync.Mutex{},
+		barBatch:      make(map[string]*mpb.Bar),
+		barTask:       make(map[string]*mpb.Bar),
+		barTotalTask:  make(map[string]int64),
+		barTotalBatch: make(map[string]int64),
+		barOpts:       opts,
+		container:     mpb.New(opts...),
 	}
 }
 
 type barImpl struct {
-	barLock     sync.Mutex
-	barTask     map[string]*mpb.Bar
-	barBatch    map[string]*mpb.Bar
-	container   *mpb.Progress
-	lastRefresh time.Time
+	barLock       sync.Mutex
+	barTask       map[string]*mpb.Bar
+	barBatch      map[string]*mpb.Bar
+	barTotalTask  map[string]int64
+	barTotalBatch map[string]int64
+	barOpts       []mpb.ContainerOption
+	container     *mpb.Progress
+	lastRefresh   time.Time
+}
+
+func (z *barImpl) Flush() {
+	z.barLock.Lock()
+	defer z.barLock.Unlock()
+
+	for k, b := range z.barTask {
+		b.SetTotal(z.barTotalTask[k], true)
+	}
+	for k, b := range z.barBatch {
+		b.SetTotal(z.barTotalBatch[k], true)
+	}
+
+	z.barBatch = make(map[string]*mpb.Bar)
+	z.barTask = make(map[string]*mpb.Bar)
+	z.barTotalTask = make(map[string]int64)
+	z.barTotalBatch = make(map[string]int64)
+	z.container.Wait()
+
+	z.container = mpb.New(z.barOpts...)
 }
 
 func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) *mpb.Bar {
 	mouldName := mouldId
-	digestLen := 16
+	digestLen := 24
 	if len(mouldName) > digestLen {
 		mouldName = mouldName[len(mouldName)-digestLen:]
 	}
@@ -42,9 +68,13 @@ func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) *mpb.
 		mpb.PrependDecorators(
 			decor.Name(mouldName+" ", decor.WC{W: digestLen}),
 			decor.Name(typeName+" ", decor.WC{W: 5}),
+			decor.Elapsed(decor.ET_STYLE_MMSS),
 		),
 		mpb.AppendDecorators(
-			decor.Counters(0, "%d / %d"),
+			decor.Counters(0, " %d / %d "),
+			decor.OnComplete(
+				decor.Spinner(mpb.DefaultSpinnerStyle), "DONE",
+			),
 		),
 	)
 }
@@ -69,6 +99,9 @@ func (z *barImpl) onChange(mouldId, batchId string, stat eq_stat.Stat) {
 
 	batchCompleted, batchTotal := stat.StatBatch(mouldId)
 	taskCompleted, taskTotal := stat.StatTask(mouldId)
+
+	z.barTotalBatch[mouldId] = int64(batchTotal)
+	z.barTotalTask[mouldId] = int64(taskTotal)
 
 	barTask, barBatch, newBar := z.noLockGetBar(mouldId, taskTotal, batchTotal)
 

@@ -91,6 +91,12 @@ func (z *conImpl) Wait() {
 	l.Debug("Waiting for Bundle close")
 	z.bundle.Close()
 	l.Debug("Waiting for Bundle close: Done")
+
+	l.Debug("Flush progress bars")
+	if z.opts.progress != nil {
+		z.opts.progress.Flush()
+	}
+	l.Debug("Flush progress bars: Done")
 }
 
 func (z *conImpl) Suspend() (session eq_bundle.Session, err error) {

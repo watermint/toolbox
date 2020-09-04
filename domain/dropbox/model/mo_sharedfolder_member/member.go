@@ -30,12 +30,18 @@ type Member interface {
 	// Returns "true" when the member is in the same team.
 	// "false" when the member is not in the same team. Empty string if it's unknown.
 	SameTeam() string
+
+	Metadata() *Metadata
 }
 
 type Metadata struct {
 	Raw              json.RawMessage
 	EntryAccessType  string `path:"access_type.\\.tag" json:"access_type"`
 	EntryIsInherited bool   `path:"is_inherited" json:"is_inherited"`
+}
+
+func (z *Metadata) Metadata() *Metadata {
+	return z
 }
 
 func (z *Metadata) SameTeam() string {
@@ -125,6 +131,16 @@ type User struct {
 	TeamMemberId  string `path:"user.team_member_id" json:"team_member_id"`
 }
 
+func (z *User) Metadata() *Metadata {
+	m := &Metadata{}
+	if err := api_parser.ParseModelRaw(m, z.Raw); err != nil {
+		l := esl.Default()
+		l.Warn("Unable to convert into metadata", esl.Error(err))
+		panic("internal error")
+	}
+	return m
+}
+
 func (z *User) SameTeam() string {
 	return z.EntrySameTeam
 }
@@ -175,6 +191,16 @@ type Group struct {
 	MemberCount     int    `path:"group.member_count" json:"member_count"`
 }
 
+func (z *Group) Metadata() *Metadata {
+	m := &Metadata{}
+	if err := api_parser.ParseModelRaw(m, z.Raw); err != nil {
+		l := esl.Default()
+		l.Warn("Unable to convert into metadata", esl.Error(err))
+		panic("internal error")
+	}
+	return m
+}
+
 func (z *Group) SameTeam() string {
 	return z.EntrySameTeam
 }
@@ -216,6 +242,16 @@ type Invitee struct {
 	IsSameTeam bool `path:"user.same_team" json:"is_same_team"`
 	// string form of IsSameTeam. Returns empty string if `same_team` attr is not found.
 	EntrySameTeam string `path:"user.same_team" json:"same_team"`
+}
+
+func (z *Invitee) Metadata() *Metadata {
+	m := &Metadata{}
+	if err := api_parser.ParseModelRaw(m, z.Raw); err != nil {
+		l := esl.Default()
+		l.Warn("Unable to convert into metadata", esl.Error(err))
+		panic("internal error")
+	}
+	return m
 }
 
 func (z *Invitee) SameTeam() string {

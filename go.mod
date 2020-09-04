@@ -40,6 +40,7 @@ require (
 	github.com/vbauerster/mpb/v5 v5.3.0
 	github.com/watermint/bwlimit v0.0.0-20170711090810-815207958550
 	go.uber.org/atomic v1.6.0
+	go.uber.org/multierr v1.5.0
 	go.uber.org/zap v1.15.0
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8

@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
+	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -24,7 +25,7 @@ func newQueue(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_worksp
 		//		mpb.WithOutput(es_stdout.NewDefaultOut(z.feature)),
 		mpb.WithWidth(72),
 	)
-	if fe.IsQuiet() {
+	if fe.IsQuiet() || fe.UIFormat() == app_opt.OutputJson {
 		progress = nil
 	}
 

@@ -31,6 +31,7 @@ type AsyncContext interface {
 
 type Context interface {
 	api_context.Context
+	api_context.QualityContext
 	api_context.UI
 
 	Async(endpoint string, d ...api_request.RequestDatum) dbx_async.Async
@@ -44,6 +45,7 @@ type Context interface {
 	AsAdminId(teamMemberId string) Context
 	WithPath(pathRoot PathRoot) Context
 	NoAuth() Context
+	NoRetry() Context
 }
 
 type PathRoot interface {

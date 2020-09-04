@@ -62,6 +62,13 @@ func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res
 			l.Debug("Abort retry due to retries exceeds retry limit")
 			return res
 		}
+
+		if qc, ok := ctx.(api_context.QualityContext); ok {
+			if qc.NoRetryOnError() {
+				l.Debug("No retry", esl.Error(er))
+				return res
+			}
+		}
 		l.Debug("Retrying", esl.Error(er))
 		return z.Call(ctx, req)
 	}
