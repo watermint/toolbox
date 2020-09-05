@@ -11,13 +11,45 @@ import (
 )
 
 type Files interface {
-	Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err error)
+	Resolve(path mo_path.DropboxPath, opts ...ResolveOpt) (entry mo_file.Entry, err error)
 	List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error)
-	ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
+	ListEach(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 
 	Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error)
 	Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 	Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error)
+}
+
+type ResolveOpt func(opt ResolveOpts) ResolveOpts
+
+type ResolveOpts struct {
+	Path                            string `json:"path"`
+	IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
+	IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
+}
+
+func (z ResolveOpts) Apply(opts []ResolveOpt) ResolveOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+func ResolveIncludeDeleted(enabled bool) ResolveOpt {
+	return func(opt ResolveOpts) ResolveOpts {
+		opt.IncludeDeleted = enabled
+		return opt
+	}
+}
+func ResolveIncludeHasExplicitSharedMembers(enabled bool) ResolveOpt {
+	return func(opt ResolveOpts) ResolveOpts {
+		opt.IncludeDeleted = enabled
+		return opt
+	}
 }
 
 type ListOpt func(opt ListOpts) ListOpts
@@ -258,16 +290,8 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 	}
 }
 
-func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
-	p := struct {
-		Path                            string `json:"path"`
-		IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
-		IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
-	}{
-		Path:                            path.Path(),
-		IncludeHasExplicitSharedMembers: true,
-		IncludeDeleted:                  false,
-	}
+func (z *filesImpl) Resolve(path mo_path.DropboxPath, opts ...ResolveOpt) (entry mo_file.Entry, err error) {
+	p := ResolveOpts{Path: path.Path()}.Apply(opts)
 	res := z.ctx.Post("files/get_metadata", api_request.Param(p))
 	if err, fail := res.Failure(); fail {
 		return nil, err
@@ -279,7 +303,7 @@ func (z *filesImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, err 
 
 func (z *filesImpl) List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error) {
 	entries = make([]mo_file.Entry, 0)
-	err = z.ListChunked(path, func(entry mo_file.Entry) {
+	err = z.ListEach(path, func(entry mo_file.Entry) {
 		entries = append(entries, entry)
 	}, opts...)
 	if err != nil {
@@ -288,7 +312,7 @@ func (z *filesImpl) List(path mo_path.DropboxPath, opts ...ListOpt) (entries []m
 	return entries, nil
 }
 
-func (z *filesImpl) ListChunked(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
+func (z *filesImpl) ListEach(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
 	p := MakeListOpts(path, opts)
 
 	res := z.ctx.List("files/list_folder", api_request.Param(p)).Call(

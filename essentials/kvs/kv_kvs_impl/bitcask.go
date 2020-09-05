@@ -73,7 +73,7 @@ func (z *bcImpl) PutRaw(key, value []byte) error {
 }
 
 func (z *bcImpl) getOp(opName string, key string, unmarshal func(v []byte) error) (err error) {
-	l := z.log()
+	l := z.log().With(esl.String("opName", opName), esl.String("key", key))
 	v, err := z.db.Get([]byte(key))
 	if err != nil {
 		l.Debug("Get failed", esl.Error(err))

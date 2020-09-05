@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
@@ -129,8 +130,43 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 	l := z.ctl.Log().With(esl.Any("teamfolder", teamfolder))
 	l.Debug("Scan team folder")
 	teamFolderName := ""
-	l.Debug("lookup team folder name")
 
+	traverse := make(map[string]bool)
+	deleted := make(map[string]bool)
+	for _, d := range teamfolder.Descendants {
+		traverse[d] = false
+		deleted[d] = false
+	}
+	completed := func() bool {
+		for _, t := range traverse {
+			if !t {
+				return false
+			}
+		}
+		return true
+	}
+
+	integrityTest := func() {
+		// Integrity test
+		for _, descendant := range teamfolder.Descendants {
+			nested := &TeamFolderNested{}
+			err0 := storageNested.View(func(kvs kv_kvs.Kvs) error {
+				return kvs.GetJsonModel(descendant, nested)
+			})
+			if err0 != nil {
+				if deleted[descendant] {
+					l.Debug("Deleted descendant", esl.String("descendant", descendant))
+				} else {
+					l.Debug("Not found", esl.String("teamfolderId", teamfolder.NamespaceId),
+						esl.String("namespaceId", descendant))
+				}
+			}
+		}
+	}
+
+	defer integrityTest()
+
+	l.Debug("lookup team folder name")
 	err = storageMeta.View(func(kvs kv_kvs.Kvs) error {
 		tf := &mo_sharedfolder.SharedFolder{}
 		if err := kvs.GetJsonModel(teamfolder.NamespaceId, tf); err != nil {
@@ -152,21 +188,37 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 		})
 	})
 	if err != nil {
+		l.Debug("Unable to store team folder data")
 		return err
 	}
 
-	l.Debug("search nested folders", esl.Strings("descendants", teamfolder.Descendants))
-	traverse := make(map[string]bool)
+	l.Debug("Looking for descendant folder status")
 	for _, d := range teamfolder.Descendants {
-		traverse[d] = false
-	}
-	completed := func() bool {
-		for _, t := range traverse {
-			if !t {
-				return false
+		ll := l.With(esl.String("descendant", d))
+		ll.Debug("Retrieve file info")
+		info, err := sv_file.NewFiles(z.ctx.AsAdminId(admin.TeamMemberId)).Resolve(
+			mo_path.NewDropboxPath("ns:"+d),
+			sv_file.ResolveIncludeDeleted(true),
+		)
+		if err != nil {
+			dbxErr := dbx_error.NewErrors(err)
+			if dbxErr.Path().IsNotFound() {
+				ll.Debug("Assuming the folder is deleted", esl.String("response", dbxErr.Summary()))
+				traverse[d] = true
+				deleted[d] = true
+			} else {
+				ll.Debug("Unable to retrieve folder info", esl.Error(err))
 			}
+			continue
 		}
-		return true
+		if _, ok := info.Deleted(); ok {
+			ll.Debug("The folder is deleted, mark as traversed", esl.Any("deleted", info))
+			traverse[d] = true
+			deleted[d] = true
+		}
+		if f, ok := info.Folder(); ok {
+			ll.Debug("Folder info found", esl.Any("folderInfo", f))
+		}
 	}
 
 	// looking for team member id who have access to the team folder.
@@ -175,6 +227,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 			return
 		}
 
+		l.Debug("Looking for root folder members")
 		rootMemberTeamMemberId := ""
 		rootMembers, err := sv_sharedfolder_member.NewBySharedFolderId(z.ctx.AsAdminId(admin.TeamMemberId), teamfolder.NamespaceId).List()
 		if err != nil {
@@ -182,6 +235,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 			return
 		}
 
+		l.Debug("Scan folder members")
 		for _, member := range rootMembers {
 			if u, ok := member.User(); ok {
 				if u.TeamMemberId != "" && u.IsSameTeam {
@@ -206,28 +260,36 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 			}
 		}
 
+		if rootMemberTeamMemberId == "" {
+			l.Debug("no root member found, skip")
+			return
+		}
+
 		ctx := z.ctx.WithPath(dbx_context.Namespace(teamfolder.NamespaceId)).AsMemberId(rootMemberTeamMemberId).NoRetry()
 
 		for _, descendantNamespaceId := range teamfolder.Descendants {
+			ll := l.With(esl.String("descendant", descendantNamespaceId))
+			ll.Debug("Retrieve metadata for search")
 			descendant := &mo_sharedfolder.SharedFolder{}
 			err = storageMeta.View(func(kvs kv_kvs.Kvs) error {
 				return kvs.GetJsonModel(descendantNamespaceId, descendant)
 			})
 			if err != nil {
-				l.Debug("Unable to unmarshal", esl.Error(err))
+				ll.Debug("Unable to unmarshal", esl.Error(err))
 				continue
 			}
 
+			ll.Debug("Search")
 			matches, err := sv_file.NewFiles(ctx).Search(descendant.Name, sv_file.SearchFileNameOnly(), sv_file.SearchCategories("folder"))
 			if err != nil {
-				l.Debug("Unable to search", esl.Error(err))
+				ll.Debug("Unable to search", esl.Error(err))
 				continue
 			}
 
 			for _, match := range matches {
 				entry := match.Concrete()
 				if entry.SharedFolderId == descendantNamespaceId {
-					l.Debug("Descendant found")
+					ll.Debug("Descendant found")
 					traverse[descendant.SharedFolderId] = true
 					err := storageNested.Update(func(kvs kv_kvs.Kvs) error {
 						return kvs.PutJsonModel(descendantNamespaceId, &TeamFolderNested{
@@ -237,7 +299,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 						})
 					})
 					if err != nil {
-						l.Debug("Unable to store search result", esl.Error(err))
+						ll.Debug("Unable to store search result", esl.Error(err))
 					}
 					break
 				}
@@ -260,23 +322,28 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 
 	var scan func(path mo_path.DropboxPath, depth, maxDepth int) error
 	scan = func(path mo_path.DropboxPath, depth, maxDepth int) error {
+		ll := l.With(esl.String("path", path.Path()), esl.Int("depth", depth), esl.Int("maxDepth", maxDepth))
 		if maxDepth < depth {
-			l.Debug("Defer scan", esl.String("path", path.Path()))
+			ll.Debug("Defer scan", esl.String("path", path.Path()))
 			scanDeferred = append(scanDeferred, path)
 			return nil
 		}
 
+		ll.Debug("Scan path")
 		ctx := z.ctx.WithPath(dbx_context.Namespace(teamfolder.NamespaceId)).AsAdminId(admin.TeamMemberId)
 		entries, err := sv_file.NewFiles(ctx).List(path)
 		if err != nil {
 			l.Debug("Unable to retrieve entries", esl.Error(err), esl.String("path", path.Path()))
 			return err
 		}
+		ll.Debug("Entries", esl.Any("entries", entries))
 
 		// Mark nested folders
 		for _, entry := range entries {
 			if f, ok := entry.Folder(); ok {
 				if f.EntrySharedFolderId != "" {
+					lll := ll.With(esl.Any("folder", f))
+					lll.Debug("Descendant found")
 					traverse[f.EntrySharedFolderId] = true
 					rp := path.ChildPath(f.EntryName)
 					err := storageNested.Update(func(kvs kv_kvs.Kvs) error {
@@ -287,6 +354,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 						})
 					})
 					if err != nil {
+						lll.Debug("Unable to store", esl.Error(err))
 						return err
 					}
 				}
@@ -295,18 +363,22 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 
 		// Return if the scan completed
 		if completed() {
+			ll.Debug("Scan completed")
 			return ErrorScanCompleted
 		}
 
 		// Return if the time exceed timeout
 		if time.Now().After(timeout) {
+			ll.Debug("Scan timeout")
 			return ErrorScanTimeout
 		}
 
 		// Dive into descendants
 		for _, entry := range entries {
 			if f, ok := entry.Folder(); ok {
+				ll.Debug("Dive into descendant", esl.Any("folder", f))
 				if err := scan(path.ChildPath(f.Name()), depth+1, maxDepth); err != nil {
+					ll.Debug("Got an error", esl.Error(err))
 					return err
 				}
 			}
@@ -326,16 +398,18 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 				ll := l.With(esl.String("descendant", nsid))
 				ll.Debug("Ensure descendants")
 				if ok {
+					ll.Debug("Skip traversed folder")
 					continue
 				}
 
-				l.Debug("Retrieve shared folder metadata")
+				ll.Debug("Retrieve shared folder metadata")
 				sf, err := sv_sharedfolder.New(z.ctx).Resolve(nsid)
 				if err != nil {
-					l.Debug("Unable to retrieve folder metadata", esl.Error(err))
+					ll.Debug("Unable to retrieve folder metadata", esl.Error(err))
 					return err
 				}
 
+				ll.Debug("Store shared folder data", esl.Any("sf", sf))
 				err = storageNested.Update(func(kvs kv_kvs.Kvs) error {
 					return kvs.PutJsonModel(sf.SharedFolderId, &TeamFolderNested{
 						NamespaceId:   sf.SharedFolderId,
@@ -344,6 +418,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 					})
 				})
 				if err != nil {
+					ll.Debug("Unable to store data", esl.Error(err))
 					return err
 				}
 			}
@@ -361,6 +436,8 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 		return nil
 	}
 
+	l.Debug("search nested folders", esl.Strings("descendants", teamfolder.Descendants), esl.Time("timeout", timeout))
+
 	// Scan first two levels
 	if errScan := handleScanResult(scan(mo_path.NewDropboxPath(""), 1, 2)); errScan != nil {
 		l.Debug("Unable to scan", esl.Error(errScan))
@@ -369,11 +446,13 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 
 	// If not found in first two levels, search
 	if !completed() {
+		l.Debug("scan by search")
 		scanBySearch()
 	}
 
 	// If still not found, search the entire tree
 	if !completed() {
+		l.Debug("scan deferred", esl.Int("deferred", len(scanDeferred)))
 		for _, dp := range scanDeferred {
 			l.Debug("Scanning deferred path", esl.String("path", dp.Path()))
 			if errScan := handleScanResult(scan(dp, 1, math.MaxInt32)); errScan != nil {
@@ -489,14 +568,15 @@ func (z scanImpl) extractTeamFolder(entry *TeamFolderEntry, storageMeta, storage
 
 	descendantMetadata := make(map[string]*mo_sharedfolder.SharedFolder)
 	for _, descendant := range entry.Descendants {
-		l.Debug("Compose Descendant", esl.String("descendant", descendant))
+		ll := l.With(esl.String("descendant", descendant))
+		ll.Debug("Compose Descendant")
 		meta := &mo_sharedfolder.SharedFolder{}
 		err = storageMeta.View(func(kvs kv_kvs.Kvs) error {
 			return kvs.GetJsonModel(descendant, meta)
 		})
 		if err != nil {
-			l.Debug("Unable to retrieve descendant data", esl.Error(err))
-			return err
+			ll.Debug("Unable to retrieve descendant data, skip", esl.Error(err))
+			continue
 		}
 
 		n := &TeamFolderNested{}
@@ -504,8 +584,8 @@ func (z scanImpl) extractTeamFolder(entry *TeamFolderEntry, storageMeta, storage
 			return kvs.GetJsonModel(descendant, n)
 		})
 		if err != nil {
-			l.Debug("Unable to retrieve descendant relative path", esl.Error(err))
-			return err
+			ll.Debug("Unable to retrieve descendant relative path, assuming the folder is deleted", esl.Error(err))
+			continue
 		}
 
 		descendantMetadata[n.RelativePath] = meta

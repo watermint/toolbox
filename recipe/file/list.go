@@ -47,7 +47,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	err := sv_file.NewFiles(ctx).ListChunked(z.Path, func(entry mo_file.Entry) {
+	err := sv_file.NewFiles(ctx).ListEach(z.Path, func(entry mo_file.Entry) {
 		z.FileList.Row(entry.Concrete())
 	}, opts...)
 	if err != nil {

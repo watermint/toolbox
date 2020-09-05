@@ -11,7 +11,7 @@ import (
 func TestFilesImpl_ListChunked(t *testing.T) {
 	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := NewFiles(ctx)
-		err := sv.ListChunked(qtr_endtoend.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
+		err := sv.ListEach(qtr_endtoend.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
 			Recursive(true),
 			IncludeDeleted(true),
 			IncludeHasExplicitSharedMembers(true),

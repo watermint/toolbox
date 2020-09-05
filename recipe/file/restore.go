@@ -121,7 +121,7 @@ func (z *Restore) Exec(c app_control.Control) error {
 		}
 	}
 
-	lastErr := sv_file.NewFiles(ctx).ListChunked(
+	lastErr := sv_file.NewFiles(ctx).ListEach(
 		z.Path,
 		handler,
 		sv_file.IncludeDeleted(true),
