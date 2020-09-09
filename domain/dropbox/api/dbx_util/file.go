@@ -48,8 +48,39 @@ func IsFileNameIgnored(filename string) bool {
 	return false
 }
 
+func ContentHash(f io.ReadCloser, totalBytes int64) (string, error) {
+	l := esl.Default().With(esl.Int64("totalBytes", totalBytes))
+	var loadedBytes int64
+
+	loadedBytes = 0
+	hashPerBlock := make([][32]byte, 0)
+
+	for (totalBytes - loadedBytes) > 0 {
+		r := io.LimitReader(f, contentHashBlockSize)
+		block := make([]byte, contentHashBlockSize)
+		readBytes, err := r.Read(block)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			l.Debug("unable to load data", esl.Error(err))
+			return "", err
+		}
+
+		h := sha256.Sum256(block[:readBytes])
+		hashPerBlock = append(hashPerBlock, h)
+	}
+
+	concatenated := make([]byte, 0)
+	for _, h := range hashPerBlock {
+		concatenated = append(concatenated, h[:]...)
+	}
+	h := sha256.Sum256(concatenated)
+	return hex.EncodeToString(h[:]), nil
+}
+
 // Calculate File content hash
-func ContentHash(path string) (string, error) {
+func FileContentHash(path string) (string, error) {
 	l := esl.Default().With(esl.String("path", path))
 
 	info, err := os.Lstat(path)
@@ -66,34 +97,9 @@ func ContentHash(path string) (string, error) {
 		l.Debug("Unable to open file", esl.Error(err))
 		return "", err
 	}
-	defer f.Close()
+	defer func() {
+		_ = f.Close()
+	}()
 
-	var loadedBytes, totalBytes int64
-
-	loadedBytes = 0
-	totalBytes = info.Size()
-	hashPerBlock := make([][32]byte, 0)
-
-	for (totalBytes - loadedBytes) > 0 {
-		r := io.LimitReader(f, contentHashBlockSize)
-		block := make([]byte, contentHashBlockSize)
-		readBytes, err := r.Read(block)
-		if err == io.EOF {
-			break
-		}
-		if err != nil {
-			l.Debug("unable to load file", esl.Error(err))
-			return "", err
-		}
-
-		h := sha256.Sum256(block[:readBytes])
-		hashPerBlock = append(hashPerBlock, h)
-	}
-
-	concatenated := make([]byte, 0)
-	for _, h := range hashPerBlock {
-		concatenated = append(concatenated, h[:]...)
-	}
-	h := sha256.Sum256(concatenated)
-	return hex.EncodeToString(h[:]), nil
+	return ContentHash(f, info.Size())
 }

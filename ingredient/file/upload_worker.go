@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
+	"github.com/watermint/toolbox/essentials/file/es_fileentry"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -68,7 +69,7 @@ func (z *UploadWorker) Exec() (err error) {
 
 	// Verify proceed
 	if z.dbxEntry != nil {
-		same, err := es_filecompare.Compare(l, z.localFilePath, info, z.dbxEntry)
+		same, err := es_filecompare.Compare(l, es_fileentry.NewLocalEntry(filepath.Dir(z.localFilePath), info), z.dbxEntry)
 		if err != nil {
 			z.upload.Uploaded.Failure(err, upRow)
 			z.status.error()

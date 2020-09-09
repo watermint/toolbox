@@ -124,7 +124,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 	for name, lf := range localFiles {
 		lfp := localPath(lf)
 		calcHash := func(p string) string {
-			hash, err := dbx_util.ContentHash(p)
+			hash, err := dbx_util.FileContentHash(p)
 			if err != nil {
 				hash = "<failed to calculate content hash>"
 				l.Debug("Unable to calculate hash", esl.String("localPath", p), esl.Error(err))

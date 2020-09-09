@@ -11,7 +11,7 @@ func TestContentHash(t *testing.T) {
 		t.Error("Unable to create temp file", err)
 	}
 
-	h, err := ContentHash(tmpf.Name())
+	h, err := FileContentHash(tmpf.Name())
 	if err != nil {
 		t.Error("Unable to read file", err)
 	}
@@ -23,7 +23,7 @@ func TestContentHash(t *testing.T) {
 		t.Error("Unabble to write content", err)
 	}
 	hashHello := "70bc18bef5ae66b72d1995f8db90a583a60d77b4066e4653f1cead613025861c"
-	h, err = ContentHash(tmpf.Name())
+	h, err = FileContentHash(tmpf.Name())
 	if err != nil {
 		t.Error("Unable to read file", err)
 	}
@@ -34,7 +34,7 @@ func TestContentHash(t *testing.T) {
 	for i := 0; i < contentHashBlockSize/2; i++ {
 		_, err = tmpf.WriteString("COMPARE")
 	}
-	h, err = ContentHash(tmpf.Name())
+	h, err = FileContentHash(tmpf.Name())
 	if err != nil {
 		t.Error("Unable to read file", err)
 	}

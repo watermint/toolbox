@@ -20,6 +20,9 @@ func (z DropboxError) HasPrefix(prefix string) bool {
 }
 
 func NewErrors(err error) Errors {
+	if err == nil {
+		return nil
+	}
 	if de, ok := err.(*DropboxError); ok {
 		return &errorsImpl{de: *de}
 	} else {
@@ -32,6 +35,12 @@ type Errors interface {
 	Access() ErrorAccess
 	Path() ErrorEndpointPath
 	Endpoint() ErrorEndpoint
+
+	// too_many_write_operations
+	IsTooManyWriteOperations() bool
+	// too_many_files
+	IsTooManyFiles() bool
+
 	Summary() string
 }
 
@@ -67,6 +76,10 @@ type ErrorEndpointPath interface {
 	IsNotFound() bool
 	// The given path does not satisfy the required path format
 	IsMalformedPath() bool
+	// Couldn't write to the target path because there was something in the way.
+	IsConflict() bool
+	// There are too many write operations in user's Dropbox. Please retry this request.
+	IsTooManyWriteOperations() bool
 }
 
 // 409: Other endpoint specific error
@@ -76,6 +89,14 @@ type ErrorEndpoint interface {
 
 type errorsImpl struct {
 	de DropboxError
+}
+
+func (z errorsImpl) IsTooManyFiles() bool {
+	return z.de.HasPrefix("too_many_files")
+}
+
+func (z errorsImpl) IsTooManyWriteOperations() bool {
+	return z.de.HasPrefix("too_many_write_operations") || z.Path().IsTooManyWriteOperations()
 }
 
 func (z errorsImpl) Summary() string {

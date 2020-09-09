@@ -7,6 +7,7 @@ import (
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
 	recipeconnect "github.com/watermint/toolbox/recipe/connect"
+	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
@@ -94,6 +95,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconnect.BusinessInfo{},
 		&recipeconnect.BusinessMgmt{},
 		&recipeconnect.UserFile{},
+		&recipedevbenchmark.Upload{},
 		&recipedevbuild.Catalogue{},
 		&recipedevbuild.Doc{},
 		&recipedevbuild.License{},

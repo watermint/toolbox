@@ -88,6 +88,7 @@ version       Show version
 | Command                                                                 | Description                                      |
 |-------------------------------------------------------------------------|--------------------------------------------------|
 | [connect user_file](doc/generated/connect-user_file.md)                 | Connect to user file access                      |
+| [dev benchmark upload](doc/generated/dev-benchmark-upload.md)           | Upload benchmark                                 |
 | [file compare account](doc/generated/file-compare-account.md)           | Compare files of two accounts                    |
 | [file compare local](doc/generated/file-compare-local.md)               | Compare local folders and Dropbox folders        |
 | [file copy](doc/generated/file-copy.md)                                 | Copy files                                       |

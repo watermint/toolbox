@@ -1,6 +1,7 @@
 package eq_sequence
 
 import (
+	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/infra/control/app_ambient"
 )
@@ -23,10 +24,34 @@ type Stage interface {
 // Batch sequence
 type Sequence interface {
 	// Do single stage
-	Do(exec func(s Stage))
+	Do(exec func(s Stage), opts ...DoOpt)
 
 	// Do single stage, then returns next stage.
-	DoThen(exec func(s Stage)) Sequence
+	DoThen(exec func(s Stage), opts ...DoOpt) Sequence
+}
+
+type DoOpts struct {
+	ErrorHandler eq_mould.ErrorHandler
+}
+
+func (z DoOpts) Apply(opts []DoOpt) DoOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+type DoOpt func(o DoOpts) DoOpts
+
+func ErrorHandler(h eq_mould.ErrorHandler) DoOpt {
+	return func(o DoOpts) DoOpts {
+		o.ErrorHandler = h
+		return o
+	}
 }
 
 func newStg(d eq_queue.Definition) Stage {
@@ -51,12 +76,18 @@ type seqImpl struct {
 	opt []eq_queue.Opt
 }
 
-func (z *seqImpl) Do(exec func(s Stage)) {
-	_ = z.DoThen(exec)
+func (z *seqImpl) Do(exec func(s Stage), opts ...DoOpt) {
+	_ = z.DoThen(exec, opts...)
 }
 
-func (z *seqImpl) DoThen(exec func(s Stage)) Sequence {
-	d := eq_queue.New(z.opt...)
+func (z *seqImpl) DoThen(exec func(s Stage), opts ...DoOpt) Sequence {
+	dOps := DoOpts{}.Apply(opts)
+	qOps := make([]eq_queue.Opt, 0)
+	qOps = append(qOps, z.opt...)
+	if dOps.ErrorHandler != nil {
+		qOps = append(qOps, eq_queue.ErrorHandler(dOps.ErrorHandler))
+	}
+	d := eq_queue.New(qOps...)
 	s := newStg(d)
 	app_ambient.Current.SuppressProgress()
 	exec(s)

@@ -23,7 +23,7 @@ type Mould interface {
 
 type ErrorHandler func(err error, mouldId, batchId string, p interface{})
 
-func New(mouldId string, s eq_bundle.Bundle, eh ErrorHandler, f interface{}, ctx ...interface{}) Mould {
+func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorHandler, f interface{}, ctx ...interface{}) Mould {
 	l := esl.Default().With(esl.String("mouldId", mouldId))
 
 	if s == nil {
@@ -94,7 +94,7 @@ func New(mouldId string, s eq_bundle.Bundle, eh ErrorHandler, f interface{}, ctx
 		paramTypeKind: paramTypeKind,
 		paramTypeOrig: paramTypeOrig,
 		hasErrorOut:   hasErrorOut,
-		errorHandler:  eh,
+		errorHandlers: ehs,
 	}
 }
 
@@ -113,7 +113,7 @@ type mouldImpl struct {
 	paramTypeKind reflect.Kind
 	paramIsPtr    bool
 	hasErrorOut   bool
-	errorHandler  ErrorHandler
+	errorHandlers []ErrorHandler
 }
 
 func (z mouldImpl) MouldId() string {
@@ -164,6 +164,15 @@ func (z mouldImpl) Pour(p interface{}) {
 	z.storage.Enqueue(d)
 }
 
+func (z mouldImpl) reportError(err error, mouldId, batchId string, p interface{}) {
+	if z.errorHandlers == nil {
+		return
+	}
+	for _, h := range z.errorHandlers {
+		h(err, mouldId, batchId, p)
+	}
+}
+
 func (z mouldImpl) Process(b eq_bundle.Barrel) {
 	l := z.logger()
 	p := reflect.New(z.paramType).Interface()
@@ -195,10 +204,7 @@ func (z mouldImpl) Process(b eq_bundle.Barrel) {
 			l.Debug("Looks like success")
 		} else if outErr, ok := outVal.(error); ok {
 			l.Debug("Error form the processor", esl.Error(outErr))
-			if z.errorHandler != nil {
-				l.Debug("Call error handler")
-				z.errorHandler(outErr, b.MouldId, b.BatchId, p)
-			}
+			z.reportError(outErr, b.MouldId, b.BatchId, p)
 		} else {
 			l.Debug("Unknown value type", esl.Any("out", outVal))
 		}

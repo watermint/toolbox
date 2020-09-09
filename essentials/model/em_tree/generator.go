@@ -8,19 +8,25 @@ import (
 )
 
 type Generator interface {
-	Generate(opt ...Opt) (root Node)
+	Generate(opt ...Opt) (root Folder)
+
+	Update(root Node, numTries int, opt ...Opt)
 }
 
-func New() Generator {
+func NewGenerator() Generator {
 	return genImpl{}
 }
 
 type genImpl struct {
 }
 
-func (z genImpl) Generate(opt ...Opt) (root Node) {
+func (z genImpl) Update(root Node, numTries int, opt ...Opt) {
+
+}
+
+func (z genImpl) Generate(opt ...Opt) (root Folder) {
 	opts := Default().Apply(opt)
-	return NewFolder(opts.seed, 0, 0, 0, opts)
+	return NewGeneratedFolder(opts.seed, 0, 0, 0, opts)
 }
 
 func NameByNodeId(nodeId int64) string {
@@ -43,7 +49,7 @@ func TimeByNodeId(nodeId int64, opts Opts) time.Time {
 	return time.Unix(r.Int63n(opts.fileDateRangeMax.Unix()-opts.fileDateRangeMin.Unix())+opts.fileDateRangeMin.Unix(), 0)
 }
 
-func NewFile(nodeId int64, opts Opts) File {
+func NewGeneratedFile(nodeId int64, opts Opts) File {
 	return &fileNode{
 		name:  NameByNodeId(nodeId),
 		size:  SizeByNodeId(nodeId, opts),
@@ -51,7 +57,7 @@ func NewFile(nodeId int64, opts Opts) File {
 	}
 }
 
-func NewFolder(nodeId int64, size int64, depth, nodes int, opts Opts) Folder {
+func NewGeneratedFolder(nodeId int64, size int64, depth, nodes int, opts Opts) Folder {
 	r := rand.New(rand.NewSource(nodeId))
 	descendants := make([]Node, 0)
 	ratio := r.Float32()
@@ -71,12 +77,12 @@ func NewFolder(nodeId int64, size int64, depth, nodes int, opts Opts) Folder {
 	var folderSize int64
 
 	for i := 0; i < numFiles; i++ {
-		file := NewFile(r.Int63(), opts)
+		file := NewGeneratedFile(r.Int63(), opts)
 		folderSize += file.Size()
 		descendants = append(descendants, file)
 	}
 	for i := 0; i < numFolders; i++ {
-		folder := NewFolder(r.Int63(), folderSize+size, depth+1, nodes+numNodes, opts)
+		folder := NewGeneratedFolder(r.Int63(), folderSize+size, depth+1, nodes+numNodes, opts)
 		size += SumFileSize(folder)
 		nodes += SumNumNode(folder)
 		descendants = append(descendants, folder)
@@ -86,43 +92,4 @@ func NewFolder(nodeId int64, size int64, depth, nodes int, opts Opts) Folder {
 		name:        NameByNodeId(nodeId),
 		descendants: descendants,
 	}
-}
-
-type fileNode struct {
-	name  string
-	size  int64
-	mtime time.Time
-}
-
-func (z fileNode) Name() string {
-	return z.name
-}
-
-func (z fileNode) Type() NodeType {
-	return FileNode
-}
-
-func (z fileNode) Size() int64 {
-	return z.size
-}
-
-func (z fileNode) MTime() time.Time {
-	return z.mtime
-}
-
-type folderNode struct {
-	name        string
-	descendants []Node
-}
-
-func (z folderNode) Name() string {
-	return z.name
-}
-
-func (z folderNode) Type() NodeType {
-	return FolderNode
-}
-
-func (z folderNode) Descendants() []Node {
-	return z.descendants
 }

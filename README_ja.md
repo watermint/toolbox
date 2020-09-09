@@ -86,6 +86,7 @@ version       バージョン情報
 | コマンド                                                                   | 説明                                                               |
 |----------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                               |
+| [dev benchmark upload](doc/generated_ja/dev-benchmark-upload.md)           | Upload benchmark                                                   |
 | [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                             |
 | [file compare local](doc/generated_ja/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                 | ファイルをコピーします                                             |

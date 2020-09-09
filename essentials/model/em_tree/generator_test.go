@@ -7,7 +7,7 @@ import (
 )
 
 func TestGenImpl_Generate(t *testing.T) {
-	g := New()
+	g := NewGenerator()
 	opts := []Opt{
 		Depth(10),
 		NumNodes(10, 10000),
@@ -36,7 +36,7 @@ func TestGenImpl_Generate(t *testing.T) {
 			l.Info("File",
 				esl.String("path", p),
 				esl.Int64("size", n.Size()),
-				esl.Time("mtime", n.MTime()),
+				esl.Time("mtime", n.ModTime()),
 			)
 		case Folder:
 			l.Info("Folder",

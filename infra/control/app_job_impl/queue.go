@@ -1,7 +1,6 @@
 package app_job_impl
 
 import (
-	"github.com/vbauerster/mpb/v5"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
@@ -21,10 +20,7 @@ func newQueue(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_worksp
 	preservePath := wb.Workspace().KVS()
 	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
 	factory := eq_pipe.NewSimple(lg, preserve)
-	progress := eq_progress.NewBar(
-		//		mpb.WithOutput(es_stdout.NewDefaultOut(z.feature)),
-		mpb.WithWidth(72),
-	)
+	progress := eq_progress.NewBar()
 	if fe.IsQuiet() || fe.UIFormat() == app_opt.OutputJson {
 		progress = nil
 	}

@@ -77,8 +77,9 @@ func NumDescendant(min, max int) Opt {
 	}
 }
 
-func NumNodes(min, max int) Opt {
+func NumNodes(lambda, min, max int) Opt {
 	return func(o Opts) Opts {
+		o.numDescendantLambda = lambda
 		o.numNodesRangeMin = min
 		o.numNodesRangeMax = max
 		return o

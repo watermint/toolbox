@@ -19,10 +19,22 @@ type DropboxPath interface {
 	// Returns `/` if the path point to root.
 	LogicalPath() string
 
+	// Parent path. Returns same instance if it's a root path.
+	// NamespaceId may not be accurate.
+	ParentPath() DropboxPath
+
 	// Child path
 	ChildPath(elem ...string) DropboxPath
 
+	// Parent path
+	// Notice: parent namespace_id might be differ from actual. This path returns
+	// a same namespace_id of this instance.
+	Parent() DropboxPath
+
 	IsValid() bool
+
+	// Is root path
+	IsRoot() bool
 }
 
 type dropboxPathImpl struct {
@@ -30,6 +42,39 @@ type dropboxPathImpl struct {
 	id        string
 	path      string
 	pathEmpty bool
+}
+
+func (z *dropboxPathImpl) ParentPath() DropboxPath {
+	if z.IsRoot() {
+		return z
+	}
+
+	return &dropboxPathImpl{
+		ns:        z.ns,
+		id:        z.id,
+		path:      filepath.Dir(z.path),
+		pathEmpty: z.pathEmpty,
+	}
+}
+
+func (z *dropboxPathImpl) IsRoot() bool {
+	return z.path == "" || z.path == "/"
+}
+
+func (z *dropboxPathImpl) Parent() DropboxPath {
+	parentPath := func(path string) string {
+		if z.IsRoot() {
+			return ""
+		} else {
+			return filepath.ToSlash(filepath.Dir(path))
+		}
+	}
+	return &dropboxPathImpl{
+		ns:        z.ns,
+		id:        z.id,
+		path:      parentPath(z.path),
+		pathEmpty: z.pathEmpty,
+	}
 }
 
 func (z *dropboxPathImpl) IsValid() bool {
@@ -40,7 +85,7 @@ func (z *dropboxPathImpl) Value() string {
 	switch {
 	case z.ns != "":
 		// root of the namespace
-		if z.path == "" {
+		if z.IsRoot() {
 			return "ns:" + z.ns
 		}
 		// z.path always starts with '/' if it's not empty
@@ -48,14 +93,14 @@ func (z *dropboxPathImpl) Value() string {
 
 	case z.id != "":
 		// root of the folder id
-		if z.path == "" {
+		if z.IsRoot() {
 			return "id:" + z.id
 		}
 		// z.path always starts with '/' if it's not empty
 		return "id:" + z.id + z.path
 
 	default:
-		if z.path == "/" {
+		if z.IsRoot() {
 			return ""
 		} else {
 			return z.path
@@ -88,7 +133,7 @@ func (z *dropboxPathImpl) Id() (id string, exist bool) {
 }
 
 func (z *dropboxPathImpl) LogicalPath() string {
-	if z.path == "" {
+	if z.IsRoot() {
 		return "/"
 	}
 	return z.path

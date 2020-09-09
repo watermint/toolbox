@@ -3,6 +3,7 @@ package dbx_response_impl
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -25,6 +26,19 @@ func AssertResponse(res es_response.Response) es_response.Response {
 		if strings.HasPrefix(res.Alt().BodyString(), "<!DOCTYPE html>") {
 			l.Debug("Bad response from server, assume that can retry", esl.String("response", res.Alt().BodyString()))
 			return es_response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
+		}
+
+	case dbx_context.DropboxApiErrorEndpointSpecific:
+		if j, err := res.Alt().AsJson(); err != nil {
+			dbxErr := &dbx_error.DropboxError{}
+			if err = j.Model(dbxErr); err != nil {
+				dbxErrs := dbx_error.NewErrors(dbxErr)
+				switch {
+				case dbxErrs.Path().IsTooManyWriteOperations(), dbxErrs.IsTooManyWriteOperations():
+					l.Debug("Too many write operations")
+					return es_response_impl.NewTransportErrorResponse(nw_retry.NewErrorRateLimitFromHeadersFallback(res.Headers()), res)
+				}
+			}
 		}
 
 	case dbx_context.DropboxApiErrorRateLimit:

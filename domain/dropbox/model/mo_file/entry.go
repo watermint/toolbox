@@ -53,6 +53,18 @@ type ConcreteEntry struct {
 	ParentSharedFolderId string `path:"sharing_info.parent_shared_folder_id" json:"parent_shared_folder_id"`
 }
 
+func (z ConcreteEntry) IsFile() bool {
+	return z.Tag == "file"
+}
+
+func (z ConcreteEntry) IsFolder() bool {
+	return z.Tag == "folder"
+}
+
+func (z ConcreteEntry) IsDeleted() bool {
+	return z.Tag == "deleted"
+}
+
 func newConcreteEntry(raw json.RawMessage) *ConcreteEntry {
 	ce := &ConcreteEntry{}
 	if err := api_parser.ParseModelRaw(ce, raw); err != nil {

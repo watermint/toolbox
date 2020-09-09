@@ -59,7 +59,7 @@ func (z *barImpl) Flush() {
 
 func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) *mpb.Bar {
 	mouldName := mouldId
-	digestLen := 24
+	digestLen := 20
 	if len(mouldName) > digestLen {
 		mouldName = mouldName[len(mouldName)-digestLen:]
 	}
@@ -71,9 +71,9 @@ func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) *mpb.
 			decor.Elapsed(decor.ET_STYLE_MMSS),
 		),
 		mpb.AppendDecorators(
-			decor.Counters(0, " %d / %d "),
+			decor.Counters(0, "%5d/%5d", decor.WC{W: 12}),
 			decor.OnComplete(
-				decor.Spinner(mpb.DefaultSpinnerStyle), "DONE",
+				decor.Spinner(mpb.DefaultSpinnerStyle, decor.WC{W: 5}), "DONE",
 			),
 		),
 	)
