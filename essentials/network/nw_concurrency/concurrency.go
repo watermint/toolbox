@@ -3,6 +3,7 @@ package nw_concurrency
 import (
 	"context"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_congestion"
 	"golang.org/x/sync/semaphore"
 	"runtime"
 	"sync"
@@ -14,6 +15,7 @@ var (
 
 func SetConcurrency(c int) {
 	masterConcurrency.SetConcurrency(c)
+	nw_congestion.SetMaxCongestionWindow(c)
 }
 func Start() {
 	masterConcurrency.Start()

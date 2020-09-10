@@ -10,7 +10,7 @@ import (
 type Generator interface {
 	Generate(opt ...Opt) (root Folder)
 
-	Update(root Node, numTries int, opt ...Opt)
+	Update(root Folder, r *rand.Rand)
 }
 
 func NewGenerator() Generator {
@@ -20,8 +20,69 @@ func NewGenerator() Generator {
 type genImpl struct {
 }
 
-func (z genImpl) Update(root Node, numTries int, opt ...Opt) {
+func (z genImpl) Update(root Folder, r *rand.Rand) {
+	var update func(f Folder, r *rand.Rand) bool
+	update = func(f Folder, r *rand.Rand) bool {
+		switch r.Intn(20) {
+		case 0: // rename self
+			if root == f {
+				break
+			}
+			f.Rename(NameByNodeId(r.Int63()))
+			return true
 
+		case 1: // delete one node
+			descendants := f.Descendants()
+			if len(descendants) > 0 {
+				target := descendants[r.Intn(len(descendants))]
+				f.Delete(target.Name())
+				return true
+			}
+
+		case 2: // add a folder
+			opts := Default().Apply([]Opt{NumNodes(4, 1, 10)})
+			newFolder := NewGeneratedFolder(r.Int63(), 0, 0, 0, opts)
+			f.Add(newFolder)
+			return true
+
+		case 3, 4: // rename a descendant
+			descendants := f.Descendants()
+			if len(descendants) > 0 {
+				target := descendants[r.Intn(len(descendants))]
+				target.Rename(NameByNodeId(r.Int63()))
+				return true
+			}
+
+		case 5, 6, 7: // edit a file
+			descendants := f.Descendants()
+			for _, target := range descendants {
+				if f, ok := target.(File); ok {
+					f.UpdateContent(r.Int63(), r.Int63n(f.Size()+1)+f.Size()/4)
+					return true
+				}
+			}
+
+		default: // update descendant folder
+			descendants := f.Descendants()
+			for _, target := range descendants {
+				if f, ok := target.(Folder); ok {
+					if update(f, r) {
+						return true
+					}
+				}
+			}
+
+		}
+
+		// retry
+		for {
+			if update(f, r) {
+				return true
+			}
+		}
+	}
+
+	update(root, r)
 }
 
 func (z genImpl) Generate(opt ...Opt) (root Folder) {
@@ -85,7 +146,11 @@ func NewGeneratedFolder(nodeId int64, size int64, depth, nodes int, opts Opts) F
 		folder := NewGeneratedFolder(r.Int63(), folderSize+size, depth+1, nodes+numNodes, opts)
 		size += SumFileSize(folder)
 		nodes += SumNumNode(folder)
-		descendants = append(descendants, folder)
+
+		// do not create empty folder
+		if len(folder.Descendants()) > 0 {
+			descendants = append(descendants, folder)
+		}
 	}
 
 	return &folderNode{

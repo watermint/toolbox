@@ -9,13 +9,20 @@ import (
 )
 
 func New(log esl.Logger, seq eq_sequence.Sequence, source, target es_filesystem.FileSystem, conn es_filesystem.Connector, opt ...Opt) Syncer {
+	opts := Opts{}.Apply(opt)
+	cmp := es_filecompare.New(
+		es_filecompare.DontCompareContent(opts.syncDontCompareContent),
+		es_filecompare.DontCompareTime(opts.syncDontCompareTime),
+	)
+
 	return &syncImpl{
 		log:    log,
 		seq:    seq,
 		source: source,
 		target: target,
+		fcmp:   cmp,
 		conn:   conn,
-		opts:   Opts{}.Apply(opt),
+		opts:   opts,
 	}
 }
 
@@ -369,6 +376,12 @@ func (z syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) err
 			l.Debug("Unable to create folder", esl.Error(errCreateFolder))
 			z.opts.OnCreateFolderFailure(target, err)
 			return errCreateFolder
+		}
+		tgtEntry, err = z.target.Info(target)
+		if err != nil {
+			l.Debug("Unable to retrieve target entry", esl.Error(err))
+			z.opts.OnCreateFolderFailure(target, err)
+			return err
 		}
 		z.opts.OnCreateFolderSuccess(target)
 

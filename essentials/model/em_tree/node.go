@@ -23,6 +23,9 @@ type Node interface {
 
 	// Extra data for serialize node state
 	ExtraData() map[string]interface{}
+
+	// Rename this node
+	Rename(newName string)
 }
 
 type File interface {
@@ -36,6 +39,9 @@ type File interface {
 
 	// Content of the file.
 	Content() []byte
+
+	// Update content
+	UpdateContent(newSeed, newSize int64)
 }
 
 type Folder interface {

@@ -1,6 +1,10 @@
 package em_tree
 
 import (
+	"bytes"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"io/ioutil"
 	"path/filepath"
 	"strings"
 )
@@ -102,6 +106,32 @@ func ResolvePath(node Node, path string) Node {
 		}
 	}
 	return nil
+}
+
+func Display(l esl.Logger, node Node) {
+	var traverse func(path string, node Node)
+	traverse = func(path string, node Node) {
+		p := filepath.Join(path, node.Name())
+		switch n := node.(type) {
+		case File:
+			hash, err := dbx_util.ContentHash(ioutil.NopCloser(bytes.NewReader(n.Content())), n.Size())
+			l.Info("File",
+				esl.String("path", p),
+				esl.Int64("size", n.Size()),
+				esl.Time("mtime", n.ModTime()),
+				esl.String("contentHash", hash),
+				esl.Error(err),
+			)
+		case Folder:
+			l.Info("Folder",
+				esl.String("path", p),
+			)
+			for _, d := range n.Descendants() {
+				traverse(p, d)
+			}
+		}
+	}
+	traverse("", node)
 }
 
 // Create folders. returns false if failed to create.

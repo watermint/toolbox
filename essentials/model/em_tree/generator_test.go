@@ -2,15 +2,16 @@ package em_tree
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"path/filepath"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 func TestGenImpl_Generate(t *testing.T) {
 	g := NewGenerator()
 	opts := []Opt{
 		Depth(10),
-		NumNodes(10, 10000),
+		NumNodes(10, 10, 100),
 		NumDescendant(0, 10000),
 		FileSize(0, 2000),
 	}
@@ -27,26 +28,20 @@ func TestGenImpl_Generate(t *testing.T) {
 		t.Error(x)
 	}
 
-	l := esl.Default()
-	var traverse func(path string, node Node)
-	traverse = func(path string, node Node) {
-		p := filepath.Join(path, node.Name())
-		switch n := node.(type) {
-		case File:
-			l.Info("File",
-				esl.String("path", p),
-				esl.Int64("size", n.Size()),
-				esl.Time("mtime", n.ModTime()),
-			)
-		case Folder:
-			l.Info("Folder",
-				esl.String("path", p),
-			)
-			for _, d := range n.Descendants() {
-				traverse(p, d)
-			}
-		}
-	}
+	Display(esl.Default(), root)
+}
 
-	traverse("", root)
+func TestGenImpl_Update(t *testing.T) {
+	g := NewGenerator()
+	root := DemoTree()
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	l := esl.Default()
+
+	Display(esl.Default(), root)
+
+	for i := 0; i < 10; i++ {
+		l.Info("Update===========", esl.Int("tries", i))
+		g.Update(root, r)
+		Display(esl.Default(), root)
+	}
 }

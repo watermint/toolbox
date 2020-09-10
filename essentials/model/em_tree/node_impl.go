@@ -36,6 +36,16 @@ type fileNode struct {
 	contentSeed int64
 }
 
+func (z *fileNode) Rename(newName string) {
+	z.name = newName
+}
+
+func (z *fileNode) UpdateContent(newSeed, newSize int64) {
+	z.contentSeed = newSeed
+	z.size = newSize
+	z.mtime = time.Now()
+}
+
 func (z fileNode) ExtraData() map[string]interface{} {
 	return map[string]interface{}{
 		ExtraDataContentSeed: z.contentSeed,
@@ -81,6 +91,10 @@ type folderNode struct {
 	name        string
 	descendants []Node
 	folderMutex sync.Mutex
+}
+
+func (z *folderNode) Rename(newName string) {
+	z.name = newName
 }
 
 func (z *folderNode) ExtraData() map[string]interface{} {

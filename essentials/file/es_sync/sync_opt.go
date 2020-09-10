@@ -101,3 +101,73 @@ type ListenerDeleteFailure func(target es_filesystem.Path, err es_filesystem.Fil
 type ListenerSkip func(reason SkipReason, sourceEntry, targetEntry es_filesystem.Entry)
 type ListenerCreateFolderSuccess func(target es_filesystem.Path)
 type ListenerCreateFolderFailure func(target es_filesystem.Path, err es_filesystem.FileSystemError)
+
+func SyncDelete(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.syncDelete = enabled
+		return o
+	}
+}
+
+func SyncOverwrite(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.syncOverwrite = enabled
+		return o
+	}
+}
+
+func SyncDontCompareTime(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.syncDontCompareTime = enabled
+		return o
+	}
+}
+
+func SyncDontCompareContent(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.syncDontCompareContent = enabled
+		return o
+	}
+}
+
+func OnCopySuccess(l ListenerCopySuccess) Opt {
+	return func(o Opts) Opts {
+		o.listenerCopySuccess = l
+		return o
+	}
+}
+
+func OnCopyFailure(l ListenerCopyFailure) Opt {
+	return func(o Opts) Opts {
+		o.listenerCopyFailure = l
+		return o
+	}
+}
+
+func OnDeleteSuccess(l ListenerDeleteSuccess) Opt {
+	return func(o Opts) Opts {
+		o.listenerDeleteSuccess = l
+		return o
+	}
+}
+
+func OnDeleteFailure(l ListenerDeleteFailure) Opt {
+	return func(o Opts) Opts {
+		o.listenerDeleteFailure = l
+		return o
+	}
+}
+
+func OnCreateFolderSuccess(l ListenerCreateFolderSuccess) Opt {
+	return func(o Opts) Opts {
+		o.listenerCreateFolderSuccess = l
+		return o
+	}
+}
+
+func OnCreateFolderFailure(l ListenerCreateFolderFailure) Opt {
+	return func(o Opts) Opts {
+		o.listenerCreateFolderFailure = l
+		return o
+	}
+}
