@@ -397,11 +397,19 @@ func (z syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) err
 		s.Define(queueIdReplaceFolderByFile, z.taskReplaceFolderByFile, s)
 		s.Define(queueIdReplaceFileByFolder, z.taskReplaceFileByFolder, s)
 
-		q := s.Get(queueIdSyncFolder).Batch(z.computeBatchId(srcEntry.Path(), tgtEntry.Path()))
-		q.Enqueue(&TaskSyncFolder{
-			Source: srcEntry.Path().AsData(),
-			Target: tgtEntry.Path().AsData(),
-		})
+		if srcEntry.IsFile() {
+			q := s.Get(queueIdCopyFile).Batch(z.computeBatchId(srcEntry.Path(), tgtEntry.Path()))
+			q.Enqueue(&TaskCopyFile{
+				Source: srcEntry.AsData(),
+				Target: tgtEntry.Path().Descendant(srcEntry.Name()).AsData(),
+			})
+		} else {
+			q := s.Get(queueIdSyncFolder).Batch(z.computeBatchId(srcEntry.Path(), tgtEntry.Path()))
+			q.Enqueue(&TaskSyncFolder{
+				Source: srcEntry.Path().AsData(),
+				Target: tgtEntry.Path().AsData(),
+			})
+		}
 	}, eq_sequence.ErrorHandler(onError))
 
 	l.Debug("Sync finished", esl.Error(lastError))
