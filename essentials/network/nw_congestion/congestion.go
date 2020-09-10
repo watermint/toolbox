@@ -116,8 +116,6 @@ func (z *ccImpl) Start(hash, endpoint string) {
 		return
 	} else {
 		concurrency := z.concurrency[key]
-		l.Debug("Congestion window found, and current concurrency found",
-			esl.Int("window", wnd), esl.Int("concurrency", concurrency))
 		if concurrency < wnd {
 			l.Debug("There is available window",
 				esl.Int("window", wnd), esl.Int("concurrency", concurrency))
@@ -126,7 +124,7 @@ func (z *ccImpl) Start(hash, endpoint string) {
 			return
 		}
 
-		l.Debug("There is no window available now. Wait for another process.")
+		l.Debug("There is no window available now. Wait for another process.", esl.Int("window", wnd), esl.Int("concurrency", concurrency))
 		ready := make(chan struct{})
 		waiter := &ccWaiter{ready: ready, key: key}
 		z.waiters.PushBack(waiter)

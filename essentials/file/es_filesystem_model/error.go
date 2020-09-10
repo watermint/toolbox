@@ -26,6 +26,10 @@ type FileSystemError struct {
 	errType int
 }
 
+func (z FileSystemError) IsMockError() bool {
+	return false
+}
+
 func (z FileSystemError) Error() string {
 	return z.err.Error()
 }

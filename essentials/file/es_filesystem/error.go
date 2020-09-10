@@ -20,4 +20,7 @@ type FileSystemError interface {
 
 	// True if the entry data is not valid for this file system.
 	IsInvalidEntryDataFormat() bool
+
+	// True if the error is for testing
+	IsMockError() bool
 }

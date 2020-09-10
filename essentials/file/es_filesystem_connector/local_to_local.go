@@ -28,14 +28,14 @@ type localToLocalConn struct {
 	target es_filesystem.FileSystem
 }
 
-func (z localToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.Path) (err es_filesystem.FileSystemError) {
+func (z localToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.Path) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.l.With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy")
 
 	r, osErr := os.Open(source.Path().Path())
 	if osErr != nil {
 		l.Debug("Unable to open a file on the source path", esl.Error(err))
-		return es_filesystem_local.NewError(osErr)
+		return nil, es_filesystem_local.NewError(osErr)
 	}
 	defer func() {
 		_ = r.Close()
@@ -44,7 +44,7 @@ func (z localToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.
 	w, osErr := os.Create(target.Path())
 	if osErr != nil {
 		l.Debug("Unable to create a file on the target path", esl.Error(err))
-		return es_filesystem_local.NewError(osErr)
+		return nil, es_filesystem_local.NewError(osErr)
 	}
 
 	_, osErr = io.Copy(w, r)
@@ -52,7 +52,7 @@ func (z localToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.
 		l.Debug("Unable to copy content, remove it", esl.Error(err))
 		_ = w.Close()
 		_ = os.Remove(target.Path())
-		return es_filesystem_local.NewError(osErr)
+		return nil, es_filesystem_local.NewError(osErr)
 	}
 
 	_ = w.Close()
@@ -62,5 +62,5 @@ func (z localToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.
 		l.Debug("Unable to modify time", esl.Error(err))
 	}
 
-	return
+	return z.target.Info(target)
 }

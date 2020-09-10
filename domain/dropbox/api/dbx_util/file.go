@@ -35,10 +35,18 @@ func IsFileNameIgnored(filename string) bool {
 		return true
 	}
 
+	return false
+}
+
+func IsFileIgnored(path string) bool {
+	if IsFileNameIgnored(path) {
+		return true
+	}
+
 	// file/folder types
-	stat, err := os.Lstat(filename)
+	stat, err := os.Lstat(path)
 	if err != nil {
-		esl.Default().Debug("unable to ensure file stat", esl.String("file", filename), esl.Error(err))
+		esl.Default().Debug("unable to ensure file stat", esl.String("path", path), esl.Error(err))
 		return false
 	}
 	if stat.Mode()&os.ModeSymlink == os.ModeSymlink {

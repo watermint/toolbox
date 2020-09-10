@@ -24,6 +24,10 @@ type errImpl struct {
 	err error
 }
 
+func (z errImpl) IsMockError() bool {
+	return false
+}
+
 func (z errImpl) Error() string {
 	return z.err.Error()
 }

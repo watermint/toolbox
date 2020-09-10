@@ -36,6 +36,10 @@ type fileNode struct {
 	contentSeed int64
 }
 
+func (z fileNode) Clone() File {
+	return &z
+}
+
 func (z *fileNode) Rename(newName string) {
 	z.name = newName
 }

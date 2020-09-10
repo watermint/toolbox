@@ -1,10 +1,14 @@
 package es_sync
 
-import "github.com/watermint/toolbox/essentials/file/es_filesystem"
+import (
+	"github.com/watermint/toolbox/essentials/file/es_filesystem"
+	"github.com/watermint/toolbox/essentials/model/mo_filter"
+)
 
 const (
 	SkipSame   SkipReason = "same"
 	SkipExists SkipReason = "exists"
+	SkipFilter SkipReason = "filter"
 )
 
 type Opts struct {
@@ -19,6 +23,7 @@ type Opts struct {
 	listenerCreateFolderSuccess ListenerCreateFolderSuccess
 	listenerCreateFolderFailure ListenerCreateFolderFailure
 	listenerSkip                ListenerSkip
+	entryNameFilter             mo_filter.Filter
 }
 
 func (z Opts) SyncOverwrite() bool {
@@ -49,7 +54,7 @@ func (z Opts) OnCreateFolderFailure(target es_filesystem.Path, err es_filesystem
 	}
 }
 
-func (z Opts) OnCopySuccess(source es_filesystem.Entry, target es_filesystem.Path) {
+func (z Opts) OnCopySuccess(source es_filesystem.Entry, target es_filesystem.Entry) {
 	if z.listenerCopySuccess != nil {
 		z.listenerCopySuccess(source, target)
 	}
@@ -73,7 +78,7 @@ func (z Opts) OnDeleteFailure(target es_filesystem.Path, err es_filesystem.FileS
 	}
 }
 
-func (z Opts) OnSkip(reason SkipReason, source, target es_filesystem.Entry) {
+func (z Opts) OnSkip(reason SkipReason, source es_filesystem.Entry, target es_filesystem.Path) {
 	if z.listenerSkip != nil {
 		z.listenerSkip(reason, source, target)
 	}
@@ -94,13 +99,13 @@ type Opt func(o Opts) Opts
 
 type SkipReason string
 
-type ListenerCopySuccess func(source es_filesystem.Entry, targetEntry es_filesystem.Path)
-type ListenerCopyFailure func(source es_filesystem.Path, err es_filesystem.FileSystemError)
+type ListenerCopySuccess func(source es_filesystem.Entry, target es_filesystem.Entry)
+type ListenerCopyFailure func(source es_filesystem.Path, fsErr es_filesystem.FileSystemError)
 type ListenerDeleteSuccess func(target es_filesystem.Path)
-type ListenerDeleteFailure func(target es_filesystem.Path, err es_filesystem.FileSystemError)
-type ListenerSkip func(reason SkipReason, sourceEntry, targetEntry es_filesystem.Entry)
+type ListenerDeleteFailure func(target es_filesystem.Path, fsErr es_filesystem.FileSystemError)
+type ListenerSkip func(reason SkipReason, source es_filesystem.Entry, target es_filesystem.Path)
 type ListenerCreateFolderSuccess func(target es_filesystem.Path)
-type ListenerCreateFolderFailure func(target es_filesystem.Path, err es_filesystem.FileSystemError)
+type ListenerCreateFolderFailure func(target es_filesystem.Path, fsErr es_filesystem.FileSystemError)
 
 func SyncDelete(enabled bool) Opt {
 	return func(o Opts) Opts {
@@ -168,6 +173,20 @@ func OnCreateFolderSuccess(l ListenerCreateFolderSuccess) Opt {
 func OnCreateFolderFailure(l ListenerCreateFolderFailure) Opt {
 	return func(o Opts) Opts {
 		o.listenerCreateFolderFailure = l
+		return o
+	}
+}
+
+func OnSkip(l ListenerSkip) Opt {
+	return func(o Opts) Opts {
+		o.listenerSkip = l
+		return o
+	}
+}
+
+func WithNameFilter(filter mo_filter.Filter) Opt {
+	return func(o Opts) Opts {
+		o.entryNameFilter = filter
 		return o
 	}
 }

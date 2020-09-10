@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"math/rand"
 	"runtime"
@@ -189,6 +190,43 @@ func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
 	}
 	if len(fileDiffs) > 0 {
 		t.Error(es_json.ToJsonString(fileDiffs))
+	}
+}
+
+func TestSyncImpl_Filter(t *testing.T) {
+	tree1 := em_tree.DemoTree()
+	tree2 := em_tree.NewFolder("root", []em_tree.Node{})
+
+	fs1 := es_filesystem_model.NewFileSystem(tree1)
+	fs2 := es_filesystem_model.NewFileSystem(tree2)
+
+	seq := eq_sequence.New()
+	conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+	filter := mo_filter.New("")
+	filter.SetOptions(mo_filter.NewTestNameFilter("x"))
+	if !filter.IsEnabled() {
+		t.Error(filter)
+	}
+
+	syncer := New(
+		esl.Default(),
+		seq,
+		fs1,
+		fs2,
+		conn,
+		SyncDelete(true),
+		SyncOverwrite(true),
+		WithNameFilter(filter),
+	)
+	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+	if err != nil {
+		t.Error(err)
+	}
+	em_tree.Display(esl.Default(), tree2)
+
+	x := em_tree.ResolvePath(tree2, "/a/y")
+	if x != nil {
+		t.Error(x)
 	}
 }
 

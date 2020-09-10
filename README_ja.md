@@ -102,9 +102,7 @@ version       バージョン情報
 | [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                 |
 | [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                           |
 | [file search name](doc/generated_ja/file-search-name.md)                   | ファイル名を検索                                                   |
-| [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)       | 上り方向同期のための事前チェックを実施します                       |
 | [file sync up](doc/generated_ja/file-sync-up.md)                           | Dropboxと上り方向で同期します                                      |
-| [file upload](doc/generated_ja/file-upload.md)                             | ファイルのアップロード                                             |
 | [file watch](doc/generated_ja/file-watch.md)                               | ファイルアクティビティを監視                                       |
 | [filerequest create](doc/generated_ja/filerequest-create.md)               | ファイルリクエストを作成します                                     |
 | [filerequest delete closed](doc/generated_ja/filerequest-delete-closed.md) | このアカウントの全ての閉じられているファイルリクエストを削除します |

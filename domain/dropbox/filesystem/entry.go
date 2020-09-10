@@ -86,3 +86,13 @@ func (z dbxEntry) AsData() es_filesystem.EntryData {
 		},
 	}
 }
+
+// Convert ot Dropbox entry model
+func ToDropboxEntry(entry es_filesystem.Entry) (mo_file.Entry, error) {
+	switch e := entry.(type) {
+	case *dbxEntry:
+		return e.entry, nil
+	default:
+		return nil, ErrorInvalidEntryDataFormat
+	}
+}

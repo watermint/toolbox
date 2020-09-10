@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 var (
@@ -21,6 +22,10 @@ func NewError(err error) es_filesystem.FileSystemError {
 type dbxError struct {
 	err    error
 	dbxErr dbx_error.Errors
+}
+
+func (z dbxError) IsMockError() bool {
+	return z.err == qt_errors.ErrorMock
 }
 
 func (z dbxError) Error() string {

@@ -68,13 +68,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション       | 説明                                                                                                                                                      | デフォルト |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-chunk-size-kb` | アップロードチャンク容量(Kバイト)                                                                                                                         | 65536      |
-| `-dropbox-path`  | 転送先のDropboxパス                                                                                                                                       |            |
-| `-fail-on-error` | 処理でエラーが発生した場合にエラーを返します. このコマンドはこのフラグが指定されない場合はどのエラーも返しません. 全てのエラーはレポートに書き込まれます. | false      |
-| `-local-path`    | ローカルファイルのパス                                                                                                                                    |            |
-| `-peer`          | アカウントの別名                                                                                                                                          | default    |
+| オプション             | 説明                                                | デフォルト |
+|------------------------|-----------------------------------------------------|------------|
+| `-chunk-size-kb`       | アップロードチャンク容量(Kバイト)                   | 65536      |
+| `-delete`              | Delete Dropbox file if a file removed locally       | false      |
+| `-dropbox-path`        | 転送先のDropboxパス                                 |            |
+| `-local-path`          | ローカルファイルのパス                              |            |
+| `-name-disable-ignore` | Filter by name. Filter system file or ignore files. |            |
+| `-name-name`           | Filter by name. Filter by exact match to the name.  |            |
+| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix. |            |
+| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix. |            |
+| `-peer`                | アカウントの別名                                    | default    |
+| `-skip-existing`       | Skip existing files. Do not overwrite               | false      |
 
 ## 共通のオプション:
 
@@ -104,23 +109,28 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## レポート: deleted
+
+Path
+このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
+
+| 列         | 説明 |
+|------------|------|
+| entry_path | Path |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 ## レポート: skipped
 
 このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `skipped.csv`, `skipped.json`, ならびに `skipped.xlsx`.
 
-| 列                     | 説明                                                         |
-|------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
-| input.file             | ローカルファイルのパス                                       |
-| input.size             | ローカルファイルのサイズ                                     |
-| result.name            | 名称                                                         |
-| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| result.server_modified | Dropbox上で最後に更新された日時                              |
-| result.size            | ファイルサイズ(バイト単位)                                   |
-| result.content_hash    | ファイルコンテンツのハッシュ                                 |
+| 列               | 説明                     |
+|------------------|--------------------------|
+| status           | 処理の状態               |
+| reason           | 失敗またはスキップの理由 |
+| input.entry_path | Path                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -130,15 +140,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 このレポートはアップロード結果の概要を出力します.
 このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
 
-| 列               | 説明                                             |
-|------------------|--------------------------------------------------|
-| upload_start     | アップロード開始日時                             |
-| upload_end       | アップロード終了日時                             |
-| num_bytes        | 合計アップロードサイズ (バイト)                  |
-| num_files_error  | 失敗またはエラーが発生したファイル数.            |
-| num_files_upload | アップロード済みまたはアップロード対象ファイル数 |
-| num_files_skip   | スキップ対象またはスキップ予定のファイル数       |
-| num_api_call     | この処理によって消費される見積アップロードAPI数  |
+| 列                 | 説明                                             |
+|--------------------|--------------------------------------------------|
+| upload_start       | アップロード開始日時                             |
+| upload_end         | アップロード終了日時                             |
+| num_bytes          | 合計アップロードサイズ (バイト)                  |
+| num_files_error    | 失敗またはエラーが発生したファイル数.            |
+| num_files_upload   | アップロード済みまたはアップロード対象ファイル数 |
+| num_files_skip     | スキップ対象またはスキップ予定のファイル数       |
+| num_folder_created | Number of created folders.                       |
+| num_delete         | Number of deleted entry.                         |
+| num_api_call       | この処理によって消費される見積アップロードAPI数  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -152,8 +164,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |
-| input.file             | ローカルファイルのパス                                       |
-| input.size             | ローカルファイルのサイズ                                     |
+| input.path             | Path                                                         |
 | result.name            | 名称                                                         |
 | result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
 | result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |

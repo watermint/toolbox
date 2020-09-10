@@ -4,12 +4,15 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"sync"
 )
 
 func New(log esl.Logger, seq eq_sequence.Sequence, source, target es_filesystem.FileSystem, conn es_filesystem.Connector, opt ...Opt) Syncer {
-	opts := Opts{}.Apply(opt)
+	opts := Opts{
+		entryNameFilter: mo_filter.New(""),
+	}.Apply(opt)
 	cmp := es_filecompare.New(
 		es_filecompare.DontCompareContent(opts.syncDontCompareContent),
 		es_filecompare.DontCompareTime(opts.syncDontCompareTime),
@@ -51,13 +54,20 @@ func (z syncImpl) computeBatchId(source, target es_filesystem.Path) string {
 func (z syncImpl) copy(source es_filesystem.Entry, target es_filesystem.Path) error {
 	l := z.log.With(esl.Any("source", source.AsData()), esl.Any("target", target.AsData()))
 	l.Debug("Copy")
-	err := z.conn.Copy(source, target)
+
+	if !z.opts.entryNameFilter.Accept(source.Name()) {
+		l.Debug("Filter applied, skip")
+		z.opts.OnSkip(SkipFilter, source, target)
+		return nil
+	}
+
+	copied, err := z.conn.Copy(source, target)
 	if err != nil {
 		l.Debug("Unable to copy data from source to target", esl.Error(err))
 		z.opts.OnCopyFailure(source.Path(), err)
 		return err
 	}
-	z.opts.OnCopySuccess(source, target)
+	z.opts.OnCopySuccess(source, copied)
 	return nil
 }
 
@@ -243,7 +253,7 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, stg eq_sequence.Stage) er
 		ll := l.With(esl.Any("source", source.AsData()), esl.Any("target", target.AsData()))
 		if !z.opts.SyncOverwrite() {
 			ll.Debug("Don't overwrite")
-			z.opts.OnSkip(SkipExists, source, target)
+			z.opts.OnSkip(SkipExists, source, target.Path())
 			return
 		}
 
@@ -257,13 +267,13 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, stg eq_sequence.Stage) er
 	handlerSameFile := func(base es_filecompare.PathPair, source, target es_filesystem.Entry) {
 		ll := l.With(esl.Any("source", source.AsData()), esl.Any("target", target.AsData()))
 		ll.Debug("Same file, skip sync")
-		z.opts.OnSkip(SkipSame, source, target)
+		z.opts.OnSkip(SkipSame, source, target.Path())
 	}
 	handlerTypeDiff := func(base es_filecompare.PathPair, source, target es_filesystem.Entry) {
 		ll := l.With(esl.Any("source", source.AsData()), esl.Any("target", target.AsData()))
 		if !z.opts.SyncOverwrite() {
 			ll.Debug("Don't overwrite")
-			z.opts.OnSkip(SkipExists, source, target)
+			z.opts.OnSkip(SkipExists, source, target.Path())
 			return
 		}
 
@@ -352,10 +362,14 @@ func (z syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) err
 	lastErrorMutex := sync.Mutex{}
 	onError := func(err error, mouldId, batchId string, p interface{}) {
 		lastErrorMutex.Lock()
-		if err != nil {
-			lastError = err
+		defer lastErrorMutex.Unlock()
+		switch e := err.(type) {
+		case es_filesystem.FileSystemError:
+			if e.IsMockError() {
+				return
+			}
 		}
-		lastErrorMutex.Unlock()
+		lastError = err
 	}
 
 	srcEntry, err := z.source.Info(source)
@@ -384,6 +398,10 @@ func (z syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) err
 			return err
 		}
 		z.opts.OnCreateFolderSuccess(target)
+
+	case err.IsMockError():
+		l.Debug("Ignore mock error")
+		return nil
 
 	default:
 		l.Debug("Unable to retrieve target entry", esl.Error(err))

@@ -1,12 +1,12 @@
 package sv_file_content
 
 import (
-	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"os"
 )
 

@@ -29,3 +29,11 @@ func (z *UploadStatus) upload(size int64, chunkSize int) {
 	}
 	atomic.AddInt64(&z.summary.NumApiCall, apiCalls)
 }
+
+func (z *UploadStatus) createFolder() {
+	atomic.AddInt64(&z.summary.NumFolderCreated, 1)
+}
+
+func (z *UploadStatus) delete() {
+	atomic.AddInt64(&z.summary.NumDeleted, 1)
+}

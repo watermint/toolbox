@@ -3,7 +3,7 @@ package mo_filter
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
-	"github.com/watermint/toolbox/domain/common/model/mo_multi"
+	"github.com/watermint/toolbox/essentials/model/mo_multi"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )

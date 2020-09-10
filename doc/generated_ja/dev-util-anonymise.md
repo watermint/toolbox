@@ -28,9 +28,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション            | 説明                                                      | デフォルト |
 |-----------------------|-----------------------------------------------------------|------------|
-| `-job-id-name`        | ジョブID名にてフィルター. 名前による完全一致でフィルター. |            |
-| `-job-id-name-prefix` | ジョブID名にてフィルター. 名前の前方一致によるフィルター. |            |
-| `-job-id-name-suffix` | ジョブID名にてフィルター. 名前の後方一致によるフィルター. |            |
+| `-job-id-name`        | Filter by job id name Filter by exact match to the name.  |            |
+| `-job-id-name-prefix` | Filter by job id name Filter by name match to the prefix. |            |
+| `-job-id-name-suffix` | Filter by job id name Filter by name match to the suffix. |            |
 | `-path`               | ワークスペースへのパス.                                   |            |
 
 ## 共通のオプション:

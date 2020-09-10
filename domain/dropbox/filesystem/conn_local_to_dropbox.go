@@ -19,23 +19,23 @@ type connLocalToDropbox struct {
 	uploadOpts []sv_file_content.UploadOpt
 }
 
-func (z connLocalToDropbox) Copy(source es_filesystem.Entry, target es_filesystem.Path) (err es_filesystem.FileSystemError) {
+func (z connLocalToDropbox) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.ctx.Log().With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy (upload)")
 
-	targetDbxPath, err := ToDropboxPath(target)
+	targetDbxPath, err := ToDropboxPath(target.Ancestor())
 	if err != nil {
 		l.Debug("unable to convert to Dropbox path", esl.Error(err))
-		return err
+		return nil, err
 	}
 
 	svc := sv_file_content.NewUpload(z.ctx, z.uploadOpts...)
 	dbxEntry, dbxErr := svc.Overwrite(targetDbxPath, source.Path().Path())
 	if dbxErr != nil {
 		l.Debug("Unable to upload file", esl.Error(dbxErr))
-		return NewError(dbxErr)
+		return nil, NewError(dbxErr)
 	}
 
 	l.Debug("successfully uploaded", esl.Any("entry", dbxEntry.Concrete()))
-	return nil
+	return NewEntry(dbxEntry), nil
 }

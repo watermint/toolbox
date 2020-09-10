@@ -42,6 +42,9 @@ type File interface {
 
 	// Update content
 	UpdateContent(newSeed, newSize int64)
+
+	// Clone this instance
+	Clone() File
 }
 
 type Folder interface {

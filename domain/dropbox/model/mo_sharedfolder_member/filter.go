@@ -1,8 +1,8 @@
 package mo_sharedfolder_member
 
 import (
-	"github.com/watermint/toolbox/domain/common/model/mo_filter"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/essentials/model/mo_filter"
 )
 
 type FolderMemberFilter interface {

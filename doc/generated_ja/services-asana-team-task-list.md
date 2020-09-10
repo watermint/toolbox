@@ -68,18 +68,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション               | 説明                                                             | デフォルト               |
-|--------------------------|------------------------------------------------------------------|--------------------------|
-| `-peer`                  | アカウントの別名                                                 | &{default <nil> default} |
-| `-project-name`          | プロジェクトの名前またはGID 名前による完全一致でフィルター.      |                          |
-| `-project-name-prefix`   | プロジェクトの名前またはGID 名前の前方一致によるフィルター.      |                          |
-| `-project-name-suffix`   | プロジェクトの名前またはGID 名前の後方一致によるフィルター.      |                          |
-| `-team-name`             | チーム名またはGID 名前による完全一致でフィルター.                |                          |
-| `-team-name-prefix`      | チーム名またはGID 名前の前方一致によるフィルター.                |                          |
-| `-team-name-suffix`      | チーム名またはGID 名前の後方一致によるフィルター.                |                          |
-| `-workspace-name`        | ワークスペースの名前または GID。 名前による完全一致でフィルター. |                          |
-| `-workspace-name-prefix` | ワークスペースの名前または GID。 名前の前方一致によるフィルター. |                          |
-| `-workspace-name-suffix` | ワークスペースの名前または GID。 名前の後方一致によるフィルター. |                          |
+| オプション               | 説明                                                              | デフォルト               |
+|--------------------------|-------------------------------------------------------------------|--------------------------|
+| `-peer`                  | アカウントの別名                                                  | &{default <nil> default} |
+| `-project-name`          | Name or GID of the project Filter by exact match to the name.     |                          |
+| `-project-name-prefix`   | Name or GID of the project Filter by name match to the prefix.    |                          |
+| `-project-name-suffix`   | Name or GID of the project Filter by name match to the suffix.    |                          |
+| `-team-name`             | Name or GID of the team Filter by exact match to the name.        |                          |
+| `-team-name-prefix`      | Name or GID of the team Filter by name match to the prefix.       |                          |
+| `-team-name-suffix`      | Name or GID of the team Filter by name match to the suffix.       |                          |
+| `-workspace-name`        | Name or GID of the workspace. Filter by exact match to the name.  |                          |
+| `-workspace-name-prefix` | Name or GID of the workspace. Filter by name match to the prefix. |                          |
+| `-workspace-name-suffix` | Name or GID of the workspace. Filter by name match to the suffix. |                          |
 
 ## 共通のオプション:
 

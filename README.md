@@ -104,9 +104,7 @@ version       Show version
 | [file restore](doc/generated/file-restore.md)                           | Restore files under given path                   |
 | [file search content](doc/generated/file-search-content.md)             | Search file content                              |
 | [file search name](doc/generated/file-search-name.md)                   | Search file name                                 |
-| [file sync preflight up](doc/generated/file-sync-preflight-up.md)       | Upstream sync preflight check                    |
 | [file sync up](doc/generated/file-sync-up.md)                           | Upstream sync with Dropbox                       |
-| [file upload](doc/generated/file-upload.md)                             | Upload file                                      |
 | [file watch](doc/generated/file-watch.md)                               | Watch file activities                            |
 | [filerequest create](doc/generated/filerequest-create.md)               | Create a file request                            |
 | [filerequest delete closed](doc/generated/filerequest-delete-closed.md) | Delete all closed file requests on this account. |
