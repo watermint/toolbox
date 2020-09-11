@@ -1,6 +1,6 @@
-# file sync up
+# file sync down
 
-Upstream sync with Dropbox (Irreversible operation)
+Downstream sync with Dropbox 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT
+.\tbx.exe file sync down -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /LOCAL/PATH/TO/SAVE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file sync up -dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF/CONTENT
+$HOME/Desktop/tbx file sync down -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /LOCAL/PATH/TO/SAVE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -70,10 +70,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option                 | Description                                         | Default |
 |------------------------|-----------------------------------------------------|---------|
-| `-chunk-size-kb`       | Upload chunk size in KB                             | 65536   |
-| `-delete`              | Delete Dropbox file if a file removed locally       | false   |
-| `-dropbox-path`        | Destination Dropbox path                            |         |
-| `-local-path`          | Local file path                                     |         |
+| `-delete`              | Delete local file if a file removed on Dropbox      | false   |
+| `-dropbox-path`        | Dropbox path                                        |         |
+| `-local-path`          | Local path                                          |         |
 | `-name-disable-ignore` | Filter by name. Filter system file or ignore files. |         |
 | `-name-name`           | Filter by name. Filter by exact match to the name.  |         |
 | `-name-name-prefix`    | Filter by name. Filter by name match to the prefix. |         |
@@ -121,6 +120,26 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+## Report: downloaded
+
+This report shows the transaction result.
+The command will generate a report in three different formats. `downloaded.csv`, `downloaded.json`, and `downloaded.xlsx`.
+
+| Column                | Description                                                                                            |
+|-----------------------|--------------------------------------------------------------------------------------------------------|
+| status                | Status of the operation                                                                                |
+| reason                | Reason of failure or skipped operation                                                                 |
+| input.name            | The last component of the path (including extension).                                                  |
+| input.path_display    | The cased path to be used for display purposes only.                                                   |
+| input.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| input.server_modified | The last time the file was modified on Dropbox.                                                        |
+| input.size            | The file size in bytes.                                                                                |
+| input.content_hash    | A hash of the file content.                                                                            |
+| result.path           | Path                                                                                                   |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `downloaded_0000.xlsx`, `downloaded_0001.xlsx`, `downloaded_0002.xlsx`, ...
 ## Report: skipped
 
 This report shows the transaction result.
@@ -155,26 +174,6 @@ The command will generate a report in three different formats. `summary.csv`, `s
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `summary_0000.xlsx`, `summary_0001.xlsx`, `summary_0002.xlsx`, ...
-## Report: uploaded
-
-This report shows the transaction result.
-The command will generate a report in three different formats. `uploaded.csv`, `uploaded.json`, and `uploaded.xlsx`.
-
-| Column                 | Description                                                                                            |
-|------------------------|--------------------------------------------------------------------------------------------------------|
-| status                 | Status of the operation                                                                                |
-| reason                 | Reason of failure or skipped operation                                                                 |
-| input.path             | Path                                                                                                   |
-| result.name            | The last component of the path (including extension).                                                  |
-| result.path_display    | The cased path to be used for display purposes only.                                                   |
-| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified | The last time the file was modified on Dropbox.                                                        |
-| result.size            | The file size in bytes.                                                                                |
-| result.content_hash    | A hash of the file content.                                                                            |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploaded_0000.xlsx`, `uploaded_0001.xlsx`, `uploaded_0002.xlsx`, ...
 
 # Proxy configuration
 

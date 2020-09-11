@@ -92,17 +92,17 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows a summary of the upload results.
 The command will generate a report in three different formats. `summary.csv`, `summary.json`, and `summary.xlsx`.
 
-| Column             | Description                                         |
-|--------------------|-----------------------------------------------------|
-| upload_start       | Time of start uploading                             |
-| upload_end         | Time of finish uploading                            |
-| num_bytes          | Total upload size (Bytes)                           |
-| num_files_error    | The number of files failed or got an error.         |
-| num_files_upload   | The number of files uploaded or to upload.          |
-| num_files_skip     | The number of files skipped or to skip.             |
-| num_folder_created | Number of created folders.                          |
-| num_delete         | Number of deleted entry.                            |
-| num_api_call       | The number of estimated upload API call for upload. |
+| Column                | Description                                         |
+|-----------------------|-----------------------------------------------------|
+| start                 | Time of start                                       |
+| end                   | Time of finish                                      |
+| num_bytes             | Total upload size (Bytes)                           |
+| num_files_error       | The number of files failed or got an error.         |
+| num_files_transferred | The number of files uploaded/downloaded.            |
+| num_files_skip        | The number of files skipped or to skip.             |
+| num_folder_created    | Number of created folders.                          |
+| num_delete            | Number of deleted entry.                            |
+| num_api_call          | The number of estimated upload API call for upload. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

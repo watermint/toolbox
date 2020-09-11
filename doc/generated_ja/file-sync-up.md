@@ -137,20 +137,20 @@ Path
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 ## レポート: summary
 
-このレポートはアップロード結果の概要を出力します.
+This report shows a summary of the upload results.
 このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
 
-| 列                 | 説明                                             |
-|--------------------|--------------------------------------------------|
-| upload_start       | アップロード開始日時                             |
-| upload_end         | アップロード終了日時                             |
-| num_bytes          | 合計アップロードサイズ (バイト)                  |
-| num_files_error    | 失敗またはエラーが発生したファイル数.            |
-| num_files_upload   | アップロード済みまたはアップロード対象ファイル数 |
-| num_files_skip     | スキップ対象またはスキップ予定のファイル数       |
-| num_folder_created | Number of created folders.                       |
-| num_delete         | Number of deleted entry.                         |
-| num_api_call       | この処理によって消費される見積アップロードAPI数  |
+| 列                    | 説明                                                |
+|-----------------------|-----------------------------------------------------|
+| start                 | Time of start                                       |
+| end                   | Time of finish                                      |
+| num_bytes             | Total upload size (Bytes)                           |
+| num_files_error       | The number of files failed or got an error.         |
+| num_files_transferred | The number of files uploaded/downloaded.            |
+| num_files_skip        | The number of files skipped or to skip.             |
+| num_folder_created    | Number of created folders.                          |
+| num_delete            | Number of deleted entry.                            |
+| num_api_call          | The number of estimated upload API call for upload. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

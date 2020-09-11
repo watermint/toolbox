@@ -145,10 +145,24 @@ func (z dbxFs) Entry(data es_filesystem.EntryData) (entry es_filesystem.Entry, e
 		return nil, NewError(ErrorInvalidEntryDataFormat)
 	}
 	if raw, ok := data.Attributes["raw"]; ok {
+		if rawMap, ok := raw.(map[string]interface{}); ok {
+			rawJson, jsErr := json.Marshal(rawMap)
+			if jsErr != nil {
+				l.Debug("Unable to serialize", esl.Error(jsErr))
+				return nil, NewError(ErrorInvalidEntryDataFormat)
+			}
+
+			meta := &mo_file.Metadata{}
+			if err := api_parser.ParseModelRaw(meta, rawJson); err != nil {
+				l.Debug("Unable to parse as a model", esl.Error(err))
+				return nil, NewError(ErrorInvalidEntryDataFormat)
+			}
+			return NewEntry(meta), nil
+		}
 		if rawJson, ok := raw.(json.RawMessage); ok {
 			meta := &mo_file.Metadata{}
 			if err := api_parser.ParseModelRaw(meta, rawJson); err != nil {
-				l.Debug("Unable to parse as a model")
+				l.Debug("Unable to parse as a model", esl.Error(err))
 				return nil, NewError(ErrorInvalidEntryDataFormat)
 			}
 			return NewEntry(meta), nil

@@ -8,6 +8,7 @@ import (
 	domaindropboxapidbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	domaindropboxapidbx_list_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_list_impl"
 	domaindropboxapidbx_util "github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	domaindropboxmodelmo_file_filter "github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	domaindropboxmodelmo_sharedfolder_member "github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
@@ -16,7 +17,7 @@ import (
 	domaingoogleservicesv_message "github.com/watermint/toolbox/domain/google/service/sv_message"
 	essentialskvskv_storage_impl "github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
-	domaincommonmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
+	essentialsmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
 	infraapiapi_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
@@ -52,12 +53,12 @@ import (
 
 func AutoDetectedMessageObjects() []interface{} {
 	return []interface{}{
-		&domaincommonmodelmo_filter.MsgFilter{},
 		&domaindropboxapidbx_auth.MsgGenerated{},
 		&domaindropboxapidbx_auth_attr.MsgAttr{},
 		&domaindropboxapidbx_conn_impl.MsgConnect{},
 		&domaindropboxapidbx_list_impl.MsgList{},
 		&domaindropboxapidbx_util.MsgError{},
+		&domaindropboxmodelmo_file_filter.MsgFileFilterOpt{},
 		&domaindropboxmodelmo_sharedfolder_member.MsgExternalOpt{},
 		&domaindropboxmodelmo_sharedfolder_member.MsgInternalOpt{},
 		&domaindropboxusecaseuc_compare_local.MsgCompare{},
@@ -69,6 +70,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},
 		&essentialslogesl_rotate.MsgRotate{},
+		&essentialsmodelmo_filter.MsgFilter{},
 		&essentialsnetworknw_diag.MsgNetwork{},
 		&infraapiapi_auth_impl.MsgApiAuth{},
 		&infraapiapi_callback.MsgCallback{},

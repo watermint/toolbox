@@ -2,6 +2,7 @@ package qt_errors
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 )
@@ -37,6 +38,14 @@ func ErrorsForTest(l esl.Logger, err error) (resolvedErr error, cont bool) {
 	if err == nil {
 		return nil, true
 	}
+
+	if fsErr, ok := err.(es_filesystem.FileSystemError); ok {
+		if fsErr.IsMockError() {
+			l.Debug("Mock error")
+			return nil, false
+		}
+	}
+
 	switch err {
 	case ErrorSkipEndToEndTest:
 		l.Debug("Skip: skip end to end test")
