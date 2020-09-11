@@ -104,6 +104,7 @@ version       Show version
 | [file restore](doc/generated/file-restore.md)                           | Restore files under given path                   |
 | [file search content](doc/generated/file-search-content.md)             | Search file content                              |
 | [file search name](doc/generated/file-search-name.md)                   | Search file name                                 |
+| [file size](doc/generated/file-size.md)                                 | Storage usage                                    |
 | [file sync down](doc/generated/file-sync-down.md)                       | Downstream sync with Dropbox                     |
 | [file sync up](doc/generated/file-sync-up.md)                           | Upstream sync with Dropbox                       |
 | [file watch](doc/generated/file-watch.md)                               | Watch file activities                            |

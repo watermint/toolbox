@@ -41,7 +41,12 @@ type Traverse struct {
 
 func (z Traverse) Traverse(te TraverseEntry, stage eq_sequence.Stage) error {
 	l := z.ctx.Log().With(esl.String("namespace", te.Namespace.NamespaceId), esl.String("path", te.Path))
-	ctn := z.ctx.WithPath(dbx_context.Namespace(te.Namespace.NamespaceId))
+	var ctn dbx_context.Context
+	if te.Namespace.NamespaceId != "" {
+		ctn = z.ctx.WithPath(dbx_context.Namespace(te.Namespace.NamespaceId))
+	} else {
+		ctn = z.ctx
+	}
 
 	l.Debug("Retrieve path")
 	opts := append(z.listOpts, sv_file.Recursive(false))

@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -24,6 +25,7 @@ type Up struct {
 	Upload       *file.Upload
 	SkipExisting bool
 	Delete       bool
+	WorkPath     mo_string.OptionalString
 	Name         mo_filter.Filter
 }
 
@@ -46,6 +48,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		ru.Name = z.Name
 		ru.Context = z.Peer.Context()
 		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
+		ru.WorkPath = z.WorkPath
 	})
 }
 

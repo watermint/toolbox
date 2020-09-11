@@ -13,6 +13,7 @@
 | dev build readme                      | Generate README.txt                   |
 | dev test async                        | Async framework test                  |
 | dev test echo                         | Echo text                             |
+| file size                             | Storage usage                         |
 | file sync down                        | Downstream sync with Dropbox          |
 | services asana team list              | List team                             |
 | services asana team project list      | List projects of the team             |
@@ -805,6 +806,11 @@
 + 			Desc:     "Skip existing files. Do not overwrite",
 + 			Default:  "false",
 + 			TypeName: "bool",
++ 		},
++ 		&{
++ 			Name:     "WorkPath",
++ 			Desc:     "Temporary path",
++ 			TypeName: "essentials.model.mo_string.opt_string",
 + 		},
   	},
   }
@@ -1769,26 +1775,6 @@
 # コマンド仕様の変更: `team diag explorer`
 
 
-## 設定が変更されたコマンド
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 7 identical fields
-  }
-```
 ## 追加されたレポート
 
 
@@ -1866,7 +1852,12 @@
   			Default:  "1",
 - 			TypeName: "domain.common.model.mo_int.range_int",
 + 			TypeName: "essentials.model.mo_int.range_int",
-  			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(1), "value": float64(1)},
+  			TypeAttr: map[string]interface{}{
+- 				"max":   float64(2.147483647e+09),
++ 				"max":   float64(300),
+  				"min":   float64(1),
+  				"value": float64(1),
+  			},
   		},
 + 		&{
 + 			Name: "FolderName",

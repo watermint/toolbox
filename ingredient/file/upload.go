@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -38,6 +39,7 @@ type Upload struct {
 	Delete      bool
 	Overwrite   bool
 	ChunkSizeKb int
+	WorkPath    mo_string.OptionalString
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Uploaded    rp_model.TransactionReport
@@ -104,7 +106,17 @@ func (z *Upload) Exec(c app_control.Control) error {
 
 	srcFs := es_filesystem_local.NewFileSystem()
 	tgtFs := filesystem.NewFileSystem(z.Context)
-	conn := filesystem.NewLocalToDropbox(z.Context, sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
+	var conn es_filesystem.Connector
+	if z.WorkPath.IsExists() {
+		l.Debug("Use up and move tactics", esl.String("workPath", z.WorkPath.Value()))
+		conn = filesystem.NewLocalToDropboxUpAndMove(z.Context,
+			mo_path.NewDropboxPath(z.WorkPath.Value()),
+			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
+	} else {
+		l.Debug("Use regular up tactics")
+		conn = filesystem.NewLocalToDropbox(z.Context,
+			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
+	}
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
 		e, errConvert := filesystem.ToDropboxEntry(entry)

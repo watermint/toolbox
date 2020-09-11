@@ -102,6 +102,7 @@ version       バージョン情報
 | [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                 |
 | [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                           |
 | [file search name](doc/generated_ja/file-search-name.md)                   | ファイル名を検索                                                   |
+| [file size](doc/generated_ja/file-size.md)                                 | Storage usage                                                      |
 | [file sync down](doc/generated_ja/file-sync-down.md)                       | Downstream sync with Dropbox                                       |
 | [file sync up](doc/generated_ja/file-sync-up.md)                           | Dropboxと上り方向で同期します                                      |
 | [file watch](doc/generated_ja/file-watch.md)                               | ファイルアクティビティを監視                                       |

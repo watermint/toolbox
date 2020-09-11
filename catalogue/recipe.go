@@ -132,6 +132,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.Move{},
 		&recipefile.Replication{},
 		&recipefile.Restore{},
+		&recipefile.Size{},
 		&recipefile.Watch{},
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},

@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_traverse"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
+	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -29,7 +30,7 @@ type Size struct {
 	IncludeMemberFolder bool
 	IncludeAppFolder    bool
 	Folder              mo_filter.Filter
-	Depth               int
+	Depth               mo_int.RangeInt
 	NamespaceSize       rp_model.TransactionReport
 	Errors              rp_model.TransactionReport
 }
@@ -55,15 +56,11 @@ func (z *Size) Preset() {
 	z.Errors.SetModel(&uc_file_traverse.TraverseEntry{}, nil)
 	z.IncludeSharedFolder = true
 	z.IncludeTeamFolder = true
-	z.Depth = 1
+	z.Depth.SetRange(1, 300, 1)
 }
 
 func (z *Size) Exec(c app_control.Control) error {
 	l := c.Log()
-
-	if z.Depth < 1 {
-		return errors.New("depth should grater than 1")
-	}
 
 	if err := z.NamespaceSize.Open(); err != nil {
 		return err
@@ -91,7 +88,7 @@ func (z *Size) Exec(c app_control.Control) error {
 
 	namespaceSizes := sync.Map{}
 	for _, namespace := range namespaces {
-		namespaceSizes.Store(namespace.NamespaceId, uc_file_size.NewSum(z.Depth))
+		namespaceSizes.Store(namespace.NamespaceId, uc_file_size.NewSum(z.Depth.Value()))
 	}
 
 	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
@@ -165,8 +162,6 @@ func (z *Size) Test(c app_control.Control) error {
 		rc := r.(*Size)
 		rc.Folder.SetOptions(mo_filter.NewTestNameFilter(qtr_endtoend.TestTeamFolderName))
 		rc.IncludeTeamFolder = false
-		rc.Depth = 1
-
 	})
 	if err != nil {
 		return err

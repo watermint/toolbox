@@ -80,6 +80,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-name-name-suffix`    | Filter by name. Filter by name match to the suffix. |         |
 | `-peer`                | Account alias                                       | default |
 | `-skip-existing`       | Skip existing files. Do not overwrite               | false   |
+| `-work-path`           | Temporary path                                      |         |
 
 ## Common options:
 

@@ -33,7 +33,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		rc := r.(*namespacefile.Size)
 		rc.IncludeSharedFolder = false
 		rc.IncludeTeamFolder = false
-		rc.Depth = z.Depth.Value()
+		rc.Depth = z.Depth
 		rc.Folder = z.Folder
 		rc.Peer = z.Peer
 	})

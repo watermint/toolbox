@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/team/namespace/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"math"
 )
 
 type Size struct {
@@ -26,7 +25,7 @@ type Size struct {
 func (z *Size) Preset() {
 	z.IncludeSharedFolder = true
 	z.IncludeTeamFolder = true
-	z.Depth.SetRange(1, math.MaxInt32, 1)
+	z.Depth.SetRange(1, 300, 1)
 	z.Folder.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNamePrefixFilter(),
@@ -42,7 +41,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		rc.IncludeMemberFolder = z.IncludeMemberFolder
 		rc.IncludeAppFolder = z.IncludeAppFolder
 		rc.Folder = z.Folder
-		rc.Depth = z.Depth.Value()
+		rc.Depth = z.Depth
 		rc.Peer = z.Peer
 	})
 }
