@@ -39,6 +39,11 @@ func (z *Status) upload(size int64, chunkSize int) {
 	atomic.AddInt64(&z.summary.NumApiCall, apiCalls)
 }
 
+func (z *Status) copy(size int64) {
+	atomic.AddInt64(&z.summary.NumBytes, size)
+	atomic.AddInt64(&z.summary.NumFilesTransferred, 1)
+}
+
 func (z *Status) download(size int64) {
 	atomic.AddInt64(&z.summary.NumBytes, size)
 	atomic.AddInt64(&z.summary.NumFilesTransferred, 1)

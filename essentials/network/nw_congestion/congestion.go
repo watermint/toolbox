@@ -5,21 +5,27 @@ import (
 	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/app"
 	"runtime"
 	"sync"
 	"time"
 )
 
-const (
-	monitorDuration = 1 * time.Minute
-)
-
 var (
+	monitorDuration      = 1 * time.Minute
 	maxCongestionWindow  = runtime.NumCPU()
 	initCongestionWindow = 4
 	minCongestionWindow  = 1
 	currentImpl          = NewControl()
 )
+
+func getReportInterval() time.Duration {
+	if app.IsProduction() {
+		return 1 * time.Minute
+	} else {
+		return 10 * time.Second
+	}
+}
 
 func Start(hash, endpoint string) {
 	currentImpl.Start(hash, endpoint)
@@ -73,26 +79,36 @@ type CongestionControl interface {
 func NewControl() CongestionControl {
 	return &ccImpl{
 		window:        make(map[string]int),
-		concurrency:   make(map[string]int),
 		lastRateLimit: make(map[string]time.Time),
 		lastIncrement: make(map[string]time.Time),
 		lastDecrement: make(map[string]time.Time),
+		runners:       make(map[string]*ccRunner),
+		monitorOnce:   &sync.Once{},
 	}
+}
+
+type ccRunner struct {
+	Key          string    `json:"key"`
+	GoRoutineId  string    `json:"go_routine_id"`
+	RunningSince time.Time `json:"running_since"`
 }
 
 // ref golang.org/x/sync/semaphore
 type ccWaiter struct {
-	key   string
-	ready chan<- struct{}
+	Key         string          `json:"key"`
+	Ready       chan<- struct{} `json:"-"`
+	GoRoutineId string          `json:"go_routine_id"`
+	WaitSince   time.Time       `json:"wait_since"`
 }
 
 type ccImpl struct {
 	window        map[string]int
-	concurrency   map[string]int
 	lastRateLimit map[string]time.Time
 	lastIncrement map[string]time.Time
 	lastDecrement map[string]time.Time
+	runners       map[string]*ccRunner
 	waiters       list.List
+	monitorOnce   *sync.Once
 	mutex         sync.Mutex
 }
 
@@ -101,8 +117,13 @@ func (z *ccImpl) key(hash, endpoint string) string {
 }
 
 func (z *ccImpl) Start(hash, endpoint string) {
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
+	goRoutineId := es_goroutine.GetGoRoutineName()
+	l := esl.Default().With(esl.String("goroutine", goRoutineId),
 		esl.String("hash", hash), esl.String("endpoint", endpoint))
+
+	z.monitorOnce.Do(func() {
+		go z.monitor()
+	})
 
 	key := z.key(hash, endpoint)
 	z.mutex.Lock()
@@ -111,32 +132,51 @@ func (z *ccImpl) Start(hash, endpoint string) {
 		wnd = CurrentInitCongestionWindow()
 		l.Debug("Congestion window not found, create new window", esl.Int("window", wnd))
 		z.window[key] = wnd
-		z.concurrency[key] = 1
+		z.runners[goRoutineId] = &ccRunner{
+			Key:          key,
+			GoRoutineId:  goRoutineId,
+			RunningSince: time.Now(),
+		}
 		z.mutex.Unlock()
 		return
 	} else {
-		concurrency := z.concurrency[key]
+		curConcurrency, curWaiters := z.noLockCalcConcurrency(key, false)
+		concurrency := curConcurrency + curWaiters
 		if concurrency < wnd {
 			l.Debug("There is available window",
 				esl.Int("window", wnd), esl.Int("concurrency", concurrency))
-			z.concurrency[key] = concurrency + 1
+			z.runners[goRoutineId] = &ccRunner{
+				Key:          key,
+				GoRoutineId:  goRoutineId,
+				RunningSince: time.Now(),
+			}
 			z.mutex.Unlock()
 			return
 		}
 
 		l.Debug("There is no window available now. Wait for another process.", esl.Int("window", wnd), esl.Int("concurrency", concurrency))
 		ready := make(chan struct{})
-		waiter := &ccWaiter{ready: ready, key: key}
+		waiter := &ccWaiter{
+			Ready:       ready,
+			Key:         key,
+			WaitSince:   time.Now(),
+			GoRoutineId: es_goroutine.GetGoRoutineName(),
+		}
 		z.waiters.PushBack(waiter)
 		z.mutex.Unlock()
 
 		select {
 		case <-ready:
-			l.Debug("Lock acquired.")
 			z.mutex.Lock()
-			if concurrency, ok := z.concurrency[key]; ok {
-				z.concurrency[key] = es_number.Max(concurrency-1, 0).Int()
+			//			newConcurrency := z.noLockCalcConcurrency(key, true) + 1
+			goRoutineId = es_goroutine.GetGoRoutineName()
+			z.runners[goRoutineId] = &ccRunner{
+				Key:          key,
+				GoRoutineId:  goRoutineId,
+				RunningSince: time.Now(),
 			}
+			//z.concurrency[key] = newConcurrency
+			l.Debug("Lock acquired.")
 			z.mutex.Unlock()
 			return
 		}
@@ -144,7 +184,8 @@ func (z *ccImpl) Start(hash, endpoint string) {
 }
 
 func (z *ccImpl) EndSuccess(hash, endpoint string) {
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
+	goRoutineId := es_goroutine.GetGoRoutineName()
+	l := esl.Default().With(esl.String("goroutine", goRoutineId),
 		esl.String("hash", hash), esl.String("endpoint", endpoint))
 	l.Debug("Process finished: success")
 	key := z.key(hash, endpoint)
@@ -159,18 +200,21 @@ func (z *ccImpl) EndSuccess(hash, endpoint string) {
 			l.Debug("Increase window", esl.Int("newWindow", newWindow))
 		}
 	}
-
 	z.mutex.Unlock()
 }
 
 func (z *ccImpl) EndTransportError(hash, endpoint string) {
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
+	goRoutineId := es_goroutine.GetGoRoutineName()
+	l := esl.Default().With(esl.String("goroutine", goRoutineId),
 		esl.String("hash", hash), esl.String("endpoint", endpoint))
 
 	l.Debug("Transport error; do not change window")
 	key := z.key(hash, endpoint)
 	z.mutex.Lock()
 	z.noLockRelease(key)
+
+	// do not increase window for while
+	z.lastIncrement[key] = time.Now()
 	z.mutex.Unlock()
 }
 
@@ -216,6 +260,39 @@ func (z *ccImpl) EndRateLimit(hash, endpoint string) {
 	z.mutex.Unlock()
 }
 
+func (z *ccImpl) monitor() {
+	ticker := time.NewTicker(getReportInterval())
+	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()))
+	l.Debug("Monitor start")
+	for {
+		select {
+		case <-ticker.C:
+			z.mutex.Lock()
+			waiters := make([]*ccWaiter, 0)
+			for waiter := z.waiters.Front(); waiter != nil; waiter = waiter.Next() {
+				waiters = append(waiters, waiter.Value.(*ccWaiter))
+			}
+			concurrencyMap := make(map[string]int)
+			for _, runner := range z.runners {
+				if c, ok := concurrencyMap[runner.Key]; ok {
+					concurrencyMap[runner.Key] = c + 1
+				} else {
+					concurrencyMap[runner.Key] = 1
+				}
+			}
+			l.Debug("WaiterStatus",
+				esl.Any("runners", z.runners),
+				esl.Int("numRunners", len(z.runners)),
+				esl.Any("waiters", waiters),
+				esl.Int("numWaiters", len(waiters)),
+				esl.Any("window", z.window),
+				esl.Any("concurrency", concurrencyMap),
+			)
+			z.mutex.Unlock()
+		}
+	}
+}
+
 func (z *ccImpl) noLockCanIncreaseWindow(key string) bool {
 	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
 		esl.String("key", key))
@@ -254,30 +331,72 @@ func (z *ccImpl) noLockCanIncreaseWindow(key string) bool {
 	}
 }
 
-func (z *ccImpl) noLockRelease(key string) {
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
+func (z *ccImpl) noLockCalcConcurrency(key string, includeSelf bool) (concurrency, waiters int) {
+	goRoutineId := es_goroutine.GetGoRoutineName()
+	l := esl.Default().With(esl.String("goroutine", goRoutineId),
 		esl.String("key", key))
 
-	if concurrency, ok := z.concurrency[key]; ok {
-		l.Debug("Release lock")
-		z.concurrency[key] = es_number.Max(concurrency-1, 0).Int()
-	} else {
-		l.Debug("Lock not found")
+	concurrency = 0
+	for _, r := range z.runners {
+		if includeSelf && r.GoRoutineId == goRoutineId {
+			continue
+		}
+		if r.Key == key {
+			concurrency++
+		}
 	}
+	waiters = 0
+	for cur := z.waiters.Front(); cur != nil; cur = cur.Next() {
+		w := cur.Value.(*ccWaiter)
+		if includeSelf && w.GoRoutineId == goRoutineId {
+			continue
+		}
+		if w.Key == key {
+			waiters++
+		}
+	}
+	l.Debug("Resolved concurrency",
+		esl.String("key", key),
+		esl.Int("concurrency", concurrency),
+		esl.Int("waiters", waiters))
+	return concurrency, waiters
+}
+
+func (z *ccImpl) noLockRelease(key string) {
+	goRoutineId := es_goroutine.GetGoRoutineName()
+	l := esl.Default().With(esl.String("goroutine", goRoutineId),
+		esl.String("key", key))
+
+	delete(z.runners, goRoutineId)
 	z.noLockNotifyWaiters(key)
+	l.Debug("Lock released")
 }
 
 func (z *ccImpl) noLockNotifyWaiters(key string) {
 	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
 		esl.String("key", key))
 
+	window := z.window[key]
+	curConcurrency, curWaiters := z.noLockCalcConcurrency(key, false)
+	l.Debug("NotifyToWaiters",
+		esl.Int("concurrency", curConcurrency),
+		esl.Int("waiters", curWaiters))
+	numRelease := es_number.Max(0, window-curConcurrency).Int()
+	numReleased := 0
+
 	for current := z.waiters.Front(); current != nil; current = current.Next() {
-		waiter := current.Value.(*ccWaiter)
-		if waiter.key == key {
-			l.Debug("Waiter found. Notify")
-			z.waiters.Remove(current)
-			close(waiter.ready)
+		if numRelease <= 0 {
+			l.Debug("Waiters released", esl.Int("numReleased", numReleased))
 			return
+		}
+
+		waiter := current.Value.(*ccWaiter)
+		if waiter.Key == key {
+			l.Debug("Waiter found. Notify", esl.Any("waiter", waiter))
+			z.waiters.Remove(current)
+			close(waiter.Ready)
+			numRelease--
+			numReleased++
 		}
 	}
 }

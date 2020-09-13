@@ -15,6 +15,7 @@
 | dev test echo                         | Echo text                             |
 | file size                             | Storage usage                         |
 | file sync down                        | Downstream sync with Dropbox          |
+| file sync online                      | Sync online files                     |
 | services asana team list              | List team                             |
 | services asana team project list      | List projects of the team             |
 | services asana team task list         | List task of the team                 |

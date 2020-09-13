@@ -143,6 +143,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
 		&recipefilesync.Down{},
+		&recipefilesync.Online{},
 		&recipefilesync.Up{},
 		&recipefilerequest.Create{},
 		&recipefilerequest.List{},

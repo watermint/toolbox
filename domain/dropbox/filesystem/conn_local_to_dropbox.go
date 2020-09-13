@@ -81,5 +81,4 @@ func (z connLocalToDropboxUpAndMoveStrategy) Copy(source es_filesystem.Entry, ta
 
 	l.Debug("successfully uploaded", esl.Any("entry", movedDbxEntry.Concrete()))
 	return NewEntry(dbxEntry), nil
-
 }

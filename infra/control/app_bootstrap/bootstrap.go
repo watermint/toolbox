@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"github.com/watermint/toolbox/essentials/network/nw_concurrency"
+	"github.com/watermint/toolbox/essentials/network/nw_congestion"
 	"github.com/watermint/toolbox/essentials/network/nw_diag"
 	"github.com/watermint/toolbox/essentials/network/nw_proxy"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
@@ -177,6 +178,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	nw_proxy.SetHttpProxy(com.Proxy.Value(), ctl)
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
 	nw_concurrency.SetConcurrency(com.Concurrency)
+	nw_congestion.SetMaxCongestionWindow(com.Concurrency)
 
 	// Diagnosis
 	if err = nw_diag.Runtime(ctl); err != nil {

@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_desktop"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/security/sc_random"
 	"math/rand"
 	"os"
 	"os/user"
@@ -186,6 +187,10 @@ func FormatPathWithPredefinedVariables(path string, pairs ...Pair) (string, erro
 	}
 	predefined["TimeUTC"] = func() (s string, e error) {
 		s = time.Now().UTC().Format("15-04-05")
+		return s, nil
+	}
+	predefined["Random"] = func() (s string, e error) {
+		s = sc_random.MustGenerateRandomString(6)
 		return s, nil
 	}
 	predefined["AlwaysErrorForTest"] = func() (s string, e error) {

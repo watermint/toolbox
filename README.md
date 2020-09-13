@@ -106,6 +106,7 @@ version       Show version
 | [file search name](doc/generated/file-search-name.md)                   | Search file name                                 |
 | [file size](doc/generated/file-size.md)                                 | Storage usage                                    |
 | [file sync down](doc/generated/file-sync-down.md)                       | Downstream sync with Dropbox                     |
+| [file sync online](doc/generated/file-sync-online.md)                   | Sync online files                                |
 | [file sync up](doc/generated/file-sync-up.md)                           | Upstream sync with Dropbox                       |
 | [file watch](doc/generated/file-watch.md)                               | Watch file activities                            |
 | [filerequest create](doc/generated/filerequest-create.md)               | Create a file request                            |
