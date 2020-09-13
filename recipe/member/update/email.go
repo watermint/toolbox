@@ -19,9 +19,11 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_resource"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 type MsgEmail struct {
@@ -269,10 +271,17 @@ func (z *Email) Test(c app_control.Control) error {
 					case status == rp_model.StatusTagFailure && isNonExistent:
 						ll.Info("Successfully failed for non existent")
 					case status == rp_model.StatusTagFailure:
+						if strings.Contains(reason, "member not found") {
+							ll.Info("Skip: member not found")
+							continue
+						}
 						ll.Warn("Unexpected failure")
 						lastErr = errors.New("unexpected failure")
 					case status == rp_model.StatusTagSuccess && isNonExistent:
 						ll.Warn("Unexpected failure")
+						if reason == qt_errors.ErrorMock.Error() {
+							continue
+						}
 						lastErr = errors.New("unexpected failure")
 					case status == rp_model.StatusTagSuccess:
 						if inputTo == resultEmail {

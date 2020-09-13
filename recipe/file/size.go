@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Size struct {
@@ -83,5 +84,8 @@ func (z *Size) Exec(c app_control.Control) error {
 }
 
 func (z *Size) Test(c app_control.Control) error {
-	return rc_exec.ExecMock(c, &Size{}, rc_recipe.NoCustomValues)
+	return rc_exec.ExecMock(c, &Size{}, func(r rc_recipe.Recipe) {
+		m := r.(*Size)
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath()
+	})
 }

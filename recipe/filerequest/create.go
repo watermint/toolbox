@@ -57,7 +57,7 @@ func (z *Create) Test(c app_control.Control) error {
 		m.Deadline = mo_time.NewOptional(time.Now().Add(24 * time.Hour))
 	})
 	ers := dbx_error.NewErrors(err)
-	if ers.Endpoint().IsRateLimit() {
+	if ers != nil && ers.Endpoint() != nil && ers.Endpoint().IsRateLimit() {
 		// In case of the account has 4,000 > file requests
 		c.Log().Info("The test account has more than 4,000 file requests")
 		return nil

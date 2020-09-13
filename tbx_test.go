@@ -10,5 +10,5 @@ func TestRun(t *testing.T) {
 	if qt_endtoend.IsSkipEndToEndTest() {
 		return
 	}
-	run([]string{os.Args[0], "dev", "echo", "-text", "Hey"}, true)
+	run([]string{os.Args[0], "dev", "test", "echo", "-text", "Hey"}, true)
 }

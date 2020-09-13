@@ -103,7 +103,10 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 	ui := z.ctl.UI()
 	de := dbx_error.NewErrors(err)
 	reason := MTransactionReport.ErrorGeneral.With("Error", err)
-	if de.Summary() != "" {
+	if de == nil {
+		z.ctl.Log().Debug("No error reported for the failure")
+		reason = MTransactionReport.ErrorGeneral.With("Error", "")
+	} else if de.Summary() != "" {
 		// TODO: make this more human friendly
 		reason = MTransactionReport.ErrorGeneral.With("Error", de.Summary())
 	}

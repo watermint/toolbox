@@ -101,12 +101,18 @@ var (
 )
 
 func New(ctl app_control.Control, s Service, port int) Callback {
+	var opener es_open.Open
+	if ctl.Feature().IsTest() || ctl.Feature().IsQuiet() {
+		opener = es_open.NewTestDummy()
+	} else {
+		opener = es_open.New()
+	}
 	return &callbackImpl{
 		instance: strconv.Itoa(int(instanceId.Add(1))),
 		ctl:      ctl,
 		service:  s,
 		port:     port,
-		opener:   es_open.New(),
+		opener:   opener,
 	}
 }
 
