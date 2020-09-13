@@ -2,6 +2,7 @@ package eq_mould
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
@@ -39,7 +40,7 @@ func TestQueue_Dequeue(t *testing.T) {
 		conn := MockConn{
 			peerName: "default",
 		}
-		handler := eq_progress.NewProgress()
+		handler := eq_progress.NewProgress(ea_indicator.Global())
 		storage := eq_bundle.NewSimple(esl.Default(), policy, handler, eq_pipe.NewTransientSimple(esl.Default()))
 
 		// struct ptr
