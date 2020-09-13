@@ -68,12 +68,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション            | 説明                                                                              | デフォルト |
-|-----------------------|-----------------------------------------------------------------------------------|------------|
-| `-folder-name`        | List only for the folder matched to the name. Filter by exact match to the name.  |            |
-| `-folder-name-prefix` | List only for the folder matched to the name. Filter by name match to the prefix. |            |
-| `-folder-name-suffix` | List only for the folder matched to the name. Filter by name match to the suffix. |            |
-| `-peer`               | アカウントの別名                                                                  | default    |
+| オプション            | 説明                                                                            | デフォルト |
+|-----------------------|---------------------------------------------------------------------------------|------------|
+| `-folder-name`        | 名前に一致するフォルダのみをリストアップします. 名前による完全一致でフィルター. |            |
+| `-folder-name-prefix` | 名前に一致するフォルダのみをリストアップします. 名前の前方一致によるフィルター. |            |
+| `-folder-name-suffix` | 名前に一致するフォルダのみをリストアップします. 名前の後方一致によるフィルター. |            |
+| `-peer`               | アカウントの別名                                                                | default    |
 
 ## 共通のオプション:
 

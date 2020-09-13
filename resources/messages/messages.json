@@ -1194,6 +1194,7 @@
   "recipe.connect.user_file.success": "Successfully connected to the user full access with `{{.UserEmail}}`",
   "recipe.connect.user_file.title": "Connect to user file access",
   "recipe.dev.benchmark.title": "Benchmark tools",
+  "recipe.dev.benchmark.upload.cli.args": "-path /DROPBOX/PATH/TO/PROCESS",
   "recipe.dev.benchmark.upload.flag.chunk_size_kb": "Upload chunk size in KiB",
   "recipe.dev.benchmark.upload.flag.lambda": "Node number Lambda",
   "recipe.dev.benchmark.upload.flag.max_nodes": "Maximum number of nodes",

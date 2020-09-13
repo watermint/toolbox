@@ -26,15 +26,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション              | 説明                                                    | デフォルト              |
-|-------------------------|---------------------------------------------------------|-------------------------|
-| `-bucket`               | バケットサイズ (ミリ秒)                                 | 1000                    |
-| `-endpoint-name`        | Filter by endpoint. Filter by exact match to the name.  |                         |
-| `-endpoint-name-prefix` | Filter by endpoint. Filter by name match to the prefix. |                         |
-| `-endpoint-name-suffix` | Filter by endpoint. Filter by name match to the suffix. |                         |
-| `-job-id`               | ジョブIDの指定                                          |                         |
-| `-path`                 | ワークスペースへのパス.                                 |                         |
-| `-time-format`          | 日時フォーマット (Goの日付フォーマット)                 | 2006-01-02 15:04:05.999 |
+| オプション              | 説明                                                            | デフォルト              |
+|-------------------------|-----------------------------------------------------------------|-------------------------|
+| `-bucket`               | バケットサイズ (ミリ秒)                                         | 1000                    |
+| `-endpoint-name`        | エンドポイントによりフィルター. 名前による完全一致でフィルター. |                         |
+| `-endpoint-name-prefix` | エンドポイントによりフィルター. 名前の前方一致によるフィルター. |                         |
+| `-endpoint-name-suffix` | エンドポイントによりフィルター. 名前の後方一致によるフィルター. |                         |
+| `-job-id`               | ジョブIDの指定                                                  |                         |
+| `-path`                 | ワークスペースへのパス.                                         |                         |
+| `-time-format`          | 日時フォーマット (Goの日付フォーマット)                         | 2006-01-02 15:04:05.999 |
 
 ## 共通のオプション:
 

@@ -63,12 +63,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: deleted
 
-Path
+パス
 このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
 
 | 列         | 説明 |
 |------------|------|
-| entry_path | Path |
+| entry_path | パス |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -82,27 +82,27 @@ Path
 |------------------|--------------------------|
 | status           | 処理の状態               |
 | reason           | 失敗またはスキップの理由 |
-| input.entry_path | Path                     |
+| input.entry_path | パス                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 ## レポート: summary
 
-This report shows a summary of the upload results.
+このレポートはアップロード結果の概要を出力します.
 このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
 
-| 列                    | 説明                                                |
-|-----------------------|-----------------------------------------------------|
-| start                 | Time of start                                       |
-| end                   | Time of finish                                      |
-| num_bytes             | Total upload size (Bytes)                           |
-| num_files_error       | The number of files failed or got an error.         |
-| num_files_transferred | The number of files uploaded/downloaded.            |
-| num_files_skip        | The number of files skipped or to skip.             |
-| num_folder_created    | Number of created folders.                          |
-| num_delete            | Number of deleted entry.                            |
-| num_api_call          | The number of estimated upload API call for upload. |
+| 列                    | 説明                                            |
+|-----------------------|-------------------------------------------------|
+| start                 | 開始時間                                        |
+| end                   | 完了時間                                        |
+| num_bytes             | 合計アップロードサイズ (バイト)                 |
+| num_files_error       | 失敗またはエラーが発生したファイル数.           |
+| num_files_transferred | アップロード/ダウンロードされたファイル数.      |
+| num_files_skip        | スキップ対象またはスキップ予定のファイル数      |
+| num_folder_created    | 作成されたフォルダ数.                           |
+| num_delete            | 削除されたエントリ数.                           |
+| num_api_call          | この処理によって消費される見積アップロードAPI数 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -116,7 +116,7 @@ This report shows a summary of the upload results.
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |
-| input.path             | Path                                                         |
+| input.path             | パス                                                         |
 | result.name            | 名称                                                         |
 | result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
 | result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |

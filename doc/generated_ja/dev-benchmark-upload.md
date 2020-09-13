@@ -1,6 +1,6 @@
 # dev benchmark upload
 
-Upload benchmark 
+アップロードのベンチマーク 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload 
+.\tbx.exe dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload 
+$HOME/Desktop/tbx dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,14 +68,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション       | 説明                     | デフォルト |
-|------------------|--------------------------|------------|
-| `-chunk-size-kb` | Upload chunk size in KiB | 65536      |
-| `-lambda`        | Node number Lambda       | 100        |
-| `-max-nodes`     | Maximum number of nodes  | 1000       |
-| `-min-nodes`     | Minimum number of nodes  | 10         |
-| `-path`          | Path to Dropbox          |            |
-| `-peer`          | Account alias            | default    |
+| オプション       | 説明                                  | デフォルト |
+|------------------|---------------------------------------|------------|
+| `-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
+| `-lambda`        | ノード数のλ                           | 100        |
+| `-max-nodes`     | 最大ノード数                          | 1000       |
+| `-min-nodes`     | 最小ノード数                          | 10         |
+| `-path`          | Dropboxパス                           |            |
+| `-peer`          | アカウントの別名                      | default    |
 
 ## 共通のオプション:
 

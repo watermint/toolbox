@@ -1,6 +1,6 @@
 # file sync down
 
-Downstream sync with Dropbox 
+Dropboxと下り方向で同期します 
 
 # セキュリティ
 
@@ -68,17 +68,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション             | 説明                                                | デフォルト |
-|------------------------|-----------------------------------------------------|------------|
-| `-delete`              | Delete local file if a file removed on Dropbox      | false      |
-| `-dropbox-path`        | Dropbox path                                        |            |
-| `-local-path`          | Local path                                          |            |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files. |            |
-| `-name-name`           | Filter by name. Filter by exact match to the name.  |            |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix. |            |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix. |            |
-| `-peer`                | Account alias                                       | default    |
-| `-skip-existing`       | Skip existing files. Do not overwrite               | false      |
+| オプション             | 説明                                                                      | デフォルト |
+|------------------------|---------------------------------------------------------------------------|------------|
+| `-delete`              | Dropbox上のファイルを削除した場合、ローカルファイルを削除します           | false      |
+| `-dropbox-path`        | Dropbox上のパス                                                           |            |
+| `-local-path`          | ローカルパス                                                              |            |
+| `-name-disable-ignore` | 名前によるフィルター. システムファイルと除外ファイルを処理対象外とします. |            |
+| `-name-name`           | 名前によるフィルター. 名前による完全一致でフィルター.                     |            |
+| `-name-name-prefix`    | 名前によるフィルター. 名前の前方一致によるフィルター.                     |            |
+| `-name-name-suffix`    | 名前によるフィルター. 名前の後方一致によるフィルター.                     |            |
+| `-peer`                | アカウントの別名                                                          | default    |
+| `-skip-existing`       | 既存ファイルをスキップします. 上書きしません.                             | false      |
 
 ## 共通のオプション:
 
@@ -110,12 +110,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: deleted
 
-Path
+パス
 このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
 
 | 列         | 説明 |
 |------------|------|
-| entry_path | Path |
+| entry_path | パス |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -135,7 +135,7 @@ Path
 | input.server_modified | Dropbox上で最後に更新された日時                              |
 | input.size            | ファイルサイズ(バイト単位)                                   |
 | input.content_hash    | ファイルコンテンツのハッシュ                                 |
-| result.path           | Path                                                         |
+| result.path           | パス                                                         |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -149,27 +149,27 @@ Path
 |------------------|--------------------------|
 | status           | 処理の状態               |
 | reason           | 失敗またはスキップの理由 |
-| input.entry_path | Path                     |
+| input.entry_path | パス                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
 ## レポート: summary
 
-This report shows a summary of the upload results.
+このレポートはアップロード結果の概要を出力します.
 このコマンドはレポートを3種類の書式で出力します. `summary.csv`, `summary.json`, ならびに `summary.xlsx`.
 
-| 列                    | 説明                                                |
-|-----------------------|-----------------------------------------------------|
-| start                 | Time of start                                       |
-| end                   | Time of finish                                      |
-| num_bytes             | Total upload size (Bytes)                           |
-| num_files_error       | The number of files failed or got an error.         |
-| num_files_transferred | The number of files uploaded/downloaded.            |
-| num_files_skip        | The number of files skipped or to skip.             |
-| num_folder_created    | Number of created folders.                          |
-| num_delete            | Number of deleted entry.                            |
-| num_api_call          | The number of estimated upload API call for upload. |
+| 列                    | 説明                                            |
+|-----------------------|-------------------------------------------------|
+| start                 | 開始時間                                        |
+| end                   | 完了時間                                        |
+| num_bytes             | 合計アップロードサイズ (バイト)                 |
+| num_files_error       | 失敗またはエラーが発生したファイル数.           |
+| num_files_transferred | アップロード/ダウンロードされたファイル数.      |
+| num_files_skip        | スキップ対象またはスキップ予定のファイル数      |
+| num_folder_created    | 作成されたフォルダ数.                           |
+| num_delete            | 削除されたエントリ数.                           |
+| num_api_call          | この処理によって消費される見積アップロードAPI数 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

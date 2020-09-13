@@ -17,7 +17,7 @@ import (
 
 type Upload struct {
 	Peer        dbx_conn.ConnUserFile
-	Path        string
+	Path        mo_path.DropboxPath
 	Lambda      int
 	MinNodes    int
 	MaxNodes    int
@@ -45,13 +45,13 @@ func (z *Upload) Exec(c app_control.Control) error {
 	)
 
 	return syncer.Sync(es_filesystem_model.NewPath("/"),
-		filesystem.NewPath("", mo_path.NewDropboxPath(z.Path)))
+		filesystem.NewPath("", z.Path))
 
 }
 
 func (z *Upload) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
-		m.Path = "/" + qtr_endtoend.TestTeamFolderName + "/benchmark"
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("benchmark")
 	})
 }

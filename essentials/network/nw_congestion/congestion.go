@@ -264,6 +264,7 @@ func (z *ccImpl) monitor() {
 	ticker := time.NewTicker(getReportInterval())
 	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()))
 	l.Debug("Monitor start")
+
 	for {
 		select {
 		case <-ticker.C:

@@ -86,7 +86,7 @@ version       バージョン情報
 | コマンド                                                                   | 説明                                                               |
 |----------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                               |
-| [dev benchmark upload](doc/generated_ja/dev-benchmark-upload.md)           | Upload benchmark                                                   |
+| [dev benchmark upload](doc/generated_ja/dev-benchmark-upload.md)           | アップロードのベンチマーク                                         |
 | [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                             |
 | [file compare local](doc/generated_ja/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                 | ファイルをコピーします                                             |
@@ -102,9 +102,9 @@ version       バージョン情報
 | [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                 |
 | [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                           |
 | [file search name](doc/generated_ja/file-search-name.md)                   | ファイル名を検索                                                   |
-| [file size](doc/generated_ja/file-size.md)                                 | Storage usage                                                      |
-| [file sync down](doc/generated_ja/file-sync-down.md)                       | Downstream sync with Dropbox                                       |
-| [file sync online](doc/generated_ja/file-sync-online.md)                   | Sync online files                                                  |
+| [file size](doc/generated_ja/file-size.md)                                 | ストレージの利用量                                                 |
+| [file sync down](doc/generated_ja/file-sync-down.md)                       | Dropboxと下り方向で同期します                                      |
+| [file sync online](doc/generated_ja/file-sync-online.md)                   | オンラインファイルを同期します                                     |
 | [file sync up](doc/generated_ja/file-sync-up.md)                           | Dropboxと上り方向で同期します                                      |
 | [file watch](doc/generated_ja/file-watch.md)                               | ファイルアクティビティを監視                                       |
 | [filerequest create](doc/generated_ja/filerequest-create.md)               | ファイルリクエストを作成します                                     |

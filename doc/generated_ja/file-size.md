@@ -1,6 +1,6 @@
 # file size
 
-Storage usage 
+ストレージの利用量 
 
 # セキュリティ
 
@@ -68,11 +68,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                         | デフォルト |
-|------------|--------------------------------------------------------------|------------|
-| `-depth`   | Report an entry for all files and folders depth folders deep | 2          |
-| `-path`    | Path to scan                                                 |            |
-| `-peer`    | Account alias                                                | default    |
+| オプション | 説明                                                                   | デフォルト |
+|------------|------------------------------------------------------------------------|------------|
+| `-depth`   | すべてのファイルとフォルダの深さのフォルダの深さのエントリを報告します | 2          |
+| `-path`    | スキャンするパス                                                       |            |
+| `-peer`    | アカウントの別名                                                       | default    |
 
 ## 共通のオプション:
 
@@ -119,7 +119,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 ## レポート: namespace_size
 
-Namespace size
+名前空間のサイズ.
 このコマンドはレポートを3種類の書式で出力します. `namespace_size.csv`, `namespace_size.json`, ならびに `namespace_size.xlsx`.
 
 | 列               | 説明                                          |

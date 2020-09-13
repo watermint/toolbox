@@ -70,9 +70,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション              | 説明                                                                                                                                                                                       | デフォルト |
 |-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                                  |            |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                                 |            |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                                 |            |
+| `-folder-name`          | フォルダ名によるフィルター. 名前による完全一致でフィルター.                                                                                                                                |            |
+| `-folder-name-prefix`   | フォルダ名によるフィルター. 名前の前方一致によるフィルター.                                                                                                                                |            |
+| `-folder-name-suffix`   | フォルダ名によるフィルター. 名前の後方一致によるフィルター.                                                                                                                                |            |
 | `-member-type-external` | フォルダメンバーによるフィルター. 外部メンバーのみを残します (同じチームにいないメンバー). 注意: 招待済ユーザーは外部ユーザーとしてマークされます.                                         |            |
 | `-member-type-internal` | フォルダメンバーによるフィルター. 内部メンバーのみを残します (同じチームのメンバー)注意: 招待済ユーザーは外部ユーザーとしてマークされます.                                                 |            |
 | `-peer`                 | アカウントの別名                                                                                                                                                                           | default    |
