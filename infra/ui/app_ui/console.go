@@ -2,11 +2,11 @@ package app_ui
 
 import (
 	"fmt"
+	"github.com/watermint/toolbox/essentials/ambient/ea_notification"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/essentials/terminal/es_color"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
-	"github.com/watermint/toolbox/infra/control/app_ambient"
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -135,7 +135,7 @@ func (z conImpl) Failure(m app_msg.Message) {
 }
 
 func (z conImpl) Progress(m app_msg.Message) {
-	app_ambient.Current.OnProgress(func() {
+	ea_notification.Global().OnProgress(func() {
 		es_color.Colorfln(z.wr, es_color.ColorCyan, false, "%s", z.mc.Compile(m))
 	})
 }

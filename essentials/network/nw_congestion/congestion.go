@@ -384,7 +384,7 @@ func (z *ccImpl) noLockNotifyWaiters(key string) {
 	numRelease := es_number.Max(0, window-curConcurrency).Int()
 	numReleased := 0
 
-	for current := z.waiters.Front(); current != nil; current = current.Next() {
+	for current := z.waiters.Front(); current != nil; {
 		if numRelease <= 0 {
 			l.Debug("Waiters released", esl.Int("numReleased", numReleased))
 			return
@@ -393,10 +393,14 @@ func (z *ccImpl) noLockNotifyWaiters(key string) {
 		waiter := current.Value.(*ccWaiter)
 		if waiter.Key == key {
 			l.Debug("Waiter found. Notify", esl.Any("waiter", waiter))
-			z.waiters.Remove(current)
+			rel := current
+			current = current.Next()
+			z.waiters.Remove(rel)
 			close(waiter.Ready)
 			numRelease--
 			numReleased++
+		} else {
+			current = current.Next()
 		}
 	}
 }

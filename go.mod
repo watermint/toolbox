@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go v0.64.0 // indirect
 	github.com/DataDog/zstd v1.4.5 // indirect
 	github.com/GeertJohan/go.rice v1.0.1-0.20191102153406-d954009f7238
+	github.com/VividCortex/ewma v1.1.1
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
 	github.com/daaku/go.zipexe v1.0.1 // indirect
 	github.com/dgraph-io/badger/v2 v2.0.3

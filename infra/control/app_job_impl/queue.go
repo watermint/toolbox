@@ -1,6 +1,7 @@
 package app_job_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
@@ -11,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
-	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -20,10 +20,7 @@ func newQueue(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_worksp
 	preservePath := wb.Workspace().KVS()
 	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
 	factory := eq_pipe.NewSimple(lg, preserve)
-	progress := eq_progress.NewBar()
-	if fe.IsQuiet() || fe.UIFormat() == app_opt.OutputJson {
-		progress = nil
-	}
+	progress := eq_progress.NewProgress(ea_indicator.Global())
 
 	er = app_error.NewErrorReport(lg, wb, ui)
 

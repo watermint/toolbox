@@ -39,7 +39,7 @@ func TestQueue_Dequeue(t *testing.T) {
 		conn := MockConn{
 			peerName: "default",
 		}
-		handler := eq_progress.NewBar()
+		handler := eq_progress.NewProgress()
 		storage := eq_bundle.NewSimple(esl.Default(), policy, handler, eq_pipe.NewTransientSimple(esl.Default()))
 
 		// struct ptr
@@ -88,7 +88,7 @@ func TestQueue_Dequeue(t *testing.T) {
 				ctl.Log().Info("UserId", esl.String("userId", userId))
 				return errors.New("this is wrong")
 			}
-			mould := New("alpha", storage, eh, f, ctl)
+			mould := New("alpha", storage, []ErrorHandler{eh}, f, ctl)
 			mould.Pour("U003")
 			if d, found := storage.Fetch(); found {
 				mould.Process(d)

@@ -3,7 +3,6 @@ package eq_sequence
 import (
 	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
-	"github.com/watermint/toolbox/infra/control/app_ambient"
 )
 
 func New(opt ...eq_queue.Opt) Sequence {
@@ -89,10 +88,8 @@ func (z *seqImpl) DoThen(exec func(s Stage), opts ...DoOpt) Sequence {
 	}
 	d := eq_queue.New(qOps...)
 	s := newStg(d)
-	app_ambient.Current.SuppressProgress()
 	exec(s)
 	d.Current().Wait()
-	app_ambient.Current.ResumeProgress()
 
 	return z
 }

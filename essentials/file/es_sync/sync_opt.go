@@ -1,6 +1,7 @@
 package es_sync
 
 import (
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 )
@@ -24,6 +25,11 @@ type Opts struct {
 	listenerCreateFolderFailure ListenerCreateFolderFailure
 	listenerSkip                ListenerSkip
 	entryNameFilter             mo_filter.Filter
+	progress                    ea_indicator.Container
+}
+
+func (z Opts) Progress() ea_indicator.Container {
+	return z.progress
 }
 
 func (z Opts) SyncOverwrite() bool {
@@ -187,6 +193,13 @@ func OnSkip(l ListenerSkip) Opt {
 func WithNameFilter(filter mo_filter.Filter) Opt {
 	return func(o Opts) Opts {
 		o.entryNameFilter = filter
+		return o
+	}
+}
+
+func WithProgress(container ea_indicator.Container) Opt {
+	return func(o Opts) Opts {
+		o.progress = container
 		return o
 	}
 }

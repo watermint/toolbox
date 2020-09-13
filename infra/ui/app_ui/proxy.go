@@ -1,9 +1,9 @@
 package app_ui
 
 import (
+	"github.com/watermint/toolbox/essentials/ambient/ea_notification"
 	"github.com/watermint/toolbox/essentials/concurrency/es_mutex"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_ambient"
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -155,7 +155,7 @@ func (z proxyImpl) Failure(m app_msg.Message) {
 }
 
 func (z proxyImpl) Progress(m app_msg.Message) {
-	app_ambient.Current.OnProgress(func() {
+	ea_notification.Global().OnProgress(func() {
 		z.withMsg("progress", m, func() {
 			z.sy.Progress(m)
 		})

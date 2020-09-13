@@ -1,6 +1,9 @@
 package es_sync
 
 import (
+	"github.com/vbauerster/mpb/v5"
+	"github.com/vbauerster/mpb/v5/decor"
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -12,20 +15,35 @@ import (
 func New(log esl.Logger, seq eq_sequence.Sequence, source, target es_filesystem.FileSystem, conn es_filesystem.Connector, opt ...Opt) Syncer {
 	opts := Opts{
 		entryNameFilter: mo_filter.New(""),
+		progress:        ea_indicator.Global(),
 	}.Apply(opt)
 	cmp := es_filecompare.New(
 		es_filecompare.DontCompareContent(opts.syncDontCompareContent),
 		es_filecompare.DontCompareTime(opts.syncDontCompareTime),
 	)
 
+	indicator := opts.Progress().Add(0,
+		mpb.PrependDecorators(
+			decor.Name("Data transfer "),
+			decor.AverageSpeed(decor.UnitKiB, "% 1.f"),
+		),
+		mpb.AppendDecorators(
+			decor.CountersKibiByte(" % .1f / % .1f"),
+			decor.OnComplete(
+				decor.Spinner(mpb.DefaultSpinnerStyle, decor.WC{W: 5}), "DONE",
+			),
+		),
+	)
+
 	return &syncImpl{
-		log:    log,
-		seq:    seq,
-		source: source,
-		target: target,
-		fcmp:   cmp,
-		conn:   conn,
-		opts:   opts,
+		log:       log,
+		seq:       seq,
+		source:    source,
+		target:    target,
+		fileCmp:   cmp,
+		conn:      conn,
+		opts:      opts,
+		indicator: indicator,
 	}
 }
 
@@ -38,13 +56,14 @@ const (
 )
 
 type syncImpl struct {
-	log    esl.Logger
-	seq    eq_sequence.Sequence
-	source es_filesystem.FileSystem
-	target es_filesystem.FileSystem
-	conn   es_filesystem.Connector
-	fcmp   es_filecompare.FileComparator
-	opts   Opts
+	log       esl.Logger
+	seq       eq_sequence.Sequence
+	source    es_filesystem.FileSystem
+	target    es_filesystem.FileSystem
+	conn      es_filesystem.Connector
+	fileCmp   es_filecompare.FileComparator
+	indicator ea_indicator.Indicator
+	opts      Opts
 }
 
 func (z syncImpl) computeBatchId(source, target es_filesystem.Path) string {
@@ -61,6 +80,8 @@ func (z syncImpl) copy(source es_filesystem.Entry, target es_filesystem.Path) er
 		return nil
 	}
 
+	z.indicator.AddTotal(source.Size())
+
 	copied, err := z.conn.Copy(source, target)
 	if err != nil {
 		l.Debug("Unable to copy data from source to target", esl.Error(err))
@@ -68,6 +89,7 @@ func (z syncImpl) copy(source es_filesystem.Entry, target es_filesystem.Path) er
 		return err
 	}
 	z.opts.OnCopySuccess(source, copied)
+	z.indicator.AddProgress(source.Size())
 	return nil
 }
 
@@ -117,6 +139,8 @@ func (z syncImpl) taskCopyFile(task *TaskCopyFile, stg eq_sequence.Stage) error 
 		z.opts.OnCopyFailure(sourceEntry.Path(), err)
 		return err
 	}
+
+	z.indicator.AddTotal(sourceEntry.Size())
 
 	l.Debug("Copy file")
 	return z.copy(sourceEntry, targetPath)
@@ -323,7 +347,7 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, stg eq_sequence.Stage) er
 		z.target,
 		sourcePath,
 		targetPath,
-		z.fcmp,
+		z.fileCmp,
 		handlerMissingSource,
 		handlerMissingTarget,
 		handlerFileDiff,
