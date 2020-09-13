@@ -16,7 +16,7 @@ func TestModelToModelConn_Copy(t *testing.T) {
 	z := em_tree.ResolvePath(tree1, "/a/c/z")
 	ze := es_filesystem_model.NewEntry("/a/c/z", z)
 
-	err := con.Copy(ze, es_filesystem_model.NewPath("/a/c/z"))
+	_, err := con.Copy(ze, es_filesystem_model.NewPath("/a/c/z"))
 	if err != nil {
 		t.Error(err)
 	}

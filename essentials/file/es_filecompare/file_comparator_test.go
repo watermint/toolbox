@@ -20,6 +20,10 @@ type MockError struct {
 	err error
 }
 
+func (z MockError) IsMockError() bool {
+	panic("implement me")
+}
+
 func (z MockError) Error() string {
 	return z.err.Error()
 }
