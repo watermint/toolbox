@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
-	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
@@ -80,7 +79,7 @@ func (z *Online) Exec(c app_control.Control) error {
 	}
 	l.Debug("Start uploading")
 
-	srcFs := es_filesystem_local.NewFileSystem()
+	srcFs := filesystem.NewFileSystem(z.Context)
 	tgtFs := filesystem.NewFileSystem(z.Context)
 	var conn es_filesystem.Connector
 	conn = filesystem.NewDropboxToDropbox(z.Context)

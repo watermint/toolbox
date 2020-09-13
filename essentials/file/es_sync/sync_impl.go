@@ -24,7 +24,7 @@ func New(log esl.Logger, seq eq_sequence.Sequence, source, target es_filesystem.
 
 	indicator := opts.Progress().Add(0,
 		mpb.PrependDecorators(
-			decor.Name("Data transfer "),
+			decor.Name("Data transfer ", decor.WC{W: 20}),
 			decor.AverageSpeed(decor.UnitKiB, "% 1.f"),
 		),
 		mpb.AppendDecorators(
