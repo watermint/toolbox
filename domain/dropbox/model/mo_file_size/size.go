@@ -19,7 +19,7 @@ type Size struct {
 }
 
 func (z Size) Eval(entries []mo_file.Entry) Size {
-	if n := len(entries); n <= ApiComplexityThreshold {
+	if n := len(entries); ApiComplexityThreshold <= n {
 		z.ApiComplexity = int64(n)
 	} else {
 		z.ApiComplexity = 1
