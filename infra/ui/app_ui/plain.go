@@ -60,7 +60,7 @@ func (z plainImpl) Info(m app_msg.Message) {
 }
 
 func (z plainImpl) InfoTable(name string) Table {
-	return newPlainTable(z, z.wr, z.mc, name)
+	return newMdTable(z, z.wr, z.mc, name)
 }
 
 func (z plainImpl) Error(m app_msg.Message) {

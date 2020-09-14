@@ -66,19 +66,21 @@ Usage:
 Available commands:
 ===================
 
-[1mCommand   Description                      Notes[0m
-config        watermint toolbox configuration  
-connect       Connect to the account           
-file          File operation                   
-filerequest   File request operation           
-group         Group management                 
-license       Show license information         
-member        Team member management           
-sharedfolder  Shared folder                    
-sharedlink    Shared Link of Personal account  
-team          Dropbox Business Team            
-teamfolder    Team folder management           
-version       Show version                     
+| Command      | Description                     | Notes |
+|--------------|---------------------------------|-------|
+| config       | watermint toolbox configuration |       |
+| connect      | Connect to the account          |       |
+| file         | File operation                  |       |
+| filerequest  | File request operation          |       |
+| group        | Group management                |       |
+| license      | Show license information        |       |
+| member       | Team member management          |       |
+| sharedfolder | Shared folder                   |       |
+| sharedlink   | Shared Link of Personal account |       |
+| team         | Dropbox Business Team           |       |
+| teamfolder   | Team folder management          |       |
+| version      | Show version                    |       |
+
 ```
 
 # Commands
