@@ -3,7 +3,6 @@ package kv_storage_impl
 import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"path/filepath"
 )
@@ -39,12 +38,7 @@ type proxyImpl struct {
 }
 
 func (z *proxyImpl) newStorage(ctl app_control.Control) Storage {
-	switch {
-	case ctl.Feature().Experiment(app.ExperimentKvsStorageUseBadger):
-		return InternalNewBadger(z.name)
-	default:
-		return InternalNewBitcask(z.name)
-	}
+	return InternalNewBitcask(z.name)
 }
 
 func (z *proxyImpl) Open(ctl app_control.Control) error {
