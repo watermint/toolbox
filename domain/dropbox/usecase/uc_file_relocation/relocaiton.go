@@ -8,6 +8,15 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+)
+
+type MsgRelocation struct {
+	ErrorConflictUseFileSync app_msg.Message
+}
+
+var (
+	MRelocation = app_msg.Apply(&MsgRelocation{}).(*MsgRelocation)
 )
 
 type Relocation interface {
@@ -82,7 +91,20 @@ func (z *relocationImpl) relocation(from, to mo_path.DropboxPath,
 	case "file-folder", "folder-folder":
 		l.Debug("Do relocate into folder")
 		toPath := to.ChildPath(fromEntry.Name())
-		return reloc(from, toPath)
+		relocErr := reloc(from, toPath)
+		dbxErr := dbx_error.NewErrors(relocErr)
+		switch {
+		case dbxErr == nil:
+			return nil
+		case dbxErr.To().IsConflict():
+			z.ctx.UI().Error(MRelocation.ErrorConflictUseFileSync.
+				With("From", fromEntry.Path().Path()).
+				With("To", toPath.Path()))
+
+			return relocErr
+		default:
+			return relocErr
+		}
 
 	case "folder-file":
 		l.Debug("Not a folder")

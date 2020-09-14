@@ -768,6 +768,7 @@
   "domain.dropbox.usecase.uc_file_merge.msg_merge.remove_duplicated_file": "{{.DryRun}}Remove duplicated file: {{.FromPath}}",
   "domain.dropbox.usecase.uc_file_merge.msg_merge.remove_empty_folder": "{{.DryRun}}Remove empty folder: {{.FromPath}}",
   "domain.dropbox.usecase.uc_file_merge.msg_merge.remove_old_content": "{{.DryRun}}Remove old file: {{.FromPath}}",
+  "domain.dropbox.usecase.uc_file_relocation.msg_relocation.error_conflict_use_file_sync": "Error: Operation failed due to conflict. `{{.To}}` exists already.\nFrom: {{.From}}\nTo: {{.To}}\nThis command does not support moving/copying files/folders when that already exists on the destination. Please use the command `file sync online` for copying diffs.",
   "domain.dropbox.usecase.uc_file_traverse.traverse_entry.namespace.desc": "Namespace",
   "domain.dropbox.usecase.uc_file_traverse.traverse_entry.path.desc": "Path",
   "domain.dropbox.usecase.uc_team_content.folder_policy.desc": "This report shows a list of shared folders and team folders with their current policy settings.",

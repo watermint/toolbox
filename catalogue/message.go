@@ -13,6 +13,7 @@ import (
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
+	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
 	domaingoogleservicesv_label "github.com/watermint/toolbox/domain/google/service/sv_label"
 	domaingoogleservicesv_message "github.com/watermint/toolbox/domain/google/service/sv_message"
 	essentialskvskv_storage_impl "github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
@@ -64,6 +65,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_local.MsgCompare{},
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
+		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
 		&domaingoogleservicesv_label.MsgFindLabel{},
 		&domaingoogleservicesv_message.MsgProgress{},
 		&essentialskvskv_storage_impl.MsgStorage{},

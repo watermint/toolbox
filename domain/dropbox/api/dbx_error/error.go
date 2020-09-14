@@ -35,6 +35,7 @@ type Errors interface {
 	Access() ErrorAccess
 	Path() ErrorEndpointPath
 	Endpoint() ErrorEndpoint
+	To() ErrorWrite
 
 	// too_many_write_operations
 	IsTooManyWriteOperations() bool
@@ -87,6 +88,11 @@ type ErrorEndpoint interface {
 	IsRateLimit() bool
 }
 
+// 409: WriteError
+type ErrorWrite interface {
+	IsConflict() bool
+}
+
 type errorsImpl struct {
 	de DropboxError
 }
@@ -117,4 +123,8 @@ func (z errorsImpl) Path() ErrorEndpointPath {
 
 func (z errorsImpl) Endpoint() ErrorEndpoint {
 	return NewErrorEndpoint(z.de)
+}
+
+func (z errorsImpl) To() ErrorWrite {
+	return NewErrorWrite("to", z.de)
 }
