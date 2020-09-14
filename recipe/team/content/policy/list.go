@@ -51,6 +51,9 @@ func (z *List) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
+	if err := z.Policy.Open(); err != nil {
+		return err
+	}
 
 	for _, teamFolder := range teamFolders {
 		z.Policy.Row(uc_team_content.NewFolderPolicy(teamFolder.TeamFolder, ""))

@@ -16,17 +16,27 @@ type Container interface {
 }
 
 var (
-	global = newNopContainer()
+	global         = newSwitcherContainer(newContainer(esl.Default()))
+	globalSuppress = false
 )
+
+func SuppressIndicatorForce() {
+	globalSuppress = true
+	SuppressIndicator()
+}
 
 func SuppressIndicator() {
 	global.Done()
-	global = nopContainer{}
+	global = newNopContainer()
 }
 
 func StartIndicator() {
-	global.Done()
-	global = newContainer(esl.Default())
+	if !globalSuppress {
+		global.Done()
+		global = newSwitcherContainer(newContainer(esl.Default()))
+	} else {
+		global = newNopContainer()
+	}
 }
 
 func Global() Container {
@@ -97,4 +107,25 @@ func (n nopContainer) Add(total int64, opts ...mpb.BarOption) Indicator {
 }
 
 func (n nopContainer) Done() {
+}
+
+func newSwitcherContainer(parent Container) Container {
+	return &switcherContainer{
+		container: parent,
+	}
+}
+
+type switcherContainer struct {
+	container Container
+}
+
+func (z switcherContainer) Add(total int64, opts ...mpb.BarOption) Indicator {
+	if globalSuppress {
+		return NewNopIndicator()
+	}
+	return z.container.Add(total, opts...)
+}
+
+func (z switcherContainer) Done() {
+	z.container.Done()
 }

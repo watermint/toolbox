@@ -1194,6 +1194,7 @@
   "recipe.connect.user_file.success": "ユーザーのフルアクセスに接続成功しました: `{{.UserEmail}}`",
   "recipe.connect.user_file.title": "ユーザーのファイルアクセスに接続する",
   "recipe.dev.benchmark.title": "ベンチマークツール",
+  "recipe.dev.benchmark.upload.cli.args": "-path /DROPBOX/PATH/TO/PROCESS",
   "recipe.dev.benchmark.upload.flag.chunk_size_kb": "チャンクサイズをKiB単位でアップロード",
   "recipe.dev.benchmark.upload.flag.lambda": "ノード数のλ",
   "recipe.dev.benchmark.upload.flag.max_nodes": "最大ノード数",

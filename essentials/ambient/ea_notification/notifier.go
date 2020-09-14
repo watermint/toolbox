@@ -1,6 +1,9 @@
 package ea_notification
 
 type Notifier interface {
+	// Force suppress for test
+	SuppressForce()
+
 	// Suppress progress notification
 	Suppress()
 
@@ -22,11 +25,18 @@ func Global() Notifier {
 }
 
 type repoImpl struct {
-	suppress bool
+	suppress      bool
+	suppressForce bool
+}
+
+func (z *repoImpl) SuppressForce() {
+	z.suppressForce = true
 }
 
 func (z *repoImpl) Suppress() {
-	z.suppress = true
+	if !z.suppressForce {
+		z.suppress = true
+	}
 }
 
 func (z *repoImpl) Resume() {

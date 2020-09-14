@@ -42,7 +42,11 @@ type MemberLinkedApp struct {
 func NewMemberLinkedApp(member *mo_member.Member, linkedApp *LinkedApp) (mla *MemberLinkedApp) {
 	prof := gjson.ParseBytes(member.Raw).Get("profile")
 	raws := make(map[string]json.RawMessage)
-	raws["profile"] = json.RawMessage(prof.Raw)
+	if prof.Raw != "" {
+		raws["profile"] = json.RawMessage(prof.Raw)
+	} else {
+		raws["profile"] = nil
+	}
 	raws["linked_app"] = linkedApp.Raw
 	raw := api_parser.CombineRaw(raws)
 
