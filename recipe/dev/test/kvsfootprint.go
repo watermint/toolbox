@@ -64,8 +64,8 @@ func (z *Kvsfootprint) Exec(c app_control.Control) error {
 						l.Debug("Unable to store", esl.Error(err))
 					}
 				}
-				err := sv_file.NewFiles(z.Peer.Context()).ListChunked(
-					mo_path.NewDropboxPath("/"), sk, sv_file.Recursive())
+				err := sv_file.NewFiles(z.Peer.Context()).ListEach(
+					mo_path.NewDropboxPath("/"), sk, sv_file.Recursive(true))
 				if err != nil {
 					return err
 				}

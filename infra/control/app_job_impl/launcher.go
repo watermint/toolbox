@@ -62,7 +62,14 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	lg := z.wb.Logger().Logger()
 	sm := z.wb.Summary().Logger()
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
-	ctl = app_control_impl.New(z.wb, z.ui, fe)
+
+	seq, er := newQueue(lg, fe, z.ui, z.wb)
+
+	ctl = app_control_impl.New(z.wb, z.ui, fe, seq, er)
+
+	if err := er.Up(ctl); err != nil {
+		return nil, err
+	}
 
 	if ctl.Feature().IsTransient() {
 		return ctl, nil
@@ -92,6 +99,10 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	sm := ctl.WorkBundle().Summary().Logger()
 	ui := ctl.UI()
+
+	if cc, ok := ctl.(app_control.ControlCloser); ok {
+		cc.Close()
+	}
 
 	artifacts := rp_artifact.Artifacts(ctl.Workspace())
 	for _, artifact := range artifacts {

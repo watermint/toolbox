@@ -12,6 +12,7 @@ func New(forPublish bool, commandPath string) []dc_section.Section {
 	if forPublish {
 		sections = append(sections, NewRelease())
 	}
+	sections = append(sections, NewSecurity())
 	sections = append(sections, NewUsage())
 	if forPublish {
 		sections = append(sections, NewCommand(forPublish, commandPath))

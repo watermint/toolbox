@@ -1,13 +1,13 @@
 package filerequest
 
 import (
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -57,7 +57,7 @@ func (z *Create) Test(c app_control.Control) error {
 		m.Deadline = mo_time.NewOptional(time.Now().Add(24 * time.Hour))
 	})
 	ers := dbx_error.NewErrors(err)
-	if ers.Endpoint().IsRateLimit() {
+	if ers != nil && ers.Endpoint() != nil && ers.Endpoint().IsRateLimit() {
 		// In case of the account has 4,000 > file requests
 		c.Log().Info("The test account has more than 4,000 file requests")
 		return nil

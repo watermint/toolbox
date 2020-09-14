@@ -2,6 +2,8 @@ package esl
 
 import (
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
+	"github.com/watermint/toolbox/essentials/runtime/es_env"
+	"github.com/watermint/toolbox/infra/app"
 	"go.uber.org/atomic"
 	zapuber "go.uber.org/zap"
 	zapcoreuber "go.uber.org/zap/zapcore"
@@ -77,5 +79,8 @@ func newZap(level Level, flavor Flavor, w io.Writer) *zapuber.Logger {
 		zapLevel(level),
 	)
 	zl := zapuber.New(core, zapuber.AddCallerSkip(1))
+	if es_env.IsEnabled(app.EnvNameDebugVerbose) {
+		zl = zl.WithOptions(zapuber.AddCaller())
+	}
 	return zapWithName(zapWithFlavor(flavor, zl))
 }

@@ -4,7 +4,9 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_context"
 	"github.com/watermint/toolbox/domain/google/model/mo_message"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
 const (
@@ -28,6 +30,7 @@ func New(ctx goog_context.Context, userId string) Message {
 }
 
 type UpdateOpts struct {
+	Ids            []string `json:"ids,omitempty"`
 	AddLabelIds    []string `json:"addLabelIds,omitempty"`
 	RemoveLabelIds []string `json:"removeLabelIds,omitempty"`
 }
@@ -59,6 +62,7 @@ func RemoveLabelIds(label []string) UpdateOpt {
 }
 
 type QueryOpts struct {
+	NextPageToken    string   `url:"pageToken,omitempty"`
 	IncludeSpamTrash bool     `url:"includeSpamTrash,omitempty"`
 	LabelIds         []string `url:"labelIds,omitempty"`
 	MaxResults       int      `url:"maxResults,omitempty"`
@@ -173,27 +177,58 @@ func (z msgImpl) Resolve(id string, opts ...ResolveOpt) (message *mo_message.Mes
 	}
 }
 
-func (z msgImpl) List(q ...QueryOpt) (messages []*mo_message.Message, err error) {
-	p := QueryOpts{}.Apply(q...)
+func (z msgImpl) listChunk(nextPageToken string, p QueryOpts) (messages []*mo_message.Message, newNextPageToken string, err error) {
+	l := z.ctx.Log().With(esl.String("userId", z.userId), esl.String("nextPageToken", nextPageToken))
+	if nextPageToken != "" {
+		p.NextPageToken = nextPageToken
+	}
+	l.Debug("Execute query", esl.Any("query", p))
 	res := z.ctx.Get("gmail/v1/users/"+z.userId+"/messages", api_request.Query(&p))
 	if err, f := res.Failure(); f {
-		return nil, err
+		return nil, "", err
 	}
 	j, err := res.Success().AsJson()
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	messages = make([]*mo_message.Message, 0)
 	if _, found := j.Find("messages"); !found {
-		return messages, nil
+		l.Debug("No message found")
+		return messages, "", nil
 	}
 	err = j.FindArrayEach("messages", func(e es_json.Json) error {
 		m := &mo_message.Message{}
 		if err := e.Model(m); err != nil {
+			l.Debug("Unable to unmarshal", esl.Error(err))
 			return err
 		}
 		messages = append(messages, m)
 		return nil
 	})
-	return messages, err
+	if v, found := j.FindString("nextPageToken"); found {
+		newNextPageToken = v
+		l.Debug("nextPageToken found", esl.String("newNextPageToken", newNextPageToken))
+	} else {
+		l.Debug("nextPageToken NOT found")
+	}
+	return messages, newNextPageToken, err
+}
+
+func (z msgImpl) List(q ...QueryOpt) (messages []*mo_message.Message, err error) {
+	opts := QueryOpts{}.Apply(q...)
+	messages = make([]*mo_message.Message, 0)
+	maxResults := opts.MaxResults
+	var chunk []*mo_message.Message
+	nextPageToken := ""
+	for {
+		chunk, nextPageToken, err = z.listChunk(nextPageToken, opts)
+		if err != nil {
+			return nil, err
+		}
+		messages = append(messages, chunk...)
+		if nextPageToken == "" || (0 < maxResults && maxResults <= len(messages)) {
+			return messages, nil
+		}
+		app_ui.ShowLongRunningProgress(z.ctx.UI(), z.userId, MProgress.ProgressRetrieve)
+	}
 }

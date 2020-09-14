@@ -5,12 +5,14 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
+	"go.uber.org/atomic"
 	"sync"
 )
 
 func NewRowReport(name string) *RowReport {
 	return &RowReport{
 		name: name,
+		rows: atomic.NewInt64(0),
 	}
 }
 
@@ -21,6 +23,11 @@ type RowReport struct {
 	model interface{}
 	opts  []rp_model.ReportOpt
 	mutex sync.Mutex
+	rows  *atomic.Int64
+}
+
+func (z *RowReport) Rows() int64 {
+	return z.rows.Load()
 }
 
 func (z *RowReport) Spec() rp_model.Spec {
@@ -38,6 +45,7 @@ func (z *RowReport) Fork(ctl app_control.Control) rp_model.RowReport {
 		w:     nil, // clear writers on fork
 		model: z.model,
 		opts:  z.opts,
+		rows:  atomic.NewInt64(0),
 	}
 }
 
@@ -54,7 +62,7 @@ func (z *RowReport) Open(opts ...rp_model.ReportOpt) error {
 	defer z.mutex.Unlock()
 
 	if z.w == nil {
-		z.w = rp_writer_impl.NewCascade(z.name, z.ctl)
+		z.w = rp_writer_impl.New(z.name, z.ctl)
 	}
 	allOpts := make([]rp_model.ReportOpt, 0)
 	allOpts = append(allOpts, z.opts...)
@@ -77,6 +85,7 @@ func (z *RowReport) Row(row interface{}) {
 	defer z.mutex.Unlock()
 
 	z.w.Row(row)
+	z.rows.Inc()
 }
 
 func (z *RowReport) SetModel(row interface{}, opts ...rp_model.ReportOpt) {

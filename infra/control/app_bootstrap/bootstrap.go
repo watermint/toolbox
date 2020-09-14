@@ -5,11 +5,12 @@ import (
 	"flag"
 	"fmt"
 	"github.com/pkg/profile"
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
-	"github.com/watermint/toolbox/essentials/network/nw_concurrency"
+	"github.com/watermint/toolbox/essentials/network/nw_congestion"
 	"github.com/watermint/toolbox/essentials/network/nw_diag"
 	"github.com/watermint/toolbox/essentials/network/nw_proxy"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
@@ -153,6 +154,15 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	z.verifyMessages(ui, wb.Logger().Logger())
 	esl.AddDefaultSubscriber(wb.Logger().Core())
 
+	// Notification
+	if com.Quiet || com.Output.Value() == app_opt.OutputJson {
+		wb.Logger().Logger().Debug("Set indicators as silent mode")
+		ea_indicator.SuppressIndicator()
+	} else {
+		wb.Logger().Logger().Debug("Start indicators")
+		ea_indicator.StartIndicator()
+	}
+
 	jl := app_job_impl.NewLauncher(ui, wb, com, rcp)
 	ctl, err := jl.Up()
 	if err != nil {
@@ -176,7 +186,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	// Global settings
 	nw_proxy.SetHttpProxy(com.Proxy.Value(), ctl)
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
-	nw_concurrency.SetConcurrency(com.Concurrency)
+	nw_congestion.SetMaxCongestionWindow(com.Concurrency)
 
 	// Diagnosis
 	if err = nw_diag.Runtime(ctl); err != nil {

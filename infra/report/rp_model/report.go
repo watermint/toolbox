@@ -65,6 +65,7 @@ func HiddenColumns(col ...string) ReportOpt {
 type Report interface {
 	Open(opts ...ReportOpt) error
 	Spec() Spec
+	Rows() int64
 
 	// Close report, close should not raise exception when the report already closed.
 	Close()

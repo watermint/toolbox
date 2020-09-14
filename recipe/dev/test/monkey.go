@@ -3,13 +3,13 @@ package test
 import (
 	"context"
 	"fmt"
-	"github.com/watermint/toolbox/domain/common/model/mo_int"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -107,7 +107,7 @@ func (z *Monkey) Exec(c app_control.Control) error {
 	l := c.Log()
 	l.Info("Monkey test start", esl.Int("Distribution", z.Distribution.Value()), esl.Int("Running time", z.Seconds.Value()))
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	go func() {
 		for {
 			err := sem.Acquire(context.Background(), 1)

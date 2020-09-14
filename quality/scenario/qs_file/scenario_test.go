@@ -31,7 +31,7 @@ func testContent(t *testing.T, ctl app_control.Control, scenario qdm_file.Scenar
 		}
 		ll := l.With(esl.String("r", r))
 		found[r] = true
-		ch, err := dbx_util.ContentHash(cols["input.file"])
+		ch, err := dbx_util.FileContentHash(cols["input.file"])
 		if err != nil {
 			ll.Debug("unable to calc hash", esl.Error(err))
 			return err

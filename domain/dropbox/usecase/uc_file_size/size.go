@@ -1,177 +1,74 @@
 package uc_file_size
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/essentials/collections/es_array"
+	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"strings"
 	"sync"
 )
 
-const (
-	apiComplexityThreshold = 10_000
-)
+// Sum up file entries. The implementation will not consider namespaces.
+// The implementation is thread-safe.
+type Sum interface {
+	// Evaluate folder entries
+	Eval(path string, entries []mo_file.Entry)
 
-type Scale interface {
-	Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path.DropboxPath]mo_file_size.Size, errors map[mo_path.DropboxPath]error)
+	// Retrieve results
+	Each(f func(path mo_path.DropboxPath, size mo_file_size.Size))
 }
 
-func New(ctx dbx_context.Context, ctl app_control.Control) Scale {
-	return &scaleImpl{
-		ctx: ctx,
-		ctl: ctl,
+func NewSum(depth int) Sum {
+	return &sumImpl{
+		depth: depth,
+		sizes: make(map[string]mo_file_size.Size),
 	}
 }
 
-func newErrorDict() *errorDict {
-	return &errorDict{
-		lastError: make(map[mo_path.DropboxPath]error),
-	}
+type sumImpl struct {
+	depth      int
+	sizes      map[string]mo_file_size.Size
+	sizesMutex sync.Mutex
 }
 
-type errorDict struct {
-	lastError map[mo_path.DropboxPath]error
-	mutex     sync.Mutex
-}
-
-func (z *errorDict) add(path mo_path.DropboxPath, err error) {
-	z.mutex.Lock()
-	defer z.mutex.Unlock()
-
-	z.lastError[path] = err
-}
-
-func newSizeDict() *sizeDict {
-	return &sizeDict{
-		sizes: make(map[mo_path.DropboxPath]mo_file_size.Size),
-	}
-}
-
-type sizeDict struct {
-	sizes map[mo_path.DropboxPath]mo_file_size.Size
-	mutex sync.Mutex
-}
-
-func (z *sizeDict) add(path mo_path.DropboxPath, size mo_file_size.Size) {
-	z.mutex.Lock()
-	defer z.mutex.Unlock()
-
-	if s, ok := z.sizes[path]; ok {
-		z.sizes[path] = s.Plus(path.Path(), size)
-	} else {
-		z.sizes[path] = size
-	}
-}
-
-type scaleWorker struct {
-	ctl      app_control.Control
-	ctx      api_context.Context
-	svc      sv_file.Files
-	keyPaths []mo_path.DropboxPath
-	path     mo_path.DropboxPath
-	curDepth int
-	maxDepth int
-	sd       *sizeDict
-	ed       *errorDict
-}
-
-func (z *scaleWorker) Exec() error {
-	ns, _ := z.path.Namespace()
-	l := z.ctx.Log().With(esl.String("ns", ns),
-		esl.String("path", z.path.Path()),
-		esl.Int("curDepth", z.curDepth),
-	)
-	current := mo_file_size.Size{
-		Path: z.path.Path(),
-	}
-	entries, err := z.svc.List(z.path)
-	if err != nil {
-		l.Debug("Unable to fetch list", esl.Error(err))
-		for _, kp := range z.keyPaths {
-			z.ed.add(kp, err)
-		}
-		return err
-	}
-	numEntries := len(entries)
-
-	if numEntries >= apiComplexityThreshold {
-		current.ApiComplexity = int64(numEntries)
-	} else {
-		current.ApiComplexity = 1
-	}
-
-	q := z.ctl.NewQueue()
-	for _, entry := range entries {
-		current.CountDescendant++
-		if f, e := entry.File(); e {
-			current.CountFile++
-			current.Size += f.Size
-		}
-		if f, e := entry.Folder(); e {
-			current.CountFolder++
-			nd := z.curDepth + 1
-			np := z.path.ChildPath(f.Name())
-			kps := make([]mo_path.DropboxPath, 0)
-			kps = append(kps, z.keyPaths...)
-			if nd < z.maxDepth {
-				kps = append(kps, np)
-			}
-			kpsDebug := make([]string, 0)
-			for _, k := range kps {
-				kpsDebug = append(kpsDebug, k.Path())
-			}
-			l.Debug("Process into child",
-				esl.String("childPath", np.Path()),
-				esl.Strings("keyPaths", kpsDebug),
-				esl.Int("childDepth", nd),
-			)
-			q.Enqueue(&scaleWorker{
-				ctl:      z.ctl,
-				ctx:      z.ctx,
-				svc:      z.svc,
-				keyPaths: kps,
-				path:     np,
-				curDepth: nd,
-				maxDepth: z.maxDepth,
-				sd:       z.sd,
-				ed:       z.ed,
-			})
+// paths of entry that limited by depth
+func (z *sumImpl) pathsOfEntry(path string) (paths []string) {
+	components := strings.Split(path, "/")
+	switch len(components) {
+	case 0, 1:
+		return []string{"/"}
+	default:
+		if components[0] == "" {
+			components = components[1:]
 		}
 	}
-	q.Wait()
-	for _, kp := range z.keyPaths {
-		z.sd.add(kp, current)
+	paths = make([]string, 0)
+	x := es_number.Min(z.depth, len(components)+1).Int()
+	for i := 0; i < x; i++ {
+		paths = append(paths, "/"+strings.Join(components[:i], "/"))
 	}
-
-	return nil
+	paths = es_array.NewByString(paths...).Unique().AsStringArray()
+	return paths
 }
 
-type scaleImpl struct {
-	ctl app_control.Control
-	ctx dbx_context.Context
+func (z *sumImpl) Eval(path string, entries []mo_file.Entry) {
+	z.sizesMutex.Lock()
+	defer z.sizesMutex.Unlock()
+
+	s := mo_file_size.Size{Path: path}.Eval(entries)
+	for _, path := range z.pathsOfEntry(path) {
+		if size, ok := z.sizes[path]; ok {
+			z.sizes[path] = size.Plus(path, s)
+		} else {
+			z.sizes[path] = s
+		}
+	}
 }
 
-func (z *scaleImpl) Size(path mo_path.DropboxPath, depth int) (sizes map[mo_path.DropboxPath]mo_file_size.Size, errors map[mo_path.DropboxPath]error) {
-	sd := newSizeDict()
-	ed := newErrorDict()
-	svc := sv_file.NewFiles(z.ctx)
-
-	q := z.ctl.NewQueue()
-	q.Enqueue(&scaleWorker{
-		ctl:      z.ctl,
-		ctx:      z.ctx,
-		svc:      svc,
-		keyPaths: []mo_path.DropboxPath{path},
-		path:     path,
-		curDepth: 0,
-		maxDepth: depth,
-		sd:       sd,
-		ed:       ed,
-	})
-	q.Wait()
-
-	return sd.sizes, ed.lastError
+func (z *sumImpl) Each(f func(path mo_path.DropboxPath, size mo_file_size.Size)) {
+	for path, size := range z.sizes {
+		f(mo_path.NewDropboxPath(path), size)
+	}
 }

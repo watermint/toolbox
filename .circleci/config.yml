@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/golang:1.14
+      - image: circleci/golang:1.15
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
@@ -12,13 +12,14 @@ jobs:
       - run: ./.circleci/prepare.sh
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
+      - run: go get github.com/google/go-licenses
       - run: ./build.sh
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
 
   test:
     docker:
-      - image: circleci/golang:1.14
+      - image: circleci/golang:1.15
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout

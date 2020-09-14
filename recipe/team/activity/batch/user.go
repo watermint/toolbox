@@ -3,7 +3,6 @@ package batch
 import (
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
@@ -14,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -23,7 +23,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"math/rand"
+	"go.uber.org/atomic"
 	"strings"
 )
 
@@ -76,15 +76,12 @@ func (z *UserWorker) Exec() error {
 		opts = append(opts, sv_activity.Category(z.Category.Value()))
 	}
 
+	eventSeq := atomic.Int64{}
+
 	return sv_activity.New(z.Context).List(
 		func(event *mo_activity.Event) error {
 			return z.EventCache.Update(func(kvs kv_kvs.Kvs) error {
-				seq, err := kvs.NextSequence(strings.Join([]string{keySeqPrefix, member.Email}, keySeparator))
-				if err != nil {
-					l.Debug("Unable to generate seq", esl.Error(err))
-					// pseudo seq
-					seq = rand.Uint64()
-				}
+				seq := eventSeq.Inc()
 				key := strings.Join([]string{event.Timestamp, z.UserEmail, fmt.Sprintf("%d", seq)}, keySeparator)
 				app_ui.ShowProgressWithMessage(ui, MUser.ProgressScanningUserEvent)
 
@@ -119,7 +116,7 @@ func (z *User) Exec(c app_control.Control) error {
 
 	userReps := make(map[string]rp_model.RowReport)
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
 		e := m.(*UserEmail)
 

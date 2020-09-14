@@ -62,7 +62,7 @@ func Strings(key string, val []string) Field {
 	return zapField{zf: zapuber.Strings(key, val)}
 }
 func Time(key string, val time.Time) Field {
-	return zapField{zf: zapuber.Time(key, val)}
+	return zapField{zf: zapuber.String(key, val.Format(time.RFC3339))}
 }
 func Uint(key string, val uint) Field {
 	return zapField{zf: zapuber.Uint(key, val)}

@@ -82,7 +82,7 @@ func (z *SelfContainedTestRecipe) Exec(c app_control.Control) error {
 		return err
 	}
 	if err := z.EventLog.Update(func(kvs kv_kvs.Kvs) error {
-		_, err = kvs.NextSequence("kvs")
+		err = kvs.PutString("hello", "world")
 		if err != nil {
 			return err
 		}

@@ -1,9 +1,13 @@
 package app_control_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
@@ -13,11 +17,13 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature) app_control.Control {
+func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, er app_error.ErrorReport) app_control.Control {
 	return &ctlImpl{
-		wb:      wb,
-		ui:      ui,
-		feature: feature,
+		seq:         seq,
+		wb:          wb,
+		ui:          ui,
+		feature:     feature,
+		errorReport: er,
 	}
 }
 
@@ -43,9 +49,26 @@ func WithForkedQuiet(ctl app_control.Control, name string, f func(c app_control.
 }
 
 type ctlImpl struct {
-	feature app_feature.Feature
-	ui      app_ui.UI
-	wb      app_workspace.Bundle
+	feature     app_feature.Feature
+	ui          app_ui.UI
+	wb          app_workspace.Bundle
+	seq         eq_sequence.Sequence
+	errorReport app_error.ErrorReport
+}
+
+func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
+	kvs0 := kv_storage_impl.New(name).(kv_storage_impl.Storage)
+	kvs = kvs0
+	err = kvs0.Open(z)
+	return
+}
+
+func (z ctlImpl) Close() {
+	z.errorReport.Down()
+}
+
+func (z ctlImpl) Sequence() eq_sequence.Sequence {
+	return z.seq
 }
 
 func (z ctlImpl) WithLang(targetLang string) app_control.Control {
@@ -93,7 +116,7 @@ func (z ctlImpl) Messages() app_msg_container.Container {
 	return z.ui.Messages()
 }
 
-func (z ctlImpl) NewQueue() rc_worker.Queue {
+func (z ctlImpl) NewLegacyQueue() rc_worker.Queue {
 	return rc_worker_impl.NewQueue(z, z.feature.Concurrency())
 }
 

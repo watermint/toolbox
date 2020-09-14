@@ -106,7 +106,7 @@ func (z *Restore) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 
 	count := 0
 	handler := func(entry mo_file.Entry) {
@@ -121,11 +121,11 @@ func (z *Restore) Exec(c app_control.Control) error {
 		}
 	}
 
-	lastErr := sv_file.NewFiles(ctx).ListChunked(
+	lastErr := sv_file.NewFiles(ctx).ListEach(
 		z.Path,
 		handler,
-		sv_file.IncludeDeleted(),
-		sv_file.Recursive(),
+		sv_file.IncludeDeleted(true),
+		sv_file.Recursive(true),
 	)
 	q.Wait()
 

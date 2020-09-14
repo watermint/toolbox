@@ -7,7 +7,8 @@ import (
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
 	recipeconnect "github.com/watermint/toolbox/recipe/connect"
-	recipedev "github.com/watermint/toolbox/recipe/dev"
+	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
+	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
@@ -26,7 +27,6 @@ import (
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
-	recipefilesyncpreflight "github.com/watermint/toolbox/recipe/file/sync/preflight"
 	recipefilerequest "github.com/watermint/toolbox/recipe/filerequest"
 	recipefilerequestdelete "github.com/watermint/toolbox/recipe/filerequest/delete"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
@@ -38,6 +38,11 @@ import (
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
+	recipeservicesasanateam "github.com/watermint/toolbox/recipe/services/asana/team"
+	recipeservicesasanateamproject "github.com/watermint/toolbox/recipe/services/asana/team/project"
+	recipeservicesasanateamtask "github.com/watermint/toolbox/recipe/services/asana/team/task"
+	recipeservicesasanaworkspace "github.com/watermint/toolbox/recipe/services/asana/workspace"
+	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
@@ -89,11 +94,12 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconnect.BusinessInfo{},
 		&recipeconnect.BusinessMgmt{},
 		&recipeconnect.UserFile{},
-		&recipedev.Async{},
-		&recipedev.Catalogue{},
-		&recipedev.Doc{},
-		&recipedev.Echo{},
-		&recipedev.Preflight{},
+		&recipedevbenchmark.Upload{},
+		&recipedevbuild.Catalogue{},
+		&recipedevbuild.Doc{},
+		&recipedevbuild.License{},
+		&recipedevbuild.Preflight{},
+		&recipedevbuild.Readme{},
 		&recipedevciartifact.Connect{},
 		&recipedevciartifact.Up{},
 		&recipedevciauth.Connect{},
@@ -108,6 +114,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Scoped{},
+		&recipedevtest.Async{},
+		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
@@ -124,7 +132,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.Move{},
 		&recipefile.Replication{},
 		&recipefile.Restore{},
-		&recipefile.Upload{},
+		&recipefile.Size{},
 		&recipefile.Watch{},
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},
@@ -134,8 +142,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefileimportbatch.Url{},
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
+		&recipefilesync.Down{},
+		&recipefilesync.Online{},
 		&recipefilesync.Up{},
-		&recipefilesyncpreflight.Up{},
 		&recipefilerequest.Create{},
 		&recipefilerequest.List{},
 		&recipefilerequestdelete.Closed{},
@@ -168,6 +177,11 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipememberupdate.Email{},
 		&recipememberupdate.Externalid{},
 		&recipememberupdate.Profile{},
+		&recipeservicesasanateam.List{},
+		&recipeservicesasanateamproject.List{},
+		&recipeservicesasanateamtask.List{},
+		&recipeservicesasanaworkspace.List{},
+		&recipeservicesasanaworkspaceproject.List{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},

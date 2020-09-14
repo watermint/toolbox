@@ -27,6 +27,19 @@ brew tap watermint/toolbox
 brew install toolbox
 ```
 
+# セキュリティとプライバシー
+
+## 情報は収集しません 
+
+watermint toolboxは、第三者のサーバーに情報を収集することはありません. 
+
+watermint toolboxは、Dropbox のようなサービスとご自身のアカウントでやりとりするためのものです. 第三者のアカウントは関与していません. コマンドは、PCのストレージにAPIトークン、ログ、ファイル、またはレポートを保存します.
+
+## 機密データ
+
+APIトークンなどの機密データのほとんどは、難読化されてアクセス制限された状態でPCのストレージに保存されています. しかし、それらのデータを秘密にするのはあなたの責任です.
+特に、ツールボックスのワークパスの下にある`secrets`フォルダ(デフォルトでは`C:\Users\<ユーザー名>\.toolbox`、または`$HOME/.toolbox`フォルダ以下)は共有しないでください。
+
 # 利用方法
 
 `tbx` にはたくさんの機能があります. オプションなしで実行をするとサポートされているコマンドやオプションの一覧が表示されます.
@@ -51,44 +64,29 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
-   config        watermint toolbox の設定  
-   connect       アカウントに接続する             
-   file          ファイル操作                 
-   filerequest   ファイルリクエストの操作           
-   group         グループ管理                 
-   license       ライセンス情報を表示します          
-   member        チームメンバーの管理             
-   sharedfolder  共有フォルダ                 
-   sharedlink    個人アカウントの共有リンク          
-   team          Dropbox Business チーム   
-   teamfolder    チームフォルダの管理             
-   version       バージョン情報                
+[1mコマンド      説明                     備考[0m
+config        watermint toolbox の設定  
+connect       アカウントに接続する             
+file          ファイル操作                 
+filerequest   ファイルリクエストの操作           
+group         グループ管理                 
+license       ライセンス情報を表示します          
+member        チームメンバーの管理             
+sharedfolder  共有フォルダ                 
+sharedlink    個人アカウントの共有リンク          
+team          Dropbox Business チーム   
+teamfolder    チームフォルダの管理             
+version       バージョン情報                
 ```
 
 # コマンド
-
-## ユーティリティー
-
-| コマンド                                                       | 説明                               |
-|----------------------------------------------------------------|------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
-| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
-| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
-| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
-| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
-| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                   |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する   |
-| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します |
-| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.  |
-| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します         |
-| [version](doc/generated_ja/version.md)                         | バージョン情報                     |
 
 ## Dropbox (個人アカウント)
 
 | コマンド                                                                   | 説明                                                               |
 |----------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                               |
+| [dev benchmark upload](doc/generated_ja/dev-benchmark-upload.md)           | アップロードのベンチマーク                                         |
 | [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                             |
 | [file compare local](doc/generated_ja/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                 | ファイルをコピーします                                             |
@@ -104,9 +102,10 @@ DropboxおよびDropbox Business向けのツールセット
 | [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                 |
 | [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                           |
 | [file search name](doc/generated_ja/file-search-name.md)                   | ファイル名を検索                                                   |
-| [file sync preflight up](doc/generated_ja/file-sync-preflight-up.md)       | 上り方向同期のための事前チェックを実施します                       |
+| [file size](doc/generated_ja/file-size.md)                                 | ストレージの利用量                                                 |
+| [file sync down](doc/generated_ja/file-sync-down.md)                       | Dropboxと下り方向で同期します                                      |
+| [file sync online](doc/generated_ja/file-sync-online.md)                   | オンラインファイルを同期します                                     |
 | [file sync up](doc/generated_ja/file-sync-up.md)                           | Dropboxと上り方向で同期します                                      |
-| [file upload](doc/generated_ja/file-upload.md)                             | ファイルのアップロード                                             |
 | [file watch](doc/generated_ja/file-watch.md)                               | ファイルアクティビティを監視                                       |
 | [filerequest create](doc/generated_ja/filerequest-create.md)               | ファイルリクエストを作成します                                     |
 | [filerequest delete closed](doc/generated_ja/filerequest-delete-closed.md) | このアカウントの全ての閉じられているファイルリクエストを削除します |
@@ -213,4 +212,31 @@ DropboxおよびDropbox Business向けのツールセット
 | [services google mail message list](doc/generated_ja/services-google-mail-message-list.md)                     | メッセージの一覧                            |
 | [services google mail message processed list](doc/generated_ja/services-google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します. |
 | [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)                       | スレッド一覧                                |
+
+## Asana
+
+| コマンド                                                                                           | 説明                             |
+|----------------------------------------------------------------------------------------------------|----------------------------------|
+| [services asana team list](doc/generated_ja/services-asana-team-list.md)                           | チームのリスト                   |
+| [services asana team project list](doc/generated_ja/services-asana-team-project-list.md)           | チームのプロジェクト一覧         |
+| [services asana team task list](doc/generated_ja/services-asana-team-task-list.md)                 | チームのタスク一覧               |
+| [services asana workspace list](doc/generated_ja/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
+| [services asana workspace project list](doc/generated_ja/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
+
+## ユーティリティー
+
+| コマンド                                                       | 説明                               |
+|----------------------------------------------------------------|------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
+| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
+| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
+| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
+| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
+| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                   |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する   |
+| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します |
+| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.  |
+| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します         |
+| [version](doc/generated_ja/version.md)                         | バージョン情報                     |
 

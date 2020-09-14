@@ -2,8 +2,10 @@ package test
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
+	"github.com/watermint/toolbox/essentials/ambient/ea_notification"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -45,6 +47,8 @@ func (z *Recipe) runAll(c app_control.Control) error {
 	cat := app_catalogue.Current()
 	l := c.Log()
 
+	ea_notification.Global().SuppressForce()
+	ea_indicator.SuppressIndicatorForce()
 	for _, r := range cat.Recipes() {
 		if err := z.runSingle(c, r); err != nil {
 			return err

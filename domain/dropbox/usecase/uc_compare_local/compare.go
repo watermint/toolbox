@@ -1,7 +1,6 @@
 package uc_compare_local
 
 import (
-	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -9,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"io/ioutil"
@@ -124,7 +124,7 @@ func (z *compareImpl) cmpLevel(local mo_path2.FileSystemPath, dropbox mo_path.Dr
 	for name, lf := range localFiles {
 		lfp := localPath(lf)
 		calcHash := func(p string) string {
-			hash, err := dbx_util.ContentHash(p)
+			hash, err := dbx_util.FileContentHash(p)
 			if err != nil {
 				hash = "<failed to calculate content hash>"
 				l.Debug("Unable to calculate hash", esl.String("localPath", p), esl.Error(err))

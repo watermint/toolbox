@@ -73,7 +73,7 @@ func (z *Externalid) Test(c app_control.Control) error {
 	{
 		dummyEmails := make([]string, 0)
 		for i := 0; i < 8; i++ {
-			dummyEmails = append(dummyEmails, "xxxxxxxx@xxxxxxxxx.xxx")
+			dummyEmails = append(dummyEmails, "xxxxxxx@xxxxxxxxx.xxx")
 		}
 		content := strings.Join(dummyEmails, "\n")
 		path, err := qt_file.MakeTestFile("member.csv", content)

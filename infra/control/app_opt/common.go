@@ -1,7 +1,7 @@
 package app_opt
 
 import (
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"runtime"
 )

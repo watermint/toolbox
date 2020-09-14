@@ -1,9 +1,11 @@
 package app
 
 const (
-	ExperimentKvsStorageUseInMemory       = "kvs_use_inmemory"
-	ExperimentKvsStorageCompressionZstd   = "kvs_compress_zstd"
-	ExperimentKvsStorageCompressionSnappy = "kvs_compress_snappy"
+	ExperimentKvsStorageUseBadger               = "kvs_use_badger"
+	ExperimentKvsStorageUseBitcask              = "kvs_use_bitcask"
+	ExperimentKvsStorageBadgerUseInMemory       = "kvs_badger_use_inmemory"
+	ExperimentKvsStorageBadgerCompressionZstd   = "kvs_badger_compress_zstd"
+	ExperimentKvsStorageBadgerCompressionSnappy = "kvs_badger_compress_snappy"
 
 	ExperimentDbxClientConditionerNarrow20  = "dbx_client_conditioner_narrow20"  // 429 error for 20% traffic
 	ExperimentDbxClientConditionerNarrow40  = "dbx_client_conditioner_narrow40"  // 429 error for 40% traffic
@@ -12,4 +14,9 @@ const (
 	ExperimentDbxClientConditionerError20  = "dbx_client_conditioner_error20"  // 500 error for 20% traffic
 	ExperimentDbxClientConditionerError40  = "dbx_client_conditioner_error40"  // 500 error for 40% traffic
 	ExperimentDbxClientConditionerError100 = "dbx_client_conditioner_error100" // 500 error for 100% traffic
+
+	// Execute batch sequentially in same batchId
+	ExperimentBatchSequential = "batch_sequential"
+	// Execute batch with random batchId order
+	ExperimentBatchRandom = "batch_random"
 )

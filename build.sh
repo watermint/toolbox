@@ -18,17 +18,6 @@ mkdir -p resources/messages
 mkdir -p resources/templates
 mkdir -p resources/web
 
-if [ x"" != x"$TOOLBOX_APPKEYS" ]; then
-  echo "$TOOLBOX_APPKEYS" >resources/keys/toolbox.appkeys
-fi
-
-if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then
-  if [ -e resources/keys/toolbox.buildkey ]; then
-    TOOLBOX_BUILDERKEY=$(cat resources/keys/toolbox.buildkey)
-  else
-    TOOLBOX_BUILDERKEY="watermint-toolbox-default"
-  fi
-fi
 
 BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
 BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
@@ -59,6 +48,8 @@ if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   # Gitlab
   elif [ "$CI_PIPELINE_IID" ]; then
     TOOLBOX_BUILD_ID=1.$CI_PIPELINE_IID
+
+  # Docker
   else
     TOOLBOX_BUILD_ID=0.$(date +%Y%m%d%H%M%S)
   fi
@@ -68,23 +59,13 @@ BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
-cd "$PROJECT_ROOT"
-echo BUILD: Preparing license information
-for m in $(go list -m all | awk '{print $1}'); do
-  d=$(go list -json $m | jq -r .Module.Dir)
-  if [ x"" != x"$d" ]; then
-    l=$(find "$d" -maxdepth 1 -iname LICENSE\*)
-    if [ x"" != x"$l" ]; then
-      p=$(echo $m | sed 's/\//-/g')
-      jq -Rn "{\"$m\":[inputs]}" "$l" >$BUILD_PATH/$p.lic
-    fi
-  fi
-done
 
-jq -Rn '{"github.com/watermint/toolbox":[inputs]}' LICENSE.md >$BUILD_PATH/github.com-watermint-toolbox.lic
-jq -s add $BUILD_PATH/*.lic >resources/data/licenses.json
+echo --------------------
+echo BUILD: Preparing resources
 
-echo BUILD: Building tool
+if [ x"" != x"$TOOLBOX_APPKEYS" ]; then
+  echo "$TOOLBOX_APPKEYS" >resources/keys/toolbox.appkeys
+fi
 
 if [ -e "resources/keys/toolbox.appkeys" ]; then
   echo App keys file found. Verify app key file...
@@ -107,6 +88,26 @@ else
   echo ERR: No app key file found
   exit 1
 fi
+
+if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then
+  if [ -e resources/keys/toolbox.buildkey ]; then
+    TOOLBOX_BUILDERKEY=$(cat resources/keys/toolbox.buildkey)
+  else
+    TOOLBOX_BUILDERKEY="watermint-toolbox-default"
+  fi
+fi
+
+
+echo --------------------
+echo BUILD: License information
+
+mkdir $BUILD_PATH/license
+go-licenses csv github.com/watermint/toolbox 2> /dev/null > "$BUILD_PATH/license/licenses.csv"
+go-licenses save github.com/watermint/toolbox --save_path "$BUILD_PATH/license/licenses" 2> /dev/null
+go run tbx.go dev build license -quiet -source-path $BUILD_PATH/license -dest-path "$PROJECT_ROOT/resources/data/licenses.json"
+
+echo BUILD: Building tool
+
 rice embed-go
 
 X_APP_VERSION="-X github.com/watermint/toolbox/infra/app.Version=$BUILD_VERSION"
@@ -141,16 +142,28 @@ echo --------------------
 echo BUILD: Generating documents
 
 $BUILD_PATH/linux/tbx license -output markdown >$BUILD_PATH/LICENSE.txt
-$BUILD_PATH/linux/tbx dev doc -filename README.txt -badge=false >$BUILD_PATH/README.txt
+$BUILD_PATH/linux/tbx dev build readme -path $BUILD_PATH/README.txt
+
+if [ ! -s $BUILD_PATH/LICENSE.txt ]; then
+  echo Failed to generate LICENSE
+  exit 1
+fi
+
+if [ ! -s $BUILD_PATH/README.txt ]; then
+  echo Failed to generate README
+  exit 1
+fi
+
 
 echo --------------------
 echo BUILD: Packaging
 for p in win win64 mac linux; do
   echo BUILD: Packaging $p
-  cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/
-  cp README.txt $BUILD_PATH/"$p"/README.txt
+  cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/LICENSE.txt
+  cp $BUILD_PATH/README.txt $BUILD_PATH/"$p"/README.txt
   (cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip .)
 done
+echo BUILD: Packaging all
 (cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip)
 
 if [ x"$TOOLBOX_DEPLOY_TOKEN" = x"" ]; then

@@ -2,7 +2,7 @@ package sc_random
 
 import (
 	"crypto/rand"
-	"encoding/base64"
+	"encoding/base32"
 	"errors"
 	"fmt"
 )
@@ -25,6 +25,6 @@ func GenerateRandomString(size int) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	encoded := base64.URLEncoding.EncodeToString(seq)
+	encoded := base32.StdEncoding.WithPadding(base32.NoPadding).EncodeToString(seq)
 	return encoded[:size], nil
 }

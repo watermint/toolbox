@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member_quota"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -57,6 +58,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
+	l := c.Log()
 	members, err := sv_member.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
@@ -66,16 +68,27 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
-	for _, member := range members {
-		q.Enqueue(&ListWorker{
-			member: member,
-			ctx:    z.Peer.Context(),
-			rep:    z.MemberQuota,
-			ctl:    c,
-		})
+	memberQuota := func(member *mo_member.Member) error {
+		ll := l.With(esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("member", member))
+		ll.Debug("Scan member")
+
+		q, err := sv_member_quota.NewQuota(z.Peer.Context()).Resolve(member.TeamMemberId)
+		if err != nil {
+			ll.Debug("Unable to scan member")
+			return err
+		}
+		z.MemberQuota.Row(mo_member_quota.NewMemberQuota(member, q))
+		return nil
 	}
-	q.Wait()
+
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("memberQuota", memberQuota)
+		q := s.Get("memberQuota")
+
+		for _, member := range members {
+			q.Enqueue(member)
+		}
+	})
 	return nil
 }
 

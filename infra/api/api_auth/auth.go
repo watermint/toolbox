@@ -15,6 +15,7 @@ const (
 	DropboxScopedTeam              = "dropbox_scoped_team"
 	Github                         = "github"
 	GoogleMail                     = "google_mail"
+	Asana                          = "asana"
 )
 
 // Application key/secret manager

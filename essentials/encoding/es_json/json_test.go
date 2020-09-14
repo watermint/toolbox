@@ -16,6 +16,51 @@ func TestPath(t *testing.T) {
 	}
 }
 
+func TestToJsonString(t *testing.T) {
+	{
+		v := struct {
+			SKU   string `json:"sku"`
+			Price int    `json:"price"`
+		}{
+			SKU:   "A123",
+			Price: 123,
+		}
+		if s := ToJsonString(v); s != `{"sku":"A123","price":123}` {
+			t.Error(s)
+		}
+	}
+
+	{
+		v := map[string]string{
+			"_sku": "A123",
+			"name": "Grapefruit",
+		}
+		if s := ToJsonString(v); s != `{"_sku":"A123","name":"Grapefruit"}` {
+			t.Error(s)
+		}
+	}
+
+	{
+		if s := ToJsonString(nil); s != "null" {
+			t.Error(s)
+		}
+	}
+
+	// non serializable value
+	{
+		if s := ToJsonString(func() {}); s != "null" {
+			t.Error(s)
+		}
+	}
+
+	{
+		v := MustParseString(`{"sku":"A123","price":123}`)
+		if s := ToJsonString(v); s != `{"sku":"A123","price":123}` {
+			t.Error(s)
+		}
+	}
+}
+
 func TestParse(t *testing.T) {
 	// object
 	if j, err := Parse([]byte("{}")); err == nil {

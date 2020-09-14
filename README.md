@@ -29,6 +29,19 @@ brew tap watermint/toolbox
 brew install toolbox
 ```
 
+# Security and privacy
+
+## Information Not Collected 
+
+The watermint toolbox does not collect any information to third-party servers.
+
+The watermint toolbox is for interacting with the services like Dropbox with your account. There is no third-party account involved. The Commands stores API token, logs, files, or reports on your PC storage.
+
+## Sensitive data
+
+Most sensitive data, such as API token, are saved on your PC storage in obfuscated & made restricted access. However, it's your responsibility to keep those data secret. 
+Please do not share files, especially the `secrets` folder under toolbox work path (`C:\Users\<your user name>\.toolbox`, or `$HOME/.toolbox` by default).
+
 # Usage
 
 `tbx` have various features. Run without an option for a list of supported commands and options.
@@ -53,44 +66,29 @@ Usage:
 Available commands:
 ===================
 
-   config        watermint toolbox configuration  
-   connect       Connect to the account           
-   file          File operation                   
-   filerequest   File request operation           
-   group         Group management                 
-   license       Show license information         
-   member        Team member management           
-   sharedfolder  Shared folder                    
-   sharedlink    Shared Link of Personal account  
-   team          Dropbox Business Team            
-   teamfolder    Team folder management           
-   version       Show version                     
+[1mCommand   Description                      Notes[0m
+config        watermint toolbox configuration  
+connect       Connect to the account           
+file          File operation                   
+filerequest   File request operation           
+group         Group management                 
+license       Show license information         
+member        Team member management           
+sharedfolder  Shared folder                    
+sharedlink    Shared Link of Personal account  
+team          Dropbox Business Team            
+teamfolder    Team folder management           
+version       Show version                     
 ```
 
 # Commands
-
-## Utilities
-
-| Command                                                     | Description                                      |
-|-------------------------------------------------------------|--------------------------------------------------|
-| [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
-| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
-| [config features](doc/generated/config-features.md)         | List available optional features.                |
-| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
-| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
-| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
-| [job history list](doc/generated/job-history-list.md)       | Show job history                                 |
-| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
-| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
-| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
-| [license](doc/generated/license.md)                         | Show license information                         |
-| [version](doc/generated/version.md)                         | Show version                                     |
 
 ## Dropbox (Individual account)
 
 | Command                                                                 | Description                                      |
 |-------------------------------------------------------------------------|--------------------------------------------------|
 | [connect user_file](doc/generated/connect-user_file.md)                 | Connect to user file access                      |
+| [dev benchmark upload](doc/generated/dev-benchmark-upload.md)           | Upload benchmark                                 |
 | [file compare account](doc/generated/file-compare-account.md)           | Compare files of two accounts                    |
 | [file compare local](doc/generated/file-compare-local.md)               | Compare local folders and Dropbox folders        |
 | [file copy](doc/generated/file-copy.md)                                 | Copy files                                       |
@@ -106,9 +104,10 @@ Available commands:
 | [file restore](doc/generated/file-restore.md)                           | Restore files under given path                   |
 | [file search content](doc/generated/file-search-content.md)             | Search file content                              |
 | [file search name](doc/generated/file-search-name.md)                   | Search file name                                 |
-| [file sync preflight up](doc/generated/file-sync-preflight-up.md)       | Upstream sync preflight check                    |
+| [file size](doc/generated/file-size.md)                                 | Storage usage                                    |
+| [file sync down](doc/generated/file-sync-down.md)                       | Downstream sync with Dropbox                     |
+| [file sync online](doc/generated/file-sync-online.md)                   | Sync online files                                |
 | [file sync up](doc/generated/file-sync-up.md)                           | Upstream sync with Dropbox                       |
-| [file upload](doc/generated/file-upload.md)                             | Upload file                                      |
 | [file watch](doc/generated/file-watch.md)                               | Watch file activities                            |
 | [filerequest create](doc/generated/filerequest-create.md)               | Create a file request                            |
 | [filerequest delete closed](doc/generated/filerequest-delete-closed.md) | Delete all closed file requests on this account. |
@@ -215,4 +214,31 @@ Available commands:
 | [services google mail message list](doc/generated/services-google-mail-message-list.md)                     | List messages                           |
 | [services google mail message processed list](doc/generated/services-google-mail-message-processed-list.md) | List messages in processed format.      |
 | [services google mail thread list](doc/generated/services-google-mail-thread-list.md)                       | List threads                            |
+
+## Asana
+
+| Command                                                                                         | Description                    |
+|-------------------------------------------------------------------------------------------------|--------------------------------|
+| [services asana team list](doc/generated/services-asana-team-list.md)                           | List team                      |
+| [services asana team project list](doc/generated/services-asana-team-project-list.md)           | List projects of the team      |
+| [services asana team task list](doc/generated/services-asana-team-task-list.md)                 | List task of the team          |
+| [services asana workspace list](doc/generated/services-asana-workspace-list.md)                 | List workspaces                |
+| [services asana workspace project list](doc/generated/services-asana-workspace-project-list.md) | List projects of the workspace |
+
+## Utilities
+
+| Command                                                     | Description                                      |
+|-------------------------------------------------------------|--------------------------------------------------|
+| [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
+| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
+| [config features](doc/generated/config-features.md)         | List available optional features.                |
+| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
+| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
+| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
+| [job history list](doc/generated/job-history-list.md)       | Show job history                                 |
+| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
+| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
+| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
+| [license](doc/generated/license.md)                         | Show license information                         |
+| [version](doc/generated/version.md)                         | Show version                                     |
 

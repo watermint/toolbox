@@ -178,7 +178,6 @@ func (z *Explorer) Exec(c app_control.Control) error {
 				rc.IncludeMemberFolder = true
 				rc.IncludeDeleted = true
 				rc.IncludeSharedFolder = true
-				rc.IncludeMediaInfo = true
 			},
 		},
 		{

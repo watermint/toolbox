@@ -8,4 +8,5 @@ type Context interface {
 	api_context.Post
 	api_context.Put
 	api_context.Delete
+	api_context.UI
 }

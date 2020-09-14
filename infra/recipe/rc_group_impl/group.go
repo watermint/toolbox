@@ -11,9 +11,12 @@ import (
 )
 
 type MsgGroup struct {
-	GroupHeaderUsage       app_msg.Message
-	GroupUsage             app_msg.Message
-	GroupAvailableCommands app_msg.Message
+	GroupHeaderUsage          app_msg.Message
+	GroupUsage                app_msg.Message
+	GroupAvailableCommands    app_msg.Message
+	HeaderAvailCommandCommand app_msg.Message
+	HeaderAvailCommandDesc    app_msg.Message
+	HeaderAvailCommandNote    app_msg.Message
 }
 
 var (
@@ -104,10 +107,11 @@ func (z *groupImpl) PrintUsage(ui app_ui.UI, exec, version string) {
 
 	ui.Header(MGroup.GroupAvailableCommands)
 	cmdTable := ui.InfoTable("usage")
+	cmdTable.Header(MGroup.HeaderAvailCommandCommand, MGroup.HeaderAvailCommandDesc, MGroup.HeaderAvailCommandNote)
 	cmds, ca := z.commandAnnotations(ui)
 	for _, cmd := range cmds {
 		ann := ca[cmd]
-		cmdTable.Row(app_msg.Raw(" "), app_msg.Raw(cmd), z.CommandTitle(cmd), app_msg.Raw(ann))
+		cmdTable.Row(app_msg.Raw(cmd), z.CommandTitle(cmd), app_msg.Raw(ann))
 	}
 	cmdTable.Flush()
 }

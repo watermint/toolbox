@@ -1,63 +1,62 @@
 package file
 
 import (
-	mo_path2 "github.com/watermint/toolbox/domain/common/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
-	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/file/es_filesystem"
+	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
+	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_filter"
+	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"io/ioutil"
-	"os"
 	"path/filepath"
-	"strings"
-	"time"
 )
 
 type MsgUpload struct {
-	SkipDontSync   app_msg.Message
-	SkipFileExists app_msg.Message
+	SkipExists app_msg.Message
+	SkipFilter app_msg.Message
+	SkipSame   app_msg.Message
+	SkipOther  app_msg.Message
 }
 
 var (
 	MUpload = app_msg.Apply(&MsgUpload{}).(*MsgUpload)
 )
 
-const (
-	statusReportInterval = 15 * 1000 * time.Millisecond
-)
-
 type Upload struct {
-	Context         dbx_context.Context
-	EstimateOnly    bool
-	Overwrite       bool
-	ChunkSizeKb     int
-	CreateFolder    bool
-	LocalPath       mo_path2.FileSystemPath
-	DropboxPath     mo_path.DropboxPath
-	ProgressUpload  app_msg.Message
-	ProgressSummary app_msg.Message
-	Uploaded        rp_model.TransactionReport
-	Skipped         rp_model.TransactionReport
-	Summary         rp_model.RowReport
+	Context     dbx_context.Context
+	Delete      bool
+	Overwrite   bool
+	ChunkSizeKb int
+	WorkPath    mo_string.OptionalString
+	LocalPath   mo_path2.FileSystemPath
+	DropboxPath mo_path.DropboxPath
+	Uploaded    rp_model.TransactionReport
+	Skipped     rp_model.TransactionReport
+	Deleted     rp_model.RowReport
+	Summary     rp_model.RowReport
+	Name        mo_filter.Filter
 }
 
 func (z *Upload) Preset() {
-	z.Uploaded.SetModel(&UploadRow{}, &mo_file.ConcreteEntry{}, rp_model.HiddenColumns(
+	z.Uploaded.SetModel(&es_filesystem.EntryData{}, &mo_file.ConcreteEntry{}, rp_model.HiddenColumns(
+		"input.file_system_type",
+		"input.name",
+		"input.size",
+		"input.mod_time",
+		"input.is_file",
+		"input.is_folder",
 		"result.id",
 		"result.tag",
 		"result.path_lower",
@@ -65,234 +64,134 @@ func (z *Upload) Preset() {
 		"result.shared_folder_id",
 		"result.parent_shared_folder_id",
 	))
-	z.Skipped.SetModel(&UploadRow{}, &mo_file.ConcreteEntry{}, rp_model.HiddenColumns(
-		"result.id",
-		"result.tag",
-		"result.path_lower",
-		"result.revision",
-		"result.shared_folder_id",
-		"result.parent_shared_folder_id",
+	z.Skipped.SetModel(&es_filesystem.PathData{}, nil, rp_model.HiddenColumns(
+		"input.file_system_type",
+		"input.attributes",
+		"input.entry_namespace.file_system_type",
+		"input.entry_namespace.namespace_id",
+		"input.entry_namespace.attributes",
 	))
-	z.Summary.SetModel(&UploadSummary{})
+	z.Deleted.SetModel(&es_filesystem.PathData{}, rp_model.HiddenColumns(
+		"file_system_type",
+		"attributes",
+		"entry_namespace.file_system_type",
+		"entry_namespace.namespace_id",
+		"entry_namespace.attributes",
+	))
+	z.Summary.SetModel(&Summary{})
 	z.ChunkSizeKb = 150 * 1024
-}
-
-func (z *Upload) exec(c app_control.Control, localPath string, dropboxPath string, estimate bool) (summary *UploadSummary, err error) {
-	// TODO: refactor localPath to mo_path.FileSystemPath, and DropboxPath to mo_path.DropboxPath
-	l := c.Log().With(esl.String("localPath", localPath), esl.String("dropboxPath", dropboxPath), esl.Bool("estimate", estimate))
-	l.Debug("execute")
-
-	status := &UploadStatus{
-		summary: UploadSummary{
-			UploadStart: time.Now(),
-		},
-	}
-
-	go func() {
-		for {
-			time.Sleep(statusReportInterval)
-
-			ss := status.summary
-
-			dur := time.Now().Sub(ss.UploadStart) / (1000 * time.Millisecond)
-			if dur == 0 {
-				continue
-			}
-
-			kps := ss.NumBytes / int64(dur) / 1024
-
-			c.UI().Progress(z.ProgressSummary.
-				With("Time", time.Now().Truncate(1000*time.Millisecond).Format("15:04:05")).
-				With("NumFileUpload", ss.NumFilesUpload).
-				With("NumFileSkip", ss.NumFilesSkip).
-				With("NumFileError", ss.NumFilesError).
-				With("NumBytes", ss.NumBytes/1_048_576).
-				With("Kps", kps).
-				With("NumApiCall", ss.NumApiCall))
-		}
-	}()
-
-	l.Debug("upload", esl.Int("chunkSize", z.ChunkSizeKb))
-	up := sv_file_content.NewUpload(z.Context, sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
-	q := c.NewQueue()
-
-	info, err := os.Lstat(localPath)
-	if err != nil {
-		l.Debug("Unable to fetch info", esl.Error(err))
-		return nil, err
-	}
-
-	createFolder := func(path string) error {
-		ll := l.With(esl.String("path", path))
-		ll.Debug("Prepare create folder")
-		rel, err := es_filepath.Rel(localPath, path)
-		if err != nil {
-			l.Debug("unable to calculate rel path", esl.Error(err))
-			z.Uploaded.Failure(err, &UploadRow{File: path})
-			status.error()
-			return err
-		}
-		if rel == "." {
-			ll.Debug("Skip")
-			return nil
-		}
-
-		folderPath := mo_path.NewDropboxPath(dropboxPath).ChildPath(rel)
-		ll = ll.With(esl.String("folderPath", folderPath.Path()), esl.String("rel", rel))
-		ll.Debug("Create folder")
-
-		entry, err := sv_file_folder.New(z.Context).Create(folderPath)
-		if err != nil {
-			if dbx_util.ErrorSummaryPrefix(err, "path/conflict/folder") {
-				ll.Debug("The folder already exist, ignore it", esl.Error(err))
-				return nil
-			} else {
-				ll.Debug("Unable to create folder", esl.Error(err))
-				z.Uploaded.Failure(err, &UploadRow{File: path})
-				return err
-			}
-		}
-		z.Uploaded.Success(&UploadRow{File: path}, entry.Concrete())
-
-		return nil
-	}
-
-	var scanFolder func(path string) error
-	scanFolder = func(path string) error {
-		ll := l.With(esl.String("path", path))
-
-		ll.Debug("Scanning folder")
-		localEntries, err := ioutil.ReadDir(path)
-		if err != nil {
-			ll.Debug("Unable to read dir", esl.Error(err))
-			z.Uploaded.Failure(err, &UploadRow{File: path})
-			return err
-		}
-		localPathRel, err := es_filepath.Rel(localPath, path)
-		if err != nil {
-			ll.Debug("Unable to calc rel path", esl.Error(err))
-			z.Uploaded.Failure(err, &UploadRow{File: path})
-			return err
-		}
-
-		dbxPath := mo_path.NewDropboxPath(dropboxPath)
-		if localPathRel != "." {
-			dbxPath = dbxPath.ChildPath(localPathRel)
-		}
-
-		dbxEntries, err := sv_file.NewFiles(z.Context).List(dbxPath)
-		if err != nil {
-			ers := dbx_error.NewErrors(err)
-			if ers.Path().IsNotFound() {
-				ll.Debug("Dropbox entry not found", esl.String("dbxPath", dbxPath.Path()), esl.Error(err))
-				dbxEntries = make([]mo_file.Entry, 0)
-			} else {
-				ll.Debug("Unable to read Dropbox entries", esl.String("dbxPath", dbxPath.Path()), esl.Error(err))
-				return err
-			}
-		}
-		dbxEntryByName := mo_file.MapByNameLower(dbxEntries)
-
-		numEntriesProceed := 0
-		var lastErr error
-		for _, e := range localEntries {
-			p := filepath.Join(path, e.Name())
-			if dbx_util.IsFileNameIgnored(p) {
-				ll.Debug("Ignore file", esl.String("p", p))
-				var ps int64 = 0
-				pi, err := os.Lstat(p)
-				if err == nil {
-					ps = pi.Size()
-				}
-				status.skip()
-				z.Skipped.Skip(
-					MUpload.SkipDontSync,
-					UploadRow{
-						File: p,
-						Size: ps,
-					})
-				continue
-			}
-			app_ui.ShowProgress(c.UI())
-			numEntriesProceed++
-			if e.IsDir() {
-				lastErr = scanFolder(filepath.Join(path, e.Name()))
-			} else {
-				dbxEntry := dbxEntryByName[strings.ToLower(e.Name())]
-				ll.Debug("Enqueue", esl.String("p", p))
-				q.Enqueue(&UploadWorker{
-					dropboxBasePath: dropboxPath,
-					localBasePath:   localPath,
-					localFilePath:   p,
-					dbxEntry:        dbxEntry,
-					ctx:             z.Context,
-					ctl:             c,
-					up:              up,
-					estimateOnly:    estimate,
-					status:          status,
-					upload:          z,
-				})
-			}
-		}
-		l.Debug("folder scan finished", esl.Int("numEntriesProceed", numEntriesProceed), esl.Error(lastErr))
-		if numEntriesProceed == 0 && z.CreateFolder {
-			l.Debug("Create folder for empty folder")
-			return createFolder(path)
-		}
-		return lastErr
-	}
-
-	var lastErr error
-	if info.IsDir() {
-		lastErr = scanFolder(localPath)
-	} else {
-		q.Enqueue(&UploadWorker{
-			dropboxBasePath: dropboxPath,
-			localBasePath:   localPath,
-			localFilePath:   localPath,
-			ctx:             z.Context,
-			ctl:             c,
-			up:              up,
-			estimateOnly:    estimate,
-			upload:          z,
-			status:          status,
-		})
-	}
-
-	q.Wait()
-
-	status.summary.UploadEnd = time.Now()
-	z.Summary.Row(&status.summary)
-	return &status.summary, lastErr
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
 	l := c.Log().With(esl.String("src", z.LocalPath.Path()), esl.String("dest", z.DropboxPath.Path()))
+	localPath, err := filepath.Abs(z.LocalPath.Path())
+	if err != nil {
+		l.Debug("Unable to calc abs path", esl.Error(err), esl.String("localPath", z.LocalPath.Path()))
+		return err
+	}
+	localPath = filepath.Clean(localPath)
 	if err := z.Uploaded.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
 	if err := z.Skipped.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
+	if err := z.Deleted.Open(rp_model.NoConsoleOutput()); err != nil {
+		return err
+	}
 	if err := z.Summary.Open(); err != nil {
 		return err
 	}
 	l.Debug("Start uploading")
-	_, err := z.exec(c, z.LocalPath.Path(), z.DropboxPath.Path(), z.EstimateOnly)
-	l.Debug("Finished", esl.Error(err))
-	return err
+
+	srcFs := es_filesystem_local.NewFileSystem()
+	tgtFs := filesystem.NewFileSystem(z.Context)
+	var conn es_filesystem.Connector
+	if z.WorkPath.IsExists() {
+		l.Debug("Use up and move tactics", esl.String("workPath", z.WorkPath.Value()))
+		conn = filesystem.NewLocalToDropboxUpAndMove(z.Context,
+			mo_path.NewDropboxPath(z.WorkPath.Value()),
+			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
+	} else {
+		l.Debug("Use regular up tactics")
+		conn = filesystem.NewLocalToDropbox(z.Context,
+			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
+	}
+
+	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
+		e, errConvert := filesystem.ToDropboxEntry(entry)
+		if errConvert != nil {
+			l.Debug("Unable ot convert", esl.Error(errConvert))
+			panic("internal error")
+		}
+		return e
+	}
+
+	status := &Status{}
+	status.start()
+
+	syncer := es_sync.New(
+		c.Log(),
+		c.Sequence(),
+		srcFs,
+		tgtFs,
+		conn,
+		es_sync.SyncDelete(z.Delete),
+		es_sync.SyncOverwrite(z.Overwrite),
+		es_sync.OnDeleteSuccess(func(target es_filesystem.Path) {
+			status.delete()
+			z.Deleted.Row(target.AsData())
+		}),
+		es_sync.OnDeleteFailure(func(target es_filesystem.Path, err es_filesystem.FileSystemError) {
+			status.error()
+		}),
+		es_sync.OnCreateFolderSuccess(func(target es_filesystem.Path) {
+			status.createFolder()
+		}),
+		es_sync.OnCreateFolderFailure(func(target es_filesystem.Path, err es_filesystem.FileSystemError) {
+			status.error()
+		}),
+		es_sync.OnCopySuccess(func(source es_filesystem.Entry, target es_filesystem.Entry) {
+			z.Uploaded.Success(source.AsData(), mustToDbxEntry(target).Concrete())
+			status.upload(source.Size(), z.ChunkSizeKb*1024)
+		}),
+		es_sync.OnCopyFailure(func(source es_filesystem.Path, err es_filesystem.FileSystemError) {
+			status.error()
+		}),
+		es_sync.OnSkip(func(reason es_sync.SkipReason, source es_filesystem.Entry, target es_filesystem.Path) {
+			var reasonMsg app_msg.Message
+			switch reason {
+			case es_sync.SkipExists:
+				reasonMsg = MUpload.SkipExists
+			case es_sync.SkipFilter:
+				reasonMsg = MUpload.SkipFilter
+			case es_sync.SkipSame:
+				reasonMsg = MUpload.SkipSame
+			default:
+				reasonMsg = MUpload.SkipOther.With("Reason", reason)
+			}
+			z.Skipped.Skip(reasonMsg, source.Path().AsData())
+			status.skip()
+		}),
+		es_sync.WithNameFilter(z.Name),
+	)
+
+	syncErr := syncer.Sync(es_filesystem_local.NewPath(z.LocalPath.Path()), filesystem.NewPath("", z.DropboxPath))
+
+	if syncErr != nil {
+		l.Debug("Sync finished with an error", esl.Error(syncErr))
+	}
+	status.finish()
+
+	z.Summary.Row(status.summary)
+	return syncErr
 }
 
 func (z *Upload) Test(c app_control.Control) error {
-	err := rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
+	return rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
 		m.Context = dbx_context_impl.NewMock(c)
 		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "up")
 		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("up")
 	})
-	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
-		return err
-	}
-
-	return qt_errors.ErrorScenarioTest
 }

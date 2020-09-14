@@ -68,13 +68,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                     | Description                                                                                    | Default |
-|----------------------------|------------------------------------------------------------------------------------------------|---------|
-| `-add-label-if-not-exist`  | Create a label if it is not exist.                                                             | false   |
-| `-apply-to-inbox-messages` | Apply labels to messages satisfy query in INBOX.                                               | false   |
-| `-file`                    | Path to data file                                                                              |         |
-| `-peer`                    | Account alias                                                                                  | default |
-| `-user-id`                 | The user's email address. The special value me can be used to indicate the authenticated user. | me      |
+| Option                        | Description                                                                                    | Default |
+|-------------------------------|------------------------------------------------------------------------------------------------|---------|
+| `-add-label-if-not-exist`     | Create a label if it is not exist.                                                             | false   |
+| `-apply-to-existing-messages` | Apply labels to existing messages that satisfy the query.                                      | false   |
+| `-file`                       | Path to data file                                                                              |         |
+| `-peer`                       | Account alias                                                                                  | default |
+| `-user-id`                    | The user's email address. The special value me can be used to indicate the authenticated user. | me      |
 
 ## Common options:
 

@@ -6,8 +6,9 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_exit"
+	"github.com/watermint/toolbox/infra/control/app_resource"
+	"github.com/watermint/toolbox/infra/doc/dc_license"
 	"github.com/watermint/toolbox/infra/security/sc_zap"
-	"github.com/watermint/toolbox/recipe"
 )
 
 func Suite(ctl app_control.Control) {
@@ -54,10 +55,15 @@ func checkZap(ctl app_control.Control) {
 
 func checkLicense(ctl app_control.Control) {
 	l := ctl.Log()
-	_, _, _, err := recipe.LoadLicense(ctl)
+	licenseData, err := app_resource.Bundle().Data().Bytes("licenses.json")
 	if err != nil {
-		l.Error("Unable to load license", esl.Error(err))
+		l.Error("License file not found")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
-		return
+	}
+	licenses := &dc_license.Licenses{}
+	err = json.Unmarshal(licenseData, licenses)
+	if err != nil {
+		l.Error("Unable to parse", esl.Error(err), esl.ByteString("data", licenseData))
+		app_exit.Abort(app_exit.FatalResourceUnavailable)
 	}
 }

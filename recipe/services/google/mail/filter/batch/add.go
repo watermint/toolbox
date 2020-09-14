@@ -34,7 +34,7 @@ type Add struct {
 	Peer                       goog_conn.ConnGoogleMail
 	UserId                     string
 	AddLabelIfNotExist         bool
-	ApplyToInboxMessages       bool
+	ApplyToExistingMessages    bool
 	Filters                    rp_model.TransactionReport
 	Messages                   rp_model.RowReport
 	File                       fd_file.RowFeed
@@ -99,9 +99,9 @@ func (z *Add) addDeleteLabels(row *AddRow, c app_control.Control) (addLabelIds, 
 func (z *Add) processMessages(query string, addLabelIds, deleteLabelIds []string, c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log().With(esl.String("query", query), esl.Strings("addLabels", addLabelIds), esl.Strings("deleteLabels", deleteLabelIds))
-	l.Debug("Retrieve messages in INBOX")
+	l.Debug("Retrieve existing messages that satisfies query")
 	svm := sv_message.New(z.Peer.Context(), z.UserId)
-	messages, err := svm.List(sv_message.Query(query), sv_message.LabelIds([]string{"INBOX"}))
+	messages, err := svm.List(sv_message.Query(query))
 	if err != nil {
 		l.Debug("Unable to retrieve messages", esl.Error(err))
 		return err
@@ -162,18 +162,20 @@ func (z *Add) Exec(c app_control.Control) error {
 		addLabels, removeLabels, err := z.addDeleteLabels(row, c)
 		if err != nil {
 			z.Filters.Failure(err, row)
-			return err
+			return nil
 		}
 
 		filter, err := z.addFilter(row.Query, addLabels, removeLabels, c)
 		if err != nil {
 			z.Filters.Failure(err, row)
-			return err
+			return nil
 		}
 		z.Filters.Success(row, filter)
 
-		if z.ApplyToInboxMessages {
-			return z.processMessages(row.Query, addLabels, removeLabels, c)
+		if z.ApplyToExistingMessages {
+			err = z.processMessages(row.Query, addLabels, removeLabels, c)
+			z.Filters.Failure(err, row)
+			return nil
 		}
 		return nil
 	})
@@ -190,7 +192,7 @@ func (z *Add) Test(c app_control.Control) error {
 
 	return rc_exec.ExecReplay(c, &Add{}, "recipe-services-google-mail-filter-batch-add.json.gz", func(r rc_recipe.Recipe) {
 		m := r.(*Add)
-		m.ApplyToInboxMessages = true
+		m.ApplyToExistingMessages = true
 		m.AddLabelIfNotExist = true
 		m.File.SetFilePath(f)
 	})

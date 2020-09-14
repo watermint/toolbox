@@ -2,8 +2,6 @@ package update
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/common/model/mo_int"
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
@@ -13,6 +11,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_int"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/time/ut_time"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -62,7 +62,7 @@ func (z *ExpiryScanWorker) Exec() error {
 		return err
 	}
 
-	q := z.ctl.NewQueue()
+	q := z.ctl.NewLegacyQueue()
 
 	for _, link := range links {
 		ll := l.With(esl.Any("link", link))
@@ -217,7 +217,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewQueue()
+	q := c.NewLegacyQueue()
 
 	for _, member := range members {
 		q.Enqueue(&ExpiryScanWorker{

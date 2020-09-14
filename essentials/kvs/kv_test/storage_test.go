@@ -5,21 +5,42 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
-func TestPutGetString(t *testing.T) {
+func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		var err error
-		db := kv_storage_impl.New("coffee_put-get-string")
-		if err := db.Open(ctl); err != nil {
-			t.Error(err)
-			return
+		// badger
+		{
+			db := kv_storage_impl.InternalNewBadger(name + "_badger")
+			if err := db.Open(ctl); err != nil {
+				t.Error(err)
+				return
+			}
+			f(t, db)
+			db.Close()
 		}
-		defer db.Close()
+
+		// bitcask
+		{
+			db := kv_storage_impl.InternalNewBitcask(name + "_bitcask")
+			if err := db.Open(ctl); err != nil {
+				t.Error(err)
+				return
+			}
+			f(t, db)
+			db.Close()
+		}
+	})
+}
+
+func TestPutGetString(t *testing.T) {
+	kvsTest(t, "coffee_put-get-string", func(t *testing.T, db kv_storage.Storage) {
+		var err error
 
 		// put/get string
 		err = db.Update(func(coffee kv_kvs.Kvs) error {
@@ -56,13 +77,8 @@ func TestPutGetString(t *testing.T) {
 }
 
 func TestPutGetBytes(t *testing.T) {
-	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
+	kvsTest(t, "coffee_put-get-bytes", func(t *testing.T, db kv_storage.Storage) {
 		var err error
-		db := kv_storage_impl.New("coffee_put-get-bytes")
-		if err := db.Open(ctl); err != nil {
-			t.Error(err)
-			return
-		}
 
 		// put/get bytes
 		err = db.Update(func(coffee kv_kvs.Kvs) error {
@@ -93,13 +109,9 @@ func TestPutGetBytes(t *testing.T) {
 }
 
 func TestPutGetJSON(t *testing.T) {
-	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
+	kvsTest(t, "coffee_put-get-json", func(t *testing.T, db kv_storage.Storage) {
 		var err error
-		db := kv_storage_impl.New("coffee_put-get-json")
-		if err := db.Open(ctl); err != nil {
-			t.Error(err)
-			return
-		}
+
 		// put/get json
 		err = db.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
@@ -154,13 +166,9 @@ func TestPutGetJSON(t *testing.T) {
 }
 
 func TestPutGetJSONModel(t *testing.T) {
-	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
+	kvsTest(t, "coffee_put-get-json-model", func(t *testing.T, db kv_storage.Storage) {
 		var err error
-		db := kv_storage_impl.New("coffee_put-get-json-model")
-		if err := db.Open(ctl); err != nil {
-			t.Error(err)
-			return
-		}
+
 		// put/get json model
 		err = db.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
@@ -246,13 +254,8 @@ func TestPutGetJSONModel(t *testing.T) {
 }
 
 func TestPutGetJSONModel2(t *testing.T) {
-	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
+	kvsTest(t, "coffee_put-get-json-model2", func(t *testing.T, db kv_storage.Storage) {
 		var err error
-		db := kv_storage_impl.New("coffee_put-get-json-model2")
-		if err := db.Open(ctl); err != nil {
-			t.Error(err)
-			return
-		}
 
 		// foreach model
 		err = db.Update(func(coffee kv_kvs.Kvs) error {

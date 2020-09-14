@@ -1,8 +1,8 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/domain/common/model/mo_string"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -12,12 +12,11 @@ import (
 
 type List struct {
 	Peer                dbx_conn.ConnBusinessFile
-	IncludeMediaInfo    bool
 	IncludeDeleted      bool
 	IncludeMemberFolder bool
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
-	Name                mo_string.OptionalString
+	Folder              mo_filter.Filter
 	NamespaceFileList   *file.List
 }
 
@@ -25,17 +24,21 @@ func (z *List) Preset() {
 	z.IncludeTeamFolder = true
 	z.IncludeSharedFolder = true
 	z.IncludeMemberFolder = false
+	z.Folder.SetOptions(
+		mo_filter.NewNameFilter(),
+		mo_filter.NewNamePrefixFilter(),
+		mo_filter.NewNameSuffixFilter(),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.NamespaceFileList, func(r rc_recipe.Recipe) {
 		rc := r.(*file.List)
-		rc.IncludeMediaInfo = z.IncludeMediaInfo
 		rc.IncludeDeleted = z.IncludeDeleted
 		rc.IncludeMemberFolder = z.IncludeMemberFolder
 		rc.IncludeSharedFolder = z.IncludeSharedFolder
 		rc.IncludeTeamFolder = z.IncludeTeamFolder
-		rc.Name = z.Name
+		rc.Folder = z.Folder
 		rc.Peer = z.Peer
 	})
 }

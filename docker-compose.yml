@@ -1,13 +1,17 @@
 version: '3'
 services:
-  app:
+  build:
     build:
       context: .
-    command: ./build.sh
+    command: /app/build.sh
     volumes:
-      - .:/app
       - /tmp/dist:/dist
     ports:
       - 2345:2345
     security_opt:
       - seccomp:unconfined
+
+  test:
+    build:
+      context: .
+    command: go test -p 1 ./...

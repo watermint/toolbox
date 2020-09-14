@@ -5,10 +5,12 @@ import (
 )
 
 const (
+	ServiceUtility         = ""
 	ServiceDropbox         = "dropbox"
 	ServiceDropboxBusiness = "dropbox_business"
 	ServiceGithub          = "github"
 	ServiceGoogleMail      = "google_mail"
+	ServiceAsana           = "asana"
 )
 
 var (
@@ -17,6 +19,8 @@ var (
 		ServiceDropboxBusiness,
 		ServiceGithub,
 		ServiceGoogleMail,
+		ServiceAsana,
+		ServiceUtility,
 	}
 )
 
