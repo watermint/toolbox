@@ -186,7 +186,8 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	// Global settings
 	nw_proxy.SetHttpProxy(com.Proxy.Value(), ctl)
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
-	nw_congestion.SetMaxCongestionWindow(com.Concurrency)
+	nw_congestion.SetMaxCongestionWindow(com.Concurrency,
+		ctl.Feature().Experiment(app.ExperimentCongestionWindowNoLimit))
 
 	// Diagnosis
 	if err = nw_diag.Runtime(ctl); err != nil {

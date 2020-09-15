@@ -11,12 +11,17 @@ import (
 	"time"
 )
 
+const (
+	hardLimitCongestionWindow = 8
+)
+
 var (
-	monitorDuration      = 1 * time.Minute
-	maxCongestionWindow  = runtime.NumCPU()
-	initCongestionWindow = 4
-	minCongestionWindow  = 1
-	currentImpl          = NewControl()
+	monitorDuration          = 1 * time.Minute
+	maxCongestionWindow      = runtime.NumCPU()
+	initCongestionWindow     = 4
+	minCongestionWindow      = 1
+	currentImpl              = NewControl()
+	thresholdSignificantWait = 59 * time.Second
 )
 
 func getReportInterval() time.Duration {
@@ -39,12 +44,16 @@ func EndTransportError(hash, endpoint string) {
 	currentImpl.EndTransportError(hash, endpoint)
 }
 
-func EndRateLimit(hash, endpoint string) {
-	currentImpl.EndRateLimit(hash, endpoint)
+func EndRateLimit(hash, endpoint string, reset time.Time) {
+	currentImpl.EndRateLimit(hash, endpoint, reset)
 }
 
-func SetMaxCongestionWindow(w int) {
-	maxCongestionWindow = w
+func SetMaxCongestionWindow(w int, ignoreHardLimit bool) {
+	if ignoreHardLimit {
+		maxCongestionWindow = w
+	} else {
+		maxCongestionWindow = es_number.Min(w, hardLimitCongestionWindow).Int()
+	}
 }
 
 // Maximum congestion window size
@@ -73,7 +82,7 @@ type CongestionControl interface {
 	EndTransportError(hash, endpoint string)
 
 	// mark transaction as failure and got a rate limit
-	EndRateLimit(hash, endpoint string)
+	EndRateLimit(hash, endpoint string, reset time.Time)
 }
 
 func NewControl() CongestionControl {
@@ -218,15 +227,29 @@ func (z *ccImpl) EndTransportError(hash, endpoint string) {
 	z.mutex.Unlock()
 }
 
-func (z *ccImpl) EndRateLimit(hash, endpoint string) {
+func (z *ccImpl) isSignificantWait(reset time.Time) bool {
+	return thresholdSignificantWait < reset.Sub(time.Now())
+}
+
+func (z *ccImpl) EndRateLimit(hash, endpoint string, reset time.Time) {
+	isSignificant := z.isSignificantWait(reset)
+
 	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
-		esl.String("hash", hash), esl.String("endpoint", endpoint))
+		esl.String("hash", hash),
+		esl.String("endpoint", endpoint),
+		esl.Bool("significant", isSignificant),
+		esl.Time("reset", reset))
 
 	key := z.key(hash, endpoint)
 	z.mutex.Lock()
 	z.noLockRelease(key)
 
 	calcNewWindow := func(key string) int {
+		if isSignificant {
+			l.Debug("Set to minimum window when the signal was significant")
+			return CurrentMinCongestionWindow()
+		}
+
 		if wnd, ok := z.window[key]; ok {
 			nw := es_number.Max(wnd-1,
 				CurrentMinCongestionWindow()).Int()

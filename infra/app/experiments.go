@@ -13,4 +13,6 @@ const (
 	ExperimentBatchSequential = "batch_sequential"
 	// Execute batch with random batchId order
 	ExperimentBatchRandom = "batch_random"
+
+	ExperimentCongestionWindowNoLimit = "congestion_window_no_limit"
 )
