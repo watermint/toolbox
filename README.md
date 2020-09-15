@@ -229,18 +229,19 @@ Available commands:
 
 ## Utilities
 
-| Command                                                     | Description                                      |
-|-------------------------------------------------------------|--------------------------------------------------|
-| [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
-| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
-| [config features](doc/generated/config-features.md)         | List available optional features.                |
-| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
-| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
-| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
-| [job history list](doc/generated/job-history-list.md)       | Show job history                                 |
-| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
-| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
-| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
-| [license](doc/generated/license.md)                         | Show license information                         |
-| [version](doc/generated/version.md)                         | Show version                                     |
+| Command                                                     | Description                                         |
+|-------------------------------------------------------------|-----------------------------------------------------|
+| [config disable](doc/generated/config-disable.md)           | Disable a feature.                                  |
+| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                   |
+| [config features](doc/generated/config-features.md)         | List available optional features.                   |
+| [dev benchmark local](doc/generated/dev-benchmark-local.md) | Create dummy folder structure in local file system. |
+| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                                |
+| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                        |
+| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                              |
+| [job history list](doc/generated/job-history-list.md)       | Show job history                                    |
+| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                   |
+| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind    |
+| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                        |
+| [license](doc/generated/license.md)                         | Show license information                            |
+| [version](doc/generated/version.md)                         | Show version                                        |
 

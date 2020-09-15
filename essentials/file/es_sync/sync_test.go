@@ -3,7 +3,7 @@ package es_sync
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
-	"github.com/watermint/toolbox/essentials/file/es_filesystem_connector"
+	"github.com/watermint/toolbox/essentials/file/es_filesystem_copier"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_tree"
@@ -24,7 +24,7 @@ func TestSyncImpl_Sync(t *testing.T) {
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
 	seq := eq_sequence.New()
-	conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
 	syncer := New(
 		esl.Default(),
@@ -64,7 +64,7 @@ func TestSyncImpl_SingleFile(t *testing.T) {
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
 	seq := eq_sequence.New()
-	conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
 	syncer := New(
 		esl.Default(),
@@ -105,7 +105,7 @@ func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
 	seq := eq_sequence.New()
-	conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
 	syncer := New(
 		esl.Default(),
@@ -157,7 +157,7 @@ func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
 	seq := eq_sequence.New()
-	conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
 	syncer := New(
 		esl.Default(),
@@ -201,7 +201,7 @@ func TestSyncImpl_Filter(t *testing.T) {
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
 	seq := eq_sequence.New()
-	conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 	filter := mo_filter.New("")
 	filter.SetOptions(mo_filter.NewTestNameFilter("x"))
 	if !filter.IsEnabled() {
@@ -241,7 +241,7 @@ func TestSyncImpl_FileEdit(t *testing.T) {
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
 	seq := eq_sequence.New()
-	conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
 	syncer := New(
 		esl.Default(),
@@ -290,7 +290,7 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 	for i := 0; i < 3; i++ {
 		l.Info("Sync try", esl.Int("tries", i))
 		seq := eq_sequence.New()
-		conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+		conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 		fs1 := es_filesystem_model.NewFileSystem(tree1)
 		fs2 := es_filesystem_model.NewFileSystem(tree2)
 
@@ -350,7 +350,7 @@ func BenchmarkSyncImpl_SyncRandomTest(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			l.Info("Sync try", esl.Int("tries", i), esl.Int("runner", runner))
 			seq := eq_sequence.New()
-			conn := es_filesystem_connector.NewModelToModel(esl.Default(), tree1, tree2)
+			conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 			fs1 := es_filesystem_model.NewFileSystem(tree1)
 			fs2 := es_filesystem_model.NewFileSystem(tree2)
 

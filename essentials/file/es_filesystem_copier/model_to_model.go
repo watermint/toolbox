@@ -1,4 +1,4 @@
-package es_filesystem_connector
+package es_filesystem_copier
 
 import (
 	"errors"
@@ -9,20 +9,20 @@ import (
 )
 
 func NewModelToModel(l esl.Logger, sourceRoot, targetRoot em_tree.Folder) es_filesystem.Connector {
-	return &modelToModelConn{
+	return &modelToModelCopier{
 		l:          l,
 		sourceRoot: sourceRoot,
 		targetRoot: targetRoot,
 	}
 }
 
-type modelToModelConn struct {
+type modelToModelCopier struct {
 	l          esl.Logger
 	sourceRoot em_tree.Folder
 	targetRoot em_tree.Folder
 }
 
-func (z modelToModelConn) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
+func (z modelToModelCopier) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.l.With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy")
 

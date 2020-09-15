@@ -10,7 +10,7 @@ import (
 )
 
 func NewLocalToDropbox(ctx dbx_context.Context, opts ...sv_file_content.UploadOpt) es_filesystem.Connector {
-	return &connLocalToDropbox{
+	return &copierLocalToDropbox{
 		ctx:        ctx,
 		uploadOpts: opts,
 	}
@@ -24,12 +24,12 @@ func NewLocalToDropboxUpAndMove(ctx dbx_context.Context, workPath mo_path.Dropbo
 	}
 }
 
-type connLocalToDropbox struct {
+type copierLocalToDropbox struct {
 	ctx        dbx_context.Context
 	uploadOpts []sv_file_content.UploadOpt
 }
 
-func (z connLocalToDropbox) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
+func (z copierLocalToDropbox) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.ctx.Log().With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy (upload)")
 

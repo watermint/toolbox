@@ -140,8 +140,6 @@ func (z syncImpl) taskCopyFile(task *TaskCopyFile, stg eq_sequence.Stage) error 
 		return err
 	}
 
-	z.indicator.AddTotal(sourceEntry.Size())
-
 	l.Debug("Copy file")
 	return z.copy(sourceEntry, targetPath)
 }

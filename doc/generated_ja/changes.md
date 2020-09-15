@@ -1,5 +1,14 @@
 # `リリース 73` から `リリース 74` までの変更点
 
+# 追加されたコマンド
+
+
+| コマンド            | タイトル                                            |
+|---------------------|-----------------------------------------------------|
+| dev benchmark local | Create dummy folder structure in local file system. |
+
+
+
 # コマンド仕様の変更: `team diag explorer`
 
 

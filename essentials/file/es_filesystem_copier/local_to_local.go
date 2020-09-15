@@ -1,4 +1,4 @@
-package es_filesystem_connector
+package es_filesystem_copier
 
 import (
 	"errors"
@@ -15,20 +15,20 @@ var (
 )
 
 func NewLocalToLocal(l esl.Logger, source, target es_filesystem.FileSystem) es_filesystem.Connector {
-	return &localToLocalConn{
+	return &localToLocalCopier{
 		l:      l,
 		source: source,
 		target: target,
 	}
 }
 
-type localToLocalConn struct {
+type localToLocalCopier struct {
 	l      esl.Logger
 	source es_filesystem.FileSystem
 	target es_filesystem.FileSystem
 }
 
-func (z localToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.Path) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {
+func (z localToLocalCopier) Copy(source es_filesystem.Entry, target es_filesystem.Path) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.l.With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy")
 

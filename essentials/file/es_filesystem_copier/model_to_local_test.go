@@ -1,4 +1,4 @@
-package es_filesystem_connector
+package es_filesystem_copier
 
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"

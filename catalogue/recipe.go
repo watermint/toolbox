@@ -94,6 +94,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconnect.BusinessInfo{},
 		&recipeconnect.BusinessMgmt{},
 		&recipeconnect.UserFile{},
+		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
 		&recipedevbuild.Catalogue{},
 		&recipedevbuild.Doc{},

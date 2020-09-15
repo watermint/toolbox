@@ -1,4 +1,4 @@
-package es_filesystem_connector
+package es_filesystem_copier
 
 import (
 	"errors"
@@ -13,20 +13,20 @@ import (
 )
 
 func NewModelToLocal(l esl.Logger, sourceRoot em_tree.Folder) es_filesystem.Connector {
-	return &modelToLocalConn{
+	return &modelToLocalCopier{
 		l:          l,
 		sourceRoot: sourceRoot,
 		target:     es_filesystem_local.NewFileSystem(),
 	}
 }
 
-type modelToLocalConn struct {
+type modelToLocalCopier struct {
 	l          esl.Logger
 	sourceRoot em_tree.Folder
 	target     es_filesystem.FileSystem
 }
 
-func (z modelToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
+func (z modelToLocalCopier) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.l.With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy")
 
@@ -39,6 +39,26 @@ func (z modelToLocalConn) Copy(source es_filesystem.Entry, target es_filesystem.
 	if sourceNode.Type() != em_tree.FileNode {
 		l.Debug("Node is not a file")
 		return nil, es_filesystem_model.NewError(errors.New("source node is not a file"), es_filesystem_model.ErrorTypeOther)
+	}
+
+	targetFolder := target.Ancestor().Path()
+	targetFolderInfo, osErr := os.Lstat(targetFolder)
+	switch {
+	case osErr == nil:
+		if !targetFolderInfo.IsDir() {
+			l.Debug("Target folder path is not folder")
+			return nil, es_filesystem_local.NewError(errors.New("target folder path is not a folder"))
+		}
+	case os.IsNotExist(osErr):
+		l.Debug("Target folder not found, create it", esl.Error(osErr))
+		osErr = os.MkdirAll(targetFolder, 0755)
+		if osErr != nil {
+			l.Debug("Unable to create folder", esl.Error(osErr))
+			return nil, es_filesystem_local.NewError(osErr)
+		}
+	default:
+		l.Debug("Unable to retrieve target folder information", esl.Error(osErr))
+		return nil, es_filesystem_local.NewError(osErr)
 	}
 
 	content := sourceNode.(em_tree.File).Content()

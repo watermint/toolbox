@@ -99,10 +99,7 @@ func NameByNodeId(nodeId int64) string {
 
 func SizeByNodeId(nodeId int64, opts Opts) int64 {
 	r := rand.New(rand.NewSource(nodeId))
-	lambda := float64(opts.fileSizeLambda)
-	min := float64(opts.fileSizeRangeMin)
-	max := float64(opts.fileSizeRangeMax)
-	return int64(em_random.PoissonWithRange(r, lambda, min, max))
+	return r.Int63n(opts.fileSizeRangeMax-opts.fileSizeRangeMin) + opts.fileSizeRangeMin
 }
 
 func TimeByNodeId(nodeId int64, opts Opts) time.Time {

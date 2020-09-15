@@ -10,18 +10,18 @@ import (
 )
 
 func NewDropboxToLocal(ctx dbx_context.Context) es_filesystem.Connector {
-	return &connDropboxToLocal{
+	return &copierDropboxToLocal{
 		ctx:    ctx,
 		target: es_filesystem_local.NewFileSystem(),
 	}
 }
 
-type connDropboxToLocal struct {
+type copierDropboxToLocal struct {
 	ctx    dbx_context.Context
 	target es_filesystem.FileSystem
 }
 
-func (z connDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
+func (z copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.ctx.Log().With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy (download)")
 

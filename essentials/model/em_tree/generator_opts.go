@@ -5,7 +5,6 @@ import "time"
 type Opts struct {
 	fileSizeRangeMin      int64
 	fileSizeRangeMax      int64
-	fileSizeLambda        int64
 	fileDateRangeMin      time.Time
 	fileDateRangeMax      time.Time
 	numDescendantRangeMin int
@@ -34,7 +33,6 @@ func Default() Opts {
 	return Opts{
 		fileSizeRangeMax:      2048,
 		fileSizeRangeMin:      0,
-		fileSizeLambda:        1024,
 		fileDateRangeMin:      time.Now().Add(-2 * 365 * 24 * time.Hour),
 		fileDateRangeMax:      time.Now(),
 		numDescendantRangeMin: 0,
@@ -42,6 +40,7 @@ func Default() Opts {
 		numDescendantLambda:   8,
 		numNodesRangeMin:      100,
 		numNodesRangeMax:      1_000_000,
+		depthRangeMax:         8,
 		seed:                  time.Now().UnixNano(),
 	}
 }

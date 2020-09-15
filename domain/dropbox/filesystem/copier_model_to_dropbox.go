@@ -16,20 +16,20 @@ import (
 )
 
 func NewModelToDropbox(modelRoot em_tree.Folder, ctx dbx_context.Context, opts ...sv_file_content.UploadOpt) es_filesystem.Connector {
-	return &connModelToDropbox{
+	return &copierModelToDropbox{
 		ctx:        ctx,
 		uploadOpts: opts,
 		modelRoot:  modelRoot,
 	}
 }
 
-type connModelToDropbox struct {
+type copierModelToDropbox struct {
 	ctx        dbx_context.Context
 	uploadOpts []sv_file_content.UploadOpt
 	modelRoot  em_tree.Folder
 }
 
-func (z connModelToDropbox) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
+func (z copierModelToDropbox) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.ctx.Log().With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy (upload)")
 

@@ -1,5 +1,14 @@
 # Changes between `Release 73` to `Release 74`
 
+# Commands added
+
+
+| Command             | Title                                               |
+|---------------------|-----------------------------------------------------|
+| dev benchmark local | Create dummy folder structure in local file system. |
+
+
+
 # Command spec changed: `team diag explorer`
 
 

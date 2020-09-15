@@ -8,16 +8,16 @@ import (
 )
 
 func NewDropboxToDropbox(ctx dbx_context.Context) es_filesystem.Connector {
-	return &connDropboxToDropboxSingle{
+	return &copierDropboxToDropboxSingle{
 		ctx: ctx,
 	}
 }
 
-type connDropboxToDropboxSingle struct {
+type copierDropboxToDropboxSingle struct {
 	ctx dbx_context.Context
 }
 
-func (z connDropboxToDropboxSingle) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
+func (z copierDropboxToDropboxSingle) Copy(source es_filesystem.Entry, target es_filesystem.Path) (copied es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.ctx.Log().With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy")
 

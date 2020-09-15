@@ -1,4 +1,4 @@
-package es_filesystem_connector
+package es_filesystem_copier
 
 import (
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-func TestLocalToLocalConn_Copy(t *testing.T) {
+func TestLocalToLocalCopier_Copy(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "l2l_source", true, func(sourcePath string) {
 		qt_file.TestWithTestFolder(t, "l2l_target", false, func(targetPath string) {
 			fs1 := es_filesystem_local.NewFileSystem()
