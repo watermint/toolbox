@@ -1,6 +1,6 @@
 # team content mount list
 
-List all mounted/unmounted shared folders of team members. 
+チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. 
 
 # セキュリティ
 
@@ -68,13 +68,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション            | 説明                                               | デフォルト |
-|-----------------------|----------------------------------------------------|------------|
-| `-member-email`       | Filter member. Filter by email address.            |            |
-| `-member-name`        | Filter member. Filter by exact match to the name.  |            |
-| `-member-name-prefix` | Filter member. Filter by name match to the prefix. |            |
-| `-member-name-suffix` | Filter member. Filter by name match to the suffix. |            |
-| `-peer`               | Account alias                                      | default    |
+| オプション            | 説明                                                                  | デフォルト |
+|-----------------------|-----------------------------------------------------------------------|------------|
+| `-member-email`       | メンバーをフィルタリングします. メールアドレスでフィルタリングします. |            |
+| `-member-name`        | メンバーをフィルタリングします. 名前による完全一致でフィルター.       |            |
+| `-member-name-prefix` | メンバーをフィルタリングします. 名前の前方一致によるフィルター.       |            |
+| `-member-name-suffix` | メンバーをフィルタリングします. 名前の後方一致によるフィルター.       |            |
+| `-peer`               | アカウントの別名                                                      | default    |
 
 ## 共通のオプション:
 
@@ -106,24 +106,24 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: mount
 
-This report shows a list of shared folders.
+このレポートは共有フォルダの一覧を出力します.
 このコマンドはレポートを3種類の書式で出力します. `mount.csv`, `mount.json`, ならびに `mount.xlsx`.
 
-| 列                       | 説明                                                                                                      |
-|--------------------------|-----------------------------------------------------------------------------------------------------------|
-| team_member_display_name | Team member display name.                                                                                 |
-| team_member_email        | Team member email address                                                                                 |
-| namespace_id             | Namespace Id                                                                                              |
-| namespace_name           | Name of the folder.                                                                                       |
-| access_type              | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
-| mount_path               | Mount path of this folder. The folder is not mounted if this field is empty.                              |
-| is_inside_team_folder    | Whether this folder is inside of a team folder.                                                           |
-| is_team_folder           | Whether this folder is a team folder.                                                                     |
-| policy_manage_access     | Who can add and remove members from this shared folder.                                                   |
-| policy_shared_link       | Who links can be shared with.                                                                             |
-| policy_member            | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
-| policy_viewer_info       | Who can enable/disable viewer info for this shared folder.                                                |
-| owner_team_name          | Team name of the team that owns the folder                                                                |
+| 列                       | 説明                                                                                                 |
+|--------------------------|------------------------------------------------------------------------------------------------------|
+| team_member_display_name | チームメンバーの表示名.                                                                              |
+| team_member_email        | チームメンバーのメールアドレス.                                                                      |
+| namespace_id             | 名前空間ID                                                                                           |
+| namespace_name           | フォルダ名.                                                                                          |
+| access_type              | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| mount_path               | このフォルダのマウントパス. このフィールドが空の場合、フォルダはマウントされていません.              |
+| is_inside_team_folder    | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder           | このフォルダがチームフォルダであるかどうか                                                           |
+| policy_manage_access     | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
+| policy_shared_link       | このフォルダの共有リンクを誰が利用できるか                                                           |
+| policy_member            | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
+| policy_viewer_info       | だれが閲覧社情報を有効化・無効化できるか                                                             |
+| owner_team_name          | このフォルダを所有するチームの名前                                                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

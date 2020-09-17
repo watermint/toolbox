@@ -1,6 +1,6 @@
 # dev benchmark local
 
-Create dummy folder structure in local file system. 
+ローカルファイルシステムにダミーのフォルダ構造を作成します. 
 
 # 利用方法
 
@@ -28,12 +28,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション     | 説明                       | デフォルト |
 |----------------|----------------------------|------------|
-| `-node-lambda` | Lambda parameter for nodes | 100        |
-| `-node-max`    | Maximum number of nodes    | 1000       |
-| `-node-min`    | Minimum number of nodes    | 100        |
-| `-path`        | Path to create             |            |
-| `-size-max`    | Maximum file size          | 2097152    |
-| `-size-min`    | Minimum file size          | 0          |
+| `-node-lambda` | ノードのラムダパラメーター | 100        |
+| `-node-max`    | 最大ノード数               | 1000       |
+| `-node-min`    | 最小ノード数               | 100        |
+| `-path`        | 作成するパス               |            |
+| `-size-max`    | 最大ファイルサイズ         | 2097152    |
+| `-size-min`    | 最小ファイルサイズ         | 0          |
 
 ## 共通のオプション:
 

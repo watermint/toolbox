@@ -120,9 +120,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | count_folder         | このフォルダに含まれるフォルダ数                                                       |
 | count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
 | size                 | フォルダのサイズ                                                                       |
-| depth                | Folder depth                                                                           |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.              |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders                 |
+| depth                | フォルダの深さ                                                                         |
+| mod_time_earliest    | このフォルダまたは子フォルダ内のファイルの最も古い更新日時                             |
+| mod_time_latest      | このフォルダまたは子フォルダ内のファイルの最も新しい更新日時                           |
 | api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます

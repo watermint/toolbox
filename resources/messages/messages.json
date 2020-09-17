@@ -2248,7 +2248,7 @@
   "recipe.team.content.member.list.flag.scan_timeout": "Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`.",
   "recipe.team.content.member.list.title": "List team folder & shared folder members",
   "recipe.team.content.member.title": "Team content member commands",
-  "recipe.team.content.mount.list.flag.member": "Filter member.",
+  "recipe.team.content.mount.list.flag.member": "Filter members.",
   "recipe.team.content.mount.list.flag.peer": "Account alias",
   "recipe.team.content.mount.list.title": "List all mounted/unmounted shared folders of team members.",
   "recipe.team.content.mount.title": "Mount operation of team content.",

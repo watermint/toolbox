@@ -104,19 +104,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: size
 
-Folder size
+フォルダのサイズ
 このコマンドはレポートを3種類の書式で出力します. `size.csv`, `size.json`, ならびに `size.xlsx`.
 
-| 列                     | 説明                                                                      |
-|------------------------|---------------------------------------------------------------------------|
-| path                   | Path                                                                      |
-| depth                  | Folder depth.                                                             |
-| size                   | Size in bytes                                                             |
-| num_file               | Number of files in this folder and child folders                          |
-| num_folder             | Number of folders in this folder and child folders                        |
-| mod_time_earliest      | The earliest modification time of a file in this folder or child folders. |
-| mod_time_latest        | The latest modification time of a file in this folder or child folders.   |
-| operational_complexity | Operational complexity factor                                             |
+| 列                     | 説明                                                         |
+|------------------------|--------------------------------------------------------------|
+| path                   | パス                                                         |
+| depth                  | フォルダの深さ.                                              |
+| size                   | サイズ (バイト)                                              |
+| num_file               | このフォルダと子フォルダのファイル数                         |
+| num_folder             | このフォルダと子フォルダのフォルダ数                         |
+| mod_time_earliest      | このフォルダまたは子フォルダ内のファイルの最も古い更新日時   |
+| mod_time_latest        | このフォルダまたは子フォルダ内のファイルの最も新しい更新日時 |
+| operational_complexity | 操作の複雑さ係数                                             |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

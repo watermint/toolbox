@@ -68,13 +68,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                | Description                                        | Default |
-|-----------------------|----------------------------------------------------|---------|
-| `-member-email`       | Filter member. Filter by email address.            |         |
-| `-member-name`        | Filter member. Filter by exact match to the name.  |         |
-| `-member-name-prefix` | Filter member. Filter by name match to the prefix. |         |
-| `-member-name-suffix` | Filter member. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                      | default |
+| Option                | Description                                         | Default |
+|-----------------------|-----------------------------------------------------|---------|
+| `-member-email`       | Filter members. Filter by email address.            |         |
+| `-member-name`        | Filter members. Filter by exact match to the name.  |         |
+| `-member-name-prefix` | Filter members. Filter by name match to the prefix. |         |
+| `-member-name-suffix` | Filter members. Filter by name match to the suffix. |         |
+| `-peer`               | Account alias                                       | default |
 
 ## Common options:
 
