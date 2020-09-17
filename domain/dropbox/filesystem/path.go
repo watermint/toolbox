@@ -23,7 +23,11 @@ func (z dbxPath) Base() string {
 }
 
 func (z dbxPath) Path() string {
-	return z.path.Path()
+	if z.path.IsRoot() {
+		return "/"
+	} else {
+		return z.path.Path()
+	}
 }
 
 func (z dbxPath) Shard() es_filesystem.Shard {
