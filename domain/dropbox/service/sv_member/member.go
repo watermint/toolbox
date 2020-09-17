@@ -509,7 +509,7 @@ func (z *memberImpl) ListEach(f func(member *mo_member.Member) bool, opts ...Lis
 			if err := entry.Model(m); err != nil {
 				return err
 			}
-			if f(m) {
+			if !f(m) {
 				return ErrorBreak
 			}
 			return nil
