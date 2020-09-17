@@ -40,9 +40,10 @@ func TestFold(t *testing.T) {
 	r.Shuffle(len(entries), func(i, j int) {
 		entries[i], entries[j] = entries[j], entries[i]
 	})
+	fs := es_filesystem_model.NewFileSystem(em_file.DemoTree()) // dummy fs
 
 	// Fold
-	sum := Fold("/a", entries)
+	sum := Fold("/a", fs, entries)
 
 	if sum.Path != "/a" {
 		t.Error(es_json.ToJsonString(sum))
@@ -81,7 +82,8 @@ func TestFoldFolderOnly(t *testing.T) {
 	})
 
 	// Fold
-	sum := Fold("/a", entries)
+	fs := es_filesystem_model.NewFileSystem(em_file.DemoTree()) // dummy fs
+	sum := Fold("/a", fs, entries)
 
 	if sum.Path != "/a" {
 		t.Error(es_json.ToJsonString(sum))
@@ -107,7 +109,8 @@ func TestFoldEmpty(t *testing.T) {
 	entries := []es_filesystem.Entry{}
 
 	// Fold
-	sum := Fold("/a", entries)
+	fs := es_filesystem_model.NewFileSystem(em_file.DemoTree()) // dummy fs
+	sum := Fold("/a", fs, entries)
 
 	if sum.Path != "/a" {
 		t.Error(es_json.ToJsonString(sum))

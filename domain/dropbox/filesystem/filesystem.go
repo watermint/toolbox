@@ -14,7 +14,8 @@ import (
 )
 
 const (
-	FileSystemTypeDropbox = "dropbox"
+	FileSystemTypeDropbox  = "dropbox"
+	ApiComplexityThreshold = 10_000
 )
 
 func NewFileSystem(ctx dbx_context.Context) es_filesystem.FileSystem {
@@ -25,6 +26,14 @@ func NewFileSystem(ctx dbx_context.Context) es_filesystem.FileSystem {
 
 type dbxFs struct {
 	ctx dbx_context.Context
+}
+
+func (z dbxFs) OperationComplexity(entries []es_filesystem.Entry) (complexity int64) {
+	if x := len(entries); x > ApiComplexityThreshold {
+		return int64(x)
+	} else {
+		return 1
+	}
 }
 
 func (z dbxFs) List(path es_filesystem.Path) (entries []es_filesystem.Entry, err es_filesystem.FileSystemError) {

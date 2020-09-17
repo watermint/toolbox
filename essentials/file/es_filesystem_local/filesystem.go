@@ -18,6 +18,10 @@ func NewFileSystem() es_filesystem.FileSystem {
 type fsLocal struct {
 }
 
+func (z fsLocal) OperationComplexity(entries []es_filesystem.Entry) (complexity int64) {
+	return int64(len(entries))
+}
+
 func (z fsLocal) Path(data es_filesystem.PathData) (path es_filesystem.Path, err es_filesystem.FileSystemError) {
 	if data.FileSystemType != FileSystemTypeLocal {
 		return nil, NewError(ErrorInvalidEntryDataFormat)

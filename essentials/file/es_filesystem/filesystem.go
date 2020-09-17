@@ -26,4 +26,7 @@ type FileSystem interface {
 
 	// Type of file system
 	FileSystemType() string
+
+	// Operation complexity parameter in this file system
+	OperationComplexity(entries []Entry) (complexity int64)
 }

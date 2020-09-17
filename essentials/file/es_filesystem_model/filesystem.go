@@ -22,6 +22,10 @@ type fileSystem struct {
 	root em_file.Node
 }
 
+func (z fileSystem) OperationComplexity(entries []es_filesystem.Entry) (complexity int64) {
+	return int64(len(entries))
+}
+
 func (z fileSystem) Path(data es_filesystem.PathData) (path es_filesystem.Path, err es_filesystem.FileSystemError) {
 	if data.FileSystemType != FileSystemTypeModel {
 		return nil, NewError(errors.New("invalid type"), ErrorTypeInvalidEntryDataFormat)

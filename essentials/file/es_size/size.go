@@ -13,13 +13,14 @@ import (
 )
 
 type FolderSize struct {
-	Path            string     `json:"path"`
-	Depth           int        `json:"depth"`
-	Size            int64      `json:"size"`
-	NumFile         int64      `json:"num_file"`
-	NumFolder       int64      `json:"num_folder"`
-	ModTimeEarliest *time.Time `json:"mod_time_earliest"`
-	ModTimeLatest   *time.Time `json:"mod_time_latest"`
+	Path                string     `json:"path"`
+	Depth               int        `json:"depth"`
+	Size                int64      `json:"size"`
+	NumFile             int64      `json:"num_file"`
+	NumFolder           int64      `json:"num_folder"`
+	ModTimeEarliest     *time.Time `json:"mod_time_earliest"`
+	ModTimeLatest       *time.Time `json:"mod_time_latest"`
+	OperationComplexity int64      `json:"operation_complexity"`
 }
 
 // Returns new instance of this instance plus given s.
@@ -30,10 +31,11 @@ func (z FolderSize) Add(s FolderSize) FolderSize {
 	z.NumFolder += s.NumFolder
 	z.ModTimeEarliest = ut_compare.EarliestPtr(z.ModTimeEarliest, s.ModTimeEarliest)
 	z.ModTimeLatest = ut_compare.LatestPtr(z.ModTimeLatest, s.ModTimeLatest)
+	z.OperationComplexity += z.OperationComplexity
 	return z
 }
 
-func Fold(path string, entries []es_filesystem.Entry) (size FolderSize) {
+func Fold(path string, fs es_filesystem.FileSystem, entries []es_filesystem.Entry) (size FolderSize) {
 	size.Path = path
 	modTimes := make([]time.Time, 0)
 	for _, entry := range entries {
@@ -53,6 +55,7 @@ func Fold(path string, entries []es_filesystem.Entry) (size FolderSize) {
 		size.ModTimeEarliest = &earliest
 		size.ModTimeLatest = &latest
 	}
+	size.OperationComplexity = fs.OperationComplexity(entries)
 	return
 }
 
@@ -126,7 +129,7 @@ func (z traverseImpl) scanFolder(task *TaskScanFolder, stg eq_sequence.Stage) er
 		return fsErr
 	}
 
-	sum := Fold(task.Path.Path(), entries)
+	sum := Fold(task.Path.Path(), z.fs, entries)
 	sum.Depth = task.Depth
 	kvErr := z.sum.Update(func(kvs kv_kvs.Kvs) error {
 		return kvs.PutJsonModel(path.Path(), &sum)
