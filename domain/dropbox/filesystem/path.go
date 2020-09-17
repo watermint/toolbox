@@ -23,7 +23,7 @@ func (z dbxPath) Base() string {
 }
 
 func (z dbxPath) Path() string {
-	if z.path.IsRoot() {
+	if z.path.IsRoot() || z.path.Path() == "" {
 		return "/"
 	} else {
 		return z.path.Path()
@@ -53,7 +53,7 @@ func (z dbxPath) IsRoot() bool {
 func (z dbxPath) AsData() es_filesystem.PathData {
 	return es_filesystem.PathData{
 		FileSystemType: FileSystemTypeDropbox,
-		EntryPath:      z.path.Path(),
+		EntryPath:      z.Path(),
 		EntryShard:     z.Shard().AsData(),
 		Attributes:     map[string]interface{}{},
 	}

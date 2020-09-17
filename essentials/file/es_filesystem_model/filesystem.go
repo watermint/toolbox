@@ -22,7 +22,7 @@ type fileSystem struct {
 	root em_file.Node
 }
 
-func (z fileSystem) OperationComplexity(entries []es_filesystem.Entry) (complexity int64) {
+func (z fileSystem) OperationalComplexity(entries []es_filesystem.Entry) (complexity int64) {
 	return int64(len(entries))
 }
 

@@ -142,20 +142,8 @@ func TestTraverseImpl_ScanSimple(t *testing.T) {
 			factory.Close()
 		}()
 
-		traverse, err := New(
-			ctl.Log(),
-			factory,
-			ctl.Sequence(),
-			fs,
-			2,
-		)
-
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		err = traverse.Scan(es_filesystem_model.NewPath("/"), func(s FolderSize) {
+		reportCount := 0
+		err := ScanSingleFileSystem(ctl.Log(), ctl.Sequence(), factory, fs, es_filesystem_model.NewPath("/"), 2, func(s FolderSize) {
 			if s.Depth > 2 {
 				t.Error(es_json.ToJsonString(s))
 			}
@@ -164,9 +152,13 @@ func TestTraverseImpl_ScanSimple(t *testing.T) {
 			if size != s.Size {
 				t.Error(size, s.Size)
 			}
+			reportCount++
 		})
 		if err != nil {
 			t.Error(err)
+		}
+		if reportCount != 4 {
+			t.Error(reportCount)
 		}
 	})
 }
@@ -187,20 +179,7 @@ func TestTraverseImpl_ScanLargeRandom(t *testing.T) {
 			factory.Close()
 		}()
 
-		traverse, err := New(
-			ctl.Log(),
-			factory,
-			ctl.Sequence(),
-			fs,
-			2,
-		)
-
-		if err != nil {
-			t.Error(err)
-			return
-		}
-
-		err = traverse.Scan(es_filesystem_model.NewPath("/"), func(s FolderSize) {
+		err := ScanSingleFileSystem(ctl.Log(), ctl.Sequence(), factory, fs, es_filesystem_model.NewPath("/"), 2, func(s FolderSize) {
 			if s.Depth > 2 {
 				t.Error(es_json.ToJsonString(s))
 			}

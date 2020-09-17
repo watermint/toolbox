@@ -30,7 +30,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |----------------|----------------------------|------------|
 | `-node-lambda` | Lambda parameter for nodes | 100        |
 | `-node-max`    | Maximum number of nodes    | 1000       |
-| `-node-min`    | Minimum number of nodes    | 10         |
+| `-node-min`    | Minimum number of nodes    | 100        |
 | `-path`        | Path to create             |            |
 | `-size-max`    | Maximum file size          | 2097152    |
 | `-size-min`    | Minimum file size          | 0          |

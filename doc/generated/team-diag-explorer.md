@@ -354,21 +354,24 @@ If you run with `-budget-memory low` option, the command will generate only JSON
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
 ## Report: namespace_size
 
-This report shows the transaction result.
+Namespace size
 The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
 
-| Column                  | Description                                                                                |
-|-------------------------|--------------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                    |
-| reason                  | Reason of failure or skipped operation                                                     |
-| input.name              | The name of this namespace                                                                 |
-| input.namespace_type    | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| result.path             | Path to the folder                                                                         |
-| result.count_file       | Number of files under the folder                                                           |
-| result.count_folder     | Number of folders under the folder                                                         |
-| result.count_descendant | Number of files and folders under the folder                                               |
-| result.size             | Size of the folder                                                                         |
-| result.api_complexity   | Folder complexity index for API operations                                                 |
+| Column               | Description                                                                                |
+|----------------------|--------------------------------------------------------------------------------------------|
+| namespace_name       | The name of this namespace                                                                 |
+| namespace_id         | The ID of this namespace.                                                                  |
+| namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
+| owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
+| path                 | Path to the folder                                                                         |
+| count_file           | Number of files under the folder                                                           |
+| count_folder         | Number of folders under the folder                                                         |
+| count_descendant     | Number of files and folders under the folder                                               |
+| size                 | Size of the folder                                                                         |
+| depth                | Folder depth                                                                               |
+| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.                  |
+| mod_time_latest      | The latest modification time of a file in this folder or child folders                     |
+| api_complexity       | Folder complexity index for API operations                                                 |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

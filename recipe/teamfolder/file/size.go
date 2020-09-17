@@ -20,7 +20,7 @@ type Size struct {
 }
 
 func (z *Size) Preset() {
-	z.Depth.SetRange(1, math.MaxInt32, 1)
+	z.Depth.SetRange(1, math.MaxInt32, 3)
 	z.Folder.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNamePrefixFilter(),
@@ -32,7 +32,7 @@ func (z *Size) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.FileSize, func(r rc_recipe.Recipe) {
 		rc := r.(*namespacefile.Size)
 		rc.IncludeSharedFolder = false
-		rc.IncludeTeamFolder = false
+		rc.IncludeTeamFolder = true
 		rc.Depth = z.Depth
 		rc.Folder = z.Folder
 		rc.Peer = z.Peer

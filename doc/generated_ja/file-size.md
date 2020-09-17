@@ -102,38 +102,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: errors
+## レポート: size
 
-このレポートは処理結果を出力します.
-このコマンドはレポートを3種類の書式で出力します. `errors.csv`, `errors.json`, ならびに `errors.xlsx`.
+Folder size
+このコマンドはレポートを3種類の書式で出力します. `size.csv`, `size.json`, ならびに `size.xlsx`.
 
-| 列              | 説明                     |
-|-----------------|--------------------------|
-| status          | 処理の状態               |
-| reason          | 失敗またはスキップの理由 |
-| input.namespace | 名前空間                 |
-| input.path      | パス                     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
-## レポート: namespace_size
-
-名前空間のサイズ.
-このコマンドはレポートを3種類の書式で出力します. `namespace_size.csv`, `namespace_size.json`, ならびに `namespace_size.xlsx`.
-
-| 列               | 説明                                          |
-|------------------|-----------------------------------------------|
-| path             | フォルダへのパス                              |
-| count_file       | このフォルダに含まれるファイル数              |
-| count_folder     | このフォルダに含まれるフォルダ数              |
-| count_descendant | このフォルダに含まれるファイル・フォルダ数    |
-| size             | フォルダのサイズ                              |
-| api_complexity   | APIを用いて操作する場合のフォルダ複雑度の指標 |
+| 列                   | 説明                                                                      |
+|----------------------|---------------------------------------------------------------------------|
+| path                 | Path                                                                      |
+| depth                | Folder depth.                                                             |
+| size                 | Size in bytes                                                             |
+| num_file             | Number of files in this folder and child folders                          |
+| num_folder           | Number of folders in this folder and child folders                        |
+| mod_time_earliest    | The earliest modification time of a file in this folder or child folders. |
+| mod_time_latest      | The latest modification time of a file in this folder or child folders.   |
+| operation_complexity | Operation complexity factor                                               |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `size_0000.xlsx`, `size_0001.xlsx`, `size_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

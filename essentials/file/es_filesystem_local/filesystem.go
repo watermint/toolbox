@@ -18,7 +18,7 @@ func NewFileSystem() es_filesystem.FileSystem {
 type fsLocal struct {
 }
 
-func (z fsLocal) OperationComplexity(entries []es_filesystem.Entry) (complexity int64) {
+func (z fsLocal) OperationalComplexity(entries []es_filesystem.Entry) (complexity int64) {
 	return int64(len(entries))
 }
 

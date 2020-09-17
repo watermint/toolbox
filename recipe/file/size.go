@@ -15,11 +15,10 @@ import (
 )
 
 type Size struct {
-	Peer   dbx_conn.ConnUserFile
-	Size   rp_model.RowReport
-	Errors rp_model.TransactionReport
-	Path   mo_path.DropboxPath
-	Depth  mo_int.RangeInt
+	Peer  dbx_conn.ConnUserFile
+	Size  rp_model.RowReport
+	Path  mo_path.DropboxPath
+	Depth mo_int.RangeInt
 }
 
 func (z *Size) Preset() {
@@ -33,21 +32,26 @@ func (z *Size) Preset() {
 func (z *Size) Exec(c app_control.Control) error {
 	fs := filesystem.NewFileSystem(z.Peer.Context())
 
-	traverse, err := es_size.New(c.Log(), kv_storage_impl.NewFactory(c), c.Sequence(), fs, z.Depth.Value())
-	if err != nil {
-		return err
-	}
+	factory := kv_storage_impl.NewFactory(c)
+	defer func() {
+		factory.Close()
+	}()
 
-	if err := z.Errors.Open(rp_model.NoConsoleOutput()); err != nil {
-		return err
-	}
 	if err := z.Size.Open(); err != nil {
 		return err
 	}
 
-	return traverse.Scan(filesystem.NewPath("", z.Path), func(s es_size.FolderSize) {
-		z.Size.Row(&s)
-	})
+	return es_size.ScanSingleFileSystem(
+		c.Log(),
+		c.Sequence(),
+		factory,
+		fs,
+		filesystem.NewPath("", z.Path),
+		z.Depth.Value(),
+		func(s es_size.FolderSize) {
+			z.Size.Row(&s)
+		},
+	)
 }
 
 func (z *Size) Test(c app_control.Control) error {

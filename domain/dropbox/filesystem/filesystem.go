@@ -28,7 +28,7 @@ type dbxFs struct {
 	ctx dbx_context.Context
 }
 
-func (z dbxFs) OperationComplexity(entries []es_filesystem.Entry) (complexity int64) {
+func (z dbxFs) OperationalComplexity(entries []es_filesystem.Entry) (complexity int64) {
 	if x := len(entries); x > ApiComplexityThreshold {
 		return int64(x)
 	} else {
