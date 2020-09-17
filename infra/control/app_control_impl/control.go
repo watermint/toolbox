@@ -57,7 +57,7 @@ type ctlImpl struct {
 }
 
 func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
-	kvs0 := kv_storage_impl.New(name).(kv_storage_impl.Storage)
+	kvs0 := kv_storage_impl.NewStorage(name).(kv_storage_impl.Storage)
 	kvs = kvs0
 	err = kvs0.Open(z)
 	return

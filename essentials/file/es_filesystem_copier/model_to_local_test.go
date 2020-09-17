@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"testing"
@@ -15,7 +15,7 @@ import (
 
 func TestModelToLocalConn_Copy(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "m2l", false, func(path string) {
-		tree1 := em_tree.DemoTree()
+		tree1 := em_file.DemoTree()
 		fs1 := es_filesystem_model.NewFileSystem(tree1)
 		fs2 := es_filesystem_local.NewFileSystem()
 		conn := NewModelToLocal(esl.Default(), tree1)

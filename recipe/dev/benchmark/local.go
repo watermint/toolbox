@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -32,9 +32,9 @@ func (z *Local) Preset() {
 }
 
 func (z *Local) Exec(c app_control.Control) error {
-	model := em_tree.NewGenerator().Generate(
-		em_tree.NumNodes(z.NodeLambda, z.NodeMin, z.NodeMax),
-		em_tree.FileSize(int64(z.SizeMin), int64(z.SizeMax)),
+	model := em_file.NewGenerator().Generate(
+		em_file.NumNodes(z.NodeLambda, z.NodeMin, z.NodeMax),
+		em_file.FileSize(int64(z.SizeMin), int64(z.SizeMax)),
 	)
 
 	copier := es_filesystem_copier.NewModelToLocal(c.Log(), model)

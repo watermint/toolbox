@@ -6,13 +6,13 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"io/ioutil"
 	"os"
 	"time"
 )
 
-func NewModelToLocal(l esl.Logger, sourceRoot em_tree.Folder) es_filesystem.Connector {
+func NewModelToLocal(l esl.Logger, sourceRoot em_file.Folder) es_filesystem.Connector {
 	return &modelToLocalCopier{
 		l:          l,
 		sourceRoot: sourceRoot,
@@ -22,7 +22,7 @@ func NewModelToLocal(l esl.Logger, sourceRoot em_tree.Folder) es_filesystem.Conn
 
 type modelToLocalCopier struct {
 	l          esl.Logger
-	sourceRoot em_tree.Folder
+	sourceRoot em_file.Folder
 	target     es_filesystem.FileSystem
 }
 
@@ -30,13 +30,13 @@ func (z modelToLocalCopier) Copy(source es_filesystem.Entry, target es_filesyste
 	l := z.l.With(esl.Any("source", source.AsData()), esl.String("target", target.Path()))
 	l.Debug("Copy")
 
-	sourceNode := em_tree.ResolvePath(z.sourceRoot, source.Path().Path())
+	sourceNode := em_file.ResolvePath(z.sourceRoot, source.Path().Path())
 	if sourceNode == nil {
 		l.Debug("Unable to find the source node")
 		return nil, es_filesystem_model.NewError(errors.New("source node not found"), es_filesystem_model.ErrorTypePathNotFound)
 	}
 
-	if sourceNode.Type() != em_tree.FileNode {
+	if sourceNode.Type() != em_file.FileNode {
 		l.Debug("Node is not a file")
 		return nil, es_filesystem_model.NewError(errors.New("source node is not a file"), es_filesystem_model.ErrorTypeOther)
 	}
@@ -61,7 +61,7 @@ func (z modelToLocalCopier) Copy(source es_filesystem.Entry, target es_filesyste
 		return nil, es_filesystem_local.NewError(osErr)
 	}
 
-	content := sourceNode.(em_tree.File).Content()
+	content := sourceNode.(em_file.File).Content()
 
 	if errIO := ioutil.WriteFile(target.Path(), content, 0644); errIO != nil {
 		l.Debug("Unable to write to the file", esl.Error(errIO))

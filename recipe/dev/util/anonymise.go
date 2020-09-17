@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/essentials/time/ut_time"
+	"github.com/watermint/toolbox/essentials/time/ut_format"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
@@ -88,7 +88,7 @@ func (z Anon) escapeUrl(s string) (e string, completed bool) {
 }
 
 func (z Anon) isDateTime(s string) bool {
-	if _, v := ut_time.ParseTimestamp(s); v {
+	if _, v := ut_format.ParseTimestamp(s); v {
 		return true
 	}
 	return false

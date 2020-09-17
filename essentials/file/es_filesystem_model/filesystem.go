@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"path/filepath"
 )
 
@@ -12,14 +12,14 @@ const (
 	FileSystemTypeModel = "model"
 )
 
-func NewFileSystem(root em_tree.Node) es_filesystem.FileSystem {
+func NewFileSystem(root em_file.Node) es_filesystem.FileSystem {
 	return &fileSystem{
 		root: root,
 	}
 }
 
 type fileSystem struct {
-	root em_tree.Node
+	root em_file.Node
 }
 
 func (z fileSystem) Path(data es_filesystem.PathData) (path es_filesystem.Path, err es_filesystem.FileSystemError) {
@@ -30,7 +30,7 @@ func (z fileSystem) Path(data es_filesystem.PathData) (path es_filesystem.Path, 
 	return NewPath(data.EntryPath), nil
 }
 
-func (z fileSystem) Namespace(data es_filesystem.NamespaceData) (namespace es_filesystem.Namespace, err es_filesystem.FileSystemError) {
+func (z fileSystem) Shard(data es_filesystem.ShardData) (namespace es_filesystem.Shard, err es_filesystem.FileSystemError) {
 	if data.FileSystemType != FileSystemTypeModel {
 		return nil, NewError(errors.New("invalid type"), ErrorTypeInvalidEntryDataFormat)
 	}
@@ -39,12 +39,12 @@ func (z fileSystem) Namespace(data es_filesystem.NamespaceData) (namespace es_fi
 }
 
 func (z fileSystem) List(path es_filesystem.Path) (entries []es_filesystem.Entry, err es_filesystem.FileSystemError) {
-	parent := em_tree.ResolvePath(z.root, path.Path())
+	parent := em_file.ResolvePath(z.root, path.Path())
 	if parent == nil {
 		return nil, NewError(errors.New("not found"), ErrorTypePathNotFound)
 	}
 	switch n := parent.(type) {
-	case em_tree.Folder:
+	case em_file.Folder:
 		nodeEntries := n.Descendants()
 		entries = make([]es_filesystem.Entry, 0)
 		for _, nodeEntry := range nodeEntries {
@@ -56,7 +56,7 @@ func (z fileSystem) List(path es_filesystem.Path) (entries []es_filesystem.Entry
 }
 
 func (z fileSystem) Info(path es_filesystem.Path) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {
-	node := em_tree.ResolvePath(z.root, path.Path())
+	node := em_file.ResolvePath(z.root, path.Path())
 	if node == nil {
 		return nil, NewError(errors.New("not found"), ErrorTypePathNotFound)
 	}
@@ -68,12 +68,12 @@ func (z fileSystem) Delete(path es_filesystem.Path) (err es_filesystem.FileSyste
 		return NewError(errors.New("unable to delete root"), ErrorTypeOther)
 	}
 	parentPath := path.Ancestor().Path()
-	parent := em_tree.ResolvePath(z.root, parentPath)
+	parent := em_file.ResolvePath(z.root, parentPath)
 	if parent == nil {
 		return NewError(errors.New("not found"), ErrorTypePathNotFound)
 	}
 	switch n := parent.(type) {
-	case em_tree.Folder:
+	case em_file.Folder:
 		found := n.Delete(filepath.Base(path.Base()))
 		if !found {
 			return NewError(errors.New("not found"), ErrorTypePathNotFound)
@@ -84,7 +84,7 @@ func (z fileSystem) Delete(path es_filesystem.Path) (err es_filesystem.FileSyste
 }
 
 func (z fileSystem) CreateFolder(path es_filesystem.Path) (err es_filesystem.FileSystemError) {
-	if em_tree.CreateFolder(z.root, path.Path()) {
+	if em_file.CreateFolder(z.root, path.Path()) {
 		return nil
 	} else {
 		return NewError(errors.New("conflict"), ErrorTypeConflict)
@@ -98,16 +98,16 @@ func (z fileSystem) Entry(data es_filesystem.EntryData) (entry es_filesystem.Ent
 
 	switch {
 	case data.IsFile():
-		contentSeed := es_number.New(data.Attributes[em_tree.ExtraDataContentSeed]).Int64()
+		contentSeed := es_number.New(data.Attributes[em_file.ExtraDataContentSeed]).Int64()
 		entry = Entry{
-			node:      em_tree.NewFile(data.Name(), data.Size(), data.ModTime(), contentSeed),
+			node:      em_file.NewFile(data.Name(), data.Size(), data.ModTime(), contentSeed),
 			EntryData: data,
 		}
 		return
 
 	case data.IsFolder():
 		entry = Entry{
-			node:      em_tree.NewFolder(data.Name(), []em_tree.Node{}),
+			node:      em_file.NewFolder(data.Name(), []em_file.Node{}),
 			EntryData: data,
 		}
 		return

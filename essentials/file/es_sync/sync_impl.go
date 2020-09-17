@@ -67,7 +67,7 @@ type syncImpl struct {
 }
 
 func (z syncImpl) computeBatchId(source, target es_filesystem.Path) string {
-	return source.Namespace().Id() + "/" + target.Namespace().Id()
+	return source.Shard().Id() + "/" + target.Shard().Id()
 }
 
 func (z syncImpl) copy(source es_filesystem.Entry, target es_filesystem.Path) error {

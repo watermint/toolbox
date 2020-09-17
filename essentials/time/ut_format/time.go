@@ -1,4 +1,4 @@
-package ut_time
+package ut_format
 
 import (
 	"errors"
