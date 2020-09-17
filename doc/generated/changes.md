@@ -3,9 +3,11 @@
 # Commands added
 
 
-| Command             | Title                                               |
-|---------------------|-----------------------------------------------------|
-| dev benchmark local | Create dummy folder structure in local file system. |
+| Command                 | Title                                                      |
+|-------------------------|------------------------------------------------------------|
+| dev benchmark local     | Create dummy folder structure in local file system.        |
+| file mount list         | List mounted/unmounted shared folders                      |
+| team content mount list | List all mounted/unmounted shared folders of team members. |
 
 
 
@@ -242,6 +244,34 @@
 # Command spec changed: `team namespace file size`
 
 
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Depth",
+  			Desc:     "Report entry for all files and directories depth directories deep",
+- 			Default:  "1",
++ 			Default:  "3",
+  			TypeName: "essentials.model.mo_int.range_int",
+  			TypeAttr: map[string]interface{}{
+  				"max":   float64(300),
+  				"min":   float64(1),
+- 				"value": float64(1),
++ 				"value": float64(3),
+  			},
+  		},
+  		&{Name: "FolderName", Desc: "List only for the folder matched to the name. Filter by exact ma"...},
+  		&{Name: "FolderNamePrefix", Desc: "List only for the folder matched to the name. Filter by name mat"...},
+  		... // 6 identical elements
+  	},
+  }
+```
 ## Deleted report(s)
 
 
@@ -308,6 +338,34 @@
 # Command spec changed: `teamfolder file size`
 
 
+## Command configuration changed
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Depth",
+  			Desc:     "Depth",
+- 			Default:  "1",
++ 			Default:  "3",
+  			TypeName: "essentials.model.mo_int.range_int",
+  			TypeAttr: map[string]interface{}{
+  				"max":   float64(2.147483647e+09),
+  				"min":   float64(1),
+- 				"value": float64(1),
++ 				"value": float64(3),
+  			},
+  		},
+  		&{Name: "FolderName", Desc: "List only for the folder matched to the name. Filter by exact ma"...},
+  		&{Name: "FolderNamePrefix", Desc: "List only for the folder matched to the name. Filter by name mat"...},
+  		... // 2 identical elements
+  	},
+  }
+```
 ## Deleted report(s)
 
 

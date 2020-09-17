@@ -1,6 +1,6 @@
-# team namespace file size
+# team content mount list
 
-チーム内全ての名前空間でのファイル・フォルダを一覧 
+List all mounted/unmounted shared folders of team members. 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team namespace file size 
+.\tbx.exe team content mount list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team namespace file size 
+$HOME/Desktop/tbx team content mount list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,17 +68,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション               | 説明                                                                            | デフォルト |
-|--------------------------|---------------------------------------------------------------------------------|------------|
-| `-depth`                 | フォルダ階層数の指定                                                            | 3          |
-| `-folder-name`           | 名前に一致するフォルダのみをリストアップします. 名前による完全一致でフィルター. |            |
-| `-folder-name-prefix`    | 名前に一致するフォルダのみをリストアップします. 名前の前方一致によるフィルター. |            |
-| `-folder-name-suffix`    | 名前に一致するフォルダのみをリストアップします. 名前の後方一致によるフィルター. |            |
-| `-include-app-folder`    | Trueの場合、アプリフォルダを含めます                                            | false      |
-| `-include-member-folder` | Trueの場合、チームメンバーフォルダを含めます                                    | false      |
-| `-include-shared-folder` | Trueの場合、共有フォルダを含めます                                              | true       |
-| `-include-team-folder`   | Trueの場合、チームフォルダを含めます                                            | true       |
-| `-peer`                  | アカウントの別名                                                                | default    |
+| オプション            | 説明                                               | デフォルト |
+|-----------------------|----------------------------------------------------|------------|
+| `-member-email`       | Filter member. Filter by email address.            |            |
+| `-member-name`        | Filter member. Filter by exact match to the name.  |            |
+| `-member-name-prefix` | Filter member. Filter by name match to the prefix. |            |
+| `-member-name-suffix` | Filter member. Filter by name match to the suffix. |            |
+| `-peer`               | Account alias                                      | default    |
 
 ## 共通のオプション:
 
@@ -108,30 +104,30 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: namespace_size
+## レポート: mount
 
-名前空間のサイズ.
-このコマンドはレポートを3種類の書式で出力します. `namespace_size.csv`, `namespace_size.json`, ならびに `namespace_size.xlsx`.
+This report shows a list of shared folders.
+このコマンドはレポートを3種類の書式で出力します. `mount.csv`, `mount.json`, ならびに `mount.xlsx`.
 
-| 列                   | 説明                                                                                   |
-|----------------------|----------------------------------------------------------------------------------------|
-| namespace_name       | 名前空間の名称                                                                         |
-| namespace_id         | 名前空間ID                                                                             |
-| namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| path                 | フォルダへのパス                                                                       |
-| count_file           | このフォルダに含まれるファイル数                                                       |
-| count_folder         | このフォルダに含まれるフォルダ数                                                       |
-| count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
-| size                 | フォルダのサイズ                                                                       |
-| depth                | Folder depth                                                                           |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.              |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders                 |
-| api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
+| 列                       | 説明                                                                                                      |
+|--------------------------|-----------------------------------------------------------------------------------------------------------|
+| team_member_display_name | Team member display name.                                                                                 |
+| team_member_email        | Team member email address                                                                                 |
+| namespace_id             | Namespace Id                                                                                              |
+| namespace_name           | Name of the folder.                                                                                       |
+| access_type              | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| mount_path               | Mount path of this folder. The folder is not mounted if this field is empty.                              |
+| is_inside_team_folder    | Whether this folder is inside of a team folder.                                                           |
+| is_team_folder           | Whether this folder is a team folder.                                                                     |
+| policy_manage_access     | Who can add and remove members from this shared folder.                                                   |
+| policy_shared_link       | Who links can be shared with.                                                                             |
+| policy_member            | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
+| policy_viewer_info       | Who can enable/disable viewer info for this shared folder.                                                |
+| owner_team_name          | Team name of the team that owns the folder                                                                |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

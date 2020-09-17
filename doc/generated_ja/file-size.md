@@ -107,16 +107,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 Folder size
 このコマンドはレポートを3種類の書式で出力します. `size.csv`, `size.json`, ならびに `size.xlsx`.
 
-| 列                   | 説明                                                                      |
-|----------------------|---------------------------------------------------------------------------|
-| path                 | Path                                                                      |
-| depth                | Folder depth.                                                             |
-| size                 | Size in bytes                                                             |
-| num_file             | Number of files in this folder and child folders                          |
-| num_folder           | Number of folders in this folder and child folders                        |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders. |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders.   |
-| operation_complexity | Operation complexity factor                                               |
+| 列                     | 説明                                                                      |
+|------------------------|---------------------------------------------------------------------------|
+| path                   | Path                                                                      |
+| depth                  | Folder depth.                                                             |
+| size                   | Size in bytes                                                             |
+| num_file               | Number of files in this folder and child folders                          |
+| num_folder             | Number of folders in this folder and child folders                        |
+| mod_time_earliest      | The earliest modification time of a file in this folder or child folders. |
+| mod_time_latest        | The latest modification time of a file in this folder or child folders.   |
+| operational_complexity | Operational complexity factor                                             |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

@@ -101,6 +101,7 @@ Available commands:
 | [file import url](doc/generated/file-import-url.md)                     | Import file from the URL                         |
 | [file list](doc/generated/file-list.md)                                 | List files and folders                           |
 | [file merge](doc/generated/file-merge.md)                               | Merge paths                                      |
+| [file mount list](doc/generated/file-mount-list.md)                     | List mounted/unmounted shared folders            |
 | [file move](doc/generated/file-move.md)                                 | Move files                                       |
 | [file replication](doc/generated/file-replication.md)                   | Replicate file content to the other account      |
 | [file restore](doc/generated/file-restore.md)                           | Restore files under given path                   |
@@ -157,6 +158,7 @@ Available commands:
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
 | [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |
 | [team content member list](doc/generated/team-content-member-list.md)           | List team folder & shared folder members                      |
+| [team content mount list](doc/generated/team-content-mount-list.md)             | List all mounted/unmounted shared folders of team members.    |
 | [team content policy list](doc/generated/team-content-policy-list.md)           | List policies of team folders and shared folders in the team  |
 | [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |

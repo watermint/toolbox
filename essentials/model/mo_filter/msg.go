@@ -6,6 +6,7 @@ type MsgFilter struct {
 	DescFilterName       app_msg.Message
 	DescFilterNamePrefix app_msg.Message
 	DescFilterNameSuffix app_msg.Message
+	DescFilterEmail      app_msg.Message
 }
 
 var (

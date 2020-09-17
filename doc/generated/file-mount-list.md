@@ -1,6 +1,6 @@
-# file size
+# file mount list
 
-Storage usage 
+List mounted/unmounted shared folders 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file size -path /
+.\tbx.exe file mount list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file size -path /
+$HOME/Desktop/tbx file mount list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,11 +68,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option   | Description                                                  | Default |
-|----------|--------------------------------------------------------------|---------|
-| `-depth` | Report an entry for all files and folders depth folders deep | 2       |
-| `-path`  | Path to scan                                                 |         |
-| `-peer`  | Account alias                                                | default |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 ## Common options:
 
@@ -102,25 +100,29 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: size
+## Report: mount
 
-Folder size
-The command will generate a report in three different formats. `size.csv`, `size.json`, and `size.xlsx`.
+This report shows a list of shared folders.
+The command will generate a report in three different formats. `mount.csv`, `mount.json`, and `mount.xlsx`.
 
-| Column                 | Description                                                               |
-|------------------------|---------------------------------------------------------------------------|
-| path                   | Path                                                                      |
-| depth                  | Folder depth.                                                             |
-| size                   | Size in bytes                                                             |
-| num_file               | Number of files in this folder and child folders                          |
-| num_folder             | Number of folders in this folder and child folders                        |
-| mod_time_earliest      | The earliest modification time of a file in this folder or child folders. |
-| mod_time_latest        | The latest modification time of a file in this folder or child folders.   |
-| operational_complexity | Operational complexity factor                                             |
+| Column                  | Description                                                                                                             |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| shared_folder_id        | The ID of the shared folder.                                                                                            |
+| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
+| name                    | The name of the this shared folder.                                                                                     |
+| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
+| path_lower              | The lower-cased full path of this shared folder.                                                                        |
+| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
+| is_team_folder          | Whether this folder is a team folder.                                                                                   |
+| policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
+| policy_shared_link      | Who links can be shared with.                                                                                           |
+| policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
+| policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
+| owner_team_name         | Team name of the team that owns the folder                                                                              |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `size_0000.xlsx`, `size_0001.xlsx`, `size_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 # Proxy configuration
 

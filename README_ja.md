@@ -99,6 +99,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file import url](doc/generated_ja/file-import-url.md)                     | URLからファイルをインポートします                                  |
 | [file list](doc/generated_ja/file-list.md)                                 | ファイルとフォルダを一覧します                                     |
 | [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                               |
+| [file mount list](doc/generated_ja/file-mount-list.md)                     | List mounted/unmounted shared folders                              |
 | [file move](doc/generated_ja/file-move.md)                                 | ファイルを移動します                                               |
 | [file replication](doc/generated_ja/file-replication.md)                   | ファイルコンテンツを他のアカウントに複製します                     |
 | [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                 |
@@ -155,6 +156,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                   |
 | [team activity user](doc/generated_ja/team-activity-user.md)                       | ユーザーごとのアクティビティ                                   |
 | [team content member list](doc/generated_ja/team-content-member-list.md)           | チームフォルダや共有フォルダのメンバー一覧                     |
+| [team content mount list](doc/generated_ja/team-content-mount-list.md)             | List all mounted/unmounted shared folders of team members.     |
 | [team content policy list](doc/generated_ja/team-content-policy-list.md)           | チームフォルダと共有フォルダのポリシー一覧                     |
 | [team device list](doc/generated_ja/team-device-list.md)                           | チーム内全てのデバイス/セッションを一覧します                  |
 | [team device unlink](doc/generated_ja/team-device-unlink.md)                       | デバイスのセッションを解除します                               |

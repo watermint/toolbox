@@ -1,6 +1,6 @@
-# file size
+# team content mount list
 
-Storage usage 
+List all mounted/unmounted shared folders of team members. 
 
 # Security
 
@@ -16,13 +16,13 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
 
-| Label     | Description         |
-|-----------|---------------------|
-| user_full | Dropbox Full access |
+| Label         | Description                  |
+|---------------|------------------------------|
+| business_file | Dropbox Business File access |
 
 # Authorization
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file size -path /
+.\tbx.exe team content mount list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file size -path /
+$HOME/Desktop/tbx team content mount list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,11 +68,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option   | Description                                                  | Default |
-|----------|--------------------------------------------------------------|---------|
-| `-depth` | Report an entry for all files and folders depth folders deep | 2       |
-| `-path`  | Path to scan                                                 |         |
-| `-peer`  | Account alias                                                | default |
+| Option                | Description                                        | Default |
+|-----------------------|----------------------------------------------------|---------|
+| `-member-email`       | Filter member. Filter by email address.            |         |
+| `-member-name`        | Filter member. Filter by exact match to the name.  |         |
+| `-member-name-prefix` | Filter member. Filter by name match to the prefix. |         |
+| `-member-name-suffix` | Filter member. Filter by name match to the suffix. |         |
+| `-peer`               | Account alias                                      | default |
 
 ## Common options:
 
@@ -102,25 +104,30 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: size
+## Report: mount
 
-Folder size
-The command will generate a report in three different formats. `size.csv`, `size.json`, and `size.xlsx`.
+This report shows a list of shared folders.
+The command will generate a report in three different formats. `mount.csv`, `mount.json`, and `mount.xlsx`.
 
-| Column                 | Description                                                               |
-|------------------------|---------------------------------------------------------------------------|
-| path                   | Path                                                                      |
-| depth                  | Folder depth.                                                             |
-| size                   | Size in bytes                                                             |
-| num_file               | Number of files in this folder and child folders                          |
-| num_folder             | Number of folders in this folder and child folders                        |
-| mod_time_earliest      | The earliest modification time of a file in this folder or child folders. |
-| mod_time_latest        | The latest modification time of a file in this folder or child folders.   |
-| operational_complexity | Operational complexity factor                                             |
+| Column                   | Description                                                                                               |
+|--------------------------|-----------------------------------------------------------------------------------------------------------|
+| team_member_display_name | Team member display name.                                                                                 |
+| team_member_email        | Team member email address                                                                                 |
+| namespace_id             | Namespace Id                                                                                              |
+| namespace_name           | Name of the folder.                                                                                       |
+| access_type              | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| mount_path               | Mount path of this folder. The folder is not mounted if this field is empty.                              |
+| is_inside_team_folder    | Whether this folder is inside of a team folder.                                                           |
+| is_team_folder           | Whether this folder is a team folder.                                                                     |
+| policy_manage_access     | Who can add and remove members from this shared folder.                                                   |
+| policy_shared_link       | Who links can be shared with.                                                                             |
+| policy_member            | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
+| policy_viewer_info       | Who can enable/disable viewer info for this shared folder.                                                |
+| owner_team_name          | Team name of the team that owns the folder                                                                |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `size_0000.xlsx`, `size_0001.xlsx`, `size_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 # Proxy configuration
 
