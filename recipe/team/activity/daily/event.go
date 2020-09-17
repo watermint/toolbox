@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/essentials/time/ut_time"
+	"github.com/watermint/toolbox/essentials/time/ut_format"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -29,13 +29,13 @@ func (z *Event) Preset() {
 func (z *Event) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	dr, err := ut_time.Daily(z.StartDate, z.EndDate.Value())
+	dr, err := ut_format.Daily(z.StartDate, z.EndDate.Value())
 	if err != nil {
 		return err
 	}
 
 	for _, d := range dr {
-		st, _ := ut_time.ParseTimestamp(d.Start)
+		st, _ := ut_format.ParseTimestamp(d.Start)
 		stDate := st.Format("2006-01-02")
 		ui.Progress(z.Progress.With("Start", d.Start).With("End", d.End))
 

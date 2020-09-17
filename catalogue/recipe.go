@@ -25,6 +25,7 @@ import (
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
+	recipefilemount "github.com/watermint/toolbox/recipe/file/mount"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
 	recipefilerequest "github.com/watermint/toolbox/recipe/filerequest"
@@ -65,6 +66,7 @@ import (
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
 	recipeteamcontentmember "github.com/watermint/toolbox/recipe/team/content/member"
+	recipeteamcontentmount "github.com/watermint/toolbox/recipe/team/content/mount"
 	recipeteamcontentpolicy "github.com/watermint/toolbox/recipe/team/content/policy"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
@@ -94,6 +96,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconnect.BusinessInfo{},
 		&recipeconnect.BusinessMgmt{},
 		&recipeconnect.UserFile{},
+		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
 		&recipedevbuild.Catalogue{},
 		&recipedevbuild.Doc{},
@@ -140,6 +143,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefileexport.Doc{},
 		&recipefileimport.Url{},
 		&recipefileimportbatch.Url{},
+		&recipefilemount.List{},
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
 		&recipefilesync.Down{},
@@ -218,6 +222,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamactivitybatch.User{},
 		&recipeteamactivitydaily.Event{},
 		&recipeteamcontentmember.List{},
+		&recipeteamcontentmount.List{},
 		&recipeteamcontentpolicy.List{},
 		&recipeteamdevice.List{},
 		&recipeteamdevice.Unlink{},

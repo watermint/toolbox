@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/essentials/time/ut_time"
+	"github.com/watermint/toolbox/essentials/time/ut_format"
 	"os"
 	"time"
 )
@@ -63,7 +63,7 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 
 	// update file timestamp
 	clientModified := entry.Concrete().ClientModified
-	ftm, ok := ut_time.ParseTimestamp(clientModified)
+	ftm, ok := ut_format.ParseTimestamp(clientModified)
 	if !ok {
 		l.Debug("Unable to parse client modified", esl.String("client_modified", clientModified))
 	} else if err := os.Chtimes(contentFilePath, time.Now(), ftm); err != nil {

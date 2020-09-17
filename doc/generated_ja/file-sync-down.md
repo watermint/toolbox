@@ -113,9 +113,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 パス
 このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
 
-| 列         | 説明 |
-|------------|------|
-| entry_path | パス |
+| 列                           | 説明                   |
+|------------------------------|------------------------|
+| entry_path                   | パス                   |
+| entry_shard.file_system_type | ファイルシステムの種別 |
+| entry_shard.shard_id         | シャードID             |
+| entry_shard.attributes       | シャードの属性         |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -145,11 +148,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `skipped.csv`, `skipped.json`, ならびに `skipped.xlsx`.
 
-| 列               | 説明                     |
-|------------------|--------------------------|
-| status           | 処理の状態               |
-| reason           | 失敗またはスキップの理由 |
-| input.entry_path | パス                     |
+| 列                                 | 説明                     |
+|------------------------------------|--------------------------|
+| status                             | 処理の状態               |
+| reason                             | 失敗またはスキップの理由 |
+| input.entry_path                   | パス                     |
+| input.entry_shard.file_system_type | ファイルシステムの種別   |
+| input.entry_shard.shard_id         | シャードID               |
+| input.entry_shard.attributes       | シャードの属性           |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

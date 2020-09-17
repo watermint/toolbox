@@ -7,8 +7,8 @@ type Path interface {
 	// Cleaned absolute path in the file system.
 	Path() string
 
-	// Namespace of the path.
-	Namespace() Namespace
+	// Shard of the path.
+	Shard() Shard
 
 	// Ancestor path. Returns root path if this instance is root.
 	Ancestor() Path
@@ -29,6 +29,18 @@ type Path interface {
 type PathData struct {
 	FileSystemType string                 `json:"file_system_type"`
 	EntryPath      string                 `json:"entry_path"`
-	EntryNamespace NamespaceData          `json:"entry_namespace"`
+	EntryShard     ShardData              `json:"entry_shard"`
 	Attributes     map[string]interface{} `json:"attributes"`
+}
+
+func (z PathData) Path() string {
+	return z.EntryPath
+}
+
+func (z PathData) Shard() Shard {
+	return z.EntryShard
+}
+
+func (z PathData) AsData() PathData {
+	return z
 }

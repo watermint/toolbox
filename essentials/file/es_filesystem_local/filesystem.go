@@ -18,6 +18,10 @@ func NewFileSystem() es_filesystem.FileSystem {
 type fsLocal struct {
 }
 
+func (z fsLocal) OperationalComplexity(entries []es_filesystem.Entry) (complexity int64) {
+	return int64(len(entries))
+}
+
 func (z fsLocal) Path(data es_filesystem.PathData) (path es_filesystem.Path, err es_filesystem.FileSystemError) {
 	if data.FileSystemType != FileSystemTypeLocal {
 		return nil, NewError(ErrorInvalidEntryDataFormat)
@@ -26,7 +30,7 @@ func (z fsLocal) Path(data es_filesystem.PathData) (path es_filesystem.Path, err
 	return &fsPath{path: data.EntryPath}, nil
 }
 
-func (z fsLocal) Namespace(data es_filesystem.NamespaceData) (namespace es_filesystem.Namespace, err es_filesystem.FileSystemError) {
+func (z fsLocal) Shard(data es_filesystem.ShardData) (namespace es_filesystem.Shard, err es_filesystem.FileSystemError) {
 	if data.FileSystemType != FileSystemTypeLocal {
 		return nil, NewError(ErrorInvalidEntryDataFormat)
 	}

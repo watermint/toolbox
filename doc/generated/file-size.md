@@ -102,38 +102,25 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: errors
+## Report: size
 
-This report shows the transaction result.
-The command will generate a report in three different formats. `errors.csv`, `errors.json`, and `errors.xlsx`.
+Folder size
+The command will generate a report in three different formats. `size.csv`, `size.json`, and `size.xlsx`.
 
-| Column          | Description                            |
-|-----------------|----------------------------------------|
-| status          | Status of the operation                |
-| reason          | Reason of failure or skipped operation |
-| input.namespace | Namespace                              |
-| input.path      | Path                                   |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
-## Report: namespace_size
-
-Namespace size
-The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
-
-| Column           | Description                                  |
-|------------------|----------------------------------------------|
-| path             | Path to the folder                           |
-| count_file       | Number of files under the folder             |
-| count_folder     | Number of folders under the folder           |
-| count_descendant | Number of files and folders under the folder |
-| size             | Size of the folder                           |
-| api_complexity   | Folder complexity index for API operations   |
+| Column                 | Description                                                               |
+|------------------------|---------------------------------------------------------------------------|
+| path                   | Path                                                                      |
+| depth                  | Folder depth.                                                             |
+| size                   | Size in bytes                                                             |
+| num_file               | Number of files in this folder and child folders                          |
+| num_folder             | Number of folders in this folder and child folders                        |
+| mod_time_earliest      | The earliest modification time of a file in this folder or child folders. |
+| mod_time_latest        | The latest modification time of a file in this folder or child folders.   |
+| operational_complexity | Operational complexity factor                                             |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `size_0000.xlsx`, `size_0001.xlsx`, `size_0002.xlsx`, ...
 
 # Proxy configuration
 

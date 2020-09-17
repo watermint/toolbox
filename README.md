@@ -66,19 +66,21 @@ Usage:
 Available commands:
 ===================
 
-[1mCommand   Description                      Notes[0m
-config        watermint toolbox configuration  
-connect       Connect to the account           
-file          File operation                   
-filerequest   File request operation           
-group         Group management                 
-license       Show license information         
-member        Team member management           
-sharedfolder  Shared folder                    
-sharedlink    Shared Link of Personal account  
-team          Dropbox Business Team            
-teamfolder    Team folder management           
-version       Show version                     
+| Command      | Description                     | Notes |
+|--------------|---------------------------------|-------|
+| config       | watermint toolbox configuration |       |
+| connect      | Connect to the account          |       |
+| file         | File operation                  |       |
+| filerequest  | File request operation          |       |
+| group        | Group management                |       |
+| license      | Show license information        |       |
+| member       | Team member management          |       |
+| sharedfolder | Shared folder                   |       |
+| sharedlink   | Shared Link of Personal account |       |
+| team         | Dropbox Business Team           |       |
+| teamfolder   | Team folder management          |       |
+| version      | Show version                    |       |
+
 ```
 
 # Commands
@@ -99,6 +101,7 @@ version       Show version
 | [file import url](doc/generated/file-import-url.md)                     | Import file from the URL                         |
 | [file list](doc/generated/file-list.md)                                 | List files and folders                           |
 | [file merge](doc/generated/file-merge.md)                               | Merge paths                                      |
+| [file mount list](doc/generated/file-mount-list.md)                     | List mounted/unmounted shared folders            |
 | [file move](doc/generated/file-move.md)                                 | Move files                                       |
 | [file replication](doc/generated/file-replication.md)                   | Replicate file content to the other account      |
 | [file restore](doc/generated/file-restore.md)                           | Restore files under given path                   |
@@ -155,6 +158,7 @@ version       Show version
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
 | [team activity user](doc/generated/team-activity-user.md)                       | Activities log per user                                       |
 | [team content member list](doc/generated/team-content-member-list.md)           | List team folder & shared folder members                      |
+| [team content mount list](doc/generated/team-content-mount-list.md)             | List all mounted/unmounted shared folders of team members.    |
 | [team content policy list](doc/generated/team-content-policy-list.md)           | List policies of team folders and shared folders in the team  |
 | [team device list](doc/generated/team-device-list.md)                           | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                       | Unlink device sessions                                        |
@@ -227,18 +231,19 @@ version       Show version
 
 ## Utilities
 
-| Command                                                     | Description                                      |
-|-------------------------------------------------------------|--------------------------------------------------|
-| [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
-| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
-| [config features](doc/generated/config-features.md)         | List available optional features.                |
-| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
-| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
-| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
-| [job history list](doc/generated/job-history-list.md)       | Show job history                                 |
-| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                |
-| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
-| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
-| [license](doc/generated/license.md)                         | Show license information                         |
-| [version](doc/generated/version.md)                         | Show version                                     |
+| Command                                                     | Description                                         |
+|-------------------------------------------------------------|-----------------------------------------------------|
+| [config disable](doc/generated/config-disable.md)           | Disable a feature.                                  |
+| [config enable](doc/generated/config-enable.md)             | Enable a feature.                                   |
+| [config features](doc/generated/config-features.md)         | List available optional features.                   |
+| [dev benchmark local](doc/generated/dev-benchmark-local.md) | Create dummy folder structure in local file system. |
+| [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                                |
+| [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                        |
+| [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                              |
+| [job history list](doc/generated/job-history-list.md)       | Show job history                                    |
+| [job log jobid](doc/generated/job-log-jobid.md)             | Retrieve logs of specified Job ID                   |
+| [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind    |
+| [job log last](doc/generated/job-log-last.md)               | Print the last job log files                        |
+| [license](doc/generated/license.md)                         | Show license information                            |
+| [version](doc/generated/version.md)                         | Show version                                        |
 

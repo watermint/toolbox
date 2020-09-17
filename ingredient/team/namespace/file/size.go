@@ -3,14 +3,16 @@ package file
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_size"
-	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_traverse"
+	"github.com/watermint/toolbox/essentials/file/es_size"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
@@ -31,29 +33,18 @@ type Size struct {
 	IncludeAppFolder    bool
 	Folder              mo_filter.Filter
 	Depth               mo_int.RangeInt
-	NamespaceSize       rp_model.TransactionReport
-	Errors              rp_model.TransactionReport
+	NamespaceSize       rp_model.RowReport
 }
 
 func (z *Size) Preset() {
 	z.NamespaceSize.SetModel(
-		&mo_namespace.Namespace{},
 		&mo_file_size.NamespaceSize{},
-		rp_model.HiddenColumns(
-			"result.namespace_name",
-			"result.namespace_id",
-			"result.namespace_type",
-			"result.owner_team_member_id",
-			"input.team_member_id",
-			"input.namespace_id",
-		),
 	)
 	z.Folder.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNamePrefixFilter(),
 		mo_filter.NewNameSuffixFilter(),
 	)
-	z.Errors.SetModel(&uc_file_traverse.TraverseEntry{}, nil)
 	z.IncludeSharedFolder = true
 	z.IncludeTeamFolder = true
 	z.Depth.SetRange(1, 300, 1)
@@ -82,10 +73,6 @@ func (z *Size) Exec(c app_control.Control) error {
 		namespaceDict[ns.NamespaceId] = ns
 	}
 
-	if err := z.Errors.Open(); err != nil {
-		return err
-	}
-
 	namespaceSizes := sync.Map{}
 	for _, namespace := range namespaces {
 		namespaceSizes.Store(namespace.NamespaceId, uc_file_size.NewSum(z.Depth.Value()))
@@ -93,27 +80,20 @@ func (z *Size) Exec(c app_control.Control) error {
 
 	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
 
-	handlerEntries := func(te uc_file_traverse.TraverseEntry, entries []mo_file.Entry) {
-		if size, ok := namespaceSizes.Load(te.Namespace.NamespaceId); ok {
-			s := size.(uc_file_size.Sum)
-			s.Eval(te.Path, entries)
-		}
-	}
-	handlerError := func(te uc_file_traverse.TraverseEntry, err error) {
-		z.Errors.Failure(err, &te)
-	}
+	scanFolderQueueId := "scan_folder"
+	scanSessionQueueId := "scan_session"
 
-	traverseQueueId := "namespace"
-	traverse := uc_file_traverse.NewTraverse(
-		cta,
-		c,
-		traverseQueueId,
-		handlerEntries,
-		handlerError,
-	)
+	factory := kv_storage_impl.NewFactory(c)
+	defer func() {
+		factory.Close()
+	}()
+
+	sizeCtx := es_size.New(c.Log(), scanFolderQueueId, factory)
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define(traverseQueueId, traverse.Traverse, s)
+		s.Define(scanFolderQueueId, es_size.ScanFolder, sizeCtx)
+		s.Define(scanSessionQueueId, sizeCtx.StartSession, s)
+
 		for _, namespace := range namespaces {
 			process := false
 			switch {
@@ -135,26 +115,45 @@ func (z *Size) Exec(c app_control.Control) error {
 				continue
 			}
 
-			q := s.Get(traverseQueueId).Batch(namespace.NamespaceId)
-			q.Enqueue(uc_file_traverse.TraverseEntry{
-				Namespace: namespace,
-				Path:      "/",
-			})
+			dbxCtx := cta.WithPath(dbx_context.Namespace(namespace.NamespaceId))
+			dbxFs := filesystem.NewFileSystem(dbxCtx)
+			sessionId := namespace.NamespaceId
+
+			sizeCtx.New(
+				sessionId,
+				filesystem.NewPath(namespace.NamespaceId, mo_path.NewDropboxPath("/")),
+				s,
+				dbxFs,
+				namespace,
+			)
+
+			s.Get(scanSessionQueueId).Batch(namespace.NamespaceId).Enqueue(sessionId)
 		}
 	})
 
-	namespaceSizes.Range(func(key, value interface{}) bool {
-		size := value.(uc_file_size.Sum)
-		namespaceId := key.(string)
-		namespace := namespaceDict[namespaceId]
+	return sizeCtx.ListEach(z.Depth.Value(), func(sessionId string, meta interface{}, size es_size.FolderSize) {
+		ns, ok := meta.(*mo_namespace.Namespace)
+		if !ok {
+			l.Debug("Unable to cast to namespace")
+			return
+		}
 
-		size.Each(func(path mo_path.DropboxPath, size mo_file_size.Size) {
-			z.NamespaceSize.Success(namespace, size)
+		z.NamespaceSize.Row(&mo_file_size.NamespaceSize{
+			NamespaceName:     ns.Name,
+			NamespaceId:       ns.NamespaceId,
+			NamespaceType:     ns.NamespaceType,
+			OwnerTeamMemberId: ns.TeamMemberId,
+			Path:              size.Path,
+			CountFile:         size.NumFile,
+			CountFolder:       size.NumFolder,
+			CountDescendant:   size.NumFile + size.NumFolder,
+			Size:              size.Size,
+			Depth:             size.Depth,
+			ModTimeEarliest:   size.ModTimeEarliest,
+			ModTimeLatest:     size.ModTimeLatest,
+			ApiComplexity:     size.OperationalComplexity,
 		})
-		return true
 	})
-
-	return nil
 }
 
 func (z *Size) Test(c app_control.Control) error {

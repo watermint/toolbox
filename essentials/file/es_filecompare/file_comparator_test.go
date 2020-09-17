@@ -76,7 +76,7 @@ func (z MockPath) AsData() es_filesystem.PathData {
 	return es_filesystem.PathData{
 		FileSystemType: "mock",
 		EntryPath:      z.path,
-		EntryNamespace: z.Namespace().AsData(),
+		EntryShard:     z.Shard().AsData(),
 		Attributes:     map[string]interface{}{},
 	}
 }
@@ -89,10 +89,10 @@ func (z MockPath) Path() string {
 	return filepath.ToSlash(z.path)
 }
 
-func (z MockPath) Namespace() es_filesystem.Namespace {
-	return es_filesystem.NamespaceData{
+func (z MockPath) Shard() es_filesystem.Shard {
+	return es_filesystem.ShardData{
 		FileSystemType: "mock",
-		NamespaceId:    "",
+		ShardId:        "",
 		Attributes:     map[string]interface{}{},
 	}
 }

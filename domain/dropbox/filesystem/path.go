@@ -23,13 +23,17 @@ func (z dbxPath) Base() string {
 }
 
 func (z dbxPath) Path() string {
-	return z.path.Path()
+	if z.path.IsRoot() || z.path.Path() == "" {
+		return "/"
+	} else {
+		return z.path.Path()
+	}
 }
 
-func (z dbxPath) Namespace() es_filesystem.Namespace {
-	return es_filesystem.NamespaceData{
+func (z dbxPath) Shard() es_filesystem.Shard {
+	return es_filesystem.ShardData{
 		FileSystemType: FileSystemTypeDropbox,
-		NamespaceId:    z.namespaceId,
+		ShardId:        z.namespaceId,
 		Attributes:     map[string]interface{}{},
 	}
 }
@@ -49,8 +53,8 @@ func (z dbxPath) IsRoot() bool {
 func (z dbxPath) AsData() es_filesystem.PathData {
 	return es_filesystem.PathData{
 		FileSystemType: FileSystemTypeDropbox,
-		EntryPath:      z.path.Path(),
-		EntryNamespace: z.Namespace().AsData(),
+		EntryPath:      z.Path(),
+		EntryShard:     z.Shard().AsData(),
 		Attributes:     map[string]interface{}{},
 	}
 }

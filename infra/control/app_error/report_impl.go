@@ -2,6 +2,7 @@ package app_error
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -52,6 +53,11 @@ func (z *errorReportImpl) Down() {
 func (z *errorReportImpl) ErrorHandler(err error, mouldId, batchId string, p interface{}) {
 	if err == qt_errors.ErrorMock {
 		return
+	}
+	if fsErr, ok := err.(es_filesystem.FileSystemError); ok {
+		if fsErr.IsMockError() {
+			return
+		}
 	}
 	d, em := json.Marshal(p)
 	if em != nil {

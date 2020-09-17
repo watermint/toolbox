@@ -14,17 +14,6 @@ import (
 
 func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		// badger
-		{
-			db := kv_storage_impl.InternalNewBadger(name + "_badger")
-			if err := db.Open(ctl); err != nil {
-				t.Error(err)
-				return
-			}
-			f(t, db)
-			db.Close()
-		}
-
 		// bitcask
 		{
 			db := kv_storage_impl.InternalNewBitcask(name + "_bitcask")

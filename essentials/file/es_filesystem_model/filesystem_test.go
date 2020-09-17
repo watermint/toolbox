@@ -5,14 +5,14 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"testing"
 )
 
 func TestNewFileSystem(t *testing.T) {
 	l := esl.Default()
 	comparator := es_filecompare.New()
-	root := em_tree.DemoTree()
+	root := em_file.DemoTree()
 	fs := NewFileSystem(root)
 
 	if err := fs.Delete(NewPath("/a/b")); err != nil {

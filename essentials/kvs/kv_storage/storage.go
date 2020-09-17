@@ -15,3 +15,11 @@ type Storage interface {
 	// Read-write transaction
 	Update(f func(kvs kv_kvs.Kvs) error) error
 }
+
+type Factory interface {
+	// Create new storage
+	New(name string) (Storage, error)
+
+	// Close all storages which created thru this factory.
+	Close()
+}

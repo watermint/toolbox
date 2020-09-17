@@ -27,7 +27,7 @@ func (z Path) AsData() es_filesystem.PathData {
 	return es_filesystem.PathData{
 		FileSystemType: FileSystemTypeModel,
 		EntryPath:      z.Path(),
-		EntryNamespace: z.Namespace().AsData(),
+		EntryShard:     z.Shard().AsData(),
 		Attributes:     map[string]interface{}{},
 	}
 }
@@ -40,9 +40,9 @@ func (z Path) Path() string {
 	return z.path
 }
 
-func (z Path) Namespace() es_filesystem.Namespace {
-	return es_filesystem.NamespaceData{
-		NamespaceId: "",
+func (z Path) Shard() es_filesystem.Shard {
+	return es_filesystem.ShardData{
+		ShardId: "",
 	}
 }
 

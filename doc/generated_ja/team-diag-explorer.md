@@ -354,21 +354,24 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
 ## レポート: namespace_size
 
-このレポートは処理結果を出力します.
+名前空間のサイズ.
 このコマンドはレポートを3種類の書式で出力します. `namespace_size.csv`, `namespace_size.json`, ならびに `namespace_size.xlsx`.
 
-| 列                      | 説明                                                                                   |
-|-------------------------|----------------------------------------------------------------------------------------|
-| status                  | 処理の状態                                                                             |
-| reason                  | 失敗またはスキップの理由                                                               |
-| input.name              | 名前空間の名称                                                                         |
-| input.namespace_type    | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| result.path             | フォルダへのパス                                                                       |
-| result.count_file       | このフォルダに含まれるファイル数                                                       |
-| result.count_folder     | このフォルダに含まれるフォルダ数                                                       |
-| result.count_descendant | このフォルダに含まれるファイル・フォルダ数                                             |
-| result.size             | フォルダのサイズ                                                                       |
-| result.api_complexity   | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
+| 列                   | 説明                                                                                   |
+|----------------------|----------------------------------------------------------------------------------------|
+| namespace_name       | 名前空間の名称                                                                         |
+| namespace_id         | 名前空間ID                                                                             |
+| namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
+| owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
+| path                 | フォルダへのパス                                                                       |
+| count_file           | このフォルダに含まれるファイル数                                                       |
+| count_folder         | このフォルダに含まれるフォルダ数                                                       |
+| count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
+| size                 | フォルダのサイズ                                                                       |
+| depth                | フォルダの深さ                                                                         |
+| mod_time_earliest    | このフォルダまたは子フォルダ内のファイルの最も古い更新日時                             |
+| mod_time_latest      | このフォルダまたは子フォルダ内のファイルの最も新しい更新日時                           |
+| api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

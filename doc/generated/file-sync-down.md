@@ -113,9 +113,12 @@ Report file path will be displayed last line of the command line output. If you 
 Path
 The command will generate a report in three different formats. `deleted.csv`, `deleted.json`, and `deleted.xlsx`.
 
-| Column     | Description |
-|------------|-------------|
-| entry_path | Path        |
+| Column                       | Description      |
+|------------------------------|------------------|
+| entry_path                   | Path             |
+| entry_shard.file_system_type | File system type |
+| entry_shard.shard_id         | Shard ID         |
+| entry_shard.attributes       | Shard attributes |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
@@ -145,11 +148,14 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows the transaction result.
 The command will generate a report in three different formats. `skipped.csv`, `skipped.json`, and `skipped.xlsx`.
 
-| Column           | Description                            |
-|------------------|----------------------------------------|
-| status           | Status of the operation                |
-| reason           | Reason of failure or skipped operation |
-| input.entry_path | Path                                   |
+| Column                             | Description                            |
+|------------------------------------|----------------------------------------|
+| status                             | Status of the operation                |
+| reason                             | Reason of failure or skipped operation |
+| input.entry_path                   | Path                                   |
+| input.entry_shard.file_system_type | File system type                       |
+| input.entry_shard.shard_id         | Shard ID                               |
+| input.entry_shard.attributes       | Shard attributes                       |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

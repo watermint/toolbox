@@ -3,19 +3,67 @@ package kv_storage_impl
 import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"path/filepath"
+	"sync"
 )
 
-func New(name string) kv_storage.Storage {
+func NewStorage(name string) kv_storage.Storage {
 	return newProxy(name)
 }
 
-func NewWithPath(ctl app_control.Control, path string) (kv_storage.Storage, error) {
+func NewStorageWithPath(ctl app_control.Control, path string) (kv_storage.Storage, error) {
 	s := newProxy(filepath.Base(path))
 	err := s.OpenWithPath(ctl, path)
 	return s, err
+}
+
+func NewFactory(ctl app_control.Control) kv_storage.Factory {
+	return &factoryImpl{
+		ctl:      ctl,
+		storages: make([]Storage, 0),
+	}
+}
+
+type factoryImpl struct {
+	ctl      app_control.Control
+	storages []Storage
+	mutex    sync.Mutex
+}
+
+func (z *factoryImpl) New(name string) (kv_storage.Storage, error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	l := z.ctl.Log().With(esl.String("name", name))
+	l.Debug("Create new storage")
+
+	sto := newProxy(name)
+	err := sto.Open(z.ctl)
+	if err != nil {
+		l.Debug("Unable to open the storage", esl.Error(err))
+		return nil, err
+	}
+	z.storages = append(z.storages, sto)
+
+	l.Debug("Storage created")
+	return sto, nil
+}
+
+func (z *factoryImpl) Close() {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	l := z.ctl.Log()
+	l.Debug("Closing all storages")
+
+	for _, sto := range z.storages {
+		l.Debug("Closing a storage")
+		sto.Close()
+	}
+	z.storages = make([]Storage, 0)
+	l.Debug("Closed")
 }
 
 type Storage interface {
@@ -39,12 +87,7 @@ type proxyImpl struct {
 }
 
 func (z *proxyImpl) newStorage(ctl app_control.Control) Storage {
-	switch {
-	case ctl.Feature().Experiment(app.ExperimentKvsStorageUseBadger):
-		return InternalNewBadger(z.name)
-	default:
-		return InternalNewBitcask(z.name)
-	}
+	return InternalNewBitcask(z.name)
 }
 
 func (z *proxyImpl) Open(ctl app_control.Control) error {

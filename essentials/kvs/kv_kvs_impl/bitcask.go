@@ -2,6 +2,7 @@ package kv_kvs_impl
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/prologic/bitcask"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -17,6 +18,10 @@ func NewBitcask(name string, ctl app_control.Control, db *bitcask.Bitcask) kv_kv
 	}
 }
 
+var (
+	ErrorInvalidKey = errors.New("invalid key")
+)
+
 type bcImpl struct {
 	name string
 	ctl  app_control.Control
@@ -27,7 +32,10 @@ func (z *bcImpl) log() esl.Logger {
 	return z.ctl.Log().With(esl.String("name", z.name))
 }
 
-func (z *bcImpl) op(opName string, f func() error) error {
+func (z *bcImpl) op(opName string, key string, f func() error) error {
+	if len(key) < 1 {
+		return ErrorInvalidKey
+	}
 	l := z.log().With(esl.String("opName", opName))
 	if err := f(); err != nil {
 		l.Debug("Op failed", esl.Error(err))
@@ -37,19 +45,19 @@ func (z *bcImpl) op(opName string, f func() error) error {
 }
 
 func (z *bcImpl) PutString(key string, value string) error {
-	return z.op("PutString", func() error {
+	return z.op("PutString", key, func() error {
 		return z.db.Put([]byte(key), []byte(value))
 	})
 }
 
 func (z *bcImpl) PutBytes(key string, value []byte) error {
-	return z.op("PutBytes", func() error {
+	return z.op("PutBytes", key, func() error {
 		return z.db.Put([]byte(key), value)
 	})
 }
 
 func (z *bcImpl) PutJson(key string, j json.RawMessage) error {
-	return z.op("PutJson", func() error {
+	return z.op("PutJson", key, func() error {
 		return z.db.Put([]byte(key), j)
 	})
 }
@@ -61,13 +69,13 @@ func (z *bcImpl) PutJsonModel(key string, v interface{}) error {
 		l.Debug("Unable to marshal value", esl.Error(err))
 		return err
 	}
-	return z.op("PutJsonModel", func() error {
+	return z.op("PutJsonModel", key, func() error {
 		return z.db.Put([]byte(key), b)
 	})
 }
 
 func (z *bcImpl) PutRaw(key, value []byte) error {
-	return z.op("PutRaw", func() error {
+	return z.op("PutRaw", string(key), func() error {
 		return z.db.Put(key, value)
 	})
 }
@@ -117,7 +125,7 @@ func (z *bcImpl) GetJsonModel(key string, v interface{}) (err error) {
 }
 
 func (z *bcImpl) Delete(key string) error {
-	return z.op("Delete", func() error {
+	return z.op("Delete", key, func() error {
 		return z.db.Delete([]byte(key))
 	})
 }

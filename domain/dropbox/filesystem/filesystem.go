@@ -14,7 +14,8 @@ import (
 )
 
 const (
-	FileSystemTypeDropbox = "dropbox"
+	FileSystemTypeDropbox  = "dropbox"
+	ApiComplexityThreshold = 10_000
 )
 
 func NewFileSystem(ctx dbx_context.Context) es_filesystem.FileSystem {
@@ -25,6 +26,14 @@ func NewFileSystem(ctx dbx_context.Context) es_filesystem.FileSystem {
 
 type dbxFs struct {
 	ctx dbx_context.Context
+}
+
+func (z dbxFs) OperationalComplexity(entries []es_filesystem.Entry) (complexity int64) {
+	if x := len(entries); x > ApiComplexityThreshold {
+		return int64(x)
+	} else {
+		return 1
+	}
 }
 
 func (z dbxFs) List(path es_filesystem.Path) (entries []es_filesystem.Entry, err es_filesystem.FileSystemError) {
@@ -176,10 +185,10 @@ func (z dbxFs) Path(data es_filesystem.PathData) (path es_filesystem.Path, err e
 	if data.FileSystemType != FileSystemTypeDropbox {
 		return nil, NewError(ErrorInvalidEntryDataFormat)
 	}
-	return NewPath(data.EntryNamespace.NamespaceId, mo_path.NewDropboxPath(data.EntryPath)), nil
+	return NewPath(data.EntryShard.ShardId, mo_path.NewDropboxPath(data.EntryPath)), nil
 }
 
-func (z dbxFs) Namespace(data es_filesystem.NamespaceData) (namespace es_filesystem.Namespace, err es_filesystem.FileSystemError) {
+func (z dbxFs) Shard(data es_filesystem.ShardData) (namespace es_filesystem.Shard, err es_filesystem.FileSystemError) {
 	if data.FileSystemType != FileSystemTypeDropbox {
 		return nil, NewError(ErrorInvalidEntryDataFormat)
 	}

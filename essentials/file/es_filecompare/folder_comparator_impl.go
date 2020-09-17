@@ -197,7 +197,7 @@ type folderComparator struct {
 }
 
 func (z folderComparator) batchId(source, target es_filesystem.Path) string {
-	return source.Namespace().Id() + ":" + target.Namespace().Id()
+	return source.Shard().Id() + ":" + target.Shard().Id()
 }
 
 func (z folderComparator) compareLevel(entry *TaskCompareEntry, stg eq_sequence.Stage) error {

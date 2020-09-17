@@ -25,7 +25,7 @@ type Size struct {
 func (z *Size) Preset() {
 	z.IncludeSharedFolder = true
 	z.IncludeTeamFolder = true
-	z.Depth.SetRange(1, 300, 1)
+	z.Depth.SetRange(1, 300, 3)
 	z.Folder.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNamePrefixFilter(),

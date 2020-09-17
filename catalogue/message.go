@@ -16,7 +16,6 @@ import (
 	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
 	domaingoogleservicesv_label "github.com/watermint/toolbox/domain/google/service/sv_label"
 	domaingoogleservicesv_message "github.com/watermint/toolbox/domain/google/service/sv_message"
-	essentialskvskv_storage_impl "github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
@@ -68,7 +67,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
 		&domaingoogleservicesv_label.MsgFindLabel{},
 		&domaingoogleservicesv_message.MsgProgress{},
-		&essentialskvskv_storage_impl.MsgStorage{},
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},
 		&essentialslogesl_rotate.MsgRotate{},

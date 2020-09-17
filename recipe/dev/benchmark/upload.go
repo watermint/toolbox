@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -32,16 +32,16 @@ func (z *Upload) Preset() {
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
-	model := em_tree.NewGenerator().Generate(
-		em_tree.NumNodes(z.Lambda, z.MinNodes, z.MaxNodes),
+	model := em_file.NewGenerator().Generate(
+		em_file.NumNodes(z.Lambda, z.MinNodes, z.MaxNodes),
 	)
-	conn := filesystem.NewModelToDropbox(model, z.Peer.Context(), sv_file_content.ChunkSizeKb(z.ChunkSizeKb.Value()))
+	copier := filesystem.NewModelToDropbox(model, z.Peer.Context(), sv_file_content.ChunkSizeKb(z.ChunkSizeKb.Value()))
 	syncer := es_sync.New(
 		c.Log(),
 		c.Sequence(),
 		es_filesystem_model.NewFileSystem(model),
 		filesystem.NewFileSystem(z.Peer.Context()),
-		conn,
+		copier,
 	)
 
 	return syncer.Sync(es_filesystem_model.NewPath("/"),

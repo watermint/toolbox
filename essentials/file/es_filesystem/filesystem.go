@@ -21,9 +21,12 @@ type FileSystem interface {
 	// Deserialize path from path data.
 	Path(data PathData) (path Path, err FileSystemError)
 
-	// Deserialize namespace from namespace data.
-	Namespace(data NamespaceData) (namespace Namespace, err FileSystemError)
+	// Deserialize shard from shard data.
+	Shard(data ShardData) (shard Shard, err FileSystemError)
 
 	// Type of file system
 	FileSystemType() string
+
+	// Operation complexity parameter in this file system
+	OperationalComplexity(entries []Entry) (complexity int64)
 }

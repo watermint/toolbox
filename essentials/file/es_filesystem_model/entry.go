@@ -5,14 +5,14 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"io/ioutil"
 	"time"
 )
 
-func NewEntry(path string, node em_tree.Node) es_filesystem.Entry {
+func NewEntry(path string, node em_file.Node) es_filesystem.Entry {
 	switch n := node.(type) {
-	case em_tree.Folder:
+	case em_file.Folder:
 		return &Entry{
 			node: node,
 			EntryData: es_filesystem.EntryData{
@@ -27,7 +27,7 @@ func NewEntry(path string, node em_tree.Node) es_filesystem.Entry {
 			},
 		}
 
-	case em_tree.File:
+	case em_file.File:
 		return &Entry{
 			node: node,
 			EntryData: es_filesystem.EntryData{
@@ -46,7 +46,7 @@ func NewEntry(path string, node em_tree.Node) es_filesystem.Entry {
 }
 
 type Entry struct {
-	node em_tree.Node
+	node em_file.Node
 	es_filesystem.EntryData
 }
 
@@ -61,7 +61,7 @@ func (z Entry) Path() es_filesystem.Path {
 
 func (z Entry) ContentHash() (string, es_filesystem.FileSystemError) {
 	switch n := z.node.(type) {
-	case em_tree.File:
+	case em_file.File:
 		content := n.Content()
 		hash, err := dbx_util.ContentHash(ioutil.NopCloser(bytes.NewReader(content)), int64(len(content)))
 		if err != nil {

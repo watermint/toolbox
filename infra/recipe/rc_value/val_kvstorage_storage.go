@@ -12,7 +12,7 @@ import (
 
 func newValueKvStorageStorage(name string) rc_recipe.Value {
 	v := &ValueKvStorageStorage{name: name}
-	v.storage = kv_storage_impl.New(name)
+	v.storage = kv_storage_impl.NewStorage(name)
 	return v
 }
 

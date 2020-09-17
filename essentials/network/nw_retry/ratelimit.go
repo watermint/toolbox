@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_congestion"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"net/http"
+	"time"
 )
 
 func NewRatelimit(client nw_client.Rest) nw_client.Rest {
@@ -27,6 +28,7 @@ const (
 )
 
 func (z RateLimit) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
+	var errRateLimit *ErrorRateLimit
 	exitReason := exitReasonTransportError
 	l := esl.Default()
 	defer func() {
@@ -34,7 +36,11 @@ func (z RateLimit) Call(ctx api_context.Context, req nw_client.RequestBuilder) (
 		case exitReasonSuccess:
 			nw_congestion.EndSuccess(ctx.ClientHash(), req.Endpoint())
 		case exitReasonRateLimit:
-			nw_congestion.EndRateLimit(ctx.ClientHash(), req.Endpoint())
+			reset := time.Now()
+			if errRateLimit != nil {
+				reset = errRateLimit.Reset
+			}
+			nw_congestion.EndRateLimit(ctx.ClientHash(), req.Endpoint(), reset)
 		default:
 			nw_congestion.EndTransportError(ctx.ClientHash(), req.Endpoint())
 		}
@@ -53,7 +59,8 @@ func (z RateLimit) Call(ctx api_context.Context, req nw_client.RequestBuilder) (
 	case http.StatusTooManyRequests:
 		l.Debug("Ratelimit", esl.Int("code", res.Code()))
 		exitReason = exitReasonRateLimit
-		return es_response_impl.NewTransportErrorResponse(NewErrorRateLimitFromHeadersFallback(res.Headers()), res)
+		errRateLimit = NewErrorRateLimitFromHeadersFallback(res.Headers())
+		return es_response_impl.NewTransportErrorResponse(errRateLimit, res)
 	}
 	return res
 }

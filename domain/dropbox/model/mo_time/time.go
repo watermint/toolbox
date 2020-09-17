@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
-	"github.com/watermint/toolbox/essentials/time/ut_time"
+	"github.com/watermint/toolbox/essentials/time/ut_format"
 	"time"
 )
 
@@ -82,7 +82,7 @@ func (z *TimeImpl) Value() string {
 }
 
 func (z *TimeImpl) UpdateTime(dateTime string) error {
-	ts, valid := ut_time.ParseTimestamp(dateTime)
+	ts, valid := ut_format.ParseTimestamp(dateTime)
 	if !valid {
 		return ErrorInvalidTimeFormat
 	}

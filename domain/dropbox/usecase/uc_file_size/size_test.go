@@ -140,13 +140,13 @@ func TestSumImpl_Add(t *testing.T) {
 		case "/a":
 			cp++
 			if size.Size != 3579+v || size.CountFolder != 1 || size.CountFile != mo_file_size.ApiComplexityThreshold+2 ||
-				size.ApiComplexity != mo_file_size.ApiComplexityThreshold+1+2 {
+				size.ApiComplexity != mo_file_size.ApiComplexityThreshold+2 {
 				t.Error(es_json.ToJsonString(size))
 			}
 		case "":
 			cp++
 			if size.Size != 7035+v || size.CountFolder != 2 || size.CountFile != mo_file_size.ApiComplexityThreshold+3 ||
-				size.ApiComplexity != mo_file_size.ApiComplexityThreshold+2+3 {
+				size.ApiComplexity != mo_file_size.ApiComplexityThreshold+3 {
 				t.Error(es_json.ToJsonString(size))
 			}
 		default:

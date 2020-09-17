@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/model/em_tree"
+	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"testing"
 	"time"
@@ -15,9 +15,9 @@ func TestFolderComparator_Compare(t *testing.T) {
 	seq := eq_sequence.New()
 
 	{
-		srcRoot := em_tree.DemoTree()
+		srcRoot := em_file.DemoTree()
 		srcFs := es_filesystem_model.NewFileSystem(srcRoot)
-		tgtRoot := em_tree.DemoTree()
+		tgtRoot := em_file.DemoTree()
 		tgtFs := es_filesystem_model.NewFileSystem(tgtRoot)
 
 		fc := NewFolderComparator(srcFs, tgtFs, seq)
@@ -44,19 +44,19 @@ func TestFolderComparator_Compare(t *testing.T) {
 	}
 
 	{
-		srcRoot := em_tree.DemoTree()
-		tgtRoot := em_tree.DemoTree()
+		srcRoot := em_file.DemoTree()
+		tgtRoot := em_file.DemoTree()
 
-		srcRoot.Add(em_tree.NewFolder("q", []em_tree.Node{}))
-		srcRoot.Add(em_tree.NewFolder("r", []em_tree.Node{}))
-		tgtRoot.Add(em_tree.NewFile("r", 55, time.Now(), 55))
-		em_tree.ResolvePath(tgtRoot, "/a/b").(em_tree.Folder).Add(em_tree.NewFile(
+		srcRoot.Add(em_file.NewFolder("q", []em_file.Node{}))
+		srcRoot.Add(em_file.NewFolder("r", []em_file.Node{}))
+		tgtRoot.Add(em_file.NewFile("r", 55, time.Now(), 55))
+		em_file.ResolvePath(tgtRoot, "/a/b").(em_file.Folder).Add(em_file.NewFile(
 			"v",
 			83,
 			time.Now(),
 			83,
 		))
-		em_tree.ResolvePath(srcRoot, "/a").(em_tree.Folder).Add(em_tree.NewFile(
+		em_file.ResolvePath(srcRoot, "/a").(em_file.Folder).Add(em_file.NewFile(
 			"x",
 			83,
 			time.Now(),
