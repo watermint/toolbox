@@ -93,18 +93,12 @@ func (z pgImpl) OnData(path string, handler func(entry es_json.Json) error) erro
 			ll.Debug("Data not found")
 		}
 
-		if np, found := rj.Find("response_metadata.next_cursor"); !found {
+		var found bool
+		if cursor, found = rj.FindString("response_metadata.next_cursor"); !found {
 			ll.Debug("Next page not found")
 			return nil
 		} else {
-			ll.Debug("Next page found", esl.Any("nextPage", np))
-			if cursor, found = np.FindString("offset"); found {
-				ll.Debug("Offset found", esl.String("offset", cursor))
-				continue
-			} else {
-				ll.Debug("Offset not found")
-				return nil
-			}
+			ll.Debug("Next page found", esl.Any("cursor", cursor))
 		}
 	}
 }

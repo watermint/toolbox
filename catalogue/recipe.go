@@ -118,6 +118,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Scoped{},
+		&recipedevstage.Teamfolder{},
 		&recipedevtest.Async{},
 		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},

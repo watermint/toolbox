@@ -8,8 +8,10 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_rest"
+	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/api/api_response"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
 )
@@ -26,9 +28,11 @@ func NewMock(ctl app_control.Control) work_context.Context {
 func New(ctl app_control.Control, token api_auth.Context) work_context.Context {
 	client := nw_rest.New(
 		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
+		nw_rest.Assert(api_response.AssertResponse),
 	)
+
 	return &ctxImpl{
-		client:  client,
+		client:  nw_retry.NewRetry(nw_retry.NewRatelimit(client)),
 		ctl:     ctl,
 		builder: work_request.New(ctl, token),
 	}

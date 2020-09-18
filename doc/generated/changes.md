@@ -3,9 +3,10 @@
 # Commands added
 
 
-| Command                          | Title         |
-|----------------------------------|---------------|
-| services slack conversation list | List channels |
+| Command                          | Title                        |
+|----------------------------------|------------------------------|
+| dev stage teamfolder             | Team folder operation sample |
+| services slack conversation list | List channels                |
 
 
 

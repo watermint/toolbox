@@ -3,9 +3,10 @@
 # 追加されたコマンド
 
 
-| コマンド                         | タイトル      |
-|----------------------------------|---------------|
-| services slack conversation list | List channels |
+| コマンド                         | タイトル                     |
+|----------------------------------|------------------------------|
+| dev stage teamfolder             | Team folder operation sample |
+| services slack conversation list | List channels                |
 
 
 

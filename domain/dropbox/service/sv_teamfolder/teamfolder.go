@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -17,6 +18,54 @@ type TeamFolder interface {
 	Archive(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_teamfolder.TeamFolder, err error)
 	Rename(tf *mo_teamfolder.TeamFolder, newName string) (updated *mo_teamfolder.TeamFolder, err error)
 	PermDelete(tf *mo_teamfolder.TeamFolder) (err error)
+	UpdateSyncSetting(tf *mo_teamfolder.TeamFolder, opts ...SyncSettingOpt) (teamfolder *mo_teamfolder.TeamFolder, err error)
+}
+
+const (
+	SyncSettingSkipSetting = ""
+	SyncSettingDefault     = "default"
+	SyncSettingNotSynced   = "not_synced"
+)
+
+type SyncSettingsOpts struct {
+	TeamFolderId        string              `json:"team_folder_id"`
+	SyncSetting         string              `json:"sync_setting,omitempty"`
+	ContentSyncSettings []NestedSyncSetting `json:"content_sync_settings,omitempty"`
+}
+
+func (z SyncSettingsOpts) Apply(opts []SyncSettingOpt) SyncSettingsOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+type SyncSettingOpt func(o SyncSettingsOpts) SyncSettingsOpts
+
+func RootSyncSetting(setting string) SyncSettingOpt {
+	return func(o SyncSettingsOpts) SyncSettingsOpts {
+		o.SyncSetting = setting
+		return o
+	}
+}
+
+func AddNestedSetting(folder mo_file.Entry, setting string) SyncSettingOpt {
+	return func(o SyncSettingsOpts) SyncSettingsOpts {
+		o.ContentSyncSettings = append(o.ContentSyncSettings, NestedSyncSetting{
+			FolderId:    folder.Concrete().Id,
+			SyncSetting: setting,
+		})
+		return o
+	}
+}
+
+type NestedSyncSetting struct {
+	FolderId    string `json:"id"`
+	SyncSetting string `json:"sync_setting"`
 }
 
 type createOptions struct {
@@ -27,13 +76,13 @@ type CreateOption func(opt *createOptions) *createOptions
 
 func SyncDefault() CreateOption {
 	return func(opt *createOptions) *createOptions {
-		opt.syncSetting = "default"
+		opt.syncSetting = SyncSettingDefault
 		return opt
 	}
 }
 func SyncNoSync() CreateOption {
 	return func(opt *createOptions) *createOptions {
-		opt.syncSetting = "not_synced"
+		opt.syncSetting = SyncSettingNotSynced
 		return opt
 	}
 }
@@ -46,6 +95,19 @@ func New(ctx dbx_context.Context) TeamFolder {
 
 type teamFolderImpl struct {
 	ctx dbx_context.Context
+}
+
+func (z *teamFolderImpl) UpdateSyncSetting(tf *mo_teamfolder.TeamFolder, opts ...SyncSettingOpt) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	ss := SyncSettingsOpts{}.Apply(opts)
+	ss.TeamFolderId = tf.TeamFolderId
+
+	res := z.ctx.Post("team/team_folder/update_sync_settings", api_request.Param(&ss))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	teamfolder = &mo_teamfolder.TeamFolder{}
+	err = res.Success().Json().Model(teamfolder)
+	return
 }
 
 func (z *teamFolderImpl) List() (teamfolders []*mo_teamfolder.TeamFolder, err error) {

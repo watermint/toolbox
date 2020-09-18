@@ -1429,6 +1429,8 @@
   "recipe.dev.stage.scoped.flag.peer": "Account alias",
   "recipe.dev.stage.scoped.flag.team": "Account alias for team",
   "recipe.dev.stage.scoped.title": "Dropbox scoped OAuth app test",
+  "recipe.dev.stage.teamfolder.flag.peer": "Account alias",
+  "recipe.dev.stage.teamfolder.title": "Team folder operation sample",
   "recipe.dev.stage.title": "Staging recipes",
   "recipe.dev.test.async.flag.peer": "Account alias",
   "recipe.dev.test.async.flag.run_concurrently": "run concurrently",
