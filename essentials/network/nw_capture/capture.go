@@ -86,8 +86,12 @@ type Req struct {
 }
 
 func (z *Req) Apply(rb nw_client.RequestBuilder, req *http.Request) {
+	url := req.URL.String()
+	if ruf, ok := rb.(nw_client.RequestUrlFilter); ok {
+		url = ruf.FilterUrl(url)
+	}
 	z.RequestMethod = req.Method
-	z.RequestUrl = req.URL.String()
+	z.RequestUrl = url
 	z.RequestParam = rb.Param()
 	z.RequestHeaders = make(map[string]string)
 	z.ContentLength = req.ContentLength

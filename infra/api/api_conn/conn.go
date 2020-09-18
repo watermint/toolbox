@@ -11,6 +11,7 @@ const (
 	ServiceGithub          = "github"
 	ServiceGoogleMail      = "google_mail"
 	ServiceAsana           = "asana"
+	ServiceSlack           = "slack"
 )
 
 var (
@@ -20,6 +21,7 @@ var (
 		ServiceGithub,
 		ServiceGoogleMail,
 		ServiceAsana,
+		ServiceSlack,
 		ServiceUtility,
 	}
 )

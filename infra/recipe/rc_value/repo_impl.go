@@ -24,6 +24,7 @@ import (
 var (
 	valueTypes = []rc_recipe.Value{
 		newValueAppMsgMessage("", app_msg.Raw("")),
+		newValueAsConnAsana(dbx_conn_impl.DefaultPeerName),
 		newValueBool(),
 		newValueDbxConnBusinessAudit(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnBusinessFile(dbx_conn_impl.DefaultPeerName),
@@ -36,7 +37,6 @@ var (
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
-		newValueAsConnAsana(dbx_conn_impl.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),
@@ -50,6 +50,7 @@ var (
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
 		newValueSelectString(),
+		newValueSlack(dbx_conn_impl.DefaultPeerName),
 		newValueString(),
 	}
 

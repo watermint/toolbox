@@ -229,6 +229,12 @@ Available commands:
 | [services asana workspace list](doc/generated/services-asana-workspace-list.md)                 | List workspaces                |
 | [services asana workspace project list](doc/generated/services-asana-workspace-project-list.md) | List projects of the workspace |
 
+## Slack
+
+| Command                                                                               | Description   |
+|---------------------------------------------------------------------------------------|---------------|
+| [services slack conversation list](doc/generated/services-slack-conversation-list.md) | List channels |
+
 ## Utilities
 
 | Command                                                     | Description                                         |

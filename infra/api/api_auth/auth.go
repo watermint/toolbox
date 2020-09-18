@@ -16,6 +16,7 @@ const (
 	Github                         = "github"
 	GoogleMail                     = "google_mail"
 	Asana                          = "asana"
+	Slack                          = "slack"
 )
 
 // Application key/secret manager

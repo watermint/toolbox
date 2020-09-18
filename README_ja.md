@@ -227,6 +227,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [services asana workspace list](doc/generated_ja/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
 | [services asana workspace project list](doc/generated_ja/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
 
+## Slack
+
+| コマンド                                                                                 | 説明           |
+|------------------------------------------------------------------------------------------|----------------|
+| [services slack conversation list](doc/generated_ja/services-slack-conversation-list.md) | チャネルの一覧 |
+
 ## ユーティリティー
 
 | コマンド                                                       | 説明                                                        |
