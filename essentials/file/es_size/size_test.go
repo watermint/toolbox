@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -137,7 +136,7 @@ func TestTraverseImpl_ScanSimple(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		model := em_file.DemoTree()
 		fs := es_filesystem_model.NewFileSystem(model)
-		factory := kv_storage_impl.NewFactory(ctl)
+		factory := ctl.NewKvsFactory()
 		defer func() {
 			factory.Close()
 		}()
@@ -174,7 +173,7 @@ func TestTraverseImpl_ScanLargeRandom(t *testing.T) {
 			em_file.NumNodes(100, 50, 200),
 		)
 		fs := es_filesystem_model.NewFileSystem(model)
-		factory := kv_storage_impl.NewFactory(ctl)
+		factory := ctl.NewKvsFactory()
 		defer func() {
 			factory.Close()
 		}()

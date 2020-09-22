@@ -5,34 +5,53 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs_impl"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
 	"path/filepath"
 )
 
-func InternalNewBitcask(name string) Storage {
+func NewStorage(name string, logger esl.Logger) kv_storage.Storage {
+	return newProxy(name, logger)
+}
+
+// New storage with absolute path.
+func NewStorageWithPath(absPath string, logger esl.Logger) (kv_storage.Storage, error) {
+	s := newProxy(filepath.Base(absPath), logger)
+	err := s.Open(filepath.Dir(absPath))
+	return s, err
+}
+
+func InternalNewBitcask(name string, log esl.Logger) Storage {
 	bc := &bcWrapper{
-		name: name,
+		name:   name,
+		logger: log,
 	}
 	return bc
 }
 
 type bcWrapper struct {
-	ctl  app_control.Control
-	path string
-	name string
-	db   *bitcask.Bitcask
-	kvs  kv_kvs.Kvs
+	path   string
+	name   string
+	db     *bitcask.Bitcask
+	logger esl.Logger
+	kvs    kv_kvs.Kvs
 }
 
-func (z *bcWrapper) OpenWithPath(ctl app_control.Control, path string) error {
+func (z *bcWrapper) SetLogger(logger esl.Logger) {
+	z.logger = logger
+}
+
+func (z *bcWrapper) Kvs() kv_kvs.Kvs {
+	return z.kvs
+}
+
+func (z *bcWrapper) OpenWithPath(path string) error {
 	z.name = filepath.Base(path)
-	z.ctl = ctl
 	return z.openWithPath(path)
 }
 
 func (z *bcWrapper) log() esl.Logger {
-	return z.ctl.Log().With(esl.String("name", z.name), esl.String("path", z.path))
+	return z.logger.With(esl.String("name", z.name), esl.String("path", z.path))
 }
 
 func (z *bcWrapper) openWithPath(path string) (err error) {
@@ -53,15 +72,14 @@ func (z *bcWrapper) openWithPath(path string) (err error) {
 		l.Debug("Unable to open the database", esl.Error(err))
 		return err
 	}
-	z.kvs = kv_kvs_impl.NewBitcask(z.name, z.ctl, z.db)
+	z.kvs = kv_kvs_impl.NewBitcask(z.name, z.logger, z.db)
 
 	return nil
 }
 
-func (z *bcWrapper) Open(ctl app_control.Control) error {
-	z.ctl = ctl
-	path := filepath.Join(z.ctl.Workspace().KVS(), es_filepath.Escape(z.name))
-	return z.openWithPath(path)
+func (z *bcWrapper) Open(path string) error {
+	kvsPath := filepath.Join(path, es_filepath.Escape(z.name))
+	return z.openWithPath(kvsPath)
 }
 
 func (z *bcWrapper) Close() {

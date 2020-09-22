@@ -21,4 +21,7 @@ type Kvs interface {
 	ForEach(f func(key string, value []byte) error) error
 	ForEachRaw(f func(key, value []byte) error) error
 	ForEachModel(model interface{}, f func(key string, m interface{}) error) error
+
+	Lock() error
+	Unlock() error
 }

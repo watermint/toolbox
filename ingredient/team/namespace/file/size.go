@@ -12,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_size"
 	"github.com/watermint/toolbox/essentials/file/es_size"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
@@ -83,7 +82,7 @@ func (z *Size) Exec(c app_control.Control) error {
 	scanFolderQueueId := "scan_folder"
 	scanSessionQueueId := "scan_session"
 
-	factory := kv_storage_impl.NewFactory(c)
+	factory := c.NewKvsFactory()
 	defer func() {
 		factory.Close()
 	}()

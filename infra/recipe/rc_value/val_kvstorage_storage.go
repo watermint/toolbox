@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -12,7 +13,7 @@ import (
 
 func newValueKvStorageStorage(name string) rc_recipe.Value {
 	v := &ValueKvStorageStorage{name: name}
-	v.storage = kv_storage_impl.NewStorage(name)
+	v.storage = kv_storage_impl.NewStorage(name, esl.Default())
 	return v
 }
 
@@ -57,7 +58,8 @@ func (z *ValueKvStorageStorage) Debug() interface{} {
 
 func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 	storage := z.storage.(kv_storage_impl.Storage)
-	return storage.Open(ctl)
+	storage.SetLogger(ctl.Log())
+	return storage.Open(ctl.Workspace().KVS())
 }
 
 func (z *ValueKvStorageStorage) SpinDown(ctl app_control.Control) error {

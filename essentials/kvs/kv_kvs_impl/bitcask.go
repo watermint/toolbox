@@ -6,15 +6,14 @@ import (
 	"github.com/prologic/bitcask"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
 	"reflect"
 )
 
-func NewBitcask(name string, ctl app_control.Control, db *bitcask.Bitcask) kv_kvs.Kvs {
+func NewBitcask(name string, log esl.Logger, db *bitcask.Bitcask) kv_kvs.Kvs {
 	return &bcImpl{
-		name: name,
-		ctl:  ctl,
-		db:   db,
+		logger: log,
+		name:   name,
+		db:     db,
 	}
 }
 
@@ -23,13 +22,21 @@ var (
 )
 
 type bcImpl struct {
-	name string
-	ctl  app_control.Control
-	db   *bitcask.Bitcask
+	name   string
+	logger esl.Logger
+	db     *bitcask.Bitcask
+}
+
+func (z *bcImpl) Lock() error {
+	return z.db.Lock()
+}
+
+func (z *bcImpl) Unlock() error {
+	return z.db.Unlock()
 }
 
 func (z *bcImpl) log() esl.Logger {
-	return z.ctl.Log().With(esl.String("name", z.name))
+	return z.logger.With(esl.String("name", z.name))
 }
 
 func (z *bcImpl) op(opName string, key string, f func() error) error {

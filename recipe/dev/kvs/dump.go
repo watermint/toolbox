@@ -31,7 +31,7 @@ func (z *Dump) Preset() {
 
 func (z *Dump) Exec(c app_control.Control) error {
 	l := c.Log()
-	kv, err := kv_storage_impl.NewStorageWithPath(c, z.Path.Path())
+	kv, err := kv_storage_impl.NewStorageWithPath(z.Path.Path(), c.Log())
 	if err != nil {
 		l.Debug("unable to open", esl.Error(err))
 		return err

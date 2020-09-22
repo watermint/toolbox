@@ -124,6 +124,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
+		&recipedevtest.Replay{},
 		&recipedevtest.Resources{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},

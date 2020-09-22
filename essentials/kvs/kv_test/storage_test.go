@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
@@ -16,8 +17,8 @@ func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Stora
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		// bitcask
 		{
-			db := kv_storage_impl.InternalNewBitcask(name + "_bitcask")
-			if err := db.Open(ctl); err != nil {
+			db := kv_storage_impl.InternalNewBitcask(name+"_bitcask", esl.Default())
+			if err := db.Open(ctl.Workspace().KVS()); err != nil {
 				t.Error(err)
 				return
 			}

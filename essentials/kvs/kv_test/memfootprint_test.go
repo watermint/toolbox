@@ -63,8 +63,8 @@ func benchmarkLoadTest(b *testing.B, ctl app_control.Control, db kv_storage.Stor
 
 func BenchmarkMemoryFootprintBitcask(b *testing.B) {
 	qtr_endtoend.BenchmarkWithControl(b, func(ctl app_control.Control) {
-		db := kv_storage_impl.InternalNewBitcask("benchmark-memory-bitcask")
-		if err := db.Open(ctl); err != nil {
+		db := kv_storage_impl.InternalNewBitcask("benchmark-memory-bitcask", esl.Default())
+		if err := db.Open(ctl.Workspace().KVS()); err != nil {
 			b.Error(err)
 			return
 		}
