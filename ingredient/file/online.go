@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -140,6 +141,7 @@ func (z *Online) Exec(c app_control.Control) error {
 			status.skip()
 		}),
 		es_sync.WithNameFilter(z.Name),
+		es_sync.OptimizePreventCreateFolder(c.Feature().Experiment(app.ExperimentFileSyncReduceCreateFolder)),
 	)
 
 	syncErr := syncer.Sync(filesystem.NewPath("", z.SrcPath), filesystem.NewPath("", z.DstPath))

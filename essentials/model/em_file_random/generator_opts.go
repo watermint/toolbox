@@ -3,16 +3,15 @@ package em_file_random
 import "time"
 
 type Opts struct {
-	fileSizeRangeMin      int64
-	fileSizeRangeMax      int64
-	fileDateRangeMin      time.Time
-	fileDateRangeMax      time.Time
-	numDescendantRangeMin int
-	numDescendantLambda   int
-	numDescendantRangeMax int
-	numFiles              int
-	depthRangeMax         int
-	seed                  int64
+	fileSizeRangeMin   int64
+	fileSizeRangeMax   int64
+	fileDateRangeMin   time.Time
+	fileDateRangeMax   time.Time
+	maxFilesInFolder   int
+	maxFoldersInFolder int
+	numFiles           int
+	depthRangeMax      int
+	seed               int64
 }
 
 func (z Opts) Apply(opt []Opt) Opts {
@@ -30,16 +29,15 @@ type Opt func(o Opts) Opts
 
 func Default() Opts {
 	return Opts{
-		fileSizeRangeMax:      2048,
-		fileSizeRangeMin:      0,
-		fileDateRangeMin:      time.Now().Add(-2 * 365 * 24 * time.Hour),
-		fileDateRangeMax:      time.Now(),
-		numDescendantRangeMin: 0,
-		numDescendantRangeMax: 1 << 15,
-		numDescendantLambda:   8,
-		numFiles:              1_000,
-		depthRangeMax:         8,
-		seed:                  time.Now().UnixNano(),
+		fileSizeRangeMax:   2048,
+		fileSizeRangeMin:   0,
+		fileDateRangeMin:   time.Now().Add(-2 * 365 * 24 * time.Hour),
+		fileDateRangeMax:   time.Now(),
+		maxFilesInFolder:   1 << 15,
+		maxFoldersInFolder: 64,
+		numFiles:           1_000,
+		depthRangeMax:      8,
+		seed:               time.Now().UnixNano(),
 	}
 }
 
@@ -66,10 +64,10 @@ func Depth(max int) Opt {
 	}
 }
 
-func NumDescendant(min, max int) Opt {
+func NumDescendant(maxFilesInFolder, maxFoldersInFolder int) Opt {
 	return func(o Opts) Opts {
-		o.numDescendantRangeMin = min
-		o.numDescendantRangeMax = max
+		o.maxFilesInFolder = maxFilesInFolder
+		o.maxFoldersInFolder = maxFoldersInFolder
 		return o
 	}
 }

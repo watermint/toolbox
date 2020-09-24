@@ -13,7 +13,7 @@ func TestGenImpl_Generate(t *testing.T) {
 	opts := []Opt{
 		Depth(10),
 		NumFiles(100),
-		NumDescendant(0, 10000),
+		NumDescendant(10000, 100),
 		FileSize(0, 2000),
 	}
 	root := g.Generate(opts...)

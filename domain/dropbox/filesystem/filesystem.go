@@ -131,6 +131,7 @@ func (z dbxFs) Delete(path es_filesystem.Path) (err es_filesystem.FileSystemErro
 
 func (z dbxFs) CreateFolder(path es_filesystem.Path) (err es_filesystem.FileSystemError) {
 	l := z.ctx.Log().With(esl.Any("path", path.AsData()))
+
 	dbxPath, err := ToDropboxPath(path)
 	if err != nil {
 		l.Debug("unable to convert to Dropbox path", esl.Error(err))

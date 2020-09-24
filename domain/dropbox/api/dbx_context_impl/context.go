@@ -19,6 +19,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"net/http"
 )
@@ -95,6 +96,10 @@ type ctxImpl struct {
 	ctl     app_control.Control
 	builder dbx_request.Builder
 	noRetry bool
+}
+
+func (z ctxImpl) Feature() app_feature.Feature {
+	return z.ctl.Feature()
 }
 
 func (z ctxImpl) NoRetryOnError() bool {

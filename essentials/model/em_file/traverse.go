@@ -74,6 +74,17 @@ func MaxDepth(node Node) int {
 	return depth(node, 0)
 }
 
+func DeleteEmptyFolders(folder Folder) {
+	for _, d := range folder.Descendants() {
+		if df, ok := d.(Folder); ok {
+			if SumNumFiles(df) < 1 {
+				folder.Delete(df.Name())
+			}
+			DeleteEmptyFolders(df)
+		}
+	}
+}
+
 // Returns a Node of the path. Returns nil if the node not found for the path.
 func ResolvePath(node Node, path string) Node {
 	cleanedPath := filepath.ToSlash(filepath.Clean(path))

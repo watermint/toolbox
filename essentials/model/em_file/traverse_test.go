@@ -52,3 +52,37 @@ func TestCreateFolder(t *testing.T) {
 		t.Error("folder not found at the path")
 	}
 }
+
+func TestDeleteEmptyFolders(t *testing.T) {
+	root := DemoTree()
+	if !CreateFolder(root, "/i/j/k") {
+		t.Error("failed create folder")
+	}
+	if x := ResolvePath(root, "/a/b"); x == nil {
+		t.Error(x)
+	}
+	if x := ResolvePath(root, "/i"); x == nil {
+		t.Error(x)
+	}
+	if x := ResolvePath(root, "/i/j/k"); x == nil {
+		t.Error(x)
+	}
+
+	DeleteEmptyFolders(root)
+
+	// '/a/c' should exist
+	if x := ResolvePath(root, "/a/c"); x == nil {
+		t.Error(x)
+	}
+
+	// empty folders must be deleted
+	if x := ResolvePath(root, "/a/b"); x != nil {
+		t.Error(x)
+	}
+	if x := ResolvePath(root, "/i"); x != nil {
+		t.Error(x)
+	}
+	if x := ResolvePath(root, "/i/j/k"); x != nil {
+		t.Error(x)
+	}
+}

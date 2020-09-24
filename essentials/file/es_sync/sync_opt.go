@@ -17,6 +17,7 @@ type Opts struct {
 	syncOverwrite               bool
 	syncDontCompareTime         bool
 	syncDontCompareContent      bool
+	optimizeReduceCreateFolder  bool
 	listenerCopySuccess         ListenerCopySuccess
 	listenerCopyFailure         ListenerCopyFailure
 	listenerDeleteSuccess       ListenerDeleteSuccess
@@ -46,6 +47,10 @@ func (z Opts) SyncDontCompareTime() bool {
 
 func (z Opts) SyncDontCompareContent() bool {
 	return z.syncDontCompareContent
+}
+
+func (z Opts) OptimizeReduceCreateFolder() bool {
+	return z.optimizeReduceCreateFolder
 }
 
 func (z Opts) OnCreateFolderSuccess(target es_filesystem.Path) {
@@ -137,6 +142,14 @@ func SyncDontCompareTime(enabled bool) Opt {
 func SyncDontCompareContent(enabled bool) Opt {
 	return func(o Opts) Opts {
 		o.syncDontCompareContent = enabled
+		return o
+	}
+}
+
+// Performance optimize option: try avoid call create folder operation
+func OptimizePreventCreateFolder(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.optimizeReduceCreateFolder = enabled
 		return o
 	}
 }

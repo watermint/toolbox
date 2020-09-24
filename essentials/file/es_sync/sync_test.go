@@ -1,6 +1,7 @@
 package es_sync
 
 import (
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_copier"
@@ -18,6 +19,8 @@ import (
 )
 
 func TestSyncImpl_Sync(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
 	tree1 := em_file.DemoTree()
 	tree2 := em_file.NewFolder("root", []em_file.Node{})
 
@@ -59,6 +62,8 @@ func TestSyncImpl_Sync(t *testing.T) {
 }
 
 func TestSyncImpl_SingleFile(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
 	tree1 := em_file.DemoTree()
 	tree2 := em_file.NewFolder("root", []em_file.Node{})
 	fs1 := es_filesystem_model.NewFileSystem(tree1)
@@ -90,6 +95,8 @@ func TestSyncImpl_SingleFile(t *testing.T) {
 }
 
 func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
 	tree1 := em_file.DemoTree()
 	tree2 := em_file.DemoTree()
 
@@ -143,6 +150,8 @@ func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
 }
 
 func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
 	tree1 := em_file.DemoTree()
 	tree2 := em_file.DemoTree()
 
@@ -195,6 +204,8 @@ func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
 }
 
 func TestSyncImpl_Filter(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
 	tree1 := em_file.DemoTree()
 	tree2 := em_file.NewFolder("root", []em_file.Node{})
 
@@ -232,6 +243,8 @@ func TestSyncImpl_Filter(t *testing.T) {
 }
 
 func TestSyncImpl_FileEdit(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
 	tree1 := em_file.DemoTree()
 	tree2 := em_file.DemoTree()
 
@@ -279,6 +292,8 @@ func TestSyncImpl_FileEdit(t *testing.T) {
 }
 
 func TestSyncImpl_SyncRandom(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
 	l := esl.Default()
 	seed := time.Now().UnixNano()
 	l.Debug("Random test with seed", esl.Int64("seed", seed))
@@ -303,6 +318,64 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 			conn,
 			SyncOverwrite(true),
 			SyncDelete(true),
+		)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(seed, i, err)
+		}
+		folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
+		missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(seed, i, err)
+		}
+		if len(missingSources) > 0 {
+			t.Error(seed, i, es_json.ToJsonString(missingSources))
+		}
+		if len(missingTargets) > 0 {
+			t.Error(seed, i, es_json.ToJsonString(missingTargets))
+		}
+		if len(typeDiffs) > 0 {
+			t.Error(seed, i, es_json.ToJsonString(typeDiffs))
+		}
+		if len(fileDiffs) > 0 {
+			t.Error(seed, i, es_json.ToJsonString(fileDiffs))
+		}
+
+		for j := 0; j < 10; j++ {
+			em_file_random.NewPoissonTree().Update(tree1, r)
+		}
+	}
+}
+
+func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
+	l := esl.Default()
+	seed := time.Now().UnixNano()
+	l.Debug("Random test with seed", esl.Int64("seed", seed))
+
+	r := rand.New(rand.NewSource(seed))
+
+	tree1 := em_file_random.NewPoissonTree().Generate(em_file_random.NumFiles(100))
+	em_file.DeleteEmptyFolders(tree1)
+	tree2 := em_file.NewFolder("root", []em_file.Node{})
+
+	for i := 0; i < 3; i++ {
+		l.Info("Sync try", esl.Int("tries", i))
+		seq := eq_sequence.New()
+		conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
+		fs1 := es_filesystem_model.NewFileSystem(tree1)
+		fs2 := es_filesystem_model.NewFileSystem(tree2)
+
+		syncer := New(
+			esl.Default(),
+			seq,
+			fs1,
+			fs2,
+			conn,
+			SyncOverwrite(true),
+			SyncDelete(true),
+			OptimizePreventCreateFolder(true),
 		)
 		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 		if err != nil {

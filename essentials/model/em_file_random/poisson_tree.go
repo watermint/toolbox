@@ -2,7 +2,6 @@ package em_file_random
 
 import (
 	"github.com/watermint/toolbox/essentials/model/em_file"
-	"github.com/watermint/toolbox/essentials/model/em_random"
 	"math/rand"
 )
 
@@ -39,6 +38,10 @@ func (z poissonTreeImpl) electFolderFromExisting(r *rand.Rand, base em_file.Fold
 
 func (z poissonTreeImpl) electFolderNewFolder(r *rand.Rand, base em_file.Folder, depth int, opts Opts) em_file.Folder {
 	if depth <= opts.depthRangeMax {
+		if opts.maxFoldersInFolder < base.NumFolders() {
+			return z.electFolderFromExisting(r, base, depth, opts)
+		}
+
 		folder := em_file.NewFolder(NameByNodeId(r.Int63()), []em_file.Node{})
 		base.Add(folder)
 		return folder
@@ -48,17 +51,17 @@ func (z poissonTreeImpl) electFolderNewFolder(r *rand.Rand, base em_file.Folder,
 }
 
 func (z poissonTreeImpl) electFolder(r *rand.Rand, base em_file.Folder, depth int, opts Opts) em_file.Folder {
-	x := rand.Intn(10)
+	x := rand.Intn(48)
 	switch {
-	case x < 4:
-		return z.electFolderFromExisting(r, base, depth, opts)
-
-	case x < 8:
+	case x < 2:
 		folder := z.electFolderFromExisting(r, base, depth, opts)
 		return z.electFolderNewFolder(r, folder, depth, opts)
 
-	default:
+	case x < 3:
 		return z.electFolderNewFolder(r, base, depth, opts)
+
+	default:
+		return z.electFolderFromExisting(r, base, depth, opts)
 	}
 }
 
@@ -74,7 +77,7 @@ func (z poissonTreeImpl) newTreeFolder(nodeId int64, size int64, depth, files in
 	r := rand.New(rand.NewSource(nodeId))
 	descendants := make([]em_file.Node, 0)
 	ratio := r.Float32()
-	numNodes := int(em_random.PoissonWithRange(r, float64(opts.numDescendantLambda), float64(opts.numDescendantRangeMin), float64(opts.numDescendantRangeMax)))
+	numNodes := r.Intn(opts.maxFilesInFolder + opts.maxFoldersInFolder)
 
 	numFiles := int(float32(numNodes) * ratio)
 	numFolders := int(float32(numNodes) * (1 - ratio))
@@ -131,9 +134,7 @@ func (z poissonTreeImpl) Update(root em_file.Folder, r *rand.Rand) {
 			}
 
 		case 2: // add a folder
-			opts := Default().Apply([]Opt{NumFiles(r.Intn(4))})
-			newFolder := z.newTreeFolder(r.Int63(), 0, 0, 0, opts)
-			f.Add(newFolder)
+			z.electFolderNewFolder(r, f, 0, Default())
 			return true
 
 		case 3, 4: // rename a descendant

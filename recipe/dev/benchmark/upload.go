@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -44,6 +45,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		es_filesystem_model.NewFileSystem(model),
 		filesystem.NewFileSystem(z.Peer.Context()),
 		copier,
+		es_sync.OptimizePreventCreateFolder(c.Feature().Experiment(app.ExperimentFileSyncReduceCreateFolder)),
 	)
 
 	return syncer.Sync(es_filesystem_model.NewPath("/"),
