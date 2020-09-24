@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
-	"github.com/watermint/toolbox/essentials/model/em_file"
+	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -15,26 +15,22 @@ import (
 )
 
 type Local struct {
-	Path       mo_path.FileSystemPath
-	NodeMin    int
-	NodeMax    int
-	NodeLambda int
-	SizeMin    int
-	SizeMax    int
+	Path      mo_path.FileSystemPath
+	NumFiles  int
+	SizeMinKb int
+	SizeMaxKb int
 }
 
 func (z *Local) Preset() {
-	z.NodeMin = 100
-	z.NodeLambda = 100
-	z.NodeMax = 1000
-	z.SizeMin = 0
-	z.SizeMax = 2 * 1_048_576 // 2 MiB
+	z.NumFiles = 1000
+	z.SizeMinKb = 0
+	z.SizeMaxKb = 2 * 1024 // 2MiB
 }
 
 func (z *Local) Exec(c app_control.Control) error {
-	model := em_file.NewGenerator().Generate(
-		em_file.NumNodes(z.NodeLambda, z.NodeMin, z.NodeMax),
-		em_file.FileSize(int64(z.SizeMin), int64(z.SizeMax)),
+	model := em_file_random.NewPoissonTree().Generate(
+		em_file_random.NumFiles(z.NumFiles),
+		em_file_random.FileSize(int64(z.SizeMinKb*1024), int64(z.SizeMaxKb*1024)),
 	)
 
 	copier := es_filesystem_copier.NewModelToLocal(c.Log(), model)

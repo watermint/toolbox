@@ -20,9 +20,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label         | Description                  |
-|---------------|------------------------------|
-| business_file | Dropbox Business File access |
+| Label               | Description         |
+|---------------------|---------------------|
+| dropbox_scoped_team | Dropbox team access |
 
 # Authorization
 
@@ -68,9 +68,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| Option  | Description   | Default                                          |
+|---------|---------------|--------------------------------------------------|
+| `-peer` | Account alias | &{Peer [groups.write files.content.write] <nil>} |
 
 ## Common options:
 

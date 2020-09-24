@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_file"
+	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"math/rand"
@@ -168,9 +169,9 @@ func TestTraverseImpl_ScanLargeRandom(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		l := ctl.Log().With(esl.Int64("seed", seed))
 		l.Info("Generate model with seed")
-		model := em_file.NewGenerator().Generate(
-			em_file.Seed(seed),
-			em_file.NumNodes(100, 50, 200),
+		model := em_file_random.NewPoissonTree().Generate(
+			em_file_random.Seed(seed),
+			em_file_random.NumFiles(100),
 		)
 		fs := es_filesystem_model.NewFileSystem(model)
 		factory := ctl.NewKvsFactory()

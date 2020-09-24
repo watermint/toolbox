@@ -41,6 +41,9 @@ func (z *forkWorkspace) setup() (err error) {
 	return nil
 }
 
+func (z *forkWorkspace) Cache() string {
+	return z.parent.Cache()
+}
 func (z *forkWorkspace) Home() string {
 	return z.parent.Home()
 }

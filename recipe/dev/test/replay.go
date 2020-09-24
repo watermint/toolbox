@@ -25,6 +25,9 @@ func (z *Replay) Preset() {
 }
 
 func (z *Replay) Exec(c app_control.Control) error {
+	l := c.Log()
+	l.Warn("The implementation is not yet completed. Please wait for next release.")
+
 	home := ""
 	if z.Path.IsExists() {
 		home = z.Path.Value()

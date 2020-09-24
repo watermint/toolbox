@@ -26,14 +26,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                | Default |
-|----------------|----------------------------|---------|
-| `-node-lambda` | Lambda parameter for nodes | 100     |
-| `-node-max`    | Maximum number of nodes    | 1000    |
-| `-node-min`    | Minimum number of nodes    | 100     |
-| `-path`        | Path to create             |         |
-| `-size-max`    | Maximum file size          | 2097152 |
-| `-size-min`    | Minimum file size          | 0       |
+| Option         | Description              | Default |
+|----------------|--------------------------|---------|
+| `-num-files`   | Number of files.         | 1000    |
+| `-path`        | Path to create           |         |
+| `-size-max-kb` | Maximum file size (KiB). | 2048    |
+| `-size-min-kb` | Minimum file size (KiB). | 0       |
 
 ## Common options:
 

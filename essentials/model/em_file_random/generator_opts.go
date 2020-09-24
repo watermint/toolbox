@@ -1,4 +1,4 @@
-package em_file
+package em_file_random
 
 import "time"
 
@@ -10,8 +10,7 @@ type Opts struct {
 	numDescendantRangeMin int
 	numDescendantLambda   int
 	numDescendantRangeMax int
-	numNodesRangeMin      int
-	numNodesRangeMax      int
+	numFiles              int
 	depthRangeMax         int
 	seed                  int64
 }
@@ -38,8 +37,7 @@ func Default() Opts {
 		numDescendantRangeMin: 0,
 		numDescendantRangeMax: 1 << 15,
 		numDescendantLambda:   8,
-		numNodesRangeMin:      100,
-		numNodesRangeMax:      1_000_000,
+		numFiles:              1_000,
 		depthRangeMax:         8,
 		seed:                  time.Now().UnixNano(),
 	}
@@ -76,11 +74,9 @@ func NumDescendant(min, max int) Opt {
 	}
 }
 
-func NumNodes(lambda, min, max int) Opt {
+func NumFiles(files int) Opt {
 	return func(o Opts) Opts {
-		o.numDescendantLambda = lambda
-		o.numNodesRangeMin = min
-		o.numNodesRangeMax = max
+		o.numFiles = files
 		return o
 	}
 }

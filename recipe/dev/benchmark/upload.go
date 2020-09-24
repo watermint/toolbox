@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
-	"github.com/watermint/toolbox/essentials/model/em_file"
+	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -18,22 +18,23 @@ import (
 type Upload struct {
 	Peer        dbx_conn.ConnUserFile
 	Path        mo_path.DropboxPath
-	Lambda      int
-	MinNodes    int
-	MaxNodes    int
+	NumFiles    int
+	SizeMinKb   int
+	SizeMaxKb   int
 	ChunkSizeKb mo_int.RangeInt
 }
 
 func (z *Upload) Preset() {
-	z.Lambda = 100
-	z.MinNodes = 10
-	z.MaxNodes = 1000
+	z.NumFiles = 1000
+	z.SizeMinKb = 0
+	z.SizeMaxKb = 2 * 1024 // 2MiB
 	z.ChunkSizeKb.SetRange(1, 150*1024, 64*1024)
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
-	model := em_file.NewGenerator().Generate(
-		em_file.NumNodes(z.Lambda, z.MinNodes, z.MaxNodes),
+	model := em_file_random.NewPoissonTree().Generate(
+		em_file_random.NumFiles(z.NumFiles),
+		em_file_random.FileSize(int64(z.SizeMinKb*1024), int64(z.SizeMaxKb*1024)),
 	)
 	copier := filesystem.NewModelToDropbox(model, z.Peer.Context(), sv_file_content.ChunkSizeKb(z.ChunkSizeKb.Value()))
 	syncer := es_sync.New(

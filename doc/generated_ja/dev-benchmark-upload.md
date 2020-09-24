@@ -71,11 +71,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション       | 説明                                  | デフォルト |
 |------------------|---------------------------------------|------------|
 | `-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
-| `-lambda`        | ノード数のλ                           | 100        |
-| `-max-nodes`     | 最大ノード数                          | 1000       |
-| `-min-nodes`     | 最小ノード数                          | 10         |
+| `-num-files`     | Number of files.                      | 1000       |
 | `-path`          | Dropboxパス                           |            |
 | `-peer`          | アカウントの別名                      | default    |
+| `-size-max-kb`   | Maximum file size (KiB).              | 2048       |
+| `-size-min-kb`   | Minimum file size (KiB).              | 0          |
 
 ## 共通のオプション:
 

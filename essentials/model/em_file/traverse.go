@@ -24,6 +24,21 @@ func SumNumNode(node Node) int {
 	}
 }
 
+func SumNumFiles(node Node) int {
+	switch n := node.(type) {
+	case File:
+		return 1
+	case Folder:
+		descendants := 0
+		for _, d := range n.Descendants() {
+			descendants += SumNumFiles(d)
+		}
+		return descendants
+	default:
+		return 0
+	}
+}
+
 func SumFileSize(node Node) int64 {
 	switch n := node.(type) {
 	case File:

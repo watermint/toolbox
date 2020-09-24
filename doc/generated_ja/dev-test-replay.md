@@ -1,6 +1,6 @@
-# dev benchmark local
+# dev test replay
 
-ローカルファイルシステムにダミーのフォルダ構造を作成します. 
+Replay recipe 
 
 # 利用方法
 
@@ -10,12 +10,12 @@
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark local -path /LOCAL/PATH/TO/PROCESS
+.\tbx.exe dev test replay 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark local -path /LOCAL/PATH/TO/PROCESS
+$HOME/Desktop/tbx dev test replay 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,12 +26,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                     | デフォルト |
-|----------------|--------------------------|------------|
-| `-num-files`   | Number of files.         | 1000       |
-| `-path`        | 作成するパス             |            |
-| `-size-max-kb` | Maximum file size (KiB). | 2048       |
-| `-size-min-kb` | Minimum file size (KiB). | 0          |
+| オプション | 説明               | デフォルト |
+|------------|--------------------|------------|
+| `-job-id`  | Job Id.            |            |
+| `-path`    | Path to workspace. |            |
 
 ## 共通のオプション:
 

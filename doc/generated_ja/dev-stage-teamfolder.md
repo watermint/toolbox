@@ -20,9 +20,9 @@ Team folder operation sample (Experimental)
 
 ## 認可スコープ
 
-| ラベル        | 説明                              |
-|---------------|-----------------------------------|
-| business_file | Dropbox Business ファイルアクセス |
+| ラベル              | 説明             |
+|---------------------|------------------|
+| dropbox_scoped_team | Dropbox (チーム) |
 
 # 認可
 
@@ -68,9 +68,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| オプション | 説明          | デフォルト                                       |
+|------------|---------------|--------------------------------------------------|
+| `-peer`    | Account alias | &{Peer [groups.write files.content.write] <nil>} |
 
 ## 共通のオプション:
 
