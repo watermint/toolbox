@@ -16,6 +16,7 @@ import (
 )
 
 type Upload struct {
+	rc_recipe.RemarkSecret
 	Peer        dbx_conn.ConnUserFile
 	Path        mo_path.DropboxPath
 	NumFiles    int

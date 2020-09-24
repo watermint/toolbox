@@ -15,6 +15,7 @@ import (
 )
 
 type Local struct {
+	rc_recipe.RemarkSecret
 	Path      mo_path.FileSystemPath
 	NumFiles  int
 	SizeMinKb int

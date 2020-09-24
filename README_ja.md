@@ -88,7 +88,6 @@ DropboxおよびDropbox Business向けのツールセット
 | コマンド                                                                   | 説明                                                               |
 |----------------------------------------------------------------------------|--------------------------------------------------------------------|
 | [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                               |
-| [dev benchmark upload](doc/generated_ja/dev-benchmark-upload.md)           | アップロードのベンチマーク                                         |
 | [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                             |
 | [file compare local](doc/generated_ja/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](doc/generated_ja/file-copy.md)                                 | ファイルをコピーします                                             |
@@ -235,19 +234,18 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                       | 説明                                                        |
-|----------------------------------------------------------------|-------------------------------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                                         |
-| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                                         |
-| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.                               |
-| [dev benchmark local](doc/generated_ja/dev-benchmark-local.md) | ローカルファイルシステムにダミーのフォルダ構造を作成します. |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します                                |
-| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                                          |
-| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除                                        |
-| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                                            |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する                            |
-| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します                          |
-| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.                           |
-| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します                                  |
-| [version](doc/generated_ja/version.md)                         | バージョン情報                                              |
+| コマンド                                                       | 説明                               |
+|----------------------------------------------------------------|------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
+| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
+| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
+| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
+| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
+| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                   |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する   |
+| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します |
+| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.  |
+| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します         |
+| [version](doc/generated_ja/version.md)                         | バージョン情報                     |
 
