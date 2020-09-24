@@ -63,6 +63,10 @@ type multiUser struct {
 	home string
 }
 
+func (z *multiUser) Cache() string {
+	return filepath.Join(z.UserHome(), NameCache)
+}
+
 func (z *multiUser) UserHome() string {
 	return z.home
 }
@@ -86,6 +90,10 @@ func (z *multiUser) setup() error {
 type multiJob struct {
 	user  MultiUser
 	jobId string
+}
+
+func (z *multiJob) Cache() string {
+	return z.user.Cache()
 }
 
 func (z *multiJob) KVS() string {

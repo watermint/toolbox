@@ -2,10 +2,11 @@ package kv_storage_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
-func newProxy(name string, logger esl.Logger) Storage {
+func newProxy(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &proxyImpl{
 		name:   name,
 		logger: logger,
@@ -14,8 +15,16 @@ func newProxy(name string, logger esl.Logger) Storage {
 
 type proxyImpl struct {
 	name    string
-	storage Storage
+	storage kv_storage.Lifecycle
 	logger  esl.Logger
+}
+
+func (z *proxyImpl) Delete() error {
+	return z.storage.Delete()
+}
+
+func (z *proxyImpl) Path() string {
+	return z.storage.Path()
 }
 
 func (z *proxyImpl) SetLogger(logger esl.Logger) {
@@ -26,7 +35,7 @@ func (z *proxyImpl) Kvs() kv_kvs.Kvs {
 	return z.storage.Kvs()
 }
 
-func (z *proxyImpl) newStorage() Storage {
+func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
 	return InternalNewBitcask(z.name, z.logger)
 }
 

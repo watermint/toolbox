@@ -62,7 +62,7 @@ func (z ctlImpl) NewKvsFactory() (factory kv_storage.Factory) {
 }
 
 func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
-	kvs0 := kv_storage_impl.NewStorage(name, z.wb.Logger().Logger()).(kv_storage_impl.Storage)
+	kvs0 := kv_storage_impl.NewStorage(name, z.wb.Logger().Logger())
 	kvs = kvs0
 	err = kvs0.Open(z.wb.Workspace().KVS())
 	return

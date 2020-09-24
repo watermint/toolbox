@@ -64,6 +64,10 @@ func (z *singleWorkspace) Log() string {
 	return filepath.Join(z.Job(), NameLogs)
 }
 
+func (z *singleWorkspace) Cache() string {
+	return filepath.Join(z.home, NameCache)
+}
+
 func (z *singleWorkspace) Secrets() string {
 	return filepath.Join(z.home, NameSecrets)
 }

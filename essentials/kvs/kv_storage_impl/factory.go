@@ -6,27 +6,18 @@ import (
 	"sync"
 )
 
-type Storage interface {
-	kv_storage.Storage
-
-	// Open KVS storage
-	Open(path string) error
-
-	SetLogger(logger esl.Logger)
-}
-
 func NewFactory(basePath string, logger esl.Logger) kv_storage.Factory {
 	return &factoryImpl{
 		basePath: basePath,
 		logger:   logger,
-		storages: make([]Storage, 0),
+		storages: make([]kv_storage.Lifecycle, 0),
 	}
 }
 
 type factoryImpl struct {
 	basePath string
 	logger   esl.Logger
-	storages []Storage
+	storages []kv_storage.Lifecycle
 	mutex    sync.Mutex
 }
 
@@ -34,7 +25,7 @@ func (z *factoryImpl) log() esl.Logger {
 	return z.logger.With(esl.String("BasePath", z.basePath))
 }
 
-func (z *factoryImpl) New(name string) (kv_storage.Storage, error) {
+func (z *factoryImpl) New(name string) (kv_storage.Lifecycle, error) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
@@ -64,6 +55,6 @@ func (z *factoryImpl) Close() {
 		l.Debug("Closing a storage")
 		sto.Close()
 	}
-	z.storages = make([]Storage, 0)
+	z.storages = make([]kv_storage.Lifecycle, 0)
 	l.Debug("Closed")
 }

@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 )
 
-func NewStorage(name string, logger esl.Logger) kv_storage.Storage {
+func NewStorage(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return newProxy(name, logger)
 }
 
@@ -21,7 +21,7 @@ func NewStorageWithPath(absPath string, logger esl.Logger) (kv_storage.Storage, 
 	return s, err
 }
 
-func InternalNewBitcask(name string, log esl.Logger) Storage {
+func InternalNewBitcask(name string, log esl.Logger) kv_storage.Lifecycle {
 	bc := &bcWrapper{
 		name:   name,
 		logger: log,
@@ -35,6 +35,14 @@ type bcWrapper struct {
 	db     *bitcask.Bitcask
 	logger esl.Logger
 	kvs    kv_kvs.Kvs
+}
+
+func (z *bcWrapper) Delete() error {
+	return z.db.DeleteAll()
+}
+
+func (z *bcWrapper) Path() string {
+	return z.db.Path()
 }
 
 func (z *bcWrapper) SetLogger(logger esl.Logger) {
@@ -68,10 +76,19 @@ func (z *bcWrapper) openWithPath(path string) (err error) {
 		bitcask.WithMaxValueSize(2<<18),
 	)
 
-	if err != nil {
+	switch err {
+	case nil:
+		l.Debug("Database open")
+
+	case bitcask.ErrDatabaseLocked:
+		l.Debug("Database locked", esl.Error(err))
+		return kv_storage.ErrorStorageLocked
+
+	default:
 		l.Debug("Unable to open the database", esl.Error(err))
 		return err
 	}
+
 	z.kvs = kv_kvs_impl.NewBitcask(z.name, z.logger, z.db)
 
 	return nil

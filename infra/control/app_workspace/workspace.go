@@ -45,6 +45,9 @@ type Job interface {
 type User interface {
 	// Secrets path
 	Secrets() string
+
+	// Cache
+	Cache() string
 }
 
 type MultiUser interface {
@@ -62,6 +65,7 @@ type Workspace interface {
 
 const (
 	NameSecrets = "secrets"
+	NameCache   = "cache"
 	NameUser    = "user"
 	NameJobs    = "jobs"
 	NameLogs    = "logs"

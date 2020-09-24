@@ -2,6 +2,7 @@ package kv_kvs
 
 import (
 	"encoding/json"
+	"errors"
 )
 
 // Key-value store interface.
@@ -25,3 +26,8 @@ type Kvs interface {
 	Lock() error
 	Unlock() error
 }
+
+var (
+	ErrorInvalidKey = errors.New("invalid key")
+	ErrorNotFound   = errors.New("key not found")
+)
