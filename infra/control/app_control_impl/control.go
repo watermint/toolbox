@@ -1,6 +1,7 @@
 package app_control_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/lang"
@@ -24,6 +25,7 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq
 		ui:          ui,
 		feature:     feature,
 		errorReport: er,
+		cacheCtl:    cache.New(wb.Workspace().Cache(), wb.Logger().Logger()),
 	}
 }
 
@@ -52,8 +54,13 @@ type ctlImpl struct {
 	feature     app_feature.Feature
 	ui          app_ui.UI
 	wb          app_workspace.Bundle
+	cacheCtl    cache.Controller
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
+}
+
+func (z ctlImpl) NewCache(namespace, name string) cache.Cache {
+	return z.cacheCtl.Cache(namespace, name)
 }
 
 func (z ctlImpl) NewKvsFactory() (factory kv_storage.Factory) {
@@ -70,6 +77,7 @@ func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
 
 func (z ctlImpl) Close() {
 	z.errorReport.Down()
+	z.cacheCtl.Shutdown()
 }
 
 func (z ctlImpl) Sequence() eq_sequence.Sequence {
