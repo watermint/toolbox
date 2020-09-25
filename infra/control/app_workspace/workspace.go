@@ -23,6 +23,9 @@ type Job interface {
 	// Path for job
 	Job() string
 
+	// Time of the job started
+	JobStartTime() time.Time
+
 	// Job ID
 	JobId() string
 

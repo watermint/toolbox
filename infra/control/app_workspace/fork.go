@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 func Fork(ws Workspace, name string) (Workspace, error) {
@@ -54,6 +55,10 @@ func (z *forkWorkspace) Secrets() string {
 
 func (z *forkWorkspace) Job() string {
 	return filepath.Join(z.parent.Job(), z.name)
+}
+
+func (z *forkWorkspace) JobStartTime() time.Time {
+	return z.parent.JobStartTime()
 }
 
 func (z *forkWorkspace) JobId() string {

@@ -12,8 +12,17 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"time"
+)
+
+type MsgLauncher struct {
+	ElapsedTimeOnEnd app_msg.Message
+}
+
+var (
+	MLauncher = app_msg.Apply(&MsgLauncher{}).(*MsgLauncher)
 )
 
 func NewLauncher(ui app_ui.UI, wb app_workspace.Bundle, com app_opt.CommonOpts, rcp rc_recipe.Spec) app_job.Launcher {
@@ -113,6 +122,11 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 	es_memory.DumpMemStats(sm)
 
 	_ = z.recordResultLog(err)
+
+	timeEnd := time.Now()
+	elapsedTime := timeEnd.Sub(z.wb.Workspace().JobStartTime()).Truncate(time.Millisecond)
+
+	ui.Progress(MLauncher.ElapsedTimeOnEnd.With("Duration", elapsedTime.String()))
 
 	sm.Debug("Down completed", esl.Error(err))
 
