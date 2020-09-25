@@ -986,7 +986,7 @@
   "infra.control.app_opt.common_opts.flag.lang": "Display language",
   "infra.control.app_opt.common_opts.flag.low_memory": "Low memory footprint mode",
   "infra.control.app_opt.common_opts.flag.output": "Output format (none/text/markdown/json)",
-  "infra.control.app_opt.common_opts.flag.proxy": "HTTP/HTTPS proxy (hostname:port)",
+  "infra.control.app_opt.common_opts.flag.proxy": "HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.",
   "infra.control.app_opt.common_opts.flag.quiet": "Suppress non-error messages, and make output readable by a machine (JSON format)",
   "infra.control.app_opt.common_opts.flag.secure": "Do not store tokens into a file",
   "infra.control.app_opt.common_opts.flag.workspace": "Workspace path",
