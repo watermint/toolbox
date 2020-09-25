@@ -402,6 +402,7 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 		for j := 0; j < 10; j++ {
 			em_file_random.NewPoissonTree().Update(tree1, r)
 		}
+		em_file.DeleteEmptyFolders(tree1)
 	}
 }
 
