@@ -109,7 +109,7 @@ func (z builderImpl) Build() (*http.Request, error) {
 		l.Debug("Unable to create query", esl.Error(err))
 		return nil, err
 	}
-	if z.method == http.MethodGet {
+	if z.method == http.MethodGet && z.token != nil {
 		qv.Add("token", z.token.Token().AccessToken)
 	}
 	encoded := qv.Encode()

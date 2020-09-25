@@ -1,6 +1,8 @@
 package work_request
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestBuilderImpl_FilterUrl(t *testing.T) {
 	b := &builderImpl{}
