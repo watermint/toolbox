@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/iancoleman/strcase"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
 	"github.com/watermint/toolbox/infra/api/api_conn"
@@ -302,6 +303,45 @@ func (z *RepositoryImpl) Apply() rc_recipe.Recipe {
 	} else {
 		return nil
 	}
+}
+
+func (z *RepositoryImpl) Capture(ctl app_control.Control) (v interface{}, err error) {
+	l := ctl.Log()
+	vals := make(map[string]interface{})
+
+	for k, val := range z.values {
+		if vc, err := val.Capture(ctl); err != nil {
+			l.Debug("Unable to capture value", esl.String("key", k), esl.Error(err))
+			return nil, err
+		} else {
+			vals[k] = vc
+		}
+	}
+	return vals, nil
+}
+
+func (z *RepositoryImpl) Restore(j es_json.Json, ctl app_control.Control) error {
+	l := ctl.Log()
+	if w, found := j.Object(); found {
+		for k, val := range z.values {
+			ll := l.With(esl.String("key", k))
+			if x, ok := w[k]; ok {
+				ll.Debug("Restore value")
+				if err := val.Restore(x, ctl); err != nil {
+					ll.Debug("Unable to restore value for the key", esl.Error(err))
+					return err
+				}
+			} else {
+				ll.Debug("Restore value not found")
+				return rc_recipe.ErrorValueRestoreFailed
+			}
+		}
+	} else {
+		l.Debug("Restore value not found (not an object)")
+		return rc_recipe.ErrorValueRestoreFailed
+	}
+	l.Debug("Restore completed")
+	return nil
 }
 
 func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, error) {

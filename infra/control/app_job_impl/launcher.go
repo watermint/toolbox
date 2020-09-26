@@ -42,14 +42,23 @@ type launchImpl struct {
 }
 
 func (z launchImpl) recordStartLog(ctl app_control.Control) error {
+	l := ctl.Log()
+	l.Debug("Capture recipe values")
+	rv, err := z.rcp.Capture(ctl)
+	if err != nil {
+		l.Debug("Unable to capture recipe values", esl.Error(err))
+		return err
+	}
+
 	sl := app_job.StartLog{
-		Name:        z.rcp.CliPath(),
-		ValueObject: z.rcp.Debug(),
-		JobId:       ctl.Workspace().JobId(),
-		TimeStart:   time.Now().Format(time.RFC3339),
-		AppName:     app.Name,
-		AppHash:     app.Hash,
-		AppVersion:  app.Version,
+		Name:         z.rcp.CliPath(),
+		ValueObject:  z.rcp.Debug(),
+		JobId:        ctl.Workspace().JobId(),
+		TimeStart:    time.Now().Format(time.RFC3339),
+		AppName:      app.Name,
+		AppHash:      app.Hash,
+		AppVersion:   app.Version,
+		RecipeValues: rv,
 	}
 	return sl.Write(z.wb.Workspace())
 }

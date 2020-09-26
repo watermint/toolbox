@@ -38,14 +38,15 @@ func parseTime(ts string) (t time.Time, ok bool) {
 
 type StartLog struct {
 	TimingLog
-	Name        string                 `json:"name"`
-	ValueObject map[string]interface{} `json:"value_object"`
-	CommonOpts  map[string]interface{} `json:"common_opts"`
-	TimeStart   string                 `json:"time_start,omitempty"`
-	JobId       string                 `json:"job_id"`
-	AppName     string                 `json:"app_name"`
-	AppHash     string                 `json:"app_hash"`
-	AppVersion  string                 `json:"app_version"`
+	Name         string                 `json:"name"`
+	ValueObject  map[string]interface{} `json:"value_object"`
+	CommonOpts   map[string]interface{} `json:"common_opts"`
+	TimeStart    string                 `json:"time_start,omitempty"`
+	JobId        string                 `json:"job_id"`
+	AppName      string                 `json:"app_name"`
+	AppHash      string                 `json:"app_hash"`
+	AppVersion   string                 `json:"app_version"`
+	RecipeValues interface{}            `json:"recipe_values"`
 }
 
 func (z StartLog) Write(ws app_workspace.Workspace) error {
