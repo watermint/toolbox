@@ -1,6 +1,7 @@
 package sv_file_content
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -8,12 +9,18 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/time/ut_format"
+	"github.com/watermint/toolbox/infra/api/api_request"
 	"os"
 	"time"
 )
 
+var (
+	ErrorDownloadUrlNotFound = errors.New("temporary link not found")
+)
+
 type Download interface {
 	Download(path mo_path.DropboxPath) (entry mo_file.Entry, localPath mo_path2.FileSystemPath, err error)
+	DownloadUrl(path mo_path.DropboxPath) (url string, err error)
 }
 
 func NewDownload(ctx dbx_context.Context) Download {
@@ -22,6 +29,27 @@ func NewDownload(ctx dbx_context.Context) Download {
 
 type downloadImpl struct {
 	ctx dbx_context.Context
+}
+
+func (z *downloadImpl) DownloadUrl(path mo_path.DropboxPath) (url string, err error) {
+	l := z.ctx.Log()
+	p := struct {
+		Path string `json:"path"`
+	}{
+		Path: path.Path(),
+	}
+
+	res := z.ctx.Post("files/get_temporary_link", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		l.Debug("Unable to retrieve temporary download link", esl.Error(err))
+		return "", err
+	}
+
+	resJson := res.Success().Json()
+	if url, found := resJson.FindString("link"); found {
+		return url, nil
+	}
+	return "", ErrorDownloadUrlNotFound
 }
 
 func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, localPath mo_path2.FileSystemPath, err error) {

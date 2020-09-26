@@ -1,6 +1,8 @@
 package rc_recipe
 
 import (
+	"errors"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -37,6 +39,16 @@ type Value interface {
 
 	// Value spec
 	Spec() (typeName string, typeAttr interface{})
+}
+
+type ValueReplay interface {
+	Value
+
+	// Serialize value
+	Capture(ctl app_control.Control) (v interface{}, err error)
+
+	// Deserialize value
+	Restore(v es_json.Json, ctl app_control.Control) error
 }
 
 type ValueCustomValueText interface {
@@ -86,3 +98,7 @@ type ValueMessage interface {
 	// True when the value is type of message, and return the instance eof the conection
 	Message() (msg app_msg.Message, valid bool)
 }
+
+var (
+	ErrorValueRestoreFailed = errors.New("value restore failed")
+)

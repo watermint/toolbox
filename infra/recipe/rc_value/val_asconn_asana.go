@@ -3,6 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/asana/api/as_conn"
 	"github.com/watermint/toolbox/domain/asana/api/as_conn_impl"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
@@ -52,6 +53,20 @@ func (z *ValueAsConnAsana) Debug() interface{} {
 	return map[string]string{
 		"peerName": z.peerName,
 		"scope":    z.conn.ScopeLabel(),
+	}
+}
+
+func (z *ValueAsConnAsana) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.peerName, nil
+}
+
+func (z *ValueAsConnAsana) Restore(v es_json.Json, ctl app_control.Control) error {
+	if peerName, found := v.String(); !found {
+		return rc_recipe.ErrorValueRestoreFailed
+	} else {
+		z.conn = as_conn_impl.NewConnAsana(peerName)
+		z.peerName = peerName
+		return nil
 	}
 }
 

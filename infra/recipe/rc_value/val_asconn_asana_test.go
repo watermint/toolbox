@@ -1,9 +1,12 @@
 package rc_value
 
 import (
+	"encoding/json"
 	"flag"
 	"github.com/watermint/toolbox/domain/asana/api/as_conn"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"testing"
 )
@@ -62,6 +65,42 @@ func TestValueAsConnAsanaRecipe(t *testing.T) {
 		}
 
 		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestValueAsConnAsana_CaptureRestore(t *testing.T) {
+	err := qt_control.WithControl(func(ctl app_control.Control) error {
+		v := newValueAsConnAsana("123").(rc_recipe.ValueReplay)
+		vc, err := v.Capture(ctl)
+		if err != nil {
+			t.Error(err)
+		}
+
+		capData, err := json.Marshal(vc)
+		if err != nil {
+			t.Error(err)
+		}
+
+		capJson, err := es_json.Parse(capData)
+		if err != nil {
+			t.Error(err)
+		}
+
+		v2 := newValueAsConnAsana("123").(rc_recipe.ValueReplay)
+
+		err = v2.Restore(capJson, ctl)
+		if err != nil {
+			t.Error(err)
+		}
+
+		v2b := v2.Bind().(*string)
+		if *v2b != "123" {
+			t.Error(v2b)
+		}
+		return err
 	})
 	if err != nil {
 		t.Error(err)
