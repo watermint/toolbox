@@ -31,6 +31,12 @@ type Value interface {
 	// Debug information
 	Debug() interface{}
 
+	// Serialize value
+	Capture(ctl app_control.Control) (v interface{}, err error)
+
+	// Deserialize value
+	Restore(v es_json.Json, ctl app_control.Control) error
+
 	// Spin up for run
 	SpinUp(ctl app_control.Control) error
 
@@ -39,16 +45,6 @@ type Value interface {
 
 	// Value spec
 	Spec() (typeName string, typeAttr interface{})
-}
-
-type ValueReplay interface {
-	Value
-
-	// Serialize value
-	Capture(ctl app_control.Control) (v interface{}, err error)
-
-	// Deserialize value
-	Restore(v es_json.Json, ctl app_control.Control) error
 }
 
 type ValueCustomValueText interface {

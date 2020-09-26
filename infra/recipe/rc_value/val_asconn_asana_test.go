@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/asana/api/as_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"testing"
 )
@@ -73,7 +72,7 @@ func TestValueAsConnAsanaRecipe(t *testing.T) {
 
 func TestValueAsConnAsana_CaptureRestore(t *testing.T) {
 	err := qt_control.WithControl(func(ctl app_control.Control) error {
-		v := newValueAsConnAsana("123").(rc_recipe.ValueReplay)
+		v := newValueAsConnAsana("123")
 		vc, err := v.Capture(ctl)
 		if err != nil {
 			t.Error(err)
@@ -89,7 +88,7 @@ func TestValueAsConnAsana_CaptureRestore(t *testing.T) {
 			t.Error(err)
 		}
 
-		v2 := newValueAsConnAsana("123").(rc_recipe.ValueReplay)
+		v2 := newValueAsConnAsana("123")
 
 		err = v2.Restore(capJson, ctl)
 		if err != nil {

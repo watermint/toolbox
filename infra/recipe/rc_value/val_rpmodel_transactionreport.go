@@ -2,6 +2,7 @@ package rc_value
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -48,6 +49,14 @@ func (z *ValueRpModelTransactionReport) ApplyPreset(v0 interface{}) {
 
 func (z *ValueRpModelTransactionReport) Apply() (v interface{}) {
 	return z.rep
+}
+
+func (z *ValueRpModelTransactionReport) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return
+}
+
+func (z *ValueRpModelTransactionReport) Restore(v es_json.Json, ctl app_control.Control) error {
+	return nil
 }
 
 func (z *ValueRpModelTransactionReport) SpinUp(ctl app_control.Control) error {

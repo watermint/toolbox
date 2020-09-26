@@ -1,6 +1,8 @@
 package mo_filter
 
 import (
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"net/mail"
 	"strings"
@@ -12,6 +14,19 @@ func NewEmailFilter() FilterOpt {
 
 type emailFilterOpt struct {
 	email string
+}
+
+func (z *emailFilterOpt) Capture() interface{} {
+	return z.email
+}
+
+func (z *emailFilterOpt) Restore(v es_json.Json) error {
+	if w, found := v.String(); found {
+		z.email = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
+	}
 }
 
 func (z *emailFilterOpt) Accept(v interface{}) bool {

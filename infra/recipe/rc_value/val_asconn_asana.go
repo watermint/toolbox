@@ -61,12 +61,12 @@ func (z *ValueAsConnAsana) Capture(ctl app_control.Control) (v interface{}, err 
 }
 
 func (z *ValueAsConnAsana) Restore(v es_json.Json, ctl app_control.Control) error {
-	if peerName, found := v.String(); !found {
-		return rc_recipe.ErrorValueRestoreFailed
-	} else {
+	if peerName, found := v.String(); found {
 		z.conn = as_conn_impl.NewConnAsana(peerName)
 		z.peerName = peerName
 		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

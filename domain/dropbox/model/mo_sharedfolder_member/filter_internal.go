@@ -2,7 +2,9 @@ package mo_sharedfolder_member
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -21,6 +23,19 @@ func NewInternalOpt() FolderMemberFilter {
 type internalOpt struct {
 	enabled bool
 	members []*mo_member.Member
+}
+
+func (z *internalOpt) Capture() interface{} {
+	return z.enabled
+}
+
+func (z *internalOpt) Restore(v es_json.Json) error {
+	if w, found := v.Bool(); found {
+		z.enabled = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
+	}
 }
 
 func (z *internalOpt) SetMembers(members []*mo_member.Member) {

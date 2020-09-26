@@ -1,6 +1,7 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -56,6 +57,19 @@ func (z *ValueInt) Apply() interface{} {
 
 func (z *ValueInt) Debug() interface{} {
 	return z.v
+}
+
+func (z *ValueInt) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.v, nil
+}
+
+func (z *ValueInt) Restore(v es_json.Json, ctl app_control.Control) error {
+	if w, found := v.Number(); found {
+		z.v = w.Int64()
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
+	}
 }
 
 func (z *ValueInt) SpinUp(ctl app_control.Control) error {

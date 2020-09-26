@@ -3,6 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/slack/api/work_conn"
 	"github.com/watermint/toolbox/domain/slack/api/work_conn_impl"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
@@ -52,6 +53,20 @@ func (z *ValueSlackConn) Debug() interface{} {
 	return map[string]string{
 		"peerName": z.peerName,
 		"scope":    z.conn.ScopeLabel(),
+	}
+}
+
+func (z *ValueSlackConn) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.peerName, nil
+}
+
+func (z *ValueSlackConn) Restore(v es_json.Json, ctl app_control.Control) error {
+	if peerName, found := v.String(); found {
+		z.conn = work_conn_impl.NewSlackApi(peerName)
+		z.peerName = peerName
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

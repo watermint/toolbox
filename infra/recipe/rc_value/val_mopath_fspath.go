@@ -3,6 +3,7 @@ package rc_value
 import (
 	"errors"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -78,6 +79,19 @@ func (z *ValueMoPathFileSystemPath) Apply() (v interface{}) {
 func (z *ValueMoPathFileSystemPath) Debug() interface{} {
 	return map[string]string{
 		"path": z.filePath,
+	}
+}
+
+func (z *ValueMoPathFileSystemPath) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.filePath, nil
+}
+
+func (z *ValueMoPathFileSystemPath) Restore(v es_json.Json, ctl app_control.Control) error {
+	if w, found := v.String(); found {
+		z.filePath = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

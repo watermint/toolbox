@@ -2,7 +2,9 @@ package mo_file_filter
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -20,6 +22,19 @@ func NewIgnoreFileFilter() mo_filter.FilterOpt {
 
 type filterIgnoreFileOpt struct {
 	disabled bool
+}
+
+func (z *filterIgnoreFileOpt) Capture() interface{} {
+	return z.disabled
+}
+
+func (z *filterIgnoreFileOpt) Restore(v es_json.Json) error {
+	if w, found := v.Bool(); found {
+		z.disabled = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
+	}
 }
 
 func (z *filterIgnoreFileOpt) Accept(v interface{}) bool {

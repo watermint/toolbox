@@ -1,11 +1,15 @@
 package rc_value
 
 import (
+	"encoding/json"
 	"flag"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"io/ioutil"
+	"os"
 	"testing"
 )
 
@@ -141,6 +145,76 @@ func TestValueFdFileRowFeedEmpty(t *testing.T) {
 		_, err := repo.SpinUp(c)
 		if err != ErrorMissingRequiredOption {
 			t.Error(err)
+		}
+		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestValueFdFileRowFeed_Capture(t *testing.T) {
+	err := qt_control.WithControl(func(c app_control.Control) error {
+		// Prepare test data
+		testDataFile, err := ioutil.TempFile("", "row_feed*.csv")
+		if err != nil {
+			t.Error(err)
+			return err
+		}
+		testDataPath := testDataFile.Name()
+		defer func() {
+			_ = os.Remove(testDataPath)
+		}()
+		testData := `test@example.com,Test,Example`
+		_, _ = testDataFile.WriteString(testData)
+		_ = testDataFile.Close()
+
+		var capJson es_json.Json
+
+		{
+			v := newValueFdFileRowFeed("123")
+			vrf := v.Init().(fd_file.RowFeed)
+			vrf.SetFilePath(testDataPath)
+
+			vc, err := v.Capture(c)
+			if err != nil {
+				t.Error(err)
+				return err
+			}
+
+			capData, err := json.Marshal(vc)
+			if err != nil {
+				t.Error(err)
+				return err
+			}
+
+			capJson, err = es_json.Parse(capData)
+			if err != nil {
+				t.Error(err)
+				return err
+			}
+		}
+
+		{
+			v2 := newValueFdFileRowFeed("123")
+			if err := v2.Restore(capJson, c); err != nil {
+				t.Error(err)
+			}
+
+			vrf2 := v2.Init().(fd_file.RowFeed)
+			if vrf2.FilePath() == "" {
+				t.Error("empty file path")
+			}
+
+			restoreData, err := ioutil.ReadFile(vrf2.FilePath())
+			if err != nil {
+				t.Error(err)
+				return err
+			}
+
+			if string(restoreData) != testData {
+				t.Error(restoreData)
+			}
 		}
 		return nil
 	})
