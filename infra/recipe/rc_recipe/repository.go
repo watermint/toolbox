@@ -48,7 +48,7 @@ type Repository interface {
 	// Serialize
 	Capture(ctl app_control.Control) (v interface{}, err error)
 
-	// Deserialize
+	// Deserialize & spin up
 	Restore(j es_json.Json, ctl app_control.Control) error
 
 	// Prepare values for run recipe

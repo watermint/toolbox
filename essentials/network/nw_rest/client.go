@@ -108,7 +108,7 @@ func New(opts ...ClientOpt) nw_client.Rest {
 	case co.Mock:
 		hc = nw_http.Mock{}
 	case len(co.ReplayMock) > 0:
-		hc = nw_replay.NewReplay(co.ReplayMock)
+		hc = nw_replay.NewSequentialReplay(co.ReplayMock)
 	default:
 		if co.client != nil {
 			hc = nw_http.NewClient(co.client)

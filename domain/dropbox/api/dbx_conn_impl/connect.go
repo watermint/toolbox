@@ -67,6 +67,10 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 		l.Debug("Test with replay")
 		return dbx_context_impl.NewReplayMock(ctl, replay), nil
 	}
+	if replay, enabled := ctl.Feature().IsTestWithSeqReplay(); enabled {
+		l.Debug("Test with replay")
+		return dbx_context_impl.NewSeqReplayMock(ctl, replay), nil
+	}
 
 	switch {
 	case ctl.Feature().IsTest():

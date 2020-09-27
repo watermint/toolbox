@@ -133,7 +133,7 @@ func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_contex
 			t.Error(err)
 			return
 		}
-		ctx := dbx_context_impl.NewReplayMock(ctl, rm)
+		ctx := dbx_context_impl.NewSeqReplayMock(ctl, rm)
 		twc(ctx)
 	})
 }

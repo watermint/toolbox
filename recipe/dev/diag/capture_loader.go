@@ -1,9 +1,9 @@
 package diag
 
 import (
-	"bufio"
 	"bytes"
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/io/es_file_read"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"io"
 )
 
 type MsgLoader struct {
@@ -81,49 +80,9 @@ func (z CaptureLoader) loadCapture(history app_job.History, log app_job.LogFile,
 		return err
 	}
 
-	br := bufio.NewReader(&buf)
-
-	prefix := &bytes.Buffer{}
-	for {
-		line, isPrefix, err := br.ReadLine()
-		if err == io.EOF {
-			return nil
-		}
-		if err != nil {
-			l.Debug("Error on read", esl.Error(err))
-			return err
-		}
-		if isPrefix {
-			_, err := prefix.Write(line)
-			if err != nil {
-				l.Debug("Unable to append prefix", esl.Error(err))
-
-				// reset prefix and continue
-				prefix.Reset()
-				continue
-			}
-			continue
-		}
-
-		if prefix.Len() < 1 {
-			if err := z.handleLine(history, line, handler); err != nil {
-				l.Debug("Failed process line", esl.Error(err))
-			}
-		} else {
-			_, err := prefix.Write(line)
-			if err != nil {
-				l.Debug("Unable to append prefix", esl.Error(err))
-
-				// reset prefix and continue
-				prefix.Reset()
-				continue
-			}
-			if err := z.handleLine(history, prefix.Bytes(), handler); err != nil {
-				l.Debug("Failed process line", esl.Error(err))
-			}
-			prefix.Reset()
-		}
-	}
+	return es_file_read.ReadLines(&buf, func(line []byte) error {
+		return z.handleLine(history, line, handler)
+	})
 }
 
 func (z CaptureLoader) handleLine(history app_job.History, line []byte, handler CaptureHandler) error {

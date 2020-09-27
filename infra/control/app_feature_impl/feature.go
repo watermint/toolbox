@@ -3,6 +3,7 @@ package app_feature_impl
 import (
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/infra/app"
@@ -38,7 +39,8 @@ type featureImpl struct {
 	test         bool
 	testWithMock bool
 	transient    bool
-	replay       []nw_replay.Response
+	seqReplay    []nw_replay.Response
+	hashReplay   kv_storage.Storage
 }
 
 func (z featureImpl) Experiment(name string) bool {
@@ -51,15 +53,29 @@ func (z featureImpl) Experiment(name string) bool {
 	return false
 }
 
-func (z featureImpl) AsReplayTest(replay []nw_replay.Response) app_feature.Feature {
-	z.replay = replay
+func (z featureImpl) AsReplayTest(replays kv_storage.Storage) app_feature.Feature {
+	z.hashReplay = replays
 	z.test = true
 	return z
 }
 
-func (z featureImpl) IsTestWithReplay() (replay []nw_replay.Response, enabled bool) {
-	if len(z.replay) > 0 {
-		return z.replay, true
+func (z featureImpl) AsSeqReplayTest(replay []nw_replay.Response) app_feature.Feature {
+	z.seqReplay = replay
+	z.test = true
+	return z
+}
+
+func (z featureImpl) IsTestWithReplay() (replay kv_storage.Storage, enabled bool) {
+	if z.hashReplay != nil {
+		return z.hashReplay, true
+	} else {
+		return nil, false
+	}
+}
+
+func (z featureImpl) IsTestWithSeqReplay() (replay []nw_replay.Response, enabled bool) {
+	if len(z.seqReplay) > 0 {
+		return z.seqReplay, true
 	} else {
 		return nil, false
 	}

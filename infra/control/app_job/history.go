@@ -1,6 +1,7 @@
 package app_job
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"time"
 )
@@ -14,6 +15,9 @@ type History interface {
 	AppVersion() string
 	TimeStart() (t time.Time, found bool)
 	TimeFinish() (t time.Time, found bool)
+	StartLog() StartLog
+	ResultLog() ResultLog
+	Job() app_workspace.Job
 
 	// True when the job is nested job.
 	IsNested() bool

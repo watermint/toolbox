@@ -67,8 +67,8 @@ type Spec interface {
 	// Serialize
 	Capture(ctl app_control.Control) (v interface{}, err error)
 
-	// Deserialize
-	Restore(j es_json.Json, ctl app_control.Control) error
+	// Deserialize & spin up
+	Restore(j es_json.Json, ctl app_control.Control) (rcp Recipe, err error)
 
 	// Apply values to the new recipe instance
 	SpinUp(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, err error)

@@ -84,7 +84,7 @@ func (z Historian) scanOrphaned(path string) (histories []app_job.History, err e
 		return histories, err
 	}
 
-	his, ok := newOrphanHistory(path)
+	his, ok := NewOrphanHistory(path)
 	if ok {
 		histories = append(histories, his)
 		return histories, nil

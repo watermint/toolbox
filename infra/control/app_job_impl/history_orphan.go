@@ -4,13 +4,14 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	app2 "github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_job"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"os"
 	"path/filepath"
 	"time"
 )
 
-func newOrphanHistory(path string) (h app_job.History, found bool) {
+func NewOrphanHistory(path string) (h app_job.History, found bool) {
 	l := esl.Default().With(esl.String("path", path))
 
 	startLogPath := filepath.Join(path, app2.LogNameStart)
@@ -37,10 +38,62 @@ func newOrphanHistory(path string) (h app_job.History, found bool) {
 	}, true
 }
 
+type OrphanJob struct {
+	jobPath string
+	history app_job.History
+}
+
+func (z OrphanJob) Job() string {
+	return z.jobPath
+}
+
+func (z OrphanJob) JobStartTime() time.Time {
+	return time.Now()
+}
+
+func (z OrphanJob) JobId() string {
+	return z.history.JobId()
+}
+
+func (z OrphanJob) Log() string {
+	return filepath.Join(z.jobPath, app_workspace.NameLogs)
+}
+
+func (z OrphanJob) Test() string {
+	return filepath.Join(z.jobPath, app_workspace.NameTest)
+}
+
+func (z OrphanJob) Report() string {
+	return filepath.Join(z.jobPath, app_workspace.NameReport)
+}
+
+func (z OrphanJob) KVS() string {
+	return filepath.Join(z.jobPath, app_workspace.NameKvs)
+}
+
+func (z OrphanJob) Descendant(name string) (path string, err error) {
+	return filepath.Join(z.jobPath, name), nil
+}
+
 type OrphanHistory struct {
 	path   string
 	start  *app_job.StartLog
 	finish *app_job.ResultLog
+}
+
+func (z OrphanHistory) Job() app_workspace.Job {
+	return &OrphanJob{
+		jobPath: z.path,
+		history: z,
+	}
+}
+
+func (z OrphanHistory) StartLog() app_job.StartLog {
+	return *z.start
+}
+
+func (z OrphanHistory) ResultLog() app_job.ResultLog {
+	return *z.finish
 }
 
 func (z OrphanHistory) IsOrphaned() bool {

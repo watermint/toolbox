@@ -1,18 +1,14 @@
 package nw_capture
 
 import (
-	"crypto/sha256"
-	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
+	"github.com/watermint/toolbox/essentials/network/nw_request"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"net/http"
-	"strings"
 )
 
 func New(client nw_client.Http) nw_client.Rest {
@@ -63,10 +59,10 @@ type captureImpl struct {
 }
 
 type Record struct {
-	Time    string `json:"time"`
-	Req     *Req   `json:"req"`
-	Res     *Res   `json:"res"`
-	Latency int64  `json:"latency"`
+	Time    string          `json:"time"`
+	Req     *nw_request.Req `json:"req"`
+	Res     *Res            `json:"res"`
+	Latency int64           `json:"latency"`
 }
 
 func (z Record) IsSuccess() bool {
@@ -78,66 +74,6 @@ func (z Record) IsSuccess() bool {
 		return false
 	}
 	return true
-}
-
-type Req struct {
-	RequestMethod  string            `json:"method"`
-	RequestUrl     string            `json:"url"`
-	RequestParam   string            `json:"param,omitempty"`
-	RequestHeaders map[string]string `json:"headers"`
-	ContentLength  int64             `json:"content_length"`
-	RequestHash    string            `json:"hash"`
-}
-
-type HashSeed struct {
-	Url    string            `json:"u"`
-	Method string            `json:"m"`
-	Param  string            `json:"p"`
-	Length int64             `json:"l"`
-	Header map[string]string `json:"h"`
-}
-
-func (z HashSeed) Hash() string {
-	seed := "u" + z.Url +
-		"m" + z.Method +
-		"p" + z.Param +
-		"l" + fmt.Sprintf("%x", z.Length)
-	for k, v := range z.Header {
-		seed += "h" + k + ":" + v
-	}
-	h := sha256.Sum256([]byte(seed))
-	return base64.RawStdEncoding.EncodeToString(h[:])
-}
-
-func (z *Req) Apply(rb nw_client.RequestBuilder, req *http.Request) {
-	url := req.URL.String()
-	param := rb.Param()
-	z.RequestHash = HashSeed{
-		Url:    url,
-		Method: req.Method,
-		Param:  param,
-		Length: req.ContentLength,
-		Header: z.RequestHeaders,
-	}.Hash()
-
-	if ruf, ok := rb.(nw_client.RequestUrlFilter); ok {
-		url = ruf.FilterUrl(url)
-	}
-	z.RequestMethod = req.Method
-	z.RequestUrl = url
-	z.RequestParam = param
-	z.RequestHeaders = make(map[string]string)
-	z.ContentLength = req.ContentLength
-	for k, v := range req.Header {
-		v0 := v[0]
-		// Anonymize token
-		if k == api_request.ReqHeaderAuthorization {
-			vv := strings.Split(v0, " ")
-			z.RequestHeaders[k] = vv[0] + " <secret>"
-		} else {
-			z.RequestHeaders[k] = v0
-		}
-	}
 }
 
 type Res struct {
@@ -178,7 +114,7 @@ func (z *Res) Apply(res es_response.Response, resErr error) {
 
 func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64) {
 	// request
-	rq := Req{}
+	rq := nw_request.Req{}
 	rq.Apply(rb, req)
 
 	// response
@@ -194,7 +130,7 @@ func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Reques
 
 func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request, resErr error, latency int64) {
 	// request
-	rq := Req{}
+	rq := nw_request.Req{}
 	rq.Apply(rb, req)
 
 	// response

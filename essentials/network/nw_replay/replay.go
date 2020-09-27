@@ -3,7 +3,13 @@ package nw_replay
 import (
 	"bytes"
 	"errors"
+	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/http/es_response_impl"
+	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
+	"github.com/watermint/toolbox/essentials/network/nw_request"
+	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"io/ioutil"
 	"math/rand"
@@ -33,18 +39,18 @@ func (z Response) Http() *http.Response {
 	return &r
 }
 
-func NewReplay(r []Response) nw_client.Http {
-	return &Replay{
+func NewSequentialReplay(r []Response) nw_client.Http {
+	return &seqReplay{
 		records: r,
 	}
 }
 
-type Replay struct {
+type seqReplay struct {
 	index   int
 	records []Response
 }
 
-func (z *Replay) Call(clientHash string, endpoint string, req *http.Request) (res *http.Response, latency time.Duration, err error) {
+func (z *seqReplay) Call(clientHash string, endpoint string, req *http.Request) (res *http.Response, latency time.Duration, err error) {
 	if z.index < len(z.records) {
 		fakeLatency := time.Duration(rand.Int63n(1000000) + 1000000)
 		rec := z.records[z.index]
@@ -57,4 +63,36 @@ func (z *Replay) Call(clientHash string, endpoint string, req *http.Request) (re
 		return res, fakeLatency, nil
 	}
 	return nil, 0, qt_errors.ErrorMock
+}
+
+// hash -> Response mapping
+func NewHashReplay(responses kv_storage.Storage) nw_client.Rest {
+	return &hashReplay{
+		responses: responses,
+	}
+}
+
+type hashReplay struct {
+	responses kv_storage.Storage
+}
+
+func (z hashReplay) Call(ctx api_context.Context, builder nw_client.RequestBuilder) (res es_response.Response) {
+	hr, err := builder.Build()
+	if err != nil {
+		return es_response_impl.NewNoResponse(err)
+	}
+
+	recReq := nw_request.Req{}
+	recReq.Apply(builder, hr)
+
+	_ = z.responses.View(func(kvs kv_kvs.Kvs) error {
+		capRes := &Response{}
+		if err := kvs.GetJsonModel(recReq.RequestHash, capRes); err != nil {
+			res = es_response_impl.NewNoResponse(err)
+			return err
+		}
+		res = es_response_impl.New(ctx, capRes.Http())
+		return nil
+	})
+	return
 }

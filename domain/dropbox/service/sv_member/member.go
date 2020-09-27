@@ -486,7 +486,7 @@ func (z *memberImpl) List(opts ...ListOpt) (members []*mo_member.Member, err err
 	err = z.ListEach(func(member *mo_member.Member) bool {
 		members = append(members, member)
 		return true
-	})
+	}, opts...)
 	return
 }
 

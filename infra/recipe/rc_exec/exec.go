@@ -31,7 +31,7 @@ func ExecReplay(ctl app_control.Control, r rc_recipe.Recipe, replayName string, 
 	if err != nil {
 		return qt_errors.ErrorNotEnoughResource
 	}
-	cte := ctl.WithFeature(ctl.Feature().AsReplayTest(replay))
+	cte := ctl.WithFeature(ctl.Feature().AsSeqReplayTest(replay))
 	return ExecSpec(cte, rc_spec.New(r), custom)
 }
 

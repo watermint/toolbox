@@ -86,7 +86,7 @@ func TestReplay_Call(t *testing.T) {
 	if err := json.Unmarshal([]byte(rec), &res); err != nil {
 		t.Error(err)
 	}
-	rr := NewReplay(res)
+	rr := NewSequentialReplay(res)
 	res1, _, err1 := rr.Call("", "", &http.Request{})
 	if err1 != nil {
 		t.Error(err1)

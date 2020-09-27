@@ -31,7 +31,7 @@ func (z *connAsanaApi) Connect(ctl app_control.Control) (err error) {
 		z.ctx = as_context_impl.NewMock(ctl)
 		return nil
 	}
-	if replay, enabled := ctl.Feature().IsTestWithReplay(); enabled {
+	if replay, enabled := ctl.Feature().IsTestWithSeqReplay(); enabled {
 		z.ctx = as_context_impl.NewReplayMock(ctl, replay)
 		return nil
 	}

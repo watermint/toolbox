@@ -2,12 +2,16 @@ package test
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/recipe/rc_replay"
+	"strings"
 )
 
 var (
@@ -16,7 +20,6 @@ var (
 
 type Replay struct {
 	rc_recipe.RemarkSecret
-	rc_recipe.RemarkTransient
 	JobId string
 	Path  mo_string.OptionalString
 }
@@ -26,7 +29,6 @@ func (z *Replay) Preset() {
 
 func (z *Replay) Exec(c app_control.Control) error {
 	l := c.Log()
-	l.Warn("The implementation is not yet completed. Please wait for next release.")
 
 	home := ""
 	if z.Path.IsExists() {
@@ -39,6 +41,8 @@ func (z *Replay) Exec(c app_control.Control) error {
 		return err
 	}
 
+	replay := rc_replay.New(c.Log())
+
 	historian := app_job_impl.NewHistorian(ws)
 	histories, err := historian.Histories()
 	for _, history := range histories {
@@ -46,7 +50,18 @@ func (z *Replay) Exec(c app_control.Control) error {
 			continue
 		}
 
-		return nil
+		forkName := strings.ReplaceAll(es_filepath.Escape(history.RecipeName()), " ", "-")
+		l.Debug("Replay the recipe",
+			esl.String("jobId", history.JobId()),
+			esl.String("recipe", history.RecipeName()),
+			esl.String("forkName", forkName))
+		forkBundle, err := app_workspace.ForkBundle(c.WorkBundle(), forkName)
+		if err != nil {
+			l.Debug("Unable to fork the bundle", esl.Error(err))
+			return err
+		}
+		forkCtl := c.WithBundle(forkBundle)
+		return replay.Replay(history.Job(), forkCtl)
 	}
 
 	return ErrorJobNotFound

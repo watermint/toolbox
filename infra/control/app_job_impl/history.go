@@ -109,6 +109,18 @@ type History struct {
 	finish *app_job.ResultLog
 }
 
+func (z History) Job() app_workspace.Job {
+	return z.ws
+}
+
+func (z History) ResultLog() app_job.ResultLog {
+	return *z.finish
+}
+
+func (z History) StartLog() app_job.StartLog {
+	return *z.start
+}
+
 func (z History) IsOrphaned() bool {
 	return false
 }

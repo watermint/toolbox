@@ -30,7 +30,7 @@ func TestOrphanHistory_AppName(t *testing.T) {
 		ctl.Log().Debug("Hello")
 		launcher.Down(nil, ctl)
 
-		oh, found := newOrphanHistory(ctl.Workspace().Log())
+		oh, found := NewOrphanHistory(ctl.Workspace().Log())
 		if !found {
 			t.Error(oh, found)
 		}

@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
@@ -35,10 +36,19 @@ func NewMock(ctl app_control.Control) dbx_context.Context {
 	}
 }
 
-func NewReplayMock(ctl app_control.Control, rr []nw_replay.Response) dbx_context.Context {
+func NewSeqReplayMock(ctl app_control.Control, rr []nw_replay.Response) dbx_context.Context {
 	client := nw_rest.New(
 		nw_rest.Assert(dbx_response_impl.AssertResponse),
 		nw_rest.ReplayMock(rr))
+	return &ctxImpl{
+		client:  client,
+		ctl:     ctl,
+		builder: dbx_request.NewBuilder(ctl, nil),
+	}
+}
+
+func NewReplayMock(ctl app_control.Control, replay kv_storage.Storage) dbx_context.Context {
+	client := nw_replay.NewHashReplay(replay)
 	return &ctxImpl{
 		client:  client,
 		ctl:     ctl,

@@ -78,8 +78,26 @@ func (z *specValueSelfContained) Capture(ctl app_control.Control) (v interface{}
 	return z.repo.Capture(ctl)
 }
 
-func (z *specValueSelfContained) Restore(j es_json.Json, ctl app_control.Control) error {
-	return z.repo.Restore(j, ctl)
+func (z *specValueSelfContained) Restore(j es_json.Json, ctl app_control.Control) (rcp rc_recipe.Recipe, err error) {
+	l := ctl.Log()
+
+	l.Debug("Restore")
+	err = z.repo.Restore(j, ctl)
+	if err != nil {
+		l.Debug("Unable to restore", esl.Error(err))
+		return nil, err
+	}
+
+	l.Debug("Apply")
+	rcp = z.repo.Apply()
+
+	l.Debug("Spin up")
+	rcp, err = z.repo.SpinUp(ctl)
+	if err != nil {
+		l.Debug("Unable to spin up", esl.Error(err))
+		return nil, err
+	}
+	return rcp, nil
 }
 
 func (z *specValueSelfContained) SpecId() string {
