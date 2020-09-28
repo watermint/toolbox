@@ -22,6 +22,7 @@ import (
 	infraapiapi_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
 	infracontrolapp_error "github.com/watermint/toolbox/infra/control/app_error"
+	infracontrolapp_job_impl "github.com/watermint/toolbox/infra/control/app_job_impl"
 	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infrafeedfd_file_impl "github.com/watermint/toolbox/infra/feed/fd_file_impl"
 	infrareciperc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
@@ -75,6 +76,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infraapiapi_auth_impl.MsgApiAuth{},
 		&infraapiapi_callback.MsgCallback{},
 		&infracontrolapp_error.MsgErrorReport{},
+		&infracontrolapp_job_impl.MsgLauncher{},
 		&infradocdc_options.MsgDoc{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
 		&infrareciperc_group.MsgHeader{},

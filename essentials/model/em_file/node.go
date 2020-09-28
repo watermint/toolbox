@@ -62,4 +62,10 @@ type Folder interface {
 
 	// Compare nodes and descendants.
 	DeepEquals(x Node) bool
+
+	// Number of files. Does not include files under descendants
+	NumFiles() int
+
+	// Number of folders. Does not include folders under descendants
+	NumFolders() int
 }

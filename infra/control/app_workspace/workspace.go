@@ -23,6 +23,9 @@ type Job interface {
 	// Path for job
 	Job() string
 
+	// Time of the job started
+	JobStartTime() time.Time
+
 	// Job ID
 	JobId() string
 
@@ -45,6 +48,9 @@ type Job interface {
 type User interface {
 	// Secrets path
 	Secrets() string
+
+	// Cache
+	Cache() string
 }
 
 type MultiUser interface {
@@ -62,6 +68,7 @@ type Workspace interface {
 
 const (
 	NameSecrets = "secrets"
+	NameCache   = "cache"
 	NameUser    = "user"
 	NameJobs    = "jobs"
 	NameLogs    = "logs"

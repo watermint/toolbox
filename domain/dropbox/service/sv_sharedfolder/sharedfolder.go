@@ -19,6 +19,7 @@ type SharedFolder interface {
 	Resolve(sharedFolderId string) (sf *mo_sharedfolder.SharedFolder, err error)
 	Transfer(sf *mo_sharedfolder.SharedFolder, to TransferTo) (err error)
 	UpdatePolicy(sharedFolderId string, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error)
+	UpdateInheritance(sharedFolderId string, setting string) (sf *mo_sharedfolder.SharedFolder, err error)
 }
 
 func New(ctx dbx_context.Context) SharedFolder {
@@ -26,6 +27,11 @@ func New(ctx dbx_context.Context) SharedFolder {
 		ctx: ctx,
 	}
 }
+
+const (
+	AccessInheritanceInherit   = "inherit"
+	AccessInheritanceNoInherit = "no_inherit"
+)
 
 type transferTo struct {
 	dropboxId string
@@ -85,6 +91,24 @@ func LeaveACopy() DeleteOpt {
 type sharedFolderImpl struct {
 	ctx   dbx_context.Context
 	limit int
+}
+
+func (z *sharedFolderImpl) UpdateInheritance(sharedFolderId string, setting string) (sf *mo_sharedfolder.SharedFolder, err error) {
+	p := struct {
+		SharedFolderId    string `json:"shared_folder_id"`
+		AccessInheritance string `json:"access_inheritance"`
+	}{
+		SharedFolderId:    sharedFolderId,
+		AccessInheritance: setting,
+	}
+
+	res := z.ctx.Post("sharing/set_access_inheritance", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	sf = &mo_sharedfolder.SharedFolder{}
+	err = res.Success().Json().Model(sf)
+	return
 }
 
 func (z *sharedFolderImpl) UpdatePolicy(sharedFolderId string, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error) {

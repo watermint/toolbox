@@ -15,4 +15,6 @@ const (
 	ExperimentBatchRandom = "batch_random"
 
 	ExperimentCongestionWindowNoLimit = "congestion_window_no_limit"
+
+	ExperimentFileSyncReduceCreateFolder = "file_sync_reduce_create_folder"
 )

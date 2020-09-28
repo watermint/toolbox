@@ -3,7 +3,9 @@ package mo_filter
 import (
 	"flag"
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -40,6 +42,12 @@ type FilterOpt interface {
 
 	// True if the option enabled thru the flag.
 	Enabled() bool
+
+	// Serialize settings
+	Capture() interface{}
+
+	// Restore settings
+	Restore(v es_json.Json) error
 }
 
 func New(name string) Filter {
@@ -52,6 +60,30 @@ func New(name string) Filter {
 type filterImpl struct {
 	name    string
 	filters []FilterOpt
+}
+
+func (z *filterImpl) Capture() interface{} {
+	s := make(map[string]interface{})
+	for _, f := range z.filters {
+		s[f.NameSuffix()] = f.Capture()
+	}
+	return s
+}
+
+func (z *filterImpl) Restore(v es_json.Json) error {
+	if obj, found := v.Object(); found {
+		for _, f := range z.filters {
+			if fv, ok := obj[f.NameSuffix()]; ok {
+				if err := f.Restore(fv); err != nil {
+					return err
+				}
+			}
+		}
+		return nil
+
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
+	}
 }
 
 func (z *filterImpl) IsEnabled() bool {

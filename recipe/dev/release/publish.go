@@ -219,7 +219,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 
 func (z *Publish) ghCtx(c app_control.Control) gh_context.Context {
 	if c.Feature().IsTest() {
-		return gh_context_impl.NewMock(c)
+		return gh_context_impl.NewMock("mock", c)
 	} else {
 		return z.ConnGithub.Context()
 	}

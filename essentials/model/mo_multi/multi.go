@@ -2,6 +2,7 @@ package mo_multi
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -18,4 +19,10 @@ type MultiValue interface {
 
 	// Description of nested value field. (key: Name + NameSuffix)
 	FieldDesc(base app_msg.Message, name string) app_msg.Message
+
+	// Serialize values
+	Capture() interface{}
+
+	// Restore values
+	Restore(v es_json.Json) error
 }

@@ -12,7 +12,7 @@ import (
 
 func TestPrjImpl_Resolve(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := as_context_impl.NewMock(ctl)
+		ctx := as_context_impl.NewMock("mock", ctl)
 		svc := New(ctx)
 		_, err := svc.Resolve("12345")
 		if err != qt_errors.ErrorMock {
@@ -23,7 +23,7 @@ func TestPrjImpl_Resolve(t *testing.T) {
 
 func TestPrjImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := as_context_impl.NewMock(ctl)
+		ctx := as_context_impl.NewMock("mock", ctl)
 		svc := New(ctx)
 		_, err := svc.List(
 			Workspace(&mo_workspace.Workspace{Gid: "12345"}),

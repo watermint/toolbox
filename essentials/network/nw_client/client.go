@@ -33,6 +33,11 @@ type RequestBuilder interface {
 	Param() string
 }
 
+type RequestUrlFilter interface {
+	// Filter sensitive information for recording
+	FilterUrl(url string) string
+}
+
 func ClientHash(seeds ...[]string) string {
 	all := make([]string, 0)
 	for _, s := range seeds {

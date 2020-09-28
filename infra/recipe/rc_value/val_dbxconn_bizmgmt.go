@@ -3,6 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
@@ -53,6 +54,20 @@ func (z *ValueDbxConnBusinessMgmt) ApplyPreset(v0 interface{}) {
 func (z *ValueDbxConnBusinessMgmt) Apply() (v interface{}) {
 	z.conn.SetPeerName(z.peerName)
 	return z.conn
+}
+
+func (z *ValueDbxConnBusinessMgmt) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.peerName, nil
+}
+
+func (z *ValueDbxConnBusinessMgmt) Restore(v es_json.Json, ctl app_control.Control) error {
+	if peerName, found := v.String(); found {
+		z.conn = dbx_conn_impl.NewConnBusinessMgmt(peerName)
+		z.peerName = peerName
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
+	}
 }
 
 func (z *ValueDbxConnBusinessMgmt) SpinUp(ctl app_control.Control) error {

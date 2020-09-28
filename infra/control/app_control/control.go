@@ -1,6 +1,7 @@
 package app_control
 
 import (
+	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
@@ -36,8 +37,14 @@ type Control interface {
 	// Async queue sequence
 	Sequence() eq_sequence.Sequence
 
+	// Get or create new cache
+	NewCache(namespace, name string) cache.Cache
+
 	// Create new KVS. The caller must close the storage before exit.
 	NewKvs(name string) (kvs kv_storage.Storage, err error)
+
+	// Create new KVS factory. The caller must close the factory before exit.
+	NewKvsFactory() (factory kv_storage.Factory)
 
 	// Workspace bundle
 	WorkBundle() app_workspace.Bundle

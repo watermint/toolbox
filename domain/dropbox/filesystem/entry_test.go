@@ -48,7 +48,7 @@ func TestNewEntry(t *testing.T) {
 			return
 		}
 
-		dbxFs := NewFileSystem(dbx_context_impl.NewMock(ctl))
+		dbxFs := NewFileSystem(dbx_context_impl.NewMock("mock", ctl))
 
 		dbxEntry1, fsErr := dbxFs.Entry(fsEntryData)
 		if fsErr != nil {

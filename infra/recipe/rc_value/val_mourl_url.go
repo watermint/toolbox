@@ -2,6 +2,7 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
@@ -64,6 +65,19 @@ func (z *ValueMoUrlUrl) Apply() (v interface{}) {
 func (z *ValueMoUrlUrl) Debug() interface{} {
 	return map[string]string{
 		"url": z.rawUrl,
+	}
+}
+
+func (z *ValueMoUrlUrl) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.rawUrl, nil
+}
+
+func (z *ValueMoUrlUrl) Restore(v es_json.Json, ctl app_control.Control) error {
+	if w, found := v.String(); found {
+		z.rawUrl = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

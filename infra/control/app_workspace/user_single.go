@@ -3,12 +3,14 @@ package app_workspace
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"path/filepath"
+	"time"
 )
 
 func newWorkspace(home string) (Workspace, error) {
 	sw := &singleWorkspace{
-		home:  home,
-		jobId: NewJobId(),
+		home:         home,
+		jobId:        NewJobId(),
+		jobStartTime: time.Now(),
 	}
 	if err := sw.setup(); err != nil {
 		return nil, err
@@ -18,14 +20,20 @@ func newWorkspace(home string) (Workspace, error) {
 
 func newWorkspaceWithJobIdNoSetup(home, jobId string) Workspace {
 	return &singleWorkspace{
-		home:  home,
-		jobId: jobId,
+		home:         home,
+		jobId:        jobId,
+		jobStartTime: time.Now(),
 	}
 }
 
 type singleWorkspace struct {
-	home  string
-	jobId string
+	home         string
+	jobId        string
+	jobStartTime time.Time
+}
+
+func (z *singleWorkspace) JobStartTime() time.Time {
+	return z.jobStartTime
 }
 
 func (z *singleWorkspace) JobId() string {
@@ -62,6 +70,10 @@ func (z *singleWorkspace) Home() string {
 
 func (z *singleWorkspace) Log() string {
 	return filepath.Join(z.Job(), NameLogs)
+}
+
+func (z *singleWorkspace) Cache() string {
+	return filepath.Join(z.home, NameCache)
 }
 
 func (z *singleWorkspace) Secrets() string {

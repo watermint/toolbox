@@ -15,7 +15,7 @@ var (
 )
 
 // Returns description of the account
-func VerifyToken(ctx api_auth.Context, ctl app_control.Control, app api_auth.App) (actx api_auth.Context, err error) {
+func VerifyToken(name string, ctx api_auth.Context, ctl app_control.Control, app api_auth.App) (actx api_auth.Context, err error) {
 	scopes := ctx.Scopes()
 	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 	ui := ctl.UI()
@@ -27,7 +27,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control, app api_auth.App
 
 	switch scopes[0] {
 	case api_auth.DropboxTokenFull, api_auth.DropboxTokenApp:
-		apiCtx := dbx_context_impl.New(ctl, ctx)
+		apiCtx := dbx_context_impl.New(name, ctl, ctx)
 		res := apiCtx.Post("users/get_current_account")
 		if err, fail := res.Failure(); fail {
 			l.Debug("Unable to verify token", esl.Error(err))
@@ -51,7 +51,7 @@ func VerifyToken(ctx api_auth.Context, ctl app_control.Control, app api_auth.App
 		api_auth.DropboxTokenBusinessManagement,
 		api_auth.DropboxTokenBusinessFile,
 		api_auth.DropboxTokenBusinessAudit:
-		apiCtx := dbx_context_impl.New(ctl, ctx)
+		apiCtx := dbx_context_impl.New(name, ctl, ctx)
 		res := apiCtx.Post("team/get_info")
 		if err, fail := res.Failure(); fail {
 			l.Debug("Unable to verify token", esl.Error(err))

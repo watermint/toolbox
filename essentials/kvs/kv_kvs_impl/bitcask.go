@@ -2,44 +2,53 @@ package kv_kvs_impl
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/prologic/bitcask"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
 	"reflect"
 )
 
-func NewBitcask(name string, ctl app_control.Control, db *bitcask.Bitcask) kv_kvs.Kvs {
+func NewBitcask(name string, log esl.Logger, db *bitcask.Bitcask) kv_kvs.Kvs {
 	return &bcImpl{
-		name: name,
-		ctl:  ctl,
-		db:   db,
+		logger: log,
+		name:   name,
+		db:     db,
 	}
 }
 
-var (
-	ErrorInvalidKey = errors.New("invalid key")
-)
-
 type bcImpl struct {
-	name string
-	ctl  app_control.Control
-	db   *bitcask.Bitcask
+	name   string
+	logger esl.Logger
+	db     *bitcask.Bitcask
+}
+
+func (z *bcImpl) Lock() error {
+	return z.db.Lock()
+}
+
+func (z *bcImpl) Unlock() error {
+	return z.db.Unlock()
 }
 
 func (z *bcImpl) log() esl.Logger {
-	return z.ctl.Log().With(esl.String("name", z.name))
+	return z.logger.With(esl.String("name", z.name))
 }
 
 func (z *bcImpl) op(opName string, key string, f func() error) error {
 	if len(key) < 1 {
-		return ErrorInvalidKey
+		return kv_kvs.ErrorInvalidKey
 	}
 	l := z.log().With(esl.String("opName", opName))
 	if err := f(); err != nil {
-		l.Debug("Op failed", esl.Error(err))
-		return err
+		switch err {
+		case bitcask.ErrKeyTooLarge, bitcask.ErrEmptyKey:
+			l.Debug("Invalid key", esl.Error(err))
+			return kv_kvs.ErrorInvalidKey
+
+		default:
+			l.Debug("Op failed", esl.Error(err))
+			return err
+		}
 	}
 	return nil
 }
@@ -83,6 +92,10 @@ func (z *bcImpl) PutRaw(key, value []byte) error {
 func (z *bcImpl) getOp(opName string, key string, unmarshal func(v []byte) error) (err error) {
 	l := z.log().With(esl.String("opName", opName), esl.String("key", key))
 	v, err := z.db.Get([]byte(key))
+	if err == bitcask.ErrKeyNotFound {
+		l.Debug("Key not found", esl.Error(err))
+		return kv_kvs.ErrorNotFound
+	}
 	if err != nil {
 		l.Debug("Get failed", esl.Error(err))
 		return err

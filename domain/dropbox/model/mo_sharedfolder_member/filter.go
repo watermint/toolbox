@@ -11,3 +11,8 @@ type FolderMemberFilter interface {
 	// Set team members to identify external/internal.
 	SetMembers(member []*mo_member.Member)
 }
+
+type FolderMemberFilterData struct {
+	Enabled bool                `json:"enabled"`
+	Members []*mo_member.Member `json:"members"`
+}

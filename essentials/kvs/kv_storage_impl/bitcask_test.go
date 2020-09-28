@@ -1,4 +1,4 @@
-package kv_test
+package kv_storage_impl_test
 
 import (
 	"bytes"
@@ -7,23 +7,20 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"testing"
 )
 
 func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
-	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		// bitcask
-		{
-			db := kv_storage_impl.InternalNewBitcask(name + "_bitcask")
-			if err := db.Open(ctl); err != nil {
-				t.Error(err)
-				return
-			}
-			f(t, db)
-			db.Close()
+	qt_file.TestWithTestFolder(t, "kvs"+name, false, func(path string) {
+		db := kv_storage_impl.InternalNewBitcask(name+"_bitcask", esl.Default())
+		if err := db.Open(path); err != nil {
+			t.Error(err)
+			return
 		}
+		f(t, db)
+		db.Close()
 	})
 }
 

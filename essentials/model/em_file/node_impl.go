@@ -97,6 +97,24 @@ type folderNode struct {
 	folderMutex sync.Mutex
 }
 
+func (z *folderNode) numByType(nt NodeType) int {
+	n := 0
+	for _, node := range z.descendants {
+		if node.Type() == nt {
+			n++
+		}
+	}
+	return n
+}
+
+func (z *folderNode) NumFiles() int {
+	return z.numByType(FileNode)
+}
+
+func (z *folderNode) NumFolders() int {
+	return z.numByType(FolderNode)
+}
+
 func (z *folderNode) Rename(newName string) {
 	z.name = newName
 }

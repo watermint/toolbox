@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 )
 
 const (
@@ -46,6 +47,7 @@ type Context interface {
 	WithPath(pathRoot PathRoot) Context
 	NoAuth() Context
 	NoRetry() Context
+	Feature() app_feature.Feature
 }
 
 type PathRoot interface {

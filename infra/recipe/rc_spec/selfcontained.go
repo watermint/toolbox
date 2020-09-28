@@ -3,6 +3,7 @@ package rc_spec
 import (
 	"flag"
 	"github.com/watermint/toolbox/essentials/collections/es_array"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_conn"
@@ -71,6 +72,32 @@ type specValueSelfContained struct {
 	annotation rc_recipe.Annotation
 	scr        rc_recipe.Recipe
 	repo       rc_recipe.Repository
+}
+
+func (z *specValueSelfContained) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.repo.Capture(ctl)
+}
+
+func (z *specValueSelfContained) Restore(j es_json.Json, ctl app_control.Control) (rcp rc_recipe.Recipe, err error) {
+	l := ctl.Log()
+
+	l.Debug("Restore")
+	err = z.repo.Restore(j, ctl)
+	if err != nil {
+		l.Debug("Unable to restore", esl.Error(err))
+		return nil, err
+	}
+
+	l.Debug("Apply")
+	rcp = z.repo.Apply()
+
+	l.Debug("Spin up")
+	rcp, err = z.repo.SpinUp(ctl)
+	if err != nil {
+		l.Debug("Unable to spin up", esl.Error(err))
+		return nil, err
+	}
+	return rcp, nil
 }
 
 func (z *specValueSelfContained) SpecId() string {

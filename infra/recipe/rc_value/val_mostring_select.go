@@ -1,6 +1,7 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/app"
@@ -62,6 +63,19 @@ func (z *ValueMoStringSelect) Debug() interface{} {
 		"selected": z.selStr.Value(),
 		"is_valid": strconv.FormatBool(z.selStr.IsValid()),
 		"opts":     strings.Join(z.selStr.Options(), ","),
+	}
+}
+
+func (z *ValueMoStringSelect) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.valStr, nil
+}
+
+func (z *ValueMoStringSelect) Restore(v es_json.Json, ctl app_control.Control) error {
+	if w, found := v.String(); found {
+		z.valStr = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

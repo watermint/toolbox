@@ -1,6 +1,7 @@
 package rc_recipe
 
 import (
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -62,6 +63,12 @@ type Spec interface {
 
 	// Field name and scope label map
 	ConnScopeMap() map[string]string
+
+	// Serialize
+	Capture(ctl app_control.Control) (v interface{}, err error)
+
+	// Deserialize & spin up
+	Restore(j es_json.Json, ctl app_control.Control) (rcp Recipe, err error)
 
 	// Apply values to the new recipe instance
 	SpinUp(ctl app_control.Control, custom func(r Recipe)) (rcp Recipe, err error)

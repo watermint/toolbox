@@ -71,29 +71,29 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option           | Description              | Default |
 |------------------|--------------------------|---------|
 | `-chunk-size-kb` | Upload chunk size in KiB | 65536   |
-| `-lambda`        | Node number Lambda       | 100     |
-| `-max-nodes`     | Maximum number of nodes  | 1000    |
-| `-min-nodes`     | Minimum number of nodes  | 10      |
+| `-num-files`     | Number of files.         | 1000    |
 | `-path`          | Path to Dropbox          |         |
 | `-peer`          | Account alias            | default |
+| `-size-max-kb`   | Maximum file size (KiB). | 2048    |
+| `-size-min-kb`   | Minimum file size (KiB). | 0       |
 
 ## Common options:
 
-| Option            | Description                                                                      | Default              |
-|-------------------|----------------------------------------------------------------------------------|----------------------|
-| `-auto-open`      | Auto open URL or artifact folder                                                 | false                |
-| `-bandwidth-kb`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited  | 0                    |
-| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                   | normal               |
-| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)             | normal               |
-| `-concurrency`    | Maximum concurrency for running operation                                        | Number of processors |
-| `-debug`          | Enable debug mode                                                                | false                |
-| `-experiment`     | Enable experimental feature(s).                                                  |                      |
-| `-lang`           | Display language                                                                 | auto                 |
-| `-output`         | Output format (none/text/markdown/json)                                          | text                 |
-| `-proxy`          | HTTP/HTTPS proxy (hostname:port)                                                 |                      |
-| `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format) | false                |
-| `-secure`         | Do not store tokens into a file                                                  | false                |
-| `-workspace`      | Workspace path                                                                   |                      |
+| Option            | Description                                                                               | Default              |
+|-------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auto-open`      | Auto open URL or artifact folder                                                          | false                |
+| `-bandwidth-kb`   | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
+| `-budget-memory`  | Memory budget (limits some feature to reduce memory footprint)                            | normal               |
+| `-budget-storage` | Storage budget (limits logs or some feature to reduce storage usage)                      | normal               |
+| `-concurrency`    | Maximum concurrency for running operation                                                 | Number of processors |
+| `-debug`          | Enable debug mode                                                                         | false                |
+| `-experiment`     | Enable experimental feature(s).                                                           |                      |
+| `-lang`           | Display language                                                                          | auto                 |
+| `-output`         | Output format (none/text/markdown/json)                                                   | text                 |
+| `-proxy`          | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |
+| `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
+| `-secure`         | Do not store tokens into a file                                                           | false                |
+| `-workspace`      | Workspace path                                                                            |                      |
 
 # Proxy configuration
 

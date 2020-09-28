@@ -250,10 +250,14 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, stg eq_sequence.Stage) er
 		newTargetPath := base.Target.Descendant(source.Path().Base())
 
 		if source.IsFolder() {
-			ll.Debug("create folder", esl.Any("targetFolderPath", newTargetPath.AsData()))
-			if err := z.createFolder(newTargetPath); err != nil {
-				ll.Debug("unable to create folder")
-				return
+			if z.opts.OptimizeReduceCreateFolder() {
+				ll.Debug("Skip create folder", esl.Any("targetFolderPath", newTargetPath.AsData()))
+			} else {
+				ll.Debug("create folder", esl.Any("targetFolderPath", newTargetPath.AsData()))
+				if err := z.createFolder(newTargetPath); err != nil {
+					ll.Debug("unable to create folder")
+					return
+				}
 			}
 
 			ll.Debug("Enqueue sync folder")

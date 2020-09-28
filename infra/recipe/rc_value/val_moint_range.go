@@ -1,6 +1,7 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/app"
@@ -56,6 +57,19 @@ func (z *ValueMoIntRange) Debug() interface{} {
 		"min": min,
 		"max": max,
 		"val": z.rangeInt.Value64(),
+	}
+}
+
+func (z *ValueMoIntRange) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.valInt, nil
+}
+
+func (z *ValueMoIntRange) Restore(v es_json.Json, ctl app_control.Control) error {
+	if w, found := v.Number(); found {
+		z.valInt = w.Int64()
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

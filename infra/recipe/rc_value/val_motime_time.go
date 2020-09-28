@@ -3,6 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_essential"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
@@ -79,6 +80,19 @@ func (z *ValueMoTimeTime) Debug() interface{} {
 	return map[string]string{
 		"dateTime": z.dateTime,
 		"time":     z.time.Value(),
+	}
+}
+
+func (z *ValueMoTimeTime) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.dateTime, nil
+}
+
+func (z *ValueMoTimeTime) Restore(v es_json.Json, ctl app_control.Control) error {
+	if w, found := v.String(); found {
+		z.dateTime = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

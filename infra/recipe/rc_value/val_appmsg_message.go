@@ -2,6 +2,7 @@ package rc_value
 
 import (
 	"github.com/iancoleman/strcase"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -48,6 +49,14 @@ func (z *ValueAppMsgMessage) Apply() (v interface{}) {
 
 func (z *ValueAppMsgMessage) Debug() interface{} {
 	return z.name
+}
+
+func (z *ValueAppMsgMessage) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return
+}
+
+func (z *ValueAppMsgMessage) Restore(v es_json.Json, ctl app_control.Control) error {
+	return nil
 }
 
 func (z *ValueAppMsgMessage) SpinUp(ctl app_control.Control) error {

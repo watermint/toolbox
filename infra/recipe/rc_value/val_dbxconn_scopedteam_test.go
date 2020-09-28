@@ -1,9 +1,11 @@
 package rc_value
 
 import (
+	"encoding/json"
 	"flag"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"testing"
@@ -63,6 +65,42 @@ func TestValueDbxConnScopedTeam(t *testing.T) {
 		}
 
 		return nil
+	})
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestValueDbxConnScopedTeam_Capture(t *testing.T) {
+	err := qt_control.WithControl(func(ctl app_control.Control) error {
+		v := newValueDbxConnScopedTeam("123")
+		vc, err := v.Capture(ctl)
+		if err != nil {
+			t.Error(err)
+		}
+
+		capData, err := json.Marshal(vc)
+		if err != nil {
+			t.Error(err)
+		}
+
+		capJson, err := es_json.Parse(capData)
+		if err != nil {
+			t.Error(err)
+		}
+
+		v2 := newValueDbxConnScopedTeam("123")
+
+		err = v2.Restore(capJson, ctl)
+		if err != nil {
+			t.Error(err)
+		}
+
+		v2b := v2.Bind().(*string)
+		if *v2b != "123" {
+			t.Error(v2b)
+		}
+		return err
 	})
 	if err != nil {
 		t.Error(err)

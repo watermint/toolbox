@@ -10,7 +10,7 @@ import (
 
 func TestReleaseImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox_sandbox")
 		if _, err := sv.List(); err != qt_errors.ErrorMock {
 			t.Error(err)
@@ -21,7 +21,7 @@ func TestReleaseImpl_List(t *testing.T) {
 
 func TestReleaseImpl_CreateDraft(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox_sandbox")
 		if _, err := sv.CreateDraft("0.0.0", "test", "test body", "master"); err != qt_errors.ErrorMock {
 			t.Error(err)
@@ -31,7 +31,7 @@ func TestReleaseImpl_CreateDraft(t *testing.T) {
 
 func TestReleaseImpl_Get(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox_sandbox")
 		if _, err := sv.Get("0.0.2"); err != qt_errors.ErrorMock {
 			t.Error(err)

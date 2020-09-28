@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_size"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -32,7 +31,7 @@ func (z *Size) Preset() {
 func (z *Size) Exec(c app_control.Control) error {
 	fs := filesystem.NewFileSystem(z.Peer.Context())
 
-	factory := kv_storage_impl.NewFactory(c)
+	factory := c.NewKvsFactory()
 	defer func() {
 		factory.Close()
 	}()

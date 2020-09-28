@@ -23,7 +23,7 @@ func TestCompareImpl_Diff(t *testing.T) {
 	}()
 
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context_impl.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock("mock", ctl)
 		uc := New(ctx, ctl.UI())
 		_, err := uc.Diff(mo_path2.NewFileSystemPath(d), qtr_endtoend.NewTestDropboxFolderPath(), func(diff mo_file_diff.Diff) error {
 			return nil

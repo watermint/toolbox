@@ -6,10 +6,9 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
+	"github.com/watermint/toolbox/essentials/network/nw_request"
 	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"net/http"
-	"strings"
 )
 
 func New(client nw_client.Http) nw_client.Rest {
@@ -39,7 +38,7 @@ func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (re
 	}
 
 	// Capture
-	cp := NewCapture(ctx.Capture())
+	cp := NewCapture(ctx)
 	cp.WithResponse(req, hReq, res, err, latency.Nanoseconds())
 
 	return res
@@ -49,21 +48,21 @@ type Capture interface {
 	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64)
 }
 
-func NewCapture(cap esl.Logger) Capture {
+func NewCapture(ctx api_context.Context) Capture {
 	return &captureImpl{
-		capture: cap,
+		ctx: ctx,
 	}
 }
 
 type captureImpl struct {
-	capture esl.Logger
+	ctx api_context.Context
 }
 
 type Record struct {
-	Time    string `json:"time"`
-	Req     *Req   `json:"req"`
-	Res     *Res   `json:"res"`
-	Latency int64  `json:"latency"`
+	Time    string          `json:"time"`
+	Req     *nw_request.Req `json:"req"`
+	Res     *Res            `json:"res"`
+	Latency int64           `json:"latency"`
 }
 
 func (z Record) IsSuccess() bool {
@@ -75,32 +74,6 @@ func (z Record) IsSuccess() bool {
 		return false
 	}
 	return true
-}
-
-type Req struct {
-	RequestMethod  string            `json:"method"`
-	RequestUrl     string            `json:"url"`
-	RequestParam   string            `json:"param,omitempty"`
-	RequestHeaders map[string]string `json:"headers"`
-	ContentLength  int64             `json:"content_length"`
-}
-
-func (z *Req) Apply(rb nw_client.RequestBuilder, req *http.Request) {
-	z.RequestMethod = req.Method
-	z.RequestUrl = req.URL.String()
-	z.RequestParam = rb.Param()
-	z.RequestHeaders = make(map[string]string)
-	z.ContentLength = req.ContentLength
-	for k, v := range req.Header {
-		v0 := v[0]
-		// Anonymize token
-		if k == api_request.ReqHeaderAuthorization {
-			vv := strings.Split(v0, " ")
-			z.RequestHeaders[k] = vv[0] + " <secret>"
-		} else {
-			z.RequestHeaders[k] = v0
-		}
-	}
 }
 
 type Res struct {
@@ -141,14 +114,14 @@ func (z *Res) Apply(res es_response.Response, resErr error) {
 
 func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64) {
 	// request
-	rq := Req{}
-	rq.Apply(rb, req)
+	rq := nw_request.Req{}
+	rq.Apply(z.ctx, rb, req)
 
 	// response
 	rs := Res{}
 	rs.Apply(res, resErr)
 
-	z.capture.Debug("",
+	z.ctx.Capture().Debug("",
 		esl.Any("req", rq),
 		esl.Any("res", rs),
 		esl.Int64("latency", latency),
@@ -157,8 +130,8 @@ func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Reques
 
 func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request, resErr error, latency int64) {
 	// request
-	rq := Req{}
-	rq.Apply(rb, req)
+	rq := nw_request.Req{}
+	rq.Apply(z.ctx, rb, req)
 
 	// response
 	rs := Res{}
@@ -166,7 +139,7 @@ func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request,
 		rs.ResponseError = resErr.Error()
 	}
 
-	z.capture.Debug("",
+	z.ctx.Capture().Debug("",
 		esl.Any("req", rq),
 		esl.Any("res", rs),
 		esl.Int64("latency", latency),

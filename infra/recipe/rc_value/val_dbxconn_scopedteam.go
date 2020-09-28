@@ -3,6 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
@@ -54,6 +55,20 @@ func (z *ValueDbxConnScopedTeam) Debug() interface{} {
 		"peerName": z.peerName,
 		"scopes":   strings.Join(z.conn.Scopes(), ","),
 		"appType":  z.conn.ScopeLabel(),
+	}
+}
+
+func (z *ValueDbxConnScopedTeam) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.peerName, nil
+}
+
+func (z *ValueDbxConnScopedTeam) Restore(v es_json.Json, ctl app_control.Control) error {
+	if peerName, found := v.String(); found {
+		z.conn = dbx_conn_impl.NewConnScopedTeam(peerName)
+		z.peerName = peerName
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

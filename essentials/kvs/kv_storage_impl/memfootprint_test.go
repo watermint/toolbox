@@ -1,24 +1,23 @@
-package kv
+package kv_storage_impl
 
 import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"math/rand"
+	"os"
 	"testing"
 )
 
-func benchmarkLoadTest(b *testing.B, ctl app_control.Control, db kv_storage.Storage) {
+func benchmarkLoadTest(b *testing.B, db kv_storage.Storage) {
 	dataSizeMin := 2 << 10
 	dataSizeMax := 2 << 16
 	mul := 10
 	var err error
 
-	l := ctl.Log()
+	l := esl.Default()
 	l.Info("Benchmark", esl.Int("N", b.N))
 	for i := 0; i < b.N*mul; i++ {
 		err = db.Update(func(bmf kv_kvs.Kvs) error {
@@ -62,13 +61,20 @@ func benchmarkLoadTest(b *testing.B, ctl app_control.Control, db kv_storage.Stor
 }
 
 func BenchmarkMemoryFootprintBitcask(b *testing.B) {
-	qtr_endtoend.BenchmarkWithControl(b, func(ctl app_control.Control) {
-		db := kv_storage_impl.InternalNewBitcask("benchmark-memory-bitcask")
-		if err := db.Open(ctl); err != nil {
-			b.Error(err)
-			return
-		}
-		benchmarkLoadTest(b, ctl, db)
-		db.Close()
-	})
+	path, err := qt_file.MakeTestFolder("benchmark-memory-bitcask", false)
+	if err != nil {
+		b.Error(err)
+		return
+	}
+	defer func() {
+		_ = os.RemoveAll(path)
+	}()
+
+	db := InternalNewBitcask("benchmark-memory-bitcask", esl.Default())
+	if err := db.Open(path); err != nil {
+		b.Error(err)
+		return
+	}
+	benchmarkLoadTest(b, db)
+	db.Close()
 }

@@ -3,6 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn_impl"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
@@ -60,6 +61,14 @@ func (z *ValueGhConnGithubPublic) Debug() interface{} {
 	return map[string]string{
 		"public": "true",
 	}
+}
+
+func (z *ValueGhConnGithubPublic) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return "", nil
+}
+
+func (z *ValueGhConnGithubPublic) Restore(v es_json.Json, ctl app_control.Control) error {
+	return nil
 }
 
 func (z *ValueGhConnGithubPublic) SpinUp(ctl app_control.Control) error {

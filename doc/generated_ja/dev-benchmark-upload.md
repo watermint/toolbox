@@ -71,11 +71,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション       | 説明                                  | デフォルト |
 |------------------|---------------------------------------|------------|
 | `-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
-| `-lambda`        | ノード数のλ                           | 100        |
-| `-max-nodes`     | 最大ノード数                          | 1000       |
-| `-min-nodes`     | 最小ノード数                          | 10         |
+| `-num-files`     | ファイル数.                           | 1000       |
 | `-path`          | Dropboxパス                           |            |
 | `-peer`          | アカウントの別名                      | default    |
+| `-size-max-kb`   | 最大ファイルサイズ (KiB).             | 2048       |
+| `-size-min-kb`   | 最小ファイルサイズ (KiB).             | 0          |
 
 ## 共通のオプション:
 
@@ -90,7 +90,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-experiment`     | 実験的機能を有効化する                                                                             |                |
 | `-lang`           | 表示言語                                                                                           | auto           |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
-| `-proxy`          | HTTP/HTTPS プロクシ (ホスト名:ポート番号)                                                          |                |
+| `-proxy`          | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |

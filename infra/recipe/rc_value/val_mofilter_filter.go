@@ -1,6 +1,7 @@
 package rc_value
 
 import (
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/infra/app"
@@ -44,6 +45,14 @@ func (z *ValueMoFilterFilter) Apply() (v interface{}) {
 
 func (z *ValueMoFilterFilter) Debug() interface{} {
 	return z.filter.Debug()
+}
+
+func (z *ValueMoFilterFilter) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.filter.Capture(), nil
+}
+
+func (z *ValueMoFilterFilter) Restore(v es_json.Json, ctl app_control.Control) error {
+	return z.filter.Restore(v)
 }
 
 func (z *ValueMoFilterFilter) SpinUp(ctl app_control.Control) error {

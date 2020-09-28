@@ -184,7 +184,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	rc_group.AppHeader(ui, app.Version)
 
 	// Global settings
-	nw_proxy.SetHttpProxy(com.Proxy.Value(), ctl)
+	nw_proxy.Setup("https://api.dropboxapi.com", com.Proxy.Value(), ctl.Log())
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
 	nw_congestion.SetMaxCongestionWindow(com.Concurrency,
 		ctl.Feature().Experiment(app.ExperimentCongestionWindowNoLimit))

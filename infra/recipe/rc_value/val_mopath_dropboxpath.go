@@ -2,6 +2,7 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -65,6 +66,19 @@ func (z *ValueMoPathDropboxPath) Apply() (v interface{}) {
 func (z *ValueMoPathDropboxPath) Debug() interface{} {
 	return map[string]string{
 		"path": z.filePath,
+	}
+}
+
+func (z *ValueMoPathDropboxPath) Capture(ctl app_control.Control) (v interface{}, err error) {
+	return z.filePath, nil
+}
+
+func (z *ValueMoPathDropboxPath) Restore(v es_json.Json, ctl app_control.Control) error {
+	if w, found := v.String(); found {
+		z.filePath = w
+		return nil
+	} else {
+		return rc_recipe.ErrorValueRestoreFailed
 	}
 }
 

@@ -20,7 +20,7 @@ func TestNewPath(t *testing.T) {
 		}
 
 		qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-			fs := NewFileSystem(dbx_context_impl.NewMock(ctl))
+			fs := NewFileSystem(dbx_context_impl.NewMock("mock", ctl))
 
 			root2, err := fs.Path(root.AsData())
 			if err != nil {

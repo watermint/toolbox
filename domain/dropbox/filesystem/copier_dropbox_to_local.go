@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
+	"github.com/watermint/toolbox/essentials/http/es_download"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"os"
 )
 
 func NewDropboxToLocal(ctx dbx_context.Context) es_filesystem.Connector {
@@ -31,17 +31,17 @@ func (z copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesys
 		return nil, err
 	}
 
-	dbxEntry, localPath, dbxErr := sv_file_content.NewDownload(z.ctx).Download(sourcePath)
+	downloadUrl, dbxErr := sv_file_content.NewDownload(z.ctx).DownloadUrl(sourcePath)
 	if dbxErr != nil {
 		l.Debug("Unable to download", esl.Error(dbxErr))
 		return nil, NewError(dbxErr)
 	}
-	l.Debug("Downloaded", esl.Any("dbxEntry", dbxEntry.Concrete()))
+	l.Debug("Download url", esl.String("url", downloadUrl))
 
-	osErr := os.Rename(localPath.Path(), target.Path())
-	if osErr != nil {
-		l.Debug("Unable to move tmp to target location", esl.Error(osErr))
-		return nil, NewError(osErr)
+	dlErr := es_download.Download(l, downloadUrl, target.Path())
+	if dlErr != nil {
+		l.Debug("Download failure", esl.Error(dlErr))
+		return nil, NewError(dlErr)
 	}
 
 	return z.target.Info(target)

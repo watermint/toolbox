@@ -12,7 +12,7 @@ import (
 
 func TestAssetImpl_Upload(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox", "25040282")
 		fp, err := qt_file.MakeTestFile("test.txt", "hello this is test")
 		if err != nil {
@@ -28,7 +28,7 @@ func TestAssetImpl_Upload(t *testing.T) {
 
 func TestAssetImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox", "25040282")
 		if _, err := sv.List(); err != qt_errors.ErrorMock {
 			t.Error(err)

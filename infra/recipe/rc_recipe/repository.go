@@ -2,6 +2,7 @@ package rc_recipe
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -43,6 +44,12 @@ type Repository interface {
 
 	// Apply custom values to the repository
 	ApplyCustom()
+
+	// Serialize
+	Capture(ctl app_control.Control) (v interface{}, err error)
+
+	// Deserialize & spin up
+	Restore(j es_json.Json, ctl app_control.Control) error
 
 	// Prepare values for run recipe
 	SpinUp(ctl app_control.Control) (Recipe, error)

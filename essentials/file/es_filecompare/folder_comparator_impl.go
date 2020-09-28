@@ -79,7 +79,19 @@ func CompareLevel(
 	l.Debug("Scan target folder")
 	{
 		entries, err := targetFs.List(targetPath)
-		if err != nil {
+		switch {
+		case err == nil:
+			l.Debug("Source target folder found", esl.Int("numEntries", len(entries)))
+
+		case err.IsPathNotFound():
+			l.Debug("Unable to list target folder, assuming entire target folder is missing", esl.Error(err))
+			for _, se := range sourceEntries {
+				handlerMissingTarget(base, se)
+			}
+
+			return nil
+
+		default:
 			l.Debug("Unable to list target folder", esl.Error(err))
 			return err
 		}

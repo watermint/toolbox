@@ -36,11 +36,16 @@ type Errors interface {
 	Path() ErrorEndpointPath
 	Endpoint() ErrorEndpoint
 	To() ErrorWrite
+	BadPath() ErrorSharePath
 
 	// too_many_write_operations
 	IsTooManyWriteOperations() bool
 	// too_many_files
 	IsTooManyFiles() bool
+	// folder_name_already_used
+	IsFolderNameAlreadyUsed() bool
+	// group_name_already_used
+	IsGroupNameAlreadyUsed() bool
 
 	Summary() string
 }
@@ -93,8 +98,25 @@ type ErrorWrite interface {
 	IsConflict() bool
 }
 
+// 409: SharePathError
+type ErrorSharePath interface {
+	IsAlreadyShared() bool
+}
+
 type errorsImpl struct {
 	de DropboxError
+}
+
+func (z errorsImpl) IsGroupNameAlreadyUsed() bool {
+	return z.de.HasPrefix("group_name_already_used")
+}
+
+func (z errorsImpl) BadPath() ErrorSharePath {
+	return NewSharePath("bad_path", z.de)
+}
+
+func (z errorsImpl) IsFolderNameAlreadyUsed() bool {
+	return z.de.HasPrefix("folder_name_already_used")
 }
 
 func (z errorsImpl) IsTooManyFiles() bool {

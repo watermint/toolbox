@@ -299,7 +299,8 @@ func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member
 		return nil, err
 	}
 	member = &mo_member.Member{}
-	err = res.Success().Json().FindModel(es_json.PathArrayFirst, member)
+	rj := res.Success().Json()
+	err = rj.FindModel("complete."+es_json.PathArrayFirst, member)
 	return
 }
 
@@ -485,7 +486,7 @@ func (z *memberImpl) List(opts ...ListOpt) (members []*mo_member.Member, err err
 	err = z.ListEach(func(member *mo_member.Member) bool {
 		members = append(members, member)
 		return true
-	})
+	}, opts...)
 	return
 }
 

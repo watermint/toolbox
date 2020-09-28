@@ -10,7 +10,7 @@ import (
 
 func TestRepoIssueImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox")
 		if _, err := sv.List(); err != qt_errors.ErrorMock {
 			t.Error(err)

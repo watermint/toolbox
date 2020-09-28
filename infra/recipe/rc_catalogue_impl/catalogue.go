@@ -17,6 +17,16 @@ type catalogueImpl struct {
 	root        rc_group.Group
 }
 
+func (z *catalogueImpl) Recipe(cliPath string) (recipe rc_recipe.Recipe, spec rc_recipe.Spec) {
+	for _, r := range z.recipes {
+		rs := rc_spec.New(r)
+		if rs.CliPath() == cliPath {
+			return r, rs
+		}
+	}
+	return nil, nil
+}
+
 func (z *catalogueImpl) Features() []app_feature.OptIn {
 	return z.features
 }
