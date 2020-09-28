@@ -1,4 +1,4 @@
-# dev test replay
+# dev replay recipe
 
 Replay recipe 
 
@@ -10,12 +10,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev test replay 
+.\tbx.exe dev replay recipe 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev test replay 
+$HOME/Desktop/tbx dev replay recipe 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

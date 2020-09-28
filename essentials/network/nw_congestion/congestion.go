@@ -55,6 +55,9 @@ func SetMaxCongestionWindow(w int, ignoreHardLimit bool) {
 		maxCongestionWindow = es_number.Min(w, hardLimitCongestionWindow).Int()
 	}
 }
+func SetInitCongestionWindow(w int) {
+	initCongestionWindow = w
+}
 
 // Maximum congestion window size
 func CurrentMaxCongestionWindow() int {

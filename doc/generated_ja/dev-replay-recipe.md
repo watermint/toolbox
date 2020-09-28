@@ -1,6 +1,6 @@
-# dev test replay
+# dev replay recipe
 
-レシピのリプレイ実行 
+Replay recipe 
 
 # 利用方法
 
@@ -10,12 +10,12 @@
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev test replay 
+.\tbx.exe dev replay recipe 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev test replay 
+$HOME/Desktop/tbx dev replay recipe 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,10 +26,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                    | デフォルト |
-|------------|-------------------------|------------|
-| `-job-id`  | ジョブID.               |            |
-| `-path`    | ワークスペースへのパス. |            |
+| オプション | 説明               | デフォルト |
+|------------|--------------------|------------|
+| `-job-id`  | Job Id.            |            |
+| `-path`    | Path to workspace. |            |
 
 ## 共通のオプション:
 

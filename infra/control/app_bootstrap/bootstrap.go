@@ -188,6 +188,10 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
 	nw_congestion.SetMaxCongestionWindow(com.Concurrency,
 		ctl.Feature().Experiment(app.ExperimentCongestionWindowNoLimit))
+	if ctl.Feature().Experiment(app.ExperimentCongestionWindowAggressive) {
+		ctl.Log().Debug("Enable aggressive initial window")
+		nw_congestion.SetInitCongestionWindow(com.Concurrency)
+	}
 
 	// Diagnosis
 	if err = nw_diag.Runtime(ctl); err != nil {

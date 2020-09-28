@@ -1,4 +1,4 @@
-package test
+package replay
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestReplay_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Replay{})
+	qtr_endtoend.TestRecipe(t, &Recipe{})
 }
