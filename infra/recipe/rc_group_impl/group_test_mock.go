@@ -2,6 +2,7 @@ package rc_group_impl
 
 import (
 	"flag"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -14,6 +15,14 @@ import (
 type MockSpec struct {
 	name string
 	path []string
+}
+
+func (z MockSpec) Capture(ctl app_control.Control) (v interface{}, err error) {
+	panic("implement me")
+}
+
+func (z MockSpec) Restore(j es_json.Json, ctl app_control.Control) (rcp rc_recipe.Recipe, err error) {
+	panic("implement me")
 }
 
 func (z MockSpec) ValueNames() []string {

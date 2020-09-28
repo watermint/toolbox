@@ -10,7 +10,7 @@ import (
 
 func TestTagImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox")
 		if _, err := sv.List(); err != qt_errors.ErrorMock {
 			t.Error(err)
@@ -20,7 +20,7 @@ func TestTagImpl_List(t *testing.T) {
 
 func TestTagImpl_Create(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox_sandbox")
 		if _, err := sv.Create("v1.1.1", "testing", "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83"); err != qt_errors.ErrorMock {
 			t.Error(err)

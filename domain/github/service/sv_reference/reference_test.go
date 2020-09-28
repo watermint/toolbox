@@ -10,7 +10,7 @@ import (
 
 func TestReferenceImpl_Create(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := gh_context_impl.NewMock(ctl)
+		mc := gh_context_impl.NewMock("mock", ctl)
 		sv := New(mc, "watermint", "toolbox")
 		_, err := sv.Create(
 			"refs/tags/63.4.129",

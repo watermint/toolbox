@@ -19,6 +19,10 @@ func (p PanicClient) Call(ctx api_context.Context, req nw_client.RequestBuilder)
 type MockApiContext struct {
 }
 
+func (z MockApiContext) Name() string {
+	return ""
+}
+
 func (z MockApiContext) ClientHash() string {
 	return ""
 }

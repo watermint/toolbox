@@ -13,7 +13,7 @@ import (
 
 func TestCompareImpl_Diff(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context_impl.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock("mock", ctl)
 		sv := New(ctx, ctx, ctl.UI())
 		_, err := sv.Diff(qtr_endtoend.NewTestDropboxFolderPath(), qtr_endtoend.NewTestDropboxFolderPath(), func(diff mo_file_diff.Diff) error {
 			return nil

@@ -10,7 +10,7 @@ import (
 
 func TestMergeImpl_Merge(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context_impl.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock("mock", ctl)
 		sv := New(ctx, ctl)
 		err := sv.Merge(
 			qtr_endtoend.NewTestDropboxFolderPath("from"),

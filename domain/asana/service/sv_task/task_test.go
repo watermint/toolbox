@@ -11,7 +11,7 @@ import (
 
 func TestTaskImpl_Resolve(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := as_context_impl.NewMock(ctl)
+		ctx := as_context_impl.NewMock("mock", ctl)
 		svc := New(ctx)
 		_, err := svc.Resolve("12345")
 		if err != qt_errors.ErrorMock {
@@ -22,7 +22,7 @@ func TestTaskImpl_Resolve(t *testing.T) {
 
 func TestTaskImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := as_context_impl.NewMock(ctl)
+		ctx := as_context_impl.NewMock("mock", ctl)
 		svc := New(ctx)
 		_, err := svc.List(Project(&mo_project.Project{Gid: "12345"}))
 		if err != qt_errors.ErrorMock {
