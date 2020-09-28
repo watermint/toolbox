@@ -3,25 +3,28 @@ package history
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"os"
 	"time"
 )
 
 type Archive struct {
 	rc_recipe.RemarkConsole
+	Path               mo_string.OptionalString
 	Days               mo_int.RangeInt
 	ProgressArchiving  app_msg.Message
 	ErrorFailedArchive app_msg.Message
 }
 
 func (z *Archive) Exec(c app_control.Control) error {
-	historian := app_job_impl.NewHistorian(c.Workspace())
-	histories, err := historian.Histories()
+	histories, err := app_job_impl.GetHistories(z.Path)
 	if err != nil {
 		return err
 	}
@@ -62,9 +65,18 @@ func (z *Archive) Exec(c app_control.Control) error {
 }
 
 func (z *Archive) Test(c app_control.Control) error {
+	workspace, err := qt_file.MakeTestFolder("archive", false)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.RemoveAll(workspace)
+	}()
+
 	return rc_exec.Exec(c, &Archive{}, func(r rc_recipe.Recipe) {
 		m := r.(*Archive)
 		m.Days.SetValue(7)
+		m.Path = mo_string.NewOptional(workspace)
 	})
 }
 

@@ -26,9 +26,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description     | Default |
-|---------|-----------------|---------|
-| `-days` | Target days old | 28      |
+| Option  | Description           | Default |
+|---------|-----------------------|---------|
+| `-days` | Target days old       | 28      |
+| `-path` | Path to the workspace |         |
 
 ## Common options:
 
