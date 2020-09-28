@@ -15,29 +15,32 @@ import (
 	"net/http"
 )
 
-func NewMock(ctl app_control.Control) as_context.Context {
+func NewMock(name string, ctl app_control.Control) as_context.Context {
 	client := nw_rest.New(nw_rest.Mock())
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: as_request.NewBuilder(ctl, nil),
 	}
 }
 
-func NewReplayMock(ctl app_control.Control, rr []nw_replay.Response) as_context.Context {
+func NewReplayMock(name string, ctl app_control.Control, rr []nw_replay.Response) as_context.Context {
 	client := nw_rest.New(nw_rest.ReplayMock(rr))
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: as_request.NewBuilder(ctl, nil),
 	}
 }
 
-func New(ctl app_control.Control, token api_auth.Context) as_context.Context {
+func New(name string, ctl app_control.Control, token api_auth.Context) as_context.Context {
 	client := nw_rest.New(
 		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
 	)
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: as_request.NewBuilder(ctl, token),
@@ -49,9 +52,14 @@ const (
 )
 
 type ctxImpl struct {
+	name    string
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder as_request.Builder
+}
+
+func (z ctxImpl) Name() string {
+	return z.name
 }
 
 func (z ctxImpl) ClientHash() string {

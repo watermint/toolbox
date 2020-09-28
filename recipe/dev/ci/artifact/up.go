@@ -55,7 +55,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		l.Info("Skip operation")
 		return nil
 	}
-	dbxCtx := dbx_context_impl.New(c, ctx)
+	dbxCtx := dbx_context_impl.New(ctx.PeerName(), c, ctx)
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 			m := r.(*file.Upload)

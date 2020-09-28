@@ -11,6 +11,10 @@ func NewMock() Context {
 type mockImpl struct {
 }
 
+func (z mockImpl) Name() string {
+	return ""
+}
+
 func (z mockImpl) ClientHash() string {
 	return ""
 }

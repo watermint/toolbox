@@ -19,21 +19,23 @@ const (
 	ServerUpload = "https://uploads.github.com/"
 )
 
-func NewMock(ctl app_control.Control) gh_context.Context {
+func NewMock(name string, ctl app_control.Control) gh_context.Context {
 	client := nw_rest.New(
 		nw_rest.Assert(gh_response.AssertResponse),
 		nw_rest.Mock())
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: gh_request.NewBuilder(ctl, nil),
 	}
 }
 
-func New(ctl app_control.Control, token api_auth.Context) gh_context.Context {
+func New(name string, ctl app_control.Control, token api_auth.Context) gh_context.Context {
 	client := nw_rest.New(
 		nw_rest.Assert(gh_response.AssertResponse))
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: gh_request.NewBuilder(ctl, token),
@@ -41,9 +43,14 @@ func New(ctl app_control.Control, token api_auth.Context) gh_context.Context {
 }
 
 type ctxImpl struct {
+	name    string
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder gh_request.Builder
+}
+
+func (z ctxImpl) Name() string {
+	return z.name
 }
 
 func (z ctxImpl) ClientHash() string {

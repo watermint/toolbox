@@ -162,7 +162,7 @@ func (z *Download) Exec(c app_control.Control) error {
 func (z *Download) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Download{}, func(r rc_recipe.Recipe) {
 		m := r.(*Download)
-		m.Context = dbx_context_impl.NewMock(c)
+		m.Context = dbx_context_impl.NewMock("mock", c)
 		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "down")
 		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("down")
 	})

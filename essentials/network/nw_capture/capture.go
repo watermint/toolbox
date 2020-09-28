@@ -38,7 +38,7 @@ func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (re
 	}
 
 	// Capture
-	cp := NewCapture(ctx.Capture())
+	cp := NewCapture(ctx)
 	cp.WithResponse(req, hReq, res, err, latency.Nanoseconds())
 
 	return res
@@ -48,14 +48,14 @@ type Capture interface {
 	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64)
 }
 
-func NewCapture(cap esl.Logger) Capture {
+func NewCapture(ctx api_context.Context) Capture {
 	return &captureImpl{
-		capture: cap,
+		ctx: ctx,
 	}
 }
 
 type captureImpl struct {
-	capture esl.Logger
+	ctx api_context.Context
 }
 
 type Record struct {
@@ -115,13 +115,13 @@ func (z *Res) Apply(res es_response.Response, resErr error) {
 func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64) {
 	// request
 	rq := nw_request.Req{}
-	rq.Apply(rb, req)
+	rq.Apply(z.ctx, rb, req)
 
 	// response
 	rs := Res{}
 	rs.Apply(res, resErr)
 
-	z.capture.Debug("",
+	z.ctx.Capture().Debug("",
 		esl.Any("req", rq),
 		esl.Any("res", rs),
 		esl.Int64("latency", latency),
@@ -131,7 +131,7 @@ func (z *captureImpl) WithResponse(rb nw_client.RequestBuilder, req *http.Reques
 func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request, resErr error, latency int64) {
 	// request
 	rq := nw_request.Req{}
-	rq.Apply(rb, req)
+	rq.Apply(z.ctx, rb, req)
 
 	// response
 	rs := Res{}
@@ -139,7 +139,7 @@ func (z *captureImpl) NoResponse(rb nw_client.RequestBuilder, req *http.Request,
 		rs.ResponseError = resErr.Error()
 	}
 
-	z.capture.Debug("",
+	z.ctx.Capture().Debug("",
 		esl.Any("req", rq),
 		esl.Any("res", rs),
 		esl.Int64("latency", latency),

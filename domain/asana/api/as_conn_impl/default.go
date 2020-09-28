@@ -28,15 +28,15 @@ type connAsanaApi struct {
 func (z *connAsanaApi) Connect(ctl app_control.Control) (err error) {
 	ac, useMock, err := api_conn_impl.Connect(z.Scopes(), z.name, as_auth.New(ctl), ctl)
 	if useMock {
-		z.ctx = as_context_impl.NewMock(ctl)
+		z.ctx = as_context_impl.NewMock(z.name, ctl)
 		return nil
 	}
 	if replay, enabled := ctl.Feature().IsTestWithSeqReplay(); enabled {
-		z.ctx = as_context_impl.NewReplayMock(ctl, replay)
+		z.ctx = as_context_impl.NewReplayMock(z.name, ctl, replay)
 		return nil
 	}
 	if ac != nil {
-		z.ctx = as_context_impl.New(ctl, ac)
+		z.ctx = as_context_impl.New(z.name, ctl, ac)
 		return nil
 	}
 	if err != nil {

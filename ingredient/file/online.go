@@ -158,7 +158,7 @@ func (z *Online) Exec(c app_control.Control) error {
 func (z *Online) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Online{}, func(r rc_recipe.Recipe) {
 		m := r.(*Online)
-		m.Context = dbx_context_impl.NewMock(c)
+		m.Context = dbx_context_impl.NewMock("mock", c)
 		m.SrcPath = qtr_endtoend.NewTestDropboxFolderPath("src")
 		m.DstPath = qtr_endtoend.NewTestDropboxFolderPath("dst")
 	})

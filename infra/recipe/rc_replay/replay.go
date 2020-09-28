@@ -257,6 +257,10 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 		l.Debug("Spin down error", esl.Error(err))
 		return err
 	}
+	if cc, ok := ctlWithReplay.(app_control.ControlCloser); ok {
+		l.Debug("Close control")
+		cc.Close()
+	}
 	return nil
 }
 

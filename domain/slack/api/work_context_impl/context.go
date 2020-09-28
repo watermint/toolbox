@@ -16,22 +16,24 @@ import (
 	"net/http"
 )
 
-func NewMock(ctl app_control.Control) work_context.Context {
+func NewMock(name string, ctl app_control.Control) work_context.Context {
 	client := nw_rest.New(nw_rest.Mock())
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: work_request.New(ctl, nil),
 	}
 }
 
-func New(ctl app_control.Control, token api_auth.Context) work_context.Context {
+func New(name string, ctl app_control.Control, token api_auth.Context) work_context.Context {
 	client := nw_rest.New(
 		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
 		nw_rest.Assert(api_response.AssertResponse),
 	)
 
 	return &ctxImpl{
+		name:    name,
 		client:  nw_retry.NewRetry(nw_retry.NewRatelimit(client)),
 		ctl:     ctl,
 		builder: work_request.New(ctl, token),
@@ -43,9 +45,14 @@ const (
 )
 
 type ctxImpl struct {
+	name    string
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder work_request.Builder
+}
+
+func (z ctxImpl) Name() string {
+	return z.name
 }
 
 func (z ctxImpl) ClientHash() string {

@@ -121,7 +121,7 @@ func MustCreateControl() (ctl app_control.Control, jl app_job.Launcher) {
 
 func TestWithDbxContext(t *testing.T, twc func(ctx dbx_context.Context)) {
 	TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context_impl.NewMock(ctl)
+		ctx := dbx_context_impl.NewMock("mock", ctl)
 		twc(ctx)
 	})
 }
@@ -133,7 +133,7 @@ func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_contex
 			t.Error(err)
 			return
 		}
-		ctx := dbx_context_impl.NewSeqReplayMock(ctl, rm)
+		ctx := dbx_context_impl.NewSeqReplayMock(name, ctl, rm)
 		twc(ctx)
 	})
 }

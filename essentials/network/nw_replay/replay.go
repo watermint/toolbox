@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_request"
 	"github.com/watermint/toolbox/infra/api/api_context"
@@ -72,23 +73,33 @@ func NewHashReplay(responses kv_storage.Storage) nw_client.Rest {
 	}
 }
 
+var (
+	ErrorNoReplayFound = errors.New("no replay data found")
+)
+
 type hashReplay struct {
 	responses kv_storage.Storage
 }
 
 func (z hashReplay) Call(ctx api_context.Context, builder nw_client.RequestBuilder) (res es_response.Response) {
+	l := ctx.Log()
+
 	hr, err := builder.Build()
 	if err != nil {
+		l.Debug("Unable to build the http request", esl.Error(err))
 		return es_response_impl.NewNoResponse(err)
 	}
 
 	recReq := nw_request.Req{}
-	recReq.Apply(builder, hr)
+	recReq.Apply(ctx, builder, hr)
+
+	l = l.With(esl.String("endpoint", hr.URL.String()))
 
 	_ = z.responses.View(func(kvs kv_kvs.Kvs) error {
 		capRes := &Response{}
 		if err := kvs.GetJsonModel(recReq.RequestHash, capRes); err != nil {
-			res = es_response_impl.NewNoResponse(err)
+			l.Debug("No replay found for the hash", esl.String("hash", recReq.RequestHash))
+			res = es_response_impl.NewNoResponse(ErrorNoReplayFound)
 			return err
 		}
 		res = es_response_impl.New(ctx, capRes.Http())

@@ -192,7 +192,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 func (z *Upload) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
-		m.Context = dbx_context_impl.NewMock(c)
+		m.Context = dbx_context_impl.NewMock("mock", c)
 		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "up")
 		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("up")
 	})

@@ -37,7 +37,7 @@ func (z *Attr) Auth(scopes []string) (token api_auth.Context, err error) {
 
 	l.Debug("Start verify token")
 
-	tc, err = VerifyToken(tc, z.ctl, z.app)
+	tc, err = VerifyToken(z.PeerName(), tc, z.ctl, z.app)
 	if err != nil {
 		l.Debug("failed verify token", esl.Error(err))
 		ui.Error(MAttr.ErrorVerifyFailed.With("Error", err))

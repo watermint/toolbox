@@ -25,38 +25,41 @@ import (
 	"net/http"
 )
 
-func NewMock(ctl app_control.Control) dbx_context.Context {
+func NewMock(name string, ctl app_control.Control) dbx_context.Context {
 	client := nw_rest.New(
 		nw_rest.Assert(dbx_response_impl.AssertResponse),
 		nw_rest.Mock())
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: dbx_request.NewBuilder(ctl, nil),
 	}
 }
 
-func NewSeqReplayMock(ctl app_control.Control, rr []nw_replay.Response) dbx_context.Context {
+func NewSeqReplayMock(name string, ctl app_control.Control, rr []nw_replay.Response) dbx_context.Context {
 	client := nw_rest.New(
 		nw_rest.Assert(dbx_response_impl.AssertResponse),
 		nw_rest.ReplayMock(rr))
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: dbx_request.NewBuilder(ctl, nil),
 	}
 }
 
-func NewReplayMock(ctl app_control.Control, replay kv_storage.Storage) dbx_context.Context {
+func NewReplayMock(name string, ctl app_control.Control, replay kv_storage.Storage) dbx_context.Context {
 	client := nw_replay.NewHashReplay(replay)
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: dbx_request.NewBuilder(ctl, nil),
 	}
 }
 
-func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
+func New(name string, ctl app_control.Control, token api_auth.Context) dbx_context.Context {
 	l := ctl.Log()
 	opts := make([]nw_rest.ClientOpt, 0)
 	opts = append(opts, nw_rest.Assert(dbx_response_impl.AssertResponse))
@@ -89,6 +92,7 @@ func New(ctl app_control.Control, token api_auth.Context) dbx_context.Context {
 
 	client := nw_rest.New(opts...)
 	return &ctxImpl{
+		name:    name,
 		client:  client,
 		ctl:     ctl,
 		builder: dbx_request.NewBuilder(ctl, token),
@@ -102,10 +106,15 @@ func decorateServerError(endpoint string, res *http.Response) {
 }
 
 type ctxImpl struct {
+	name    string
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder dbx_request.Builder
 	noRetry bool
+}
+
+func (z ctxImpl) Name() string {
+	return z.name
 }
 
 func (z ctxImpl) Feature() app_feature.Feature {

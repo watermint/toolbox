@@ -32,11 +32,11 @@ func (z *ConnGithubRepo) ScopeLabel() string {
 func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 	ac, useMock, err := api_conn_impl.Connect([]string{gh_auth.ScopeRepo}, z.name, gh_auth.NewApp(ctl), ctl)
 	if useMock {
-		z.ctx = gh_context_impl.NewMock(ctl)
+		z.ctx = gh_context_impl.NewMock(z.name, ctl)
 		return nil
 	}
 	if ac != nil {
-		z.ctx = gh_context_impl.New(ctl, ac)
+		z.ctx = gh_context_impl.New(z.name, ctl, ac)
 		return nil
 	}
 	return err

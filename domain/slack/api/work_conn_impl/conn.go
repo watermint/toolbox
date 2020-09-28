@@ -28,11 +28,11 @@ type connSlackApi struct {
 func (z *connSlackApi) Connect(ctl app_control.Control) (err error) {
 	ac, useMock, err := api_conn_impl.Connect(z.Scopes(), z.name, work_auth.New(ctl), ctl)
 	if useMock {
-		z.ctx = work_context_impl.NewMock(ctl)
+		z.ctx = work_context_impl.NewMock(z.name, ctl)
 		return nil
 	}
 	if ac != nil {
-		z.ctx = work_context_impl.New(ctl, ac)
+		z.ctx = work_context_impl.New(z.name, ctl, ac)
 		return nil
 	}
 	if err != nil {

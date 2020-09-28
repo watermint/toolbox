@@ -7,6 +7,7 @@ import (
 )
 
 type Context interface {
+	Name() string
 	ClientHash() string
 	Log() esl.Logger
 	Capture() esl.Logger

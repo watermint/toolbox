@@ -49,7 +49,7 @@ func ConnectTest(scopes []string, peerName string, ctl app_control.Control) (ctx
 		l.Debug("Retrieve cache from peer", esl.String("peer", peer))
 		a := api_auth_impl.NewConsoleCacheOnly(ctl, peer, dbx_auth.NewLegacyApp(ctl))
 		if c, err := a.Auth(scopes); err == nil {
-			return dbx_context_impl.New(ctl, c), nil
+			return dbx_context_impl.New(peerName, ctl, c), nil
 		}
 	}
 	return nil, qt_errors.ErrorNotEnoughResource
@@ -61,22 +61,22 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 
 	if ctl.Feature().IsTestWithMock() {
 		l.Debug("Test with mock")
-		return dbx_context_impl.NewMock(ctl), nil
+		return dbx_context_impl.NewMock(peerName, ctl), nil
 	}
 	if replay, enabled := ctl.Feature().IsTestWithReplay(); enabled {
 		l.Debug("Test with replay")
-		return dbx_context_impl.NewReplayMock(ctl, replay), nil
+		return dbx_context_impl.NewReplayMock(peerName, ctl, replay), nil
 	}
 	if replay, enabled := ctl.Feature().IsTestWithSeqReplay(); enabled {
 		l.Debug("Test with replay")
-		return dbx_context_impl.NewSeqReplayMock(ctl, replay), nil
+		return dbx_context_impl.NewSeqReplayMock(peerName, ctl, replay), nil
 	}
 
 	switch {
 	case ctl.Feature().IsTest():
 		if qt_endtoend.IsSkipEndToEndTest() {
 			l.Debug("Skip end to end test")
-			return dbx_context_impl.NewMock(ctl), nil
+			return dbx_context_impl.NewMock(peerName, ctl), nil
 		}
 		return ConnectTest(scopes, peerName, ctl)
 
@@ -87,7 +87,7 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 		if err != nil {
 			return nil, err
 		}
-		return dbx_context_impl.New(ctl, ctx), nil
+		return dbx_context_impl.New(peerName, ctl, ctx), nil
 
 	}
 
