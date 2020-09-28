@@ -1,6 +1,6 @@
-# dev replay recipe
+# dev replay bundle
 
-Replay recipe 
+Run all replays 
 
 # Usage
 
@@ -10,12 +10,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev replay recipe 
+.\tbx.exe dev replay bundle 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev replay recipe 
+$HOME/Desktop/tbx dev replay bundle 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -26,10 +26,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description        | Default |
-|---------|--------------------|---------|
-| `-id`   | Job Id.            |         |
-| `-path` | Path to workspace. |         |
+| Option         | Description                                                                                           | Default |
+|----------------|-------------------------------------------------------------------------------------------------------|---------|
+| `-replay-path` | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |         |
 
 ## Common options:
 

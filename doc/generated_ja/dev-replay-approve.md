@@ -1,6 +1,6 @@
-# dev replay recipe
+# dev replay approve
 
-レシピのリプレイ実行 
+Approve the replay as test bundle 
 
 # 利用方法
 
@@ -10,12 +10,12 @@
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev replay recipe 
+.\tbx.exe dev replay approve 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev replay recipe 
+$HOME/Desktop/tbx dev replay approve 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,10 +26,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                    | デフォルト |
-|------------|-------------------------|------------|
-| `-id`      | Job Id.                 |            |
-| `-path`    | ワークスペースへのパス. |            |
+| オプション        | 説明                                                                                                  | デフォルト |
+|-------------------|-------------------------------------------------------------------------------------------------------|------------|
+| `-id`             | Job Id.                                                                                               |            |
+| `-name`           | Extra name of the approved recipe                                                                     |            |
+| `-replay-path`    | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |            |
+| `-workspace-path` | Path to workspace.                                                                                    |            |
 
 ## 共通のオプション:
 

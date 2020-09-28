@@ -45,6 +45,9 @@ const (
 	// Env variable name for test resource file. Expected format is file path.
 	EnvNameTestResource = "TOOLBOX_TEST_RESOURCE"
 
+	// Env variable name for replay store path.
+	EnvNameReplayPath = "TOOLBOX_REPLAY_PATH"
+
 	// Env variable name for toolbox home
 	EnvNameToolboxHome = "TOOLBOX_HOME"
 )

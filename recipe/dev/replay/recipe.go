@@ -20,8 +20,8 @@ var (
 
 type Recipe struct {
 	rc_recipe.RemarkSecret
-	JobId string
-	Path  mo_string.OptionalString
+	Id   string
+	Path mo_string.OptionalString
 }
 
 func (z *Recipe) Preset() {
@@ -46,7 +46,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 	historian := app_job_impl.NewHistorian(ws)
 	histories, err := historian.Histories()
 	for _, history := range histories {
-		if history.JobId() != z.JobId {
+		if history.JobId() != z.Id {
 			continue
 		}
 
@@ -70,7 +70,7 @@ func (z *Recipe) Exec(c app_control.Control) error {
 func (z *Recipe) Test(c app_control.Control) error {
 	err := rc_exec.ExecMock(c, &Recipe{}, func(r rc_recipe.Recipe) {
 		m := r.(*Recipe)
-		m.JobId = "1234"
+		m.Id = "1234"
 	})
 	if err != ErrorJobNotFound {
 		return err

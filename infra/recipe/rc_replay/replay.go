@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/io/es_file_copy"
 	"github.com/watermint/toolbox/essentials/io/es_file_read"
+	"github.com/watermint/toolbox/essentials/io/es_zip"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
@@ -25,7 +26,8 @@ import (
 )
 
 type Replay interface {
-	// Preserve the specified Job to dest path.
+	// Preserve the specified Job to dest path as the zip archive.
+	// destPath requires file name of the archive
 	Preserve(target app_workspace.Job, destPath string) error
 
 	// Replay the recipe.
@@ -60,19 +62,23 @@ var (
 
 func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 	l := z.logger.With(esl.String("targetJob", target.Job()), esl.String("destPath", destPath))
-	destReportPath := filepath.Join(destPath, app_workspace.NameReport)
-	destLogPath := filepath.Join(destPath, app_workspace.NameLogs)
+	destReportPath := app_workspace.NameReport
+	destLogPath := app_workspace.NameLogs
+	zw := es_zip.NewWriter(z.logger)
+	success := false
+	if err := zw.Open(destPath); err != nil {
+		l.Debug("Unable to create the archive", esl.Error(err))
+		return err
+	}
+	defer func() {
+		_ = zw.Close()
+		if !success {
+			l.Debug("Remove incomplete archive file")
+			_ = os.RemoveAll(destPath)
+		}
+	}()
 
 	l.Debug("Preserve the job")
-
-	if err := os.MkdirAll(destReportPath, 0755); err != nil {
-		l.Debug("Unable to create", esl.Error(err), esl.String("path", destReportPath))
-		return err
-	}
-	if err := os.MkdirAll(destLogPath, 0755); err != nil {
-		l.Debug("Unable to create", esl.Error(err), esl.String("path", destLogPath))
-		return err
-	}
 
 	reportEntries, err := ioutil.ReadDir(target.Report())
 	if err != nil {
@@ -82,14 +88,13 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 
 	for _, re := range reportEntries {
 		srcPath := filepath.Join(target.Report(), re.Name())
-		dstPath := filepath.Join(destReportPath, re.Name())
-		ll := l.With(esl.String("srcPath", srcPath), esl.String("dstPath", dstPath))
+		ll := l.With(esl.String("srcPath", srcPath))
 		if re.IsDir() {
 			ll.Debug("Skip folder")
 		} else {
 			ll.Debug("Copy")
-			if err := es_file_copy.Copy(srcPath, dstPath); err != nil {
-				l.Debug("Unable to copy", esl.Error(err))
+			if err := zw.AddFile(srcPath, destReportPath); err != nil {
+				ll.Debug("Unable to add the file", esl.Error(err))
 				return err
 			}
 		}
@@ -114,15 +119,14 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 
 	for _, le := range logEntries {
 		srcPath := filepath.Join(target.Log(), le.Name())
-		dstPath := filepath.Join(destLogPath, le.Name())
-		ll := l.With(esl.String("srcPath", srcPath), esl.String("dstPath", dstPath))
+		ll := l.With(esl.String("srcPath", srcPath))
 
 		switch {
 		case le.IsDir():
 			ll.Debug("Skip folder")
 		case isPreserveFile(le.Name()):
 			ll.Debug("Target file found, copy")
-			if err := es_file_copy.Copy(srcPath, dstPath); err != nil {
+			if err := zw.AddFile(srcPath, destLogPath); err != nil {
 				l.Debug("Unable to copy", esl.Error(err))
 				return err
 			}
@@ -130,6 +134,7 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 			ll.Debug("Skip")
 		}
 	}
+	success = true
 	return nil
 }
 
