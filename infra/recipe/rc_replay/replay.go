@@ -2,6 +2,8 @@ package rc_replay
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -22,6 +24,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
+	"sort"
 	"strings"
 )
 
@@ -34,22 +38,52 @@ type Replay interface {
 	Replay(target app_workspace.Job, ctl app_control.Control) error
 
 	// Compare plays.
-	Compare(preserved app_workspace.Job, replay app_workspace.Job) (diffs int, err error)
+	Compare(preserved app_workspace.Job, replay app_workspace.Job) (err error)
 }
+
+var (
+	ErrorReportDiffFound = errors.New("report diff found")
+)
 
 type Capture struct {
 	Req nw_request.Req `json:"req"`
 	Res nw_capture.Res `json:"res"`
 }
 
-func New(logger esl.Logger) Replay {
+type Opts struct {
+	reportDiffs bool
+}
+
+func (z Opts) Apply(opts []Opt) Opts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+type Opt func(o Opts) Opts
+
+func ReportDiffs(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.reportDiffs = enabled
+		return o
+	}
+}
+
+func New(logger esl.Logger, opts ...Opt) Replay {
 	return &rpImpl{
 		logger: logger,
+		opt:    Opts{}.Apply(opts),
 	}
 }
 
 type rpImpl struct {
 	logger esl.Logger
+	opt    Opts
 }
 
 var (
@@ -266,9 +300,90 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 		l.Debug("Close control")
 		cc.Close()
 	}
+
+	if err := z.Compare(target, ctl.Workspace()); err != nil {
+		l.Debug("Report diff found", esl.Error(err))
+		return err
+	}
+
 	return nil
 }
 
-func (z rpImpl) Compare(preserved app_workspace.Job, replay app_workspace.Job) (diffs int, err error) {
-	panic("implement me")
+func (z rpImpl) compareTextReport(approved app_workspace.Job, reportName string, replay app_workspace.Job) (err error) {
+	l := z.logger.With(
+		esl.String("preserved", approved.Job()),
+		esl.String("replay", replay.Job()),
+		esl.String("reportName", reportName),
+	)
+
+	approvedReportPath := filepath.Join(approved.Report(), reportName)
+	approvedLines := make([]string, 0)
+	l.Debug("Read approved report", esl.String("approvedReportPath", approvedReportPath))
+	err = es_file_read.ReadFileLines(approvedReportPath, func(line []byte) error {
+		hash := sha256.Sum256(line)
+		hashEncoded := base64.RawStdEncoding.EncodeToString(hash[:])
+		approvedLines = append(approvedLines, hashEncoded)
+		return nil
+	})
+	if err != nil {
+		l.Debug("Unable to read file", esl.Error(err))
+		return err
+	}
+
+	replayReportPath := filepath.Join(replay.Report(), reportName)
+	replayLines := make([]string, 0)
+	l.Debug("Read replay report", esl.String("replayReportPath", replayReportPath))
+	err = es_file_read.ReadFileLines(replayReportPath, func(line []byte) error {
+		hash := sha256.Sum256(line)
+		hashEncoded := base64.RawStdEncoding.EncodeToString(hash[:])
+		replayLines = append(replayLines, hashEncoded)
+		return nil
+	})
+	if err != nil {
+		l.Debug("Unable to read file", esl.Error(err))
+		return err
+	}
+
+	sort.Strings(approvedLines)
+	sort.Strings(replayLines)
+
+	if reflect.DeepEqual(approvedLines, replayLines) {
+		l.Debug("Approved")
+		return nil
+	}
+
+	if z.opt.reportDiffs {
+		l.Warn("Report diff found")
+	}
+
+	return ErrorReportDiffFound
+}
+
+func (z rpImpl) Compare(approved app_workspace.Job, replay app_workspace.Job) (err error) {
+	l := z.logger.With(esl.String("preserved", approved.Job()), esl.String("replay", replay.Job()))
+	preservedReportEntries, err := ioutil.ReadDir(approved.Report())
+	if err != nil {
+		l.Debug("Unable to read reports folder", esl.Error(err))
+		return err
+	}
+
+	var lastErr error
+	for _, entry := range preservedReportEntries {
+		if entry.IsDir() {
+			continue
+		}
+		switch strings.ToLower(filepath.Ext(entry.Name())) {
+		case ".csv", ".json":
+			fileErr := z.compareTextReport(approved, entry.Name(), replay)
+			l.Debug("Report diffs",
+				esl.String("report", entry.Name()),
+				esl.Error(fileErr))
+			if fileErr != nil {
+				l.Debug("Unable to compare", esl.Error(err))
+				lastErr = fileErr
+			}
+		}
+	}
+
+	return lastErr
 }

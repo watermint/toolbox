@@ -72,7 +72,11 @@ func (z HashSeed) Hash() string {
 
 	headers := make([]string, 0)
 	for k, v := range z.Header {
-		if k != api_request.ReqHeaderAuthorization {
+		switch k {
+		case api_request.ReqHeaderAuthorization,
+			api_request.ReqHeaderUserAgent:
+			// skip
+		default:
 			headers = append(headers, "h"+k+":"+v)
 		}
 	}

@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -42,20 +42,11 @@ func (z *Approve) Exec(c app_control.Control) error {
 		return err
 	}
 
-	replayPath := ""
-	if z.ReplayPath.IsExists() {
-		replayPath = z.ReplayPath.Value()
-	} else if rp := os.Getenv(app.EnvNameReplayPath); rp != "" {
-		replayPath = rp
-	}
-	if replayPath == "" {
-		return errors.New("replay path not found")
-	}
-	replayPath, err = es_filepath.FormatPathWithPredefinedVariables(replayPath)
+	replayPath, err := rc_replay.ReplayPath(z.ReplayPath)
 	if err != nil {
-		l.Debug("Unable to format the path", esl.Error(err))
 		return err
 	}
+
 	replayFolderInfo, err := os.Lstat(replayPath)
 	switch {
 	case os.IsNotExist(err):
@@ -88,6 +79,22 @@ func (z *Approve) Exec(c app_control.Control) error {
 			esl.String("jobId", history.JobId()),
 			esl.String("recipe", history.RecipeName()),
 			esl.String("archiveName", archiveName))
+
+		forkName := strings.ReplaceAll(es_filepath.Escape(history.RecipeName()), " ", "-")
+		l.Debug("Replay the recipe",
+			esl.String("jobId", history.JobId()),
+			esl.String("recipe", history.RecipeName()),
+			esl.String("forkName", forkName))
+		forkBundle, err := app_workspace.ForkBundle(c.WorkBundle(), forkName)
+		if err != nil {
+			l.Debug("Unable to fork the bundle", esl.Error(err))
+			return err
+		}
+		forkCtl := c.WithBundle(forkBundle)
+		if err := replay.Replay(history.Job(), forkCtl); err == nw_replay.ErrorNoReplayFound {
+			l.Warn("No replay data found. Could not approve it.")
+			return err
+		}
 
 		return replay.Preserve(history.Job(), filepath.Join(replayPath, archiveName))
 	}

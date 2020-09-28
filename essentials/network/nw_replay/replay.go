@@ -74,7 +74,7 @@ func NewHashReplay(responses kv_storage.Storage) nw_client.Rest {
 }
 
 var (
-	ErrorNoReplayFound = errors.New("no replay data found")
+	ErrorNoReplayFound = errors.New("no replay response data found")
 )
 
 type hashReplay struct {

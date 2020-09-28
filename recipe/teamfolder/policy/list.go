@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -45,10 +46,16 @@ func (z *List) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
+	if err := z.Policy.Open(); err != nil {
+		return err
+	}
 
+	l := c.Log()
 	for _, teamFolder := range teamFolders {
+		l.Debug("report team folder", esl.Any("teamFolder", teamFolder))
 		z.Policy.Row(uc_team_content.NewFolderPolicy(teamFolder.TeamFolder, ""))
 		for path, descendant := range teamFolder.NestedFolders {
+			l.Debug("report descendant", esl.Any("descendant", descendant), esl.String("path", path))
 			z.Policy.Row(uc_team_content.NewFolderPolicy(descendant, path))
 		}
 	}
