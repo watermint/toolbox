@@ -20,9 +20,11 @@ import (
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strings"
 	"time"
 )
 
@@ -45,7 +47,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 	if z.ReplayUrl.IsExists() {
 		url = z.ReplayUrl.Value()
 	}
-	l := c.Log().With(esl.String("replayUrl", url))
+	l := c.Log()
 	if url == "" {
 		l.Warn("No replay url. Skip")
 		return nil
@@ -66,6 +68,18 @@ func (z *Remote) Exec(c app_control.Control) error {
 	if err != nil {
 		l.Debug("Unable to extract", esl.Error(err))
 		return err
+	}
+
+	entries, err := ioutil.ReadDir(replayPath)
+	if err != nil {
+		l.Debug("Unable to read replay path", esl.Error(err))
+		return err
+	}
+	for _, entry := range entries {
+		if entry.IsDir() || !strings.HasSuffix(strings.ToLower(entry.Name()), ".zip") {
+			continue
+		}
+		l.Info("Replay", esl.String("Entry", entry.Name()), esl.Int64("Size", entry.Size()))
 	}
 
 	l.Debug("Run replay bundle", esl.String("replayPath", replayPath))
