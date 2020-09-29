@@ -3,7 +3,6 @@ package replay
 import (
 	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
@@ -30,14 +29,14 @@ import (
 type Remote struct {
 	rc_recipe.RemarkSecret
 	ReplayUrl   mo_string.OptionalString
-	Peer        dbx_conn.ConnUserFile
 	ResultsPath mo_path.DropboxPath
+	PeerName    string
 	Timeout     int
 }
 
 func (z *Remote) Preset() {
-	z.Peer.SetPeerName(app.PeerDeploy)
 	z.Timeout = 60
+	z.PeerName = app.PeerDeploy
 	z.ResultsPath = mo_path.NewDropboxPath("/watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}}")
 }
 
@@ -82,17 +81,17 @@ func (z *Remote) Exec(c app_control.Control) error {
 	l.Warn("One or more tests failed. Backup logs", esl.String("backupPath", z.ResultsPath.Path()))
 	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
 		m := r.(*auth.Import)
-		m.PeerName = app.PeerDeploy
+		m.PeerName = z.PeerName
 		m.EnvName = app.EnvNameDeployToken
 	}); err != nil {
 		l.Info("No token imported. Skip operation")
-		return nil
+		return replayErr
 	}
-	a := api_auth_impl.NewConsoleCacheOnly(c, z.Peer.PeerName(), dbx_auth.NewLegacyApp(c))
+	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
 	ctx, err := a.Auth([]string{api_auth.DropboxTokenFull})
 	if err != nil {
 		l.Info("Skip operation")
-		return nil
+		return replayErr
 	}
 	dbxCtx := dbx_context_impl.New(ctx.PeerName(), c, ctx)
 
