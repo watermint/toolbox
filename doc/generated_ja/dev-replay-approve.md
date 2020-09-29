@@ -1,6 +1,6 @@
 # dev replay approve
 
-Approve the replay as test bundle 
+リプレイをテストバンドルとして承認する 
 
 # 利用方法
 
@@ -26,12 +26,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション        | 説明                                                                                                  | デフォルト |
-|-------------------|-------------------------------------------------------------------------------------------------------|------------|
-| `-id`             | Job Id.                                                                                               |            |
-| `-name`           | Extra name of the approved recipe                                                                     |            |
-| `-replay-path`    | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |            |
-| `-workspace-path` | Path to workspace.                                                                                    |            |
+| オプション        | 説明                                                                                                 | デフォルト |
+|-------------------|------------------------------------------------------------------------------------------------------|------------|
+| `-id`             | ジョブID.                                                                                            |            |
+| `-name`           | 承認されたレシピの追加名                                                                             |            |
+| `-replay-path`    | リプレイのリポジトリパス指定されていない場合は環境変数 `TOOLBOX_REPLAY_PATH` にフォールバックします. |            |
+| `-workspace-path` | ワークスペースへのパス.                                                                              |            |
 
 ## 共通のオプション:
 

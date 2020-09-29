@@ -1,6 +1,6 @@
 # dev replay bundle
 
-Run all replays 
+すべてのリプレイを実行 
 
 # 利用方法
 
@@ -10,12 +10,12 @@ Run all replays
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev replay bundle 
+.\tbx.exe dev replay bundle -results-path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev replay bundle 
+$HOME/Desktop/tbx dev replay bundle -results-path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,9 +26,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                                                                                                  | デフォルト |
-|----------------|-------------------------------------------------------------------------------------------------------|------------|
-| `-replay-path` | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |            |
+| オプション      | 説明                                                                                                 | デフォルト                                              |
+|-----------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| `-peer-name`    | 配置用アカウントのエイリアス                                                                         | deploy                                                  |
+| `-replay-path`  | リプレイのリポジトリパス指定されていない場合は環境変数 `TOOLBOX_REPLAY_PATH` にフォールバックします. |                                                         |
+| `-results-path` | テストの失敗結果の送信先パス                                                                         | /watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}} |
+| `-timeout`      | テスト結果のアップロード操作のタイムアウト                                                           | 60                                                      |
 
 ## 共通のオプション:
 

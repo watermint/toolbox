@@ -1,6 +1,6 @@
 # dev replay remote
 
-Run remote replay bundle 
+リモートリプレイバンドルの実行 
 
 # 利用方法
 
@@ -28,7 +28,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション    | 説明                          | デフォルト |
 |---------------|-------------------------------|------------|
-| `-replay-url` | Replay bundle shared link url |            |
+| `-replay-url` | リプレイバンドル共有リンクURL |            |
 
 ## 共通のオプション:
 

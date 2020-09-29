@@ -98,7 +98,8 @@ func (z *quotaImpl) Update(quota *mo_member_quota.Quota) (updated *mo_member_quo
 	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	quota = &mo_member_quota.Quota{}
-	err = res.Success().Json().FindModel(es_json.PathArrayFirst, quota)
+	updated = &mo_member_quota.Quota{}
+	js := res.Success().Json()
+	err = js.FindModel(es_json.PathArrayFirst, updated)
 	return
 }

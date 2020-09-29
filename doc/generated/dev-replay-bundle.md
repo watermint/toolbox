@@ -10,12 +10,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev replay bundle 
+.\tbx.exe dev replay bundle -results-path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev replay bundle 
+$HOME/Desktop/tbx dev replay bundle -results-path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -26,9 +26,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                                                                                           | Default |
-|----------------|-------------------------------------------------------------------------------------------------------|---------|
-| `-replay-path` | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |         |
+| Option          | Description                                                                                           | Default                                                 |
+|-----------------|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| `-peer-name`    | Account alias for deployment.                                                                         | deploy                                                  |
+| `-replay-path`  | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |                                                         |
+| `-results-path` | Test failure result destination path.                                                                 | /watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}} |
+| `-timeout`      | Test result upload operation timeout.                                                                 | 60                                                      |
 
 ## Common options:
 
