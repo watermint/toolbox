@@ -11,6 +11,10 @@ func Fork(ws Workspace, name string) (Workspace, error) {
 	if strings.HasPrefix(name, "-") {
 		name = strings.TrimPrefix(name, "-")
 	}
+	if _, ok := ws.(*forkWorkspace); ok {
+		l := esl.Default()
+		l.Debug("Nested")
+	}
 	fws := &forkWorkspace{
 		name:   name,
 		parent: ws,

@@ -2,6 +2,7 @@ package nw_replay
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
@@ -96,11 +97,23 @@ func (z hashReplay) Call(ctx api_context.Context, builder nw_client.RequestBuild
 	l = l.With(esl.String("endpoint", hr.URL.String()))
 
 	_ = z.responses.View(func(kvs kv_kvs.Kvs) error {
-		capRes := &Response{}
-		if err := kvs.GetJsonModel(recReq.RequestHash, capRes); err != nil {
+		capData, err := kvs.GetBytes(recReq.RequestHash)
+		if err != nil {
 			l.Debug("No replay found for the hash", esl.String("hash", recReq.RequestHash))
 			res = es_response_impl.NewNoResponse(ErrorNoReplayFound)
 			return err
+		}
+		capResponses := make([]*Response, 0)
+		if err := json.Unmarshal(capData, &capResponses); err != nil {
+			l.Debug("Unable to unmarshal", esl.Error(err))
+			res = es_response_impl.NewNoResponse(ErrorNoReplayFound)
+			return err
+		}
+		var capRes *Response
+		if x := len(capResponses); x < 1 {
+			capRes = capResponses[0]
+		} else {
+			capRes = capResponses[rand.Intn(len(capResponses))]
 		}
 		res = es_response_impl.New(ctx, capRes.Http())
 		return nil

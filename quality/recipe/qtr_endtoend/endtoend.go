@@ -198,8 +198,8 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 			return
 		}
 
-		if re, _ := qt_errors.ErrorsForTest(l, err); re != nil {
-			t.Error(re)
+		if rcErr, _ := qt_errors.ErrorsForTest(l, err); rcErr != nil {
+			t.Error(ctl.Workspace().Log(), rcErr)
 		}
 	})
 }

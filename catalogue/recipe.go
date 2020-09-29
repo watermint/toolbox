@@ -118,6 +118,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevreplay.Approve{},
 		&recipedevreplay.Bundle{},
 		&recipedevreplay.Recipe{},
+		&recipedevreplay.Remote{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},

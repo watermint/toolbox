@@ -32,6 +32,11 @@ func Extract(log esl.Logger, archivePath, destPath string) error {
 	}()
 
 	extractFile := func(zf *zip.File) error {
+		if zf.FileInfo().IsDir() {
+			l.Debug("Skip folder", esl.String("name", zf.Name))
+			return nil
+		}
+
 		fileFolder := filepath.Join(destAbsPath, filepath.Dir(zf.Name))
 		ll := l.With(esl.String("fileFolder", fileFolder), esl.String("filePath", zf.Name))
 

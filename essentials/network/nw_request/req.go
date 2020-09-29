@@ -19,6 +19,7 @@ type Req struct {
 	RequestHeaders map[string]string `json:"headers"`
 	ContentLength  int64             `json:"content_length"`
 	RequestHash    string            `json:"hash"`
+	Peer           string            `json:"peer"`
 }
 
 func (z *Req) Apply(ctx api_context.Context, rb nw_client.RequestBuilder, req *http.Request) {
@@ -28,6 +29,7 @@ func (z *Req) Apply(ctx api_context.Context, rb nw_client.RequestBuilder, req *h
 	if ruf, ok := rb.(nw_client.RequestUrlFilter); ok {
 		url = ruf.FilterUrl(url)
 	}
+	z.Peer = ctx.Name()
 	z.RequestMethod = req.Method
 	z.RequestUrl = url
 	z.RequestParam = param

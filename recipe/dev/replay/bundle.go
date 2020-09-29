@@ -6,9 +6,10 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -24,9 +25,11 @@ func (z *Bundle) Preset() {
 }
 
 func (z *Bundle) Exec(c app_control.Control) error {
+	l := c.Log()
 	replayPath, err := rc_replay.ReplayPath(z.ReplayPath)
 	if err != nil {
-		return err
+		l.Warn("Unable to find replay path, skip run replay bundle", esl.Error(err))
+		return nil
 	}
 
 	entries, err := ioutil.ReadDir(replayPath)
@@ -46,21 +49,25 @@ func (z *Bundle) Exec(c app_control.Control) error {
 		}
 
 		entryName := strings.ReplaceAll(entryLower, ".zip", "")
-		forkBundle, err := app_workspace.ForkBundle(c.WorkBundle(), entryName)
+		if entryName == "" {
+			l.Debug("Skip")
+			continue
+		}
+
+		forkCtl, err := app_control_impl.ForkQuiet(c, entryName)
 		if err != nil {
 			l.Debug("Unable to fork bundle", esl.Error(err))
 			return err
 		}
 
-		err = es_zip.Extract(l, filepath.Join(replayPath, entry.Name()), forkBundle.Workspace().Job())
+		err = es_zip.Extract(l, filepath.Join(replayPath, entry.Name()), forkCtl.Workspace().Job())
 		if err != nil {
 			l.Debug("Unable to extract", esl.Error(err))
 			return err
 		}
 
-		forkCtl := c.WithBundle(forkBundle).WithFeature(c.Feature().AsQuiet())
 		start := time.Now()
-		err = replay.Replay(forkBundle.Workspace(), forkCtl)
+		err = replay.Replay(forkCtl.Workspace(), forkCtl)
 		if err != nil {
 			l.Warn("Error on replay", esl.Error(err))
 			return err
@@ -72,5 +79,5 @@ func (z *Bundle) Exec(c app_control.Control) error {
 }
 
 func (z *Bundle) Test(c app_control.Control) error {
-	panic("implement me")
+	return qt_errors.ErrorScenarioTest
 }

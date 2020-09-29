@@ -221,23 +221,19 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 				}
 
 				err = captureData.Update(func(kvs kv_kvs.Kvs) error {
-					existingRecord := &nw_capture.Res{}
-					switch kvs.GetJsonModel(capLine.Req.RequestHash, existingRecord) {
-					case nil: // found
-						switch {
-						case existingRecord.ResponseCode < 0: // IO error
-							l.Debug("Overwrite record with new", esl.Any("existing", existingRecord), esl.Any("capture", capLine))
-							return kvs.PutJsonModel(capLine.Req.RequestHash, capLine.Res)
-						case existingRecord.ResponseCode/100 == 2: // 2xx
-							l.Debug("Skip updating record", esl.Any("existing", existingRecord), esl.Any("capture", capLine))
-							return nil
-						default:
-							l.Debug("Overwrite record with new", esl.Any("existing", existingRecord), esl.Any("capture", capLine))
-							return kvs.PutJsonModel(capLine.Req.RequestHash, capLine.Res)
+					existingRecords := make([]nw_capture.Res, 0)
+					capData, err := kvs.GetBytes(capLine.Req.RequestHash)
+					if err != nil {
+						existingRecords = []nw_capture.Res{capLine.Res}
+					} else {
+						if err = json.Unmarshal(capData, &existingRecords); err != nil {
+							l.Debug("Unable to unmarshall", esl.Error(err))
+							existingRecords = append(existingRecords, capLine.Res)
+						} else {
+							existingRecords = []nw_capture.Res{capLine.Res}
 						}
-					default: // not found
-						return kvs.PutJsonModel(capLine.Req.RequestHash, capLine.Res)
 					}
+					return kvs.PutJsonModel(capLine.Req.RequestHash, existingRecords)
 				})
 				if err != nil {
 					l.Debug("Unable to update replay data", esl.Error(err))
@@ -249,15 +245,25 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 	}
 
 	l.Debug("Copy backup files")
-	for _, tl := range targetLogs {
+	logEntries, err := ioutil.ReadDir(target.Log())
+	if err != nil {
+		l.Debug("Unable to read log folder", esl.Error(err))
+		return err
+	}
+	for _, tl := range logEntries {
+		path := filepath.Join(target.Log(), tl.Name())
 		switch {
 		case strings.HasPrefix(tl.Name(), rc_value.FeedBackupFilePrefix):
 			ll := l.With(esl.String("name", tl.Name()))
 
 			dstPath := filepath.Join(ctlWithReplay.Workspace().Log(), tl.Name())
-			ll.Debug("Copying a backup file")
+			if dstPath == path {
+				ll.Debug("Skip copy (in case of the file already copied by prior process)")
+				continue
+			}
 
-			err := es_file_copy.Copy(tl.Path(), dstPath)
+			ll.Debug("Copying a backup file")
+			err := es_file_copy.Copy(path, dstPath)
 			if err != nil {
 				ll.Debug("Unable to copy a backup file", esl.Error(err))
 				return err

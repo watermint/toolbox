@@ -48,6 +48,9 @@ const (
 	// Env variable name for replay store path.
 	EnvNameReplayPath = "TOOLBOX_REPLAY_PATH"
 
+	// Env variable name for replay store shared link.
+	EnvNameReplayUrl = "TOOLBOX_REPLAY_URL"
+
 	// Env variable name for toolbox home
 	EnvNameToolboxHome = "TOOLBOX_HOME"
 )
