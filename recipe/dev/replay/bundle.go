@@ -39,6 +39,8 @@ func (z *Bundle) Exec(c app_control.Control) error {
 
 	ea_indicator.SuppressIndicatorForce()
 
+	var recipeErr error
+
 	for _, entry := range entries {
 		entryLower := strings.ToLower(entry.Name())
 		l := c.Log().With(esl.String("entry", entryLower))
@@ -69,13 +71,14 @@ func (z *Bundle) Exec(c app_control.Control) error {
 		start := time.Now()
 		err = replay.Replay(forkCtl.Workspace(), forkCtl)
 		if err != nil {
-			l.Warn("Error on replay", esl.Error(err))
-			return err
+			l.Warn("Error on replay, continue", esl.Error(err))
+			recipeErr = err
+			continue
 		}
 		duration := time.Now().Sub(start).Truncate(time.Millisecond)
 		l.Info("Success", esl.Duration("duration", duration))
 	}
-	return nil
+	return recipeErr
 }
 
 func (z *Bundle) Test(c app_control.Control) error {
