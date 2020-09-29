@@ -9,10 +9,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
-	"io/ioutil"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -103,16 +102,5 @@ func (z *Approve) Exec(c app_control.Control) error {
 }
 
 func (z *Approve) Test(c app_control.Control) error {
-	workspace, err := ioutil.TempDir("", "approve")
-	if err != nil {
-		return err
-	}
-	defer func() {
-		_ = os.RemoveAll(workspace)
-	}()
-
-	return rc_exec.Exec(c, &Approve{}, func(r rc_recipe.Recipe) {
-		m := r.(*Approve)
-		m.WorkspacePath = mo_string.NewOptional(workspace)
-	})
+	return qt_errors.ErrorHumanInteractionRequired
 }
