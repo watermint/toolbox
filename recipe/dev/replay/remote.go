@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -75,6 +76,15 @@ func (z *Remote) Exec(c app_control.Control) error {
 	}
 
 	l.Warn("One or more tests failed. Backup logs", esl.String("backupPath", z.ResultsPath.Path()))
+	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
+		m := r.(*auth.Import)
+		m.PeerName = app.PeerDeploy
+		m.EnvName = app.EnvNameDeployToken
+	}); err != nil {
+		l.Info("No token imported. Skip operation")
+		return nil
+	}
+
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 			m := r.(*file.Upload)
