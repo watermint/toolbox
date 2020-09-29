@@ -14,5 +14,5 @@ func TestRun(t *testing.T) {
 }
 
 func TestReplayBundle(t *testing.T) {
-	run([]string{os.Args[0], "dev", "replay", "bundle"}, true)
+	run([]string{os.Args[0], "dev", "replay", "remote"}, true)
 }
