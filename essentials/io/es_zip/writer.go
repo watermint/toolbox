@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -19,6 +20,9 @@ type ZipWriter interface {
 
 	// Add a file into the archive.
 	AddFile(srcFilePath string, relPath string) error
+
+	// Add a folder into the archive.
+	AddFolder(srcFolderPath string, relPath string) error
 
 	// Flush and close the archive file
 	Close() error
@@ -90,6 +94,36 @@ func (z *zwImpl) AddFile(srcFilePath string, relPath string) error {
 		return err
 	}
 	l.Debug("The file added", esl.Int64("size", size))
+
+	return nil
+}
+
+func (z *zwImpl) AddFolder(srcFolderPath string, relPath string) error {
+	l := z.logger.With(esl.String("srcFolderPath", srcFolderPath), esl.String("relPath", relPath))
+	entries, err := ioutil.ReadDir(srcFolderPath)
+	if err != nil {
+		l.Debug("Unable to read the folder", esl.Error(err))
+		return err
+	}
+
+	for _, entry := range entries {
+		ll := l.With(esl.String("name", entry.Name()))
+		if entry.IsDir() {
+			afErr := z.AddFolder(filepath.Join(srcFolderPath, entry.Name()), filepath.Join(relPath, entry.Name()))
+			if afErr != nil {
+				ll.Debug("Unable to add a sub folder", esl.Error(err))
+				return err
+			}
+			ll.Debug("The sub folder added")
+		} else {
+			afErr := z.AddFile(filepath.Join(srcFolderPath, entry.Name()), relPath)
+			if afErr != nil {
+				ll.Debug("Unable to add a file", esl.Error(err))
+				return err
+			}
+			ll.Debug("The file added")
+		}
+	}
 
 	return nil
 }

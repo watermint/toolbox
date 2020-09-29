@@ -37,7 +37,7 @@ type Remote struct {
 }
 
 func (z *Remote) Preset() {
-	z.Timeout = 60
+	z.Timeout = 600
 	z.PeerName = app.PeerDeploy
 	z.ResultsPath = mo_path.NewDropboxPath("/watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}}")
 }
@@ -92,6 +92,18 @@ func (z *Remote) Exec(c app_control.Control) error {
 		return nil
 	}
 
+	logArchivePath := filepath.Join(c.Workspace().Job(), "replay-logs.zip")
+	ez := es_zip.NewWriter(c.Log())
+	if err := ez.Open(logArchivePath); err != nil {
+		l.Warn("Unable to create log archive", esl.Error(err))
+		return replayErr
+	}
+
+	if err := ez.AddFolder(c.Workspace().Job(), ""); err != nil {
+		l.Warn("Unable to add files to the log archive", esl.Error(err))
+		return replayErr
+	}
+
 	l.Warn("One or more tests failed. Backup logs", esl.String("backupPath", z.ResultsPath.Path()))
 	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
 		m := r.(*auth.Import)
@@ -113,7 +125,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 			m := r.(*file.Upload)
 			m.Context = dbxCtx
-			m.LocalPath = mo_path2.NewFileSystemPath(c.Workspace().Job())
+			m.LocalPath = mo_path2.NewFileSystemPath(logArchivePath)
 			m.DropboxPath = z.ResultsPath
 			m.Overwrite = true
 		})
