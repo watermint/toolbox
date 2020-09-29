@@ -14,7 +14,10 @@ const (
 	// Execute batch with random batchId order
 	ExperimentBatchRandom = "batch_random"
 
+	// Do not hard limit window size
 	ExperimentCongestionWindowNoLimit = "congestion_window_no_limit"
+	// Aggressive initial window size
+	ExperimentCongestionWindowAggressive = "congestion_window_aggressive"
 
 	ExperimentFileSyncReduceCreateFolder = "file_sync_reduce_create_folder"
 )

@@ -1,6 +1,7 @@
 package rp_model
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_column"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -110,4 +111,8 @@ const (
 	StatusTagSuccess = "success"
 	StatusTagFailure = "failure"
 	StatusTagSkip    = "skip"
+)
+
+var (
+	ErrorWriterIsNotReady = errors.New("writer is not ready")
 )

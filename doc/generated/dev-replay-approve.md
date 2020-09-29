@@ -1,6 +1,6 @@
-# job history delete
+# dev replay approve
 
-Delete old job history 
+Approve the replay as test bundle 
 
 # Usage
 
@@ -10,12 +10,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe job history delete 
+.\tbx.exe dev replay approve 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx job history delete 
+$HOME/Desktop/tbx dev replay approve 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -26,10 +26,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-days` | Target days old       | 28      |
-| `-path` | Path to the workspace |         |
+| Option            | Description                                                                                           | Default |
+|-------------------|-------------------------------------------------------------------------------------------------------|---------|
+| `-id`             | Job Id.                                                                                               |         |
+| `-name`           | Extra name of the approved recipe                                                                     |         |
+| `-replay-path`    | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |         |
+| `-workspace-path` | Path to workspace.                                                                                    |         |
 
 ## Common options:
 

@@ -2,24 +2,27 @@ package job
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"os"
 	"time"
 )
 
 type Delete struct {
+	Path              mo_string.OptionalString
 	Days              int
 	ProgressDeleting  app_msg.Message
 	ErrorFailedDelete app_msg.Message
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
-	historian := app_job_impl.NewHistorian(c.Workspace())
-	histories, err := historian.Histories()
+	histories, err := app_job_impl.GetHistories(z.Path)
 	if err != nil {
 		return err
 	}
@@ -59,9 +62,18 @@ func (z *Delete) Exec(c app_control.Control) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
+	workspace, err := qt_file.MakeTestFolder("delete", false)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.RemoveAll(workspace)
+	}()
+
 	return rc_exec.Exec(c, &Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*Delete)
 		m.Days = 365
+		m.Path = mo_string.NewOptional(workspace)
 	})
 }
 

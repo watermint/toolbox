@@ -23,6 +23,11 @@ type Download interface {
 	DownloadUrl(path mo_path.DropboxPath) (url string, err error)
 }
 
+type Opts struct {
+	SharedLinkUrl string `json:"shared_link_url"`
+	Path          string `json:"path"`
+}
+
 func NewDownload(ctx dbx_context.Context) Download {
 	return &downloadImpl{ctx: ctx}
 }

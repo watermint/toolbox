@@ -1,4 +1,4 @@
-package test
+package replay
 
 import (
 	"errors"
@@ -18,16 +18,16 @@ var (
 	ErrorJobNotFound = errors.New("job id not found")
 )
 
-type Replay struct {
+type Recipe struct {
 	rc_recipe.RemarkSecret
-	JobId string
-	Path  mo_string.OptionalString
+	Id   string
+	Path mo_string.OptionalString
 }
 
-func (z *Replay) Preset() {
+func (z *Recipe) Preset() {
 }
 
-func (z *Replay) Exec(c app_control.Control) error {
+func (z *Recipe) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	home := ""
@@ -46,7 +46,7 @@ func (z *Replay) Exec(c app_control.Control) error {
 	historian := app_job_impl.NewHistorian(ws)
 	histories, err := historian.Histories()
 	for _, history := range histories {
-		if history.JobId() != z.JobId {
+		if history.JobId() != z.Id {
 			continue
 		}
 
@@ -67,10 +67,10 @@ func (z *Replay) Exec(c app_control.Control) error {
 	return ErrorJobNotFound
 }
 
-func (z *Replay) Test(c app_control.Control) error {
-	err := rc_exec.ExecMock(c, &Replay{}, func(r rc_recipe.Recipe) {
-		m := r.(*Replay)
-		m.JobId = "1234"
+func (z *Recipe) Test(c app_control.Control) error {
+	err := rc_exec.ExecMock(c, &Recipe{}, func(r rc_recipe.Recipe) {
+		m := r.(*Recipe)
+		m.Id = "1234"
 	})
 	if err != ErrorJobNotFound {
 		return err

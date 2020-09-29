@@ -2,11 +2,14 @@ package rc_replay
 
 import (
 	"bytes"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/io/es_file_copy"
 	"github.com/watermint/toolbox/essentials/io/es_file_read"
+	"github.com/watermint/toolbox/essentials/io/es_zip"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
@@ -21,33 +24,66 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"reflect"
+	"sort"
 	"strings"
 )
 
 type Replay interface {
-	// Preserve the specified Job to dest path.
+	// Preserve the specified Job to dest path as the zip archive.
+	// destPath requires file name of the archive
 	Preserve(target app_workspace.Job, destPath string) error
 
 	// Replay the recipe.
 	Replay(target app_workspace.Job, ctl app_control.Control) error
 
 	// Compare plays.
-	Compare(preserved app_workspace.Job, replay app_workspace.Job) (diffs int, err error)
+	Compare(preserved app_workspace.Job, replay app_workspace.Job) (err error)
 }
+
+var (
+	ErrorReportDiffFound = errors.New("report diff found")
+)
 
 type Capture struct {
 	Req nw_request.Req `json:"req"`
 	Res nw_capture.Res `json:"res"`
 }
 
-func New(logger esl.Logger) Replay {
+type Opts struct {
+	reportDiffs bool
+}
+
+func (z Opts) Apply(opts []Opt) Opts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+type Opt func(o Opts) Opts
+
+func ReportDiffs(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.reportDiffs = enabled
+		return o
+	}
+}
+
+func New(logger esl.Logger, opts ...Opt) Replay {
 	return &rpImpl{
 		logger: logger,
+		opt:    Opts{}.Apply(opts),
 	}
 }
 
 type rpImpl struct {
 	logger esl.Logger
+	opt    Opts
 }
 
 var (
@@ -60,19 +96,23 @@ var (
 
 func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 	l := z.logger.With(esl.String("targetJob", target.Job()), esl.String("destPath", destPath))
-	destReportPath := filepath.Join(destPath, app_workspace.NameReport)
-	destLogPath := filepath.Join(destPath, app_workspace.NameLogs)
+	destReportPath := app_workspace.NameReport
+	destLogPath := app_workspace.NameLogs
+	zw := es_zip.NewWriter(z.logger)
+	success := false
+	if err := zw.Open(destPath); err != nil {
+		l.Debug("Unable to create the archive", esl.Error(err))
+		return err
+	}
+	defer func() {
+		_ = zw.Close()
+		if !success {
+			l.Debug("Remove incomplete archive file")
+			_ = os.RemoveAll(destPath)
+		}
+	}()
 
 	l.Debug("Preserve the job")
-
-	if err := os.MkdirAll(destReportPath, 0755); err != nil {
-		l.Debug("Unable to create", esl.Error(err), esl.String("path", destReportPath))
-		return err
-	}
-	if err := os.MkdirAll(destLogPath, 0755); err != nil {
-		l.Debug("Unable to create", esl.Error(err), esl.String("path", destLogPath))
-		return err
-	}
 
 	reportEntries, err := ioutil.ReadDir(target.Report())
 	if err != nil {
@@ -82,14 +122,13 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 
 	for _, re := range reportEntries {
 		srcPath := filepath.Join(target.Report(), re.Name())
-		dstPath := filepath.Join(destReportPath, re.Name())
-		ll := l.With(esl.String("srcPath", srcPath), esl.String("dstPath", dstPath))
+		ll := l.With(esl.String("srcPath", srcPath))
 		if re.IsDir() {
 			ll.Debug("Skip folder")
 		} else {
 			ll.Debug("Copy")
-			if err := es_file_copy.Copy(srcPath, dstPath); err != nil {
-				l.Debug("Unable to copy", esl.Error(err))
+			if err := zw.AddFile(srcPath, destReportPath); err != nil {
+				ll.Debug("Unable to add the file", esl.Error(err))
 				return err
 			}
 		}
@@ -114,15 +153,14 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 
 	for _, le := range logEntries {
 		srcPath := filepath.Join(target.Log(), le.Name())
-		dstPath := filepath.Join(destLogPath, le.Name())
-		ll := l.With(esl.String("srcPath", srcPath), esl.String("dstPath", dstPath))
+		ll := l.With(esl.String("srcPath", srcPath))
 
 		switch {
 		case le.IsDir():
 			ll.Debug("Skip folder")
 		case isPreserveFile(le.Name()):
 			ll.Debug("Target file found, copy")
-			if err := es_file_copy.Copy(srcPath, dstPath); err != nil {
+			if err := zw.AddFile(srcPath, destLogPath); err != nil {
 				l.Debug("Unable to copy", esl.Error(err))
 				return err
 			}
@@ -130,6 +168,7 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 			ll.Debug("Skip")
 		}
 	}
+	success = true
 	return nil
 }
 
@@ -182,23 +221,19 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 				}
 
 				err = captureData.Update(func(kvs kv_kvs.Kvs) error {
-					existingRecord := &nw_capture.Res{}
-					switch kvs.GetJsonModel(capLine.Req.RequestHash, existingRecord) {
-					case nil: // found
-						switch {
-						case existingRecord.ResponseCode < 0: // IO error
-							l.Debug("Overwrite record with new", esl.Any("existing", existingRecord), esl.Any("capture", capLine))
-							return kvs.PutJsonModel(capLine.Req.RequestHash, capLine.Res)
-						case existingRecord.ResponseCode/100 == 2: // 2xx
-							l.Debug("Skip updating record", esl.Any("existing", existingRecord), esl.Any("capture", capLine))
-							return nil
-						default:
-							l.Debug("Overwrite record with new", esl.Any("existing", existingRecord), esl.Any("capture", capLine))
-							return kvs.PutJsonModel(capLine.Req.RequestHash, capLine.Res)
+					existingRecords := make([]nw_capture.Res, 0)
+					capData, err := kvs.GetBytes(capLine.Req.RequestHash)
+					if err != nil {
+						existingRecords = []nw_capture.Res{capLine.Res}
+					} else {
+						if err = json.Unmarshal(capData, &existingRecords); err != nil {
+							l.Debug("Unable to unmarshall", esl.Error(err))
+							existingRecords = append(existingRecords, capLine.Res)
+						} else {
+							existingRecords = []nw_capture.Res{capLine.Res}
 						}
-					default: // not found
-						return kvs.PutJsonModel(capLine.Req.RequestHash, capLine.Res)
 					}
+					return kvs.PutJsonModel(capLine.Req.RequestHash, existingRecords)
 				})
 				if err != nil {
 					l.Debug("Unable to update replay data", esl.Error(err))
@@ -210,15 +245,25 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 	}
 
 	l.Debug("Copy backup files")
-	for _, tl := range targetLogs {
+	logEntries, err := ioutil.ReadDir(target.Log())
+	if err != nil {
+		l.Debug("Unable to read log folder", esl.Error(err))
+		return err
+	}
+	for _, tl := range logEntries {
+		path := filepath.Join(target.Log(), tl.Name())
 		switch {
 		case strings.HasPrefix(tl.Name(), rc_value.FeedBackupFilePrefix):
 			ll := l.With(esl.String("name", tl.Name()))
 
 			dstPath := filepath.Join(ctlWithReplay.Workspace().Log(), tl.Name())
-			ll.Debug("Copying a backup file")
+			if dstPath == path {
+				ll.Debug("Skip copy (in case of the file already copied by prior process)")
+				continue
+			}
 
-			err := es_file_copy.Copy(tl.Path(), dstPath)
+			ll.Debug("Copying a backup file")
+			err := es_file_copy.Copy(path, dstPath)
 			if err != nil {
 				ll.Debug("Unable to copy a backup file", esl.Error(err))
 				return err
@@ -248,6 +293,19 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 
 	l.Debug("Execute recipe")
 
+	// Recover panic
+	defer func() {
+		if rvr := recover(); rvr != nil {
+			if rvrErr, ok := rvr.(error); ok {
+				l.Warn("Recovery from panic with an error", esl.Error(rvrErr))
+				err = rvrErr
+			} else {
+				l.Warn("Recovery form panic", esl.Any("recover", rvr))
+				err = errors.New("panic")
+			}
+		}
+	}()
+
 	err = rcp.Exec(ctlWithReplay)
 	if err != nil {
 		l.Debug("Exec failed", esl.Error(err))
@@ -261,9 +319,90 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 		l.Debug("Close control")
 		cc.Close()
 	}
-	return nil
+
+	if err := z.Compare(target, ctl.Workspace()); err != nil {
+		l.Debug("Report diff found", esl.Error(err))
+		return err
+	}
+
+	return err
 }
 
-func (z rpImpl) Compare(preserved app_workspace.Job, replay app_workspace.Job) (diffs int, err error) {
-	panic("implement me")
+func (z rpImpl) compareTextReport(approved app_workspace.Job, reportName string, replay app_workspace.Job) (err error) {
+	l := z.logger.With(
+		esl.String("preserved", approved.Job()),
+		esl.String("replay", replay.Job()),
+		esl.String("reportName", reportName),
+	)
+
+	approvedReportPath := filepath.Join(approved.Report(), reportName)
+	approvedLines := make([]string, 0)
+	l.Debug("Read approved report", esl.String("approvedReportPath", approvedReportPath))
+	err = es_file_read.ReadFileLines(approvedReportPath, func(line []byte) error {
+		hash := sha256.Sum256(line)
+		hashEncoded := base64.RawStdEncoding.EncodeToString(hash[:])
+		approvedLines = append(approvedLines, hashEncoded)
+		return nil
+	})
+	if err != nil {
+		l.Debug("Unable to read file", esl.Error(err))
+		return err
+	}
+
+	replayReportPath := filepath.Join(replay.Report(), reportName)
+	replayLines := make([]string, 0)
+	l.Debug("Read replay report", esl.String("replayReportPath", replayReportPath))
+	err = es_file_read.ReadFileLines(replayReportPath, func(line []byte) error {
+		hash := sha256.Sum256(line)
+		hashEncoded := base64.RawStdEncoding.EncodeToString(hash[:])
+		replayLines = append(replayLines, hashEncoded)
+		return nil
+	})
+	if err != nil {
+		l.Debug("Unable to read file", esl.Error(err))
+		return err
+	}
+
+	sort.Strings(approvedLines)
+	sort.Strings(replayLines)
+
+	if reflect.DeepEqual(approvedLines, replayLines) {
+		l.Debug("Approved")
+		return nil
+	}
+
+	if z.opt.reportDiffs {
+		l.Warn("Report diff found")
+	}
+
+	return ErrorReportDiffFound
+}
+
+func (z rpImpl) Compare(approved app_workspace.Job, replay app_workspace.Job) (err error) {
+	l := z.logger.With(esl.String("preserved", approved.Job()), esl.String("replay", replay.Job()))
+	preservedReportEntries, err := ioutil.ReadDir(approved.Report())
+	if err != nil {
+		l.Debug("Unable to read reports folder", esl.Error(err))
+		return err
+	}
+
+	var lastErr error
+	for _, entry := range preservedReportEntries {
+		if entry.IsDir() {
+			continue
+		}
+		switch strings.ToLower(filepath.Ext(entry.Name())) {
+		case ".csv", ".json":
+			fileErr := z.compareTextReport(approved, entry.Name(), replay)
+			l.Debug("Report diffs",
+				esl.String("report", entry.Name()),
+				esl.Error(fileErr))
+			if fileErr != nil {
+				l.Debug("Unable to compare", esl.Error(err))
+				lastErr = fileErr
+			}
+		}
+	}
+
+	return lastErr
 }

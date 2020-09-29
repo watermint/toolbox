@@ -1,6 +1,6 @@
-# job history delete
+# dev replay bundle
 
-古いジョブ履歴の削除 
+すべてのリプレイを実行 
 
 # 利用方法
 
@@ -10,12 +10,12 @@
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe job history delete 
+.\tbx.exe dev replay bundle -results-path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx job history delete 
+$HOME/Desktop/tbx dev replay bundle -results-path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -26,10 +26,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                    | デフォルト |
-|------------|-------------------------|------------|
-| `-days`    | 目標日数                | 28         |
-| `-path`    | ワークスペースへのパス. |            |
+| オプション      | 説明                                                                                                 | デフォルト                                              |
+|-----------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
+| `-peer-name`    | 配置用アカウントのエイリアス                                                                         | deploy                                                  |
+| `-replay-path`  | リプレイのリポジトリパス指定されていない場合は環境変数 `TOOLBOX_REPLAY_PATH` にフォールバックします. |                                                         |
+| `-results-path` | テストの失敗結果の送信先パス                                                                         | /watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}} |
+| `-timeout`      | テスト結果のアップロード操作のタイムアウト                                                           | 60                                                      |
 
 ## 共通のオプション:
 

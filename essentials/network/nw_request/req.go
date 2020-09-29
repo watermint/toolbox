@@ -19,6 +19,7 @@ type Req struct {
 	RequestHeaders map[string]string `json:"headers"`
 	ContentLength  int64             `json:"content_length"`
 	RequestHash    string            `json:"hash"`
+	Peer           string            `json:"peer"`
 }
 
 func (z *Req) Apply(ctx api_context.Context, rb nw_client.RequestBuilder, req *http.Request) {
@@ -28,6 +29,7 @@ func (z *Req) Apply(ctx api_context.Context, rb nw_client.RequestBuilder, req *h
 	if ruf, ok := rb.(nw_client.RequestUrlFilter); ok {
 		url = ruf.FilterUrl(url)
 	}
+	z.Peer = ctx.Name()
 	z.RequestMethod = req.Method
 	z.RequestUrl = url
 	z.RequestParam = param
@@ -72,7 +74,11 @@ func (z HashSeed) Hash() string {
 
 	headers := make([]string, 0)
 	for k, v := range z.Header {
-		if k != api_request.ReqHeaderAuthorization {
+		switch k {
+		case api_request.ReqHeaderAuthorization,
+			api_request.ReqHeaderUserAgent:
+			// skip
+		default:
 			headers = append(headers, "h"+k+":"+v)
 		}
 	}

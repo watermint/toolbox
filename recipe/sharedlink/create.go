@@ -53,7 +53,7 @@ func (z *Create) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	ui.Success(z.Success.With("Url", link.LinkUrl()))
+	ui.Progress(z.Success.With("Url", link.LinkUrl()))
 
 	z.Created.Row(link.Metadata())
 	return nil

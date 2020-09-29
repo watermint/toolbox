@@ -34,7 +34,7 @@ type Up struct {
 
 func (z *Up) Preset() {
 	z.PeerName = app.PeerDeploy
-	z.Timeout = 30
+	z.Timeout = 60
 }
 
 func (z *Up) Exec(c app_control.Control) error {

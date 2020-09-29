@@ -44,7 +44,7 @@ func (z *repoImpl) Resume() {
 }
 
 func (z *repoImpl) OnProgress(f func()) {
-	if !z.suppress {
+	if !z.suppress && !z.suppressForce {
 		f()
 	}
 }

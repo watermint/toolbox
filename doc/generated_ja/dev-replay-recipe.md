@@ -1,6 +1,6 @@
-# job history delete
+# dev replay recipe
 
-古いジョブ履歴の削除 
+レシピのリプレイ実行 
 
 # 利用方法
 
@@ -10,12 +10,12 @@
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe job history delete 
+.\tbx.exe dev replay recipe 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx job history delete 
+$HOME/Desktop/tbx dev replay recipe 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -28,7 +28,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション | 説明                    | デフォルト |
 |------------|-------------------------|------------|
-| `-days`    | 目標日数                | 28         |
+| `-id`      | ジョブID.               |            |
 | `-path`    | ワークスペースへのパス. |            |
 
 ## 共通のオプション:

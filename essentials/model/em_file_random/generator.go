@@ -26,7 +26,11 @@ func NameByNodeId(nodeId int64) string {
 
 func SizeByNodeId(nodeId int64, opts Opts) int64 {
 	r := rand.New(rand.NewSource(nodeId))
-	return r.Int63n(opts.fileSizeRangeMax-opts.fileSizeRangeMin) + opts.fileSizeRangeMin
+	if opts.fileSizeRangeMin == opts.fileSizeRangeMax {
+		return opts.fileSizeRangeMin
+	} else {
+		return r.Int63n(opts.fileSizeRangeMax-opts.fileSizeRangeMin) + opts.fileSizeRangeMin
+	}
 }
 
 func TimeByNodeId(nodeId int64, opts Opts) time.Time {

@@ -1,6 +1,6 @@
-# job history delete
+# dev replay remote
 
-Delete old job history 
+Run remote replay bundle 
 
 # Usage
 
@@ -10,12 +10,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe job history delete 
+.\tbx.exe dev replay remote 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx job history delete 
+$HOME/Desktop/tbx dev replay remote 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -26,10 +26,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-days` | Target days old       | 28      |
-| `-path` | Path to the workspace |         |
+| Option        | Description                   | Default |
+|---------------|-------------------------------|---------|
+| `-replay-url` | Replay bundle shared link url |         |
 
 ## Common options:
 

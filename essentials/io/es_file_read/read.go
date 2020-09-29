@@ -5,7 +5,22 @@ import (
 	"bytes"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
+	"os"
 )
+
+func ReadFileLines(path string, h func(line []byte) error) error {
+	l := esl.Default().With(esl.String("path", path))
+	f, err := os.Open(path)
+	if err != nil {
+		l.Debug("Unable to open", esl.Error(err))
+		return err
+	}
+	defer func() {
+		_ = f.Close()
+	}()
+
+	return ReadLines(f, h)
+}
 
 func ReadLines(r io.Reader, h func(line []byte) error) error {
 	l := esl.Default()

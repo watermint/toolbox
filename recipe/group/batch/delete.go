@@ -35,13 +35,22 @@ func (z *Delete) Exec(c app_control.Control) error {
 
 	svg := sv_group.New(z.Peer.Context())
 
+	groups, err := svg.List()
+	if err != nil {
+		return err
+	}
+	groupByName := make(map[string]*mo_group.Group)
+	for _, group := range groups {
+		groupByName[group.GroupName] = group
+	}
+
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		r := m.(*GroupName)
 		ui.Info(z.ProgressDeleteGroup.With("Name", r.Name))
 
-		group, err := svg.ResolveByName(r.Name)
-		if err != nil {
-			ui.Error(z.ErrGroupNotFound.With("Name", r.Name).With("Error", err.Error()))
+		group, ok := groupByName[r.Name]
+		if !ok {
+			ui.Error(z.ErrGroupNotFound.With("Name", r.Name))
 			z.OperationLog.Failure(err, r)
 			return nil
 		}

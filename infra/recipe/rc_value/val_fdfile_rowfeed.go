@@ -97,14 +97,18 @@ func (z *ValueFdFileRowFeed) Debug() interface{} {
 }
 
 func (z *ValueFdFileRowFeed) Capture(ctl app_control.Control) (v interface{}, err error) {
-	l := ctl.Log().With(esl.String("filePath", z.rf.FilePath()))
+	filePath := z.path
+	if z.path == "" {
+		filePath = z.rf.FilePath()
+	}
+	l := ctl.Log().With(esl.String("filePath", filePath))
 
-	if z.rf.FilePath() == "" {
+	if filePath == "" {
 		l.Debug("No file path")
 		return nil, nil
 	}
 
-	f, err := os.Open(z.rf.FilePath())
+	f, err := os.Open(filePath)
 	if err != nil {
 		l.Debug("Unable to open the feed file", esl.Error(err))
 		return nil, err

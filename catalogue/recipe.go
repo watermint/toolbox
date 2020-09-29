@@ -14,6 +14,7 @@ import (
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
+	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevstage "github.com/watermint/toolbox/recipe/dev/stage"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
@@ -114,6 +115,10 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevkvs.Dump{},
 		&recipedevrelease.Candidate{},
 		&recipedevrelease.Publish{},
+		&recipedevreplay.Approve{},
+		&recipedevreplay.Bundle{},
+		&recipedevreplay.Recipe{},
+		&recipedevreplay.Remote{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},
@@ -124,7 +129,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
-		&recipedevtest.Replay{},
 		&recipedevtest.Resources{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},
