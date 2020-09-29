@@ -1,6 +1,7 @@
 package rp_model_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
@@ -84,6 +85,10 @@ func (z *RowReport) Row(row interface{}) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
+	if z.w == nil {
+		z.ctl.Log().Warn("Writer is not ready", esl.String("name", z.name))
+		panic(rp_model.ErrorWriterIsNotReady)
+	}
 	z.w.Row(row)
 	z.rows.Inc()
 }

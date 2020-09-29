@@ -293,6 +293,19 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 
 	l.Debug("Execute recipe")
 
+	// Recover panic
+	defer func() {
+		if rvr := recover(); rvr != nil {
+			if rvrErr, ok := rvr.(error); ok {
+				l.Warn("Recovery from panic with an error", esl.Error(rvrErr))
+				err = rvrErr
+			} else {
+				l.Warn("Recovery form panic", esl.Any("recover", rvr))
+				err = errors.New("panic")
+			}
+		}
+	}()
+
 	err = rcp.Exec(ctlWithReplay)
 	if err != nil {
 		l.Debug("Exec failed", esl.Error(err))
@@ -312,7 +325,7 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 		return err
 	}
 
-	return nil
+	return err
 }
 
 func (z rpImpl) compareTextReport(approved app_workspace.Job, reportName string, replay app_workspace.Job) (err error) {

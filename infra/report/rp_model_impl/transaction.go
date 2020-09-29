@@ -2,6 +2,7 @@ package rp_model_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
@@ -87,6 +88,11 @@ func (z *TransactionReport) Success(input interface{}, result interface{}) {
 	defer z.mutex.Unlock()
 
 	ui := z.ctl.UI()
+	if z.w == nil {
+		z.ctl.Log().Warn("Writer is not ready", esl.String("name", z.name))
+		panic(rp_model.ErrorWriterIsNotReady)
+	}
+
 	z.w.Row(&rp_model.TransactionRow{
 		Status:    ui.Text(MTransactionReport.Success),
 		StatusTag: rp_model.StatusTagSuccess,
@@ -110,6 +116,10 @@ func (z *TransactionReport) Failure(err error, input interface{}) {
 		// TODO: make this more human friendly
 		reason = MTransactionReport.ErrorGeneral.With("Error", de.Summary())
 	}
+	if z.w == nil {
+		z.ctl.Log().Warn("Writer is not ready", esl.String("name", z.name))
+		panic(rp_model.ErrorWriterIsNotReady)
+	}
 	z.w.Row(&rp_model.TransactionRow{
 		Status:    ui.Text(MTransactionReport.Failure),
 		StatusTag: rp_model.StatusTagFailure,
@@ -125,6 +135,10 @@ func (z *TransactionReport) Skip(reason app_msg.Message, input interface{}) {
 	defer z.mutex.Unlock()
 
 	ui := z.ctl.UI()
+	if z.w == nil {
+		z.ctl.Log().Warn("Writer is not ready", esl.String("name", z.name))
+		panic(rp_model.ErrorWriterIsNotReady)
+	}
 	z.w.Row(&rp_model.TransactionRow{
 		Status:    ui.Text(MTransactionReport.Skip),
 		StatusTag: rp_model.StatusTagSkip,
