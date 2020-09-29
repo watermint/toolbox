@@ -2,7 +2,9 @@ package replay
 
 import (
 	"context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	"github.com/watermint/toolbox/essentials/http/es_download"
@@ -10,6 +12,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
+	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -84,11 +88,18 @@ func (z *Remote) Exec(c app_control.Control) error {
 		l.Info("No token imported. Skip operation")
 		return nil
 	}
+	a := api_auth_impl.NewConsoleCacheOnly(c, z.Peer.PeerName(), dbx_auth.NewLegacyApp(c))
+	ctx, err := a.Auth([]string{api_auth.DropboxTokenFull})
+	if err != nil {
+		l.Info("Skip operation")
+		return nil
+	}
+	dbxCtx := dbx_context_impl.New(ctx.PeerName(), c, ctx)
 
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 			m := r.(*file.Upload)
-			m.Context = z.Peer.Context()
+			m.Context = dbxCtx
 			m.LocalPath = mo_path2.NewFileSystemPath(c.Workspace().Job())
 			m.DropboxPath = z.ResultsPath
 			m.Overwrite = true
