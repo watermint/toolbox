@@ -59,14 +59,27 @@ func ToTeamMemberId(teamMemberId string) TransferTo {
 
 type PolicyOpt func(opt *policyOpts) *policyOpts
 type policyOpts struct {
-	memberPolicy     string
-	aclUpdatePolicy  string
-	sharedLinkPolicy string
+	SharedFolderId   string `json:"shared_folder_id"`
+	MemberPolicy     string `json:"member_policy"`
+	AclUpdatePolicy  string `json:"acl_update_policy"`
+	SharedLinkPolicy string `json:"shared_link_policy"`
 }
 
 func MemberPolicy(policy string) PolicyOpt {
 	return func(opt *policyOpts) *policyOpts {
-		opt.memberPolicy = policy
+		opt.MemberPolicy = policy
+		return opt
+	}
+}
+func AclUpdatePolicy(policy string) PolicyOpt {
+	return func(opt *policyOpts) *policyOpts {
+		opt.AclUpdatePolicy = policy
+		return opt
+	}
+}
+func SharedLinkPolicy(policy string) PolicyOpt {
+	return func(opt *policyOpts) *policyOpts {
+		opt.SharedLinkPolicy = policy
 		return opt
 	}
 }
@@ -116,16 +129,8 @@ func (z *sharedFolderImpl) UpdatePolicy(sharedFolderId string, opts ...PolicyOpt
 	for _, o := range opts {
 		o(po)
 	}
-
-	p := struct {
-		SharedFolderId string `json:"shared_folder_id"`
-		MemberPolicy   string `json:"member_policy,omitempty"`
-	}{
-		SharedFolderId: sharedFolderId,
-		MemberPolicy:   po.memberPolicy,
-	}
-
-	res := z.ctx.Post("sharing/update_folder_policy", api_request.Param(p))
+	po.SharedFolderId = sharedFolderId
+	res := z.ctx.Post("sharing/update_folder_policy", api_request.Param(po))
 	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
