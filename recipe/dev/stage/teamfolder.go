@@ -30,19 +30,19 @@ type Teamfolder struct {
 
 func (z *Teamfolder) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeTeamInfoRead,
-		dbx_auth.ScopeTeamDataMember,
-		dbx_auth.ScopeSharingRead,
-		dbx_auth.ScopeSharingWrite,
-		dbx_auth.ScopeGroupsWrite,
-		dbx_auth.ScopeTeamDataTeamSpace,
 		dbx_auth.ScopeFilesContentRead,
 		dbx_auth.ScopeFilesContentWrite,
+		dbx_auth.ScopeGroupsWrite,
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeSharingWrite,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
 	)
 }
 
 func (z *Teamfolder) Exec(c app_control.Control) error {
-	teamFolderName := "Tokyo Branch 2"
+	teamFolderName := "Tokyo Branch"
 	nestedFolderPlainName := "Organization"
 	nestedFolderSharedName := "Sales"
 	nestedFolderRestrictedName := "Report"

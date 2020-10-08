@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 )
 
 func NewProxy(sy Syntax, lg esl.Logger) UI {
@@ -42,7 +42,9 @@ func (z proxyImpl) verifyKey(m app_msg.Message) {
 	k := m.Key()
 	if !z.sy.Messages().Exists(m) {
 		z.lg.Debug("Message key not found", esl.String("key", k))
-		qt_missingmsg.Record().NotFound(k)
+		qt_msgusage.Record().NotFound(k)
+	} else {
+		qt_msgusage.Record().Touch(k)
 	}
 }
 

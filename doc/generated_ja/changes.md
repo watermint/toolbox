@@ -1,114 +1,36 @@
-# `リリース 75` から `リリース 76` までの変更点
+# `リリース 76` から `リリース 77` までの変更点
 
-# 追加されたコマンド
-
-
-| コマンド           | タイトル                          |
-|--------------------|-----------------------------------|
-| dev replay approve | Approve the replay as test bundle |
-| dev replay bundle  | Run all replays                   |
-| dev replay recipe  | Replay recipe                     |
-| dev replay remote  | Run remote replay bundle          |
-
-
-
-# 削除されたコマンド
-
-
-| コマンド        | タイトル      |
-|-----------------|---------------|
-| dev test replay | Replay recipe |
-
-
-
-# コマンド仕様の変更: `dev ci artifact up`
+# コマンド仕様の変更: `dev stage teamfolder`
 
 
 ## 設定が変更されたコマンド
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "DropboxPath", Desc: "Dropbox path to upload", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{Name: "LocalPath", Desc: "Local path to upload", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
-  		&{Name: "PeerName", Desc: "Account alias", Default: "deploy", TypeName: "string", ...},
-  		&{
-  			Name:     "Timeout",
-  			Desc:     "Operation timeout in seconds",
-- 			Default:  "30",
-+ 			Default:  "60",
-  			TypeName: "int",
-  			TypeAttr: nil,
-  		},
-  	},
-  }
-```
-# コマンド仕様の変更: `job history archive`
-
-
-## 設定が変更されたコマンド
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Days", Desc: "Target days old", Default: "7", TypeName: "essentials.model.mo_int.range_int", ...},
-+ 		&{
-+ 			Name:     "Path",
-+ 			Desc:     "Path to the workspace",
-+ 			TypeName: "essentials.model.mo_string.opt_string",
-+ 		},
-  	},
-  }
-```
-# コマンド仕様の変更: `job history delete`
-
-
-## 設定が変更されたコマンド
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Days", Desc: "Target days old", Default: "28", TypeName: "essentials.model.mo_int.range_int", ...},
-+ 		&{
-+ 			Name:     "Path",
-+ 			Desc:     "Path to the workspace",
-+ 			TypeName: "essentials.model.mo_string.opt_string",
-+ 		},
-  	},
-  }
-```
-# コマンド仕様の変更: `team diag explorer`
-
-
-## 設定が変更されたコマンド
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 7 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+- 		&{
+- 			Name:     "Peer",
+- 			Desc:     "Account alias",
+- 			Default:  "&{Peer [groups.write files.content.write] <nil>}",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+- 			TypeAttr: []interface{}{string("groups.write"), string("files.content.write")},
+- 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "Account alias",
++ 			Default:  "&{Peer [files.content.read files.content.write groups.write sharing.read sharing.write team_data.member team_data.team_space tea"...,
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
++ 			TypeAttr: []interface{}{
++ 				string("files.content.read"), string("files.content.write"),
++ 				string("groups.write"), string("sharing.read"), string("sharing.write"),
++ 				string("team_data.member"), string("team_data.team_space"),
++ 				string("team_info.read"),
++ 			},
++ 		},
+  	},
+  }
 ```

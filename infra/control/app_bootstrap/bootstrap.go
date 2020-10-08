@@ -32,7 +32,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/ingredient/bootstrap"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 	"os"
 	"os/signal"
 	"runtime"
@@ -130,7 +130,7 @@ func (z *bsImpl) verifyMessages(ui app_ui.UI, l esl.Logger) {
 		for _, msg := range app_msg.Messages(MRun) {
 			ui.Text(msg)
 		}
-		missing := qt_missingmsg.Record().Missing()
+		missing := qt_msgusage.Record().Missing()
 		if len(missing) > 0 {
 			w := es_stdout.NewDirectOut()
 			for _, k := range missing {

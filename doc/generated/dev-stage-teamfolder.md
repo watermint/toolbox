@@ -68,9 +68,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default                                          |
-|---------|---------------|--------------------------------------------------|
-| `-peer` | Account alias | &{Peer [groups.write files.content.write] <nil>} |
+| Option  | Description   | Default                                                                                                                                             |
+|---------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-peer` | Account alias | &{Peer [files.content.read files.content.write groups.write sharing.read sharing.write team_data.member team_data.team_space team_info.read] <nil>} |
 
 ## Common options:
 

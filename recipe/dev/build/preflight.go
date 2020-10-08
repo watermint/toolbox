@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -15,11 +16,13 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
+	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 	"github.com/watermint/toolbox/recipe/dev/spec"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -53,6 +56,19 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 		l.Warn("Unable to unmarshal message file", esl.Error(err))
 		return err
 	}
+
+	touchedKeys := qt_msgusage.Record().Used()
+	definedKeys := make([]string, 0)
+	for k := range messages {
+		definedKeys = append(definedKeys, k)
+	}
+	unusedKeys := es_array.NewByString(definedKeys...).Diff(es_array.NewByString(touchedKeys...)).AsStringArray()
+	sort.Strings(unusedKeys)
+	for _, k := range unusedKeys {
+		l.Warn("Unused key found, removing it", esl.String("key", k))
+		delete(messages, k)
+	}
+
 	buf := &bytes.Buffer{}
 	je := json.NewEncoder(buf)
 	je.SetEscapeHTML(false)
@@ -198,11 +214,6 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			return err
 		}
 
-		ll.Info("Sorting message resources")
-		if err := z.sortMessages(c, fmt.Sprintf("messages%s.json", suffix)); err != nil {
-			return err
-		}
-
 		if !c.Feature().IsTest() && minimumSpecDocVersion < release {
 			ll.Info("Generating release changes")
 			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
@@ -225,6 +236,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		for _, r := range cat.Recipes() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
+				qt_msgusage.Record().Touch(m.Key())
 				l.Debug("message", esl.String("key", m.Key()), esl.String("text", c.UI().Text(m)))
 			}
 		}
@@ -233,6 +245,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		for _, r := range cat.Ingredients() {
 			spec := rc_spec.New(r)
 			for _, m := range spec.Messages() {
+				qt_msgusage.Record().Touch(m.Key())
 				l.Debug("message", esl.String("key", m.Key()), esl.String("text", c.UI().Text(m)))
 			}
 		}
@@ -242,6 +255,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			m1 := app_msg.Apply(m)
 			msgs := app_msg.Messages(m1)
 			for _, msg := range msgs {
+				qt_msgusage.Record().Touch(msg.Key())
 				l.Debug("message", esl.String("key", msg.Key()), esl.String("text", c.UI().Text(msg)))
 			}
 		}
@@ -249,6 +263,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		l.Info("Verify features")
 		for _, f := range cat.Features() {
 			key := app_feature.OptInName(f)
+			qt_msgusage.Record().Touch(key)
 			ll := l.With(esl.String("key", key))
 			ll.Debug("feature disclaimer", esl.String("msg", c.UI().Text(app_feature.OptInDisclaimer(f))))
 			ll.Debug("feature agreement", esl.String("msg", c.UI().Text(app_feature.OptInAgreement(f))))
@@ -257,5 +272,18 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	l.Info("Verify message resources")
-	return qt_messages.VerifyMessages(c)
+	verifyErr := qt_messages.VerifyMessages(c)
+	if verifyErr != nil {
+		return verifyErr
+	}
+
+	for _, la := range lang.Supported {
+		suffix := la.Suffix()
+		l.Info("Sorting message resources", esl.String("suffix", suffix))
+		if err := z.sortMessages(c, fmt.Sprintf("messages%s.json", suffix)); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
