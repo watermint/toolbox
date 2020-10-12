@@ -1,6 +1,6 @@
-# file permdelete
+# member file permdelete
 
-Permanently delete the file or folder at a given path. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. (Experimental, and Irreversible operation)
+Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. (Experimental, and Irreversible operation)
 
 # Security
 
@@ -20,9 +20,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label     | Description         |
-|-----------|---------------------|
-| user_full | Dropbox Full access |
+| Label                     | Description                       |
+|---------------------------|-----------------------------------|
+| dropbox_scoped_individual | Dropbox Individual account access |
 
 # Authorization
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
+.\tbx.exe member file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
+$HOME/Desktop/tbx member file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,10 +68,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description     | Default |
-|---------|-----------------|---------|
-| `-path` | Path to delete. |         |
-| `-peer` | Account alias   | default |
+| Option          | Description               | Default                                                 |
+|-----------------|---------------------------|---------------------------------------------------------|
+| `-member-email` | Team member email address |                                                         |
+| `-path`         | Path to delete            |                                                         |
+| `-peer`         | Account alias             | &{Peer [files.permanent_delete team_data.member] <nil>} |
 
 ## Common options:
 

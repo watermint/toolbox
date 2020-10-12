@@ -1,6 +1,6 @@
-# file permdelete
+# member file permdelete
 
-Permanently delete the file or folder at a given path. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. (Experimental, and Irreversible operation)
+Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. (Experimental, and Irreversible operation)
 
 # セキュリティ
 
@@ -20,9 +20,9 @@ Permanently delete the file or folder at a given path. Please see https://www.dr
 
 ## 認可スコープ
 
-| ラベル    | 説明                     |
-|-----------|--------------------------|
-| user_full | Dropbox へのフルアクセス |
+| ラベル                    | 説明                     |
+|---------------------------|--------------------------|
+| dropbox_scoped_individual | Dropbox (個人アカウント) |
 
 # 認可
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
+.\tbx.exe member file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
+$HOME/Desktop/tbx member file permdelete -path /DROPBOX/PATH/TO/PERM_DELETE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,10 +68,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明            | デフォルト |
-|------------|-----------------|------------|
-| `-path`    | Path to delete. |            |
-| `-peer`    | Account alias   | default    |
+| オプション      | 説明                      | デフォルト                                              |
+|-----------------|---------------------------|---------------------------------------------------------|
+| `-member-email` | Team member email address |                                                         |
+| `-path`         | Path to delete            |                                                         |
+| `-peer`         | Account alias             | &{Peer [files.permanent_delete team_data.member] <nil>} |
 
 ## 共通のオプション:
 

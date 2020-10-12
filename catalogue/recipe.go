@@ -38,6 +38,7 @@ import (
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
+	recipememberfile "github.com/watermint/toolbox/recipe/member/file"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesasanateam "github.com/watermint/toolbox/recipe/services/asana/team"
@@ -140,7 +141,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.List{},
 		&recipefile.Merge{},
 		&recipefile.Move{},
-		&recipefile.Permdelete{},
 		&recipefile.Replication{},
 		&recipefile.Restore{},
 		&recipefile.Size{},
@@ -183,6 +183,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipemember.Reinvite{},
 		&recipemember.Replication{},
 		&recipememberclear.Externalid{},
+		&recipememberfile.Permdelete{},
 		&recipememberquota.List{},
 		&recipememberquota.Update{},
 		&recipememberquota.Usage{},
