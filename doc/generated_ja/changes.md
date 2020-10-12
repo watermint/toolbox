@@ -1,5 +1,14 @@
 # `リリース 76` から `リリース 77` までの変更点
 
+# 追加されたコマンド
+
+
+| コマンド        | タイトル                                                                                                                                    |
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| file permdelete | Permanently delete the file or folder at a given path. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
+
+
+
 # コマンド仕様の変更: `dev stage teamfolder`
 
 
@@ -32,5 +41,49 @@
 + 			},
 + 		},
   	},
+  }
+```
+# コマンド仕様の変更: `services asana workspace list`
+
+
+## 変更されたレポート: workspaces
+
+```
+  &dc_recipe.Report{
+  	Name: "workspaces",
+  	Desc: "Workspace",
+  	Columns: []*dc_recipe.ReportColumn{
+  		&{Name: "gid", Desc: "Globally unique identifier of the resource, as a string."},
+  		&{Name: "resource_type", Desc: "The base type of this resource."},
+  		&{Name: "name", Desc: "The name of the workspace."},
+  		&{
+  			Name: "is_organization",
+- 			Desc: `	Whether the workspace is an organization.`,
++ 			Desc: "Whether the workspace is an organization.",
+  		},
+  	},
+  }
+```
+# コマンド仕様の変更: `team diag explorer`
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"File": "business_file",
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
+- 		"Peer": "business_info",
++ 		"Peer": "business_file",
+  	},
+  	Services: {"dropbox_business"},
+  	IsSecret: false,
+  	... // 7 identical fields
   }
 ```

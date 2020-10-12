@@ -213,25 +213,25 @@ func (z *filesImpl) mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_
 }
 
 func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.DropboxPath, apiErr error) error {
-	errPrefix := dbx_util.ErrorSummary(apiErr)
-	log := z.ctxSrc.Log().With(esl.String("origSrc", pathOrigSrc.Path()), esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()), esl.String("errorPrefix", errPrefix))
+	de := dbx_error.NewErrors(apiErr)
+	log := z.ctxSrc.Log().With(esl.String("origSrc", pathOrigSrc.Path()), esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()), esl.String("errorSummary", de.Summary()))
 	switch {
-	case strings.HasPrefix(errPrefix, "path/conflict"),
-		strings.HasPrefix(errPrefix, "too_many_files"):
+	case de.Path().IsConflict(),
+		de.IsTooManyFiles():
 		log.Debug("Mirror descendants")
 		return z.mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst)
 
-	case strings.Contains(errPrefix, "too_many_write_operations"):
+	case de.IsTooManyWriteOperations():
 		log.Debug("Wait for too many write", esl.Duration("wait", z.pollInterval))
 		time.Sleep(z.pollInterval)
 		return z.mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst)
 
-	case strings.Contains(errPrefix, "not_found"):
+	case de.Path().IsNotFound():
 		log.Debug("Can't copy file", esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()))
 		return nil
 
 	default:
-		log.Debug("Unrecoverable error", esl.String("errPrefix", errPrefix), esl.Error(apiErr))
+		log.Debug("Unrecoverable error", esl.String("errSummary", de.Summary()), esl.Error(apiErr))
 		return apiErr
 	}
 }

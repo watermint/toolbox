@@ -9,21 +9,21 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
-type Delete struct {
+type Permdelete struct {
 	rc_recipe.RemarkIrreversible
+	rc_recipe.RemarkExperimental
 	Peer           dbx_conn.ConnUserFile
 	Path           mo_path.DropboxPath
 	ProgressDelete app_msg.Message
 }
 
-func (z *Delete) Preset() {
+func (z *Permdelete) Preset() {
 }
 
-func (z *Delete) Exec(c app_control.Control) error {
+func (z *Permdelete) Exec(c app_control.Control) error {
 	ui := c.UI()
 	ctx := z.Peer.Context()
 
@@ -57,24 +57,9 @@ func (z *Delete) Exec(c app_control.Control) error {
 	return del(z.Path)
 }
 
-func (z *Delete) Test(c app_control.Control) error {
-	// replay test
-	{
-		err := rc_exec.ExecReplay(c, &Delete{}, "recipe-file-delete.json.gz", func(r rc_recipe.Recipe) {
-			m := r.(*Delete)
-			m.Path = mo_path.NewDropboxPath("target")
-		})
-		if err != nil {
-			return err
-		}
-	}
-
-	err := rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
-		m := r.(*Delete)
-		m.Path = qtr_endtoend.NewTestDropboxFolderPath("delete")
+func (z *Permdelete) Test(c app_control.Control) error {
+	return rc_exec.ExecMock(c, &Permdelete{}, func(r rc_recipe.Recipe) {
+		m := r.(*Permdelete)
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("test-perm-delete")
 	})
-	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil {
-		return err
-	}
-	return qt_errors.ErrorScenarioTest
 }

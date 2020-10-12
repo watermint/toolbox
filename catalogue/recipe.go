@@ -140,6 +140,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.List{},
 		&recipefile.Merge{},
 		&recipefile.Move{},
+		&recipefile.Permdelete{},
 		&recipefile.Replication{},
 		&recipefile.Restore{},
 		&recipefile.Size{},

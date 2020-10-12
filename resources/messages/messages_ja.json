@@ -28,8 +28,6 @@
   "domain.dropbox.api.dbx_auth_attr.msg_attr.error_verify_failed": "トークンの検証に失敗したか、不正なトークンです再試行してください",
   "domain.dropbox.api.dbx_conn_impl.msg_connect.verify_success": "接続されました: {{.Desc}}\n{{.Suppl}}",
   "domain.dropbox.api.dbx_list_impl.msg_list.progress_retrieve": "{{.Time}}: Dropboxからデータを取得しています...",
-  "domain.dropbox.api.dbx_util.msg_error.error_general": "エラー: {{.Error}}",
-  "domain.dropbox.api.dbx_util.msg_error.no_error": "Dropboxサーバからエラーは返されませんでした",
   "domain.dropbox.model.mo_activity.compatible.access_method.desc": "アクションが実行された方法.",
   "domain.dropbox.model.mo_activity.compatible.assets.desc": "アクションに関連したコンテンツ資産.",
   "domain.dropbox.model.mo_activity.compatible.category.desc": "監査ログイベントのカテゴリー",

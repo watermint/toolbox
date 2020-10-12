@@ -16,6 +16,7 @@ type Files interface {
 	ListEach(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 
 	Remove(path mo_path.DropboxPath, opts ...RemoveOpt) (entry mo_file.Entry, err error)
+	PermDelete(path mo_path.DropboxPath) (err error)
 	Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 	Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error)
 }
@@ -183,6 +184,19 @@ func SearchIncludeHighlights() SearchOpt {
 type filesImpl struct {
 	ctx   dbx_context.Context
 	limit int
+}
+
+func (z *filesImpl) PermDelete(path mo_path.DropboxPath) (err error) {
+	p := struct {
+		Path string `json:"path"`
+	}{
+		Path: path.Path(),
+	}
+	res := z.ctx.Post("files/permanently_delete", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error) {
