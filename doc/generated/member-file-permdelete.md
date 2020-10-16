@@ -68,11 +68,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option          | Description               | Default                                                 |
-|-----------------|---------------------------|---------------------------------------------------------|
-| `-member-email` | Team member email address |                                                         |
-| `-path`         | Path to delete            |                                                         |
-| `-peer`         | Account alias             | &{Peer [files.permanent_delete team_data.member] <nil>} |
+| Option          | Description               | Default                                                              |
+|-----------------|---------------------------|----------------------------------------------------------------------|
+| `-member-email` | Team member email address |                                                                      |
+| `-path`         | Path to delete            |                                                                      |
+| `-peer`         | Account alias             | &{Peer [files.permanent_delete team_data.member members.read] <nil>} |
 
 ## Common options:
 

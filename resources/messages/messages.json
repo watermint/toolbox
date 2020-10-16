@@ -736,6 +736,7 @@
   "recipe.dev.benchmark.upload.flag.num_files": "Number of files.",
   "recipe.dev.benchmark.upload.flag.path": "Path to Dropbox",
   "recipe.dev.benchmark.upload.flag.peer": "Account alias",
+  "recipe.dev.benchmark.upload.flag.shard": "Number of shared folders to distribute namespace",
   "recipe.dev.benchmark.upload.flag.size_max_kb": "Maximum file size (KiB).",
   "recipe.dev.benchmark.upload.flag.size_min_kb": "Minimum file size (KiB).",
   "recipe.dev.benchmark.upload.title": "Upload benchmark",

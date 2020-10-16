@@ -68,11 +68,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                      | デフォルト                                              |
-|-----------------|---------------------------|---------------------------------------------------------|
-| `-member-email` | Team member email address |                                                         |
-| `-path`         | Path to delete            |                                                         |
-| `-peer`         | Account alias             | &{Peer [files.permanent_delete team_data.member] <nil>} |
+| オプション      | 説明                      | デフォルト                                                           |
+|-----------------|---------------------------|----------------------------------------------------------------------|
+| `-member-email` | Team member email address |                                                                      |
+| `-path`         | Path to delete            |                                                                      |
+| `-peer`         | Account alias             | &{Peer [files.permanent_delete team_data.member members.read] <nil>} |
 
 ## 共通のオプション:
 

@@ -68,14 +68,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option           | Description              | Default |
-|------------------|--------------------------|---------|
-| `-chunk-size-kb` | Upload chunk size in KiB | 65536   |
-| `-num-files`     | Number of files.         | 1000    |
-| `-path`          | Path to Dropbox          |         |
-| `-peer`          | Account alias            | default |
-| `-size-max-kb`   | Maximum file size (KiB). | 2048    |
-| `-size-min-kb`   | Minimum file size (KiB). | 0       |
+| Option           | Description                                      | Default |
+|------------------|--------------------------------------------------|---------|
+| `-chunk-size-kb` | Upload chunk size in KiB                         | 65536   |
+| `-num-files`     | Number of files.                                 | 1000    |
+| `-path`          | Path to Dropbox                                  |         |
+| `-peer`          | Account alias                                    | default |
+| `-shard`         | Number of shared folders to distribute namespace | 1       |
+| `-size-max-kb`   | Maximum file size (KiB).                         | 2048    |
+| `-size-min-kb`   | Minimum file size (KiB).                         | 0       |
 
 ## Common options:
 
