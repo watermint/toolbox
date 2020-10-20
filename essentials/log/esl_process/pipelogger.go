@@ -3,7 +3,6 @@ package esl_process
 import (
 	"bufio"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
 	"io"
 	"os"
 	"os/exec"
@@ -16,15 +15,15 @@ type Logger interface {
 	Close()
 }
 
-func NewLogger(cmd *exec.Cmd, ctl app_control.Control) Logger {
+func NewLogger(cmd *exec.Cmd, logger esl.Logger) Logger {
 	return &loggerImpl{
-		ctl: ctl,
+		l:   logger,
 		cmd: cmd,
 	}
 }
 
 type loggerImpl struct {
-	ctl     app_control.Control
+	l       esl.Logger
 	cmd     *exec.Cmd
 	so      io.ReadCloser
 	se      io.ReadCloser
@@ -32,7 +31,7 @@ type loggerImpl struct {
 }
 
 func (z *loggerImpl) logger(r io.Reader, prefix string) {
-	l := z.ctl.Log()
+	l := z.l
 	sb := bufio.NewReader(r)
 	w := sync.Once{}
 	for {
@@ -56,7 +55,7 @@ func (z *loggerImpl) logger(r io.Reader, prefix string) {
 
 func (z *loggerImpl) Start() {
 	var err error
-	l := z.ctl.Log()
+	l := z.l
 	z.running = true
 	z.so, err = z.cmd.StdoutPipe()
 	if err != nil {
