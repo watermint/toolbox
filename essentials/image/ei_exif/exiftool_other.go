@@ -1,3 +1,5 @@
+// +build !windows
+
 package ei_exif
 
 import (
@@ -10,10 +12,6 @@ import (
 
 const (
 	exiftoolExecutable = "exiftool"
-)
-
-var (
-	ErrorExiftoolNotAvailable = errors.New("exiftool is not available")
 )
 
 type exifToolImpl struct {

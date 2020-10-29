@@ -73,7 +73,6 @@ Available commands:
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
 | group        | Group management                |       |
-| image        | Image operation                 |       |
 | license      | Show license information        |       |
 | member       | Team member management          |       |
 | sharedfolder | Shared folder                   |       |
@@ -244,7 +243,6 @@ Available commands:
 | [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
 | [config features](doc/generated/config-features.md)         | List available optional features.                |
 | [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
-| [image info](doc/generated/image-info.md)                   | Show EXIF information of the image file          |
 | [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
 | [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |
 | [job history list](doc/generated/job-history-list.md)       | Show job history                                 |

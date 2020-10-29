@@ -14,6 +14,7 @@ import (
 )
 
 type Info struct {
+	rc_recipe.RemarkSecret
 	Path mo_path.ExistingFileSystemPath
 	Exif rp_model.RowReport
 }
