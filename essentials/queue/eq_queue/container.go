@@ -3,6 +3,7 @@ package eq_queue
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
+	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_pump"
 	"github.com/watermint/toolbox/essentials/queue/eq_registry"
 	"github.com/watermint/toolbox/essentials/queue/eq_worker"
@@ -43,7 +44,7 @@ func newContainerWithBundle(definition Definition, bundle eq_bundle.Bundle, opts
 		opts:   opts,
 	}
 	definition.Each(func(queueId string, f interface{}, ctx []interface{}) {
-		container.define(queueId, f, ctx...)
+		container.define(queueId, f, opts.mouldOpts, ctx...)
 	})
 	return container
 }
@@ -57,8 +58,8 @@ type conImpl struct {
 	opts   Opts
 }
 
-func (z *conImpl) define(queueId string, f interface{}, ctx ...interface{}) Queue {
-	mould := z.reg.Define(queueId, f, ctx...)
+func (z *conImpl) define(queueId string, f interface{}, opts eq_mould.Opts, ctx ...interface{}) Queue {
+	mould := z.reg.Define(queueId, f, opts, ctx...)
 	queue := newQueue(mould)
 	z.queues[queueId] = queue
 	return queue

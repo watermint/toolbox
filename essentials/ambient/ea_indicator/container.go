@@ -2,6 +2,7 @@ package ea_indicator
 
 import (
 	"github.com/vbauerster/mpb/v5"
+	"github.com/vbauerster/mpb/v5/decor"
 	"github.com/watermint/toolbox/essentials/ambient/ea_notification"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"sync"
@@ -9,7 +10,10 @@ import (
 
 type Container interface {
 	// Add new indicator
-	Add(total int64, opts ...mpb.BarOption) Indicator
+	NewIndicator(total int64, opts ...mpb.BarOption) Indicator
+
+	// Add new status
+	NewStatus(name string, opts ...mpb.BarOption) StatusBar
 
 	// Mark all indicators as done, and wait for shutdown
 	Done()
@@ -47,6 +51,7 @@ func newContainer(log esl.Logger) Container {
 	return &containerImpl{
 		log:        log,
 		indicators: make(map[int]Indicator),
+		statusBars: make(map[int]StatusBar),
 		progress:   mpb.New(),
 	}
 }
@@ -58,17 +63,50 @@ func newNopContainer() Container {
 type containerImpl struct {
 	log             esl.Logger
 	indicators      map[int]Indicator
+	statusBars      map[int]StatusBar
 	indicatorsMutex sync.Mutex
 	progress        *mpb.Progress
 }
 
-func (z *containerImpl) Add(total int64, opts ...mpb.BarOption) Indicator {
+func (z *containerImpl) NewStatus(name string, opts ...mpb.BarOption) StatusBar {
+	z.indicatorsMutex.Lock()
+	defer z.indicatorsMutex.Unlock()
+
+	l := z.log.With(esl.String("name", name))
+	l.Debug("Suppress notification")
+	ea_notification.Global().Suppress()
+
+	st := newStatus()
+
+	decoStatus := func(statistics decor.Statistics) string {
+		return st.CurrentStatus()
+	}
+	decoTitle := func(statistics decor.Statistics) string {
+		return st.CurrentTitle()
+	}
+
+	barOpts := make([]mpb.BarOption, 0)
+	barOpts = append(barOpts, opts...)
+	barOpts = append(barOpts, mpb.BarWidth(1))
+	barOpts = append(barOpts, mpb.PrependDecorators(
+		decor.Any(decoTitle),
+		decor.Name(" "),
+		decor.Any(decoStatus)))
+
+	bar := z.progress.AddBar(2, barOpts...)
+	sb := newStatusBar(name, st, bar)
+	z.statusBars[bar.ID()] = sb
+	l.Debug("Add new status", esl.Int("barId", bar.ID()))
+
+	return sb
+}
+
+func (z *containerImpl) NewIndicator(total int64, opts ...mpb.BarOption) Indicator {
 	z.indicatorsMutex.Lock()
 	defer z.indicatorsMutex.Unlock()
 
 	l := z.log.With(esl.Int64("total", total))
 	l.Debug("Suppress notification")
-
 	ea_notification.Global().Suppress()
 
 	bar := z.progress.AddBar(total, opts...)
@@ -88,6 +126,9 @@ func (z *containerImpl) Done() {
 	for _, indicator := range z.indicators {
 		indicator.Done()
 	}
+	for _, status := range z.statusBars {
+		status.Done()
+	}
 
 	z.indicators = make(map[int]Indicator)
 
@@ -102,7 +143,11 @@ func (z *containerImpl) Done() {
 type nopContainer struct {
 }
 
-func (n nopContainer) Add(total int64, opts ...mpb.BarOption) Indicator {
+func (n nopContainer) NewStatus(name string, opts ...mpb.BarOption) StatusBar {
+	return NewNopStatus()
+}
+
+func (n nopContainer) NewIndicator(total int64, opts ...mpb.BarOption) Indicator {
 	return NewNopIndicator()
 }
 
@@ -119,11 +164,18 @@ type switcherContainer struct {
 	container Container
 }
 
-func (z switcherContainer) Add(total int64, opts ...mpb.BarOption) Indicator {
+func (z switcherContainer) NewStatus(name string, opts ...mpb.BarOption) StatusBar {
+	if globalSuppress {
+		return NewNopStatus()
+	}
+	return z.container.NewStatus(name, opts...)
+}
+
+func (z switcherContainer) NewIndicator(total int64, opts ...mpb.BarOption) Indicator {
 	if globalSuppress {
 		return NewNopIndicator()
 	}
-	return z.container.Add(total, opts...)
+	return z.container.NewIndicator(total, opts...)
 }
 
 func (z switcherContainer) Done() {

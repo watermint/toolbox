@@ -7,7 +7,7 @@ import (
 )
 
 type Registry interface {
-	Define(mouldId string, f interface{}, ctx ...interface{}) eq_mould.Mould
+	Define(mouldId string, f interface{}, opts eq_mould.Opts, ctx ...interface{}) eq_mould.Mould
 
 	Get(mouldId string) (mould eq_mould.Mould, found bool)
 }
@@ -28,8 +28,8 @@ type regImpl struct {
 	errorHandlers []eq_mould.ErrorHandler
 }
 
-func (z *regImpl) Define(mouldId string, f interface{}, ctx ...interface{}) eq_mould.Mould {
-	mould := eq_mould.New(mouldId, z.bundle, z.errorHandlers, f, ctx...)
+func (z *regImpl) Define(mouldId string, f interface{}, opts eq_mould.Opts, ctx ...interface{}) eq_mould.Mould {
+	mould := eq_mould.New(mouldId, z.bundle, z.errorHandlers, f, opts, ctx...)
 	z.moulds[mouldId] = mould
 	return mould
 }

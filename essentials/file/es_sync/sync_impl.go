@@ -22,7 +22,7 @@ func New(log esl.Logger, seq eq_sequence.Sequence, source, target es_filesystem.
 		es_filecompare.DontCompareTime(opts.syncDontCompareTime),
 	)
 
-	indicator := opts.Progress().Add(0,
+	indicator := opts.Progress().NewIndicator(0,
 		mpb.PrependDecorators(
 			decor.Name("Data transfer ", decor.WC{W: 20}),
 			decor.AverageSpeed(decor.UnitKiB, "% 1.f"),

@@ -40,6 +40,7 @@ func NewQueue(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_worksp
 		eq_queue.NumWorker(fe.Concurrency()),
 		eq_queue.Factory(factory),
 		eq_queue.ErrorHandler(er.ErrorHandler),
+		eq_queue.Verbose(fe.IsVerbose()),
 	)
 	return
 }

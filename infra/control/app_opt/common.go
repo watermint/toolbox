@@ -32,6 +32,9 @@ type CommonOpts struct {
 	// Enable debug mode
 	Debug bool
 
+	// Enable verbose mode
+	Verbose bool
+
 	// Enable experiments
 	Experiment string
 
@@ -65,6 +68,7 @@ func (z *CommonOpts) Preset() {
 	z.BandwidthKb = 0
 	z.Concurrency = runtime.NumCPU()
 	z.Debug = false
+	z.Verbose = false
 	z.Experiment = ""
 	z.BudgetMemory.SetOptions(BudgetNormal, BudgetLow, BudgetNormal)
 	z.BudgetStorage.SetOptions(string(app_budget.DefaultBudget), app_budget.StorageBudgets...)

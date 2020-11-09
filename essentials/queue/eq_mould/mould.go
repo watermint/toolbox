@@ -2,6 +2,8 @@ package eq_mould
 
 import (
 	"encoding/json"
+	"fmt"
+	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"reflect"
@@ -21,9 +23,26 @@ type Mould interface {
 	MouldId() string
 }
 
+type Opts struct {
+	Verbose bool `json:"verbose"`
+}
+
+func (z Opts) Apply(opts []Opt) Opts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+type Opt func(o Opts) Opts
+
 type ErrorHandler func(err error, mouldId, batchId string, p interface{})
 
-func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorHandler, f interface{}, ctx ...interface{}) Mould {
+func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorHandler, f interface{}, opts Opts, ctx ...interface{}) Mould {
 	l := esl.Default().With(esl.String("mouldId", mouldId))
 
 	if s == nil {
@@ -82,6 +101,13 @@ func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorHandler, f interface{}, 
 		panic("f has two or more returns")
 	}
 
+	var statusBar ea_indicator.StatusBar
+	if opts.Verbose {
+		statusBar = ea_indicator.Global().NewStatus("Operation")
+	} else {
+		statusBar = ea_indicator.NewNopStatus()
+	}
+
 	return &mouldImpl{
 		mouldId:       mouldId,
 		ctx:           ctx,
@@ -95,6 +121,7 @@ func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorHandler, f interface{}, 
 		paramTypeOrig: paramTypeOrig,
 		hasErrorOut:   hasErrorOut,
 		errorHandlers: ehs,
+		statusBar:     statusBar,
 	}
 }
 
@@ -114,6 +141,8 @@ type mouldImpl struct {
 	paramIsPtr    bool
 	hasErrorOut   bool
 	errorHandlers []ErrorHandler
+
+	statusBar ea_indicator.StatusBar
 }
 
 func (z mouldImpl) MouldId() string {
@@ -194,6 +223,9 @@ func (z mouldImpl) Process(b eq_bundle.Barrel) {
 	for _, ctx := range z.ctx {
 		params = append(params, reflect.ValueOf(ctx))
 	}
+
+	z.statusBar.UpdateTitle("Batch")
+	z.statusBar.UpdateStatus(fmt.Sprintf("%s", b.D))
 
 	l.Debug("Call processor", esl.Int("NumParams", len(params)))
 	out := z.handlerValue.Call(params)

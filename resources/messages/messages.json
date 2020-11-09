@@ -527,6 +527,7 @@
   "infra.control.app_opt.common_opts.flag.proxy": "HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.",
   "infra.control.app_opt.common_opts.flag.quiet": "Suppress non-error messages, and make output readable by a machine (JSON format)",
   "infra.control.app_opt.common_opts.flag.secure": "Do not store tokens into a file",
+  "infra.control.app_opt.common_opts.flag.verbose": "Show current operations for more detail.",
   "infra.control.app_opt.common_opts.flag.workspace": "Workspace path",
   "infra.doc.dc_command.auth.desc": "For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.",
   "infra.doc.dc_command.auth.header": "Authorization",
