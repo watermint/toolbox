@@ -16,6 +16,7 @@ import (
 type Feature interface {
 	IsProduction() bool
 	IsDebug() bool
+	IsVerbose() bool
 	IsTest() bool
 	IsTestWithMock() bool
 	IsTestWithSeqReplay() (replay []nw_replay.Response, enabled bool)

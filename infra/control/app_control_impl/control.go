@@ -1,6 +1,7 @@
 package app_control_impl
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
@@ -10,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
+	"github.com/watermint/toolbox/infra/control/app_queue"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
@@ -34,9 +36,19 @@ func ForkQuiet(ctl app_control.Control, name string) (app_control.Control, error
 	if err != nil {
 		return nil, err
 	}
-	qui := app_ui.NewDiscard(ctl.Messages(), wb.Logger().Logger())
+	lg := wb.Logger().Logger()
+	qui := app_ui.NewDiscard(ctl.Messages(), lg)
 	qfe := ctl.Feature().AsQuiet()
-	return ctl.WithFeature(qfe).WithUI(qui).WithBundle(wb), nil
+	cc, ok := ctl.(ForkableControl)
+	if !ok {
+		return nil, errors.New("this control is not cloneable")
+	}
+	seq, er := app_queue.NewQueue(lg, qfe, qui, wb)
+	fc := cc.WithSequence(seq).WithErrorReport(er).WithBundle(wb).WithFeature(qfe).WithUI(qui)
+	if err := er.Up(fc); err != nil {
+		return nil, err
+	}
+	return fc, nil
 }
 
 func WithForkedQuiet(ctl app_control.Control, name string, f func(c app_control.Control) error) error {
@@ -50,6 +62,16 @@ func WithForkedQuiet(ctl app_control.Control, name string, f func(c app_control.
 	return f(cf)
 }
 
+type ForkableControl interface {
+	app_control.Control
+
+	// Fork control with error report
+	WithErrorReport(er app_error.ErrorReport) ForkableControl
+
+	// Fork control with sequence
+	WithSequence(seq eq_sequence.Sequence) ForkableControl
+}
+
 type ctlImpl struct {
 	feature     app_feature.Feature
 	ui          app_ui.UI
@@ -57,6 +79,16 @@ type ctlImpl struct {
 	cacheCtl    cache.Controller
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
+}
+
+func (z ctlImpl) WithSequence(seq eq_sequence.Sequence) ForkableControl {
+	z.seq = seq
+	return z
+}
+
+func (z ctlImpl) WithErrorReport(er app_error.ErrorReport) ForkableControl {
+	z.errorReport = er
+	return z
 }
 
 func (z ctlImpl) NewCache(namespace, name string) cache.Cache {

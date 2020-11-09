@@ -64,6 +64,46 @@ func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_context.Contex
 	return
 }
 
+func (z *Bundle) execReplay(l esl.Logger, entryName string, replay rc_replay.Replay, dbxCtx dbx_context.Context, c, forkCtl app_control.Control) (err error) {
+	defer func() {
+		if rescue := recover(); rescue != nil {
+			var ok bool
+			if err, ok = rescue.(error); ok {
+				l.Warn("Warn: panic", esl.Error(err), esl.String("entry", entryName))
+			} else {
+				l.Warn("Warn: panic", esl.Any("error", rescue), esl.String("entry", entryName))
+				err = errors.New("panic")
+			}
+		}
+	}()
+
+	start := time.Now()
+	l.Debug("Running", esl.String("entryName", entryName))
+	err = replay.Replay(forkCtl.Workspace(), forkCtl)
+	duration := time.Now().Sub(start).Truncate(time.Millisecond)
+
+	if err != nil {
+		l.Warn("Error on replay", esl.Error(err))
+		l.Info("Uploading logs")
+		to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
+			err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
+				m := r.(*file.Upload)
+				m.Context = dbxCtx
+				m.LocalPath = mo_path2.NewFileSystemPath(forkCtl.Workspace().Job())
+				m.DropboxPath = z.ResultsPath
+				m.Overwrite = true
+			})
+		})
+		if to {
+			l.Warn("Operation timeout")
+		}
+		return err
+	}
+
+	l.Debug("Success", esl.Duration("duration", duration))
+	return nil
+}
+
 func (z *Bundle) Exec(c app_control.Control) error {
 	l := c.Log()
 	replayPath, err := rc_replay.ReplayPath(z.ReplayPath)
@@ -112,29 +152,7 @@ func (z *Bundle) Exec(c app_control.Control) error {
 			l.Debug("Unable to extract", esl.Error(err))
 			return err
 		}
-
-		start := time.Now()
-		err = replay.Replay(forkCtl.Workspace(), forkCtl)
-		if err != nil {
-			l.Warn("Error on replay", esl.Error(err))
-			recipeErr = err
-			l.Info("Uploading logs")
-			to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
-				err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
-					m := r.(*file.Upload)
-					m.Context = dbxCtx
-					m.LocalPath = mo_path2.NewFileSystemPath(forkCtl.Workspace().Job())
-					m.DropboxPath = z.ResultsPath
-					m.Overwrite = true
-				})
-			})
-			if to {
-				l.Warn("Operation timeout")
-			}
-			continue
-		}
-		duration := time.Now().Sub(start).Truncate(time.Millisecond)
-		l.Info("Success", esl.Duration("duration", duration))
+		recipeErr = z.execReplay(l, entryName, replay, dbxCtx, c, forkCtl)
 	}
 	return recipeErr
 }

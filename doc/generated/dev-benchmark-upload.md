@@ -68,14 +68,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option           | Description              | Default |
-|------------------|--------------------------|---------|
-| `-chunk-size-kb` | Upload chunk size in KiB | 65536   |
-| `-num-files`     | Number of files.         | 1000    |
-| `-path`          | Path to Dropbox          |         |
-| `-peer`          | Account alias            | default |
-| `-size-max-kb`   | Maximum file size (KiB). | 2048    |
-| `-size-min-kb`   | Minimum file size (KiB). | 0       |
+| Option           | Description                                      | Default |
+|------------------|--------------------------------------------------|---------|
+| `-chunk-size-kb` | Upload chunk size in KiB                         | 65536   |
+| `-num-files`     | Number of files.                                 | 1000    |
+| `-path`          | Path to Dropbox                                  |         |
+| `-peer`          | Account alias                                    | default |
+| `-shard`         | Number of shared folders to distribute namespace | 1       |
+| `-size-max-kb`   | Maximum file size (KiB).                         | 2048    |
+| `-size-min-kb`   | Minimum file size (KiB).                         | 0       |
 
 ## Common options:
 
@@ -93,6 +94,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-proxy`          | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |
 | `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-secure`         | Do not store tokens into a file                                                           | false                |
+| `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
 
 # Proxy configuration

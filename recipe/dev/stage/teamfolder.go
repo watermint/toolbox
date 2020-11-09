@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
@@ -29,25 +30,32 @@ type Teamfolder struct {
 
 func (z *Teamfolder) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeGroupsWrite,
+		dbx_auth.ScopeFilesContentRead,
 		dbx_auth.ScopeFilesContentWrite,
+		dbx_auth.ScopeGroupsWrite,
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeSharingWrite,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
 	)
 }
 
 func (z *Teamfolder) Exec(c app_control.Control) error {
-	teamFolderName := "Tokyo Branch 2"
+	teamFolderName := "Tokyo Branch"
 	nestedFolderPlainName := "Organization"
 	nestedFolderSharedName := "Sales"
 	nestedFolderRestrictedName := "Report"
 	adminGroupName := "toolbox-admin"
+	sampleGroupName := "toolbox-sample"
 
-	// [Tokyo Branch] (Team folder)
+	// [Tokyo Branch] (Team folder, [editor=toolbox-admin])
 	//  |
 	//  +-- [Organization] (plain folder, not_synced)
 	//  |
 	//  +-- [Sales] (nested folder, not_synced)
 	//       |
-	//       +-- [Report] (nested folder, do not inherit, no external sharing)
+	//       +-- [Report] (nested folder, do not inherit, no external sharing, [editor=toolbox-sample])
 
 	l := c.Log()
 
@@ -194,7 +202,10 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	l.Info("Sync settings updated", esl.Any("updated", updated))
 
 	// Create toolbox admin group
-	adminGroup, err := sv_group.New(z.Peer.Context()).Create(adminGroupName)
+	adminGroup, err := sv_group.New(z.Peer.Context()).Create(
+		adminGroupName,
+		sv_group.CompanyManaged(),
+	)
 	de = dbx_error.NewErrors(err)
 	switch {
 	case de == nil:
@@ -213,6 +224,46 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 
+	// Add the admin to the admin group
+	updatedAdminGroup, err := sv_group_member.NewByGroupId(z.Peer.Context(), adminGroup.GroupId).Add(
+		sv_group_member.ByTeamMemberId(admin.TeamMemberId),
+	)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("The admin successfully added to the admin group", esl.Any("group", updatedAdminGroup))
+
+	case de.IsDuplicateUser():
+		l.Info("The admin is already added to the admin group", esl.Any("group", updatedAdminGroup))
+
+	default:
+		l.Warn("Unable to add member", esl.Error(err))
+		return err
+	}
+
+	// Create toolbox sample group
+	sampleGroup, err := sv_group.New(z.Peer.Context()).Create(
+		sampleGroupName,
+		sv_group.UserManaged(),
+	)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("The sample group created", esl.Any("group", sampleGroup))
+
+	case de.IsGroupNameAlreadyUsed():
+		l.Info("The sample group already created")
+		sampleGroup, err = sv_group.New(z.Peer.Context()).ResolveByName(sampleGroupName)
+		if err != nil {
+			l.Warn("Unable to find the sample group", esl.Error(err))
+			return err
+		}
+
+	default:
+		l.Warn("Unable to create the sample group", esl.Error(err))
+		return err
+	}
+
 	// Add admin group to the team folder
 	err = sv_sharedfolder_member.NewByTeamFolder(z.Peer.Context().AsAdminId(admin.TeamMemberId), tf).Add(
 		sv_sharedfolder_member.AddByGroup(adminGroup, "editor"),
@@ -222,6 +273,8 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	case de == nil:
 		l.Info("The admin group added to the team folder as editor")
 
+	default:
+		l.Warn("Unable to update members", esl.Error(err))
 	}
 
 	// Do not inherit permission from parent : Sales/Report
@@ -231,6 +284,35 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 	l.Info("Sync access inheritance updated", esl.Any("updated", updatedFolderSalesReport))
+
+	// Add sample group to the nested folder
+	err = sv_sharedfolder_member.NewBySharedFolderId(z.Peer.Context().AsAdminId(admin.TeamMemberId), folderSalesReport.SharedFolderId).Add(
+		sv_sharedfolder_member.AddByGroup(sampleGroup, "editor"),
+	)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("The sample group added to the team folder as editor")
+
+	default:
+		l.Warn("Unable to update members", esl.Error(err))
+	}
+
+	// Change folder policy : Sales
+	updatedSalesPolicy, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+		folderSales.SharedFolderId,
+		sv_sharedfolder.MemberPolicy("team"),
+		sv_sharedfolder.AclUpdatePolicy("owner"),
+		sv_sharedfolder.SharedLinkPolicy("team"),
+	)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("The sales folder policy successfully updated", esl.Any("updated", updatedSalesPolicy))
+
+	default:
+		l.Warn("Unable to update policies", esl.Error(err))
+	}
 
 	return nil
 }

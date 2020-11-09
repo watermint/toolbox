@@ -52,7 +52,7 @@ func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) ea_in
 		mouldName = mouldName[len(mouldName)-digestLen:]
 	}
 
-	return z.container.Add(int64(total),
+	return z.container.NewIndicator(int64(total),
 		mpb.PrependDecorators(
 			decor.Name(mouldName+" ", decor.WC{W: digestLen}),
 			decor.Name(typeName+" ", decor.WC{W: 5}),

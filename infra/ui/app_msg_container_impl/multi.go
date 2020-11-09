@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 )
 
 func NewMultilingual(las []lang.Lang, containers map[lang.Iso639One]app_msg_container.Container) app_msg_container.Container {
@@ -29,7 +29,7 @@ func (z mlContainer) Text(key string) string {
 			}
 		}
 	}
-	qt_missingmsg.Record().NotFound(key)
+	qt_msgusage.Record().NotFound(key)
 	l.Warn("Unable to find message resource", esl.String("key", key))
 	return AltText(key)
 }
@@ -61,14 +61,16 @@ func (z *mlContainer) Compile(m app_msg.Message) string {
 	for _, la := range z.priority {
 		if c, ok := z.containers[la.Code()]; ok {
 			if c.Exists(m) {
+				qt_msgusage.Record().Touch(m.Key())
 				return c.Compile(m)
 			}
 		}
 	}
 	if mo, ok := m.(app_msg.MessageOptional); ok && mo.Optional() {
+		qt_msgusage.Record().Touch(m.Key())
 		return ""
 	}
-	qt_missingmsg.Record().NotFound(m.Key())
+	qt_msgusage.Record().NotFound(m.Key())
 	l.Warn("Unable to find message resource", esl.String("key", m.Key()))
 	return AltCompile(m)
 }

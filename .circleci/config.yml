@@ -3,6 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.15
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
@@ -20,6 +23,9 @@ jobs:
   test:
     docker:
       - image: circleci/golang:1.15
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_PASSWORD
     working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout

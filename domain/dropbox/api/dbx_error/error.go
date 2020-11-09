@@ -7,11 +7,14 @@ import (
 type DropboxError struct {
 	ErrorTag          string `path:"error.\\.tag" json:"error,omitempty"`
 	ErrorSummary      string `path:"error_summary" json:"error_summary,omitempty"`
-	UserMessageLocale string `json:"user_message_lang,omitempty"`
-	UserMessage       string `json:"user_message,omitempty"`
+	UserMessageLocale string `path:"user_message.locale" json:"user_message_lang,omitempty"`
+	UserMessage       string `path:"user_message.text" json:"user_message,omitempty"`
 }
 
 func (z DropboxError) Error() string {
+	if z.UserMessage != "" {
+		return z.UserMessage
+	}
 	return z.ErrorSummary
 }
 
@@ -46,6 +49,8 @@ type Errors interface {
 	IsFolderNameAlreadyUsed() bool
 	// group_name_already_used
 	IsGroupNameAlreadyUsed() bool
+	// duplicate user
+	IsDuplicateUser() bool
 
 	Summary() string
 }
@@ -105,6 +110,10 @@ type ErrorSharePath interface {
 
 type errorsImpl struct {
 	de DropboxError
+}
+
+func (z errorsImpl) IsDuplicateUser() bool {
+	return z.de.HasPrefix("duplicate_user")
 }
 
 func (z errorsImpl) IsGroupNameAlreadyUsed() bool {

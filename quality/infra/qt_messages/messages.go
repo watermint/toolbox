@@ -16,7 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 	"io"
 	"os"
 	"sort"
@@ -97,7 +97,7 @@ func VerifyMessages(ctl app_control.Control) error {
 	qui := app_ui.NewDiscard(ctl.Messages(), ctl.Log())
 	verifyGroup(root, qui)
 
-	missing := qt_missingmsg.Record().Missing()
+	missing := qt_msgusage.Record().Missing()
 	if len(missing) > 0 {
 		sort.Strings(missing)
 		for _, k := range missing {

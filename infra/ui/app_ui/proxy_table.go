@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 )
 
 type proxyTableImpl struct {
@@ -20,7 +20,9 @@ func (z proxyTableImpl) verifyMessages(ms []app_msg.Message) {
 		k := m.Key()
 		if !z.mc.Exists(m) {
 			z.lg.Debug("Message key not found", esl.String("key", k))
-			qt_missingmsg.Record().NotFound(k)
+			qt_msgusage.Record().NotFound(k)
+		} else {
+			qt_msgusage.Record().Touch(k)
 		}
 	}
 }

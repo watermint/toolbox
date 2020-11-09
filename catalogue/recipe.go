@@ -34,10 +34,12 @@ import (
 	recipegroup "github.com/watermint/toolbox/recipe/group"
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
+	recipeimage "github.com/watermint/toolbox/recipe/image"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
+	recipememberfile "github.com/watermint/toolbox/recipe/member/file"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesasanateam "github.com/watermint/toolbox/recipe/services/asana/team"
@@ -124,7 +126,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevstage.Gmail{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
-		&recipedevtest.Async{},
 		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
@@ -168,6 +169,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmember.Add{},
 		&recipegroupmember.Delete{},
 		&recipegroupmember.List{},
+		&recipeimage.Info{},
 		&recipejobhistory.Archive{},
 		&recipejobhistory.Delete{},
 		&recipejobhistory.List{},
@@ -182,6 +184,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipemember.Reinvite{},
 		&recipemember.Replication{},
 		&recipememberclear.Externalid{},
+		&recipememberfile.Permdelete{},
 		&recipememberquota.List{},
 		&recipememberquota.Update{},
 		&recipememberquota.Usage{},

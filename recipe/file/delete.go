@@ -2,7 +2,7 @@ package file
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -34,7 +34,8 @@ func (z *Delete) Exec(c app_control.Control) error {
 		if err == nil {
 			return nil
 		}
-		if dbx_util.ErrorSummaryPrefix(err, "too_many_files") {
+		de := dbx_error.NewErrors(err)
+		if de.IsTooManyFiles() {
 			entries, err := sv_file.NewFiles(ctx).List(path)
 			if err != nil {
 				return err

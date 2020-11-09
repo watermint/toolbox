@@ -88,6 +88,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-proxy`          | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |
 | `-quiet`          | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-secure`         | Do not store tokens into a file                                                           | false                |
+| `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
 
 # Results
@@ -110,7 +111,7 @@ The command will generate a report in three different formats. `workspaces.csv`,
 | gid             | Globally unique identifier of the resource, as a string. |
 | resource_type   | The base type of this resource.                          |
 | name            | The name of the workspace.                               |
-| is_organization | 	Whether the workspace is an organization.                |
+| is_organization | Whether the workspace is an organization.                |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

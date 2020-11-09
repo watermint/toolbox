@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_feature_impl"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_opt"
+	"github.com/watermint/toolbox/infra/control/app_queue"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
@@ -81,7 +82,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	sm := z.wb.Summary().Logger()
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
 
-	seq, er := newQueue(lg, fe, z.ui, z.wb)
+	seq, er := app_queue.NewQueue(lg, fe, z.ui, z.wb)
 
 	ctl = app_control_impl.New(z.wb, z.ui, fe, seq, er)
 

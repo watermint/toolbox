@@ -108,6 +108,12 @@ func (z *ValueFdFileRowFeed) Capture(ctl app_control.Control) (v interface{}, er
 		return nil, nil
 	}
 
+	filePath, err = es_filepath.FormatPathWithPredefinedVariables(filePath)
+	if err != nil {
+		l.Debug("Unable to format file path", esl.Error(err))
+		return nil, err
+	}
+
 	f, err := os.Open(filePath)
 	if err != nil {
 		l.Debug("Unable to open the feed file", esl.Error(err))

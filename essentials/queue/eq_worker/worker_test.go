@@ -3,6 +3,7 @@ package eq_worker
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
+	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_registry"
 	"testing"
@@ -19,7 +20,7 @@ func TestWorkerImpl(t *testing.T) {
 
 		c := make(chan eq_bundle.Barrel)
 		reg := eq_registry.New(bundle, nil)
-		reg.Define("m", processor)
+		reg.Define("m", processor, eq_mould.Opts{})
 		mould, found := reg.Get("m")
 		if !found {
 			t.Error(found)

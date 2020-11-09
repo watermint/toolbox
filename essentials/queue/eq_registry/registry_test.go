@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
+	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
 	"github.com/watermint/toolbox/essentials/queue/eq_progress"
 	"testing"
@@ -22,7 +23,7 @@ func TestRegImpl_Define(t *testing.T) {
 		logger.Info("Processing", esl.String("userId", userId))
 		processed++
 	}
-	reg.Define("alpha", processor)
+	reg.Define("alpha", processor, eq_mould.Opts{})
 	if mould, found := reg.Get("alpha"); !found {
 		t.Error(found)
 	} else {

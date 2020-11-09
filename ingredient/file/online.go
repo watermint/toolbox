@@ -141,7 +141,7 @@ func (z *Online) Exec(c app_control.Control) error {
 			status.skip()
 		}),
 		es_sync.WithNameFilter(z.Name),
-		es_sync.OptimizePreventCreateFolder(c.Feature().Experiment(app.ExperimentFileSyncReduceCreateFolder)),
+		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
 	syncErr := syncer.Sync(filesystem.NewPath("", z.SrcPath), filesystem.NewPath("", z.DstPath))

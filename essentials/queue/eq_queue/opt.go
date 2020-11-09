@@ -15,6 +15,7 @@ type Opts struct {
 	progress     eq_progress.Progress
 	errorHandler []eq_mould.ErrorHandler
 	policy       eq_bundle.FetchPolicy
+	mouldOpts    eq_mould.Opts
 }
 
 func (z Opts) Apply(opts ...Opt) Opts {
@@ -79,6 +80,13 @@ func Factory(f eq_pipe.Factory) Opt {
 func ErrorHandler(eh eq_mould.ErrorHandler) Opt {
 	return func(o Opts) Opts {
 		o.errorHandler = append(o.errorHandler, eh)
+		return o
+	}
+}
+
+func Verbose(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.mouldOpts.Verbose = enabled
 		return o
 	}
 }

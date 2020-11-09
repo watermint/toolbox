@@ -81,6 +81,10 @@ func (z featureImpl) IsTestWithSeqReplay() (replay []nw_replay.Response, enabled
 	}
 }
 
+func (z featureImpl) IsVerbose() bool {
+	return z.com.Verbose
+}
+
 func (z featureImpl) IsTransient() bool {
 	return z.transient
 }

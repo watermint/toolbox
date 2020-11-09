@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -543,7 +543,8 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 		if pair.Dst == nil {
 			folder, err := svt.Create(pair.Src.Name, sv_teamfolder.SyncNoSync())
 			if err != nil {
-				if dbx_util.ErrorSummaryPrefix(err, "folder_name_already_used") {
+				de := dbx_error.NewErrors(err)
+				if de.IsFolderNameAlreadyUsed() {
 					l.Debug("Skip: Already created")
 					return nil
 				}

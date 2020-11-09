@@ -14,7 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
-	"github.com/watermint/toolbox/quality/infra/qt_missingmsg"
+	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 	"io/ioutil"
 	"path/filepath"
 )
@@ -104,7 +104,7 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 		return err
 	}
 
-	missing := qt_missingmsg.Record().Missing()
+	missing := qt_msgusage.Record().Missing()
 	if len(missing) > 0 {
 		return qt_messages.VerifyMessages(ctl)
 	}
