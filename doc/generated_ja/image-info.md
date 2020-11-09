@@ -1,6 +1,6 @@
 # image info
 
-Show EXIF information of the image file 
+画像ファイルのEXIF情報を表示します 
 
 # 利用方法
 
@@ -26,9 +26,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-path`    | Path to the image |            |
+| オプション | 説明         | デフォルト |
+|------------|--------------|------------|
+| `-path`    | 画像へのパス |            |
 
 ## 共通のオプション:
 
@@ -46,7 +46,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-proxy`          | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
-| `-verbose`        | Show current operations for more detail.                                                           | false          |
+| `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
 # 実行結果
@@ -61,15 +61,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: exif
 
-EXIF data
+EXIFデータ
 このコマンドはレポートを3種類の書式で出力します. `exif.csv`, `exif.json`, ならびに `exif.xlsx`.
 
-| 列                 | 説明                                                                                                  |
-|--------------------|-------------------------------------------------------------------------------------------------------|
-| date_time_original | The date and time when the original image data was generated                                          |
-| date_time          | DThe date and time of image creation. In Exif standard, it is the date and time the file was changed. |
-| make               | The name of the manufacturer                                                                          |
-| model              | The model name or model number                                                                        |
+| 列                 | 説明                                                                |
+|--------------------|---------------------------------------------------------------------|
+| date_time_original | 元の画像データが生成された日時                                      |
+| date_time          | 画像を作成した日時. EXIF標準では、ファイルを変更した日時となります. |
+| make               | メーカー名                                                          |
+| model              | モデル名またはモデル番号                                            |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

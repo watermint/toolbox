@@ -88,7 +88,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-proxy`          | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
-| `-verbose`        | Show current operations for more detail.                                                           | false          |
+| `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
 # 実行結果
@@ -111,7 +111,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | gid             | リソースのグローバルに一意な識別子を文字列で指定します。 |
 | resource_type   | このリソースのベースタイプ。                             |
 | name            | ワークスペースの名前。                                   |
-| is_organization | 	ワークスペースが組織であるかどうか。                     |
+| is_organization | ワークスペースが組織であるかどうか。                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

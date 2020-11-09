@@ -68,15 +68,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション       | 説明                                             | デフォルト |
-|------------------|--------------------------------------------------|------------|
-| `-chunk-size-kb` | チャンクサイズをKiB単位でアップロード            | 65536      |
-| `-num-files`     | ファイル数.                                      | 1000       |
-| `-path`          | Dropboxパス                                      |            |
-| `-peer`          | アカウントの別名                                 | default    |
-| `-shard`         | Number of shared folders to distribute namespace | 1          |
-| `-size-max-kb`   | 最大ファイルサイズ (KiB).                        | 2048       |
-| `-size-min-kb`   | 最小ファイルサイズ (KiB).                        | 0          |
+| オプション       | 説明                                  | デフォルト |
+|------------------|---------------------------------------|------------|
+| `-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
+| `-num-files`     | ファイル数.                           | 1000       |
+| `-path`          | Dropboxパス                           |            |
+| `-peer`          | アカウントの別名                      | default    |
+| `-shard`         | 名前空間を分散させる共有フォルダの数. | 1          |
+| `-size-max-kb`   | 最大ファイルサイズ (KiB).             | 2048       |
+| `-size-min-kb`   | 最小ファイルサイズ (KiB).             | 0          |
 
 ## 共通のオプション:
 
@@ -94,7 +94,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-proxy`          | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |
 | `-quiet`          | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
-| `-verbose`        | Show current operations for more detail.                                                           | false          |
+| `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
 # ネットワークプロクシの設定

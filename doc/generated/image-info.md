@@ -64,12 +64,12 @@ Report file path will be displayed last line of the command line output. If you 
 EXIF data
 The command will generate a report in three different formats. `exif.csv`, `exif.json`, and `exif.xlsx`.
 
-| Column             | Description                                                                                           |
-|--------------------|-------------------------------------------------------------------------------------------------------|
-| date_time_original | The date and time when the original image data was generated                                          |
-| date_time          | DThe date and time of image creation. In Exif standard, it is the date and time the file was changed. |
-| make               | The name of the manufacturer                                                                          |
-| model              | The model name or model number                                                                        |
+| Column             | Description                                                                                          |
+|--------------------|------------------------------------------------------------------------------------------------------|
+| date_time_original | The date and time when the original image data was generated                                         |
+| date_time          | The date and time of image creation. In Exif standard, it is the date and time the file was changed. |
+| make               | The name of the manufacturer                                                                         |
+| model              | The model name or model number                                                                       |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
