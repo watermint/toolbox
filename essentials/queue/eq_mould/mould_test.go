@@ -48,7 +48,7 @@ func TestQueue_Dequeue(t *testing.T) {
 			f := func(w *WorkData, ctl MockControl, mockConn MockConn) {
 				ctl.Log().Info("UserId", esl.String("userId", w.UserId), esl.String("peerName", mockConn.PeerName()))
 			}
-			mould := New("alpha", storage, nil, f, ctl, conn)
+			mould := New("alpha", storage, nil, f, Opts{}, ctl, conn)
 			mould.Pour(&WorkData{
 				UserId: "U001",
 			})
@@ -62,7 +62,7 @@ func TestQueue_Dequeue(t *testing.T) {
 			f := func(w WorkData, ctl MockControl) {
 				ctl.Log().Info("UserId", esl.String("userId", w.UserId))
 			}
-			mould := New("alpha", storage, nil, f, ctl)
+			mould := New("alpha", storage, nil, f, Opts{}, ctl)
 			mould.Pour(WorkData{
 				UserId: "U002",
 			})
@@ -89,7 +89,7 @@ func TestQueue_Dequeue(t *testing.T) {
 				ctl.Log().Info("UserId", esl.String("userId", userId))
 				return errors.New("this is wrong")
 			}
-			mould := New("alpha", storage, []ErrorHandler{eh}, f, ctl)
+			mould := New("alpha", storage, []ErrorHandler{eh}, f, Opts{}, ctl)
 			mould.Pour("U003")
 			if d, found := storage.Fetch(); found {
 				mould.Process(d)
@@ -113,7 +113,7 @@ func TestMouldImpl_Batch(t *testing.T) {
 			f := func(userId string, ctl MockControl) {
 				ctl.Log().Info("UserId", esl.String("userId", userId))
 			}
-			mould := New("alpha", storage, nil, f, ctl)
+			mould := New("alpha", storage, nil, f, Opts{}, ctl)
 			b01 := mould.Batch("B01")
 			b02 := mould.Batch("B02")
 			b01.Pour("B01_001")
