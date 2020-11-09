@@ -85,42 +85,42 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Dropbox (個人アカウント)
 
-| コマンド                                                                   | 説明                                                                                                                                                           |
-|----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                                                                                                                           |
-| [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                                                                                                                         |
-| [file compare local](doc/generated_ja/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                                                                                                            |
-| [file copy](doc/generated_ja/file-copy.md)                                 | ファイルをコピーします                                                                                                                                         |
-| [file delete](doc/generated_ja/file-delete.md)                             | ファイルまたはフォルダは削除します.                                                                                                                            |
-| [file download](doc/generated_ja/file-download.md)                         | Dropboxからファイルをダウンロードします                                                                                                                        |
-| [file export doc](doc/generated_ja/file-export-doc.md)                     | ドキュメントのエクスポート                                                                                                                                     |
-| [file import batch url](doc/generated_ja/file-import-batch-url.md)         | URLからファイルを一括インポートします                                                                                                                          |
-| [file import url](doc/generated_ja/file-import-url.md)                     | URLからファイルをインポートします                                                                                                                              |
-| [file list](doc/generated_ja/file-list.md)                                 | ファイルとフォルダを一覧します                                                                                                                                 |
-| [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                                                                                                                           |
-| [file mount list](doc/generated_ja/file-mount-list.md)                     | マウント/アンマウントされた共有フォルダの一覧                                                                                                                  |
-| [file move](doc/generated_ja/file-move.md)                                 | ファイルを移動します                                                                                                                                           |
-| [file replication](doc/generated_ja/file-replication.md)                   | ファイルコンテンツを他のアカウントに複製します                                                                                                                 |
-| [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                                                                                                             |
-| [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                                                                                                                       |
-| [file search name](doc/generated_ja/file-search-name.md)                   | ファイル名を検索                                                                                                                                               |
-| [file size](doc/generated_ja/file-size.md)                                 | ストレージの利用量                                                                                                                                             |
-| [file sync down](doc/generated_ja/file-sync-down.md)                       | Dropboxと下り方向で同期します                                                                                                                                  |
-| [file sync online](doc/generated_ja/file-sync-online.md)                   | オンラインファイルを同期します                                                                                                                                 |
-| [file sync up](doc/generated_ja/file-sync-up.md)                           | Dropboxと上り方向で同期します                                                                                                                                  |
-| [file watch](doc/generated_ja/file-watch.md)                               | ファイルアクティビティを監視                                                                                                                                   |
-| [filerequest create](doc/generated_ja/filerequest-create.md)               | ファイルリクエストを作成します                                                                                                                                 |
-| [filerequest delete closed](doc/generated_ja/filerequest-delete-closed.md) | このアカウントの全ての閉じられているファイルリクエストを削除します                                                                                             |
-| [filerequest delete url](doc/generated_ja/filerequest-delete-url.md)       | ファイルリクエストのURLを指定して削除                                                                                                                          |
-| [filerequest list](doc/generated_ja/filerequest-list.md)                   | 個人アカウントのファイルリクエストを一覧.                                                                                                                      |
-| [job history ship](doc/generated_ja/job-history-ship.md)                   | ログの転送先Dropboxパス                                                                                                                                        |
-| [member file permdelete](doc/generated_ja/member-file-permdelete.md)       | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
-| [sharedfolder list](doc/generated_ja/sharedfolder-list.md)                 | 共有フォルダの一覧                                                                                                                                             |
-| [sharedfolder member list](doc/generated_ja/sharedfolder-member-list.md)   | 共有フォルダのメンバーを一覧します                                                                                                                             |
-| [sharedlink create](doc/generated_ja/sharedlink-create.md)                 | 共有リンクの作成                                                                                                                                               |
-| [sharedlink delete](doc/generated_ja/sharedlink-delete.md)                 | 共有リンクを削除します                                                                                                                                         |
-| [sharedlink file list](doc/generated_ja/sharedlink-file-list.md)           | 共有リンクのファイルを一覧する                                                                                                                                 |
-| [sharedlink list](doc/generated_ja/sharedlink-list.md)                     | 共有リンクの一覧                                                                                                                                               |
+| コマンド                                                                   | 説明                                                                                                                                        |
+|----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                                                                                                        |
+| [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                                                                                                      |
+| [file compare local](doc/generated_ja/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                                                                                         |
+| [file copy](doc/generated_ja/file-copy.md)                                 | ファイルをコピーします                                                                                                                      |
+| [file delete](doc/generated_ja/file-delete.md)                             | ファイルまたはフォルダは削除します.                                                                                                         |
+| [file download](doc/generated_ja/file-download.md)                         | Dropboxからファイルをダウンロードします                                                                                                     |
+| [file export doc](doc/generated_ja/file-export-doc.md)                     | ドキュメントのエクスポート                                                                                                                  |
+| [file import batch url](doc/generated_ja/file-import-batch-url.md)         | URLからファイルを一括インポートします                                                                                                       |
+| [file import url](doc/generated_ja/file-import-url.md)                     | URLからファイルをインポートします                                                                                                           |
+| [file list](doc/generated_ja/file-list.md)                                 | ファイルとフォルダを一覧します                                                                                                              |
+| [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                                                                                                        |
+| [file mount list](doc/generated_ja/file-mount-list.md)                     | マウント/アンマウントされた共有フォルダの一覧                                                                                               |
+| [file move](doc/generated_ja/file-move.md)                                 | ファイルを移動します                                                                                                                        |
+| [file replication](doc/generated_ja/file-replication.md)                   | ファイルコンテンツを他のアカウントに複製します                                                                                              |
+| [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                                                                                          |
+| [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                                                                                                    |
+| [file search name](doc/generated_ja/file-search-name.md)                   | ファイル名を検索                                                                                                                            |
+| [file size](doc/generated_ja/file-size.md)                                 | ストレージの利用量                                                                                                                          |
+| [file sync down](doc/generated_ja/file-sync-down.md)                       | Dropboxと下り方向で同期します                                                                                                               |
+| [file sync online](doc/generated_ja/file-sync-online.md)                   | オンラインファイルを同期します                                                                                                              |
+| [file sync up](doc/generated_ja/file-sync-up.md)                           | Dropboxと上り方向で同期します                                                                                                               |
+| [file watch](doc/generated_ja/file-watch.md)                               | ファイルアクティビティを監視                                                                                                                |
+| [filerequest create](doc/generated_ja/filerequest-create.md)               | ファイルリクエストを作成します                                                                                                              |
+| [filerequest delete closed](doc/generated_ja/filerequest-delete-closed.md) | このアカウントの全ての閉じられているファイルリクエストを削除します                                                                          |
+| [filerequest delete url](doc/generated_ja/filerequest-delete-url.md)       | ファイルリクエストのURLを指定して削除                                                                                                       |
+| [filerequest list](doc/generated_ja/filerequest-list.md)                   | 個人アカウントのファイルリクエストを一覧.                                                                                                   |
+| [job history ship](doc/generated_ja/job-history-ship.md)                   | ログの転送先Dropboxパス                                                                                                                     |
+| [member file permdelete](doc/generated_ja/member-file-permdelete.md)       | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します完全に削除については、https://www.dropbox.com/help/40 をご覧ください. |
+| [sharedfolder list](doc/generated_ja/sharedfolder-list.md)                 | 共有フォルダの一覧                                                                                                                          |
+| [sharedfolder member list](doc/generated_ja/sharedfolder-member-list.md)   | 共有フォルダのメンバーを一覧します                                                                                                          |
+| [sharedlink create](doc/generated_ja/sharedlink-create.md)                 | 共有リンクの作成                                                                                                                            |
+| [sharedlink delete](doc/generated_ja/sharedlink-delete.md)                 | 共有リンクを削除します                                                                                                                      |
+| [sharedlink file list](doc/generated_ja/sharedlink-file-list.md)           | 共有リンクのファイルを一覧する                                                                                                              |
+| [sharedlink list](doc/generated_ja/sharedlink-list.md)                     | 共有リンクの一覧                                                                                                                            |
 
 ## Dropbox Business
 

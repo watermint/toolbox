@@ -2,6 +2,11 @@
 
 package ei_exif
 
+import (
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_image"
+)
+
 type exifToolImpl struct {
 	l esl.Logger
 }
