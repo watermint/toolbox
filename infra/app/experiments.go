@@ -19,5 +19,5 @@ const (
 	// Aggressive initial window size
 	ExperimentCongestionWindowAggressive = "congestion_window_aggressive"
 
-	ExperimentFileSyncReduceCreateFolder = "file_sync_reduce_create_folder"
+	ExperimentFileSyncDisableReduceCreateFolder = "file_sync_disable_reduce_create_folder"
 )

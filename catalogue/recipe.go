@@ -126,7 +126,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevstage.Gmail{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
-		&recipedevtest.Async{},
 		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},

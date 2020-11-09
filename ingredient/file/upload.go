@@ -175,7 +175,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 			status.skip()
 		}),
 		es_sync.WithNameFilter(z.Name),
-		es_sync.OptimizePreventCreateFolder(c.Feature().Experiment(app.ExperimentFileSyncReduceCreateFolder)),
+		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
 	syncErr := syncer.Sync(es_filesystem_local.NewPath(z.LocalPath.Path()), filesystem.NewPath("", z.DropboxPath))

@@ -78,7 +78,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		es_filesystem_model.NewFileSystem(modelRoot),
 		filesystem.NewFileSystem(z.Peer.Context()),
 		copier,
-		es_sync.OptimizePreventCreateFolder(c.Feature().Experiment(app.ExperimentFileSyncReduceCreateFolder)),
+		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
 	return syncer.Sync(es_filesystem_model.NewPath("/"),
