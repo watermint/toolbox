@@ -18,7 +18,35 @@ import (
 	"unicode"
 )
 
+const (
+	VarDropboxPersonal = "DropboxPersonal"
+	VarDropboxBusiness = "DropboxBusiness"
+	VarHome            = "Home"
+	VarUsername        = "Username"
+	VarHostname        = "Hostname"
+	VarExecPath        = "ExecPath"
+	VarRand8           = "Rand8"
+	VarDate            = "Date"
+	VarTime            = "Time"
+	VarDateUTC         = "DateUTC"
+	VarTimeUTC         = "TimeUTC"
+	VarRandom          = "Random"
+)
+
 var (
+	PathVariables = []string{
+		VarDropboxPersonal,
+		VarDropboxBusiness,
+		VarHome,
+		VarUsername,
+		VarHostname,
+		VarExecPath,
+		VarRand8,
+		VarDate,
+		VarTime,
+		VarDateUTC,
+		VarTimeUTC,
+	}
 	isWindows = app.IsWindows()
 )
 
@@ -131,65 +159,65 @@ type Pair struct {
 // Format path if a path contains pattern like `{{.DropboxPersonal}}`.
 func FormatPathWithPredefinedVariables(path string, pairs ...Pair) (string, error) {
 	predefined := make(map[string]func() (string, error))
-	predefined["DropboxPersonal"] = func() (s string, e error) {
+	predefined[VarDropboxPersonal] = func() (s string, e error) {
 		p, _, _ := sv_desktop.New().Lookup()
 		if p != nil {
 			return p.Path, nil
 		}
 		return "", errors.New("personal dropbox desktop folder not found")
 	}
-	predefined["DropboxBusiness"] = func() (s string, e error) {
+	predefined[VarDropboxBusiness] = func() (s string, e error) {
 		_, p, _ := sv_desktop.New().Lookup()
 		if p != nil {
 			return p.Path, nil
 		}
 		return "", errors.New("business dropbox desktop folder not found")
 	}
-	predefined["Home"] = func() (s string, e error) {
+	predefined[VarHome] = func() (s string, e error) {
 		u, err := user.Current()
 		if err == nil {
 			return u.HomeDir, nil
 		}
 		return "", errors.New("unable to retrieve current user home")
 	}
-	predefined["Username"] = func() (s string, e error) {
+	predefined[VarUsername] = func() (s string, e error) {
 		h, err := user.Current()
 		if err == nil {
 			return Escape(h.Username), nil
 		}
 		return "", errors.New("unable to retrieve hostname")
 	}
-	predefined["Hostname"] = func() (s string, e error) {
+	predefined[VarHostname] = func() (s string, e error) {
 		h, err := os.Hostname()
 		if err == nil {
 			return Escape(h), nil
 		}
 		return "", errors.New("unable to retrieve hostname")
 	}
-	predefined["ExecPath"] = func() (s string, err error) {
+	predefined[VarExecPath] = func() (s string, err error) {
 		s = filepath.Dir(os.Args[0])
 		return s, nil
 	}
-	predefined["Rand8"] = func() (s string, err error) {
+	predefined[VarRand8] = func() (s string, err error) {
 		return fmt.Sprintf("%08d", rand.Intn(100_000_000)), nil
 	}
-	predefined["Date"] = func() (s string, e error) {
+	predefined[VarDate] = func() (s string, e error) {
 		s = time.Now().Local().Format("2006-01-02")
 		return s, nil
 	}
-	predefined["Time"] = func() (s string, e error) {
+	predefined[VarTime] = func() (s string, e error) {
 		s = time.Now().Local().Format("15-04-05")
 		return s, nil
 	}
-	predefined["DateUTC"] = func() (s string, e error) {
+	predefined[VarDateUTC] = func() (s string, e error) {
 		s = time.Now().UTC().Format("2006-01-02")
 		return s, nil
 	}
-	predefined["TimeUTC"] = func() (s string, e error) {
+	predefined[VarTimeUTC] = func() (s string, e error) {
 		s = time.Now().UTC().Format("15-04-05")
 		return s, nil
 	}
-	predefined["Random"] = func() (s string, e error) {
+	predefined[VarRandom] = func() (s string, e error) {
 		s = sc_random.MustGenerateRandomString(6)
 		return s, nil
 	}

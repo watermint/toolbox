@@ -3,10 +3,15 @@ package app_msg_container_impl
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
 type Alt struct {
+}
+
+func (z Alt) Lang() lang.Lang {
+	return lang.Default
 }
 
 func (z Alt) Text(key string) string {

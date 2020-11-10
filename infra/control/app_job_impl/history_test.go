@@ -21,7 +21,7 @@ func TestHistory(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{})
+		mc := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{})
 		ui := app_ui.NewDiscard(mc, wb.Logger().Logger())
 		spec := rc_spec.New(&AppJobTestRecipe{})
 		launcher := NewLauncher(ui, wb, app_opt.Default(), spec)
@@ -82,7 +82,7 @@ func TestHistory_Archive(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{})
+		mc := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{})
 		ui := app_ui.NewDiscard(mc, wb.Logger().Logger())
 		spec := rc_spec.New(&AppJobTestRecipe{})
 		launcher := NewLauncher(ui, wb, app_opt.Default(), spec)
@@ -130,7 +130,7 @@ func TestHistory_Delete(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{})
+		mc := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{})
 		ui := app_ui.NewDiscard(mc, wb.Logger().Logger())
 		spec := rc_spec.New(&AppJobTestRecipe{})
 		launcher := NewLauncher(ui, wb, app_opt.Default(), spec)

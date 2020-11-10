@@ -21,9 +21,10 @@ func NewSingle(la lang.Lang) (c app_msg_container.Container, err error) {
 	})
 }
 
-func NewSingleWithMessages(msgs map[string]string) app_msg_container.Container {
+func NewSingleWithMessagesForTest(msgs map[string]string) app_msg_container.Container {
 	return &sglContainer{
 		messages: msgs,
+		msgLang:  lang.Default,
 	}
 }
 
@@ -44,12 +45,18 @@ func newFromBytes(la lang.Lang, loader func(name string) ([]byte, error)) (c app
 
 	return &sglContainer{
 		messages: resMsgs,
+		msgLang:  la,
 	}, nil
 }
 
 // Single language container.
 type sglContainer struct {
 	messages map[string]string
+	msgLang  lang.Lang
+}
+
+func (z sglContainer) Lang() lang.Lang {
+	return z.msgLang
 }
 
 func (z sglContainer) Text(key string) string {

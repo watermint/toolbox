@@ -10,7 +10,7 @@ import (
 func TestJoin(t *testing.T) {
 	m1 := app_msg.CreateMessage("noodle", app_msg.P{"Message": "Ramen"})
 	m2 := app_msg.CreateMessage("noodle", app_msg.P{"Message": "Udon"})
-	mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{
+	mc := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{
 		"noodle": "Noodle[{{.Message}}]",
 		"raw":    "{{.Raw}}",
 	})

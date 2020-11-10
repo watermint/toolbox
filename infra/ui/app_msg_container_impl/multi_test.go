@@ -7,11 +7,11 @@ import (
 )
 
 func TestNewMultilingual(t *testing.T) {
-	en := NewSingleWithMessages(map[string]string{
+	en := NewSingleWithMessagesForTest(map[string]string{
 		"ping": "Ping",
 		"pong": "Pong",
 	})
-	ja := NewSingleWithMessages(map[string]string{
+	ja := NewSingleWithMessagesForTest(map[string]string{
 		"ping": "ピン",
 	})
 	containers := map[lang.Iso639One]app_msg_container.Container{

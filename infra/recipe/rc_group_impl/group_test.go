@@ -32,7 +32,7 @@ func TestGroupImpl_AddNoRecipeGroup(t *testing.T) {
 		t.Error(gContent.SubGroups())
 	}
 
-	msgs := app_msg_container_impl.NewSingleWithMessages(map[string]string{})
+	msgs := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{})
 	usage := app_ui.MakeMarkdown(msgs, func(ui app_ui.UI) {
 		gContent.PrintUsage(ui, "tbx", "x.y.z")
 	})

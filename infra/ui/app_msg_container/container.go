@@ -1,6 +1,9 @@
 package app_msg_container
 
-import "github.com/watermint/toolbox/infra/ui/app_msg"
+import (
+	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+)
 
 type Container interface {
 	// Verify the key exists on the container.
@@ -15,4 +18,7 @@ type Container interface {
 
 	// Pre compiled text for the key.
 	Text(key string) string
+
+	// Current language
+	Lang() lang.Lang
 }
