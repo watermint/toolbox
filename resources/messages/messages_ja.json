@@ -659,7 +659,7 @@
   "infra.doc.dc_supplemental.msg_troubleshooting.network_overview": "ツールは、システムからプロキシの設定を自動的に検出します. しかし、それが失敗したり、設定ミスの原因になったりすることがあります. このような場合は、`-proxy` オプションを使って `-proxy 192.168.1.1.1:8080` のようにプロキシサーバのホスト名とポート番号を指定してください (プロキシサーバ 192.168.1.1.1 、ポート番号は8080の場合). ",
   "infra.doc.dc_supplemental.msg_troubleshooting.network_proxy_notes": "注意：このツールは、Basic認証やNTLMなどの認証を持つプロキシサーバには対応していません.",
   "infra.doc.dc_supplemental.msg_troubleshooting.network_title": "ファイアウォールまたはプロキシサーバーの設定",
-  "infra.doc.dc_supplemental.msg_troubleshooting.slow_overview": "コマンドが遅く感じたり、停止したりした場合は、オプション `-verbose` を指定して再実行してみてください. そうすることで、より詳細な進捗状況がわかります. しかし、ほとんどの場合、原因は単純にあなたが処理するためのより大きなデータを持っているだけです. そうしないと、APIサーバーからのレート制限にぶつかる可能性があります. レート制限の状態を見たい場合は、キャプチャログやデバッグを参照してください. ",
+  "infra.doc.dc_supplemental.msg_troubleshooting.slow_overview": "コマンドが遅く感じたり、停止したりした場合は、オプション `-verbose` を指定して再実行してみてください. そうすることで、より詳細な進捗状況がわかります. しかし、ほとんどの場合、原因は単純にあなたが処理するためのより大きなデータを持っているだけです. そうでなければ、APIサーバーからのレート制限にすでにヒットしていることになります. レート制限の状態を見たい場合は、キャプチャログやデバッグを参照してください. ",
   "infra.doc.dc_supplemental.msg_troubleshooting.slow_rate_limit": "このツールは、APIサーバーからの追加制限を回避するために、並行性を自動的に調整します. 現在の並行性を確認したい場合は、以下のようなコマンドを実行してください. これは、エンドポイントごとの現在のウィンドウサイズ（最大同時実行数）を表示します. デバッグメッセージ\"WaiterStatus\"は、現在の同時実行とウィンドウサイズを報告します. マップ\"runners\"は、現在APIサーバーからの結果待ちの操作のためのものですマップ \"window \"は、各エンドポイントのウィンドウサイズのためのものです. マップ \"concurrency \"は、現在実行中の操作のためのウィンドウサイズのためのものです. 以下の例から、エンドポイント \"https://api.dropboxapi.com/2/file_requests/create\" のために、ツールはそのエンドポイントを1つの同時実行より大きい呼ぶことを許可しません. つまり、一つ一つの操作が必要であり、操作を高速化するための簡単な回避策はありません.",
   "infra.doc.dc_supplemental.msg_troubleshooting.slow_title": "パフォーマンスの問題",
   "infra.doc.dc_supplemental.msg_troubleshooting.title": "トラブルシューティング",
