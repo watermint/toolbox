@@ -1,14 +1,14 @@
-# Firewall or proxy server settings
+# ファイアウォールまたはプロキシサーバーの設定
 
-The tool automatically detects proxy configuration from the system. However, that may fail or cause misconfiguration. In those cases, please use the `-proxy` option to specify proxy server hostname and port number like `-proxy 192.168.1.1:8080` (for proxy server 192.168.1.1, and the port number 8080). 
+ツールは、システムからプロキシの設定を自動的に検出します. しかし、それが失敗したり、設定ミスの原因になったりすることがあります. このような場合は、`-proxy` オプションを使って `-proxy 192.168.1.1.1:8080` のようにプロキシサーバのホスト名とポート番号を指定してください (プロキシサーバ 192.168.1.1.1 、ポート番号は8080の場合). 
 
-Note: This tool does not support proxy servers with any authentication such as Basic authentication or NTLM.
+注意：このツールは、Basic認証やNTLMなどの認証を持つプロキシサーバには対応していません.
 
-# Performance issue
+# パフォーマンスの問題
 
-If the command feels slow or stalled, please try re-run with an option `-verbose`. That will show more detailed progress. But in most cases, the cause is simply you have a larger data to process. Otherwise, you may hit a rate limit from API servers from your services. If you wanted to see rate limit status, please see capture logs and debug for more details. 
+コマンドが遅く感じたり、停止したりした場合は、オプション `-verbose` を指定して再実行してみてください. そうすることで、より詳細な進捗状況がわかります. しかし、ほとんどの場合、原因は単純にあなたが処理するためのより大きなデータを持っているだけです. そうしないと、APIサーバーからのレート制限にぶつかる可能性があります. レート制限の状態を見たい場合は、キャプチャログやデバッグを参照してください. 
 
-The tool automatically adjusts concurrency to avoid additional limitation from API servers. If you want to see current concurrency, please run the command like below. That will show a current window size (maximum concurrency) per endpoint. The debug message with "WaiterStatus" reports current concurrency and window sizes. The map "runners" is for operations currently waiting for a result from API servers. The map "window" is for window size for each endpoint. The map "concurrency" is for window sizes for current running operations. From the below example, the endpoint the tool can call API with only one concurrency for "https://api.dropboxapi.com/2/file_requests/create". That means it requires operation one by one, and there is no easy workaround to speed up operations.
+このツールは、APIサーバーからの追加制限を回避するために、並行性を自動的に調整します. 現在の並行性を確認したい場合は、以下のようなコマンドを実行してください. これは、エンドポイントごとの現在のウィンドウサイズ（最大同時実行数）を表示します. デバッグメッセージ"WaiterStatus"は、現在の同時実行とウィンドウサイズを報告します. マップ"runners"は、現在APIサーバーからの結果待ちの操作のためのものですマップ "window "は、各エンドポイントのウィンドウサイズのためのものです. マップ "concurrency "は、現在実行中の操作のためのウィンドウサイズのためのものです. 以下の例から、エンドポイント "https://api.dropboxapi.com/2/file_requests/create" のために、ツールはそのエンドポイントを1つの同時実行より大きい呼ぶことを許可しません. つまり、一つ一つの操作が必要であり、操作を高速化するための簡単な回避策はありません.
 ```
 tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")' 
 {
@@ -55,33 +55,33 @@ tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")'
 }
 ```
 
-# Garbled output
+# 文字化けした出力
 
-If the tool output garbled, please stop the tool with Ctrl+C. This issue usually happens when your console does not have a font to display it. Then, please try to change the font that supports your language. Or, please try the option `-lang en` to overwrite language setting of the tool to English.
+ツールの出力が文字化けしてしまう場合は、Ctrl+Cでツールを停止してください. この問題は、通常、コンソールに表示するフォントがない場合に発生します. そして、言語に対応したフォントに変更してみてください. あるいは、ツールの言語設定を英語に上書きするオプション `-lang en` を試してみてください.
 
-In PowerShell, you can change the font with (1) right-click on the title bar, (2) click properties, (3) then choose the font tab, (4) then change to an appropriate font like "MS Gothic."
+PowerShellでは、(1)タイトルバーを右クリックし、(2)プロパティをクリックし、(3)フォントタブを選択し、(4)フォントを "MSゴシック "のような適切なフォントに変更することで、フォントを変更することができます.
 
-# Log files
+# ログファイル
 
-By default, log files are stored under the path "%USERPROFILE%\.toolbox\jobs" (e.g. `C:\Users\USERNAME\.toolbox\jobs`) on windows, or "$HOME\.toolbox\jobs" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/jobs`). Log files contain information such as (1) Runtime information, e.g. OS type/version/environment variables, (2) Runtime options to the tool (including a copy of input data files), (3) Account information of services such as Dropbox, (4) Request and response data to API servers, (5) Data in services such as file name, metadata, id, URL etc. (depends on the command).
+既定では、ログファイルは、Windows上のパス"%USERPROFILE%\.toolbox\jobs" (例えば、`C:\Users\USERNAME\.toolbox\jobs`)、またはLinuxまたはmacOS上の"$HOME/.toolbox/jobs" (例えば、`/Users/USERNAME/.toolbox/jobs`)の下に格納されています. ログファイルには、(1)OSの種類/バージョン/環境変数などのランタイム情報、(2)ツールへのランタイムオプション（入力データファイルのコピーを含む）、(3)Dropboxなどのサービスのアカウント情報、(4)APIサーバへのリクエスト/レスポンスデータ、(5)ファイル名、メタデータ、ID、URLなどのサービス内のデータなどの情報が含まれています。コマンドに依存します）.
 
-Those logs do not contain password, credentials, or API token. But API tokens are stored under the path "%USERPROFILE%\.toolbox\secrets" (e.g. `C:\Users\USERNAME\.toolbox\secrets`) on windows, or "$HOME\.toolbox\secrets" in Linux or macOS (e.g. `/Users/USERNAME/.toolbox/secrets`). These secrets folder files are obfuscated but please do not share these files to anyone including a service provider support such as Dropbox support.
+これらのログには、パスワード、クレデンシャル、または API トークンが含まれていません. しかし、APIトークンは、Windows上のパス"%USERPROFILE%\.toolbox\secrets" (例えば、`C:\ Users\\USERNAME\.toolbox\secrets`)や、LinuxやmacOS上のパス"$HOME/.toolbox/secrets" (例えば、`/Users/USERNAME/.toolbox/secrets`)の下に格納されています. これらの秘密のフォルダファイルは難読化されていますが、Dropboxのサポートなどのサービスプロバイダのサポートを含む誰にも共有しないようにしてください.
 
-## Log format
+## ログ書式
 
-There are several folders and files stored under the `jobs` folder. First, the job folder will be created every run with a name (internally called Job Id) with the format "yyyyMMdd-HHmmSS.xxx". The first part "yyyyMMdd-HHmmSS" is for local date/time of the command start. The second part ".xxx" is the sequential or random three-character ID to avoid conflict with a concurrent run.
+`jobs` フォルダの下には、いくつかのフォルダとファイルが保存されています. まず、"yyyyMMdd-HHmmSS.xxx"という形式の名前（内部的にはJob Idと呼ばれています）で、実行するたびにジョブフォルダが作成されます. 最初の "yyyyMMdd-HHmmSS "は、コマンド開始のローカル日時です. 2番目の部分".xxx"は、同時実行との競合を避けるために、シーケンシャルまたはランダムな3文字のIDです.
 
-Under the job folder, there are subfolders (1) `logs`: runtime logs including request/response data, parameters, or debug information, (2) `reports`: reports folder is for manage generated reports, (3) `kvs`: KVS folder is for runtime database folder. 
+ジョブフォルダの下にはサブフォルダがあり、(1) `logs`: リクエスト/レスポンスデータやパラメータ、デバッグ情報を含む実行時のログ、(2) `reports`: 生成されたレポートを管理するためのレポートフォルダ、(3) `kvs` : KVSフォルダは実行時のデータベースフォルダです. 
 
-On troubleshooting, files under `logs` are essential to understand what happened in runtime. The tool generates several types of logs. Those logs are JSON Lines format. Note: JSON Lines is a format that separate data with line separators. Please see [JSON Lines](https://jsonlines.org/) for more detail about the specification.
+トラブルシューティングでは、`logs`以下のファイルは実行時に何が起こったかを理解するために必要不可欠です. このツールは、いくつかの種類のログを生成します. これらのログは、JSON Lines形式です. 注：JSON Linesは、データを行区切り文字で区切るフォーマットです. 仕様の詳細は [JSON Lines](https://jsonlines.org/) をご覧ください.
 
-Some logs are compressed with gzip format. If a log compressed, then the file has a suffix '.gz'. Additionally, logs such as capture logs and toolbox logs are divided by certain size. If you want to analyze logs, please consider using `job log` commands. For example, `job log last -quiet` will report toolbox logs of the latest job with decompressed and concatenated.
+一部のログはgzip形式で圧縮されています. ログが圧縮されている場合は、ファイルの接尾辞が '.gz' になります. さらに、captureログやtoolboxログなどのログは、一定の大きさに分割されています. ログを解析したい場合は、`job log` コマンドの利用を検討してください. 例えば、`job log last -quiet` は最新のジョブのtoolboxログを解凍したうえで、連結して出力します.
 
-## Debug logs
+## デバッグログ
 
-The tool will record all debug information into debug logs that have a prefix "toolbox". All records have a source code file name and line at the operation. If you find some suspicious error, then go to the source code and debut it. Some troubleshooting requires statistical analysis such as for performance tuning or out of memory. It is better to work with a tool such as `grep` or [jq](https://stedolan.github.io/jq/). 
+このツールは、すべてのデバッグ情報を"toolbox"という接頭辞を持つデバッグログに記録します. すべてのレコードには、操作時のソースコードファイル名と行が記載されています. 怪しいエラーを見つけたら、ソースコードを見てデバッグしましょう. トラブルシューティングの中には、パフォーマンスチューニングやメモリ切れなどの統計解析を必要とするものがあります. `grep` や [jq](https://stedolan.github.io/jq/) のようなツールを使って作業するのが良いでしょう. 
 
-If you wanted to see heap size data in time series, please run the command like below. Then you can see time + heap size in CSV format.
+時系列でヒープサイズのデータを見たい場合は、以下のようなコマンドを実行してください. そうすると、時間＋ヒープサイズがCSV形式で表示されます.
 ```
 tbx job log last -quiet | jq -r 'select(.msg == "Heap stats") | [.time, .HeapInuse] | @csv'
 "2020-11-10T14:55:45.725+0900",18604032
@@ -96,7 +96,7 @@ tbx job log last -quiet | jq -r 'select(.msg == "Heap stats") | [.time, .HeapInu
 "2020-11-10T14:56:30.730+0900",16678912
 "2020-11-10T14:56:35.726+0900",16678912
 ```
-## API transaction logs
+## APIトランザクションのログ
 
-The toll will record API requests and responses into capture logs that have a prefix "capture". This capture logs do not contain requests and responses of OAuth. Additionally, API token strings are replaced with `<secret>`.
+トールはAPIリクエストとレスポンスを、接頭辞"capture"を持つキャプチャログに記録しますこのキャプチャログにはOAuthのリクエストとレスポンスは含まれていません. さらに、APIトークンの文字列は `<secret>` に置き換えられます.
 

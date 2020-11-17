@@ -1,18 +1,18 @@
-# Path variables
+# パス変数
 
-Path variables are predefined variables which will be replaced on runtime. For example, if you specify a path with the variable like `{{.DropboxPersonal}}/Pictures`, then the path will be replaced with actual path to Personal Dropbox's folder. But the tool does not guarantee the existence or accuracy.
+パス変数は、実行時に置き換えられる定義済みの変数です. 例えば、`{{.DropboxPersonal}}/Pictures`のように変数でパスを指定すると、そのパスは個人用のDropbox フォルダへの実際のパスに置き換えられます. しかし、このツールはその存在や精度を保証するものではありません.
 
-| Path variable        | Description                                   |
-|----------------------|-----------------------------------------------|
-| {{.DropboxPersonal}} | Path to Dropbox Personal account root folder. |
-| {{.DropboxBusiness}} | Path to Dropbox Business account root folder. |
-| {{.Home}}            | The home folder of the current user.          |
-| {{.Username}}        | The name of the current user.                 |
-| {{.Hostname}}        | The host name of the current computer.        |
-| {{.ExecPath}}        | Path to this program.                         |
-| {{.Rand8}}           | Randomized 8 digit number leading with 0.     |
-| {{.Date}}            | Current local date with format yyyy-mm-dd.    |
-| {{.Time}}            | Current local time with format HH-MM-SS.      |
-| {{.DateUTC}}         | Current UTC date with format yyyy-mm-dd.      |
-| {{.TimeUTC}}         | Current UTC time with format HH-MM-SS.        |
+| パス変数             | 説明                                                  |
+|----------------------|-------------------------------------------------------|
+| {{.DropboxPersonal}} | Dropbox 個人アカウントのルート フォルダへのパス.      |
+| {{.DropboxBusiness}} | Dropbox Business アカウントのルート フォルダへのパス. |
+| {{.Home}}            | 現在のユーザーのホームフォルダ.                       |
+| {{.Username}}        | 現在のユーザーの名前.                                 |
+| {{.Hostname}}        | 現在のコンピュータのホスト名.                         |
+| {{.ExecPath}}        | このプログラムへのパス.                               |
+| {{.Rand8}}           | 0で始まるランダムな8桁の数字.                         |
+| {{.Date}}            | yyyyy-mm-dd形式の現在のローカル日付.                  |
+| {{.Time}}            | 現在の現地時間をHH-MM-SSの形式で表示します.           |
+| {{.DateUTC}}         | 現在のUTCの日付をyyyy-mm-dd形式で表示.                |
+| {{.TimeUTC}}         | 現在のUTC時間をHH-MM-SS形式で表示します.              |
 
