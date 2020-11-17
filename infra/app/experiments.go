@@ -21,3 +21,19 @@ const (
 
 	ExperimentFileSyncDisableReduceCreateFolder = "file_sync_disable_reduce_create_folder"
 )
+
+var (
+	ExperimentalFeatures = []string{
+		ExperimentDbxClientConditionerNarrow20,
+		ExperimentDbxClientConditionerNarrow40,
+		ExperimentDbxClientConditionerNarrow100,
+		ExperimentDbxClientConditionerError20,
+		ExperimentDbxClientConditionerError40,
+		ExperimentDbxClientConditionerError100,
+		ExperimentBatchSequential,
+		ExperimentBatchRandom,
+		ExperimentCongestionWindowNoLimit,
+		ExperimentCongestionWindowAggressive,
+		ExperimentFileSyncDisableReduceCreateFolder,
+	}
+)

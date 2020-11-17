@@ -21,6 +21,8 @@ const (
 	DocManualCommand
 	// Supplemental:
 	DocSupplementalPathVariables
+	DocSupplementalExperimentalFeature
+	DocSupplementalTroubleshooting
 )
 
 const (
@@ -43,11 +45,17 @@ var (
 		DocManualChanges,
 		DocManualCommand,
 		DocSupplementalPathVariables,
+		DocSupplementalExperimentalFeature,
+		DocSupplementalTroubleshooting,
 	}
 )
 
 func GeneratedPath(l lang.Lang, name string) string {
 	return GeneratedDocPath + l.Suffix() + "/" + name
+}
+
+func SupplementalDocPath(l lang.Lang, name string) string {
+	return GeneratedPath(l, "supplemental_"+name)
 }
 
 type NameOpts struct {
@@ -89,7 +97,11 @@ func DocName(id DocId, lg lang.Lang, opts ...NameOpt) string {
 	case DocManualCommand:
 		return GeneratedPath(lg, nameOpts.CommandName)
 	case DocSupplementalPathVariables:
-		return GeneratedPath(lg, "supplemental_path_variable")
+		return SupplementalDocPath(lg, "path_variables")
+	case DocSupplementalExperimentalFeature:
+		return SupplementalDocPath(lg, "experimental_features")
+	case DocSupplementalTroubleshooting:
+		return SupplementalDocPath(lg, "troubleshooting")
 	}
 	esl.Default().Warn("Invalid document id", esl.Int("documentId", int(id)))
 	panic("invalid document id")
