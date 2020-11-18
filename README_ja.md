@@ -133,7 +133,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group add](doc/generated_ja/group-add.md)                                         | グループを作成します                                                                   |
 | [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                                         |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                                                   |
-| [group folder list](doc/generated_ja/group-folder-list.md)                         | Find folders for each group                                                            |
+| [group folder list](doc/generated_ja/group-folder-list.md)                         | 各グループのフォルダを探す                                                             |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                                         |
 | [group member add](doc/generated_ja/group-member-add.md)                           | メンバーをグループに追加                                                               |
 | [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                                             |
@@ -142,6 +142,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member clear externalid](doc/generated_ja/member-clear-externalid.md)             | メンバーのexternal_idを初期化します                                                    |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                                                   |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
+| [member folder list](doc/generated_ja/member-folder-list.md)                       | 各メンバーのフォルダを検索                                                             |
 | [member invite](doc/generated_ja/member-invite.md)                                 | メンバーを招待します                                                                   |
 | [member list](doc/generated_ja/member-list.md)                                     | チームメンバーの一覧                                                                   |
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                                                     |

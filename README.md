@@ -135,7 +135,7 @@ Available commands:
 | [group add](doc/generated/group-add.md)                                         | Create new group                                              |
 | [group batch delete](doc/generated/group-batch-delete.md)                       | Delete groups                                                 |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
-| [group folder list](doc/generated/group-folder-list.md)                         | Find folders for each group                                   |
+| [group folder list](doc/generated/group-folder-list.md)                         | Find folders of each group                                    |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member add](doc/generated/group-member-add.md)                           | Add a member to the group                                     |
 | [group member delete](doc/generated/group-member-delete.md)                     | Delete a member from the group                                |
@@ -144,6 +144,7 @@ Available commands:
 | [member clear externalid](doc/generated/member-clear-externalid.md)             | Clear external_id of members                                  |
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |
+| [member folder list](doc/generated/member-folder-list.md)                       | Find folders for each member                                  |
 | [member invite](doc/generated/member-invite.md)                                 | Invite member(s)                                              |
 | [member list](doc/generated/member-list.md)                                     | List team member(s)                                           |
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |

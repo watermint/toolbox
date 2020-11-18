@@ -41,6 +41,7 @@ import (
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
 	recipememberfile "github.com/watermint/toolbox/recipe/member/file"
+	recipememberfolder "github.com/watermint/toolbox/recipe/member/folder"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesasanateam "github.com/watermint/toolbox/recipe/services/asana/team"
@@ -187,6 +188,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipemember.Replication{},
 		&recipememberclear.Externalid{},
 		&recipememberfile.Permdelete{},
+		&recipememberfolder.List{},
 		&recipememberquota.List{},
 		&recipememberquota.Update{},
 		&recipememberquota.Usage{},

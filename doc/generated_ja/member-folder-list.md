@@ -1,6 +1,6 @@
-# team namespace member list
+# member folder list
 
-チームフォルダ以下のファイル・フォルダを一覧 
+各メンバーのフォルダを検索 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team namespace member list 
+.\tbx.exe member folder list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team namespace member list 
+$HOME/Desktop/tbx member folder list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,10 +68,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                     | デフォルト |
-|----------------|--------------------------|------------|
-| `-all-columns` | 全てのカラムを表示します | false      |
-| `-peer`        | アカウントの別名         | default    |
+| オプション            | 説明                                                                                                                                                                                       | デフォルト |
+|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-folder-name`        | フォルダ名によるフィルター. 名前による完全一致でフィルター.                                                                                                                                |            |
+| `-folder-name-prefix` | フォルダ名によるフィルター. 名前の前方一致によるフィルター.                                                                                                                                |            |
+| `-folder-name-suffix` | フォルダ名によるフィルター. 名前の後方一致によるフィルター.                                                                                                                                |            |
+| `-member-email`       | メンバーのメールアドレスでフィルタリングします. メールアドレスでフィルタリングします.                                                                                                      |            |
+| `-peer`               | アカウントの別名                                                                                                                                                                           | default    |
+| `-scan-timeout`       | スキャンのタイムアウト設定. スキャンタイムアウトした場合、チームフォルダのサブフォルダのパスは `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME` のようなダミーパスに置き換えられます. | short      |
 
 ## 共通のオプション:
 
@@ -102,25 +106,41 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: namespace_member
+## レポート: member_to_folder
 
-このレポートは名前空間とそのメンバー一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `namespace_member.csv`, `namespace_member.json`, ならびに `namespace_member.xlsx`.
+メンバーからフォルダへのマッピング.
+このコマンドはレポートを3種類の書式で出力します. `member_to_folder.csv`, `member_to_folder.json`, ならびに `member_to_folder.xlsx`.
 
-| 列                 | 説明                                                                                                 |
-|--------------------|------------------------------------------------------------------------------------------------------|
-| namespace_name     | 名前空間の名称                                                                                       |
-| namespace_type     | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)               |
-| entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
-| entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
-| email              | ユーザーのメールアドレス                                                                             |
-| display_name       | チームメンバーの表示名.                                                                              |
-| group_name         | グループ名称                                                                                         |
-| invitee_email      | このフォルダに招待されたメールアドレス                                                               |
+| 列              | 説明                                                                                                             |
+|-----------------|------------------------------------------------------------------------------------------------------------------|
+| member_name     | チームメンバーの表示名.                                                                                          |
+| member_email    | メンバーのメールアドレス                                                                                         |
+| access_type     | このフォルダに対するユーザーのアクセスレベル                                                                     |
+| namespace_name  | 名前空間の名称                                                                                                   |
+| path            | パス                                                                                                             |
+| folder_type     | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ) |
+| owner_team_name | このフォルダを所有するチームの名前                                                                               |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_to_folder_0000.xlsx`, `member_to_folder_0001.xlsx`, `member_to_folder_0002.xlsx`, ...
+
+## レポート: member_with_no_folder
+
+このレポートはメンバー一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `member_with_no_folder.csv`, `member_with_no_folder.json`, ならびに `member_with_no_folder.xlsx`.
+
+| 列           | 説明                                                                 |
+|--------------|----------------------------------------------------------------------|
+| email        | ユーザーのメールアドレス                                             |
+| status       | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
+| given_name   | 名                                                                   |
+| surname      | 名字                                                                 |
+| display_name | ユーザーのDropboxアカウントの表示名称                                |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_with_no_folder_0000.xlsx`, `member_with_no_folder_0001.xlsx`, `member_with_no_folder_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
