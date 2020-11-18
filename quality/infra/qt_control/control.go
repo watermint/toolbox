@@ -32,7 +32,7 @@ func WithControl(f func(c app_control.Control) error) error {
 
 	com := app_opt.Default()
 	fe := app_feature_impl.NewFeature(com, wb.Workspace(), false)
-	mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{})
+	mc := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{})
 	ui := app_ui.NewDiscard(mc, wb.Logger().Logger())
 	seq := eq_sequence.New(
 		eq_queue.NumWorker(fe.Concurrency()),

@@ -126,6 +126,7 @@ The command will generate a report in three different formats. `membership.csv`,
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
+
 ## Report: no_member
 
 This report shows folders without members.

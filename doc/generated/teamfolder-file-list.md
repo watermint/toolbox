@@ -119,6 +119,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
+
 ## Report: namespace_file
 
 This report shows a list of namespaces in the team.

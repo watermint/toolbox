@@ -33,6 +33,7 @@ import (
 	recipefilerequestdelete "github.com/watermint/toolbox/recipe/filerequest/delete"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
+	recipegroupfolder "github.com/watermint/toolbox/recipe/group/folder"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipeimage "github.com/watermint/toolbox/recipe/image"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
@@ -166,6 +167,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroup.List{},
 		&recipegroup.Rename{},
 		&recipegroupbatch.Delete{},
+		&recipegroupfolder.List{},
 		&recipegroupmember.Add{},
 		&recipegroupmember.Delete{},
 		&recipegroupmember.List{},

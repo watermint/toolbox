@@ -127,6 +127,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+
 ## レポート: member_list
 
 このレポートはメンバー一覧を出力します.

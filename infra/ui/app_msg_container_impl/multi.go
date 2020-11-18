@@ -20,6 +20,10 @@ type mlContainer struct {
 	containers map[lang.Iso639One]app_msg_container.Container
 }
 
+func (z mlContainer) Lang() lang.Lang {
+	return z.priority[0]
+}
+
 func (z mlContainer) Text(key string) string {
 	l := esl.Default()
 	for _, la := range z.priority {

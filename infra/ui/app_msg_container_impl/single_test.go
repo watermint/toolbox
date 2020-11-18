@@ -6,7 +6,7 @@ import (
 )
 
 func TestSglContainer_Text(t *testing.T) {
-	sgl := NewSingleWithMessages(map[string]string{
+	sgl := NewSingleWithMessagesForTest(map[string]string{
 		"ping":   "Pong",
 		"noodle": "Ramen",
 	})

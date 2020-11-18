@@ -133,6 +133,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group add](doc/generated_ja/group-add.md)                                         | グループを作成します                                                                   |
 | [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                                         |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                                                   |
+| [group folder list](doc/generated_ja/group-folder-list.md)                         | Find folders for each group                                                            |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                                         |
 | [group member add](doc/generated_ja/group-member-add.md)                           | メンバーをグループに追加                                                               |
 | [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                                             |

@@ -12,7 +12,7 @@ import (
 
 func TestMdImpl(t *testing.T) {
 	m := app_msg.CreateMessage("ping", app_msg.P{"Message": "Pong"})
-	mc := app_msg_container_impl.NewSingleWithMessages(map[string]string{
+	mc := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{
 		m.Key(): "Ping {{.Message}}",
 	})
 	lg := esl.Default()

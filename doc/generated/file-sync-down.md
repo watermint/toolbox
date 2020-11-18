@@ -124,6 +124,7 @@ The command will generate a report in three different formats. `deleted.csv`, `d
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+
 ## Report: downloaded
 
 This report shows the transaction result.
@@ -144,6 +145,7 @@ The command will generate a report in three different formats. `downloaded.csv`,
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `downloaded_0000.xlsx`, `downloaded_0001.xlsx`, `downloaded_0002.xlsx`, ...
+
 ## Report: skipped
 
 This report shows the transaction result.
@@ -161,6 +163,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+
 ## Report: summary
 
 This report shows a summary of the upload results.
