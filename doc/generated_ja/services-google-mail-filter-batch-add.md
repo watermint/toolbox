@@ -141,6 +141,7 @@ from:@google.com,my_label,"my_label,INBOX"
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `filters_0000.xlsx`, `filters_0001.xlsx`, `filters_0002.xlsx`, ...
+
 ## レポート: messages
 
 メッセージリソース

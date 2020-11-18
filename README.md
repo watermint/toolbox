@@ -135,6 +135,7 @@ Available commands:
 | [group add](doc/generated/group-add.md)                                         | Create new group                                              |
 | [group batch delete](doc/generated/group-batch-delete.md)                       | Delete groups                                                 |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
+| [group folder list](doc/generated/group-folder-list.md)                         | Find folders for each group                                   |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member add](doc/generated/group-member-add.md)                           | Add a member to the group                                     |
 | [group member delete](doc/generated/group-member-delete.md)                     | Delete a member from the group                                |

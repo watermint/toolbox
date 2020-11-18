@@ -141,6 +141,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
+
 ## レポート: errors
 
 このレポートは処理結果を出力します.
@@ -156,6 +157,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
+
 ## レポート: feature
 
 このレポートはチームの機能と設定を一覧します.
@@ -172,6 +174,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
+
 ## レポート: file_request
 
 このレポートはチームメンバーのもつファイルリクエストを一覧します.
@@ -195,6 +198,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
+
 ## レポート: group
 
 このレポートはチーム内のグループを一覧します.
@@ -209,6 +213,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
+
 ## レポート: group_member
 
 このレポートはグループとメンバーを一覧します.
@@ -227,6 +232,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
+
 ## レポート: info
 
 このレポートはチームの情報を一覧します.
@@ -247,6 +253,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
+
 ## レポート: linked_app
 
 このレポートは接続済みアプリケーションと利用ユーザーを一覧します.
@@ -268,6 +275,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
+
 ## レポート: member
 
 このレポートはメンバー一覧を出力します.
@@ -287,6 +295,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+
 ## レポート: member_quota
 
 このレポートはチームメンバーのカスタム容量上限の設定を出力します.
@@ -300,6 +309,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
+
 ## レポート: namespace
 
 このレポートはチームの名前空間を一覧します.
@@ -314,6 +324,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
+
 ## レポート: namespace_file
 
 このレポートはチームの名前空間を一覧します.
@@ -334,6 +345,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+
 ## レポート: namespace_member
 
 このレポートは名前空間とそのメンバー一覧を出力します.
@@ -353,6 +365,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
+
 ## レポート: namespace_size
 
 名前空間のサイズ.
@@ -377,6 +390,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+
 ## レポート: shared_link
 
 このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.
@@ -398,6 +412,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+
 ## レポート: team_folder
 
 このレポートはチーム内のチームフォルダを一覧します.
@@ -413,6 +428,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
+
 ## レポート: usage
 
 このレポートはユーザーの現在のストレージ利用容量を出力します.

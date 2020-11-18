@@ -146,6 +146,7 @@ The command will generate a report in three different formats. `combined.csv`, `
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `combined_0000.xlsx`, `combined_0001.xlsx`, `combined_0002.xlsx`, ...
+
 ## Report: user
 
 This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.

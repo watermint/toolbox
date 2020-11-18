@@ -61,6 +61,7 @@ func (z Report) Body(ui app_ui.UI) {
 		return strings.Compare(reports[i].Name(), reports[j].Name()) < 0
 	})
 	for _, rs := range reports {
+		ui.Break()
 		z.bodyReport(ui, rs)
 	}
 }

@@ -129,6 +129,7 @@ The command will generate a report in three different formats. `user.csv`, `user
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
+
 ## Report: user_summary
 
 This report shows the transaction result.

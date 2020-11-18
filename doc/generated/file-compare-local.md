@@ -123,6 +123,7 @@ The command will generate a report in three different formats. `diff.csv`, `diff
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `diff_0000.xlsx`, `diff_0001.xlsx`, `diff_0002.xlsx`, ...
+
 ## Report: skip
 
 This report shows a difference between to folders.

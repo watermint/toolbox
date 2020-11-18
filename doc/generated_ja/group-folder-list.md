@@ -1,6 +1,6 @@
-# team namespace file list
+# group folder list
 
-チーム内全ての名前空間でのファイル・フォルダを一覧 
+Find folders for each group 
 
 # セキュリティ
 
@@ -52,12 +52,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team namespace file list 
+.\tbx.exe group folder list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team namespace file list 
+$HOME/Desktop/tbx group folder list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,16 +68,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション               | 説明                                                                            | デフォルト |
-|--------------------------|---------------------------------------------------------------------------------|------------|
-| `-folder-name`           | 名前に一致するフォルダのみをリストアップします. 名前による完全一致でフィルター. |            |
-| `-folder-name-prefix`    | 名前に一致するフォルダのみをリストアップします. 名前の前方一致によるフィルター. |            |
-| `-folder-name-suffix`    | 名前に一致するフォルダのみをリストアップします. 名前の後方一致によるフィルター. |            |
-| `-include-deleted`       | 指定された場合、削除済みのファイルやフォルダが含めます                          | false      |
-| `-include-member-folder` | 指定された場合、チームメンバーのフォルダを含めます                              | false      |
-| `-include-shared-folder` | Trueの場合、共有フォルダを含めます                                              | true       |
-| `-include-team-folder`   | Trueの場合、チームフォルダを含めます                                            | true       |
-| `-peer`                  | アカウントの別名                                                                | default    |
+| オプション                 | 説明                                                                                                                                                                               | デフォルト |
+|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-folder-name`             | Filter by folder name. Filter by exact match to the name.                                                                                                                          |            |
+| `-folder-name-prefix`      | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |            |
+| `-folder-name-suffix`      | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |            |
+| `-group-name`              | Filter by group name. Filter by exact match to the name.                                                                                                                           |            |
+| `-group-name-prefix`       | Filter by group name. Filter by name match to the prefix.                                                                                                                          |            |
+| `-group-name-suffix`       | Filter by group name. Filter by name match to the suffix.                                                                                                                          |            |
+| `-include-external-groups` | Include external groups in the report.                                                                                                                                             | false      |
+| `-peer`                    | Account alias                                                                                                                                                                      | default    |
+| `-scan-timeout`            | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short      |
 
 ## 共通のオプション:
 
@@ -108,42 +109,40 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: errors
+## レポート: group_to_folder
 
-このレポートは処理結果を出力します.
-このコマンドはレポートを3種類の書式で出力します. `errors.csv`, `errors.json`, ならびに `errors.xlsx`.
+Group to folder mapping.
+このコマンドはレポートを3種類の書式で出力します. `group_to_folder.csv`, `group_to_folder.json`, ならびに `group_to_folder.xlsx`.
 
-| 列              | 説明                     |
-|-----------------|--------------------------|
-| status          | 処理の状態               |
-| reason          | 失敗またはスキップの理由 |
-| input.namespace | 名前空間                 |
-| input.path      | パス                     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
-
-## レポート: namespace_file
-
-このレポートはチームの名前空間を一覧します.
-このコマンドはレポートを3種類の書式で出力します. `namespace_file.csv`, `namespace_file.json`, ならびに `namespace_file.xlsx`.
-
-| 列                     | 説明                                                                                            |
-|------------------------|-------------------------------------------------------------------------------------------------|
-| namespace_type         | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder)          |
-| namespace_name         | 名前空間の名称                                                                                  |
-| namespace_member_email | これがチームメンバーフォルダまたはアプリフォルダの場合、所有するチームメンバーのメールアドレス. |
-| tag                    | エントリーの種別`file`, `folder`, または `deleted`                                              |
-| name                   | 名称                                                                                            |
-| path_display           | パス (表示目的で大文字小文字を区別する).                                                        |
-| client_modified        | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                    |
-| server_modified        | Dropbox上で最後に更新された日時                                                                 |
-| size                   | ファイルサイズ(バイト単位)                                                                      |
+| 列                 | 説明                                                                                                     |
+|--------------------|----------------------------------------------------------------------------------------------------------|
+| group_name         | Name of a group                                                                                          |
+| group_type         | Who is allowed to manage the group (user_managed, company_managed, or system_managed)                    |
+| group_is_same_team | 'true' if a group is in same team. Otherwise false.                                                      |
+| access_type        | Group's access level for this folder                                                                     |
+| namespace_name     | The name of this namespace                                                                               |
+| path               | Path                                                                                                     |
+| folder_type        | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
+| owner_team_name    | Team name of the team that owns the folder                                                               |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `group_to_folder_0000.xlsx`, `group_to_folder_0001.xlsx`, `group_to_folder_0002.xlsx`, ...
+
+## レポート: group_with_no_folders
+
+このレポートはチーム内のグループを一覧します.
+このコマンドはレポートを3種類の書式で出力します. `group_with_no_folders.csv`, `group_with_no_folders.json`, ならびに `group_with_no_folders.xlsx`.
+
+| 列                    | 説明                                                                                    |
+|-----------------------|-----------------------------------------------------------------------------------------|
+| group_name            | グループ名称                                                                            |
+| group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
+| member_count          | グループ内のメンバー数                                                                  |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `group_with_no_folders_0000.xlsx`, `group_with_no_folders_0001.xlsx`, `group_with_no_folders_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

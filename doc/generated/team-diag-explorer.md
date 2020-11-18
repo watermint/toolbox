@@ -141,6 +141,7 @@ The command will generate a report in three different formats. `device.csv`, `de
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
+
 ## Report: errors
 
 This report shows the transaction result.
@@ -156,6 +157,7 @@ The command will generate a report in three different formats. `errors.csv`, `er
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
+
 ## Report: feature
 
 This report shows a list of team features and their settings.
@@ -172,6 +174,7 @@ The command will generate a report in three different formats. `feature.csv`, `f
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `feature_0000.xlsx`, `feature_0001.xlsx`, `feature_0002.xlsx`, ...
+
 ## Report: file_request
 
 This report shows a list of file requests with the file request owner team member.
@@ -195,6 +198,7 @@ The command will generate a report in three different formats. `file_request.csv
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_request_0000.xlsx`, `file_request_0001.xlsx`, `file_request_0002.xlsx`, ...
+
 ## Report: group
 
 This report shows a list of groups in the team.
@@ -209,6 +213,7 @@ The command will generate a report in three different formats. `group.csv`, `gro
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_0000.xlsx`, `group_0001.xlsx`, `group_0002.xlsx`, ...
+
 ## Report: group_member
 
 This report shows a list of groups and their members.
@@ -227,6 +232,7 @@ The command will generate a report in three different formats. `group_member.csv
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_member_0000.xlsx`, `group_member_0001.xlsx`, `group_member_0002.xlsx`, ...
+
 ## Report: info
 
 This report shows a list of team information.
@@ -247,6 +253,7 @@ The command will generate a report in three different formats. `info.csv`, `info
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `info_0000.xlsx`, `info_0001.xlsx`, `info_0002.xlsx`, ...
+
 ## Report: linked_app
 
 This report shows a list of linked app with the user of the app.
@@ -268,6 +275,7 @@ The command will generate a report in three different formats. `linked_app.csv`,
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `linked_app_0000.xlsx`, `linked_app_0001.xlsx`, `linked_app_0002.xlsx`, ...
+
 ## Report: member
 
 This report shows a list of members.
@@ -287,6 +295,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+
 ## Report: member_quota
 
 This report shows a list of custom quota settings for each team members.
@@ -300,6 +309,7 @@ The command will generate a report in three different formats. `member_quota.csv
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_quota_0000.xlsx`, `member_quota_0001.xlsx`, `member_quota_0002.xlsx`, ...
+
 ## Report: namespace
 
 This report shows a list of namespaces in the team.
@@ -314,6 +324,7 @@ The command will generate a report in three different formats. `namespace.csv`, 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_0000.xlsx`, `namespace_0001.xlsx`, `namespace_0002.xlsx`, ...
+
 ## Report: namespace_file
 
 This report shows a list of namespaces in the team.
@@ -334,6 +345,7 @@ The command will generate a report in three different formats. `namespace_file.c
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_file_0000.xlsx`, `namespace_file_0001.xlsx`, `namespace_file_0002.xlsx`, ...
+
 ## Report: namespace_member
 
 This report shows a list of members of namespaces in the team.
@@ -353,6 +365,7 @@ The command will generate a report in three different formats. `namespace_member
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_member_0000.xlsx`, `namespace_member_0001.xlsx`, `namespace_member_0002.xlsx`, ...
+
 ## Report: namespace_size
 
 Namespace size
@@ -377,6 +390,7 @@ The command will generate a report in three different formats. `namespace_size.c
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+
 ## Report: shared_link
 
 This report shows a list of shared links with the shared link owner team member.
@@ -398,6 +412,7 @@ The command will generate a report in three different formats. `shared_link.csv`
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_link_0000.xlsx`, `shared_link_0001.xlsx`, `shared_link_0002.xlsx`, ...
+
 ## Report: team_folder
 
 This report shows a list of team folders in the team.
@@ -413,6 +428,7 @@ The command will generate a report in three different formats. `team_folder.csv`
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
+
 ## Report: usage
 
 This report shows current storage usage of users.

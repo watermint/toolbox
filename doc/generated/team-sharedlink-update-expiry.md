@@ -125,6 +125,7 @@ The command will generate a report in three different formats. `skipped.csv`, `s
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
+
 ## Report: updated
 
 This report shows the transaction result.

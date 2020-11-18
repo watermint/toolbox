@@ -8,7 +8,7 @@ Note: This tool does not support proxy servers with any authentication such as B
 
 If the command feels slow or stalled, please try re-run with an option `-verbose`. That will show more detailed progress. But in most cases, the cause is simply you have a larger data to process. Otherwise, you already hit a rate limit from API servers. If you want to see rate limit status, please see capture logs and debug for more details. 
 
-The tool automatically adjusts concurrency to avoid additional limitation from API servers. If you want to see current concurrency, please run the command like below. That will show a current window size (maximum concurrency) per endpoint. The debug message "WaiterStatus" reports current concurrency and window sizes. The map "runners" is for operations currently waiting for a result from API servers. The map "window" is for window size for each endpoint. The map "concurrency" is for window sizes for current running operations. The below example indicates for the endpoint "https://api.dropboxapi.com/2/file_requests/create", the tool does not allow call that endpoint with the concurrency grater than one. That means it requires operation one by one, and there is no easy workaround to speed up operations.
+The tool automatically adjusts concurrency to avoid additional limitation from API servers. If you want to see current concurrency, please run the command like below. That will show a current window size (maximum concurrency) per endpoint. The debug message "WaiterStatus" reports current concurrency and window sizes. The map "runners" is for operations currently waiting for a result from API servers. The map "window" is for window size for each endpoint. The map "concurrency" is for current concurrency per endpoint. The below example indicates for the endpoint "https://api.dropboxapi.com/2/file_requests/create", the tool does not allow call that endpoint with the concurrency grater than one. That means it requires operation one by one, and there is no easy workaround to speed up operations.
 ```
 tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")' 
 {
@@ -33,7 +33,7 @@ tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")'
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/file_requests/create": 4,
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/file_requests/create": 1,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/list_folder": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/save_url": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/save_url/check_job_status": 5,

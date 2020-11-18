@@ -8,7 +8,7 @@
 
 コマンドが遅く感じたり、停止したりした場合は、オプション `-verbose` を指定して再実行してみてください. そうすることで、より詳細な進捗状況がわかります. しかし、ほとんどの場合、原因は単純にあなたが処理するためのより大きなデータを持っているだけです. そうでなければ、APIサーバーからのレート制限にすでにヒットしていることになります. レート制限の状態を見たい場合は、キャプチャログやデバッグを参照してください. 
 
-このツールは、APIサーバーからの追加制限を回避するために、並行性を自動的に調整します. 現在の並行性を確認したい場合は、以下のようなコマンドを実行してください. これは、エンドポイントごとの現在のウィンドウサイズ（最大同時実行数）を表示します. デバッグメッセージ"WaiterStatus"は、現在の同時実行とウィンドウサイズを報告します. マップ"runners"は、現在APIサーバーからの結果待ちの操作のためのものですマップ "window "は、各エンドポイントのウィンドウサイズのためのものです. マップ "concurrency "は、現在実行中の操作のためのウィンドウサイズのためのものです. 次の例はエンドポイント "https://api.dropboxapi.com/2/file_requests/create" のために、ツールは1より大きい同時実行のそのエンドポイントを呼ぶことを許可しないことを示します. つまり、一つ一つの操作が必要であり、操作を高速化するための簡単な回避策はありません.
+このツールは、APIサーバーからの追加制限を回避するために、並行性を自動的に調整します. 現在の並行性を確認したい場合は、以下のようなコマンドを実行してください. これは、エンドポイントごとの現在のウィンドウサイズ（最大同時実行数）を表示します. デバッグメッセージ"WaiterStatus"は、現在の同時実行とウィンドウサイズを報告します. マップ"runners"は、現在APIサーバーからの結果待ちの操作のためのものですマップ "window "は、各エンドポイントのウィンドウサイズのためのものです. マップ "concurrency" は、エンドポイントごとの現在の同時実行数です. 次の例はエンドポイント "https://api.dropboxapi.com/2/file_requests/create" のために、ツールは1より大きい同時実行のそのエンドポイントを呼ぶことを許可しないことを示します. つまり、一つ一つの操作が必要であり、操作を高速化するための簡単な回避策はありません.
 ```
 tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")' 
 {
@@ -33,7 +33,7 @@ tbx job log last -quiet | jq 'select(.msg == "WaiterStatus")'
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/team/token/get_authenticated_admin": 5,
-    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/file_requests/create": 4,
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/file_requests/create": 1,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/list_folder": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/save_url": 5,
     "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-https://api.dropboxapi.com/2/files/save_url/check_job_status": 5,
@@ -63,9 +63,9 @@ PowerShellでは、(1)タイトルバーを右クリックし、(2)プロパテ�
 
 # ログファイル
 
-既定では、ログファイルは、Windows上のパス"%USERPROFILE%\.toolbox\jobs" (例えば、`C:\Users\USERNAME\.toolbox\jobs`)、またはLinuxまたはmacOS上の"$HOME/.toolbox/jobs" (例えば、`/Users/USERNAME/.toolbox/jobs`)の下に格納されています. ログファイルには、(1)OSの種類/バージョン/環境変数などのランタイム情報、(2)ツールへのランタイムオプション（入力データファイルのコピーを含む）、(3)Dropboxなどのサービスのアカウント情報、(4)APIサーバへのリクエスト/レスポンスデータ、(5)ファイル名、メタデータ、ID、URLなどのサービス内のデータなどの情報が含まれています。コマンドに依存します）.
+既定では、ログファイルは、Windows上のパス "%USERPROFILE%\.toolbox\jobs" (例えば、`C:\Users\USERNAME\.toolbox\jobs`)、またはLinuxまたはmacOS上の "$HOME/.toolbox/jobs" (例えば、`/Users/USERNAME/.toolbox/jobs`)の下に格納されています. ログファイルには、(1)OSの種類/バージョン/環境変数などのランタイム情報、(2)ツールへのランタイムオプション（入力データファイルのコピーを含む）、(3)Dropboxなどのサービスのアカウント情報、(4)APIサーバへのリクエスト/レスポンスデータ、(5)ファイル名、メタデータ、ID、URLなどのサービス内のデータなどの情報が含まれています。コマンドに依存します）.
 
-これらのログには、パスワード、クレデンシャル、または API トークンが含まれていません. しかし、APIトークンは、Windows上のパス"%USERPROFILE%\.toolbox\secrets" (例えば、`C:\ Users\\USERNAME\.toolbox\secrets`)や、LinuxやmacOS上のパス"$HOME/.toolbox/secrets" (例えば、`/Users/USERNAME/.toolbox/secrets`)の下に格納されています. これらの秘密のフォルダファイルは難読化されていますが、Dropboxのサポートなどのサービスプロバイダのサポートを含む誰にも共有しないようにしてください.
+これらのログには、パスワード、クレデンシャル、または API トークンが含まれていません. しかし、APIトークンは、Windows上のパス "%USERPROFILE%\.toolbox\secrets" (例えば、`C:\ Users\USERNAME\.toolbox\secrets`)や、LinuxやmacOS上のパス "$HOME/.toolbox/secrets" (例えば、`/Users/USERNAME/.toolbox/secrets`)の下に格納されています. これらの秘密のフォルダファイルは難読化されていますが、Dropboxのサポートなどのサービスプロバイダのサポートを含む誰にも共有しないようにしてください.
 
 ## ログ書式
 

@@ -1,6 +1,6 @@
-# teamfolder member list
+# group folder list
 
-List team folder members 
+Find folders for each group 
 
 # Security
 
@@ -52,12 +52,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe teamfolder member list 
+.\tbx.exe group folder list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx teamfolder member list 
+$HOME/Desktop/tbx group folder list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -68,15 +68,17 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                  | Description                                                                                                                                                                        | Default |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                          |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |         |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.                                                 |         |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.                                                     |         |
-| `-peer`                 | Account alias                                                                                                                                                                      | default |
-| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short   |
+| Option                     | Description                                                                                                                                                                        | Default |
+|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-folder-name`             | Filter by folder name. Filter by exact match to the name.                                                                                                                          |         |
+| `-folder-name-prefix`      | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |         |
+| `-folder-name-suffix`      | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |         |
+| `-group-name`              | Filter by group name. Filter by exact match to the name.                                                                                                                           |         |
+| `-group-name-prefix`       | Filter by group name. Filter by name match to the prefix.                                                                                                                          |         |
+| `-group-name-suffix`       | Filter by group name. Filter by name match to the suffix.                                                                                                                          |         |
+| `-include-external-groups` | Include external groups in the report.                                                                                                                                             | false   |
+| `-peer`                    | Account alias                                                                                                                                                                      | default |
+| `-scan-timeout`            | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short   |
 
 ## Common options:
 
@@ -107,40 +109,40 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: membership
+## Report: group_to_folder
 
-This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.
-The command will generate a report in three different formats. `membership.csv`, `membership.json`, and `membership.xlsx`.
+Group to folder mapping.
+The command will generate a report in three different formats. `group_to_folder.csv`, `group_to_folder.json`, and `group_to_folder.xlsx`.
 
-| Column          | Description                                                                                                                          |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| path            | Path                                                                                                                                 |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                             |
-| owner_team_name | Team name of the team that owns the folder                                                                                           |
-| access_type     | User's access level for this folder                                                                                                  |
-| member_type     | Type of this member (user, group, or invitee)                                                                                        |
-| member_name     | Name of this member                                                                                                                  |
-| member_email    | Email address of this member                                                                                                         |
-| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
-
-## Report: no_member
-
-This report shows folders without members.
-The command will generate a report in three different formats. `no_member.csv`, `no_member.json`, and `no_member.xlsx`.
-
-| Column          | Description                                                                                              |
-|-----------------|----------------------------------------------------------------------------------------------------------|
-| owner_team_name | Team name of the team that owns the folder                                                               |
-| path            | Path                                                                                                     |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
+| Column             | Description                                                                                              |
+|--------------------|----------------------------------------------------------------------------------------------------------|
+| group_name         | Name of a group                                                                                          |
+| group_type         | Who is allowed to manage the group (user_managed, company_managed, or system_managed)                    |
+| group_is_same_team | 'true' if a group is in same team. Otherwise false.                                                      |
+| access_type        | Group's access level for this folder                                                                     |
+| namespace_name     | The name of this namespace                                                                               |
+| path               | Path                                                                                                     |
+| folder_type        | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
+| owner_team_name    | Team name of the team that owns the folder                                                               |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_to_folder_0000.xlsx`, `group_to_folder_0001.xlsx`, `group_to_folder_0002.xlsx`, ...
+
+## Report: group_with_no_folders
+
+This report shows a list of groups in the team.
+The command will generate a report in three different formats. `group_with_no_folders.csv`, `group_with_no_folders.json`, and `group_with_no_folders.xlsx`.
+
+| Column                | Description                                                                           |
+|-----------------------|---------------------------------------------------------------------------------------|
+| group_name            | Name of a group                                                                       |
+| group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
+| member_count          | The number of members in the group.                                                   |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `group_with_no_folders_0000.xlsx`, `group_with_no_folders_0001.xlsx`, `group_with_no_folders_0002.xlsx`, ...
 
 # Proxy configuration
 

@@ -42,6 +42,19 @@ type FolderPolicy struct {
 	PolicyViewerInfo   string `json:"policy_viewer_info"`
 }
 
+type GroupToFolder struct {
+	GroupName       string `json:"group_name"`
+	GroupType       string `json:"group_type"`
+	GroupIsSameTeam bool   `json:"group_is_same_team"`
+	AccessType      string `json:"access_type"`
+	NamespaceId     string `json:"namespace_id"`
+	NamespaceName   string `json:"namespace_name"`
+	Path            string `json:"path"`
+	FolderType      string `json:"folder_type"`
+	OwnerTeamId     string `json:"owner_team_id"`
+	OwnerTeamName   string `json:"owner_team_name"`
+}
+
 func NewMembership(sf *mo_sharedfolder.SharedFolder, path string, member *mo_sharedfolder_member.Metadata) *Membership {
 	var memberId, memberName, memberEmail string
 	if u, ok := member.User(); ok {
@@ -96,6 +109,21 @@ func NewFolderPolicy(sf *mo_sharedfolder.SharedFolder, path string) *FolderPolic
 		PolicySharedLink:   sf.PolicySharedLink,
 		PolicyMember:       sf.PolicyMember,
 		PolicyViewerInfo:   sf.PolicyViewerInfo,
+	}
+}
+
+func NewGroupToFolder(g *mo_sharedfolder_member.Group, sf *mo_sharedfolder.SharedFolder, path string, member *mo_sharedfolder_member.Metadata) *GroupToFolder {
+	return &GroupToFolder{
+		GroupName:       g.GroupName,
+		GroupType:       g.GroupManagementType,
+		GroupIsSameTeam: g.IsSameTeam,
+		AccessType:      member.AccessType(),
+		NamespaceId:     sf.SharedFolderId,
+		NamespaceName:   sf.Name,
+		Path:            folderPath(sf, path),
+		FolderType:      folderType(sf),
+		OwnerTeamId:     sf.OwnerTeamId,
+		OwnerTeamName:   sf.OwnerTeamName,
 	}
 }
 
