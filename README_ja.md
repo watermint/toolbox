@@ -242,6 +242,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
 | [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
 | [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
+| [dev stage gui](doc/generated_ja/dev-stage-gui.md)             | GUI proof of concept               |
 | [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
 | [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
 | [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |
