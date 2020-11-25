@@ -31,6 +31,9 @@ type Spec interface {
 	// Id of the recipe spec. Id format is path + name of Path() connected with `-` (dash).
 	SpecId() string
 
+	// Command name and link to the document
+	CliNameRef(relPath string) app_msg.Message
+
 	// Recipe path on cli
 	CliPath() string
 
