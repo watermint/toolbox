@@ -23,6 +23,7 @@ const (
 	DocSupplementalPathVariables
 	DocSupplementalExperimentalFeature
 	DocSupplementalTroubleshooting
+	DocSupplementalDropboxBusiness
 )
 
 const (
@@ -47,6 +48,7 @@ var (
 		DocSupplementalPathVariables,
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
+		DocSupplementalDropboxBusiness,
 	}
 )
 
@@ -102,6 +104,8 @@ func DocName(id DocId, lg lang.Lang, opts ...NameOpt) string {
 		return SupplementalDocPath(lg, "experimental_features")
 	case DocSupplementalTroubleshooting:
 		return SupplementalDocPath(lg, "troubleshooting")
+	case DocSupplementalDropboxBusiness:
+		return SupplementalDocPath(lg, "dropbox_business")
 	}
 	esl.Default().Warn("Invalid document id", esl.Int("documentId", int(id)))
 	panic("invalid document id")

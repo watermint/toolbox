@@ -77,6 +77,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infracontrolapp_error.MsgErrorReport{},
 		&infracontrolapp_job_impl.MsgLauncher{},
 		&infradocdc_options.MsgDoc{},
+		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
