@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 
-if [ x"" = x"$PROJECT_ROOT" ]; then
-  PROJECT_ROOT=$(dirname $0)
-fi
-cd "$PROJECT_ROOT"
-
 OUT_RESULTS=test/results
 OUT_TEST=$OUT_RESULTS/all.out
 OUT_TEST_REPORT=$OUT_RESULTS/all.xml
