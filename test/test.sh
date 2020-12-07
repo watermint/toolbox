@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 OUT_RESULTS=test/results
-OUT_TEST=$OUT_RESULTS/last.out
 OUT_TEST_ALL=$OUT_RESULTS/all.out
 OUT_TEST_REPORT=$OUT_RESULTS/all.xml
 OUT_PROFILE=$OUT_RESULTS/profile.out
@@ -13,12 +12,9 @@ mkdir -p $OUT_RESULTS
 echo "" >$OUT_COVERAGE
 echo "" >$OUT_TEST_ALL
 
-go test -short -v -coverpkg=./... -coverprofile=$OUT_PROFILE -covermode=atomic ./... 2>&1 > "$OUT_OUT_TEST_ALL"
+go test -short -v -coverpkg=./... -coverprofile=$OUT_PROFILE -covermode=atomic ./... 2>&1 > "$OUT_TEST_ALL"
 if [ "$?" -ne "0" ]; then
   echo Test failed: $?
-  echo ---------------
-  cat $OUT_TEST
-  echo ---------------
   exit 1
 fi
 
