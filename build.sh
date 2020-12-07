@@ -63,6 +63,7 @@ echo BUILD: Start building version: $BUILD_VERSION
 echo --------------------
 echo BUILD: Preparing resources
 
+mkdir -p resources/keys
 if [ x"" != x"$TOOLBOX_APPKEYS" ]; then
   echo "$TOOLBOX_APPKEYS" >resources/keys/toolbox.appkeys
 fi

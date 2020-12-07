@@ -13,25 +13,14 @@ mkdir -p $OUT_RESULTS
 echo "" >$OUT_COVERAGE
 echo "" >$OUT_TEST_ALL
 
-for d in $(go list ./... | grep -v vendor); do
-  echo Testing: $d
-  CGO_ENABLED=0 go test -short -v -coverpkg=./... -coverprofile=$OUT_PROFILE -covermode=atomic $d 2>&1 >$OUT_TEST
-  if [ "$?" -ne "0" ]; then
-    echo Test failed: $?
-    echo ---------------
-    cat $OUT_TEST
-    echo ---------------
-    exit 1
-  fi
-  if [ -f $OUT_PROFILE ]; then
-    cat $OUT_PROFILE >>$OUT_COVERAGE
-    rm $OUT_PROFILE
-  fi
-  if [ -f $OUT_TEST ]; then
-    cat $OUT_TEST >>$OUT_TEST_ALL
-    rm $OUT_TEST
-  fi
-done
+go test -short -v -coverpkg=./... -coverprofile=$OUT_PROFILE -covermode=atomic ./... 2>&1 > "$OUT_OUT_TEST_ALL"
+if [ "$?" -ne "0" ]; then
+  echo Test failed: $?
+  echo ---------------
+  cat $OUT_TEST
+  echo ---------------
+  exit 1
+fi
 
 hash go-junit-report 2>/dev/null
 if [ "$?" -eq "0" ]; then
