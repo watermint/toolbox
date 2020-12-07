@@ -28,3 +28,11 @@ type Catalogue interface {
 	// Features
 	Features() []app_feature.OptIn
 }
+
+type RecipeNotFound struct {
+	Path string
+}
+
+func (z RecipeNotFound) Error() string {
+	return "recipe not found for the path : " + z.Path
+}

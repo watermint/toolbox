@@ -48,6 +48,7 @@ func (z DropboxBusinessMember) Title() app_msg.Message {
 
 func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 	cat := app_catalogue.Current()
+
 	//memberClearExternalid := cat.RecipeSpec("member clear externalid")
 	memberList := cat.RecipeSpec("member list")
 	memberDelete := cat.RecipeSpec("member delete")

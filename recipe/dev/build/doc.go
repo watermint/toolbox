@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_readme"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/doc/dc_supplemental"
+	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -89,6 +90,22 @@ func (z *Doc) genCommands(c app_control.Control) error {
 
 func (z *Doc) genSupplemental(c app_control.Control) error {
 	l := c.Log()
+	defer func() {
+		if e := recover(); e != nil {
+			switch re := e.(type) {
+			case *rc_catalogue.RecipeNotFound:
+				if c.Feature().IsTest() {
+					l.Warn("Ignore recipe not found on test", esl.Error(re))
+				} else {
+					// re-throw
+					panic(re)
+				}
+			default:
+				// re-throw
+				panic(re)
+			}
+		}
+	}()
 	for _, d := range dc_supplemental.Docs {
 		path := dc_index.DocName(d.DocId(), c.Messages().Lang()) + ".md"
 		l.Info("Generating supplemental doc", esl.Int("docId", int(d.DocId())))
