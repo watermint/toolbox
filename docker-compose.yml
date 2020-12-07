@@ -14,4 +14,4 @@ services:
   test:
     build:
       context: .
-    command: go test ./...
+    command: ./test/test.sh
