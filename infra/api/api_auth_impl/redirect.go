@@ -16,6 +16,7 @@ import (
 var (
 	ErrorOAuthSequenceStopped = errors.New("the oauth sequence stopped")
 	ErrorOAuthFailure         = errors.New("oauth failure")
+	ErrorOAuthCancelled       = errors.New("auth cancelled")
 )
 
 type OptInFeatureRedirect struct {
@@ -42,6 +43,10 @@ func (z *Redirect) PeerName() string {
 
 func (z *Redirect) Auth(scopes []string) (token api_auth.Context, err error) {
 	l := z.ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", z.peerName))
+
+	if z.ctl.Feature().IsTest() {
+		return nil, ErrorOAuthCancelled
+	}
 
 	rs := &RedirectService{
 		ctl:      z.ctl,
