@@ -12,7 +12,7 @@ mkdir -p $OUT_RESULTS
 echo "" >$OUT_COVERAGE
 echo "" >$OUT_TEST
 
-go test -v -covermode=atomic -coverprofile=$OUT_PROFILE  ./... 2>&1 | tee "$OUT_TEST"
+go test -v -covermode=atomic -coverprofile=$OUT_PROFILE  ./... 2>&1 > "$OUT_TEST"
 
 if [ "$?" -ne "0" ]; then
   echo Test failed: $?
