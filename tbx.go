@@ -8,12 +8,25 @@ import (
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_golog"
 	"github.com/watermint/toolbox/infra/control/app_bootstrap"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
+	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"log"
 	"os"
 )
 
 func run(args []string, forTest bool) {
+	defer func() {
+		if r := recover(); r != nil {
+			if r == app_exit.Success {
+				return
+			} else {
+				panic(r)
+			}
+		}
+	}()
+
+	app_exit.SetTestMode(forTest)
+
 	bundle := es_resource.New(
 		rice.MustFindBox("resources/templates"),
 		rice.MustFindBox("resources/messages"),
