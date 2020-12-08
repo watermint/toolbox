@@ -4,7 +4,7 @@ TEST_RESULTS=test/results
 TEST_OUT=$TEST_RESULTS/all.out
 TEST_ERR=$TEST_RESULTS/err.out
 TEST_REPORT=$TEST_RESULTS/all.xml
-TEST_PROFILE=$TEST_RESULTS/profile.out
+TEST_PROFILE=coverage.txt
 
 mkdir -p resources/keys
 mkdir -p $TEST_RESULTS
