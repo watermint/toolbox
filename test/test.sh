@@ -3,8 +3,8 @@
 TEST_RESULTS=test/results
 TEST_DEBUG=test/debug
 TEST_OUT=$TEST_DEBUG/all.out
-TEST_ERR=$TEST_RESULTS/err.out
-TEST_REPORT=$TEST_DEBUG/all.xml
+TEST_ERR=$TEST_DEBUG/err.out
+TEST_REPORT=$TEST_RESULTS/all.xml
 TEST_PROFILE=coverage.txt
 
 mkdir -p resources/keys
