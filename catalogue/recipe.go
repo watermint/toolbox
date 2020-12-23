@@ -81,6 +81,7 @@ import (
 	recipeteamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
 	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
+	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
@@ -250,6 +251,10 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamnamespacefile.List{},
 		&recipeteamnamespacefile.Size{},
 		&recipeteamnamespacemember.List{},
+		&recipeteamreport.Activity{},
+		&recipeteamreport.Devices{},
+		&recipeteamreport.Membership{},
+		&recipeteamreport.Storage{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkupdate.Expiry{},
 		&recipeteamfolder.Add{},

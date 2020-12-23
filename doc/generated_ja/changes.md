@@ -3,9 +3,13 @@
 # 追加されたコマンド
 
 
-| コマンド      | タイトル             |
-|---------------|----------------------|
-| dev stage gui | GUI proof of concept |
+| コマンド               | タイトル             |
+|------------------------|----------------------|
+| dev stage gui          | GUI proof of concept |
+| team report activity   | Activities report    |
+| team report devices    | Devices report       |
+| team report membership | Membership report    |
+| team report storage    | Storage report       |
 
 
 
