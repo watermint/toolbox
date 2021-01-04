@@ -35,6 +35,7 @@ import (
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupfolder "github.com/watermint/toolbox/recipe/group/folder"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
+	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipeimage "github.com/watermint/toolbox/recipe/image"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
@@ -174,6 +175,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmember.Add{},
 		&recipegroupmember.Delete{},
 		&recipegroupmember.List{},
+		&recipegroupmemberbatch.Add{},
 		&recipeimage.Info{},
 		&recipejobhistory.Archive{},
 		&recipejobhistory.Delete{},

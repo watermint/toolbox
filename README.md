@@ -138,6 +138,7 @@ Available commands:
 | [group folder list](doc/generated/group-folder-list.md)                         | Find folders of each group                                    |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member add](doc/generated/group-member-add.md)                           | Add a member to the group                                     |
+| [group member batch add](doc/generated/group-member-batch-add.md)               | Bulk add members into groups                                  |
 | [group member delete](doc/generated/group-member-delete.md)                     | Delete a member from the group                                |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
 | [group rename](doc/generated/group-rename.md)                                   | Rename the group                                              |

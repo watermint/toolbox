@@ -136,6 +136,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group folder list](doc/generated_ja/group-folder-list.md)                         | 各グループのフォルダを探す                                                             |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                                         |
 | [group member add](doc/generated_ja/group-member-add.md)                           | メンバーをグループに追加                                                               |
+| [group member batch add](doc/generated_ja/group-member-batch-add.md)               | Bulk add members into groups                                                           |
 | [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                                             |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                                             |
 | [group rename](doc/generated_ja/group-rename.md)                                   | グループの改名                                                                         |
