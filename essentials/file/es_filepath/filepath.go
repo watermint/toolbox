@@ -19,29 +19,39 @@ import (
 )
 
 const (
-	VarDropboxPersonal = "DropboxPersonal"
-	VarDropboxBusiness = "DropboxBusiness"
-	VarHome            = "Home"
-	VarUsername        = "Username"
-	VarHostname        = "Hostname"
-	VarExecPath        = "ExecPath"
-	VarRand8           = "Rand8"
-	VarDate            = "Date"
-	VarTime            = "Time"
-	VarDateUTC         = "DateUTC"
-	VarTimeUTC         = "TimeUTC"
-	VarRandom          = "Random"
+	VarDropboxPersonal           = "DropboxPersonal"
+	VarDropboxBusiness           = "DropboxBusiness"
+	VarDropboxBusinessOrPersonal = "DropboxBusinessOrPersonal"
+	VarDropboxPersonalOrBusiness = "DropboxPersonalOrBusiness"
+	VarHome                      = "Home"
+	VarUsername                  = "Username"
+	VarHostname                  = "Hostname"
+	VarExecPath                  = "ExecPath"
+	VarRand8                     = "Rand8"
+	VarYear                      = "Year"
+	VarMonth                     = "Month"
+	VarDay                       = "Day"
+	VarDate                      = "Date"
+	VarTime                      = "Time"
+	VarDateUTC                   = "DateUTC"
+	VarTimeUTC                   = "TimeUTC"
+	VarRandom                    = "Random"
 )
 
 var (
 	PathVariables = []string{
 		VarDropboxPersonal,
 		VarDropboxBusiness,
+		VarDropboxBusinessOrPersonal,
+		VarDropboxPersonalOrBusiness,
 		VarHome,
 		VarUsername,
 		VarHostname,
 		VarExecPath,
 		VarRand8,
+		VarYear,
+		VarMonth,
+		VarDay,
 		VarDate,
 		VarTime,
 		VarDateUTC,
@@ -173,6 +183,26 @@ func FormatPathWithPredefinedVariables(path string, pairs ...Pair) (string, erro
 		}
 		return "", errors.New("business dropbox desktop folder not found")
 	}
+	predefined[VarDropboxBusinessOrPersonal] = func() (string, error) {
+		p, b, _ := sv_desktop.New().Lookup()
+		if b != nil {
+			return b.Path, nil
+		}
+		if p != nil {
+			return p.Path, nil
+		}
+		return "", errors.New("dropbox desktop folder not found")
+	}
+	predefined[VarDropboxPersonalOrBusiness] = func() (string, error) {
+		p, b, _ := sv_desktop.New().Lookup()
+		if p != nil {
+			return p.Path, nil
+		}
+		if b != nil {
+			return b.Path, nil
+		}
+		return "", errors.New("dropbox desktop folder not found")
+	}
 	predefined[VarHome] = func() (s string, e error) {
 		u, err := user.Current()
 		if err == nil {
@@ -200,6 +230,18 @@ func FormatPathWithPredefinedVariables(path string, pairs ...Pair) (string, erro
 	}
 	predefined[VarRand8] = func() (s string, err error) {
 		return fmt.Sprintf("%08d", rand.Intn(100_000_000)), nil
+	}
+	predefined[VarYear] = func() (s string, e error) {
+		s = time.Now().Local().Format("2006")
+		return s, nil
+	}
+	predefined[VarMonth] = func() (s string, e error) {
+		s = time.Now().Local().Format("01")
+		return s, nil
+	}
+	predefined[VarDay] = func() (s string, e error) {
+		s = time.Now().Local().Format("02")
+		return s, nil
 	}
 	predefined[VarDate] = func() (s string, e error) {
 		s = time.Now().Local().Format("2006-01-02")

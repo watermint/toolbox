@@ -245,6 +245,7 @@ Available commands:
 | [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
 | [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
 | [config features](doc/generated/config-features.md)         | List available optional features.                |
+| [file archive local](doc/generated/file-archive-local.md)   | Archive local files                              |
 | [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
 | [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
 | [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |

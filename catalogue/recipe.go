@@ -21,6 +21,7 @@ import (
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipefile "github.com/watermint/toolbox/recipe/file"
+	recipefilearchive "github.com/watermint/toolbox/recipe/file/archive"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
 	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
@@ -150,6 +151,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.Restore{},
 		&recipefile.Size{},
 		&recipefile.Watch{},
+		&recipefilearchive.Local{},
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},
 		&recipefiledispatch.Local{},

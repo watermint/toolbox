@@ -2,17 +2,22 @@
 
 パス変数は、実行時に置き換えられる定義済みの変数です. 例えば、`{{.DropboxPersonal}}/Pictures`のように変数でパスを指定すると、そのパスは個人用のDropbox フォルダへの実際のパスに置き換えられます. しかし、このツールはその存在や精度を保証するものではありません.
 
-| パス変数             | 説明                                                  |
-|----------------------|-------------------------------------------------------|
-| {{.DropboxPersonal}} | Dropbox 個人アカウントのルート フォルダへのパス.      |
-| {{.DropboxBusiness}} | Dropbox Business アカウントのルート フォルダへのパス. |
-| {{.Home}}            | 現在のユーザーのホームフォルダ.                       |
-| {{.Username}}        | 現在のユーザーの名前.                                 |
-| {{.Hostname}}        | 現在のコンピュータのホスト名.                         |
-| {{.ExecPath}}        | このプログラムへのパス.                               |
-| {{.Rand8}}           | 0で始まるランダムな8桁の数字.                         |
-| {{.Date}}            | yyyyy-mm-dd形式の現在のローカル日付.                  |
-| {{.Time}}            | 現在の現地時間をHH-MM-SSの形式で表示します.           |
-| {{.DateUTC}}         | 現在のUTCの日付をyyyy-mm-dd形式で表示.                |
-| {{.TimeUTC}}         | 現在のUTC時間をHH-MM-SS形式で表示します.              |
+| パス変数                       | 説明                                                                                       |
+|--------------------------------|--------------------------------------------------------------------------------------------|
+| {{.DropboxPersonal}}           | Dropbox 個人アカウントのルート フォルダへのパス.                                           |
+| {{.DropboxBusiness}}           | Dropbox Business アカウントのルート フォルダへのパス.                                      |
+| {{.DropboxBusinessOrPersonal}} | Path to Dropbox Business account root folder, or Personal Dropbox account if it not found. |
+| {{.DropboxPersonalOrBusiness}} | Path to Dropbox Personal account root folder, or Business Dropbox account if it not found. |
+| {{.Home}}                      | 現在のユーザーのホームフォルダ.                                                            |
+| {{.Username}}                  | 現在のユーザーの名前.                                                                      |
+| {{.Hostname}}                  | 現在のコンピュータのホスト名.                                                              |
+| {{.ExecPath}}                  | このプログラムへのパス.                                                                    |
+| {{.Rand8}}                     | 0で始まるランダムな8桁の数字.                                                              |
+| {{.Year}}                      | Current local year with format 'yyyy' like 2021.                                           |
+| {{.Month}}                     | Current local month with format 'mm' like 01.                                              |
+| {{.Day}}                       | Current local day with format 'dd' like 05.                                                |
+| {{.Date}}                      | yyyyy-mm-dd形式の現在のローカル日付.                                                       |
+| {{.Time}}                      | 現在の現地時間をHH-MM-SSの形式で表示します.                                                |
+| {{.DateUTC}}                   | 現在のUTCの日付をyyyy-mm-dd形式で表示.                                                     |
+| {{.TimeUTC}}                   | 現在のUTC時間をHH-MM-SS形式で表示します.                                                   |
 
