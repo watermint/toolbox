@@ -6,6 +6,8 @@ import (
 )
 
 type PrintLogger interface {
+	Fatal(v ...interface{})
+	Fatalf(format string, v ...interface{})
 	Print(v ...interface{})
 	Printf(format string, v ...interface{})
 }
@@ -18,6 +20,14 @@ func New(l esl.Logger) PrintLogger {
 
 type wrapperLogger struct {
 	l esl.Logger
+}
+
+func (z wrapperLogger) Fatal(v ...interface{}) {
+	z.l.Error(fmt.Sprint(v...))
+}
+
+func (z wrapperLogger) Fatalf(format string, v ...interface{}) {
+	z.l.Error(fmt.Sprintf(format, v...))
 }
 
 func (z wrapperLogger) Print(v ...interface{}) {
