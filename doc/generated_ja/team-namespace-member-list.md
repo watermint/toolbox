@@ -114,7 +114,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | entry_access_type  | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
 | entry_is_inherited | メンバーのアクセス権限が上位フォルダから継承されている場合true                                       |
 | email              | ユーザーのメールアドレス                                                                             |
-| display_name       | セッションのタイプ (web_session, desktop_client, または mobile_client)                               |
+| display_name       | チームメンバーの表示名.                                                                              |
 | group_name         | グループ名称                                                                                         |
 | invitee_email      | このフォルダに招待されたメールアドレス                                                               |
 

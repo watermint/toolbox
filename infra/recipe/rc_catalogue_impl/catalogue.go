@@ -27,6 +27,14 @@ func (z *catalogueImpl) Recipe(cliPath string) (recipe rc_recipe.Recipe, spec rc
 	return nil, nil
 }
 
+func (z *catalogueImpl) RecipeSpec(cliPath string) rc_recipe.Spec {
+	_, spec := z.Recipe(cliPath)
+	if spec == nil {
+		panic(&rc_catalogue.RecipeNotFound{Path: cliPath})
+	}
+	return spec
+}
+
 func (z *catalogueImpl) Features() []app_feature.OptIn {
 	return z.features
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/security/sc_random"
 	"go.uber.org/atomic"
 	"io/ioutil"
 	"os"
@@ -83,7 +84,7 @@ var (
 )
 
 func NewJobId() string {
-	return fmt.Sprintf("%s.%03d", time.Now().Format(JobIdFormat), jobSequence.Add(1))
+	return fmt.Sprintf("%s.%s", time.Now().Format(JobIdFormat), sc_random.MustGenerateRandomString(3))
 }
 
 func DefaultAppPath() (path string, err error) {

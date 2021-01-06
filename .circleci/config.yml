@@ -12,7 +12,6 @@ jobs:
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
-      - run: ./.circleci/prepare.sh
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: go get github.com/google/go-licenses
@@ -32,7 +31,6 @@ jobs:
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
-      - run: ./.circleci/prepare.sh
       - run: mkdir -p test/results
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice

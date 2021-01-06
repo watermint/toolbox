@@ -135,15 +135,19 @@ Available commands:
 | [group add](doc/generated/group-add.md)                                         | Create new group                                              |
 | [group batch delete](doc/generated/group-batch-delete.md)                       | Delete groups                                                 |
 | [group delete](doc/generated/group-delete.md)                                   | Delete group                                                  |
-| [group folder list](doc/generated/group-folder-list.md)                         | Find folders for each group                                   |
+| [group folder list](doc/generated/group-folder-list.md)                         | Find folders of each group                                    |
 | [group list](doc/generated/group-list.md)                                       | List group(s)                                                 |
 | [group member add](doc/generated/group-member-add.md)                           | Add a member to the group                                     |
+| [group member batch add](doc/generated/group-member-batch-add.md)               | Bulk add members into groups                                  |
+| [group member batch delete](doc/generated/group-member-batch-delete.md)         | Delete members from groups                                    |
+| [group member batch update](doc/generated/group-member-batch-update.md)         | Add or delete members from groups                             |
 | [group member delete](doc/generated/group-member-delete.md)                     | Delete a member from the group                                |
 | [group member list](doc/generated/group-member-list.md)                         | List members of groups                                        |
 | [group rename](doc/generated/group-rename.md)                                   | Rename the group                                              |
 | [member clear externalid](doc/generated/member-clear-externalid.md)             | Clear external_id of members                                  |
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |
+| [member folder list](doc/generated/member-folder-list.md)                       | Find folders for each member                                  |
 | [member invite](doc/generated/member-invite.md)                                 | Invite member(s)                                              |
 | [member list](doc/generated/member-list.md)                                     | List team member(s)                                           |
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
@@ -243,6 +247,7 @@ Available commands:
 | [config disable](doc/generated/config-disable.md)           | Disable a feature.                               |
 | [config enable](doc/generated/config-enable.md)             | Enable a feature.                                |
 | [config features](doc/generated/config-features.md)         | List available optional features.                |
+| [file archive local](doc/generated/file-archive-local.md)   | Archive local files                              |
 | [file dispatch local](doc/generated/file-dispatch-local.md) | Dispatch local files                             |
 | [job history archive](doc/generated/job-history-archive.md) | Archive jobs                                     |
 | [job history delete](doc/generated/job-history-delete.md)   | Delete old job history                           |

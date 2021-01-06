@@ -1,39 +1,30 @@
 #!/usr/bin/env bash
 
-OUT_RESULTS=test/results
-OUT_TEST=$OUT_RESULTS/last.out
-OUT_TEST_ALL=$OUT_RESULTS/all.out
-OUT_TEST_REPORT=$OUT_RESULTS/all.xml
-OUT_PROFILE=$OUT_RESULTS/profile.out
-OUT_COVERAGE=coverage.txt
+TEST_RESULTS=test/results
+TEST_DEBUG=test/debug
+TEST_OUT=$TEST_DEBUG/all.out
+TEST_ERR=$TEST_DEBUG/err.out
+TEST_REPORT=$TEST_RESULTS/all.xml
+TEST_PROFILE=coverage.txt
 
 mkdir -p resources/keys
-mkdir -p $OUT_RESULTS
+mkdir -p $TEST_RESULTS
+mkdir -p $TEST_DEBUG
 
-echo "" >$OUT_COVERAGE
-echo "" >$OUT_TEST_ALL
+go test -v -covermode=atomic -coverprofile=$TEST_PROFILE  ./... > "$TEST_OUT" 2> "$TEST_ERR"
+TEST_EXIT_CODE=$?
 
-for d in $(go list ./... | grep -v vendor); do
-  echo Testing: $d
-  CGO_ENABLED=0 go test -short -v -coverpkg=./... -coverprofile=$OUT_PROFILE -covermode=atomic $d 2>&1 >$OUT_TEST
-  if [ "$?" -ne "0" ]; then
-    echo Test failed: $?
-    echo ---------------
-    cat $OUT_TEST
-    echo ---------------
-    exit 1
-  fi
-  if [ -f $OUT_PROFILE ]; then
-    cat $OUT_PROFILE >>$OUT_COVERAGE
-    rm $OUT_PROFILE
-  fi
-  if [ -f $OUT_TEST ]; then
-    cat $OUT_TEST >>$OUT_TEST_ALL
-    rm $OUT_TEST
-  fi
-done
+if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
+    go run tbx.go dev ci artifact up -budget-memory low -local-path $TEST_DEBUG -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM -peer-name deploy
+fi
 
 hash go-junit-report 2>/dev/null
+
 if [ "$?" -eq "0" ]; then
-  cat $OUT_TEST_ALL | go-junit-report >$OUT_TEST_REPORT
+  cat $TEST_OUT | go-junit-report >$TEST_REPORT
+fi
+
+if [ $TEST_EXIT_CODE -ne 0 ]; then
+  echo Test failed: $TEST_EXIT_CODE
+  exit 1
 fi

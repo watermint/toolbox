@@ -112,6 +112,9 @@ func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_mod
 func (z *Sorted) Close() {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
+	if z.ctl == nil {
+		panic("the report is not yet opened")
+	}
 	l := z.ctl.Log()
 
 	if !z.isOpen {

@@ -1,7 +1,6 @@
 package dc_readme
 
 import (
-	"fmt"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
@@ -9,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -32,8 +30,7 @@ func (z Command) Title() app_msg.Message {
 
 func (z Command) commandName(spec rc_recipe.Spec) app_msg.Message {
 	if z.publish {
-		path := filepath.Join(z.commandPath, spec.SpecId()+".md")
-		return app_msg.Raw(fmt.Sprintf("[%s](%s)", spec.CliPath(), path))
+		return spec.CliNameRef(z.commandPath)
 	} else {
 		return app_msg.Raw(spec.CliPath())
 	}

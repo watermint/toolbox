@@ -42,10 +42,11 @@ func (z *Teamfolder) Preset() {
 }
 
 func (z *Teamfolder) Exec(c app_control.Control) error {
-	teamFolderName := "Tokyo Branch"
+	teamFolderName := "Tokyo Branch 4"
 	nestedFolderPlainName := "Organization"
 	nestedFolderSharedName := "Sales"
 	nestedFolderRestrictedName := "Report"
+	restedFolderRestrictedNoSyncName := "Finance"
 	adminGroupName := "toolbox-admin"
 	sampleGroupName := "toolbox-sample"
 
@@ -54,8 +55,10 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	//  +-- [Organization] (plain folder, not_synced)
 	//  |
 	//  +-- [Sales] (nested folder, not_synced)
-	//       |
-	//       +-- [Report] (nested folder, do not inherit, no external sharing, [editor=toolbox-sample])
+	//  |    |
+	//  |    +-- [Report] (nested folder, do not inherit, no external sharing, [editor=toolbox-sample])
+	//  |
+	//  +-- [Finance] (nested folder, not_synced, do not inherit)
 
 	l := c.Log()
 
@@ -196,7 +199,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		sv_teamfolder.AddNestedSetting(folderSalesMeta, sv_teamfolder.SyncSettingNotSynced),
 	)
 	if err != nil {
-		l.Warn("Unable to change", esl.Error(err))
+		l.Warn("Unable to change : sync setting", esl.Error(err))
 		return err
 	}
 	l.Info("Sync settings updated", esl.Any("updated", updated))
@@ -280,7 +283,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	// Do not inherit permission from parent : Sales/Report
 	updatedFolderSalesReport, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderSalesReport.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
 	if err != nil {
-		l.Warn("Unable to change", esl.Error(err))
+		l.Warn("Unable to change: inherit", esl.Error(err))
 		return err
 	}
 	l.Info("Sync access inheritance updated", esl.Any("updated", updatedFolderSalesReport))
@@ -313,6 +316,60 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	default:
 		l.Warn("Unable to update policies", esl.Error(err))
 	}
+
+	// Restricted & no sync
+	// Apply no sync to Finance: 1. create folder
+	folderFinance, err := sv_sharedfolder.New(tfCtx).Create(mo_path.NewDropboxPath("/" + restedFolderRestrictedNoSyncName))
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("Team folder created", esl.Any("folder", folderFinance))
+		break
+
+	case de.BadPath().IsAlreadyShared():
+		l.Info("The folder is already shared")
+		folderFinanceMeta, err := sv_file.NewFiles(tfCtx).Resolve(mo_path.NewDropboxPath("/" + restedFolderRestrictedNoSyncName))
+		if err != nil {
+			l.Warn("Unable to resolve nested folder", esl.Error(err))
+			return err
+		}
+
+		folderFinance, err = sv_sharedfolder.New(tfCtx).Resolve(folderFinanceMeta.Concrete().SharedFolderId)
+		if err != nil {
+			l.Warn("Unable to resolve nested folder", esl.Error(err))
+			return err
+		}
+		l.Info("Nested folder resolved", esl.Any("folder", folderSales))
+
+	default:
+		l.Warn("Unable to create team folder", esl.Error(err))
+		return err
+	}
+
+	folderFinanceMeta, err := sv_file.NewFiles(tfCtx).Resolve(mo_path.NewDropboxPath("/" + restedFolderRestrictedNoSyncName))
+	if err != nil {
+		l.Warn("Unable to find meta", esl.Error(err))
+		return err
+	}
+
+	// 2. set un-sync
+	updatedFinance, err := sv_teamfolder.New(z.Peer.Context()).UpdateSyncSetting(tf,
+		sv_teamfolder.AddNestedSetting(folderOrganizationMeta, sv_teamfolder.SyncSettingNotSynced),
+		sv_teamfolder.AddNestedSetting(folderFinanceMeta, sv_teamfolder.SyncSettingNotSynced),
+	)
+	if err != nil {
+		l.Warn("Unable to change", esl.Error(err))
+		return err
+	}
+	l.Info("Sync settings updated", esl.Any("updated", updatedFinance))
+
+	// 3. set no_inherit
+	updatedFinanceInherit, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderFinance.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
+	if err != nil {
+		l.Warn("Unable to change: inherit", esl.Error(err))
+		return err
+	}
+	l.Info("Sync access inheritance updated", esl.Any("updated", updatedFinanceInherit))
 
 	return nil
 }

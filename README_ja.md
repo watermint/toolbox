@@ -133,15 +133,19 @@ DropboxおよびDropbox Business向けのツールセット
 | [group add](doc/generated_ja/group-add.md)                                         | グループを作成します                                                                   |
 | [group batch delete](doc/generated_ja/group-batch-delete.md)                       | グループの削除                                                                         |
 | [group delete](doc/generated_ja/group-delete.md)                                   | グループを削除します                                                                   |
-| [group folder list](doc/generated_ja/group-folder-list.md)                         | Find folders for each group                                                            |
+| [group folder list](doc/generated_ja/group-folder-list.md)                         | 各グループのフォルダを探す                                                             |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                                         |
 | [group member add](doc/generated_ja/group-member-add.md)                           | メンバーをグループに追加                                                               |
+| [group member batch add](doc/generated_ja/group-member-batch-add.md)               | グループにメンバーを一括追加                                                           |
+| [group member batch delete](doc/generated_ja/group-member-batch-delete.md)         | グループからメンバーを削除                                                             |
+| [group member batch update](doc/generated_ja/group-member-batch-update.md)         | グループからメンバーを追加または削除                                                   |
 | [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                                             |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                                             |
 | [group rename](doc/generated_ja/group-rename.md)                                   | グループの改名                                                                         |
 | [member clear externalid](doc/generated_ja/member-clear-externalid.md)             | メンバーのexternal_idを初期化します                                                    |
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                                                   |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
+| [member folder list](doc/generated_ja/member-folder-list.md)                       | 各メンバーのフォルダを検索                                                             |
 | [member invite](doc/generated_ja/member-invite.md)                                 | メンバーを招待します                                                                   |
 | [member list](doc/generated_ja/member-list.md)                                     | チームメンバーの一覧                                                                   |
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                                                     |
@@ -241,6 +245,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
 | [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
 | [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
+| [file archive local](doc/generated_ja/file-archive-local.md)   | ローカルファイルをアーカイブします |
 | [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
 | [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
 | [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |

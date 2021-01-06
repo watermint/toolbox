@@ -1,6 +1,6 @@
 # group folder list
 
-Find folders for each group 
+Find folders of each group 
 
 # Security
 

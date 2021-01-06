@@ -17,6 +17,10 @@ type MockSpec struct {
 	path []string
 }
 
+func (z MockSpec) CliNameRef(relPath string) app_msg.Message {
+	panic("implement me")
+}
+
 func (z MockSpec) Capture(ctl app_control.Control) (v interface{}, err error) {
 	panic("implement me")
 }

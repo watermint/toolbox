@@ -21,6 +21,7 @@ import (
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipefile "github.com/watermint/toolbox/recipe/file"
+	recipefilearchive "github.com/watermint/toolbox/recipe/file/archive"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
 	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
@@ -35,12 +36,14 @@ import (
 	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
 	recipegroupfolder "github.com/watermint/toolbox/recipe/group/folder"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
+	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipeimage "github.com/watermint/toolbox/recipe/image"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
 	recipememberfile "github.com/watermint/toolbox/recipe/member/file"
+	recipememberfolder "github.com/watermint/toolbox/recipe/member/folder"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesasanateam "github.com/watermint/toolbox/recipe/services/asana/team"
@@ -80,6 +83,7 @@ import (
 	recipeteamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
 	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
+	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
@@ -125,6 +129,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},
+		&recipedevstage.Gui{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
 		&recipedevtest.Echo{},
@@ -146,6 +151,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.Restore{},
 		&recipefile.Size{},
 		&recipefile.Watch{},
+		&recipefilearchive.Local{},
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},
 		&recipefiledispatch.Local{},
@@ -171,6 +177,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmember.Add{},
 		&recipegroupmember.Delete{},
 		&recipegroupmember.List{},
+		&recipegroupmemberbatch.Add{},
+		&recipegroupmemberbatch.Delete{},
+		&recipegroupmemberbatch.Update{},
 		&recipeimage.Info{},
 		&recipejobhistory.Archive{},
 		&recipejobhistory.Delete{},
@@ -187,6 +196,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipemember.Replication{},
 		&recipememberclear.Externalid{},
 		&recipememberfile.Permdelete{},
+		&recipememberfolder.List{},
 		&recipememberquota.List{},
 		&recipememberquota.Update{},
 		&recipememberquota.Usage{},
@@ -247,6 +257,10 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamnamespacefile.List{},
 		&recipeteamnamespacefile.Size{},
 		&recipeteamnamespacemember.List{},
+		&recipeteamreport.Activity{},
+		&recipeteamreport.Devices{},
+		&recipeteamreport.Membership{},
+		&recipeteamreport.Storage{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkupdate.Expiry{},
 		&recipeteamfolder.Add{},

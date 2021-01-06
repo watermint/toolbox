@@ -114,7 +114,7 @@ The command will generate a report in three different formats. `namespace_member
 | entry_access_type  | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | entry_is_inherited | True if the member has access from a parent folder                                                        |
 | email              | Email address of user.                                                                                    |
-| display_name       | Type of the session (web_session, desktop_client, or mobile_client)                                       |
+| display_name       | Team member display name.                                                                                 |
 | group_name         | Name of the group                                                                                         |
 | invitee_email      | Email address of invitee for this folder                                                                  |
 

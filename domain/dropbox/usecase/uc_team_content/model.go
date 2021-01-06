@@ -55,6 +55,19 @@ type GroupToFolder struct {
 	OwnerTeamName   string `json:"owner_team_name"`
 }
 
+type MemberToFolder struct {
+	MemberName    string `json:"member_name"`
+	TeamMemberId  string `json:"team_member_id"`
+	MemberEmail   string `json:"member_email"`
+	AccessType    string `json:"access_type"`
+	NamespaceId   string `json:"namespace_id"`
+	NamespaceName string `json:"namespace_name"`
+	Path          string `json:"path"`
+	FolderType    string `json:"folder_type"`
+	OwnerTeamId   string `json:"owner_team_id"`
+	OwnerTeamName string `json:"owner_team_name"`
+}
+
 func NewMembership(sf *mo_sharedfolder.SharedFolder, path string, member *mo_sharedfolder_member.Metadata) *Membership {
 	var memberId, memberName, memberEmail string
 	if u, ok := member.User(); ok {
@@ -124,6 +137,36 @@ func NewGroupToFolder(g *mo_sharedfolder_member.Group, sf *mo_sharedfolder.Share
 		FolderType:      folderType(sf),
 		OwnerTeamId:     sf.OwnerTeamId,
 		OwnerTeamName:   sf.OwnerTeamName,
+	}
+}
+
+func NewMemberToFolderByUser(u *mo_sharedfolder_member.User, sf *mo_sharedfolder.SharedFolder, path string, member *mo_sharedfolder_member.Metadata) *MemberToFolder {
+	return &MemberToFolder{
+		MemberName:    u.DisplayName,
+		TeamMemberId:  u.TeamMemberId,
+		MemberEmail:   u.Email,
+		AccessType:    member.AccessType(),
+		NamespaceId:   sf.SharedFolderId,
+		NamespaceName: sf.Name,
+		Path:          folderPath(sf, path),
+		FolderType:    folderType(sf),
+		OwnerTeamId:   sf.OwnerTeamId,
+		OwnerTeamName: sf.OwnerTeamName,
+	}
+}
+
+func NewMemberToFolderByInvitee(u *mo_sharedfolder_member.Invitee, sf *mo_sharedfolder.SharedFolder, path string, member *mo_sharedfolder_member.Metadata) *MemberToFolder {
+	return &MemberToFolder{
+		MemberName:    "",
+		TeamMemberId:  "",
+		MemberEmail:   u.InviteeEmail,
+		AccessType:    member.AccessType(),
+		NamespaceId:   sf.SharedFolderId,
+		NamespaceName: sf.Name,
+		Path:          folderPath(sf, path),
+		FolderType:    folderType(sf),
+		OwnerTeamId:   sf.OwnerTeamId,
+		OwnerTeamName: sf.OwnerTeamName,
 	}
 }
 

@@ -1,6 +1,6 @@
 # group folder list
 
-Find folders for each group 
+各グループのフォルダを探す 
 
 # セキュリティ
 
@@ -68,17 +68,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                 | 説明                                                                                                                                                                               | デフォルト |
-|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-folder-name`             | Filter by folder name. Filter by exact match to the name.                                                                                                                          |            |
-| `-folder-name-prefix`      | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |            |
-| `-folder-name-suffix`      | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |            |
-| `-group-name`              | Filter by group name. Filter by exact match to the name.                                                                                                                           |            |
-| `-group-name-prefix`       | Filter by group name. Filter by name match to the prefix.                                                                                                                          |            |
-| `-group-name-suffix`       | Filter by group name. Filter by name match to the suffix.                                                                                                                          |            |
-| `-include-external-groups` | Include external groups in the report.                                                                                                                                             | false      |
-| `-peer`                    | Account alias                                                                                                                                                                      | default    |
-| `-scan-timeout`            | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short      |
+| オプション                 | 説明                                                                                                                                                                                       | デフォルト |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-folder-name`             | フォルダ名によるフィルター. 名前による完全一致でフィルター.                                                                                                                                |            |
+| `-folder-name-prefix`      | フォルダ名によるフィルター. 名前の前方一致によるフィルター.                                                                                                                                |            |
+| `-folder-name-suffix`      | フォルダ名によるフィルター. 名前の後方一致によるフィルター.                                                                                                                                |            |
+| `-group-name`              | グループ名でフィルタリングします. 名前による完全一致でフィルター.                                                                                                                          |            |
+| `-group-name-prefix`       | グループ名でフィルタリングします. 名前の前方一致によるフィルター.                                                                                                                          |            |
+| `-group-name-suffix`       | グループ名でフィルタリングします. 名前の後方一致によるフィルター.                                                                                                                          |            |
+| `-include-external-groups` | レポートに外部のグループを含める.                                                                                                                                                          | false      |
+| `-peer`                    | アカウントの別名                                                                                                                                                                           | default    |
+| `-scan-timeout`            | スキャンのタイムアウト設定. スキャンタイムアウトした場合、チームフォルダのサブフォルダのパスは `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME` のようなダミーパスに置き換えられます. | short      |
 
 ## 共通のオプション:
 
@@ -111,19 +111,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: group_to_folder
 
-Group to folder mapping.
+グループからフォルダへのマッピング.
 このコマンドはレポートを3種類の書式で出力します. `group_to_folder.csv`, `group_to_folder.json`, ならびに `group_to_folder.xlsx`.
 
-| 列                 | 説明                                                                                                     |
-|--------------------|----------------------------------------------------------------------------------------------------------|
-| group_name         | Name of a group                                                                                          |
-| group_type         | Who is allowed to manage the group (user_managed, company_managed, or system_managed)                    |
-| group_is_same_team | 'true' if a group is in same team. Otherwise false.                                                      |
-| access_type        | Group's access level for this folder                                                                     |
-| namespace_name     | The name of this namespace                                                                               |
-| path               | Path                                                                                                     |
-| folder_type        | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
-| owner_team_name    | Team name of the team that owns the folder                                                               |
+| 列                 | 説明                                                                                                             |
+|--------------------|------------------------------------------------------------------------------------------------------------------|
+| group_name         | グループ名称                                                                                                     |
+| group_type         | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed)                          |
+| group_is_same_team | グループが同じチームにいる場合は 'true' となります. それ以外の場合はfalseです.                                   |
+| access_type        | このフォルダに対するグループのアクセスレベル.                                                                    |
+| namespace_name     | 名前空間の名称                                                                                                   |
+| path               | パス                                                                                                             |
+| folder_type        | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ) |
+| owner_team_name    | このフォルダを所有するチームの名前                                                                               |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

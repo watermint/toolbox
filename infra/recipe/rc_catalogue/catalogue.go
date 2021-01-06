@@ -13,6 +13,9 @@ type Catalogue interface {
 	// Recipes by cliPath. Returns nil if no recipe registered for cliPath.
 	Recipe(cliPath string) (recipe rc_recipe.Recipe, spec rc_recipe.Spec)
 
+	// Recipe spec by cliPath. Panic when the spec not found.
+	RecipeSpec(cliPath string) rc_recipe.Spec
+
 	// All ingredients
 	Ingredients() []rc_recipe.Recipe
 
@@ -24,4 +27,12 @@ type Catalogue interface {
 
 	// Features
 	Features() []app_feature.OptIn
+}
+
+type RecipeNotFound struct {
+	Path string
+}
+
+func (z RecipeNotFound) Error() string {
+	return "recipe not found for the path : " + z.Path
 }

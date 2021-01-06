@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -61,8 +62,8 @@ type List struct {
 
 func (z *List) Preset() {
 	z.Visibility.SetOptions(
-		"public",
-		"public", "team_only", "password", "team_and_password", "shared_folder_only",
+		"all",
+		"all", "public", "team_only", "password", "team_and_password", "shared_folder_only",
 	)
 	z.SharedLink.SetModel(
 		&mo_sharedlink.SharedLinkMember{},
@@ -72,6 +73,24 @@ func (z *List) Preset() {
 			"team_member_id",
 		),
 	)
+}
+
+func (z *List) listMemberLinks(member *mo_member.Member, c app_control.Control) error {
+	l := c.Log().With(esl.String("member", member.Email))
+	mc := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	links, err := sv_sharedlink.New(mc).List()
+	if err != nil {
+		return err
+	}
+	for _, link := range links {
+		lm := mo_sharedlink.NewSharedLinkMember(link, member)
+		if z.Visibility.Value() != "all" && lm.Visibility != z.Visibility.Value() {
+			l.Debug("Skipped from report", esl.Any("link", lm))
+			continue
+		}
+		z.SharedLink.Row(lm)
+	}
+	return nil
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -84,17 +103,13 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewLegacyQueue()
-	for _, member := range members {
-		q.Enqueue(&ListWorker{
-			member:     member,
-			conn:       z.Peer.Context(),
-			rep:        z.SharedLink,
-			ctl:        c,
-			visibility: z.Visibility.Value(),
-		})
-	}
-	q.Wait()
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("scan_member", z.listMemberLinks, c)
+		q := s.Get("scan_member")
+		for _, member := range members {
+			q.Enqueue(member)
+		}
+	})
 
 	return nil
 }

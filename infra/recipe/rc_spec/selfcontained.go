@@ -2,6 +2,7 @@ package rc_spec
 
 import (
 	"flag"
+	"fmt"
 	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
@@ -19,6 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"os"
+	"path/filepath"
 	"sort"
 	"strings"
 )
@@ -311,6 +313,11 @@ func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
 	default:
 		return app_msg.Raw("").AsOptional()
 	}
+}
+
+func (z *specValueSelfContained) CliNameRef(relPath string) app_msg.Message {
+	path := filepath.Join(relPath, z.SpecId()+".md")
+	return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
 }
 
 func (z *specValueSelfContained) CliPath() string {

@@ -38,6 +38,7 @@ import (
 	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
+	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
@@ -77,6 +78,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infracontrolapp_error.MsgErrorReport{},
 		&infracontrolapp_job_impl.MsgLauncher{},
 		&infradocdc_options.MsgDoc{},
+		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
@@ -98,6 +100,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&recipefiledispatch.MsgLocal{},
 		&recipefileimportbatch.MsgUrl{},
 		&recipegroupmember.MsgList{},
+		&recipegroupmemberbatch.MsgOperation{},
 		&recipemember.MsgInvite{},
 		&recipememberquota.MsgList{},
 		&recipememberquota.MsgUpdate{},

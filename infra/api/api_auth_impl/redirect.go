@@ -10,12 +10,14 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/security/sc_random"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"golang.org/x/oauth2"
 )
 
 var (
 	ErrorOAuthSequenceStopped = errors.New("the oauth sequence stopped")
 	ErrorOAuthFailure         = errors.New("oauth failure")
+	ErrorOAuthCancelled       = errors.New("auth cancelled")
 )
 
 type OptInFeatureRedirect struct {
@@ -42,6 +44,10 @@ func (z *Redirect) PeerName() string {
 
 func (z *Redirect) Auth(scopes []string) (token api_auth.Context, err error) {
 	l := z.ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", z.peerName))
+
+	if z.ctl.Feature().IsTest() {
+		return nil, qt_errors.ErrorSkipEndToEndTest
+	}
 
 	rs := &RedirectService{
 		ctl:      z.ctl,
