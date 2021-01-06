@@ -199,7 +199,8 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 		}
 
 		if rcErr, _ := qt_errors.ErrorsForTest(l, err); rcErr != nil {
-			t.Error(ctl.Workspace().Log(), rcErr)
+			rs := rc_spec.New(re)
+			t.Error(ctl.Workspace().Log(), rcErr, rs.CliPath())
 		}
 	})
 }
