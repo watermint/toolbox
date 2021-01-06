@@ -200,7 +200,10 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 
 		if rcErr, _ := qt_errors.ErrorsForTest(l, err); rcErr != nil {
 			rs := rc_spec.New(re)
-			t.Error(ctl.Workspace().Log(), rcErr, rs.CliPath())
+			l.Error("Test failure",
+				esl.Error(rcErr),
+				esl.String("recipe", rs.CliPath()))
+			t.Error(rs.CliPath(), ctl.Workspace().Log(), rcErr)
 		}
 	})
 }
