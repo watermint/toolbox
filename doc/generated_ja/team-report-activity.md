@@ -1,6 +1,6 @@
 # team report activity
 
-Activities report
+アクティビティ レポート
 
 # セキュリティ
 
@@ -69,11 +69,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明          | デフォルト                     |
-|---------------|---------------|--------------------------------|
-| `-end-date`   | End date      |                                |
-| `-peer`       | Account alias | &{Peer [team_info.read] <nil>} |
-| `-start-date` | Start date    |                                |
+| オプション    | 説明             | デフォルト                     |
+|---------------|------------------|--------------------------------|
+| `-end-date`   | 終了日           |                                |
+| `-peer`       | アカウントの別名 | &{Peer [team_info.read] <nil>} |
+| `-start-date` | 開始日           |                                |
 
 ## 共通のオプション:
 
@@ -106,7 +106,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: report
 
-Activity report このコマンドはレポートを3種類の書式で出力します. `report.csv`, `report.json`, ならびに `report.xlsx`.
+アクティビティ レポート このコマンドはレポートを3種類の書式で出力します. `report.csv`, `report.json`, ならびに `report.xlsx`.
 
 | 列 | 説明 |
 |----|------|

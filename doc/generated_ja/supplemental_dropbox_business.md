@@ -1,10 +1,10 @@
-# Member management commands
+# メンバー管理コマンド
 
-## Information commands
+## 情報コマンド
 
-Below commands are to retrieve information about team members.
+以下のコマンドは、チームメンバーの情報を取得するためのものです.
 
-| Command                                     | Description                              |
+| コマンド                                    | 説明                                     |
 |---------------------------------------------|------------------------------------------|
 | [member list](member-list.md)               | チームメンバーの一覧                     |
 | [member folder list](member-folder-list.md) | 各メンバーのフォルダを検索               |
@@ -12,11 +12,11 @@ Below commands are to retrieve information about team members.
 | [member quota usage](member-quota-usage.md) | チームメンバーのストレージ利用状況を取得 |
 | [team activity user](team-activity-user.md) | ユーザーごとのアクティビティ             |
 
-## Basic management commands
+## 基本管理コマンド
 
-Below commands are managing team member accounts. Those commands are for a bulk operation by a CSV file.
+以下のコマンドは、チームメンバーのアカウントを管理するためのものです. これらのコマンドは、CSVファイルによる一括処理を行うためのものです.
 
-| Command                                           | Description                                         |
+| コマンド                                          | 説明                                                |
 |---------------------------------------------------|-----------------------------------------------------|
 | [member invite](member-invite.md)                 | メンバーを招待します                                |
 | [member delete](member-delete.md)                 | メンバーを削除します                                |

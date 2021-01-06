@@ -136,7 +136,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group folder list](doc/generated_ja/group-folder-list.md)                         | 各グループのフォルダを探す                                                             |
 | [group list](doc/generated_ja/group-list.md)                                       | グループを一覧                                                                         |
 | [group member add](doc/generated_ja/group-member-add.md)                           | メンバーをグループに追加                                                               |
-| [group member batch add](doc/generated_ja/group-member-batch-add.md)               | Bulk add members into groups                                                           |
+| [group member batch add](doc/generated_ja/group-member-batch-add.md)               | グループにメンバーを一括追加                                                           |
 | [group member delete](doc/generated_ja/group-member-delete.md)                     | メンバーをグループから削除                                                             |
 | [group member list](doc/generated_ja/group-member-list.md)                         | グループに所属するメンバー一覧を取得します                                             |
 | [group rename](doc/generated_ja/group-rename.md)                                   | グループの改名                                                                         |
@@ -243,7 +243,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                |
 | [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                |
 | [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.      |
-| [file archive local](doc/generated_ja/file-archive-local.md)   | Archive local files                |
+| [file archive local](doc/generated_ja/file-archive-local.md)   | ローカルファイルをアーカイブします |
 | [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します       |
 | [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                 |
 | [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除               |

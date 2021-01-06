@@ -5,18 +5,15 @@ Archive local files
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
 ```

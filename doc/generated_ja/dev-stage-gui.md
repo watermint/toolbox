@@ -1,6 +1,6 @@
 # dev stage gui
 
-GUI proof of concept (Experimental)
+GUIコンセプト実証 (試験的実装です)
 
 # 利用方法
 

@@ -1,6 +1,6 @@
 # group member batch add
 
-Bulk add members into groups (Irreversible operation)
+グループにメンバーを一括追加 (非可逆な操作です)
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト                               |
-|------------|-------------------|------------------------------------------|
-| `-file`    | Path to data file |                                          |
-| `-peer`    | Account alias     | &{Peer [groups.read groups.write] <nil>} |
+| オプション | 説明                   | デフォルト                               |
+|------------|------------------------|------------------------------------------|
+| `-file`    | データファイルへのパス |                                          |
+| `-peer`    | アカウントの別名       | &{Peer [groups.read groups.write] <nil>} |
 
 ## 共通のオプション:
 
@@ -97,17 +97,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Add members
+メンバーの追加
 
-| 列           | 説明                 | 例               |
-|--------------|----------------------|------------------|
-| group_name   | Group name           | Sales            |
-| member_email | Member email address | taro@example.com |
+| 列           | 説明                     | 例               |
+|--------------|--------------------------|------------------|
+| group_name   | グループ名               | 営業             |
+| member_email | メンバーのメールアドレス | taro@example.com |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
 ```
 group_name,member_email
-Sales,taro@example.com
+営業,taro@example.com
 ```
 
 # 実行結果
@@ -128,8 +128,8 @@ Sales,taro@example.com
 |-------------------|--------------------------|
 | status            | 処理の状態               |
 | reason            | 失敗またはスキップの理由 |
-| input.GroupName   | Group name               |
-| input.MemberEmail | Member email address     |
+| input.GroupName   | グループ名               |
+| input.MemberEmail | メンバーのメールアドレス |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

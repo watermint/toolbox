@@ -14,7 +14,7 @@ Below commands are to retrieve information about team members.
 
 ## Basic management commands
 
-Below commands are managing team member accounts. Those commands are for a bulk operation by a CSV file.
+Below commands are for managing team member accounts. Those commands are for a bulk operation by a CSV file.
 
 | Command                                           | Description                                          |
 |---------------------------------------------------|------------------------------------------------------|

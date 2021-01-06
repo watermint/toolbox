@@ -1,22 +1,19 @@
 # file archive local
 
-Archive local files
+ローカルファイルをアーカイブします
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
 ```
@@ -29,13 +26,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション              | 説明                                                                                   | デフォルト |
-|-------------------------|----------------------------------------------------------------------------------------|------------|
-| `-dst`                  | The destination folder path. The command will create folders if not exist on the path. |            |
-| `-exclude-folders`      | Exclude folders                                                                        | false      |
-| `-include-system-files` | Include system files                                                                   | false      |
-| `-preview`              | Preview mode                                                                           | false      |
-| `-src`                  | The source folder path.                                                                |            |
+| オプション              | 説明                                                                              | デフォルト |
+|-------------------------|-----------------------------------------------------------------------------------|------------|
+| `-dst`                  | 宛先フォルダのパス. このコマンドは、パス上に存在しない場合、フォルダを作成します. |            |
+| `-exclude-folders`      | フォルダを除外する                                                                | false      |
+| `-include-system-files` | システムファイルを含める                                                          | false      |
+| `-preview`              | プレビューモード                                                                  | false      |
+| `-src`                  | 元フォルダのパス.                                                                 |            |
 
 ## 共通のオプション:
 
