@@ -86,7 +86,7 @@ func (z *Add) Exec(c app_control.Control) error {
 		})
 	})
 
-	return nil
+	return lastErr
 }
 
 func (z *Add) Test(c app_control.Control) error {

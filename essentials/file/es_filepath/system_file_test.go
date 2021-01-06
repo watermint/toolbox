@@ -12,7 +12,7 @@ func TestIsSystemFile(t *testing.T) {
 	}
 	otherFiles := []string{
 		"/tmp/a.txt",
-		"/tmp/.DS_StoreStore",
+		"/tmp/DS_StoreStore",
 		"/tmp/thumbnails.db",
 		"/tmp/dropbox",
 	}

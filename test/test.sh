@@ -18,13 +18,13 @@ if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
     go run tbx.go dev ci artifact up -budget-memory low -local-path $TEST_DEBUG -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM -peer-name deploy
 fi
 
-if [ $TEST_EXIT_CODE -ne 0 ]; then
-  echo Test failed: $TEST_EXIT_CODE
-  exit 1
-fi
-
 hash go-junit-report 2>/dev/null
 
 if [ "$?" -eq "0" ]; then
   cat $TEST_OUT | go-junit-report >$TEST_REPORT
+fi
+
+if [ $TEST_EXIT_CODE -ne 0 ]; then
+  echo Test failed: $TEST_EXIT_CODE
+  exit 1
 fi
