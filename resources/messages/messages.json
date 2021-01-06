@@ -1519,7 +1519,7 @@
   "recipe.member.update.profile_row.surname.example": "Smith",
   "recipe.member.update.title": "Bulk update email address",
   "recipe.member.update.visibility_record.Email.desc": "Member email address",
-  "recipe.member.update.visibility_record.desc": "Member list for change visibility",
+  "recipe.member.update.visibility_record.desc": "Member list for changing visibility",
   "recipe.member.update.visibility_record.email.desc": "Member email address",
   "recipe.member.update.visibility_record.email.example": "taro@example.com",
   "recipe.member.update.visible.cli.args": "-file /PATH/TO/DATA_FILE.csv",

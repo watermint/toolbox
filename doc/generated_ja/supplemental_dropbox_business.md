@@ -23,8 +23,8 @@
 | [member detach](member-detach.md)                         | Dropbox BusinessユーザーをBasicユーザーに変更します |
 | [member update email](member-update-email.md)             | メンバーのメールアドレス処理                        |
 | [member update profile](member-update-profile.md)         | メンバーのプロフィール変更                          |
-| [member update visible](member-update-visible.md)         | Disable directory restriction to members            |
-| [member update invisible](member-update-invisible.md)     | Enable directory restriction to members             |
+| [member update visible](member-update-visible.md)         | メンバーへのディレクトリ制限を無効にします          |
+| [member update invisible](member-update-invisible.md)     | メンバーへのディレクトリ制限を有効にします          |
 | [member quota update](member-quota-update.md)             | チームメンバーの容量制限を変更                      |
 | [group member batch add](group-member-batch-add.md)       | グループにメンバーを一括追加                        |
 | [group member batch delete](group-member-batch-delete.md) | グループからメンバーを削除                          |

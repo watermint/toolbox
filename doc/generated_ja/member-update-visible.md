@@ -1,6 +1,6 @@
 # member update visible
 
-Disable directory restriction to members (Irreversible operation)
+メンバーへのディレクトリ制限を無効にします (非可逆な操作です)
 
 # セキュリティ
 
@@ -16,7 +16,6 @@ Disable directory restriction to members (Irreversible operation)
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
@@ -29,7 +28,6 @@ Disable directory restriction to members (Irreversible operation)
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -50,18 +48,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe member update visible -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx member update visible -file /PATH/TO/DATA_FILE.csv
 ```
@@ -74,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト                                 |
-|------------|-------------------|--------------------------------------------|
-| `-file`    | Path to data file |                                            |
-| `-peer`    | Account alias     | &{Peer [members.read members.write] <nil>} |
+| オプション | 説明                   | デフォルト                                 |
+|------------|------------------------|--------------------------------------------|
+| `-file`    | データファイルへのパス |                                            |
+| `-peer`    | アカウントの別名       | &{Peer [members.read members.write] <nil>} |
 
 ## 共通のオプション:
 
@@ -102,14 +97,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Member list for change visibility
+視認性を変えるためのメンバーリスト
 
-| 列    | 説明                 | 例               |
-|-------|----------------------|------------------|
-| email | Member email address | taro@example.com |
+| 列    | 説明                     | 例               |
+|-------|--------------------------|------------------|
+| email | メンバーのメールアドレス | taro@example.com |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
-
 ```
 email
 taro@example.com
@@ -133,7 +127,7 @@ taro@example.com
 |-------------------------|-------------------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                                      |
 | reason                  | 失敗またはスキップの理由                                                                        |
-| input.Email             | Member email address                                                                            |
+| input.Email             | メンバーのメールアドレス                                                                        |
 | result.team_member_id   | チームにおけるメンバーのID                                                                      |
 | result.email            | ユーザーのメールアドレス                                                                        |
 | result.email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |

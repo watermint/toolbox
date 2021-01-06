@@ -155,9 +155,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [member replication](doc/generated_ja/member-replication.md)                       | チームメンバーのファイルを複製します                                                   |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                                           |
 | [member update externalid](doc/generated_ja/member-update-externalid.md)           | チームメンバーのExternal IDを更新します.                                               |
-| [member update invisible](doc/generated_ja/member-update-invisible.md)             | Enable directory restriction to members                                                |
+| [member update invisible](doc/generated_ja/member-update-invisible.md)             | メンバーへのディレクトリ制限を有効にします                                             |
 | [member update profile](doc/generated_ja/member-update-profile.md)                 | メンバーのプロフィール変更                                                             |
-| [member update visible](doc/generated_ja/member-update-visible.md)                 | Disable directory restriction to members                                               |
+| [member update visible](doc/generated_ja/member-update-visible.md)                 | メンバーへのディレクトリ制限を無効にします                                             |
 | [team activity batch user](doc/generated_ja/team-activity-batch-user.md)           | 複数ユーザーのアクティビティを一括取得します                                           |
 | [team activity daily event](doc/generated_ja/team-activity-daily-event.md)         | アクティビティーを1日ごとに取得します                                                  |
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                                           |
