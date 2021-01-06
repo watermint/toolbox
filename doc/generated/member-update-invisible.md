@@ -1,6 +1,6 @@
-# group member batch update
+# member update invisible
 
-Add or delete members from groups (Irreversible operation)
+Enable directory restriction to members (Irreversible operation)
 
 # Security
 
@@ -16,6 +16,7 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
@@ -29,6 +30,7 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe group member batch update -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe member update invisible -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx group member batch update -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx member update invisible -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -72,10 +77,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description       | Default                                  |
-|---------|-------------------|------------------------------------------|
-| `-file` | Path to data file |                                          |
-| `-peer` | Account alias     | &{Peer [groups.read groups.write] <nil>} |
+| Option  | Description       | Default                                    |
+|---------|-------------------|--------------------------------------------|
+| `-file` | Path to data file |                                            |
+| `-peer` | Account alias     | &{Peer [members.read members.write] <nil>} |
 
 ## Common options:
 
@@ -100,17 +105,17 @@ Open" on the dialogue.
 
 ## Format: File
 
-Add members into groups
+Member list for change visibility
 
-| Column       | Description          | Example          |
-|--------------|----------------------|------------------|
-| group_name   | Group name           | Sales            |
-| member_email | Member email address | taro@example.com |
+| Column | Description          | Example          |
+|--------|----------------------|------------------|
+| email  | Member email address | taro@example.com |
 
 The first line is a header line. The program will accept file without the header.
+
 ```
-group_name,member_email
-Sales,taro@example.com
+email
+taro@example.com
 ```
 
 # Results
@@ -129,12 +134,27 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 This report shows the transaction result. The command will generate a report in three different
 formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column            | Description                            |
-|-------------------|----------------------------------------|
-| status            | Status of the operation                |
-| reason            | Reason of failure or skipped operation |
-| input.GroupName   | Group name                             |
-| input.MemberEmail | Member email address                   |
+| Column                  | Description                                                                                                          |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                  | Status of the operation                                                                                              |
+| reason                  | Reason of failure or skipped operation                                                                               |
+| input.Email             | Member email address                                                                                                 |
+| result.team_member_id   | ID of user as a member of a team.                                                                                    |
+| result.email            | Email address of user.                                                                                               |
+| result.email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
+| result.status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
+| result.given_name       | Also known as a first name                                                                                           |
+| result.surname          | Also known as a last name or family name.                                                                            |
+| result.familiar_name    | Locale-dependent name                                                                                                |
+| result.display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
+| result.abbreviated_name | An abbreviated form of the person's name.                                                                            |
+| result.member_folder_id | The namespace id of the user's root folder.                                                                          |
+| result.external_id      | External ID that a team can attach to the user.                                                                      |
+| result.account_id       | A user's account identifier.                                                                                         |
+| result.persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
+| result.joined_on        | The date and time the user joined as a member of a specific team.                                                    |
+| result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
+| result.tag              | Operation tag                                                                                                        |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

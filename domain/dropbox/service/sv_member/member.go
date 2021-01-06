@@ -22,6 +22,7 @@ var (
 
 type Member interface {
 	Update(member *mo_member.Member, opts ...UpdateOpt) (updated *mo_member.Member, err error)
+	UpdateVisibility(email string, visible bool) (updated *mo_member.Member, err error)
 	List(opts ...ListOpt) (members []*mo_member.Member, err error)
 	ListEach(f func(member *mo_member.Member) bool, opts ...ListOpt) error
 	Resolve(teamMemberId string) (member *mo_member.Member, err error)
@@ -122,9 +123,9 @@ func AddWithRole(role string) AddOpt {
 		return opt
 	}
 }
-func AddWithDirectoryRestricted() AddOpt {
+func AddWithDirectoryRestricted(enabled bool) AddOpt {
 	return func(opt *addOptions) *addOptions {
-		opt.isDirectoryRestricted = true
+		opt.isDirectoryRestricted = enabled
 		return opt
 	}
 }
@@ -197,6 +198,10 @@ type cachedMember struct {
 	members []*mo_member.Member
 }
 
+func (z *cachedMember) UpdateVisibility(email string, visible bool) (updated *mo_member.Member, err error) {
+	return z.impl.UpdateVisibility(email, visible)
+}
+
 func (z *cachedMember) ListEach(f func(member *mo_member.Member) bool, opts ...ListOpt) error {
 	return z.ListEach(f, opts...)
 }
@@ -260,6 +265,31 @@ func (z *cachedMember) Remove(member *mo_member.Member, opts ...RemoveOpt) (err 
 type memberImpl struct {
 	ctx   dbx_context.Context
 	limit int
+}
+
+func (z *memberImpl) UpdateVisibility(email string, visible bool) (updated *mo_member.Member, err error) {
+	type US struct {
+		Tag   string `json:".tag"`
+		Email string `json:"email"`
+	}
+	type UV struct {
+		User                     US   `json:"user"`
+		NewIsDirectoryRestricted bool `json:"new_is_directory_restricted"`
+	}
+	p := UV{
+		User: US{
+			Tag:   "email",
+			Email: email,
+		},
+		NewIsDirectoryRestricted: !visible,
+	}
+	res := z.ctx.Post("team/members/set_profile", api_request.Param(&p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	updated = &mo_member.Member{}
+	err = res.Success().Json().Model(updated)
+	return
 }
 
 func (z *memberImpl) Add(email string, opts ...AddOpt) (member *mo_member.Member, err error) {

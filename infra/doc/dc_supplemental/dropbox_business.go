@@ -57,9 +57,14 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 	memberFolderList := cat.RecipeSpec("member folder list")
 	memberUpdateEmail := cat.RecipeSpec("member update email")
 	memberUpdateProfile := cat.RecipeSpec("member update profile")
+	memberUpdateVisible := cat.RecipeSpec("member update visible")
+	memberUpdateInvisible := cat.RecipeSpec("member update invisible")
 	memberQuotaUpdate := cat.RecipeSpec("member quota update")
 	memberQuotaList := cat.RecipeSpec("member quota list")
 	memberQuotaUsage := cat.RecipeSpec("member quota usage")
+	groupMemberAdd := cat.RecipeSpec("group member batch add")
+	groupMemberDelete := cat.RecipeSpec("group member batch delete")
+	groupMemberUpdate := cat.RecipeSpec("group member batch update")
 	teamActivityUser := cat.RecipeSpec("team activity user")
 
 	ui.SubHeader(MDropboxBusiness.MemberInfoCommands)
@@ -82,9 +87,13 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 		memberDetach,
 		memberUpdateEmail,
 		memberUpdateProfile,
+		memberUpdateVisible,
+		memberUpdateInvisible,
 		memberQuotaUpdate,
+		groupMemberAdd,
+		groupMemberDelete,
+		groupMemberUpdate,
 	})
-
 }
 
 func dropboxBusinessCommandTable(ui app_ui.UI, name string, commands []rc_recipe.Spec) {

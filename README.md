@@ -157,7 +157,9 @@ Available commands:
 | [member replication](doc/generated/member-replication.md)                       | Replicate team member files                                   |
 | [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
 | [member update externalid](doc/generated/member-update-externalid.md)           | Update External ID of team members                            |
+| [member update invisible](doc/generated/member-update-invisible.md)             | Enable directory restriction to members                       |
 | [member update profile](doc/generated/member-update-profile.md)                 | Update member profile                                         |
+| [member update visible](doc/generated/member-update-visible.md)                 | Disable directory restriction to members                      |
 | [team activity batch user](doc/generated/team-activity-batch-user.md)           | Scan activities for multiple users                            |
 | [team activity daily event](doc/generated/team-activity-daily-event.md)         | Report activities by day                                      |
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
