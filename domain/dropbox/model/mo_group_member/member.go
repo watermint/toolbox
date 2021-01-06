@@ -81,3 +81,11 @@ func (z *GroupMember) Member() (member *Member) {
 	}
 	return member
 }
+
+func GroupMemberEmails(members []*Member) []string {
+	emails := make([]string, 0)
+	for _, m := range members {
+		emails = append(emails, m.Email)
+	}
+	return emails
+}

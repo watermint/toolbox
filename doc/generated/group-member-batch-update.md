@@ -1,6 +1,6 @@
-# group member batch add
+# group member batch update
 
-Bulk add members into groups (Irreversible operation)
+Add or delete members from groups (Irreversible operation)
 
 # Security
 
@@ -16,6 +16,7 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
@@ -29,6 +30,7 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe group member batch add -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe group member batch update -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx group member batch add -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx group member batch update -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -108,6 +113,7 @@ Add members into groups
 | member_email | Member email address | taro@example.com |
 
 The first line is a header line. The program will accept file without the header.
+
 ```
 group_name,member_email
 Sales,taro@example.com

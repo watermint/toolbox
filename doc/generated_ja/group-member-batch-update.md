@@ -1,6 +1,6 @@
-# group member batch add
+# group member batch update
 
-グループにメンバーを一括追加 (非可逆な操作です)
+グループからメンバーを追加または削除 (非可逆な操作です)
 
 # セキュリティ
 
@@ -16,6 +16,7 @@
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
+
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
@@ -28,6 +29,7 @@
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -48,17 +50,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe group member batch add -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe group member batch update -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx group member batch add -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx group member batch update -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -105,6 +110,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | member_email | メンバーのメールアドレス | taro@example.com |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+
 ```
 group_name,member_email
 営業,taro@example.com

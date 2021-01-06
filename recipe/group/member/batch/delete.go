@@ -14,14 +14,14 @@ import (
 	"os"
 )
 
-type Add struct {
+type Delete struct {
 	rc_recipe.RemarkIrreversible
 	Peer         dbx_conn.ConnScopedTeam
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 }
 
-func (z *Add) Preset() {
+func (z *Delete) Preset() {
 	z.File.SetModel(&MemberRecord{})
 	z.Peer.SetScopes(
 		dbx_auth.ScopeGroupsRead,
@@ -30,20 +30,20 @@ func (z *Add) Preset() {
 	z.OperationLog.SetModel(&MemberRecord{}, nil)
 }
 
-func (z *Add) Exec(c app_control.Control) error {
+func (z *Delete) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
 	svg := sv_group.NewCached(z.Peer.Context())
 
-	queueIdAdd := "add"
+	queueIdDelete := "delete"
 
 	var lastErr error
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define(queueIdAdd, memberAdd, svg, c, z.Peer.Context(), z.OperationLog)
-		q := s.Get(queueIdAdd)
+		s.Define(queueIdDelete, memberDelete, svg, c, z.Peer.Context(), z.OperationLog)
+		q := s.Get(queueIdDelete)
 
 		lastErr = z.File.EachRow(func(m interface{}, rowIndex int) error {
 			q.Enqueue(m)
@@ -56,7 +56,7 @@ func (z *Add) Exec(c app_control.Control) error {
 	return lastErr
 }
 
-func (z *Add) Test(c app_control.Control) error {
+func (z *Delete) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFile("add", "Sales,taro@example.com\nSales,hanako@example.com\n")
 	if err != nil {
 		return err
@@ -64,8 +64,8 @@ func (z *Add) Test(c app_control.Control) error {
 	defer func() {
 		_ = os.Remove(f)
 	}()
-	return rc_exec.ExecMock(c, &Add{}, func(r rc_recipe.Recipe) {
-		m := r.(*Add)
+	return rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
+		m := r.(*Delete)
 		m.File.SetFilePath(f)
 	})
 }

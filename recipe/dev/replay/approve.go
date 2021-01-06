@@ -95,6 +95,7 @@ func (z *Approve) Exec(c app_control.Control) error {
 			return err
 		}
 
+		l.Info("Approve", esl.String("recipe", history.RecipeName()), esl.String("jobId", history.JobId()))
 		return replay.Preserve(history.Job(), filepath.Join(replayPath, archiveName))
 	}
 

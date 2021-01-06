@@ -51,6 +51,8 @@ type Errors interface {
 	IsGroupNameAlreadyUsed() bool
 	// duplicate user
 	IsDuplicateUser() bool
+	// member not in group
+	IsMemberNotInGroup() bool
 
 	Summary() string
 }
@@ -110,6 +112,10 @@ type ErrorSharePath interface {
 
 type errorsImpl struct {
 	de DropboxError
+}
+
+func (z errorsImpl) IsMemberNotInGroup() bool {
+	return z.de.HasPrefix("member_not_in_group")
 }
 
 func (z errorsImpl) IsDuplicateUser() bool {
