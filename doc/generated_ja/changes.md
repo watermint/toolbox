@@ -2,12 +2,13 @@
 
 # 追加されたコマンド
 
-| コマンド                 | タイトル                                      |
-|--------------------------|-----------------------------------------------|
-| member update invisible  | Enable directory restriction to members       |
-| member update visible    | Disable directory restriction to members      |
-| teamfolder member add    | Batch adding users/groups to team folders     |
-| teamfolder member delete | Batch removing users/groups from team folders |
+| コマンド                  | タイトル                                               |
+|---------------------------|--------------------------------------------------------|
+| member folder replication | Replicate a folder to another member's personal folder |
+| member update invisible   | Enable directory restriction to members                |
+| member update visible     | Disable directory restriction to members               |
+| teamfolder member add     | Batch adding users/groups to team folders              |
+| teamfolder member delete  | Batch removing users/groups from team folders          |
 
 # コマンド仕様の変更: `dev stage scoped`
 
@@ -38,7 +39,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `dev stage teamfolder`
 
 ## 設定が変更されたコマンド
@@ -60,7 +60,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `group member batch add`
 
 ## 設定が変更されたコマンド
@@ -83,7 +82,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `group member batch delete`
 
 ## 設定が変更されたコマンド
@@ -106,7 +104,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `group member batch update`
 
 ## 設定が変更されたコマンド
@@ -129,7 +126,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `member file permdelete`
 
 ## 設定が変更されたコマンド
@@ -153,29 +149,6 @@
   	},
   }
 ```
-
-# コマンド仕様の変更: `team diag explorer`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_info",
-+ 		"Peer": "business_file",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 7 identical fields
-  }
-```
-
 # コマンド仕様の変更: `team report activity`
 
 ## 設定が変更されたコマンド
@@ -199,7 +172,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `team report devices`
 
 ## 設定が変更されたコマンド
@@ -223,7 +195,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `team report membership`
 
 ## 設定が変更されたコマンド
@@ -247,7 +218,6 @@
   	},
   }
 ```
-
 # コマンド仕様の変更: `team report storage`
 
 ## 設定が変更されたコマンド

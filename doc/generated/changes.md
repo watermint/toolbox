@@ -2,12 +2,13 @@
 
 # Commands added
 
-| Command                  | Title                                         |
-|--------------------------|-----------------------------------------------|
-| member update invisible  | Enable directory restriction to members       |
-| member update visible    | Disable directory restriction to members      |
-| teamfolder member add    | Batch adding users/groups to team folders     |
-| teamfolder member delete | Batch removing users/groups from team folders |
+| Command                   | Title                                                  |
+|---------------------------|--------------------------------------------------------|
+| member folder replication | Replicate a folder to another member's personal folder |
+| member update invisible   | Enable directory restriction to members                |
+| member update visible     | Disable directory restriction to members               |
+| teamfolder member add     | Batch adding users/groups to team folders              |
+| teamfolder member delete  | Batch removing users/groups from team folders          |
 
 # Command spec changed: `dev stage scoped`
 
@@ -38,7 +39,6 @@
   	},
   }
 ```
-
 # Command spec changed: `dev stage teamfolder`
 
 ## Command configuration changed
@@ -60,7 +60,6 @@
   	},
   }
 ```
-
 # Command spec changed: `group member batch add`
 
 ## Command configuration changed
@@ -83,7 +82,6 @@
   	},
   }
 ```
-
 # Command spec changed: `group member batch delete`
 
 ## Command configuration changed
@@ -106,7 +104,6 @@
   	},
   }
 ```
-
 # Command spec changed: `group member batch update`
 
 ## Command configuration changed
@@ -129,7 +126,6 @@
   	},
   }
 ```
-
 # Command spec changed: `member file permdelete`
 
 ## Command configuration changed
@@ -153,29 +149,6 @@
   	},
   }
 ```
-
-# Command spec changed: `team diag explorer`
-
-## Command configuration changed
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_info",
-+ 		"Peer": "business_file",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 7 identical fields
-  }
-```
-
 # Command spec changed: `team report activity`
 
 ## Command configuration changed
@@ -199,7 +172,6 @@
   	},
   }
 ```
-
 # Command spec changed: `team report devices`
 
 ## Command configuration changed
@@ -223,7 +195,6 @@
   	},
   }
 ```
-
 # Command spec changed: `team report membership`
 
 ## Command configuration changed
@@ -247,7 +218,6 @@
   	},
   }
 ```
-
 # Command spec changed: `team report storage`
 
 ## Command configuration changed

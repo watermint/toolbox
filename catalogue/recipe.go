@@ -197,6 +197,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipememberclear.Externalid{},
 		&recipememberfile.Permdelete{},
 		&recipememberfolder.List{},
+		&recipememberfolder.Replication{},
 		&recipememberquota.List{},
 		&recipememberquota.Update{},
 		&recipememberquota.Usage{},

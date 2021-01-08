@@ -146,6 +146,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                                                   |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
 | [member folder list](doc/generated_ja/member-folder-list.md)                       | 各メンバーのフォルダを検索                                                             |
+| [member folder replication](doc/generated_ja/member-folder-replication.md)         | フォルダを他のメンバーの個人フォルダに複製します                                       |
 | [member invite](doc/generated_ja/member-invite.md)                                 | メンバーを招待します                                                                   |
 | [member list](doc/generated_ja/member-list.md)                                     | チームメンバーの一覧                                                                   |
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                                                     |

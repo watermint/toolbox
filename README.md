@@ -148,6 +148,7 @@ Available commands:
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |
 | [member folder list](doc/generated/member-folder-list.md)                       | Find folders for each member                                  |
+| [member folder replication](doc/generated/member-folder-replication.md)         | Replicate a folder to another member's personal folder        |
 | [member invite](doc/generated/member-invite.md)                                 | Invite member(s)                                              |
 | [member list](doc/generated/member-list.md)                                     | List team member(s)                                           |
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
