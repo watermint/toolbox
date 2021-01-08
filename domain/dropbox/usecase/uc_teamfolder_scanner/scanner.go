@@ -1,4 +1,4 @@
-package uc_teamfolder
+package uc_teamfolder_scanner
 
 import (
 	"errors"

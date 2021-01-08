@@ -2,10 +2,11 @@
 
 # Commands added
 
-| Command                 | Title                                    |
-|-------------------------|------------------------------------------|
-| member update invisible | Enable directory restriction to members  |
-| member update visible   | Disable directory restriction to members |
+| Command                 | Title                                     |
+|-------------------------|-------------------------------------------|
+| member update invisible | Enable directory restriction to members   |
+| member update visible   | Disable directory restriction to members  |
+| teamfolder member add   | Batch adding users/groups to team folders |
 
 # Command spec changed: `team diag explorer`
 

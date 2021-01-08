@@ -2,10 +2,11 @@
 
 # 追加されたコマンド
 
-| コマンド                | タイトル                                 |
-|-------------------------|------------------------------------------|
-| member update invisible | Enable directory restriction to members  |
-| member update visible   | Disable directory restriction to members |
+| コマンド                | タイトル                                  |
+|-------------------------|-------------------------------------------|
+| member update invisible | Enable directory restriction to members   |
+| member update visible   | Disable directory restriction to members  |
+| teamfolder member add   | Batch adding users/groups to team folders |
 
 # コマンド仕様の変更: `team diag explorer`
 

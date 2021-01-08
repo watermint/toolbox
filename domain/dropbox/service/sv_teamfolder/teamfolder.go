@@ -1,23 +1,46 @@
 package sv_teamfolder
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"sync"
 )
 
 type TeamFolder interface {
+	// Retrieve all team folders of the team.
 	List() (teamfolders []*mo_teamfolder.TeamFolder, err error)
+
+	// Resolve team folder with team_folder_id.
+	// Please use IsNotFound to make sure if an error was not_found error or not.
 	Resolve(teamFolderId string) (teamfolder *mo_teamfolder.TeamFolder, err error)
+
+	// Resolve team folder with team folder name.
+	// Please use IsNotFound to make sure if an error was not_found error or not.
+	ResolveByName(teamFolderName string) (teamfolder *mo_teamfolder.TeamFolder, err error)
+
+	// Create a team folder.
 	Create(name string, opts ...CreateOption) (teamfolder *mo_teamfolder.TeamFolder, err error)
+
+	// Activate a team folder from archive.
 	Activate(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_teamfolder.TeamFolder, err error)
+
+	// Archive a team folder.
 	Archive(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_teamfolder.TeamFolder, err error)
+
+	// Rename the team folder.
 	Rename(tf *mo_teamfolder.TeamFolder, newName string) (updated *mo_teamfolder.TeamFolder, err error)
+
+	// Permanently delete archived team folder.
 	PermDelete(tf *mo_teamfolder.TeamFolder) (err error)
+
+	// Update sync setting
 	UpdateSyncSetting(tf *mo_teamfolder.TeamFolder, opts ...SyncSettingOpt) (teamfolder *mo_teamfolder.TeamFolder, err error)
 }
 
@@ -25,6 +48,23 @@ const (
 	SyncSettingSkipSetting = ""
 	SyncSettingDefault     = "default"
 	SyncSettingNotSynced   = "not_synced"
+)
+
+func IsNotFound(err error) bool {
+	switch err {
+	case nil:
+		return false
+	case ErrorTeamFolderNotFound:
+		return true
+	}
+	if dbx_error.NewErrors(err).IsIdNotFound() {
+		return true
+	}
+	return false
+}
+
+var (
+	ErrorTeamFolderNotFound = errors.New("team folder not found")
 )
 
 type SyncSettingsOpts struct {
@@ -87,6 +127,107 @@ func SyncNoSync() CreateOption {
 	}
 }
 
+func NewCached(ctx dbx_context.Context) TeamFolder {
+	return &teamFolderCached{
+		impl:  New(ctx),
+		cache: nil,
+	}
+}
+
+type teamFolderCached struct {
+	impl  TeamFolder
+	cache []*mo_teamfolder.TeamFolder
+	mutex sync.Mutex
+}
+
+func (z *teamFolderCached) List() (teamfolders []*mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	if z.cache == nil {
+		z.cache, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	return z.cache, nil
+}
+
+func (z *teamFolderCached) Resolve(teamFolderId string) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	if z.cache == nil {
+		z.cache, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	for _, f := range z.cache {
+		if f.TeamFolderId == teamFolderId {
+			return f, nil
+		}
+	}
+	return nil, ErrorTeamFolderNotFound
+}
+
+func (z *teamFolderCached) ResolveByName(teamFolderName string) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	if z.cache == nil {
+		z.cache, err = z.impl.List()
+		if err != nil {
+			return nil, err
+		}
+	}
+	for _, f := range z.cache {
+		if f.Name == teamFolderName {
+			return f, nil
+		}
+	}
+	return nil, ErrorTeamFolderNotFound
+}
+
+func (z *teamFolderCached) Create(name string, opts ...CreateOption) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	z.cache = nil // invalidate cache
+	return z.impl.Create(name, opts...)
+}
+
+func (z *teamFolderCached) Activate(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	z.cache = nil // invalidate cache
+	return z.impl.Activate(tf)
+}
+
+func (z *teamFolderCached) Archive(tf *mo_teamfolder.TeamFolder) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	z.cache = nil // invalidate cache
+	return z.impl.Archive(tf)
+}
+
+func (z *teamFolderCached) Rename(tf *mo_teamfolder.TeamFolder, newName string) (updated *mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	z.cache = nil // invalidate cache
+	return z.impl.Rename(tf, newName)
+}
+
+func (z *teamFolderCached) PermDelete(tf *mo_teamfolder.TeamFolder) (err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	z.cache = nil // invalidate cache
+	return z.impl.PermDelete(tf)
+}
+
+func (z *teamFolderCached) UpdateSyncSetting(tf *mo_teamfolder.TeamFolder, opts ...SyncSettingOpt) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+	z.cache = nil // invalidate cache
+	return z.impl.UpdateSyncSetting(tf, opts...)
+}
+
 func New(ctx dbx_context.Context) TeamFolder {
 	return &teamFolderImpl{
 		ctx: ctx,
@@ -108,6 +249,19 @@ func (z *teamFolderImpl) UpdateSyncSetting(tf *mo_teamfolder.TeamFolder, opts ..
 	teamfolder = &mo_teamfolder.TeamFolder{}
 	err = res.Success().Json().Model(teamfolder)
 	return
+}
+
+func (z *teamFolderImpl) ResolveByName(teamFolderName string) (teamfolder *mo_teamfolder.TeamFolder, err error) {
+	teamfolders, err := z.List()
+	if err != nil {
+		return nil, err
+	}
+	for _, f := range teamfolders {
+		if f.Name == teamFolderName {
+			return f, nil
+		}
+	}
+	return nil, ErrorTeamFolderNotFound
 }
 
 func (z *teamFolderImpl) List() (teamfolders []*mo_teamfolder.TeamFolder, err error) {

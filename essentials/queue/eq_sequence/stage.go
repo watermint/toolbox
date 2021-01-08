@@ -31,6 +31,7 @@ type Sequence interface {
 
 type DoOpts struct {
 	ErrorHandler eq_mould.ErrorHandler
+	SingleThread bool
 }
 
 func (z DoOpts) Apply(opts []DoOpt) DoOpts {
@@ -45,6 +46,13 @@ func (z DoOpts) Apply(opts []DoOpt) DoOpts {
 }
 
 type DoOpt func(o DoOpts) DoOpts
+
+func SingleThread() DoOpt {
+	return func(o DoOpts) DoOpts {
+		o.SingleThread = true
+		return o
+	}
+}
 
 func ErrorHandler(h eq_mould.ErrorHandler) DoOpt {
 	return func(o DoOpts) DoOpts {
@@ -85,6 +93,9 @@ func (z *seqImpl) DoThen(exec func(s Stage), opts ...DoOpt) Sequence {
 	qOps = append(qOps, z.opt...)
 	if dOps.ErrorHandler != nil {
 		qOps = append(qOps, eq_queue.ErrorHandler(dOps.ErrorHandler))
+	}
+	if dOps.SingleThread {
+		qOps = append(qOps, eq_queue.NumWorker(1))
 	}
 	d := eq_queue.New(qOps...)
 	s := newStg(d)

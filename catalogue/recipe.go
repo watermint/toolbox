@@ -275,6 +275,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderbatch.Replication{},
 		&recipeteamfolderfile.List{},
 		&recipeteamfolderfile.Size{},
+		&recipeteamfoldermember.Add{},
 		&recipeteamfoldermember.List{},
 		&recipeteamfolderpolicy.List{},
 	}

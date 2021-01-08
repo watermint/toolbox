@@ -53,6 +53,8 @@ type Errors interface {
 	IsDuplicateUser() bool
 	// member not in group
 	IsMemberNotInGroup() bool
+	// id not found
+	IsIdNotFound() bool
 
 	Summary() string
 }
@@ -112,6 +114,10 @@ type ErrorSharePath interface {
 
 type errorsImpl struct {
 	de DropboxError
+}
+
+func (z errorsImpl) IsIdNotFound() bool {
+	return z.de.HasPrefix("id_not_found")
 }
 
 func (z errorsImpl) IsMemberNotInGroup() bool {
