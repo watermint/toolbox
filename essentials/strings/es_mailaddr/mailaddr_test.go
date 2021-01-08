@@ -26,3 +26,24 @@ func TestEscapeSpecial(t *testing.T) {
 		}
 	}
 }
+
+func TestIsEmailAddr(t *testing.T) {
+	validEmails := []string{
+		"test@example.com",
+		"test.test@example.net",
+	}
+	invalidEmails := []string{
+		"test",
+	}
+
+	for _, e := range validEmails {
+		if x := IsEmailAddr(e); !x {
+			t.Error(e, x)
+		}
+	}
+	for _, e := range invalidEmails {
+		if x := IsEmailAddr(e); x {
+			t.Error(e, x)
+		}
+	}
+}

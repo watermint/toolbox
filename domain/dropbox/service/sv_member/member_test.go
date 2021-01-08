@@ -77,7 +77,7 @@ func TestMemberImpl_Add(t *testing.T) {
 			AddWithExternalId("ADSYNC test@test"),
 			AddWithoutSendWelcomeEmail(),
 			AddWithRole("user_admin"),
-			AddWithDirectoryRestricted(),
+			AddWithDirectoryRestricted(true),
 		)
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)

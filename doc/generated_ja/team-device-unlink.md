@@ -130,7 +130,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | os_version                    | ホストOSのバージョン                                                   |                                            |
 | last_carrier                  | このデバイスで利用された最後のキャリア                                 |                                            |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 team_member_id,email,status,given_name,surname,familiar_name,display_name,abbreviated_name,external_id,account_id,device_tag,id,user_agent,os,browser,ip_address,country,created,updated,expires,host_name,client_type,client_version,platform,is_delete_on_unlink_supported,device_name,os_version,last_carrier
 dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,,dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,,,,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,,,

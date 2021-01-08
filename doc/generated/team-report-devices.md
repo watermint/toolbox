@@ -72,11 +72,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option        | Description   | Default                        |
-|---------------|---------------|--------------------------------|
-| `-end-date`   | End date      |                                |
-| `-peer`       | Account alias | &{Peer [team_info.read] <nil>} |
-| `-start-date` | Start date    |                                |
+| Option        | Description   | Default |
+|---------------|---------------|---------|
+| `-end-date`   | End date      |         |
+| `-peer`       | Account alias | default |
+| `-start-date` | Start date    |         |
 
 ## Common options:
 

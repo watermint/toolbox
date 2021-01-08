@@ -148,6 +148,7 @@ Available commands:
 | [member delete](doc/generated/member-delete.md)                                 | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                 | Convert Dropbox Business accounts to a Basic account          |
 | [member folder list](doc/generated/member-folder-list.md)                       | Find folders for each member                                  |
+| [member folder replication](doc/generated/member-folder-replication.md)         | Replicate a folder to another member's personal folder        |
 | [member invite](doc/generated/member-invite.md)                                 | Invite member(s)                                              |
 | [member list](doc/generated/member-list.md)                                     | List team member(s)                                           |
 | [member quota list](doc/generated/member-quota-list.md)                         | List team member quota                                        |
@@ -157,7 +158,9 @@ Available commands:
 | [member replication](doc/generated/member-replication.md)                       | Replicate team member files                                   |
 | [member update email](doc/generated/member-update-email.md)                     | Member email operation                                        |
 | [member update externalid](doc/generated/member-update-externalid.md)           | Update External ID of team members                            |
+| [member update invisible](doc/generated/member-update-invisible.md)             | Enable directory restriction to members                       |
 | [member update profile](doc/generated/member-update-profile.md)                 | Update member profile                                         |
+| [member update visible](doc/generated/member-update-visible.md)                 | Disable directory restriction to members                      |
 | [team activity batch user](doc/generated/team-activity-batch-user.md)           | Scan activities for multiple users                            |
 | [team activity daily event](doc/generated/team-activity-daily-event.md)         | Report activities by day                                      |
 | [team activity event](doc/generated/team-activity-event.md)                     | Event log                                                     |
@@ -186,6 +189,8 @@ Available commands:
 | [teamfolder file list](doc/generated/teamfolder-file-list.md)                   | List files in team folders                                    |
 | [teamfolder file size](doc/generated/teamfolder-file-size.md)                   | Calculate size of team folders                                |
 | [teamfolder list](doc/generated/teamfolder-list.md)                             | List team folder(s)                                           |
+| [teamfolder member add](doc/generated/teamfolder-member-add.md)                 | Batch adding users/groups to team folders                     |
+| [teamfolder member delete](doc/generated/teamfolder-member-delete.md)           | Batch removing users/groups from team folders                 |
 | [teamfolder member list](doc/generated/teamfolder-member-list.md)               | List team folder members                                      |
 | [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                 | Permanently delete team folder                                |
 | [teamfolder policy list](doc/generated/teamfolder-policy-list.md)               | List policies of team folders                                 |

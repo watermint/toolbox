@@ -27,7 +27,7 @@ type ValueDbxConnScopedIndividual struct {
 
 func (z *ValueDbxConnScopedIndividual) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*dbx_conn.ConnScopedIndividual)(nil)).Elem()) {
-		return newValueDbxConnScopedIndividual(name)
+		return newValueDbxConnScopedIndividual(z.peerName)
 	}
 	return nil
 }
@@ -86,4 +86,8 @@ func (z *ValueDbxConnScopedIndividual) Conn() (conn api_conn.Connection, valid b
 
 func (z *ValueDbxConnScopedIndividual) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.conn), z.conn.Scopes()
+}
+
+func (z *ValueDbxConnScopedIndividual) ValueText() string {
+	return z.peerName
 }

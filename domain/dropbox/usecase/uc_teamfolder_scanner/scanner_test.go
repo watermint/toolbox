@@ -1,4 +1,4 @@
-package uc_teamfolder
+package uc_teamfolder_scanner
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"

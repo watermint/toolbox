@@ -104,7 +104,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | given_name | アカウントの名前           | John             |
 | surname    | アカウントの名字           | Smith            |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 email,given_name,surname
 john@example.com,John,Smith

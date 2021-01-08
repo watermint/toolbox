@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_folder_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_member_folder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
-	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -44,9 +44,9 @@ func (z *List) Preset() {
 		mo_filter.NewNamePrefixFilter(),
 		mo_filter.NewNameSuffixFilter(),
 	)
-	z.ScanTimeout.SetOptions(string(uc_teamfolder.ScanTimeoutShort),
-		string(uc_teamfolder.ScanTimeoutShort),
-		string(uc_teamfolder.ScanTimeoutLong),
+	z.ScanTimeout.SetOptions(string(uc_teamfolder_scanner.ScanTimeoutShort),
+		string(uc_teamfolder_scanner.ScanTimeoutShort),
+		string(uc_teamfolder_scanner.ScanTimeoutLong),
 	)
 	z.MemberToFolder.SetModel(
 		&uc_team_content.MemberToFolder{},
@@ -98,7 +98,7 @@ func (z *List) Exec(c app_control.Control) error {
 	emailToMember := mo_member.MapByEmail(members)
 	memberInUse := make(map[string]bool)
 
-	teamFolderScanner := uc_teamfolder.New(c, z.Peer.Context(), uc_teamfolder.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Context(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err

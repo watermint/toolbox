@@ -105,7 +105,7 @@ Data file for invite team members.
 | given_name | Given name of the account    | John             |
 | surname    | Surname of the account       | Smith            |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 email,given_name,surname
 john@example.com,John,Smith

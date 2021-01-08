@@ -70,10 +70,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                  | Default                                     |
-|---------------|------------------------------|---------------------------------------------|
-| `-individual` | Account alias for individual | &{Individual [files.content.read] <nil>}    |
-| `-team`       | Account alias for team       | &{Team [members.read team_info.read] <nil>} |
+| Option        | Description                  | Default |
+|---------------|------------------------------|---------|
+| `-individual` | Account alias for individual | default |
+| `-team`       | Account alias for team       | default |
 
 ## Common options:
 

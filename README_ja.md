@@ -146,6 +146,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member delete](doc/generated_ja/member-delete.md)                                 | メンバーを削除します                                                                   |
 | [member detach](doc/generated_ja/member-detach.md)                                 | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
 | [member folder list](doc/generated_ja/member-folder-list.md)                       | 各メンバーのフォルダを検索                                                             |
+| [member folder replication](doc/generated_ja/member-folder-replication.md)         | フォルダを他のメンバーの個人フォルダに複製します                                       |
 | [member invite](doc/generated_ja/member-invite.md)                                 | メンバーを招待します                                                                   |
 | [member list](doc/generated_ja/member-list.md)                                     | チームメンバーの一覧                                                                   |
 | [member quota list](doc/generated_ja/member-quota-list.md)                         | メンバーの容量制限情報を一覧します                                                     |
@@ -155,7 +156,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [member replication](doc/generated_ja/member-replication.md)                       | チームメンバーのファイルを複製します                                                   |
 | [member update email](doc/generated_ja/member-update-email.md)                     | メンバーのメールアドレス処理                                                           |
 | [member update externalid](doc/generated_ja/member-update-externalid.md)           | チームメンバーのExternal IDを更新します.                                               |
+| [member update invisible](doc/generated_ja/member-update-invisible.md)             | メンバーへのディレクトリ制限を有効にします                                             |
 | [member update profile](doc/generated_ja/member-update-profile.md)                 | メンバーのプロフィール変更                                                             |
+| [member update visible](doc/generated_ja/member-update-visible.md)                 | メンバーへのディレクトリ制限を無効にします                                             |
 | [team activity batch user](doc/generated_ja/team-activity-batch-user.md)           | 複数ユーザーのアクティビティを一括取得します                                           |
 | [team activity daily event](doc/generated_ja/team-activity-daily-event.md)         | アクティビティーを1日ごとに取得します                                                  |
 | [team activity event](doc/generated_ja/team-activity-event.md)                     | イベントログ                                                                           |
@@ -184,6 +187,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | チームフォルダの一覧                                                                   |
 | [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | チームフォルダのサイズを計算                                                           |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                                                   |
+| [teamfolder member add](doc/generated_ja/teamfolder-member-add.md)                 | チームフォルダへのユーザー/グループの一括追加                                          |
+| [teamfolder member delete](doc/generated_ja/teamfolder-member-delete.md)           | チームフォルダからのユーザー/グループの一括削除                                        |
 | [teamfolder member list](doc/generated_ja/teamfolder-member-list.md)               | チームフォルダのメンバー一覧                                                           |
 | [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                                                       |
 | [teamfolder policy list](doc/generated_ja/teamfolder-policy-list.md)               | チームフォルダのポリシー一覧                                                           |

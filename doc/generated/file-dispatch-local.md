@@ -64,7 +64,7 @@ Data file for dispatch rules.
 | dest_path_pattern   | Destination path pattern                      | <no value>/Document/<no value>-<no value> |
 | dest_file_pattern   | Destination file name pattern                 | TBX_<no value>-<no value>-<no value>      |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 suffix,source_path,source_file_pattern,dest_path_pattern,dest_file_pattern
 .pdf,<no value>/Downloads,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/Document/<no value>-<no value>,TBX_<no value>-<no value>-<no value>

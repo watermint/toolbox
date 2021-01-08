@@ -27,7 +27,7 @@ type ValueDbxConnScopedTeam struct {
 
 func (z *ValueDbxConnScopedTeam) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*dbx_conn.ConnScopedTeam)(nil)).Elem()) {
-		return newValueDbxConnScopedTeam(name)
+		return newValueDbxConnScopedTeam(z.peerName)
 	}
 	return nil
 }
@@ -86,4 +86,8 @@ func (z *ValueDbxConnScopedTeam) Conn() (conn api_conn.Connection, valid bool) {
 
 func (z *ValueDbxConnScopedTeam) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.conn), z.conn.Scopes()
+}
+
+func (z *ValueDbxConnScopedTeam) ValueText() string {
+	return z.peerName
 }

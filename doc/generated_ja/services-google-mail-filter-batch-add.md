@@ -107,7 +107,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | add_labels    | ';' で区切られた追加するラベル名                      | my_label         |
 | delete_labels | ';' で区切られた削除するラベル名                      | my_label,INBOX   |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 query,add_labels,delete_labels
 from:@google.com,my_label,"my_label,INBOX"

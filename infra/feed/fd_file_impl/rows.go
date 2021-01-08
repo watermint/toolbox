@@ -237,14 +237,25 @@ func (z *RowFeed) row(cols []string) (m interface{}, err error) {
 	return rm.Interface(), nil
 }
 
-func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
+func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) (err error) {
 	ui := z.ctl.UI()
 
 	if !z.modelReady {
 		return errors.New("model is not ready")
 	}
-	defer z.file.Close()
-
+	if z.file == nil {
+		z.file, err = os.Open(z.filePath)
+		if err != nil {
+			ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
+			return err
+		}
+		z.reader = es_unicode.NewBomAwareCsvReader(z.file)
+	}
+	defer func() {
+		_ = z.file.Close()
+		z.file = nil
+		z.reader = nil
+	}()
 	consumeRow := func(cols []string, rowIndex int) error {
 		m, err := z.row(cols)
 		if err != nil {
@@ -280,4 +291,5 @@ func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) error {
 			}
 		}
 	}
+
 }

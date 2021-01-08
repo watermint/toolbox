@@ -104,7 +104,7 @@ Data file for updating team member email addresses.
 | from_email | Current Email address | john@example.com       |
 | to_email   | New Email address     | john.smith@example.net |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 from_email,to_email
 john@example.com,john.smith@example.net

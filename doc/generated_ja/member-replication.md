@@ -104,7 +104,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | src_email | 転送元アカウントのメールアドレス | john@example.net       |
 | dst_email | 転送先アカウントのメールアドレス | john.smith@example.com |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 src_email,dst_email
 john@example.net,john.smith@example.com

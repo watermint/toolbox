@@ -104,7 +104,7 @@ Data file for batch import files from URLs.
 | url    | Url to download                                                         | http://example.com/2019/12/26.zip |
 | path   | Path to store file (use path given by `-path` when the record is empty) | /backup/2019-12-16.zip            |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 url,path
 http://example.com/2019/12/26.zip,/backup/2019-12-16.zip

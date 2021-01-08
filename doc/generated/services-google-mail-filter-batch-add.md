@@ -107,7 +107,7 @@ Filter data to add.
 | add_labels    | Label names to add, separated by ';'               | my_label         |
 | delete_labels | Label names to delete, separated by ';'            | my_label,INBOX   |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 query,add_labels,delete_labels
 from:@google.com,my_label,"my_label,INBOX"
