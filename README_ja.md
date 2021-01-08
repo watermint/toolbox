@@ -186,8 +186,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                   | チームフォルダの一覧                                                                   |
 | [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                   | チームフォルダのサイズを計算                                                           |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                             | チームフォルダの一覧                                                                   |
-| [teamfolder member add](doc/generated_ja/teamfolder-member-add.md)                 | Batch adding users/groups to team folders                                              |
-| [teamfolder member delete](doc/generated_ja/teamfolder-member-delete.md)           | Batch removing users/groups to team folders                                            |
+| [teamfolder member add](doc/generated_ja/teamfolder-member-add.md)                 | チームフォルダへのユーザー/グループの一括追加                                          |
+| [teamfolder member delete](doc/generated_ja/teamfolder-member-delete.md)           | チームフォルダからのユーザー/グループの一括削除                                        |
 | [teamfolder member list](doc/generated_ja/teamfolder-member-list.md)               | チームフォルダのメンバー一覧                                                           |
 | [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                 | チームフォルダを完全に削除します                                                       |
 | [teamfolder policy list](doc/generated_ja/teamfolder-policy-list.md)               | チームフォルダのポリシー一覧                                                           |

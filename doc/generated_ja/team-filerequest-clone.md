@@ -116,7 +116,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | deadline                    | ファイルリクエストの締め切り.                                             | 2019-10-20T23:47:33Z                               |
 | deadline_allow_late_uploads | 設定されている場合、締め切りを超えてもアップロードが許可されている        | seven_days                                         |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 account_id,team_member_id,email,status,surname,given_name,file_request_id,url,title,created,is_open,file_count,destination,deadline,deadline_allow_late_uploads
 dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john@example.com,active,Smith,John,xxxxxxxxxxxxxxxxxx,https://www.dropbox.com/request/xxxxxxxxxxxxxxxxxx,写真コンテスト,2019-09-20T23:47:33Z,true,3,/Photo contest entries,2019-10-20T23:47:33Z,seven_days

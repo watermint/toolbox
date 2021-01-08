@@ -33,6 +33,7 @@ const (
 
 var (
 	ErrorUnableToIdentifyFolder = errors.New("unable to identify folder")
+	ErrorNotAMember             = errors.New("not a member")
 )
 
 type TeamContent interface {
@@ -199,15 +200,13 @@ func (z *teamFolderImpl) namespaceIdForPath(path mo_path.DropboxPath, createIfNo
 	}
 
 	nestedMeta, err := sv_file.NewFiles(z.ctxAdminTeamFolder()).Resolve(path)
-	if err != nil {
-		l.Debug("Unable to resolve nested folder", esl.Error(err))
-		return "", err
-	}
-	nestedNsId := nestedMeta.Concrete().SharedFolderId
-	if nestedNsId != "" {
-		l.Debug("Nested folder found", esl.Any("nestedFolderMeta", nestedMeta))
-		z.cacheNamespaceId[path.Path()] = nestedNsId
-		return "", ErrorUnableToIdentifyFolder
+	if err == nil {
+		nestedNsId := nestedMeta.Concrete().SharedFolderId
+		if nestedNsId != "" {
+			l.Debug("Nested folder found", esl.Any("nestedFolderMeta", nestedMeta))
+			z.cacheNamespaceId[path.Path()] = nestedNsId
+			return nestedNsId, nil
+		}
 	}
 
 	if !createIfNotExist {
@@ -298,13 +297,20 @@ func (z *teamFolderImpl) MemberRemoveUser(path mo_path.DropboxPath, memberEmail 
 
 	err = sv_sharedfolder_member.NewBySharedFolderId(z.ctxAdminTeamFolder(), nsId).
 		Remove(sv_sharedfolder_member.RemoveByEmail(memberEmail))
-	if err != nil {
-		l.Debug("Unable to add a member", esl.Error(err))
+	de := dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Debug("The member is successfully removed")
+		return nil
+
+	case de.Member().IsNotAMember():
+		l.Debug("The member is not a member, skip further operation")
+		return ErrorNotAMember
+
+	default:
+		l.Debug("Unable to remove a member", esl.Error(err))
 		return err
 	}
-
-	l.Debug("The member is successfully added")
-	return nil
 }
 
 func (z *teamFolderImpl) MemberRemoveGroup(path mo_path.DropboxPath, groupName string) (err error) {
@@ -324,13 +330,20 @@ func (z *teamFolderImpl) MemberRemoveGroup(path mo_path.DropboxPath, groupName s
 
 	err = sv_sharedfolder_member.NewBySharedFolderId(z.ctxAdminTeamFolder(), nsId).
 		Remove(sv_sharedfolder_member.RemoveByGroupId(group.GroupId))
-	if err != nil {
-		l.Debug("Unable to add a group", esl.Error(err))
+	de := dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Debug("The member is successfully removed")
+		return nil
+
+	case de.Member().IsNotAMember():
+		l.Debug("The member is not a member, skip further operation")
+		return ErrorNotAMember
+
+	default:
+		l.Debug("Unable to remove a member", esl.Error(err))
 		return err
 	}
-
-	l.Debug("The group is successfully added")
-	return nil
 }
 
 func (z *teamFolderImpl) UpdateInheritance(path mo_path.DropboxPath, inherit bool) (folder *mo_sharedfolder.SharedFolder, err error) {

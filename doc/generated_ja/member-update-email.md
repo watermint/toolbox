@@ -104,7 +104,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | from_email | 現在のメールアドレス | john@example.com       |
 | to_email   | 新しいメールアドレス | john.smith@example.net |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 from_email,to_email
 john@example.com,john.smith@example.net

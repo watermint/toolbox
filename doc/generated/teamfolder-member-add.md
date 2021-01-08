@@ -3,9 +3,9 @@
 Batch adding users/groups to team folders (Irreversible operation)
 
 This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does
-not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is
-idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep
-idempotence. For example, the command will not report an error like, the member already have access to the folder.
+not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is designed
+to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to
+keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
 
 # Security
 
@@ -77,11 +77,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option              | Description                              | Default                                                                                                                                                         |
-|---------------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin                                                                                                                                         |
-| `-file`             | Path to data file                        |                                                                                                                                                                 |
-| `-peer`             | Account alias                            | &{Peer [groups.read groups.write files.content.read files.content.write sharing.read sharing.write team_data.member team_data.team_space team_info.read] <nil>} |
+| Option              | Description                              | Default                 |
+|---------------------|------------------------------------------|-------------------------|
+| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin |
+| `-file`             | Path to data file                        |                         |
+| `-peer`             | Account alias                            | default                 |
 
 ## Common options:
 

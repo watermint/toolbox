@@ -1,12 +1,10 @@
 # teamfolder member delete
 
-Batch removing users/groups to team folders (Irreversible operation)
+チームフォルダからのユーザー/グループの一括削除 (非可逆な操作です)
 
-The command does not (1) change access inheritance setting of any folders, (2) remove a group, (3) unshare a nested
-folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This
-command is idempotent. You can safely retry if any errors happen on the operation. The command will not report an error
-to keep idempotence. For example, the command will not report an error like, the member already lose access to the
-folder.
+このコマンドは、(1)フォルダのアクセス継承設定の変更、(2)グループの削除、(3)入れ子になっているフォルダの共有解除を行いません. (3)
+の場合は、入れ子になったフォルダが同じ設定のままであることを意味します（フォルダの共有リンクポリシーなど）. このコマンドは冪等性を持つように設計されています. 操作上のエラーが発生した場合は、安全に再試行することができます.
+コマンドは、冪等性を保持するためのエラーを報告しません. 例えば、(1)メンバーがすでにフォルダへのアクセスを失っている、(2)フォルダが見つからない、などのエラーは報告されません.
 
 # セキュリティ
 
@@ -22,7 +20,6 @@ folder.
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
@@ -35,7 +32,6 @@ folder.
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -56,18 +52,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
@@ -80,11 +73,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                                     | デフォルト                                                                                                                                                      |
-|---------------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin                                                                                                                                         |
-| `-file`             | Path to data file                        |                                                                                                                                                                 |
-| `-peer`             | Account alias                            | &{Peer [groups.read groups.write files.content.read files.content.write sharing.read sharing.write team_data.member team_data.team_space team_info.read] <nil>} |
+| オプション          | 説明                           | デフォルト              |
+|---------------------|--------------------------------|-------------------------|
+| `-admin-group-name` | 管理者操作のための仮グループ名 | watermint-toolbox-admin |
+| `-file`             | データファイルへのパス         |                         |
+| `-peer`             | アカウントの別名               | default                 |
 
 ## 共通のオプション:
 
@@ -109,21 +102,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Team folder and member list for removing access. Each row can have one member and the one folder. If you want to remove
-two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member
-from two or more folders, please create rows for those folders.
+アクセスを削除するためのチームフォルダとメンバーリスト. 各行には、1つのメンバーと1つのフォルダを対応させます. フォルダから2人以上のメンバーを削除したい場合は、そのメンバー用の行を作成してください.
+同様に、2つ以上のフォルダからメンバーを削除したい場合は、それらのフォルダの行を作成してください.
 
-| 列                         | 説明                                                                                                         | 例     |
-|----------------------------|--------------------------------------------------------------------------------------------------------------|--------|
-| team_folder_name           | Team folder name                                                                                             | Sales  |
-| path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. | Report |
-| group_name_or_member_email | Group name or member email address                                                                           | Sales  |
+| 列                         | 説明                                                                                                            | 例       |
+|----------------------------|-----------------------------------------------------------------------------------------------------------------|----------|
+| team_folder_name           | チームフォルダ名                                                                                                | 営業     |
+| path                       | チームフォルダのルートからの相対パス. チームフォルダのルートにメンバーを追加したい場合は空のままにしておきます. | レポート |
+| group_name_or_member_email | グループ名またはメンバーのメールアドレス                                                                        | 営業     |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
-
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 team_folder_name,path,group_name_or_member_email
-Sales,Report,Sales
+営業,レポート,営業
 ```
 
 # 実行結果
@@ -140,13 +131,13 @@ Sales,Report,Sales
 
 このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                               | 説明                                                                                                         |
-|----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| status                           | 処理の状態                                                                                                   |
-| reason                           | 失敗またはスキップの理由                                                                                     |
-| input.team_folder_name           | Team folder name                                                                                             |
-| input.path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. |
-| input.group_name_or_member_email | Group name or member email address                                                                           |
+| 列                               | 説明                                                                                                            |
+|----------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| status                           | 処理の状態                                                                                                      |
+| reason                           | 失敗またはスキップの理由                                                                                        |
+| input.team_folder_name           | チームフォルダ名                                                                                                |
+| input.path                       | チームフォルダのルートからの相対パス. チームフォルダのルートにメンバーを追加したい場合は空のままにしておきます. |
+| input.group_name_or_member_email | グループ名またはメンバーのメールアドレス                                                                        |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

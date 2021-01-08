@@ -40,6 +40,7 @@ type Errors interface {
 	Endpoint() ErrorEndpoint
 	To() ErrorWrite
 	BadPath() ErrorSharePath
+	Member() ErrorMember
 
 	// too_many_write_operations
 	IsTooManyWriteOperations() bool
@@ -112,6 +113,11 @@ type ErrorSharePath interface {
 	IsAlreadyShared() bool
 }
 
+// 409: ErrorMember
+type ErrorMember interface {
+	IsNotAMember() bool
+}
+
 type errorsImpl struct {
 	de DropboxError
 }
@@ -170,4 +176,8 @@ func (z errorsImpl) Endpoint() ErrorEndpoint {
 
 func (z errorsImpl) To() ErrorWrite {
 	return NewErrorWrite("to", z.de)
+}
+
+func (z errorsImpl) Member() ErrorMember {
+	return NewErrorMember(z.de)
 }

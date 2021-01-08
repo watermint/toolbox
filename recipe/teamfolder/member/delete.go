@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 )
@@ -35,10 +36,12 @@ func (z DeleteRecord) DropboxPath() mo_path.DropboxPath {
 
 type Delete struct {
 	rc_recipe.RemarkIrreversible
-	Peer           dbx_conn.ConnScopedTeam
-	File           fd_file.RowFeed
-	OperationLog   rp_model.TransactionReport
-	AdminGroupName string
+	Peer               dbx_conn.ConnScopedTeam
+	File               fd_file.RowFeed
+	OperationLog       rp_model.TransactionReport
+	AdminGroupName     string
+	SkipFolderNotFound app_msg.Message
+	SkipNotAMember     app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -63,13 +66,42 @@ func (z *Delete) delete(r *DeleteRecord, c app_control.Control, tc uc_teamfolder
 	l.Debug("Remove", esl.Any("record", r))
 
 	tf, err := tc.GetTeamFolder(r.TeamFolderName)
-	if err != nil {
+	switch err {
+	case nil:
+		l.Debug("The folder found")
+		// continue
+
+	case uc_teamfolder.ErrorUnableToIdentifyFolder:
+		l.Debug("The folder not found")
+		z.OperationLog.Skip(z.SkipFolderNotFound, r)
+		return nil
+
+	default:
 		l.Debug("Unable to resolve the team folder", esl.Error(err))
 		z.OperationLog.Failure(err, r)
 		return err
 	}
 
-	if group, err := sg.ResolveByName(r.GroupNameOrMemberEmail); err != nil {
+	handleResult := func(err error) error {
+		switch err {
+		case uc_teamfolder.ErrorUnableToIdentifyFolder:
+			l.Debug("The folder not found", esl.Error(err))
+			z.OperationLog.Skip(z.SkipFolderNotFound, r)
+			return nil
+
+		case uc_teamfolder.ErrorNotAMember:
+			l.Debug("The member does not have an access", esl.Error(err))
+			z.OperationLog.Skip(z.SkipNotAMember, r)
+			return nil
+
+		default:
+			l.Debug("Successfully removed")
+			z.OperationLog.Success(r, nil)
+			return nil
+		}
+	}
+
+	if _, err := sg.ResolveByName(r.GroupNameOrMemberEmail); err != nil {
 		// assume the field is email
 		if !es_mailaddr.IsEmailAddr(r.GroupNameOrMemberEmail) {
 			l.Debug("The field look like not an email address")
@@ -77,26 +109,10 @@ func (z *Delete) delete(r *DeleteRecord, c app_control.Control, tc uc_teamfolder
 			return errors.New("group not found")
 		}
 
-		err = tf.MemberRemoveUser(r.DropboxPath(), r.GroupNameOrMemberEmail)
-		if err != nil {
-			l.Debug("Unable to remove a user to the folder", esl.Error(err))
-			z.OperationLog.Failure(err, r)
-			return err
-		}
-		l.Debug("Successfully removed")
-		z.OperationLog.Success(r, nil)
-		return nil
+		return handleResult(tf.MemberRemoveUser(r.DropboxPath(), r.GroupNameOrMemberEmail))
 	} else {
 		// adding the group
-		err = tf.MemberRemoveGroup(r.DropboxPath(), r.GroupNameOrMemberEmail)
-		if err != nil {
-			l.Debug("Unable to add a group to the folder", esl.Error(err))
-			z.OperationLog.Failure(err, r)
-			return err
-		}
-		l.Debug("Successfully removed", esl.Any("group", group))
-		z.OperationLog.Success(r, nil)
-		return nil
+		return handleResult(tf.MemberRemoveGroup(r.DropboxPath(), r.GroupNameOrMemberEmail))
 	}
 }
 

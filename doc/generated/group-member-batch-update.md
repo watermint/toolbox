@@ -72,10 +72,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description       | Default                                  |
-|---------|-------------------|------------------------------------------|
-| `-file` | Path to data file |                                          |
-| `-peer` | Account alias     | &{Peer [groups.read groups.write] <nil>} |
+| Option  | Description       | Default |
+|---------|-------------------|---------|
+| `-file` | Path to data file |         |
+| `-peer` | Account alias     | default |
 
 ## Common options:
 

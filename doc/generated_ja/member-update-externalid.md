@@ -103,7 +103,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | email       | チームメンバーのメールアドレス | john@example.com |
 | external_id | チームメンバーのExternal ID    | 0123456789       |
 
-最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 email,external_id
 john@example.com,0123456789

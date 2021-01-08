@@ -1,12 +1,12 @@
 # teamfolder member delete
 
-Batch removing users/groups to team folders (Irreversible operation)
+Batch removing users/groups from team folders (Irreversible operation)
 
 The command does not (1) change access inheritance setting of any folders, (2) remove a group, (3) unshare a nested
 folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This
-command is idempotent. You can safely retry if any errors happen on the operation. The command will not report an error
-to keep idempotence. For example, the command will not report an error like, the member already lose access to the
-folder.
+command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not
+report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lose
+access to the folder, (2) the folder is not found.
 
 # Security
 
@@ -22,7 +22,6 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
@@ -36,7 +35,6 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -57,18 +55,15 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
@@ -83,11 +78,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option              | Description                              | Default                                                                                                                                                         |
-|---------------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin                                                                                                                                         |
-| `-file`             | Path to data file                        |                                                                                                                                                                 |
-| `-peer`             | Account alias                            | &{Peer [groups.read groups.write files.content.read files.content.write sharing.read sharing.write team_data.member team_data.team_space team_info.read] <nil>} |
+| Option              | Description                              | Default                 |
+|---------------------|------------------------------------------|-------------------------|
+| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin |
+| `-file`             | Path to data file                        |                         |
+| `-peer`             | Account alias                            | default                 |
 
 ## Common options:
 
@@ -123,7 +118,6 @@ from two or more folders, please create rows for those folders.
 | group_name_or_member_email | Group name or member email address                                                                           | Sales   |
 
 The first line is a header line. The program will accept a file without the header.
-
 ```
 team_folder_name,path,group_name_or_member_email
 Sales,Report,Sales
