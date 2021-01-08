@@ -31,7 +31,7 @@ require (
 	github.com/onsi/gomega v1.9.0 // indirect
 	github.com/pkg/profile v1.5.0
 	github.com/plar/go-adaptive-radix-tree v1.0.4 // indirect
-	github.com/prologic/bitcask v0.3.10
+	github.com/prologic/bitcask v0.3.9
 	github.com/rapid7/go-get-proxied v0.0.0-20181210221417-16249a544090
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
 	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966

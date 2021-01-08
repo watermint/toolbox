@@ -389,6 +389,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/posener/complete v1.1.1/go.mod h1:em0nMJCgc9GFtwrmVmEMR/ZL6WyhyjMBndrE9hABlRI=
 github.com/prologic/bitcask v0.3.6 h1:Eae9KQNPvXatDO/Ucn8noMeyt094FgY5pnjsJ6/wmkw=
 github.com/prologic/bitcask v0.3.6/go.mod h1:lGs61R8cREh1Wq/O+eErqTdGmsaen7cDxu3Zdbs9xBA=
+github.com/prologic/bitcask v0.3.9 h1:GuSlzUUiIwyCOV4za7LipfjJC9FV0BgHIGbwOEcssL0=
+github.com/prologic/bitcask v0.3.9/go.mod h1:WQuqL23CGZcC83DhKuXH6KMHe1m25+Eb43s8yM3MnF0=
 github.com/prologic/bitcask v0.3.10 h1:HXygU8zCvW5gLpZ8aQECPk5iV/YQ3hcqdg/zVeES6s0=
 github.com/prologic/bitcask v0.3.10/go.mod h1:8RKJdbHLE7HFGLYSGu9slnYXSV7DMIucwVkaIYOk9GY=
 github.com/prometheus/client_golang v0.9.1/go.mod h1:7SWBe2y4D6OKWSNQJUaRYU/AaXPKyh/dDVn+NZz0KFw=
