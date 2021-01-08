@@ -1,11 +1,12 @@
-# teamfolder member add
+# teamfolder member delete
 
-Batch adding users/groups to team folders (Irreversible operation)
+Batch removing users/groups to team folders (Irreversible operation)
 
-This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does
-not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is
-idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep
-idempotence. For example, the command will not report an error like, the member already have access to the folder.
+The command does not (1) change access inheritance setting of any folders, (2) remove a group, (3) unshare a nested
+folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This
+command is idempotent. You can safely retry if any errors happen on the operation. The command will not report an error
+to keep idempotence. For example, the command will not report an error like, the member already lose access to the
+folder.
 
 # セキュリティ
 
@@ -21,6 +22,7 @@ idempotence. For example, the command will not report an error like, the member 
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
+
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
@@ -33,6 +35,7 @@ idempotence. For example, the command will not report an error like, the member 
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -53,17 +56,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe teamfolder member add -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx teamfolder member add -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -103,21 +109,21 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Team folder and member list for adding access. Each row can have one member and the one folder. If you want to add two
-or more members to the folder, please create rows for those members. Similarly, if you want to add a member to two or
-more folders, please create rows for those folders.
+Team folder and member list for removing access. Each row can have one member and the one folder. If you want to remove
+two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member
+from two or more folders, please create rows for those folders.
 
 | 列                         | 説明                                                                                                         | 例     |
 |----------------------------|--------------------------------------------------------------------------------------------------------------|--------|
 | team_folder_name           | Team folder name                                                                                             | Sales  |
 | path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. | Report |
-| access_type                | Access type (viewer/editor)                                                                                  | editor |
 | group_name_or_member_email | Group name or member email address                                                                           | Sales  |
 
 最初の行はヘッダ行です. プログラムはヘッダ行がない場合も認識します.
+
 ```
-team_folder_name,path,access_type,group_name_or_member_email
-Sales,Report,editor,Sales
+team_folder_name,path,group_name_or_member_email
+Sales,Report,Sales
 ```
 
 # 実行結果
@@ -140,7 +146,6 @@ Sales,Report,editor,Sales
 | reason                           | 失敗またはスキップの理由                                                                                     |
 | input.team_folder_name           | Team folder name                                                                                             |
 | input.path                       | Relative path from the team folder root. Leave empty if you want to add a member to root of the team folder. |
-| input.access_type                | Access type (viewer/editor)                                                                                  |
 | input.group_name_or_member_email | Group name or member email address                                                                           |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます

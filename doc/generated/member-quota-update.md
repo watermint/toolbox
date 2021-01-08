@@ -104,7 +104,7 @@ This report shows a list of custom quota settings for each team members.
 | email  | Email address of user.                                                      | john@example.com |
 | quota  | Custom quota in GB (1 TB = 1024 GB). 0 if the user has no custom quota set. | 50               |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 email,quota
 john@example.com,50

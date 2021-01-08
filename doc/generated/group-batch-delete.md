@@ -102,7 +102,7 @@ Data file for batch operation to groups.
 |--------|-------------|---------|
 | name   | Group name  | Sales   |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 name
 Sales

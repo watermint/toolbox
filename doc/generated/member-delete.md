@@ -105,7 +105,7 @@ Data file for deleting team members.
 |--------|------------------------------|------------------|
 | email  | Email address of the account | john@example.com |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 email
 john@example.com

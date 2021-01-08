@@ -2,6 +2,11 @@
 
 Batch adding users/groups to team folders (Irreversible operation)
 
+This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does
+not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is
+idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep
+idempotence. For example, the command will not report an error like, the member already have access to the folder.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -16,7 +21,6 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
@@ -30,7 +34,6 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -51,18 +54,15 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe teamfolder member add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx teamfolder member add -file /PATH/TO/DATA_FILE.csv
 ```
@@ -77,11 +77,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option              | Description                              | Default                                                                                                    |
-|---------------------|------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin                                                                                    |
-| `-file`             | Path to data file                        |                                                                                                            |
-| `-peer`             | Account alias                            | &{Peer [groups.read groups.write files.content.read files.content.write sharing.read sharing.write] <nil>} |
+| Option              | Description                              | Default                                                                                                                                                         |
+|---------------------|------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-admin-group-name` | Temporary group name for admin operation | watermint-toolbox-admin                                                                                                                                         |
+| `-file`             | Path to data file                        |                                                                                                                                                                 |
+| `-peer`             | Account alias                            | &{Peer [groups.read groups.write files.content.read files.content.write sharing.read sharing.write team_data.member team_data.team_space team_info.read] <nil>} |
 
 ## Common options:
 
@@ -106,7 +106,9 @@ Open" on the dialogue.
 
 ## Format: File
 
-Team folder and member list for adding access
+Team folder and member list for adding access. Each row can have one member and the one folder. If you want to add two
+or more members to the folder, please create rows for those members. Similarly, if you want to add a member to two or
+more folders, please create rows for those folders.
 
 | Column                     | Description                                                                                                  | Example |
 |----------------------------|--------------------------------------------------------------------------------------------------------------|---------|
@@ -115,8 +117,7 @@ Team folder and member list for adding access
 | access_type                | Access type (viewer/editor)                                                                                  | editor  |
 | group_name_or_member_email | Group name or member email address                                                                           | Sales   |
 
-The first line is a header line. The program will accept file without the header.
-
+The first line is a header line. The program will accept a file without the header.
 ```
 team_folder_name,path,access_type,group_name_or_member_email
 Sales,Report,editor,Sales

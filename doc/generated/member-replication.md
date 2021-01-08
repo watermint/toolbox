@@ -104,7 +104,7 @@ Data file for replicating member contents.
 | src_email | Source account's email address      | john@example.net       |
 | dst_email | Destination account's email address | john.smith@example.com |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 src_email,dst_email
 john@example.net,john.smith@example.com

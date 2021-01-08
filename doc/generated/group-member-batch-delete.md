@@ -107,7 +107,7 @@ Add members into groups
 | group_name   | Group name           | Sales            |
 | member_email | Member email address | taro@example.com |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 group_name,member_email
 Sales,taro@example.com

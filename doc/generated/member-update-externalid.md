@@ -103,7 +103,7 @@ Data file for updating member external id.
 | email       | Email address of team members | john@example.com |
 | external_id | External ID of team members   | 0123456789       |
 
-The first line is a header line. The program will accept file without the header.
+The first line is a header line. The program will accept a file without the header.
 ```
 email,external_id
 john@example.com,0123456789

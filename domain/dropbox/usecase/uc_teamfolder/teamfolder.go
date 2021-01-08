@@ -186,7 +186,7 @@ func (z *teamFolderImpl) adminGroup() (group *mo_group.Group, err error) {
 	return
 }
 
-func (z *teamFolderImpl) namespaceIdForPath(path mo_path.DropboxPath) (namespaceId string, err error) {
+func (z *teamFolderImpl) namespaceIdForPath(path mo_path.DropboxPath, createIfNotExist bool) (namespaceId string, err error) {
 	l := z.logger().With(esl.String("path", path.Path()))
 	if path.IsRoot() {
 		l.Debug("The path is root")
@@ -196,6 +196,23 @@ func (z *teamFolderImpl) namespaceIdForPath(path mo_path.DropboxPath) (namespace
 	if nsId, ok := z.cacheNamespaceId[path.Path()]; ok {
 		l.Debug("Namespace retrieved from the cache", esl.String("nsId", nsId))
 		return nsId, nil
+	}
+
+	nestedMeta, err := sv_file.NewFiles(z.ctxAdminTeamFolder()).Resolve(path)
+	if err != nil {
+		l.Debug("Unable to resolve nested folder", esl.Error(err))
+		return "", err
+	}
+	nestedNsId := nestedMeta.Concrete().SharedFolderId
+	if nestedNsId != "" {
+		l.Debug("Nested folder found", esl.Any("nestedFolderMeta", nestedMeta))
+		z.cacheNamespaceId[path.Path()] = nestedNsId
+		return "", ErrorUnableToIdentifyFolder
+	}
+
+	if !createIfNotExist {
+		l.Debug("Unable to find the folder")
+		return "", ErrorUnableToIdentifyFolder
 	}
 
 	l.Debug("Try create nested folder")
@@ -208,18 +225,13 @@ func (z *teamFolderImpl) namespaceIdForPath(path mo_path.DropboxPath) (namespace
 		return nested.SharedFolderId, nil
 
 	case de.BadPath().IsAlreadyShared():
-		l.Debug("The folder already shared", esl.Any("nested", nested))
-		nestedMeta, err := sv_file.NewFiles(z.ctxAdminTeamFolder()).Resolve(path)
+		l.Debug("Retry resolve")
+		nestedMeta, err = sv_file.NewFiles(z.ctxAdminTeamFolder()).Resolve(path)
 		if err != nil {
 			l.Debug("Unable to resolve nested folder", esl.Error(err))
 			return "", err
 		}
 		nestedNsId := nestedMeta.Concrete().SharedFolderId
-		l.Debug("Nested folder found", esl.Any("nestedFolderMeta", nestedMeta))
-		if nestedNsId == "" {
-			l.Debug("Unable to determine nested folder namespaceId", esl.Any("nestedFolderMeta", nestedMeta))
-			return "", ErrorUnableToIdentifyFolder
-		}
 		z.cacheNamespaceId[path.Path()] = nestedNsId
 		return nestedNsId, nil
 
@@ -232,13 +244,10 @@ func (z *teamFolderImpl) namespaceIdForPath(path mo_path.DropboxPath) (namespace
 func (z *teamFolderImpl) MemberAddUser(path mo_path.DropboxPath, accessType AccessType, memberEmail string) (err error) {
 	l := z.logger().With(esl.String("path", path.Path()), esl.String("accessType", string(accessType)), esl.String("memberEmail", memberEmail))
 	l.Debug("Add an user")
-	nsId, err := z.namespaceIdForPath(path)
+	nsId, err := z.namespaceIdForPath(path, true)
 	if err != nil {
 		l.Debug("namespace lookup failed", esl.Error(err))
 		return err
-	}
-	if nsId == "" {
-		l.Warn("empty nsid")
 	}
 
 	err = sv_sharedfolder_member.NewBySharedFolderId(z.ctxAdminTeamFolder(), nsId).
@@ -255,13 +264,10 @@ func (z *teamFolderImpl) MemberAddUser(path mo_path.DropboxPath, accessType Acce
 func (z *teamFolderImpl) MemberAddGroup(path mo_path.DropboxPath, accessType AccessType, groupName string) (err error) {
 	l := z.logger().With(esl.String("path", path.Path()), esl.String("accessType", string(accessType)), esl.String("groupName", groupName))
 	l.Debug("Add a group")
-	nsId, err := z.namespaceIdForPath(path)
+	nsId, err := z.namespaceIdForPath(path, true)
 	if err != nil {
 		l.Debug("namespace lookup failed", esl.Error(err))
 		return err
-	}
-	if nsId == "" {
-		l.Warn("empty nsid")
 	}
 
 	group, err := z.sg.ResolveByName(groupName)
@@ -282,11 +288,49 @@ func (z *teamFolderImpl) MemberAddGroup(path mo_path.DropboxPath, accessType Acc
 }
 
 func (z *teamFolderImpl) MemberRemoveUser(path mo_path.DropboxPath, memberEmail string) (err error) {
-	panic("implement me")
+	l := z.logger().With(esl.String("path", path.Path()), esl.String("memberEmail", memberEmail))
+	l.Debug("Remove an user")
+	nsId, err := z.namespaceIdForPath(path, false)
+	if err != nil {
+		l.Debug("namespace lookup failed", esl.Error(err))
+		return err
+	}
+
+	err = sv_sharedfolder_member.NewBySharedFolderId(z.ctxAdminTeamFolder(), nsId).
+		Remove(sv_sharedfolder_member.RemoveByEmail(memberEmail))
+	if err != nil {
+		l.Debug("Unable to add a member", esl.Error(err))
+		return err
+	}
+
+	l.Debug("The member is successfully added")
+	return nil
 }
 
 func (z *teamFolderImpl) MemberRemoveGroup(path mo_path.DropboxPath, groupName string) (err error) {
-	panic("implement me")
+	l := z.logger().With(esl.String("path", path.Path()), esl.String("groupName", groupName))
+	l.Debug("Remove a group")
+	nsId, err := z.namespaceIdForPath(path, false)
+	if err != nil {
+		l.Debug("namespace lookup failed", esl.Error(err))
+		return err
+	}
+
+	group, err := z.sg.ResolveByName(groupName)
+	if err != nil {
+		l.Debug("Unable to lookup the group", esl.Error(err))
+		return err
+	}
+
+	err = sv_sharedfolder_member.NewBySharedFolderId(z.ctxAdminTeamFolder(), nsId).
+		Remove(sv_sharedfolder_member.RemoveByGroupId(group.GroupId))
+	if err != nil {
+		l.Debug("Unable to add a group", esl.Error(err))
+		return err
+	}
+
+	l.Debug("The group is successfully added")
+	return nil
 }
 
 func (z *teamFolderImpl) UpdateInheritance(path mo_path.DropboxPath, inherit bool) (folder *mo_sharedfolder.SharedFolder, err error) {
