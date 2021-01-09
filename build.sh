@@ -139,6 +139,26 @@ else
   exit $?
 fi
 
+if [ ! -s $BUILD_PATH/win/tbx.exe ]; then
+  echo Failed to build Windows binary
+  exit 1
+fi
+
+if [ ! -s $BUILD_PATH/win64/tbx.exe ]; then
+  echo Failed to build Windows x64 binary
+  exit 1
+fi
+
+if [ ! -s $BUILD_PATH/linux/tbx ]; then
+  echo Failed to build Linux binary
+  exit 1
+fi
+
+if [ ! -s $BUILD_PATH/mac/tbx ]; then
+  echo Failed to build macOS x64 binary
+  exit 1
+fi
+
 echo --------------------
 echo BUILD: Generating documents
 
@@ -154,7 +174,6 @@ if [ ! -s $BUILD_PATH/README.txt ]; then
   echo Failed to generate README
   exit 1
 fi
-
 
 echo --------------------
 echo BUILD: Packaging
