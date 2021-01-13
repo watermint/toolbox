@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
-	"os"
 	"sync"
 )
 
@@ -142,15 +141,7 @@ func (z syncImpl) taskCopyFile(task *TaskCopyFile, stg eq_sequence.Stage) error 
 	}
 	targetEntry, err := z.target.Info(targetPath)
 	switch {
-	case os.IsNotExist(err) || err.IsPathNotFound():
-		l.Debug("File not found in the target path: Skip comparison", esl.Error(err))
-
-	case err != nil:
-		l.Debug("Unable to retrieve target file info", esl.Error(err))
-		z.opts.OnCopyFailure(sourceEntry.Path(), err)
-		return err
-
-	default:
+	case err == nil:
 		l.Debug("Successfully retrieved target file info, compare those")
 		same, cmpErr := z.fileCmp.Compare(sourceEntry, targetEntry)
 		if cmpErr != nil {
@@ -169,6 +160,14 @@ func (z syncImpl) taskCopyFile(task *TaskCopyFile, stg eq_sequence.Stage) error 
 			z.opts.OnSkip(SkipOld, sourceEntry, targetPath)
 			return nil
 		}
+
+	case err.IsPathNotFound():
+		l.Debug("File not found in the target path: Skip comparison", esl.Error(err))
+
+	default:
+		l.Debug("Unable to retrieve target file info", esl.Error(err))
+		z.opts.OnCopyFailure(sourceEntry.Path(), err)
+		return err
 	}
 
 	l.Debug("Copy file")

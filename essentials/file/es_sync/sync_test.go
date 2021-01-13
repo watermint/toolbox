@@ -292,6 +292,56 @@ func TestSyncImpl_FileEdit(t *testing.T) {
 	}
 }
 
+func TestSyncImpl_DeletedFile(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
+	tree1 := em_file.DemoTree()
+	tree2 := em_file.DemoTree()
+
+	// delete x
+	tree1a := em_file.ResolvePath(tree1, "/a")
+	tree1a.(em_file.Folder).Delete("x")
+
+	fs1 := es_filesystem_model.NewFileSystem(tree1)
+	fs2 := es_filesystem_model.NewFileSystem(tree2)
+
+	seq := eq_sequence.New()
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
+
+	syncer := New(
+		esl.Default(),
+		seq,
+		fs1,
+		fs2,
+		conn,
+		SyncDelete(true),
+		SyncOverwrite(true),
+	)
+	em_file.Display(esl.Default(), tree1)
+	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+	if err != nil {
+		t.Error(err)
+	}
+
+	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
+	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+	if err != nil {
+		t.Error(err)
+	}
+	if len(missingSources) > 0 {
+		t.Error(missingSources)
+	}
+	if len(missingTargets) > 0 {
+		t.Error(missingTargets)
+	}
+	if len(typeDiffs) > 0 {
+		t.Error(typeDiffs)
+	}
+	if len(fileDiffs) > 0 {
+		t.Error(es_json.ToJsonString(fileDiffs))
+	}
+}
+
 func TestSyncImpl_SyncRandom(t *testing.T) {
 	ea_indicator.SuppressIndicatorForce()
 
