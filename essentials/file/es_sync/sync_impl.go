@@ -139,6 +139,30 @@ func (z syncImpl) taskCopyFile(task *TaskCopyFile, stg eq_sequence.Stage) error 
 		z.opts.OnCopyFailure(sourceEntry.Path(), err)
 		return err
 	}
+	targetEntry, err := z.target.Info(targetPath)
+	if err != nil {
+		l.Debug("Unable to retrieve target file info", esl.Error(err))
+		z.opts.OnCopyFailure(sourceEntry.Path(), err)
+		return err
+	}
+
+	same, cmpErr := z.fileCmp.Compare(sourceEntry, targetEntry)
+	if cmpErr != nil {
+		l.Debug("Unable to compare files", esl.Error(err))
+		z.opts.OnCopyFailure(sourceEntry.Path(), err)
+		return cmpErr
+	}
+
+	if same {
+		l.Debug("Same skip")
+		z.opts.OnSkip(SkipSame, sourceEntry, targetPath)
+		return nil
+	}
+	if sourceEntry.ModTime().Before(targetEntry.ModTime()) && z.opts.SyncOverwrite() {
+		l.Debug("Same old file")
+		z.opts.OnSkip(SkipOld, sourceEntry, targetPath)
+		return nil
+	}
 
 	l.Debug("Copy file")
 	return z.copy(sourceEntry, targetPath)
@@ -319,7 +343,26 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, stg eq_sequence.Stage) er
 				Target: target.Path().AsData(),
 			})
 		case source.IsFile() && target.IsFile():
-			ll.Debug("Same type, but do as copy")
+			ll.Debug("Same type, compare both")
+			same, cmpErr := z.fileCmp.Compare(source, target)
+			if cmpErr != nil {
+				ll.Debug("Unable to compare files", esl.Error(err))
+				z.opts.OnCopyFailure(source.Path(), err)
+				return
+			}
+
+			if same {
+				ll.Debug("Same skip")
+				z.opts.OnSkip(SkipSame, source, target.Path())
+				return
+			}
+			if source.ModTime().Before(target.ModTime()) && z.opts.SyncOverwrite() {
+				l.Debug("Same old file")
+				z.opts.OnSkip(SkipOld, source, targetPath)
+				return
+			}
+
+			ll.Debug("Copy")
 			q := stg.Get(queueIdCopyFile).Batch(z.computeBatchId(source.Path(), target.Path()))
 			q.Enqueue(&TaskCopyFile{
 				Source: source.AsData(),

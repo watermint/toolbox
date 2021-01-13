@@ -8,6 +8,7 @@ import (
 
 const (
 	SkipSame   SkipReason = "same"
+	SkipOld    SkipReason = "old"
 	SkipExists SkipReason = "exists"
 	SkipFilter SkipReason = "filter"
 )

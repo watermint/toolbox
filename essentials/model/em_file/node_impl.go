@@ -44,6 +44,10 @@ func (z *fileNode) Rename(newName string) {
 	z.name = newName
 }
 
+func (z *fileNode) UpdateTime(t time.Time) {
+	z.mtime = t
+}
+
 func (z *fileNode) UpdateContent(newSeed, newSize int64) {
 	z.contentSeed = newSeed
 	z.size = newSize

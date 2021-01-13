@@ -43,6 +43,9 @@ type File interface {
 	// Update content
 	UpdateContent(newSeed, newSize int64)
 
+	// Update mod time
+	UpdateTime(t time.Time)
+
 	// Clone this instance
 	Clone() File
 }
