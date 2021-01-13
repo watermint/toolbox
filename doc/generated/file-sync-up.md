@@ -68,19 +68,19 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                 | Description                                         | Default |
-|------------------------|-----------------------------------------------------|---------|
-| `-chunk-size-kb`       | Upload chunk size in KB                             | 65536   |
-| `-delete`              | Delete Dropbox file if a file removed locally       | false   |
-| `-dropbox-path`        | Destination Dropbox path                            |         |
-| `-local-path`          | Local file path                                     |         |
-| `-name-disable-ignore` | Filter by name. Filter system file or ignore files. |         |
-| `-name-name`           | Filter by name. Filter by exact match to the name.  |         |
-| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix. |         |
-| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix. |         |
-| `-peer`                | Account alias                                       | default |
-| `-skip-existing`       | Skip existing files. Do not overwrite               | false   |
-| `-work-path`           | Temporary path                                      |         |
+| Option                 | Description                                                | Default |
+|------------------------|------------------------------------------------------------|---------|
+| `-chunk-size-kb`       | Upload chunk size in KB                                    | 65536   |
+| `-delete`              | Delete Dropbox file if a file removed locally              | false   |
+| `-dropbox-path`        | Destination Dropbox path                                   |         |
+| `-local-path`          | Local file path                                            |         |
+| `-name-disable-ignore` | Filter by name. Filter system file or ignore files.        |         |
+| `-name-name`           | Filter by name. Filter by exact match to the name.         |         |
+| `-name-name-prefix`    | Filter by name. Filter by name match to the prefix.        |         |
+| `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.        |         |
+| `-overwrite`           | Overwrite existing file on the target path if that exists. | false   |
+| `-peer`                | Account alias                                              | default |
+| `-work-path`           | Temporary path                                             |         |
 
 ## Common options:
 

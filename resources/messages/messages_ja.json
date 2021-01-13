@@ -1223,7 +1223,6 @@
   "recipe.file.sync.up.flag.local_path": "ローカルファイルのパス",
   "recipe.file.sync.up.flag.name": "名前によるフィルター.",
   "recipe.file.sync.up.flag.peer": "アカウントの別名",
-  "recipe.file.sync.up.flag.skip_existing": "既存ファイルをスキップします. 上書きしません.",
   "recipe.file.sync.up.flag.work_path": "テンポラリパス",
   "recipe.file.sync.up.title": "Dropboxと上り方向で同期します",
   "recipe.file.title": "ファイル操作",
