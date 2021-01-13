@@ -1222,6 +1222,7 @@
   "recipe.file.sync.up.flag.dropbox_path": "転送先のDropboxパス",
   "recipe.file.sync.up.flag.local_path": "ローカルファイルのパス",
   "recipe.file.sync.up.flag.name": "名前によるフィルター.",
+  "recipe.file.sync.up.flag.overwrite": "ターゲットパス上に既存のファイルが存在する場合に上書きします.",
   "recipe.file.sync.up.flag.peer": "アカウントの別名",
   "recipe.file.sync.up.flag.work_path": "テンポラリパス",
   "recipe.file.sync.up.title": "Dropboxと上り方向で同期します",

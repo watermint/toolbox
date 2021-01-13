@@ -78,7 +78,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-name-name`           | 名前によるフィルター. 名前による完全一致でフィルター.                     |            |
 | `-name-name-prefix`    | 名前によるフィルター. 名前の前方一致によるフィルター.                     |            |
 | `-name-name-suffix`    | 名前によるフィルター. 名前の後方一致によるフィルター.                     |            |
-| `-overwrite`           | Overwrite existing file on the target path if that exists.                | false      |
+| `-overwrite`           | ターゲットパス上に既存のファイルが存在する場合に上書きします.             | false      |
 | `-peer`                | アカウントの別名                                                          | default    |
 | `-work-path`           | テンポラリパス                                                            |            |
 

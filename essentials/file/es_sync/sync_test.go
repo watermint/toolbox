@@ -510,7 +510,7 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 	}
 }
 
-func TestSyncImpl_CompareTime(t *testing.T) {
+func TestSyncImpl_CompareTimeShouldNotOverwrite(t *testing.T) {
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -572,6 +572,61 @@ func TestSyncImpl_CompareTime(t *testing.T) {
 	}
 	if !reflect.DeepEqual(tree2axOrigContent, tree2axCopied.Content()) {
 		t.Error(tree2axOrigContent, tree2axCopied.Content())
+	}
+}
+
+func TestSyncImpl_CompareTimeShouldOverwrite(t *testing.T) {
+	ea_indicator.SuppressIndicatorForce()
+
+	tree1 := em_file.DemoTree()
+	tree2 := em_file.DemoTree()
+
+	tree1ax := em_file.ResolvePath(tree1, "/a/x")
+	tree1axFile := tree1ax.(em_file.File)
+	tree1axFile.(em_file.File).UpdateContent(rand.Int63(), 20)
+
+	// should not overwrite tree2:/a/x
+	tree2ax := em_file.ResolvePath(tree2, "/a/x")
+	tree2axFile := tree2ax.(em_file.File)
+	tree2axFile.UpdateTime(tree1axFile.ModTime().Add(-1 * time.Second))
+
+	fs1 := es_filesystem_model.NewFileSystem(tree1)
+	fs2 := es_filesystem_model.NewFileSystem(tree2)
+
+	seq := eq_sequence.New()
+	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
+
+	syncer := New(
+		esl.Default(),
+		seq,
+		fs1,
+		fs2,
+		conn,
+		SyncDelete(true),
+		SyncOverwrite(true),
+	)
+	em_file.Display(esl.Default(), tree1)
+	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+	if err != nil {
+		t.Error(err)
+	}
+
+	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
+	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+	if err != nil {
+		t.Error(err)
+	}
+	if len(missingSources) > 0 {
+		t.Error(missingSources)
+	}
+	if len(missingTargets) > 0 {
+		t.Error(missingTargets)
+	}
+	if len(typeDiffs) > 0 {
+		t.Error(typeDiffs)
+	}
+	if len(fileDiffs) > 0 {
+		t.Error(es_json.ToJsonString(fileDiffs))
 	}
 }
 
