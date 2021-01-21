@@ -107,6 +107,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconnect.UserFile{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
+		&recipedevbenchmark.Uploadlink{},
 		&recipedevbuild.Catalogue{},
 		&recipedevbuild.Doc{},
 		&recipedevbuild.License{},
