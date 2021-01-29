@@ -1,6 +1,7 @@
 package sv_file
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -19,6 +20,7 @@ type Files interface {
 	PermDelete(path mo_path.DropboxPath) (err error)
 	Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 	Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error)
+	UploadLink(path mo_path.DropboxPath) (url string, err error)
 }
 
 type ResolveOpt func(opt ResolveOpts) ResolveOpts
@@ -184,6 +186,31 @@ func SearchIncludeHighlights() SearchOpt {
 type filesImpl struct {
 	ctx   dbx_context.Context
 	limit int
+}
+
+func (z *filesImpl) UploadLink(path mo_path.DropboxPath) (url string, err error) {
+	type CommitInfo struct {
+		Path       string `json:"path"`
+		AutoRename bool   `json:"autorename"`
+	}
+	p := struct {
+		CommitInfo CommitInfo `json:"commit_info"`
+	}{
+		CommitInfo: CommitInfo{
+			Path:       path.Path(),
+			AutoRename: false,
+		},
+	}
+	res := z.ctx.Post("files/get_temporary_upload_link", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return "", err
+	}
+
+	link, found := res.Success().Json().FindString("link")
+	if found {
+		return link, nil
+	}
+	return "", errors.New("invalid response")
 }
 
 func (z *filesImpl) PermDelete(path mo_path.DropboxPath) (err error) {
