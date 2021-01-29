@@ -1,6 +1,6 @@
-# file info
+# teamfolder partial replication
 
-パスのメタデータを解決
+部分的なチームフォルダの他チームへのレプリケーション (非可逆な操作です)
 
 # セキュリティ
 
@@ -16,18 +16,20 @@
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
 
-| ラベル                    | 説明                     |
-|---------------------------|--------------------------|
-| dropbox_scoped_individual | Dropbox (個人アカウント) |
+| ラベル              | 説明             |
+|---------------------|------------------|
+| dropbox_scoped_team | Dropbox (チーム) |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -48,17 +50,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe file info -path /DROPBOX/PATH/TO/FILE
+.\tbx.exe teamfolder partial replication -src-team-folder-name コピー元チームフォルダ名 -src-path /REL/PATH/SRC -dst-team-folder-name コピー先チームフォルダ名 -dst-path /REL/PATH/DST
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx file info -path /DROPBOX/PATH/TO/FILE
+$HOME/Desktop/tbx teamfolder partial replication -src-team-folder-name コピー元チームフォルダ名 -src-path /REL/PATH/SRC -dst-team-folder-name コピー先チームフォルダ名 -dst-path /REL/PATH/DST
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -69,10 +74,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-path`    | パス             |            |
-| `-peer`    | アカウントの別名 | default    |
+| オプション              | 説明                                                                             | デフォルト |
+|-------------------------|----------------------------------------------------------------------------------|------------|
+| `-dst`                  | 宛先チームの別名                                                                 | dst        |
+| `-dst-path`             | チームフォルダからの相対パス (チームフォルダのルートには '/' を指定してください) |            |
+| `-dst-team-folder-name` | 送信先チームフォルダ名                                                           |            |
+| `-src`                  | 転送元チームの別名                                                               | src        |
+| `-src-path`             | チームフォルダからの相対パス (チームフォルダのルートには '/' を指定してください) |            |
+| `-src-team-folder-name` | 転送元のチームフォルダ名                                                         |            |
 
 ## 共通のオプション:
 
@@ -92,38 +101,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: metadata
-
-このレポートはファイルとフォルダのメタデータを出力します. このコマンドはレポートを3種類の書式で出力します. `metadata.csv`, `metadata.json`, ならびに `metadata.xlsx`.
-
-| 列                      | 説明                                                                                       |
-|-------------------------|--------------------------------------------------------------------------------------------|
-| tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
-| name                    | 名称                                                                                       |
-| path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
-| client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
-| server_modified         | Dropbox上で最後に更新された日時                                                            |
-| revision                | ファイルの現在バージョンの一意な識別子                                                     |
-| size                    | ファイルサイズ(バイト単位)                                                                 |
-| content_hash            | ファイルコンテンツのハッシュ                                                               |
-| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `metadata_0000.xlsx`, `metadata_0001.xlsx`
-, `metadata_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

@@ -1,6 +1,6 @@
-# file info
+# teamfolder partial replication
 
-Resolve metadata of the path
+Partial team folder replication to the other team (Irreversible operation)
 
 # Security
 
@@ -16,19 +16,21 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
 
-| Label                     | Description                       |
-|---------------------------|-----------------------------------|
-| dropbox_scoped_individual | Dropbox Individual account access |
+| Label               | Description         |
+|---------------------|---------------------|
+| dropbox_scoped_team | Dropbox team access |
 
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe file info -path /DROPBOX/PATH/TO/FILE
+.\tbx.exe teamfolder partial replication -src-team-folder-name SRC_TEAMFOLDER_NAME -src-path /REL/PATH/SRC -dst-team-folder-name DST_TEAMFOLDER_NAME -dst-path /REL/PATH/DST
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx file info -path /DROPBOX/PATH/TO/FILE
+$HOME/Desktop/tbx teamfolder partial replication -src-team-folder-name SRC_TEAMFOLDER_NAME -src-path /REL/PATH/SRC -dst-team-folder-name DST_TEAMFOLDER_NAME -dst-path /REL/PATH/DST
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -72,10 +77,14 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-path` | Path          |         |
-| `-peer` | Account alias | default |
+| Option                  | Description                                                                      | Default |
+|-------------------------|----------------------------------------------------------------------------------|---------|
+| `-dst`                  | Peer name for the destination team                                               | dst     |
+| `-dst-path`             | Relative path from the team folder (please specify '/' for the team folder root) |         |
+| `-dst-team-folder-name` | Destination team folder name                                                     |         |
+| `-src`                  | Peer name for the src team                                                       | src     |
+| `-src-path`             | Relative path from the team folder (please specify '/' for the team folder root) |         |
+| `-src-team-folder-name` | Source team folder name                                                          |         |
 
 ## Common options:
 
@@ -95,40 +104,6 @@ Open" on the dialogue.
 | `-secure`         | Do not store tokens into a file                                                           | false                |
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
-
-# Results
-
-Report file path will be displayed last line of the command line output. If you missed command line output, please see
-path below. [job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path pattern                                | Example                                                |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## Report: metadata
-
-This report shows a list of metadata of files or folders in the path. The command will generate a report in three
-different formats. `metadata.csv`, `metadata.json`, and `metadata.xlsx`.
-
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like
-follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 # Proxy configuration
 

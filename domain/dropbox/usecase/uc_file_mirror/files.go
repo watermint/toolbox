@@ -64,8 +64,8 @@ func (z *filesImpl) dstPathRelToSrc(pathOrigSrc, pathSrc, pathOrigDst mo_path.Dr
 }
 
 func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.DropboxPath) error {
-	log := z.ctxSrc.Log().With(esl.String("origSrc", pathOrigSrc.Path()), esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()))
-	log.Debug("Start mirroring descendants")
+	l := z.ctxSrc.Log().With(esl.String("origSrc", pathOrigSrc.Path()), esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()))
+	l.Debug("Start mirroring descendants")
 
 	// dest descendant files, and folders
 	filesDst := make(map[string]*mo_file.File)
@@ -81,10 +81,10 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 	if err != nil {
 		ers := dbx_error.NewErrors(err)
 		if !ers.Path().IsNotFound() {
-			log.Debug("DST: Unable to list", esl.Error(err), esl.String("error_summary", ers.Summary()))
+			l.Debug("DST: Unable to list", esl.Error(err), esl.String("error_summary", ers.Summary()))
 			return err
 		}
-		log.Debug("DST: Path not found. Proceed to mirror")
+		l.Debug("DST: Path not found. Proceed to mirror")
 	} else {
 		for _, entry := range entriesDst {
 			name := strings.ToLower(entry.Name())
@@ -113,7 +113,7 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 
 	numEntriesSrc := len(entriesSrc)
 	for i, entrySrc := range entriesSrc {
-		log.Debug("Processing entry", esl.Int("index", i), esl.Int("numEntries", numEntriesSrc), esl.String("entryName", entrySrc.Name()))
+		l.Debug("Processing entry", esl.Int("index", i), esl.Int("numEntries", numEntriesSrc), esl.String("entryName", entrySrc.Name()))
 		name := strings.ToLower(entrySrc.Name())
 		if fileSrc, e := entrySrc.File(); e {
 			if fileDst, e := filesDst[name]; e {
@@ -127,7 +127,7 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 				}
 				srcTime, err := dbx_util.Parse(fileSrc.ServerModified)
 				if err != nil {
-					log.Warn("Unable to determine fileSrc server modified", esl.Any("fileSrc", fileSrc), esl.Error(err))
+					l.Warn("Unable to determine fileSrc server modified", esl.Any("fileSrc", fileSrc), esl.Error(err))
 					skipped = append(skipped, &Skip{
 						Name:   fileSrc.Name(),
 						Reason: "src_time_err",
@@ -136,7 +136,7 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 				}
 				dstTime, err := dbx_util.Parse(fileDst.ServerModified)
 				if err != nil {
-					log.Warn("Unable to determine fileDst server modified", esl.Any("fileDst", fileDst), esl.Error(err))
+					l.Warn("Unable to determine fileDst server modified", esl.Any("fileDst", fileDst), esl.Error(err))
 					skipped = append(skipped, &Skip{
 						Name:   fileSrc.Name(),
 						Reason: "dst_time_err",
@@ -159,7 +159,7 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 				return err
 			}
 			if err = z.mirrorCurrent(pathOrigSrc, pathFileSrc, pathOrigDst, pathFileDst); err != nil {
-				log.Debug("Mirror failed", esl.String("fileSrc", pathFileSrc.Path()), esl.String("fileDst", pathFileDst.Path()), esl.Error(err))
+				l.Debug("Mirror failed", esl.String("fileSrc", pathFileSrc.Path()), esl.String("fileDst", pathFileDst.Path()), esl.Error(err))
 				// do not fail on file mirroring
 			}
 		}
@@ -172,39 +172,39 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 			}
 			if _, e := foldersDst[name]; e {
 				if err = z.mirrorDescendants(pathOrigSrc, pathFolderSrc, pathOrigDst, pathFolderDst); err != nil {
-					log.Debug("Mirror failed", esl.String("folderSrc", pathFolderSrc.Path()), esl.String("folderDst", pathFolderDst.Path()), esl.Error(err))
+					l.Debug("Mirror failed", esl.String("folderSrc", pathFolderSrc.Path()), esl.String("folderDst", pathFolderDst.Path()), esl.Error(err))
 					// do not fail on file mirroring
 				}
 			} else {
 				if err = z.mirrorCurrent(pathOrigSrc, pathFolderSrc, pathOrigDst, pathFolderDst); err != nil {
-					log.Debug("Mirror failed", esl.String("folderSrc", pathFolderSrc.Path()), esl.String("folderDst", pathFolderDst.Path()), esl.Error(err))
+					l.Debug("Mirror failed", esl.String("folderSrc", pathFolderSrc.Path()), esl.String("folderDst", pathFolderDst.Path()), esl.Error(err))
 					// do not fail on file mirroring
 				}
 			}
 		}
 	}
 
-	log.Debug("Skipped:", esl.Any("files", skipped))
+	l.Debug("Skipped:", esl.Any("files", skipped))
 
 	return nil
 }
 
 func (z *filesImpl) mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_path.DropboxPath) (err error) {
-	log := z.ctxSrc.Log().With(esl.String("origSrc", pathOrigSrc.Path()), esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()))
-	log.Debug("Start mirroring current path")
+	l := z.ctxSrc.Log().With(esl.String("origSrc", pathOrigSrc.Path()), esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()))
+	l.Info("Start mirroring")
 
 	scrSrc := sv_file_copyref.New(z.ctxSrc)
 	metaSrc, ref, expires, err := scrSrc.Resolve(pathSrc)
 	if err != nil {
-		log.Debug("SRC: Unable to get copyRef", esl.Error(err))
+		l.Debug("SRC: Unable to get copyRef", esl.Error(err))
 		return err
 	}
-	log.Debug("SRC: CopyRef success", esl.String("ref", ref), esl.String("expires", expires))
+	l.Debug("SRC: CopyRef success", esl.String("ref", ref), esl.String("expires", expires))
 
 	scrDst := sv_file_copyref.New(z.ctxDst)
 	metaDst, err := scrDst.Save(pathDst, ref)
 	if err != nil {
-		log.Debug("DST: Unable to save", esl.Error(err))
+		l.Debug("DST: Unable to save", esl.Error(err))
 		return z.handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst, err)
 	}
 
