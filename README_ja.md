@@ -96,6 +96,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file export doc](doc/generated_ja/file-export-doc.md)                     | ドキュメントのエクスポート                                                                                                                  |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)         | URLからファイルを一括インポートします                                                                                                       |
 | [file import url](doc/generated_ja/file-import-url.md)                     | URLからファイルをインポートします                                                                                                           |
+| [file info](doc/generated_ja/file-info.md)                                 | Resolve metadata of the path                                                                                                                |
 | [file list](doc/generated_ja/file-list.md)                                 | ファイルとフォルダを一覧します                                                                                                              |
 | [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                                                                                                        |
 | [file mount list](doc/generated_ja/file-mount-list.md)                     | マウント/アンマウントされた共有フォルダの一覧                                                                                               |

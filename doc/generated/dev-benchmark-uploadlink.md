@@ -1,7 +1,6 @@
 # dev benchmark uploadlink
 
-{"key":"complex","params":{"Messages":[{"K":"recipe.dev.benchmark.uploadlink.title","P":null},{"K":"raw","
-P":[{"Raw":""}]}]}}
+Benchmark single file upload with upload temporary link API.
 
 # Security
 
@@ -17,7 +16,6 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
@@ -31,7 +29,6 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -52,20 +49,17 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark uploadlink -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe dev benchmark uploadlink -path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS, Linux:
-
 ```
-$HOME/Desktop/tbx dev benchmark uploadlink -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx dev benchmark uploadlink -path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -78,11 +72,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option     | Description                                                        | Default |
-|------------|--------------------------------------------------------------------|---------|
-| `-path`    | {"key":"recipe.dev.benchmark.uploadlink.flag.path","params":{}}    |         |
-| `-peer`    | {"key":"recipe.dev.benchmark.uploadlink.flag.peer","params":{}}    | default |
-| `-size-kb` | {"key":"recipe.dev.benchmark.uploadlink.flag.size_kb","params":{}} | 1024    |
+| Option     | Description    | Default |
+|------------|----------------|---------|
+| `-path`    | Path to upload |         |
+| `-peer`    | Account alias  | default |
+| `-size-kb` | Size in KB     | 1024    |
 
 ## Common options:
 

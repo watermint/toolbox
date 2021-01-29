@@ -145,6 +145,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.Copy{},
 		&recipefile.Delete{},
 		&recipefile.Download{},
+		&recipefile.Info{},
 		&recipefile.List{},
 		&recipefile.Merge{},
 		&recipefile.Move{},
