@@ -19,6 +19,7 @@
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -29,7 +30,7 @@
   		"Info": "business_info",
   		"Mgmt": "business_management",
 - 		"Peer": "business_management",
-+ 		"Peer": "business_info",
++ 		"Peer": "business_file",
   	},
   	Services: {"dropbox_business"},
   	IsSecret: false,

@@ -110,7 +110,7 @@ func newTee(w esl_rotate.Writer, l esl.LogCloser, consoleLevel esl.Level) Logger
 	t := esl.NewTee()
 	t.AddSubscriber(l)
 	if consoleLevel != esl.LevelQuiet {
-		t.AddSubscriber(esl.New(consoleLevel, esl.FlavorConsole, es_stdout.NewDirectOut()))
+		t.AddSubscriber(esl.New(consoleLevel, esl.FlavorConsole, es_stdout.NewDirectErr()))
 	}
 	return &teeImpl{
 		w: w,
@@ -143,7 +143,7 @@ func (z teeImpl) Close() {
 }
 
 func newTransient(level esl.Level, flavor esl.Flavor) Logger {
-	l := esl.New(level, flavor, es_stdout.NewDirectOut())
+	l := esl.New(level, flavor, es_stdout.NewDirectErr())
 	return &transientImpl{
 		l: l,
 	}
