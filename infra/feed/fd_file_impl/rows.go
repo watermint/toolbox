@@ -1,6 +1,7 @@
 package fd_file_impl
 
 import (
+	"compress/gzip"
 	"encoding/csv"
 	"errors"
 	"github.com/iancoleman/strcase"
@@ -13,6 +14,7 @@ import (
 	"os"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 type MsgRowFeed struct {
@@ -136,7 +138,17 @@ func (z *RowFeed) Open(ctl app_control.Control) error {
 		ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
 		return err
 	}
-	z.reader = es_unicode.NewBomAwareCsvReader(z.file)
+	if strings.HasSuffix(z.filePath, ".gz") {
+		gr, err := gzip.NewReader(z.file)
+		if err != nil {
+			ui.Error(MRowFeed.ErrorUnableToRead.With("Path", z.filePath).With("Error", err))
+			return err
+		}
+		z.reader = es_unicode.NewBomAwareCsvReader(gr)
+	} else {
+		z.reader = es_unicode.NewBomAwareCsvReader(z.file)
+	}
+
 	z.applyModel()
 
 	return nil
