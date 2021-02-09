@@ -155,8 +155,8 @@ Available commands:
 | [member delete](doc/generated/member-delete.md)                                       | Delete members                                                |
 | [member detach](doc/generated/member-detach.md)                                       | Convert Dropbox Business accounts to a Basic account          |
 | [member file lock all release](doc/generated/member-file-lock-all-release.md)         | Release all locks under the path of the member                |
-| [member file lock list](doc/generated/member-file-lock-list.md)                       | List lock of the member under the path                        |
-| [member file lock release](doc/generated/member-file-lock-release.md)                 | Release the lock of the path of the member                    |
+| [member file lock list](doc/generated/member-file-lock-list.md)                       | List locks of the member under the path                       |
+| [member file lock release](doc/generated/member-file-lock-release.md)                 | Release the lock of the path as the member                    |
 | [member folder list](doc/generated/member-folder-list.md)                             | Find folders for each member                                  |
 | [member folder replication](doc/generated/member-folder-replication.md)               | Replicate a folder to another member's personal folder        |
 | [member invite](doc/generated/member-invite.md)                                       | Invite member(s)                                              |

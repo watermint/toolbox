@@ -1,6 +1,6 @@
 # teamfolder file lock list
 
-List locks in the team folder
+チームフォルダ内のロックを一覧表示
 
 # セキュリティ
 
@@ -16,7 +16,6 @@ List locks in the team folder
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
@@ -29,7 +28,6 @@ List locks in the team folder
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -50,18 +48,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe teamfolder file lock list -path /DROPBOX/PATH/TO/LIST
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx teamfolder file lock list -path /DROPBOX/PATH/TO/LIST
 ```
@@ -74,11 +69,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                   | デフォルト |
-|----------------|------------------------|------------|
-| `-path`        | Base path to list lock |            |
-| `-peer`        | Account alias          | default    |
-| `-team-folder` | Team folder name       |            |
+| オプション     | 説明             | デフォルト |
+|----------------|------------------|------------|
+| `-path`        | パス             |            |
+| `-peer`        | アカウントの別名 | default    |
+| `-team-folder` | チームフォルダ名 |            |
 
 ## 共通のオプション:
 
@@ -111,19 +106,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: lock
 
-Lock information このコマンドはレポートを3種類の書式で出力します. `lock.csv`, `lock.json`, ならびに `lock.xlsx`.
+ロック情報 このコマンドはレポートを3種類の書式で出力します. `lock.csv`, `lock.json`, ならびに `lock.xlsx`.
 
-| 列               | 説明                                                                                                   |
-|------------------|--------------------------------------------------------------------------------------------------------|
-| tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name             | The last component of the path (including extension).                                                  |
-| path_display     | The cased path to be used for display purposes only.                                                   |
-| client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified  | The last time the file was modified on Dropbox.                                                        |
-| size             | The file size in bytes.                                                                                |
-| is_lock_holder   | True if caller holds the file lock                                                                     |
-| lock_holder_name | The display name of the lock holder.                                                                   |
-| lock_created     | The timestamp of the lock was created.                                                                 |
+| 列               | 説明                                                         |
+|------------------|--------------------------------------------------------------|
+| tag              | エントリーの種別`file`, `folder`, または `deleted`           |
+| name             | 名称                                                         |
+| path_display     | パス (表示目的で大文字小文字を区別する).                     |
+| client_modified  | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| server_modified  | Dropbox上で最後に更新された日時                              |
+| size             | ファイルサイズ(バイト単位)                                   |
+| is_lock_holder   | 呼び出し元がファイルロックを保持している場合は True          |
+| lock_holder_name | ロックホルダーの表示名です                                   |
+| lock_created     | ロックが作成されたタイムスタンプ.                            |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

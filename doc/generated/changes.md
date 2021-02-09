@@ -1,24 +1,4 @@
-# Changes between `Release 83` to `Release 84`
-
-# Commands added
-
-
-| Command                          | Title                                               |
-|----------------------------------|-----------------------------------------------------|
-| file lock acquire                | Lock a file                                         |
-| file lock all release            | Release all locks under the specified path          |
-| file lock batch acquire          | Lock multiple files                                 |
-| file lock batch release          | Release multiple locks                              |
-| file lock list                   | List locks under the specified path                 |
-| file lock release                | Release a lock                                      |
-| member file lock all release     | Release all locks under the path of the member      |
-| member file lock list            | List lock of the member under the path              |
-| member file lock release         | Release the lock of the path of the member          |
-| teamfolder file lock all release | Release all locks under the path of the team folder |
-| teamfolder file lock list        | List locks in the team folder                       |
-| teamfolder file lock release     | Release lock of the path in the team folder         |
-
-
+# Changes between `Release 84` to `Release 85`
 
 # Command spec changed: `team diag explorer`
 
@@ -34,8 +14,8 @@
   		"File": "business_file",
   		"Info": "business_info",
   		"Mgmt": "business_management",
-- 		"Peer": "business_management",
-+ 		"Peer": "business_file",
+- 		"Peer": "business_file",
++ 		"Peer": "business_info",
   	},
   	Services: {"dropbox_business"},
   	IsSecret: false,

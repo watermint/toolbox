@@ -98,12 +98,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [file import url](doc/generated_ja/file-import-url.md)                     | URLからファイルをインポートします                                                                                                           |
 | [file info](doc/generated_ja/file-info.md)                                 | パスのメタデータを解決                                                                                                                      |
 | [file list](doc/generated_ja/file-list.md)                                 | ファイルとフォルダを一覧します                                                                                                              |
-| [file lock acquire](doc/generated_ja/file-lock-acquire.md)                 | Lock a file                                                                                                                                 |
-| [file lock all release](doc/generated_ja/file-lock-all-release.md)         | Release all locks under the specified path                                                                                                  |
-| [file lock batch acquire](doc/generated_ja/file-lock-batch-acquire.md)     | Lock multiple files                                                                                                                         |
-| [file lock batch release](doc/generated_ja/file-lock-batch-release.md)     | Release multiple locks                                                                                                                      |
-| [file lock list](doc/generated_ja/file-lock-list.md)                       | List locks under the specified path                                                                                                         |
-| [file lock release](doc/generated_ja/file-lock-release.md)                 | Release a lock                                                                                                                              |
+| [file lock acquire](doc/generated_ja/file-lock-acquire.md)                 | ファイルをロック                                                                                                                            |
+| [file lock all release](doc/generated_ja/file-lock-all-release.md)         | 指定したパスでのすべてのロックを解除する                                                                                                    |
+| [file lock batch acquire](doc/generated_ja/file-lock-batch-acquire.md)     | 複数のファイルをロックする                                                                                                                  |
+| [file lock batch release](doc/generated_ja/file-lock-batch-release.md)     | 複数のロックを解除                                                                                                                          |
+| [file lock list](doc/generated_ja/file-lock-list.md)                       | 指定したパスの下にあるロックを一覧表示します                                                                                                |
+| [file lock release](doc/generated_ja/file-lock-release.md)                 | ロックを解除します                                                                                                                          |
 | [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                                                                                                        |
 | [file mount list](doc/generated_ja/file-mount-list.md)                     | マウント/アンマウントされた共有フォルダの一覧                                                                                               |
 | [file move](doc/generated_ja/file-move.md)                                 | ファイルを移動します                                                                                                                        |
@@ -152,9 +152,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [member clear externalid](doc/generated_ja/member-clear-externalid.md)                   | メンバーのexternal_idを初期化します                                                    |
 | [member delete](doc/generated_ja/member-delete.md)                                       | メンバーを削除します                                                                   |
 | [member detach](doc/generated_ja/member-detach.md)                                       | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
-| [member file lock all release](doc/generated_ja/member-file-lock-all-release.md)         | Release all locks under the path of the member                                         |
-| [member file lock list](doc/generated_ja/member-file-lock-list.md)                       | List lock of the member under the path                                                 |
-| [member file lock release](doc/generated_ja/member-file-lock-release.md)                 | Release the lock of the path of the member                                             |
+| [member file lock all release](doc/generated_ja/member-file-lock-all-release.md)         | メンバーのパスの下にあるすべてのロックを解除します                                     |
+| [member file lock list](doc/generated_ja/member-file-lock-list.md)                       | パスの下にあるメンバーのロックを一覧表示                                               |
+| [member file lock release](doc/generated_ja/member-file-lock-release.md)                 | メンバーとしてパスのロックを解除します                                                 |
 | [member folder list](doc/generated_ja/member-folder-list.md)                             | 各メンバーのフォルダを検索                                                             |
 | [member folder replication](doc/generated_ja/member-folder-replication.md)               | フォルダを他のメンバーの個人フォルダに複製します                                       |
 | [member invite](doc/generated_ja/member-invite.md)                                       | メンバーを招待します                                                                   |
@@ -195,9 +195,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)           | 複数のチームフォルダを完全に削除します                                                 |
 | [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)         | チームフォルダの一括レプリケーション                                                   |
 | [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                         | チームフォルダの一覧                                                                   |
-| [teamfolder file lock all release](doc/generated_ja/teamfolder-file-lock-all-release.md) | Release all locks under the path of the team folder                                    |
-| [teamfolder file lock list](doc/generated_ja/teamfolder-file-lock-list.md)               | List locks in the team folder                                                          |
-| [teamfolder file lock release](doc/generated_ja/teamfolder-file-lock-release.md)         | Release lock of the path in the team folder                                            |
+| [teamfolder file lock all release](doc/generated_ja/teamfolder-file-lock-all-release.md) | チームフォルダのパスの下にあるすべてのロックを解除する                                 |
+| [teamfolder file lock list](doc/generated_ja/teamfolder-file-lock-list.md)               | チームフォルダ内のロックを一覧表示                                                     |
+| [teamfolder file lock release](doc/generated_ja/teamfolder-file-lock-release.md)         | チームフォルダ内のパスのロックを解除                                                   |
 | [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                         | チームフォルダのサイズを計算                                                           |
 | [teamfolder list](doc/generated_ja/teamfolder-list.md)                                   | チームフォルダの一覧                                                                   |
 | [teamfolder member add](doc/generated_ja/teamfolder-member-add.md)                       | チームフォルダへのユーザー/グループの一括追加                                          |
