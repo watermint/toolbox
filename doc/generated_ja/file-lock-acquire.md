@@ -107,15 +107,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                     | 説明                                                         |
-|------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
-| input.path             | File path                                                    |
-| result.tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| result.server_modified | Dropbox上で最後に更新された日時                              |
-| result.size            | ファイルサイズ(バイト単位)                                   |
+| 列                      | 説明                                                                                                   |
+|-------------------------|--------------------------------------------------------------------------------------------------------|
+| status                  | 処理の状態                                                                                             |
+| reason                  | 失敗またはスキップの理由                                                                               |
+| input.path              | File path                                                                                              |
+| result.tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified  | The last time the file was modified on Dropbox.                                                        |
+| result.size             | The file size in bytes.                                                                                |
+| result.is_lock_holder   | True if caller holds the file lock                                                                     |
+| result.lock_holder_name | The display name of the lock holder.                                                                   |
+| result.lock_created     | The timestamp of the lock was created.                                                                 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

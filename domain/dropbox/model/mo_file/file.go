@@ -19,6 +19,10 @@ type File struct {
 	ContentHash      string `path:"content_hash" json:"content_hash"`
 }
 
+func (z *File) LockInfo() *LockInfo {
+	return newLockInfo(z.Raw)
+}
+
 func (z *File) Tag() string {
 	return z.EntryTag
 }

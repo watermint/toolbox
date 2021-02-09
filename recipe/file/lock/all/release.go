@@ -1,4 +1,4 @@
-package batch
+package all
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
@@ -8,31 +8,28 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"os"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type PathLock struct {
 	Path string `json:"path"`
 }
 
-type Acquire struct {
+type Release struct {
 	Peer         dbx_conn.ConnScopedIndividual
-	File         fd_file.RowFeed
+	Path         mo_path.DropboxPath
 	OperationLog rp_model.TransactionReport
 	BatchSize    int
 }
 
-func (z *Acquire) Preset() {
+func (z *Release) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentWrite,
 	)
 	z.BatchSize = 100
-	z.File.SetModel(&PathLock{})
 	z.OperationLog.SetModel(
 		&PathLock{},
 		&mo_file.LockInfo{},
@@ -50,7 +47,7 @@ func (z *Acquire) Preset() {
 	)
 }
 
-func (z *Acquire) Exec(c app_control.Control) error {
+func (z *Release) Exec(c app_control.Control) error {
 	l := c.Log()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
@@ -58,18 +55,18 @@ func (z *Acquire) Exec(c app_control.Control) error {
 	sfl := sv_file_lock.New(z.Peer.Context())
 	var lastErr error
 
-	lockBucket := func(bucket []mo_path.DropboxPath) {
+	unlockBucket := func(bucket []mo_path.DropboxPath) {
 		if len(bucket) < 1 {
 			l.Debug("No more bucket")
 			return
 		}
 
-		locked, err := sfl.LockBatch(bucket)
+		unlocked, err := sfl.UnlockBatch(bucket)
 		if err != nil {
-			l.Debug("Something happened during lock batch", esl.Error(err))
+			l.Debug("Something happened during unlock batch", esl.Error(err))
 			lastErr = err
 		}
-		for path, info := range locked {
+		for path, info := range unlocked {
 			if info.Error != nil {
 				z.OperationLog.Failure(info.Error, PathLock{
 					Path: path,
@@ -83,37 +80,27 @@ func (z *Acquire) Exec(c app_control.Control) error {
 	}
 
 	bucket := make([]mo_path.DropboxPath, 0)
-	loadErr := z.File.EachRow(func(m interface{}, rowIndex int) error {
-		row := m.(*PathLock)
-		bucket = append(bucket, mo_path.NewDropboxPath(row.Path))
+	listErr := sfl.List(z.Path, func(entry *mo_file.LockInfo) {
+		if entry.IsLockHolder {
+			bucket = append(bucket, mo_path.NewDropboxPath(entry.PathDisplay))
+		}
 		if z.BatchSize <= len(bucket) {
-			l.Debug("Bucket exceeds batch size, lock those", esl.Int("bucketLen", len(bucket)))
-			lockBucket(bucket)
+			l.Debug("Bucket exceeds batch size, release those", esl.Int("bucketLen", len(bucket)))
+			unlockBucket(bucket)
 			bucket = make([]mo_path.DropboxPath, 0)
 		}
-		return nil
 	})
-	// lock remaining
-	lockBucket(bucket)
-
-	if loadErr != nil {
-		return loadErr
+	unlockBucket(bucket)
+	if listErr != nil {
+		return listErr
 	}
 
 	return lastErr
 }
 
-func (z *Acquire) Test(c app_control.Control) error {
-	f, err := qt_file.MakeTestFile("lock", "/Test/a.txt\n/Test/b.txt")
-	if err != nil {
-		return err
-	}
-	defer func() {
-		_ = os.Remove(f)
-	}()
-
-	return rc_exec.ExecMock(c, &Acquire{}, func(r rc_recipe.Recipe) {
-		m := r.(*Acquire)
-		m.File.SetFilePath(f)
+func (z *Release) Test(c app_control.Control) error {
+	return rc_exec.ExecMock(c, &Release{}, func(r rc_recipe.Recipe) {
+		m := r.(*Release)
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("test.txt")
 	})
 }

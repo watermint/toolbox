@@ -1,6 +1,6 @@
-# file lock release
+# file lock all release
 
-Release a lock
+Release all locks under the specified path
 
 # セキュリティ
 
@@ -16,6 +16,7 @@ Release a lock
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
+
 * Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
@@ -28,6 +29,7 @@ Release a lock
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -48,17 +50,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe file lock release -path /DROPBOX/FILE/PATH/TO/UNLOCK
+.\tbx.exe file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx file lock release -path /DROPBOX/FILE/PATH/TO/UNLOCK
+$HOME/Desktop/tbx file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -69,10 +74,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-path`    | Path to the file |            |
-| `-peer`    | Account alias    | default    |
+| オプション    | 説明                  | デフォルト |
+|---------------|-----------------------|------------|
+| `-batch-size` | Operation batch size  | 100        |
+| `-path`       | Path to release locks |            |
+| `-peer`       | Account alias         | default    |
 
 ## 共通のオプション:
 
@@ -111,7 +117,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |-------------------------|--------------------------------------------------------------------------------------------------------|
 | status                  | 処理の状態                                                                                             |
 | reason                  | 失敗またはスキップの理由                                                                               |
-| input.path              | File path                                                                                              |
+| input.path              | Path                                                                                                   |
 | result.tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
 | result.client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | result.server_modified  | The last time the file was modified on Dropbox.                                                        |

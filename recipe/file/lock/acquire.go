@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -29,7 +29,7 @@ func (z *Acquire) Preset() {
 	)
 	z.OperationLog.SetModel(
 		&PathLock{},
-		&mo_file.ConcreteEntry{},
+		&mo_file.LockInfo{},
 		rp_model.HiddenColumns(
 			"result.id",
 			"result.name",
@@ -39,6 +39,7 @@ func (z *Acquire) Preset() {
 			"result.content_hash",
 			"result.shared_folder_id",
 			"result.parent_shared_folder_id",
+			"result.lock_holder_account_id",
 		),
 	)
 }
@@ -48,12 +49,12 @@ func (z *Acquire) Exec(c app_control.Control) error {
 		return err
 	}
 
-	entry, err := sv_file.NewFiles(z.Peer.Context()).Lock(z.Path)
+	entry, err := sv_file_lock.New(z.Peer.Context()).Lock(z.Path)
 	if err != nil {
 		z.OperationLog.Failure(err, &PathLock{Path: z.Path.Path()})
 		return err
 	}
-	z.OperationLog.Success(&PathLock{Path: z.Path.Path()}, entry.Concrete())
+	z.OperationLog.Success(&PathLock{Path: z.Path.Path()}, entry.LockInfo())
 	return nil
 }
 

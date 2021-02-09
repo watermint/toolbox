@@ -128,15 +128,18 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 This report shows the transaction result. The command will generate a report in three different
 formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column                 | Description                                                                                            |
-|------------------------|--------------------------------------------------------------------------------------------------------|
-| status                 | Status of the operation                                                                                |
-| reason                 | Reason of failure or skipped operation                                                                 |
-| input.path             | Path to the file                                                                                       |
-| result.tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified | The last time the file was modified on Dropbox.                                                        |
-| result.size            | The file size in bytes.                                                                                |
+| Column                  | Description                                                                                            |
+|-------------------------|--------------------------------------------------------------------------------------------------------|
+| status                  | Status of the operation                                                                                |
+| reason                  | Reason of failure or skipped operation                                                                 |
+| input.path              | Path to the file                                                                                       |
+| result.tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified  | The last time the file was modified on Dropbox.                                                        |
+| result.size             | The file size in bytes.                                                                                |
+| result.is_lock_holder   | True if caller holds the file lock                                                                     |
+| result.lock_holder_name | The display name of the lock holder.                                                                   |
+| result.lock_created     | The timestamp of the lock was created.                                                                 |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

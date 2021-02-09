@@ -28,6 +28,7 @@ import (
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipefilelock "github.com/watermint/toolbox/recipe/file/lock"
+	recipefilelockall "github.com/watermint/toolbox/recipe/file/lock/all"
 	recipefilelockbatch "github.com/watermint/toolbox/recipe/file/lock/batch"
 	recipefilemount "github.com/watermint/toolbox/recipe/file/mount"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
@@ -164,7 +165,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefileimport.Url{},
 		&recipefileimportbatch.Url{},
 		&recipefilelock.Acquire{},
+		&recipefilelock.List{},
 		&recipefilelock.Release{},
+		&recipefilelockall.Release{},
 		&recipefilelockbatch.Acquire{},
 		&recipefilelockbatch.Release{},
 		&recipefilemount.List{},

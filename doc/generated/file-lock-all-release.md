@@ -1,6 +1,6 @@
-# file lock acquire
+# file lock all release
 
-Lock a file
+Release all locks under the specified path
 
 # Security
 
@@ -16,6 +16,7 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
@@ -29,6 +30,7 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
+.\tbx.exe file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
+$HOME/Desktop/tbx file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -72,10 +77,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-path` | File path to lock |         |
-| `-peer` | Account alias     | default |
+| Option        | Description           | Default |
+|---------------|-----------------------|---------|
+| `-batch-size` | Operation batch size  | 100     |
+| `-path`       | Path to release locks |         |
+| `-peer`       | Account alias         | default |
 
 ## Common options:
 
@@ -116,7 +122,7 @@ formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 |-------------------------|--------------------------------------------------------------------------------------------------------|
 | status                  | Status of the operation                                                                                |
 | reason                  | Reason of failure or skipped operation                                                                 |
-| input.path              | File path                                                                                              |
+| input.path              | Path                                                                                                   |
 | result.tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
 | result.client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
 | result.server_modified  | The last time the file was modified on Dropbox.                                                        |

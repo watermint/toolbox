@@ -1,6 +1,6 @@
-# file lock release
+# file lock list
 
-Release a lock
+List locks under the specified path
 
 # セキュリティ
 
@@ -16,6 +16,7 @@ Release a lock
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
+
 * Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
@@ -28,6 +29,7 @@ Release a lock
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -48,17 +50,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe file lock release -path /DROPBOX/FILE/PATH/TO/UNLOCK
+.\tbx.exe file lock list -path /DROPBOX/PATH/TO/SEARCH/LOCK
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx file lock release -path /DROPBOX/FILE/PATH/TO/UNLOCK
+$HOME/Desktop/tbx file lock list -path /DROPBOX/PATH/TO/SEARCH/LOCK
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -69,10 +74,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-path`    | Path to the file |            |
-| `-peer`    | Account alias    | default    |
+| オプション | 説明               | デフォルト |
+|------------|--------------------|------------|
+| `-path`    | Path to list locks |            |
+| `-peer`    | Account alias      | default    |
 
 ## 共通のオプション:
 
@@ -103,27 +108,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: operation_log
+## レポート: lock
 
-このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+Lock information このコマンドはレポートを3種類の書式で出力します. `lock.csv`, `lock.json`, ならびに `lock.xlsx`.
 
-| 列                      | 説明                                                                                                   |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| status                  | 処理の状態                                                                                             |
-| reason                  | 失敗またはスキップの理由                                                                               |
-| input.path              | File path                                                                                              |
-| result.tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified  | The last time the file was modified on Dropbox.                                                        |
-| result.size             | The file size in bytes.                                                                                |
-| result.is_lock_holder   | True if caller holds the file lock                                                                     |
-| result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| 列               | 説明                                                                                                   |
+|------------------|--------------------------------------------------------------------------------------------------------|
+| tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name             | The last component of the path (including extension).                                                  |
+| path_display     | The cased path to be used for display purposes only.                                                   |
+| client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified  | The last time the file was modified on Dropbox.                                                        |
+| size             | The file size in bytes.                                                                                |
+| is_lock_holder   | True if caller holds the file lock                                                                     |
+| lock_holder_name | The display name of the lock holder.                                                                   |
+| lock_created     | The timestamp of the lock was created.                                                                 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`
-, `operation_log_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

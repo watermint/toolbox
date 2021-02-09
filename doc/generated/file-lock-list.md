@@ -1,6 +1,6 @@
-# file lock acquire
+# file lock list
 
-Lock a file
+List locks under the specified path
 
 # Security
 
@@ -16,6 +16,7 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
@@ -29,6 +30,7 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
+.\tbx.exe file lock list -path /DROPBOX/PATH/TO/SEARCH/LOCK
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
+$HOME/Desktop/tbx file lock list -path /DROPBOX/PATH/TO/SEARCH/LOCK
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -72,10 +77,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-path` | File path to lock |         |
-| `-peer` | Account alias     | default |
+| Option  | Description        | Default |
+|---------|--------------------|---------|
+| `-path` | Path to list locks |         |
+| `-peer` | Account alias      | default |
 
 ## Common options:
 
@@ -107,28 +112,27 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: operation_log
+## Report: lock
 
-This report shows the transaction result. The command will generate a report in three different
-formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
+Lock information The command will generate a report in three different formats. `lock.csv`, `lock.json`, and `lock.xlsx`
+.
 
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| status                  | Status of the operation                                                                                |
-| reason                  | Reason of failure or skipped operation                                                                 |
-| input.path              | File path                                                                                              |
-| result.tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified  | The last time the file was modified on Dropbox.                                                        |
-| result.size             | The file size in bytes.                                                                                |
-| result.is_lock_holder   | True if caller holds the file lock                                                                     |
-| result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| Column           | Description                                                                                            |
+|------------------|--------------------------------------------------------------------------------------------------------|
+| tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name             | The last component of the path (including extension).                                                  |
+| path_display     | The cased path to be used for display purposes only.                                                   |
+| client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified  | The last time the file was modified on Dropbox.                                                        |
+| size             | The file size in bytes.                                                                                |
+| is_lock_holder   | True if caller holds the file lock                                                                     |
+| lock_holder_name | The display name of the lock holder.                                                                   |
+| lock_created     | The timestamp of the lock was created.                                                                 |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like
-follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+follows; `lock_0000.xlsx`, `lock_0001.xlsx`, `lock_0002.xlsx`, ...
 
 # Proxy configuration
 
