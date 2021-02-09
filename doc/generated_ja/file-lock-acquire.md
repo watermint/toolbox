@@ -1,4 +1,4 @@
-# file lock
+# file lock acquire
 
 Lock a file
 
@@ -57,13 +57,13 @@ Windows:
 
 ```
 cd $HOME\Desktop
-.\tbx.exe file lock -path /DROPBOX/FILE/PATH/TO/LOCK
+.\tbx.exe file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
 ```
 
 macOS, Linux:
 
 ```
-$HOME/Desktop/tbx file lock -path /DROPBOX/FILE/PATH/TO/LOCK
+$HOME/Desktop/tbx file lock acquire -path /DROPBOX/FILE/PATH/TO/LOCK
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -112,23 +112,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                             | 説明                                                                                       |
-|--------------------------------|--------------------------------------------------------------------------------------------|
-| status                         | 処理の状態                                                                                 |
-| reason                         | 失敗またはスキップの理由                                                                   |
-| input.path                     | File path                                                                                  |
-| result.id                      | ファイルへの一意なID                                                                       |
-| result.tag                     | エントリーの種別`file`, `folder`, または `deleted`                                         |
-| result.name                    | 名称                                                                                       |
-| result.path_lower              | パス (すべて小文字に変換). これは常にスラッシュで始まります.                               |
-| result.path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
-| result.client_modified         | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                               |
-| result.server_modified         | Dropbox上で最後に更新された日時                                                            |
-| result.revision                | ファイルの現在バージョンの一意な識別子                                                     |
-| result.size                    | ファイルサイズ(バイト単位)                                                                 |
-| result.content_hash            | ファイルコンテンツのハッシュ                                                               |
-| result.shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| result.parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
+| 列                     | 説明                                                         |
+|------------------------|--------------------------------------------------------------|
+| status                 | 処理の状態                                                   |
+| reason                 | 失敗またはスキップの理由                                     |
+| input.path             | File path                                                    |
+| result.tag             | エントリーの種別`file`, `folder`, または `deleted`           |
+| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified | Dropbox上で最後に更新された日時                              |
+| result.size            | ファイルサイズ(バイト単位)                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

@@ -2,9 +2,12 @@
 
 # 追加されたコマンド
 
-| コマンド  | タイトル    |
-|-----------|-------------|
-| file lock | Lock a file |
+| コマンド                | タイトル               |
+|-------------------------|------------------------|
+| file lock acquire       | Lock a file            |
+| file lock batch acquire | Lock multiple files    |
+| file lock batch release | Release multiple locks |
+| file lock release       | Release a lock         |
 
 # コマンド仕様の変更: `team diag explorer`
 

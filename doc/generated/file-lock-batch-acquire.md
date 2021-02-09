@@ -1,6 +1,6 @@
-# file lock
+# file lock batch acquire
 
-Lock a file
+Lock multiple files
 
 # Security
 
@@ -58,13 +58,13 @@ Windows:
 
 ```
 cd $HOME\Desktop
-.\tbx.exe file lock -path /DROPBOX/FILE/PATH/TO/LOCK
+.\tbx.exe file lock batch acquire -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 
 ```
-$HOME/Desktop/tbx file lock -path /DROPBOX/FILE/PATH/TO/LOCK
+$HOME/Desktop/tbx file lock batch acquire -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -79,7 +79,7 @@ Open" on the dialogue.
 
 | Option  | Description       | Default |
 |---------|-------------------|---------|
-| `-path` | File path to lock |         |
+| `-file` | Path to data file |         |
 | `-peer` | Account alias     | default |
 
 ## Common options:
@@ -101,6 +101,23 @@ Open" on the dialogue.
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
 
+# File formats
+
+## Format: File
+
+Path
+
+| Column | Description      | Example                    |
+|--------|------------------|----------------------------|
+| path   | Path to the file | /Sales/Report/2021-02.xlsx |
+
+The first line is a header line. The program will accept a file without the header.
+
+```
+path
+/Sales/Report/2021-02.xlsx
+```
+
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see
@@ -117,23 +134,15 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 This report shows the transaction result. The command will generate a report in three different
 formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column                         | Description                                                                                            |
-|--------------------------------|--------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                |
-| reason                         | Reason of failure or skipped operation                                                                 |
-| input.path                     | File path                                                                                              |
-| result.id                      | A unique identifier for the file.                                                                      |
-| result.tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name                    | The last component of the path (including extension).                                                  |
-| result.path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display            | The cased path to be used for display purposes only.                                                   |
-| result.client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified         | The last time the file was modified on Dropbox.                                                        |
-| result.revision                | A unique identifier for the current revision of a file.                                                |
-| result.size                    | The file size in bytes.                                                                                |
-| result.content_hash            | A hash of the file content.                                                                            |
-| result.shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| result.parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| status                 | Status of the operation                                                                                |
+| reason                 | Reason of failure or skipped operation                                                                 |
+| input.path             | Path to the file                                                                                       |
+| result.tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified | The last time the file was modified on Dropbox.                                                        |
+| result.size            | The file size in bytes.                                                                                |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

@@ -2,9 +2,12 @@
 
 # Commands added
 
-| Command   | Title       |
-|-----------|-------------|
-| file lock | Lock a file |
+| Command                 | Title                  |
+|-------------------------|------------------------|
+| file lock acquire       | Lock a file            |
+| file lock batch acquire | Lock multiple files    |
+| file lock batch release | Release multiple locks |
+| file lock release       | Release a lock         |
 
 # Command spec changed: `team diag explorer`
 

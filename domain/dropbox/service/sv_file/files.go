@@ -195,7 +195,7 @@ type filesImpl struct {
 	limit int
 }
 
-func (z *filesImpl) Lock(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
+func (z *filesImpl) lockOrUnlock(path mo_path.DropboxPath, endpoint string) (entry mo_file.Entry, err error) {
 	type PA struct {
 		Path string `json:"path"`
 	}
@@ -207,7 +207,7 @@ func (z *filesImpl) Lock(path mo_path.DropboxPath) (entry mo_file.Entry, err err
 			{path.Path()},
 		},
 	}
-	res := z.ctx.Post("files/lock_file_batch", api_request.Param(p))
+	res := z.ctx.Post(endpoint, api_request.Param(p))
 	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
@@ -237,8 +237,12 @@ func (z *filesImpl) Lock(path mo_path.DropboxPath) (entry mo_file.Entry, err err
 	}
 }
 
+func (z *filesImpl) Lock(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
+	return z.lockOrUnlock(path, "files/lock_file_batch")
+}
+
 func (z *filesImpl) Unlock(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
-	panic("implement me")
+	return z.lockOrUnlock(path, "files/unlock_file_batch")
 }
 
 func (z *filesImpl) UploadLink(path mo_path.DropboxPath) (url string, err error) {

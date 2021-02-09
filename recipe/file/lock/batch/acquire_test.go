@@ -1,4 +1,4 @@
-package file
+package batch
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestLock_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Lock{})
+	qtr_endtoend.TestRecipe(t, &Acquire{})
 }

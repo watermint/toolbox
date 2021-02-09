@@ -1,4 +1,4 @@
-package file
+package batch
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
@@ -7,28 +7,27 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"os"
 )
 
-type LockPath struct {
-	Path string `json:"path"`
-}
-
-type Lock struct {
+type Release struct {
 	Peer         dbx_conn.ConnScopedIndividual
-	Path         mo_path.DropboxPath
+	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 }
 
-func (z *Lock) Preset() {
+func (z *Release) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentWrite,
 	)
+	z.File.SetModel(&PathLock{})
 	z.OperationLog.SetModel(
-		&LockPath{},
+		&PathLock{},
 		&mo_file.ConcreteEntry{},
 		rp_model.HiddenColumns(
 			"result.id",
@@ -43,23 +42,37 @@ func (z *Lock) Preset() {
 	)
 }
 
-func (z *Lock) Exec(c app_control.Control) error {
+func (z *Release) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	entry, err := sv_file.NewFiles(z.Peer.Context()).Lock(z.Path)
-	if err != nil {
-		z.OperationLog.Failure(err, &LockPath{Path: z.Path.Path()})
-		return err
-	}
-	z.OperationLog.Success(&LockPath{Path: z.Path.Path()}, entry.Concrete())
-	return nil
+	var lastErr error
+	_ = z.File.EachRow(func(m interface{}, rowIndex int) error {
+		row := m.(*PathLock)
+		entry, err := sv_file.NewFiles(z.Peer.Context()).Unlock(mo_path.NewDropboxPath(row.Path))
+		if err != nil {
+			z.OperationLog.Failure(err, &PathLock{Path: row.Path})
+			lastErr = err
+			return nil
+		}
+		z.OperationLog.Success(&PathLock{Path: row.Path}, entry.Concrete())
+		return nil
+	})
+	return lastErr
 }
 
-func (z *Lock) Test(c app_control.Control) error {
-	return rc_exec.ExecMock(c, &Lock{}, func(r rc_recipe.Recipe) {
-		m := r.(*Lock)
-		m.Path = qtr_endtoend.NewTestDropboxFolderPath("test.txt")
+func (z *Release) Test(c app_control.Control) error {
+	f, err := qt_file.MakeTestFile("lock", "/Test/a.txt\n/Test/b.txt")
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.Remove(f)
+	}()
+
+	return rc_exec.ExecMock(c, &Release{}, func(r rc_recipe.Recipe) {
+		m := r.(*Release)
+		m.File.SetFilePath(f)
 	})
 }
