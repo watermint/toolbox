@@ -98,6 +98,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file import url](doc/generated_ja/file-import-url.md)                     | URLからファイルをインポートします                                                                                                           |
 | [file info](doc/generated_ja/file-info.md)                                 | パスのメタデータを解決                                                                                                                      |
 | [file list](doc/generated_ja/file-list.md)                                 | ファイルとフォルダを一覧します                                                                                                              |
+| [file lock](doc/generated_ja/file-lock.md)                                 | Lock a file                                                                                                                                 |
 | [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                                                                                                        |
 | [file mount list](doc/generated_ja/file-mount-list.md)                     | マウント/アンマウントされた共有フォルダの一覧                                                                                               |
 | [file move](doc/generated_ja/file-move.md)                                 | ファイルを移動します                                                                                                                        |

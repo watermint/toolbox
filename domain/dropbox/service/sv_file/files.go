@@ -11,6 +11,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
+var (
+	ErrorEntryNotFound = errors.New("entry not found")
+)
+
 type Files interface {
 	Resolve(path mo_path.DropboxPath, opts ...ResolveOpt) (entry mo_file.Entry, err error)
 	List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error)
@@ -21,6 +25,9 @@ type Files interface {
 	Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error
 	Search(query string, opts ...SearchOpt) (matches []*mo_file.Match, err error)
 	UploadLink(path mo_path.DropboxPath) (url string, err error)
+
+	Lock(path mo_path.DropboxPath) (entry mo_file.Entry, err error)
+	Unlock(path mo_path.DropboxPath) (entry mo_file.Entry, err error)
 }
 
 type ResolveOpt func(opt ResolveOpts) ResolveOpts
@@ -186,6 +193,52 @@ func SearchIncludeHighlights() SearchOpt {
 type filesImpl struct {
 	ctx   dbx_context.Context
 	limit int
+}
+
+func (z *filesImpl) Lock(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
+	type PA struct {
+		Path string `json:"path"`
+	}
+	type PB struct {
+		Entries []PA `json:"entries"`
+	}
+	p := PB{
+		[]PA{
+			{path.Path()},
+		},
+	}
+	res := z.ctx.Post("files/lock_file_batch", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+
+	je, found := res.Success().Json().Find("entries.0")
+	if !found {
+		return nil, ErrorEntryNotFound
+	}
+	tag, found := je.FindString("\\.tag")
+	if !found {
+		return nil, ErrorEntryNotFound
+	}
+	if tag == "success" {
+		entry = &mo_file.Metadata{}
+		err = je.FindModel("metadata", entry)
+		return entry, err
+	} else {
+		reason, found := je.FindString("failure.\\.tag")
+		if !found {
+			return nil, ErrorEntryNotFound
+		}
+		detail, found := je.FindString("failure." + reason + "\\.tag")
+		if !found {
+			return nil, errors.New(reason)
+		}
+		return nil, errors.New(reason + "/" + detail)
+	}
+}
+
+func (z *filesImpl) Unlock(path mo_path.DropboxPath) (entry mo_file.Entry, err error) {
+	panic("implement me")
 }
 
 func (z *filesImpl) UploadLink(path mo_path.DropboxPath) (url string, err error) {
