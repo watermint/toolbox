@@ -1177,6 +1177,7 @@
   "recipe.file.lock.all.release.title": "Release all locks under the specified path",
   "recipe.file.lock.all.title": "Operation for all locks",
   "recipe.file.lock.batch.acquire.cli.args": "-file /PATH/TO/DATA_FILE.csv",
+  "recipe.file.lock.batch.acquire.flag.batch_size": "Operation batch size",
   "recipe.file.lock.batch.acquire.flag.file": "Path to data file",
   "recipe.file.lock.batch.acquire.flag.peer": "Account alias",
   "recipe.file.lock.batch.acquire.title": "Lock multiple files",

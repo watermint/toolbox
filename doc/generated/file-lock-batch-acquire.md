@@ -72,10 +72,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description       | Default |
-|---------|-------------------|---------|
-| `-file` | Path to data file |         |
-| `-peer` | Account alias     | default |
+| Option        | Description          | Default |
+|---------------|----------------------|---------|
+| `-batch-size` | Operation batch size | 100     |
+| `-file`       | Path to data file    |         |
+| `-peer`       | Account alias        | default |
 
 ## Common options:
 

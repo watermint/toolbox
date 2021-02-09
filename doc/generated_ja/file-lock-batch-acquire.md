@@ -69,10 +69,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-file`    | Path to data file |            |
-| `-peer`    | Account alias     | default    |
+| オプション    | 説明                 | デフォルト |
+|---------------|----------------------|------------|
+| `-batch-size` | Operation batch size | 100        |
+| `-file`       | Path to data file    |            |
+| `-peer`       | Account alias        | default    |
 
 ## 共通のオプション:
 
