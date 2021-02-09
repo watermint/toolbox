@@ -14,6 +14,10 @@ type Metadata struct {
 	EntryPathLower   string `path:"path_lower" json:"path_lower"`
 }
 
+func (z *Metadata) LockInfo() *LockInfo {
+	return newLockInfo(z.Raw)
+}
+
 func (z *Metadata) Tag() string {
 	return z.EntryTag
 }

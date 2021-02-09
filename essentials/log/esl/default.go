@@ -46,7 +46,7 @@ func AddDefaultSubscriber(l Logger) {
 }
 
 func newConsole(level Level) Logger {
-	return New(level, FlavorConsole, es_stdout.NewDirectOut())
+	return New(level, FlavorConsole, es_stdout.NewDirectErr())
 }
 
 func New(level Level, flavor Flavor, w io.Writer) Logger {

@@ -48,6 +48,25 @@ func newDefaultOut(test, quiet bool) io.WriteCloser {
 	}
 }
 
+func newDefaultErr(test, quiet bool) io.WriteCloser {
+	if quiet {
+		return &syncOut{co: ioutil.Discard}
+	}
+	if test {
+		if qt_secure.IsSecureEndToEndTest() {
+			return &syncOut{co: ioutil.Discard}
+		} else {
+			return &syncOut{co: os.Stderr}
+		}
+	} else {
+		if es_terminfo.IsOutColorTerminal() {
+			return newWriteCloser(colorable.NewColorableStderr())
+		} else {
+			return newWriteCloser(os.Stderr)
+		}
+	}
+}
+
 func NewDiscard() io.WriteCloser {
 	return &syncOut{co: ioutil.Discard}
 }
@@ -62,6 +81,10 @@ func NewTestOut() io.WriteCloser {
 
 func NewDirectOut() io.WriteCloser {
 	return newDefaultOut(false, false)
+}
+
+func NewDirectErr() io.WriteCloser {
+	return newDefaultErr(false, false)
 }
 
 func newWriteCloser(co io.Writer) io.WriteCloser {

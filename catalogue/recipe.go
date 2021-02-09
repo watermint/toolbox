@@ -27,6 +27,9 @@ import (
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
+	recipefilelock "github.com/watermint/toolbox/recipe/file/lock"
+	recipefilelockall "github.com/watermint/toolbox/recipe/file/lock/all"
+	recipefilelockbatch "github.com/watermint/toolbox/recipe/file/lock/batch"
 	recipefilemount "github.com/watermint/toolbox/recipe/file/mount"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
@@ -43,6 +46,8 @@ import (
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
 	recipememberfile "github.com/watermint/toolbox/recipe/member/file"
+	recipememberfilelock "github.com/watermint/toolbox/recipe/member/file/lock"
+	recipememberfilelockall "github.com/watermint/toolbox/recipe/member/file/lock/all"
 	recipememberfolder "github.com/watermint/toolbox/recipe/member/folder"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
@@ -89,6 +94,8 @@ import (
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
 	recipeteamfolderbatch "github.com/watermint/toolbox/recipe/teamfolder/batch"
 	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
+	recipeteamfolderfilelock "github.com/watermint/toolbox/recipe/teamfolder/file/lock"
+	recipeteamfolderfilelockall "github.com/watermint/toolbox/recipe/teamfolder/file/lock/all"
 	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
@@ -161,6 +168,12 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefileexport.Doc{},
 		&recipefileimport.Url{},
 		&recipefileimportbatch.Url{},
+		&recipefilelock.Acquire{},
+		&recipefilelock.List{},
+		&recipefilelock.Release{},
+		&recipefilelockall.Release{},
+		&recipefilelockbatch.Acquire{},
+		&recipefilelockbatch.Release{},
 		&recipefilemount.List{},
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
@@ -199,6 +212,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipemember.Replication{},
 		&recipememberclear.Externalid{},
 		&recipememberfile.Permdelete{},
+		&recipememberfilelock.List{},
+		&recipememberfilelock.Release{},
+		&recipememberfilelockall.Release{},
 		&recipememberfolder.List{},
 		&recipememberfolder.Replication{},
 		&recipememberquota.List{},
@@ -279,6 +295,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderbatch.Replication{},
 		&recipeteamfolderfile.List{},
 		&recipeteamfolderfile.Size{},
+		&recipeteamfolderfilelock.List{},
+		&recipeteamfolderfilelock.Release{},
+		&recipeteamfolderfilelockall.Release{},
 		&recipeteamfoldermember.Add{},
 		&recipeteamfoldermember.Delete{},
 		&recipeteamfoldermember.List{},

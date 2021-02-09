@@ -35,6 +35,9 @@ type Entry interface {
 
 	// Returns concrete entry
 	Concrete() *ConcreteEntry
+
+	// Returns lock info, returns nil if the entry does not have lock info (e.g. a deleted entry or a folder)
+	LockInfo() *LockInfo
 }
 
 type ConcreteEntry struct {

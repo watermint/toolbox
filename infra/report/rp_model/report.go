@@ -55,7 +55,9 @@ func ShowAllColumns(enabled bool) ReportOpt {
 
 func HiddenColumns(col ...string) ReportOpt {
 	return func(o *ReportOpts) *ReportOpts {
-		o.HiddenColumns = make(map[string]bool)
+		if o.HiddenColumns == nil {
+			o.HiddenColumns = make(map[string]bool)
+		}
 		for _, c := range col {
 			o.HiddenColumns[c] = true
 		}
