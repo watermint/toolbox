@@ -38,6 +38,7 @@ var (
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
+		newValueGoogConnSheets(dbx_conn_impl.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),

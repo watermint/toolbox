@@ -13,8 +13,8 @@ import (
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
 	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
-	domaingoogleservicesv_label "github.com/watermint/toolbox/domain/google/service/sv_label"
-	domaingoogleservicesv_message "github.com/watermint/toolbox/domain/google/service/sv_message"
+	domaingooglemailservicesv_label "github.com/watermint/toolbox/domain/google/mail/service/sv_label"
+	domaingooglemailservicesv_message "github.com/watermint/toolbox/domain/google/mail/service/sv_message"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
@@ -66,8 +66,8 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
 		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
-		&domaingoogleservicesv_label.MsgFindLabel{},
-		&domaingoogleservicesv_message.MsgProgress{},
+		&domaingooglemailservicesv_label.MsgFindLabel{},
+		&domaingooglemailservicesv_message.MsgProgress{},
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},
 		&essentialslogesl_rotate.MsgRotate{},

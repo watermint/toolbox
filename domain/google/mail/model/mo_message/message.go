@@ -2,7 +2,7 @@ package mo_message
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/google/model/mo_label"
+	"github.com/watermint/toolbox/domain/google/mail/model/mo_label"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"

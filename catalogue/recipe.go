@@ -69,6 +69,8 @@ import (
 	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
 	recipeservicesgooglemailmessageprocessed "github.com/watermint/toolbox/recipe/services/google/mail/message/processed"
 	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
+	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
+	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -253,6 +255,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglemailmessagelabel.Delete{},
 		&recipeservicesgooglemailmessageprocessed.List{},
 		&recipeservicesgooglemailthread.List{},
+		&recipeservicesgooglesheetssheet.List{},
+		&recipeservicesgooglesheetsspreadsheet.Create{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.List{},
 		&recipesharedfoldermember.List{},

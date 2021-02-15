@@ -109,24 +109,23 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: messages
 
-処理済みメッセージ
-このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
+Processed message このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
 
-| 列                | 説明                                                                   |
-|-------------------|------------------------------------------------------------------------|
-| id                | メッセージの不変ID                                                     |
-| thread_id         | メッセージが属するスレッドのID                                         |
-| history_id        | このメッセージを修正した最後の履歴レコードのID.                        |
-| date_internal     | 受信箱内の順序を決定する内部メッセージ作成タイムスタンプ（エポック秒） |
-| date_8601         | ISO8601の日付/時刻フォーマットの日付ヘッダ値                           |
-| date_unix         | 日付ヘッダーのUNIX時刻                                                 |
-| subject           | メッセージの件名                                                       |
-| label_ids         | このメッセージに適用されているラベルのIDのリストです                   |
-| label_names       | このメッセージに適用されるラベルの名前のリスト.                        |
-| label_type_user   | このメッセージに適用されたユーザーラベルのIDのリスト.                  |
-| label_type_system | このメッセージに適用されるシステムラベルのIDのリスト.                  |
-| size_estimate     | メッセージの推定サイズ (バイト単位)                                    |
-| original          | 元のメッセージデータ                                                   |
+| 列                | 説明                                                                                            |
+|-------------------|-------------------------------------------------------------------------------------------------|
+| id                | The immutable ID of the message.                                                                |
+| thread_id         | The ID of the thread the message belongs to.                                                    |
+| history_id        | The ID of the last history record that modified this message.                                   |
+| date_internal     | The internal message creation timestamp (epoch second), which determines ordering in the inbox. |
+| date_8601         | Date header value in ISO8601 date/time format.                                                  |
+| date_unix         | Date header value in unixtime.                                                                  |
+| subject           | The message subject                                                                             |
+| label_ids         | List of IDs of labels applied to this message.                                                  |
+| label_names       | List of names of labels applied to this message.                                                |
+| label_type_user   | List of IDs of user labels applied to this message.                                             |
+| label_type_system | List of IDs of system labels applied to this message.                                           |
+| size_estimate     | Estimated size in bytes of the message.                                                         |
+| original          | Original message data                                                                           |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

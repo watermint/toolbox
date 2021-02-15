@@ -15,3 +15,8 @@ type ConnGoogleMail interface {
 	ConnGoogleApi
 	IsGmail() bool
 }
+
+type ConnGoogleSheets interface {
+	ConnGoogleApi
+	IsSheets() bool
+}

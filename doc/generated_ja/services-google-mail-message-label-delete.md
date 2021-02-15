@@ -106,19 +106,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: message
 
-メッセージリソース
-このコマンドはレポートを3種類の書式で出力します. `message.csv`, `message.json`, ならびに `message.xlsx`.
+Message resource このコマンドはレポートを3種類の書式で出力します. `message.csv`, `message.json`, ならびに `message.xlsx`.
 
-| 列        | 説明                           |
-|-----------|--------------------------------|
-| id        | メッセージの不変ID             |
-| thread_id | メッセージが属するスレッドのID |
-| date      | 日付                           |
-| subject   | 表題                           |
-| to        | To                             |
-| cc        | Cc                             |
-| from      | From                           |
-| reply_to  | Reply-To                       |
+| 列        | 説明                                         |
+|-----------|----------------------------------------------|
+| id        | The immutable ID of the message.             |
+| thread_id | The ID of the thread the message belongs to. |
+| date      | Date                                         |
+| subject   | Subject                                      |
+| to        | To                                           |
+| cc        | Cc                                           |
+| from      | From                                         |
+| reply_to  | Reply-To                                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

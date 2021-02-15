@@ -20,7 +20,7 @@ func newValueGoogConnMail(peerName string) rc_recipe.Value {
 }
 
 type ValueGoogConnMail struct {
-	conn     goog_conn.ConnGoogleApi
+	conn     goog_conn.ConnGoogleMail
 	peerName string
 }
 

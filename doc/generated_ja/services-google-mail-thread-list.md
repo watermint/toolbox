@@ -104,12 +104,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: threads
 
-Gmail スレッド
-このコマンドはレポートを3種類の書式で出力します. `threads.csv`, `threads.json`, ならびに `threads.xlsx`.
+Gmail thread このコマンドはレポートを3種類の書式で出力します. `threads.csv`, `threads.json`, ならびに `threads.xlsx`.
 
-| 列      | 説明                      |
-|---------|---------------------------|
-| snippet | メッセージ本文の短い部分. |
+| 列      | 説明                              |
+|---------|-----------------------------------|
+| snippet | A short part of the message text. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

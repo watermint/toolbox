@@ -2,7 +2,7 @@ package sv_label
 
 import (
 	"github.com/watermint/toolbox/domain/google/api/goog_context"
-	"github.com/watermint/toolbox/domain/google/model/mo_label"
+	"github.com/watermint/toolbox/domain/google/mail/model/mo_label"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 

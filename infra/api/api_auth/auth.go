@@ -15,6 +15,7 @@ const (
 	DropboxScopedTeam              = "dropbox_scoped_team"
 	Github                         = "github"
 	GoogleMail                     = "google_mail"
+	GoogleSheets                   = "google_sheets"
 	Asana                          = "asana"
 	Slack                          = "slack"
 )

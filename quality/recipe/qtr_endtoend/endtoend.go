@@ -188,7 +188,7 @@ func DoTestRecipe(t *testing.T, re rc_recipe.Recipe, useMock bool) {
 				profile.MemProfile,
 			)
 		}
-		err := qtr_timeout.RunRecipeTestWithTimeout(ctl, re, true, useMock)
+		_, err := qtr_timeout.RunRecipeTestWithTimeout(ctl, re, true, useMock)
 		if pr != nil {
 			pr.Stop()
 		}

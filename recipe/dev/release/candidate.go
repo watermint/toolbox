@@ -20,7 +20,9 @@ import (
 type Candidate struct {
 	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
-	Auth *auth.Connect
+	Auth      *auth.Connect
+	Recipe    *test.Recipe
+	Preflight *build.Preflight
 }
 
 func (z *Candidate) Preset() {
@@ -81,7 +83,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 	}
 
 	l.Info("Preview process")
-	err := rc_exec.Exec(c, &build.Preflight{}, rc_recipe.NoCustomValues)
+	err := rc_exec.Exec(c, z.Preflight, rc_recipe.NoCustomValues)
 	if err != nil {
 		return err
 	}
@@ -93,7 +95,7 @@ func (z *Candidate) Exec(c app_control.Control) error {
 	}
 
 	l.Info("Testing all end to end test")
-	err = rc_exec.Exec(c, &test.Recipe{}, func(r rc_recipe.Recipe) {
+	err = rc_exec.Exec(c, z.Recipe, func(r rc_recipe.Recipe) {
 		m := r.(*test.Recipe)
 		m.All = true
 	})

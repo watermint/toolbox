@@ -135,8 +135,8 @@ from:@google.com,my_label,"my_label,INBOX"
 | input.query           | 指定されたクエリにマッチするメッセージのみを返します.               |
 | input.add_labels      | ';' で区切られた追加するラベル名                                    |
 | input.delete_labels   | ';' で区切られた削除するラベル名                                    |
-| result.id             | フィルターID                                                        |
-| result.criteria_query | フィルタ条件: 指定されたクエリにマッチするメッセージのみを返します. |
+| result.id             | Filter Id                                                           |
+| result.criteria_query | Filter criteria: Only return messages matching the specified query. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -144,19 +144,18 @@ from:@google.com,my_label,"my_label,INBOX"
 
 ## レポート: messages
 
-メッセージリソース
-このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
+Message resource このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
 
-| 列        | 説明                           |
-|-----------|--------------------------------|
-| id        | メッセージの不変ID             |
-| thread_id | メッセージが属するスレッドのID |
-| date      | 日付                           |
-| subject   | 表題                           |
-| to        | To                             |
-| cc        | Cc                             |
-| from      | From                           |
-| reply_to  | Reply-To                       |
+| 列        | 説明                                         |
+|-----------|----------------------------------------------|
+| id        | The immutable ID of the message.             |
+| thread_id | The ID of the thread the message belongs to. |
+| date      | Date                                         |
+| subject   | Subject                                      |
+| to        | To                                           |
+| cc        | Cc                                           |
+| from      | From                                         |
+| reply_to  | Reply-To                                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

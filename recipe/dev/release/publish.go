@@ -53,6 +53,8 @@ type Publish struct {
 	Branch       string
 	ConnGithub   gh_conn.ConnGithubRepo
 	SkipTests    bool
+	Recipe       *test.Recipe
+	Formula      *homebrew.Formula
 
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
@@ -210,7 +212,7 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	}
 
 	l.Info("Testing all end to end test")
-	err := rc_exec.Exec(c, &test.Recipe{}, func(r rc_recipe.Recipe) {
+	err := rc_exec.Exec(c, z.Recipe, func(r rc_recipe.Recipe) {
 		m := r.(*test.Recipe)
 		m.All = true
 	})
@@ -314,7 +316,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) e
 
 func (z *Publish) updateHomebrewFormula(c app_control.Control, path string) error {
 	name := filepath.Base(path)
-	return rc_exec.Exec(c, &homebrew.Formula{}, func(r rc_recipe.Recipe) {
+	return rc_exec.Exec(c, z.Formula, func(r rc_recipe.Recipe) {
 		m := r.(*homebrew.Formula)
 		m.Owner = homebrewRepoOwner
 		m.Repository = homebrewRepoName
