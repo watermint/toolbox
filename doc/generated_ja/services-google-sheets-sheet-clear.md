@@ -1,6 +1,8 @@
-# services google sheets spreadsheet create
+# services google sheets sheet clear
 
-Create a new spreadsheet
+Clears values from a spreadsheet
+
+Only values are cleared -- all other properties of the cell (such as formatting, data validation, etc..) are kept.
 
 # セキュリティ
 
@@ -16,6 +18,7 @@ Create a new spreadsheet
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
+
 * Google: https://support.google.com/accounts/answer/3466521
 
 ## 認可スコープ
@@ -28,6 +31,7 @@ Create a new spreadsheet
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -48,17 +52,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe services google sheets spreadsheet create 
+.\tbx.exe services google sheets sheet clear 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx services google sheets spreadsheet create 
+$HOME/Desktop/tbx services google sheets sheet clear 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -69,10 +76,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                     | デフォルト                                                      |
-|------------|--------------------------|-----------------------------------------------------------------|
-| `-peer`    | Account alias            | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
-| `-title`   | Title of the spreadsheet |                                                                 |
+| オプション | 説明                                                                                                                                                                                                                                                                                                                                                                                 | デフォルト                                                      |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `-id`      | Spreadsheet ID                                                                                                                                                                                                                                                                                                                                                                       |                                                                 |
+| `-peer`    | Account alias                                                                                                                                                                                                                                                                                                                                                                        | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
+| `-range`   | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |                                                                 |
 
 ## 共通のオプション:
 
@@ -92,31 +100,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: sreadsheet
-
-Google Spreadsheet このコマンドはレポートを3種類の書式で出力します. `sreadsheet.csv`, `sreadsheet.json`, ならびに `sreadsheet.xlsx`.
-
-| 列              | 説明           |
-|-----------------|----------------|
-| spreadsheet_id  | Spreadsheet Id |
-| spreadsheet_url | URL            |
-| title           | Title          |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `sreadsheet_0000.xlsx`, `sreadsheet_0001.xlsx`
-, `sreadsheet_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

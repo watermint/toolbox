@@ -1,25 +1,12 @@
 package sv_spreadsheet
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/google/api/goog_context"
 	"github.com/watermint/toolbox/domain/google/sheets/model/bo_spreadsheet"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_spreadsheet"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
-	"regexp"
 )
-
-var (
-	// https://developers.google.com/sheets/api/guides/concepts#spreadsheet_id
-	SpreadsheetIdPattern = regexp.MustCompile(`^([a-zA-Z0-9-_]+)$`)
-
-	ErrorInvalidSpreadsheetId = errors.New("invalid spreadsheet id")
-)
-
-func isValidSpreadsheetId(id string) bool {
-	return SpreadsheetIdPattern.MatchString(id)
-}
 
 type Spreadsheet interface {
 	Create(title string) (spreadsheet *bo_spreadsheet.Spreadsheet, err error)
@@ -45,10 +32,10 @@ func (z ssImpl) resolveSpreadsheet(id string, includeGridData bool) (spreadsheet
 	if includeGridData {
 		q.IncludeGridData = &includeGridData
 	}
-	if !isValidSpreadsheetId(id) {
+	if !to_spreadsheet.IsValidSpreadsheetId(id) {
 		l := esl.Default()
 		l.Debug("Invalid spreadsheet id format", esl.String("id", id))
-		return nil, ErrorInvalidSpreadsheetId
+		return nil, to_spreadsheet.ErrorInvalidSpreadsheetId
 	}
 
 	res := z.ctx.Get("spreadsheets/"+id, api_request.Query(q))

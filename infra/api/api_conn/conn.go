@@ -21,6 +21,7 @@ var (
 		ServiceDropboxBusiness,
 		ServiceGithub,
 		ServiceGoogleMail,
+		ServiceGoogleSheets,
 		ServiceAsana,
 		ServiceSlack,
 		ServiceUtility,

@@ -10,7 +10,7 @@ import (
 
 func TestFilterImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := goog_context_impl.NewMock("mock", ctl)
+		mc := goog_context_impl.NewMock(goog_context_impl.EndpointGoogleApis, "mock", ctl)
 		sv := New(mc, "me")
 		_, err := sv.List()
 		if err != qt_errors.ErrorMock {
@@ -21,7 +21,7 @@ func TestFilterImpl_List(t *testing.T) {
 
 func TestFilterImpl_Resolve(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := goog_context_impl.NewMock("mock", ctl)
+		mc := goog_context_impl.NewMock(goog_context_impl.EndpointGoogleApis, "mock", ctl)
 		sv := New(mc, "me")
 		_, err := sv.Resolve("1234")
 		if err != qt_errors.ErrorMock {

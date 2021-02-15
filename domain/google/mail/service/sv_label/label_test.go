@@ -10,7 +10,7 @@ import (
 
 func TestLabelImpl_List(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := goog_context_impl.NewMock("mock", ctl)
+		mc := goog_context_impl.NewMock(goog_context_impl.EndpointGoogleApis, "mock", ctl)
 		sv := New(mc, "me")
 		_, err := sv.List()
 		if err != qt_errors.ErrorMock {
@@ -21,7 +21,7 @@ func TestLabelImpl_List(t *testing.T) {
 
 func TestLabelImpl_Add(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := goog_context_impl.NewMock("mock", ctl)
+		mc := goog_context_impl.NewMock(goog_context_impl.EndpointGoogleApis, "mock", ctl)
 		sv := New(mc, "me")
 		_, err := sv.Add("test",
 			ColorBackground(Color_000000),
@@ -35,7 +35,7 @@ func TestLabelImpl_Add(t *testing.T) {
 
 func TestLabelImpl_Update(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := goog_context_impl.NewMock("mock", ctl)
+		mc := goog_context_impl.NewMock(goog_context_impl.EndpointGoogleApis, "mock", ctl)
 		sv := New(mc, "me")
 		_, err := sv.Update("Label_000",
 			ColorBackground(Color_000000),
@@ -49,7 +49,7 @@ func TestLabelImpl_Update(t *testing.T) {
 
 func TestLabelImpl_Remove(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		mc := goog_context_impl.NewMock("mock", ctl)
+		mc := goog_context_impl.NewMock(goog_context_impl.EndpointGoogleApis, "mock", ctl)
 		sv := New(mc, "me")
 		err := sv.Remove("Label_000")
 		if err != qt_errors.ErrorMock {

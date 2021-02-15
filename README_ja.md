@@ -241,6 +241,15 @@ DropboxおよびDropbox Business向けのツールセット
 | [services google mail message processed list](doc/generated_ja/services-google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します. |
 | [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)                       | スレッド一覧                                |
 
+## Google Sheets
+
+| コマンド                                                                                                   | 説明                             |
+|------------------------------------------------------------------------------------------------------------|----------------------------------|
+| [services google sheets sheet clear](doc/generated_ja/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet |
+| [services google sheets sheet export](doc/generated_ja/services-google-sheets-sheet-export.md)             | Export sheet data                |
+| [services google sheets sheet list](doc/generated_ja/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet   |
+| [services google sheets spreadsheet create](doc/generated_ja/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet         |
+
 ## Asana
 
 | コマンド                                                                                           | 説明                             |

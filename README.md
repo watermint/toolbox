@@ -243,6 +243,15 @@ Available commands:
 | [services google mail message processed list](doc/generated/services-google-mail-message-processed-list.md) | List messages in processed format.      |
 | [services google mail thread list](doc/generated/services-google-mail-thread-list.md)                       | List threads                            |
 
+## Google Sheets
+
+| Command                                                                                                 | Description                      |
+|---------------------------------------------------------------------------------------------------------|----------------------------------|
+| [services google sheets sheet clear](doc/generated/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet |
+| [services google sheets sheet export](doc/generated/services-google-sheets-sheet-export.md)             | Export sheet data                |
+| [services google sheets sheet list](doc/generated/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet   |
+| [services google sheets spreadsheet create](doc/generated/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet         |
+
 ## Asana
 
 | Command                                                                                         | Description                    |
