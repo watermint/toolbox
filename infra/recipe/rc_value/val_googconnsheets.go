@@ -24,7 +24,7 @@ type ValueGoogConnSheets struct {
 	peerName string
 }
 
-func (z *ValueGoogConnSheets) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueGoogConnSheets) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*goog_conn.ConnGoogleSheets)(nil)).Elem()) {
 		return newValueGoogConnSheets(z.peerName)
 	}

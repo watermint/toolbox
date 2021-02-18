@@ -28,7 +28,7 @@ func (z *ValueKvStorageStorage) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.storage), nil
 }
 
-func (z *ValueKvStorageStorage) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueKvStorageStorage) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*kv_storage.Storage)(nil)).Elem()) {
 		return newValueKvStorageStorage(name)
 	}

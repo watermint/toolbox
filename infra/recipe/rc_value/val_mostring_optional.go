@@ -30,7 +30,7 @@ func (z *ValueMoStringOptional) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.optStr), nil
 }
 
-func (z *ValueMoStringOptional) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueMoStringOptional) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_string.OptionalString)(nil)).Elem()) {
 		return newValueOptionalString()
 	}

@@ -31,7 +31,7 @@ func (z *ValueMoUrlUrl) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.url), nil
 }
 
-func (z *ValueMoUrlUrl) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueMoUrlUrl) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_url.Url)(nil)).Elem()) {
 		return newValueMoUrlUrl(name)
 	}

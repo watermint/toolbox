@@ -47,7 +47,7 @@ func (z *ValueMoTimeTime) ValueText() string {
 	return z.dateTime
 }
 
-func (z *ValueMoTimeTime) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueMoTimeTime) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_time.TimeOptional)(nil)).Elem()) {
 		return newValueMoTimeTimeOptional(name)
 	}

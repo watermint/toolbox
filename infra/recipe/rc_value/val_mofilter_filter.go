@@ -20,7 +20,7 @@ type ValueMoFilterFilter struct {
 	filter mo_filter.Filter
 }
 
-func (z *ValueMoFilterFilter) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueMoFilterFilter) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_filter.Filter)(nil)).Elem()) {
 		return newValueMoFilter(name)
 	}

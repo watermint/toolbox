@@ -31,7 +31,7 @@ func (z *ValueDbxConnBusinessAudit) ValueText() string {
 	return z.peerName
 }
 
-func (z *ValueDbxConnBusinessAudit) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueDbxConnBusinessAudit) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*dbx_conn.ConnBusinessAudit)(nil)).Elem()) {
 		return newValueDbxConnBusinessAudit(z.peerName)
 	}

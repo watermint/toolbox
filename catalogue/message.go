@@ -22,6 +22,7 @@ import (
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
 	infracontrolapp_error "github.com/watermint/toolbox/infra/control/app_error"
 	infracontrolapp_job_impl "github.com/watermint/toolbox/infra/control/app_job_impl"
+	infradatada_griddata "github.com/watermint/toolbox/infra/data/da_griddata"
 	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infradocdc_supplemental "github.com/watermint/toolbox/infra/doc/dc_supplemental"
 	infrafeedfd_file_impl "github.com/watermint/toolbox/infra/feed/fd_file_impl"
@@ -77,6 +78,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infraapiapi_callback.MsgCallback{},
 		&infracontrolapp_error.MsgErrorReport{},
 		&infracontrolapp_job_impl.MsgLauncher{},
+		&infradatada_griddata.MsgGridDataInput{},
 		&infradocdc_options.MsgDoc{},
 		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},

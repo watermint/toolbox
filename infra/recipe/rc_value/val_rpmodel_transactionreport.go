@@ -28,7 +28,7 @@ func (z *ValueRpModelTransactionReport) Spec() (typeName string, typeAttr interf
 	return es_reflect.Key(app.Pkg, z.rep), nil
 }
 
-func (z *ValueRpModelTransactionReport) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueRpModelTransactionReport) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*rp_model.TransactionReport)(nil)).Elem()) {
 		return newValueRpModelTransactionReport(name)
 	}

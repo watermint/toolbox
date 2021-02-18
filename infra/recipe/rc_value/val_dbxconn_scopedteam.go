@@ -25,7 +25,7 @@ type ValueDbxConnScopedTeam struct {
 	peerName string
 }
 
-func (z *ValueDbxConnScopedTeam) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueDbxConnScopedTeam) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*dbx_conn.ConnScopedTeam)(nil)).Elem()) {
 		return newValueDbxConnScopedTeam(z.peerName)
 	}

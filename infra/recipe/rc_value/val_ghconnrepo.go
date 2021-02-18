@@ -36,7 +36,7 @@ func (z *ValueGhConnGithubRepo) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.conn), nil
 }
 
-func (z *ValueGhConnGithubRepo) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueGhConnGithubRepo) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*gh_conn.ConnGithubRepo)(nil)).Elem()) {
 		return newValueGhConnGithubRepo(z.peerName)
 	}

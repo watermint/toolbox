@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -14,7 +15,7 @@ import (
 type Value interface {
 	// Returns forked instance when the type is acceptable
 	// Otherwise returns nil
-	Accept(t reflect.Type, v0 interface{}, name string) Value
+	Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) Value
 
 	// Return value reference of the instance
 	Bind() interface{}
@@ -79,6 +80,20 @@ type ValueConn interface {
 
 	// True when the value is type of connection, and return the instance of the connection
 	Conn() (conn api_conn.Connection, valid bool)
+}
+
+type ValueGridDataInput interface {
+	Value
+
+	// True when the value is type of grid data input
+	GridDataInput() (gd da_griddata.GridDataInput, valid bool)
+}
+
+type ValueGridDataOutput interface {
+	Value
+
+	// True when the value is type of grid data output
+	GridDataOutput() (gd da_griddata.GridDataOutput, valid bool)
 }
 
 type ValueConns interface {

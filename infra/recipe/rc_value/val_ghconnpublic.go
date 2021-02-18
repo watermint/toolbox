@@ -34,7 +34,7 @@ func (z *ValueGhConnGithubPublic) Spec() (typeName string, typeAttr interface{})
 	return es_reflect.Key(app.Pkg, z.conn), nil
 }
 
-func (z *ValueGhConnGithubPublic) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueGhConnGithubPublic) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*gh_conn.ConnGithubPublic)(nil)).Elem()) {
 		return newValueGhConnGithubPublic()
 	}

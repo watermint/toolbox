@@ -24,7 +24,7 @@ func (z *ValueAppMsgMessage) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.msg), nil
 }
 
-func (z *ValueAppMsgMessage) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueAppMsgMessage) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()) {
 		return newValueAppMsgMessage(name, app_msg.ObjMessage(v0, strcase.ToSnake(name)))
 	}

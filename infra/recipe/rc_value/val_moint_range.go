@@ -26,7 +26,7 @@ func (z *ValueMoIntRange) ValueText() string {
 	return strconv.FormatInt(z.rangeInt.Value64(), 10)
 }
 
-func (z *ValueMoIntRange) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueMoIntRange) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_int.RangeInt)(nil)).Elem()) {
 		return newValueRangeInt()
 	}

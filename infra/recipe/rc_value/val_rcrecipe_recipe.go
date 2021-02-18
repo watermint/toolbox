@@ -45,7 +45,7 @@ func (z *ValueRcRecipeRecipe) Reports() map[string]rp_model.Report {
 	return spec.Reports()
 }
 
-func (z *ValueRcRecipeRecipe) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueRcRecipeRecipe) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem()) {
 		return newValueRcRecipeRecipe(name, t)
 	}

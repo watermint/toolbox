@@ -140,6 +140,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},
+		&recipedevstage.Griddata{},
 		&recipedevstage.Gui{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},

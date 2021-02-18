@@ -115,6 +115,10 @@ func VerifyMessages(ctl app_control.Control) error {
 					fmt.Fprintf(out, `"%s":"This feature is in an early stage of development. This is not well tested. Please proceed by typing 'yes' to agree & enable this feature.",`, m)
 				case strings.HasSuffix(m, ".disclaimer"):
 					fmt.Fprintf(out, `"%s":"WARN: The early access feature is enabled.",`, m)
+				case strings.HasSuffix(m, ".format.output_grid_data"):
+					fmt.Fprintf(out, `"%s":"Output format",`, m)
+				case strings.HasSuffix(m, ".input_grid_data.desc"):
+					fmt.Fprintf(out, `"%s":"Input grid data file path. '-' for read from STDIN.",`, m)
 				default:
 					fmt.Fprintf(out, `"%s":"",`, m)
 				}

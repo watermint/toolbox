@@ -54,7 +54,7 @@ func (z *ValueFdFileRowFeed) ValueText() string {
 	return z.path
 }
 
-func (z *ValueFdFileRowFeed) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueFdFileRowFeed) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*fd_file.RowFeed)(nil)).Elem()) {
 		return newValueFdFileRowFeed(name)
 	}

@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -39,6 +40,8 @@ var (
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnSheets(dbx_conn_impl.DefaultPeerName),
+		newValueDaGridDataInput(nil, dbx_conn_impl.DefaultPeerName),
+		newValueDaGridDataOutput(nil, dbx_conn_impl.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),
@@ -62,9 +65,9 @@ var (
 
 // Find value of type.
 // Returns nil when the value type is not supported
-func valueOfType(t reflect.Type, r interface{}, name string) rc_recipe.Value {
+func valueOfType(recipe interface{}, t reflect.Type, r interface{}, name string) rc_recipe.Value {
 	for _, vt := range valueTypes {
-		if v := vt.Accept(t, r, name); v != nil {
+		if v := vt.Accept(recipe, t, r, name); v != nil {
 			return v
 		}
 	}
@@ -99,7 +102,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		fn := rtf.Name
 		ll := l.With(esl.String("fieldName", fn))
 
-		vot := valueOfType(rtf.Type, rcp, fn)
+		vot := valueOfType(rcp, rtf.Type, rcp, fn)
 		if vot != nil {
 			ll.Debug("Set value", esl.Any("debug", vot.Debug()))
 			vals[fn] = vot
@@ -223,6 +226,30 @@ func (z *RepositoryImpl) Conns() map[string]api_conn.Connection {
 		}
 	}
 	return conns
+}
+
+func (z *RepositoryImpl) GridDataInputSpecs() (specs map[string]da_griddata.GridDataInputSpec) {
+	specs = make(map[string]da_griddata.GridDataInputSpec)
+	for k, v := range z.values {
+		if vf, ok := v.(rc_recipe.ValueGridDataInput); ok {
+			if gd, ok := vf.GridDataInput(); ok {
+				specs[k] = gd.Spec()
+			}
+		}
+	}
+	return specs
+}
+
+func (z *RepositoryImpl) GridDataOutputSpecs() (specs map[string]da_griddata.GridDataOutputSpec) {
+	specs = make(map[string]da_griddata.GridDataOutputSpec)
+	for k, v := range z.values {
+		if vf, ok := v.(rc_recipe.ValueGridDataOutput); ok {
+			if gd, ok := vf.GridDataOutput(); ok {
+				specs[k] = gd.Spec()
+			}
+		}
+	}
+	return specs
 }
 
 func (z *RepositoryImpl) Feeds() map[string]fd_file.RowFeed {
