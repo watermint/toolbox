@@ -31,3 +31,13 @@ type ValueUpdate struct {
 	UpdatedCells   int    `json:"updated_cells" path:"updatedCells"`
 	//UpdatedData    *ValueRange `path:"updatedData"`
 }
+type ValueAppend struct {
+	Raw            json.RawMessage
+	SpreadsheetId  string `json:"spreadsheet_id" path:"spreadsheetId"`
+	TableRange     string `json:"table_range" path:"tableRange"`
+	UpdatedRange   string `json:"updated_range" path:"updates.updatedRange"`
+	UpdatedRows    int    `json:"updated_rows" path:"updates.updatedRows"`
+	UpdatedColumns int    `json:"updated_columns" path:"updates.updatedColumns"`
+	UpdatedCells   int    `json:"updated_cells" path:"updates.updatedCells"`
+	//UpdatedData    *ValueRange `path:"updatedData"`
+}

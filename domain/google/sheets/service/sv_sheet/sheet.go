@@ -16,6 +16,7 @@ type Sheet interface {
 	Clear(spreadsheetId, sheetRange string) (clearedRange string, err error)
 	Export(spreadsheetId, sheetRange string, opts ...RenderOpt) (value to_cell.ValueRange, err error)
 	Import(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (updated bo_sheet.ValueUpdate, err error)
+	Append(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (appended bo_sheet.ValueAppend, err error)
 }
 
 var (
@@ -109,6 +110,38 @@ func New(ctx goog_context.Context) Sheet {
 
 type shImpl struct {
 	ctx goog_context.Context
+}
+
+func (z shImpl) Append(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (appended bo_sheet.ValueAppend, err error) {
+	encodedRange := url.QueryEscape(sheetRange)
+	tvr := to_cell.ValueRange{
+		Range:          sheetRange,
+		MajorDimension: "ROWS",
+		Values:         values,
+	}
+	type VIO struct {
+		ValueInputOption string `url:"valueInputOption,omitempty"`
+	}
+	var q VIO
+	if rawInput {
+		q.ValueInputOption = "RAW"
+	} else {
+		q.ValueInputOption = "USER_ENTERED"
+	}
+
+	content, err := json.Marshal(tvr)
+	if err != nil {
+		return bo_sheet.ValueAppend{}, err
+	}
+	res := z.ctx.Post("spreadsheets/"+spreadsheetId+"/values/"+encodedRange+":append",
+		api_request.Query(&q),
+		api_request.Content(es_rewinder.NewReadRewinderOnMemory(content)),
+	)
+	if err, f := res.Failure(); f {
+		return bo_sheet.ValueAppend{}, err
+	}
+	err = res.Success().Json().Model(&appended)
+	return
 }
 
 func (z shImpl) Import(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (updated bo_sheet.ValueUpdate, err error) {

@@ -247,6 +247,7 @@ Available commands:
 
 | Command                                                                                                 | Description                      |
 |---------------------------------------------------------------------------------------------------------|----------------------------------|
+| [services google sheets sheet append](doc/generated/services-google-sheets-sheet-append.md)             | Append data to a spreadsheet     |
 | [services google sheets sheet clear](doc/generated/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet |
 | [services google sheets sheet export](doc/generated/services-google-sheets-sheet-export.md)             | Export sheet data                |
 | [services google sheets sheet import](doc/generated/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet |

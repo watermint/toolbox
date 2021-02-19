@@ -14,7 +14,7 @@ import (
 	"os"
 )
 
-type Import struct {
+type Append struct {
 	Peer     goog_conn.ConnGoogleSheets
 	Data     da_griddata.GridDataInput
 	Range    string
@@ -23,12 +23,12 @@ type Import struct {
 	Updated  rp_model.RowReport
 }
 
-func (z *Import) Preset() {
+func (z *Append) Preset() {
 	z.Peer.SetScopes(goog_auth.ScopeSheetsReadWrite)
-	z.Updated.SetModel(&bo_sheet.ValueUpdate{})
+	z.Updated.SetModel(&bo_sheet.ValueAppend{})
 }
 
-func (z *Import) Exec(c app_control.Control) error {
+func (z *Append) Exec(c app_control.Control) error {
 	data := make([][]interface{}, 0)
 	err := z.Data.EachRow(func(col []interface{}, rowIndex int) error {
 		data = append(data, col)
@@ -41,7 +41,7 @@ func (z *Import) Exec(c app_control.Control) error {
 	if err := z.Updated.Open(); err != nil {
 		return err
 	}
-	uv, err := sv_sheet.New(z.Peer.Context()).Import(z.Id, z.Range, data, z.InputRaw)
+	uv, err := sv_sheet.New(z.Peer.Context()).Append(z.Id, z.Range, data, z.InputRaw)
 	if err != nil {
 		return err
 	}
@@ -49,8 +49,8 @@ func (z *Import) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *Import) Test(c app_control.Control) error {
-	csv, err := qt_file.MakeTestCsv("import")
+func (z *Append) Test(c app_control.Control) error {
+	csv, err := qt_file.MakeTestCsv("append")
 	if err != nil {
 		return err
 	}
@@ -58,8 +58,8 @@ func (z *Import) Test(c app_control.Control) error {
 		_ = os.Remove(csv)
 	}()
 
-	return rc_exec.ExecMock(c, &Import{}, func(r rc_recipe.Recipe) {
-		m := r.(*Import)
+	return rc_exec.ExecMock(c, &Append{}, func(r rc_recipe.Recipe) {
+		m := r.(*Append)
 		m.Id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 		m.Range = "Sheet1"
 		m.Data.SetFilePath(csv)

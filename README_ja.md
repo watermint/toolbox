@@ -245,6 +245,7 @@ DropboxおよびDropbox Business向けのツールセット
 
 | コマンド                                                                                                   | 説明                             |
 |------------------------------------------------------------------------------------------------------------|----------------------------------|
+| [services google sheets sheet append](doc/generated_ja/services-google-sheets-sheet-append.md)             | Append data to a spreadsheet     |
 | [services google sheets sheet clear](doc/generated_ja/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet |
 | [services google sheets sheet export](doc/generated_ja/services-google-sheets-sheet-export.md)             | Export sheet data                |
 | [services google sheets sheet import](doc/generated_ja/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet |
