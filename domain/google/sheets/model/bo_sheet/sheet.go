@@ -21,3 +21,13 @@ type ValueRange struct {
 type ValueRows struct {
 	Columns []interface{}
 }
+
+type ValueUpdate struct {
+	Raw            json.RawMessage
+	SpreadsheetId  string `json:"spreadsheet_id" path:"spreadsheetId"`
+	UpdatedRange   string `json:"updated_range" path:"updatedRange"`
+	UpdatedRows    int    `json:"updated_rows" path:"updatedRows"`
+	UpdatedColumns int    `json:"updated_columns" path:"updatedColumns"`
+	UpdatedCells   int    `json:"updated_cells" path:"updatedCells"`
+	//UpdatedData    *ValueRange `path:"updatedData"`
+}

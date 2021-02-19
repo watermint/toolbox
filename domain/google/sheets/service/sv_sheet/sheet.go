@@ -3,8 +3,10 @@ package sv_sheet
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/sheets/model/bo_sheet"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_cell"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_spreadsheet"
+	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"net/url"
@@ -13,6 +15,7 @@ import (
 type Sheet interface {
 	Clear(spreadsheetId, sheetRange string) (clearedRange string, err error)
 	Export(spreadsheetId, sheetRange string, opts ...RenderOpt) (value to_cell.ValueRange, err error)
+	Import(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (updated bo_sheet.ValueUpdate, err error)
 }
 
 var (
@@ -106,6 +109,38 @@ func New(ctx goog_context.Context) Sheet {
 
 type shImpl struct {
 	ctx goog_context.Context
+}
+
+func (z shImpl) Import(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (updated bo_sheet.ValueUpdate, err error) {
+	encodedRange := url.QueryEscape(sheetRange)
+	tvr := to_cell.ValueRange{
+		Range:          sheetRange,
+		MajorDimension: "ROWS",
+		Values:         values,
+	}
+	type VIO struct {
+		ValueInputOption string `url:"valueInputOption,omitempty"`
+	}
+	var q VIO
+	if rawInput {
+		q.ValueInputOption = "RAW"
+	} else {
+		q.ValueInputOption = "USER_ENTERED"
+	}
+
+	content, err := json.Marshal(tvr)
+	if err != nil {
+		return bo_sheet.ValueUpdate{}, err
+	}
+	res := z.ctx.Put("spreadsheets/"+spreadsheetId+"/values/"+encodedRange,
+		api_request.Query(&q),
+		api_request.Content(es_rewinder.NewReadRewinderOnMemory(content)),
+	)
+	if err, f := res.Failure(); f {
+		return bo_sheet.ValueUpdate{}, err
+	}
+	err = res.Success().Json().Model(&updated)
+	return
 }
 
 func (z shImpl) Export(spreadsheetId, sheetRange string, opts ...RenderOpt) (value to_cell.ValueRange, err error) {

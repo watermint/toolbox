@@ -21,7 +21,7 @@ type Export struct {
 }
 
 func (z *Export) Preset() {
-	z.Peer.SetScopes(goog_auth.ScopeSheetsReadWrite)
+	z.Peer.SetScopes(goog_auth.ScopeSheetsReadOnly)
 	z.ValueRender.SetOptions(
 		sv_sheet.ValueRenderOptionAliasFormatted,
 		sv_sheet.ValueRenderOptionAliases...,

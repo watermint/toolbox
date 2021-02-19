@@ -247,6 +247,7 @@ DropboxおよびDropbox Business向けのツールセット
 |------------------------------------------------------------------------------------------------------------|----------------------------------|
 | [services google sheets sheet clear](doc/generated_ja/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet |
 | [services google sheets sheet export](doc/generated_ja/services-google-sheets-sheet-export.md)             | Export sheet data                |
+| [services google sheets sheet import](doc/generated_ja/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet |
 | [services google sheets sheet list](doc/generated_ja/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet   |
 | [services google sheets spreadsheet create](doc/generated_ja/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet         |
 

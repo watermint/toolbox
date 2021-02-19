@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明           | デフォルト                                                      |
-|------------|----------------|-----------------------------------------------------------------|
-| `-id`      | Spreadsheet ID |                                                                 |
-| `-peer`    | Account alias  | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
+| オプション | 説明           | デフォルト                                                               |
+|------------|----------------|--------------------------------------------------------------------------|
+| `-id`      | Spreadsheet ID |                                                                          |
+| `-peer`    | Account alias  | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
 
 ## 共通のオプション:
 

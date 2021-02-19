@@ -1,6 +1,6 @@
-# services google sheets sheet list
+# services google sheets sheet import
 
-List sheets of the spreadsheet
+Import data into the spreadsheet
 
 # Security
 
@@ -16,6 +16,7 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+
 * Google: https://support.google.com/accounts/answer/3466521
 
 ## Auth scopes
@@ -29,6 +30,7 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe services google sheets sheet list 
+.\tbx.exe services google sheets sheet import 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx services google sheets sheet list 
+$HOME/Desktop/tbx services google sheets sheet import 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -72,10 +77,13 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description    | Default                                                                  |
-|---------|----------------|--------------------------------------------------------------------------|
-| `-id`   | Spreadsheet ID |                                                                          |
-| `-peer` | Account alias  | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
+| Option       | Description                                                                                                                                                                                                                                                                                                                                                                          | Default                                                         |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `-data`      | Data file path                                                                                                                                                                                                                                                                                                                                                                       |                                                                 |
+| `-id`        | Spreadsheet Id                                                                                                                                                                                                                                                                                                                                                                       |                                                                 |
+| `-input-raw` | Raw input                                                                                                                                                                                                                                                                                                                                                                            | false                                                           |
+| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                        | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
+| `-range`     | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |                                                                 |
 
 ## Common options:
 
@@ -107,24 +115,29 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: sheets
+## Report: updated
 
-Sheet data The command will generate a report in three different formats. `sheets.csv`, `sheets.json`, and `sheets.xlsx`
-.
+Updated value The command will generate a report in three different formats. `updated.csv`, `updated.json`,
+and `updated.xlsx`.
 
-| Column       | Description                                    |
-|--------------|------------------------------------------------|
-| sheet_id     | Sheet Id                                       |
-| title        | The name of the sheet                          |
-| index        | The index of the sheet within the spreadsheet. |
-| sheet_type   | The type of sheet                              |
-| row_count    | Number of rows                                 |
-| column_count | Number of columns                              |
+| Column          | Description               |
+|-----------------|---------------------------|
+| spreadsheet_id  | Spreadsheet Id            |
+| updated_range   | Updated range             |
+| updated_rows    | Number of updated rows    |
+| updated_columns | Number of updated columns |
+| updated_cells   | Number of updated cells   |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like
-follows; `sheets_0000.xlsx`, `sheets_0001.xlsx`, `sheets_0002.xlsx`, ...
+follows; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`, ...
+
+# Grid data input for the command
+
+## Grid data input: Data
+
+Input data file
 
 # Proxy configuration
 

@@ -19,7 +19,7 @@ type List struct {
 
 func (z *List) Preset() {
 	z.Peer.SetScopes(
-		goog_auth.ScopeSheetsReadWrite,
+		goog_auth.ScopeSheetsReadOnly,
 	)
 	z.Sheets.SetModel(
 		&bo_sheet.Sheet{},
