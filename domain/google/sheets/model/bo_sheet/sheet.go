@@ -11,3 +11,13 @@ type Sheet struct {
 	RowCount    int    `json:"row_count" path:"properties.gridProperties.rowCount"`
 	ColumnCount int    `json:"column_count" path:"properties.gridProperties.columnCount"`
 }
+
+type ValueRange struct {
+	Raw            json.RawMessage
+	Range          string `path:"range" json:"range"`
+	MajorDimension string `path:"majorDimension" json:"major_dimension"`
+}
+
+type ValueRows struct {
+	Columns []interface{}
+}

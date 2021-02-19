@@ -3,22 +3,48 @@ package sheet
 import (
 	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
+	"github.com/watermint/toolbox/domain/google/sheets/service/sv_sheet"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
 type Export struct {
-	Peer  goog_conn.ConnGoogleSheets
-	Range string
-	Id    string
+	Peer           goog_conn.ConnGoogleSheets
+	Data           da_griddata.GridDataOutput
+	Range          string
+	Id             string
+	ValueRender    mo_string.SelectString
+	DateTimeRender mo_string.SelectString
 }
 
 func (z *Export) Preset() {
 	z.Peer.SetScopes(goog_auth.ScopeSheetsReadWrite)
+	z.ValueRender.SetOptions(
+		sv_sheet.ValueRenderOptionAliasFormatted,
+		sv_sheet.ValueRenderOptionAliases...,
+	)
+	z.DateTimeRender.SetOptions(
+		sv_sheet.DateTimeRenderOptionAliasSerialNumber,
+		sv_sheet.DateTimeRenderOptionAliases...,
+	)
 }
 
 func (z *Export) Exec(c app_control.Control) error {
+	vr, err := sv_sheet.New(z.Peer.Context()).Export(
+		z.Id,
+		z.Range,
+		sv_sheet.DateTimeRenderOption(z.DateTimeRender.Value()),
+		sv_sheet.ValueRenderOption(z.ValueRender.Value()),
+	)
+	if err != nil {
+		return err
+	}
+	for _, row := range vr.Values {
+		z.Data.Row(row)
+	}
 	return nil
 }
 

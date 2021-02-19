@@ -27,7 +27,7 @@ var (
 const (
 	GridOutputOptionFilePath = ""
 	GridOutputOptionFormat   = "Format"
-	GridOutputDescSuffix     = ".input_grid_data.desc"
+	GridOutputDescSuffix     = ".output_grid_data.desc"
 )
 
 type gdOutput struct {

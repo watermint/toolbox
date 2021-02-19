@@ -5,18 +5,15 @@ Grid data test
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe dev stage griddata 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx dev stage griddata 
 ```
@@ -29,11 +26,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明             | デフォルト                               |
-|---------------|------------------|------------------------------------------|
-| `-in`         | Input data path  | &{0xc0007ae5a0 In  <nil>}                |
-| `-out`        | Output data path | &{0xc0007ae5a0 Out   map[] 0xc00163c780} |
-| `-out-format` | Output format    |                                          |
+| オプション    | 説明             | デフォルト |
+|---------------|------------------|------------|
+| `-in`         | Input data path  |            |
+| `-out`        | Output data path |            |
+| `-out-format` | Output format    |            |
 
 ## 共通のオプション:
 

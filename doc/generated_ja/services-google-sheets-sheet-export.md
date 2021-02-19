@@ -69,11 +69,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                                                                                                                                                                                                                                                                                                                 | デフォルト                                                      |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-id`      | Spreadsheet ID                                                                                                                                                                                                                                                                                                                                                                       |                                                                 |
-| `-peer`    | Account alias                                                                                                                                                                                                                                                                                                                                                                        | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
-| `-range`   | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |                                                                 |
+| オプション     | 説明                                                                                                                                                                                                                                                                                                                                                                                 | デフォルト                                                      |
+|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `-data`        | Path to export.                                                                                                                                                                                                                                                                                                                                                                      |                                                                 |
+| `-data-format` | Output format                                                                                                                                                                                                                                                                                                                                                                        |                                                                 |
+| `-id`          | Spreadsheet ID                                                                                                                                                                                                                                                                                                                                                                       |                                                                 |
+| `-peer`        | Account alias                                                                                                                                                                                                                                                                                                                                                                        | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
+| `-range`       | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |                                                                 |
 
 ## 共通のオプション:
 
@@ -93,6 +95,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
+
+# Grid data output of the command
+
+## Grid data output: Data
+
+Exported sheet data
 
 # ネットワークプロクシの設定
 

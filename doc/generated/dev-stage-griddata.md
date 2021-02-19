@@ -5,18 +5,15 @@ Grid data test
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe dev stage griddata 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx dev stage griddata 
 ```
@@ -56,15 +53,15 @@ Open" on the dialogue.
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
 
-# {"key":"infra.doc.dc_command.doc_grid_data_input.header","params":{}}
+# Grid data input for the command
 
-## {"key":"infra.doc.dc_command.doc_grid_data_input.header_grid_data","params":{"GridData":"In"}}
+## Grid data input: In
 
 Test input grid data
 
-# {"key":"infra.doc.dc_command.doc_grid_data_output.header","params":{}}
+# Grid data output of the command
 
-## {"key":"infra.doc.dc_command.doc_grid_data_output.header_grid_data","params":{"GridData":"Out"}}
+## Grid data output: Out
 
 Output grid data
 
