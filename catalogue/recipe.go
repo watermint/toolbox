@@ -101,6 +101,8 @@ import (
 	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
+	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
+	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
 )
 
 func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
@@ -312,5 +314,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfoldermember.List{},
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
+		&recipeutildecode.Base32{},
+		&recipeutildecode.Base64{},
+		&recipeutilencode.Base32{},
+		&recipeutilencode.Base64{},
 	}
 }

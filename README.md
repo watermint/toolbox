@@ -286,5 +286,9 @@ Available commands:
 | [job log kind](doc/generated/job-log-kind.md)               | Concatenate and print logs of specified log kind |
 | [job log last](doc/generated/job-log-last.md)               | Print the last job log files                     |
 | [license](doc/generated/license.md)                         | Show license information                         |
+| [util decode base_32](doc/generated/util-decode-base_32.md) | Decode text from Base32 (RFC 4648) format        |
+| [util decode base_64](doc/generated/util-decode-base_64.md) | Decode text from Base64 (RFC 4648) format        |
+| [util encode base_32](doc/generated/util-encode-base_32.md) | Encode text into Base32 (RFC 4648) format        |
+| [util encode base_64](doc/generated/util-encode-base_64.md) | Encode text into Base64 (RFC 4648) format        |
 | [version](doc/generated/version.md)                         | Show version                                     |
 

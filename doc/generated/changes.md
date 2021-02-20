@@ -3,15 +3,19 @@
 # Commands added
 
 
-| Command                                   | Title                            |
-|-------------------------------------------|----------------------------------|
-| dev stage griddata                        | Grid data test                   |
-| services google sheets sheet append       | Append data to a spreadsheet     |
-| services google sheets sheet clear        | Clears values from a spreadsheet |
-| services google sheets sheet export       | Export sheet data                |
-| services google sheets sheet import       | Import data into the spreadsheet |
-| services google sheets sheet list         | List sheets of the spreadsheet   |
-| services google sheets spreadsheet create | Create a new spreadsheet         |
+| Command                                   | Title                                     |
+|-------------------------------------------|-------------------------------------------|
+| dev stage griddata                        | Grid data test                            |
+| services google sheets sheet append       | Append data to a spreadsheet              |
+| services google sheets sheet clear        | Clears values from a spreadsheet          |
+| services google sheets sheet export       | Export sheet data                         |
+| services google sheets sheet import       | Import data into the spreadsheet          |
+| services google sheets sheet list         | List sheets of the spreadsheet            |
+| services google sheets spreadsheet create | Create a new spreadsheet                  |
+| util decode base_32                       | Decode text from Base32 (RFC 4648) format |
+| util decode base_64                       | Decode text from Base64 (RFC 4648) format |
+| util encode base_32                       | Encode text into Base32 (RFC 4648) format |
+| util encode base_64                       | Encode text into Base64 (RFC 4648) format |
 
 
 
@@ -19,6 +23,7 @@
 
 
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -2627,19 +2632,7 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_management",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 5 identical fields
+  	... // 17 identical fields
   	Feeds:          nil,
   	Values:         {&{Name: "All", Desc: "Include additional reports", Default: "false", TypeName: "bool", ...}, &{Name: "File", Desc: "Dropbox Business file access", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...}, &{Name: "Info", Desc: "Dropbox Business information access", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_info", ...}, &{Name: "Mgmt", Desc: "Dropbox Business management", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt", ...}},
 - 	GridDataInput:  nil,
