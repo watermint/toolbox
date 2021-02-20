@@ -5,18 +5,15 @@ Decode text from Base64 (RFC 4648) format
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util decode base_64 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util decode base_64 
 ```

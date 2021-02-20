@@ -288,5 +288,6 @@ DropboxおよびDropbox Business向けのツールセット
 | [util decode base_64](doc/generated_ja/util-decode-base_64.md) | Decode text from Base64 (RFC 4648) format |
 | [util encode base_32](doc/generated_ja/util-encode-base_32.md) | Encode text into Base32 (RFC 4648) format |
 | [util encode base_64](doc/generated_ja/util-encode-base_64.md) | Encode text into Base64 (RFC 4648) format |
+| [util unixtime now](doc/generated_ja/util-unixtime-now.md)     | Display current time in unixtime          |
 | [version](doc/generated_ja/version.md)                         | バージョン情報                            |
 

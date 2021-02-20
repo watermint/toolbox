@@ -1,21 +1,24 @@
-# util encode base_64
+# util unixtime now
 
-Encode text into Base64 (RFC 4648) format
+Display current time in unixtime
 
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util encode base_64 
+.\tbx.exe util unixtime now 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util encode base_64 
+$HOME/Desktop/tbx util unixtime now 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -28,10 +31,9 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option        | Description | Default |
-|---------------|-------------|---------|
-| `-no-padding` | No padding  | false   |
-| `-text`       | Text        |         |
+| Option       | Description                   | Default |
+|--------------|-------------------------------|---------|
+| `-precision` | Time precision (second/ms/ns) | second  |
 
 ## Common options:
 

@@ -103,6 +103,7 @@ import (
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
+	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 )
 
 func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
@@ -318,5 +319,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutildecode.Base64{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
+		&recipeutilunixtime.Now{},
 	}
 }

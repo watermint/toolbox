@@ -1,21 +1,24 @@
-# util encode base_64
+# util unixtime now
 
-Encode text into Base64 (RFC 4648) format
+Display current time in unixtime
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util encode base_64 
+.\tbx.exe util unixtime now 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util encode base_64 
+$HOME/Desktop/tbx util unixtime now 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -26,10 +29,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明       | デフォルト |
-|---------------|------------|------------|
-| `-no-padding` | No padding | false      |
-| `-text`       | Text       |            |
+| オプション   | 説明                          | デフォルト |
+|--------------|-------------------------------|------------|
+| `-precision` | Time precision (second/ms/ns) | second     |
 
 ## 共通のオプション:
 

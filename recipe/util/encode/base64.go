@@ -2,14 +2,14 @@ package encode
 
 import (
 	"encoding/base64"
-	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/ui_out"
 )
 
 type Base64 struct {
+	rc_recipe.RemarkTransient
 	Text      string
 	NoPadding bool
 }
@@ -24,12 +24,7 @@ func (z *Base64) Exec(c app_control.Control) error {
 	} else {
 		coder = base64.StdEncoding
 	}
-	t := coder.EncodeToString([]byte(z.Text))
-	if c.Feature().IsQuiet() {
-		_, _ = es_stdout.NewDirectOut().Write([]byte(t))
-	} else {
-		c.UI().Info(app_msg.Raw(t))
-	}
+	ui_out.TextOut(c, coder.EncodeToString([]byte(z.Text)))
 
 	return nil
 }

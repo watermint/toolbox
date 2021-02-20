@@ -2,14 +2,14 @@ package decode
 
 import (
 	"encoding/base32"
-	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/ui_out"
 )
 
 type Base32 struct {
+	rc_recipe.RemarkTransient
 	Text      string
 	NoPadding bool
 }
@@ -28,11 +28,7 @@ func (z *Base32) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	if c.Feature().IsQuiet() {
-		_, _ = es_stdout.NewDirectOut().Write([]byte(t))
-	} else {
-		c.UI().Info(app_msg.Raw(t))
-	}
+	ui_out.TextOut(c, string(t))
 
 	return nil
 }

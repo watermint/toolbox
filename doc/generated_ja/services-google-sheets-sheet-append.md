@@ -19,7 +19,6 @@ next row of the table, starting with the first column of the table.
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Google: https://support.google.com/accounts/answer/3466521
 
 ## 認可スコープ
@@ -32,7 +31,6 @@ next row of the table, starting with the first column of the table.
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -53,18 +51,15 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe services google sheets sheet append 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx services google sheets sheet append 
 ```

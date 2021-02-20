@@ -5,18 +5,15 @@ Encode text into Base32 (RFC 4648) format
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util encode base_32 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util encode base_32 
 ```
