@@ -1,21 +1,24 @@
-# util unixtime now
+# util date today
 
-Display current time in unixtime
+Display current date
 
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util unixtime now 
+.\tbx.exe util date today 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util unixtime now 
+$HOME/Desktop/tbx util date today 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -28,9 +31,9 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option       | Description                   | Default |
-|--------------|-------------------------------|---------|
-| `-precision` | Time precision (second/ms/ns) | second  |
+| Option | Description | Default |
+|--------|-------------|---------|
+| `-utc` | Use UTC     | false   |
 
 ## Common options:
 

@@ -1,21 +1,24 @@
-# util unixtime now
+# util xlsx sheet export
 
-Display current time in unixtime
+Export data from the xlsx file
 
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util unixtime now 
+.\tbx.exe util xlsx sheet export -file /LOCAL/PATH/TO/export.xlsx
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util unixtime now 
+$HOME/Desktop/tbx util xlsx sheet export -file /LOCAL/PATH/TO/export.xlsx
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -28,9 +31,12 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option       | Description                   | Default |
-|--------------|-------------------------------|---------|
-| `-precision` | Time precision (second/ms/ns) | second  |
+| Option         | Description       | Default |
+|----------------|-------------------|---------|
+| `-data`        | Export data path  |         |
+| `-data-format` | Output format     |         |
+| `-file`        | Path to data file |         |
+| `-sheet`       | Sheet name        |         |
 
 ## Common options:
 
@@ -50,6 +56,12 @@ Open" on the dialogue.
 | `-secure`         | Do not store tokens into a file                                                           | false                |
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
+
+# Grid data output of the command
+
+## Grid data output: Data
+
+Export data
 
 # Proxy configuration
 

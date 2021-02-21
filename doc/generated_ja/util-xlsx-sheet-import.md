@@ -1,21 +1,24 @@
-# util unixtime now
+# util xlsx sheet import
 
-Display current time in unixtime
+Import data into xlsx file
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util unixtime now 
+.\tbx.exe util xlsx sheet import -file /LOCAL/PATH/TO/import.xlsx
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util unixtime now 
+$HOME/Desktop/tbx util xlsx sheet import -file /LOCAL/PATH/TO/import.xlsx
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -26,9 +29,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                          | デフォルト |
-|--------------|-------------------------------|------------|
-| `-precision` | Time precision (second/ms/ns) | second     |
+| オプション  | 説明                                                   | デフォルト |
+|-------------|--------------------------------------------------------|------------|
+| `-data`     | Data path                                              |            |
+| `-file`     | Path to data file                                      |            |
+| `-position` | Start position to import in A1 notation. Default `A1`. | A1         |
+| `-sheet`    | Sheet name                                             |            |
 
 ## 共通のオプション:
 
@@ -48,6 +54,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
+
+# Grid data input for the command
+
+## Grid data input: Data
+
+Input data file
 
 # ネットワークプロクシの設定
 

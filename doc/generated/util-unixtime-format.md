@@ -1,21 +1,24 @@
-# util unixtime now
+# util unixtime format
 
-Display current time in unixtime
+Format time from the unix time (epoch seconds from 1970-01-01
 
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util unixtime now 
+.\tbx.exe util unixtime format 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util unixtime now 
+$HOME/Desktop/tbx util unixtime format 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -30,6 +33,7 @@ Open" on the dialogue.
 
 | Option       | Description                   | Default |
 |--------------|-------------------------------|---------|
+| `-format`    | Time format                   | iso8601 |
 | `-precision` | Time precision (second/ms/ns) | second  |
 
 ## Common options:

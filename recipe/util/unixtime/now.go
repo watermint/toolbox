@@ -1,6 +1,7 @@
 package unixtime
 
 import (
+	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -41,6 +42,7 @@ func (z *Now) Exec(c app_control.Control) error {
 		ui_out.TextOut(c, fmt.Sprintf("%d", time.Now().UnixNano()))
 	default:
 		c.Log().Error("Undefined precision", esl.String("precision", z.Precision.Value()))
+		return errors.New("undefined precision")
 	}
 	return nil
 }

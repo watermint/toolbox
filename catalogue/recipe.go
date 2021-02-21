@@ -101,9 +101,14 @@ import (
 	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
+	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
+	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
+	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
+	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
+	recipeutilxlsxsheet "github.com/watermint/toolbox/recipe/util/xlsx/sheet"
 )
 
 func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
@@ -315,10 +320,17 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfoldermember.List{},
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
+		&recipeutildate.Today{},
+		&recipeutildatetime.Now{},
 		&recipeutildecode.Base32{},
 		&recipeutildecode.Base64{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
+		&recipeutiltime.Now{},
+		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},
+		&recipeutilxlsx.Create{},
+		&recipeutilxlsxsheet.Export{},
+		&recipeutilxlsxsheet.Import{},
 	}
 }

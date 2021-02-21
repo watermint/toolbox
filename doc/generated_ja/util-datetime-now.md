@@ -1,21 +1,24 @@
-# util unixtime now
+# util datetime now
 
-Display current time in unixtime
+Display current date/time
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util unixtime now 
+.\tbx.exe util datetime now 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util unixtime now 
+$HOME/Desktop/tbx util datetime now 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -26,9 +29,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                          | デフォルト |
-|--------------|-------------------------------|------------|
-| `-precision` | Time precision (second/ms/ns) | second     |
+| オプション | 説明    | デフォルト |
+|------------|---------|------------|
+| `-utc`     | Use UTC | false      |
 
 ## 共通のオプション:
 

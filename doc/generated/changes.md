@@ -3,20 +3,27 @@
 # Commands added
 
 
-| Command                                   | Title                                     |
-|-------------------------------------------|-------------------------------------------|
-| dev stage griddata                        | Grid data test                            |
-| services google sheets sheet append       | Append data to a spreadsheet              |
-| services google sheets sheet clear        | Clears values from a spreadsheet          |
-| services google sheets sheet export       | Export sheet data                         |
-| services google sheets sheet import       | Import data into the spreadsheet          |
-| services google sheets sheet list         | List sheets of the spreadsheet            |
-| services google sheets spreadsheet create | Create a new spreadsheet                  |
-| util decode base_32                       | Decode text from Base32 (RFC 4648) format |
-| util decode base_64                       | Decode text from Base64 (RFC 4648) format |
-| util encode base_32                       | Encode text into Base32 (RFC 4648) format |
-| util encode base_64                       | Encode text into Base64 (RFC 4648) format |
-| util unixtime now                         | Display current time in unixtime          |
+| Command                                   | Title                                                         |
+|-------------------------------------------|---------------------------------------------------------------|
+| dev stage griddata                        | Grid data test                                                |
+| services google sheets sheet append       | Append data to a spreadsheet                                  |
+| services google sheets sheet clear        | Clears values from a spreadsheet                              |
+| services google sheets sheet export       | Export sheet data                                             |
+| services google sheets sheet import       | Import data into the spreadsheet                              |
+| services google sheets sheet list         | List sheets of the spreadsheet                                |
+| services google sheets spreadsheet create | Create a new spreadsheet                                      |
+| util date today                           | Display current date                                          |
+| util datetime now                         | Display current date/time                                     |
+| util decode base_32                       | Decode text from Base32 (RFC 4648) format                     |
+| util decode base_64                       | Decode text from Base64 (RFC 4648) format                     |
+| util encode base_32                       | Encode text into Base32 (RFC 4648) format                     |
+| util encode base_64                       | Encode text into Base64 (RFC 4648) format                     |
+| util time now                             | Display current time                                          |
+| util unixtime format                      | Format time from the unix time (epoch seconds from 1970-01-01 |
+| util unixtime now                         | Display current time in unixtime                              |
+| util xlsx create                          | Create an empty spreadsheet                                   |
+| util xlsx sheet export                    | Export data from the xlsx file                                |
+| util xlsx sheet import                    | Import data into xlsx file                                    |
 
 
 

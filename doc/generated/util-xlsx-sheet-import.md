@@ -1,21 +1,24 @@
-# util unixtime now
+# util xlsx sheet import
 
-Display current time in unixtime
+Import data into xlsx file
 
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util unixtime now 
+.\tbx.exe util xlsx sheet import -file /LOCAL/PATH/TO/import.xlsx
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util unixtime now 
+$HOME/Desktop/tbx util xlsx sheet import -file /LOCAL/PATH/TO/import.xlsx
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -28,9 +31,12 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option       | Description                   | Default |
-|--------------|-------------------------------|---------|
-| `-precision` | Time precision (second/ms/ns) | second  |
+| Option      | Description                                            | Default |
+|-------------|--------------------------------------------------------|---------|
+| `-data`     | Data path                                              |         |
+| `-file`     | Path to data file                                      |         |
+| `-position` | Start position to import in A1 notation. Default `A1`. | A1      |
+| `-sheet`    | Sheet name                                             |         |
 
 ## Common options:
 
@@ -50,6 +56,12 @@ Open" on the dialogue.
 | `-secure`         | Do not store tokens into a file                                                           | false                |
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
+
+# Grid data input for the command
+
+## Grid data input: Data
+
+Input data file
 
 # Proxy configuration
 

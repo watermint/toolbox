@@ -270,24 +270,31 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                       | 説明                                      |
-|----------------------------------------------------------------|-------------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)           | 機能を無効化します.                       |
-| [config enable](doc/generated_ja/config-enable.md)             | 機能を有効化します.                       |
-| [config features](doc/generated_ja/config-features.md)         | 利用可能なオプション機能一覧.             |
-| [file archive local](doc/generated_ja/file-archive-local.md)   | ローカルファイルをアーカイブします        |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md) | ローカルファイルを整理します              |
-| [job history archive](doc/generated_ja/job-history-archive.md) | ジョブのアーカイブ                        |
-| [job history delete](doc/generated_ja/job-history-delete.md)   | 古いジョブ履歴の削除                      |
-| [job history list](doc/generated_ja/job-history-list.md)       | ジョブ履歴の表示                          |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)             | 指定したジョブIDのログを取得する          |
-| [job log kind](doc/generated_ja/job-log-kind.md)               | 指定種別のログを結合して出力します        |
-| [job log last](doc/generated_ja/job-log-last.md)               | 最後のジョブのログファイルを出力.         |
-| [license](doc/generated_ja/license.md)                         | ライセンス情報を表示します                |
-| [util decode base_32](doc/generated_ja/util-decode-base_32.md) | Decode text from Base32 (RFC 4648) format |
-| [util decode base_64](doc/generated_ja/util-decode-base_64.md) | Decode text from Base64 (RFC 4648) format |
-| [util encode base_32](doc/generated_ja/util-encode-base_32.md) | Encode text into Base32 (RFC 4648) format |
-| [util encode base_64](doc/generated_ja/util-encode-base_64.md) | Encode text into Base64 (RFC 4648) format |
-| [util unixtime now](doc/generated_ja/util-unixtime-now.md)     | Display current time in unixtime          |
-| [version](doc/generated_ja/version.md)                         | バージョン情報                            |
+| コマンド                                                             | 説明                                                          |
+|----------------------------------------------------------------------|---------------------------------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)                 | 機能を無効化します.                                           |
+| [config enable](doc/generated_ja/config-enable.md)                   | 機能を有効化します.                                           |
+| [config features](doc/generated_ja/config-features.md)               | 利用可能なオプション機能一覧.                                 |
+| [file archive local](doc/generated_ja/file-archive-local.md)         | ローカルファイルをアーカイブします                            |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md)       | ローカルファイルを整理します                                  |
+| [job history archive](doc/generated_ja/job-history-archive.md)       | ジョブのアーカイブ                                            |
+| [job history delete](doc/generated_ja/job-history-delete.md)         | 古いジョブ履歴の削除                                          |
+| [job history list](doc/generated_ja/job-history-list.md)             | ジョブ履歴の表示                                              |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)                   | 指定したジョブIDのログを取得する                              |
+| [job log kind](doc/generated_ja/job-log-kind.md)                     | 指定種別のログを結合して出力します                            |
+| [job log last](doc/generated_ja/job-log-last.md)                     | 最後のジョブのログファイルを出力.                             |
+| [license](doc/generated_ja/license.md)                               | ライセンス情報を表示します                                    |
+| [util date today](doc/generated_ja/util-date-today.md)               | Display current date                                          |
+| [util datetime now](doc/generated_ja/util-datetime-now.md)           | Display current date/time                                     |
+| [util decode base_32](doc/generated_ja/util-decode-base_32.md)       | Decode text from Base32 (RFC 4648) format                     |
+| [util decode base_64](doc/generated_ja/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                     |
+| [util encode base_32](doc/generated_ja/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                     |
+| [util encode base_64](doc/generated_ja/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                     |
+| [util time now](doc/generated_ja/util-time-now.md)                   | Display current time                                          |
+| [util unixtime format](doc/generated_ja/util-unixtime-format.md)     | Format time from the unix time (epoch seconds from 1970-01-01 |
+| [util unixtime now](doc/generated_ja/util-unixtime-now.md)           | Display current time in unixtime                              |
+| [util xlsx create](doc/generated_ja/util-xlsx-create.md)             | Create an empty spreadsheet                                   |
+| [util xlsx sheet export](doc/generated_ja/util-xlsx-sheet-export.md) | Export data from the xlsx file                                |
+| [util xlsx sheet import](doc/generated_ja/util-xlsx-sheet-import.md) | Import data into xlsx file                                    |
+| [version](doc/generated_ja/version.md)                               | バージョン情報                                                |
 

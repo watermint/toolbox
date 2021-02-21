@@ -1,21 +1,24 @@
-# util unixtime now
+# util xlsx create
 
-Display current time in unixtime
+Create an empty spreadsheet
 
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util unixtime now 
+.\tbx.exe util xlsx create -file /LOCAL/PATH/TO/create.xlsx
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util unixtime now 
+$HOME/Desktop/tbx util xlsx create -file /LOCAL/PATH/TO/create.xlsx
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -28,9 +31,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option       | Description                   | Default |
-|--------------|-------------------------------|---------|
-| `-precision` | Time precision (second/ms/ns) | second  |
+| Option   | Description       | Default |
+|----------|-------------------|---------|
+| `-file`  | Path to data file |         |
+| `-sheet` | Sheet name        |         |
 
 ## Common options:
 
