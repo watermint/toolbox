@@ -4,6 +4,7 @@ import (
 	"flag"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -15,6 +16,14 @@ import (
 type MockSpec struct {
 	name string
 	path []string
+}
+
+func (z MockSpec) GridDataInput() map[string]da_griddata.GridDataInputSpec {
+	panic("implement me")
+}
+
+func (z MockSpec) GridDataOutput() map[string]da_griddata.GridDataOutputSpec {
+	panic("implement me")
 }
 
 func (z MockSpec) CliNameRef(relPath string) app_msg.Message {

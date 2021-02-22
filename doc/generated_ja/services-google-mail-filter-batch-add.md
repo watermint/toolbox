@@ -144,8 +144,7 @@ from:@google.com,my_label,"my_label,INBOX"
 
 ## レポート: messages
 
-メッセージリソース
-このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
+メッセージリソース このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
 
 | 列        | 説明                           |
 |-----------|--------------------------------|

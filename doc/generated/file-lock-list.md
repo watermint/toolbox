@@ -72,10 +72,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description        | Default |
-|---------|--------------------|---------|
-| `-path` | Path to list locks |         |
-| `-peer` | Account alias      | default |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-path` | Path          |         |
+| `-peer` | Account alias | default |
 
 ## Common options:
 

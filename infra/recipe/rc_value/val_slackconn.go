@@ -24,7 +24,7 @@ type ValueSlackConn struct {
 	peerName string
 }
 
-func (z *ValueSlackConn) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueSlackConn) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*work_conn.ConnSlackApi)(nil)).Elem()) {
 		return newValueSlack(name)
 	}

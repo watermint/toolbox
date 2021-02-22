@@ -1,6 +1,6 @@
 # file lock all release
 
-Release all locks under the specified path
+指定したパスでのすべてのロックを解除する
 
 # セキュリティ
 
@@ -69,11 +69,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                  | デフォルト |
-|---------------|-----------------------|------------|
-| `-batch-size` | Operation batch size  | 100        |
-| `-path`       | Path to release locks |            |
-| `-peer`       | Account alias         | default    |
+| オプション    | 説明                       | デフォルト |
+|---------------|----------------------------|------------|
+| `-batch-size` | 操作バッチサイズ           | 100        |
+| `-path`       | ロックを解除するためのパス |            |
+| `-peer`       | アカウントの別名           | default    |
 
 ## 共通のオプション:
 
@@ -108,18 +108,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                      | 説明                                                                                                   |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| status                  | 処理の状態                                                                                             |
-| reason                  | 失敗またはスキップの理由                                                                               |
-| input.path              | Path                                                                                                   |
-| result.tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified  | The last time the file was modified on Dropbox.                                                        |
-| result.size             | The file size in bytes.                                                                                |
-| result.is_lock_holder   | True if caller holds the file lock                                                                     |
-| result.lock_holder_name | The display name of the lock holder.                                                                   |
-| result.lock_created     | The timestamp of the lock was created.                                                                 |
+| 列                      | 説明                                                         |
+|-------------------------|--------------------------------------------------------------|
+| status                  | 処理の状態                                                   |
+| reason                  | 失敗またはスキップの理由                                     |
+| input.path              | パス                                                         |
+| result.tag              | エントリーの種別`file`, `folder`, または `deleted`           |
+| result.client_modified  | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified  | Dropbox上で最後に更新された日時                              |
+| result.size             | ファイルサイズ(バイト単位)                                   |
+| result.is_lock_holder   | 呼び出し元がファイルロックを保持している場合は True          |
+| result.lock_holder_name | ロックホルダーの表示名です                                   |
+| result.lock_created     | ロックが作成されたタイムスタンプ.                            |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

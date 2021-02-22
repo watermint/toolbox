@@ -25,7 +25,7 @@ type ValueDbxConnScopedIndividual struct {
 	peerName string
 }
 
-func (z *ValueDbxConnScopedIndividual) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueDbxConnScopedIndividual) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*dbx_conn.ConnScopedIndividual)(nil)).Elem()) {
 		return newValueDbxConnScopedIndividual(z.peerName)
 	}

@@ -8,6 +8,7 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
+// Gmail scopes
 const (
 	// Create, read, update, and delete labels only.
 	ScopeGmailLabels = "https://www.googleapis.com/auth/gmail.labels"
@@ -38,6 +39,25 @@ const (
 
 	// Full access to the account, including permanent deletion of threads and messages.
 	ScopeGmailFull = "https://mail.google.com/"
+)
+
+// Google Sheets API scopes
+// https://developers.google.com/sheets/api/guides/authorizing
+const (
+	// Allows read-only access to the user's sheets and their properties.
+	ScopeSheetsReadOnly = "https://www.googleapis.com/auth/spreadsheets.readonly"
+
+	// Allows read/write access to the user's sheets and their properties.
+	ScopeSheetsReadWrite = "https://www.googleapis.com/auth/spreadsheets"
+
+	// Allows read-only access to the user's file metadata and file content.
+	ScopeSheetsDriveReadOnly = "https://www.googleapis.com/auth/drive.readonly"
+
+	// Per-file access to files created or opened by the app.
+	ScopeSheetsDriveFile = "https://www.googleapis.com/auth/drive.file"
+
+	// Full, permissive scope to access all of a user's files. Request this scope only when it is strictly necessary.
+	ScopeSheetsFull = "https://www.googleapis.com/auth/drive"
 )
 
 func NewApp(ctl app_control.Control) api_auth.App {

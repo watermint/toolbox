@@ -1,6 +1,6 @@
 # file lock list
 
-List locks under the specified path
+指定したパスの下にあるロックを一覧表示します
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明               | デフォルト |
-|------------|--------------------|------------|
-| `-path`    | Path to list locks |            |
-| `-peer`    | Account alias      | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-path`    | パス             |            |
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -105,19 +105,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: lock
 
-Lock information このコマンドはレポートを3種類の書式で出力します. `lock.csv`, `lock.json`, ならびに `lock.xlsx`.
+ロック情報 このコマンドはレポートを3種類の書式で出力します. `lock.csv`, `lock.json`, ならびに `lock.xlsx`.
 
-| 列               | 説明                                                                                                   |
-|------------------|--------------------------------------------------------------------------------------------------------|
-| tag              | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name             | The last component of the path (including extension).                                                  |
-| path_display     | The cased path to be used for display purposes only.                                                   |
-| client_modified  | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified  | The last time the file was modified on Dropbox.                                                        |
-| size             | The file size in bytes.                                                                                |
-| is_lock_holder   | True if caller holds the file lock                                                                     |
-| lock_holder_name | The display name of the lock holder.                                                                   |
-| lock_created     | The timestamp of the lock was created.                                                                 |
+| 列               | 説明                                                         |
+|------------------|--------------------------------------------------------------|
+| tag              | エントリーの種別`file`, `folder`, または `deleted`           |
+| name             | 名称                                                         |
+| path_display     | パス (表示目的で大文字小文字を区別する).                     |
+| client_modified  | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| server_modified  | Dropbox上で最後に更新された日時                              |
+| size             | ファイルサイズ(バイト単位)                                   |
+| is_lock_holder   | 呼び出し元がファイルロックを保持している場合は True          |
+| lock_holder_name | ロックホルダーの表示名です                                   |
+| lock_created     | ロックが作成されたタイムスタンプ.                            |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

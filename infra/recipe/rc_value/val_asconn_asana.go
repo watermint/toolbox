@@ -24,7 +24,7 @@ type ValueAsConnAsana struct {
 	peerName string
 }
 
-func (z *ValueAsConnAsana) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueAsConnAsana) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*as_conn.ConnAsanaApi)(nil)).Elem()) {
 		return newValueAsConnAsana(z.peerName)
 	}

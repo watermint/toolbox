@@ -3,6 +3,7 @@ package rc_recipe
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -48,6 +49,12 @@ type Spec interface {
 
 	// Spec of feeds
 	Feeds() map[string]fd_file.Spec
+
+	// Spec of grid data input
+	GridDataInput() map[string]da_griddata.GridDataInputSpec
+
+	// Spec of grid data output
+	GridDataOutput() map[string]da_griddata.GridDataOutputSpec
 
 	// Messages used by this recipe
 	Messages() []app_msg.Message

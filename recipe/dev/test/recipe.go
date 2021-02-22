@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/recipe/qtr_timeout"
 	"time"
 )
@@ -25,9 +26,11 @@ type Recipe struct {
 	Single    mo_string.OptionalString
 	NoTimeout bool
 	Verbose   bool
+	Result    rp_model.RowReport
 }
 
 func (z *Recipe) Preset() {
+	z.Result.SetModel(&qtr_timeout.RecipeTestResult{})
 }
 
 func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
@@ -40,7 +43,9 @@ func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
 		return nil
 	}
 
-	return qtr_timeout.RunRecipeTestWithTimeout(c, r, !z.NoTimeout, false)
+	rtr, err := qtr_timeout.RunRecipeTestWithTimeout(c, r, !z.NoTimeout, false)
+	z.Result.Row(&rtr)
+	return err
 }
 
 func (z *Recipe) runAll(c app_control.Control) error {
@@ -61,6 +66,9 @@ func (z *Recipe) runAll(c app_control.Control) error {
 func (z *Recipe) Exec(c app_control.Control) error {
 	cat := app_catalogue.Current()
 	l := c.Log()
+	if err := z.Result.Open(); err != nil {
+		return err
+	}
 
 	switch {
 	case z.All:

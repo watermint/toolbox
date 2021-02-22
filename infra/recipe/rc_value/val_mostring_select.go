@@ -33,7 +33,7 @@ func (z *ValueMoStringSelect) Spec() (typeName string, typeAttr interface{}) {
 	}
 }
 
-func (z *ValueMoStringSelect) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueMoStringSelect) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*mo_string.SelectString)(nil)).Elem()) {
 		return newValueSelectString()
 	}

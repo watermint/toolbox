@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/doc/dc_options"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -107,6 +108,7 @@ func (z *specValueSelfContained) SpecId() string {
 }
 
 func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
+	// feed ----
 	feeds := make([]*dc_recipe.Feed, 0)
 	feedNames := make([]string, 0)
 	feedMaps := make(map[string]*dc_recipe.Feed)
@@ -120,6 +122,7 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		feeds = append(feeds, feedMaps[f])
 	}
 
+	// report
 	reports := make([]*dc_recipe.Report, 0)
 	reportNames := make([]string, 0)
 	reportMap := make(map[string]*dc_recipe.Report)
@@ -131,6 +134,34 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 	sort.Strings(reportNames)
 	for _, r := range reportNames {
 		reports = append(reports, reportMap[r])
+	}
+
+	// grid data input
+	gridDataInputs := make([]*dc_recipe.DocGridDataInput, 0)
+	gridDataInputNames := make([]string, 0)
+	gridDataInputMap := make(map[string]*dc_recipe.DocGridDataInput)
+
+	for _, g := range z.GridDataInput() {
+		gridDataInputMap[g.Name()] = g.Doc(ui)
+		gridDataInputNames = append(gridDataInputNames, g.Name())
+	}
+	sort.Strings(gridDataInputNames)
+	for _, g := range gridDataInputNames {
+		gridDataInputs = append(gridDataInputs, gridDataInputMap[g])
+	}
+
+	// grid data output
+	gridDataOutputs := make([]*dc_recipe.DocGridDataOutput, 0)
+	gridDataOutputNames := make([]string, 0)
+	gridDataOutputMap := make(map[string]*dc_recipe.DocGridDataOutput)
+
+	for _, g := range z.GridDataOutput() {
+		gridDataOutputMap[g.Name()] = g.Doc(ui)
+		gridDataOutputNames = append(gridDataOutputNames, g.Name())
+	}
+	sort.Strings(gridDataOutputNames)
+	for _, g := range gridDataOutputNames {
+		gridDataOutputs = append(gridDataOutputs, gridDataOutputMap[g])
 	}
 
 	values := make([]*dc_recipe.Value, 0)
@@ -185,9 +216,11 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		IsExperimental:  z.IsExperimental(),
 		IsIrreversible:  z.IsIrreversible(),
 		IsTransient:     z.IsTransient(),
-		Feeds:           feeds,
 		Reports:         reports,
+		Feeds:           feeds,
 		Values:          values,
+		GridDataInput:   gridDataInputs,
+		GridDataOutput:  gridDataOutputs,
 	}
 }
 
@@ -342,6 +375,14 @@ func (z *specValueSelfContained) Reports() []rp_model.Spec {
 		reps = append(reps, s)
 	}
 	return reps
+}
+
+func (z *specValueSelfContained) GridDataInput() map[string]da_griddata.GridDataInputSpec {
+	return z.repo.GridDataInputSpecs()
+}
+
+func (z *specValueSelfContained) GridDataOutput() map[string]da_griddata.GridDataOutputSpec {
+	return z.repo.GridDataOutputSpecs()
 }
 
 func (z *specValueSelfContained) Feeds() map[string]fd_file.Spec {

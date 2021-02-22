@@ -69,6 +69,8 @@ import (
 	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
 	recipeservicesgooglemailmessageprocessed "github.com/watermint/toolbox/recipe/services/google/mail/message/processed"
 	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
+	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
+	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -99,6 +101,14 @@ import (
 	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
+	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
+	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
+	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
+	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
+	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
+	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
+	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
+	recipeutilxlsxsheet "github.com/watermint/toolbox/recipe/util/xlsx/sheet"
 )
 
 func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
@@ -138,6 +148,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevstage.Gmail{},
+		&recipedevstage.Griddata{},
 		&recipedevstage.Gui{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
@@ -253,6 +264,12 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglemailmessagelabel.Delete{},
 		&recipeservicesgooglemailmessageprocessed.List{},
 		&recipeservicesgooglemailthread.List{},
+		&recipeservicesgooglesheetssheet.Append{},
+		&recipeservicesgooglesheetssheet.Clear{},
+		&recipeservicesgooglesheetssheet.Export{},
+		&recipeservicesgooglesheetssheet.Import{},
+		&recipeservicesgooglesheetssheet.List{},
+		&recipeservicesgooglesheetsspreadsheet.Create{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.List{},
 		&recipesharedfoldermember.List{},
@@ -303,5 +320,18 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfoldermember.List{},
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
+		&recipeutildate.Today{},
+		&recipeutildatetime.Now{},
+		&recipeutildecode.Base32{},
+		&recipeutildecode.Base64{},
+		&recipeutilencode.Base32{},
+		&recipeutilencode.Base64{},
+		&recipeutiltime.Now{},
+		&recipeutilunixtime.Format{},
+		&recipeutilunixtime.Now{},
+		&recipeutilxlsx.Create{},
+		&recipeutilxlsxsheet.Export{},
+		&recipeutilxlsxsheet.Import{},
+		&recipeutilxlsxsheet.List{},
 	}
 }

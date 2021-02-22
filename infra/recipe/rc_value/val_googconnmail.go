@@ -20,11 +20,11 @@ func newValueGoogConnMail(peerName string) rc_recipe.Value {
 }
 
 type ValueGoogConnMail struct {
-	conn     goog_conn.ConnGoogleApi
+	conn     goog_conn.ConnGoogleMail
 	peerName string
 }
 
-func (z *ValueGoogConnMail) Accept(t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
+func (z *ValueGoogConnMail) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*goog_conn.ConnGoogleMail)(nil)).Elem()) {
 		return newValueGoogConnMail(z.peerName)
 	}

@@ -32,6 +32,10 @@ func TestWithTestFile(t *testing.T, name, content string, f func(path string)) {
 	_ = os.Remove(tf)
 }
 
+func MakeTestCsv(name string) (path string, err error) {
+	return MakeTestFile(name, "alex@example.com,Alex\ndavid@example.com,David\nkevin@example.com,Kevin\n")
+}
+
 func MakeTestFile(name string, content string) (path string, err error) {
 	d, err := ioutil.TempFile("", name)
 	if err != nil {

@@ -3,8 +3,8 @@ package thread
 import (
 	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
-	"github.com/watermint/toolbox/domain/google/model/mo_thread"
-	"github.com/watermint/toolbox/domain/google/service/sv_thread"
+	"github.com/watermint/toolbox/domain/google/mail/model/mo_thread"
+	"github.com/watermint/toolbox/domain/google/mail/service/sv_thread"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"

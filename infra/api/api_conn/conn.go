@@ -10,6 +10,7 @@ const (
 	ServiceDropboxBusiness = "dropbox_business"
 	ServiceGithub          = "github"
 	ServiceGoogleMail      = "google_mail"
+	ServiceGoogleSheets    = "google_sheets"
 	ServiceAsana           = "asana"
 	ServiceSlack           = "slack"
 )
@@ -20,6 +21,7 @@ var (
 		ServiceDropboxBusiness,
 		ServiceGithub,
 		ServiceGoogleMail,
+		ServiceGoogleSheets,
 		ServiceAsana,
 		ServiceSlack,
 		ServiceUtility,

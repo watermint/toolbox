@@ -107,8 +107,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: message
 
-メッセージリソース
-このコマンドはレポートを3種類の書式で出力します. `message.csv`, `message.json`, ならびに `message.xlsx`.
+メッセージリソース このコマンドはレポートを3種類の書式で出力します. `message.csv`, `message.json`, ならびに `message.xlsx`.
 
 | 列        | 説明                           |
 |-----------|--------------------------------|
