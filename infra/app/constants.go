@@ -33,6 +33,9 @@ const (
 	// Env variable name of verbose debug mode. Expected format is bool.
 	EnvNameDebugVerbose = "TOOLBOX_DEBUG_VERBOSE"
 
+	// Env variable name of quiet mode on test.
+	EnvNameTestQuiet = "TOOLBOX_TEST_QUIET"
+
 	// Env variable name of deploy token. Expected format is JSON encoded tokens.
 	EnvNameDeployToken = "TOOLBOX_DEPLOY_TOKEN"
 
