@@ -1,21 +1,24 @@
-# util datetime now
+# util xlsx sheet list
 
-Display current date/time
+List sheets of the xlsx file
 
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util datetime now 
+.\tbx.exe util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util datetime now 
+$HOME/Desktop/tbx util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -28,9 +31,9 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-utc` | Use UTC     | false   |
+| Option  | Description       | Default |
+|---------|-------------------|---------|
+| `-file` | Path to data file |         |
 
 ## Common options:
 
@@ -50,6 +53,33 @@ Open" on the dialogue.
 | `-secure`         | Do not store tokens into a file                                                           | false                |
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
+
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see
+path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: sheets
+
+Sheet The command will generate a report in three different formats. `sheets.csv`, `sheets.json`, and `sheets.xlsx`.
+
+| Column | Description                             |
+|--------|-----------------------------------------|
+| name   | Name of the sheet                       |
+| rows   | Number of rows                          |
+| cols   | Number of columns                       |
+| hidden | True when if the sheet marked as hidden |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like
+follows; `sheets_0000.xlsx`, `sheets_0001.xlsx`, `sheets_0002.xlsx`, ...
 
 # Proxy configuration
 

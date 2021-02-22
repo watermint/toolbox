@@ -5,18 +5,15 @@ Import data into xlsx file
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util xlsx sheet import -file /LOCAL/PATH/TO/import.xlsx
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util xlsx sheet import -file /LOCAL/PATH/TO/import.xlsx
 ```

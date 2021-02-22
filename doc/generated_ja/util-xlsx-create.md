@@ -5,18 +5,15 @@ Create an empty spreadsheet
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util xlsx create -file /LOCAL/PATH/TO/create.xlsx
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util xlsx create -file /LOCAL/PATH/TO/create.xlsx
 ```

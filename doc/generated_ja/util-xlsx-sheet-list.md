@@ -1,21 +1,24 @@
-# util datetime now
+# util xlsx sheet list
 
-Display current date/time
+List sheets of the xlsx file
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util datetime now 
+.\tbx.exe util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util datetime now 
+$HOME/Desktop/tbx util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -26,9 +29,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明    | デフォルト |
-|------------|---------|------------|
-| `-utc`     | Use UTC | false      |
+| オプション | 説明              | デフォルト |
+|------------|-------------------|------------|
+| `-file`    | Path to data file |            |
 
 ## 共通のオプション:
 
@@ -48,6 +51,32 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: sheets
+
+Sheet このコマンドはレポートを3種類の書式で出力します. `sheets.csv`, `sheets.json`, ならびに `sheets.xlsx`.
+
+| 列     | 説明                                    |
+|--------|-----------------------------------------|
+| name   | Name of the sheet                       |
+| rows   | Number of rows                          |
+| cols   | Number of columns                       |
+| hidden | True when if the sheet marked as hidden |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `sheets_0000.xlsx`, `sheets_0001.xlsx`, `sheets_0002.xlsx`,
+...
 
 # ネットワークプロクシの設定
 

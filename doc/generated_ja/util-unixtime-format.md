@@ -5,18 +5,15 @@ Format time from the unix time (epoch seconds from 1970-01-01
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util unixtime format 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util unixtime format 
 ```

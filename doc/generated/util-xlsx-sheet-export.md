@@ -5,18 +5,15 @@ Export data from the xlsx file
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util xlsx sheet export -file /LOCAL/PATH/TO/export.xlsx
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util xlsx sheet export -file /LOCAL/PATH/TO/export.xlsx
 ```

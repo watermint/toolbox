@@ -298,5 +298,6 @@ Available commands:
 | [util xlsx create](doc/generated/util-xlsx-create.md)             | Create an empty spreadsheet                                   |
 | [util xlsx sheet export](doc/generated/util-xlsx-sheet-export.md) | Export data from the xlsx file                                |
 | [util xlsx sheet import](doc/generated/util-xlsx-sheet-import.md) | Import data into xlsx file                                    |
+| [util xlsx sheet list](doc/generated/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                  |
 | [version](doc/generated/version.md)                               | Show version                                                  |
 

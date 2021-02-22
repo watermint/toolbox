@@ -332,5 +332,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilxlsx.Create{},
 		&recipeutilxlsxsheet.Export{},
 		&recipeutilxlsxsheet.Import{},
+		&recipeutilxlsxsheet.List{},
 	}
 }

@@ -5,18 +5,15 @@ Display current time
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util time now 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util time now 
 ```

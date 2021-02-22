@@ -5,18 +5,15 @@ Display current date
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util date today 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util date today 
 ```

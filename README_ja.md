@@ -296,5 +296,6 @@ DropboxおよびDropbox Business向けのツールセット
 | [util xlsx create](doc/generated_ja/util-xlsx-create.md)             | Create an empty spreadsheet                                   |
 | [util xlsx sheet export](doc/generated_ja/util-xlsx-sheet-export.md) | Export data from the xlsx file                                |
 | [util xlsx sheet import](doc/generated_ja/util-xlsx-sheet-import.md) | Import data into xlsx file                                    |
+| [util xlsx sheet list](doc/generated_ja/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                  |
 | [version](doc/generated_ja/version.md)                               | バージョン情報                                                |
 
