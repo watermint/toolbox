@@ -272,32 +272,32 @@ Available commands:
 
 ## Utilities
 
-| Command                                                           | Description                                                   |
-|-------------------------------------------------------------------|---------------------------------------------------------------|
-| [config disable](doc/generated/config-disable.md)                 | Disable a feature.                                            |
-| [config enable](doc/generated/config-enable.md)                   | Enable a feature.                                             |
-| [config features](doc/generated/config-features.md)               | List available optional features.                             |
-| [file archive local](doc/generated/file-archive-local.md)         | Archive local files                                           |
-| [file dispatch local](doc/generated/file-dispatch-local.md)       | Dispatch local files                                          |
-| [job history archive](doc/generated/job-history-archive.md)       | Archive jobs                                                  |
-| [job history delete](doc/generated/job-history-delete.md)         | Delete old job history                                        |
-| [job history list](doc/generated/job-history-list.md)             | Show job history                                              |
-| [job log jobid](doc/generated/job-log-jobid.md)                   | Retrieve logs of specified Job ID                             |
-| [job log kind](doc/generated/job-log-kind.md)                     | Concatenate and print logs of specified log kind              |
-| [job log last](doc/generated/job-log-last.md)                     | Print the last job log files                                  |
-| [license](doc/generated/license.md)                               | Show license information                                      |
-| [util date today](doc/generated/util-date-today.md)               | Display current date                                          |
-| [util datetime now](doc/generated/util-datetime-now.md)           | Display current date/time                                     |
-| [util decode base_32](doc/generated/util-decode-base_32.md)       | Decode text from Base32 (RFC 4648) format                     |
-| [util decode base_64](doc/generated/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                     |
-| [util encode base_32](doc/generated/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                     |
-| [util encode base_64](doc/generated/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                     |
-| [util time now](doc/generated/util-time-now.md)                   | Display current time                                          |
-| [util unixtime format](doc/generated/util-unixtime-format.md)     | Format time from the unix time (epoch seconds from 1970-01-01 |
-| [util unixtime now](doc/generated/util-unixtime-now.md)           | Display current time in unixtime                              |
-| [util xlsx create](doc/generated/util-xlsx-create.md)             | Create an empty spreadsheet                                   |
-| [util xlsx sheet export](doc/generated/util-xlsx-sheet-export.md) | Export data from the xlsx file                                |
-| [util xlsx sheet import](doc/generated/util-xlsx-sheet-import.md) | Import data into xlsx file                                    |
-| [util xlsx sheet list](doc/generated/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                  |
-| [version](doc/generated/version.md)                               | Show version                                                  |
+| Command                                                           | Description                                                          |
+|-------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config disable](doc/generated/config-disable.md)                 | Disable a feature.                                                   |
+| [config enable](doc/generated/config-enable.md)                   | Enable a feature.                                                    |
+| [config features](doc/generated/config-features.md)               | List available optional features.                                    |
+| [file archive local](doc/generated/file-archive-local.md)         | Archive local files                                                  |
+| [file dispatch local](doc/generated/file-dispatch-local.md)       | Dispatch local files                                                 |
+| [job history archive](doc/generated/job-history-archive.md)       | Archive jobs                                                         |
+| [job history delete](doc/generated/job-history-delete.md)         | Delete old job history                                               |
+| [job history list](doc/generated/job-history-list.md)             | Show job history                                                     |
+| [job log jobid](doc/generated/job-log-jobid.md)                   | Retrieve logs of specified Job ID                                    |
+| [job log kind](doc/generated/job-log-kind.md)                     | Concatenate and print logs of specified log kind                     |
+| [job log last](doc/generated/job-log-last.md)                     | Print the last job log files                                         |
+| [license](doc/generated/license.md)                               | Show license information                                             |
+| [util date today](doc/generated/util-date-today.md)               | Display current date                                                 |
+| [util datetime now](doc/generated/util-datetime-now.md)           | Display current date/time                                            |
+| [util decode base_32](doc/generated/util-decode-base_32.md)       | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base_64](doc/generated/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base_32](doc/generated/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base_64](doc/generated/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                            |
+| [util time now](doc/generated/util-time-now.md)                   | Display current time                                                 |
+| [util unixtime format](doc/generated/util-unixtime-format.md)     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
+| [util unixtime now](doc/generated/util-unixtime-now.md)           | Display current time in unixtime                                     |
+| [util xlsx create](doc/generated/util-xlsx-create.md)             | Create an empty spreadsheet                                          |
+| [util xlsx sheet export](doc/generated/util-xlsx-sheet-export.md) | Export data from the xlsx file                                       |
+| [util xlsx sheet import](doc/generated/util-xlsx-sheet-import.md) | Import data into xlsx file                                           |
+| [util xlsx sheet list](doc/generated/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                         |
+| [version](doc/generated/version.md)                               | Show version                                                         |
 

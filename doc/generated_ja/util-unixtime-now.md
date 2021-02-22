@@ -1,6 +1,6 @@
 # util unixtime now
 
-Display current time in unixtime
+UNIX時間で現在の時刻を表示する
 
 # 利用方法
 
@@ -26,9 +26,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                          | デフォルト |
-|--------------|-------------------------------|------------|
-| `-precision` | Time precision (second/ms/ns) | second     |
+| オプション   | 説明                    | デフォルト |
+|--------------|-------------------------|------------|
+| `-precision` | 時間精度 (second/ms/ns) | second     |
 
 ## 共通のオプション:
 

@@ -1,6 +1,6 @@
 # util xlsx sheet export
 
-Export data from the xlsx file
+xlsxファイルからデータをエクスポート
 
 # 利用方法
 
@@ -26,12 +26,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明              | デフォルト |
-|----------------|-------------------|------------|
-| `-data`        | Export data path  |            |
-| `-data-format` | Output format     |            |
-| `-file`        | Path to data file |            |
-| `-sheet`       | Sheet name        |            |
+| オプション     | 説明                     | デフォルト |
+|----------------|--------------------------|------------|
+| `-data`        | エクスポートデータのパス |            |
+| `-data-format` | 出力フォーマット         |            |
+| `-file`        | データファイルへのパス   |            |
+| `-sheet`       | シート名                 |            |
 
 ## 共通のオプション:
 
@@ -52,11 +52,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# Grid data output of the command
+# コマンドのグリッドデータ出力
 
-## Grid data output: Data
+## グリッドデータの出力: Data
 
-Export data
+データの書き出し
 
 # ネットワークプロクシの設定
 

@@ -1,6 +1,6 @@
 # dev stage griddata
 
-Grid data test
+グリッドデータテスト
 
 # 利用方法
 
@@ -28,9 +28,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション    | 説明             | デフォルト |
 |---------------|------------------|------------|
-| `-in`         | Input data path  |            |
-| `-out`        | Output data path |            |
-| `-out-format` | Output format    |            |
+| `-in`         | 入力データのパス |            |
+| `-out`        | 出力データのパス |            |
+| `-out-format` | 出力フォーマット |            |
 
 ## 共通のオプション:
 
@@ -51,17 +51,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# Grid data input for the command
+# コマンドのグリッドデータ入力
 
-## Grid data input: In
+## グリッドデータの入力: In
 
-Test input grid data
+テスト入力グリッドデータ
 
-# Grid data output of the command
+# コマンドのグリッドデータ出力
 
-## Grid data output: Out
+## グリッドデータの出力: Out
 
-Output grid data
+出力グリッドデータ
 
 # ネットワークプロクシの設定
 

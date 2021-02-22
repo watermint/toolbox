@@ -30,6 +30,7 @@ Open" on the dialogue.
 
 | Option      | Description                                            | Default |
 |-------------|--------------------------------------------------------|---------|
+| `-create`   | Create a file if not found                             | false   |
 | `-data`     | Data path                                              |         |
 | `-file`     | Path to data file                                      |         |
 | `-position` | Start position to import in A1 notation. Default `A1`. | A1      |

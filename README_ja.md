@@ -243,14 +243,14 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Google Sheets
 
-| コマンド                                                                                                   | 説明                             |
-|------------------------------------------------------------------------------------------------------------|----------------------------------|
-| [services google sheets sheet append](doc/generated_ja/services-google-sheets-sheet-append.md)             | Append data to a spreadsheet     |
-| [services google sheets sheet clear](doc/generated_ja/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet |
-| [services google sheets sheet export](doc/generated_ja/services-google-sheets-sheet-export.md)             | Export sheet data                |
-| [services google sheets sheet import](doc/generated_ja/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet |
-| [services google sheets sheet list](doc/generated_ja/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet   |
-| [services google sheets spreadsheet create](doc/generated_ja/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet         |
+| コマンド                                                                                                   | 説明                                 |
+|------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| [services google sheets sheet append](doc/generated_ja/services-google-sheets-sheet-append.md)             | スプレッドシートにデータを追加する   |
+| [services google sheets sheet clear](doc/generated_ja/services-google-sheets-sheet-clear.md)               | スプレッドシートから値をクリアする   |
+| [services google sheets sheet export](doc/generated_ja/services-google-sheets-sheet-export.md)             | シートデータのエクスポート           |
+| [services google sheets sheet import](doc/generated_ja/services-google-sheets-sheet-import.md)             | スプレッドシートにデータをインポート |
+| [services google sheets sheet list](doc/generated_ja/services-google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |
+| [services google sheets spreadsheet create](doc/generated_ja/services-google-sheets-spreadsheet-create.md) | 新しいスプレッドシートの作成         |
 
 ## Asana
 
@@ -270,32 +270,32 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                             | 説明                                                          |
-|----------------------------------------------------------------------|---------------------------------------------------------------|
-| [config disable](doc/generated_ja/config-disable.md)                 | 機能を無効化します.                                           |
-| [config enable](doc/generated_ja/config-enable.md)                   | 機能を有効化します.                                           |
-| [config features](doc/generated_ja/config-features.md)               | 利用可能なオプション機能一覧.                                 |
-| [file archive local](doc/generated_ja/file-archive-local.md)         | ローカルファイルをアーカイブします                            |
-| [file dispatch local](doc/generated_ja/file-dispatch-local.md)       | ローカルファイルを整理します                                  |
-| [job history archive](doc/generated_ja/job-history-archive.md)       | ジョブのアーカイブ                                            |
-| [job history delete](doc/generated_ja/job-history-delete.md)         | 古いジョブ履歴の削除                                          |
-| [job history list](doc/generated_ja/job-history-list.md)             | ジョブ履歴の表示                                              |
-| [job log jobid](doc/generated_ja/job-log-jobid.md)                   | 指定したジョブIDのログを取得する                              |
-| [job log kind](doc/generated_ja/job-log-kind.md)                     | 指定種別のログを結合して出力します                            |
-| [job log last](doc/generated_ja/job-log-last.md)                     | 最後のジョブのログファイルを出力.                             |
-| [license](doc/generated_ja/license.md)                               | ライセンス情報を表示します                                    |
-| [util date today](doc/generated_ja/util-date-today.md)               | Display current date                                          |
-| [util datetime now](doc/generated_ja/util-datetime-now.md)           | Display current date/time                                     |
-| [util decode base_32](doc/generated_ja/util-decode-base_32.md)       | Decode text from Base32 (RFC 4648) format                     |
-| [util decode base_64](doc/generated_ja/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                     |
-| [util encode base_32](doc/generated_ja/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                     |
-| [util encode base_64](doc/generated_ja/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                     |
-| [util time now](doc/generated_ja/util-time-now.md)                   | Display current time                                          |
-| [util unixtime format](doc/generated_ja/util-unixtime-format.md)     | Format time from the unix time (epoch seconds from 1970-01-01 |
-| [util unixtime now](doc/generated_ja/util-unixtime-now.md)           | Display current time in unixtime                              |
-| [util xlsx create](doc/generated_ja/util-xlsx-create.md)             | Create an empty spreadsheet                                   |
-| [util xlsx sheet export](doc/generated_ja/util-xlsx-sheet-export.md) | Export data from the xlsx file                                |
-| [util xlsx sheet import](doc/generated_ja/util-xlsx-sheet-import.md) | Import data into xlsx file                                    |
-| [util xlsx sheet list](doc/generated_ja/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                  |
-| [version](doc/generated_ja/version.md)                               | バージョン情報                                                |
+| コマンド                                                             | 説明                                                                   |
+|----------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config disable](doc/generated_ja/config-disable.md)                 | 機能を無効化します.                                                    |
+| [config enable](doc/generated_ja/config-enable.md)                   | 機能を有効化します.                                                    |
+| [config features](doc/generated_ja/config-features.md)               | 利用可能なオプション機能一覧.                                          |
+| [file archive local](doc/generated_ja/file-archive-local.md)         | ローカルファイルをアーカイブします                                     |
+| [file dispatch local](doc/generated_ja/file-dispatch-local.md)       | ローカルファイルを整理します                                           |
+| [job history archive](doc/generated_ja/job-history-archive.md)       | ジョブのアーカイブ                                                     |
+| [job history delete](doc/generated_ja/job-history-delete.md)         | 古いジョブ履歴の削除                                                   |
+| [job history list](doc/generated_ja/job-history-list.md)             | ジョブ履歴の表示                                                       |
+| [job log jobid](doc/generated_ja/job-log-jobid.md)                   | 指定したジョブIDのログを取得する                                       |
+| [job log kind](doc/generated_ja/job-log-kind.md)                     | 指定種別のログを結合して出力します                                     |
+| [job log last](doc/generated_ja/job-log-last.md)                     | 最後のジョブのログファイルを出力.                                      |
+| [license](doc/generated_ja/license.md)                               | ライセンス情報を表示します                                             |
+| [util date today](doc/generated_ja/util-date-today.md)               | 現在の日付を表示                                                       |
+| [util datetime now](doc/generated_ja/util-datetime-now.md)           | 現在の日時を表示                                                       |
+| [util decode base_32](doc/generated_ja/util-decode-base_32.md)       | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base_64](doc/generated_ja/util-decode-base_64.md)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base_32](doc/generated_ja/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base_64](doc/generated_ja/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util time now](doc/generated_ja/util-time-now.md)                   | 現在の時刻を表示                                                       |
+| [util unixtime format](doc/generated_ja/util-unixtime-format.md)     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now](doc/generated_ja/util-unixtime-now.md)           | UNIX時間で現在の時刻を表示する                                         |
+| [util xlsx create](doc/generated_ja/util-xlsx-create.md)             | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export](doc/generated_ja/util-xlsx-sheet-export.md) | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import](doc/generated_ja/util-xlsx-sheet-import.md) | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list](doc/generated_ja/util-xlsx-sheet-list.md)     | xlsxファイルのシート一覧                                               |
+| [version](doc/generated_ja/version.md)                               | バージョン情報                                                         |
 

@@ -109,13 +109,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: label
 
-Label このコマンドはレポートを3種類の書式で出力します. `label.csv`, `label.json`, ならびに `label.xlsx`.
+ラベル このコマンドはレポートを3種類の書式で出力します. `label.csv`, `label.json`, ならびに `label.xlsx`.
 
-| 列   | 説明              |
-|------|-------------------|
-| id   | Label Id          |
-| name | Name of the label |
-| type | Type of the label |
+| 列   | 説明         |
+|------|--------------|
+| id   | ラベルID     |
+| name | ラベル名     |
+| type | ラベルの種類 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

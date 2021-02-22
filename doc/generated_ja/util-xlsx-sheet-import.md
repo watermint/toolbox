@@ -1,6 +1,6 @@
 # util xlsx sheet import
 
-Import data into xlsx file
+データをxlsxファイルにインポート
 
 # 利用方法
 
@@ -26,12 +26,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明                                                   | デフォルト |
-|-------------|--------------------------------------------------------|------------|
-| `-data`     | Data path                                              |            |
-| `-file`     | Path to data file                                      |            |
-| `-position` | Start position to import in A1 notation. Default `A1`. | A1         |
-| `-sheet`    | Sheet name                                             |            |
+| オプション  | 説明                                                  | デフォルト |
+|-------------|-------------------------------------------------------|------------|
+| `-create`   | 見つからなかった場合はファイルを作成する              | false      |
+| `-data`     | データパス                                            |            |
+| `-file`     | データファイルへのパス                                |            |
+| `-position` | A1表記でのインポート開始位置. デフォルトは `A1` です. | A1         |
+| `-sheet`    | シート名                                              |            |
 
 ## 共通のオプション:
 
@@ -52,11 +53,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# Grid data input for the command
+# コマンドのグリッドデータ入力
 
-## Grid data input: Data
+## グリッドデータの入力: Data
 
-Input data file
+入力データファイル
 
 # ネットワークプロクシの設定
 

@@ -1,6 +1,6 @@
 # util unixtime format
 
-Format time from the unix time (epoch seconds from 1970-01-01
+UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット
 
 # 利用方法
 
@@ -26,10 +26,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                          | デフォルト |
-|--------------|-------------------------------|------------|
-| `-format`    | Time format                   | iso8601    |
-| `-precision` | Time precision (second/ms/ns) | second     |
+| オプション   | 説明                    | デフォルト |
+|--------------|-------------------------|------------|
+| `-format`    | 時間フォーマット        | iso8601    |
+| `-precision` | 時間精度 (second/ms/ns) | second     |
 
 ## 共通のオプション:
 

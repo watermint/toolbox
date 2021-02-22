@@ -1,6 +1,6 @@
 # util unixtime format
 
-Format time from the unix time (epoch seconds from 1970-01-01
+Time format to convert the unix time (epoch seconds from 1970-01-01)
 
 # Usage
 

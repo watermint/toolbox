@@ -82,7 +82,7 @@ func (z *Format) Test(c app_control.Control) error {
 		if err != nil {
 			return err
 		}
-		if x := ui_out.CapturedText(); x != now.Format(time.RFC3339) {
+		if x := ui_out.CapturedText(c); x != now.Format(time.RFC3339) {
 			return errors.New("invalid format: " + x)
 		}
 	}

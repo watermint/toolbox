@@ -1,6 +1,6 @@
 # services google sheets sheet list
 
-List sheets of the spreadsheet
+スプレッドシートのシート一覧
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明           | デフォルト                                                               |
-|------------|----------------|--------------------------------------------------------------------------|
-| `-id`      | Spreadsheet ID |                                                                          |
-| `-peer`    | Account alias  | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
+| オプション | 説明               | デフォルト                                                               |
+|------------|--------------------|--------------------------------------------------------------------------|
+| `-id`      | スプレッドシートID |                                                                          |
+| `-peer`    | アカウントの別名   | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
 
 ## 共通のオプション:
 
@@ -105,16 +105,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: sheets
 
-Sheet data このコマンドはレポートを3種類の書式で出力します. `sheets.csv`, `sheets.json`, ならびに `sheets.xlsx`.
+シートデータ このコマンドはレポートを3種類の書式で出力します. `sheets.csv`, `sheets.json`, ならびに `sheets.xlsx`.
 
-| 列           | 説明                                           |
-|--------------|------------------------------------------------|
-| sheet_id     | Sheet Id                                       |
-| title        | The name of the sheet                          |
-| index        | The index of the sheet within the spreadsheet. |
-| sheet_type   | The type of sheet                              |
-| row_count    | Number of rows                                 |
-| column_count | Number of columns                              |
+| 列           | 説明                                      |
+|--------------|-------------------------------------------|
+| sheet_id     | シートID                                  |
+| title        | シートの名前                              |
+| index        | スプレッドシート内のシートのインデックス. |
+| sheet_type   | シートの種類                              |
+| row_count    | 行数                                      |
+| column_count | カラム数                                  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

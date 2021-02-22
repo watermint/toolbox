@@ -1,6 +1,6 @@
 # services google sheets spreadsheet create
 
-Create a new spreadsheet
+新しいスプレッドシートの作成
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                     | デフォルト                                                      |
-|------------|--------------------------|-----------------------------------------------------------------|
-| `-peer`    | Account alias            | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
-| `-title`   | Title of the spreadsheet |                                                                 |
+| オプション | 説明                       | デフォルト                                                      |
+|------------|----------------------------|-----------------------------------------------------------------|
+| `-peer`    | アカウントの別名           | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
+| `-title`   | スプレッドシートのタイトル |                                                                 |
 
 ## 共通のオプション:
 
@@ -107,11 +107,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 Google Spreadsheet このコマンドはレポートを3種類の書式で出力します. `sreadsheet.csv`, `sreadsheet.json`, ならびに `sreadsheet.xlsx`.
 
-| 列              | 説明           |
-|-----------------|----------------|
-| spreadsheet_id  | Spreadsheet Id |
-| spreadsheet_url | URL            |
-| title           | Title          |
+| 列              | 説明               |
+|-----------------|--------------------|
+| spreadsheet_id  | スプレッドシートID |
+| spreadsheet_url | URL                |
+| title           | タイトル           |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

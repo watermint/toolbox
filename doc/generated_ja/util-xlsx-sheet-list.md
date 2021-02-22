@@ -1,22 +1,19 @@
 # util xlsx sheet list
 
-List sheets of the xlsx file
+xlsxファイルのシート一覧
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
@@ -29,9 +26,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-file`    | Path to data file |            |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
 
 ## 共通のオプション:
 
@@ -64,14 +61,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: sheets
 
-Sheet このコマンドはレポートを3種類の書式で出力します. `sheets.csv`, `sheets.json`, ならびに `sheets.xlsx`.
+シート このコマンドはレポートを3種類の書式で出力します. `sheets.csv`, `sheets.json`, ならびに `sheets.xlsx`.
 
-| 列     | 説明                                    |
-|--------|-----------------------------------------|
-| name   | Name of the sheet                       |
-| rows   | Number of rows                          |
-| cols   | Number of columns                       |
-| hidden | True when if the sheet marked as hidden |
+| 列     | 説明                               |
+|--------|------------------------------------|
+| name   | シート名                           |
+| rows   | 行数                               |
+| cols   | カラム数                           |
+| hidden | シートが非表示になっている場合は真 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

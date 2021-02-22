@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	xlsx2 "github.com/watermint/toolbox/recipe/util/xlsx"
 	"os"
@@ -16,10 +17,12 @@ import (
 )
 
 type Import struct {
-	File     mo_path.ExistingFileSystemPath
+	File     mo_path.FileSystemPath
 	Data     da_griddata.GridDataInput
 	Sheet    string
 	Position string
+	Create   bool
+	Created  app_msg.Message
 }
 
 func (z *Import) Preset() {
@@ -31,7 +34,12 @@ func (z *Import) Exec(c app_control.Control) error {
 	f, err := xlsx.OpenFile(z.File.Path())
 	if err != nil {
 		l.Debug("Unable to open a file", esl.Error(err))
-		return err
+		if z.Create {
+			f = xlsx.NewFile()
+			c.UI().Info(z.Created)
+		} else {
+			return err
+		}
 	}
 	sheet, ok := f.Sheet[z.Sheet]
 	if !ok {

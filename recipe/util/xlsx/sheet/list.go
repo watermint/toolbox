@@ -71,8 +71,9 @@ func (z *List) Test(c app_control.Control) error {
 
 	err = rc_exec.Exec(c, &Import{}, func(r rc_recipe.Recipe) {
 		m := r.(*Import)
-		m.File = mo_path.NewExistingFileSystemPath(f)
+		m.File = mo_path.NewFileSystemPath(f)
 		m.Data.SetFilePath(d)
+		m.Create = true
 		m.Sheet = "Sheet1"
 	})
 	if err != nil {

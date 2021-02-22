@@ -7,12 +7,17 @@ import (
 )
 
 var (
-	textOutCapture string
+	textOutCapture = make(map[string]string)
 )
 
 func TextOut(c app_control.Control, text string) {
 	if c.Feature().IsTest() {
-		textOutCapture = textOutCapture + text
+		id := c.UI().Id()
+		if t, ok := textOutCapture[id]; ok {
+			textOutCapture[id] = t + text
+		} else {
+			textOutCapture[id] = text
+		}
 	}
 	if c.Feature().IsQuiet() {
 		_, _ = es_stdout.NewDirectOut().Write([]byte(text))
@@ -21,9 +26,13 @@ func TextOut(c app_control.Control, text string) {
 	}
 }
 
-func CapturedText() string {
-	return textOutCapture
+func CapturedText(c app_control.Control) string {
+	if t, ok := textOutCapture[c.UI().Id()]; ok {
+		return t
+	} else {
+		return ""
+	}
 }
-func ClearCaptureText() {
-	textOutCapture = ""
+func ClearCaptureText(c app_control.Control) {
+	delete(textOutCapture, c.UI().Id())
 }

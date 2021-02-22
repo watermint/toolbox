@@ -5,18 +5,15 @@ List sheets of the xlsx file
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util xlsx sheet list -file /LOCAL/PATH/TO/process.xlsx
 ```

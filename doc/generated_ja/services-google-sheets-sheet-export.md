@@ -1,6 +1,6 @@
 # services google sheets sheet export
 
-Export sheet data
+シートデータのエクスポート
 
 # セキュリティ
 
@@ -69,15 +69,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                                                                                                                                                                                                                                                                                                                                                                                 | デフォルト                                                               |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| `-data`             | Path to export.                                                                                                                                                                                                                                                                                                                                                                      |                                                                          |
-| `-data-format`      | Output format                                                                                                                                                                                                                                                                                                                                                                        |                                                                          |
-| `-date-time-render` | How dates, times, and durations should be represented in the output.                                                                                                                                                                                                                                                                                                                 | serial                                                                   |
-| `-id`               | Spreadsheet ID                                                                                                                                                                                                                                                                                                                                                                       |                                                                          |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                        | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
-| `-range`            | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |                                                                          |
-| `-value-render`     | How values should be represented in the output.                                                                                                                                                                                                                                                                                                                                      | formatted                                                                |
+| オプション          | 説明                                                                                                                                                                                                                                                                                                                                            | デフォルト                                                               |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| `-data`             | エクスポート先のパス.                                                                                                                                                                                                                                                                                                                           |                                                                          |
+| `-data-format`      | 出力フォーマット                                                                                                                                                                                                                                                                                                                                |                                                                          |
+| `-date-time-render` | 日付、時間、および期間を出力でどのように表現すべきか.                                                                                                                                                                                                                                                                                           | serial                                                                   |
+| `-id`               | スプレッドシートID                                                                                                                                                                                                                                                                                                                              |                                                                          |
+| `-peer`             | アカウントの別名                                                                                                                                                                                                                                                                                                                                | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
+| `-range`            | 値がカバーする範囲をA1表記で表します. これは、Sheet1!A1:B2のような文字列で、スプレッドシート内のセルのグループを参照するもので、一般的には数式の中で使用されます. `Sheet1!A1:B2` は、Sheet1の上2行の最初の2つのセルを指します. `A1:B2` は、最初に見えるシートの上2行の最初の2つのセルを指します. `Sheet1` は Sheet1 のすべてのセルを参照します. |                                                                          |
+| `-value-render`     | 値を出力でどのように表現すべきか.                                                                                                                                                                                                                                                                                                               | formatted                                                                |
 
 ## 共通のオプション:
 
@@ -98,11 +98,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
-# Grid data output of the command
+# コマンドのグリッドデータ出力
 
-## Grid data output: Data
+## グリッドデータの出力: Data
 
-Exported sheet data
+書き出したシートデータ
 
 # ネットワークプロクシの設定
 

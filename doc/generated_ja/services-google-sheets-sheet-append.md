@@ -1,9 +1,8 @@
 # services google sheets sheet append
 
-Append data to a spreadsheet
+スプレッドシートにデータを追加する
 
-The input range is used to search for existing data and find a "table" within that range. Values will be appended to the
-next row of the table, starting with the first column of the table.
+入力範囲は、既存のデータを検索して、その範囲内の「表」を探すためのものです. 値は、テーブルの最初の列から始まるテーブルの次の行に追加されます.
 
 # セキュリティ
 
@@ -72,13 +71,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                                                                                                                                                                                                                                                                                                                                                                                 | デフォルト                                                      |
-|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-data`      | Data file path                                                                                                                                                                                                                                                                                                                                                                       |                                                                 |
-| `-id`        | Spreadsheet Id                                                                                                                                                                                                                                                                                                                                                                       |                                                                 |
-| `-input-raw` | Raw input                                                                                                                                                                                                                                                                                                                                                                            | false                                                           |
-| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                        | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
-| `-range`     | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |                                                                 |
+| オプション   | 説明                                                                                                                                                                                                                                                                                                                                            | デフォルト                                                      |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| `-data`      | データファイルのパス                                                                                                                                                                                                                                                                                                                            |                                                                 |
+| `-id`        | スプレッドシートID                                                                                                                                                                                                                                                                                                                              |                                                                 |
+| `-input-raw` | Raw入力                                                                                                                                                                                                                                                                                                                                         | false                                                           |
+| `-peer`      | アカウントの別名                                                                                                                                                                                                                                                                                                                                | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
+| `-range`     | 値がカバーする範囲をA1表記で表します. これは、Sheet1!A1:B2のような文字列で、スプレッドシート内のセルのグループを参照するもので、一般的には数式の中で使用されます. `Sheet1!A1:B2` は、Sheet1の上2行の最初の2つのセルを指します. `A1:B2` は、最初に見えるシートの上2行の最初の2つのセルを指します. `Sheet1` は Sheet1 のすべてのセルを参照します. |                                                                 |
 
 ## 共通のオプション:
 
@@ -111,27 +110,27 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: updated
 
-Appended value このコマンドはレポートを3種類の書式で出力します. `updated.csv`, `updated.json`, ならびに `updated.xlsx`.
+追加された値 このコマンドはレポートを3種類の書式で出力します. `updated.csv`, `updated.json`, ならびに `updated.xlsx`.
 
-| 列              | 説明                      |
-|-----------------|---------------------------|
-| spreadsheet_id  | Spreadsheet Id            |
-| table_range     | Appended table range      |
-| updated_range   | Updated range             |
-| updated_rows    | Number of updated rows    |
-| updated_columns | Number of updated columns |
-| updated_cells   | Number of updated cells   |
+| 列              | 説明                     |
+|-----------------|--------------------------|
+| spreadsheet_id  | スプレッドシートID       |
+| table_range     | 追加されたテーブルの範囲 |
+| updated_range   | 更新された範囲           |
+| updated_rows    | 更新された行数           |
+| updated_columns | 更新されたカラム数       |
+| updated_cells   | 更新されたセル数         |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`,
 ...
 
-# Grid data input for the command
+# コマンドのグリッドデータ入力
 
-## Grid data input: Data
+## グリッドデータの入力: Data
 
-Input data file
+入力データファイル
 
 # ネットワークプロクシの設定
 
