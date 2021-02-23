@@ -31,6 +31,8 @@ jobs:
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
+      - run: apt-get update -y
+      - run: apt-get upgrade -y
       - run: apt-get install -y zip git curl jq python3-pip default-jdk
       - run: mkdir -p test/results
       - run: go get github.com/GeertJohan/go.rice
