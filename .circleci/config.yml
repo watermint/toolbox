@@ -21,7 +21,7 @@ jobs:
 
   test:
     docker:
-      - image: circleci/golang:1.15
+      - image: golang:1.15
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
@@ -31,11 +31,13 @@ jobs:
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
+      - run: apt-get install -y zip git curl jq python3-pip default-jdk
       - run: mkdir -p test/results
       - run: go get github.com/GeertJohan/go.rice
       - run: go get github.com/GeertJohan/go.rice/rice
       - run: go get golang.org/x/tools/cmd/cover
       - run: go get github.com/jstemmer/go-junit-report
+      - run: pip3 install --upgrade launchable~=1.0
       - run: ./test/test.sh
       - save_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
