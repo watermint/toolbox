@@ -11,11 +11,11 @@ func ConsoleLogLevel(test, debug bool) esl.Level {
 	case es_env.IsEnabled(app.EnvNameDebugVerbose):
 		return esl.LevelDebug
 
-	case es_env.IsEnabled(app.EnvNameTestQuiet):
-		return esl.LevelWarn
-
-	case app.IsProduction() && test:
+	case es_env.IsEnabled(app.EnvNameTestQuiet), app.IsProduction() && test:
 		return esl.LevelQuiet
+
+	case test:
+		return esl.LevelInfo
 
 	case debug:
 		return esl.LevelDebug
