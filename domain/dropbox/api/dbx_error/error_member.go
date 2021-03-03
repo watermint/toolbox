@@ -1,13 +1,13 @@
 package dbx_error
 
-func NewErrorMember(de DropboxError) ErrorMember {
+func NewErrorMember(de ErrorInfo) ErrorMember {
 	return &errorMemberImpl{
 		de: de,
 	}
 }
 
 type errorMemberImpl struct {
-	de DropboxError
+	de ErrorInfo
 }
 
 func (z errorMemberImpl) IsNotAMember() bool {

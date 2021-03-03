@@ -50,7 +50,7 @@ func (z *errorReportImpl) Down() {
 	z.rr.Close()
 }
 
-func (z *errorReportImpl) ErrorHandler(err error, mouldId, batchId string, p interface{}) {
+func (z *errorReportImpl) ErrorListener(err error, mouldId, batchId string, p interface{}) {
 	if err == qt_errors.ErrorMock {
 		return
 	}

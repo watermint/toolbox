@@ -120,7 +120,7 @@ func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.DropboxPath, 
 		Path:           UploadPath(destPath, info).Path(),
 		Mode:           upm,
 		Mute:           false,
-		ClientModified: dbx_util.RebaseAsString(info.ModTime()),
+		ClientModified: dbx_util.ToApiTimeString(info.ModTime()),
 	}
 	switch mode {
 	case "update":

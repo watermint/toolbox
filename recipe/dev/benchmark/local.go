@@ -37,7 +37,7 @@ func (z *Local) Exec(c app_control.Control) error {
 	copier := es_filesystem_copier.NewModelToLocal(c.Log(), model)
 	syncer := es_sync.New(
 		c.Log(),
-		c.Sequence(),
+		c.NewQueue(),
 		es_filesystem_model.NewFileSystem(model),
 		es_filesystem_local.NewFileSystem(),
 		copier,

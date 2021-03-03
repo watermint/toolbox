@@ -14,7 +14,7 @@ type Response interface {
 
 	// Dropbox API error. Returns empty instance if the response is success, or
 	// the error type is not a dropbox api error.
-	DropboxError() (err dbx_error.DropboxError)
+	DropboxError() (err dbx_error.ErrorInfo)
 
 	// The error about bad or expired token. This func will not return nil.
 	ErrorAuth() dbx_error.ErrorAuth

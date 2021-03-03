@@ -21,7 +21,7 @@ jobs:
 
   test:
     docker:
-      - image: golang:1.15
+      - image: circleci/golang:1.15
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD

@@ -52,7 +52,7 @@ func Password(password string) LinkOpt {
 }
 func Expires(at time.Time) LinkOpt {
 	return func(opt *linkOptions) *linkOptions {
-		opt.expires = dbx_util.RebaseAsString(at)
+		opt.expires = dbx_util.ToApiTimeString(at)
 		return opt
 	}
 }

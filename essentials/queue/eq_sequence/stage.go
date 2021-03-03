@@ -1,7 +1,6 @@
 package eq_sequence
 
 import (
-	"github.com/watermint/toolbox/essentials/queue/eq_mould"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 )
 
@@ -30,7 +29,7 @@ type Sequence interface {
 }
 
 type DoOpts struct {
-	ErrorHandler eq_mould.ErrorHandler
+	ErrorHandler eq_queue.ErrorListener
 	SingleThread bool
 }
 
@@ -54,7 +53,7 @@ func SingleThread() DoOpt {
 	}
 }
 
-func ErrorHandler(h eq_mould.ErrorHandler) DoOpt {
+func ErrorHandler(h eq_queue.ErrorListener) DoOpt {
 	return func(o DoOpts) DoOpts {
 		o.ErrorHandler = h
 		return o
@@ -91,13 +90,13 @@ func (z *seqImpl) DoThen(exec func(s Stage), opts ...DoOpt) Sequence {
 	dOps := DoOpts{}.Apply(opts)
 	qOps := make([]eq_queue.Opt, 0)
 	qOps = append(qOps, z.opt...)
-	if dOps.ErrorHandler != nil {
-		qOps = append(qOps, eq_queue.ErrorHandler(dOps.ErrorHandler))
-	}
 	if dOps.SingleThread {
 		qOps = append(qOps, eq_queue.NumWorker(1))
 	}
 	d := eq_queue.New(qOps...)
+	if dOps.ErrorHandler != nil {
+		d.AddErrorListener(dOps.ErrorHandler)
+	}
 	s := newStg(d)
 	exec(s)
 	d.Current().Wait()

@@ -1,6 +1,6 @@
 package dbx_error
 
-func NewErrorWrite(prefix string, de DropboxError) ErrorWrite {
+func NewErrorWrite(prefix string, de ErrorInfo) ErrorWrite {
 	return &errorWriteImpl{
 		prefix: prefix,
 		de:     de,
@@ -10,7 +10,7 @@ func NewErrorWrite(prefix string, de DropboxError) ErrorWrite {
 type errorWriteImpl struct {
 	// prefix without suffix /
 	prefix string
-	de     DropboxError
+	de     ErrorInfo
 }
 
 func (z errorWriteImpl) IsConflict() bool {

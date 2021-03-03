@@ -18,5 +18,5 @@ func (z mockImpl) Up(ctl app_control.Control) error {
 func (z mockImpl) Down() {
 }
 
-func (z mockImpl) ErrorHandler(err error, mouldId, batchId string, p interface{}) {
+func (z mockImpl) ErrorListener(err error, mouldId, batchId string, p interface{}) {
 }

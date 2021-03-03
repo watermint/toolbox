@@ -133,7 +133,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 
 	syncer := es_sync.New(
 		c.Log(),
-		c.Sequence(),
+		c.NewQueue(),
 		srcFs,
 		tgtFs,
 		conn,

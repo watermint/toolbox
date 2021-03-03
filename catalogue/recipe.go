@@ -152,6 +152,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevstage.Gui{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
+		&recipedevstage.UploadAppend{},
 		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},

@@ -30,7 +30,7 @@ func AssertResponse(res es_response.Response) es_response.Response {
 
 	case dbx_context.DropboxApiErrorEndpointSpecific:
 		if j, err := res.Alt().AsJson(); err != nil {
-			dbxErr := &dbx_error.DropboxError{}
+			dbxErr := &dbx_error.ErrorInfo{}
 			if err = j.Model(dbxErr); err != nil {
 				dbxErrs := dbx_error.NewErrors(dbxErr)
 				switch {

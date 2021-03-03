@@ -38,7 +38,7 @@ type UploadWorker struct {
 	ctx        gh_context.Context
 	ctl        app_control.Control
 	uploads    rp_model.TransactionReport
-	queue      rc_worker.Queue
+	queue      rc_worker.LegacyQueue
 }
 
 func (z *UploadWorker) Exec() error {

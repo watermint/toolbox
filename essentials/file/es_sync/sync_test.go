@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"math/rand"
 	"reflect"
@@ -28,21 +29,23 @@ func TestSyncImpl_Sync(t *testing.T) {
 	fs1 := es_filesystem_model.NewFileSystem(tree1)
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
+
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+		)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
+
 	seq := eq_sequence.New()
-	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
-
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-	)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
-
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 	if err != nil {
@@ -70,20 +73,22 @@ func TestSyncImpl_SingleFile(t *testing.T) {
 	fs1 := es_filesystem_model.NewFileSystem(tree1)
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-	seq := eq_sequence.New()
-	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-	)
-	err := syncer.Sync(es_filesystem_model.NewPath("/a/x"), es_filesystem_model.NewPath("/w"))
-	if err != nil {
-		t.Error(err)
-	}
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+		)
+		err := syncer.Sync(es_filesystem_model.NewPath("/a/x"), es_filesystem_model.NewPath("/w"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
+
 	x := em_file.ResolvePath(tree1, "/a/x")
 	if x == nil {
 		t.Error(x)
@@ -116,20 +121,22 @@ func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
 	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(true),
-		SyncOverwrite(true),
-	)
-	em_file.Display(esl.Default(), tree1)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(true),
+			SyncOverwrite(true),
+		)
+		em_file.Display(esl.Default(), tree1)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
@@ -170,20 +177,22 @@ func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
 	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(true),
-		SyncOverwrite(true),
-	)
-	em_file.Display(esl.Default(), tree1)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(true),
+			SyncOverwrite(true),
+		)
+		em_file.Display(esl.Default(), tree1)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
@@ -213,7 +222,6 @@ func TestSyncImpl_Filter(t *testing.T) {
 	fs1 := es_filesystem_model.NewFileSystem(tree1)
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 	filter := mo_filter.New("")
 	filter.SetOptions(mo_filter.NewTestNameFilter("x"))
@@ -221,20 +229,22 @@ func TestSyncImpl_Filter(t *testing.T) {
 		t.Error(filter)
 	}
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(true),
-		SyncOverwrite(true),
-		WithNameFilter(filter),
-	)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(true),
+			SyncOverwrite(true),
+			WithNameFilter(filter),
+		)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 	em_file.Display(esl.Default(), tree2)
 
 	x := em_file.ResolvePath(tree2, "/a/y")
@@ -258,20 +268,22 @@ func TestSyncImpl_FileEdit(t *testing.T) {
 	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(true),
-		SyncOverwrite(true),
-	)
-	em_file.Display(esl.Default(), tree1)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(true),
+			SyncOverwrite(true),
+		)
+		em_file.Display(esl.Default(), tree1)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
@@ -308,20 +320,22 @@ func TestSyncImpl_DeletedFileNoSyncDelete(t *testing.T) {
 	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(false),
-		SyncOverwrite(true),
-	)
-	em_file.Display(esl.Default(), tree1)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(false),
+			SyncOverwrite(true),
+		)
+		em_file.Display(esl.Default(), tree1)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
@@ -361,20 +375,22 @@ func TestSyncImpl_DeletedFileSyncDelete(t *testing.T) {
 	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(true),
-		SyncOverwrite(true),
-	)
-	em_file.Display(esl.Default(), tree1)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(true),
+			SyncOverwrite(true),
+		)
+		em_file.Display(esl.Default(), tree1)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
@@ -414,19 +430,21 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 		fs1 := es_filesystem_model.NewFileSystem(tree1)
 		fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-		syncer := New(
-			esl.Default(),
-			seq,
-			fs1,
-			fs2,
-			conn,
-			SyncOverwrite(true),
-			SyncDelete(true),
-		)
-		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-		if err != nil {
-			t.Error(seed, i, err)
-		}
+		eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+			syncer := New(
+				esl.Default(),
+				q,
+				fs1,
+				fs2,
+				conn,
+				SyncOverwrite(true),
+				SyncDelete(true),
+			)
+			err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+			if err != nil {
+				t.Error(seed, i, err)
+			}
+		})
 		folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 		missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 		if err != nil {
@@ -471,20 +489,22 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 		fs1 := es_filesystem_model.NewFileSystem(tree1)
 		fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-		syncer := New(
-			esl.Default(),
-			seq,
-			fs1,
-			fs2,
-			conn,
-			SyncOverwrite(true),
-			SyncDelete(true),
-			OptimizePreventCreateFolder(true),
-		)
-		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-		if err != nil {
-			t.Error(seed, i, err)
-		}
+		eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+			syncer := New(
+				esl.Default(),
+				q,
+				fs1,
+				fs2,
+				conn,
+				SyncOverwrite(true),
+				SyncDelete(true),
+				OptimizePreventCreateFolder(true),
+			)
+			err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+			if err != nil {
+				t.Error(seed, i, err)
+			}
+		})
 		folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 		missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 		if err != nil {
@@ -533,20 +553,22 @@ func TestSyncImpl_CompareTimeShouldNotOverwrite(t *testing.T) {
 	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(true),
-		SyncOverwrite(true),
-	)
-	em_file.Display(esl.Default(), tree1)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(true),
+			SyncOverwrite(true),
+		)
+		em_file.Display(esl.Default(), tree1)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
@@ -596,20 +618,22 @@ func TestSyncImpl_CompareTimeShouldOverwrite(t *testing.T) {
 	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
-	syncer := New(
-		esl.Default(),
-		seq,
-		fs1,
-		fs2,
-		conn,
-		SyncDelete(true),
-		SyncOverwrite(true),
-	)
-	em_file.Display(esl.Default(), tree1)
-	err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-	if err != nil {
-		t.Error(err)
-	}
+	eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+		syncer := New(
+			esl.Default(),
+			q,
+			fs1,
+			fs2,
+			conn,
+			SyncDelete(true),
+			SyncOverwrite(true),
+		)
+		em_file.Display(esl.Default(), tree1)
+		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+		if err != nil {
+			t.Error(err)
+		}
+	})
 
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
@@ -653,19 +677,21 @@ func BenchmarkSyncImpl_SyncRandomTest(b *testing.B) {
 			fs1 := es_filesystem_model.NewFileSystem(tree1)
 			fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-			syncer := New(
-				esl.Default(),
-				seq,
-				fs1,
-				fs2,
-				conn,
-				SyncOverwrite(true),
-				SyncDelete(true),
-			)
-			err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
-			if err != nil {
-				b.Error(seed, i, err)
-			}
+			eq_queue.ExecWithQueue(func(q eq_queue.Definition) {
+				syncer := New(
+					esl.Default(),
+					q,
+					fs1,
+					fs2,
+					conn,
+					SyncOverwrite(true),
+					SyncDelete(true),
+				)
+				err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
+				if err != nil {
+					b.Error(seed, i, err)
+				}
+			})
 			folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 			missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 			if err != nil {

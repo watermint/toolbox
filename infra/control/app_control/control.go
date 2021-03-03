@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -32,7 +33,10 @@ type Control interface {
 	Feature() app_feature.Feature
 
 	// Create new worker queue
-	NewLegacyQueue() rc_worker.Queue
+	NewLegacyQueue() rc_worker.LegacyQueue
+
+	// Create new queue definition
+	NewQueue() eq_queue.Definition
 
 	// Async queue sequence
 	Sequence() eq_sequence.Sequence

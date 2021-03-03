@@ -21,7 +21,7 @@ func NewError(err error) es_filesystem.FileSystemError {
 
 type dbxError struct {
 	err    error
-	dbxErr dbx_error.Errors
+	dbxErr dbx_error.DropboxError
 }
 
 func (z dbxError) IsMockError() bool {
@@ -29,7 +29,13 @@ func (z dbxError) IsMockError() bool {
 }
 
 func (z dbxError) Error() string {
-	return z.err.Error()
+	if z.err != nil {
+		return z.err.Error()
+	} else if z.dbxErr != nil {
+		return z.dbxErr.Summary()
+	} else {
+		return "dbx_error: undefined error"
+	}
 }
 
 func (z dbxError) IsPathNotFound() bool {

@@ -1,6 +1,6 @@
-# dev benchmark upload
+# dev stage upload_append
 
-Upload benchmark 
+New upload API test
 
 # Security
 
@@ -12,10 +12,11 @@ Upload benchmark
 | macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+Please do not share those files to anyone including Dropbox support. You can delete those files after use if you want to
+remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
@@ -26,7 +27,10 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
+into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
+Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -47,37 +51,36 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe dev stage upload_append -path /DROPBOX/PATH/TO/PROCESS
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx dev stage upload_append -path /DROPBOX/PATH/TO/PROCESS
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
-You may find the message like:
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
+select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "
+General" tab. You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "
+Open" on the dialogue.
 
 ## Options:
 
-| Option               | Description                 | Default |
-|----------------------|-----------------------------|---------|
-| `-block-block-size`  | Block size for batch upload | 50      |
-| `-method`            | Upload method               | block   |
-| `-num-files`         | Number of files.            | 1000    |
-| `-path`              | Path to Dropbox             |         |
-| `-peer`              | Account alias               | default |
-| `-seq-chunk-size-kb` | Upload chunk size in KiB    | 65536   |
-| `-size-max-kb`       | Maximum file size (KiB).    | 2048    |
-| `-size-min-kb`       | Minimum file size (KiB).    | 0       |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-path` | Upload path   |         |
+| `-peer` | Account alias | default |
 
 ## Common options:
 
@@ -100,5 +103,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you
+want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't
+support proxies which require authentication.
 

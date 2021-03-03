@@ -1,13 +1,13 @@
 package dbx_error
 
-func NewErrorPath(de DropboxError) ErrorEndpointPath {
+func NewErrorPath(de ErrorInfo) ErrorEndpointPath {
 	return &errorPathImpl{
 		de: de,
 	}
 }
 
 type errorPathImpl struct {
-	de DropboxError
+	de ErrorInfo
 }
 
 func (z errorPathImpl) IsTooManyWriteOperations() bool {

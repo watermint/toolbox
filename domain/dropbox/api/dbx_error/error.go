@@ -4,36 +4,38 @@ import (
 	"strings"
 )
 
-type DropboxError struct {
+type ErrorInfo struct {
 	ErrorTag          string `path:"error.\\.tag" json:"error,omitempty"`
 	ErrorSummary      string `path:"error_summary" json:"error_summary,omitempty"`
 	UserMessageLocale string `path:"user_message.locale" json:"user_message_lang,omitempty"`
 	UserMessage       string `path:"user_message.text" json:"user_message,omitempty"`
 }
 
-func (z DropboxError) Error() string {
+func (z ErrorInfo) Error() string {
 	if z.UserMessage != "" {
 		return z.UserMessage
 	}
 	return z.ErrorSummary
 }
 
-func (z DropboxError) HasPrefix(prefix string) bool {
+func (z ErrorInfo) HasPrefix(prefix string) bool {
 	return strings.HasPrefix(z.ErrorSummary, prefix)
 }
 
-func NewErrors(err error) Errors {
+func NewErrors(err error) DropboxError {
 	if err == nil {
 		return nil
 	}
-	if de, ok := err.(*DropboxError); ok {
-		return &errorsImpl{de: *de}
+	if ei, ok := err.(*ErrorInfo); ok {
+		return &errorsImpl{ei: *ei}
 	} else {
-		return &errorsImpl{de: DropboxError{}}
+		return &errorsImpl{ei: ErrorInfo{}}
 	}
 }
 
-type Errors interface {
+type DropboxError interface {
+	error
+
 	Auth() ErrorAuth
 	Access() ErrorAccess
 	Path() ErrorEndpointPath
@@ -119,65 +121,69 @@ type ErrorMember interface {
 }
 
 type errorsImpl struct {
-	de DropboxError
+	ei ErrorInfo
+}
+
+func (z errorsImpl) Error() string {
+	return z.Summary()
 }
 
 func (z errorsImpl) IsIdNotFound() bool {
-	return z.de.HasPrefix("id_not_found")
+	return z.ei.HasPrefix("id_not_found")
 }
 
 func (z errorsImpl) IsMemberNotInGroup() bool {
-	return z.de.HasPrefix("member_not_in_group")
+	return z.ei.HasPrefix("member_not_in_group")
 }
 
 func (z errorsImpl) IsDuplicateUser() bool {
-	return z.de.HasPrefix("duplicate_user")
+	return z.ei.HasPrefix("duplicate_user")
 }
 
 func (z errorsImpl) IsGroupNameAlreadyUsed() bool {
-	return z.de.HasPrefix("group_name_already_used")
+	return z.ei.HasPrefix("group_name_already_used")
 }
 
 func (z errorsImpl) BadPath() ErrorSharePath {
-	return NewSharePath("bad_path", z.de)
+	return NewSharePath("bad_path", z.ei)
 }
 
 func (z errorsImpl) IsFolderNameAlreadyUsed() bool {
-	return z.de.HasPrefix("folder_name_already_used")
+	return z.ei.HasPrefix("folder_name_already_used")
 }
 
 func (z errorsImpl) IsTooManyFiles() bool {
-	return z.de.HasPrefix("too_many_files")
+	return z.ei.HasPrefix("too_many_files")
 }
 
 func (z errorsImpl) IsTooManyWriteOperations() bool {
-	return z.de.HasPrefix("too_many_write_operations") || z.Path().IsTooManyWriteOperations()
+	return z.ei.HasPrefix("too_many_write_operations") || z.Path().IsTooManyWriteOperations()
 }
 
 func (z errorsImpl) Summary() string {
-	return z.de.ErrorSummary
+	return z.ei.ErrorSummary
 }
 
 func (z errorsImpl) Auth() ErrorAuth {
-	return NewErrorAuth(z.de)
+	return NewErrorAuth(z.ei)
 }
 
 func (z errorsImpl) Access() ErrorAccess {
-	return NewErrorAccess(z.de)
+	return NewErrorAccess(z.ei)
 }
 
 func (z errorsImpl) Path() ErrorEndpointPath {
-	return NewErrorPath(z.de)
+	return NewErrorPath(z.ei)
 }
 
 func (z errorsImpl) Endpoint() ErrorEndpoint {
-	return NewErrorEndpoint(z.de)
+	return NewErrorEndpoint(z.ei)
 }
 
 func (z errorsImpl) To() ErrorWrite {
-	return NewErrorWrite("to", z.de)
+	return NewErrorWrite("to", z.ei)
 }
 
 func (z errorsImpl) Member() ErrorMember {
-	return NewErrorMember(z.de)
+	return NewErrorMember(z.ei)
 }

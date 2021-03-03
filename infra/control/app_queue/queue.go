@@ -16,7 +16,17 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-func NewQueue(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_workspace.Bundle) (seq eq_sequence.Sequence, er app_error.ErrorReport) {
+func selectBatchFetchPolicy(fe app_feature.Feature) eq_bundle.FetchPolicy {
+	if fe.Experiment(app.ExperimentBatchRandom) {
+		return eq_bundle.FetchRandom
+	}
+	if fe.Experiment(app.ExperimentBatchSequential) {
+		return eq_bundle.FetchSequential
+	}
+	return eq_bundle.FetchSequential
+}
+
+func NewSequence(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_workspace.Bundle) (seq eq_sequence.Sequence, er app_error.ErrorReport) {
 	preservePath := wb.Workspace().KVS()
 	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
 	factory := eq_pipe.NewSimple(lg, preserve)
@@ -24,23 +34,30 @@ func NewQueue(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_worksp
 
 	er = app_error.NewErrorReport(lg, wb, ui)
 
-	batchPolicy := eq_bundle.FetchSequential
-	if fe.Experiment(app.ExperimentBatchRandom) {
-		batchPolicy = eq_bundle.FetchRandom
-	}
-	if fe.Experiment(app.ExperimentBatchSequential) {
-		batchPolicy = eq_bundle.FetchSequential
-	}
-	lg.Debug("Queue execution policy", esl.Any("policy", batchPolicy))
-
 	seq = eq_sequence.New(
-		eq_queue.Logger(lg),
-		eq_queue.FetchPolicy(batchPolicy),
-		eq_queue.Progress(progress),
-		eq_queue.NumWorker(fe.Concurrency()),
+		eq_queue.AddErrorListener(er.ErrorListener),
 		eq_queue.Factory(factory),
-		eq_queue.ErrorHandler(er.ErrorHandler),
+		eq_queue.FetchPolicy(selectBatchFetchPolicy(fe)),
+		eq_queue.Logger(lg),
+		eq_queue.NumWorker(fe.Concurrency()),
+		eq_queue.Progress(progress),
 		eq_queue.Verbose(fe.IsVerbose()),
 	)
 	return
+}
+
+func NewQueue(lg esl.Logger, fe app_feature.Feature, wb app_workspace.Bundle) (q eq_queue.Definition) {
+	preservePath := wb.Workspace().KVS()
+	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
+	factory := eq_pipe.NewSimple(lg, preserve)
+	progress := eq_progress.NewProgress(ea_indicator.Global())
+
+	return eq_queue.New(
+		eq_queue.Factory(factory),
+		eq_queue.FetchPolicy(selectBatchFetchPolicy(fe)),
+		eq_queue.Logger(lg),
+		eq_queue.NumWorker(fe.Concurrency()),
+		eq_queue.Progress(progress),
+		eq_queue.Verbose(fe.IsVerbose()),
+	)
 }
