@@ -291,6 +291,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [util decode base_64](doc/generated_ja/util-decode-base_64.md)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
 | [util encode base_32](doc/generated_ja/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base_64](doc/generated_ja/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util qrcode create](doc/generated_ja/util-qrcode-create.md)         | Create a QR code image file                                            |
+| [util qrcode wifi](doc/generated_ja/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                                |
 | [util time now](doc/generated_ja/util-time-now.md)                   | 現在の時刻を表示                                                       |
 | [util unixtime format](doc/generated_ja/util-unixtime-format.md)     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
 | [util unixtime now](doc/generated_ja/util-unixtime-now.md)           | UNIX時間で現在の時刻を表示する                                         |

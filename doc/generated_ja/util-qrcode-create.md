@@ -1,64 +1,24 @@
-# dev stage upload_append
+# util qrcode create
 
-New upload API test
-
-# セキュリティ
-
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
-
-| OS      | パス                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください. 不必要になった場合にはこれらのファイルを削除しても問題ありません.
-認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
-
-方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-
-## 認可スコープ
-
-| ラベル                    | 説明                     |
-|---------------------------|--------------------------|
-| dropbox_scoped_individual | Dropbox (個人アカウント) |
-
-# 認可
-
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
-にこの認証コードをペーストしてください.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2020 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-```
+Create a QR code image file
 
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage upload_append -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe util qrcode create -out /LOCAL/PATH/TO/create_qrcode.png
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx dev stage upload_append -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx util qrcode create -out /LOCAL/PATH/TO/create_qrcode.png
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -69,10 +29,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-path`    | Upload path   |            |
-| `-peer`    | Account alias | default    |
+| オプション                | 説明                              | デフォルト |
+|---------------------------|-----------------------------------|------------|
+| `-error-correction-level` | Error correction level (l/m/q/h). | m          |
+| `-mode`                   | QR code encoding mode             | auto       |
+| `-out`                    | Output path with file name        |            |
+| `-size`                   | Image resolution (pixel)          | 256        |
+| `-text`                   | Text data                         |            |
 
 ## 共通のオプション:
 

@@ -293,6 +293,8 @@ Available commands:
 | [util decode base_64](doc/generated/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                            |
 | [util encode base_32](doc/generated/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base_64](doc/generated/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                            |
+| [util qrcode create](doc/generated/util-qrcode-create.md)         | Create a QR code image file                                          |
+| [util qrcode wifi](doc/generated/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                              |
 | [util time now](doc/generated/util-time-now.md)                   | Display current time                                                 |
 | [util unixtime format](doc/generated/util-unixtime-format.md)     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
 | [util unixtime now](doc/generated/util-unixtime-now.md)           | Display current time in unixtime                                     |

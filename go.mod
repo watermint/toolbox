@@ -8,6 +8,7 @@ require (
 	github.com/GeertJohan/go.rice v1.0.2
 	github.com/asticode/go-astikit v0.13.0
 	github.com/asticode/go-astilectron v0.20.0
+	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
 	github.com/daaku/go.zipexe v1.0.1 // indirect
 	github.com/dgraph-io/badger/v2 v2.2007.2

@@ -2,14 +2,13 @@
 
 # 追加されたコマンド
 
-| コマンド                | タイトル            |
-|-------------------------|---------------------|
-| dev stage upload_append | New upload API test |
-
-
+| コマンド                | タイトル                                |
+|-------------------------|-----------------------------------------|
+| dev stage upload_append | New upload API test                     |
+| util qrcode create      | Create a QR code image file             |
+| util qrcode wifi        | Generate QR code for WIFI configuration |
 
 # コマンド仕様の変更: `dev benchmark upload`
-
 
 ## 設定が変更されたコマンド
 

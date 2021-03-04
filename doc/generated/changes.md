@@ -2,14 +2,13 @@
 
 # Commands added
 
-| Command                 | Title               |
-|-------------------------|---------------------|
-| dev stage upload_append | New upload API test |
-
-
+| Command                 | Title                                   |
+|-------------------------|-----------------------------------------|
+| dev stage upload_append | New upload API test                     |
+| util qrcode create      | Create a QR code image file             |
+| util qrcode wifi        | Generate QR code for WIFI configuration |
 
 # Command spec changed: `dev benchmark upload`
-
 
 ## Command configuration changed
 
