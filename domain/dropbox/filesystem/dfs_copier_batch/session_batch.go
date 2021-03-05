@@ -41,7 +41,7 @@ type BatchSessions interface {
 	Shutdown() (err dbx_error.DropboxError)
 
 	// Process upload session commit.
-	FinishBatchCommit(batch FinishBatch)
+	FinishBatchCommit(batch *FinishBatch)
 
 	// Entry upload session commit batch.
 	FinishBatchEntry(count int)
@@ -90,7 +90,7 @@ func (z *copierBatchSessions) IsSessionAlive(sessionId string) (found bool) {
 }
 
 // Transaction finish batch: Exec from queue:
-func (z *copierBatchSessions) FinishBatchCommit(batch FinishBatch) {
+func (z *copierBatchSessions) FinishBatchCommit(batch *FinishBatch) {
 	l := z.ctx.Log()
 	l.Debug("Start batch", esl.Strings("batchSessionIds", batch.Batch))
 
@@ -256,14 +256,20 @@ func (z *copierBatchSessions) FinishBatchEntry(count int) {
 			}
 		}
 	}
-	l.Debug("Finished sizes", esl.Int("finished", len(z.finishedSessionIds)), esl.Int("sessions", len(z.sessionIdToCommit)))
+	l.Debug("Finished sizes",
+		esl.Int("finished", len(z.finishedSessionIds)),
+		esl.Int("sessions", len(z.sessionIdToCommit)),
+		esl.Int("commits", len(finishBatch)))
 
 	z.sessionIdToMutex.Unlock()
 	z.finishedSessionIdMutex.Unlock()
 
 	if x := len(finishBatch); x > 0 {
 		l.Debug("Enqueue finish batch", esl.Int("batchSize", x))
-		z.queueBatchCommit.Enqueue(FinishBatch{
+		//z.queueBatchCommit.Enqueue(FinishBatch{
+		//	Batch: finishBatch,
+		//})
+		z.FinishBatchCommit(&FinishBatch{
 			Batch: finishBatch,
 		})
 	} else {
@@ -279,7 +285,8 @@ func (z *copierBatchSessions) FinishBlockUploads(sessionId string) {
 	z.finishedSessionIds[sessionId] = true
 	z.finishedSessionIdMutex.Unlock()
 
-	z.queueBatchEntry.Enqueue(len(z.finishedSessionIds))
+	//z.queueBatchEntry.Enqueue(len(z.finishedSessionIds))
+	z.FinishBatchEntry(len(z.finishedSessionIds))
 }
 
 func (z *copierBatchSessions) Shutdown() (err dbx_error.DropboxError) {

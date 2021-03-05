@@ -9,7 +9,7 @@ import (
 
 type BlockSession interface {
 	// Add block
-	AddBlock(sessionId string, offset int64, isLastBlock bool)
+	AddBlock(sessionId string, offset int64)
 
 	// Tell finish operation
 	FinishSuccess(sessionId string, offset int64)
@@ -25,7 +25,6 @@ func NewBlockSession(ctx dbx_context.Context, bs BatchSessions) BlockSession {
 		backlog:            atomic.Uint32{},
 		backlogOffsetMutex: sync.Mutex{},
 		backlogOffsets:     make(map[string]map[int64]bool),
-		backlogLastBlock:   make(map[string]bool),
 	}
 	return cbs
 }
@@ -36,10 +35,9 @@ type copierBlockSession struct {
 	backlog            atomic.Uint32
 	backlogOffsetMutex sync.Mutex
 	backlogOffsets     map[string]map[int64]bool
-	backlogLastBlock   map[string]bool
 }
 
-func (z *copierBlockSession) AddBlock(sessionId string, offset int64, isLastBlock bool) {
+func (z *copierBlockSession) AddBlock(sessionId string, offset int64) {
 	l := z.ctx.Log().With(esl.String("sessionId", sessionId), esl.Int64("offset", offset))
 	l.Debug("Add the block")
 
@@ -51,19 +49,14 @@ func (z *copierBlockSession) AddBlock(sessionId string, offset int64, isLastBloc
 		bo[offset] = true
 		z.backlogOffsets[sessionId] = bo
 	}
-	if isLastBlock {
-		z.backlogLastBlock[sessionId] = true
-	}
 
 	z.backlogOffsetMutex.Unlock()
 }
 
 func (z *copierBlockSession) FinishSuccess(sessionId string, offset int64) {
 	l := z.ctx.Log().With(esl.String("sessionId", sessionId), esl.Int64("offset", offset))
-	l.Debug("Finish success")
 
 	allBlockFinished := false
-	isLastBlockAdded := false
 	z.backlogOffsetMutex.Lock()
 	if bo, ok := z.backlogOffsets[sessionId]; ok {
 		delete(bo, offset)
@@ -79,12 +72,11 @@ func (z *copierBlockSession) FinishSuccess(sessionId string, offset int64) {
 		allBlockFinished = true
 		z.noLockRecalculateBacklogs()
 	}
-	if lb, ok := z.backlogLastBlock[sessionId]; ok {
-		isLastBlockAdded = lb
-	}
 	z.backlogOffsetMutex.Unlock()
 
-	if allBlockFinished && isLastBlockAdded {
+	l.Debug("Finish success", esl.Bool("allBlockFinished", allBlockFinished))
+
+	if allBlockFinished {
 		l.Debug("Report finish the session")
 		z.bs.FinishBlockUploads(sessionId)
 	}
