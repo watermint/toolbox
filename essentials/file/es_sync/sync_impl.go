@@ -289,7 +289,7 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) e
 			} else {
 				ll.Debug("create folder", esl.Any("targetFolderPath", newTargetPath.AsData()))
 				if err := z.createFolder(newTargetPath); err != nil {
-					ll.Debug("unable to create folder")
+					ll.Debug("unable to create folder", esl.Error(err))
 					return
 				}
 			}
