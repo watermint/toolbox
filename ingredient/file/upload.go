@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_local_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
@@ -110,12 +111,12 @@ func (z *Upload) Exec(c app_control.Control) error {
 	var conn es_filesystem.Connector
 	if z.WorkPath.IsExists() {
 		l.Debug("Use up and move tactics", esl.String("workPath", z.WorkPath.Value()))
-		conn = filesystem.NewLocalToDropboxUpAndMove(z.Context,
+		conn = dfs_local_to_dbx.NewLocalToDropboxUpAndMove(z.Context,
 			mo_path.NewDropboxPath(z.WorkPath.Value()),
 			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
 	} else {
 		l.Debug("Use regular up tactics")
-		conn = filesystem.NewLocalToDropbox(z.Context,
+		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Context,
 			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
 	}
 

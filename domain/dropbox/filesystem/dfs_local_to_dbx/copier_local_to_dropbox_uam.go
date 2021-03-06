@@ -1,7 +1,8 @@
-package filesystem
+package dfs_local_to_dbx
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
@@ -33,7 +34,7 @@ func (z connLocalToDropboxUpAndMoveStrategy) Copy(source es_filesystem.Entry, ta
 	l.Debug("Copy (upload to work)")
 	cp := es_filesystem.NewCopyPair(source, target)
 
-	targetDbxPath, err := ToDropboxPath(target)
+	targetDbxPath, err := filesystem.ToDropboxPath(target)
 	if err != nil {
 		l.Debug("unable to convert to Dropbox path", esl.Error(err))
 		onFailure(cp, err)
@@ -44,19 +45,19 @@ func (z connLocalToDropboxUpAndMoveStrategy) Copy(source es_filesystem.Entry, ta
 	dbxEntry, dbxErr := svc.Overwrite(z.workPath, source.Path().Path())
 	if dbxErr != nil {
 		l.Debug("Unable to upload file", esl.Error(dbxErr))
-		onFailure(cp, NewError(dbxErr))
+		onFailure(cp, filesystem.NewError(dbxErr))
 		return
 	}
 
 	movedDbxEntry, dbxErr := sv_file_relocation.New(z.ctx).Move(dbxEntry.Path(), targetDbxPath)
 	if dbxErr != nil {
 		l.Debug("Unable to upload file", esl.Error(dbxErr))
-		onFailure(cp, NewError(dbxErr))
+		onFailure(cp, filesystem.NewError(dbxErr))
 		return
 	}
 
 	l.Debug("successfully uploaded", esl.Any("entry", movedDbxEntry.Concrete()))
-	onSuccess(cp, NewEntry(dbxEntry))
+	onSuccess(cp, filesystem.NewEntry(dbxEntry))
 }
 
 func (z connLocalToDropboxUpAndMoveStrategy) Shutdown() (err es_filesystem.FileSystemError) {

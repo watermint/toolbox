@@ -5,6 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_local_to_dbx"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_model_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
@@ -66,9 +68,9 @@ func (z *Upload) Exec(c app_control.Control) error {
 		conn = dfs_copier_batch.NewLocalToDropboxBatch(c, z.Peer.Context(), z.BlockBlockSize.Value())
 
 	default:
-		conn = filesystem.NewLocalToDropbox(z.Peer.Context(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
+		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Peer.Context(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
 	}
-	copier := filesystem.NewModelToDropbox(c.Log(), modelRoot, conn)
+	copier := dfs_model_to_dbx.NewModelToDropbox(c.Log(), modelRoot, conn)
 	syncer := es_sync.New(
 		c.Log(),
 		c.NewQueue(),

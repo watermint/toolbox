@@ -21,13 +21,8 @@ func NewPlainFileSystem(l esl.Logger, blockSize int) BlockFileSystem {
 	}
 }
 
-type bfsImpl struct {
-	l         esl.Logger
-	blockSize int
-}
-
-func (z bfsImpl) FileBlocks(path string) (offsets []int64, err error) {
-	l := z.l.With(esl.String("path", path))
+func fileBlocks(l esl.Logger, path string, blockSize int) (offsets []int64, err error) {
+	l = l.With(esl.String("path", path))
 	info, err := os.Lstat(path)
 	if err != nil {
 		l.Debug("Unable to retrieve file info", esl.Error(err))
@@ -38,10 +33,19 @@ func (z bfsImpl) FileBlocks(path string) (offsets []int64, err error) {
 	var offset int64 = 0
 	for offset < info.Size() {
 		offsets = append(offsets, offset)
-		offset += int64(z.blockSize)
+		offset += int64(blockSize)
 	}
 	l.Debug("File blocks", esl.Int("numBlocks", len(offsets)))
 	return offsets, nil
+}
+
+type bfsImpl struct {
+	l         esl.Logger
+	blockSize int
+}
+
+func (z bfsImpl) FileBlocks(path string) (offsets []int64, err error) {
+	return fileBlocks(z.l, path, z.blockSize)
 }
 
 func (z bfsImpl) ReadBlock(path string, offset int64) (data []byte, isLastBlock bool, err error) {

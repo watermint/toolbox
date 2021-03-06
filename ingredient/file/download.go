@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_dbx_to_local"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
@@ -90,7 +91,7 @@ func (z *Download) Exec(c app_control.Control) error {
 
 	srcFs := filesystem.NewFileSystem(z.Context)
 	tgtFs := es_filesystem_local.NewFileSystem()
-	conn := filesystem.NewDropboxToLocal(z.Context)
+	conn := dfs_dbx_to_local.NewDropboxToLocal(z.Context)
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
 		e, errConvert := filesystem.ToDropboxEntry(entry)
