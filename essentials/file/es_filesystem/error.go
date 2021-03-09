@@ -24,3 +24,45 @@ type FileSystemError interface {
 	// True if the error is for testing
 	IsMockError() bool
 }
+
+func NewLowLevelError(ge error) FileSystemError {
+	return &generalError{
+		err: ge,
+	}
+}
+
+type generalError struct {
+	err error
+}
+
+func (z generalError) Error() string {
+	return z.err.Error()
+}
+
+func (z generalError) IsPathNotFound() bool {
+	return false
+}
+
+func (z generalError) IsConflict() bool {
+	return false
+}
+
+func (z generalError) IsNoPermission() bool {
+	return false
+}
+
+func (z generalError) IsInsufficientSpace() bool {
+	return false
+}
+
+func (z generalError) IsDisallowedName() bool {
+	return false
+}
+
+func (z generalError) IsInvalidEntryDataFormat() bool {
+	return false
+}
+
+func (z generalError) IsMockError() bool {
+	return false
+}

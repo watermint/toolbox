@@ -70,14 +70,16 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option               | Description                 | Default |
 |----------------------|-----------------------------|---------|
-| `-block-block-size`  | Block size for batch upload | 50      |
+| `-block-block-size`  | Block size for batch upload | 40      |
 | `-method`            | Upload method               | block   |
 | `-num-files`         | Number of files.            | 1000    |
 | `-path`              | Path to Dropbox             |         |
 | `-peer`              | Account alias               | default |
+| `-pre-scan`          | Pre-scan destination path   | false   |
 | `-seq-chunk-size-kb` | Upload chunk size in KiB    | 65536   |
 | `-size-max-kb`       | Maximum file size (KiB).    | 2048    |
 | `-size-min-kb`       | Minimum file size (KiB).    | 0       |
+| `-verify`            | Verify after upload         | false   |
 
 ## Common options:
 

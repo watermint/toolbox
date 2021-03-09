@@ -34,6 +34,7 @@ type Upload struct {
 	SizeMinKb      int
 	SizeMaxKb      int
 	Method         mo_string.SelectString
+	PreScan        bool
 	BlockBlockSize mo_int.RangeInt
 	SeqChunkSizeKb mo_int.RangeInt
 	Verify         bool
@@ -51,6 +52,14 @@ func (z *Upload) Preset() {
 		"block",
 		"sequential",
 	)
+}
+
+func (z *Upload) newDbxFileSystem(c app_control.Control) (fs es_filesystem.FileSystem, err error) {
+	if z.PreScan {
+		return filesystem.NewPreScanFileSystem(c, z.Peer.Context(), z.Path)
+	} else {
+		return filesystem.NewFileSystem(z.Peer.Context()), nil
+	}
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
@@ -71,11 +80,15 @@ func (z *Upload) Exec(c app_control.Control) error {
 		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Peer.Context(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
 	}
 	copier := dfs_model_to_dbx.NewModelToDropbox(c.Log(), modelRoot, conn)
+	dbxFs, err := z.newDbxFileSystem(c)
+	if err != nil {
+		return err
+	}
 	syncer := es_sync.New(
 		c.Log(),
 		c.NewQueue(),
 		es_filesystem_model.NewFileSystem(modelRoot),
-		filesystem.NewFileSystem(z.Peer.Context()),
+		dbxFs,
 		copier,
 		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
@@ -86,9 +99,13 @@ func (z *Upload) Exec(c app_control.Control) error {
 	}
 
 	if z.Verify {
+		dbxFs, err := z.newDbxFileSystem(c)
+		if err != nil {
+			return err
+		}
 		cmp := es_filecompare.NewFolderComparator(
 			es_filesystem_model.NewFileSystem(modelRoot),
-			filesystem.NewFileSystem(z.Peer.Context()),
+			dbxFs,
 			c.Sequence(),
 			es_filecompare.HandlerFileDiff(func(base es_filecompare.PathPair, source, target es_filesystem.Entry) {
 				l.Warn("file diff", esl.Any("base", base), esl.Any("source", source), esl.Any("target", target))

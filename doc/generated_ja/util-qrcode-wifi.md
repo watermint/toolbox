@@ -5,18 +5,15 @@ Generate QR code for WIFI configuration
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util qrcode wifi -out /LOCAL/PATH/TO/create_qrcode.png
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util qrcode wifi -out /LOCAL/PATH/TO/create_qrcode.png
 ```

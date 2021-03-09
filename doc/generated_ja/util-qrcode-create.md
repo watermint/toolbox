@@ -5,18 +5,15 @@ Create a QR code image file
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
-
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util qrcode create -out /LOCAL/PATH/TO/create_qrcode.png
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util qrcode create -out /LOCAL/PATH/TO/create_qrcode.png
 ```

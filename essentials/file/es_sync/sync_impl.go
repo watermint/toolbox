@@ -113,7 +113,7 @@ func (z syncImpl) delete(target es_filesystem.Path) error {
 func (z syncImpl) createFolder(target es_filesystem.Path) error {
 	l := z.log.With(esl.Any("target", target.AsData()))
 	l.Debug("Create folder")
-	err := z.target.CreateFolder(target)
+	_, err := z.target.CreateFolder(target)
 	if err != nil {
 		l.Debug("unable to create folder", esl.Error(err))
 		z.opts.OnCreateFolderFailure(target, err)
@@ -465,17 +465,12 @@ func (z syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) err
 		l.Debug("Target folder found", esl.Any("targetEntry", tgtEntry.AsData()))
 
 	case err.IsPathNotFound():
-		errCreateFolder := z.target.CreateFolder(target)
+		var errCreateFolder es_filesystem.FileSystemError
+		tgtEntry, errCreateFolder = z.target.CreateFolder(target)
 		if errCreateFolder != nil {
 			l.Debug("Unable to create folder", esl.Error(errCreateFolder))
 			z.opts.OnCreateFolderFailure(target, err)
 			return errCreateFolder
-		}
-		tgtEntry, err = z.target.Info(target)
-		if err != nil {
-			l.Debug("Unable to retrieve target entry", esl.Error(err))
-			z.opts.OnCreateFolderFailure(target, err)
-			return err
 		}
 		z.opts.OnCreateFolderSuccess(target)
 

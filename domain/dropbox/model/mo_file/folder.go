@@ -16,6 +16,10 @@ type Folder struct {
 	EntryParentSharedFolderId string `path:"sharing_info.parent_shared_folder_id" json:"parent_shared_folder_id"`
 }
 
+func (z *Folder) Metadata() *Metadata {
+	return newMetadataEntry(z.Raw)
+}
+
 func (z *Folder) LockInfo() *LockInfo {
 	return nil
 }

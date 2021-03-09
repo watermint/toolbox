@@ -5,18 +5,15 @@ Generate QR code for WIFI configuration
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util qrcode wifi -out /LOCAL/PATH/TO/create_qrcode.png
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util qrcode wifi -out /LOCAL/PATH/TO/create_qrcode.png
 ```

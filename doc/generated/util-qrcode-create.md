@@ -5,18 +5,15 @@ Create a QR code image file
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util qrcode create -out /LOCAL/PATH/TO/create_qrcode.png
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util qrcode create -out /LOCAL/PATH/TO/create_qrcode.png
 ```

@@ -33,6 +33,9 @@ type Entry interface {
 	// Returns Deleted, return nil & false if an entry is not a Deleted.
 	Deleted() (*Deleted, bool)
 
+	// Returns metadata instance.
+	Metadata() *Metadata
+
 	// Returns concrete entry
 	Concrete() *ConcreteEntry
 

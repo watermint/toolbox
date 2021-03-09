@@ -2,13 +2,17 @@
 
 # Commands added
 
+
 | Command                 | Title                                   |
 |-------------------------|-----------------------------------------|
 | dev stage upload_append | New upload API test                     |
 | util qrcode create      | Create a QR code image file             |
 | util qrcode wifi        | Generate QR code for WIFI configuration |
 
+
+
 # Command spec changed: `dev benchmark upload`
+
 
 ## Command configuration changed
 
@@ -28,9 +32,9 @@
 + 		&{
 + 			Name:     "BlockBlockSize",
 + 			Desc:     "Block size for batch upload",
-+ 			Default:  "50",
++ 			Default:  "40",
 + 			TypeName: "essentials.model.mo_int.range_int",
-+ 			TypeAttr: map[string]interface{}{"max": float64(1000), "min": float64(1), "value": float64(50)},
++ 			TypeAttr: map[string]interface{}{"max": float64(1000), "min": float64(1), "value": float64(40)},
 + 		},
 - 		&{
 - 			Name:     "ChunkSizeKb",
@@ -57,6 +61,12 @@
 - 			TypeAttr: nil,
 + 			TypeAttr: []interface{}{string("files.content.write")},
   		},
++ 		&{
++ 			Name:     "PreScan",
++ 			Desc:     "Pre-scan destination path",
++ 			Default:  "false",
++ 			TypeName: "bool",
++ 		},
 - 		&{
 - 			Name:     "Shard",
 - 			Desc:     "Number of shared folders to distribute namespace",
@@ -72,6 +82,7 @@
 + 		},
   		&{Name: "SizeMaxKb", Desc: "Maximum file size (KiB).", Default: "2048", TypeName: "int", ...},
   		&{Name: "SizeMinKb", Desc: "Minimum file size (KiB).", Default: "0", TypeName: "int", ...},
++ 		&{Name: "Verify", Desc: "Verify after upload", Default: "false", TypeName: "bool"},
   	},
   	GridDataInput:  {},
   	GridDataOutput: {},

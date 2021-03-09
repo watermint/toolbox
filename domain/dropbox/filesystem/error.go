@@ -61,3 +61,56 @@ func (z dbxError) IsDisallowedName() bool {
 func (z dbxError) IsInvalidEntryDataFormat() bool {
 	return z.err == ErrorInvalidEntryDataFormat
 }
+
+const (
+	cacheErrorNotFound cacheErrorType = iota
+)
+
+type cacheErrorType int
+
+type cacheError struct {
+	errorType cacheErrorType
+}
+
+func (z cacheError) Error() string {
+	switch z.errorType {
+	case cacheErrorNotFound:
+		return "not found"
+	default:
+		return "other error"
+	}
+}
+
+func (z cacheError) IsPathNotFound() bool {
+	return z.errorType == cacheErrorNotFound
+}
+
+func (z cacheError) IsConflict() bool {
+	return false
+}
+
+func (z cacheError) IsNoPermission() bool {
+	return false
+}
+
+func (z cacheError) IsInsufficientSpace() bool {
+	return false
+}
+
+func (z cacheError) IsDisallowedName() bool {
+	return false
+}
+
+func (z cacheError) IsInvalidEntryDataFormat() bool {
+	return false
+}
+
+func (z cacheError) IsMockError() bool {
+	return false
+}
+
+func NotFoundError() es_filesystem.FileSystemError {
+	return &cacheError{
+		errorType: cacheErrorNotFound,
+	}
+}
