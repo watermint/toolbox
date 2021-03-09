@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -23,6 +22,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"runtime"
 )
 
 type Up struct {
@@ -30,16 +30,15 @@ type Up struct {
 	Peer        dbx_conn.ConnUserFile
 	LocalPath   mo_path2.ExistingFileSystemPath
 	DropboxPath mo_path.DropboxPath
-	ChunkSizeKb mo_int.RangeInt
 	Upload      *file.Upload
 	Overwrite   bool
 	Delete      bool
-	WorkPath    mo_string.OptionalString
+	BatchSize   mo_int.RangeInt
 	Name        mo_filter.Filter
 }
 
 func (z *Up) Preset() {
-	z.ChunkSizeKb.SetRange(1, 150*1024, 64*1024)
+	z.BatchSize.SetRange(1, 1000, int64(runtime.NumCPU()*2))
 	z.Name.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNameSuffixFilter(),
@@ -56,8 +55,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		ru.Overwrite = z.Overwrite
 		ru.Name = z.Name
 		ru.Context = z.Peer.Context()
-		ru.ChunkSizeKb = z.ChunkSizeKb.Value()
-		ru.WorkPath = z.WorkPath
+		ru.BatchSize = z.BatchSize.Value()
 		ru.Delete = z.Delete
 	})
 }

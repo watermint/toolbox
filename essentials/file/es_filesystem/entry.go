@@ -28,6 +28,38 @@ type Entry interface {
 	AsData() EntryData
 }
 
+func CompareEntry(a, b Entry) bool {
+	if a.Name() != b.Name() {
+		return false
+	}
+	if a.IsFile() != b.IsFile() {
+		return false
+	}
+	if a.IsFolder() != b.IsFolder() {
+		return false
+	}
+	if a.Path().Path() != b.Path().Path() {
+		return false
+	}
+
+	// compare as file
+	if a.IsFile() {
+		if a.Size() != b.Size() {
+			return false
+		}
+		if a.ModTime() != b.ModTime() {
+			return false
+		}
+		ah, _ := a.ContentHash()
+		bh, _ := b.ContentHash()
+		if ah != bh {
+			return false
+		}
+	}
+
+	return true
+}
+
 type EntryData struct {
 	FileSystemType string                 `json:"file_system_type"`
 	EntryName      string                 `json:"name"`

@@ -148,6 +148,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevreplay.Remote{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
+		&recipedevstage.Dbxfs{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Griddata{},
 		&recipedevstage.Gui{},

@@ -3,11 +3,12 @@
 # 追加されたコマンド
 
 
-| コマンド                | タイトル                                |
-|-------------------------|-----------------------------------------|
-| dev stage upload_append | New upload API test                     |
-| util qrcode create      | Create a QR code image file             |
-| util qrcode wifi        | Generate QR code for WIFI configuration |
+| コマンド                | タイトル                                           |
+|-------------------------|----------------------------------------------------|
+| dev stage dbxfs         | Verify Dropbox File System impl. for cached system |
+| dev stage upload_append | New upload API test                                |
+| util qrcode create      | Create a QR code image file                        |
+| util qrcode wifi        | Generate QR code for WIFI configuration            |
 
 
 

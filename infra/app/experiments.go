@@ -18,8 +18,12 @@ const (
 	ExperimentCongestionWindowNoLimit = "congestion_window_no_limit"
 	// Aggressive initial window size
 	ExperimentCongestionWindowAggressive = "congestion_window_aggressive"
-
+	// Reduce call create_folder on sync
 	ExperimentFileSyncDisableReduceCreateFolder = "file_sync_disable_reduce_create_folder"
+	// Use legacy local to dropbox sync connector
+	ExperimentFileSyncLegacyLocalToDropboxConnector = "legacy_local_to_dbx_connector"
+	// Use non-cache dropbox file system
+	ExperimentFileSyncNoCacheDropboxFileSystem = "use_no_cache_dbxfs"
 )
 
 var (
@@ -35,5 +39,7 @@ var (
 		ExperimentCongestionWindowNoLimit,
 		ExperimentCongestionWindowAggressive,
 		ExperimentFileSyncDisableReduceCreateFolder,
+		ExperimentFileSyncLegacyLocalToDropboxConnector,
+		ExperimentFileSyncNoCacheDropboxFileSystem,
 	}
 )

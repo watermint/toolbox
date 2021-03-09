@@ -15,18 +15,14 @@ import (
 )
 
 func NewLocalToDropboxBatch(ctl app_control.Control, ctx dbx_context.Context, batchSize int) es_filesystem.Connector {
-	//var warehouseBudget int
-	//switch ctl.Feature().BudgetMemory() {
-	//case app_budget.BudgetUnlimited:
-	//	warehouseBudget = 24
-	//case app_budget.BudgetNormal:
-	//	warehouseBudget = 4
-	//case app_budget.BudgetLow:
-	//	warehouseBudget = 1
-	//default:
-	//	warehouseBudget = 2
-	//}
-	//warehouse := NewBlockWarehouse(ctl.Log(), 4096*1024, ctl.Feature().Concurrency()*warehouseBudget)
+	l := ctl.Log()
+	if batchSize < 1 {
+		l.Debug("Batch size less than one, fallback to one")
+		batchSize = 1
+	} else if 1000 < batchSize {
+		l.Debug("Batch size greater than 1,000. fallback to 1,000")
+		batchSize = 1000
+	}
 
 	return &copierLocalToDropboxBatch{
 		batchSize:    batchSize,
