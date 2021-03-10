@@ -22,6 +22,11 @@ import (
 )
 
 func TestSyncImpl_Sync(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -65,6 +70,11 @@ func TestSyncImpl_Sync(t *testing.T) {
 }
 
 func TestSyncImpl_SingleFile(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -98,6 +108,11 @@ func TestSyncImpl_SingleFile(t *testing.T) {
 }
 
 func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -153,6 +168,11 @@ func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
 }
 
 func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -207,6 +227,11 @@ func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
 }
 
 func TestSyncImpl_Filter(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -245,6 +270,11 @@ func TestSyncImpl_Filter(t *testing.T) {
 }
 
 func TestSyncImpl_FileEdit(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -351,6 +381,10 @@ func TestSyncImpl_DeletedFileNoSyncDelete(t *testing.T) {
 }
 
 func TestSyncImpl_DeletedFileSyncDelete(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -405,6 +439,7 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 		t.Skipped()
 		return
 	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	l := esl.Default()
@@ -524,6 +559,11 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 }
 
 func TestSyncImpl_CompareTimeShouldNotOverwrite(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -589,6 +629,11 @@ func TestSyncImpl_CompareTimeShouldNotOverwrite(t *testing.T) {
 }
 
 func TestSyncImpl_CompareTimeShouldOverwrite(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
