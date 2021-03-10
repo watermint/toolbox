@@ -1,88 +1,131 @@
 package benchmark
 
 import (
-	"fmt"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_local_to_dbx"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_model_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/essentials/file/es_filecompare"
+	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
+	"runtime"
 )
 
 type Upload struct {
 	rc_recipe.RemarkSecret
-	Peer        dbx_conn.ConnUserFile
-	Path        mo_path.DropboxPath
-	NumFiles    int
-	SizeMinKb   int
-	SizeMaxKb   int
-	Shard       int
-	ChunkSizeKb mo_int.RangeInt
+	Peer           dbx_conn.ConnScopedIndividual
+	Path           mo_path.DropboxPath
+	NumFiles       int
+	SizeMinKb      int
+	SizeMaxKb      int
+	Method         mo_string.SelectString
+	PreScan        bool
+	BlockBlockSize mo_int.RangeInt
+	SeqChunkSizeKb mo_int.RangeInt
+	Verify         bool
 }
 
 func (z *Upload) Preset() {
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentWrite)
 	z.NumFiles = 1000
 	z.SizeMinKb = 0
 	z.SizeMaxKb = 2 * 1024 // 2MiB
-	z.Shard = 1
-	z.ChunkSizeKb.SetRange(1, 150*1024, 64*1024)
+	z.SeqChunkSizeKb.SetRange(1, 150*1024, 64*1024)
+	z.BlockBlockSize.SetRange(1, 1000, int64(runtime.NumCPU()*2))
+	z.Method.SetOptions(
+		"block",
+		"block",
+		"sequential",
+	)
+}
+
+func (z *Upload) newDbxFileSystem(c app_control.Control) (fs es_filesystem.FileSystem, err error) {
+	if z.PreScan {
+		return filesystem.NewPreScanFileSystem(c, z.Peer.Context(), z.Path)
+	} else {
+		return filesystem.NewFileSystem(z.Peer.Context()), nil
+	}
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
 	l := c.Log()
 	modelRoot := em_file.NewFolder("data", []em_file.Node{})
-	if 1 < z.Shard {
-		for i := 0; i < z.Shard; i++ {
-			sharedName := fmt.Sprintf("Shard%d", i)
-			model := em_file_random.NewPoissonTree().Generate(
-				em_file_random.NumFiles(z.NumFiles/z.Shard),
-				em_file_random.FileSize(int64(z.SizeMinKb*1024), int64(z.SizeMaxKb*1024)),
-			)
-			model.Rename(sharedName)
-			modelRoot.Add(model)
+	model := em_file_random.NewPoissonTree().Generate(
+		em_file_random.NumFiles(z.NumFiles),
+		em_file_random.FileSize(int64(z.SizeMinKb*1024), int64(z.SizeMaxKb*1024)),
+	)
+	model.Rename("Data")
+	modelRoot.Add(model)
+	var conn es_filesystem.Connector
+	switch z.Method.Value() {
+	case "block":
+		conn = dfs_copier_batch.NewLocalToDropboxBatch(c, z.Peer.Context(), z.BlockBlockSize.Value())
 
-			sf, err := sv_sharedfolder.New(z.Peer.Context()).Create(z.Path.ChildPath(sharedName))
-			if err != nil {
-				l.Warn("Unable to create shard folder", esl.Error(err))
-				return err
-			}
-			l.Info("Create shard shared folder created",
-				esl.Int("index", i),
-				esl.String("shardName", sharedName),
-				esl.Any("sharedFolder", sf),
-			)
-		}
-	} else {
-		model := em_file_random.NewPoissonTree().Generate(
-			em_file_random.NumFiles(z.NumFiles),
-			em_file_random.FileSize(int64(z.SizeMinKb*1024), int64(z.SizeMaxKb*1024)),
-		)
-		model.Rename("Data")
-		modelRoot.Add(model)
+	default:
+		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Peer.Context(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
 	}
-	copier := filesystem.NewModelToDropbox(modelRoot, z.Peer.Context(), sv_file_content.ChunkSizeKb(z.ChunkSizeKb.Value()))
+	copier := dfs_model_to_dbx.NewModelToDropbox(c.Log(), modelRoot, conn)
+	dbxFs, err := z.newDbxFileSystem(c)
+	if err != nil {
+		return err
+	}
 	syncer := es_sync.New(
 		c.Log(),
-		c.Sequence(),
+		c.NewQueue(),
 		es_filesystem_model.NewFileSystem(modelRoot),
-		filesystem.NewFileSystem(z.Peer.Context()),
+		dbxFs,
 		copier,
 		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
-	return syncer.Sync(es_filesystem_model.NewPath("/"),
-		filesystem.NewPath("", z.Path))
+	if syErr := syncer.Sync(es_filesystem_model.NewPath("/"), filesystem.NewPath("", z.Path)); syErr != nil {
+		l.Debug("Error on sync process", esl.Error(syErr))
+		return syErr
+	}
+
+	if z.Verify {
+		dbxFs, err := z.newDbxFileSystem(c)
+		if err != nil {
+			return err
+		}
+		cmp := es_filecompare.NewFolderComparator(
+			es_filesystem_model.NewFileSystem(modelRoot),
+			dbxFs,
+			c.Sequence(),
+			es_filecompare.HandlerFileDiff(func(base es_filecompare.PathPair, source, target es_filesystem.Entry) {
+				l.Warn("file diff", esl.Any("base", base), esl.Any("source", source), esl.Any("target", target))
+			}),
+			es_filecompare.HandlerMissingSource(func(base es_filecompare.PathPair, target es_filesystem.Entry) {
+				l.Warn("missing source", esl.Any("base", base), esl.Any("target", target))
+			}),
+			es_filecompare.HandlerMissingTarget(func(base es_filecompare.PathPair, source es_filesystem.Entry) {
+				l.Warn("missing target", esl.Any("base", base), esl.Any("source", source))
+			}),
+			es_filecompare.HandlerTypeDiff(func(base es_filecompare.PathPair, source, target es_filesystem.Entry) {
+				l.Warn("type diff", esl.Any("base", base), esl.Any("source", source), esl.Any("target", target))
+			}),
+		)
+		if cmpErr := cmp.Compare(es_filesystem_model.NewPath("/"), filesystem.NewPath("", z.Path)); cmpErr != nil {
+			return cmpErr
+		}
+		l.Info("No diff found")
+	}
+	return nil
 }
 
 func (z *Upload) Test(c app_control.Control) error {

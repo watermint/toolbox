@@ -477,7 +477,7 @@ func (z *memberImpl) parseOneMember(res es_response.Response) (member *mo_member
 	// {".tag": "id_not_found", "id_not_found": "xxx+xxxxx@xxxxxxxxx.xxx"}
 	if id, found := a.FindString("id_not_found"); found {
 		z.ctx.Log().Debug("`id_not_found`", esl.String("id", id))
-		return nil, dbx_error.DropboxError{
+		return nil, dbx_error.ErrorInfo{
 			ErrorTag:     "id_not_found",
 			ErrorSummary: "id_not_found",
 		}

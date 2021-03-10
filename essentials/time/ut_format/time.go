@@ -61,15 +61,15 @@ func Daily(start, end string) ([]*DayRange, error) {
 
 	for endTime.After(p) {
 		dr = append(dr, &DayRange{
-			Start: dbx_util.RebaseAsString(q),
-			End:   dbx_util.RebaseAsString(p),
+			Start: dbx_util.ToApiTimeString(q),
+			End:   dbx_util.ToApiTimeString(p),
 		})
 		q = p
 		p = p.Add(24 * time.Hour)
 	}
 	dr = append(dr, &DayRange{
-		Start: dbx_util.RebaseAsString(q),
-		End:   dbx_util.RebaseAsString(endTime),
+		Start: dbx_util.ToApiTimeString(q),
+		End:   dbx_util.ToApiTimeString(endTime),
 	})
 
 	return dr, nil

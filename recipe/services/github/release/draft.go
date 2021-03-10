@@ -62,7 +62,7 @@ func (z *Draft) Test(c app_control.Control) error {
 		m.Name = "0.0.2"
 		m.Owner = "watermint"
 		m.Repository = "toolbox_sandbox"
-		m.Branch = "master"
+		m.Branch = "main"
 		m.BodyFile = mo_path2.NewFileSystemPath(f)
 	})
 }

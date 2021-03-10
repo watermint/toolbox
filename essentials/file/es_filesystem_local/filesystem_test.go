@@ -35,7 +35,7 @@ func TestNewFileSystem(t *testing.T) {
 			}
 		}
 
-		if err := fs.CreateFolder(NewPath(filepath.Join(path, "hello"))); err != nil {
+		if _, err := fs.CreateFolder(NewPath(filepath.Join(path, "hello"))); err != nil {
 			t.Error(err)
 		}
 	})

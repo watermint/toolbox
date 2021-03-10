@@ -30,7 +30,7 @@ type resImpl struct {
 	abort  error
 }
 
-func (z resImpl) DropboxError() (err dbx_error.DropboxError) {
+func (z resImpl) DropboxError() (err dbx_error.ErrorInfo) {
 	if z.IsSuccess() {
 		return
 	}
@@ -42,7 +42,7 @@ func (z resImpl) Failure() (error, bool) {
 	if z.abort != nil {
 		return z.abort, true
 	}
-	de := &dbx_error.DropboxError{}
+	de := &dbx_error.ErrorInfo{}
 	if err := z.Alt().Json().Model(de); err == nil && de.ErrorSummary != "" {
 		return de, true
 	}

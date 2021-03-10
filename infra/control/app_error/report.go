@@ -19,5 +19,5 @@ type ErrorReportRow struct {
 type ErrorReport interface {
 	Up(ctl app_control.Control) error
 	Down()
-	ErrorHandler(err error, mouldId, batchId string, p interface{})
+	ErrorListener(err error, mouldId, batchId string, p interface{})
 }

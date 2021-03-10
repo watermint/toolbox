@@ -13,7 +13,7 @@ type Opts struct {
 	numWorker    int
 	factory      eq_pipe.Factory
 	progress     eq_progress.Progress
-	errorHandler []eq_mould.ErrorHandler
+	errorHandler []eq_mould.ErrorListener
 	policy       eq_bundle.FetchPolicy
 	mouldOpts    eq_mould.Opts
 }
@@ -36,7 +36,7 @@ func defaultOpts() Opts {
 		progress:     nil,
 		factory:      eq_pipe.NewTransientSimple(esl.Default()),
 		policy:       eq_bundle.FetchSequential,
-		errorHandler: make([]eq_mould.ErrorHandler, 0),
+		errorHandler: make([]eq_mould.ErrorListener, 0),
 	}
 }
 
@@ -77,7 +77,7 @@ func Factory(f eq_pipe.Factory) Opt {
 	}
 }
 
-func ErrorHandler(eh eq_mould.ErrorHandler) Opt {
+func AddErrorListener(eh eq_mould.ErrorListener) Opt {
 	return func(o Opts) Opts {
 		o.errorHandler = append(o.errorHandler, eh)
 		return o

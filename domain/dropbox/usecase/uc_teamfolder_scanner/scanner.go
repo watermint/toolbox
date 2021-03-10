@@ -22,6 +22,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"math"
+	"path/filepath"
 	"time"
 )
 
@@ -292,11 +293,12 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 					ll.Debug("Descendant found")
 					traverse[descendant.SharedFolderId] = true
 					err := storageNested.Update(func(kvs kv_kvs.Kvs) error {
-						return kvs.PutJsonModel(descendantNamespaceId, &TeamFolderNested{
+						tfn := &TeamFolderNested{
 							NamespaceId:   descendantNamespaceId,
 							NamespaceName: entry.Name,
-							RelativePath:  entry.PathDisplay,
-						})
+							RelativePath:  filepath.Join(teamFolderName, entry.PathDisplay),
+						}
+						return kvs.PutJsonModel(descendantNamespaceId, tfn)
 					})
 					if err != nil {
 						ll.Debug("Unable to store search result", esl.Error(err))
@@ -347,11 +349,12 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 					traverse[f.EntrySharedFolderId] = true
 					rp := path.ChildPath(f.EntryName)
 					err := storageNested.Update(func(kvs kv_kvs.Kvs) error {
-						return kvs.PutJsonModel(f.EntrySharedFolderId, &TeamFolderNested{
+						tfn := &TeamFolderNested{
 							NamespaceId:   f.EntrySharedFolderId,
 							NamespaceName: f.EntryName,
 							RelativePath:  teamFolderName + rp.Path(),
-						})
+						}
+						return kvs.PutJsonModel(f.EntrySharedFolderId, tfn)
 					})
 					if err != nil {
 						lll.Debug("Unable to store", esl.Error(err))

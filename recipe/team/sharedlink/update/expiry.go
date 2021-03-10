@@ -128,7 +128,7 @@ func (z *ExpiryWorker) Exec() error {
 	ui.Progress(MExpiry.ProgressUpdating.With("MemberEmail", z.member.Email).
 		With("Url", z.link.LinkUrl()).
 		With("CurrentExpiry", z.link.LinkExpires()).
-		With("NewExpiry", dbx_util.RebaseAsString(z.newExpiry)))
+		With("NewExpiry", dbx_util.ToApiTimeString(z.newExpiry)))
 
 	updated, err := sv_sharedlink.New(z.ctx).Update(z.link, sv_sharedlink.Expires(z.newExpiry))
 	if err != nil {

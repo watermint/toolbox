@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
 	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"testing"
@@ -18,8 +19,9 @@ func TestLocalToLocalCopier_Copy(t *testing.T) {
 			conn := NewLocalToLocal(esl.Default(), fs1, fs2)
 
 			seq := eq_sequence.New()
+			qd := eq_queue.New()
 
-			sync := es_sync.New(esl.Default(), seq, fs1, fs2, conn)
+			sync := es_sync.New(esl.Default(), qd, fs1, fs2, conn)
 
 			errSync := sync.Sync(es_filesystem_local.NewPath(sourcePath), es_filesystem_local.NewPath(targetPath))
 			if errSync != nil {

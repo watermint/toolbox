@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_congestion"
 	"github.com/watermint/toolbox/essentials/network/nw_diag"
 	"github.com/watermint/toolbox/essentials/network/nw_proxy"
+	"github.com/watermint/toolbox/essentials/runtime/es_env"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
@@ -155,7 +156,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	esl.AddDefaultSubscriber(wb.Logger().Core())
 
 	// Notification
-	if com.Quiet || com.Output.Value() == app_opt.OutputJson {
+	if com.Quiet || com.Output.Value() == app_opt.OutputJson || es_env.IsEnabled(app.EnvNameDebugVerbose) {
 		wb.Logger().Logger().Debug("Set indicators as silent mode")
 		ea_indicator.SuppressIndicator()
 	} else {

@@ -13,6 +13,10 @@ type Deleted struct {
 	EntryPathDisplay string `path:"path_display" json:"path_display"`
 }
 
+func (z *Deleted) Metadata() *Metadata {
+	return newMetadataEntry(z.Raw)
+}
+
 func (z *Deleted) LockInfo() *LockInfo {
 	return nil
 }

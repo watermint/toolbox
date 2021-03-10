@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_dbx_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
@@ -83,7 +84,7 @@ func (z *Online) Exec(c app_control.Control) error {
 	srcFs := filesystem.NewFileSystem(z.Context)
 	tgtFs := filesystem.NewFileSystem(z.Context)
 	var conn es_filesystem.Connector
-	conn = filesystem.NewDropboxToDropbox(z.Context)
+	conn = dfs_copier_dbx_to_dbx.NewDropboxToDropbox(z.Context)
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
 		e, errConvert := filesystem.ToDropboxEntry(entry)
@@ -99,7 +100,7 @@ func (z *Online) Exec(c app_control.Control) error {
 
 	syncer := es_sync.New(
 		c.Log(),
-		c.Sequence(),
+		c.NewQueue(),
 		srcFs,
 		tgtFs,
 		conn,

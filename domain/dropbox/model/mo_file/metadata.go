@@ -3,6 +3,7 @@ package mo_file
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
@@ -12,6 +13,10 @@ type Metadata struct {
 	EntryName        string `path:"name" json:"name"`
 	EntryPathDisplay string `path:"path_display" json:"path_display"`
 	EntryPathLower   string `path:"path_lower" json:"path_lower"`
+}
+
+func (z *Metadata) Metadata() *Metadata {
+	return z
 }
 
 func (z *Metadata) LockInfo() *LockInfo {
@@ -73,4 +78,14 @@ func (z *Metadata) Deleted() (*Deleted, bool) {
 
 func (z *Metadata) Concrete() *ConcreteEntry {
 	return newConcreteEntry(z.Raw)
+}
+
+func newMetadataEntry(raw json.RawMessage) (entry *Metadata) {
+	entry = &Metadata{}
+	if err := api_parser.ParseModelRaw(entry, raw); err != nil {
+		esl.Default().Debug("Unable to parse json", esl.Error(err), esl.ByteString("raw", raw))
+		return entry
+	}
+	entry.Raw = raw
+	return entry
 }

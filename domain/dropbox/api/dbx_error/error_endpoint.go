@@ -1,13 +1,13 @@
 package dbx_error
 
-func NewErrorEndpoint(de DropboxError) ErrorEndpoint {
+func NewErrorEndpoint(de ErrorInfo) ErrorEndpoint {
 	return &errorEndpoint{
 		de: de,
 	}
 }
 
 type errorEndpoint struct {
-	de DropboxError
+	de ErrorInfo
 }
 
 func (z errorEndpoint) IsRateLimit() bool {

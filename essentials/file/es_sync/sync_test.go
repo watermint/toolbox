@@ -10,7 +10,9 @@ import (
 	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"math/rand"
 	"reflect"
 	"runtime"
@@ -20,6 +22,11 @@ import (
 )
 
 func TestSyncImpl_Sync(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -28,12 +35,11 @@ func TestSyncImpl_Sync(t *testing.T) {
 	fs1 := es_filesystem_model.NewFileSystem(tree1)
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -43,6 +49,7 @@ func TestSyncImpl_Sync(t *testing.T) {
 		t.Error(err)
 	}
 
+	seq := eq_sequence.New()
 	folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 	missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 	if err != nil {
@@ -63,6 +70,11 @@ func TestSyncImpl_Sync(t *testing.T) {
 }
 
 func TestSyncImpl_SingleFile(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -70,12 +82,11 @@ func TestSyncImpl_SingleFile(t *testing.T) {
 	fs1 := es_filesystem_model.NewFileSystem(tree1)
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -84,6 +95,7 @@ func TestSyncImpl_SingleFile(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+
 	x := em_file.ResolvePath(tree1, "/a/x")
 	if x == nil {
 		t.Error(x)
@@ -96,6 +108,11 @@ func TestSyncImpl_SingleFile(t *testing.T) {
 }
 
 func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -118,7 +135,7 @@ func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -151,6 +168,11 @@ func TestSyncImpl_ReplaceFolderByFile(t *testing.T) {
 }
 
 func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -172,7 +194,7 @@ func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -205,6 +227,11 @@ func TestSyncImpl_ReplaceFileByFolder(t *testing.T) {
 }
 
 func TestSyncImpl_Filter(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -213,7 +240,6 @@ func TestSyncImpl_Filter(t *testing.T) {
 	fs1 := es_filesystem_model.NewFileSystem(tree1)
 	fs2 := es_filesystem_model.NewFileSystem(tree2)
 
-	seq := eq_sequence.New()
 	conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
 	filter := mo_filter.New("")
 	filter.SetOptions(mo_filter.NewTestNameFilter("x"))
@@ -223,7 +249,7 @@ func TestSyncImpl_Filter(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -244,6 +270,11 @@ func TestSyncImpl_Filter(t *testing.T) {
 }
 
 func TestSyncImpl_FileEdit(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -260,7 +291,7 @@ func TestSyncImpl_FileEdit(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -293,6 +324,10 @@ func TestSyncImpl_FileEdit(t *testing.T) {
 }
 
 func TestSyncImpl_DeletedFileNoSyncDelete(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -310,7 +345,7 @@ func TestSyncImpl_DeletedFileNoSyncDelete(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -346,6 +381,10 @@ func TestSyncImpl_DeletedFileNoSyncDelete(t *testing.T) {
 }
 
 func TestSyncImpl_DeletedFileSyncDelete(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -363,7 +402,7 @@ func TestSyncImpl_DeletedFileSyncDelete(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -396,6 +435,11 @@ func TestSyncImpl_DeletedFileSyncDelete(t *testing.T) {
 }
 
 func TestSyncImpl_SyncRandom(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	l := esl.Default()
@@ -416,7 +460,7 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 
 		syncer := New(
 			esl.Default(),
-			seq,
+			eq_queue.New(),
 			fs1,
 			fs2,
 			conn,
@@ -452,6 +496,10 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 }
 
 func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	ea_indicator.SuppressIndicatorForce()
 
 	l := esl.Default()
@@ -473,7 +521,7 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 
 		syncer := New(
 			esl.Default(),
-			seq,
+			eq_queue.New(),
 			fs1,
 			fs2,
 			conn,
@@ -511,6 +559,11 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 }
 
 func TestSyncImpl_CompareTimeShouldNotOverwrite(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -535,7 +588,7 @@ func TestSyncImpl_CompareTimeShouldNotOverwrite(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -576,6 +629,11 @@ func TestSyncImpl_CompareTimeShouldNotOverwrite(t *testing.T) {
 }
 
 func TestSyncImpl_CompareTimeShouldOverwrite(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()
@@ -598,7 +656,7 @@ func TestSyncImpl_CompareTimeShouldOverwrite(t *testing.T) {
 
 	syncer := New(
 		esl.Default(),
-		seq,
+		eq_queue.New(),
 		fs1,
 		fs2,
 		conn,
@@ -655,7 +713,7 @@ func BenchmarkSyncImpl_SyncRandomTest(b *testing.B) {
 
 			syncer := New(
 				esl.Default(),
-				seq,
+				eq_queue.New(),
 				fs1,
 				fs2,
 				conn,

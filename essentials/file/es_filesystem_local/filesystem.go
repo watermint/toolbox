@@ -75,7 +75,10 @@ func (z fsLocal) Delete(path es_filesystem.Path) (err es_filesystem.FileSystemEr
 	return NewError(osErr)
 }
 
-func (z fsLocal) CreateFolder(path es_filesystem.Path) (err es_filesystem.FileSystemError) {
+func (z fsLocal) CreateFolder(path es_filesystem.Path) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	osErr := os.MkdirAll(path.Path(), 0755)
-	return NewError(osErr)
+	if osErr != nil {
+		return nil, NewError(osErr)
+	}
+	return z.Info(path)
 }

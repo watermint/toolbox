@@ -67,7 +67,7 @@ func (z *TimeImpl) Time() time.Time {
 
 func (z *TimeImpl) Iso8601() string {
 	if z.Ok() {
-		return dbx_util.RebaseAsString(z.time)
+		return dbx_util.ToApiTimeString(z.time)
 	} else {
 		return ""
 	}

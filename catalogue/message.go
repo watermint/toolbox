@@ -7,6 +7,7 @@ import (
 	domaindropboxapidbx_auth_attr "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	domaindropboxapidbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	domaindropboxapidbx_list_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_list_impl"
+	domaindropboxfilesystem "github.com/watermint/toolbox/domain/dropbox/filesystem"
 	domaindropboxmodelmo_file_filter "github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	domaindropboxmodelmo_sharedfolder_member "github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	domaindropboxusecaseuc_compare_local "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
@@ -60,6 +61,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxapidbx_auth_attr.MsgAttr{},
 		&domaindropboxapidbx_conn_impl.MsgConnect{},
 		&domaindropboxapidbx_list_impl.MsgList{},
+		&domaindropboxfilesystem.MsgFileSystemCached{},
 		&domaindropboxmodelmo_file_filter.MsgFileFilterOpt{},
 		&domaindropboxmodelmo_sharedfolder_member.MsgExternalOpt{},
 		&domaindropboxmodelmo_sharedfolder_member.MsgInternalOpt{},

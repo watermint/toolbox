@@ -8,6 +8,7 @@ require (
 	github.com/GeertJohan/go.rice v1.0.2
 	github.com/asticode/go-astikit v0.13.0
 	github.com/asticode/go-astilectron v0.20.0
+	github.com/boombuler/barcode v1.0.1 // indirect
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
 	github.com/daaku/go.zipexe v1.0.1 // indirect
 	github.com/dgraph-io/badger/v2 v2.2007.2
@@ -43,7 +44,7 @@ require (
 	go.uber.org/multierr v1.6.0
 	go.uber.org/zap v1.16.0
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
-	golang.org/x/exp v0.0.0-20201229011636-eab1b5eb1a03 // indirect
+	golang.org/x/exp v0.0.0-20201229011636-eab1b5eb1a03
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
 	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect
 	golang.org/x/oauth2 v0.0.0-20201208152858-08078c50e5b5

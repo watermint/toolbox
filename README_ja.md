@@ -1,7 +1,7 @@
 # watermint toolbox
 
 [![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
-[![codecov](https://codecov.io/gh/watermint/toolbox/branch/master/graph/badge.svg)](https://codecov.io/gh/watermint/toolbox)
+[![codecov](https://codecov.io/gh/watermint/toolbox/branch/main/graph/badge.svg?token=CrE8reSVvE)](https://codecov.io/gh/watermint/toolbox)
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
@@ -88,6 +88,7 @@ DropboxおよびDropbox Business向けのツールセット
 | コマンド                                                                   | 説明                                                                                                                                        |
 |----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | [connect user_file](doc/generated_ja/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                                                                                                        |
+| [dev stage upload_append](doc/generated_ja/dev-stage-upload_append.md)     | 新しいアップロードAPIテスト                                                                                                                 |
 | [file compare account](doc/generated_ja/file-compare-account.md)           | 二つのアカウントのファイルを比較します                                                                                                      |
 | [file compare local](doc/generated_ja/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                                                                                         |
 | [file copy](doc/generated_ja/file-copy.md)                                 | ファイルをコピーします                                                                                                                      |
@@ -290,6 +291,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [util decode base_64](doc/generated_ja/util-decode-base_64.md)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
 | [util encode base_32](doc/generated_ja/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base_64](doc/generated_ja/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util qrcode create](doc/generated_ja/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi](doc/generated_ja/util-qrcode-wifi.md)             | WIFI設定用のQRコードを生成                                             |
 | [util time now](doc/generated_ja/util-time-now.md)                   | 現在の時刻を表示                                                       |
 | [util unixtime format](doc/generated_ja/util-unixtime-format.md)     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
 | [util unixtime now](doc/generated_ja/util-unixtime-now.md)           | UNIX時間で現在の時刻を表示する                                         |

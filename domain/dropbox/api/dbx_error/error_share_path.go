@@ -1,6 +1,6 @@
 package dbx_error
 
-func NewSharePath(prefix string, de DropboxError) ErrorSharePath {
+func NewSharePath(prefix string, de ErrorInfo) ErrorSharePath {
 	return &errorSharePath{
 		prefix: prefix + "/",
 		de:     de,
@@ -9,7 +9,7 @@ func NewSharePath(prefix string, de DropboxError) ErrorSharePath {
 
 type errorSharePath struct {
 	prefix string
-	de     DropboxError
+	de     ErrorInfo
 }
 
 func (z errorSharePath) IsAlreadyShared() bool {

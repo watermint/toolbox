@@ -1,13 +1,13 @@
 package dbx_error
 
-func NewErrorAuth(de DropboxError) ErrorAuth {
+func NewErrorAuth(de ErrorInfo) ErrorAuth {
 	return &errorAuthImpl{
 		de: de,
 	}
 }
 
 type errorAuthImpl struct {
-	de DropboxError
+	de ErrorInfo
 }
 
 func (z errorAuthImpl) IsInvalidAccessToken() bool {

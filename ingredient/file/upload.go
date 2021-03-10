@@ -4,6 +4,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_local_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
@@ -13,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -39,8 +40,7 @@ type Upload struct {
 	Context     dbx_context.Context
 	Delete      bool
 	Overwrite   bool
-	ChunkSizeKb int
-	WorkPath    mo_string.OptionalString
+	BatchSize   int
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Uploaded    rp_model.TransactionReport
@@ -80,7 +80,6 @@ func (z *Upload) Preset() {
 		"entry_namespace.attributes",
 	))
 	z.Summary.SetModel(&Summary{})
-	z.ChunkSizeKb = 150 * 1024
 }
 
 func (z *Upload) Exec(c app_control.Control) error {
@@ -105,18 +104,28 @@ func (z *Upload) Exec(c app_control.Control) error {
 	}
 	l.Debug("Start uploading")
 
-	srcFs := es_filesystem_local.NewFileSystem()
-	tgtFs := filesystem.NewFileSystem(z.Context)
+	var srcFs, tgtFs es_filesystem.FileSystem
 	var conn es_filesystem.Connector
-	if z.WorkPath.IsExists() {
-		l.Debug("Use up and move tactics", esl.String("workPath", z.WorkPath.Value()))
-		conn = filesystem.NewLocalToDropboxUpAndMove(z.Context,
-			mo_path.NewDropboxPath(z.WorkPath.Value()),
-			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
+	var chunkSizeKb int
+
+	srcFs = es_filesystem_local.NewFileSystem()
+	if c.Feature().Experiment(app.ExperimentFileSyncNoCacheDropboxFileSystem) {
+		tgtFs = filesystem.NewFileSystem(z.Context)
 	} else {
-		l.Debug("Use regular up tactics")
-		conn = filesystem.NewLocalToDropbox(z.Context,
-			sv_file_content.ChunkSizeKb(z.ChunkSizeKb))
+		tgtFs, err = filesystem.NewPreScanFileSystem(c, z.Context, z.DropboxPath)
+		if err != nil {
+			l.Debug("Failed on the pre-scan", esl.Error(err))
+			return err
+		}
+	}
+
+	if c.Feature().Experiment(app.ExperimentFileSyncLegacyLocalToDropboxConnector) {
+		chunkSizeKb = 64 * 1024
+		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Context,
+			sv_file_content.ChunkSizeKb(chunkSizeKb))
+	} else {
+		chunkSizeKb = 4 * 1024
+		conn = dfs_copier_batch.NewLocalToDropboxBatch(c, z.Context, z.BatchSize)
 	}
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
@@ -133,7 +142,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 
 	syncer := es_sync.New(
 		c.Log(),
-		c.Sequence(),
+		c.NewQueue(),
 		srcFs,
 		tgtFs,
 		conn,
@@ -154,7 +163,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		}),
 		es_sync.OnCopySuccess(func(source es_filesystem.Entry, target es_filesystem.Entry) {
 			z.Uploaded.Success(source.AsData(), mustToDbxEntry(target).Concrete())
-			status.upload(source.Size(), z.ChunkSizeKb*1024)
+			status.upload(source.Size(), chunkSizeKb*1024)
 		}),
 		es_sync.OnCopyFailure(func(source es_filesystem.Path, err es_filesystem.FileSystemError) {
 			status.error()

@@ -1,11 +1,16 @@
 package dbx_util
 
 import (
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"io/ioutil"
 	"testing"
 )
 
 func TestContentHash(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	tmpf, err := ioutil.TempFile("", "hash_test")
 	if err != nil {
 		t.Error("Unable to create temp file", err)

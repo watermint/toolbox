@@ -87,11 +87,11 @@ func (z fileSystem) Delete(path es_filesystem.Path) (err es_filesystem.FileSyste
 	return NewError(errors.New("not found"), ErrorTypePathNotFound)
 }
 
-func (z fileSystem) CreateFolder(path es_filesystem.Path) (err es_filesystem.FileSystemError) {
+func (z fileSystem) CreateFolder(path es_filesystem.Path) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	if em_file.CreateFolder(z.root, path.Path()) {
-		return nil
+		return z.Info(path)
 	} else {
-		return NewError(errors.New("conflict"), ErrorTypeConflict)
+		return nil, NewError(errors.New("conflict"), ErrorTypeConflict)
 	}
 }
 

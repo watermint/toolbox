@@ -129,19 +129,19 @@ func (z dbxFs) Delete(path es_filesystem.Path) (err es_filesystem.FileSystemErro
 	return opDelete(dbxPath0)
 }
 
-func (z dbxFs) CreateFolder(path es_filesystem.Path) (err es_filesystem.FileSystemError) {
+func (z dbxFs) CreateFolder(path es_filesystem.Path) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {
 	l := z.ctx.Log().With(esl.Any("path", path.AsData()))
 
 	dbxPath, err := ToDropboxPath(path)
 	if err != nil {
 		l.Debug("unable to convert to Dropbox path", esl.Error(err))
-		return err
+		return nil, err
 	}
-	_, dbxErr := sv_file_folder.New(z.ctx).Create(dbxPath)
+	dbxEntry, dbxErr := sv_file_folder.New(z.ctx).Create(dbxPath)
 	if dbxErr != nil {
-		return NewError(dbxErr)
+		return nil, NewError(dbxErr)
 	}
-	return nil
+	return NewEntry(dbxEntry), nil
 }
 
 func (z dbxFs) Entry(data es_filesystem.EntryData) (entry es_filesystem.Entry, err es_filesystem.FileSystemError) {

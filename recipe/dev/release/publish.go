@@ -80,7 +80,7 @@ type ArtifactSum struct {
 }
 
 func (z *Publish) Preset() {
-	z.Branch = "master"
+	z.Branch = "main"
 }
 
 func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes map[string]int64, err error) {

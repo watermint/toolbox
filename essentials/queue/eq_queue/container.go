@@ -23,13 +23,13 @@ type Container interface {
 	Suspend() (session eq_bundle.Session, err error)
 }
 
-func newContainer(definition Definition, opts Opts) Container {
+func newContainer(definition Definition, opts Opts, el eq_mould.ErrorListener) Container {
 	bundle := eq_bundle.NewSimple(opts.logger, opts.policy, opts.progress, opts.factory)
-	return newContainerWithBundle(definition, bundle, opts)
+	return newContainerWithBundle(definition, bundle, opts, el)
 }
 
-func newContainerWithBundle(definition Definition, bundle eq_bundle.Bundle, opts Opts) Container {
-	reg := eq_registry.New(bundle, opts.errorHandler)
+func newContainerWithBundle(definition Definition, bundle eq_bundle.Bundle, opts Opts, el eq_mould.ErrorListener) Container {
+	reg := eq_registry.New(bundle, []eq_mould.ErrorListener{el})
 	pump := eq_pump.New(opts.logger, bundle)
 	pumpChan := pump.Start()
 	worker := eq_worker.New(opts.logger, reg, pumpChan)

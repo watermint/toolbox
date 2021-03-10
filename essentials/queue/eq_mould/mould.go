@@ -40,9 +40,9 @@ func (z Opts) Apply(opts []Opt) Opts {
 
 type Opt func(o Opts) Opts
 
-type ErrorHandler func(err error, mouldId, batchId string, p interface{})
+type ErrorListener func(err error, mouldId, batchId string, p interface{})
 
-func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorHandler, f interface{}, opts Opts, ctx ...interface{}) Mould {
+func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorListener, f interface{}, opts Opts, ctx ...interface{}) Mould {
 	l := esl.Default().With(esl.String("mouldId", mouldId))
 
 	if s == nil {
@@ -140,7 +140,7 @@ type mouldImpl struct {
 	paramTypeKind reflect.Kind
 	paramIsPtr    bool
 	hasErrorOut   bool
-	errorHandlers []ErrorHandler
+	errorHandlers []ErrorListener
 
 	statusBar ea_indicator.StatusBar
 }

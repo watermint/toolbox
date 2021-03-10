@@ -13,13 +13,19 @@ const (
 	ExperimentBatchSequential = "batch_sequential"
 	// Execute batch with random batchId order
 	ExperimentBatchRandom = "batch_random"
+	// Execute batch from the largest batch
+	ExperimentBatchBalance = "batch_balance"
 
 	// Do not hard limit window size
 	ExperimentCongestionWindowNoLimit = "congestion_window_no_limit"
 	// Aggressive initial window size
 	ExperimentCongestionWindowAggressive = "congestion_window_aggressive"
-
+	// Reduce call create_folder on sync
 	ExperimentFileSyncDisableReduceCreateFolder = "file_sync_disable_reduce_create_folder"
+	// Use legacy local to dropbox sync connector
+	ExperimentFileSyncLegacyLocalToDropboxConnector = "legacy_local_to_dbx_connector"
+	// Use non-cache dropbox file system
+	ExperimentFileSyncNoCacheDropboxFileSystem = "use_no_cache_dbxfs"
 )
 
 var (
@@ -30,10 +36,13 @@ var (
 		ExperimentDbxClientConditionerError20,
 		ExperimentDbxClientConditionerError40,
 		ExperimentDbxClientConditionerError100,
-		ExperimentBatchSequential,
+		ExperimentBatchBalance,
 		ExperimentBatchRandom,
+		ExperimentBatchSequential,
 		ExperimentCongestionWindowNoLimit,
 		ExperimentCongestionWindowAggressive,
 		ExperimentFileSyncDisableReduceCreateFolder,
+		ExperimentFileSyncLegacyLocalToDropboxConnector,
+		ExperimentFileSyncNoCacheDropboxFileSystem,
 	}
 )

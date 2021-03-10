@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_error"
@@ -43,7 +44,7 @@ func ForkQuiet(ctl app_control.Control, name string) (app_control.Control, error
 	if !ok {
 		return nil, errors.New("this control is not cloneable")
 	}
-	seq, er := app_queue.NewQueue(lg, qfe, qui, wb)
+	seq, er := app_queue.NewSequence(lg, qfe, qui, wb)
 	fc := cc.WithSequence(seq).WithErrorReport(er).WithBundle(wb).WithFeature(qfe).WithUI(qui)
 	if err := er.Up(fc); err != nil {
 		return nil, err
@@ -79,6 +80,10 @@ type ctlImpl struct {
 	cacheCtl    cache.Controller
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
+}
+
+func (z ctlImpl) NewQueue() eq_queue.Definition {
+	return app_queue.NewQueue(z.Log(), z.Feature(), z.WorkBundle())
 }
 
 func (z ctlImpl) WithSequence(seq eq_sequence.Sequence) ForkableControl {
@@ -161,7 +166,7 @@ func (z ctlImpl) Messages() app_msg_container.Container {
 	return z.ui.Messages()
 }
 
-func (z ctlImpl) NewLegacyQueue() rc_worker.Queue {
+func (z ctlImpl) NewLegacyQueue() rc_worker.LegacyQueue {
 	return rc_worker_impl.NewQueue(z, z.feature.Concurrency())
 }
 

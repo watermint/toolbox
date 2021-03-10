@@ -105,6 +105,7 @@ import (
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
+	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
@@ -147,11 +148,13 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevreplay.Remote{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
+		&recipedevstage.Dbxfs{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Griddata{},
 		&recipedevstage.Gui{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
+		&recipedevstage.UploadAppend{},
 		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
@@ -326,6 +329,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutildecode.Base64{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
+		&recipeutilqrcode.Create{},
+		&recipeutilqrcode.Wifi{},
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},

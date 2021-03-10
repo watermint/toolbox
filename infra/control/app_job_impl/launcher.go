@@ -82,7 +82,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	sm := z.wb.Summary().Logger()
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
 
-	seq, er := app_queue.NewQueue(lg, fe, z.ui, z.wb)
+	seq, er := app_queue.NewSequence(lg, fe, z.ui, z.wb)
 
 	ctl = app_control_impl.New(z.wb, z.ui, fe, seq, er)
 

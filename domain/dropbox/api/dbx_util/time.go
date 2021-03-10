@@ -13,7 +13,7 @@ func RebaseTime(t time.Time) time.Time {
 	return t.UTC().Round(1000 * time.Millisecond)
 }
 
-func RebaseAsString(t time.Time) string {
+func ToApiTimeString(t time.Time) string {
 	return RebaseTime(t).Format(DateTimeFormat)
 }
 

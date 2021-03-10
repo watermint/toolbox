@@ -76,6 +76,9 @@ func (z *pumpImpl) Shutdown() {
 
 func (z *pumpImpl) Close() {
 	l := z.logger()
+	if z.pumpShutdown {
+		panic("Pump already shutdown")
+	}
 
 	l.Debug("Waiting for close condition")
 	z.closeCondLock.Lock()

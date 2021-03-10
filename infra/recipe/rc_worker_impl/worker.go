@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-func NewQueue(ctl app_control.Control, concurrency int) rc_worker.Queue {
+func NewQueue(ctl app_control.Control, concurrency int) rc_worker.LegacyQueue {
 	q := &Queue{
 		ctl: ctl,
 		wg:  sync.WaitGroup{},

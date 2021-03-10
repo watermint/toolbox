@@ -1,7 +1,7 @@
 # watermint toolbox
 
 [![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
-[![codecov](https://codecov.io/gh/watermint/toolbox/branch/master/graph/badge.svg)](https://codecov.io/gh/watermint/toolbox)
+[![codecov](https://codecov.io/gh/watermint/toolbox/branch/main/graph/badge.svg?token=CrE8reSVvE)](https://codecov.io/gh/watermint/toolbox)
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
@@ -90,6 +90,7 @@ Available commands:
 | Command                                                                 | Description                                                                                                                                                    |
 |-------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [connect user_file](doc/generated/connect-user_file.md)                 | Connect to user file access                                                                                                                                    |
+| [dev stage upload_append](doc/generated/dev-stage-upload_append.md)     | New upload API test                                                                                                                                            |
 | [file compare account](doc/generated/file-compare-account.md)           | Compare files of two accounts                                                                                                                                  |
 | [file compare local](doc/generated/file-compare-local.md)               | Compare local folders and Dropbox folders                                                                                                                      |
 | [file copy](doc/generated/file-copy.md)                                 | Copy files                                                                                                                                                     |
@@ -292,6 +293,8 @@ Available commands:
 | [util decode base_64](doc/generated/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                            |
 | [util encode base_32](doc/generated/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base_64](doc/generated/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                            |
+| [util qrcode create](doc/generated/util-qrcode-create.md)         | Create a QR code image file                                          |
+| [util qrcode wifi](doc/generated/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                              |
 | [util time now](doc/generated/util-time-now.md)                   | Display current time                                                 |
 | [util unixtime format](doc/generated/util-unixtime-format.md)     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
 | [util unixtime now](doc/generated/util-unixtime-now.md)           | Display current time in unixtime                                     |

@@ -4,7 +4,7 @@ type Worker interface {
 	Exec() error
 }
 
-type Queue interface {
+type LegacyQueue interface {
 	Enqueue(w Worker)
 	Wait() error
 }

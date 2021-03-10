@@ -50,6 +50,10 @@ func (z *workerImpl) logger() esl.Logger {
 
 func (z *workerImpl) Startup(numWorker int) {
 	l := z.logger().With(esl.Int("numWorker", numWorker))
+	if numWorker < 1 {
+		l.Warn("numWorker less than 1, fallback to 1")
+		numWorker = 1
+	}
 	if z.running {
 		l.Debug("The worker is already running")
 		return
@@ -62,7 +66,7 @@ func (z *workerImpl) Startup(numWorker int) {
 	}
 	z.statusControl = make(chan struct{})
 	go z.monitor()
-	z.running = false
+	z.running = true
 }
 
 func (z *workerImpl) Wait() {

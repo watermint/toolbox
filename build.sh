@@ -18,7 +18,6 @@ mkdir -p resources/messages
 mkdir -p resources/templates
 mkdir -p resources/web
 
-
 BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
 BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
 BUILD_TIMESTAMP=$(date --iso-8601=seconds)
@@ -35,7 +34,9 @@ fi
 if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
   # Circle CI
   if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
-    if [ "$CIRCLE_BRANCH"x = "master"x ]; then
+    if [ "$CIRCLE_BRANCH"x = "main"x ]; then
+      TOOLBOX_BUILD_ID=8.$CIRCLE_BUILD_NUM
+    elif [ "$CIRCLE_BRANCH"x = "master"x ]; then
       TOOLBOX_BUILD_ID=4.$CIRCLE_BUILD_NUM
     else
       TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
@@ -58,7 +59,6 @@ BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 
 echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
-
 
 echo --------------------
 echo BUILD: Preparing resources
@@ -98,13 +98,12 @@ if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then
   fi
 fi
 
-
 echo --------------------
 echo BUILD: License information
 
 mkdir $BUILD_PATH/license
-go-licenses csv github.com/watermint/toolbox 2> /dev/null > "$BUILD_PATH/license/licenses.csv"
-go-licenses save github.com/watermint/toolbox --save_path "$BUILD_PATH/license/licenses" 2> /dev/null
+go-licenses csv github.com/watermint/toolbox 2>/dev/null >"$BUILD_PATH/license/licenses.csv"
+go-licenses save github.com/watermint/toolbox --save_path "$BUILD_PATH/license/licenses" 2>/dev/null
 go run tbx.go dev build license -quiet -source-path $BUILD_PATH/license -dest-path "$PROJECT_ROOT/resources/data/licenses.json"
 
 echo BUILD: Building tool
@@ -194,4 +193,4 @@ echo --------------------
 echo BUILD: Deploying
 
 cd $PROJECT_ROOT
-$BUILD_PATH/linux/tbx dev ci artifact up -budget-memory low -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy
+$BUILD_PATH/linux/tbx dev ci artifact up -budget-memory low -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy -quiet

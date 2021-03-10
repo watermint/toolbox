@@ -89,7 +89,7 @@ func TestQueue_Dequeue(t *testing.T) {
 				ctl.Log().Info("UserId", esl.String("userId", userId))
 				return errors.New("this is wrong")
 			}
-			mould := New("alpha", storage, []ErrorHandler{eh}, f, Opts{}, ctl)
+			mould := New("alpha", storage, []ErrorListener{eh}, f, Opts{}, ctl)
 			mould.Pour("U003")
 			if d, found := storage.Fetch(); found {
 				mould.Process(d)

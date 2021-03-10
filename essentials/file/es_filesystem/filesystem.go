@@ -11,8 +11,8 @@ type FileSystem interface {
 	// Delete path.
 	Delete(path Path) (err FileSystemError)
 
-	// Create folder.
-	CreateFolder(path Path) (err FileSystemError)
+	// Create folder. Returns created entry on success, otherwise returns nil for entry.
+	CreateFolder(path Path) (entry Entry, err FileSystemError)
 
 	// Deserialize entry from entry data.
 	// Returns err if the format is not valid for this file system.

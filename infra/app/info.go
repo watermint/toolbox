@@ -25,7 +25,7 @@ func ReleaseStage() string {
 	switch Branch {
 	case "current":
 		return StageBeta
-	case "master":
+	case "master", "main":
 		return StageRelease
 	default:
 		return StageDev
