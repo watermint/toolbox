@@ -10,9 +10,12 @@
 | dbx_client_conditioner_error20         | サーバーエラーをシミュレートします. リクエストの20%がサーバーエラーで失敗します                                         |
 | dbx_client_conditioner_error40         | サーバーエラーをシミュレートします. リクエストの40%がサーバーエラーで失敗します                                         |
 | dbx_client_conditioner_error100        | サーバーエラーをシミュレートします. リクエストの100%がサーバーエラーで失敗します.                                       |
-| batch_sequential                       | 同じバッチIDで順次バッチを実行します.                                                                                   |
+| batch_balance                          | Execute batch from the largest batch                                                                                    |
 | batch_random                           | ランダムなバッチIDの順番でバッチを実行します.                                                                           |
+| batch_sequential                       | 同じバッチIDで順次バッチを実行します.                                                                                   |
 | congestion_window_no_limit             | 輻輳ウィンドウでの同時実行を制限しない.                                                                                 |
 | congestion_window_aggressive           | 積極的な初期混雑ウィンドウサイズの適用                                                                                  |
 | file_sync_disable_reduce_create_folder | ファイルシステムを同期する際に reduce create_folder を無効にします. これでフォルダの同期中に空のフォルダが作成されます. |
+| legacy_local_to_dbx_connector          | Use legacy local to dropbox sync connector                                                                              |
+| use_no_cache_dbxfs                     | Use non-cache dropbox file system                                                                                       |
 

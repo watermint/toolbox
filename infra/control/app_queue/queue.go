@@ -23,7 +23,10 @@ func selectBatchFetchPolicy(fe app_feature.Feature) eq_bundle.FetchPolicy {
 	if fe.Experiment(app.ExperimentBatchSequential) {
 		return eq_bundle.FetchSequential
 	}
-	return eq_bundle.FetchSequential
+	if fe.Experiment(app.ExperimentBatchBalance) {
+		return eq_bundle.FetchBalance
+	}
+	return eq_bundle.FetchBalance
 }
 
 func NewSequence(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_workspace.Bundle) (seq eq_sequence.Sequence, er app_error.ErrorReport) {

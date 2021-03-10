@@ -70,7 +70,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option                 | Description                                                | Default |
 |------------------------|------------------------------------------------------------|---------|
-| `-chunk-size-kb`       | Upload chunk size in KB                                    | 65536   |
+| `-batch-size`          | Batch commit size                                          | 50      |
 | `-delete`              | Delete Dropbox file if a file removed locally              | false   |
 | `-dropbox-path`        | Destination Dropbox path                                   |         |
 | `-local-path`          | Local file path                                            |         |
@@ -80,7 +80,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-name-name-suffix`    | Filter by name. Filter by name match to the suffix.        |         |
 | `-overwrite`           | Overwrite existing file on the target path if that exists. | false   |
 | `-peer`                | Account alias                                              | default |
-| `-work-path`           | Temporary path                                             |         |
 
 ## Common options:
 

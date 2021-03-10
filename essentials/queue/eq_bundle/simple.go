@@ -12,10 +12,11 @@ import (
 const (
 	FetchSequential FetchPolicy = "sequential"
 	FetchRandom     FetchPolicy = "random"
+	FetchBalance    FetchPolicy = "balance"
 )
 
 var (
-	FetchPolicies = []FetchPolicy{FetchSequential, FetchRandom}
+	FetchPolicies = []FetchPolicy{FetchSequential, FetchRandom, FetchBalance}
 )
 
 type FetchPolicy string
@@ -285,12 +286,57 @@ func (z *simpleImpl) fetchRandom() (b Barrel, found bool) {
 	}
 }
 
+func (z *simpleImpl) fetchBalance() (b Barrel, found bool) {
+	z.pipesMutex.Lock()
+	defer z.pipesMutex.Unlock()
+
+	l := z.logger
+
+	for {
+		if len(z.pipes) < 1 {
+			l.Debug("No more pipes")
+			return b, false
+		}
+
+		var maxPipeLen int = -1
+		var maxPipe string
+
+		for k, p := range z.pipes {
+			if maxPipeLen < p.Size() {
+				maxPipeLen = p.Size()
+				maxPipe = k
+			}
+		}
+
+		l.Debug("Pipe selected", esl.String("maxPipe", maxPipe), esl.Int("pipeLen", maxPipeLen))
+
+		if p, ok := z.pipes[maxPipe]; ok {
+			if d0 := p.Dequeue(); d0 != nil {
+				l.Debug("Data found, dequeue success")
+				d, err := FromBytes(d0)
+				if err != nil {
+					l.Debug("Unable to unmarshal the message", esl.Error(err), esl.Binary("data", d0))
+					return d, false
+				}
+				z.wip.Enqueue(d0)
+				return d, true
+			}
+
+			l.Debug("Data not found, closing the pipe", esl.String("pipe", maxPipe))
+			p.Close()
+			delete(z.pipes, maxPipe)
+		}
+	}
+}
+
 func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 	switch z.policy {
 	case FetchSequential:
 		return z.fetchSequential()
 	case FetchRandom:
 		return z.fetchRandom()
+	case FetchBalance:
+		return z.fetchBalance()
 	default:
 		z.logger.Debug("Unknown fetch policy, fallback to sequential policy",
 			esl.Any("policy", z.policy))

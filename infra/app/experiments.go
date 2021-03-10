@@ -13,6 +13,8 @@ const (
 	ExperimentBatchSequential = "batch_sequential"
 	// Execute batch with random batchId order
 	ExperimentBatchRandom = "batch_random"
+	// Execute batch from the largest batch
+	ExperimentBatchBalance = "batch_balance"
 
 	// Do not hard limit window size
 	ExperimentCongestionWindowNoLimit = "congestion_window_no_limit"
@@ -34,8 +36,9 @@ var (
 		ExperimentDbxClientConditionerError20,
 		ExperimentDbxClientConditionerError40,
 		ExperimentDbxClientConditionerError100,
-		ExperimentBatchSequential,
+		ExperimentBatchBalance,
 		ExperimentBatchRandom,
+		ExperimentBatchSequential,
 		ExperimentCongestionWindowNoLimit,
 		ExperimentCongestionWindowAggressive,
 		ExperimentFileSyncDisableReduceCreateFolder,

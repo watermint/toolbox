@@ -22,7 +22,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"runtime"
 )
 
 type Up struct {
@@ -38,7 +37,7 @@ type Up struct {
 }
 
 func (z *Up) Preset() {
-	z.BatchSize.SetRange(1, 1000, int64(runtime.NumCPU()*2))
+	z.BatchSize.SetRange(1, 1000, 50)
 	z.Name.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNameSuffixFilter(),

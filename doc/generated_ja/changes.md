@@ -17,6 +17,7 @@
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -87,5 +88,67 @@
   	},
   	GridDataInput:  {},
   	GridDataOutput: {},
+  }
+```
+
+# コマンド仕様の変更: `file sync up`
+
+## 設定が変更されたコマンド
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+- 		&{
+- 			Name:     "ChunkSizeKb",
+- 			Desc:     "Upload chunk size in KB",
+- 			Default:  "65536",
+- 			TypeName: "essentials.model.mo_int.range_int",
+- 			TypeAttr: map[string]interface{}{"max": float64(153600), "min": float64(1), "value": float64(65536)},
+- 		},
++ 		&{
++ 			Name:     "BatchSize",
++ 			Desc:     "Batch commit size",
++ 			Default:  "50",
++ 			TypeName: "essentials.model.mo_int.range_int",
++ 			TypeAttr: map[string]interface{}{"max": float64(1000), "min": float64(1), "value": float64(50)},
++ 		},
+  		&{Name: "Delete", Desc: "Delete Dropbox file if a file removed locally", Default: "false", TypeName: "bool", ...},
+  		&{Name: "DropboxPath", Desc: "Destination Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
+  		... // 5 identical elements
+  		&{Name: "Overwrite", Desc: "Overwrite existing file on the target path if that exists.", Default: "false", TypeName: "bool", ...},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...},
+- 		&{
+- 			Name:     "WorkPath",
+- 			Desc:     "Temporary path",
+- 			TypeName: "essentials.model.mo_string.opt_string",
+- 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  }
+```
+
+# コマンド仕様の変更: `team diag explorer`
+
+## 設定が変更されたコマンド
+
+```
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"File": "business_file",
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
+- 		"Peer": "business_file",
++ 		"Peer": "business_info",
+  	},
+  	Services: {"dropbox_business"},
+  	IsSecret: false,
+  	... // 9 identical fields
   }
 ```
