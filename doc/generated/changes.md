@@ -91,6 +91,33 @@
   }
 ```
 
+# Command spec changed: `dev release publish`
+
+## Command configuration changed
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "ArtifactPath", Desc: "Path to artifacts", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{
+  			Name:     "Branch",
+  			Desc:     "Target branch",
+- 			Default:  "master",
++ 			Default:  "main",
+  			TypeName: "string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "ConnGithub", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...},
+  		&{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  }
+```
+
 # Command spec changed: `file sync up`
 
 ## Command configuration changed
@@ -128,27 +155,5 @@
   	},
   	GridDataInput:  {},
   	GridDataOutput: {},
-  }
-```
-
-# Command spec changed: `team diag explorer`
-
-## Command configuration changed
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 9 identical fields
   }
 ```

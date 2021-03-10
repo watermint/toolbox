@@ -1,6 +1,6 @@
 # util qrcode create
 
-Create a QR code image file
+QRコード画像ファイルの作成
 
 # 利用方法
 
@@ -26,13 +26,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                | 説明                              | デフォルト |
-|---------------------------|-----------------------------------|------------|
-| `-error-correction-level` | Error correction level (l/m/q/h). | m          |
-| `-mode`                   | QR code encoding mode             | auto       |
-| `-out`                    | Output path with file name        |            |
-| `-size`                   | Image resolution (pixel)          | 256        |
-| `-text`                   | Text data                         |            |
+| オプション                | 説明                       | デフォルト |
+|---------------------------|----------------------------|------------|
+| `-error-correction-level` | 誤差補正レベル（l/m/q/h）. | m          |
+| `-mode`                   | QRコードのエンコードモード | auto       |
+| `-out`                    | ファイル名付きの出力パス   |            |
+| `-size`                   | 画像解像度(ピクセル)       | 256        |
+| `-text`                   | テキストデータ             |            |
 
 ## 共通のオプション:
 

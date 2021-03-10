@@ -71,7 +71,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option           | Description            | Default |
 |------------------|------------------------|---------|
 | `-artifact-path` | Path to artifacts      |         |
-| `-branch`        | Target branch          | master  |
+| `-branch`        | Target branch          | main    |
 | `-conn-github`   | Account alias          | default |
 | `-skip-tests`    | Skip end to end tests. | false   |
 

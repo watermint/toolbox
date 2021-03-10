@@ -1,6 +1,6 @@
 # dev stage dbxfs
 
-Verify Dropbox File System impl. for cached system
+Dropboxのファイルシステムのインプリケーションを確認しますキャッシュされたシステムに対して
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-path`    | Path to scan  |            |
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-path`    | スキャンするパス |            |
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 

@@ -1,6 +1,6 @@
 # util qrcode wifi
 
-Generate QR code for WIFI configuration
+WIFI設定用のQRコードを生成
 
 # 利用方法
 
@@ -26,15 +26,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                | 説明                                                      | デフォルト |
-|---------------------------|-----------------------------------------------------------|------------|
-| `-error-correction-level` | Error correction level (l/m/q/h).                         | m          |
-| `-hidden`                 | `true` if a SSID is hidden. `false` if a SSID is visible. |            |
-| `-mode`                   | QR code encoding mode                                     | auto       |
-| `-network-type`           | Network type.                                             | WPA        |
-| `-out`                    | Output path with file name                                |            |
-| `-size`                   | Image resolution (pixel)                                  | 256        |
-| `-ssid`                   | Network SSID                                              |            |
+| オプション                | 説明                                                                                     | デフォルト |
+|---------------------------|------------------------------------------------------------------------------------------|------------|
+| `-error-correction-level` | 誤差補正レベル（l/m/q/h）.                                                               | m          |
+| `-hidden`                 | SSIDが隠されている場合は、`true`となります. SSIDが表示されている場合は、`false`とします. |            |
+| `-mode`                   | QRコードのエンコードモード                                                               | auto       |
+| `-network-type`           | ネットワークの種類.                                                                      | WPA        |
+| `-out`                    | ファイル名付きの出力パス                                                                 |            |
+| `-size`                   | 画像解像度(ピクセル)                                                                     | 256        |
+| `-ssid`                   | ネットワークSSID                                                                         |            |
 
 ## 共通のオプション:
 

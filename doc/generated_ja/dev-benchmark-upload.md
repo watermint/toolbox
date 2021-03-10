@@ -68,18 +68,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                        | デフォルト |
-|----------------------|-----------------------------|------------|
-| `-block-block-size`  | Block size for batch upload | 40         |
-| `-method`            | Upload method               | block      |
-| `-num-files`         | ファイル数.                 | 1000       |
-| `-path`              | Dropboxパス                 |            |
-| `-peer`              | アカウントの別名            | default    |
-| `-pre-scan`          | Pre-scan destination path   | false      |
-| `-seq-chunk-size-kb` | Upload chunk size in KiB    | 65536      |
-| `-size-max-kb`       | 最大ファイルサイズ (KiB).   | 2048       |
-| `-size-min-kb`       | 最小ファイルサイズ (KiB).   | 0          |
-| `-verify`            | Verify after upload         | false      |
+| オプション           | 説明                                  | デフォルト |
+|----------------------|---------------------------------------|------------|
+| `-block-block-size`  | 一括アップロード時のブロックサイズ    | 40         |
+| `-method`            | アップロード方法                      | block      |
+| `-num-files`         | ファイル数.                           | 1000       |
+| `-path`              | Dropboxパス                           |            |
+| `-peer`              | アカウントの別名                      | default    |
+| `-pre-scan`          | プリスキャンのデスティネーションパス  | false      |
+| `-seq-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
+| `-size-max-kb`       | 最大ファイルサイズ (KiB).             | 2048       |
+| `-size-min-kb`       | 最小ファイルサイズ (KiB).             | 0          |
+| `-verify`            | アップロード後の検証                  | false      |
 
 ## 共通のオプション:
 
