@@ -58,6 +58,8 @@ func (z *Local) Test(c app_control.Control) error {
 
 	return rc_exec.ExecMock(c, &Local{}, func(r rc_recipe.Recipe) {
 		m := r.(*Local)
+		m.NumFiles = 10
+		m.SizeMaxKb = 10
 		m.Path = mo_path.NewFileSystemPath(workPath)
 	})
 }
