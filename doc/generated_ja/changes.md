@@ -90,7 +90,6 @@
   	GridDataOutput: {},
   }
 ```
-
 # コマンド仕様の変更: `dev release publish`
 
 ## 設定が変更されたコマンド
@@ -117,7 +116,6 @@
   	GridDataOutput: {},
   }
 ```
-
 # コマンド仕様の変更: `file sync up`
 
 ## 設定が変更されたコマンド

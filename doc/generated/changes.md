@@ -90,7 +90,6 @@
   	GridDataOutput: {},
   }
 ```
-
 # Command spec changed: `dev release publish`
 
 ## Command configuration changed
@@ -117,7 +116,6 @@
   	GridDataOutput: {},
   }
 ```
-
 # Command spec changed: `file sync up`
 
 ## Command configuration changed
