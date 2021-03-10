@@ -461,6 +461,10 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 }
 
 func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	ea_indicator.SuppressIndicatorForce()
 
 	l := esl.Default()
