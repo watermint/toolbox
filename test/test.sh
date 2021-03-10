@@ -12,7 +12,7 @@ mkdir -p $TEST_RESULTS
 mkdir -p $TEST_DEBUG
 
 echo TEST: Run tests
-go test -v -covermode=atomic -coverprofile=$TEST_PROFILE ./... | tee "$TEST_OUT" 2>"$TEST_ERR"
+go test -v -timeout 20s -covermode=atomic -coverprofile=$TEST_PROFILE ./... >"$TEST_OUT" 2>"$TEST_ERR"
 TEST_EXIT_CODE=$?
 
 echo TEST: Generate JUnit style report
