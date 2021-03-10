@@ -51,7 +51,7 @@ func TestNewFileSystem(t *testing.T) {
 		}
 	}
 
-	if err := fs.CreateFolder(NewPath("/a/hello")); err != nil {
+	if _, err := fs.CreateFolder(NewPath("/a/hello")); err != nil {
 		t.Error(err)
 	}
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_sync"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_file"
+	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"testing"
@@ -21,8 +22,9 @@ func TestModelToLocalConn_Copy(t *testing.T) {
 		conn := NewModelToLocal(esl.Default(), tree1)
 
 		seq := eq_sequence.New()
+		qd := eq_queue.New()
 
-		sync := es_sync.New(esl.Default(), seq, fs1, fs2, conn)
+		sync := es_sync.New(esl.Default(), qd, fs1, fs2, conn)
 
 		sourcePath := es_filesystem_model.NewPath("/")
 		targetPath := es_filesystem_local.NewPath(path)
