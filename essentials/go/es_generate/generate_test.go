@@ -4,11 +4,16 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
 func TestStructTypeGenerator_Generate(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	rr, err := es_project.DetectRepositoryRoot()
 	if err != nil {
 		t.Error(err)

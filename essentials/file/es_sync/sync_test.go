@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"math/rand"
 	"reflect"
 	"runtime"
@@ -293,6 +294,10 @@ func TestSyncImpl_FileEdit(t *testing.T) {
 }
 
 func TestSyncImpl_DeletedFileNoSyncDelete(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
 	ea_indicator.SuppressIndicatorForce()
 
 	tree1 := em_file.DemoTree()

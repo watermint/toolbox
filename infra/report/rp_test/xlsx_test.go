@@ -5,12 +5,18 @@ import (
 	"github.com/tealeg/xlsx"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
+	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"path/filepath"
 	"testing"
 )
 
 func TestXlsx_Rotate(t *testing.T) {
+	if qt_endtoend.IsSkipEndToEndTest() {
+		t.Skipped()
+		return
+	}
+
 	type Data struct {
 		Index int    `json:"index"`
 		Value string `json:"value"`
