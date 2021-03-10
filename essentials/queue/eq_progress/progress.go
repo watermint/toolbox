@@ -39,7 +39,7 @@ func (z *barImpl) Flush() {
 	z.barTask = make(map[string]ea_indicator.Indicator)
 }
 
-func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) ea_indicator.Indicator {
+func (z *barImpl) noLockNewBar(mouldId string, total int) ea_indicator.Indicator {
 	mouldName := mouldId
 	digestLen := 20
 	if len(mouldName) > digestLen {
@@ -49,7 +49,6 @@ func (z *barImpl) noLockNewBar(mouldId string, total int, typeName string) ea_in
 	return z.container.NewIndicator(int64(total),
 		mpb.PrependDecorators(
 			decor.Name(mouldName+" ", decor.WC{W: digestLen}),
-			decor.Name(typeName+" ", decor.WC{W: 5}),
 			decor.Elapsed(decor.ET_STYLE_MMSS),
 		),
 		mpb.AppendDecorators(
@@ -66,7 +65,7 @@ func (z *barImpl) noLockGetBar(mouldId string, totalTask int) (barTask ea_indica
 		return barTask
 	}
 
-	barTask = z.noLockNewBar(mouldId, totalTask, "Task ")
+	barTask = z.noLockNewBar(mouldId, totalTask)
 	z.barTask[mouldId] = barTask
 	return barTask
 }
