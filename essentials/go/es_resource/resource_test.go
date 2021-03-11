@@ -1,12 +1,15 @@
 package es_resource
 
 import (
-	rice "github.com/GeertJohan/go.rice"
+	"embed"
 	"testing"
 )
 
+//go:embed *_test.go
+var resTest embed.FS
+
 func TestNewResource(t *testing.T) {
-	r := NewResource(rice.MustFindBox("."))
+	r := NewResource("test", resTest)
 	if _, err := r.Bytes("no existent"); err == nil {
 		t.Error(err)
 	}
@@ -17,7 +20,7 @@ func TestNewResource(t *testing.T) {
 }
 
 func TestNewSecureResource(t *testing.T) {
-	r := NewSecureResource(rice.MustFindBox("."))
+	r := NewSecureResource("test", resTest)
 	if _, err := r.Bytes("no existent"); err == nil {
 		t.Error(err)
 	}

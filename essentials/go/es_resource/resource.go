@@ -1,10 +1,12 @@
 package es_resource
 
 import (
+	"embed"
 	"errors"
-	rice "github.com/GeertJohan/go.rice"
 	"github.com/watermint/toolbox/essentials/http/es_filesystem"
+	"io/fs"
 	"net/http"
+	"path/filepath"
 )
 
 const (
@@ -26,14 +28,14 @@ type Resource interface {
 	HttpFileSystem() http.FileSystem
 }
 
-func New(tpl, msg, web, key, img, dat *rice.Box) Bundle {
+func New(tpl, msg, web, key, img, dat Resource) Bundle {
 	return &bundleImpl{
-		tpl: NewResource(tpl),
-		msg: NewSecureResource(msg),
-		web: NewResource(web),
-		key: NewSecureResource(key),
-		img: NewResource(img),
-		dat: NewSecureResource(dat),
+		tpl: tpl,
+		msg: msg,
+		web: web,
+		key: key,
+		img: img,
+		dat: dat,
 	}
 }
 
@@ -81,38 +83,46 @@ func (z bundleImpl) Data() Resource {
 	return z.dat
 }
 
-func NewResource(b *rice.Box) Resource {
+func NewResource(prefix string, fs embed.FS) Resource {
 	return &resBox{
-		b: b,
+		prefix: prefix,
+		fs:     fs,
 	}
 }
 
-// rice.Box wrapper
+// go embed wrapper
 type resBox struct {
-	b *rice.Box
+	prefix string
+	fs     embed.FS
 }
 
 func (z resBox) Bytes(key string) (bin []byte, err error) {
-	return z.b.Bytes(key)
+	return z.fs.ReadFile(filepath.Join(z.prefix, key))
 }
 
 func (z resBox) HttpFileSystem() http.FileSystem {
-	return z.b.HTTPBox()
+	f, err := fs.Sub(z.fs, z.prefix)
+	if err != nil {
+		panic(err)
+	}
+	return http.FS(f)
 }
 
-func NewSecureResource(b *rice.Box) Resource {
+func NewSecureResource(prefix string, fs embed.FS) Resource {
 	return &resSecureBox{
-		b: b,
+		prefix: prefix,
+		fs:     fs,
 	}
 }
 
 // rice.Box wrapper, but do not return http.FileSystem
 type resSecureBox struct {
-	b *rice.Box
+	prefix string
+	fs     embed.FS
 }
 
 func (z resSecureBox) Bytes(key string) (bin []byte, err error) {
-	return z.b.Bytes(key)
+	return z.fs.ReadFile(filepath.Join(z.prefix, key))
 }
 
 func (z resSecureBox) HttpFileSystem() http.FileSystem {
