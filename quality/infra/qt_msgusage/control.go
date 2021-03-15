@@ -1,6 +1,9 @@
 package qt_msgusage
 
-import "sort"
+import (
+	"sort"
+	"sync"
+)
 
 type Usage interface {
 	NotFound(key string)
@@ -11,6 +14,7 @@ type Usage interface {
 
 var (
 	record = &misImpl{
+		mutex:   sync.Mutex{},
 		missing: make(map[string]bool),
 		touch:   make(map[string]bool),
 	}
@@ -21,15 +25,22 @@ func Record() Usage {
 }
 
 type misImpl struct {
+	mutex   sync.Mutex
 	missing map[string]bool
 	touch   map[string]bool
 }
 
 func (z *misImpl) Touch(key string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	z.touch[key] = true
 }
 
 func (z *misImpl) Used() []string {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	touches := make([]string, 0)
 	for t := range z.touch {
 		touches = append(touches, t)
@@ -38,6 +49,9 @@ func (z *misImpl) Used() []string {
 }
 
 func (z *misImpl) Missing() []string {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	m := make([]string, 0)
 	for k := range z.missing {
 		m = append(m, k)
@@ -47,5 +61,8 @@ func (z *misImpl) Missing() []string {
 }
 
 func (z *misImpl) NotFound(key string) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
 	z.missing[key] = true
 }
