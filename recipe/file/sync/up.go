@@ -79,7 +79,7 @@ func (z *Up) Test(c app_control.Control) error {
 			_ = os.RemoveAll(targetTree)
 		}()
 
-		dbxPath := mo_path.NewDropboxPath(qtr_endtoend.TestTeamFolderName).ChildPath("file-upload_" + sc_random.MustGenerateRandomString(4))
+		dbxPath := mo_path.NewDropboxPath(qtr_endtoend.TestTeamFolderName).ChildPath("file-upload_" + sc_random.MustGetSecureRandomString(4))
 
 		cs, err := app_control_impl.ForkQuiet(c, "source")
 		if err != nil {

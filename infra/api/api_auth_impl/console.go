@@ -61,8 +61,8 @@ func (z *Console) Auth(scopes []string) (tc api_auth.Context, err error) {
 func (z *Console) oauthStart(scopes []string) (*oauth2.Token, error) {
 	l := z.ctl.Log()
 	l.Debug("Start OAuth sequence")
-	state := sc_random.MustGenerateRandomString(8)
-	challenge := sc_random.MustGenerateRandomString(64)
+	state := sc_random.MustGetSecureRandomString(8)
+	challenge := sc_random.MustGetSecureRandomString(64)
 
 	tok, err := z.oauthAskCode(scopes, state, challenge)
 	if err != nil {

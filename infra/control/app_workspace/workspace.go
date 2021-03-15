@@ -84,7 +84,7 @@ var (
 )
 
 func NewJobId() string {
-	return fmt.Sprintf("%s.%s", time.Now().Format(JobIdFormat), sc_random.MustGenerateRandomString(3))
+	return fmt.Sprintf("%s.%s", time.Now().Format(JobIdFormat), sc_random.MustGetSecureRandomString(3))
 }
 
 func DefaultAppPath() (path string, err error) {

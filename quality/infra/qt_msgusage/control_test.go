@@ -25,8 +25,8 @@ func TestMisImpl_Concurrent(t *testing.T) {
 			finish := start.Add(dur)
 
 			for finish.After(time.Now()) {
-				Record().Touch(sc_random.MustGenerateRandomString(3))
-				Record().NotFound(sc_random.MustGenerateRandomString(3))
+				Record().Touch(sc_random.MustGetSecureRandomString(3))
+				Record().NotFound(sc_random.MustGetSecureRandomString(3))
 			}
 			wg.Done()
 		}()

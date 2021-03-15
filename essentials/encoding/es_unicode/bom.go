@@ -18,6 +18,9 @@ func NewBomAwareReader(r io.Reader) io.Reader {
 	)
 	br := bufio.NewReader(r)
 	mark, err := br.Peek(3)
+	if err == io.EOF {
+		return br
+	}
 	if err != nil {
 		panic(err)
 	}

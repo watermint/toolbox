@@ -606,7 +606,7 @@ func (z scanImpl) extractTeamFolder(entry *TeamFolderEntry, storageMeta, storage
 
 func (z scanImpl) Scan(filter mo_filter.Filter) (teamFolders []*TeamFolder, err error) {
 	l := z.ctl.Log()
-	scanSessionId := sc_random.MustGenerateRandomString(8)
+	scanSessionId := sc_random.MustGetSecureRandomString(8)
 
 	admin, err := sv_profile.NewTeam(z.ctx).Admin()
 	if err != nil {

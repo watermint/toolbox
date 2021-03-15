@@ -287,7 +287,7 @@ func (z *callbackImpl) Start() error {
 		g.StaticFS("/assets", hfs)
 		g.HTMLRender = htr
 
-		z.serverToken = sc_random.MustGenerateRandomString(16)
+		z.serverToken = sc_random.MustGetSecureRandomString(16)
 		z.server = &http.Server{
 			Addr:    fmt.Sprintf(":%d", z.port),
 			Handler: g,

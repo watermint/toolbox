@@ -260,7 +260,7 @@ func FormatPathWithPredefinedVariables(path string, pairs ...Pair) (string, erro
 		return s, nil
 	}
 	predefined[VarRandom] = func() (s string, e error) {
-		s = sc_random.MustGenerateRandomString(6)
+		s = sc_random.MustGetSecureRandomString(6)
 		return s, nil
 	}
 	predefined["AlwaysErrorForTest"] = func() (s string, e error) {

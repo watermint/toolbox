@@ -54,7 +54,7 @@ func (z *Redirect) Auth(scopes []string) (token api_auth.Context, err error) {
 		app:      z.app,
 		peerName: z.peerName,
 		scopes:   scopes,
-		state:    sc_random.MustGenerateRandomString(8),
+		state:    sc_random.MustGetSecureRandomString(8),
 		result:   nil,
 		token:    nil,
 	}

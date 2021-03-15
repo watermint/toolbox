@@ -58,6 +58,8 @@ type DropboxError interface {
 	IsMemberNotInGroup() bool
 	// id not found
 	IsIdNotFound() bool
+	// shared_link_already_exists
+	IsSharedLinkAlreadyExists() bool
 
 	Summary() string
 }
@@ -122,6 +124,10 @@ type ErrorMember interface {
 
 type errorsImpl struct {
 	ei ErrorInfo
+}
+
+func (z errorsImpl) IsSharedLinkAlreadyExists() bool {
+	return z.ei.HasPrefix("shared_link_already_exists")
 }
 
 func (z errorsImpl) Error() string {

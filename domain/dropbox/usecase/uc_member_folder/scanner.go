@@ -79,7 +79,7 @@ func (z scanImpl) scanNamespace(member *mo_member.Member, storageNamespace kv_st
 
 func (z scanImpl) Scan(filter mo_filter.Filter) (namespaces []*MemberNamespace, err error) {
 	l := z.ctl.Log()
-	scanSessionId := sc_random.MustGenerateRandomString(8)
+	scanSessionId := sc_random.MustGetSecureRandomString(8)
 	namespaces = make([]*MemberNamespace, 0)
 
 	storageNamespace, err := z.ctl.NewKvs("namespace_" + scanSessionId)

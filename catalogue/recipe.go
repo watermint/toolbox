@@ -18,6 +18,7 @@ import (
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevstage "github.com/watermint/toolbox/recipe/dev/stage"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
+	recipedevtestsetup "github.com/watermint/toolbox/recipe/dev/test/setup"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipefile "github.com/watermint/toolbox/recipe/file"
@@ -92,6 +93,7 @@ import (
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
+	recipeteamsharedlinkdelete "github.com/watermint/toolbox/recipe/team/sharedlink/delete"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
 	recipeteamfolderbatch "github.com/watermint/toolbox/recipe/teamfolder/batch"
@@ -160,6 +162,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Monkey{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
+		&recipedevtestsetup.Teamsharedlink{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},
 		&recipedevutil.Wait{},
@@ -304,6 +307,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamreport.Membership{},
 		&recipeteamreport.Storage{},
 		&recipeteamsharedlink.List{},
+		&recipeteamsharedlinkdelete.Links{},
 		&recipeteamsharedlinkupdate.Expiry{},
 		&recipeteamfolder.Add{},
 		&recipeteamfolder.Archive{},

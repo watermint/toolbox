@@ -190,6 +190,7 @@ Available commands:
 | [team namespace file size](doc/generated/team-namespace-file-size.md)                 | List all files and folders of the team namespaces             |
 | [team namespace list](doc/generated/team-namespace-list.md)                           | List all namespaces of the team                               |
 | [team namespace member list](doc/generated/team-namespace-member-list.md)             | List members of shared folders and team folders in the team   |
+| [team sharedlink delete links](doc/generated/team-sharedlink-delete-links.md)         | Batch delete shared links                                     |
 | [team sharedlink list](doc/generated/team-sharedlink-list.md)                         | List of shared links                                          |
 | [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md)       | Update expiration date of public shared links within the team |
 | [teamfolder add](doc/generated/teamfolder-add.md)                                     | Add team folder to the team                                   |
