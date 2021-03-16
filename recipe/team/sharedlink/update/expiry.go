@@ -21,7 +21,9 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"math"
+	"os"
 	"time"
 )
 
@@ -179,11 +181,20 @@ func (z *Expiry) Exec(c app_control.Control) error {
 }
 
 func (z *Expiry) Test(c app_control.Control) error {
+	f, err := qt_file.MakeTestFile("links", "https://www.dropbox.com/scl/fo/fir9vjelf\nhttps://www.dropbox.com/scl/fo/fir9vjelg")
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.Remove(f)
+	}()
+
 	// should fail
 	{
-		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
+		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			rc := r.(*Expiry)
 			rc.Days.SetValue(1)
+			rc.File.SetFilePath(f)
 			rc.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
 		if err == nil {
@@ -194,6 +205,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 	{
 		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			m := r.(*Expiry)
+			m.File.SetFilePath(f)
 			m.Days.SetValue(7)
 		})
 		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
@@ -204,6 +216,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 	{
 		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			m := r.(*Expiry)
+			m.File.SetFilePath(f)
 			m.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
 		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {

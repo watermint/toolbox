@@ -15,89 +15,90 @@
 
 # コマンド仕様の変更: `team sharedlink list`
 
+
 ## 設定が変更されたコマンド
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
-  		&{
-  			Name:     "Visibility",
-- 			Desc:     "Filter links by visibility (public/team_only/password)",
-+ 			Desc:     "Filter links by visibility (all/public/team_only/password)",
-  			Default:  "all",
-  			TypeName: "essentials.model.mo_string.select_string",
-  			TypeAttr: map[string]interface{}{"options": []interface{}{string("all"), string("public"), string("team_only"), string("password"), ...}},
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
+  		&{
+  			Name:     "Visibility",
+- 			Desc:     "Filter links by visibility (public/team_only/password)",
++ 			Desc:     "Filter links by visibility (all/public/team_only/password)",
+  			Default:  "all",
+  			TypeName: "essentials.model.mo_string.select_string",
+  			TypeAttr: map[string]interface{}{"options": []interface{}{string("all"), string("public"), string("team_only"), string("password"), ...}},
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  }
 ```
 # コマンド仕様の変更: `team sharedlink update expiry`
 
 ## 設定が変更されたコマンド
 
 ```
-  &dc_recipe.Recipe{
-  	Name:            "expiry",
-  	Title:           "Update expiration date of public shared links within the team",
-- 	Desc:            "",
-+ 	Desc:            "Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if you are familiar w"...,
-  	Remarks:         "(Irreversible operation)",
-  	Path:            "team sharedlink update expiry",
-- 	CliArgs:         "-days 28",
-+ 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -days 28",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
-  	Services:        {"dropbox_business"},
-  	IsSecret:        false,
-  	... // 4 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "At", Desc: "New expiration date and time", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
-  		&{Name: "Days", Desc: "Days to the new expiration date", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...},
-- 		&{
-- 			Name:     "Peer",
-- 			Desc:     "Account alias",
-- 			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-- 		},
-+ 		&{
-+ 			Name:     "File",
-+ 			Desc:     "Path to data file",
-+ 			TypeName: "infra.feed.fd_file_impl.row_feed",
-+ 		},
-- 		&{
-- 			Name:     "Visibility",
-- 			Desc:     "Target link visibility",
-- 			Default:  "public",
-- 			TypeName: "essentials.model.mo_string.select_string",
-- 			TypeAttr: map[string]interface{}{
-- 				"options": []interface{}{
-- 					string("public"), string("team_only"), string("password"),
-- 					string("team_and_password"), ...,
-- 				},
-- 			},
-- 		},
-+ 		&{
-+ 			Name:     "Peer",
-+ 			Desc:     "Account alias",
-+ 			Default:  "default",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-+ 			TypeAttr: []interface{}{string("members.read"), string("sharing.write"), string("team_data.member")},
-+ 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  }
+  &dc_recipe.Recipe{
+  	Name:            "expiry",
+  	Title:           "Update expiration date of public shared links within the team",
+- 	Desc:            "",
++ 	Desc:            "Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if you are familiar w"...,
+  	Remarks:         "(Irreversible operation)",
+  	Path:            "team sharedlink update expiry",
+- 	CliArgs:         "-days 28",
++ 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -days 28",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "business_file"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+  	Services:        {"dropbox_business"},
+  	IsSecret:        false,
+  	... // 4 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "At", Desc: "New expiration date and time", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
+  		&{Name: "Days", Desc: "Days to the new expiration date", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...},
+- 		&{
+- 			Name:     "Peer",
+- 			Desc:     "Account alias",
+- 			Default:  "default",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
+- 		},
++ 		&{
++ 			Name:     "File",
++ 			Desc:     "Path to data file",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
++ 		},
+- 		&{
+- 			Name:     "Visibility",
+- 			Desc:     "Target link visibility",
+- 			Default:  "public",
+- 			TypeName: "essentials.model.mo_string.select_string",
+- 			TypeAttr: map[string]interface{}{
+- 				"options": []interface{}{
+- 					string("public"), string("team_only"), string("password"),
+- 					string("team_and_password"), ...,
+- 				},
+- 			},
+- 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "Account alias",
++ 			Default:  "default",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
++ 			TypeAttr: []interface{}{string("members.read"), string("sharing.write"), string("team_data.member")},
++ 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  }
 ```
 ## 追加されたレポート
 
