@@ -1,6 +1,6 @@
-# team sharedlink delete links
+# team sharedlink delete member
 
-Batch delete shared links (Irreversible operation)
+Delete all shared links of the member (Irreversible operation)
 
 # セキュリティ
 
@@ -16,6 +16,7 @@ Batch delete shared links (Irreversible operation)
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
+
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
@@ -28,6 +29,7 @@ Batch delete shared links (Irreversible operation)
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -48,17 +50,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe team sharedlink delete links -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe team sharedlink delete member 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx team sharedlink delete links -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx team sharedlink delete member 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -69,10 +74,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-file`    | Path to data file |            |
-| `-peer`    | Account alias     | default    |
+| オプション      | 説明                 | デフォルト |
+|-----------------|----------------------|------------|
+| `-member-email` | Member email address |            |
+| `-peer`         | Account alias        | default    |
 
 ## 共通のオプション:
 
@@ -92,22 +97,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# ファイル書式
-
-## 書式: File
-
-Target shared link
-
-| 列  | 説明            | 例                                       |
-|-----|-----------------|------------------------------------------|
-| url | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
-
-最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
-```
-url
-https://www.dropbox.com/scl/fo/fir9vjelf
-```
 
 # 実行結果
 

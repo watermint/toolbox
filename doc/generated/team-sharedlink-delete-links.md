@@ -16,7 +16,6 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
@@ -30,7 +29,6 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -51,18 +49,15 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
-
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe team sharedlink delete links -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx team sharedlink delete links -file /PATH/TO/DATA_FILE.csv
 ```
@@ -112,7 +107,6 @@ Target shared link
 | url    | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
 
 The first line is a header line. The program will accept a file without the header.
-
 ```
 url
 https://www.dropbox.com/scl/fo/fir9vjelf
@@ -146,7 +140,6 @@ formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 | result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
 | result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
 | result.email      | Email address of user.                                                                                                                                                                                                  |
-| result.status     | The user's status as a member of a specific team. (active/invited/suspended/removed)                                                                                                                                    |
 | result.surname    | Surname of the link owner                                                                                                                                                                                               |
 | result.given_name | Given name of the link owner                                                                                                                                                                                            |
 

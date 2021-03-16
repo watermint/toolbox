@@ -1,6 +1,6 @@
-# dev test setup teamsharedlink
+# team sharedlink delete member
 
-Create demo shared links (Irreversible operation)
+Delete all shared links of the member (Irreversible operation)
 
 # Security
 
@@ -16,6 +16,7 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
+
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
@@ -29,6 +30,7 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe dev test setup teamsharedlink 
+.\tbx.exe team sharedlink delete member 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx dev test setup teamsharedlink 
+$HOME/Desktop/tbx team sharedlink delete member 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -72,13 +77,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option                  | Description                          | Default |
-|-------------------------|--------------------------------------|---------|
-| `-group`                | Group name                           |         |
-| `-num-links-per-member` | Number of links to create per member | 5       |
-| `-peer`                 | Account alias                        | default |
-| `-query`                | Query                                |         |
-| `-visibility`           | Visibility                           | random  |
+| Option          | Description          | Default |
+|-----------------|----------------------|---------|
+| `-member-email` | Member email address |         |
+| `-peer`         | Account alias        | default |
 
 ## Common options:
 
@@ -110,25 +112,30 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: created
+## Report: operation_log
 
-THis report shows a list of shared links. The command will generate a report in three different formats. `created.csv`
-, `created.json`, and `created.xlsx`.
+This report shows the transaction result. The command will generate a report in three different
+formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column     | Description                                                                                                                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| Column            | Description                                                                                                                                                                                                             |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| status            | Status of the operation                                                                                                                                                                                                 |
+| reason            | Reason of failure or skipped operation                                                                                                                                                                                  |
+| input.url         | Shared link URL                                                                                                                                                                                                         |
+| result.tag        | Entry type (file, or folder)                                                                                                                                                                                            |
+| result.url        | URL of the shared link.                                                                                                                                                                                                 |
+| result.name       | The linked file name (including extension).                                                                                                                                                                             |
+| result.expires    | Expiration time, if set.                                                                                                                                                                                                |
+| result.path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
+| result.visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| result.email      | Email address of user.                                                                                                                                                                                                  |
+| result.surname    | Surname of the link owner                                                                                                                                                                                               |
+| result.given_name | Given name of the link owner                                                                                                                                                                                            |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like
-follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # Proxy configuration
 
