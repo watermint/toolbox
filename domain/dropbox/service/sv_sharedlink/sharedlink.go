@@ -118,8 +118,8 @@ func (z *sharedLinkImpl) Update(link mo_sharedlink.SharedLink, opts ...LinkOpt) 
 	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
-	link = &mo_sharedlink.Metadata{}
-	err = res.Success().Json().Model(link)
+	updated = &mo_sharedlink.Metadata{}
+	err = res.Success().Json().Model(updated)
 	return
 }
 

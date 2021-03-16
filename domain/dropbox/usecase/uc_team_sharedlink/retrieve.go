@@ -26,26 +26,3 @@ func RetrieveMemberLinks(member *mo_member.Member, c app_control.Control, ctx db
 	}
 	return nil
 }
-
-type DeleteTarget struct {
-	Member *mo_member.Member
-	Entry  *mo_sharedlink.SharedLinkMember
-}
-
-type DeleteOnSuccess func(t *DeleteTarget)
-type DeleteOnFailure func(t *DeleteTarget, cause error)
-
-func DeleteMemberLink(target *DeleteTarget, c app_control.Control, ctx dbx_context.Context, onSuccess DeleteOnSuccess, onFailure DeleteOnFailure) error {
-	l := c.Log().With(esl.String("member", target.Member.Email))
-	mc := ctx.AsMemberId(target.Member.TeamMemberId)
-	l.Debug("Delete link", esl.Any("target", target))
-	rmErr := sv_sharedlink.New(mc).Remove(target.Entry.SharedLink())
-	if rmErr != nil {
-		l.Debug("Unable to remove the link", esl.Error(rmErr))
-		onFailure(target, rmErr)
-		return rmErr
-	}
-
-	onSuccess(target)
-	return nil
-}

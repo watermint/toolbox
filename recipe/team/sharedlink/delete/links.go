@@ -1,13 +1,12 @@
 package delete
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_sharedlink"
-	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -20,10 +19,6 @@ import (
 	"os"
 )
 
-type TargetLinks struct {
-	Url string `json:"url"`
-}
-
 const (
 	linkStatusEnqueue = "e"
 	linkStatusDeleted = "d"
@@ -35,14 +30,18 @@ type Links struct {
 	Peer         dbx_conn.ConnScopedTeam
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
-	Target       kv_storage.Storage
 	LinkNotFound app_msg.Message
 }
 
 func (z *Links) Preset() {
-	z.File.SetModel(&TargetLinks{})
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSharingWrite,
+		dbx_auth.ScopeTeamDataMember,
+	)
+	z.File.SetModel(&uc_team_sharedlink.TargetLinks{})
 	z.OperationLog.SetModel(
-		&TargetLinks{},
+		&uc_team_sharedlink.TargetLinks{},
 		&mo_sharedlink.SharedLinkMember{},
 		rp_model.HiddenColumns(
 			"result.shared_link_id",
@@ -54,75 +53,60 @@ func (z *Links) Preset() {
 }
 
 func (z *Links) Exec(c app_control.Control) error {
+	l := c.Log()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
+
+	var onMissing uc_team_sharedlink.SelectorOnMissing = func(url string) {
+		z.OperationLog.Skip(z.LinkNotFound, &uc_team_sharedlink.TargetLinks{Url: url})
+	}
+	sel, err := uc_team_sharedlink.NewSelector(c, onMissing)
+	if err != nil {
+		return err
+	}
+
 	loadErr := z.File.EachRow(func(m interface{}, rowIndex int) error {
-		r := m.(*TargetLinks)
-		return z.Target.Update(func(kvs kv_kvs.Kvs) error {
-			return kvs.PutString(r.Url, linkStatusEnqueue)
-		})
+		r := m.(*uc_team_sharedlink.TargetLinks)
+		return sel.Register(r.Url)
 	})
 	if loadErr != nil {
 		return loadErr
 	}
 
-	members, dErr := sv_member.New(z.Peer.Context()).List()
-	if dErr != nil {
-		return dErr
-	}
-
-	var onDeleteSuccess uc_team_sharedlink.DeleteOnSuccess = func(t *uc_team_sharedlink.DeleteTarget) {
+	var onDeleteSuccess uc_team_sharedlink.DeleteOnSuccess = func(t *uc_team_sharedlink.Target) {
 		l := c.Log()
 
 		// Mark the link as deleted
-		kvErr := z.Target.Update(func(kvs kv_kvs.Kvs) error {
-			return kvs.PutString(t.Entry.Url, linkStatusDeleted)
-		})
-		if kvErr != nil {
-			l.Warn("Unable to record status link. Report might not accurate", esl.Error(kvErr))
+		if selErr := sel.Processed(t.Entry.Url); selErr != nil {
+			l.Warn("Unable to record status link. Report might not accurate", esl.Error(selErr))
 		}
 
 		// Report
-		z.OperationLog.Success(&TargetLinks{Url: t.Entry.Url}, t.Entry)
+		z.OperationLog.Success(&uc_team_sharedlink.TargetLinks{Url: t.Entry.Url}, t.Entry)
 	}
-	var onDeleteFailure uc_team_sharedlink.DeleteOnFailure = func(t *uc_team_sharedlink.DeleteTarget, cause error) {
+	var onDeleteFailure uc_team_sharedlink.DeleteOnFailure = func(t *uc_team_sharedlink.Target, cause error) {
 		l := c.Log()
 
-		// Mark the link as deleted
-		kvErr := z.Target.Update(func(kvs kv_kvs.Kvs) error {
-			return kvs.PutString(t.Entry.Url, linkStatusFailure)
-		})
-		if kvErr != nil {
-			l.Warn("Unable to record status link. Report might not accurate", esl.Error(kvErr))
+		// Mark the link as proceed
+		if selErr := sel.Processed(t.Entry.Url); selErr != nil {
+			l.Warn("Unable to record status link. Report might not accurate", esl.Error(selErr))
 		}
 
 		// Report
-		z.OperationLog.Failure(cause, &TargetLinks{Url: t.Entry.Url})
+		z.OperationLog.Failure(cause, &uc_team_sharedlink.TargetLinks{Url: t.Entry.Url})
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Context(), onDeleteSuccess, onDeleteFailure)
+		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Context(), onDeleteSuccess, onDeleteFailure, sel)
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
-			l := c.Log().With(esl.Any("member", member), esl.Any("entry", entry))
-			shouldDelete := false
-			kvErr := z.Target.View(func(kvs kv_kvs.Kvs) error {
-				v, kvErr := kvs.GetString(entry.Url)
-				if kvErr == kv_kvs.ErrorNotFound {
-					return nil
-				}
-				if v == linkStatusEnqueue {
-					shouldDelete = true
-				}
-				return kvErr
-			})
-			if kvErr != nil {
-				l.Debug("Abort delete because of KVS error", esl.Error(kvErr))
+			l := l.With(esl.Any("member", member), esl.Any("entry", entry))
+			if shouldProcess, selErr := sel.IsTarget(entry.Url); selErr != nil {
+				l.Warn("Abort delete because of KVS error", esl.Error(selErr))
 				return
-			}
-			if shouldDelete {
+			} else if shouldProcess {
 				qml := s.Get("delete_link")
-				qml.Enqueue(&uc_team_sharedlink.DeleteTarget{
+				qml.Enqueue(&uc_team_sharedlink.Target{
 					Member: member,
 					Entry:  entry,
 				})
@@ -130,20 +114,17 @@ func (z *Links) Exec(c app_control.Control) error {
 		}
 		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Context(), onSharedLink)
 		qsm := s.Get("scan_member")
-		for _, member := range members {
+
+		dErr := sv_member.New(z.Peer.Context()).ListEach(func(member *mo_member.Member) bool {
 			qsm.Enqueue(member)
+			return true
+		})
+		if dErr != nil {
+			l.Debug("Unable to enqueue the member", esl.Error(dErr))
 		}
 	})
 
-	return z.Target.View(func(kvs kv_kvs.Kvs) error {
-		return kvs.ForEach(func(key string, value []byte) error {
-			s := string(value)
-			if s == linkStatusEnqueue {
-				z.OperationLog.Skip(z.LinkNotFound, &TargetLinks{Url: key})
-			}
-			return nil
-		})
-	})
+	return sel.Done()
 }
 
 func (z *Links) Test(c app_control.Control) error {

@@ -1,15 +1,6 @@
-# team sharedlink update expiry
+# team sharedlink update visibility
 
-チーム内の公開されている共有リンクについて有効期限を更新します (非可逆な操作です)
-
-Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the
-expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if
-you are familiar with the command `[jq](https://stedolan.github.io/jq/)`, then you can do an equivalent operation as
-below.
-
-```
-tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -days 28
-```
+Update visibility of shared links (Irreversible operation)
 
 # セキュリティ
 
@@ -21,10 +12,11 @@ tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' 
 | macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください. 不必要になった場合にはこれらのファイルを削除しても問題ありません.
+認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
+
 * Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
@@ -35,7 +27,9 @@ tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' 
 
 # 認可
 
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -56,33 +50,35 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe team sharedlink update expiry -days 28
+.\tbx.exe team sharedlink update visibility -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx team sharedlink update expiry -days 28
+$HOME/Desktop/tbx team sharedlink update visibility -file /PATH/TO/DATA_FILE.csv
 ```
 
-macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
-次のようなメッセージが表示されています:
+macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
+のセキュリティーとプライバシーから一般タブを選択します. 次のようなメッセージが表示されています:
 > "tbx"は開発元を確認できないため、使用がブロックされました。
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
 
 ## オプション:
 
-| オプション | 説明                     | デフォルト |
-|------------|--------------------------|------------|
-| `-at`      | 新しい有効期限の日時     |            |
-| `-days`    | 新しい有効期限までの日時 | 0          |
-| `-file`    | Path to data file        |            |
-| `-peer`    | アカウントの別名         | default    |
+| オプション        | 説明                   | デフォルト |
+|-------------------|------------------------|------------|
+| `-file`           | Path to data file      |            |
+| `-new-visibility` | New visibility setting | team_only  |
+| `-peer`           | Account alias          | default    |
 
 ## 共通のオプション:
 
@@ -156,5 +152,6 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 
 # ネットワークプロクシの設定
 
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`
+のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 

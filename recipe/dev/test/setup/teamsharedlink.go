@@ -146,7 +146,9 @@ func (z *Teamsharedlink) Exec(c app_control.Control) (err error) {
 		s.Define("create_for_member", z.createForMember, c, r)
 		q := s.Get("create_for_member")
 		for _, member := range members {
-			q.Enqueue(member)
+			if member.Profile().EmailVerified {
+				q.Enqueue(member)
+			}
 		}
 	})
 	return nil

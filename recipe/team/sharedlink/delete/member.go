@@ -1,6 +1,7 @@
 package delete
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
@@ -21,8 +22,13 @@ type Member struct {
 }
 
 func (z *Member) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSharingWrite,
+		dbx_auth.ScopeTeamDataMember,
+	)
 	z.OperationLog.SetModel(
-		&TargetLinks{},
+		&uc_team_sharedlink.TargetLinks{},
 		&mo_sharedlink.SharedLinkMember{},
 		rp_model.HiddenColumns(
 			"result.shared_link_id",
@@ -43,18 +49,18 @@ func (z *Member) Exec(c app_control.Control) error {
 		return err
 	}
 
-	var onDeleteSuccess uc_team_sharedlink.DeleteOnSuccess = func(t *uc_team_sharedlink.DeleteTarget) {
-		z.OperationLog.Success(&TargetLinks{Url: t.Entry.Url}, t.Entry)
+	var onDeleteSuccess uc_team_sharedlink.DeleteOnSuccess = func(t *uc_team_sharedlink.Target) {
+		z.OperationLog.Success(&uc_team_sharedlink.TargetLinks{Url: t.Entry.Url}, t.Entry)
 	}
-	var onDeleteFailure uc_team_sharedlink.DeleteOnFailure = func(t *uc_team_sharedlink.DeleteTarget, cause error) {
-		z.OperationLog.Failure(cause, &TargetLinks{Url: t.Entry.Url})
+	var onDeleteFailure uc_team_sharedlink.DeleteOnFailure = func(t *uc_team_sharedlink.Target, cause error) {
+		z.OperationLog.Failure(cause, &uc_team_sharedlink.TargetLinks{Url: t.Entry.Url})
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
 		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Context(), onDeleteSuccess, onDeleteFailure)
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			q := s.Get("delete_link")
-			q.Enqueue(&uc_team_sharedlink.DeleteTarget{
+			q.Enqueue(&uc_team_sharedlink.Target{
 				Member: member,
 				Entry:  entry,
 			})
