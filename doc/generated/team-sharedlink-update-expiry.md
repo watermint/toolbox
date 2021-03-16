@@ -114,7 +114,6 @@ Target shared link
 | url    | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
 
 The first line is a header line. The program will accept a file without the header.
-
 ```
 url
 https://www.dropbox.com/scl/fo/fir9vjelf

@@ -8,8 +8,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_sharedlink"
+	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -21,24 +22,28 @@ import (
 	"os"
 )
 
-type Visibility struct {
+type LinkAndPassword struct {
+	Url      string `json:"url"`
+	Password string `json:"password"`
+}
+
+type Password struct {
 	rc_recipe.RemarkIrreversible
 	Peer           dbx_conn.ConnScopedTeam
 	File           fd_file.RowFeed
 	OperationLog   rp_model.TransactionReport
-	NewVisibility  mo_string.SelectString
+	LinkPasswords  kv_storage.Storage
 	LinkNotFound   app_msg.Message
-	NoChange       app_msg.Message
 	NoLinkToUpdate app_msg.Message
 }
 
-func (z *Visibility) Preset() {
+func (z *Password) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeMembersRead,
 		dbx_auth.ScopeSharingWrite,
 		dbx_auth.ScopeTeamDataMember,
 	)
-	z.File.SetModel(&uc_team_sharedlink.TargetLinks{})
+	z.File.SetModel(&LinkAndPassword{})
 	z.OperationLog.SetModel(
 		&uc_team_sharedlink.TargetLinks{},
 		&mo_sharedlink.SharedLinkMember{},
@@ -49,47 +54,30 @@ func (z *Visibility) Preset() {
 			"result.status",
 		),
 	)
-	z.NewVisibility.SetOptions(
-		"team_only",
-		"public",
-		"team_only",
-	)
 }
 
-func (z *Visibility) updateVisibility(target *uc_team_sharedlink.Target, c app_control.Control, sel uc_team_sharedlink.Selector) error {
+func (z *Password) updatePassword(target *uc_team_sharedlink.Target, c app_control.Control, sel uc_team_sharedlink.Selector) error {
 	l := c.Log().With(esl.String("member", target.Member.Email), esl.String("url", target.Entry.Url))
 	mc := z.Peer.Context().AsMemberId(target.Member.TeamMemberId)
 
 	defer func() {
 		_ = sel.Processed(target.Entry.Url)
 	}()
-
-	newVis := z.NewVisibility.Value()
-	curVis := target.Entry.Visibility
-	if curVis == newVis {
-		l.Debug("Skipped", esl.String("curVis", curVis), esl.String("newVis", newVis))
-		z.OperationLog.Skip(z.NoChange, &uc_team_sharedlink.TargetLinks{
-			Url: target.Entry.Url,
-		})
-		return nil
-	}
-
 	opts := make([]sv_sharedlink.LinkOpt, 0)
-	switch newVis {
-	case "team_only":
-		opts = append(opts, sv_sharedlink.TeamOnly())
-	case "public":
-		opts = append(opts, sv_sharedlink.Public())
-	}
-
-	if len(opts) < 1 {
-		l.Debug("Skipped", esl.String("curVis", curVis), esl.String("newVis", newVis))
-		z.OperationLog.Skip(z.NoChange, &uc_team_sharedlink.TargetLinks{
+	var password string
+	kvErr := z.LinkPasswords.View(func(kvs kv_kvs.Kvs) error {
+		var kvErr error
+		password, kvErr = kvs.GetString(target.Entry.Url)
+		return kvErr
+	})
+	if kvErr != nil {
+		l.Debug("Password not found", esl.Error(kvErr))
+		z.OperationLog.Failure(kvErr, &uc_team_sharedlink.TargetLinks{
 			Url: target.Entry.Url,
 		})
-		return nil
+		return kvErr
 	}
-
+	opts = append(opts, sv_sharedlink.Password(password))
 	updated, err := sv_sharedlink.New(mc).Update(target.Entry.SharedLink(), opts...)
 	if err != nil {
 		l.Debug("Unable to update visibility of the link", esl.Error(err))
@@ -99,7 +87,7 @@ func (z *Visibility) updateVisibility(target *uc_team_sharedlink.Target, c app_c
 		return err
 	}
 
-	l.Debug("Updated to new visibility", esl.String("curVis", curVis), esl.String("newVis", newVis), esl.Any("updated", updated))
+	l.Debug("Updated to new password", esl.Any("updated", updated))
 	z.OperationLog.Success(
 		&uc_team_sharedlink.TargetLinks{
 			Url: target.Entry.Url,
@@ -109,7 +97,7 @@ func (z *Visibility) updateVisibility(target *uc_team_sharedlink.Target, c app_c
 	return nil
 }
 
-func (z *Visibility) Exec(c app_control.Control) error {
+func (z *Password) Exec(c app_control.Control) error {
 	l := c.Log()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
@@ -124,7 +112,13 @@ func (z *Visibility) Exec(c app_control.Control) error {
 	}
 
 	loadErr := z.File.EachRow(func(m interface{}, rowIndex int) error {
-		r := m.(*uc_team_sharedlink.TargetLinks)
+		r := m.(*LinkAndPassword)
+		kvErr := z.LinkPasswords.Update(func(kvs kv_kvs.Kvs) error {
+			return kvs.PutString(r.Url, r.Password)
+		})
+		if kvErr != nil {
+			return kvErr
+		}
 		return sel.Register(r.Url)
 	})
 	if loadErr != nil {
@@ -136,7 +130,7 @@ func (z *Visibility) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("update_link", z.updateVisibility, c, sel)
+		s.Define("update_link", z.updatePassword, c, sel)
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			l := c.Log().With(esl.Any("member", member), esl.Any("entry", entry))
 			if shouldProcess, selErr := sel.IsTarget(entry.Url); selErr != nil {
@@ -166,16 +160,16 @@ func (z *Visibility) Exec(c app_control.Control) error {
 	return sel.Done()
 }
 
-func (z *Visibility) Test(c app_control.Control) error {
-	f, err := qt_file.MakeTestFile("links", "https://www.dropbox.com/scl/fo/fir9vjelf\nhttps://www.dropbox.com/scl/fo/fir9vjelg")
+func (z *Password) Test(c app_control.Control) error {
+	f, err := qt_file.MakeTestFile("links", "https://www.dropbox.com/scl/fo/fir9vjelf,fir9vjelf\nhttps://www.dropbox.com/scl/fo/fir9vjelg,fir9vjelg")
 	if err != nil {
 		return err
 	}
 	defer func() {
 		_ = os.Remove(f)
 	}()
-	return rc_exec.ExecMock(c, &Visibility{}, func(r rc_recipe.Recipe) {
-		m := r.(*Visibility)
+	return rc_exec.ExecMock(c, &Password{}, func(r rc_recipe.Recipe) {
+		m := r.(*Password)
 		m.File.SetFilePath(f)
 	})
 }

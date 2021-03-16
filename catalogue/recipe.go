@@ -310,6 +310,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamsharedlinkdelete.Links{},
 		&recipeteamsharedlinkdelete.Member{},
 		&recipeteamsharedlinkupdate.Expiry{},
+		&recipeteamsharedlinkupdate.Password{},
 		&recipeteamsharedlinkupdate.Visibility{},
 		&recipeteamfolder.Add{},
 		&recipeteamfolder.Archive{},

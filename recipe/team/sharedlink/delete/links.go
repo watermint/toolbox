@@ -27,10 +27,11 @@ const (
 
 type Links struct {
 	rc_recipe.RemarkIrreversible
-	Peer         dbx_conn.ConnScopedTeam
-	File         fd_file.RowFeed
-	OperationLog rp_model.TransactionReport
-	LinkNotFound app_msg.Message
+	Peer           dbx_conn.ConnScopedTeam
+	File           fd_file.RowFeed
+	OperationLog   rp_model.TransactionReport
+	LinkNotFound   app_msg.Message
+	NoLinkToDelete app_msg.Message
 }
 
 func (z *Links) Preset() {
@@ -72,6 +73,10 @@ func (z *Links) Exec(c app_control.Control) error {
 	})
 	if loadErr != nil {
 		return loadErr
+	}
+	if sel.NumTargets() < 1 {
+		c.UI().Info(z.NoLinkToDelete)
+		return nil
 	}
 
 	var onDeleteSuccess uc_team_sharedlink.DeleteOnSuccess = func(t *uc_team_sharedlink.Target) {

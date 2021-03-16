@@ -114,7 +114,6 @@ Target shared link
 | url | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
-
 ```
 url
 https://www.dropbox.com/scl/fo/fir9vjelf

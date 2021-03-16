@@ -194,6 +194,7 @@ Available commands:
 | [team sharedlink delete member](doc/generated/team-sharedlink-delete-member.md)         | Delete all shared links of the member                         |
 | [team sharedlink list](doc/generated/team-sharedlink-list.md)                           | List of shared links                                          |
 | [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md)         | Update expiration date of public shared links within the team |
+| [team sharedlink update password](doc/generated/team-sharedlink-update-password.md)     | Set or update shared link passwords                           |
 | [team sharedlink update visibility](doc/generated/team-sharedlink-update-visibility.md) | Update visibility of shared links                             |
 | [teamfolder add](doc/generated/teamfolder-add.md)                                       | Add team folder to the team                                   |
 | [teamfolder archive](doc/generated/teamfolder-archive.md)                               | Archive team folder                                           |

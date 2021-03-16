@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/security/sc_random"
+	"go.uber.org/atomic"
 )
 
 type Selector interface {
@@ -19,6 +20,9 @@ type Selector interface {
 
 	// Report missing urls
 	Done() error
+
+	// Number of targets
+	NumTargets() int
 }
 
 const (
@@ -41,9 +45,14 @@ func NewSelector(c app_control.Control, onMissing SelectorOnMissing) (Selector, 
 }
 
 type selImpl struct {
-	ctl       app_control.Control
-	kv        kv_storage.Storage // url -> state
-	onMissing SelectorOnMissing
+	ctl        app_control.Control
+	kv         kv_storage.Storage // url -> state
+	onMissing  SelectorOnMissing
+	numEntries atomic.Int32
+}
+
+func (z *selImpl) NumTargets() int {
+	return int(z.numEntries.Load())
 }
 
 func (z *selImpl) IsTarget(url string) (bool, error) {
@@ -75,6 +84,7 @@ func (z *selImpl) Done() error {
 }
 
 func (z *selImpl) Register(url string) error {
+	z.numEntries.Add(1)
 	return z.kv.Update(func(kvs kv_kvs.Kvs) error {
 		return kvs.PutString(url, selectStatusRegistered)
 	})
