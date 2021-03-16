@@ -11,7 +11,32 @@ import (
 )
 
 type Export interface {
-	Export(path mo_path.DropboxPath) (export *mo_file.Export, localPath mo_path2.FileSystemPath, err error)
+	Export(path mo_path.DropboxPath, opts ...ExportOpt) (export *mo_file.Export, localPath mo_path2.FileSystemPath, err error)
+}
+
+type ExportOpts struct {
+	Path         string `json:"path"`
+	ExportFormat string `json:"export_format,omitempty"`
+}
+
+func (z ExportOpts) Apply(opts []ExportOpt) ExportOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+type ExportOpt func(o ExportOpts) ExportOpts
+
+func ExportFormat(format string) ExportOpt {
+	return func(o ExportOpts) ExportOpts {
+		o.ExportFormat = format
+		return o
+	}
 }
 
 func NewExport(ctx dbx_context.Context) Export {
@@ -22,13 +47,11 @@ type exportImpl struct {
 	ctx dbx_context.Context
 }
 
-func (z *exportImpl) Export(path mo_path.DropboxPath) (export *mo_file.Export, localPath mo_path2.FileSystemPath, err error) {
+func (z *exportImpl) Export(path mo_path.DropboxPath, opts ...ExportOpt) (export *mo_file.Export, localPath mo_path2.FileSystemPath, err error) {
 	l := z.ctx.Log()
-	p := struct {
-		Path string `json:"path"`
-	}{
+	p := ExportOpts{
 		Path: path.Path(),
-	}
+	}.Apply(opts)
 
 	q, err := dbx_request.DropboxApiArg(p)
 	if err != nil {

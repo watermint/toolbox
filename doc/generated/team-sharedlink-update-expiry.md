@@ -4,8 +4,8 @@ Update expiration date of public shared links within the team (Irreversible oper
 
 Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the
 expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if
-you are familiar with the command `[jq](https://stedolan.github.io/jq/)`, then you can do an equivalent operation as
-below.
+you are familiar with the command [jq](https://stedolan.github.io/jq/), then you can do an equivalent operation as like
+below (force expiry within 28 days for every public link).
 
 ```
 tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -days 28

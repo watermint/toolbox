@@ -18,6 +18,7 @@ import (
 )
 
 type UploadAppend struct {
+	rc_recipe.RemarkSecret
 	Peer dbx_conn.ConnScopedIndividual
 	Path mo_path.DropboxPath
 }
