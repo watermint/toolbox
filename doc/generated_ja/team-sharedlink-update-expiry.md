@@ -2,6 +2,13 @@
 
 チーム内の公開されている共有リンクについて有効期限を更新します (非可逆な操作です)
 
+注：リリース87以降、このコマンドは、アップデートする共有リンクを選択するためのファイルを受け取ります. チーム内のすべての共有リンクの有効期限を更新したい場合は、`team sharedlink list`の組み合わせをご検討ください.
+例えば、[jq](https://stedolan.github.io/jq/)というコマンドに慣れていれば、以下のように同等の操作を行うことができます（すべての公開リンクに対して28日以内に強制失効させる）.
+
+```
+tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -days 28
+```
+
 # セキュリティ
 
 `watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
@@ -20,9 +27,9 @@
 
 ## 認可スコープ
 
-| ラベル        | 説明                              |
-|---------------|-----------------------------------|
-| business_file | Dropbox Business ファイルアクセス |
+| ラベル              | 説明             |
+|---------------------|------------------|
+| dropbox_scoped_team | Dropbox (チーム) |
 
 # 認可
 
@@ -52,12 +59,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team sharedlink update expiry -days 28
+.\tbx.exe team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -days 28
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team sharedlink update expiry -days 28
+$HOME/Desktop/tbx team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -days 28
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -68,12 +75,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                       | デフォルト |
-|---------------|----------------------------|------------|
-| `-at`         | 新しい有効期限の日時       |            |
-| `-days`       | 新しい有効期限までの日時   | 0          |
-| `-peer`       | アカウントの別名           | default    |
-| `-visibility` | 対象となるリンクの公開範囲 | public     |
+| オプション | 説明                     | デフォルト |
+|------------|--------------------------|------------|
+| `-at`      | 新しい有効期限の日時     |            |
+| `-days`    | 新しい有効期限までの日時 | 0          |
+| `-file`    | データファイルへのパス   |            |
+| `-peer`    | アカウントの別名         | default    |
 
 ## 共通のオプション:
 
@@ -94,6 +101,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
+# ファイル書式
+
+## 書式: File
+
+対象となる共有リンク
+
+| 列  | 説明            | 例                                       |
+|-----|-----------------|------------------------------------------|
+| url | 共有リンクのURL | https://www.dropbox.com/scl/fo/fir9vjelf |
+
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
+```
+url
+https://www.dropbox.com/scl/fo/fir9vjelf
+```
+
 # 実行結果
 
 作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
@@ -104,52 +127,29 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: skipped
+## レポート: operation_log
 
-このレポートはチーム内のチームメンバーがもつ共有リンク一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `skipped.csv`, `skipped.json`, ならびに `skipped.xlsx`.
+このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列         | 説明                                                                 |
-|------------|----------------------------------------------------------------------|
-| tag        | エントリーの種別 (file, または folder)                               |
-| url        | 共有リンクのURL.                                                     |
-| name       | リンク先ファイル名称                                                 |
-| expires    | 有効期限 (設定されている場合)                                        |
-| path_lower | パス (すべて小文字に変換).                                           |
-| visibility | 共有リンクの開示範囲                                                 |
-| email      | ユーザーのメールアドレス                                             |
-| status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| surname    | リンク所有者の名字                                                   |
-| given_name | リンク所有者の名                                                     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `skipped_0000.xlsx`, `skipped_0001.xlsx`, `skipped_0002.xlsx`, ...
-
-## レポート: updated
-
-このレポートは処理結果を出力します.
-このコマンドはレポートを3種類の書式で出力します. `updated.csv`, `updated.json`, ならびに `updated.xlsx`.
-
-| 列               | 説明                                                                 |
-|------------------|----------------------------------------------------------------------|
-| status           | 処理の状態                                                           |
-| reason           | 失敗またはスキップの理由                                             |
-| input.tag        | エントリーの種別 (file, または folder)                               |
-| input.url        | 共有リンクのURL.                                                     |
-| input.name       | リンク先ファイル名称                                                 |
-| input.expires    | 有効期限 (設定されている場合)                                        |
-| input.path_lower | パス (すべて小文字に変換).                                           |
-| input.visibility | 共有リンクの開示範囲                                                 |
-| input.email      | ユーザーのメールアドレス                                             |
-| input.status     | チームにおけるメンバーのステータス(active/invited/suspended/removed) |
-| input.surname    | リンク所有者の名字                                                   |
-| input.given_name | リンク所有者の名                                                     |
-| result.expires   | 有効期限 (設定されている場合)                                        |
+| 列                | 説明                                   |
+|-------------------|----------------------------------------|
+| status            | 処理の状態                             |
+| reason            | 失敗またはスキップの理由               |
+| input.url         | 共有リンクのURL                        |
+| result.tag        | エントリーの種別 (file, または folder) |
+| result.url        | 共有リンクのURL.                       |
+| result.name       | リンク先ファイル名称                   |
+| result.expires    | 有効期限 (設定されている場合)          |
+| result.path_lower | パス (すべて小文字に変換).             |
+| result.visibility | 共有リンクの開示範囲                   |
+| result.email      | ユーザーのメールアドレス               |
+| result.surname    | リンク所有者の名字                     |
+| result.given_name | リンク所有者の名                       |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `updated_0000.xlsx`, `updated_0001.xlsx`, `updated_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`
+, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

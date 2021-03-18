@@ -53,7 +53,8 @@ func (z *writerImpl) UpdateOpt(opt RotateOpt) {
 func (z *writerImpl) Write(p []byte) (n int, err error) {
 	z.m.Do(func() {
 		if z.current == nil {
-			err = ErrorLogFileNotAvailable
+			// #507
+			// err = ErrorLogFileNotAvailable
 			return
 		}
 		n, err = z.currentWriter.Write(p)
@@ -125,7 +126,8 @@ func (z *writerImpl) closeCurrent() (err error) {
 
 	l.Debug("Close", esl.String("name", name), esl.Error(err))
 	if err != nil {
-		l.Warn("Unable to close current log file", esl.String("path", name), esl.Error(err))
+		// #507 changed from WARN to DEBUG
+		l.Debug("Unable to close current log file", esl.String("path", name), esl.Error(err))
 	}
 	z.current = nil
 	z.currentWriter = nil
@@ -135,7 +137,8 @@ func (z *writerImpl) closeCurrent() (err error) {
 		Opts: z.ro,
 	})
 	if !ror {
-		l.Warn("Unable to enqueue rotate out", esl.String("path", name))
+		// #507 changed from WARN to DEBUG
+		l.Debug("Unable to enqueue rotate out", esl.String("path", name))
 	}
 
 	return

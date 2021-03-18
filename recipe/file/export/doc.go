@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -22,6 +23,7 @@ type Doc struct {
 	LocalPath    mo_path2.FileSystemPath
 	DropboxPath  mo_path.DropboxPath
 	OperationLog rp_model.RowReport
+	Format       mo_string.OptionalString
 }
 
 func (z *Doc) Exec(c app_control.Control) error {
@@ -30,7 +32,7 @@ func (z *Doc) Exec(c app_control.Control) error {
 		return err
 	}
 
-	export, path, err := sv_file_content.NewExport(z.Peer.Context()).Export(z.DropboxPath)
+	export, path, err := sv_file_content.NewExport(z.Peer.Context()).Export(z.DropboxPath, sv_file_content.ExportFormat(z.Format.Value()))
 	if err != nil {
 		return err
 	}

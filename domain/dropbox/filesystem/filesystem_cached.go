@@ -30,7 +30,7 @@ func NewPreScanFileSystem(ctl app_control.Control, ctx dbx_context.Context, path
 	l := ctl.Log().With(esl.String("Path", path.Path()))
 	l.Debug("Prepare pre-scan file system")
 
-	cacheName := sc_random.MustGenerateRandomString(6)
+	cacheName := sc_random.MustGetSecureRandomString(6)
 	cacheList, kvErr := ctl.NewKvs(cacheName + "list")
 	if kvErr != nil {
 		l.Debug("Unable to create the cache", esl.Error(kvErr))

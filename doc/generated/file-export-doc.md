@@ -71,6 +71,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option          | Description                      | Default |
 |-----------------|----------------------------------|---------|
 | `-dropbox-path` | Dropbox document path to export. |         |
+| `-format`       | Export format                    |         |
 | `-local-path`   | Local path to save               |         |
 | `-peer`         | Account alias                    | default |
 

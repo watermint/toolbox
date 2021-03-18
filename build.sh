@@ -108,8 +108,6 @@ go run tbx.go dev build license -quiet -source-path $BUILD_PATH/license -dest-pa
 
 echo BUILD: Building tool
 
-rice embed-go
-
 X_APP_VERSION="-X github.com/watermint/toolbox/infra/app.Version=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/infra/app.Hash=$BUILD_HASH"
 X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"

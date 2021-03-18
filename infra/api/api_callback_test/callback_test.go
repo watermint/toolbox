@@ -21,8 +21,8 @@ var (
 func NewMockService(ctl app_control.Control) *MockService {
 	return &MockService{
 		ctl:   ctl,
-		state: sc_random.MustGenerateRandomString(8),
-		code:  sc_random.MustGenerateRandomString(8),
+		state: sc_random.MustGetSecureRandomString(8),
+		code:  sc_random.MustGetSecureRandomString(8),
 	}
 }
 

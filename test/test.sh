@@ -8,6 +8,7 @@ TEST_REPORT=$TEST_RESULTS/all.xml
 TEST_PROFILE=coverage.txt
 
 mkdir -p resources/keys
+touch resources/keys/toolbox.build
 mkdir -p $TEST_RESULTS
 mkdir -p $TEST_DEBUG
 

@@ -77,7 +77,7 @@ func (z *ValueDaGridDataInput) Debug() interface{} {
 
 func (z *ValueDaGridDataInput) captureReader(c app_control.Control, r io.ReadCloser, useBackup bool) (v interface{}, err error) {
 	l := c.Log()
-	backupId := sc_random.MustGenerateRandomString(8)
+	backupId := sc_random.MustGetSecureRandomString(8)
 	backupName := FeedBackupFilePrefix + backupId + ".gz"
 	backupPath := filepath.Join(c.Workspace().Log(), backupName)
 	l.Debug("Create backup", esl.String("backupId", backupId), esl.String("backupPath", backupPath))

@@ -174,7 +174,7 @@ func (z rpImpl) Preserve(target app_workspace.Job, destPath string) error {
 
 func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error {
 	l := ctl.Log().With(esl.String("targetJobPath", target.Job()))
-	captureData, err := ctl.NewKvs("capture" + sc_random.MustGenerateRandomString(6))
+	captureData, err := ctl.NewKvs("capture" + sc_random.MustGetSecureRandomString(6))
 	if err != nil {
 		l.Debug("Unable to create kvs", esl.Error(err))
 		return err

@@ -1,16 +1,14 @@
 module github.com/watermint/toolbox
 
-go 1.15
+go 1.16
 
 require (
 	cloud.google.com/go v0.74.0 // indirect
 	github.com/DataDog/zstd v1.4.5 // indirect
-	github.com/GeertJohan/go.rice v1.0.2
 	github.com/asticode/go-astikit v0.13.0
 	github.com/asticode/go-astilectron v0.20.0
-	github.com/boombuler/barcode v1.0.1 // indirect
+	github.com/boombuler/barcode v1.0.1
 	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
-	github.com/daaku/go.zipexe v1.0.1 // indirect
 	github.com/dgraph-io/badger/v2 v2.2007.2
 	github.com/dgraph-io/ristretto v0.0.3 // indirect
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect

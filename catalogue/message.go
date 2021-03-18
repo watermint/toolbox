@@ -52,7 +52,6 @@ import (
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
-	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 )
 
 func AutoDetectedMessageObjects() []interface{} {
@@ -118,6 +117,5 @@ func AutoDetectedMessageObjects() []interface{} {
 		&recipeteamfilerequest.MsgList{},
 		&recipeteamnamespacemember.MsgList{},
 		&recipeteamsharedlink.MsgList{},
-		&recipeteamsharedlinkupdate.MsgExpiry{},
 	}
 }

@@ -68,10 +68,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                            | Default |
-|---------------|--------------------------------------------------------|---------|
-| `-peer`       | Account alias                                          | default |
-| `-visibility` | Filter links by visibility (public/team_only/password) | all     |
+| Option        | Description                                                | Default |
+|---------------|------------------------------------------------------------|---------|
+| `-peer`       | Account alias                                              | default |
+| `-visibility` | Filter links by visibility (all/public/team_only/password) | all     |
 
 ## Common options:
 

@@ -1,18 +1,19 @@
-# Changes between `Release 85` to `Release 86`
+# Changes between `Release 86` to `Release 87`
 
 # Commands added
 
 
-| Command                 | Title                                              |
-|-------------------------|----------------------------------------------------|
-| dev stage dbxfs         | Verify Dropbox File System impl. for cached system |
-| dev stage upload_append | New upload API test                                |
-| util qrcode create      | Create a QR code image file                        |
-| util qrcode wifi        | Generate QR code for WIFI configuration            |
+| Command                           | Title                                 |
+|-----------------------------------|---------------------------------------|
+| dev test setup teamsharedlink     | Create demo shared links              |
+| team sharedlink delete links      | Batch delete shared links             |
+| team sharedlink delete member     | Delete all shared links of the member |
+| team sharedlink update password   | Set or update shared link passwords   |
+| team sharedlink update visibility | Update visibility of shared links     |
 
 
 
-# Command spec changed: `dev benchmark upload`
+# Command spec changed: `dev stage upload_append`
 
 
 ## Command configuration changed
@@ -20,138 +21,138 @@
 
 ```
   &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     {"Peer": "dropbox_scoped_individual"},
+  	Services:       {"dropbox"},
+- 	IsSecret:       false,
++ 	IsSecret:       true,
+  	IsConsole:      false,
+  	IsExperimental: false,
   	... // 7 identical fields
-  	ConnUsePersonal: true,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "user_full"},
-+ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
-  	Services:        {"dropbox"},
-  	IsSecret:        true,
+  }
+```
+# Command spec changed: `file export doc`
+
+
+## Command configuration changed
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "DropboxPath", Desc: "Dropbox document path to export.", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
++ 		&{
++ 			Name:     "Format",
++ 			Desc:     "Export format",
++ 			TypeName: "essentials.model.mo_string.opt_string",
++ 		},
+  		&{Name: "LocalPath", Desc: "Local path to save", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  }
+```
+# Command spec changed: `team sharedlink list`
+
+## Command configuration changed
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
+  		&{
+  			Name:     "Visibility",
+- 			Desc:     "Filter links by visibility (public/team_only/password)",
++ 			Desc:     "Filter links by visibility (all/public/team_only/password)",
+  			Default:  "all",
+  			TypeName: "essentials.model.mo_string.select_string",
+  			TypeAttr: map[string]interface{}{"options": []interface{}{string("all"), string("public"), string("team_only"), string("password"), ...}},
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  }
+```
+# Command spec changed: `team sharedlink update expiry`
+
+
+## Command configuration changed
+
+```
+  &dc_recipe.Recipe{
+  	Name:            "expiry",
+  	Title:           "Update expiration date of public shared links within the team",
+- 	Desc:            "",
++ 	Desc:            "Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if you are familiar w"...,
+  	Remarks:         "(Irreversible operation)",
+  	Path:            "team sharedlink update expiry",
+- 	CliArgs:         "-days 28",
++ 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -days 28",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "business_file"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+  	Services:        {"dropbox_business"},
+  	IsSecret:        false,
   	... // 4 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name:     "BlockBlockSize",
-+ 			Desc:     "Block size for batch upload",
-+ 			Default:  "40",
-+ 			TypeName: "essentials.model.mo_int.range_int",
-+ 			TypeAttr: map[string]interface{}{"max": float64(1000), "min": float64(1), "value": float64(40)},
-+ 		},
+  		&{Name: "At", Desc: "New expiration date and time", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
+  		&{Name: "Days", Desc: "Days to the new expiration date", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...},
 - 		&{
-- 			Name:     "ChunkSizeKb",
-- 			Desc:     "Upload chunk size in KiB",
-- 			Default:  "65536",
-- 			TypeName: "essentials.model.mo_int.range_int",
-- 			TypeAttr: map[string]interface{}{"max": float64(153600), "min": float64(1), "value": float64(65536)},
+- 			Name:     "Peer",
+- 			Desc:     "Account alias",
+- 			Default:  "default",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
 - 		},
 + 		&{
-+ 			Name:     "Method",
-+ 			Desc:     "Upload method",
-+ 			Default:  "block",
-+ 			TypeName: "essentials.model.mo_string.select_string",
-+ 			TypeAttr: map[string]interface{}{"options": []interface{}{string("block"), string("sequential")}},
-+ 		},
-  		&{Name: "NumFiles", Desc: "Number of files.", Default: "1000", TypeName: "int", ...},
-  		&{Name: "Path", Desc: "Path to Dropbox", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-- 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{string("files.content.write")},
-  		},
-+ 		&{
-+ 			Name:     "PreScan",
-+ 			Desc:     "Pre-scan destination path",
-+ 			Default:  "false",
-+ 			TypeName: "bool",
++ 			Name:     "File",
++ 			Desc:     "Path to data file",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
 + 		},
 - 		&{
-- 			Name:     "Shard",
-- 			Desc:     "Number of shared folders to distribute namespace",
-- 			Default:  "1",
-- 			TypeName: "int",
+- 			Name:     "Visibility",
+- 			Desc:     "Target link visibility",
+- 			Default:  "public",
+- 			TypeName: "essentials.model.mo_string.select_string",
+- 			TypeAttr: map[string]interface{}{
+- 				"options": []interface{}{
+- 					string("public"), string("team_only"), string("password"),
+- 					string("team_and_password"), ...,
+- 				},
+- 			},
 - 		},
 + 		&{
-+ 			Name:     "SeqChunkSizeKb",
-+ 			Desc:     "Upload chunk size in KiB",
-+ 			Default:  "65536",
-+ 			TypeName: "essentials.model.mo_int.range_int",
-+ 			TypeAttr: map[string]interface{}{"max": float64(153600), "min": float64(1), "value": float64(65536)},
++ 			Name:     "Peer",
++ 			Desc:     "Account alias",
++ 			Default:  "default",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
++ 			TypeAttr: []interface{}{string("members.read"), string("sharing.write"), string("team_data.member")},
 + 		},
-  		&{Name: "SizeMaxKb", Desc: "Maximum file size (KiB).", Default: "2048", TypeName: "int", ...},
-  		&{Name: "SizeMinKb", Desc: "Minimum file size (KiB).", Default: "0", TypeName: "int", ...},
-+ 		&{Name: "Verify", Desc: "Verify after upload", Default: "false", TypeName: "bool"},
   	},
   	GridDataInput:  {},
   	GridDataOutput: {},
   }
 ```
-# Command spec changed: `dev release publish`
+## Added report(s)
 
-## Command configuration changed
+| Name          | Description                               |
+|---------------|-------------------------------------------|
+| operation_log | This report shows the transaction result. |
 
-```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "ArtifactPath", Desc: "Path to artifacts", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
-  		&{
-  			Name:     "Branch",
-  			Desc:     "Target branch",
-- 			Default:  "master",
-+ 			Default:  "main",
-  			TypeName: "string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "ConnGithub", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...},
-  		&{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  }
-```
-# Command spec changed: `file sync up`
+## Deleted report(s)
 
-## Command configuration changed
+| Name    | Description                                                                      |
+|---------|----------------------------------------------------------------------------------|
+| skipped | This report shows a list of shared links with the shared link owner team member. |
+| updated | This report shows the transaction result.                                        |
 
-```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-- 		&{
-- 			Name:     "ChunkSizeKb",
-- 			Desc:     "Upload chunk size in KB",
-- 			Default:  "65536",
-- 			TypeName: "essentials.model.mo_int.range_int",
-- 			TypeAttr: map[string]interface{}{"max": float64(153600), "min": float64(1), "value": float64(65536)},
-- 		},
-+ 		&{
-+ 			Name:     "BatchSize",
-+ 			Desc:     "Batch commit size",
-+ 			Default:  "50",
-+ 			TypeName: "essentials.model.mo_int.range_int",
-+ 			TypeAttr: map[string]interface{}{"max": float64(1000), "min": float64(1), "value": float64(50)},
-+ 		},
-  		&{Name: "Delete", Desc: "Delete Dropbox file if a file removed locally", Default: "false", TypeName: "bool", ...},
-  		&{Name: "DropboxPath", Desc: "Destination Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		... // 5 identical elements
-  		&{Name: "Overwrite", Desc: "Overwrite existing file on the target path if that exists.", Default: "false", TypeName: "bool", ...},
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...},
-- 		&{
-- 			Name:     "WorkPath",
-- 			Desc:     "Temporary path",
-- 			TypeName: "essentials.model.mo_string.opt_string",
-- 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  }
-```
+

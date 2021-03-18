@@ -2,181 +2,105 @@ package update
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/essentials/time/ut_format"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"math"
+	"os"
 	"time"
 )
 
-type MsgExpiry struct {
-	ProgressScanning      app_msg.Message
-	ProgressUpdating      app_msg.Message
-	ErrorUnableScanMember app_msg.Message
-}
-
-var (
-	MExpiry = app_msg.Apply(&MsgExpiry{}).(*MsgExpiry)
-)
-
-type ExpiryScanWorker struct {
-	ctl        app_control.Control
-	ctx        dbx_context.Context
-	rep        rp_model.TransactionReport
-	repSkipped rp_model.RowReport
-	member     *mo_member.Member
-	newExpiry  time.Time
-	visibility string
-}
-
-func (z *ExpiryScanWorker) Exec() error {
-	ui := z.ctl.UI()
-	l := z.ctl.Log().With(esl.Any("member", z.member))
-
-	l.Debug("Scanning member shared links")
-	ui.Progress(MExpiry.ProgressScanning.With("MemberEmail", z.member.Email))
-
-	ctxMember := z.ctx.AsMemberId(z.member.TeamMemberId)
-	links, err := sv_sharedlink.New(ctxMember).List()
-	if err != nil {
-		l.Debug("Unable to scan shared link", esl.Error(err))
-		ui.Error(MExpiry.ErrorUnableScanMember.
-			With("Member", z.member.Email).
-			With("Error", err))
-
-		return err
-	}
-
-	q := z.ctl.NewLegacyQueue()
-
-	for _, link := range links {
-		ll := l.With(esl.Any("link", link))
-		if link.LinkVisibility() != z.visibility {
-			ll.Debug("Skip link", esl.String("targetVisibility", z.visibility))
-			z.repSkipped.Row(mo_sharedlink.NewSharedLinkMember(link, z.member))
-			continue
-		}
-
-		update := false
-
-		switch {
-		case link.LinkExpires() == "":
-			ll.Debug("The link doesn't have expiration")
-			update = true
-
-		default:
-			le, v := ut_format.ParseTimestamp(link.LinkExpires())
-			if !v {
-				ll.Warn("Invalid timestamp format from API response")
-				continue
-			}
-
-			if le.IsZero() || le.After(z.newExpiry) {
-				ll.Debug("The link have long or no expiration")
-				update = true
-			}
-		}
-
-		if !update {
-			z.repSkipped.Row(mo_sharedlink.NewSharedLinkMember(link, z.member))
-			ll.Debug("Skip")
-			continue
-		}
-
-		q.Enqueue(&ExpiryWorker{
-			ctl:       z.ctl,
-			ctx:       ctxMember,
-			rep:       z.rep,
-			member:    z.member,
-			link:      link,
-			newExpiry: z.newExpiry,
-		})
-	}
-	q.Wait()
-
-	return nil
-}
-
-type ExpiryWorker struct {
-	ctl       app_control.Control
-	ctx       dbx_context.Context
-	rep       rp_model.TransactionReport
-	member    *mo_member.Member
-	link      mo_sharedlink.SharedLink
-	newExpiry time.Time
-}
-
-func (z *ExpiryWorker) Exec() error {
-	ui := z.ctl.UI()
-	l := z.ctl.Log().With(esl.Any("link", z.link.Metadata()))
-
-	ui.Progress(MExpiry.ProgressUpdating.With("MemberEmail", z.member.Email).
-		With("Url", z.link.LinkUrl()).
-		With("CurrentExpiry", z.link.LinkExpires()).
-		With("NewExpiry", dbx_util.ToApiTimeString(z.newExpiry)))
-
-	updated, err := sv_sharedlink.New(z.ctx).Update(z.link, sv_sharedlink.Expires(z.newExpiry))
-	if err != nil {
-		l.Debug("Unable to update expiration")
-		z.rep.Failure(err, mo_sharedlink.NewSharedLinkMember(z.link, z.member))
-		return err
-	}
-
-	l.Debug("Updated", esl.Any("updated", updated))
-	z.rep.Success(
-		mo_sharedlink.NewSharedLinkMember(z.link, z.member),
-		updated,
-	)
-
-	return nil
-}
-
 type Expiry struct {
 	rc_recipe.RemarkIrreversible
-	Peer                       dbx_conn.ConnBusinessFile
+	Peer                       dbx_conn.ConnScopedTeam
 	Days                       mo_int.RangeInt
 	At                         mo_time.TimeOptional
-	Visibility                 mo_string.SelectString
-	Updated                    rp_model.TransactionReport
-	Skipped                    rp_model.RowReport
+	File                       fd_file.RowFeed
+	OperationLog               rp_model.TransactionReport
+	LinkNotFound               app_msg.Message
+	NoChange                   app_msg.Message
 	ErrorPleaseSpecifyDaysOrAt app_msg.Message
 	ErrorInvalidDateTime       app_msg.Message
 }
 
 func (z *Expiry) Preset() {
 	z.Days.SetRange(0, math.MaxInt32, 0)
-	z.Visibility.SetOptions("public", "public", "team_only", "password", "team_and_password", "shared_folder_only")
-	z.Skipped.SetModel(&mo_sharedlink.SharedLinkMember{}, rp_model.HiddenColumns(
-		"shared_link_id",
-		"account_id",
-		"team_member_id",
-	))
-	z.Updated.SetModel(&mo_sharedlink.SharedLinkMember{}, &mo_sharedlink.Metadata{}, rp_model.HiddenColumns(
-		"input.shared_link_id",
-		"input.account_id",
-		"input.team_member_id",
-		"result.tag",
-		"result.id",
-		"result.url",
-		"result.name",
-		"result.path_lower",
-		"result.visibility",
-	))
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSharingWrite,
+		dbx_auth.ScopeTeamDataMember,
+	)
+	z.File.SetModel(&uc_team_sharedlink.TargetLinks{})
+	z.OperationLog.SetModel(
+		&uc_team_sharedlink.TargetLinks{},
+		&mo_sharedlink.SharedLinkMember{},
+		rp_model.HiddenColumns(
+			"result.shared_link_id",
+			"result.account_id",
+			"result.team_member_id",
+			"result.status",
+		),
+	)
+}
+
+func (z *Expiry) updateExpiry(target *uc_team_sharedlink.Target, c app_control.Control, sel uc_team_sharedlink.Selector, newExpiry time.Time) error {
+	l := c.Log().With(esl.String("member", target.Member.Email), esl.String("url", target.Entry.Url))
+	mc := z.Peer.Context().AsMemberId(target.Member.TeamMemberId)
+
+	defer func() {
+		_ = sel.Processed(target.Entry.Url)
+	}()
+
+	newExpiry8601 := dbx_util.ToApiTimeString(newExpiry)
+
+	if target.Entry.Expires == newExpiry8601 {
+		l.Debug("Skipped", esl.String("curExpiry", target.Entry.Expires), esl.String("newExpiry", newExpiry8601))
+		z.OperationLog.Skip(z.NoChange, &uc_team_sharedlink.TargetLinks{
+			Url: target.Entry.Url,
+		})
+		return nil
+	}
+
+	opts := make([]sv_sharedlink.LinkOpt, 0)
+	opts = append(opts, sv_sharedlink.Expires(newExpiry))
+
+	updated, err := sv_sharedlink.New(mc).Update(target.Entry.SharedLink(), opts...)
+	if err != nil {
+		l.Debug("Unable to update visibility of the link", esl.Error(err))
+		z.OperationLog.Failure(err, &uc_team_sharedlink.TargetLinks{
+			Url: target.Entry.Url,
+		})
+		return err
+	}
+
+	l.Debug("Updated to new visibility",
+		esl.String("curExpiry", target.Entry.Expires),
+		esl.String("newExpiry", newExpiry8601),
+		esl.Any("updated", updated))
+	z.OperationLog.Success(
+		&uc_team_sharedlink.TargetLinks{
+			Url: target.Entry.Url,
+		},
+		mo_sharedlink.NewSharedLinkMember(updated, target.Member),
+	)
+	return nil
 }
 
 func (z *Expiry) Exec(c app_control.Control) error {
@@ -205,42 +129,72 @@ func (z *Expiry) Exec(c app_control.Control) error {
 
 	l = l.With(esl.String("newExpiry", newExpiry.String()))
 
-	if err := z.Updated.Open(); err != nil {
-		return err
-	}
-	if err := z.Skipped.Open(); err != nil {
+	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	var onMissing uc_team_sharedlink.SelectorOnMissing = func(url string) {
+		z.OperationLog.Skip(z.LinkNotFound, &uc_team_sharedlink.TargetLinks{Url: url})
+	}
+	sel, err := uc_team_sharedlink.NewSelector(c, onMissing)
 	if err != nil {
 		return err
 	}
 
-	q := c.NewLegacyQueue()
-
-	for _, member := range members {
-		q.Enqueue(&ExpiryScanWorker{
-			ctl:        c,
-			ctx:        z.Peer.Context(),
-			rep:        z.Updated,
-			repSkipped: z.Skipped,
-			member:     member,
-			newExpiry:  newExpiry,
-			visibility: z.Visibility.Value(),
-		})
+	loadErr := z.File.EachRow(func(m interface{}, rowIndex int) error {
+		r := m.(*uc_team_sharedlink.TargetLinks)
+		return sel.Register(r.Url)
+	})
+	if loadErr != nil {
+		return loadErr
 	}
-	q.Wait()
 
-	return nil
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("update_link", z.updateExpiry, c, sel, newExpiry)
+		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
+			l := c.Log().With(esl.Any("member", member), esl.Any("entry", entry))
+			if shouldProcess, selErr := sel.IsTarget(entry.Url); selErr != nil {
+				l.Warn("Abort delete because of KVS error", esl.Error(selErr))
+				return
+			} else if shouldProcess {
+				qml := s.Get("update_link")
+				qml.Enqueue(&uc_team_sharedlink.Target{
+					Member: member,
+					Entry:  entry,
+				})
+			}
+		}
+
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Context(), onSharedLink)
+		qsm := s.Get("scan_member")
+
+		dErr := sv_member.New(z.Peer.Context()).ListEach(func(member *mo_member.Member) bool {
+			qsm.Enqueue(member)
+			return true
+		})
+		if dErr != nil {
+			l.Debug("Unable to enqueue the member", esl.Error(dErr))
+		}
+	})
+
+	return sel.Done()
 }
 
 func (z *Expiry) Test(c app_control.Control) error {
+	f, err := qt_file.MakeTestFile("links", "https://www.dropbox.com/scl/fo/fir9vjelf\nhttps://www.dropbox.com/scl/fo/fir9vjelg")
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.Remove(f)
+	}()
+
 	// should fail
 	{
-		err := rc_exec.Exec(c, &Expiry{}, func(r rc_recipe.Recipe) {
+		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			rc := r.(*Expiry)
 			rc.Days.SetValue(1)
+			rc.File.SetFilePath(f)
 			rc.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
 		if err == nil {
@@ -251,6 +205,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 	{
 		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			m := r.(*Expiry)
+			m.File.SetFilePath(f)
 			m.Days.SetValue(7)
 		})
 		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
@@ -261,6 +216,7 @@ func (z *Expiry) Test(c app_control.Control) error {
 	{
 		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
 			m := r.(*Expiry)
+			m.File.SetFilePath(f)
 			m.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
 		})
 		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {

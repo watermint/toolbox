@@ -2,12 +2,10 @@ package qtr_endtoend
 
 import (
 	"encoding/csv"
-	rice "github.com/GeertJohan/go.rice"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/go/es_resource"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
@@ -33,6 +31,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_replay"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
 	"github.com/watermint/toolbox/quality/recipe/qtr_timeout"
+	"github.com/watermint/toolbox/resources"
 	"io"
 	"log"
 	"os"
@@ -65,32 +64,8 @@ func NewTestExistingFileSystemFolderPath(c app_control.Control, name string) mo_
 	return mo_path2.NewExistingFileSystemPath(MustMakeTestFolder(c, name, true))
 }
 
-func resBundle() es_resource.Bundle {
-	_, err := rice.FindBox("../../../resources/messages")
-	if err == nil {
-		return es_resource.New(
-			rice.MustFindBox("../../../resources/templates"),
-			rice.MustFindBox("../../../resources/messages"),
-			rice.MustFindBox("../../../resources/web"),
-			rice.MustFindBox("../../../resources/keys"),
-			rice.MustFindBox("../../../resources/images"),
-			rice.MustFindBox("../../../resources/data"),
-		)
-	} else {
-		// In case the test run from the project root
-		return es_resource.New(
-			rice.MustFindBox("resources/templates"),
-			rice.MustFindBox("resources/messages"),
-			rice.MustFindBox("resources/web"),
-			rice.MustFindBox("resources/keys"),
-			rice.MustFindBox("resources/images"),
-			rice.MustFindBox("resources/data"),
-		)
-	}
-}
-
 func Resources() (ui app_ui.UI) {
-	bundle := resBundle()
+	bundle := resources.NewBundle()
 	lg := esl.Default()
 	log.SetOutput(lgw_golog.NewLogWrapper(lg))
 	app_resource.SetBundle(bundle)
