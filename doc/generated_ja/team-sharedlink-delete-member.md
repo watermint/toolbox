@@ -1,6 +1,6 @@
 # team sharedlink delete member
 
-Delete all shared links of the member (Irreversible operation)
+メンバーの共有リンクをすべて削除 (非可逆な操作です)
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                 | デフォルト |
-|-----------------|----------------------|------------|
-| `-member-email` | Member email address |            |
-| `-peer`         | Account alias        | default    |
+| オプション      | 説明                     | デフォルト |
+|-----------------|--------------------------|------------|
+| `-member-email` | メンバーのメールアドレス |            |
+| `-peer`         | アカウントの別名         | default    |
 
 ## 共通のオプション:
 
@@ -111,7 +111,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |-------------------|----------------------------------------|
 | status            | 処理の状態                             |
 | reason            | 失敗またはスキップの理由               |
-| input.url         | Shared link URL                        |
+| input.url         | 共有リンクのURL                        |
 | result.tag        | エントリーの種別 (file, または folder) |
 | result.url        | 共有リンクのURL.                       |
 | result.name       | リンク先ファイル名称                   |

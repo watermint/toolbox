@@ -187,12 +187,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [team namespace file size](doc/generated_ja/team-namespace-file-size.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
 | [team namespace list](doc/generated_ja/team-namespace-list.md)                             | チーム内すべての名前空間を一覧                                                         |
 | [team namespace member list](doc/generated_ja/team-namespace-member-list.md)               | チームフォルダ以下のファイル・フォルダを一覧                                           |
-| [team sharedlink delete links](doc/generated_ja/team-sharedlink-delete-links.md)           | Batch delete shared links                                                              |
-| [team sharedlink delete member](doc/generated_ja/team-sharedlink-delete-member.md)         | Delete all shared links of the member                                                  |
+| [team sharedlink delete links](doc/generated_ja/team-sharedlink-delete-links.md)           | 共有リンクの一括削除                                                                   |
+| [team sharedlink delete member](doc/generated_ja/team-sharedlink-delete-member.md)         | メンバーの共有リンクをすべて削除                                                       |
 | [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                           | 共有リンクの一覧                                                                       |
 | [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md)         | チーム内の公開されている共有リンクについて有効期限を更新します                         |
-| [team sharedlink update password](doc/generated_ja/team-sharedlink-update-password.md)     | Set or update shared link passwords                                                    |
-| [team sharedlink update visibility](doc/generated_ja/team-sharedlink-update-visibility.md) | Update visibility of shared links                                                      |
+| [team sharedlink update password](doc/generated_ja/team-sharedlink-update-password.md)     | 共有リンクのパスワードの設定・更新                                                     |
+| [team sharedlink update visibility](doc/generated_ja/team-sharedlink-update-visibility.md) | 共有リンクの可視性の更新                                                               |
 | [teamfolder add](doc/generated_ja/teamfolder-add.md)                                       | チームフォルダを追加します                                                             |
 | [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                               | チームフォルダのアーカイブ                                                             |
 | [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)                   | 複数のチームフォルダをアーカイブします                                                 |

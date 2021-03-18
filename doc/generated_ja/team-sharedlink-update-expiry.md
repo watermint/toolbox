@@ -2,10 +2,8 @@
 
 チーム内の公開されている共有リンクについて有効期限を更新します (非可逆な操作です)
 
-Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the
-expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if
-you are familiar with the command [jq](https://stedolan.github.io/jq/), then you can do an equivalent operation as like
-below (force expiry within 28 days for every public link).
+注：リリース87以降、このコマンドは、アップデートする共有リンクを選択するためのファイルを受け取ります. チーム内のすべての共有リンクの有効期限を更新したい場合は、`team sharedlink list`の組み合わせをご検討ください.
+例えば、[jq](https://stedolan.github.io/jq/)というコマンドに慣れていれば、以下のように同等の操作を行うことができます（すべての公開リンクに対して28日以内に強制失効させる）.
 
 ```
 tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -days 28
@@ -61,12 +59,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team sharedlink update expiry -days 28
+.\tbx.exe team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -days 28
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team sharedlink update expiry -days 28
+$HOME/Desktop/tbx team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -days 28
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -81,7 +79,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |------------|--------------------------|------------|
 | `-at`      | 新しい有効期限の日時     |            |
 | `-days`    | 新しい有効期限までの日時 | 0          |
-| `-file`    | Path to data file        |            |
+| `-file`    | データファイルへのパス   |            |
 | `-peer`    | アカウントの別名         | default    |
 
 ## 共通のオプション:
@@ -107,11 +105,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Target shared link
+対象となる共有リンク
 
 | 列  | 説明            | 例                                       |
 |-----|-----------------|------------------------------------------|
-| url | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
+| url | 共有リンクのURL | https://www.dropbox.com/scl/fo/fir9vjelf |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
@@ -137,7 +135,7 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 |-------------------|----------------------------------------|
 | status            | 処理の状態                             |
 | reason            | 失敗またはスキップの理由               |
-| input.url         | Shared link URL                        |
+| input.url         | 共有リンクのURL                        |
 | result.tag        | エントリーの種別 (file, または folder) |
 | result.url        | 共有リンクのURL.                       |
 | result.name       | リンク先ファイル名称                   |

@@ -1,6 +1,6 @@
 # team sharedlink update visibility
 
-Update visibility of shared links (Irreversible operation)
+共有リンクの可視性の更新 (非可逆な操作です)
 
 # セキュリティ
 
@@ -71,9 +71,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション        | 説明                   | デフォルト |
 |-------------------|------------------------|------------|
-| `-file`           | Path to data file      |            |
-| `-new-visibility` | New visibility setting | team_only  |
-| `-peer`           | Account alias          | default    |
+| `-file`           | データファイルへのパス |            |
+| `-new-visibility` | 新しい視認性設定       | team_only  |
+| `-peer`           | アカウントの別名       | default    |
 
 ## 共通のオプション:
 
@@ -98,11 +98,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Target shared link
+対象となる共有リンク
 
 | 列  | 説明            | 例                                       |
 |-----|-----------------|------------------------------------------|
-| url | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
+| url | 共有リンクのURL | https://www.dropbox.com/scl/fo/fir9vjelf |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
@@ -128,7 +128,7 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 |-------------------|----------------------------------------|
 | status            | 処理の状態                             |
 | reason            | 失敗またはスキップの理由               |
-| input.url         | Shared link URL                        |
+| input.url         | 共有リンクのURL                        |
 | result.tag        | エントリーの種別 (file, または folder) |
 | result.url        | 共有リンクのURL.                       |
 | result.name       | リンク先ファイル名称                   |

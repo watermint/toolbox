@@ -1110,7 +1110,7 @@
   "recipe.dev.test.setup.teamsharedlink.flag.query": "Query",
   "recipe.dev.test.setup.teamsharedlink.flag.visibility": "Visibility",
   "recipe.dev.test.setup.teamsharedlink.title": "Create demo shared links",
-  "recipe.dev.test.setup.title": "Setup test",
+  "recipe.dev.test.setup.title": "Test setup",
   "recipe.dev.test.title": "Binary test",
   "recipe.dev.title": "Development recipes",
   "recipe.dev.util.anonymise.flag.job_id": "Filter by job id name",

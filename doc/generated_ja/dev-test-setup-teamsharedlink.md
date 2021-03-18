@@ -1,6 +1,6 @@
 # dev test setup teamsharedlink
 
-Create demo shared links (Irreversible operation)
+デモ用共有リンクの作成 (非可逆な操作です)
 
 # セキュリティ
 
@@ -69,13 +69,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション              | 説明                                 | デフォルト |
-|-------------------------|--------------------------------------|------------|
-| `-group`                | Group name                           |            |
-| `-num-links-per-member` | Number of links to create per member | 5          |
-| `-peer`                 | Account alias                        | default    |
-| `-query`                | Query                                |            |
-| `-visibility`           | Visibility                           | random     |
+| オプション              | 説明                           | デフォルト |
+|-------------------------|--------------------------------|------------|
+| `-group`                | グループ名                     |            |
+| `-num-links-per-member` | メンバーごとに作成するリンク数 | 5          |
+| `-peer`                 | アカウントの別名               | default    |
+| `-query`                | クエリ                         |            |
+| `-visibility`           | ビジビリティ                   | random     |
 
 ## 共通のオプション:
 

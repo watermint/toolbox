@@ -1,6 +1,6 @@
 # team sharedlink delete links
 
-Batch delete shared links (Irreversible operation)
+共有リンクの一括削除 (非可逆な操作です)
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-file`    | Path to data file |            |
-| `-peer`    | Account alias     | default    |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-peer`    | アカウントの別名       | default    |
 
 ## 共通のオプション:
 
@@ -97,11 +97,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Target shared link
+対象となる共有リンク
 
 | 列  | 説明            | 例                                       |
 |-----|-----------------|------------------------------------------|
-| url | Shared link URL | https://www.dropbox.com/scl/fo/fir9vjelf |
+| url | 共有リンクのURL | https://www.dropbox.com/scl/fo/fir9vjelf |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
@@ -127,7 +127,7 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 |-------------------|----------------------------------------|
 | status            | 処理の状態                             |
 | reason            | 失敗またはスキップの理由               |
-| input.url         | Shared link URL                        |
+| input.url         | 共有リンクのURL                        |
 | result.tag        | エントリーの種別 (file, または folder) |
 | result.url        | 共有リンクのURL.                       |
 | result.name       | リンク先ファイル名称                   |
