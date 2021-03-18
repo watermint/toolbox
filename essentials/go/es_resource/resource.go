@@ -115,7 +115,7 @@ func NewSecureResource(prefix string, fs embed.FS) Resource {
 	}
 }
 
-// rice.Box wrapper, but do not return http.FileSystem
+// embed.FS wrapper, but do not return http.FileSystem
 type resSecureBox struct {
 	prefix string
 	fs     embed.FS
