@@ -25,7 +25,7 @@ import (
 
 type Diff struct {
 	rc_recipe.RemarkSecret
-	Lang                mo_string.OptionalString
+	DocLang             mo_string.OptionalString
 	Release1            mo_string.OptionalString
 	Release2            mo_string.OptionalString
 	FilePath            mo_string.OptionalString
@@ -323,8 +323,8 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 }
 
 func (z *Diff) Exec(c app_control.Control) error {
-	if z.Lang.IsExists() {
-		return z.makeDiff(c.WithLang(z.Lang.Value()))
+	if z.DocLang.IsExists() {
+		return z.makeDiff(c.WithLang(z.DocLang.Value()))
 	} else {
 		return z.makeDiff(c)
 	}
