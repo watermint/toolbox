@@ -17,12 +17,16 @@ type Target struct {
 type DeleteOnSuccess func(t *Target)
 type DeleteOnFailure func(t *Target, cause error)
 
-func DeleteMemberLink(target *Target, c app_control.Control, ctx dbx_context.Context, onSuccess DeleteOnSuccess, onFailure DeleteOnFailure, sel Selector) error {
-	l := c.Log().With(esl.String("member", target.Member.Email))
-	mc := ctx.AsMemberId(target.Member.TeamMemberId)
+func DeleteMemberLinkWithSel(target *Target, c app_control.Control, ctx dbx_context.Context, onSuccess DeleteOnSuccess, onFailure DeleteOnFailure, sel Selector) error {
 	defer func() {
 		_ = sel.Processed(target.Entry.Url)
 	}()
+	return DeleteMemberLink(target, c, ctx, onSuccess, onFailure)
+}
+
+func DeleteMemberLink(target *Target, c app_control.Control, ctx dbx_context.Context, onSuccess DeleteOnSuccess, onFailure DeleteOnFailure) error {
+	l := c.Log().With(esl.String("member", target.Member.Email))
+	mc := ctx.AsMemberId(target.Member.TeamMemberId)
 
 	l.Debug("Delete link", esl.Any("target", target))
 	rmErr := sv_sharedlink.New(mc).Remove(target.Entry.SharedLink())
