@@ -103,7 +103,7 @@ func (z *Links) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Context(), onDeleteSuccess, onDeleteFailure, sel)
+		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLinkWithSel, c, z.Peer.Context(), onDeleteSuccess, onDeleteFailure, sel)
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			l := l.With(esl.Any("member", member), esl.Any("entry", entry))
 			if shouldProcess, selErr := sel.IsTarget(entry.Url); selErr != nil {
