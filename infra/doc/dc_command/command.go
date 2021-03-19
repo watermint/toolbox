@@ -26,6 +26,9 @@ func New(spec rc_recipe.Spec) []dc_section.Section {
 	if 0 < len(spec.GridDataOutput()) {
 		sections = append(sections, NewGridDataOutput(spec))
 	}
+	if 0 < len(spec.TextInput()) {
+		sections = append(sections, NewTextInput(spec))
+	}
 	sections = append(sections, NewProxy(spec))
 
 	for i := 0; i < len(sections); i++ {

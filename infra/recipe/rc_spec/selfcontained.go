@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
+	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/doc/dc_options"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -383,6 +384,10 @@ func (z *specValueSelfContained) GridDataInput() map[string]da_griddata.GridData
 
 func (z *specValueSelfContained) GridDataOutput() map[string]da_griddata.GridDataOutputSpec {
 	return z.repo.GridDataOutputSpecs()
+}
+
+func (z *specValueSelfContained) TextInput() map[string]da_text.TextInputSpec {
+	return z.repo.TextInputSpecs()
 }
 
 func (z *specValueSelfContained) Feeds() map[string]fd_file.Spec {

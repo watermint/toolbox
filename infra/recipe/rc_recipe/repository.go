@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
+	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -28,8 +29,11 @@ type Repository interface {
 	// Returns grid data input spec
 	GridDataInputSpecs() map[string]da_griddata.GridDataInputSpec
 
-	// REturns grid data output spec
+	// Returns grid data output spec
 	GridDataOutputSpecs() map[string]da_griddata.GridDataOutputSpec
+
+	// Returns text input spec
+	TextInputSpecs() map[string]da_text.TextInputSpec
 
 	// Messages used by the recipe
 	Messages() []app_msg.Message
