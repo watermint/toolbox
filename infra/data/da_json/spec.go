@@ -1,4 +1,4 @@
-package da_text
+package da_json
 
 import (
 	"github.com/iancoleman/strcase"
@@ -9,34 +9,34 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-type TextInputSpec interface {
+type JsonInputSpec interface {
 	Name() string
 	Desc() app_msg.Message
-	Doc(ui app_ui.UI) *dc_recipe.DocTextInput
+	Doc(ui app_ui.UI) *dc_recipe.DocJsonInput
 }
 
-func NewInputSpec(name string, recipe interface{}) TextInputSpec {
-	return &inSpec{
+func NewJsonSpec(name string, recipe interface{}) JsonInputSpec {
+	return &jsSpec{
 		name:   name,
 		recipe: recipe,
 	}
 }
 
-type inSpec struct {
+type jsSpec struct {
 	name   string
 	recipe interface{}
 }
 
-func (z inSpec) Name() string {
+func (z jsSpec) Name() string {
 	return z.name
 }
 
-func (z inSpec) Desc() app_msg.Message {
-	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".text_input." + strcase.ToSnake(z.name) + ".desc")
+func (z jsSpec) Desc() app_msg.Message {
+	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".json_input." + strcase.ToSnake(z.name) + ".desc")
 }
 
-func (z inSpec) Doc(ui app_ui.UI) *dc_recipe.DocTextInput {
-	return &dc_recipe.DocTextInput{
+func (z jsSpec) Doc(ui app_ui.UI) *dc_recipe.DocJsonInput {
+	return &dc_recipe.DocJsonInput{
 		Name: z.name,
 		Desc: ui.Text(z.Desc()),
 	}

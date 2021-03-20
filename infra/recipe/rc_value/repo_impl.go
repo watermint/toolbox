@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
+	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -41,9 +42,10 @@ var (
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnSheets(dbx_conn_impl.DefaultPeerName),
-		newValueDaGridDataInput(nil, dbx_conn_impl.DefaultPeerName),
-		newValueDaGridDataOutput(nil, dbx_conn_impl.DefaultPeerName),
-		newValueDaTextInput(nil, dbx_conn_impl.DefaultPeerName),
+		newValueDaGridDataInput(nil, ""),
+		newValueDaGridDataOutput(nil, ""),
+		newValueDaTextInput(nil, ""),
+		newValueDaJsonInput(nil, ""),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),
@@ -259,6 +261,18 @@ func (z *RepositoryImpl) TextInputSpecs() map[string]da_text.TextInputSpec {
 	for k, v := range z.values {
 		if vf, ok := v.(rc_recipe.ValueTextInput); ok {
 			if v0, ok := vf.TextInput(); ok {
+				specs[k] = v0.Spec()
+			}
+		}
+	}
+	return specs
+}
+
+func (z *RepositoryImpl) JsonInputSpecs() map[string]da_json.JsonInputSpec {
+	specs := make(map[string]da_json.JsonInputSpec)
+	for k, v := range z.values {
+		if vf, ok := v.(rc_recipe.ValueJsonInput); ok {
+			if v0, ok := vf.JsonInput(); ok {
 				specs[k] = v0.Spec()
 			}
 		}

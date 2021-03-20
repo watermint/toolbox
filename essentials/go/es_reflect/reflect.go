@@ -26,3 +26,8 @@ func Key(base string, r interface{}) string {
 	path, name := Path(base, r)
 	return strings.Join(append(path, name), ".")
 }
+
+func NewInstance(v interface{}) interface{} {
+	t := reflect.ValueOf(v).Elem().Type()
+	return reflect.New(t).Interface()
+}

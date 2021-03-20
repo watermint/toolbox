@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
+	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/doc/dc_options"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
@@ -165,6 +166,34 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		gridDataOutputs = append(gridDataOutputs, gridDataOutputMap[g])
 	}
 
+	// text input
+	textInputs := make([]*dc_recipe.DocTextInput, 0)
+	textInputNames := make([]string, 0)
+	textInputMap := make(map[string]*dc_recipe.DocTextInput)
+
+	for _, t := range z.TextInput() {
+		textInputMap[t.Name()] = t.Doc(ui)
+		textInputNames = append(textInputNames, t.Name())
+	}
+	sort.Strings(textInputNames)
+	for _, t := range textInputNames {
+		textInputs = append(textInputs, textInputMap[t])
+	}
+
+	// json input
+	jsonInputs := make([]*dc_recipe.DocJsonInput, 0)
+	jsonInputNames := make([]string, 0)
+	jsonInputMap := make(map[string]*dc_recipe.DocJsonInput)
+
+	for _, t := range z.JsonInput() {
+		jsonInputMap[t.Name()] = t.Doc(ui)
+		jsonInputNames = append(jsonInputNames, t.Name())
+	}
+	sort.Strings(jsonInputNames)
+	for _, t := range jsonInputNames {
+		jsonInputs = append(jsonInputs, jsonInputMap[t])
+	}
+
 	values := make([]*dc_recipe.Value, 0)
 	valueNames := make([]string, len(z.ValueNames()))
 	copy(valueNames, z.ValueNames())
@@ -222,6 +251,8 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		Values:          values,
 		GridDataInput:   gridDataInputs,
 		GridDataOutput:  gridDataOutputs,
+		TextInput:       textInputs,
+		JsonInput:       jsonInputs,
 	}
 }
 
@@ -388,6 +419,10 @@ func (z *specValueSelfContained) GridDataOutput() map[string]da_griddata.GridDat
 
 func (z *specValueSelfContained) TextInput() map[string]da_text.TextInputSpec {
 	return z.repo.TextInputSpecs()
+}
+
+func (z *specValueSelfContained) JsonInput() map[string]da_json.JsonInputSpec {
+	return z.repo.JsonInputSpecs()
 }
 
 func (z *specValueSelfContained) Feeds() map[string]fd_file.Spec {

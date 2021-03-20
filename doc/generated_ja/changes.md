@@ -1,2 +1,37 @@
-# `リリース 87` から `リリース 88` までの変更点
+# `リリース 88` から `リリース 89` までの変更点
 
+# コマンド仕様の変更: `dev spec diff`
+
+## 設定が変更されたコマンド
+
+```
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+- 			Name:     "FilePath",
++ 			Name:     "DocLang",
+- 			Desc:     "File path to output",
++ 			Desc:     "Document language",
+  			Default:  "",
+  			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{
+- 			Name:     "Lang",
++ 			Name:     "FilePath",
+- 			Desc:     "Language",
++ 			Desc:     "File path to output",
+  			Default:  "",
+  			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Release1", Desc: "Release name 1", TypeName: "essentials.model.mo_string.opt_string"},
+  		&{Name: "Release2", Desc: "Release name 2", TypeName: "essentials.model.mo_string.opt_string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  }
+```

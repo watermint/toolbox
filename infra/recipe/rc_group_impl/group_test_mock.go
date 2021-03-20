@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
+	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -17,6 +18,10 @@ import (
 type MockSpec struct {
 	name string
 	path []string
+}
+
+func (z MockSpec) JsonInput() map[string]da_json.JsonInputSpec {
+	panic("implement me")
 }
 
 func (z MockSpec) TextInput() map[string]da_text.TextInputSpec {

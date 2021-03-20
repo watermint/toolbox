@@ -1038,7 +1038,6 @@
   "recipe.dev.spec.diff.change_report_deleted": "削除されたレポート",
   "recipe.dev.spec.diff.doc_header": "{{.Release1}} から {{.Release2}} までの変更点",
   "recipe.dev.spec.diff.flag.file_path": "出力先ファイルパス",
-  "recipe.dev.spec.diff.flag.lang": "言語",
   "recipe.dev.spec.diff.flag.release_1": "リリース名1",
   "recipe.dev.spec.diff.flag.release_2": "リリース名2",
   "recipe.dev.spec.diff.release_current": "`最新リリース`",

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
+	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -102,6 +103,13 @@ type ValueTextInput interface {
 
 	// True when the value is type of text input
 	TextInput() (tx da_text.TextInput, valid bool)
+}
+
+type ValueJsonInput interface {
+	Value
+
+	// True when the value is type of text input
+	JsonInput() (js da_json.JsonInput, valid bool)
 }
 
 type ValueConns interface {
