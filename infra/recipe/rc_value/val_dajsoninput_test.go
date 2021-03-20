@@ -15,11 +15,11 @@ type ValueDaJsonInputSample struct {
 }
 
 type ValueDaJsonInputRecipe struct {
-	Json da_json.JsonInput
+	Data da_json.JsonInput
 }
 
 func (z *ValueDaJsonInputRecipe) Preset() {
-	z.Json.SetModel(&ValueDaJsonInputSample{})
+	z.Data.SetModel(&ValueDaJsonInputSample{})
 }
 
 func (z *ValueDaJsonInputRecipe) Exec(c app_control.Control) error {
@@ -40,7 +40,7 @@ func TestValueDaJsonInput_Accept(t *testing.T) {
 			// Parse flags
 			flg := flag.NewFlagSet("value", flag.ContinueOnError)
 			repo.ApplyFlags(flg, c.UI())
-			if err := flg.Parse([]string{"-text", path}); err != nil {
+			if err := flg.Parse([]string{"-data", path}); err != nil {
 				t.Error(err)
 				return err
 			}
@@ -48,7 +48,7 @@ func TestValueDaJsonInput_Accept(t *testing.T) {
 			// Apply parsed values
 			rcp1 := repo.Apply()
 			mod1 := rcp1.(*ValueDaJsonInputRecipe)
-			if x := mod1.Json.FilePath(); x != path {
+			if x := mod1.Data.FilePath(); x != path {
 				t.Error(x)
 			}
 
@@ -59,7 +59,7 @@ func TestValueDaJsonInput_Accept(t *testing.T) {
 				return err
 			}
 			mod2 := rcp2.(*ValueDaJsonInputRecipe)
-			if x := mod2.Json.FilePath(); x != path {
+			if x := mod2.Data.FilePath(); x != path {
 				t.Error(x)
 			}
 
