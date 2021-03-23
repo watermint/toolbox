@@ -1,6 +1,6 @@
-# dev test setup teamsharedlink
+# file paper append
 
-Create demo shared links (Irreversible operation)
+Append the content to the end of the existing Paper doc
 
 # Security
 
@@ -16,19 +16,21 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+
+* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
 
-| Label               | Description         |
-|---------------------|---------------------|
-| dropbox_scoped_team | Dropbox team access |
+| Label                     | Description                       |
+|---------------------------|-----------------------------------|
+| dropbox_scoped_individual | Dropbox Individual account access |
 
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -49,17 +51,20 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe dev test setup teamsharedlink 
+.\tbx.exe file paper append -path /DROPBOX/PATH/TO/append.paper
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx dev test setup teamsharedlink 
+$HOME/Desktop/tbx file paper append -path /DROPBOX/PATH/TO/append.paper
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -72,14 +77,12 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option                  | Description                          | Default |
-|-------------------------|--------------------------------------|---------|
-| `-group`                | Group name                           |         |
-| `-num-links-per-member` | Number of links to create per member | 5       |
-| `-peer`                 | Account alias                        | default |
-| `-query`                | Query                                |         |
-| `-seed`                 | Shared link seed value               | 0       |
-| `-visibility`           | Visibility                           | random  |
+| Option     | Description                              | Default  |
+|------------|------------------------------------------|----------|
+| `-content` | Paper content                            |          |
+| `-format`  | Import format (html/markdown/plain_text) | markdown |
+| `-path`    | Path in the user's Dropbox               |          |
+| `-peer`    | Account alias                            | default  |
 
 ## Common options:
 
@@ -113,23 +116,23 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 
 ## Report: created
 
-THis report shows a list of shared links. The command will generate a report in three different formats. `created.csv`
-, `created.json`, and `created.xlsx`.
+Create/updated paper data The command will generate a report in three different formats. `created.csv`, `created.json`,
+and `created.xlsx`.
 
-| Column     | Description                                                                                                                                                                                                             |
-|------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| id         | A unique identifier for the linked file or folder                                                                                                                                                                       |
-| tag        | Entry type (file, or folder)                                                                                                                                                                                            |
-| url        | URL of the shared link.                                                                                                                                                                                                 |
-| name       | The linked file name (including extension).                                                                                                                                                                             |
-| expires    | Expiration time, if set.                                                                                                                                                                                                |
-| path_lower | The lowercased full path in the user's Dropbox.                                                                                                                                                                         |
-| visibility | The current visibility of the link after considering the shared links policies of the the team (in case the link's owner is part of a team) and the shared folder (in case the linked file is part of a shared folder). |
+| Column         | Description    |
+|----------------|----------------|
+| paper_revision | Paper revision |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like
 follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+
+# Text inputs
+
+## Text input: Content
+
+Paper content
 
 # Proxy configuration
 

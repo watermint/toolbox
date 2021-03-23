@@ -1,6 +1,6 @@
-# dev test setup teamsharedlink
+# file paper overwrite
 
-デモ用共有リンクの作成 (非可逆な操作です)
+Overwrite existing Paper document
 
 # セキュリティ
 
@@ -16,18 +16,20 @@
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
 
-| ラベル              | 説明             |
-|---------------------|------------------|
-| dropbox_scoped_team | Dropbox (チーム) |
+| ラベル                    | 説明                     |
+|---------------------------|--------------------------|
+| dropbox_scoped_individual | Dropbox (個人アカウント) |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -48,17 +50,20 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe dev test setup teamsharedlink 
+.\tbx.exe file paper overwrite -path /DROPBOX/PATH/TO/overwrite.paper
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx dev test setup teamsharedlink 
+$HOME/Desktop/tbx file paper overwrite -path /DROPBOX/PATH/TO/overwrite.paper
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -69,14 +74,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション              | 説明                           | デフォルト |
-|-------------------------|--------------------------------|------------|
-| `-group`                | グループ名                     |            |
-| `-num-links-per-member` | メンバーごとに作成するリンク数 | 5          |
-| `-peer`                 | アカウントの別名               | default    |
-| `-query`                | クエリ                         |            |
-| `-seed`                 | Shared link seed value         | 0          |
-| `-visibility`           | ビジビリティ                   | random     |
+| オプション | 説明                                     | デフォルト |
+|------------|------------------------------------------|------------|
+| `-content` | Paper content                            |            |
+| `-format`  | Import format (html/markdown/plain_text) | markdown   |
+| `-path`    | Path in the user's Dropbox               |            |
+| `-peer`    | Account alias                            | default    |
 
 ## 共通のオプション:
 
@@ -109,22 +112,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: created
 
-このレポートは共有リンクの一覧を出力します. このコマンドはレポートを3種類の書式で出力します. `created.csv`, `created.json`, ならびに `created.xlsx`.
+Create/updated paper data このコマンドはレポートを3種類の書式で出力します. `created.csv`, `created.json`, ならびに `created.xlsx`.
 
-| 列         | 説明                                   |
-|------------|----------------------------------------|
-| id         | ファイルまたはフォルダへのリンクのID   |
-| tag        | エントリーの種別 (file, または folder) |
-| url        | 共有リンクのURL.                       |
-| name       | リンク先ファイル名称                   |
-| expires    | 有効期限 (設定されている場合)          |
-| path_lower | パス (すべて小文字に変換).             |
-| visibility | 共有リンクの開示範囲                   |
+| 列             | 説明           |
+|----------------|----------------|
+| paper_revision | Paper revision |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`,
 ...
+
+# Text inputs
+
+## Text input: Content
+
+Paper content
 
 # ネットワークプロクシの設定
 

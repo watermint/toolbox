@@ -30,6 +30,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |--------------|-------------------------|------------|
 | `-format`    | 時間フォーマット        | iso8601    |
 | `-precision` | 時間精度 (second/ms/ns) | second     |
+| `-time`      | Unix Time               | 0          |
 
 ## 共通のオプション:
 

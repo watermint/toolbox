@@ -107,6 +107,10 @@ DropboxおよびDropbox Business向けのツールセット
 | [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                                                                                                        |
 | [file mount list](doc/generated_ja/file-mount-list.md)                     | マウント/アンマウントされた共有フォルダの一覧                                                                                               |
 | [file move](doc/generated_ja/file-move.md)                                 | ファイルを移動します                                                                                                                        |
+| [file paper append](doc/generated_ja/file-paper-append.md)                 | Append the content to the end of the existing Paper doc                                                                                     |
+| [file paper create](doc/generated_ja/file-paper-create.md)                 | Create new Paper in the path                                                                                                                |
+| [file paper overwrite](doc/generated_ja/file-paper-overwrite.md)           | Overwrite existing Paper document                                                                                                           |
+| [file paper prepend](doc/generated_ja/file-paper-prepend.md)               | Append the content to the beginning of the existing Paper doc                                                                               |
 | [file replication](doc/generated_ja/file-replication.md)                   | ファイルコンテンツを他のアカウントに複製します                                                                                              |
 | [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                                                                                          |
 | [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                                                                                                    |

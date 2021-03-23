@@ -20,7 +20,7 @@ func (z *ValueInt) Spec() (typeName string, typeAttr interface{}) {
 }
 
 func (z *ValueInt) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
-	if t.Kind() == reflect.Int {
+	if t.Kind() == reflect.Int || t.Kind() == reflect.Int64 {
 		return newValueInt()
 	}
 	return nil

@@ -32,6 +32,7 @@ Open" on the dialogue.
 |--------------|-------------------------------|---------|
 | `-format`    | Time format                   | iso8601 |
 | `-precision` | Time precision (second/ms/ns) | second  |
+| `-time`      | Unix Time                     | 0       |
 
 ## Common options:
 
