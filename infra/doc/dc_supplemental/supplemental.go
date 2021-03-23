@@ -7,6 +7,6 @@ var (
 		&PathVariable{},
 		&ExperimentalFeature{},
 		&Troubleshooting{},
-		&DropboxBusiness{},
+		NewDropboxBusiness(),
 	}
 )

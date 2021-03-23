@@ -704,8 +704,6 @@
   "infra.doc.dc_supplemental.experimental_feature_definitions.use_no_cache_dbxfs.desc": "ノンキャッシュのDropboxファイルシステムの使用",
   "infra.doc.dc_supplemental.msg_dropbox_business.member_basic_commands": "基本管理コマンド",
   "infra.doc.dc_supplemental.msg_dropbox_business.member_basic_overview": "以下のコマンドは、チームメンバーのアカウントを管理するためのものです. これらのコマンドは、CSVファイルによる一括処理を行うためのものです.",
-  "infra.doc.dc_supplemental.msg_dropbox_business.member_command_header_desc": "説明",
-  "infra.doc.dc_supplemental.msg_dropbox_business.member_command_header_name": "コマンド",
   "infra.doc.dc_supplemental.msg_dropbox_business.member_info_commands": "情報コマンド",
   "infra.doc.dc_supplemental.msg_dropbox_business.member_info_overview": "以下のコマンドは、チームメンバーの情報を取得するためのものです.",
   "infra.doc.dc_supplemental.msg_dropbox_business.member_title": "メンバー管理コマンド",
