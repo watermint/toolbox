@@ -5,6 +5,7 @@ Decode text from Base32 (RFC 4648) format
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:

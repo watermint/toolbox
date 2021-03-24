@@ -19,17 +19,62 @@ type MsgDropboxBusiness struct {
 	CommandHeaderName app_msg.Message
 	CommandHeaderDesc app_msg.Message
 
-	MemberTitle         app_msg.Message
-	MemberInfoCommands  app_msg.Message
-	MemberInfoOverview  app_msg.Message
-	MemberBasicCommands app_msg.Message
-	MemberBasicOverview app_msg.Message
+	MemberTitle                     app_msg.Message
+	MemberInfoCommands              app_msg.Message
+	MemberInfoOverview              app_msg.Message
+	MemberBasicCommands             app_msg.Message
+	MemberBasicOverview             app_msg.Message
+	MemberQuotaTitle                app_msg.Message
+	MemberQuotaInfo                 app_msg.Message
+	MemberDirectoryRestrictionTitle app_msg.Message
+	MemberDirectoryRestrictionInfo  app_msg.Message
+	MemberProfileTitle              app_msg.Message
+	MemberProfileInfo               app_msg.Message
 
 	GroupTitle       app_msg.Message
 	GroupMgmtTitle   app_msg.Message
 	GroupMgmtInfo    app_msg.Message
+	GroupMemberTitle app_msg.Message
+	GroupMemberInfo  app_msg.Message
 	GroupUnusedTitle app_msg.Message
 	GroupUnusedInfo  app_msg.Message
+
+	ContentTitle                     app_msg.Message
+	ContentInfo                      app_msg.Message
+	ContentAboutNamespace            app_msg.Message
+	ContentNamespaceTitle            app_msg.Message
+	ContentTeamFolderOperationTitle  app_msg.Message
+	ContentTeamFolderOperationInfo   app_msg.Message
+	ContentTeamContentTitle          app_msg.Message
+	ContentTeamContentInfo           app_msg.Message
+	ContentTeamFolderPermissionTitle app_msg.Message
+	ContentTeamFolderPermissionInfo  app_msg.Message
+	ContentFileRequestTitle          app_msg.Message
+
+	ConnectTitle app_msg.Message
+	ConnectInfo  app_msg.Message
+
+	SharedLinkTitle               app_msg.Message
+	SharedLinkInfo                app_msg.Message
+	SharedLinkWithJqListTitle     app_msg.Message
+	SharedLinkWithJqListExample   app_msg.Message
+	SharedLinkWithJqDeleteTitle   app_msg.Message
+	SharedLinkWithJqDeleteExample app_msg.Message
+
+	ActivitiesTitle app_msg.Message
+	ActivitiesInfo  app_msg.Message
+
+	FileLockTitle           app_msg.Message
+	FileLockInfo            app_msg.Message
+	FileLockMemberTitle     app_msg.Message
+	FileLockTeamFolderTitle app_msg.Message
+
+	UsecaseTitle              app_msg.Message
+	UsecaseExternalIdTitle    app_msg.Message
+	UsecaseExternalIdInfo     app_msg.Message
+	UsecaseDataMigrationTitle app_msg.Message
+	UsecaseDataMigrationInfo  app_msg.Message
+	UsecaseTeamInfoTitle      app_msg.Message
 
 	FootnoteTitle app_msg.Message
 	FootnoteInfo  app_msg.Message
@@ -106,6 +151,12 @@ func (z DropboxBusiness) Sections() []dc_section.Section {
 	return []dc_section.Section{
 		&DropboxBusinessMember{cat: z.cat},
 		&DropboxBusinessGroup{cat: z.cat},
+		&DropboxBusinessContent{cat: z.cat},
+		&DropboxBusinessSharedLink{cat: z.cat},
+		&DropboxBusinessFileLock{cat: z.cat},
+		&DropboxBusinessActivities{cat: z.cat},
+		&DropboxBusinessConnect{cat: z.cat},
+		&DropboxBusinessUsecase{cat: z.cat},
 
 		// footnote section must be placed at the end of the doc
 		&DropboxBusinessFootnote{cat: z.cat},
@@ -146,6 +197,28 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 		"member update invisible",
 		"member quota update",
 	})
+
+	ui.SubHeader(MDropboxBusiness.MemberProfileTitle)
+	ui.Info(MDropboxBusiness.MemberProfileInfo)
+	z.cat.RecipeTable("member profile commands", ui, []string{
+		"member update email",
+		"member update profile",
+	})
+
+	ui.SubHeader(MDropboxBusiness.MemberQuotaTitle)
+	ui.Info(MDropboxBusiness.MemberQuotaInfo)
+	z.cat.RecipeTable("member quota control", ui, []string{
+		"member quota list",
+		"member quota usage",
+		"member quota update",
+	})
+
+	ui.SubHeader(MDropboxBusiness.MemberDirectoryRestrictionTitle)
+	ui.Info(MDropboxBusiness.MemberDirectoryRestrictionInfo)
+	z.cat.RecipeTable("directory restriction", ui, []string{
+		"member update visible",
+		"member update invisible",
+	})
 }
 
 type DropboxBusinessGroup struct {
@@ -168,6 +241,18 @@ func (z DropboxBusinessGroup) Body(ui app_ui.UI) {
 		"group rename",
 	})
 
+	ui.SubHeader(MDropboxBusiness.GroupMemberTitle)
+	ui.Info(MDropboxBusiness.GroupMemberInfo)
+
+	z.cat.RecipeTable("group member management", ui, []string{
+		"group member add",
+		"group member delete",
+		"group member list",
+		"group member batch add",
+		"group member batch delete",
+		"group member batch update",
+	})
+
 	ui.SubHeader(MDropboxBusiness.GroupUnusedTitle)
 	ui.Info(MDropboxBusiness.GroupUnusedInfo)
 
@@ -175,6 +260,181 @@ func (z DropboxBusinessGroup) Body(ui app_ui.UI) {
 		"group list",
 		"group folder list",
 		"group batch delete",
+	})
+}
+
+type DropboxBusinessContent struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessContent) Title() app_msg.Message {
+	return MDropboxBusiness.ContentTitle
+}
+
+func (z DropboxBusinessContent) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.ContentInfo)
+	ui.Info(MDropboxBusiness.ContentAboutNamespace)
+
+	ui.SubHeader(MDropboxBusiness.ContentTeamFolderOperationTitle)
+	ui.Info(MDropboxBusiness.ContentTeamFolderOperationInfo)
+	z.cat.RecipeTable("team folder operation", ui, []string{
+		"teamfolder list",
+		"teamfolder policy list",
+		"teamfolder file size",
+		"teamfolder add",
+		"teamfolder archive",
+		"teamfolder permdelete",
+		"teamfolder batch archive",
+		"teamfolder batch permdelete",
+		"teamfolder batch replication",
+	})
+
+	ui.SubHeader(MDropboxBusiness.ContentTeamFolderPermissionTitle)
+	ui.Info(MDropboxBusiness.ContentTeamFolderPermissionInfo)
+	z.cat.RecipeTable("team folder permission", ui, []string{
+		"teamfolder member list",
+		"teamfolder member add",
+		"teamfolder member delete",
+	})
+
+	ui.SubHeader(MDropboxBusiness.ContentTeamContentTitle)
+	ui.Info(MDropboxBusiness.ContentTeamContentInfo)
+	z.cat.RecipeTable("team content", ui, []string{
+		"team content member list",
+		"team content mount list",
+		"team content policy list",
+	})
+
+	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)
+	z.cat.RecipeTable("team namespace", ui, []string{
+		"team namespace list",
+		"team namespace file list",
+		"team namespace file size",
+		"team namespace member list",
+	})
+
+	ui.SubHeader(MDropboxBusiness.ContentFileRequestTitle)
+	z.cat.RecipeTable("team file request", ui, []string{
+		"team filerequest list",
+	})
+}
+
+type DropboxBusinessConnect struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessConnect) Title() app_msg.Message {
+	return MDropboxBusiness.ConnectTitle
+}
+
+func (z DropboxBusinessConnect) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.ConnectInfo)
+	z.cat.RecipeTable("connected applications and devices commands", ui, []string{
+		"team device list",
+		"team device unlink",
+		"team linkedapp list",
+	})
+}
+
+type DropboxBusinessSharedLink struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessSharedLink) Title() app_msg.Message {
+	return MDropboxBusiness.SharedLinkTitle
+}
+
+func (z DropboxBusinessSharedLink) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.SharedLinkInfo)
+	z.cat.RecipeTable("team shared link commands", ui, []string{
+		"team sharedlink list",
+		"team sharedlink update expiry",
+		"team sharedlink update password",
+		"team sharedlink update visibility",
+		"team sharedlink delete links",
+		"team sharedlink delete member",
+	})
+	ui.SubHeader(MDropboxBusiness.SharedLinkWithJqListTitle)
+	ui.Info(MDropboxBusiness.SharedLinkWithJqListExample)
+
+	ui.SubHeader(MDropboxBusiness.SharedLinkWithJqDeleteTitle)
+	ui.Info(MDropboxBusiness.SharedLinkWithJqDeleteExample)
+}
+
+type DropboxBusinessFileLock struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessFileLock) Title() app_msg.Message {
+	return MDropboxBusiness.FileLockTitle
+}
+
+func (z DropboxBusinessFileLock) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.FileLockInfo)
+	ui.SubHeader(MDropboxBusiness.FileLockMemberTitle)
+	z.cat.RecipeTable("member file lock management", ui, []string{
+		"member file lock all release",
+		"member file lock list",
+		"member file lock release",
+	})
+
+	ui.SubHeader(MDropboxBusiness.FileLockTeamFolderTitle)
+	z.cat.RecipeTable("teamfolder file lock management", ui, []string{
+		"teamfolder file list",
+		"teamfolder file lock all release",
+		"teamfolder file lock list",
+		"teamfolder file lock release",
+	})
+}
+
+type DropboxBusinessActivities struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessActivities) Title() app_msg.Message {
+	return MDropboxBusiness.ActivitiesTitle
+}
+
+func (z DropboxBusinessActivities) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.ActivitiesInfo)
+	z.cat.RecipeTable("activities commands", ui, []string{
+		"team activity batch user",
+		"team activity daily event",
+		"team activity event",
+		"team activity user",
+	})
+}
+
+type DropboxBusinessUsecase struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessUsecase) Title() app_msg.Message {
+	return MDropboxBusiness.UsecaseTitle
+}
+
+func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
+	ui.SubHeader(MDropboxBusiness.UsecaseExternalIdTitle)
+	ui.Info(MDropboxBusiness.UsecaseExternalIdInfo)
+	z.cat.RecipeTable("external id commands", ui, []string{
+		"member list",
+		"member clear externalid",
+		"member update externalid",
+	})
+
+	ui.SubHeader(MDropboxBusiness.UsecaseDataMigrationTitle)
+	ui.Info(MDropboxBusiness.UsecaseDataMigrationInfo)
+	z.cat.RecipeTable("data migration commands", ui, []string{
+		"member folder replication",
+		"member replication",
+		"teamfolder partial replication",
+		"teamfolder replication",
+	})
+
+	ui.SubHeader(MDropboxBusiness.UsecaseTeamInfoTitle)
+	z.cat.RecipeTable("information commands", ui, []string{
+		"team feature",
+		"team info",
 	})
 }
 

@@ -56,7 +56,7 @@ func (z mdImpl) Header(m app_msg.Message) {
 }
 
 func (z mdImpl) SubHeader(m app_msg.Message) {
-	_, _ = fmt.Fprintf(z.wr, "## %s\n\n", z.mc.Compile(m))
+	_, _ = fmt.Fprintf(z.wr, "\n## %s\n\n", z.mc.Compile(m))
 }
 
 func (z mdImpl) Info(m app_msg.Message) {

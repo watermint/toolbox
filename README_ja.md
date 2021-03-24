@@ -107,10 +107,10 @@ DropboxおよびDropbox Business向けのツールセット
 | [file merge](doc/generated_ja/file-merge.md)                               | フォルダを統合します                                                                                                                        |
 | [file mount list](doc/generated_ja/file-mount-list.md)                     | マウント/アンマウントされた共有フォルダの一覧                                                                                               |
 | [file move](doc/generated_ja/file-move.md)                                 | ファイルを移動します                                                                                                                        |
-| [file paper append](doc/generated_ja/file-paper-append.md)                 | Append the content to the end of the existing Paper doc                                                                                     |
-| [file paper create](doc/generated_ja/file-paper-create.md)                 | Create new Paper in the path                                                                                                                |
-| [file paper overwrite](doc/generated_ja/file-paper-overwrite.md)           | Overwrite existing Paper document                                                                                                           |
-| [file paper prepend](doc/generated_ja/file-paper-prepend.md)               | Append the content to the beginning of the existing Paper doc                                                                               |
+| [file paper append](doc/generated_ja/file-paper-append.md)                 | 既存のPaperドキュメントの最後にコンテンツを追加する                                                                                         |
+| [file paper create](doc/generated_ja/file-paper-create.md)                 | パスに新しいPaperを作成                                                                                                                     |
+| [file paper overwrite](doc/generated_ja/file-paper-overwrite.md)           | 既存のPaperドキュメントを上書きする                                                                                                         |
+| [file paper prepend](doc/generated_ja/file-paper-prepend.md)               | 既存のPaperドキュメントの先頭にコンテンツを追加する                                                                                         |
 | [file replication](doc/generated_ja/file-replication.md)                   | ファイルコンテンツを他のアカウントに複製します                                                                                              |
 | [file restore](doc/generated_ja/file-restore.md)                           | 指定されたパス以下をリストアします                                                                                                          |
 | [file search content](doc/generated_ja/file-search-content.md)             | ファイルコンテンツを検索                                                                                                                    |
@@ -182,7 +182,6 @@ DropboxおよびDropbox Business向けのツールセット
 | [team content policy list](doc/generated_ja/team-content-policy-list.md)                   | チームフォルダと共有フォルダのポリシー一覧                                             |
 | [team device list](doc/generated_ja/team-device-list.md)                                   | チーム内全てのデバイス/セッションを一覧します                                          |
 | [team device unlink](doc/generated_ja/team-device-unlink.md)                               | デバイスのセッションを解除します                                                       |
-| [team diag explorer](doc/generated_ja/team-diag-explorer.md)                               | チーム全体の情報をレポートします                                                       |
 | [team feature](doc/generated_ja/team-feature.md)                                           | チームの機能を出力します                                                               |
 | [team filerequest list](doc/generated_ja/team-filerequest-list.md)                         | チームないのファイルリクエストを一覧します                                             |
 | [team info](doc/generated_ja/team-info.md)                                                 | チームの情報                                                                           |

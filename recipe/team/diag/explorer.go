@@ -45,6 +45,7 @@ func (z exploreRecipe) exec(c app_control.Control) error {
 }
 
 type Explorer struct {
+	rc_recipe.RemarkSecret
 	Info                          dbx_conn.ConnBusinessInfo
 	File                          dbx_conn.ConnBusinessFile
 	Mgmt                          dbx_conn.ConnBusinessMgmt

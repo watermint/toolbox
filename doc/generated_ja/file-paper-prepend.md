@@ -1,6 +1,6 @@
 # file paper prepend
 
-Append the content to the beginning of the existing Paper doc
+既存のPaperドキュメントの先頭にコンテンツを追加する
 
 # セキュリティ
 
@@ -48,6 +48,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
@@ -69,12 +70,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                     | デフォルト |
-|------------|------------------------------------------|------------|
-| `-content` | Paper content                            |            |
-| `-format`  | Import format (html/markdown/plain_text) | markdown   |
-| `-path`    | Path in the user's Dropbox               |            |
-| `-peer`    | Account alias                            | default    |
+| オプション | 説明                                        | デフォルト |
+|------------|---------------------------------------------|------------|
+| `-content` | Paperのコンテンツ                           |            |
+| `-format`  | 入力フォーマット (html/markdown/plain_text) | markdown   |
+| `-path`    | ユーザーのDropbox内のパス                   |            |
+| `-peer`    | アカウントの別名                            | default    |
 
 ## 共通のオプション:
 
@@ -107,22 +108,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: created
 
-Create/updated paper data このコマンドはレポートを3種類の書式で出力します. `created.csv`, `created.json`, ならびに `created.xlsx`.
+Paperデータの作成・更新 このコマンドはレポートを3種類の書式で出力します. `created.csv`, `created.json`, ならびに `created.xlsx`.
 
-| 列             | 説明           |
-|----------------|----------------|
-| paper_revision | Paper revision |
+| 列             | 説明             |
+|----------------|------------------|
+| paper_revision | Paper リビジョン |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`,
 ...
 
-# Text inputs
+# テキスト入力
 
-## Text input: Content
+## テキスト入力: Content
 
-Paper content
+Paperのコンテンツ
 
 # ネットワークプロクシの設定
 

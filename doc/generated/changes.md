@@ -15,6 +15,7 @@
 # Command spec changed: `config disable`
 
 
+
 ## Command configuration changed
 
 
@@ -32,6 +33,7 @@
 # Command spec changed: `config enable`
 
 
+
 ## Command configuration changed
 
 ```
@@ -46,7 +48,6 @@
   }
 ```
 # Command spec changed: `config features`
-
 
 ## Command configuration changed
 
@@ -63,7 +64,6 @@
 ```
 # Command spec changed: `connect business_audit`
 
-
 ## Command configuration changed
 
 ```
@@ -78,7 +78,6 @@
   }
 ```
 # Command spec changed: `connect business_file`
-
 
 ## Command configuration changed
 
@@ -95,7 +94,6 @@
 ```
 # Command spec changed: `connect business_info`
 
-
 ## Command configuration changed
 
 ```
@@ -110,7 +108,6 @@
   }
 ```
 # Command spec changed: `connect business_mgmt`
-
 
 ## Command configuration changed
 
@@ -127,7 +124,6 @@
 ```
 # Command spec changed: `connect user_file`
 
-
 ## Command configuration changed
 
 ```
@@ -142,7 +138,6 @@
   }
 ```
 # Command spec changed: `dev benchmark local`
-
 
 ## Command configuration changed
 
@@ -159,7 +154,6 @@
 ```
 # Command spec changed: `dev benchmark upload`
 
-
 ## Command configuration changed
 
 ```
@@ -174,7 +168,6 @@
   }
 ```
 # Command spec changed: `dev benchmark uploadlink`
-
 
 ## Command configuration changed
 
@@ -191,7 +184,6 @@
 ```
 # Command spec changed: `dev build catalogue`
 
-
 ## Command configuration changed
 
 ```
@@ -206,7 +198,6 @@
   }
 ```
 # Command spec changed: `dev build doc`
-
 
 ## Command configuration changed
 
@@ -223,7 +214,6 @@
 ```
 # Command spec changed: `dev build license`
 
-
 ## Command configuration changed
 
 ```
@@ -238,7 +228,6 @@
   }
 ```
 # Command spec changed: `dev build preflight`
-
 
 ## Command configuration changed
 
@@ -255,7 +244,6 @@
 ```
 # Command spec changed: `dev build readme`
 
-
 ## Command configuration changed
 
 ```
@@ -270,7 +258,6 @@
   }
 ```
 # Command spec changed: `dev ci artifact connect`
-
 
 ## Command configuration changed
 
@@ -287,7 +274,6 @@
 ```
 # Command spec changed: `dev ci artifact up`
 
-
 ## Command configuration changed
 
 ```
@@ -302,7 +288,6 @@
   }
 ```
 # Command spec changed: `dev ci auth connect`
-
 
 ## Command configuration changed
 
@@ -319,7 +304,6 @@
 ```
 # Command spec changed: `dev ci auth export`
 
-
 ## Command configuration changed
 
 ```
@@ -334,7 +318,6 @@
   }
 ```
 # Command spec changed: `dev ci auth import`
-
 
 ## Command configuration changed
 
@@ -351,7 +334,6 @@
 ```
 # Command spec changed: `dev diag endpoint`
 
-
 ## Command configuration changed
 
 ```
@@ -366,7 +348,6 @@
   }
 ```
 # Command spec changed: `dev diag throughput`
-
 
 ## Command configuration changed
 
@@ -383,7 +364,6 @@
 ```
 # Command spec changed: `dev kvs dump`
 
-
 ## Command configuration changed
 
 ```
@@ -398,7 +378,6 @@
   }
 ```
 # Command spec changed: `dev release candidate`
-
 
 ## Command configuration changed
 
@@ -415,7 +394,6 @@
 ```
 # Command spec changed: `dev release publish`
 
-
 ## Command configuration changed
 
 ```
@@ -430,7 +408,6 @@
   }
 ```
 # Command spec changed: `dev replay approve`
-
 
 ## Command configuration changed
 
@@ -447,7 +424,6 @@
 ```
 # Command spec changed: `dev replay bundle`
 
-
 ## Command configuration changed
 
 ```
@@ -462,7 +438,6 @@
   }
 ```
 # Command spec changed: `dev replay recipe`
-
 
 ## Command configuration changed
 
@@ -479,7 +454,6 @@
 ```
 # Command spec changed: `dev replay remote`
 
-
 ## Command configuration changed
 
 ```
@@ -494,7 +468,6 @@
   }
 ```
 # Command spec changed: `dev spec diff`
-
 
 ## Command configuration changed
 
@@ -535,7 +508,6 @@
 ```
 # Command spec changed: `dev spec doc`
 
-
 ## Command configuration changed
 
 ```
@@ -550,7 +522,6 @@
   }
 ```
 # Command spec changed: `dev stage dbxfs`
-
 
 ## Command configuration changed
 
@@ -567,7 +538,6 @@
 ```
 # Command spec changed: `dev stage gmail`
 
-
 ## Command configuration changed
 
 ```
@@ -582,7 +552,6 @@
   }
 ```
 # Command spec changed: `dev stage griddata`
-
 
 ## Command configuration changed
 
@@ -599,7 +568,6 @@
 ```
 # Command spec changed: `dev stage gui`
 
-
 ## Command configuration changed
 
 ```
@@ -614,7 +582,6 @@
   }
 ```
 # Command spec changed: `dev stage scoped`
-
 
 ## Command configuration changed
 
@@ -631,7 +598,6 @@
 ```
 # Command spec changed: `dev stage teamfolder`
 
-
 ## Command configuration changed
 
 ```
@@ -646,7 +612,6 @@
   }
 ```
 # Command spec changed: `dev stage upload_append`
-
 
 ## Command configuration changed
 
@@ -663,7 +628,6 @@
 ```
 # Command spec changed: `dev test echo`
 
-
 ## Command configuration changed
 
 ```
@@ -678,7 +642,6 @@
   }
 ```
 # Command spec changed: `dev test kvsfootprint`
-
 
 ## Command configuration changed
 
@@ -695,7 +658,6 @@
 ```
 # Command spec changed: `dev test monkey`
 
-
 ## Command configuration changed
 
 ```
@@ -710,7 +672,6 @@
   }
 ```
 # Command spec changed: `dev test recipe`
-
 
 ## Command configuration changed
 
@@ -727,7 +688,6 @@
 ```
 # Command spec changed: `dev test resources`
 
-
 ## Command configuration changed
 
 ```
@@ -742,7 +702,6 @@
   }
 ```
 # Command spec changed: `dev test setup teamsharedlink`
-
 
 ## Command configuration changed
 
@@ -768,7 +727,6 @@
 ```
 # Command spec changed: `dev util anonymise`
 
-
 ## Command configuration changed
 
 ```
@@ -783,7 +741,6 @@
   }
 ```
 # Command spec changed: `dev util curl`
-
 
 ## Command configuration changed
 
@@ -800,7 +757,6 @@
 ```
 # Command spec changed: `dev util image jpeg`
 
-
 ## Command configuration changed
 
 ```
@@ -815,7 +771,6 @@
   }
 ```
 # Command spec changed: `dev util wait`
-
 
 ## Command configuration changed
 
@@ -832,7 +787,6 @@
 ```
 # Command spec changed: `file archive local`
 
-
 ## Command configuration changed
 
 ```
@@ -847,7 +801,6 @@
   }
 ```
 # Command spec changed: `file compare account`
-
 
 ## Command configuration changed
 
@@ -864,7 +817,6 @@
 ```
 # Command spec changed: `file compare local`
 
-
 ## Command configuration changed
 
 ```
@@ -879,7 +831,6 @@
   }
 ```
 # Command spec changed: `file copy`
-
 
 ## Command configuration changed
 
@@ -896,7 +847,6 @@
 ```
 # Command spec changed: `file delete`
 
-
 ## Command configuration changed
 
 ```
@@ -911,7 +861,6 @@
   }
 ```
 # Command spec changed: `file dispatch local`
-
 
 ## Command configuration changed
 
@@ -928,7 +877,6 @@
 ```
 # Command spec changed: `file download`
 
-
 ## Command configuration changed
 
 ```
@@ -943,7 +891,6 @@
   }
 ```
 # Command spec changed: `file export doc`
-
 
 ## Command configuration changed
 
@@ -960,7 +907,6 @@
 ```
 # Command spec changed: `file import batch url`
 
-
 ## Command configuration changed
 
 ```
@@ -975,7 +921,6 @@
   }
 ```
 # Command spec changed: `file import url`
-
 
 ## Command configuration changed
 
@@ -992,7 +937,6 @@
 ```
 # Command spec changed: `file info`
 
-
 ## Command configuration changed
 
 ```
@@ -1007,7 +951,6 @@
   }
 ```
 # Command spec changed: `file list`
-
 
 ## Command configuration changed
 
@@ -1024,7 +967,6 @@
 ```
 # Command spec changed: `file lock acquire`
 
-
 ## Command configuration changed
 
 ```
@@ -1039,7 +981,6 @@
   }
 ```
 # Command spec changed: `file lock all release`
-
 
 ## Command configuration changed
 
@@ -1056,7 +997,6 @@
 ```
 # Command spec changed: `file lock batch acquire`
 
-
 ## Command configuration changed
 
 ```
@@ -1071,7 +1011,6 @@
   }
 ```
 # Command spec changed: `file lock batch release`
-
 
 ## Command configuration changed
 
@@ -1088,7 +1027,6 @@
 ```
 # Command spec changed: `file lock list`
 
-
 ## Command configuration changed
 
 ```
@@ -1103,7 +1041,6 @@
   }
 ```
 # Command spec changed: `file lock release`
-
 
 ## Command configuration changed
 
@@ -1120,7 +1057,6 @@
 ```
 # Command spec changed: `file merge`
 
-
 ## Command configuration changed
 
 ```
@@ -1135,7 +1071,6 @@
   }
 ```
 # Command spec changed: `file mount list`
-
 
 ## Command configuration changed
 
@@ -1152,7 +1087,6 @@
 ```
 # Command spec changed: `file move`
 
-
 ## Command configuration changed
 
 ```
@@ -1167,7 +1101,6 @@
   }
 ```
 # Command spec changed: `file replication`
-
 
 ## Command configuration changed
 
@@ -1184,7 +1117,6 @@
 ```
 # Command spec changed: `file restore`
 
-
 ## Command configuration changed
 
 ```
@@ -1199,7 +1131,6 @@
   }
 ```
 # Command spec changed: `file search content`
-
 
 ## Command configuration changed
 
@@ -1216,7 +1147,6 @@
 ```
 # Command spec changed: `file search name`
 
-
 ## Command configuration changed
 
 ```
@@ -1232,7 +1162,6 @@
 ```
 # Command spec changed: `file size`
 
-
 ## Command configuration changed
 
 ```
@@ -1247,7 +1176,6 @@
   }
 ```
 # Command spec changed: `file sync down`
-
 
 ## Command configuration changed
 
@@ -2753,7 +2681,14 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 9 identical fields
+  	ConnScopes:     {"File": "business_file", "Info": "business_info", "Mgmt": "business_management", "Peer": "business_file"},
+  	Services:       {"dropbox_business"},
+- 	IsSecret:       false,
++ 	IsSecret:       true,
+  	IsConsole:      false,
+  	IsExperimental: false,
+  	... // 5 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3218,7 +3153,46 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	Name:  "add",
+  	Title: "Batch adding users/groups to team folders",
+  	Desc: (
+  		"""
+  		This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
++ 		
++ 		Example:
++ 		
++ 		* Sales (team folder, editor access for the group "Sales")
++ 			* Sydney (viewer access for individual account sydney@example.com)
++ 			* Tokyo (editor access for the group "Tokyo Deal Desk")
++ 				* Monthly (viewer access for individual account success@example.com)
++ 		* Marketing (team folder, editor access for the group "Marketing")
++ 			* Sydney (editor access for the group "Sydney Sales")
++ 			* Tokyo (viewer access for the group "Tokyo Sales")
++ 		
++ 		1. Prepare CSV like below
++ 		
++ 		```
++ 		Sales,,editor,Sales
++ 		Sales,Sydney,editor,sydney@example.com
++ 		Sales,Tokyo,editor,Tokyo Deal Desk
++ 		Sales,Tokyo/Monthly,viewer,success@example.com
++ 		Marketing,,editor,Marketing
++ 		Marketing,Sydney,editor,Sydney Sales
++ 		Marketing,Tokyo,viewer,Tokyo Sales
++ 		```
++ 		
++ 		2. Then run the command like below
++ 		
++ 		```
++ 		tbx teamfolder member add -file /PATH/TO/DATA.csv
++ 		```
++ 		
++ 		Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
+  		"""
+  	),
+  	Remarks: "(Irreversible operation)",
+  	Path:    "teamfolder member add",
+  	... // 14 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,

@@ -15,6 +15,7 @@
 # コマンド仕様の変更: `config disable`
 
 
+
 ## 設定が変更されたコマンド
 
 
@@ -32,6 +33,7 @@
 # コマンド仕様の変更: `config enable`
 
 
+
 ## 設定が変更されたコマンド
 
 ```
@@ -46,7 +48,6 @@
   }
 ```
 # コマンド仕様の変更: `config features`
-
 
 ## 設定が変更されたコマンド
 
@@ -63,7 +64,6 @@
 ```
 # コマンド仕様の変更: `connect business_audit`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -78,7 +78,6 @@
   }
 ```
 # コマンド仕様の変更: `connect business_file`
-
 
 ## 設定が変更されたコマンド
 
@@ -95,7 +94,6 @@
 ```
 # コマンド仕様の変更: `connect business_info`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -110,7 +108,6 @@
   }
 ```
 # コマンド仕様の変更: `connect business_mgmt`
-
 
 ## 設定が変更されたコマンド
 
@@ -127,7 +124,6 @@
 ```
 # コマンド仕様の変更: `connect user_file`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -142,7 +138,6 @@
   }
 ```
 # コマンド仕様の変更: `dev benchmark local`
-
 
 ## 設定が変更されたコマンド
 
@@ -159,7 +154,6 @@
 ```
 # コマンド仕様の変更: `dev benchmark upload`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -174,7 +168,6 @@
   }
 ```
 # コマンド仕様の変更: `dev benchmark uploadlink`
-
 
 ## 設定が変更されたコマンド
 
@@ -191,7 +184,6 @@
 ```
 # コマンド仕様の変更: `dev build catalogue`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -206,7 +198,6 @@
   }
 ```
 # コマンド仕様の変更: `dev build doc`
-
 
 ## 設定が変更されたコマンド
 
@@ -223,7 +214,6 @@
 ```
 # コマンド仕様の変更: `dev build license`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -238,7 +228,6 @@
   }
 ```
 # コマンド仕様の変更: `dev build preflight`
-
 
 ## 設定が変更されたコマンド
 
@@ -255,7 +244,6 @@
 ```
 # コマンド仕様の変更: `dev build readme`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -270,7 +258,6 @@
   }
 ```
 # コマンド仕様の変更: `dev ci artifact connect`
-
 
 ## 設定が変更されたコマンド
 
@@ -287,7 +274,6 @@
 ```
 # コマンド仕様の変更: `dev ci artifact up`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -302,7 +288,6 @@
   }
 ```
 # コマンド仕様の変更: `dev ci auth connect`
-
 
 ## 設定が変更されたコマンド
 
@@ -319,7 +304,6 @@
 ```
 # コマンド仕様の変更: `dev ci auth export`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -334,7 +318,6 @@
   }
 ```
 # コマンド仕様の変更: `dev ci auth import`
-
 
 ## 設定が変更されたコマンド
 
@@ -351,7 +334,6 @@
 ```
 # コマンド仕様の変更: `dev diag endpoint`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -366,7 +348,6 @@
   }
 ```
 # コマンド仕様の変更: `dev diag throughput`
-
 
 ## 設定が変更されたコマンド
 
@@ -383,7 +364,6 @@
 ```
 # コマンド仕様の変更: `dev kvs dump`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -398,7 +378,6 @@
   }
 ```
 # コマンド仕様の変更: `dev release candidate`
-
 
 ## 設定が変更されたコマンド
 
@@ -415,7 +394,6 @@
 ```
 # コマンド仕様の変更: `dev release publish`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -430,7 +408,6 @@
   }
 ```
 # コマンド仕様の変更: `dev replay approve`
-
 
 ## 設定が変更されたコマンド
 
@@ -447,7 +424,6 @@
 ```
 # コマンド仕様の変更: `dev replay bundle`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -462,7 +438,6 @@
   }
 ```
 # コマンド仕様の変更: `dev replay recipe`
-
 
 ## 設定が変更されたコマンド
 
@@ -479,7 +454,6 @@
 ```
 # コマンド仕様の変更: `dev replay remote`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -494,7 +468,6 @@
   }
 ```
 # コマンド仕様の変更: `dev spec diff`
-
 
 ## 設定が変更されたコマンド
 
@@ -535,7 +508,6 @@
 ```
 # コマンド仕様の変更: `dev spec doc`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -550,7 +522,6 @@
   }
 ```
 # コマンド仕様の変更: `dev stage dbxfs`
-
 
 ## 設定が変更されたコマンド
 
@@ -567,7 +538,6 @@
 ```
 # コマンド仕様の変更: `dev stage gmail`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -582,7 +552,6 @@
   }
 ```
 # コマンド仕様の変更: `dev stage griddata`
-
 
 ## 設定が変更されたコマンド
 
@@ -599,7 +568,6 @@
 ```
 # コマンド仕様の変更: `dev stage gui`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -614,7 +582,6 @@
   }
 ```
 # コマンド仕様の変更: `dev stage scoped`
-
 
 ## 設定が変更されたコマンド
 
@@ -631,7 +598,6 @@
 ```
 # コマンド仕様の変更: `dev stage teamfolder`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -646,7 +612,6 @@
   }
 ```
 # コマンド仕様の変更: `dev stage upload_append`
-
 
 ## 設定が変更されたコマンド
 
@@ -663,7 +628,6 @@
 ```
 # コマンド仕様の変更: `dev test echo`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -678,7 +642,6 @@
   }
 ```
 # コマンド仕様の変更: `dev test kvsfootprint`
-
 
 ## 設定が変更されたコマンド
 
@@ -695,7 +658,6 @@
 ```
 # コマンド仕様の変更: `dev test monkey`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -710,7 +672,6 @@
   }
 ```
 # コマンド仕様の変更: `dev test recipe`
-
 
 ## 設定が変更されたコマンド
 
@@ -727,7 +688,6 @@
 ```
 # コマンド仕様の変更: `dev test resources`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -742,7 +702,6 @@
   }
 ```
 # コマンド仕様の変更: `dev test setup teamsharedlink`
-
 
 ## 設定が変更されたコマンド
 
@@ -768,7 +727,6 @@
 ```
 # コマンド仕様の変更: `dev util anonymise`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -783,7 +741,6 @@
   }
 ```
 # コマンド仕様の変更: `dev util curl`
-
 
 ## 設定が変更されたコマンド
 
@@ -800,7 +757,6 @@
 ```
 # コマンド仕様の変更: `dev util image jpeg`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -815,7 +771,6 @@
   }
 ```
 # コマンド仕様の変更: `dev util wait`
-
 
 ## 設定が変更されたコマンド
 
@@ -832,7 +787,6 @@
 ```
 # コマンド仕様の変更: `file archive local`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -847,7 +801,6 @@
   }
 ```
 # コマンド仕様の変更: `file compare account`
-
 
 ## 設定が変更されたコマンド
 
@@ -864,7 +817,6 @@
 ```
 # コマンド仕様の変更: `file compare local`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -879,7 +831,6 @@
   }
 ```
 # コマンド仕様の変更: `file copy`
-
 
 ## 設定が変更されたコマンド
 
@@ -896,7 +847,6 @@
 ```
 # コマンド仕様の変更: `file delete`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -911,7 +861,6 @@
   }
 ```
 # コマンド仕様の変更: `file dispatch local`
-
 
 ## 設定が変更されたコマンド
 
@@ -928,7 +877,6 @@
 ```
 # コマンド仕様の変更: `file download`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -943,7 +891,6 @@
   }
 ```
 # コマンド仕様の変更: `file export doc`
-
 
 ## 設定が変更されたコマンド
 
@@ -960,7 +907,6 @@
 ```
 # コマンド仕様の変更: `file import batch url`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -975,7 +921,6 @@
   }
 ```
 # コマンド仕様の変更: `file import url`
-
 
 ## 設定が変更されたコマンド
 
@@ -992,7 +937,6 @@
 ```
 # コマンド仕様の変更: `file info`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1007,7 +951,6 @@
   }
 ```
 # コマンド仕様の変更: `file list`
-
 
 ## 設定が変更されたコマンド
 
@@ -1024,7 +967,6 @@
 ```
 # コマンド仕様の変更: `file lock acquire`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1039,7 +981,6 @@
   }
 ```
 # コマンド仕様の変更: `file lock all release`
-
 
 ## 設定が変更されたコマンド
 
@@ -1056,7 +997,6 @@
 ```
 # コマンド仕様の変更: `file lock batch acquire`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1071,7 +1011,6 @@
   }
 ```
 # コマンド仕様の変更: `file lock batch release`
-
 
 ## 設定が変更されたコマンド
 
@@ -1088,7 +1027,6 @@
 ```
 # コマンド仕様の変更: `file lock list`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1103,7 +1041,6 @@
   }
 ```
 # コマンド仕様の変更: `file lock release`
-
 
 ## 設定が変更されたコマンド
 
@@ -1120,7 +1057,6 @@
 ```
 # コマンド仕様の変更: `file merge`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1135,7 +1071,6 @@
   }
 ```
 # コマンド仕様の変更: `file mount list`
-
 
 ## 設定が変更されたコマンド
 
@@ -1152,7 +1087,6 @@
 ```
 # コマンド仕様の変更: `file move`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1167,7 +1101,6 @@
   }
 ```
 # コマンド仕様の変更: `file replication`
-
 
 ## 設定が変更されたコマンド
 
@@ -1184,7 +1117,6 @@
 ```
 # コマンド仕様の変更: `file restore`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1199,7 +1131,6 @@
   }
 ```
 # コマンド仕様の変更: `file search content`
-
 
 ## 設定が変更されたコマンド
 
@@ -1216,7 +1147,6 @@
 ```
 # コマンド仕様の変更: `file search name`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1232,7 +1162,6 @@
 ```
 # コマンド仕様の変更: `file size`
 
-
 ## 設定が変更されたコマンド
 
 ```
@@ -1247,7 +1176,6 @@
   }
 ```
 # コマンド仕様の変更: `file sync down`
-
 
 ## 設定が変更されたコマンド
 
@@ -2753,7 +2681,14 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 9 identical fields
+  	ConnScopes:     {"File": "business_file", "Info": "business_info", "Mgmt": "business_management", "Peer": "business_file"},
+  	Services:       {"dropbox_business"},
+- 	IsSecret:       false,
++ 	IsSecret:       true,
+  	IsConsole:      false,
+  	IsExperimental: false,
+  	... // 5 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3218,7 +3153,46 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	Name:  "add",
+  	Title: "Batch adding users/groups to team folders",
+  	Desc: (
+  		"""
+  		This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
++ 		
++ 		Example:
++ 		
++ 		* Sales (team folder, editor access for the group "Sales")
++ 			* Sydney (viewer access for individual account sydney@example.com)
++ 			* Tokyo (editor access for the group "Tokyo Deal Desk")
++ 				* Monthly (viewer access for individual account success@example.com)
++ 		* Marketing (team folder, editor access for the group "Marketing")
++ 			* Sydney (editor access for the group "Sydney Sales")
++ 			* Tokyo (viewer access for the group "Tokyo Sales")
++ 		
++ 		1. Prepare CSV like below
++ 		
++ 		```
++ 		Sales,,editor,Sales
++ 		Sales,Sydney,editor,sydney@example.com
++ 		Sales,Tokyo,editor,Tokyo Deal Desk
++ 		Sales,Tokyo/Monthly,viewer,success@example.com
++ 		Marketing,,editor,Marketing
++ 		Marketing,Sydney,editor,Sydney Sales
++ 		Marketing,Tokyo,viewer,Tokyo Sales
++ 		```
++ 		
++ 		2. Then run the command like below
++ 		
++ 		```
++ 		tbx teamfolder member add -file /PATH/TO/DATA.csv
++ 		```
++ 		
++ 		Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
+  		"""
+  	),
+  	Remarks: "(Irreversible operation)",
+  	Path:    "teamfolder member add",
+  	... // 14 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,

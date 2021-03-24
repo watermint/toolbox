@@ -184,7 +184,6 @@ Available commands:
 | [team content policy list](doc/generated/team-content-policy-list.md)                   | List policies of team folders and shared folders in the team  |
 | [team device list](doc/generated/team-device-list.md)                                   | List all devices/sessions in the team                         |
 | [team device unlink](doc/generated/team-device-unlink.md)                               | Unlink device sessions                                        |
-| [team diag explorer](doc/generated/team-diag-explorer.md)                               | Report whole team information                                 |
 | [team feature](doc/generated/team-feature.md)                                           | Team feature                                                  |
 | [team filerequest list](doc/generated/team-filerequest-list.md)                         | List all file requests in the team                            |
 | [team info](doc/generated/team-info.md)                                                 | Team information                                              |

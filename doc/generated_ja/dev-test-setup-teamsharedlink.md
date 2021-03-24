@@ -48,6 +48,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:
@@ -75,7 +76,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-num-links-per-member` | メンバーごとに作成するリンク数 | 5          |
 | `-peer`                 | アカウントの別名               | default    |
 | `-query`                | クエリ                         |            |
-| `-seed`                 | Shared link seed value         | 0          |
+| `-seed`                 | シェアードリンクのシード値     | 0          |
 | `-visibility`           | ビジビリティ                   | random     |
 
 ## 共通のオプション:

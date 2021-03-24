@@ -5,6 +5,7 @@ Retrieve logs of specified Job ID
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:

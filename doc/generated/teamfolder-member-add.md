@@ -7,6 +7,37 @@ not (2) change access inheritance setting of any folders, (3) create a group if 
 to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to
 keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
 
+Example:
+
+* Sales (team folder, editor access for the group "Sales")
+	* Sydney (viewer access for individual account sydney@example.com)
+	* Tokyo (editor access for the group "Tokyo Deal Desk")
+		* Monthly (viewer access for individual account success@example.com)
+* Marketing (team folder, editor access for the group "Marketing")
+	* Sydney (editor access for the group "Sydney Sales")
+	* Tokyo (viewer access for the group "Tokyo Sales")
+
+1. Prepare CSV like below
+
+```
+Sales,,editor,Sales
+Sales,Sydney,editor,sydney@example.com
+Sales,Tokyo,editor,Tokyo Deal Desk
+Sales,Tokyo/Monthly,viewer,success@example.com
+Marketing,,editor,Marketing
+Marketing,Sydney,editor,Sydney Sales
+Marketing,Tokyo,viewer,Tokyo Sales
+```
+
+2. Then run the command like below
+
+```
+tbx teamfolder member add -file /PATH/TO/DATA.csv
+```
+
+Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must
+exist before run this command.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -54,6 +85,7 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
