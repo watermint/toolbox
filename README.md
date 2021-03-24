@@ -83,6 +83,10 @@ Available commands:
 
 ```
 
+# Dropbox Business commands
+
+Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_business.md) manual for more detail.
+
 # Commands
 
 ## Dropbox (Individual account)
@@ -309,4 +313,13 @@ Available commands:
 | [util xlsx sheet import](doc/generated/util-xlsx-sheet-import.md) | Import data into xlsx file                                           |
 | [util xlsx sheet list](doc/generated/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                         |
 | [version](doc/generated/version.md)                               | Show version                                                         |
+
+# Supplemental documents
+
+| Supplemental document                                                                                   | Content overview                 |
+|---------------------------------------------------------------------------------------------------------|----------------------------------|
+| [doc/generated/supplemental_path_variables](doc/generated/supplemental_path_variables.md)               | Path variable manual             |
+| [doc/generated/supplemental_experimental_features](doc/generated/supplemental_experimental_features.md) | Experimental feature manual      |
+| [doc/generated/supplemental_troubleshooting](doc/generated/supplemental_troubleshooting.md)             | Troubleshooting manual           |
+| [doc/generated/supplemental_dropbox_business](doc/generated/supplemental_dropbox_business.md)           | Dropbox Business commands manual |
 

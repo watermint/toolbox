@@ -8,7 +8,8 @@ import (
 )
 
 type MsgTroubleshooting struct {
-	Title app_msg.Message
+	DocDesc app_msg.Message
+	Title   app_msg.Message
 
 	NetworkTitle      app_msg.Message
 	NetworkOverview   app_msg.Message
@@ -42,6 +43,10 @@ var (
 )
 
 type Troubleshooting struct {
+}
+
+func (z Troubleshooting) DocDesc() app_msg.Message {
+	return MTroubleshooting.DocDesc
 }
 
 func (z Troubleshooting) DocId() dc_index.DocId {

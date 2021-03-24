@@ -10,6 +10,7 @@ import (
 )
 
 type MsgPathVariable struct {
+	DocDesc     app_msg.Message
 	Title       app_msg.Message
 	Overview    app_msg.Message
 	VarVariable app_msg.Message
@@ -21,6 +22,10 @@ var (
 )
 
 type PathVariable struct {
+}
+
+func (z PathVariable) DocDesc() app_msg.Message {
+	return MPathVariable.DocDesc
 }
 
 func (z PathVariable) DocId() dc_index.DocId {

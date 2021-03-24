@@ -13,6 +13,7 @@ import (
 )
 
 type MsgDropboxBusiness struct {
+	DocDesc  app_msg.Message
 	Title    app_msg.Message
 	Overview app_msg.Message
 
@@ -141,6 +142,10 @@ func NewDropboxBusiness() dc_section.Document {
 
 type DropboxBusiness struct {
 	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusiness) DocDesc() app_msg.Message {
+	return MDropboxBusiness.DocDesc
 }
 
 func (z DropboxBusiness) DocId() dc_index.DocId {
