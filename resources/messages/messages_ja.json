@@ -594,7 +594,6 @@
   "infra.control.app_opt.common_opts.flag.workspace": "ワークスペースへのパス",
   "infra.data.da_griddata.msg_grid_data_input.error_unable_to_read": "ファイル `{{.Path}}` が読み取れませんでした: {{.Error}}",
   "infra.data.da_json.msg_json_input.warn_unable_parse_the_line_skip": "WARN: エラー {{.Error}} のため、行 {{.Line}} を解析できませんでした.",
-  "infra.doc.dc_command.auth.desc": "最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.",
   "infra.doc.dc_command.auth.header": "認可",
   "infra.doc.dc_command.doc_grid_data_input.header": "コマンドのグリッドデータ入力",
   "infra.doc.dc_command.doc_grid_data_input.header_grid_data": "グリッドデータの入力: {{.GridData}}",

@@ -98,6 +98,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file delete](doc/generated_ja/file-delete.md)                             | ファイルまたはフォルダは削除します.                                |
 | [file download](doc/generated_ja/file-download.md)                         | Dropboxからファイルをダウンロードします                            |
 | [file export doc](doc/generated_ja/file-export-doc.md)                     | ドキュメントのエクスポート                                         |
+| [file export url](doc/generated_ja/file-export-url.md)                     | Export a document from the URL                                     |
 | [file import batch url](doc/generated_ja/file-import-batch-url.md)         | URLからファイルを一括インポートします                              |
 | [file import url](doc/generated_ja/file-import-url.md)                     | URLからファイルをインポートします                                  |
 | [file info](doc/generated_ja/file-info.md)                                 | パスのメタデータを解決                                             |
@@ -134,6 +135,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [sharedlink create](doc/generated_ja/sharedlink-create.md)                 | 共有リンクの作成                                                   |
 | [sharedlink delete](doc/generated_ja/sharedlink-delete.md)                 | 共有リンクを削除します                                             |
 | [sharedlink file list](doc/generated_ja/sharedlink-file-list.md)           | 共有リンクのファイルを一覧する                                     |
+| [sharedlink info](doc/generated_ja/sharedlink-info.md)                     | Get information about the shared link                              |
 | [sharedlink list](doc/generated_ja/sharedlink-list.md)                     | 共有リンクの一覧                                                   |
 
 ## Dropbox Business

@@ -16,9 +16,9 @@ func NewAuth(spec rc_recipe.Spec) dc_section.Section {
 }
 
 type Auth struct {
-	spec   rc_recipe.Spec
-	Header app_msg.Message
-	Desc   app_msg.Message
+	spec           rc_recipe.Spec
+	Header         app_msg.Message
+	ManualAuthDesc app_msg.Message
 }
 
 func (z Auth) Title() app_msg.Message {
@@ -31,6 +31,6 @@ func (z Auth) Body(ui app_ui.UI) {
 		cui.Info(api_auth_impl.MApiAuth.OauthSeq1.With("Url", "https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx"))
 		cui.Info(api_auth_impl.MApiAuth.OauthSeq2)
 	})
-	ui.Info(z.Desc)
+	ui.Info(z.ManualAuthDesc.With("Service", "Dropbox"))
 	ui.Code(demo)
 }

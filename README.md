@@ -100,6 +100,7 @@ Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_busine
 | [file delete](doc/generated/file-delete.md)                             | Delete file or folder                                         |
 | [file download](doc/generated/file-download.md)                         | Download a file from Dropbox                                  |
 | [file export doc](doc/generated/file-export-doc.md)                     | Export document                                               |
+| [file export url](doc/generated/file-export-url.md)                     | Export a document from the URL                                |
 | [file import batch url](doc/generated/file-import-batch-url.md)         | Batch import files from URL                                   |
 | [file import url](doc/generated/file-import-url.md)                     | Import file from the URL                                      |
 | [file info](doc/generated/file-info.md)                                 | Resolve metadata of the path                                  |
@@ -136,6 +137,7 @@ Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_busine
 | [sharedlink create](doc/generated/sharedlink-create.md)                 | Create shared link                                            |
 | [sharedlink delete](doc/generated/sharedlink-delete.md)                 | Remove shared links                                           |
 | [sharedlink file list](doc/generated/sharedlink-file-list.md)           | List files for the shared link                                |
+| [sharedlink info](doc/generated/sharedlink-info.md)                     | Get information about the shared link                         |
 | [sharedlink list](doc/generated/sharedlink-list.md)                     | List of shared link(s)                                        |
 
 ## Dropbox Business
