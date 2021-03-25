@@ -138,6 +138,7 @@ func (z *Gui) Exec(c app_control.Control) error {
 			UserAgent: sessionAgent,
 		},
 	})
+
 	if err := w.Create(); err != nil {
 		return err
 	}

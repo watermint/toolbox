@@ -36,6 +36,7 @@
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 19 identical fields
@@ -52,6 +53,7 @@
 
 
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -1858,7 +1860,34 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 5 identical fields
+  	CliArgs:         "-path /DROPBOX/PATH/TO/PERM_DELETE",
+  	CliNote:         "",
+- 	ConnUsePersonal: true,
++ 	ConnUsePersonal: false,
+- 	ConnUseBusiness: false,
++ 	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "MemberEmail", Desc: "Team member email address", TypeName: "string"},
+  		&{Name: "Path", Desc: "Path to delete", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+  			Default:  "default",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []interface{}{string("files.permanent_delete"), string("team_data.member"), string("members.read")},
+  		},
+  	},
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2833,8 +2862,16 @@
 
 ```
   &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     {"File": "business_file", "Info": "business_info", "Mgmt": "business_management", "Peer": "business_file"},
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"File": "business_file",
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
+- 		"Peer": "business_file",
++ 		"Peer": "business_management",
+  	},
   	Services:       {"dropbox_business"},
 - 	IsSecret:       false,
 + 	IsSecret:       true,

@@ -16,7 +16,7 @@
     * Sydney (グループ "Sydney Sales" の編集者アクセス)
     * Tokyo (グループ "Tokyo Sales "のビューアアクセス)
 
-1. Prepare CSV like below
+1. 次のようなCSVファイルを準備します
 
 ```
 Sales,,editor,Sales

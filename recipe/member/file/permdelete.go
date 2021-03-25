@@ -17,7 +17,7 @@ import (
 type Permdelete struct {
 	rc_recipe.RemarkIrreversible
 	rc_recipe.RemarkExperimental
-	Peer                dbx_conn.ConnScopedIndividual
+	Peer                dbx_conn.ConnScopedTeam
 	Path                mo_path.DropboxPath
 	MemberEmail         string
 	ProgressMemberFound app_msg.Message

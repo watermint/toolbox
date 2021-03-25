@@ -51,6 +51,7 @@ type MsgDropboxBusiness struct {
 	ContentTeamFolderPermissionTitle app_msg.Message
 	ContentTeamFolderPermissionInfo  app_msg.Message
 	ContentFileRequestTitle          app_msg.Message
+	ContentMemberFileTitle           app_msg.Message
 
 	ConnectTitle app_msg.Message
 	ConnectInfo  app_msg.Message
@@ -321,6 +322,11 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.ContentFileRequestTitle)
 	z.cat.RecipeTable("team file request", ui, []string{
 		"team filerequest list",
+	})
+
+	ui.SubHeader(MDropboxBusiness.ContentMemberFileTitle)
+	z.cat.RecipeTable("member file commands", ui, []string{
+		"member file permdelete",
 	})
 }
 

@@ -167,6 +167,12 @@ folder to his/her Dropbox account.
 |---------------------------------------------------|------------------------------------|
 | [team filerequest list](team-filerequest-list.md) | List all file requests in the team |
 
+## Member file commands
+
+| Command                                             | Description                                                                                                                                                    |
+|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [member file permdelete](member-file-permdelete.md) | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
+
 # Team shared link commands
 
 The team shared link commands are capable of listing all shared links in the team or update/delete specified shared

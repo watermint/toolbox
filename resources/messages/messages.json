@@ -723,6 +723,7 @@
   "infra.doc.dc_supplemental.msg_dropbox_business.content_about_namespace": "The namespace is the term in Dropbox API that is for manage folder permissions or settings. Folder types such as shared folders, team folders, or nested folder in a team folder, member's root folder or member's app folder are all managed as a namespace.\nThe namespace commands can handle all types of folders, including team folders and member's folder. But commands for specific folder types have more features or detailed information in the report.",
   "infra.doc.dc_supplemental.msg_dropbox_business.content_file_request_title": "Team file request commands",
   "infra.doc.dc_supplemental.msg_dropbox_business.content_info": "Admins' can handle team folders, shared folders or member's folder content thru Dropbox Business API. Please be careful to use those commands.",
+  "infra.doc.dc_supplemental.msg_dropbox_business.content_member_file_title": "Member file commands",
   "infra.doc.dc_supplemental.msg_dropbox_business.content_namespace_title": "Namespace commands",
   "infra.doc.dc_supplemental.msg_dropbox_business.content_team_content_info": "The below commands are for both team folders and shared folders of the team.\nIf you wanted to know who are actually uses specific folders, please consider using the command `team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.",
   "infra.doc.dc_supplemental.msg_dropbox_business.content_team_content_title": "Team folder & shared folder commands",

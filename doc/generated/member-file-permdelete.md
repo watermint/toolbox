@@ -16,13 +16,13 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
 
-| Label                     | Description                       |
-|---------------------------|-----------------------------------|
-| dropbox_scoped_individual | Dropbox Individual account access |
+| Label               | Description         |
+|---------------------|---------------------|
+| dropbox_scoped_team | Dropbox team access |
 
 # Authorization
 

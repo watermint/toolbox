@@ -91,135 +91,135 @@ Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_busine
 
 ## Dropbox (Individual account)
 
-| Command                                                                 | Description                                                                                                                                                    |
-|-------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [connect user_file](doc/generated/connect-user_file.md)                 | Connect to user file access                                                                                                                                    |
-| [file compare account](doc/generated/file-compare-account.md)           | Compare files of two accounts                                                                                                                                  |
-| [file compare local](doc/generated/file-compare-local.md)               | Compare local folders and Dropbox folders                                                                                                                      |
-| [file copy](doc/generated/file-copy.md)                                 | Copy files                                                                                                                                                     |
-| [file delete](doc/generated/file-delete.md)                             | Delete file or folder                                                                                                                                          |
-| [file download](doc/generated/file-download.md)                         | Download a file from Dropbox                                                                                                                                   |
-| [file export doc](doc/generated/file-export-doc.md)                     | Export document                                                                                                                                                |
-| [file import batch url](doc/generated/file-import-batch-url.md)         | Batch import files from URL                                                                                                                                    |
-| [file import url](doc/generated/file-import-url.md)                     | Import file from the URL                                                                                                                                       |
-| [file info](doc/generated/file-info.md)                                 | Resolve metadata of the path                                                                                                                                   |
-| [file list](doc/generated/file-list.md)                                 | List files and folders                                                                                                                                         |
-| [file lock acquire](doc/generated/file-lock-acquire.md)                 | Lock a file                                                                                                                                                    |
-| [file lock all release](doc/generated/file-lock-all-release.md)         | Release all locks under the specified path                                                                                                                     |
-| [file lock batch acquire](doc/generated/file-lock-batch-acquire.md)     | Lock multiple files                                                                                                                                            |
-| [file lock batch release](doc/generated/file-lock-batch-release.md)     | Release multiple locks                                                                                                                                         |
-| [file lock list](doc/generated/file-lock-list.md)                       | List locks under the specified path                                                                                                                            |
-| [file lock release](doc/generated/file-lock-release.md)                 | Release a lock                                                                                                                                                 |
-| [file merge](doc/generated/file-merge.md)                               | Merge paths                                                                                                                                                    |
-| [file mount list](doc/generated/file-mount-list.md)                     | List mounted/unmounted shared folders                                                                                                                          |
-| [file move](doc/generated/file-move.md)                                 | Move files                                                                                                                                                     |
-| [file paper append](doc/generated/file-paper-append.md)                 | Append the content to the end of the existing Paper doc                                                                                                        |
-| [file paper create](doc/generated/file-paper-create.md)                 | Create new Paper in the path                                                                                                                                   |
-| [file paper overwrite](doc/generated/file-paper-overwrite.md)           | Overwrite existing Paper document                                                                                                                              |
-| [file paper prepend](doc/generated/file-paper-prepend.md)               | Append the content to the beginning of the existing Paper doc                                                                                                  |
-| [file replication](doc/generated/file-replication.md)                   | Replicate file content to the other account                                                                                                                    |
-| [file restore](doc/generated/file-restore.md)                           | Restore files under given path                                                                                                                                 |
-| [file search content](doc/generated/file-search-content.md)             | Search file content                                                                                                                                            |
-| [file search name](doc/generated/file-search-name.md)                   | Search file name                                                                                                                                               |
-| [file size](doc/generated/file-size.md)                                 | Storage usage                                                                                                                                                  |
-| [file sync down](doc/generated/file-sync-down.md)                       | Downstream sync with Dropbox                                                                                                                                   |
-| [file sync online](doc/generated/file-sync-online.md)                   | Sync online files                                                                                                                                              |
-| [file sync up](doc/generated/file-sync-up.md)                           | Upstream sync with Dropbox                                                                                                                                     |
-| [file watch](doc/generated/file-watch.md)                               | Watch file activities                                                                                                                                          |
-| [filerequest create](doc/generated/filerequest-create.md)               | Create a file request                                                                                                                                          |
-| [filerequest delete closed](doc/generated/filerequest-delete-closed.md) | Delete all closed file requests on this account.                                                                                                               |
-| [filerequest delete url](doc/generated/filerequest-delete-url.md)       | Delete a file request by the file request URL                                                                                                                  |
-| [filerequest list](doc/generated/filerequest-list.md)                   | List file requests of the individual account                                                                                                                   |
-| [job history ship](doc/generated/job-history-ship.md)                   | Ship Job logs to Dropbox path                                                                                                                                  |
-| [member file permdelete](doc/generated/member-file-permdelete.md)       | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
-| [sharedfolder list](doc/generated/sharedfolder-list.md)                 | List shared folder(s)                                                                                                                                          |
-| [sharedfolder member list](doc/generated/sharedfolder-member-list.md)   | List shared folder member(s)                                                                                                                                   |
-| [sharedlink create](doc/generated/sharedlink-create.md)                 | Create shared link                                                                                                                                             |
-| [sharedlink delete](doc/generated/sharedlink-delete.md)                 | Remove shared links                                                                                                                                            |
-| [sharedlink file list](doc/generated/sharedlink-file-list.md)           | List files for the shared link                                                                                                                                 |
-| [sharedlink list](doc/generated/sharedlink-list.md)                     | List of shared link(s)                                                                                                                                         |
+| Command                                                                 | Description                                                   |
+|-------------------------------------------------------------------------|---------------------------------------------------------------|
+| [connect user_file](doc/generated/connect-user_file.md)                 | Connect to user file access                                   |
+| [file compare account](doc/generated/file-compare-account.md)           | Compare files of two accounts                                 |
+| [file compare local](doc/generated/file-compare-local.md)               | Compare local folders and Dropbox folders                     |
+| [file copy](doc/generated/file-copy.md)                                 | Copy files                                                    |
+| [file delete](doc/generated/file-delete.md)                             | Delete file or folder                                         |
+| [file download](doc/generated/file-download.md)                         | Download a file from Dropbox                                  |
+| [file export doc](doc/generated/file-export-doc.md)                     | Export document                                               |
+| [file import batch url](doc/generated/file-import-batch-url.md)         | Batch import files from URL                                   |
+| [file import url](doc/generated/file-import-url.md)                     | Import file from the URL                                      |
+| [file info](doc/generated/file-info.md)                                 | Resolve metadata of the path                                  |
+| [file list](doc/generated/file-list.md)                                 | List files and folders                                        |
+| [file lock acquire](doc/generated/file-lock-acquire.md)                 | Lock a file                                                   |
+| [file lock all release](doc/generated/file-lock-all-release.md)         | Release all locks under the specified path                    |
+| [file lock batch acquire](doc/generated/file-lock-batch-acquire.md)     | Lock multiple files                                           |
+| [file lock batch release](doc/generated/file-lock-batch-release.md)     | Release multiple locks                                        |
+| [file lock list](doc/generated/file-lock-list.md)                       | List locks under the specified path                           |
+| [file lock release](doc/generated/file-lock-release.md)                 | Release a lock                                                |
+| [file merge](doc/generated/file-merge.md)                               | Merge paths                                                   |
+| [file mount list](doc/generated/file-mount-list.md)                     | List mounted/unmounted shared folders                         |
+| [file move](doc/generated/file-move.md)                                 | Move files                                                    |
+| [file paper append](doc/generated/file-paper-append.md)                 | Append the content to the end of the existing Paper doc       |
+| [file paper create](doc/generated/file-paper-create.md)                 | Create new Paper in the path                                  |
+| [file paper overwrite](doc/generated/file-paper-overwrite.md)           | Overwrite existing Paper document                             |
+| [file paper prepend](doc/generated/file-paper-prepend.md)               | Append the content to the beginning of the existing Paper doc |
+| [file replication](doc/generated/file-replication.md)                   | Replicate file content to the other account                   |
+| [file restore](doc/generated/file-restore.md)                           | Restore files under given path                                |
+| [file search content](doc/generated/file-search-content.md)             | Search file content                                           |
+| [file search name](doc/generated/file-search-name.md)                   | Search file name                                              |
+| [file size](doc/generated/file-size.md)                                 | Storage usage                                                 |
+| [file sync down](doc/generated/file-sync-down.md)                       | Downstream sync with Dropbox                                  |
+| [file sync online](doc/generated/file-sync-online.md)                   | Sync online files                                             |
+| [file sync up](doc/generated/file-sync-up.md)                           | Upstream sync with Dropbox                                    |
+| [file watch](doc/generated/file-watch.md)                               | Watch file activities                                         |
+| [filerequest create](doc/generated/filerequest-create.md)               | Create a file request                                         |
+| [filerequest delete closed](doc/generated/filerequest-delete-closed.md) | Delete all closed file requests on this account.              |
+| [filerequest delete url](doc/generated/filerequest-delete-url.md)       | Delete a file request by the file request URL                 |
+| [filerequest list](doc/generated/filerequest-list.md)                   | List file requests of the individual account                  |
+| [job history ship](doc/generated/job-history-ship.md)                   | Ship Job logs to Dropbox path                                 |
+| [sharedfolder list](doc/generated/sharedfolder-list.md)                 | List shared folder(s)                                         |
+| [sharedfolder member list](doc/generated/sharedfolder-member-list.md)   | List shared folder member(s)                                  |
+| [sharedlink create](doc/generated/sharedlink-create.md)                 | Create shared link                                            |
+| [sharedlink delete](doc/generated/sharedlink-delete.md)                 | Remove shared links                                           |
+| [sharedlink file list](doc/generated/sharedlink-file-list.md)           | List files for the shared link                                |
+| [sharedlink list](doc/generated/sharedlink-list.md)                     | List of shared link(s)                                        |
 
 ## Dropbox Business
 
-| Command                                                                                 | Description                                                   |
-|-----------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [connect business_audit](doc/generated/connect-business_audit.md)                       | Connect to the team audit access                              |
-| [connect business_file](doc/generated/connect-business_file.md)                         | Connect to the team file access                               |
-| [connect business_info](doc/generated/connect-business_info.md)                         | Connect to the team info access                               |
-| [connect business_mgmt](doc/generated/connect-business_mgmt.md)                         | Connect to the team management access                         |
-| [group add](doc/generated/group-add.md)                                                 | Create new group                                              |
-| [group batch delete](doc/generated/group-batch-delete.md)                               | Delete groups                                                 |
-| [group delete](doc/generated/group-delete.md)                                           | Delete group                                                  |
-| [group folder list](doc/generated/group-folder-list.md)                                 | Find folders of each group                                    |
-| [group list](doc/generated/group-list.md)                                               | List group(s)                                                 |
-| [group member add](doc/generated/group-member-add.md)                                   | Add a member to the group                                     |
-| [group member batch add](doc/generated/group-member-batch-add.md)                       | Bulk add members into groups                                  |
-| [group member batch delete](doc/generated/group-member-batch-delete.md)                 | Delete members from groups                                    |
-| [group member batch update](doc/generated/group-member-batch-update.md)                 | Add or delete members from groups                             |
-| [group member delete](doc/generated/group-member-delete.md)                             | Delete a member from the group                                |
-| [group member list](doc/generated/group-member-list.md)                                 | List members of groups                                        |
-| [group rename](doc/generated/group-rename.md)                                           | Rename the group                                              |
-| [member clear externalid](doc/generated/member-clear-externalid.md)                     | Clear external_id of members                                  |
-| [member delete](doc/generated/member-delete.md)                                         | Delete members                                                |
-| [member detach](doc/generated/member-detach.md)                                         | Convert Dropbox Business accounts to a Basic account          |
-| [member file lock all release](doc/generated/member-file-lock-all-release.md)           | Release all locks under the path of the member                |
-| [member file lock list](doc/generated/member-file-lock-list.md)                         | List locks of the member under the path                       |
-| [member file lock release](doc/generated/member-file-lock-release.md)                   | Release the lock of the path as the member                    |
-| [member folder list](doc/generated/member-folder-list.md)                               | Find folders for each member                                  |
-| [member folder replication](doc/generated/member-folder-replication.md)                 | Replicate a folder to another member's personal folder        |
-| [member invite](doc/generated/member-invite.md)                                         | Invite member(s)                                              |
-| [member list](doc/generated/member-list.md)                                             | List team member(s)                                           |
-| [member quota list](doc/generated/member-quota-list.md)                                 | List team member quota                                        |
-| [member quota update](doc/generated/member-quota-update.md)                             | Update team member quota                                      |
-| [member quota usage](doc/generated/member-quota-usage.md)                               | List team member storage usage                                |
-| [member reinvite](doc/generated/member-reinvite.md)                                     | Reinvite invited status members to the team                   |
-| [member replication](doc/generated/member-replication.md)                               | Replicate team member files                                   |
-| [member update email](doc/generated/member-update-email.md)                             | Member email operation                                        |
-| [member update externalid](doc/generated/member-update-externalid.md)                   | Update External ID of team members                            |
-| [member update invisible](doc/generated/member-update-invisible.md)                     | Enable directory restriction to members                       |
-| [member update profile](doc/generated/member-update-profile.md)                         | Update member profile                                         |
-| [member update visible](doc/generated/member-update-visible.md)                         | Disable directory restriction to members                      |
-| [team activity batch user](doc/generated/team-activity-batch-user.md)                   | Scan activities for multiple users                            |
-| [team activity daily event](doc/generated/team-activity-daily-event.md)                 | Report activities by day                                      |
-| [team activity event](doc/generated/team-activity-event.md)                             | Event log                                                     |
-| [team activity user](doc/generated/team-activity-user.md)                               | Activities log per user                                       |
-| [team content member list](doc/generated/team-content-member-list.md)                   | List team folder & shared folder members                      |
-| [team content mount list](doc/generated/team-content-mount-list.md)                     | List all mounted/unmounted shared folders of team members.    |
-| [team content policy list](doc/generated/team-content-policy-list.md)                   | List policies of team folders and shared folders in the team  |
-| [team device list](doc/generated/team-device-list.md)                                   | List all devices/sessions in the team                         |
-| [team device unlink](doc/generated/team-device-unlink.md)                               | Unlink device sessions                                        |
-| [team feature](doc/generated/team-feature.md)                                           | Team feature                                                  |
-| [team filerequest list](doc/generated/team-filerequest-list.md)                         | List all file requests in the team                            |
-| [team info](doc/generated/team-info.md)                                                 | Team information                                              |
-| [team linkedapp list](doc/generated/team-linkedapp-list.md)                             | List linked applications                                      |
-| [team namespace file list](doc/generated/team-namespace-file-list.md)                   | List all files and folders of the team namespaces             |
-| [team namespace file size](doc/generated/team-namespace-file-size.md)                   | List all files and folders of the team namespaces             |
-| [team namespace list](doc/generated/team-namespace-list.md)                             | List all namespaces of the team                               |
-| [team namespace member list](doc/generated/team-namespace-member-list.md)               | List members of shared folders and team folders in the team   |
-| [team sharedlink delete links](doc/generated/team-sharedlink-delete-links.md)           | Batch delete shared links                                     |
-| [team sharedlink delete member](doc/generated/team-sharedlink-delete-member.md)         | Delete all shared links of the member                         |
-| [team sharedlink list](doc/generated/team-sharedlink-list.md)                           | List of shared links                                          |
-| [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md)         | Update expiration date of public shared links within the team |
-| [team sharedlink update password](doc/generated/team-sharedlink-update-password.md)     | Set or update shared link passwords                           |
-| [team sharedlink update visibility](doc/generated/team-sharedlink-update-visibility.md) | Update visibility of shared links                             |
-| [teamfolder add](doc/generated/teamfolder-add.md)                                       | Add team folder to the team                                   |
-| [teamfolder archive](doc/generated/teamfolder-archive.md)                               | Archive team folder                                           |
-| [teamfolder batch archive](doc/generated/teamfolder-batch-archive.md)                   | Archiving team folders                                        |
-| [teamfolder batch permdelete](doc/generated/teamfolder-batch-permdelete.md)             | Permanently delete team folders                               |
-| [teamfolder batch replication](doc/generated/teamfolder-batch-replication.md)           | Batch replication of team folders                             |
-| [teamfolder file list](doc/generated/teamfolder-file-list.md)                           | List files in team folders                                    |
-| [teamfolder file lock all release](doc/generated/teamfolder-file-lock-all-release.md)   | Release all locks under the path of the team folder           |
-| [teamfolder file lock list](doc/generated/teamfolder-file-lock-list.md)                 | List locks in the team folder                                 |
-| [teamfolder file lock release](doc/generated/teamfolder-file-lock-release.md)           | Release lock of the path in the team folder                   |
-| [teamfolder file size](doc/generated/teamfolder-file-size.md)                           | Calculate size of team folders                                |
-| [teamfolder list](doc/generated/teamfolder-list.md)                                     | List team folder(s)                                           |
-| [teamfolder member add](doc/generated/teamfolder-member-add.md)                         | Batch adding users/groups to team folders                     |
-| [teamfolder member delete](doc/generated/teamfolder-member-delete.md)                   | Batch removing users/groups from team folders                 |
-| [teamfolder member list](doc/generated/teamfolder-member-list.md)                       | List team folder members                                      |
-| [teamfolder partial replication](doc/generated/teamfolder-partial-replication.md)       | Partial team folder replication to the other team             |
-| [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                         | Permanently delete team folder                                |
-| [teamfolder policy list](doc/generated/teamfolder-policy-list.md)                       | List policies of team folders                                 |
-| [teamfolder replication](doc/generated/teamfolder-replication.md)                       | Replicate a team folder to the other team                     |
+| Command                                                                                 | Description                                                                                                                                                    |
+|-----------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [connect business_audit](doc/generated/connect-business_audit.md)                       | Connect to the team audit access                                                                                                                               |
+| [connect business_file](doc/generated/connect-business_file.md)                         | Connect to the team file access                                                                                                                                |
+| [connect business_info](doc/generated/connect-business_info.md)                         | Connect to the team info access                                                                                                                                |
+| [connect business_mgmt](doc/generated/connect-business_mgmt.md)                         | Connect to the team management access                                                                                                                          |
+| [group add](doc/generated/group-add.md)                                                 | Create new group                                                                                                                                               |
+| [group batch delete](doc/generated/group-batch-delete.md)                               | Delete groups                                                                                                                                                  |
+| [group delete](doc/generated/group-delete.md)                                           | Delete group                                                                                                                                                   |
+| [group folder list](doc/generated/group-folder-list.md)                                 | Find folders of each group                                                                                                                                     |
+| [group list](doc/generated/group-list.md)                                               | List group(s)                                                                                                                                                  |
+| [group member add](doc/generated/group-member-add.md)                                   | Add a member to the group                                                                                                                                      |
+| [group member batch add](doc/generated/group-member-batch-add.md)                       | Bulk add members into groups                                                                                                                                   |
+| [group member batch delete](doc/generated/group-member-batch-delete.md)                 | Delete members from groups                                                                                                                                     |
+| [group member batch update](doc/generated/group-member-batch-update.md)                 | Add or delete members from groups                                                                                                                              |
+| [group member delete](doc/generated/group-member-delete.md)                             | Delete a member from the group                                                                                                                                 |
+| [group member list](doc/generated/group-member-list.md)                                 | List members of groups                                                                                                                                         |
+| [group rename](doc/generated/group-rename.md)                                           | Rename the group                                                                                                                                               |
+| [member clear externalid](doc/generated/member-clear-externalid.md)                     | Clear external_id of members                                                                                                                                   |
+| [member delete](doc/generated/member-delete.md)                                         | Delete members                                                                                                                                                 |
+| [member detach](doc/generated/member-detach.md)                                         | Convert Dropbox Business accounts to a Basic account                                                                                                           |
+| [member file lock all release](doc/generated/member-file-lock-all-release.md)           | Release all locks under the path of the member                                                                                                                 |
+| [member file lock list](doc/generated/member-file-lock-list.md)                         | List locks of the member under the path                                                                                                                        |
+| [member file lock release](doc/generated/member-file-lock-release.md)                   | Release the lock of the path as the member                                                                                                                     |
+| [member file permdelete](doc/generated/member-file-permdelete.md)                       | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
+| [member folder list](doc/generated/member-folder-list.md)                               | Find folders for each member                                                                                                                                   |
+| [member folder replication](doc/generated/member-folder-replication.md)                 | Replicate a folder to another member's personal folder                                                                                                         |
+| [member invite](doc/generated/member-invite.md)                                         | Invite member(s)                                                                                                                                               |
+| [member list](doc/generated/member-list.md)                                             | List team member(s)                                                                                                                                            |
+| [member quota list](doc/generated/member-quota-list.md)                                 | List team member quota                                                                                                                                         |
+| [member quota update](doc/generated/member-quota-update.md)                             | Update team member quota                                                                                                                                       |
+| [member quota usage](doc/generated/member-quota-usage.md)                               | List team member storage usage                                                                                                                                 |
+| [member reinvite](doc/generated/member-reinvite.md)                                     | Reinvite invited status members to the team                                                                                                                    |
+| [member replication](doc/generated/member-replication.md)                               | Replicate team member files                                                                                                                                    |
+| [member update email](doc/generated/member-update-email.md)                             | Member email operation                                                                                                                                         |
+| [member update externalid](doc/generated/member-update-externalid.md)                   | Update External ID of team members                                                                                                                             |
+| [member update invisible](doc/generated/member-update-invisible.md)                     | Enable directory restriction to members                                                                                                                        |
+| [member update profile](doc/generated/member-update-profile.md)                         | Update member profile                                                                                                                                          |
+| [member update visible](doc/generated/member-update-visible.md)                         | Disable directory restriction to members                                                                                                                       |
+| [team activity batch user](doc/generated/team-activity-batch-user.md)                   | Scan activities for multiple users                                                                                                                             |
+| [team activity daily event](doc/generated/team-activity-daily-event.md)                 | Report activities by day                                                                                                                                       |
+| [team activity event](doc/generated/team-activity-event.md)                             | Event log                                                                                                                                                      |
+| [team activity user](doc/generated/team-activity-user.md)                               | Activities log per user                                                                                                                                        |
+| [team content member list](doc/generated/team-content-member-list.md)                   | List team folder & shared folder members                                                                                                                       |
+| [team content mount list](doc/generated/team-content-mount-list.md)                     | List all mounted/unmounted shared folders of team members.                                                                                                     |
+| [team content policy list](doc/generated/team-content-policy-list.md)                   | List policies of team folders and shared folders in the team                                                                                                   |
+| [team device list](doc/generated/team-device-list.md)                                   | List all devices/sessions in the team                                                                                                                          |
+| [team device unlink](doc/generated/team-device-unlink.md)                               | Unlink device sessions                                                                                                                                         |
+| [team feature](doc/generated/team-feature.md)                                           | Team feature                                                                                                                                                   |
+| [team filerequest list](doc/generated/team-filerequest-list.md)                         | List all file requests in the team                                                                                                                             |
+| [team info](doc/generated/team-info.md)                                                 | Team information                                                                                                                                               |
+| [team linkedapp list](doc/generated/team-linkedapp-list.md)                             | List linked applications                                                                                                                                       |
+| [team namespace file list](doc/generated/team-namespace-file-list.md)                   | List all files and folders of the team namespaces                                                                                                              |
+| [team namespace file size](doc/generated/team-namespace-file-size.md)                   | List all files and folders of the team namespaces                                                                                                              |
+| [team namespace list](doc/generated/team-namespace-list.md)                             | List all namespaces of the team                                                                                                                                |
+| [team namespace member list](doc/generated/team-namespace-member-list.md)               | List members of shared folders and team folders in the team                                                                                                    |
+| [team sharedlink delete links](doc/generated/team-sharedlink-delete-links.md)           | Batch delete shared links                                                                                                                                      |
+| [team sharedlink delete member](doc/generated/team-sharedlink-delete-member.md)         | Delete all shared links of the member                                                                                                                          |
+| [team sharedlink list](doc/generated/team-sharedlink-list.md)                           | List of shared links                                                                                                                                           |
+| [team sharedlink update expiry](doc/generated/team-sharedlink-update-expiry.md)         | Update expiration date of public shared links within the team                                                                                                  |
+| [team sharedlink update password](doc/generated/team-sharedlink-update-password.md)     | Set or update shared link passwords                                                                                                                            |
+| [team sharedlink update visibility](doc/generated/team-sharedlink-update-visibility.md) | Update visibility of shared links                                                                                                                              |
+| [teamfolder add](doc/generated/teamfolder-add.md)                                       | Add team folder to the team                                                                                                                                    |
+| [teamfolder archive](doc/generated/teamfolder-archive.md)                               | Archive team folder                                                                                                                                            |
+| [teamfolder batch archive](doc/generated/teamfolder-batch-archive.md)                   | Archiving team folders                                                                                                                                         |
+| [teamfolder batch permdelete](doc/generated/teamfolder-batch-permdelete.md)             | Permanently delete team folders                                                                                                                                |
+| [teamfolder batch replication](doc/generated/teamfolder-batch-replication.md)           | Batch replication of team folders                                                                                                                              |
+| [teamfolder file list](doc/generated/teamfolder-file-list.md)                           | List files in team folders                                                                                                                                     |
+| [teamfolder file lock all release](doc/generated/teamfolder-file-lock-all-release.md)   | Release all locks under the path of the team folder                                                                                                            |
+| [teamfolder file lock list](doc/generated/teamfolder-file-lock-list.md)                 | List locks in the team folder                                                                                                                                  |
+| [teamfolder file lock release](doc/generated/teamfolder-file-lock-release.md)           | Release lock of the path in the team folder                                                                                                                    |
+| [teamfolder file size](doc/generated/teamfolder-file-size.md)                           | Calculate size of team folders                                                                                                                                 |
+| [teamfolder list](doc/generated/teamfolder-list.md)                                     | List team folder(s)                                                                                                                                            |
+| [teamfolder member add](doc/generated/teamfolder-member-add.md)                         | Batch adding users/groups to team folders                                                                                                                      |
+| [teamfolder member delete](doc/generated/teamfolder-member-delete.md)                   | Batch removing users/groups from team folders                                                                                                                  |
+| [teamfolder member list](doc/generated/teamfolder-member-list.md)                       | List team folder members                                                                                                                                       |
+| [teamfolder partial replication](doc/generated/teamfolder-partial-replication.md)       | Partial team folder replication to the other team                                                                                                              |
+| [teamfolder permdelete](doc/generated/teamfolder-permdelete.md)                         | Permanently delete team folder                                                                                                                                 |
+| [teamfolder policy list](doc/generated/teamfolder-policy-list.md)                       | List policies of team folders                                                                                                                                  |
+| [teamfolder replication](doc/generated/teamfolder-replication.md)                       | Replicate a team folder to the other team                                                                                                                      |
 
 ## GitHub
 

@@ -16,13 +16,13 @@
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## 認可スコープ
 
-| ラベル                    | 説明                     |
-|---------------------------|--------------------------|
-| dropbox_scoped_individual | Dropbox (個人アカウント) |
+| ラベル              | 説明             |
+|---------------------|------------------|
+| dropbox_scoped_team | Dropbox (チーム) |
 
 # 認可
 
