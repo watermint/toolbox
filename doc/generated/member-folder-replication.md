@@ -26,9 +26,12 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label               | Description         |
-|---------------------|---------------------|
-| dropbox_scoped_team | Dropbox team access |
+| Description                                                          |
+|----------------------------------------------------------------------|
+| Dropbox Business: View content of your Dropbox files and folders     |
+| Dropbox Business: Edit content of your Dropbox files and folders     |
+| Dropbox Business: View your team membership                          |
+| Dropbox Business: View structure of your team's and members' folders |
 
 # Authorization
 

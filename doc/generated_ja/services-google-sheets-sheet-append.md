@@ -22,15 +22,15 @@
 
 ## 認可スコープ
 
-| ラベル        | 説明          |
-|---------------|---------------|
-| google_sheets | Google Sheets |
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| Google Sheets: See, edit, create, and delete your spreadsheets in Google Drive |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Google account. Please copy the link and paste it into
+your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
+copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -41,7 +41,7 @@ watermint toolbox xx.x.xxx
 
 1. 次のURLを開き認証ダイアログを開いてください:
 
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
 
 2. 'Allow'をクリックします (先にログインしておく必要があります):
 3. 認証コードをコピーします:

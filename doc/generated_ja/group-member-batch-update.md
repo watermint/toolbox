@@ -20,9 +20,10 @@
 
 ## 認可スコープ
 
-| ラベル              | 説明             |
-|---------------------|------------------|
-| dropbox_scoped_team | Dropbox (チーム) |
+| 説明                                                                                                            |
+|-----------------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View your team group membership                                                               |
+| Dropbox Business: View and manage your team group membership, including removing and recovering member accounts |
 
 # 認可
 

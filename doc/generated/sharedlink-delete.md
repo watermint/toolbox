@@ -22,9 +22,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label     | Description         |
-|-----------|---------------------|
-| user_full | Dropbox Full access |
+| Description         |
+|---------------------|
+| Dropbox Full access |
 
 # Authorization
 

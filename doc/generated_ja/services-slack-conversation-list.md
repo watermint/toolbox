@@ -20,15 +20,15 @@
 
 ## 認可スコープ
 
-| ラベル | 説明  |
-|--------|-------|
-| slack  | Slack |
+| 説明                                                               |
+|--------------------------------------------------------------------|
+| Slack: View basic information about public channels in a workspace |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Slack account. Please copy the link and paste it into
+your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
+copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -39,7 +39,7 @@ watermint toolbox xx.x.xxx
 
 1. 次のURLを開き認証ダイアログを開いてください:
 
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+https://slack.com/oauth/v2/authorize?client_id=&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=channels%3Aread&state=xxxxxxxx
 
 2. 'Allow'をクリックします (先にログインしておく必要があります):
 3. 認証コードをコピーします:

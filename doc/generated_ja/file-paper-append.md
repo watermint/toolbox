@@ -20,9 +20,9 @@
 
 ## 認可スコープ
 
-| ラベル                    | 説明                     |
-|---------------------------|--------------------------|
-| dropbox_scoped_individual | Dropbox (個人アカウント) |
+| 説明                                                    |
+|---------------------------------------------------------|
+| Dropbox: Edit content of your Dropbox files and folders |
 
 # 認可
 

@@ -20,9 +20,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label               | Description         |
-|---------------------|---------------------|
-| dropbox_scoped_team | Dropbox team access |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

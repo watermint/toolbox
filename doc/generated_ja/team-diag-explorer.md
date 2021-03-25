@@ -20,11 +20,11 @@
 
 ## 認可スコープ
 
-| ラベル              | 説明                              |
-|---------------------|-----------------------------------|
-| business_file       | Dropbox Business ファイルアクセス |
-| business_info       | Dropbox Business 情報アクセス     |
-| business_management | Dropbox Business 管理             |
+| 説明                                |
+|-------------------------------------|
+| Dropbox Business File access        |
+| Dropbox Business Information access |
+| Dropbox Business management         |
 
 # 認可
 

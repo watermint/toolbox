@@ -20,9 +20,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label                     | Description                       |
-|---------------------------|-----------------------------------|
-| dropbox_scoped_individual | Dropbox Individual account access |
+| Description                                                    |
+|----------------------------------------------------------------|
+| Dropbox: View information about your Dropbox files and folders |
 
 # Authorization
 

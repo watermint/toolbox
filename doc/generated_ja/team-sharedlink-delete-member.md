@@ -20,9 +20,11 @@
 
 ## 認可スコープ
 
-| ラベル              | 説明             |
-|---------------------|------------------|
-| dropbox_scoped_team | Dropbox (チーム) |
+| 説明                                                                              |
+|-----------------------------------------------------------------------------------|
+| Dropbox Business: View your team membership                                       |
+| Dropbox Business: View and manage your Dropbox sharing settings and collaborators |
+| Dropbox Business: View structure of your team's and members' folders              |
 
 # 認可
 

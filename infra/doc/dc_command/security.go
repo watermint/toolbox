@@ -1,10 +1,12 @@
 package dc_command
 
 import (
+	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"sort"
 )
 
 func NewSecurity(spec rc_recipe.Spec) dc_section.Section {
@@ -47,14 +49,33 @@ func (z Security) Body(ui app_ui.UI) {
 	}
 	ui.Break()
 
+	scopes := make(map[string]bool)
+	for _, vn := range z.spec.ValueNames() {
+		if vc, ok := z.spec.Value(vn).(rc_recipe.ValueConn); ok {
+			if conn, ok := vc.Conn(); ok {
+				if cs, ok := conn.(api_conn.ScopedConnection); ok {
+					for _, scope := range cs.Scopes() {
+						scopes[cs.ServiceName()+"."+scope] = true
+					}
+				} else {
+					scopes[conn.ServiceName()+"."+conn.ScopeLabel()] = true
+				}
+			}
+		}
+	}
+	scopeMessages := make([]app_msg.Message, 0)
+	for scope := range scopes {
+		scopeMessages = append(scopeMessages, app_msg.ObjMessage(&z, "scope."+scope))
+	}
+	sort.Slice(scopeMessages, func(i, j int) bool {
+		return scopeMessages[i].Key() < scopeMessages[j].Key()
+	})
+
 	ui.SubHeader(z.Scopes)
 	ui.WithTable("Scopes", func(t app_ui.Table) {
-		t.Header(z.TableHeaderScopesLabel, z.TableHeaderScopesDesc)
-		for _, sc := range z.spec.ConnScopes() {
-			t.Row(
-				app_msg.Raw(sc),
-				app_msg.ObjMessage(&z, "scope."+sc),
-			)
+		t.Header(z.TableHeaderScopesDesc)
+		for _, scm := range scopeMessages {
+			t.Row(scm)
 		}
 	})
 }

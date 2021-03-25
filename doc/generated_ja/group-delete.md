@@ -22,9 +22,9 @@
 
 ## 認可スコープ
 
-| ラベル              | 説明                  |
-|---------------------|-----------------------|
-| business_management | Dropbox Business 管理 |
+| 説明                        |
+|-----------------------------|
+| Dropbox Business management |
 
 # 認可
 

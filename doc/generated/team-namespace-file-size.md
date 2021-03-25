@@ -20,9 +20,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label         | Description                  |
-|---------------|------------------------------|
-| business_file | Dropbox Business File access |
+| Description                  |
+|------------------------------|
+| Dropbox Business File access |
 
 # Authorization
 

@@ -20,9 +20,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label          | Description               |
-|----------------|---------------------------|
-| business_audit | Dropbox Business Auditing |
+| Description               |
+|---------------------------|
+| Dropbox Business Auditing |
 
 # Authorization
 

@@ -20,15 +20,15 @@ GitHub リリースへ成果物をアップロードします (試験的実装�
 
 ## 認可スコープ
 
-| ラベル      | 説明                                                         |
-|-------------|--------------------------------------------------------------|
-| github_repo | GitHub の公開・プライベート両方のレポジトリへのフルアクセス. |
+| 説明                                                                                                                                                                                                                                                                                                                                                           |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GitHub: Grants full access to repositories, including private repositories. That includes read/write access to code, commit statuses, repository and organization projects, invitations, collaborators, adding team memberships, deployment statuses, and repository webhooks for repositories and organizations. Also grants ability to manage user projects. |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your GitHub account. Please copy the link and paste it into
+your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
+copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -39,7 +39,7 @@ watermint toolbox xx.x.xxx
 
 1. 次のURLを開き認証ダイアログを開いてください:
 
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
 
 2. 'Allow'をクリックします (先にログインしておく必要があります):
 3. 認証コードをコピーします:

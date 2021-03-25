@@ -22,14 +22,8 @@
 
 ## 認可スコープ
 
-| ラベル              | 説明                                                         |
-|---------------------|--------------------------------------------------------------|
-| business_audit      | Dropbox Business 監査                                        |
-| business_file       | Dropbox Business ファイルアクセス                            |
-| business_info       | Dropbox Business 情報アクセス                                |
-| business_management | Dropbox Business 管理                                        |
-| github_repo         | GitHub の公開・プライベート両方のレポジトリへのフルアクセス. |
-| user_full           | Dropbox へのフルアクセス                                     |
+| 説明 |
+|------|
 
 # 認可
 
@@ -53,6 +47,48 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 認証コードを入力してください
 ```
 
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
+into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
+Please copy that code and paste it to the `tbx`.
+
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
+
+For the first run, `tbx` will ask you an authentication with your GitHub account. Please copy the link and paste it into
+your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
+copy that code and paste it to the `tbx`.
+
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2020 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
+
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
@@ -60,6 +96,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
 .\tbx.exe dev release candidate 

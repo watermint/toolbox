@@ -16,21 +16,19 @@ Get information about the shared link
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
 
-| ラベル                    | 説明                     |
-|---------------------------|--------------------------|
-| dropbox_scoped_individual | Dropbox (個人アカウント) |
+| 説明                                                          |
+|---------------------------------------------------------------|
+| Dropbox: View your Dropbox sharing settings and collaborators |
 
 # 認可
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -55,14 +53,12 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe sharedlink info -url SHARED_LINK_URL
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx sharedlink info -url SHARED_LINK_URL
 ```

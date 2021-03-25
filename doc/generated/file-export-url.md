@@ -16,21 +16,20 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
 
-| Label                     | Description                       |
-|---------------------------|-----------------------------------|
-| dropbox_scoped_individual | Dropbox Individual account access |
+| Description                                                   |
+|---------------------------------------------------------------|
+| Dropbox: View content of your Dropbox files and folders       |
+| Dropbox: View your Dropbox sharing settings and collaborators |
 
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -55,14 +54,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe file export url -local-path /LOCAL/PATH/TO/export -url DOCUMENT_URL
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx file export url -local-path /LOCAL/PATH/TO/export -url DOCUMENT_URL
 ```
