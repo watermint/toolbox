@@ -2,10 +2,11 @@ package es_file_read
 
 import (
 	"bufio"
-	"bytes"
+	"compress/gzip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
 	"os"
+	"strings"
 )
 
 func ReadFileLines(path string, h func(line []byte) error) error {
@@ -23,48 +24,36 @@ func ReadFileLines(path string, h func(line []byte) error) error {
 }
 
 func ReadLines(r io.Reader, h func(line []byte) error) error {
-	l := esl.Default()
-	br := bufio.NewReader(r)
-
-	prefix := &bytes.Buffer{}
-	for {
-		line, isPrefix, err := br.ReadLine()
-		if err == io.EOF {
-			return nil
-		}
-		if err != nil {
-			l.Debug("Error on read", esl.Error(err))
+	scanner := bufio.NewScanner(r)
+	for scanner.Scan() {
+		if err := h(scanner.Bytes()); err != nil {
 			return err
 		}
-		if isPrefix {
-			_, err := prefix.Write(line)
-			if err != nil {
-				l.Debug("Unable to append prefix", esl.Error(err))
-
-				// reset prefix and continue
-				prefix.Reset()
-				continue
-			}
-			continue
-		}
-
-		if prefix.Len() < 1 {
-			if err := h(line); err != nil {
-				l.Debug("Failed process line", esl.Error(err))
-			}
-		} else {
-			_, err := prefix.Write(line)
-			if err != nil {
-				l.Debug("Unable to append prefix", esl.Error(err))
-
-				// reset prefix and continue
-				prefix.Reset()
-				continue
-			}
-			if err := h(prefix.Bytes()); err != nil {
-				l.Debug("Failed process line", esl.Error(err))
-			}
-			prefix.Reset()
-		}
 	}
+	return scanner.Err()
+}
+
+func ReadFileOrArchived(path string, handler func(r io.Reader) error) error {
+	l := esl.Default().With(esl.String("path", path))
+	l.Debug("Open data")
+	f, err := os.Open(path)
+	if err != nil {
+		l.Debug("Unable to open the file", esl.Error(err))
+		return err
+	}
+	defer func() {
+		_ = f.Close()
+	}()
+
+	var r io.Reader
+	if strings.HasSuffix(path, ".gz") {
+		r, err = gzip.NewReader(f)
+		if err != nil {
+			l.Debug("Unable to read gzipped file", esl.Error(err))
+			return err
+		}
+	} else {
+		r = f
+	}
+	return handler(r)
 }

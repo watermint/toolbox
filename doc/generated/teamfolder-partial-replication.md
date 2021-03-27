@@ -20,9 +20,14 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label               | Description         |
-|---------------------|---------------------|
-| dropbox_scoped_team | Dropbox team access |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View and edit basic information about your Dropbox account such as your profile photo |
+| Dropbox Business: View content of your Dropbox files and folders                                        |
+| Dropbox Business: Edit content of your Dropbox files and folders                                        |
+| Dropbox Business: View structure of your team's and members' folders                                    |
+| Dropbox Business: View and edit content of your team's files and folders                                |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 
@@ -34,7 +39,7 @@ Please copy that code and paste it to the `tbx`.
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
@@ -49,6 +54,7 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:

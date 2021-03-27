@@ -10,6 +10,7 @@ import (
 )
 
 type MsgExperimentalFeature struct {
+	DocDesc     app_msg.Message
 	Title       app_msg.Message
 	Overview    app_msg.Message
 	FeatureName app_msg.Message
@@ -21,6 +22,10 @@ var (
 )
 
 type ExperimentalFeature struct {
+}
+
+func (z ExperimentalFeature) DocDesc() app_msg.Message {
+	return MExperimentalFeature.DocDesc
 }
 
 func (z ExperimentalFeature) DocId() dc_index.DocId {

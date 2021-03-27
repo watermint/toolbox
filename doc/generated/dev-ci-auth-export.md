@@ -21,23 +21,45 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label               | Description                         |
-|---------------------|-------------------------------------|
-| business_audit      | Dropbox Business Auditing           |
-| business_file       | Dropbox Business File access        |
-| business_info       | Dropbox Business Information access |
-| business_management | Dropbox Business management         |
-| user_full           | Dropbox Full access                 |
+| Description                         |
+|-------------------------------------|
+| Dropbox Full access                 |
+| Dropbox Business Auditing           |
+| Dropbox Business File access        |
+| Dropbox Business Information access |
+| Dropbox Business management         |
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
+into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
+Please copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
+
+1. Visit the URL for the auth dialogue:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. Click 'Allow' (you might have to login first):
+3. Copy the authorisation code:
+Enter the authorisation code
+```
+
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
+into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
+Please copy that code and paste it to the `tbx`.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2021 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
@@ -52,6 +74,7 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:

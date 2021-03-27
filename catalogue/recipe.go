@@ -32,6 +32,7 @@ import (
 	recipefilelockall "github.com/watermint/toolbox/recipe/file/lock/all"
 	recipefilelockbatch "github.com/watermint/toolbox/recipe/file/lock/batch"
 	recipefilemount "github.com/watermint/toolbox/recipe/file/mount"
+	recipefilepaper "github.com/watermint/toolbox/recipe/file/paper"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
 	recipefilerequest "github.com/watermint/toolbox/recipe/filerequest"
@@ -183,6 +184,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilecompare.Local{},
 		&recipefiledispatch.Local{},
 		&recipefileexport.Doc{},
+		&recipefileexport.Url{},
 		&recipefileimport.Url{},
 		&recipefileimportbatch.Url{},
 		&recipefilelock.Acquire{},
@@ -192,6 +194,10 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilelockbatch.Acquire{},
 		&recipefilelockbatch.Release{},
 		&recipefilemount.List{},
+		&recipefilepaper.Append{},
+		&recipefilepaper.Create{},
+		&recipefilepaper.Overwrite{},
+		&recipefilepaper.Prepend{},
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
 		&recipefilesync.Down{},
@@ -281,6 +287,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipesharedfoldermember.List{},
 		&recipesharedlink.Create{},
 		&recipesharedlink.Delete{},
+		&recipesharedlink.Info{},
 		&recipesharedlink.List{},
 		&recipesharedlinkfile.List{},
 		&recipeteam.Feature{},

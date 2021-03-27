@@ -5,6 +5,7 @@ Compare spec of two releases
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
@@ -28,8 +29,8 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option       | Description         | Default |
 |--------------|---------------------|---------|
+| `-doc-lang`  | Document language   |         |
 | `-file-path` | File path to output |         |
-| `-lang`      | Language            |         |
 | `-release-1` | Release name 1      |         |
 | `-release-2` | Release name 2      |         |
 

@@ -24,9 +24,17 @@
 
 ## 認可スコープ
 
-| ラベル              | 説明             |
-|---------------------|------------------|
-| dropbox_scoped_team | Dropbox (チーム) |
+| 説明                                                                                               |
+|----------------------------------------------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを表示                                    |
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを編集                                    |
+| Dropbox Business: 自分のチームグループのメンバーを見る                                             |
+| Dropbox Business: メンバーアカウントの削除や回復を含む、チームグループのメンバーシップの表示と管理 |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示                                              |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理                                        |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                                           |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集                           |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認                     |
 
 # 認可
 
@@ -37,7 +45,7 @@
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 1. 次のURLを開き認証ダイアログを開いてください:
@@ -52,6 +60,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:

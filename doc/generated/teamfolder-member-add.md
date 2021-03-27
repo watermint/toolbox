@@ -7,6 +7,37 @@ not (2) change access inheritance setting of any folders, (3) create a group if 
 to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to
 keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
 
+Example:
+
+* Sales (team folder, editor access for the group "Sales")
+	* Sydney (viewer access for individual account sydney@example.com)
+	* Tokyo (editor access for the group "Tokyo Deal Desk")
+		* Monthly (viewer access for individual account success@example.com)
+* Marketing (team folder, editor access for the group "Marketing")
+	* Sydney (editor access for the group "Sydney Sales")
+	* Tokyo (viewer access for the group "Tokyo Sales")
+
+1. Prepare CSV like below
+
+```
+Sales,,editor,Sales
+Sales,Sydney,editor,sydney@example.com
+Sales,Tokyo,editor,Tokyo Deal Desk
+Sales,Tokyo/Monthly,viewer,success@example.com
+Marketing,,editor,Marketing
+Marketing,Sydney,editor,Sydney Sales
+Marketing,Tokyo,viewer,Tokyo Sales
+```
+
+2. Then run the command like below
+
+```
+tbx teamfolder member add -file /PATH/TO/DATA.csv
+```
+
+Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must
+exist before run this command.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -25,9 +56,17 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Label               | Description         |
-|---------------------|---------------------|
-| dropbox_scoped_team | Dropbox team access |
+| Description                                                                                                     |
+|-----------------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View content of your Dropbox files and folders                                                |
+| Dropbox Business: Edit content of your Dropbox files and folders                                                |
+| Dropbox Business: View your team group membership                                                               |
+| Dropbox Business: View and manage your team group membership, including removing and recovering member accounts |
+| Dropbox Business: View your Dropbox sharing settings and collaborators                                          |
+| Dropbox Business: View and manage your Dropbox sharing settings and collaborators                               |
+| Dropbox Business: View structure of your team's and members' folders                                            |
+| Dropbox Business: View and edit content of your team's files and folders                                        |
+| Dropbox Business: View basic information about your team including names, user count, and team settings         |
 
 # Authorization
 
@@ -39,7 +78,7 @@ Please copy that code and paste it to the `tbx`.
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
@@ -54,6 +93,7 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:

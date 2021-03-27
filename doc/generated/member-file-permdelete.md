@@ -16,13 +16,15 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
 
 ## Auth scopes
 
-| Label                     | Description                       |
-|---------------------------|-----------------------------------|
-| dropbox_scoped_individual | Dropbox Individual account access |
+| Description                                                             |
+|-------------------------------------------------------------------------|
+| Dropbox Business: Permanently delete members' Dropbox files and folders |
+| Dropbox Business: View your team membership                             |
+| Dropbox Business: View structure of your team's and members' folders    |
 
 # Authorization
 
@@ -32,7 +34,7 @@ For the first run, `tbx` will ask you an authentication with your Dropbox accoun
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
@@ -47,6 +49,7 @@ Enter the authorisation code
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:

@@ -8,7 +8,7 @@ import (
 var (
 	Name           = "watermint toolbox"
 	Version        = "`dev`"
-	Copyright      = "© 2016-2020 Takayuki Okazaki"
+	Copyright      = "© 2016-2021 Takayuki Okazaki"
 	Hash           = ""
 	Branch         = ""
 	Zap            = ""

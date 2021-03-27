@@ -20,9 +20,9 @@ Dropboxのファイルシステムのインプリケーションを確認しま�
 
 ## 認可スコープ
 
-| ラベル                    | 説明                     |
-|---------------------------|--------------------------|
-| dropbox_scoped_individual | Dropbox (個人アカウント) |
+| 説明                                                   |
+|--------------------------------------------------------|
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
 
 # 認可
 
@@ -33,7 +33,7 @@ Dropboxのファイルシステムのインプリケーションを確認しま�
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 1. 次のURLを開き認証ダイアログを開いてください:
@@ -48,6 +48,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:

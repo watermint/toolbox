@@ -5,6 +5,7 @@ Time format to convert the unix time (epoch seconds from 1970-01-01)
 # Usage
 
 This document uses the Desktop folder for command example.
+
 ## Run
 
 Windows:
@@ -32,6 +33,7 @@ Open" on the dialogue.
 |--------------|-------------------------------|---------|
 | `-format`    | Time format                   | iso8601 |
 | `-precision` | Time precision (second/ms/ns) | second  |
+| `-time`      | Unix Time                     | 0       |
 
 ## Common options:
 

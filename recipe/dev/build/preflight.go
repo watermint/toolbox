@@ -218,7 +218,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			ll.Info("Generating release changes")
 			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Diff)
-				rr.Lang = mo_string.NewOptional(langCode)
+				rr.DocLang = mo_string.NewOptional(langCode)
 				rr.Release1 = mo_string.NewOptional(fmt.Sprintf("%d", release-1))
 				rr.Release2 = mo_string.NewOptional(fmt.Sprintf("%d", release))
 				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "changes.md"))

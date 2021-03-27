@@ -1,15 +1,14 @@
 package da_griddata
 
 import (
-	"compress/gzip"
 	"errors"
 	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
+	"github.com/watermint/toolbox/essentials/io/es_file_read"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"io"
 	"os"
-	"strings"
 )
 
 type GridDataInput interface {
@@ -61,51 +60,37 @@ func (z *gdInput) FilePath() string {
 func (z *gdInput) EachRow(f func(col []interface{}, rowIndex int) error) error {
 	ui := z.ctl.UI()
 	l := z.ctl.Log().With(esl.String("path", z.filePath))
-	l.Debug("Open grid data file")
-	file, err := os.Open(z.filePath)
-	if err != nil {
-		ui.Error(MGridDataInput.ErrorUnableToRead.With("Error", err).With("Path", z.filePath))
-		return err
-	}
-	defer func() {
-		_ = file.Close()
-	}()
+	rErr := es_file_read.ReadFileOrArchived(z.filePath, func(r io.Reader) error {
+		cr := es_unicode.NewBomAwareCsvReader(r)
+		for row := 0; ; row++ {
+			ll := l.With(esl.Int("row", row))
+			cols, err := cr.Read()
+			switch err {
+			case io.EOF:
+				ll.Debug("Finished")
+				return nil
 
-	var rc io.Reader
-	if strings.HasSuffix(z.filePath, ".gz") {
-		rc, err = gzip.NewReader(file)
-		if err != nil {
-			l.Debug("Unable to read gzipped file", esl.Error(err))
-			ui.Error(MGridDataInput.ErrorUnableToRead.With("Error", err).With("Path", z.filePath))
-			return err
-		}
-	} else {
-		rc = file
-	}
-	cr := es_unicode.NewBomAwareCsvReader(rc)
-	for row := 0; ; row++ {
-		ll := l.With(esl.Int("row", row))
-		cols, err := cr.Read()
-		switch err {
-		case io.EOF:
-			ll.Debug("Finished")
-			return nil
+			case nil:
+				colData := make([]interface{}, len(cols))
+				for i := range cols {
+					colData[i] = cols[i]
+				}
+				if err = f(colData, row); err != nil {
+					ll.Debug("Error returned from the operation", esl.Error(err))
+					return err
+				}
 
-		case nil:
-			colData := make([]interface{}, len(cols))
-			for i := range cols {
-				colData[i] = cols[i]
-			}
-			if err = f(colData, row); err != nil {
-				ll.Debug("Error returned from the operation", esl.Error(err))
+			default:
+				ui.Error(MGridDataInput.ErrorUnableToRead.With("Error", err).With("Path", z.filePath))
 				return err
 			}
-
-		default:
-			ui.Error(MGridDataInput.ErrorUnableToRead.With("Error", err).With("Path", z.filePath))
-			return err
 		}
+	})
+	if rErr != nil {
+		ui.Error(MGridDataInput.ErrorUnableToRead.With("Error", rErr).With("Path", z.filePath))
+		return rErr
 	}
+	return nil
 }
 
 func (z *gdInput) Open(ctl app_control.Control) error {

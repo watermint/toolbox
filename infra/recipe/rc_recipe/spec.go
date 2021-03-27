@@ -4,6 +4,8 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
+	"github.com/watermint/toolbox/infra/data/da_json"
+	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -55,6 +57,12 @@ type Spec interface {
 
 	// Spec of grid data output
 	GridDataOutput() map[string]da_griddata.GridDataOutputSpec
+
+	// Spec of text input
+	TextInput() map[string]da_text.TextInputSpec
+
+	// Spec of json input
+	JsonInput() map[string]da_json.JsonInputSpec
 
 	// Messages used by this recipe
 	Messages() []app_msg.Message

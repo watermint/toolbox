@@ -6,6 +6,36 @@
 このコマンドは冪等性を持つように設計されています. 操作上のエラーが発生した場合は、安全に再試行することができます. コマンドは、冪等性を保持するためのエラーを報告しません.
 たとえば、このコマンドは、「メンバーはすでにそのフォルダにアクセスしている」というようなエラーを報告しません.
 
+例:
+
+* Sales（チームフォルダ、グループ「Sales」の編集者アクセス)
+    * Sydney (個人アカウント sydney@example.com の閲覧アクセス)
+    * Tokyo (グループ "Tokyo Deal Desk" の編集者アクセス)
+        * Monthly (個人アカウント success@example.com の閲覧アクセス )
+* Marketing (チームフォルダ、グループ "Marketing "の編集者アクセス)
+    * Sydney (グループ "Sydney Sales" の編集者アクセス)
+    * Tokyo (グループ "Tokyo Sales "のビューアアクセス)
+
+1. 次のようなCSVファイルを準備します
+
+```
+Sales,,editor,Sales
+Sales,Sydney,editor,sydney@example.com
+Sales,Tokyo,editor,Tokyo Deal Desk
+Sales,Tokyo/Monthly,viewer,success@example.com
+Marketing,,editor,Marketing
+Marketing,Sydney,editor,Sydney Sales
+Marketing,Tokyo,viewer,Tokyo Sales
+```
+
+2. その後、以下のようにコマンドを実行します.
+
+```
+tbx teamfolder member add -file /PATH/TO/DATA.csv
+```
+
+注: このコマンドは、チームフォルダが存在しない場合には、チームフォルダを作成します. しかし、このコマンドは、グループが見つからない場合には、グループを作成しません. このコマンドを実行する前に、グループが存在している必要があります.
+
 # セキュリティ
 
 `watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
@@ -24,9 +54,17 @@
 
 ## 認可スコープ
 
-| ラベル              | 説明             |
-|---------------------|------------------|
-| dropbox_scoped_team | Dropbox (チーム) |
+| 説明                                                                                               |
+|----------------------------------------------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを表示                                    |
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを編集                                    |
+| Dropbox Business: 自分のチームグループのメンバーを見る                                             |
+| Dropbox Business: メンバーアカウントの削除や回復を含む、チームグループのメンバーシップの表示と管理 |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示                                              |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理                                        |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                                           |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集                           |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認                     |
 
 # 認可
 
@@ -37,7 +75,7 @@
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 1. 次のURLを開き認証ダイアログを開いてください:
@@ -52,6 +90,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
+
 ## 実行
 
 Windows:

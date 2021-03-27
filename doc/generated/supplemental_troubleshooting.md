@@ -96,6 +96,7 @@ tbx job log last -quiet | jq -r 'select(.msg == "Heap stats") | [.time, .HeapInu
 "2020-11-10T14:56:30.730+0900",16678912
 "2020-11-10T14:56:35.726+0900",16678912
 ```
+
 ## API transaction logs
 
 The toll will record API requests and responses into capture logs that have a prefix "capture". This capture logs do not contain requests and responses of OAuth. Additionally, API token strings are replaced with `<secret>`.

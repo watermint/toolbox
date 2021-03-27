@@ -97,7 +97,7 @@ type resBox struct {
 }
 
 func (z resBox) Bytes(key string) (bin []byte, err error) {
-	return z.fs.ReadFile(filepath.Join(z.prefix, key))
+	return z.fs.ReadFile(filepath.ToSlash(filepath.Join(z.prefix, key)))
 }
 
 func (z resBox) HttpFileSystem() http.FileSystem {
@@ -122,7 +122,7 @@ type resSecureBox struct {
 }
 
 func (z resSecureBox) Bytes(key string) (bin []byte, err error) {
-	return z.fs.ReadFile(filepath.Join(z.prefix, key))
+	return z.fs.ReadFile(filepath.ToSlash(filepath.Join(z.prefix, key)))
 }
 
 func (z resSecureBox) HttpFileSystem() http.FileSystem {

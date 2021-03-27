@@ -14,6 +14,7 @@ type Section interface {
 
 type Document interface {
 	DocId() dc_index.DocId
+	DocDesc() app_msg.Message
 	Sections() []Section
 }
 

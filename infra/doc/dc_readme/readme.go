@@ -15,11 +15,14 @@ func New(forPublish bool, commandPath string) []dc_section.Section {
 	sections = append(sections, NewSecurity())
 	sections = append(sections, NewUsage())
 	if forPublish {
+		sections = append(sections, NewDropboxBusiness())
 		sections = append(sections, NewCommand(forPublish, commandPath))
+		sections = append(sections, NewSupplemental())
 	}
 
 	for i := 0; i < len(sections); i++ {
 		sections[i] = app_msg.Apply(sections[i]).(dc_section.Section)
 	}
+
 	return sections
 }

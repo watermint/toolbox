@@ -26,14 +26,6 @@ const (
 	FeedBackupFilePrefix = "backup_feed_"
 )
 
-type FileRowFeedData struct {
-	BackupId   string `path:"backup_id" json:"backup_id"`
-	BackupName string `path:"backup_name" json:"backup_name"`
-	BackupPath string `path:"backup_path" json:"backup_path"`
-	SourcePath string `path:"source_path" json:"source_path"`
-	SourceExt  string `path:"source_ext" json:"source_ext"`
-}
-
 func newValueFdFileRowFeed(name string) rc_recipe.Value {
 	v := &ValueFdFileRowFeed{name: name}
 	v.rf = fd_file_impl.NewRowFeed(name)
@@ -123,11 +115,9 @@ func (z *ValueFdFileRowFeed) captureReader(c app_control.Control, r io.ReadClose
 
 	if useBackup {
 		l.Debug("Use backup as an input file", esl.String("path", backupPath))
-		z.path = backupPath
-		z.rf.SetFilePath(backupPath)
 	}
 
-	return &FileRowFeedData{
+	return &CapturedData{
 		BackupId:   backupId,
 		BackupName: backupName,
 		BackupPath: backupPath,
@@ -142,92 +132,16 @@ func (z *ValueFdFileRowFeed) Capture(ctl app_control.Control) (v interface{}, er
 	if z.path == "" {
 		filePath = z.rf.FilePath()
 	}
-	l := ctl.Log().With(esl.String("filePath", filePath))
-
-	switch filePath {
-	case "":
-		l.Debug("No file path")
-		return nil, nil
-
-	case "-":
-		l.Debug("Capture from STDIN")
-		return z.captureReader(ctl, os.Stdin, true)
-
-	default:
-		l.Debug("Capture from a file")
-		filePath, err = es_filepath.FormatPathWithPredefinedVariables(filePath)
-		if err != nil {
-			l.Debug("Unable to format file path", esl.Error(err))
-			return nil, err
-		}
-
-		f, err := os.Open(filePath)
-		if err != nil {
-			l.Debug("Unable to open the feed file", esl.Error(err))
-			return nil, err
-		}
-		defer func() {
-			ioErr := f.Close()
-			l.Debug("Source closed", esl.Error(ioErr))
-		}()
-
-		return z.captureReader(ctl, f, false)
-	}
+	return captureFile(ctl, filePath, func(path string) {
+		z.path = path
+		z.rf.SetFilePath(path)
+	})
 }
 
 func (z *ValueFdFileRowFeed) Restore(v es_json.Json, ctl app_control.Control) error {
-	l := ctl.Log()
-	rfd := &FileRowFeedData{}
-	if err := v.Model(rfd); err != nil {
-		l.Debug("Unable to unmarshal", esl.Error(err))
-		return err
-	}
-
-	backupPath := filepath.Join(ctl.Workspace().Log(), rfd.BackupName)
-	restorePath := filepath.Join(ctl.Workspace().Job(), rfd.BackupId+rfd.SourceExt)
-
-	l.Debug("Restore from the backup",
-		esl.Any("data", rfd),
-		esl.String("backupPath", backupPath),
-		esl.String("restorePath", restorePath),
-	)
-
-	backupFile, err := os.Open(backupPath)
-	if err != nil {
-		l.Debug("Unable to open the backup", esl.Error(err))
-		return err
-	}
-	defer func() {
-		ioErr := backupFile.Close()
-		l.Debug("backup file closed", esl.Error(ioErr))
-	}()
-
-	backupStream, err := gzip.NewReader(backupFile)
-	if err != nil {
-		l.Debug("Unable to read the archive", esl.Error(err))
-		return err
-	}
-
-	restoreFile, err := os.Create(restorePath)
-	if err != nil {
-		l.Debug("Unable to create restore file", esl.Error(err))
-		return err
-	}
-	defer func() {
-		ioErr := restoreFile.Close()
-		l.Debug("Restore file closed", esl.Error(ioErr))
-	}()
-
-	size, ioErr := io.Copy(restoreFile, backupStream)
-	if ioErr != nil {
-		l.Debug("Unable to copy", esl.Error(ioErr))
-		return ioErr
-	}
-
-	l.Debug("Restore completed, file path now points to restore path", esl.Int64("size", size))
-	z.rf.SetFilePath(restorePath)
-
-	return nil
+	return restoreFile(v, ctl, func(path string) {
+		z.rf.SetFilePath(path)
+	})
 }
 
 func (z *ValueFdFileRowFeed) SpinUp(ctl app_control.Control) (err error) {

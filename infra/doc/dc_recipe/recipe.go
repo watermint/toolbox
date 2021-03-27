@@ -22,4 +22,6 @@ type Recipe struct {
 	Values          []*Value             `json:"values"`
 	GridDataInput   []*DocGridDataInput  `json:"grid_data_input"`
 	GridDataOutput  []*DocGridDataOutput `json:"grid_data_output"`
+	TextInput       []*DocTextInput      `json:"text_input"`
+	JsonInput       []*DocJsonInput      `json:"json_input"`
 }
