@@ -32,7 +32,7 @@ For the first run, `tbx` will ask you an authentication with your Dropbox accoun
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2020 Takayuki Okazaki
+© 2016-2021 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
