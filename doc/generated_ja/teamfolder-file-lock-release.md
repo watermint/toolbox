@@ -20,19 +20,18 @@
 
 ## 認可スコープ
 
-| 説明                                                                                                    |
-|---------------------------------------------------------------------------------------------------------|
-| Dropbox Business: Edit content of your Dropbox files and folders                                        |
-| Dropbox Business: View information about your Dropbox files and folders                                 |
-| Dropbox Business: View structure of your team's and members' folders                                    |
-| Dropbox Business: View and edit content of your team's files and folders                                |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを編集                |
+| Dropbox Business: Dropboxのファイルやフォルダに関する情報を表示                |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx

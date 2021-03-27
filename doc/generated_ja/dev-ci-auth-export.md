@@ -21,19 +21,18 @@
 
 ## 認可スコープ
 
-| 説明                                |
-|-------------------------------------|
-| Dropbox Full access                 |
-| Dropbox Business Auditing           |
-| Dropbox Business File access        |
-| Dropbox Business Information access |
-| Dropbox Business management         |
+| 説明                              |
+|-----------------------------------|
+| Dropbox へのフルアクセス          |
+| Dropbox Business 監査             |
+| Dropbox Business ファイルアクセス |
+| Dropbox Business 情報アクセス     |
+| Dropbox Business 管理             |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -51,9 +50,8 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 認証コードを入力してください
 ```
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx

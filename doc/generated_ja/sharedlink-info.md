@@ -1,6 +1,6 @@
 # sharedlink info
 
-Get information about the shared link
+共有リンクの情報取得
 
 # セキュリティ
 
@@ -20,15 +20,14 @@ Get information about the shared link
 
 ## 認可スコープ
 
-| 説明                                                          |
-|---------------------------------------------------------------|
-| Dropbox: View your Dropbox sharing settings and collaborators |
+| 説明                                         |
+|----------------------------------------------|
+| Dropbox: Dropboxの共有設定と共同作業者の表示 |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -71,11 +70,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明                              | デフォルト |
-|-------------|-----------------------------------|------------|
-| `-password` | Password of the link if required. |            |
-| `-peer`     | Account alias                     | default    |
-| `-url`      | URL of the shared link            |            |
+| オプション  | 説明                                  | デフォルト |
+|-------------|---------------------------------------|------------|
+| `-password` | 必要に応じてリンクのパスワードを指定. |            |
+| `-peer`     | アカウントの別名                      | default    |
+| `-url`      | 共有リンクのURL                       |            |
 
 ## 共通のオプション:
 

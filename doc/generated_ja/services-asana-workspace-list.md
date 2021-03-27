@@ -20,15 +20,14 @@
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Asana: (1) Access your name and email address. (2) Access your tasks, projects, and workspaces. (3) Create and modify tasks, projects, and comments on your behalf. |
+| 説明                                                                                                                                                                                              |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Asana: (1)名前とメールアドレスにアクセスします. (2) 自分のタスク、プロジェクト、ワークスペースにアクセスします. (3) あなたに代わってタスク、プロジェクト、コメントを作成、修正することができます. |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Asana account. Please copy the link and paste it into
-your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
-copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのAsanaアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx

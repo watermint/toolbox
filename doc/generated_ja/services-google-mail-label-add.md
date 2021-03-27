@@ -20,15 +20,14 @@
 
 ## 認可スコープ
 
-| 説明                         |
-|------------------------------|
-| Gmail: Manage mailbox labels |
+| 説明                              |
+|-----------------------------------|
+| Gmail: メールボックスラベルの管理 |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Google account. Please copy the link and paste it into
-your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
-copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのGoogleアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx

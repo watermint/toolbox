@@ -20,17 +20,16 @@
 
 ## 認可スコープ
 
-| 説明                                                                              |
-|-----------------------------------------------------------------------------------|
-| Dropbox Business: View your team membership                                       |
-| Dropbox Business: View and manage your Dropbox sharing settings and collaborators |
-| Dropbox Business: View structure of your team's and members' folders              |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Dropbox Business: チームメンバーの確認                      |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理 |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧    |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx

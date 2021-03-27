@@ -1,6 +1,6 @@
 # file export url
 
-Export a document from the URL
+URLからドキュメントをエクスポート
 
 # セキュリティ
 
@@ -20,16 +20,15 @@ Export a document from the URL
 
 ## 認可スコープ
 
-| 説明                                                          |
-|---------------------------------------------------------------|
-| Dropbox: View content of your Dropbox files and folders       |
-| Dropbox: View your Dropbox sharing settings and collaborators |
+| 説明                                                   |
+|--------------------------------------------------------|
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
+| Dropbox: Dropboxの共有設定と共同作業者の表示           |
 
 # 認可
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
+にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -74,11 +73,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション    | 説明                         | デフォルト |
 |---------------|------------------------------|------------|
-| `-format`     | Export format                |            |
-| `-local-path` | Local path to export         |            |
-| `-password`   | Password for the shared link |            |
-| `-peer`       | Account alias                | default    |
-| `-url`        | URL of the document          |            |
+| `-format`     | エクスポート書式             |            |
+| `-local-path` | エクスポート先のローカルパス |            |
+| `-password`   | 共有リンクのパスワード       |            |
+| `-peer`       | アカウントの別名             | default    |
+| `-url`        | ドキュメントのURL            |            |
 
 ## 共通のオプション:
 
