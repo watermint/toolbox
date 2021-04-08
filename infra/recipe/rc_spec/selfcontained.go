@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_options"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_value"
@@ -77,6 +78,16 @@ type specValueSelfContained struct {
 	annotation rc_recipe.Annotation
 	scr        rc_recipe.Recipe
 	repo       rc_recipe.Repository
+}
+
+func (z *specValueSelfContained) ErrorHandlers() []rc_error_handler.ErrorHandler {
+	handlers := make([]rc_error_handler.ErrorHandler, 0)
+	for _, vn := range z.repo.FieldNames() {
+		if v, ok := z.repo.FieldValue(vn).(rc_recipe.ValueErrorHandler); ok {
+			handlers = append(handlers, v.ErrorHandler())
+		}
+	}
+	return handlers
 }
 
 func (z *specValueSelfContained) Capture(ctl app_control.Control) (v interface{}, err error) {

@@ -174,8 +174,10 @@ func (z *Add) Exec(c app_control.Control) error {
 
 		if z.ApplyToExistingMessages {
 			err = z.processMessages(row.Query, addLabels, removeLabels, c)
-			z.Filters.Failure(err, row)
-			return nil
+			if err != nil {
+				z.Filters.Failure(err, row)
+				return err
+			}
 		}
 		return nil
 	})

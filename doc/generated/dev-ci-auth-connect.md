@@ -17,7 +17,7 @@ You can delete those files after use if you want to remove it. If you want to ma
 
 Please see below help article for more detail:
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 * GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
 
 ## Auth scopes
@@ -50,6 +50,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 3. Copy the authorisation code:
 Enter the authorisation code
 ```
+
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.

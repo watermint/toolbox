@@ -43,9 +43,17 @@ func (z resImpl) Failure() (error, bool) {
 		return z.abort, true
 	}
 	de := &dbx_error.ErrorInfo{}
-	if err := z.Alt().Json().Model(de); err == nil && de.ErrorSummary != "" {
-		return de, true
+
+	switch z.Code() {
+	case 400: // bad input parameter
+		return &dbx_error.ErrorBadRequest{Reason: z.Alt().BodyString()}, true
+
+	case 401, 403, 409:
+		if err := z.Alt().Json().Model(de); err == nil && de.ErrorSummary != "" {
+			return de, true
+		}
 	}
+
 	return z.Proxy.Failure()
 }
 

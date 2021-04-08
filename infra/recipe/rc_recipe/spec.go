@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -120,4 +121,7 @@ type Spec interface {
 
 	// Specification document
 	Doc(ui app_ui.UI) *dc_recipe.Recipe
+
+	// Error handlers for the recipe.
+	ErrorHandlers() []rc_error_handler.ErrorHandler
 }

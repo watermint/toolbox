@@ -11,6 +11,14 @@ type ErrorInfo struct {
 	UserMessage       string `path:"user_message.text" json:"user_message,omitempty"`
 }
 
+type ErrorBadRequest struct {
+	Reason string `json:"reason"`
+}
+
+func (z ErrorBadRequest) Error() string {
+	return z.Reason
+}
+
 func (z ErrorInfo) Error() string {
 	if z.UserMessage != "" {
 		return z.UserMessage
