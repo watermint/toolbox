@@ -17,7 +17,7 @@
 
 方法は次のヘルプセンター記事をご参照ください:
 * Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 * GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
 
 ## 認可スコープ

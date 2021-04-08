@@ -3,14 +3,17 @@
 # Commands added
 
 
-| Command              | Title                                                         |
-|----------------------|---------------------------------------------------------------|
-| file export url      | Export a document from the URL                                |
-| file paper append    | Append the content to the end of the existing Paper doc       |
-| file paper create    | Create new Paper in the path                                  |
-| file paper overwrite | Overwrite existing Paper document                             |
-| file paper prepend   | Append the content to the beginning of the existing Paper doc |
-| sharedlink info      | Get information about the shared link                         |
+| Command                            | Title                                                         |
+|------------------------------------|---------------------------------------------------------------|
+| file export url                    | Export a document from the URL                                |
+| file paper append                  | Append the content to the end of the existing Paper doc       |
+| file paper create                  | Create new Paper in the path                                  |
+| file paper overwrite               | Overwrite existing Paper document                             |
+| file paper prepend                 | Append the content to the beginning of the existing Paper doc |
+| services google mail sendas add    | Creates a custom "from" send-as alias                         |
+| services google mail sendas delete | Deletes the specified send-as alias                           |
+| services google mail sendas list   | Lists the send-as aliases for the specified account           |
+| sharedlink info                    | Get information about the shared link                         |
 
 
 
