@@ -16,7 +16,6 @@
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ

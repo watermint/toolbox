@@ -27,6 +27,9 @@ type Response interface {
 	// Returns empty string, if no header found in the response.
 	Header(header string) string
 
+	// True if the content type is text like mime type of text/plain, application/json, etc.
+	IsTextContentType() bool
+
 	// True on the response recognized as success.
 	IsSuccess() bool
 

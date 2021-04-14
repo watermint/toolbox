@@ -16,7 +16,6 @@ Creates a custom "from" send-as alias
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Google: https://support.google.com/accounts/answer/3466521
 
 ## 認可スコープ
@@ -29,7 +28,6 @@ Creates a custom "from" send-as alias
 
 最初の実行では、`tbx`はあなたのGoogleアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -54,14 +52,12 @@ https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxx
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe services google mail sendas add 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx services google mail sendas add 
 ```

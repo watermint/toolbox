@@ -156,6 +156,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevstage.Gmail{},
 		&recipedevstage.Griddata{},
 		&recipedevstage.Gui{},
+		&recipedevstage.HttpRange{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
 		&recipedevstage.UploadAppend{},

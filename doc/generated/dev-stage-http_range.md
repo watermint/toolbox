@@ -1,6 +1,6 @@
-# services google mail sendas delete
+# dev stage http_range
 
-Deletes the specified send-as alias
+HTTP Range request proof of concept
 
 # Security
 
@@ -16,19 +16,21 @@ Please do not share those files to anyone including Dropbox support. You can del
 remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Google: https://support.google.com/accounts/answer/3466521
+
+* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
 
-| Description                                                                    |
-|--------------------------------------------------------------------------------|
-| Gmail: Manage your sensitive mail settings, including who can manage your mail |
+| Description                                             |
+|---------------------------------------------------------|
+| Dropbox: View content of your Dropbox files and folders |
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Google account. Please copy the link and paste it into
-your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
-copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
+into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
+Please copy that code and paste it to the `tbx`.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -39,7 +41,7 @@ Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
 
-https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
 2. Click 'Allow' (you might have to login first):
 3. Copy the authorisation code:
@@ -53,14 +55,16 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail sendas delete 
+.\tbx.exe dev stage http_range -dropbox-path /DROPBOX/PATH/TO/download -local-path /LOCAL/PATH/TO/save
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx services google mail sendas delete 
+$HOME/Desktop/tbx dev stage http_range -dropbox-path /DROPBOX/PATH/TO/download -local-path /LOCAL/PATH/TO/save
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -73,11 +77,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option     | Description                                                                                    | Default |
-|------------|------------------------------------------------------------------------------------------------|---------|
-| `-email`   | The send-as alias email address                                                                |         |
-| `-peer`    | Account alias                                                                                  | default |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me      |
+| Option          | Description                   | Default |
+|-----------------|-------------------------------|---------|
+| `-dropbox-path` | Dropbox file path to download |         |
+| `-local-path`   | Local path to store           |         |
+| `-peer`         | Account alias                 | default |
 
 ## Common options:
 

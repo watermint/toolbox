@@ -1,6 +1,6 @@
-# team sharedlink update visibility
+# dev stage http_range
 
-共有リンクの可視性の更新 (非可逆な操作です)
+HTTP Range request proof of concept
 
 # セキュリティ
 
@@ -16,20 +16,20 @@
 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
 
-| 説明                                                        |
-|-------------------------------------------------------------|
-| Dropbox Business: チームメンバーの確認                      |
-| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理 |
-| Dropbox Business: チームやメンバーのフォルダの構造を閲覧    |
+| 説明                                                   |
+|--------------------------------------------------------|
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
 にこの認証コードをペーストしてください.
+
 ```
 
 watermint toolbox xx.x.xxx
@@ -54,14 +54,16 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe team sharedlink update visibility -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe dev stage http_range -dropbox-path /DROPBOX/PATH/TO/download -local-path /LOCAL/PATH/TO/save
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx team sharedlink update visibility -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx dev stage http_range -dropbox-path /DROPBOX/PATH/TO/download -local-path /LOCAL/PATH/TO/save
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"
@@ -72,11 +74,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション        | 説明                   | デフォルト |
-|-------------------|------------------------|------------|
-| `-file`           | データファイルへのパス |            |
-| `-new-visibility` | 新しい視認性設定       | team_only  |
-| `-peer`           | アカウントの別名       | default    |
+| オプション      | 説明                          | デフォルト |
+|-----------------|-------------------------------|------------|
+| `-dropbox-path` | Dropbox file path to download |            |
+| `-local-path`   | Local path to store           |            |
+| `-peer`         | Account alias                 | default    |
 
 ## 共通のオプション:
 
@@ -96,56 +98,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# ファイル書式
-
-## 書式: File
-
-対象となる共有リンク
-
-| 列  | 説明            | 例                                       |
-|-----|-----------------|------------------------------------------|
-| url | 共有リンクのURL | https://www.dropbox.com/scl/fo/fir9vjelf |
-
-最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
-```
-url
-https://www.dropbox.com/scl/fo/fir9vjelf
-```
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: operation_log
-
-このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
-
-| 列                | 説明                                   |
-|-------------------|----------------------------------------|
-| status            | 処理の状態                             |
-| reason            | 失敗またはスキップの理由               |
-| input.url         | 共有リンクのURL                        |
-| result.tag        | エントリーの種別 (file, または folder) |
-| result.url        | 共有リンクのURL.                       |
-| result.name       | リンク先ファイル名称                   |
-| result.expires    | 有効期限 (設定されている場合)          |
-| result.path_lower | パス (すべて小文字に変換).             |
-| result.visibility | 共有リンクの開示範囲                   |
-| result.email      | ユーザーのメールアドレス               |
-| result.surname    | リンク所有者の名字                     |
-| result.given_name | リンク所有者の名                       |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`
-, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

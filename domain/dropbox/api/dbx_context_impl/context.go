@@ -190,6 +190,15 @@ func (z ctxImpl) Notify(endpoint string, d ...api_request.RequestDatum) dbx_resp
 	return dbx_response_impl.New(z.client.Call(&z, b))
 }
 
+func (z ctxImpl) ContentHead(endpoint string, d ...api_request.RequestDatum) dbx_response.Response {
+	b := z.builder.With(
+		http.MethodHead,
+		RpcRequestUrl(ContentEndpoint, endpoint),
+		api_request.Combine(d),
+	)
+	return dbx_response_impl.New(z.client.Call(&z, b))
+}
+
 func (z ctxImpl) AsMemberId(teamMemberId string) dbx_context.Context {
 	z.builder = z.builder.AsMemberId(teamMemberId)
 	return z

@@ -80,6 +80,22 @@ type resImpl struct {
 	isSuccess    bool
 }
 
+func (z resImpl) IsTextContentType() bool {
+	contentType := z.Header("Content-Type")
+	if strings.HasPrefix(contentType, "text") {
+		return true
+	}
+	switch contentType {
+	case "application/json",
+		"application/xml",
+		"application/xhtml+xml":
+		return true
+
+	default:
+		return false
+	}
+}
+
 func (z resImpl) Proto() string {
 	return z.proto
 }
