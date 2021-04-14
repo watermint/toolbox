@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -18,6 +19,10 @@ import (
 type MockSpec struct {
 	name string
 	path []string
+}
+
+func (z MockSpec) ErrorHandlers() []rc_error_handler.ErrorHandler {
+	panic("implement me")
 }
 
 func (z MockSpec) JsonInput() map[string]da_json.JsonInputSpec {

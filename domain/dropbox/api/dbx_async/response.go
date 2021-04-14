@@ -3,6 +3,7 @@ package dbx_async
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 )
 
 type Response interface {
@@ -35,6 +36,10 @@ type resImpl struct {
 	es_response.Proxy
 	completed bool
 	complete  es_json.Json
+}
+
+func (z resImpl) IsTextContentType() bool {
+	return es_response_impl.IsTextContentType(z)
 }
 
 func (z resImpl) IsCompleted() bool {

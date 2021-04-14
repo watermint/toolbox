@@ -48,6 +48,10 @@ type errorResponse struct {
 	err         error
 }
 
+func (z errorResponse) IsTextContentType() bool {
+	return IsTextContentType(z)
+}
+
 func (z errorResponse) Proto() string {
 	return z.proto
 }

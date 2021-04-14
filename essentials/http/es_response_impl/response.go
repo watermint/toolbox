@@ -70,18 +70,8 @@ func createHeaderLower(headers map[string]string) map[string]string {
 	return h
 }
 
-type resImpl struct {
-	code         int
-	proto        string
-	headers      map[string]string
-	headersLower map[string]string
-	success      es_response.Body
-	alt          es_response.Body
-	isSuccess    bool
-}
-
-func (z resImpl) IsTextContentType() bool {
-	contentType := z.Header("Content-Type")
+func IsTextContentType(res es_response.Response) bool {
+	contentType := res.Header("Content-Type")
 	if strings.HasPrefix(contentType, "text") {
 		return true
 	}
@@ -94,6 +84,20 @@ func (z resImpl) IsTextContentType() bool {
 	default:
 		return false
 	}
+}
+
+type resImpl struct {
+	code         int
+	proto        string
+	headers      map[string]string
+	headersLower map[string]string
+	success      es_response.Body
+	alt          es_response.Body
+	isSuccess    bool
+}
+
+func (z resImpl) IsTextContentType() bool {
+	return IsTextContentType(z)
 }
 
 func (z resImpl) Proto() string {
