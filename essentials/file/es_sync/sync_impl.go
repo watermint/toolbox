@@ -24,7 +24,7 @@ func New(log esl.Logger, qd eq_queue.Definition, source, target es_filesystem.Fi
 
 	indicator := opts.Progress().NewIndicator(0,
 		mpb.PrependDecorators(
-			decor.Name("Data transfer ", decor.WC{W: 20}),
+			decor.Name("Completed ", decor.WC{W: 20}),
 			decor.AverageSpeed(decor.UnitKiB, "% 1.f"),
 		),
 		mpb.AppendDecorators(
@@ -64,13 +64,20 @@ type syncImpl struct {
 	fileCmp   es_filecompare.FileComparator
 	indicator ea_indicator.Indicator
 	opts      Opts
+	wg        sync.WaitGroup
 }
 
-func (z syncImpl) computeBatchId(source, target es_filesystem.Path) string {
+func (z *syncImpl) enqueueTask(queueId string, source, target es_filesystem.Path, data interface{}) {
+	z.wg.Add(1)
+	q := z.qd.Current().MustGet(queueId).Batch(z.computeBatchId(source, target))
+	q.Enqueue(data)
+}
+
+func (z *syncImpl) computeBatchId(source, target es_filesystem.Path) string {
 	return source.Shard().Id() + "/" + target.Shard().Id()
 }
 
-func (z syncImpl) copy(source es_filesystem.Entry, target es_filesystem.Path) error {
+func (z *syncImpl) copy(source es_filesystem.Entry, target es_filesystem.Path) error {
 	l := z.log.With(esl.Any("source", source.AsData()), esl.Any("target", target.AsData()))
 	l.Debug("Copy")
 
@@ -97,7 +104,7 @@ func (z syncImpl) copy(source es_filesystem.Entry, target es_filesystem.Path) er
 	return nil
 }
 
-func (z syncImpl) delete(target es_filesystem.Path) error {
+func (z *syncImpl) delete(target es_filesystem.Path) error {
 	l := z.log.With(esl.Any("target", target.AsData()))
 	l.Debug("Delete")
 	err := z.target.Delete(target)
@@ -110,7 +117,7 @@ func (z syncImpl) delete(target es_filesystem.Path) error {
 	return nil
 }
 
-func (z syncImpl) createFolder(target es_filesystem.Path) error {
+func (z *syncImpl) createFolder(target es_filesystem.Path) error {
 	l := z.log.With(esl.Any("target", target.AsData()))
 	l.Debug("Create folder")
 	_, err := z.target.CreateFolder(target)
@@ -129,8 +136,9 @@ type TaskCopyFile struct {
 }
 
 // copy or overwrite the file. This task overwrites the file if exists in target fs.
-func (z syncImpl) taskCopyFile(task *TaskCopyFile, qd eq_queue.Definition) error {
+func (z *syncImpl) taskCopyFile(task *TaskCopyFile, qd eq_queue.Definition) error {
 	l := z.log.With(esl.Any("task", task))
+	defer z.wg.Done()
 
 	sourceEntry, err := z.source.Entry(task.Source)
 	if err != nil {
@@ -183,8 +191,9 @@ type TaskReplaceFolderByFile struct {
 	Target es_filesystem.PathData  `json:"target"`
 }
 
-func (z syncImpl) taskReplaceFolderByFile(task *TaskReplaceFolderByFile, qd eq_queue.Definition) error {
+func (z *syncImpl) taskReplaceFolderByFile(task *TaskReplaceFolderByFile, qd eq_queue.Definition) error {
 	l := z.log.With(esl.Any("task", task))
+	defer z.wg.Done()
 
 	sourceEntry, err := z.source.Entry(task.Source)
 	if err != nil {
@@ -202,8 +211,7 @@ func (z syncImpl) taskReplaceFolderByFile(task *TaskReplaceFolderByFile, qd eq_q
 		return err
 	}
 
-	q := qd.Current().MustGet(queueIdCopyFile).Batch(z.computeBatchId(sourceEntry.Path(), targetPath))
-	q.Enqueue(&TaskCopyFile{
+	z.enqueueTask(queueIdCopyFile, sourceEntry.Path(), targetPath, &TaskCopyFile{
 		Source: sourceEntry.AsData(),
 		Target: targetPath.AsData(),
 	})
@@ -215,8 +223,9 @@ type TaskReplaceFileByFolder struct {
 	Target es_filesystem.PathData  `json:"target"`
 }
 
-func (z syncImpl) taskReplaceFileByFolder(task *TaskReplaceFileByFolder, qd eq_queue.Definition) error {
+func (z *syncImpl) taskReplaceFileByFolder(task *TaskReplaceFileByFolder, qd eq_queue.Definition) error {
 	l := z.log.With(esl.Any("task", task))
+	defer z.wg.Done()
 
 	sourceEntry, err := z.source.Entry(task.Source)
 	if err != nil {
@@ -240,8 +249,7 @@ func (z syncImpl) taskReplaceFileByFolder(task *TaskReplaceFileByFolder, qd eq_q
 	}
 
 	l.Debug("enqueue copy")
-	q := qd.Current().MustGet(queueIdSyncFolder).Batch(z.computeBatchId(sourceEntry.Path(), targetPath))
-	q.Enqueue(&TaskSyncFolder{
+	z.enqueueTask(queueIdSyncFolder, sourceEntry.Path(), targetPath, &TaskSyncFolder{
 		Source: sourceEntry.Path().AsData(),
 		Target: targetPath.AsData(),
 	})
@@ -253,8 +261,10 @@ type TaskSyncFolder struct {
 	Target es_filesystem.PathData `json:"target"`
 }
 
-func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) error {
+func (z *syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) error {
 	l := z.log.With(esl.Any("source", task.Source), esl.Any("target", task.Target))
+	defer z.wg.Done()
+
 	sourcePath, err := z.source.Path(task.Source)
 	if err != nil {
 		l.Debug("Unable to create an path data", esl.Error(err))
@@ -274,8 +284,7 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) e
 		}
 
 		ll.Debug("sync delete")
-		q := qd.Current().MustGet(queueIdDelete).Batch(z.computeBatchId(base.Source, base.Target))
-		q.Enqueue(&TaskDelete{
+		z.enqueueTask(queueIdDelete, base.Source, base.Target, &TaskDelete{
 			Target: target.Path().AsData(),
 		})
 	}
@@ -295,15 +304,13 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) e
 			}
 
 			ll.Debug("Enqueue sync folder")
-			q := qd.Current().MustGet(queueIdSyncFolder).Batch(z.computeBatchId(source.Path(), newTargetPath))
-			q.Enqueue(&TaskSyncFolder{
+			z.enqueueTask(queueIdSyncFolder, source.Path(), newTargetPath, &TaskSyncFolder{
 				Source: source.Path().AsData(),
 				Target: newTargetPath.AsData(),
 			})
 		} else {
 			ll.Debug("Copy file")
-			q := qd.Current().MustGet(queueIdCopyFile).Batch(z.computeBatchId(source.Path(), newTargetPath))
-			q.Enqueue(&TaskCopyFile{
+			z.enqueueTask(queueIdCopyFile, source.Path(), newTargetPath, &TaskCopyFile{
 				Source: source.AsData(),
 				Target: newTargetPath.AsData(),
 			})
@@ -318,8 +325,7 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) e
 		}
 
 		ll.Debug("Overwrite")
-		q := qd.Current().MustGet(queueIdCopyFile).Batch(z.computeBatchId(source.Path(), target.Path()))
-		q.Enqueue(&TaskCopyFile{
+		z.enqueueTask(queueIdCopyFile, source.Path(), target.Path(), &TaskCopyFile{
 			Source: source.AsData(),
 			Target: target.Path().AsData(),
 		})
@@ -340,18 +346,18 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) e
 		switch {
 		case source.IsFile() && target.IsFolder():
 			ll.Debug("Replace folder with file")
-			q := qd.Current().MustGet(queueIdReplaceFolderByFile).Batch(z.computeBatchId(source.Path(), target.Path()))
-			q.Enqueue(&TaskReplaceFolderByFile{
+			z.enqueueTask(queueIdReplaceFolderByFile, source.Path(), target.Path(), &TaskReplaceFolderByFile{
 				Source: source.AsData(),
 				Target: target.Path().AsData(),
 			})
+
 		case source.IsFolder() && target.IsFile():
 			ll.Debug("Replace file with folder")
-			q := qd.Current().MustGet(queueIdReplaceFileByFolder).Batch(z.computeBatchId(source.Path(), target.Path()))
-			q.Enqueue(&TaskReplaceFileByFolder{
+			z.enqueueTask(queueIdReplaceFileByFolder, source.Path(), target.Path(), &TaskReplaceFileByFolder{
 				Source: source.AsData(),
 				Target: target.Path().AsData(),
 			})
+
 		case source.IsFile() && target.IsFile():
 			ll.Debug("Same type, compare both")
 			same, cmpErr := z.fileCmp.Compare(source, target)
@@ -373,15 +379,14 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) e
 			}
 
 			ll.Debug("Copy")
-			q := qd.Current().MustGet(queueIdCopyFile).Batch(z.computeBatchId(source.Path(), target.Path()))
-			q.Enqueue(&TaskCopyFile{
+			z.enqueueTask(queueIdCopyFile, source.Path(), target.Path(), &TaskCopyFile{
 				Source: source.AsData(),
 				Target: target.Path().AsData(),
 			})
+
 		case source.IsFolder() && target.IsFolder():
 			ll.Debug("Same type, but do as regular sync folder")
-			q := qd.Current().MustGet(queueIdSyncFolder).Batch(z.computeBatchId(source.Path(), target.Path()))
-			q.Enqueue(&TaskSyncFolder{
+			z.enqueueTask(queueIdSyncFolder, source.Path(), target.Path(), &TaskSyncFolder{
 				Source: source.Path().AsData(),
 				Target: target.Path().AsData(),
 			})
@@ -389,8 +394,7 @@ func (z syncImpl) taskSyncFolder(task *TaskSyncFolder, qd eq_queue.Definition) e
 	}
 	handlerDescendant := func(base es_filecompare.PathPair, source, target es_filesystem.Entry) {
 		l.Debug("Sync descendant", esl.Any("source", source.AsData()), esl.Any("target", target.AsData()))
-		q := qd.Current().MustGet(queueIdSyncFolder).Batch(z.computeBatchId(source.Path(), target.Path()))
-		q.Enqueue(&TaskSyncFolder{
+		z.enqueueTask(queueIdSyncFolder, source.Path(), target.Path(), &TaskSyncFolder{
 			Source: source.Path().AsData(),
 			Target: target.Path().AsData(),
 		})
@@ -420,9 +424,10 @@ type TaskDelete struct {
 	Target es_filesystem.PathData `json:"target"`
 }
 
-func (z syncImpl) taskDelete(task *TaskDelete, qd eq_queue.Definition) error {
+func (z *syncImpl) taskDelete(task *TaskDelete, qd eq_queue.Definition) error {
 	l := z.log.With(esl.Any("target", task.Target))
 	l.Debug("Delete")
+	defer z.wg.Done()
 
 	targetPath, err := z.target.Path(task.Target)
 	if err != nil {
@@ -433,7 +438,7 @@ func (z syncImpl) taskDelete(task *TaskDelete, qd eq_queue.Definition) error {
 	return z.delete(targetPath)
 }
 
-func (z syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) error {
+func (z *syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) error {
 	l := z.log.With(esl.String("sourcePath", source.Path()), esl.String("targetPath", target.Path()))
 	l.Debug("Start sync")
 
@@ -495,18 +500,19 @@ func (z syncImpl) Sync(source es_filesystem.Path, target es_filesystem.Path) err
 	}
 
 	if srcEntry.IsFile() {
-		q := z.qd.Current().MustGet(queueIdCopyFile).Batch(z.computeBatchId(srcEntry.Path(), tgtEntry.Path()))
-		q.Enqueue(&TaskCopyFile{
+		z.enqueueTask(queueIdCopyFile, srcEntry.Path(), tgtEntry.Path(), &TaskCopyFile{
 			Source: srcEntry.AsData(),
 			Target: tgtEntry.Path().Descendant(srcEntry.Name()).AsData(),
 		})
 	} else {
-		q := z.qd.Current().MustGet(queueIdSyncFolder).Batch(z.computeBatchId(srcEntry.Path(), tgtEntry.Path()))
-		q.Enqueue(&TaskSyncFolder{
+		z.enqueueTask(queueIdSyncFolder, srcEntry.Path(), tgtEntry.Path(), &TaskSyncFolder{
 			Source: srcEntry.Path().AsData(),
 			Target: tgtEntry.Path().AsData(),
 		})
 	}
+
+	l.Debug("Waiting for task completion")
+	z.wg.Wait()
 
 	l.Debug("Shutdown connector")
 	if cnErr := z.conn.Shutdown(); cnErr != nil {

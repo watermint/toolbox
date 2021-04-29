@@ -18,7 +18,7 @@ func TestNewPlainFileSystem(t *testing.T) {
 	}()
 
 	{
-		pfs := NewPlainFileSystem(esl.Default(), 10)
+		pfs := NewPlainReader(esl.Default(), 10)
 		offsets, err := pfs.FileBlocks(f)
 		if len(offsets) != 2 || err != nil {
 			t.Error(offsets, err)
@@ -45,7 +45,7 @@ func TestNewPlainFileSystem(t *testing.T) {
 	}
 
 	{
-		pfs := NewPlainFileSystem(esl.Default(), 15)
+		pfs := NewPlainReader(esl.Default(), 15)
 		offsets, err := pfs.FileBlocks(f)
 		if len(offsets) != 2 || err != nil {
 			t.Error(offsets, err)

@@ -6,15 +6,15 @@ import (
 	"os"
 )
 
-type BlockFileSystem interface {
-	// Returns offsets of the file.
+type BlockReader interface {
+	// FileBlocks Returns offsets of the file.
 	FileBlocks(path string) (offsets []int64, err error)
 
-	// Returns block data.
+	// ReadBlock Returns block data.
 	ReadBlock(path string, offset int64) (data []byte, isLastBlock bool, err error)
 }
 
-func NewPlainFileSystem(l esl.Logger, blockSize int) BlockFileSystem {
+func NewPlainReader(l esl.Logger, blockSize int) BlockReader {
 	return &bfsImpl{
 		l:         l,
 		blockSize: blockSize,

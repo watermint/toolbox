@@ -67,10 +67,10 @@ func purgeLoop() {
 
 		l := esl.ConsoleOnly()
 		// clean up
-		l.Info("Removing the old log that exceeds the quota", esl.String("path", m.Path))
+		l.Debug("Removing the old log that exceeds the quota", esl.String("path", m.Path))
 		err = os.Remove(m.Path)
 		if err != nil {
-			l.Warn("Unable to remove log file", esl.String("path", m.Path), esl.Error(err))
+			l.Debug("Unable to remove log file", esl.String("path", m.Path), esl.Error(err))
 			poisonLogs[m.Path] = err
 		}
 	}
@@ -82,7 +82,7 @@ func execRotate(m MsgRotate) {
 
 	targets, err := m.Opts.PurgeTargets()
 	if err != nil {
-		l.Warn("Unable to read log directory", esl.String("path", m.Opts.BasePath()), esl.Error(err))
+		l.Debug("Unable to read log directory", esl.String("path", m.Opts.BasePath()), esl.Error(err))
 		return
 	}
 

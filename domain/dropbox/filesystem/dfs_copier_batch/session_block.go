@@ -8,13 +8,13 @@ import (
 )
 
 type BlockSession interface {
-	// Add block
+	// AddBlock Add block
 	AddBlock(sessionId string, offset int64)
 
-	// Tell finish operation
+	// FinishSuccess Tell finish operation
 	FinishSuccess(sessionId string, offset int64)
 
-	// Tell failure
+	// FinishFailure Tell failure
 	FinishFailure(sessionId string, err error)
 }
 

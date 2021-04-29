@@ -3,7 +3,7 @@ package es_block
 import "io"
 
 type Reader interface {
-	// Read a block. isEof will be true when it's the last block of the source.
+	// ReadBlock Read a block. isEof will be true when it's the last block of the source.
 	// EOF will not return error.
 	ReadBlock() (block []byte, isEof bool, err error)
 }

@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -81,11 +82,16 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 		_ = localFile.Close()
 	}()
 
-	var loaded, chunkSize int64
+	var chunkSize int64
 	chunkSize = 4 * 1048576
 
-	for loaded < contentLength.Int64() {
-		requestRange := fmt.Sprintf("bytes=%d-%d", loaded, es_number.Min(loaded+chunkSize-1, contentLength).Int64())
+	type DownloadChunk struct {
+		Offset    int64
+		ChunkSize int64
+	}
+
+	downloader := func(chunk *DownloadChunk) error {
+		requestRange := fmt.Sprintf("bytes=%d-%d", chunk.Offset, es_number.Min(chunk.Offset+chunk.ChunkSize-1, contentLength).Int64())
 		res = z.Peer.Context().Download("files/download", q, api_request.Header("Range", requestRange))
 		if err, fail := res.Failure(); fail {
 			l.Debug("Error on download", esl.Error(err))
@@ -96,9 +102,21 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 			l.Debug("Could not write to local", esl.Error(err))
 			return err
 		}
-		l.Debug("A part downloaded", esl.String("Range", requestRange), esl.Int64("written", written))
-		loaded += chunkSize
+		l.Info("A part downloaded", esl.String("Range", requestRange), esl.Int64("written", written))
+		return nil
 	}
+
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("download", downloader)
+		var loaded int64
+		for loaded < contentLength.Int64() {
+			s.Get("download").Enqueue(&DownloadChunk{
+				Offset:    loaded,
+				ChunkSize: chunkSize,
+			})
+			loaded += chunkSize
+		}
+	})
 
 	return nil
 }
