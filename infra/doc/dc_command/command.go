@@ -14,6 +14,7 @@ func New(media dc_index.MediaType, spec rc_recipe.Spec) []dc_section.Section {
 		sections = append(sections, NewSecurity(spec))
 		sections = append(sections, NewAuth(spec))
 	}
+
 	sections = append(sections, NewUsage(spec))
 	if 0 < len(spec.Feeds()) {
 		sections = append(sections, NewFeed(spec))

@@ -74,8 +74,6 @@ func (z *bwfImpl) Wait() {
 }
 
 func (z *bwfImpl) releaseWriter(w BlockWriter) {
-	w.Wait()
-
 	l := z.l
 	l.Debug("Release writer", esl.String("path", w.Path()))
 	z.mutex.Lock()
