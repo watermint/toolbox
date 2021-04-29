@@ -36,7 +36,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |-----------------|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
 | `-peer-name`    | Account alias for deployment.                                                                         | deploy                                                  |
 | `-replay-path`  | Replay repository path. Fall back to the environment variable `TOOLBOX_REPLAY_PATH` if not specified. |                                                         |
-| `-results-path` | Test failure result destination path.                                                                 | /watermint-toolbox-logs/{% raw %}{{{% endraw %}.Date{% raw %}}}{% endraw %}-{% raw %}{{{% endraw %}.Time{% raw %}}}{% endraw %}/{% raw %}{{{% endraw %}.Random{% raw %}}}{% endraw %} |
+| `-results-path` | Test failure result destination path.                                                                 | /watermint-toolbox-logs/{% raw %}{{.{% endraw %}Date}}-{% raw %}{{.{% endraw %}Time}}/{% raw %}{{.{% endraw %}Random}} |
 | `-timeout`      | Test result upload operation timeout.                                                                 | 60                                                      |
 
 ## Common options:

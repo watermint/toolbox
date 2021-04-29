@@ -68,9 +68,7 @@ func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.
 		err = tmpl.Execute(&buf, map[string]string{
 			"Title":  title,
 			"Layout": layoutName,
-			"Body": strings.ReplaceAll(strings.ReplaceAll(body,
-				"{{", "{% raw %}{{{% endraw %}"),
-				"}}", "{% raw %}}}{% endraw %}"),
+			"Body":   strings.ReplaceAll(body, "{{.", "{% raw %}{{.{% endraw %}"),
 		})
 		if err != nil {
 			panic(err)

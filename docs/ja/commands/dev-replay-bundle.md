@@ -36,7 +36,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |-----------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
 | `-peer-name`    | 配置用アカウントのエイリアス                                                                         | deploy                                                  |
 | `-replay-path`  | リプレイのリポジトリパス指定されていない場合は環境変数 `TOOLBOX_REPLAY_PATH` にフォールバックします. |                                                         |
-| `-results-path` | テストの失敗結果の送信先パス                                                                         | /watermint-toolbox-logs/{% raw %}{{{% endraw %}.Date{% raw %}}}{% endraw %}-{% raw %}{{{% endraw %}.Time{% raw %}}}{% endraw %}/{% raw %}{{{% endraw %}.Random{% raw %}}}{% endraw %} |
+| `-results-path` | テストの失敗結果の送信先パス                                                                         | /watermint-toolbox-logs/{% raw %}{{.{% endraw %}Date}}-{% raw %}{{.{% endraw %}Time}}/{% raw %}{{.{% endraw %}Random}} |
 | `-timeout`      | テスト結果のアップロード操作のタイムアウト                                                           | 60                                                      |
 
 ## 共通のオプション:
