@@ -28,12 +28,3 @@ author:
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
-  - jekyll-multiple-languages-plugin
-
-# i18n
-languages: ["en", "ja"]
-exclude_from_localizations: ["favicon.ico", "images"]
-defaultLang: en
-languageNames:
-  en: English
-  ja: 日本語
