@@ -1,5 +1,6 @@
 ---
-layout: page title: About
+layout: page
+title: License
 ---
 
 # License

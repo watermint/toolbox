@@ -1,0 +1,9 @@
+site:
+  name: watermint toolbox
+  tagline: Set of tool commands for Dropbox and Dropbox Business.
+  description: Set of tool commands for Dropbox and Dropbox Business.
+  keywords: Dropbox, Dropbox Business
+
+main:
+  home:
+    greeting: Welcome!

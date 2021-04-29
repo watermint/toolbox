@@ -1,0 +1,9 @@
+site:
+  name: watermint toolbox
+  tagline: DropboxおよびDropbox Business向けのツールセット
+  description: DropboxおよびDropbox Business向けのツールセット
+  keywords: Dropbox, Dropbox Business
+
+main:
+  home:
+    greeting: ようこそ
