@@ -29,5 +29,3 @@ author:
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
-
-theme: jekyll-theme-merlot
