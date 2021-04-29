@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"strings"
 	"text/template"
 )
 
@@ -67,7 +68,9 @@ func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.
 		err = tmpl.Execute(&buf, map[string]string{
 			"Title":  title,
 			"Layout": layoutName,
-			"Body":   body,
+			"Body": strings.ReplaceAll(strings.ReplaceAll(body,
+				"{{", "{% raw %}{{{% endraw %}"),
+				"}}", "{% raw %}}}{% endraw %}"),
 		})
 		if err != nil {
 			panic(err)

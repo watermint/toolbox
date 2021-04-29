@@ -11,11 +11,11 @@ title: メンバー管理コマンド
 
 | コマンド                                                                     | 説明                                     |
 |------------------------------------------------------------------------------|------------------------------------------|
-| [member list]({{ site.baseurl }}/ja/commands/member-list.html)               | チームメンバーの一覧                     |
-| [member folder list]({{ site.baseurl }}/ja/commands/member-folder-list.html) | 各メンバーのフォルダを検索               |
-| [member quota list]({{ site.baseurl }}/ja/commands/member-quota-list.html)   | メンバーの容量制限情報を一覧します       |
-| [member quota usage]({{ site.baseurl }}/ja/commands/member-quota-usage.html) | チームメンバーのストレージ利用状況を取得 |
-| [team activity user]({{ site.baseurl }}/ja/commands/team-activity-user.html) | ユーザーごとのアクティビティ             |
+| [member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-list.html)               | チームメンバーの一覧                     |
+| [member folder list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-folder-list.html) | 各メンバーのフォルダを検索               |
+| [member quota list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-quota-list.html)   | メンバーの容量制限情報を一覧します       |
+| [member quota usage]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-quota-usage.html) | チームメンバーのストレージ利用状況を取得 |
+| [team activity user]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-activity-user.html) | ユーザーごとのアクティビティ             |
 
 ## 基本管理コマンド
 
@@ -23,15 +23,15 @@ title: メンバー管理コマンド
 
 | コマンド                                                                               | 説明                                                |
 |----------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [member invite]({{ site.baseurl }}/ja/commands/member-invite.html)                     | メンバーを招待します                                |
-| [member delete]({{ site.baseurl }}/ja/commands/member-delete.html)                     | メンバーを削除します                                |
-| [member detach]({{ site.baseurl }}/ja/commands/member-detach.html)                     | Dropbox BusinessユーザーをBasicユーザーに変更します |
-| [member reinvite]({{ site.baseurl }}/ja/commands/member-reinvite.html)                 | 招待済み状態メンバーをチームに再招待します          |
-| [member update email]({{ site.baseurl }}/ja/commands/member-update-email.html)         | メンバーのメールアドレス処理                        |
-| [member update profile]({{ site.baseurl }}/ja/commands/member-update-profile.html)     | メンバーのプロフィール変更                          |
-| [member update visible]({{ site.baseurl }}/ja/commands/member-update-visible.html)     | メンバーへのディレクトリ制限を無効にします          |
-| [member update invisible]({{ site.baseurl }}/ja/commands/member-update-invisible.html) | メンバーへのディレクトリ制限を有効にします          |
-| [member quota update]({{ site.baseurl }}/ja/commands/member-quota-update.html)         | チームメンバーの容量制限を変更                      |
+| [member invite]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-invite.html)                     | メンバーを招待します                                |
+| [member delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-delete.html)                     | メンバーを削除します                                |
+| [member detach]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-detach.html)                     | Dropbox BusinessユーザーをBasicユーザーに変更します |
+| [member reinvite]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-reinvite.html)                 | 招待済み状態メンバーをチームに再招待します          |
+| [member update email]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-email.html)         | メンバーのメールアドレス処理                        |
+| [member update profile]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-profile.html)     | メンバーのプロフィール変更                          |
+| [member update visible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-visible.html)     | メンバーへのディレクトリ制限を無効にします          |
+| [member update invisible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-invisible.html) | メンバーへのディレクトリ制限を有効にします          |
+| [member quota update]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-quota-update.html)         | チームメンバーの容量制限を変更                      |
 
 ## メンバープロファイル設定コマンド
 
@@ -41,8 +41,8 @@ title: メンバー管理コマンド
 
 | コマンド                                                                           | 説明                         |
 |------------------------------------------------------------------------------------|------------------------------|
-| [member update email]({{ site.baseurl }}/ja/commands/member-update-email.html)     | メンバーのメールアドレス処理 |
-| [member update profile]({{ site.baseurl }}/ja/commands/member-update-profile.html) | メンバーのプロフィール変更   |
+| [member update email]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-email.html)     | メンバーのメールアドレス処理 |
+| [member update profile]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-profile.html) | メンバーのプロフィール変更   |
 
 ## メンバーのストレージ クォータ制御コマンド
 
@@ -50,9 +50,9 @@ title: メンバー管理コマンド
 
 | コマンド                                                                       | 説明                                     |
 |--------------------------------------------------------------------------------|------------------------------------------|
-| [member quota list]({{ site.baseurl }}/ja/commands/member-quota-list.html)     | メンバーの容量制限情報を一覧します       |
-| [member quota usage]({{ site.baseurl }}/ja/commands/member-quota-usage.html)   | チームメンバーのストレージ利用状況を取得 |
-| [member quota update]({{ site.baseurl }}/ja/commands/member-quota-update.html) | チームメンバーの容量制限を変更           |
+| [member quota list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-quota-list.html)     | メンバーの容量制限情報を一覧します       |
+| [member quota usage]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-quota-usage.html)   | チームメンバーのストレージ利用状況を取得 |
+| [member quota update]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-quota-update.html) | チームメンバーの容量制限を変更           |
 
 ## ディレクトリ制限コマンド
 
@@ -60,8 +60,8 @@ title: メンバー管理コマンド
 
 | コマンド                                                                               | 説明                                       |
 |----------------------------------------------------------------------------------------|--------------------------------------------|
-| [member update visible]({{ site.baseurl }}/ja/commands/member-update-visible.html)     | メンバーへのディレクトリ制限を無効にします |
-| [member update invisible]({{ site.baseurl }}/ja/commands/member-update-invisible.html) | メンバーへのディレクトリ制限を有効にします |
+| [member update visible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-visible.html)     | メンバーへのディレクトリ制限を無効にします |
+| [member update invisible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-invisible.html) | メンバーへのディレクトリ制限を有効にします |
 
 # グループのコマンド
 
@@ -71,11 +71,11 @@ title: メンバー管理コマンド
 
 | コマンド                                                                     | 説明                 |
 |------------------------------------------------------------------------------|----------------------|
-| [group add]({{ site.baseurl }}/ja/commands/group-add.html)                   | グループを作成します |
-| [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)             | グループを削除します |
-| [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html) | グループの削除       |
-| [group list]({{ site.baseurl }}/ja/commands/group-list.html)                 | グループを一覧       |
-| [group rename]({{ site.baseurl }}/ja/commands/group-rename.html)             | グループの改名       |
+| [group add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-add.html)                   | グループを作成します |
+| [group delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-delete.html)             | グループを削除します |
+| [group batch delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-batch-delete.html) | グループの削除       |
+| [group list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-list.html)                 | グループを一覧       |
+| [group rename]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-rename.html)             | グループの改名       |
 
 ## グループメンバー管理コマンド
 
@@ -83,12 +83,12 @@ title: メンバー管理コマンド
 
 | コマンド                                                                                   | 説明                                       |
 |--------------------------------------------------------------------------------------------|--------------------------------------------|
-| [group member add]({{ site.baseurl }}/ja/commands/group-member-add.html)                   | メンバーをグループに追加                   |
-| [group member delete]({{ site.baseurl }}/ja/commands/group-member-delete.html)             | メンバーをグループから削除                 |
-| [group member list]({{ site.baseurl }}/ja/commands/group-member-list.html)                 | グループに所属するメンバー一覧を取得します |
-| [group member batch add]({{ site.baseurl }}/ja/commands/group-member-batch-add.html)       | グループにメンバーを一括追加               |
-| [group member batch delete]({{ site.baseurl }}/ja/commands/group-member-batch-delete.html) | グループからメンバーを削除                 |
-| [group member batch update]({{ site.baseurl }}/ja/commands/group-member-batch-update.html) | グループからメンバーを追加または削除       |
+| [group member add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-member-add.html)                   | メンバーをグループに追加                   |
+| [group member delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-member-delete.html)             | メンバーをグループから削除                 |
+| [group member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-member-list.html)                 | グループに所属するメンバー一覧を取得します |
+| [group member batch add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-member-batch-add.html)       | グループにメンバーを一括追加               |
+| [group member batch delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-member-batch-delete.html) | グループからメンバーを削除                 |
+| [group member batch update]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-member-batch-update.html) | グループからメンバーを追加または削除       |
 
 ## 未使用のグループの検索と削除
 
@@ -98,9 +98,9 @@ title: メンバー管理コマンド
 
 | コマンド                                                                     | 説明                       |
 |------------------------------------------------------------------------------|----------------------------|
-| [group list]({{ site.baseurl }}/ja/commands/group-list.html)                 | グループを一覧             |
-| [group folder list]({{ site.baseurl }}/ja/commands/group-folder-list.html)   | 各グループのフォルダを探す |
-| [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html) | グループの削除             |
+| [group list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-list.html)                 | グループを一覧             |
+| [group folder list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-folder-list.html)   | 各グループのフォルダを探す |
+| [group batch delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/group-batch-delete.html) | グループの削除             |
 
 # チームコンテンツのコマンド
 
@@ -114,15 +114,15 @@ title: メンバー管理コマンド
 
 | コマンド                                                                                         | 説明                                   |
 |--------------------------------------------------------------------------------------------------|----------------------------------------|
-| [teamfolder list]({{ site.baseurl }}/ja/commands/teamfolder-list.html)                           | チームフォルダの一覧                   |
-| [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)             | チームフォルダのポリシー一覧           |
-| [teamfolder file size]({{ site.baseurl }}/ja/commands/teamfolder-file-size.html)                 | チームフォルダのサイズを計算           |
-| [teamfolder add]({{ site.baseurl }}/ja/commands/teamfolder-add.html)                             | チームフォルダを追加します             |
-| [teamfolder archive]({{ site.baseurl }}/ja/commands/teamfolder-archive.html)                     | チームフォルダのアーカイブ             |
-| [teamfolder permdelete]({{ site.baseurl }}/ja/commands/teamfolder-permdelete.html)               | チームフォルダを完全に削除します       |
-| [teamfolder batch archive]({{ site.baseurl }}/ja/commands/teamfolder-batch-archive.html)         | 複数のチームフォルダをアーカイブします |
-| [teamfolder batch permdelete]({{ site.baseurl }}/ja/commands/teamfolder-batch-permdelete.html)   | 複数のチームフォルダを完全に削除します |
-| [teamfolder batch replication]({{ site.baseurl }}/ja/commands/teamfolder-batch-replication.html) | チームフォルダの一括レプリケーション   |
+| [teamfolder list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-list.html)                           | チームフォルダの一覧                   |
+| [teamfolder policy list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-policy-list.html)             | チームフォルダのポリシー一覧           |
+| [teamfolder file size]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-file-size.html)                 | チームフォルダのサイズを計算           |
+| [teamfolder add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-add.html)                             | チームフォルダを追加します             |
+| [teamfolder archive]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-archive.html)                     | チームフォルダのアーカイブ             |
+| [teamfolder permdelete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-permdelete.html)               | チームフォルダを完全に削除します       |
+| [teamfolder batch archive]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-batch-archive.html)         | 複数のチームフォルダをアーカイブします |
+| [teamfolder batch permdelete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-batch-permdelete.html)   | 複数のチームフォルダを完全に削除します |
+| [teamfolder batch replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-batch-replication.html) | チームフォルダの一括レプリケーション   |
 
 ## チームフォルダの権限コマンド
 
@@ -130,9 +130,9 @@ title: メンバー管理コマンド
 
 | コマンド                                                                                 | 説明                                            |
 |------------------------------------------------------------------------------------------|-------------------------------------------------|
-| [teamfolder member list]({{ site.baseurl }}/ja/commands/teamfolder-member-list.html)     | チームフォルダのメンバー一覧                    |
-| [teamfolder member add]({{ site.baseurl }}/ja/commands/teamfolder-member-add.html)       | チームフォルダへのユーザー/グループの一括追加   |
-| [teamfolder member delete]({{ site.baseurl }}/ja/commands/teamfolder-member-delete.html) | チームフォルダからのユーザー/グループの一括削除 |
+| [teamfolder member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-member-list.html)     | チームフォルダのメンバー一覧                    |
+| [teamfolder member add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-member-add.html)       | チームフォルダへのユーザー/グループの一括追加   |
+| [teamfolder member delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-member-delete.html) | チームフォルダからのユーザー/グループの一括削除 |
 
 ## チームフォルダと共有フォルダのコマンド
 
@@ -141,30 +141,30 @@ title: メンバー管理コマンド
 
 | コマンド                                                                                 | 説明                                                                                   |
 |------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [team content member list]({{ site.baseurl }}/ja/commands/team-content-member-list.html) | チームフォルダや共有フォルダのメンバー一覧                                             |
-| [team content mount list]({{ site.baseurl }}/ja/commands/team-content-mount-list.html)   | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
-| [team content policy list]({{ site.baseurl }}/ja/commands/team-content-policy-list.html) | チームフォルダと共有フォルダのポリシー一覧                                             |
+| [team content member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-content-member-list.html) | チームフォルダや共有フォルダのメンバー一覧                                             |
+| [team content mount list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-content-mount-list.html)   | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
+| [team content policy list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-content-policy-list.html) | チームフォルダと共有フォルダのポリシー一覧                                             |
 
 ## 名前空間コマンド
 
 | コマンド                                                                                     | 説明                                               |
 |----------------------------------------------------------------------------------------------|----------------------------------------------------|
-| [team namespace list]({{ site.baseurl }}/ja/commands/team-namespace-list.html)               | チーム内すべての名前空間を一覧                     |
-| [team namespace file list]({{ site.baseurl }}/ja/commands/team-namespace-file-list.html)     | チーム内全ての名前空間でのファイル・フォルダを一覧 |
-| [team namespace file size]({{ site.baseurl }}/ja/commands/team-namespace-file-size.html)     | チーム内全ての名前空間でのファイル・フォルダを一覧 |
-| [team namespace member list]({{ site.baseurl }}/ja/commands/team-namespace-member-list.html) | チームフォルダ以下のファイル・フォルダを一覧       |
+| [team namespace list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-namespace-list.html)               | チーム内すべての名前空間を一覧                     |
+| [team namespace file list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-namespace-file-list.html)     | チーム内全ての名前空間でのファイル・フォルダを一覧 |
+| [team namespace file size]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-namespace-file-size.html)     | チーム内全ての名前空間でのファイル・フォルダを一覧 |
+| [team namespace member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-namespace-member-list.html) | チームフォルダ以下のファイル・フォルダを一覧       |
 
 ## チームのファイルリクエスト コマンド
 
 | コマンド                                                                           | 説明                                       |
 |------------------------------------------------------------------------------------|--------------------------------------------|
-| [team filerequest list]({{ site.baseurl }}/ja/commands/team-filerequest-list.html) | チームないのファイルリクエストを一覧します |
+| [team filerequest list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-filerequest-list.html) | チームないのファイルリクエストを一覧します |
 
 ## メンバーファイルのコマンド
 
 | コマンド                                                                             | 説明                                                                                                                                        |
 |--------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| [member file permdelete]({{ site.baseurl }}/ja/commands/member-file-permdelete.html) | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します完全に削除については、https://www.dropbox.com/help/40 をご覧ください. |
+| [member file permdelete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-file-permdelete.html) | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します完全に削除については、https://www.dropbox.com/help/40 をご覧ください. |
 
 # チーム共有リンクコマンド
 
@@ -172,12 +172,12 @@ title: メンバー管理コマンド
 
 | コマンド                                                                                                   | 説明                                                           |
 |------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
-| [team sharedlink list]({{ site.baseurl }}/ja/commands/team-sharedlink-list.html)                           | 共有リンクの一覧                                               |
-| [team sharedlink update expiry]({{ site.baseurl }}/ja/commands/team-sharedlink-update-expiry.html)         | チーム内の公開されている共有リンクについて有効期限を更新します |
-| [team sharedlink update password]({{ site.baseurl }}/ja/commands/team-sharedlink-update-password.html)     | 共有リンクのパスワードの設定・更新                             |
-| [team sharedlink update visibility]({{ site.baseurl }}/ja/commands/team-sharedlink-update-visibility.html) | 共有リンクの可視性の更新                                       |
-| [team sharedlink delete links]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-links.html)           | 共有リンクの一括削除                                           |
-| [team sharedlink delete member]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-member.html)         | メンバーの共有リンクをすべて削除                               |
+| [team sharedlink list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-sharedlink-list.html)                           | 共有リンクの一覧                                               |
+| [team sharedlink update expiry]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-sharedlink-update-expiry.html)         | チーム内の公開されている共有リンクについて有効期限を更新します |
+| [team sharedlink update password]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-sharedlink-update-password.html)     | 共有リンクのパスワードの設定・更新                             |
+| [team sharedlink update visibility]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-sharedlink-update-visibility.html) | 共有リンクの可視性の更新                                       |
+| [team sharedlink delete links]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-sharedlink-delete-links.html)           | 共有リンクの一括削除                                           |
+| [team sharedlink delete member]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-sharedlink-delete-member.html)         | メンバーの共有リンクをすべて削除                               |
 
 ## 例(リンクの一覧):
 
@@ -222,18 +222,18 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 | コマンド                                                                                         | 説明                                               |
 |--------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| [member file lock all release]({{ site.baseurl }}/ja/commands/member-file-lock-all-release.html) | メンバーのパスの下にあるすべてのロックを解除します |
-| [member file lock list]({{ site.baseurl }}/ja/commands/member-file-lock-list.html)               | パスの下にあるメンバーのロックを一覧表示           |
-| [member file lock release]({{ site.baseurl }}/ja/commands/member-file-lock-release.html)         | メンバーとしてパスのロックを解除します             |
+| [member file lock all release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-file-lock-all-release.html) | メンバーのパスの下にあるすべてのロックを解除します |
+| [member file lock list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-file-lock-list.html)               | パスの下にあるメンバーのロックを一覧表示           |
+| [member file lock release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-file-lock-release.html)         | メンバーとしてパスのロックを解除します             |
 
 ## チームフォルダのファイルロックコマンド
 
 | コマンド                                                                                                 | 説明                                                   |
 |----------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| [teamfolder file list]({{ site.baseurl }}/ja/commands/teamfolder-file-list.html)                         | チームフォルダの一覧                                   |
-| [teamfolder file lock all release]({{ site.baseurl }}/ja/commands/teamfolder-file-lock-all-release.html) | チームフォルダのパスの下にあるすべてのロックを解除する |
-| [teamfolder file lock list]({{ site.baseurl }}/ja/commands/teamfolder-file-lock-list.html)               | チームフォルダ内のロックを一覧表示                     |
-| [teamfolder file lock release]({{ site.baseurl }}/ja/commands/teamfolder-file-lock-release.html)         | チームフォルダ内のパスのロックを解除                   |
+| [teamfolder file list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-file-list.html)                         | チームフォルダの一覧                                   |
+| [teamfolder file lock all release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-file-lock-all-release.html) | チームフォルダのパスの下にあるすべてのロックを解除する |
+| [teamfolder file lock list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-file-lock-list.html)               | チームフォルダ内のロックを一覧表示                     |
+| [teamfolder file lock release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-file-lock-release.html)         | チームフォルダ内のパスのロックを解除                   |
 
 # アクティビティ ログ コマンド
 
@@ -241,10 +241,10 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 | コマンド                                                                                   | 説明                                         |
 |--------------------------------------------------------------------------------------------|----------------------------------------------|
-| [team activity batch user]({{ site.baseurl }}/ja/commands/team-activity-batch-user.html)   | 複数ユーザーのアクティビティを一括取得します |
-| [team activity daily event]({{ site.baseurl }}/ja/commands/team-activity-daily-event.html) | アクティビティーを1日ごとに取得します        |
-| [team activity event]({{ site.baseurl }}/ja/commands/team-activity-event.html)             | イベントログ                                 |
-| [team activity user]({{ site.baseurl }}/ja/commands/team-activity-user.html)               | ユーザーごとのアクティビティ                 |
+| [team activity batch user]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-activity-batch-user.html)   | 複数ユーザーのアクティビティを一括取得します |
+| [team activity daily event]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-activity-daily-event.html) | アクティビティーを1日ごとに取得します        |
+| [team activity event]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-activity-event.html)             | イベントログ                                 |
+| [team activity user]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-activity-user.html)               | ユーザーごとのアクティビティ                 |
 
 # 接続されたアプリケーションとデバイスのコマンド.
 
@@ -252,9 +252,9 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 | コマンド                                                                       | 説明                                          |
 |--------------------------------------------------------------------------------|-----------------------------------------------|
-| [team device list]({{ site.baseurl }}/ja/commands/team-device-list.html)       | チーム内全てのデバイス/セッションを一覧します |
-| [team device unlink]({{ site.baseurl }}/ja/commands/team-device-unlink.html)   | デバイスのセッションを解除します              |
-| [team linkedapp list]({{ site.baseurl }}/ja/commands/team-linkedapp-list.html) | リンク済みアプリを一覧                        |
+| [team device list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-device-list.html)       | チーム内全てのデバイス/セッションを一覧します |
+| [team device unlink]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-device-unlink.html)   | デバイスのセッションを解除します              |
+| [team linkedapp list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-linkedapp-list.html) | リンク済みアプリを一覧                        |
 
 # その他の使用例
 
@@ -270,9 +270,9 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 
 | コマンド                                                                                 | 説明                                     |
 |------------------------------------------------------------------------------------------|------------------------------------------|
-| [member list]({{ site.baseurl }}/ja/commands/member-list.html)                           | チームメンバーの一覧                     |
-| [member clear externalid]({{ site.baseurl }}/ja/commands/member-clear-externalid.html)   | メンバーのexternal_idを初期化します      |
-| [member update externalid]({{ site.baseurl }}/ja/commands/member-update-externalid.html) | チームメンバーのExternal IDを更新します. |
+| [member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-list.html)                           | チームメンバーの一覧                     |
+| [member clear externalid]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-clear-externalid.html)   | メンバーのexternal_idを初期化します      |
+| [member update externalid]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-update-externalid.html) | チームメンバーのExternal IDを更新します. |
 
 ## データ移行補助コマンド
 
@@ -280,17 +280,17 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 
 | コマンド                                                                                             | 説明                                                 |
 |------------------------------------------------------------------------------------------------------|------------------------------------------------------|
-| [member folder replication]({{ site.baseurl }}/ja/commands/member-folder-replication.html)           | フォルダを他のメンバーの個人フォルダに複製します     |
-| [member replication]({{ site.baseurl }}/ja/commands/member-replication.html)                         | チームメンバーのファイルを複製します                 |
-| [teamfolder partial replication]({{ site.baseurl }}/ja/commands/teamfolder-partial-replication.html) | 部分的なチームフォルダの他チームへのレプリケーション |
-| [teamfolder replication]({{ site.baseurl }}/ja/commands/teamfolder-replication.html)                 | チームフォルダを他のチームに複製します               |
+| [member folder replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-folder-replication.html)           | フォルダを他のメンバーの個人フォルダに複製します     |
+| [member replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/member-replication.html)                         | チームメンバーのファイルを複製します                 |
+| [teamfolder partial replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-partial-replication.html) | 部分的なチームフォルダの他チームへのレプリケーション |
+| [teamfolder replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/teamfolder-replication.html)                 | チームフォルダを他のチームに複製します               |
 
 ## チーム情報コマンド
 
 | コマンド                                                         | 説明                     |
 |------------------------------------------------------------------|--------------------------|
-| [team feature]({{ site.baseurl }}/ja/commands/team-feature.html) | チームの機能を出力します |
-| [team info]({{ site.baseurl }}/ja/commands/team-info.html)       | チームの情報             |
+| [team feature]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-feature.html) | チームの機能を出力します |
+| [team info]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/ja/commands/team-info.html)       | チームの情報             |
 
 # 注意事項:
 

@@ -11,11 +11,11 @@ Below commands are to retrieve information about team members.
 
 | Command                                                                   | Description                    |
 |---------------------------------------------------------------------------|--------------------------------|
-| [member list]({{ site.baseurl }}/commands/member-list.html)               | List team member(s)            |
-| [member folder list]({{ site.baseurl }}/commands/member-folder-list.html) | Find folders for each member   |
-| [member quota list]({{ site.baseurl }}/commands/member-quota-list.html)   | List team member quota         |
-| [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html) | List team member storage usage |
-| [team activity user]({{ site.baseurl }}/commands/team-activity-user.html) | Activities log per user        |
+| [member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-list.html)               | List team member(s)            |
+| [member folder list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-folder-list.html) | Find folders for each member   |
+| [member quota list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-quota-list.html)   | List team member quota         |
+| [member quota usage]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-quota-usage.html) | List team member storage usage |
+| [team activity user]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-activity-user.html) | Activities log per user        |
 
 ## Basic management commands
 
@@ -23,15 +23,15 @@ Below commands are for managing team member accounts. Those commands are for a b
 
 | Command                                                                             | Description                                          |
 |-------------------------------------------------------------------------------------|------------------------------------------------------|
-| [member invite]({{ site.baseurl }}/commands/member-invite.html)                     | Invite member(s)                                     |
-| [member delete]({{ site.baseurl }}/commands/member-delete.html)                     | Delete members                                       |
-| [member detach]({{ site.baseurl }}/commands/member-detach.html)                     | Convert Dropbox Business accounts to a Basic account |
-| [member reinvite]({{ site.baseurl }}/commands/member-reinvite.html)                 | Reinvite invited status members to the team          |
-| [member update email]({{ site.baseurl }}/commands/member-update-email.html)         | Member email operation                               |
-| [member update profile]({{ site.baseurl }}/commands/member-update-profile.html)     | Update member profile                                |
-| [member update visible]({{ site.baseurl }}/commands/member-update-visible.html)     | Disable directory restriction to members             |
-| [member update invisible]({{ site.baseurl }}/commands/member-update-invisible.html) | Enable directory restriction to members              |
-| [member quota update]({{ site.baseurl }}/commands/member-quota-update.html)         | Update team member quota                             |
+| [member invite]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-invite.html)                     | Invite member(s)                                     |
+| [member delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-delete.html)                     | Delete members                                       |
+| [member detach]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-detach.html)                     | Convert Dropbox Business accounts to a Basic account |
+| [member reinvite]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-reinvite.html)                 | Reinvite invited status members to the team          |
+| [member update email]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-email.html)         | Member email operation                               |
+| [member update profile]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-profile.html)     | Update member profile                                |
+| [member update visible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-visible.html)     | Disable directory restriction to members             |
+| [member update invisible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-invisible.html) | Enable directory restriction to members              |
+| [member quota update]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-quota-update.html)         | Update team member quota                             |
 
 ## Member profile setting commands
 
@@ -41,8 +41,8 @@ If you need to update the member's display name, use the 'member update profile`
 
 | Command                                                                         | Description            |
 |---------------------------------------------------------------------------------|------------------------|
-| [member update email]({{ site.baseurl }}/commands/member-update-email.html)     | Member email operation |
-| [member update profile]({{ site.baseurl }}/commands/member-update-profile.html) | Update member profile  |
+| [member update email]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-email.html)     | Member email operation |
+| [member update profile]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-profile.html) | Update member profile  |
 
 ## Member storage quota control commands
 
@@ -50,9 +50,9 @@ You can see existing member storage quota setting or usage by the `member quota 
 
 | Command                                                                     | Description                    |
 |-----------------------------------------------------------------------------|--------------------------------|
-| [member quota list]({{ site.baseurl }}/commands/member-quota-list.html)     | List team member quota         |
-| [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html)   | List team member storage usage |
-| [member quota update]({{ site.baseurl }}/commands/member-quota-update.html) | Update team member quota       |
+| [member quota list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-quota-list.html)     | List team member quota         |
+| [member quota usage]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-quota-usage.html)   | List team member storage usage |
+| [member quota update]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-quota-update.html) | Update team member quota       |
 
 ## Directory restriction commands
 
@@ -60,8 +60,8 @@ Directory restriction is the Dropbox Business feature to hide a member from othe
 
 | Command                                                                             | Description                              |
 |-------------------------------------------------------------------------------------|------------------------------------------|
-| [member update visible]({{ site.baseurl }}/commands/member-update-visible.html)     | Disable directory restriction to members |
-| [member update invisible]({{ site.baseurl }}/commands/member-update-invisible.html) | Enable directory restriction to members  |
+| [member update visible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-visible.html)     | Disable directory restriction to members |
+| [member update invisible]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-invisible.html) | Enable directory restriction to members  |
 
 # Group commands
 
@@ -71,11 +71,11 @@ Below commands are for managing groups.
 
 | Command                                                                   | Description      |
 |---------------------------------------------------------------------------|------------------|
-| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group |
-| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group     |
-| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups    |
-| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)    |
-| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group |
+| [group add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-add.html)                   | Create new group |
+| [group delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-delete.html)             | Delete group     |
+| [group batch delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-batch-delete.html) | Delete groups    |
+| [group list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-list.html)                 | List group(s)    |
+| [group rename]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-rename.html)             | Rename the group |
 
 ## Group member management commands
 
@@ -83,12 +83,12 @@ You can add/delete/update group members by the below commands. If you want to ad
 
 | Command                                                                                 | Description                       |
 |-----------------------------------------------------------------------------------------|-----------------------------------|
-| [group member add]({{ site.baseurl }}/commands/group-member-add.html)                   | Add a member to the group         |
-| [group member delete]({{ site.baseurl }}/commands/group-member-delete.html)             | Delete a member from the group    |
-| [group member list]({{ site.baseurl }}/commands/group-member-list.html)                 | List members of groups            |
-| [group member batch add]({{ site.baseurl }}/commands/group-member-batch-add.html)       | Bulk add members into groups      |
-| [group member batch delete]({{ site.baseurl }}/commands/group-member-batch-delete.html) | Delete members from groups        |
-| [group member batch update]({{ site.baseurl }}/commands/group-member-batch-update.html) | Add or delete members from groups |
+| [group member add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-member-add.html)                   | Add a member to the group         |
+| [group member delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-member-delete.html)             | Delete a member from the group    |
+| [group member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-member-list.html)                 | List members of groups            |
+| [group member batch add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-member-batch-add.html)       | Bulk add members into groups      |
+| [group member batch delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-member-batch-delete.html) | Delete members from groups        |
+| [group member batch update]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-member-batch-update.html) | Add or delete members from groups |
 
 ## Find and delete unused groups
 
@@ -98,9 +98,9 @@ You can safely remove groups once if you check both the number of members and fo
 
 | Command                                                                   | Description                |
 |---------------------------------------------------------------------------|----------------------------|
-| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)              |
-| [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)   | Find folders of each group |
-| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups              |
+| [group list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-list.html)                 | List group(s)              |
+| [group folder list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-folder-list.html)   | Find folders of each group |
+| [group batch delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/group-batch-delete.html) | Delete groups              |
 
 # Team content commands
 
@@ -114,15 +114,15 @@ You can create, archive or permanently delete team folders by using the below co
 
 | Command                                                                                       | Description                       |
 |-----------------------------------------------------------------------------------------------|-----------------------------------|
-| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                           | List team folder(s)               |
-| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)             | List policies of team folders     |
-| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                 | Calculate size of team folders    |
-| [teamfolder add]({{ site.baseurl }}/commands/teamfolder-add.html)                             | Add team folder to the team       |
-| [teamfolder archive]({{ site.baseurl }}/commands/teamfolder-archive.html)                     | Archive team folder               |
-| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)               | Permanently delete team folder    |
-| [teamfolder batch archive]({{ site.baseurl }}/commands/teamfolder-batch-archive.html)         | Archiving team folders            |
-| [teamfolder batch permdelete]({{ site.baseurl }}/commands/teamfolder-batch-permdelete.html)   | Permanently delete team folders   |
-| [teamfolder batch replication]({{ site.baseurl }}/commands/teamfolder-batch-replication.html) | Batch replication of team folders |
+| [teamfolder list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-list.html)                           | List team folder(s)               |
+| [teamfolder policy list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-policy-list.html)             | List policies of team folders     |
+| [teamfolder file size]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-file-size.html)                 | Calculate size of team folders    |
+| [teamfolder add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-add.html)                             | Add team folder to the team       |
+| [teamfolder archive]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-archive.html)                     | Archive team folder               |
+| [teamfolder permdelete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-permdelete.html)               | Permanently delete team folder    |
+| [teamfolder batch archive]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-batch-archive.html)         | Archiving team folders            |
+| [teamfolder batch permdelete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-batch-permdelete.html)   | Permanently delete team folders   |
+| [teamfolder batch replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-batch-replication.html) | Batch replication of team folders |
 
 ## Team folder permission commands
 
@@ -130,9 +130,9 @@ You can bulk add or delete members into team folders or sub-folders of a team fo
 
 | Command                                                                               | Description                                   |
 |---------------------------------------------------------------------------------------|-----------------------------------------------|
-| [teamfolder member list]({{ site.baseurl }}/commands/teamfolder-member-list.html)     | List team folder members                      |
-| [teamfolder member add]({{ site.baseurl }}/commands/teamfolder-member-add.html)       | Batch adding users/groups to team folders     |
-| [teamfolder member delete]({{ site.baseurl }}/commands/teamfolder-member-delete.html) | Batch removing users/groups from team folders |
+| [teamfolder member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-member-list.html)     | List team folder members                      |
+| [teamfolder member add]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-member-add.html)       | Batch adding users/groups to team folders     |
+| [teamfolder member delete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-member-delete.html) | Batch removing users/groups from team folders |
 
 ## Team folder & shared folder commands
 
@@ -141,30 +141,30 @@ If you wanted to know who are actually uses specific folders, please consider us
 
 | Command                                                                               | Description                                                  |
 |---------------------------------------------------------------------------------------|--------------------------------------------------------------|
-| [team content member list]({{ site.baseurl }}/commands/team-content-member-list.html) | List team folder & shared folder members                     |
-| [team content mount list]({{ site.baseurl }}/commands/team-content-mount-list.html)   | List all mounted/unmounted shared folders of team members.   |
-| [team content policy list]({{ site.baseurl }}/commands/team-content-policy-list.html) | List policies of team folders and shared folders in the team |
+| [team content member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-content-member-list.html) | List team folder & shared folder members                     |
+| [team content mount list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-content-mount-list.html)   | List all mounted/unmounted shared folders of team members.   |
+| [team content policy list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-content-policy-list.html) | List policies of team folders and shared folders in the team |
 
 ## Namespace commands
 
 | Command                                                                                   | Description                                                 |
 |-------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)               | List all namespaces of the team                             |
-| [team namespace file list]({{ site.baseurl }}/commands/team-namespace-file-list.html)     | List all files and folders of the team namespaces           |
-| [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)     | List all files and folders of the team namespaces           |
-| [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html) | List members of shared folders and team folders in the team |
+| [team namespace list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-namespace-list.html)               | List all namespaces of the team                             |
+| [team namespace file list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-namespace-file-list.html)     | List all files and folders of the team namespaces           |
+| [team namespace file size]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-namespace-file-size.html)     | List all files and folders of the team namespaces           |
+| [team namespace member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-namespace-member-list.html) | List members of shared folders and team folders in the team |
 
 ## Team file request commands
 
 | Command                                                                         | Description                        |
 |---------------------------------------------------------------------------------|------------------------------------|
-| [team filerequest list]({{ site.baseurl }}/commands/team-filerequest-list.html) | List all file requests in the team |
+| [team filerequest list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-filerequest-list.html) | List all file requests in the team |
 
 ## Member file commands
 
 | Command                                                                           | Description                                                                                                                                                    |
 |-----------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [member file permdelete]({{ site.baseurl }}/commands/member-file-permdelete.html) | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
+| [member file permdelete]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-file-permdelete.html) | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
 
 # Team shared link commands
 
@@ -172,12 +172,12 @@ The team shared link commands are capable of listing all shared links in the tea
 
 | Command                                                                                                 | Description                                                   |
 |---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [team sharedlink list]({{ site.baseurl }}/commands/team-sharedlink-list.html)                           | List of shared links                                          |
-| [team sharedlink update expiry]({{ site.baseurl }}/commands/team-sharedlink-update-expiry.html)         | Update expiration date of public shared links within the team |
-| [team sharedlink update password]({{ site.baseurl }}/commands/team-sharedlink-update-password.html)     | Set or update shared link passwords                           |
-| [team sharedlink update visibility]({{ site.baseurl }}/commands/team-sharedlink-update-visibility.html) | Update visibility of shared links                             |
-| [team sharedlink delete links]({{ site.baseurl }}/commands/team-sharedlink-delete-links.html)           | Batch delete shared links                                     |
-| [team sharedlink delete member]({{ site.baseurl }}/commands/team-sharedlink-delete-member.html)         | Delete all shared links of the member                         |
+| [team sharedlink list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-sharedlink-list.html)                           | List of shared links                                          |
+| [team sharedlink update expiry]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-sharedlink-update-expiry.html)         | Update expiration date of public shared links within the team |
+| [team sharedlink update password]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-sharedlink-update-password.html)     | Set or update shared link passwords                           |
+| [team sharedlink update visibility]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-sharedlink-update-visibility.html) | Update visibility of shared links                             |
+| [team sharedlink delete links]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-sharedlink-delete-links.html)           | Batch delete shared links                                     |
+| [team sharedlink delete member]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-sharedlink-delete-member.html)         | Delete all shared links of the member                         |
 
 ## Example (list links):
 
@@ -222,18 +222,18 @@ File lock commands are capable of listing current file locks or releasing file l
 
 | Command                                                                                       | Description                                    |
 |-----------------------------------------------------------------------------------------------|------------------------------------------------|
-| [member file lock all release]({{ site.baseurl }}/commands/member-file-lock-all-release.html) | Release all locks under the path of the member |
-| [member file lock list]({{ site.baseurl }}/commands/member-file-lock-list.html)               | List locks of the member under the path        |
-| [member file lock release]({{ site.baseurl }}/commands/member-file-lock-release.html)         | Release the lock of the path as the member     |
+| [member file lock all release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-file-lock-all-release.html) | Release all locks under the path of the member |
+| [member file lock list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-file-lock-list.html)               | List locks of the member under the path        |
+| [member file lock release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-file-lock-release.html)         | Release the lock of the path as the member     |
 
 ## File lock commands for team folders
 
 | Command                                                                                               | Description                                         |
 |-------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [teamfolder file list]({{ site.baseurl }}/commands/teamfolder-file-list.html)                         | List files in team folders                          |
-| [teamfolder file lock all release]({{ site.baseurl }}/commands/teamfolder-file-lock-all-release.html) | Release all locks under the path of the team folder |
-| [teamfolder file lock list]({{ site.baseurl }}/commands/teamfolder-file-lock-list.html)               | List locks in the team folder                       |
-| [teamfolder file lock release]({{ site.baseurl }}/commands/teamfolder-file-lock-release.html)         | Release lock of the path in the team folder         |
+| [teamfolder file list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-file-list.html)                         | List files in team folders                          |
+| [teamfolder file lock all release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-file-lock-all-release.html) | Release all locks under the path of the team folder |
+| [teamfolder file lock list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-file-lock-list.html)               | List locks in the team folder                       |
+| [teamfolder file lock release]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-file-lock-release.html)         | Release lock of the path in the team folder         |
 
 # Activities log commands
 
@@ -241,10 +241,10 @@ The team activities log commands can export activities log by a certain filter o
 
 | Command                                                                                 | Description                        |
 |-----------------------------------------------------------------------------------------|------------------------------------|
-| [team activity batch user]({{ site.baseurl }}/commands/team-activity-batch-user.html)   | Scan activities for multiple users |
-| [team activity daily event]({{ site.baseurl }}/commands/team-activity-daily-event.html) | Report activities by day           |
-| [team activity event]({{ site.baseurl }}/commands/team-activity-event.html)             | Event log                          |
-| [team activity user]({{ site.baseurl }}/commands/team-activity-user.html)               | Activities log per user            |
+| [team activity batch user]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-activity-batch-user.html)   | Scan activities for multiple users |
+| [team activity daily event]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-activity-daily-event.html) | Report activities by day           |
+| [team activity event]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-activity-event.html)             | Event log                          |
+| [team activity user]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-activity-user.html)               | Activities log per user            |
 
 # Connected applications and devices commands
 
@@ -252,9 +252,9 @@ The below commands can retrieve information about connected devices or applicati
 
 | Command                                                                     | Description                           |
 |-----------------------------------------------------------------------------|---------------------------------------|
-| [team device list]({{ site.baseurl }}/commands/team-device-list.html)       | List all devices/sessions in the team |
-| [team device unlink]({{ site.baseurl }}/commands/team-device-unlink.html)   | Unlink device sessions                |
-| [team linkedapp list]({{ site.baseurl }}/commands/team-linkedapp-list.html) | List linked applications              |
+| [team device list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-device-list.html)       | List all devices/sessions in the team |
+| [team device unlink]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-device-unlink.html)   | Unlink device sessions                |
+| [team linkedapp list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-linkedapp-list.html) | List linked applications              |
 
 # Other usecases
 
@@ -270,9 +270,9 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 
 | Command                                                                               | Description                        |
 |---------------------------------------------------------------------------------------|------------------------------------|
-| [member list]({{ site.baseurl }}/commands/member-list.html)                           | List team member(s)                |
-| [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)   | Clear external_id of members       |
-| [member update externalid]({{ site.baseurl }}/commands/member-update-externalid.html) | Update External ID of team members |
+| [member list]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-list.html)                           | List team member(s)                |
+| [member clear externalid]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-clear-externalid.html)   | Clear external_id of members       |
+| [member update externalid]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-update-externalid.html) | Update External ID of team members |
 
 ## Data migration helper commands
 
@@ -280,17 +280,17 @@ Data migration helper commands copies member folders or team folders to another 
 
 | Command                                                                                           | Description                                            |
 |---------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| [member folder replication]({{ site.baseurl }}/commands/member-folder-replication.html)           | Replicate a folder to another member's personal folder |
-| [member replication]({{ site.baseurl }}/commands/member-replication.html)                         | Replicate team member files                            |
-| [teamfolder partial replication]({{ site.baseurl }}/commands/teamfolder-partial-replication.html) | Partial team folder replication to the other team      |
-| [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                 | Replicate a team folder to the other team              |
+| [member folder replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-folder-replication.html)           | Replicate a folder to another member's personal folder |
+| [member replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/member-replication.html)                         | Replicate team member files                            |
+| [teamfolder partial replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-partial-replication.html) | Partial team folder replication to the other team      |
+| [teamfolder replication]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/teamfolder-replication.html)                 | Replicate a team folder to the other team              |
 
 ## Team info commands
 
 | Command                                                       | Description      |
 |---------------------------------------------------------------|------------------|
-| [team feature]({{ site.baseurl }}/commands/team-feature.html) | Team feature     |
-| [team info]({{ site.baseurl }}/commands/team-info.html)       | Team information |
+| [team feature]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-feature.html) | Team feature     |
+| [team info]({% raw %}{{{% endraw %} site.baseurl {% raw %}}}{% endraw %}/commands/team-info.html)       | Team information |
 
 # Notes:
 
