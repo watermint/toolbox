@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
@@ -36,7 +37,7 @@ type Spec interface {
 	SpecId() string
 
 	// Command name and link to the document
-	CliNameRef(relPath string) app_msg.Message
+	CliNameRef(media dc_index.MediaType, relPath string) app_msg.Message
 
 	// Recipe path on cli
 	CliPath() string

@@ -2,11 +2,7 @@
 
 Batch removing users/groups from team folders (Irreversible operation)
 
-The command does not (1) change access inheritance setting of any folders, (2) remove a group, (3) unshare a nested
-folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This
-command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not
-report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lose
-access to the folder, (2) the folder is not found.
+The command does not (1) change access inheritance setting of any folders, (2) remove a group, (3) unshare a nested folder. For (3), that means the nested folder stays the same setting (e.g. shared link policy for the folder). This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, (1) the member already lose access to the folder, (2) the folder is not found.
 
 # Security
 
@@ -18,8 +14,8 @@ access to the folder, (2) the folder is not found.
 | macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-Please do not share those files to anyone including Dropbox support. You can delete those files after use if you want to
-remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+Please do not share those files to anyone including Dropbox support.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
 * Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
@@ -40,9 +36,7 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -77,13 +71,11 @@ macOS, Linux:
 $HOME/Desktop/tbx teamfolder member delete -file /PATH/TO/DATA_FILE.csv
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
-select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "
-General" tab. You may find the message like:
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "
-Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
 ## Options:
 
@@ -116,9 +108,7 @@ Open" on the dialogue.
 
 ## Format: File
 
-Team folder and member list for removing access. Each row can have one member and the one folder. If you want to remove
-two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member
-from two or more folders, please create rows for those folders.
+Team folder and member list for removing access. Each row can have one member and the one folder. If you want to remove two or more members from the folder, please create rows for those members. Similarly, if you want to remove a member from two or more folders, please create rows for those folders.
 
 | Column                     | Description                                                                                                  | Example |
 |----------------------------|--------------------------------------------------------------------------------------------------------------|---------|
@@ -134,8 +124,7 @@ Sales,Report,Sales
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see
-path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -145,8 +134,8 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 
 ## Report: operation_log
 
-This report shows the transaction result. The command will generate a report in three different
-formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
+This report shows the transaction result.
+The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
 | Column                           | Description                                                                                                  |
 |----------------------------------|--------------------------------------------------------------------------------------------------------------|
@@ -158,12 +147,9 @@ formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like
-follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you
-want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't
-support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

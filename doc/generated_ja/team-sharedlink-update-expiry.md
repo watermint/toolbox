@@ -2,8 +2,7 @@
 
 チーム内の公開されている共有リンクについて有効期限を更新します (非可逆な操作です)
 
-注：リリース87以降、このコマンドは、アップデートする共有リンクを選択するためのファイルを受け取ります. チーム内のすべての共有リンクの有効期限を更新したい場合は、`team sharedlink list`の組み合わせをご検討ください.
-例えば、[jq](https://stedolan.github.io/jq/)というコマンドに慣れていれば、以下のように同等の操作を行うことができます（すべての公開リンクに対して28日以内に強制失効させる）.
+注：リリース87以降、このコマンドは、アップデートする共有リンクを選択するためのファイルを受け取ります. チーム内のすべての共有リンクの有効期限を更新したい場合は、`team sharedlink list`の組み合わせをご検討ください. 例えば、[jq](https://stedolan.github.io/jq/)というコマンドに慣れていれば、以下のように同等の操作を行うことができます（すべての公開リンクに対して28日以内に強制失効させる）.
 
 ```
 tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -days 28
@@ -35,8 +34,7 @@ tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' 
 
 # 認可
 
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
-にこの認証コードをペーストしてください.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -133,7 +131,8 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 
 ## レポート: operation_log
 
-このレポートは処理結果を出力します. このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
 | 列                | 説明                                   |
 |-------------------|----------------------------------------|
@@ -152,8 +151,7 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`
-, `operation_log_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

@@ -25,9 +25,9 @@ func (z Supplemental) Title() app_msg.Message {
 func (z Supplemental) Body(ui app_ui.UI) {
 	ui.WithTable("supplemental documents", func(t app_ui.Table) {
 		t.Header(z.DocumentName, z.DocumentDesc)
-		for _, s := range dc_supplemental.Docs {
-			name := dc_index.DocName(s.DocId(), ui.Messages().Lang())
-			link := dc_index.DocName(s.DocId(), ui.Messages().Lang()) + ".md"
+		for _, s := range dc_supplemental.Docs(dc_index.MediaRepository) {
+			name := dc_index.DocName(dc_index.MediaRepository, s.DocId(), ui.Messages().Lang())
+			link := dc_index.DocName(dc_index.MediaRepository, s.DocId(), ui.Messages().Lang())
 			t.Row(app_msg.Raw("["+name+"]("+link+")"), s.DocDesc())
 		}
 	})

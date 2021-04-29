@@ -1,11 +1,13 @@
 package dc_readme
 
 import (
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 )
 
-func New(forPublish bool, commandPath string) []dc_section.Section {
+func New(media dc_index.MediaType, mc app_msg_container.Container, forPublish bool) []dc_section.Section {
 	sections := make([]dc_section.Section, 0)
 	sections = append(sections, NewHeader(forPublish))
 	sections = append(sections, NewLicense())
@@ -16,7 +18,7 @@ func New(forPublish bool, commandPath string) []dc_section.Section {
 	sections = append(sections, NewUsage())
 	if forPublish {
 		sections = append(sections, NewDropboxBusiness())
-		sections = append(sections, NewCommand(forPublish, commandPath))
+		sections = append(sections, NewCommand(forPublish, media, mc))
 		sections = append(sections, NewSupplemental())
 	}
 

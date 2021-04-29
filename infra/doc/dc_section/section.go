@@ -1,10 +1,12 @@
 package dc_section
 
 import (
+	"bytes"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"text/template"
 )
 
 type Section interface {
@@ -18,12 +20,49 @@ type Document interface {
 	Sections() []Section
 }
 
-func Generate(mc app_msg_container.Container, sections ...Section) string {
-	return app_ui.MakeMarkdown(mc, func(ui app_ui.UI) {
+const (
+	WebHeader = `---
+layout: page
+title: {{.Title}}
+---
+
+{{.Body}}
+`
+)
+
+func Generate(media dc_index.MediaType, mc app_msg_container.Container, sections ...Section) string {
+	body := app_ui.MakeMarkdown(mc, func(ui app_ui.UI) {
 		for _, section := range sections {
 			ui.Header(section.Title())
 			section.Body(ui)
 			ui.Break()
 		}
 	})
+
+	title := ""
+	if 0 < len(sections) {
+		title = mc.Compile(sections[0].Title())
+	}
+
+	switch media {
+	case dc_index.MediaRepository:
+		return body
+	case dc_index.MediaWeb:
+		tmpl, err := template.New("web").Parse(WebHeader)
+		if err != nil {
+			panic(err)
+		}
+		buf := bytes.Buffer{}
+		err = tmpl.Execute(&buf, map[string]string{
+			"Title": title,
+			"Body": body,
+		})
+		if err != nil {
+			panic(err)
+		}
+		return buf.String()
+
+	default:
+		panic("Undefined media type")
+	}
 }

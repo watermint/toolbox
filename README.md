@@ -85,7 +85,7 @@ Available commands:
 
 # Dropbox Business commands
 
-Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_business.md) manual for more detail.
+Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_business.md.md) manual for more detail.
 
 # Commands
 
@@ -321,10 +321,10 @@ Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_busine
 
 # Supplemental documents
 
-| Supplemental document                                                                                   | Content overview                 |
-|---------------------------------------------------------------------------------------------------------|----------------------------------|
-| [doc/generated/supplemental_path_variables](doc/generated/supplemental_path_variables.md)               | Path variable manual             |
-| [doc/generated/supplemental_experimental_features](doc/generated/supplemental_experimental_features.md) | Experimental feature manual      |
-| [doc/generated/supplemental_troubleshooting](doc/generated/supplemental_troubleshooting.md)             | Troubleshooting manual           |
-| [doc/generated/supplemental_dropbox_business](doc/generated/supplemental_dropbox_business.md)           | Dropbox Business commands manual |
+| Supplemental document                                                                                      | Content overview                 |
+|------------------------------------------------------------------------------------------------------------|----------------------------------|
+| [doc/generated/supplemental_path_variables.md](doc/generated/supplemental_path_variables.md)               | Path variable manual             |
+| [doc/generated/supplemental_experimental_features.md](doc/generated/supplemental_experimental_features.md) | Experimental feature manual      |
+| [doc/generated/supplemental_troubleshooting.md](doc/generated/supplemental_troubleshooting.md)             | Troubleshooting manual           |
+| [doc/generated/supplemental_dropbox_business.md](doc/generated/supplemental_dropbox_business.md)           | Dropbox Business commands manual |
 

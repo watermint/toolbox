@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_options"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -391,9 +392,16 @@ func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
 	}
 }
 
-func (z *specValueSelfContained) CliNameRef(relPath string) app_msg.Message {
-	path := filepath.Join(relPath, z.SpecId()+".md")
-	return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
+func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, relPath string) app_msg.Message {
+	switch media {
+	case dc_index.MediaRepository:
+		path := filepath.Join(relPath, z.SpecId()+".md")
+		return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
+	case dc_index.MediaWeb:
+		path := filepath.Join(relPath, z.SpecId()+".html")
+		return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
+	}
+	panic("invalid media type")
 }
 
 func (z *specValueSelfContained) CliPath() string {

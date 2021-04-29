@@ -13,18 +13,37 @@ const (
 	DocRootCodeOfConduct
 	DocRootSecurityAndPrivacy
 
+	DocWebHome
+	DocWebLicense
+
 	// -- Documents under `doc/generated(_\w{2})?`
 
 	// Changes from the previous release
 	DocManualChanges
 	// Individual manual for each commands
 	DocManualCommand
-	// Supplemental:
+
+	// Supplemental
 	DocSupplementalPathVariables
 	DocSupplementalExperimentalFeature
 	DocSupplementalTroubleshooting
 	DocSupplementalDropboxBusiness
 )
+
+const (
+	MediaRepository MediaType = iota
+	MediaWeb
+)
+
+type MediaType int
+
+const (
+	WebCategoryHome WebCategory = iota
+	WebCategoryCommand
+	WebCategoryGuide
+)
+
+type WebCategory int
 
 const (
 	GeneratedDocPath = "doc/generated"
@@ -49,6 +68,25 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
+	}
+
+	WebDocs = []DocId{
+		DocRootBuild,
+		DocRootContributing,
+		DocRootCodeOfConduct,
+		DocRootSecurityAndPrivacy,
+		DocWebHome,
+		DocWebLicense,
+		DocManualCommand,
+		DocSupplementalPathVariables,
+		DocSupplementalExperimentalFeature,
+		DocSupplementalTroubleshooting,
+		DocSupplementalDropboxBusiness,
+	}
+
+	AllMedia = []MediaType{
+		MediaRepository,
+		MediaWeb,
 	}
 )
 
@@ -77,36 +115,103 @@ func (z NameOpts) Apply(opts []NameOpt) NameOpts {
 
 type NameOpt func(opts NameOpts) NameOpts
 
-// Document path and name (without extension)
-func DocName(id DocId, lg lang.Lang, opts ...NameOpt) string {
+func CommandName(name string) NameOpt {
+	return func(opts NameOpts) NameOpts {
+		opts.CommandName = name
+		return opts
+	}
+}
+
+const (
+	WebDocPathRoot = "docs/"
+)
+
+func WebDocPath(cat WebCategory, name string, lg lang.Lang) string {
+	pathLang := ""
+	suffix := ".md"
+	if name == "" {
+		suffix = ""
+	}
+	if !lg.IsDefault() {
+		pathLang = lg.String() + "/"
+	}
+	switch cat {
+	case WebCategoryHome:
+		return WebDocPathRoot + pathLang + name + suffix
+	case WebCategoryCommand:
+		return WebDocPathRoot + pathLang + "commands/" + name + suffix
+	case WebCategoryGuide:
+		return WebDocPathRoot + pathLang + "guides/" + name + suffix
+	}
+
+	esl.Default().Warn("Invalid web category id", esl.Int("category", int(cat)))
+	panic("invalid category")
+}
+
+// DocName Document path and name (without extension)
+func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 	nameOpts := NameOpts{}.Apply(opts)
 
-	switch id {
-	case DocRootReadme:
-		return "README" + lg.Suffix()
-	case DocRootLicense:
-		return "LICENSE" + lg.Suffix()
-	case DocRootBuild:
-		return "BUILD" + lg.Suffix()
-	case DocRootContributing:
-		return "CONTRIBUTING" + lg.Suffix()
-	case DocRootCodeOfConduct:
-		return "CODE_OF_CONDUCT" + lg.Suffix()
-	case DocRootSecurityAndPrivacy:
-		return "SECURITY_AND_PRIVACY" + lg.Suffix()
-	case DocManualChanges:
-		return GeneratedPath(lg, "changes")
-	case DocManualCommand:
-		return GeneratedPath(lg, nameOpts.CommandName)
-	case DocSupplementalPathVariables:
-		return SupplementalDocPath(lg, "path_variables")
-	case DocSupplementalExperimentalFeature:
-		return SupplementalDocPath(lg, "experimental_features")
-	case DocSupplementalTroubleshooting:
-		return SupplementalDocPath(lg, "troubleshooting")
-	case DocSupplementalDropboxBusiness:
-		return SupplementalDocPath(lg, "dropbox_business")
+	switch media {
+	case MediaRepository:
+		switch id {
+		case DocRootReadme:
+			return "README" + lg.Suffix() + ".md"
+		case DocRootLicense:
+			return "LICENSE" + lg.Suffix() + ".md"
+		case DocRootBuild:
+			return "BUILD" + lg.Suffix() + ".md"
+		case DocRootContributing:
+			return "CONTRIBUTING" + lg.Suffix() + ".md"
+		case DocRootCodeOfConduct:
+			return "CODE_OF_CONDUCT" + lg.Suffix() + ".md"
+		case DocRootSecurityAndPrivacy:
+			return "SECURITY_AND_PRIVACY" + lg.Suffix() + ".md"
+		case DocManualChanges:
+			return GeneratedPath(lg, "changes") + ".md"
+		case DocManualCommand:
+			if nameOpts.CommandName != "" {
+				return GeneratedPath(lg, nameOpts.CommandName) + ".md"
+			} else {
+				return GeneratedPath(lg, "")
+			}
+		case DocSupplementalPathVariables:
+			return SupplementalDocPath(lg, "path_variables") + ".md"
+		case DocSupplementalExperimentalFeature:
+			return SupplementalDocPath(lg, "experimental_features") + ".md"
+		case DocSupplementalTroubleshooting:
+			return SupplementalDocPath(lg, "troubleshooting") + ".md"
+		case DocSupplementalDropboxBusiness:
+			return SupplementalDocPath(lg, "dropbox_business") + ".md"
+		}
+
+	case MediaWeb:
+		switch id {
+		case DocRootBuild:
+			return WebDocPath(WebCategoryGuide, "build", lg)
+		case DocRootContributing:
+			return WebDocPath(WebCategoryGuide, "contributing", lg)
+		case DocRootCodeOfConduct:
+			return WebDocPath(WebCategoryGuide, "code_of_conduct", lg)
+		case DocRootSecurityAndPrivacy:
+			return WebDocPath(WebCategoryHome, "security_and_privacy", lg)
+		case DocWebHome:
+			return WebDocPath(WebCategoryHome, "index", lg)
+		case DocWebLicense:
+			return WebDocPath(WebCategoryHome, "license", lg)
+		case DocManualCommand:
+			return WebDocPath(WebCategoryCommand, nameOpts.CommandName, lg)
+		case DocSupplementalPathVariables:
+			return WebDocPath(WebCategoryGuide, "path_variables", lg)
+		case DocSupplementalExperimentalFeature:
+			return WebDocPath(WebCategoryGuide, "experimental_features", lg)
+		case DocSupplementalTroubleshooting:
+			return WebDocPath(WebCategoryGuide, "troubleshooting", lg)
+		case DocSupplementalDropboxBusiness:
+			return WebDocPath(WebCategoryGuide, "dropbox_business", lg)
+		}
 	}
-	esl.Default().Warn("Invalid document id", esl.Int("documentId", int(id)))
+
+	esl.Default().Warn("Invalid document id", esl.Int("mediaType", int(media)), esl.Int("documentId", int(id)))
 	panic("invalid document id")
 }

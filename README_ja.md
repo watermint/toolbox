@@ -83,7 +83,7 @@ DropboxおよびDropbox Business向けのツールセット
 
 # Dropbox Business コマンド
 
-[Dropbox Business コマンド](doc/generated_ja/supplemental_dropbox_business.md) マニュアルを参照してください.
+[Dropbox Business コマンド](doc/generated_ja/supplemental_dropbox_business.md.md) マニュアルを参照してください.
 
 # コマンド
 
@@ -319,10 +319,10 @@ DropboxおよびDropbox Business向けのツールセット
 
 # 補助ドキュメント
 
-| 補助ドキュメント                                                                                              | コンテンツ概要                       |
-|---------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [doc/generated_ja/supplemental_path_variables](doc/generated_ja/supplemental_path_variables.md)               | パス変数のマニュアル                 |
-| [doc/generated_ja/supplemental_experimental_features](doc/generated_ja/supplemental_experimental_features.md) | 実験的機能のマニュアル               |
-| [doc/generated_ja/supplemental_troubleshooting](doc/generated_ja/supplemental_troubleshooting.md)             | トラブルシューティング マニュアル    |
-| [doc/generated_ja/supplemental_dropbox_business](doc/generated_ja/supplemental_dropbox_business.md)           | Dropbox Business コマンド マニュアル |
+| 補助ドキュメント                                                                                                 | コンテンツ概要                       |
+|------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| [doc/generated_ja/supplemental_path_variables.md](doc/generated_ja/supplemental_path_variables.md)               | パス変数のマニュアル                 |
+| [doc/generated_ja/supplemental_experimental_features.md](doc/generated_ja/supplemental_experimental_features.md) | 実験的機能のマニュアル               |
+| [doc/generated_ja/supplemental_troubleshooting.md](doc/generated_ja/supplemental_troubleshooting.md)             | トラブルシューティング マニュアル    |
+| [doc/generated_ja/supplemental_dropbox_business.md](doc/generated_ja/supplemental_dropbox_business.md)           | Dropbox Business コマンド マニュアル |
 

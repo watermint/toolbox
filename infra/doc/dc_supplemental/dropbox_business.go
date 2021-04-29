@@ -92,13 +92,15 @@ type DropboxBusinessCatalogue interface {
 	WarnUnmentioned()
 }
 
-func NewDbxCatalogue() DropboxBusinessCatalogue {
+func NewDbxCatalogue(media dc_index.MediaType) DropboxBusinessCatalogue {
 	return &dbxCat{
+		media:     media,
 		mentioned: make(map[string]bool),
 	}
 }
 
 type dbxCat struct {
+	media     dc_index.MediaType
 	mentioned map[string]bool
 }
 
@@ -108,7 +110,7 @@ func (z *dbxCat) RecipeTable(name string, ui app_ui.UI, paths []string) {
 
 		for _, p := range paths {
 			c := z.Recipe(p)
-			t.Row(c.CliNameRef(""), c.Title())
+			t.Row(c.CliNameRef(z.media, ""), c.Title())
 		}
 	})
 }
@@ -135,9 +137,9 @@ func (z *dbxCat) WarnUnmentioned() {
 	}
 }
 
-func NewDropboxBusiness() dc_section.Document {
+func NewDropboxBusiness(media dc_index.MediaType) dc_section.Document {
 	return &DropboxBusiness{
-		cat: NewDbxCatalogue(),
+		cat: NewDbxCatalogue(media),
 	}
 }
 
