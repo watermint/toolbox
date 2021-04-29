@@ -169,6 +169,10 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	for _, la := range lang.Supported {
 		langCode := la.CodeString()
 		suffix := la.Suffix()
+		webLangPath := la.CodeString() + "/"
+		if la.IsDefault() {
+			webLangPath = ""
+		}
 
 		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(esl.String("lang", langCode), esl.String("suffix", suffix))
@@ -176,6 +180,14 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		if !c.Feature().IsTest() {
 			ll.Info("Clean up generated document folder")
 			if err := z.deleteOldGeneratedFiles(c, path); err != nil {
+				return err
+			}
+			ll.Info("Clean up docs/{lang}/commands folder")
+			if err := z.deleteOldGeneratedFiles(c, fmt.Sprintf("docs/%scommands", webLangPath)); err != nil {
+				return err
+			}
+			ll.Info("Clean up docs/{lang}/guide folder")
+			if err := z.deleteOldGeneratedFiles(c, fmt.Sprintf("docs/%sguides", webLangPath)); err != nil {
 				return err
 			}
 
