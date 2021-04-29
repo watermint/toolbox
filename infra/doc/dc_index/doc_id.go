@@ -100,6 +100,7 @@ func SupplementalDocPath(l lang.Lang, name string) string {
 
 type NameOpts struct {
 	CommandName string `json:"command_name"`
+	RefPath     bool   `json:"ref_path"`
 }
 
 func (z NameOpts) Apply(opts []NameOpt) NameOpts {
@@ -121,12 +122,22 @@ func CommandName(name string) NameOpt {
 		return opts
 	}
 }
+func RefPath(enable bool) NameOpt {
+	return func(opts NameOpts) NameOpts {
+		opts.RefPath = enable
+		return opts
+	}
+}
 
 const (
 	WebDocPathRoot = "docs/"
 )
 
-func WebDocPath(cat WebCategory, name string, lg lang.Lang) string {
+func WebDocPath(refPath bool, cat WebCategory, name string, lg lang.Lang) string {
+	basePath := WebDocPathRoot
+	if refPath {
+		basePath = "{{ site.baseurl }}/"
+	}
 	pathLang := ""
 	suffix := ".md"
 	if name == "" {
@@ -137,11 +148,11 @@ func WebDocPath(cat WebCategory, name string, lg lang.Lang) string {
 	}
 	switch cat {
 	case WebCategoryHome:
-		return WebDocPathRoot + pathLang + name + suffix
+		return basePath + pathLang + name + suffix
 	case WebCategoryCommand:
-		return WebDocPathRoot + pathLang + "commands/" + name + suffix
+		return basePath + pathLang + "commands/" + name + suffix
 	case WebCategoryGuide:
-		return WebDocPathRoot + pathLang + "guides/" + name + suffix
+		return basePath + pathLang + "guides/" + name + suffix
 	}
 
 	esl.Default().Warn("Invalid web category id", esl.Int("category", int(cat)))
@@ -188,27 +199,27 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 	case MediaWeb:
 		switch id {
 		case DocRootBuild:
-			return WebDocPath(WebCategoryGuide, "build", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "build", lg)
 		case DocRootContributing:
-			return WebDocPath(WebCategoryGuide, "contributing", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "contributing", lg)
 		case DocRootCodeOfConduct:
-			return WebDocPath(WebCategoryGuide, "code_of_conduct", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "code_of_conduct", lg)
 		case DocRootSecurityAndPrivacy:
-			return WebDocPath(WebCategoryHome, "security_and_privacy", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "security_and_privacy", lg)
 		case DocWebHome:
-			return WebDocPath(WebCategoryHome, "index", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "index", lg)
 		case DocWebLicense:
-			return WebDocPath(WebCategoryHome, "license", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "license", lg)
 		case DocManualCommand:
-			return WebDocPath(WebCategoryCommand, nameOpts.CommandName, lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryCommand, nameOpts.CommandName, lg)
 		case DocSupplementalPathVariables:
-			return WebDocPath(WebCategoryGuide, "path_variables", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "path-variables", lg)
 		case DocSupplementalExperimentalFeature:
-			return WebDocPath(WebCategoryGuide, "experimental_features", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "experimental-features", lg)
 		case DocSupplementalTroubleshooting:
-			return WebDocPath(WebCategoryGuide, "troubleshooting", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
-			return WebDocPath(WebCategoryGuide, "dropbox_business", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
 		}
 	}
 

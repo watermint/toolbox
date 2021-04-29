@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: command
 title: services asana workspace list
 ---
 

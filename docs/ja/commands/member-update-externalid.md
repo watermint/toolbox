@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: command
 title: member update externalid
 ---
 

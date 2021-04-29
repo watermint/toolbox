@@ -105,12 +105,20 @@ type dbxCat struct {
 }
 
 func (z *dbxCat) RecipeTable(name string, ui app_ui.UI, paths []string) {
+	lg := ui.Messages().Lang()
+
 	ui.WithTable(name, func(t app_ui.Table) {
 		t.Header(MDropboxBusiness.CommandHeaderName, MDropboxBusiness.CommandHeaderDesc)
 
 		for _, p := range paths {
-			c := z.Recipe(p)
-			t.Row(c.CliNameRef(z.media, ""), c.Title())
+			spec := z.Recipe(p)
+
+			relPath := ""
+			if z.media == dc_index.MediaWeb {
+				relPath = dc_index.DocName(z.media, dc_index.DocManualCommand, lg, dc_index.RefPath(true))
+			}
+
+			t.Row(spec.CliNameRef(z.media, relPath), spec.Title())
 		}
 	})
 }

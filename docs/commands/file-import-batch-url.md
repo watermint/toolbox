@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: command
 title: file import batch url
 ---
 

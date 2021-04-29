@@ -46,7 +46,7 @@ func (z *Doc) genReadme(c app_control.Control) error {
 	path := dc_index.DocName(dc_index.MediaRepository, dc_index.DocRootReadme, c.Messages().Lang())
 	l.Info("Generating README", esl.String("file", path))
 	sec := dc_readme.New(dc_index.MediaRepository, c.Messages(), z.Badge)
-	doc := dc_section.Generate(dc_index.MediaRepository, c.Messages(), sec...)
+	doc := dc_section.Generate(dc_index.MediaRepository, dc_section.LayoutPage, c.Messages(), sec...)
 
 	return z.genDoc(path, doc, c)
 }
@@ -57,7 +57,7 @@ func (z *Doc) genSecurity(c app_control.Control) error {
 	for _, m := range dc_index.AllMedia {
 		path := dc_index.DocName(m, dc_index.DocRootSecurityAndPrivacy, c.Messages().Lang())
 		l.Info("Generating SECURITY_AND_PRIVACY", esl.String("file", path))
-		doc := dc_section.Generate(m, c.Messages(), sec)
+		doc := dc_section.Generate(m, dc_section.LayoutPage, c.Messages(), sec)
 		if err := z.genDoc(path, doc, c); err != nil {
 			return err
 		}
@@ -73,10 +73,10 @@ func (z *Doc) genCommands(c app_control.Control) error {
 		spec := rc_spec.New(r)
 
 		l.Info("Generating command manual", esl.String("command", spec.CliPath()))
-		sec := dc_command.New(spec)
 		for _, m := range dc_index.AllMedia {
+			sec := dc_command.New(m, spec)
 			path := dc_index.DocName(m, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(spec.SpecId()))
-			doc := dc_section.Generate(m, c.Messages(), sec...)
+			doc := dc_section.Generate(m, dc_section.LayoutCommand, c.Messages(), sec...)
 			if err := z.genDoc(path, doc, c); err != nil {
 				return err
 			}
@@ -111,7 +111,7 @@ func (z *Doc) genSupplemental(c app_control.Control) error {
 		for _, d := range dc_supplemental.Docs(m) {
 			l.Info("Generating supplemental doc", esl.Int("media", int(m)), esl.Int("docId", int(d.DocId())))
 			path := dc_index.DocName(m, d.DocId(), c.Messages().Lang())
-			doc := dc_section.Generate(m, c.Messages(), d.Sections()...)
+			doc := dc_section.Generate(m, dc_section.LayoutPage, c.Messages(), d.Sections()...)
 
 			if err := z.genDoc(path, doc, c); err != nil {
 				return err

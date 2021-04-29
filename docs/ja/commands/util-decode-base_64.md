@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: command
 title: util decode base_64
 ---
 

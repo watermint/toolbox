@@ -22,7 +22,7 @@ type Document interface {
 
 const (
 	WebHeader = `---
-layout: page
+layout: {{.Layout}}
 title: {{.Title}}
 ---
 
@@ -30,7 +30,14 @@ title: {{.Title}}
 `
 )
 
-func Generate(media dc_index.MediaType, mc app_msg_container.Container, sections ...Section) string {
+type LayoutType int
+
+const (
+	LayoutPage LayoutType = iota
+	LayoutCommand
+)
+
+func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.Container, sections ...Section) string {
 	body := app_ui.MakeMarkdown(mc, func(ui app_ui.UI) {
 		for _, section := range sections {
 			ui.Header(section.Title())
@@ -53,9 +60,14 @@ func Generate(media dc_index.MediaType, mc app_msg_container.Container, sections
 			panic(err)
 		}
 		buf := bytes.Buffer{}
+		layoutName := "page"
+		if layout == LayoutCommand {
+			layoutName = "command"
+		}
 		err = tmpl.Execute(&buf, map[string]string{
-			"Title": title,
-			"Body": body,
+			"Title":  title,
+			"Layout": layoutName,
+			"Body":   body,
 		})
 		if err != nil {
 			panic(err)

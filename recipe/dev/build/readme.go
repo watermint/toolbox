@@ -39,7 +39,7 @@ func (z *Readme) Exec(c app_control.Control) error {
 	l := c.Log()
 	l.Info("Generating README", esl.String("path", z.Path.Path()))
 	sec := dc_readme.New(dc_index.MediaRepository, c.Messages(), false)
-	doc := dc_section.Generate(dc_index.MediaRepository, c.Messages(), sec...)
+	doc := dc_section.Generate(dc_index.MediaRepository, dc_section.LayoutPage, c.Messages(), sec...)
 
 	return z.genDoc(z.Path.Path(), doc, c)
 }

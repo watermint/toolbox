@@ -1,12 +1,13 @@
 package dc_command
 
 import (
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
-func New(spec rc_recipe.Spec) []dc_section.Section {
+func New(media dc_index.MediaType, spec rc_recipe.Spec) []dc_section.Section {
 	sections := make([]dc_section.Section, 0)
 	sections = append(sections, NewHeader(spec))
 	if 0 < len(spec.ConnScopes()) {

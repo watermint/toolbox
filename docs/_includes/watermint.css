@@ -571,7 +571,7 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: 0rem;
+  left: -14rem;
   width: 14rem;
   visibility: hidden;
   overflow-y: auto;
