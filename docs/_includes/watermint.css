@@ -1,0 +1,2047 @@
+{
+%
+comment
+%
+}
+* ___
+*
+
+/
+\_ \
+* _____ ___ ___\/
+
+/
+\ \  __
+*
+
+/
+\
+
+'__`\  / __`\  / __`\\ \ \   /'
+__`
+
+\
+* \ \ \_\ \/\ \_\ \/\ \_\ \\_\ \_
+
+/
+\  __
+
+/
+* \ \ , __ /\ \____/ \ \____
+
+/
+/
+\____\ \____\
+* \ \ \/ \/___
+
+/
+\/___
+
+/
+\/____ /\/____/
+* \ \_\
+* \/_
+
+/
+*
+* Designed, built, and released under MIT license by
+
+@mdo. Learn more at
+* https://github.com/poole/poole. {
+% endcomment %
+}
+
+
+{
+%
+comment
+%
+}
+* Contents
+*
+* Body resets
+* Custom type
+* Messages
+* Container
+* Masthead
+* Posts and pages
+* Pagination
+* Reverse layout
+* Themes {
+% endcomment %
+}
+
+
+{
+%
+comment
+%
+}
+* Body resets
+*
+* Update the foundational and global aspects of the page. {
+% endcomment %
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: serif;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+@media (min-width: 38em) {
+    html {
+        font-size: 20px;
+    }
+}
+
+body {
+    color: #515151;
+    background-color: #fff;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+{
+%
+comment
+%
+}
+No ` :visited` state is required by default
+
+(
+browsers will use ` a`
+
+)
+{
+%
+endcomment
+%
+}
+a {
+    color: #264873;
+    text-decoration: none;
+}
+
+a strong {
+    color: inherit;
+}
+
+{
+%
+comment
+%
+}
+`
+:focus` is linked to ` :hover` for basic accessibility {
+% endcomment %
+}
+
+a:hover,
+a:focus {
+    text-decoration: underline;
+}
+
+{
+%
+comment
+%
+}
+Headings {
+% endcomment %
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: .5rem;
+    font-weight: bold;
+    line-height: 1.25;
+    color: #5285C6;
+    text-rendering: optimizeLegibility;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-top: 1.6rem;
+    margin-bottom: 1.6rem;
+}
+
+h2 {
+    margin-top: 1.6rem;
+    font-size: 1.3rem;
+}
+
+h3 {
+    margin-top: 1.6rem;
+    font-size: 1.2rem;
+}
+
+h4, h5, h6 {
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+{
+%
+comment
+%
+}
+Body text {
+% endcomment %
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+strong {
+    color: #303030;
+}
+
+
+{
+%
+comment
+%
+}
+Lists {
+% endcomment %
+}
+
+ul, ol, dl {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-bottom: .5rem;
+}
+
+{
+%
+comment
+%
+}
+Misc {
+% endcomment %
+}
+
+hr {
+    position: relative;
+    margin: 1.5rem 0;
+    border: 0;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #fff;
+}
+
+abbr {
+    font-size: 85%;
+    font-weight: bold;
+    color: #555;
+    text-transform: uppercase;
+}
+
+abbr[title] {
+    cursor: help;
+    border-bottom: 1px dotted #e5e5e5;
+}
+
+{
+%
+comment
+%
+}
+Code {
+% endcomment %
+}
+
+code,
+pre {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+}
+
+code {
+    padding: .25em .5em;
+    font-size: 85%;
+    color: #bf616a;
+    background-color: #f9f9f9;
+    border-radius: 3px;
+}
+
+pre {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    font-size: .8rem;
+    line-height: 1.4;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f9f9f9;
+}
+
+pre code {
+    padding: 0;
+    font-size: 100%;
+    color: inherit;
+    background-color: transparent;
+}
+
+{
+%
+comment
+%
+}
+Pygments via Jekyll {
+% endcomment %
+}
+
+.highlight {
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.highlight pre {
+    margin-bottom: 0;
+}
+
+{
+%
+comment
+%
+}
+Gist via GitHub Pages {
+% endcomment %
+}
+
+.gist .gist-file {
+    font-family: Menlo, Monaco, "Courier New", monospace !important;
+}
+
+.gist .markdown-body {
+    padding: 15px;
+}
+
+.gist pre {
+    padding: 0;
+    background-color: transparent;
+}
+
+.gist .gist-file .gist-data {
+    font-size: .8rem !important;
+    line-height: 1.4;
+}
+
+.gist code {
+    padding: 0;
+    color: inherit;
+    background-color: transparent;
+    border-radius: 0;
+}
+
+{
+%
+comment
+%
+}
+Quotes {
+% endcomment %
+}
+
+blockquote {
+    padding: .5rem 1rem;
+    margin: .8rem 0;
+    color: #7a7a7a;
+    border-left: .25rem solid #e5e5e5;
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+@media (min-width: 30em) {
+    blockquote {
+        padding-right: 5rem;
+        padding-left: 1.25rem;
+    }
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    margin: 0 0 1rem;
+    border-radius: 5px;
+}
+
+{
+%
+comment
+%
+}
+Tables {
+% endcomment %
+}
+
+table {
+    margin-bottom: 1rem;
+    width: 100%;
+    border: 1px solid #e5e5e5;
+    border-collapse: collapse;
+}
+
+td,
+th {
+    padding: .25rem .5rem;
+    border: 1px solid #e5e5e5;
+}
+
+tbody tr:nth-child(odd) td,
+tbody tr:nth-child(odd) th {
+    background-color: #f9f9f9;
+}
+
+
+{
+%
+comment
+%
+}
+* Custom type
+*
+* Extend paragraphs with ` .lead` for larger introductory text. {
+% endcomment %
+}
+
+.lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+
+{
+%
+comment
+%
+}
+* Messages
+*
+* Show alert messages to users. You may add it to single elements like a `
+
+<
+p > `,
+* or to a parent if there are multiple elements to show. {
+% endcomment %
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    color: #717171;
+    background-color: #f9f9f9;
+}
+
+
+{
+%
+comment
+%
+}
+* Container
+*
+* Center the page content. {
+% endcomment %
+}
+
+.container {
+    max-width: 38rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+{
+%
+comment
+%
+}
+* Masthead
+*
+* Super small header above the content for site name and short description. {
+% endcomment %
+}
+
+.masthead {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+}
+
+.masthead-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #505050;
+}
+
+.masthead-title a {
+    color: #505050;
+}
+
+.masthead-title small {
+    font-size: 75%;
+    font-weight: 400;
+    color: #c0c0c0;
+    letter-spacing: 0;
+}
+
+
+{
+%
+comment
+%
+}
+* Posts and pages
+*
+* Each post is wrapped in ` .post` and is used on default and post layouts. Each
+* page is wrapped in ` .page` and is only used on the page layout. {
+% endcomment %
+}
+
+.page,
+.post {
+    margin-bottom: 4em;
+}
+
+{
+%
+comment
+%
+}
+Blog post or page title {
+% endcomment %
+}
+
+.page-title,
+.post-title,
+.post-title a {
+    color: #303030;
+}
+
+.page-title,
+.post-title {
+    margin-top: 0;
+}
+
+{
+%
+comment
+%
+}
+Meta data line below post title {
+% endcomment %
+}
+
+.post-date {
+    display: block;
+    margin-top: -.5rem;
+    margin-bottom: 1rem;
+    color: #9a9a9a;
+}
+
+{
+%
+comment
+%
+}
+Meta data line below post title {
+% endcomment %
+}
+
+.post-tags {
+    display: block;
+    margin-top: -.5rem;
+    margin-bottom: 1rem;
+    text-align: right;
+}
+
+{
+%
+comment
+%
+}
+Related posts {
+% endcomment %
+}
+
+.related {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.related-posts {
+    padding-left: 0;
+    list-style: none;
+}
+
+.related-posts h3 {
+    margin-top: 0;
+}
+
+.related-posts li small {
+    font-size: 75%;
+    color: #999;
+}
+
+.related-posts li a:hover {
+    color: #268bd2;
+    text-decoration: none;
+}
+
+.related-posts li a:hover small {
+    color: inherit;
+}
+
+
+{
+%
+comment
+%
+}
+* Pagination
+*
+* Super lightweight
+
+(
+HTML-wise
+
+)
+blog pagination.
+
+`
+span` s are provide for when
+* there are no more previous or next posts to show. {
+% endcomment %
+}
+
+.pagination {
+    overflow: hidden;
+
+{
+%
+comment
+%
+}
+clearfix {
+% endcomment %
+}
+
+margin-left:
+
+-
+1
+rem
+
+;
+margin-right:
+
+-
+1
+rem
+
+;
+font-family:
+
+"PT Sans"
+,
+Helvetica, Arial, sans-serif
+
+;
+color: #ccc
+
+;
+text-align: center
+
+;
+}
+
+{
+%
+comment
+%
+}
+Pagination items can be ` span` s or ` a` s {
+% endcomment %
+}
+
+.pagination-item {
+    display: block;
+    padding: 1rem;
+    border: 1px solid #eee;
+}
+
+.pagination-item:first-child {
+    margin-bottom: -1px;
+}
+
+{
+%
+comment
+%
+}
+Only provide a hover state for linked pagination items {
+% endcomment %
+}
+
+a.pagination-item:hover {
+    background-color: #f5f5f5;
+}
+
+@media (min-width: 30em) {
+    .pagination {
+        margin: 3rem 0;
+    }
+
+    .pagination-item {
+        float: left;
+        width: 50%;
+    }
+
+    .pagination-item:first-child {
+        margin-bottom: 0;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    .pagination-item:last-child {
+        margin-left: -1px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+}
+
+
+{
+%
+comment
+%
+}
+* ___
+*
+
+/
+\_ \
+* \/
+
+/
+\ \  __ ___ __ __ ___ ___
+* \ \ \
+
+/
+'__`\  /'
+_ ` \/\ \/\ \
+
+/
+__` \
+
+/
+' _ `\
+ *    \_\ \_/\ \_\.\_/\ \/\ \ \ \_\ \/\ \_\ \/\ \/\ \
+ *    /\____\ \__/.\_\ \_\ \_\/`____ \ \____/\ \_\ \_\
+ *    \/____/\/__/\/_/\/_/\/_/`/___/> \/___/  \/_/\/_/
+* /\___/
+* \/__
+
+/
+*
+* Designed, built, and released under MIT license by
+
+@mdo. Learn more at
+* https://github.com/poole/lanyon. {
+% endcomment %
+}
+
+
+{
+%
+comment
+%
+}
+* Contents
+*
+* Global resets
+* Masthead
+* Sidebar
+* Slide effect
+* Posts and pages
+* Pagination
+* Reverse layout
+* Themes {
+% endcomment %
+}
+
+
+{
+%
+comment
+%
+}
+* Global resets
+*
+* Update the foundational and global aspects of the page. {
+% endcomment %
+}
+
+{
+%
+comment
+%
+}
+Prevent scroll on narrow devices {
+% endcomment %
+}
+
+html,
+body {
+    overflow-x: hidden;
+    line-height: 1.9em;
+}
+
+html {
+    font-family: serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+
+{
+%
+comment
+%
+}
+font-family:
+
+"PT Sans"
+,
+Helvetica, Arial, sans-serif
+
+;
+{
+%
+endcomment
+%
+}
+font-weight:
+
+400
+;
+color: #313131
+
+;
+{
+%
+comment
+%
+}
+letter-spacing:
+
+-
+.025
+rem
+
+;
+{
+%
+endcomment
+%
+}
+}
+
+
+{
+%
+comment
+%
+}
+* Wrapper
+*
+* The wrapper is used to position site content when the sidebar is toggled. We
+* use an outter wrap to position the sidebar without interferring with the
+* regular page content. {
+% endcomment %
+}
+
+.wrap {
+    position: relative;
+    width: 100%;
+}
+
+
+{
+%
+comment
+%
+}
+* Container
+*
+* Center the page content. {
+% endcomment %
+}
+
+.container {
+    max-width: 28rem;
+}
+
+@media (min-width: 38em) {
+    .container {
+        max-width: 32rem;
+    }
+}
+
+@media (min-width: 56em) {
+    .container {
+        max-width: 38rem;
+    }
+}
+
+
+{
+%
+comment
+%
+}
+* Masthead
+*
+* Super small header above the content for site name and short description. {
+% endcomment %
+}
+
+.masthead {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid #eee;
+}
+
+.masthead-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #505050;
+}
+
+.masthead-title a {
+    color: #505050;
+}
+
+.masthead-title small {
+    font-size: 75%;
+    font-weight: 400;
+    color: #c0c0c0;
+    letter-spacing: 0;
+}
+
+@media (max-width: 48em) {
+    .masthead-title {
+        text-align: center;
+    }
+
+    .masthead-title small {
+        display: none;
+    }
+}
+
+
+{
+%
+comment
+%
+}
+* Sidebar
+*
+* The sidebar is the drawer, the item we are toggling with our handy hamburger
+* button in the corner of the page.
+*
+* This particular sidebar implementation was inspired by Chris Coyier
+
+'s
+*
+
+"Offcanvas Menu with CSS Target"
+article, and the checkbox variation from the
+* comments by a reader. It modifies both implementations to continue using the
+* checkbox
+
+(
+no change in URL means no polluted browser history
+
+)
+,
+but this uses
+* ` position` for the menu to avoid some potential content reflow issues.
+*
+* Source: http:
+
+/
+/
+css-tricks.com /off-canvas-menu-with-css-target/ #comment-207504 {
+% endcomment %
+}
+
+{
+%
+comment
+%
+}
+Style and
+
+"hide"
+the sidebar {
+% endcomment %
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: -14rem;
+    width: 14rem;
+    visibility: hidden;
+    overflow-y: auto;
+    font-family: serif;
+    font-size: .875rem;
+
+{
+%
+comment
+%
+}
+15
+px {
+% endcomment %
+}
+
+line-height:
+
+1.4
+em
+
+;
+color:
+
+rgba
+(
+255
+,
+255
+,
+255
+,
+.6
+)
+;
+background-color: #202020
+
+;
+-webkit-transition: all
+
+.3
+s ease-in-out
+
+;
+transition: all
+
+.3
+s ease-in-out
+
+;
+}
+@media (min-width: 30em) {
+    .sidebar {
+        font-size: .75rem; {
+% comment %
+} 14px {
+    % endcomment %
+    }
+}
+
+}
+
+{
+%
+comment
+%
+}
+Sidebar content {
+% endcomment %
+}
+
+.sidebar a {
+    font-weight: normal;
+    color: #fff;
+}
+
+.sidebar-item {
+    padding: 1rem;
+}
+
+.sidebar-item p:last-child {
+    margin-bottom: 0;
+}
+
+{
+%
+comment
+%
+}
+Sidebar nav {
+% endcomment %
+}
+
+.sidebar-nav {
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+
+.sidebar-nav-item {
+    display: block;
+    padding: .5rem 1rem;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+}
+
+.sidebar-nav-item.active,
+a.sidebar-nav-item:hover,
+a.sidebar-nav-item:focus {
+    text-decoration: none;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: transparent;
+}
+
+@media (min-width: 48em) {
+    .sidebar-item {
+        padding: 1.5rem;
+    }
+
+    .sidebar-nav-item {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+{
+%
+comment
+%
+}
+Hide the sidebar checkbox that we toggle with ` .sidebar-toggle` {
+% endcomment %
+}
+
+.sidebar-checkbox {
+    position: absolute;
+    opacity: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+{
+%
+comment
+%
+}
+Style the ` label` that we use to target the ` .sidebar-checkbox` {
+% endcomment %
+}
+
+.sidebar-toggle {
+    position: absolute;
+    top: .8rem;
+    left: 1rem;
+    display: block;
+    padding: .25rem .75rem;
+    color: #555;
+
+{
+%
+comment
+%
+}
+background-color: #fff
+
+;
+{
+%
+endcomment
+%
+}
+border-radius:
+
+.25
+rem
+
+;
+cursor: pointer
+
+;
+}
+
+.sidebar-toggle:before {
+    display: inline-block;
+    width: 1rem;
+    height: .75rem;
+    content: "";
+    background-image: -webkit-linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
+    background-image: -moz-linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
+    background-image: -ms-linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
+    background-image: linear-gradient(to bottom, #555, #555 20%, #fff 20%, #fff 40%, #555 40%, #555 60%, #fff 60%, #fff 80%, #555 80%, #555 100%);
+}
+
+.sidebar-toggle:active,
+#sidebar-checkbox:focus ~ .sidebar-toggle,
+#sidebar-checkbox:checked ~ .sidebar-toggle {
+    color: #fff;
+
+{
+%
+comment
+%
+}
+background-color: #555
+
+;
+{
+%
+endcomment
+%
+}
+}
+
+.sidebar-toggle:active:before,
+#sidebar-checkbox:focus ~ .sidebar-toggle:before,
+#sidebar-checkbox:checked ~ .sidebar-toggle:before {
+    background-image: -webkit-linear-gradient(to bottom, #fff 0%, #fff 20%, #264873 20%, #264873 40%, #fff 40%, #fff 60%, #264873 60%, #264873 80%, #fff 80%, #fff 100%);
+    background-image: -moz-linear-gradient(to bottom, #fff 0%, #fff 20%, #264873 20%, #264873 40%, #fff 40%, #fff 60%, #264873 60%, #264873 80%, #fff 80%, #fff 100%);
+    background-image: -ms-linear-gradient(to bottom, #fff 0%, #fff 20%, #264873 20%, #264873 40%, #fff 40%, #fff 60%, #264873 60%, #264873 80%, #fff 80%, #fff 100%);
+    background-image: linear-gradient(to bottom, #fff 0%, #fff 20%, #264873 20%, #264873 40%, #fff 40%, #fff 60%, #264873 60%, #264873 80%, #fff 80%, #fff 100%);
+}
+
+@media (min-width: 30.1em) {
+    .sidebar-toggle {
+        position: fixed;
+    }
+}
+
+@media print {
+    .sidebar-toggle {
+        display: none;
+    }
+}
+
+{
+%
+comment
+%
+}
+Slide effect
+*
+* Handle the sliding effects of the sidebar and content in one spot, seperate
+* from the default styles.
+*
+* As an a heads up, we don
+
+'t use `transform: translate3d()` here because when
+* mixed with ` position: fixed
+
+;
+`
+for the sidebar toggle, it creates a new
+* containing block. Put simply, the fixed sidebar toggle behaves like
+* ` position: absolute
+
+;
+`
+when transformed.
+*
+* Read more about it at http:
+
+/
+/
+meyerweb.com /eric/ thoughts
+
+/
+2011
+/
+09
+/
+12
+/
+. {
+% endcomment %
+}
+
+.wrap,
+.sidebar,
+.sidebar-toggle {
+    -webkit-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.wrap,
+.sidebar-toggle {
+    -webkit-transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+}
+
+#sidebar-checkbox:checked + .sidebar {
+    z-index: 10;
+    visibility: visible;
+}
+
+#sidebar-checkbox:checked ~ .sidebar,
+#sidebar-checkbox:checked ~ .wrap,
+#sidebar-checkbox:checked ~ .sidebar-toggle {
+    -webkit-transform: translateX(14rem);
+    -ms-transform: translateX(14rem);
+    transform: translateX(14rem);
+}
+
+
+{
+%
+comment
+%
+}
+* Posts and pages
+*
+* Each post is wrapped in ` .post` and is used on default and post layouts. Each
+* page is wrapped in ` .page` and is only used on the page layout. {
+% endcomment %
+}
+
+.page,
+.post {
+    margin-bottom: 4em;
+}
+
+{
+%
+comment
+%
+}
+Blog post or page title {
+% endcomment %
+}
+
+.page-title,
+.post-title,
+.post-title a {
+    color: #303030;
+}
+
+.page-title,
+.post-title {
+    margin-top: 0;
+}
+
+{
+%
+comment
+%
+}
+Meta data line below post title {
+% endcomment %
+}
+
+.post-date {
+    display: block;
+    margin-top: -.5rem;
+    margin-bottom: 1rem;
+    color: #9a9a9a;
+}
+
+{
+%
+comment
+%
+}
+Related posts {
+% endcomment %
+}
+
+.related {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.related-posts {
+    padding-left: 0;
+    list-style: none;
+}
+
+.related-posts h3 {
+    margin-top: 0;
+}
+
+.related-posts li small {
+    font-size: 75%;
+    color: #999;
+}
+
+.related-posts li a:hover {
+    color: #268bd2;
+    text-decoration: none;
+}
+
+.related-posts li a:hover small {
+    color: inherit;
+}
+
+
+{
+%
+comment
+%
+}
+* Pagination
+*
+* Super lightweight
+
+(
+HTML-wise
+
+)
+blog pagination.
+
+`
+span` s are provide for when
+* there are no more previous or next posts to show. {
+% endcomment %
+}
+
+.pagination {
+    overflow: hidden;
+
+{
+%
+comment
+%
+}
+clearfix {
+% endcomment %
+}
+
+margin-left:
+
+-
+1
+rem
+
+;
+margin-right:
+
+-
+1
+rem
+
+;
+font-family: serif
+
+;
+color: #ccc
+
+;
+text-align: center
+
+;
+}
+
+{
+%
+comment
+%
+}
+Pagination items can be ` span` s or ` a` s {
+% endcomment %
+}
+
+.pagination-item {
+    display: block;
+    padding: 1rem;
+    border: 1px solid #eee;
+}
+
+.pagination-item:first-child {
+    margin-bottom: -1px;
+}
+
+{
+%
+comment
+%
+}
+Only provide a hover state for linked pagination items {
+% endcomment %
+}
+
+a.pagination-item:hover {
+    background-color: #f5f5f5;
+}
+
+@media (min-width: 30em) {
+    .pagination {
+        margin: 3rem 0;
+    }
+
+    .pagination-item {
+        float: left;
+        width: 50%;
+    }
+
+    .pagination-item:first-child {
+        margin-bottom: 0;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    .pagination-item:last-child {
+        margin-left: -1px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+}
+
+
+{
+%
+comment
+%
+}
+* Reverse layout
+*
+* Flip the orientation of the page by placing the ` .sidebar` and sidebar toggle
+* on the right side. {
+% endcomment %
+}
+
+.layout-reverse .sidebar {
+    left: auto;
+    right: -14rem;
+}
+
+.layout-reverse .sidebar-toggle {
+    left: auto;
+    right: 1rem;
+}
+
+.layout-reverse #sidebar-checkbox:checked ~ .sidebar,
+.layout-reverse #sidebar-checkbox:checked ~ .wrap,
+.layout-reverse #sidebar-checkbox:checked ~ .sidebar-toggle {
+    -webkit-transform: translateX(-14rem);
+    -ms-transform: translateX(-14rem);
+    transform: translateX(-14rem);
+}
+
+
+{
+%
+comment
+%
+}
+* Themes
+*
+* Apply custom color schemes by adding the appropriate class to the ` body` .
+* Based on colors from Base16: http:
+
+/
+/
+chriskempson.github.io /base16/ #default. {
+% endcomment %
+}
+
+{
+%
+comment
+%
+}
+Red {
+% endcomment %
+}
+
+.theme-base-08 .sidebar,
+.theme-base-08 .sidebar-toggle:active,
+.theme-base-08 #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #ac4142;
+}
+
+.theme-base-08 .container a,
+.theme-base-08 .sidebar-toggle,
+.theme-base-08 .related-posts li a:hover {
+    color: #ac4142;
+}
+
+{
+%
+comment
+%
+}
+Orange {
+% endcomment %
+}
+
+.theme-base-09 .sidebar,
+.theme-base-09 .sidebar-toggle:active,
+.theme-base-09 #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #264873;
+}
+
+.theme-base-09 .container a,
+.theme-base-09 .sidebar-toggle,
+.theme-base-09 .related-posts li a:hover {
+    color: #264873;
+}
+
+{
+%
+comment
+%
+}
+Yellow {
+% endcomment %
+}
+
+.theme-base-0a .sidebar,
+.theme-base-0a .sidebar-toggle:active,
+.theme-base-0a #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #f4bf75;
+}
+
+.theme-base-0a .container a,
+.theme-base-0a .sidebar-toggle,
+.theme-base-0a .related-posts li a:hover {
+    color: #f4bf75;
+}
+
+{
+%
+comment
+%
+}
+Green {
+% endcomment %
+}
+
+.theme-base-0b .sidebar,
+.theme-base-0b .sidebar-toggle:active,
+.theme-base-0b #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #90a959;
+}
+
+.theme-base-0b .container a,
+.theme-base-0b .sidebar-toggle,
+.theme-base-0b .related-posts li a:hover {
+    color: #90a959;
+}
+
+{
+%
+comment
+%
+}
+Cyan {
+% endcomment %
+}
+
+.theme-base-0c .sidebar,
+.theme-base-0c .sidebar-toggle:active,
+.theme-base-0c #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #75b5aa;
+}
+
+.theme-base-0c .container a,
+.theme-base-0c .sidebar-toggle,
+.theme-base-0c .related-posts li a:hover {
+    color: #75b5aa;
+}
+
+{
+%
+comment
+%
+}
+Blue {
+% endcomment %
+}
+
+.theme-base-0d .sidebar,
+.theme-base-0d .sidebar-toggle:active,
+.theme-base-0d #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #6a9fb5;
+}
+
+.theme-base-0d .container a,
+.theme-base-0d .sidebar-toggle,
+.theme-base-0d .related-posts li a:hover {
+    color: #6a9fb5;
+}
+
+{
+%
+comment
+%
+}
+Magenta {
+% endcomment %
+}
+
+.theme-base-0e .sidebar,
+.theme-base-0e .sidebar-toggle:active,
+.theme-base-0e #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #aa759f;
+}
+
+.theme-base-0e .container a,
+.theme-base-0e .sidebar-toggle,
+.theme-base-0e .related-posts li a:hover {
+    color: #aa759f;
+}
+
+{
+%
+comment
+%
+}
+Brown {
+% endcomment %
+}
+
+.theme-base-0f .sidebar,
+.theme-base-0f .sidebar-toggle:active,
+.theme-base-0f #sidebar-checkbox:checked ~ .sidebar-toggle {
+    background-color: #8f5536;
+}
+
+.theme-base-0f .container a,
+.theme-base-0f .sidebar-toggle,
+.theme-base-0f .related-posts li a:hover {
+    color: #8f5536;
+}
+
+
+{
+%
+comment
+%
+}
+* Overlay sidebar
+*
+* Make the sidebar content overlay the viewport content instead of pushing it
+* aside when toggled. {
+% endcomment %
+}
+
+.sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+}
+
+.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar-toggle {
+    box-shadow: 0 0 0 .25rem #fff;
+}
+
+.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
+    box-shadow: .25rem 0 .5rem rgba(0, 0, 0, .1);
+}
+
+{
+%
+comment
+%
+}
+Only one tweak for a reverse layout {
+% endcomment %
+}
+
+.layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
+    box-shadow: -.25rem 0 .5rem rgba(0, 0, 0, .1);
+}
+
+{
+%
+comment
+%
+}
+* ____ ___ _ _ _____ ____ ___ _
+*
+
+/
+___\\ \/
+
+/
+/
+\
+
+/
+|
+
+/
+__ __\/ _ \\ \/
+
+/
+* |    \ \
+
+/
+| |\  | |
+
+/
+\  |
+
+/
+\| \
+
+/
+* \___ |
+
+/
+/
+| | \| | | | | |
+
+-
+| |
+
+/
+\
+* \____
+
+/
+/_/ \_
+
+/
+\| \_
+
+/
+\_
+
+/
+\| /__/ \\
+* {
+% endcomment %
+}
+
+.highlight table td {
+    padding: 5px;
+}
+
+.highlight table pre {
+    margin: 0;
+}
+
+.highlight, .highlight .w {
+    color: #586e75;
+}
+
+.highlight .err {
+    color: #002b36;
+    background-color: #dc322f;
+}
+
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+    color: #657b83;
+}
+
+.highlight .cp {
+    color: #b58900;
+}
+
+.highlight .nt {
+    color: #b58900;
+}
+
+.highlight .o, .highlight .ow {
+    color: #93a1a1;
+}
+
+.highlight .p, .highlight .pi {
+    color: #93a1a1;
+}
+
+.highlight .gi {
+    color: #859900;
+}
+
+.highlight .gd {
+    color: #dc322f;
+}
+
+.highlight .gh {
+    color: #268bd2;
+    background-color: #002b36;
+    font-weight: bold;
+}
+
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+    color: #6c71c4;
+}
+
+.highlight .kc {
+    color: #cb4b16;
+}
+
+.highlight .kt {
+    color: #cb4b16;
+}
+
+.highlight .kd {
+    color: #cb4b16;
+}
+
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+    color: #859900;
+}
+
+.highlight .sr {
+    color: #2aa198;
+}
+
+.highlight .si {
+    color: #d33682;
+}
+
+.highlight .se {
+    color: #d33682;
+}
+
+.highlight .nn {
+    color: #b58900;
+}
+
+.highlight .nc {
+    color: #b58900;
+}
+
+.highlight .no {
+    color: #b58900;
+}
+
+.highlight .na {
+    color: #268bd2;
+}
+
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+    color: #859900;
+}
+
+.highlight .ss {
+    color: #859900;
+}
+
+
+{
+%
+comment
+%
+}
+* _ ____ _____ _____ ____ _ _ _ _____ ____ ____ _____
+*
+
+/
+\
+
+/
+|
+
+/
+_ \/__ __\/ __
+
+/
+/
+__\/ \__
+
+/
+|
+
+/
+\/ \
+
+/
+|
+
+/
+__ __\/ _ \/ __\/ __
+
+/
+* | | | | |
+
+/
+\|
+
+/
+\  |  \  |  \/ | | |\/ | | | | | |\  | |
+
+/
+\  |
+
+/
+\||  \/ | | |  _
+* | |
+
+/
+\|| | |
+
+-
+| | | | |
+
+/
+_ |
+
+/
+| | | | | | | | \| | | |__ | \_
+
+/
+| |
+
+/
+| |_
+
+/
+/
+* \_
+
+/
+\|\_
+
+/
+\| \_
+
+/
+\____\\_ /\_\\_/ \|\_ /\_/ \| \_ /\/\____/ \_
+
+/
+\_\\____\ {
+% endcomment %
+}
+
+.copyright {
+    font-size: 0.8em;
+    font-style: italic;
+    color: #555;
+}
