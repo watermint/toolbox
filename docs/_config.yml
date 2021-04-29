@@ -7,7 +7,6 @@ title: watermint toolbox
 tagline: "CLI tools for Dropbox and Dropbox Business"
 description: 'Set of tool commands for Dropbox and Dropbox Business.'
 
-baseurl: 'toolbox'
 url: 'https://watermint.github.io/toolbox'
 
 # Url
