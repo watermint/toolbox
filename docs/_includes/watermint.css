@@ -1,4 +1,4 @@
-{% comment %}
+/*
  *                        ___
  *                       /\_ \
  *  _____     ___     ___\//\ \      __
@@ -11,29 +11,13 @@
  *
  * Designed, built, and released under MIT license by @mdo. Learn more at
  * https://github.com/poole/poole.
- {% endcomment %}
+ */
 
-
-{% comment %}
- * Contents
- *
- * Body resets
- * Custom type
- * Messages
- * Container
- * Masthead
- * Posts and pages
- * Pagination
- * Reverse layout
- * Themes
- {% endcomment %}
-
-
-{% comment %}
+/*
  * Body resets
  *
  * Update the foundational and global aspects of the page.
- {% endcomment %}
+ */
 
 * {
   -webkit-box-sizing: border-box;
@@ -65,7 +49,7 @@ body {
       -ms-text-size-adjust: 100%;
 }
 
-{% comment %} No `:visited` state is required by default (browsers will use `a`) {% endcomment %}
+/* No `:visited` state is required by default (browsers will use `a`) */
 a {
   color: #264873;
   text-decoration: none;
@@ -73,13 +57,13 @@ a {
 a strong {
   color: inherit;
 }
-{% comment %} `:focus` is linked to `:hover` for basic accessibility {% endcomment %}
+/* `:focus` is linked to `:hover` for basic accessibility */
 a:hover,
 a:focus {
   text-decoration: underline;
 }
 
-{% comment %} Headings {% endcomment %}
+/* Headings */
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: .5rem;
   font-weight: bold;
@@ -105,7 +89,7 @@ h4, h5, h6 {
   font-size: 1rem;
 }
 
-{% comment %} Body text {% endcomment %}
+/* Body text */
 p {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -116,7 +100,7 @@ strong {
 }
 
 
-{% comment %} Lists {% endcomment %}
+/* Lists */
 ul, ol, dl {
   margin-top: 0;
   margin-bottom: 1rem;
@@ -129,7 +113,7 @@ dd {
   margin-bottom: .5rem;
 }
 
-{% comment %} Misc {% endcomment %}
+/* Misc */
 hr {
   position: relative;
   margin: 1.5rem 0;
@@ -149,7 +133,7 @@ abbr[title] {
   border-bottom: 1px dotted #e5e5e5;
 }
 
-{% comment %} Code {% endcomment %}
+/* Code */
 code,
 pre {
   font-family: Menlo, Monaco, "Courier New", monospace;
@@ -181,7 +165,7 @@ pre code {
   background-color: transparent;
 }
 
-{% comment %} Pygments via Jekyll {% endcomment %}
+/* Pygments via Jekyll */
 .highlight {
   margin-bottom: 1rem;
   border-radius: 4px;
@@ -190,7 +174,7 @@ pre code {
   margin-bottom: 0;
 }
 
-{% comment %} Gist via GitHub Pages {% endcomment %}
+/* Gist via GitHub Pages */
 .gist .gist-file {
   font-family: Menlo, Monaco, "Courier New", monospace !important;
 }
@@ -212,7 +196,7 @@ pre code {
   border-radius: 0;
 }
 
-{% comment %} Quotes {% endcomment %}
+/* Quotes */
 blockquote {
   padding: .5rem 1rem;
   margin: .8rem 0;
@@ -236,7 +220,7 @@ img {
   border-radius: 5px;
 }
 
-{% comment %} Tables {% endcomment %}
+/* Tables */
 table {
   margin-bottom: 1rem;
   width: 100%;
@@ -254,11 +238,11 @@ tbody tr:nth-child(odd) th {
 }
 
 
-{% comment %}
+/*
  * Custom type
  *
  * Extend paragraphs with `.lead` for larger introductory text.
- {% endcomment %}
+ */
 
 .lead {
   font-size: 1.25rem;
@@ -266,12 +250,12 @@ tbody tr:nth-child(odd) th {
 }
 
 
-{% comment %}
+/*
  * Messages
  *
  * Show alert messages to users. You may add it to single elements like a `<p>`,
  * or to a parent if there are multiple elements to show.
- {% endcomment %}
+ */
 
 .message {
   margin-bottom: 1rem;
@@ -281,11 +265,11 @@ tbody tr:nth-child(odd) th {
 }
 
 
-{% comment %}
+/*
  * Container
  *
  * Center the page content.
- {% endcomment %}
+ */
 
 .container {
   max-width: 38rem;
@@ -296,11 +280,11 @@ tbody tr:nth-child(odd) th {
 }
 
 
-{% comment %}
+/*
  * Masthead
  *
  * Super small header above the content for site name and short description.
- {% endcomment %}
+ */
 
 .masthead {
   padding-top:    1rem;
@@ -323,19 +307,19 @@ tbody tr:nth-child(odd) th {
 }
 
 
-{% comment %}
+/*
  * Posts and pages
  *
  * Each post is wrapped in `.post` and is used on default and post layouts. Each
  * page is wrapped in `.page` and is only used on the page layout.
- {% endcomment %}
+ */
 
 .page,
 .post {
   margin-bottom: 4em;
 }
 
-{% comment %} Blog post or page title {% endcomment %}
+/* Blog post or page title */
 .page-title,
 .post-title,
 .post-title a {
@@ -346,7 +330,7 @@ tbody tr:nth-child(odd) th {
   margin-top: 0;
 }
 
-{% comment %} Meta data line below post title {% endcomment %}
+/* Meta data line below post title */
 .post-date {
   display: block;
   margin-top: -.5rem;
@@ -354,7 +338,7 @@ tbody tr:nth-child(odd) th {
   color: #9a9a9a;
 }
 
-{% comment %} Meta data line below post title {% endcomment %}
+/* Meta data line below post title */
 .post-tags {
   display: block;
   margin-top: -.5rem;
@@ -362,7 +346,7 @@ tbody tr:nth-child(odd) th {
   text-align: right;
 }
 
-{% comment %} Related posts {% endcomment %}
+/* Related posts */
 .related {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -388,15 +372,15 @@ tbody tr:nth-child(odd) th {
 }
 
 
-{% comment %}
+/*
  * Pagination
  *
  * Super lightweight (HTML-wise) blog pagination. `span`s are provide for when
  * there are no more previous or next posts to show.
- {% endcomment %}
+ */
 
 .pagination {
-  overflow: hidden; {% comment %} clearfix {% endcomment %}
+  overflow: hidden; /* clearfix */
   margin-left: -1rem;
   margin-right: -1rem;
   font-family: "PT Sans", Helvetica, Arial, sans-serif;
@@ -404,7 +388,7 @@ tbody tr:nth-child(odd) th {
   text-align: center;
 }
 
-{% comment %} Pagination items can be `span`s or `a`s {% endcomment %}
+/* Pagination items can be `span`s or `a`s */
 .pagination-item {
   display: block;
   padding: 1rem;
@@ -414,7 +398,7 @@ tbody tr:nth-child(odd) th {
   margin-bottom: -1px;
 }
 
-{% comment %} Only provide a hover state for linked pagination items {% endcomment %}
+/* Only provide a hover state for linked pagination items */
 a.pagination-item:hover {
   background-color: #f5f5f5;
 }
@@ -440,7 +424,7 @@ a.pagination-item:hover {
 }
 
 
-{% comment %}
+/*
  *  ___
  * /\_ \
  * \//\ \      __      ___   __  __    ___     ___
@@ -453,10 +437,10 @@ a.pagination-item:hover {
  *
  * Designed, built, and released under MIT license by @mdo. Learn more at
  * https://github.com/poole/lanyon.
- {% endcomment %}
+ */
 
 
-{% comment %}
+/*
  * Contents
  *
  * Global resets
@@ -467,16 +451,16 @@ a.pagination-item:hover {
  * Pagination
  * Reverse layout
  * Themes
- {% endcomment %}
+ */
 
 
-{% comment %}
+/*
  * Global resets
  *
  * Update the foundational and global aspects of the page.
- {% endcomment %}
+ */
 
-{% comment %} Prevent scroll on narrow devices {% endcomment %}
+/* Prevent scroll on narrow devices */
 html,
 body {
   overflow-x: hidden;
@@ -488,20 +472,20 @@ html {
 }
 
 h1, h2, h3, h4, h5, h6 {
-{% comment %}  font-family: "PT Sans", Helvetica, Arial, sans-serif; {% endcomment %}
+/*  font-family: "PT Sans", Helvetica, Arial, sans-serif; */
   font-weight: 400;
   color: #313131;
-{% comment %}  letter-spacing: -.025rem; {% endcomment %}
+/*  letter-spacing: -.025rem; */
 }
 
 
-{% comment %}
+/*
  * Wrapper
  *
  * The wrapper is used to position site content when the sidebar is toggled. We
  * use an outter wrap to position the sidebar without interferring with the
  * regular page content.
- {% endcomment %}
+ */
 
 .wrap {
   position: relative;
@@ -509,11 +493,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-{% comment %}
+/*
  * Container
  *
  * Center the page content.
- {% endcomment %}
+ */
 
 .container {
   max-width: 28rem;
@@ -530,11 +514,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-{% comment %}
+/*
  * Masthead
  *
  * Super small header above the content for site name and short description.
- {% endcomment %}
+ */
 
 .masthead {
   padding-top:    1rem;
@@ -567,7 +551,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-{% comment %}
+/*
  * Sidebar
  *
  * The sidebar is the drawer, the item we are toggling with our handy hamburger
@@ -580,9 +564,9 @@ h1, h2, h3, h4, h5, h6 {
  * `position` for the menu to avoid some potential content reflow issues.
  *
  * Source: http://css-tricks.com/off-canvas-menu-with-css-target/#comment-207504
- {% endcomment %}
+ */
 
-{% comment %} Style and "hide" the sidebar {% endcomment %}
+/* Style and "hide" the sidebar */
 .sidebar {
   position: fixed;
   top: 0;
@@ -592,7 +576,7 @@ h1, h2, h3, h4, h5, h6 {
   visibility: hidden;
   overflow-y: auto;
   font-family: serif;
-  font-size: .875rem; {% comment %} 15px {% endcomment %}
+  font-size: .875rem; /* 15px */
   line-height: 1.4em;
   color: rgba(255,255,255,.6);
   background-color: #202020;
@@ -601,11 +585,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (min-width: 30em) {
   .sidebar {
-    font-size: .75rem; {% comment %} 14px {% endcomment %}
+    font-size: .75rem; /* 14px */
   }
 }
 
-{% comment %} Sidebar content {% endcomment %}
+/* Sidebar content */
 .sidebar a {
   font-weight: normal;
   color: #fff;
@@ -617,7 +601,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0;
 }
 
-{% comment %} Sidebar nav {% endcomment %}
+/* Sidebar nav */
 .sidebar-nav {
   border-bottom: 1px solid rgba(255,255,255,.1);
 }
@@ -644,7 +628,7 @@ a.sidebar-nav-item:focus {
   }
 }
 
-{% comment %} Hide the sidebar checkbox that we toggle with `.sidebar-toggle` {% endcomment %}
+/* Hide the sidebar checkbox that we toggle with `.sidebar-toggle` */
 .sidebar-checkbox {
   position: absolute;
   opacity: 0;
@@ -653,7 +637,7 @@ a.sidebar-nav-item:focus {
           user-select: none;
 }
 
-{% comment %} Style the `label` that we use to target the `.sidebar-checkbox` {% endcomment %}
+/* Style the `label` that we use to target the `.sidebar-checkbox` */
 .sidebar-toggle {
   position: absolute;
   top:  .8rem;
@@ -661,7 +645,7 @@ a.sidebar-nav-item:focus {
   display: block;
   padding: .25rem .75rem;
   color: #555;
-{% comment %}  background-color: #fff; {% endcomment %}
+/*  background-color: #fff; */
   border-radius: .25rem;
   cursor: pointer;
 }
@@ -681,7 +665,7 @@ a.sidebar-nav-item:focus {
 #sidebar-checkbox:focus ~ .sidebar-toggle,
 #sidebar-checkbox:checked ~ .sidebar-toggle {
   color: #fff;
-{% comment %}  background-color: #555; {% endcomment %}
+/*  background-color: #555; */
 }
 
 .sidebar-toggle:active:before,
@@ -705,7 +689,7 @@ a.sidebar-nav-item:focus {
   }
 }
 
-{% comment %} Slide effect
+/* Slide effect
  *
  * Handle the sliding effects of the sidebar and content in one spot, seperate
  * from the default styles.
@@ -716,7 +700,7 @@ a.sidebar-nav-item:focus {
  * `position: absolute;` when transformed.
  *
  * Read more about it at http://meyerweb.com/eric/thoughts/2011/09/12/.
- {% endcomment %}
+ */
 
 .wrap,
 .sidebar,
@@ -744,19 +728,19 @@ a.sidebar-nav-item:focus {
 }
 
 
-{% comment %}
+/*
  * Posts and pages
  *
  * Each post is wrapped in `.post` and is used on default and post layouts. Each
  * page is wrapped in `.page` and is only used on the page layout.
- {% endcomment %}
+ */
 
 .page,
 .post {
   margin-bottom: 4em;
 }
 
-{% comment %} Blog post or page title {% endcomment %}
+/* Blog post or page title */
 .page-title,
 .post-title,
 .post-title a {
@@ -767,7 +751,7 @@ a.sidebar-nav-item:focus {
   margin-top: 0;
 }
 
-{% comment %} Meta data line below post title {% endcomment %}
+/* Meta data line below post title */
 .post-date {
   display: block;
   margin-top: -.5rem;
@@ -775,7 +759,7 @@ a.sidebar-nav-item:focus {
   color: #9a9a9a;
 }
 
-{% comment %} Related posts {% endcomment %}
+/* Related posts */
 .related {
   padding-top: 2rem;
   padding-bottom: 2rem;
@@ -801,15 +785,15 @@ a.sidebar-nav-item:focus {
 }
 
 
-{% comment %}
+/*
  * Pagination
  *
  * Super lightweight (HTML-wise) blog pagination. `span`s are provide for when
  * there are no more previous or next posts to show.
- {% endcomment %}
+ */
 
 .pagination {
-  overflow: hidden; {% comment %} clearfix {% endcomment %}
+  overflow: hidden; /* clearfix */
   margin-left: -1rem;
   margin-right: -1rem;
   font-family: serif;
@@ -817,7 +801,7 @@ a.sidebar-nav-item:focus {
   text-align: center;
 }
 
-{% comment %} Pagination items can be `span`s or `a`s {% endcomment %}
+/* Pagination items can be `span`s or `a`s */
 .pagination-item {
   display: block;
   padding: 1rem;
@@ -827,7 +811,7 @@ a.sidebar-nav-item:focus {
   margin-bottom: -1px;
 }
 
-{% comment %} Only provide a hover state for linked pagination items {% endcomment %}
+/* Only provide a hover state for linked pagination items */
 a.pagination-item:hover {
   background-color: #f5f5f5;
 }
@@ -853,12 +837,12 @@ a.pagination-item:hover {
 }
 
 
-{% comment %}
+/*
  * Reverse layout
  *
  * Flip the orientation of the page by placing the `.sidebar` and sidebar toggle
  * on the right side.
- {% endcomment %}
+ */
 
 .layout-reverse .sidebar {
   left: auto;
@@ -878,14 +862,14 @@ a.pagination-item:hover {
 }
 
 
-{% comment %}
+/*
  * Themes
  *
  * Apply custom color schemes by adding the appropriate class to the `body`.
  * Based on colors from Base16: http://chriskempson.github.io/base16/#default.
- {% endcomment %}
+ */
 
-{% comment %} Red {% endcomment %}
+/* Red */
 .theme-base-08 .sidebar,
 .theme-base-08 .sidebar-toggle:active,
 .theme-base-08 #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -897,7 +881,7 @@ a.pagination-item:hover {
   color: #ac4142;
 }
 
-{% comment %} Orange {% endcomment %}
+/* Orange */
 .theme-base-09 .sidebar,
 .theme-base-09 .sidebar-toggle:active,
 .theme-base-09 #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -909,7 +893,7 @@ a.pagination-item:hover {
   color: #264873;
 }
 
-{% comment %} Yellow {% endcomment %}
+/* Yellow */
 .theme-base-0a .sidebar,
 .theme-base-0a .sidebar-toggle:active,
 .theme-base-0a #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -921,7 +905,7 @@ a.pagination-item:hover {
   color: #f4bf75;
 }
 
-{% comment %} Green {% endcomment %}
+/* Green */
 .theme-base-0b .sidebar,
 .theme-base-0b .sidebar-toggle:active,
 .theme-base-0b #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -933,7 +917,7 @@ a.pagination-item:hover {
   color: #90a959;
 }
 
-{% comment %} Cyan {% endcomment %}
+/* Cyan */
 .theme-base-0c .sidebar,
 .theme-base-0c .sidebar-toggle:active,
 .theme-base-0c #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -945,7 +929,7 @@ a.pagination-item:hover {
   color: #75b5aa;
 }
 
-{% comment %} Blue {% endcomment %}
+/* Blue */
 .theme-base-0d .sidebar,
 .theme-base-0d .sidebar-toggle:active,
 .theme-base-0d #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -957,7 +941,7 @@ a.pagination-item:hover {
   color: #6a9fb5;
 }
 
-{% comment %} Magenta {% endcomment %}
+/* Magenta */
 .theme-base-0e .sidebar,
 .theme-base-0e .sidebar-toggle:active,
 .theme-base-0e #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -969,7 +953,7 @@ a.pagination-item:hover {
   color: #aa759f;
 }
 
-{% comment %} Brown {% endcomment %}
+/* Brown */
 .theme-base-0f .sidebar,
 .theme-base-0f .sidebar-toggle:active,
 .theme-base-0f #sidebar-checkbox:checked ~ .sidebar-toggle {
@@ -982,12 +966,12 @@ a.pagination-item:hover {
 }
 
 
-{% comment %}
+/*
  * Overlay sidebar
  *
  * Make the sidebar content overlay the viewport content instead of pushing it
  * aside when toggled.
- {% endcomment %}
+ */
 
 .sidebar-overlay #sidebar-checkbox:checked ~ .wrap {
   -webkit-transform: translateX(0);
@@ -1001,19 +985,19 @@ a.pagination-item:hover {
   box-shadow: .25rem 0 .5rem rgba(0,0,0,.1);
 }
 
-{% comment %} Only one tweak for a reverse layout {% endcomment %}
+/* Only one tweak for a reverse layout */
 .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
   box-shadow: -.25rem 0 .5rem rgba(0,0,0,.1);
 }
 
-{% comment %}
+/*
  *  ____ ___  _ _      _____  ____ ___  _
  * / ___\\  \/// \  /|/__ __\/  _ \\  \//
  * |    \ \  / | |\ ||  / \  | / \| \  /
  * \___ | / /  | | \||  | |  | |-|| /  \
  * \____//_/   \_/  \|  \_/  \_/ \|/__/\\
  *
- {% endcomment %}
+ */
 
  .highlight table td { padding: 5px; }
 .highlight table pre { margin: 0; }
@@ -1093,14 +1077,6 @@ a.pagination-item:hover {
   color: #859900;
 }
 
-
-{% comment %}
- *  _      ____  _____  _____ ____  _      _  _      _____  ____  ____  _____
- * / \  /|/  _ \/__ __\/  __//  __\/ \__/|/ \/ \  /|/__ __\/  _ \/  __\/  __/
- * | |  ||| / \|  / \  |  \  |  \/|| |\/||| || |\ ||  / \  | / \||  \/|| |  _
- * | |/\||| |-||  | |  |  /_ |    /| |  ||| || | \||  | |__| \_/||    /| |_//
- * \_/  \|\_/ \|  \_/  \____\\_/\_\\_/  \|\_/\_/  \|  \_/\/\____/\_/\_\\____\
- {% endcomment %}
 
 .copyright {
 	font-size: 0.8em;
