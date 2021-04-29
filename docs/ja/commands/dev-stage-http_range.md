@@ -5,7 +5,7 @@ title: dev stage http_range
 
 # dev stage http_range
 
-HTTP Range request proof of concept 
+HTTPレンジリクエストのプルーフオブコンセプト 
 
 # セキュリティ
 
@@ -49,6 +49,11 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 認証コードを入力してください
 ```
 
+# インストール
+
+[最新リリース](https://github.com/watermint/toolbox/releases/latest)からコンパイル済みのバイナリをダウンロードしてください. Windowsをお使いの方は、`tbx-xx.x.xxx-win.zip`のようなzipファイルをダウンロードしてください. その後、アーカイブを解凍し、デスクトップ フォルダに `tbx.exe` を配置します.
+watermint toolboxは、システムで許可されていれば、システム内のどのパスからでも実行できます. しかし、説明書のサンプルでは、デスクトップ フォルダを使用しています. デスクトップ フォルダ以外にバイナリを配置した場合は、パスを読み替えてください.
+
 # 利用方法
 
 このドキュメントは"デスクトップ"フォルダを例として使用します.
@@ -74,11 +79,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                          | デフォルト |
-|-----------------|-------------------------------|------------|
-| `-dropbox-path` | Dropbox file path to download |            |
-| `-local-path`   | Local path to store           |            |
-| `-peer`         | Account alias                 | default    |
+| オプション      | 説明                                  | デフォルト |
+|-----------------|---------------------------------------|------------|
+| `-dropbox-path` | ダウンロードするDropboxファイルのパス |            |
+| `-local-path`   | 保存先のローカルパス                  |            |
+| `-peer`         | アカウントの別名                      | default    |
 
 ## 共通のオプション:
 

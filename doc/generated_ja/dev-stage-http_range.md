@@ -1,6 +1,6 @@
 # dev stage http_range
 
-HTTP Range request proof of concept 
+HTTPレンジリクエストのプルーフオブコンセプト 
 
 # セキュリティ
 
@@ -69,11 +69,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                          | デフォルト |
-|-----------------|-------------------------------|------------|
-| `-dropbox-path` | Dropbox file path to download |            |
-| `-local-path`   | Local path to store           |            |
-| `-peer`         | Account alias                 | default    |
+| オプション      | 説明                                  | デフォルト |
+|-----------------|---------------------------------------|------------|
+| `-dropbox-path` | ダウンロードするDropboxファイルのパス |            |
+| `-local-path`   | 保存先のローカルパス                  |            |
+| `-peer`         | アカウントの別名                      | default    |
 
 ## 共通のオプション:
 

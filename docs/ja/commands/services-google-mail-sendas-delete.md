@@ -5,7 +5,7 @@ title: services google mail sendas delete
 
 # services google mail sendas delete
 
-Deletes the specified send-as alias 
+指定したsend-asエイリアスを削除する 
 
 # セキュリティ
 
@@ -25,9 +25,9 @@ Deletes the specified send-as alias
 
 ## 認可スコープ
 
-| 説明                                                                           |
-|--------------------------------------------------------------------------------|
-| Gmail: Manage your sensitive mail settings, including who can manage your mail |
+| 説明                                                                          |
+|-------------------------------------------------------------------------------|
+| Gmail: 誰がメールを管理できるかなど、機密メールの設定を管理することができます |
 
 # 認可
 
@@ -48,6 +48,11 @@ https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxx
 3. 認証コードをコピーします:
 認証コードを入力してください
 ```
+
+# インストール
+
+[最新リリース](https://github.com/watermint/toolbox/releases/latest)からコンパイル済みのバイナリをダウンロードしてください. Windowsをお使いの方は、`tbx-xx.x.xxx-win.zip`のようなzipファイルをダウンロードしてください. その後、アーカイブを解凍し、デスクトップ フォルダに `tbx.exe` を配置します.
+watermint toolboxは、システムで許可されていれば、システム内のどのパスからでも実行できます. しかし、説明書のサンプルでは、デスクトップ フォルダを使用しています. デスクトップ フォルダ以外にバイナリを配置した場合は、パスを読み替えてください.
 
 # 利用方法
 
@@ -74,11 +79,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                           | デフォルト |
-|------------|------------------------------------------------------------------------------------------------|------------|
-| `-email`   | The send-as alias email address                                                                |            |
-| `-peer`    | Account alias                                                                                  | default    |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me         |
+| オプション | 説明                                                                                        | デフォルト |
+|------------|---------------------------------------------------------------------------------------------|------------|
+| `-email`   | send-asエイリアス メールアドレス                                                            |            |
+| `-peer`    | アカウントの別名                                                                            | default    |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |
 
 ## 共通のオプション:
 

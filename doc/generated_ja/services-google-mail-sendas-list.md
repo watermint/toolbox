@@ -1,6 +1,6 @@
 # services google mail sendas list
 
-Lists the send-as aliases for the specified account 
+指定されたアカウントの送信エイリアスを一覧表示する 
 
 # セキュリティ
 
@@ -69,10 +69,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                           | デフォルト |
-|------------|------------------------------------------------------------------------------------------------|------------|
-| `-peer`    | Account alias                                                                                  | default    |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me         |
+| オプション | 説明                                                                                        | デフォルト |
+|------------|---------------------------------------------------------------------------------------------|------------|
+| `-peer`    | アカウントの別名                                                                            | default    |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |
 
 ## 共通のオプション:
 
@@ -105,18 +105,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: send_as
 
-Settings associated with a send-as alias, which can be either the primary login address associated with the account or a custom "from" address.
+送信先のエイリアスに関連する設定で、アカウントに関連付けられたプライマリログインアドレスまたはカスタム"from"アドレスのいずれかを指定できます
 このコマンドはレポートを3種類の書式で出力します. `send_as.csv`, `send_as.json`, ならびに `send_as.xlsx`.
 
-| 列                  | 説明                                                                                                                                            |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| send_as_email       | The send-as alias email address                                                                                                                 |
-| display_name        | A name that appears in the "From:" header for mail sent using this alias.                                                                       |
-| reply_to_address    | An optional email address that is included in a "Reply-To:" header for mail sent using this alias.                                              |
-| is_primary          | Whether this address is the primary address used to login to the account.                                                                       |
-| is_default          | Whether this address is selected as the default "From:" address in situations such as composing a new message or sending a vacation auto-reply. |
-| treat_as_alias      | Whether Gmail should treat this address as an alias for the user's primary email address.                                                       |
-| verification_status | Indicates whether this address has been verified for use as a send-as alias                                                                     |
+| 列                  | 説明                                                                                                                      |
+|---------------------|---------------------------------------------------------------------------------------------------------------------------|
+| send_as_email       | send-asエイリアス メールアドレス                                                                                          |
+| display_name        | このエイリアスを使って送信されるメールの "From: "ヘッダーに表示される名前.                                                |
+| reply_to_address    | このエイリアスを使って送信されたメールの "Reply-To: "ヘッダーに含まれる任意のメールアドレス.                              |
+| is_primary          | このアドレスが、アカウントへのログインに使用されるプライマリアドレスであるかどうか.                                       |
+| is_default          | 新規メッセージの作成やバケーションの自動返信などの際に、このアドレスをデフォルトの"From:"アドレスとして選択するかどうか。 |
+| treat_as_alias      | Gmailがこのアドレスをユーザーのプライマリメールアドレスのエイリアスとして扱うかどうかを指定します.                        |
+| verification_status | このアドレスがsend-as aliasとして使用するために検証されているかどうかを示す.                                              |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

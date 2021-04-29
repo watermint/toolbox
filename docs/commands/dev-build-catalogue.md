@@ -7,6 +7,11 @@ title: dev build catalogue
 
 Generate catalogue 
 
+# Installation
+
+Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 
+The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
+
 # Usage
 
 This document uses the Desktop folder for command example.
