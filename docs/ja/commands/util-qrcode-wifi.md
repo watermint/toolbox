@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util qrcode wifi
+title: コマンド
+lang: ja
 ---
 
 # util qrcode wifi

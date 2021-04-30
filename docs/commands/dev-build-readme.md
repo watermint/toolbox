@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev build readme
+title: Command
+lang: en
 ---
 
 # dev build readme

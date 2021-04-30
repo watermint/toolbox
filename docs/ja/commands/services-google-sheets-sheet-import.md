@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google sheets sheet import
+title: コマンド
+lang: ja
 ---
 
 # services google sheets sheet import

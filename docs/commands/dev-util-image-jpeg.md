@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev util image jpeg
+title: Command
+lang: en
 ---
 
 # dev util image jpeg

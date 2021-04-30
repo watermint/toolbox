@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github release asset upload
+title: コマンド
+lang: ja
 ---
 
 # services github release asset upload

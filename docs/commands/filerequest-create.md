@@ -1,6 +1,7 @@
 ---
 layout: command
-title: filerequest create
+title: Command
+lang: en
 ---
 
 # filerequest create

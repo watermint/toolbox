@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member quota list
+title: Command
+lang: en
 ---
 
 # member quota list

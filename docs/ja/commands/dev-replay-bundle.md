@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev replay bundle
+title: コマンド
+lang: ja
 ---
 
 # dev replay bundle

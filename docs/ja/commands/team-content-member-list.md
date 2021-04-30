@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team content member list
+title: コマンド
+lang: ja
 ---
 
 # team content member list

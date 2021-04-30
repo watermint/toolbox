@@ -1,6 +1,7 @@
 ---
 layout: command
-title: job history list
+title: コマンド
+lang: ja
 ---
 
 # job history list

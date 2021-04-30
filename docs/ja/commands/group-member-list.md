@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group member list
+title: コマンド
+lang: ja
 ---
 
 # group member list

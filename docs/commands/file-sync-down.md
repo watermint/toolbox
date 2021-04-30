@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file sync down
+title: Command
+lang: en
 ---
 
 # file sync down

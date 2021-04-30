@@ -3,8 +3,8 @@ relative_permalinks: false
 
 # About
 title: watermint toolbox
-tagline: "CLI tools for Dropbox and Dropbox Business"
-description: 'Set of tool commands for Dropbox and Dropbox Business.'
+tagline: "The multi-purpose utility command-line tool for web services"
+description: 'The multi-purpose utility command-line tool for web services.'
 
 url: 'https://toolbox.watermint.org'
 

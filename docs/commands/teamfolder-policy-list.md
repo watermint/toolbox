@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder policy list
+title: Command
+lang: en
 ---
 
 # teamfolder policy list

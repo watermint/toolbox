@@ -1,6 +1,7 @@
 ---
 layout: page
 title: パス変数
+lang: ja
 ---
 
 # パス変数

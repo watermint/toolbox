@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file paper append
+title: コマンド
+lang: ja
 ---
 
 # file paper append

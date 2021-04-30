@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util xlsx sheet list
+title: コマンド
+lang: ja
 ---
 
 # util xlsx sheet list

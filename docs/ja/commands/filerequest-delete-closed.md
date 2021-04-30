@@ -1,6 +1,7 @@
 ---
 layout: command
-title: filerequest delete closed
+title: コマンド
+lang: ja
 ---
 
 # filerequest delete closed

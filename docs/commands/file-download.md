@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file download
+title: Command
+lang: en
 ---
 
 # file download

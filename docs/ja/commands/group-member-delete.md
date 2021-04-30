@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group member delete
+title: コマンド
+lang: ja
 ---
 
 # group member delete

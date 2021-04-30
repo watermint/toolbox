@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team filerequest list
+title: コマンド
+lang: ja
 ---
 
 # team filerequest list

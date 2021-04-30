@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder batch permdelete
+title: コマンド
+lang: ja
 ---
 
 # teamfolder batch permdelete

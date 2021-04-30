@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file size
+title: Command
+lang: en
 ---
 
 # file size

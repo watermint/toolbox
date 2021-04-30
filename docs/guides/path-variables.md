@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Path variables
+lang: en
 ---
 
 # Path variables

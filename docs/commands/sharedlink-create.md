@@ -1,6 +1,7 @@
 ---
 layout: command
-title: sharedlink create
+title: Command
+lang: en
 ---
 
 # sharedlink create

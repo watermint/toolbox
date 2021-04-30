@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team activity daily event
+title: コマンド
+lang: ja
 ---
 
 # team activity daily event

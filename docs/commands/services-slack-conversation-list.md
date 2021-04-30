@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services slack conversation list
+title: Command
+lang: en
 ---
 
 # services slack conversation list

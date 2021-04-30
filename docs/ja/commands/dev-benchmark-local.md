@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev benchmark local
+title: コマンド
+lang: ja
 ---
 
 # dev benchmark local

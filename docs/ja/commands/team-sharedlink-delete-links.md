@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team sharedlink delete links
+title: コマンド
+lang: ja
 ---
 
 # team sharedlink delete links

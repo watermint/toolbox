@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev test monkey
+title: コマンド
+lang: ja
 ---
 
 # dev test monkey

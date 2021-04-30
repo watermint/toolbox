@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail label delete
+title: Command
+lang: en
 ---
 
 # services google mail label delete

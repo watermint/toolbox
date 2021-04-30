@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev replay approve
+title: Command
+lang: en
 ---
 
 # dev replay approve

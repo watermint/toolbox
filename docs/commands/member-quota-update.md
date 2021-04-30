@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member quota update
+title: Command
+lang: en
 ---
 
 # member quota update

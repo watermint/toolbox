@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team content policy list
+title: Command
+lang: en
 ---
 
 # team content policy list

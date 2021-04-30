@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group member batch add
+title: コマンド
+lang: ja
 ---
 
 # group member batch add

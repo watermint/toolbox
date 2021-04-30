@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev release candidate
+title: Command
+lang: en
 ---
 
 # dev release candidate

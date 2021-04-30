@@ -1,6 +1,7 @@
 ---
 layout: command
-title: connect business_info
+title: コマンド
+lang: ja
 ---
 
 # connect business_info

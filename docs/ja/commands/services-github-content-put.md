@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github content put
+title: コマンド
+lang: ja
 ---
 
 # services github content put

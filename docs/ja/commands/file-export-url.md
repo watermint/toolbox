@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file export url
+title: コマンド
+lang: ja
 ---
 
 # file export url

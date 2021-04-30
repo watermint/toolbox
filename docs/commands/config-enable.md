@@ -1,6 +1,7 @@
 ---
 layout: command
-title: config enable
+title: Command
+lang: en
 ---
 
 # config enable

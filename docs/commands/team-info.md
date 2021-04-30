@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team info
+title: Command
+lang: en
 ---
 
 # team info

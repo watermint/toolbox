@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team diag explorer
+title: コマンド
+lang: ja
 ---
 
 # team diag explorer

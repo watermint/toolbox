@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member file lock release
+title: Command
+lang: en
 ---
 
 # member file lock release

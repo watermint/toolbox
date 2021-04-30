@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member update invisible
+title: コマンド
+lang: ja
 ---
 
 # member update invisible

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail filter batch add
+title: Command
+lang: en
 ---
 
 # services google mail filter batch add

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file mount list
+title: コマンド
+lang: ja
 ---
 
 # file mount list

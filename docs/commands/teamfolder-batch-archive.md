@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder batch archive
+title: Command
+lang: en
 ---
 
 # teamfolder batch archive

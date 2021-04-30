@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team sharedlink update password
+title: Command
+lang: en
 ---
 
 # team sharedlink update password

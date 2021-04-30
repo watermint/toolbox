@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member replication
+title: Command
+lang: en
 ---
 
 # member replication

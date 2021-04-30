@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file export doc
+title: コマンド
+lang: ja
 ---
 
 # file export doc

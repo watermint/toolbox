@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev test resources
+title: コマンド
+lang: ja
 ---
 
 # dev test resources

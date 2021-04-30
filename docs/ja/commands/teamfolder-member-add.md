@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder member add
+title: コマンド
+lang: ja
 ---
 
 # teamfolder member add

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team namespace member list
+title: Command
+lang: en
 ---
 
 # team namespace member list

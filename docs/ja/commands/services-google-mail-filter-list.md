@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail filter list
+title: コマンド
+lang: ja
 ---
 
 # services google mail filter list

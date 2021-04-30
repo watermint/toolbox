@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team sharedlink delete member
+title: コマンド
+lang: ja
 ---
 
 # team sharedlink delete member

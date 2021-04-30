@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file lock batch release
+title: Command
+lang: en
 ---
 
 # file lock batch release

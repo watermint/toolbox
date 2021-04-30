@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage http_range
+title: Command
+lang: en
 ---
 
 # dev stage http_range

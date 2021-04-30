@@ -1,6 +1,7 @@
 ---
 layout: command
-title: job history delete
+title: コマンド
+lang: ja
 ---
 
 # job history delete

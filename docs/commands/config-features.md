@@ -1,6 +1,7 @@
 ---
 layout: command
-title: config features
+title: Command
+lang: en
 ---
 
 # config features

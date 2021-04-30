@@ -1,6 +1,7 @@
 ---
 layout: command
-title: job history list
+title: Command
+lang: en
 ---
 
 # job history list

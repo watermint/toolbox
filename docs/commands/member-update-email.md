@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member update email
+title: Command
+lang: en
 ---
 
 # member update email

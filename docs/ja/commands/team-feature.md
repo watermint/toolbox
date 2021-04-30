@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team feature
+title: コマンド
+lang: ja
 ---
 
 # team feature

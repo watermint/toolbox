@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file replication
+title: コマンド
+lang: ja
 ---
 
 # file replication

@@ -110,3 +110,11 @@ Please run command `dev release publish` to upload assets on to the github accou
 $ cd /path/to/PROJECT_ROOT
 $ go run tbx.go dev release publish 
 ```
+
+# Project page
+
+## Preview
+
+```
+$ docker run --rm --volume="$(pwd):/srv/jekyll" -p 4000:4000 jekyll/jekyll:stable jekyll serve --config /srv/jekyll/docs/_config.yml,/srv/jekyll/docs/_config_dev.yml --destination /tmp/staging --source /srv/jekyll/docs --watch
+```

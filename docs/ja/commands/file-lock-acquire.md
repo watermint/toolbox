@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file lock acquire
+title: コマンド
+lang: ja
 ---
 
 # file lock acquire

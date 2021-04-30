@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file paper prepend
+title: コマンド
+lang: ja
 ---
 
 # file paper prepend

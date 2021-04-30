@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev test setup teamsharedlink
+title: Command
+lang: en
 ---
 
 # dev test setup teamsharedlink

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file delete
+title: Command
+lang: en
 ---
 
 # file delete

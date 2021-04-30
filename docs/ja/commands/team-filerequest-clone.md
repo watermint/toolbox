@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team filerequest clone
+title: コマンド
+lang: ja
 ---
 
 # team filerequest clone

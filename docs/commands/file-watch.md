@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file watch
+title: Command
+lang: en
 ---
 
 # file watch

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: sharedlink list
+title: Command
+lang: en
 ---
 
 # sharedlink list

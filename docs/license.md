@@ -1,6 +1,7 @@
 ---
 layout: page
 title: License
+lang: en
 ---
 
 # License

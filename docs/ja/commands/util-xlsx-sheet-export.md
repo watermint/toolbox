@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util xlsx sheet export
+title: コマンド
+lang: ja
 ---
 
 # util xlsx sheet export

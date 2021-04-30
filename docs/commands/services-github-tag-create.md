@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github tag create
+title: Command
+lang: en
 ---
 
 # services github tag create

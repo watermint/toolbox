@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group add
+title: コマンド
+lang: ja
 ---
 
 # group add

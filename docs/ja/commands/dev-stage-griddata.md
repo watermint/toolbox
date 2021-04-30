@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage griddata
+title: コマンド
+lang: ja
 ---
 
 # dev stage griddata

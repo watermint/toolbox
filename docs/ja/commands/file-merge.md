@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file merge
+title: コマンド
+lang: ja
 ---
 
 # file merge

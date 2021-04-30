@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team content mount list
+title: Command
+lang: en
 ---
 
 # team content mount list

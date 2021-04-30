@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team report activity
+title: コマンド
+lang: ja
 ---
 
 # team report activity

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: job log kind
+title: Command
+lang: en
 ---
 
 # job log kind

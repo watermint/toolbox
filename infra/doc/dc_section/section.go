@@ -25,6 +25,7 @@ const (
 	WebHeader = `---
 layout: {{.Layout}}
 title: {{.Title}}
+lang: {{.Lang}}
 ---
 
 {{.Body}}
@@ -35,22 +36,23 @@ type LayoutType int
 
 const (
 	LayoutPage LayoutType = iota
+	LayoutHome
 	LayoutCommand
 )
 
-func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.Container, sections ...Section) string {
+func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.Container, doc Document) string {
+	sections := doc.Sections()
 	body := app_ui.MakeMarkdown(mc, func(ui app_ui.UI) {
-		for _, section := range sections {
-			ui.Header(section.Title())
-			section.Body(ui)
+		for _, s := range sections {
+			sec := app_msg.Apply(s).(Section)
+			ui.Header(sec.Title())
+			sec.Body(ui)
 			ui.Break()
 		}
 	})
 
-	title := ""
-	if 0 < len(sections) {
-		title = mc.Compile(sections[0].Title())
-	}
+	compiledDoc := app_msg.Apply(doc).(Document)
+	title := mc.Compile(compiledDoc.DocDesc())
 
 	switch media {
 	case dc_index.MediaRepository:
@@ -61,13 +63,19 @@ func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.
 			panic(err)
 		}
 		buf := bytes.Buffer{}
-		layoutName := "page"
-		if layout == LayoutCommand {
+		var layoutName string
+		switch layout {
+		case LayoutHome:
+			layoutName = "home"
+		case LayoutCommand:
 			layoutName = "command"
+		default:
+			layoutName = "page"
 		}
 		err = tmpl.Execute(&buf, map[string]string{
 			"Title":  title,
 			"Layout": layoutName,
+			"Lang":   mc.Lang().CodeString(),
 			"Body":   strings.ReplaceAll(body, "{{.", "{% raw %}{{.{% endraw %}"),
 		})
 		if err != nil {

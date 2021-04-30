@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util time now
+title: Command
+lang: en
 ---
 
 # util time now

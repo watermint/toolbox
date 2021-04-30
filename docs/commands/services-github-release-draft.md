@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github release draft
+title: Command
+lang: en
 ---
 
 # services github release draft

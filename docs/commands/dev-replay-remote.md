@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev replay remote
+title: Command
+lang: en
 ---
 
 # dev replay remote

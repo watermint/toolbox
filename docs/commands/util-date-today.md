@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util date today
+title: Command
+lang: en
 ---
 
 # util date today

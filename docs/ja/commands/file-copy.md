@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file copy
+title: コマンド
+lang: ja
 ---
 
 # file copy

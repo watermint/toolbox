@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team activity batch user
+title: Command
+lang: en
 ---
 
 # team activity batch user

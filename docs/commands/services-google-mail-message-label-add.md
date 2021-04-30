@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail message label add
+title: Command
+lang: en
 ---
 
 # services google mail message label add

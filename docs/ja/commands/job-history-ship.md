@@ -1,6 +1,7 @@
 ---
 layout: command
-title: job history ship
+title: コマンド
+lang: ja
 ---
 
 # job history ship

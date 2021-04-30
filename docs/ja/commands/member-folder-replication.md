@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member folder replication
+title: コマンド
+lang: ja
 ---
 
 # member folder replication

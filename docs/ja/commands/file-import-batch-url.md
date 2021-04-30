@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file import batch url
+title: コマンド
+lang: ja
 ---
 
 # file import batch url

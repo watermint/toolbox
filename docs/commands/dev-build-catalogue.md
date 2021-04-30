@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev build catalogue
+title: Command
+lang: en
 ---
 
 # dev build catalogue

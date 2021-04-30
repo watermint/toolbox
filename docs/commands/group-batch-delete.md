@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group batch delete
+title: Command
+lang: en
 ---
 
 # group batch delete

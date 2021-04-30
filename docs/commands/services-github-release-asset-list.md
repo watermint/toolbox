@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github release asset list
+title: Command
+lang: en
 ---
 
 # services github release asset list

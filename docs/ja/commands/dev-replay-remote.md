@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev replay remote
+title: コマンド
+lang: ja
 ---
 
 # dev replay remote

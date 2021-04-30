@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team namespace file size
+title: Command
+lang: en
 ---
 
 # team namespace file size

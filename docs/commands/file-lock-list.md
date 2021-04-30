@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file lock list
+title: Command
+lang: en
 ---
 
 # file lock list

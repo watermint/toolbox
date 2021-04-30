@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder file lock list
+title: コマンド
+lang: ja
 ---
 
 # teamfolder file lock list

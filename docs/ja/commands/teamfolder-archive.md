@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder archive
+title: コマンド
+lang: ja
 ---
 
 # teamfolder archive

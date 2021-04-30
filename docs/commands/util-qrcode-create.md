@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util qrcode create
+title: Command
+lang: en
 ---
 
 # util qrcode create

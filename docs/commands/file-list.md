@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file list
+title: Command
+lang: en
 ---
 
 # file list

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail filter delete
+title: Command
+lang: en
 ---
 
 # services google mail filter delete

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev benchmark uploadlink
+title: コマンド
+lang: ja
 ---
 
 # dev benchmark uploadlink

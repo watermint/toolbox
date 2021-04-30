@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team device list
+title: Command
+lang: en
 ---
 
 # team device list

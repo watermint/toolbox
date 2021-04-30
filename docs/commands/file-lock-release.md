@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file lock release
+title: Command
+lang: en
 ---
 
 # file lock release

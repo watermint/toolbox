@@ -1,6 +1,8 @@
 # member file permdelete
 
-Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. (Experimental, and Irreversible operation)
+Permanently delete the file or folder at a given path of the team member. (Experimental, and Irreversible operation)
+
+Please see https://www.dropbox.com/help/40 for more detail about permanent deletion.
 
 # Security
 

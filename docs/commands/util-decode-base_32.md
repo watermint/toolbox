@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util decode base_32
+title: Command
+lang: en
 ---
 
 # util decode base_32

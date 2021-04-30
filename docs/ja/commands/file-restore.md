@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file restore
+title: コマンド
+lang: ja
 ---
 
 # file restore

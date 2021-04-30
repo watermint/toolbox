@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group rename
+title: Command
+lang: en
 ---
 
 # group rename

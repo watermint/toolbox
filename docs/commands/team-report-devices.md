@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team report devices
+title: Command
+lang: en
 ---
 
 # team report devices

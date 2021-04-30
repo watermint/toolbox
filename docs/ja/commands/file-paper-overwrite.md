@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file paper overwrite
+title: コマンド
+lang: ja
 ---
 
 # file paper overwrite

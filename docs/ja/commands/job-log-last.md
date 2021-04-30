@@ -1,6 +1,7 @@
 ---
 layout: command
-title: job log last
+title: コマンド
+lang: ja
 ---
 
 # job log last

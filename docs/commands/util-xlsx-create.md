@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util xlsx create
+title: Command
+lang: en
 ---
 
 # util xlsx create

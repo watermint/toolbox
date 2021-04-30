@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev util curl
+title: コマンド
+lang: ja
 ---
 
 # dev util curl

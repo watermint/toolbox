@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage dbxfs
+title: Command
+lang: en
 ---
 
 # dev stage dbxfs

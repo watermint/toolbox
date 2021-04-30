@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev util wait
+title: コマンド
+lang: ja
 ---
 
 # dev util wait

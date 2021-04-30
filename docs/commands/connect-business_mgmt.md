@@ -1,6 +1,7 @@
 ---
 layout: command
-title: connect business_mgmt
+title: Command
+lang: en
 ---
 
 # connect business_mgmt

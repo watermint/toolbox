@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member list
+title: コマンド
+lang: ja
 ---
 
 # member list

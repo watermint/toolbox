@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev build license
+title: コマンド
+lang: ja
 ---
 
 # dev build license

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: version
+title: Command
+lang: en
 ---
 
 # version

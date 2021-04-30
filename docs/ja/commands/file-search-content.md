@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file search content
+title: コマンド
+lang: ja
 ---
 
 # file search content

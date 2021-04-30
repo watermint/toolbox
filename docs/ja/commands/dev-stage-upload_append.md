@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage upload_append
+title: コマンド
+lang: ja
 ---
 
 # dev stage upload_append

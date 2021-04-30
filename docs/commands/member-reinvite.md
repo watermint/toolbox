@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member reinvite
+title: Command
+lang: en
 ---
 
 # member reinvite

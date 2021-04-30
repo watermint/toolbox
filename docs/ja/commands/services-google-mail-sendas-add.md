@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail sendas add
+title: コマンド
+lang: ja
 ---
 
 # services google mail sendas add

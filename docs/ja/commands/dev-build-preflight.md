@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev build preflight
+title: コマンド
+lang: ja
 ---
 
 # dev build preflight

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder file lock all release
+title: Command
+lang: en
 ---
 
 # teamfolder file lock all release

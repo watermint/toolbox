@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage gui
+title: Command
+lang: en
 ---
 
 # dev stage gui

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev util anonymise
+title: Command
+lang: en
 ---
 
 # dev util anonymise

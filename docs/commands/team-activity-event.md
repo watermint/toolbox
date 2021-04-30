@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team activity event
+title: Command
+lang: en
 ---
 
 # team activity event

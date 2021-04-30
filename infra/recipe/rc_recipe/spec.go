@@ -2,6 +2,7 @@ package rc_recipe
 
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
@@ -37,7 +38,7 @@ type Spec interface {
 	SpecId() string
 
 	// Command name and link to the document
-	CliNameRef(media dc_index.MediaType, relPath string) app_msg.Message
+	CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message
 
 	// Recipe path on cli
 	CliPath() string

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file sync online
+title: Command
+lang: en
 ---
 
 # file sync online

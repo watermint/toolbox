@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team sharedlink list
+title: Command
+lang: en
 ---
 
 # team sharedlink list

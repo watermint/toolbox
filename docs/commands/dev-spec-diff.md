@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev spec diff
+title: Command
+lang: en
 ---
 
 # dev spec diff

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev replay recipe
+title: Command
+lang: en
 ---
 
 # dev replay recipe

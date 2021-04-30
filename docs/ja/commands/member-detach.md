@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member detach
+title: コマンド
+lang: ja
 ---
 
 # member detach

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file lock batch acquire
+title: Command
+lang: en
 ---
 
 # file lock batch acquire

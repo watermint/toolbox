@@ -1,11 +1,14 @@
 ---
 layout: command
-title: member file permdelete
+title: コマンド
+lang: ja
 ---
 
 # member file permdelete
 
-チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します完全に削除については、https://www.dropbox.com/help/40 をご覧ください. (試験的実装かつ非可逆な操作です)
+チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します (試験的実装かつ非可逆な操作です)
+
+完全に削除については、https://www.dropbox.com/help/40 をご覧ください.
 
 # セキュリティ
 

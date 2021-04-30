@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev test echo
+title: Command
+lang: en
 ---
 
 # dev test echo

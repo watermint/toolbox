@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member update visible
+title: コマンド
+lang: ja
 ---
 
 # member update visible

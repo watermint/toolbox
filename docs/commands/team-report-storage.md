@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team report storage
+title: Command
+lang: en
 ---
 
 # team report storage

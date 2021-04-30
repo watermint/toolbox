@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member file lock all release
+title: コマンド
+lang: ja
 ---
 
 # member file lock all release

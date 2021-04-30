@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage gmail
+title: Command
+lang: en
 ---
 
 # dev stage gmail

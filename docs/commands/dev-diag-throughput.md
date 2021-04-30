@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev diag throughput
+title: Command
+lang: en
 ---
 
 # dev diag throughput

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: license
+title: コマンド
+lang: ja
 ---
 
 # license

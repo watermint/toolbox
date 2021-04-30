@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member update profile
+title: コマンド
+lang: ja
 ---
 
 # member update profile

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder replication
+title: Command
+lang: en
 ---
 
 # teamfolder replication

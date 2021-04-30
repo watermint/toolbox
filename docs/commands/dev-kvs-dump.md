@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev kvs dump
+title: Command
+lang: en
 ---
 
 # dev kvs dump

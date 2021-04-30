@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member update externalid
+title: コマンド
+lang: ja
 ---
 
 # member update externalid

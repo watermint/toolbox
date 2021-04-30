@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team linkedapp list
+title: コマンド
+lang: ja
 ---
 
 # team linkedapp list

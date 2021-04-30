@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
@@ -392,13 +393,13 @@ func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
 	}
 }
 
-func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, relPath string) app_msg.Message {
+func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message {
 	switch media {
 	case dc_index.MediaRepository:
 		path := filepath.Join(relPath, z.SpecId()+".md")
 		return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
 	case dc_index.MediaWeb:
-		path := filepath.Join(relPath, z.SpecId()+".html")
+		path := dc_index.WebDocPath(true, dc_index.WebCategoryCommand, z.SpecId(), lg)
 		return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
 	}
 	panic("invalid media type")

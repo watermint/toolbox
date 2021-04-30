@@ -1,6 +1,7 @@
 ---
 layout: command
-title: sharedfolder list
+title: コマンド
+lang: ja
 ---
 
 # sharedfolder list

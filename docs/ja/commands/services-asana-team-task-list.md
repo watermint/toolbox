@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services asana team task list
+title: コマンド
+lang: ja
 ---
 
 # services asana team task list

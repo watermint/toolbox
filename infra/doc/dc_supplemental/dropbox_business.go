@@ -118,7 +118,7 @@ func (z *dbxCat) RecipeTable(name string, ui app_ui.UI, paths []string) {
 				relPath = dc_index.DocName(z.media, dc_index.DocManualCommand, lg, dc_index.RefPath(true))
 			}
 
-			t.Row(spec.CliNameRef(z.media, relPath), spec.Title())
+			t.Row(spec.CliNameRef(z.media, lg, relPath), spec.Title())
 		}
 	})
 }

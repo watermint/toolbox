@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member delete
+title: コマンド
+lang: ja
 ---
 
 # member delete

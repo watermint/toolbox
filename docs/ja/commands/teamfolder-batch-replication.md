@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder batch replication
+title: コマンド
+lang: ja
 ---
 
 # teamfolder batch replication

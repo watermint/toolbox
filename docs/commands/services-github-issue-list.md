@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github issue list
+title: Command
+lang: en
 ---
 
 # services github issue list

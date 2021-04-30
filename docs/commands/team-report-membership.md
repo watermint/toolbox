@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team report membership
+title: Command
+lang: en
 ---
 
 # team report membership

@@ -15,6 +15,7 @@ const (
 
 	DocWebHome
 	DocWebLicense
+	DocWebCommandTableOfContent
 
 	// -- Documents under `doc/generated(_\w{2})?`
 
@@ -135,14 +136,17 @@ const (
 
 func WebDocPath(refPath bool, cat WebCategory, name string, lg lang.Lang) string {
 	basePath := WebDocPathRoot
-	if refPath {
-		basePath = "{{ site.baseurl }}/"
-	}
-	pathLang := ""
 	suffix := ".md"
 	if name == "" {
 		suffix = ""
 	}
+	if refPath {
+		basePath = "{{ site.baseurl }}/"
+		if name != "" {
+			suffix = ".html"
+		}
+	}
+	pathLang := ""
 	if !lg.IsDefault() {
 		pathLang = lg.String() + "/"
 	}
@@ -210,6 +214,8 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "index", lg)
 		case DocWebLicense:
 			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "license", lg)
+		case DocWebCommandTableOfContent:
+			return WebDocPath(nameOpts.RefPath, WebCategoryCommand, "toc", lg)
 		case DocManualCommand:
 			return WebDocPath(nameOpts.RefPath, WebCategoryCommand, nameOpts.CommandName, lg)
 		case DocSupplementalPathVariables:

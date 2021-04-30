@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev build doc
+title: Command
+lang: en
 ---
 
 # dev build doc

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github profile
+title: コマンド
+lang: ja
 ---
 
 # services github profile

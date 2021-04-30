@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file sync up
+title: コマンド
+lang: ja
 ---
 
 # file sync up

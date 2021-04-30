@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage scoped
+title: Command
+lang: en
 ---
 
 # dev stage scoped

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev ci auth connect
+title: Command
+lang: en
 ---
 
 # dev ci auth connect

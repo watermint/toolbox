@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services asana workspace project list
+title: コマンド
+lang: ja
 ---
 
 # services asana workspace project list

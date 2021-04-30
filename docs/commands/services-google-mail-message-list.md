@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail message list
+title: Command
+lang: en
 ---
 
 # services google mail message list

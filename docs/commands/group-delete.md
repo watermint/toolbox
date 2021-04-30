@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group delete
+title: Command
+lang: en
 ---
 
 # group delete

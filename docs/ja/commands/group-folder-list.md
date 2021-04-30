@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group folder list
+title: コマンド
+lang: ja
 ---
 
 # group folder list

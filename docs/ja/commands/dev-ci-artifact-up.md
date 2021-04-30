@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev ci artifact up
+title: コマンド
+lang: ja
 ---
 
 # dev ci artifact up

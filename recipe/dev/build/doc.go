@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_readme"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/doc/dc_supplemental"
+	"github.com/watermint/toolbox/infra/doc/dc_web"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -45,8 +46,8 @@ func (z *Doc) genReadme(c app_control.Control) error {
 	l := c.Log()
 	path := dc_index.DocName(dc_index.MediaRepository, dc_index.DocRootReadme, c.Messages().Lang())
 	l.Info("Generating README", esl.String("file", path))
-	sec := dc_readme.New(dc_index.MediaRepository, c.Messages(), z.Badge)
-	doc := dc_section.Generate(dc_index.MediaRepository, dc_section.LayoutPage, c.Messages(), sec...)
+	d := dc_readme.New(dc_index.MediaRepository, c.Messages(), z.Badge)
+	doc := dc_section.Generate(dc_index.MediaRepository, dc_section.LayoutPage, c.Messages(), d)
 
 	return z.genDoc(path, doc, c)
 }
@@ -65,6 +66,25 @@ func (z *Doc) genSecurity(c app_control.Control) error {
 	return nil
 }
 
+func (z *Doc) genWeb(c app_control.Control) error {
+	l := c.Log()
+	lg := c.Messages().Lang()
+
+	for _, doc := range dc_web.WebDocuments(c.Messages()) {
+		path := dc_index.DocName(dc_index.MediaWeb, doc.DocId(), lg)
+		layout := dc_section.LayoutPage
+		if doc.DocId() == dc_index.DocWebHome {
+			layout = dc_section.LayoutHome
+		}
+		l.Info("Generating Web Home", esl.String("file", path))
+		doc := dc_section.Generate(dc_index.MediaWeb, layout, c.Messages(), doc)
+		if err := z.genDoc(path, doc, c); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (z *Doc) genCommands(c app_control.Control) error {
 	recipes := app_catalogue.Current().Recipes()
 	l := c.Log()
@@ -74,9 +94,9 @@ func (z *Doc) genCommands(c app_control.Control) error {
 
 		l.Info("Generating command manual", esl.String("command", spec.CliPath()))
 		for _, m := range dc_index.AllMedia {
-			sec := dc_command.New(m, spec)
+			comDoc := dc_command.New(m, spec)
 			path := dc_index.DocName(m, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(spec.SpecId()))
-			doc := dc_section.Generate(m, dc_section.LayoutCommand, c.Messages(), sec...)
+			doc := dc_section.Generate(m, dc_section.LayoutCommand, c.Messages(), comDoc)
 			if err := z.genDoc(path, doc, c); err != nil {
 				return err
 			}
@@ -111,7 +131,7 @@ func (z *Doc) genSupplemental(c app_control.Control) error {
 		for _, d := range dc_supplemental.Docs(m) {
 			l.Info("Generating supplemental doc", esl.Int("media", int(m)), esl.Int("docId", int(d.DocId())))
 			path := dc_index.DocName(m, d.DocId(), c.Messages().Lang())
-			doc := dc_section.Generate(m, dc_section.LayoutPage, c.Messages(), d.Sections()...)
+			doc := dc_section.Generate(m, dc_section.LayoutPage, c.Messages(), d)
 
 			if err := z.genDoc(path, doc, c); err != nil {
 				return err
@@ -141,6 +161,10 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	}
 	if err := z.genSupplemental(ctl); err != nil {
 		l.Error("Failed to generate supplemental manuals", esl.Error(err))
+		return err
+	}
+	if err := z.genWeb(ctl); err != nil {
+		l.Error("Failed to generate web pages", esl.Error(err))
 		return err
 	}
 

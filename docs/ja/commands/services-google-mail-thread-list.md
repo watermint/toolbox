@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail thread list
+title: コマンド
+lang: ja
 ---
 
 # services google mail thread list

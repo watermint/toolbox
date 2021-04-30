@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services github content get
+title: Command
+lang: en
 ---
 
 # services github content get

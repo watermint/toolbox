@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member invite
+title: コマンド
+lang: ja
 ---
 
 # member invite

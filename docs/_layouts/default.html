@@ -7,14 +7,18 @@
     <div class="masthead">
         <div class="container">
             <h3 class="masthead-title">
-                <a href="{{ site.baseurl }}" title="Home">{{ site.title }}</a>
+                {% if page.lang != "en" %}
+                <a href="{{ site.url }}/{{ page.lang }}" title="Home">{{ site.title }}</a>
+                {% else %}
+                <a href="{{ site.url }}" title="Home">{{ site.title }}</a>
+                {% endif %}
                 <small>- {{ site.tagline }}</small>
             </h3>
         </div>
     </div>
 
     <div class="container content">
-        {{ content }}
+        {% include anchor_headings.html html=content beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
     </div>
     <div class="container copyright">
         &copy; 2016-{{ site.time | date: '%Y' }} Takayuki Okazaki

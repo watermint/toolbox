@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member file lock list
+title: Command
+lang: en
 ---
 
 # member file lock list

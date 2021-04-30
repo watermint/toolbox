@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file compare local
+title: Command
+lang: en
 ---
 
 # file compare local

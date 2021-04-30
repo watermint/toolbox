@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file paper create
+title: Command
+lang: en
 ---
 
 # file paper create

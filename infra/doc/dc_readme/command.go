@@ -32,9 +32,10 @@ func (z Command) Title() app_msg.Message {
 }
 
 func (z Command) commandName(spec rc_recipe.Spec) app_msg.Message {
+	lg := z.container.Lang()
 	if z.publish {
-		name := dc_index.DocName(z.media, dc_index.DocManualCommand, z.container.Lang())
-		return spec.CliNameRef(z.media, name)
+		name := dc_index.DocName(z.media, dc_index.DocManualCommand, lg)
+		return spec.CliNameRef(z.media, lg, name)
 	} else {
 		return app_msg.Raw(spec.CliPath())
 	}

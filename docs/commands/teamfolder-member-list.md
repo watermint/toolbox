@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder member list
+title: Command
+lang: en
 ---
 
 # teamfolder member list

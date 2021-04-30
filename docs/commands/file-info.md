@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file info
+title: Command
+lang: en
 ---
 
 # file info

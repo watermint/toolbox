@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file archive local
+title: コマンド
+lang: ja
 ---
 
 # file archive local

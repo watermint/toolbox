@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail filter add
+title: Command
+lang: en
 ---
 
 # services google mail filter add

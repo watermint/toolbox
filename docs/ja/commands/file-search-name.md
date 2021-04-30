@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file search name
+title: コマンド
+lang: ja
 ---
 
 # file search name

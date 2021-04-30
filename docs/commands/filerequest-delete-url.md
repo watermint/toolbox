@@ -1,6 +1,7 @@
 ---
 layout: command
-title: filerequest delete url
+title: Command
+lang: en
 ---
 
 # filerequest delete url

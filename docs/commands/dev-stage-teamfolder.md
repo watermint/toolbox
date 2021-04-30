@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev stage teamfolder
+title: Command
+lang: en
 ---
 
 # dev stage teamfolder

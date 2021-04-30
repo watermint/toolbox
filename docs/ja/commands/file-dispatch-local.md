@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file dispatch local
+title: コマンド
+lang: ja
 ---
 
 # file dispatch local

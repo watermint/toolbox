@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Experimental features
+lang: en
 ---
 
 # Experimental features

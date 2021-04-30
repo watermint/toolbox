@@ -1,6 +1,7 @@
 ---
 layout: page
-title: Firewall or proxy server settings
+title: Troubleshooting
+lang: en
 ---
 
 # Firewall or proxy server settings

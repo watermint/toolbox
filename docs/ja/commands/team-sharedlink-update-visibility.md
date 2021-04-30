@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team sharedlink update visibility
+title: コマンド
+lang: ja
 ---
 
 # team sharedlink update visibility

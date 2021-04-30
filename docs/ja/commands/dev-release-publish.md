@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev release publish
+title: コマンド
+lang: ja
 ---
 
 # dev release publish

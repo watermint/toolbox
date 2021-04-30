@@ -1,6 +1,7 @@
 ---
 layout: command
-title: connect user_file
+title: コマンド
+lang: ja
 ---
 
 # connect user_file

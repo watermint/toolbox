@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev test kvsfootprint
+title: コマンド
+lang: ja
 ---
 
 # dev test kvsfootprint

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder file size
+title: コマンド
+lang: ja
 ---
 
 # teamfolder file size

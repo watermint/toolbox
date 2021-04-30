@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail label rename
+title: Command
+lang: en
 ---
 
 # services google mail label rename

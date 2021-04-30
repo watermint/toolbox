@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team sharedlink update expiry
+title: コマンド
+lang: ja
 ---
 
 # team sharedlink update expiry

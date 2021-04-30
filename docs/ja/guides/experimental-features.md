@@ -1,6 +1,7 @@
 ---
 layout: page
 title: 実験的機能
+lang: ja
 ---
 
 # 実験的機能

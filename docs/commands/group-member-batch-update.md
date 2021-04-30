@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group member batch update
+title: Command
+lang: en
 ---
 
 # group member batch update

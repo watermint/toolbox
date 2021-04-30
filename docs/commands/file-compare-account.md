@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file compare account
+title: Command
+lang: en
 ---
 
 # file compare account

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev ci artifact connect
+title: Command
+lang: en
 ---
 
 # dev ci artifact connect

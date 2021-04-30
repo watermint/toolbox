@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail message processed list
+title: Command
+lang: en
 ---
 
 # services google mail message processed list

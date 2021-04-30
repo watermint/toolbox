@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev test recipe
+title: Command
+lang: en
 ---
 
 # dev test recipe

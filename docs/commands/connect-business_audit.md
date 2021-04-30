@@ -1,6 +1,7 @@
 ---
 layout: command
-title: connect business_audit
+title: Command
+lang: en
 ---
 
 # connect business_audit

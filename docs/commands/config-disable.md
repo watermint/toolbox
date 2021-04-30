@@ -1,6 +1,7 @@
 ---
 layout: command
-title: config disable
+title: Command
+lang: en
 ---
 
 # config disable

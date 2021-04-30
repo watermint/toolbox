@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util encode base_32
+title: コマンド
+lang: ja
 ---
 
 # util encode base_32

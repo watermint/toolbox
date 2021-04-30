@@ -1,6 +1,7 @@
 ---
 layout: command
-title: sharedlink delete
+title: Command
+lang: en
 ---
 
 # sharedlink delete

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: group list
+title: Command
+lang: en
 ---
 
 # group list

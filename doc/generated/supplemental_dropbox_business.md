@@ -157,9 +157,9 @@ If you wanted to know who are actually uses specific folders, please consider us
 
 ## Member file commands
 
-| Command                                             | Description                                                                                                                                                    |
-|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [member file permdelete](member-file-permdelete.md) | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
+| Command                                             | Description                                                               |
+|-----------------------------------------------------|---------------------------------------------------------------------------|
+| [member file permdelete](member-file-permdelete.md) | Permanently delete the file or folder at a given path of the team member. |
 
 # Team shared link commands
 

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file import url
+title: Command
+lang: en
 ---
 
 # file import url

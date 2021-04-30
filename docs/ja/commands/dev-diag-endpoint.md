@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev diag endpoint
+title: コマンド
+lang: ja
 ---
 
 # dev diag endpoint

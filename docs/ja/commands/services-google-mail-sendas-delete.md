@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google mail sendas delete
+title: コマンド
+lang: ja
 ---
 
 # services google mail sendas delete

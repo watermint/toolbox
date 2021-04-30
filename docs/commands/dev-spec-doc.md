@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev spec doc
+title: Command
+lang: en
 ---
 
 # dev spec doc

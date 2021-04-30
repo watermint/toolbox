@@ -1,6 +1,7 @@
 ---
 layout: command
-title: job log jobid
+title: Command
+lang: en
 ---
 
 # job log jobid

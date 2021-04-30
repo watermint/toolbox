@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team activity user
+title: コマンド
+lang: ja
 ---
 
 # team activity user

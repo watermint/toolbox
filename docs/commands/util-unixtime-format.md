@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util unixtime format
+title: Command
+lang: en
 ---
 
 # util unixtime format

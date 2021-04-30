@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member clear externalid
+title: Command
+lang: en
 ---
 
 # member clear externalid

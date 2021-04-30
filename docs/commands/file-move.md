@@ -1,6 +1,7 @@
 ---
 layout: command
-title: file move
+title: Command
+lang: en
 ---
 
 # file move

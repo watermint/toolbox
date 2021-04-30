@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Security and privacy
+lang: en
 ---
 
 # Security and privacy

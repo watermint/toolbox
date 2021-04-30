@@ -1,6 +1,7 @@
 ---
 layout: command
-title: member folder list
+title: コマンド
+lang: ja
 ---
 
 # member folder list

@@ -1,6 +1,7 @@
 ---
 layout: command
-title: services google sheets sheet list
+title: Command
+lang: en
 ---
 
 # services google sheets sheet list

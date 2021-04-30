@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder member delete
+title: Command
+lang: en
 ---
 
 # teamfolder member delete

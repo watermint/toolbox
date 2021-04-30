@@ -1,6 +1,7 @@
 ---
 layout: command
-title: image info
+title: コマンド
+lang: ja
 ---
 
 # image info

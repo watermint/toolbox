@@ -1,6 +1,7 @@
 ---
 layout: command
-title: util decode base_64
+title: コマンド
+lang: ja
 ---
 
 # util decode base_64

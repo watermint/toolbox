@@ -1,6 +1,7 @@
 ---
 layout: command
-title: dev ci auth export
+title: Command
+lang: en
 ---
 
 # dev ci auth export

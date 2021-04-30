@@ -1,6 +1,7 @@
 ---
 layout: command
-title: teamfolder partial replication
+title: Command
+lang: en
 ---
 
 # teamfolder partial replication

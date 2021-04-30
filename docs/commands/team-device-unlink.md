@@ -1,6 +1,7 @@
 ---
 layout: command
-title: team device unlink
+title: Command
+lang: en
 ---
 
 # team device unlink
