@@ -1,0 +1,30 @@
+# Permalinks
+relative_permalinks: false
+
+# About
+title: watermint toolbox
+tagline: "The multi-purpose utility command-line tool for web services"
+description: 'The multi-purpose utility command-line tool for web services.'
+
+url: 'https://toolbox.watermint.org'
+
+# Url
+paginate: 5
+
+# Markdown
+markdown: kramdown
+
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Contact
+author:
+  name: Takayuki Okazaki
+  url: https://github.com/watermint
+
+# Plugins
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap

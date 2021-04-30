@@ -23,27 +23,27 @@ type SessionCallback struct {
 }
 
 type BatchSessions interface {
-	// Start a new session with the commit information.
+	// NewSession Start a new session with the commit information.
 	// The operation might blocked depends on the backlog size.
 	NewSession(commit CommitInfo, callback SessionCallback) (sessionId string, err error)
 
-	// Abort uploading session for the session Id.
+	// AbortSession Abort uploading session for the session Id.
 	// The sessionId will be removed from the batch.
 	// The func callbacks OnFailure event.
 	AbortSession(sessionId string, err error)
 
-	// Report finish for all block uploads.
+	// FinishBlockUploads Report finish for all block uploads.
 	// The func should not block the operation.
 	FinishBlockUploads(sessionId string)
 
-	// Flush and finish all sessions.
+	// Shutdown Flush and finish all sessions.
 	// The operation might blocked when the backlog exists.
 	Shutdown() (err dbx_error.DropboxError)
 
-	// Process upload session commit.
+	// FinishBatchCommit Process upload session commit.
 	FinishBatchCommit(batch *FinishBatch)
 
-	// Entry upload session commit batch.
+	// FinishBatchEntry Entry upload session commit batch.
 	FinishBatchEntry(count int)
 }
 
@@ -89,7 +89,7 @@ func (z *copierBatchSessions) IsSessionAlive(sessionId string) (found bool) {
 	return found
 }
 
-// Transaction finish batch: Exec from queue:
+// FinishBatchCommit Transaction finish batch: Exec from queue:
 func (z *copierBatchSessions) FinishBatchCommit(batch *FinishBatch) {
 	l := z.ctx.Log()
 	l.Debug("Start batch", esl.Strings("batchSessionIds", batch.Batch))

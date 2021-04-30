@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 )
 
 func New(res es_response.Response) dbx_response.Response {
@@ -30,6 +31,10 @@ type resImpl struct {
 	abort  error
 }
 
+func (z resImpl) IsTextContentType() bool {
+	return es_response_impl.IsTextContentType(z)
+}
+
 func (z resImpl) DropboxError() (err dbx_error.ErrorInfo) {
 	if z.IsSuccess() {
 		return
@@ -43,9 +48,17 @@ func (z resImpl) Failure() (error, bool) {
 		return z.abort, true
 	}
 	de := &dbx_error.ErrorInfo{}
-	if err := z.Alt().Json().Model(de); err == nil && de.ErrorSummary != "" {
-		return de, true
+
+	switch z.Code() {
+	case 400: // bad input parameter
+		return &dbx_error.ErrorBadRequest{Reason: z.Alt().BodyString()}, true
+
+	case 401, 403, 409:
+		if err := z.Alt().Json().Model(de); err == nil && de.ErrorSummary != "" {
+			return de, true
+		}
 	}
+
 	return z.Proxy.Failure()
 }
 

@@ -5,7 +5,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-DropboxおよびDropbox Business向けのツールセット
+Dropbox、Dropbox Business、Google、GitHubなどのWebサービスに対応した多目的ユーティリティ・コマンドラインツール.
 
 # ライセンスと免責条項
 
@@ -83,7 +83,7 @@ DropboxおよびDropbox Business向けのツールセット
 
 # Dropbox Business コマンド
 
-[Dropbox Business コマンド](doc/generated_ja/supplemental_dropbox_business.md) マニュアルを参照してください.
+[Dropbox Business コマンド](doc/generated_ja/supplemental_dropbox_business.md.md) マニュアルを参照してください.
 
 # コマンド
 
@@ -140,86 +140,86 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Dropbox Business
 
-| コマンド                                                                                   | 説明                                                                                                                                        |
-|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
-| [connect business_audit](doc/generated_ja/connect-business_audit.md)                       | チーム監査アクセスに接続する                                                                                                                |
-| [connect business_file](doc/generated_ja/connect-business_file.md)                         | チームファイルアクセスに接続する                                                                                                            |
-| [connect business_info](doc/generated_ja/connect-business_info.md)                         | チームの情報アクセスに接続する                                                                                                              |
-| [connect business_mgmt](doc/generated_ja/connect-business_mgmt.md)                         | チームの管理アクセスに接続する                                                                                                              |
-| [group add](doc/generated_ja/group-add.md)                                                 | グループを作成します                                                                                                                        |
-| [group batch delete](doc/generated_ja/group-batch-delete.md)                               | グループの削除                                                                                                                              |
-| [group delete](doc/generated_ja/group-delete.md)                                           | グループを削除します                                                                                                                        |
-| [group folder list](doc/generated_ja/group-folder-list.md)                                 | 各グループのフォルダを探す                                                                                                                  |
-| [group list](doc/generated_ja/group-list.md)                                               | グループを一覧                                                                                                                              |
-| [group member add](doc/generated_ja/group-member-add.md)                                   | メンバーをグループに追加                                                                                                                    |
-| [group member batch add](doc/generated_ja/group-member-batch-add.md)                       | グループにメンバーを一括追加                                                                                                                |
-| [group member batch delete](doc/generated_ja/group-member-batch-delete.md)                 | グループからメンバーを削除                                                                                                                  |
-| [group member batch update](doc/generated_ja/group-member-batch-update.md)                 | グループからメンバーを追加または削除                                                                                                        |
-| [group member delete](doc/generated_ja/group-member-delete.md)                             | メンバーをグループから削除                                                                                                                  |
-| [group member list](doc/generated_ja/group-member-list.md)                                 | グループに所属するメンバー一覧を取得します                                                                                                  |
-| [group rename](doc/generated_ja/group-rename.md)                                           | グループの改名                                                                                                                              |
-| [member clear externalid](doc/generated_ja/member-clear-externalid.md)                     | メンバーのexternal_idを初期化します                                                                                                         |
-| [member delete](doc/generated_ja/member-delete.md)                                         | メンバーを削除します                                                                                                                        |
-| [member detach](doc/generated_ja/member-detach.md)                                         | Dropbox BusinessユーザーをBasicユーザーに変更します                                                                                         |
-| [member file lock all release](doc/generated_ja/member-file-lock-all-release.md)           | メンバーのパスの下にあるすべてのロックを解除します                                                                                          |
-| [member file lock list](doc/generated_ja/member-file-lock-list.md)                         | パスの下にあるメンバーのロックを一覧表示                                                                                                    |
-| [member file lock release](doc/generated_ja/member-file-lock-release.md)                   | メンバーとしてパスのロックを解除します                                                                                                      |
-| [member file permdelete](doc/generated_ja/member-file-permdelete.md)                       | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します完全に削除については、https://www.dropbox.com/help/40 をご覧ください. |
-| [member folder list](doc/generated_ja/member-folder-list.md)                               | 各メンバーのフォルダを検索                                                                                                                  |
-| [member folder replication](doc/generated_ja/member-folder-replication.md)                 | フォルダを他のメンバーの個人フォルダに複製します                                                                                            |
-| [member invite](doc/generated_ja/member-invite.md)                                         | メンバーを招待します                                                                                                                        |
-| [member list](doc/generated_ja/member-list.md)                                             | チームメンバーの一覧                                                                                                                        |
-| [member quota list](doc/generated_ja/member-quota-list.md)                                 | メンバーの容量制限情報を一覧します                                                                                                          |
-| [member quota update](doc/generated_ja/member-quota-update.md)                             | チームメンバーの容量制限を変更                                                                                                              |
-| [member quota usage](doc/generated_ja/member-quota-usage.md)                               | チームメンバーのストレージ利用状況を取得                                                                                                    |
-| [member reinvite](doc/generated_ja/member-reinvite.md)                                     | 招待済み状態メンバーをチームに再招待します                                                                                                  |
-| [member replication](doc/generated_ja/member-replication.md)                               | チームメンバーのファイルを複製します                                                                                                        |
-| [member update email](doc/generated_ja/member-update-email.md)                             | メンバーのメールアドレス処理                                                                                                                |
-| [member update externalid](doc/generated_ja/member-update-externalid.md)                   | チームメンバーのExternal IDを更新します.                                                                                                    |
-| [member update invisible](doc/generated_ja/member-update-invisible.md)                     | メンバーへのディレクトリ制限を有効にします                                                                                                  |
-| [member update profile](doc/generated_ja/member-update-profile.md)                         | メンバーのプロフィール変更                                                                                                                  |
-| [member update visible](doc/generated_ja/member-update-visible.md)                         | メンバーへのディレクトリ制限を無効にします                                                                                                  |
-| [team activity batch user](doc/generated_ja/team-activity-batch-user.md)                   | 複数ユーザーのアクティビティを一括取得します                                                                                                |
-| [team activity daily event](doc/generated_ja/team-activity-daily-event.md)                 | アクティビティーを1日ごとに取得します                                                                                                       |
-| [team activity event](doc/generated_ja/team-activity-event.md)                             | イベントログ                                                                                                                                |
-| [team activity user](doc/generated_ja/team-activity-user.md)                               | ユーザーごとのアクティビティ                                                                                                                |
-| [team content member list](doc/generated_ja/team-content-member-list.md)                   | チームフォルダや共有フォルダのメンバー一覧                                                                                                  |
-| [team content mount list](doc/generated_ja/team-content-mount-list.md)                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします.                                                      |
-| [team content policy list](doc/generated_ja/team-content-policy-list.md)                   | チームフォルダと共有フォルダのポリシー一覧                                                                                                  |
-| [team device list](doc/generated_ja/team-device-list.md)                                   | チーム内全てのデバイス/セッションを一覧します                                                                                               |
-| [team device unlink](doc/generated_ja/team-device-unlink.md)                               | デバイスのセッションを解除します                                                                                                            |
-| [team feature](doc/generated_ja/team-feature.md)                                           | チームの機能を出力します                                                                                                                    |
-| [team filerequest list](doc/generated_ja/team-filerequest-list.md)                         | チームないのファイルリクエストを一覧します                                                                                                  |
-| [team info](doc/generated_ja/team-info.md)                                                 | チームの情報                                                                                                                                |
-| [team linkedapp list](doc/generated_ja/team-linkedapp-list.md)                             | リンク済みアプリを一覧                                                                                                                      |
-| [team namespace file list](doc/generated_ja/team-namespace-file-list.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                                                                          |
-| [team namespace file size](doc/generated_ja/team-namespace-file-size.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                                                                          |
-| [team namespace list](doc/generated_ja/team-namespace-list.md)                             | チーム内すべての名前空間を一覧                                                                                                              |
-| [team namespace member list](doc/generated_ja/team-namespace-member-list.md)               | チームフォルダ以下のファイル・フォルダを一覧                                                                                                |
-| [team sharedlink delete links](doc/generated_ja/team-sharedlink-delete-links.md)           | 共有リンクの一括削除                                                                                                                        |
-| [team sharedlink delete member](doc/generated_ja/team-sharedlink-delete-member.md)         | メンバーの共有リンクをすべて削除                                                                                                            |
-| [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                           | 共有リンクの一覧                                                                                                                            |
-| [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md)         | チーム内の公開されている共有リンクについて有効期限を更新します                                                                              |
-| [team sharedlink update password](doc/generated_ja/team-sharedlink-update-password.md)     | 共有リンクのパスワードの設定・更新                                                                                                          |
-| [team sharedlink update visibility](doc/generated_ja/team-sharedlink-update-visibility.md) | 共有リンクの可視性の更新                                                                                                                    |
-| [teamfolder add](doc/generated_ja/teamfolder-add.md)                                       | チームフォルダを追加します                                                                                                                  |
-| [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                               | チームフォルダのアーカイブ                                                                                                                  |
-| [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)                   | 複数のチームフォルダをアーカイブします                                                                                                      |
-| [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)             | 複数のチームフォルダを完全に削除します                                                                                                      |
-| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)           | チームフォルダの一括レプリケーション                                                                                                        |
-| [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                           | チームフォルダの一覧                                                                                                                        |
-| [teamfolder file lock all release](doc/generated_ja/teamfolder-file-lock-all-release.md)   | チームフォルダのパスの下にあるすべてのロックを解除する                                                                                      |
-| [teamfolder file lock list](doc/generated_ja/teamfolder-file-lock-list.md)                 | チームフォルダ内のロックを一覧表示                                                                                                          |
-| [teamfolder file lock release](doc/generated_ja/teamfolder-file-lock-release.md)           | チームフォルダ内のパスのロックを解除                                                                                                        |
-| [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                           | チームフォルダのサイズを計算                                                                                                                |
-| [teamfolder list](doc/generated_ja/teamfolder-list.md)                                     | チームフォルダの一覧                                                                                                                        |
-| [teamfolder member add](doc/generated_ja/teamfolder-member-add.md)                         | チームフォルダへのユーザー/グループの一括追加                                                                                               |
-| [teamfolder member delete](doc/generated_ja/teamfolder-member-delete.md)                   | チームフォルダからのユーザー/グループの一括削除                                                                                             |
-| [teamfolder member list](doc/generated_ja/teamfolder-member-list.md)                       | チームフォルダのメンバー一覧                                                                                                                |
-| [teamfolder partial replication](doc/generated_ja/teamfolder-partial-replication.md)       | 部分的なチームフォルダの他チームへのレプリケーション                                                                                        |
-| [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                         | チームフォルダを完全に削除します                                                                                                            |
-| [teamfolder policy list](doc/generated_ja/teamfolder-policy-list.md)                       | チームフォルダのポリシー一覧                                                                                                                |
-| [teamfolder replication](doc/generated_ja/teamfolder-replication.md)                       | チームフォルダを他のチームに複製します                                                                                                      |
+| コマンド                                                                                   | 説明                                                                                   |
+|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [connect business_audit](doc/generated_ja/connect-business_audit.md)                       | チーム監査アクセスに接続する                                                           |
+| [connect business_file](doc/generated_ja/connect-business_file.md)                         | チームファイルアクセスに接続する                                                       |
+| [connect business_info](doc/generated_ja/connect-business_info.md)                         | チームの情報アクセスに接続する                                                         |
+| [connect business_mgmt](doc/generated_ja/connect-business_mgmt.md)                         | チームの管理アクセスに接続する                                                         |
+| [group add](doc/generated_ja/group-add.md)                                                 | グループを作成します                                                                   |
+| [group batch delete](doc/generated_ja/group-batch-delete.md)                               | グループの削除                                                                         |
+| [group delete](doc/generated_ja/group-delete.md)                                           | グループを削除します                                                                   |
+| [group folder list](doc/generated_ja/group-folder-list.md)                                 | 各グループのフォルダを探す                                                             |
+| [group list](doc/generated_ja/group-list.md)                                               | グループを一覧                                                                         |
+| [group member add](doc/generated_ja/group-member-add.md)                                   | メンバーをグループに追加                                                               |
+| [group member batch add](doc/generated_ja/group-member-batch-add.md)                       | グループにメンバーを一括追加                                                           |
+| [group member batch delete](doc/generated_ja/group-member-batch-delete.md)                 | グループからメンバーを削除                                                             |
+| [group member batch update](doc/generated_ja/group-member-batch-update.md)                 | グループからメンバーを追加または削除                                                   |
+| [group member delete](doc/generated_ja/group-member-delete.md)                             | メンバーをグループから削除                                                             |
+| [group member list](doc/generated_ja/group-member-list.md)                                 | グループに所属するメンバー一覧を取得します                                             |
+| [group rename](doc/generated_ja/group-rename.md)                                           | グループの改名                                                                         |
+| [member clear externalid](doc/generated_ja/member-clear-externalid.md)                     | メンバーのexternal_idを初期化します                                                    |
+| [member delete](doc/generated_ja/member-delete.md)                                         | メンバーを削除します                                                                   |
+| [member detach](doc/generated_ja/member-detach.md)                                         | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
+| [member file lock all release](doc/generated_ja/member-file-lock-all-release.md)           | メンバーのパスの下にあるすべてのロックを解除します                                     |
+| [member file lock list](doc/generated_ja/member-file-lock-list.md)                         | パスの下にあるメンバーのロックを一覧表示                                               |
+| [member file lock release](doc/generated_ja/member-file-lock-release.md)                   | メンバーとしてパスのロックを解除します                                                 |
+| [member file permdelete](doc/generated_ja/member-file-permdelete.md)                       | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                 |
+| [member folder list](doc/generated_ja/member-folder-list.md)                               | 各メンバーのフォルダを検索                                                             |
+| [member folder replication](doc/generated_ja/member-folder-replication.md)                 | フォルダを他のメンバーの個人フォルダに複製します                                       |
+| [member invite](doc/generated_ja/member-invite.md)                                         | メンバーを招待します                                                                   |
+| [member list](doc/generated_ja/member-list.md)                                             | チームメンバーの一覧                                                                   |
+| [member quota list](doc/generated_ja/member-quota-list.md)                                 | メンバーの容量制限情報を一覧します                                                     |
+| [member quota update](doc/generated_ja/member-quota-update.md)                             | チームメンバーの容量制限を変更                                                         |
+| [member quota usage](doc/generated_ja/member-quota-usage.md)                               | チームメンバーのストレージ利用状況を取得                                               |
+| [member reinvite](doc/generated_ja/member-reinvite.md)                                     | 招待済み状態メンバーをチームに再招待します                                             |
+| [member replication](doc/generated_ja/member-replication.md)                               | チームメンバーのファイルを複製します                                                   |
+| [member update email](doc/generated_ja/member-update-email.md)                             | メンバーのメールアドレス処理                                                           |
+| [member update externalid](doc/generated_ja/member-update-externalid.md)                   | チームメンバーのExternal IDを更新します.                                               |
+| [member update invisible](doc/generated_ja/member-update-invisible.md)                     | メンバーへのディレクトリ制限を有効にします                                             |
+| [member update profile](doc/generated_ja/member-update-profile.md)                         | メンバーのプロフィール変更                                                             |
+| [member update visible](doc/generated_ja/member-update-visible.md)                         | メンバーへのディレクトリ制限を無効にします                                             |
+| [team activity batch user](doc/generated_ja/team-activity-batch-user.md)                   | 複数ユーザーのアクティビティを一括取得します                                           |
+| [team activity daily event](doc/generated_ja/team-activity-daily-event.md)                 | アクティビティーを1日ごとに取得します                                                  |
+| [team activity event](doc/generated_ja/team-activity-event.md)                             | イベントログ                                                                           |
+| [team activity user](doc/generated_ja/team-activity-user.md)                               | ユーザーごとのアクティビティ                                                           |
+| [team content member list](doc/generated_ja/team-content-member-list.md)                   | チームフォルダや共有フォルダのメンバー一覧                                             |
+| [team content mount list](doc/generated_ja/team-content-mount-list.md)                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
+| [team content policy list](doc/generated_ja/team-content-policy-list.md)                   | チームフォルダと共有フォルダのポリシー一覧                                             |
+| [team device list](doc/generated_ja/team-device-list.md)                                   | チーム内全てのデバイス/セッションを一覧します                                          |
+| [team device unlink](doc/generated_ja/team-device-unlink.md)                               | デバイスのセッションを解除します                                                       |
+| [team feature](doc/generated_ja/team-feature.md)                                           | チームの機能を出力します                                                               |
+| [team filerequest list](doc/generated_ja/team-filerequest-list.md)                         | チームないのファイルリクエストを一覧します                                             |
+| [team info](doc/generated_ja/team-info.md)                                                 | チームの情報                                                                           |
+| [team linkedapp list](doc/generated_ja/team-linkedapp-list.md)                             | リンク済みアプリを一覧                                                                 |
+| [team namespace file list](doc/generated_ja/team-namespace-file-list.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
+| [team namespace file size](doc/generated_ja/team-namespace-file-size.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
+| [team namespace list](doc/generated_ja/team-namespace-list.md)                             | チーム内すべての名前空間を一覧                                                         |
+| [team namespace member list](doc/generated_ja/team-namespace-member-list.md)               | チームフォルダ以下のファイル・フォルダを一覧                                           |
+| [team sharedlink delete links](doc/generated_ja/team-sharedlink-delete-links.md)           | 共有リンクの一括削除                                                                   |
+| [team sharedlink delete member](doc/generated_ja/team-sharedlink-delete-member.md)         | メンバーの共有リンクをすべて削除                                                       |
+| [team sharedlink list](doc/generated_ja/team-sharedlink-list.md)                           | 共有リンクの一覧                                                                       |
+| [team sharedlink update expiry](doc/generated_ja/team-sharedlink-update-expiry.md)         | チーム内の公開されている共有リンクについて有効期限を更新します                         |
+| [team sharedlink update password](doc/generated_ja/team-sharedlink-update-password.md)     | 共有リンクのパスワードの設定・更新                                                     |
+| [team sharedlink update visibility](doc/generated_ja/team-sharedlink-update-visibility.md) | 共有リンクの可視性の更新                                                               |
+| [teamfolder add](doc/generated_ja/teamfolder-add.md)                                       | チームフォルダを追加します                                                             |
+| [teamfolder archive](doc/generated_ja/teamfolder-archive.md)                               | チームフォルダのアーカイブ                                                             |
+| [teamfolder batch archive](doc/generated_ja/teamfolder-batch-archive.md)                   | 複数のチームフォルダをアーカイブします                                                 |
+| [teamfolder batch permdelete](doc/generated_ja/teamfolder-batch-permdelete.md)             | 複数のチームフォルダを完全に削除します                                                 |
+| [teamfolder batch replication](doc/generated_ja/teamfolder-batch-replication.md)           | チームフォルダの一括レプリケーション                                                   |
+| [teamfolder file list](doc/generated_ja/teamfolder-file-list.md)                           | チームフォルダの一覧                                                                   |
+| [teamfolder file lock all release](doc/generated_ja/teamfolder-file-lock-all-release.md)   | チームフォルダのパスの下にあるすべてのロックを解除する                                 |
+| [teamfolder file lock list](doc/generated_ja/teamfolder-file-lock-list.md)                 | チームフォルダ内のロックを一覧表示                                                     |
+| [teamfolder file lock release](doc/generated_ja/teamfolder-file-lock-release.md)           | チームフォルダ内のパスのロックを解除                                                   |
+| [teamfolder file size](doc/generated_ja/teamfolder-file-size.md)                           | チームフォルダのサイズを計算                                                           |
+| [teamfolder list](doc/generated_ja/teamfolder-list.md)                                     | チームフォルダの一覧                                                                   |
+| [teamfolder member add](doc/generated_ja/teamfolder-member-add.md)                         | チームフォルダへのユーザー/グループの一括追加                                          |
+| [teamfolder member delete](doc/generated_ja/teamfolder-member-delete.md)                   | チームフォルダからのユーザー/グループの一括削除                                        |
+| [teamfolder member list](doc/generated_ja/teamfolder-member-list.md)                       | チームフォルダのメンバー一覧                                                           |
+| [teamfolder partial replication](doc/generated_ja/teamfolder-partial-replication.md)       | 部分的なチームフォルダの他チームへのレプリケーション                                   |
+| [teamfolder permdelete](doc/generated_ja/teamfolder-permdelete.md)                         | チームフォルダを完全に削除します                                                       |
+| [teamfolder policy list](doc/generated_ja/teamfolder-policy-list.md)                       | チームフォルダのポリシー一覧                                                           |
+| [teamfolder replication](doc/generated_ja/teamfolder-replication.md)                       | チームフォルダを他のチームに複製します                                                 |
 
 ## GitHub
 
@@ -238,21 +238,24 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Google Gmail
 
-| コマンド                                                                                                       | 説明                                        |
-|----------------------------------------------------------------------------------------------------------------|---------------------------------------------|
-| [services google mail filter add](doc/generated_ja/services-google-mail-filter-add.md)                         | フィルターを追加します.                     |
-| [services google mail filter batch add](doc/generated_ja/services-google-mail-filter-batch-add.md)             | クエリによるラベルの一括追加・削除          |
-| [services google mail filter delete](doc/generated_ja/services-google-mail-filter-delete.md)                   | フィルタの削除                              |
-| [services google mail filter list](doc/generated_ja/services-google-mail-filter-list.md)                       | フィルターの一覧                            |
-| [services google mail label add](doc/generated_ja/services-google-mail-label-add.md)                           | ラベルの追加                                |
-| [services google mail label delete](doc/generated_ja/services-google-mail-label-delete.md)                     | ラベルの削除.                               |
-| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md)                         | ラベルのリスト                              |
-| [services google mail label rename](doc/generated_ja/services-google-mail-label-rename.md)                     | ラベルの名前を変更する                      |
-| [services google mail message label add](doc/generated_ja/services-google-mail-message-label-add.md)           | メッセージにラベルを追加                    |
-| [services google mail message label delete](doc/generated_ja/services-google-mail-message-label-delete.md)     | メッセージからラベルを削除する              |
-| [services google mail message list](doc/generated_ja/services-google-mail-message-list.md)                     | メッセージの一覧                            |
-| [services google mail message processed list](doc/generated_ja/services-google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します. |
-| [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)                       | スレッド一覧                                |
+| コマンド                                                                                                       | 説明                                               |
+|----------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
+| [services google mail filter add](doc/generated_ja/services-google-mail-filter-add.md)                         | フィルターを追加します.                            |
+| [services google mail filter batch add](doc/generated_ja/services-google-mail-filter-batch-add.md)             | クエリによるラベルの一括追加・削除                 |
+| [services google mail filter delete](doc/generated_ja/services-google-mail-filter-delete.md)                   | フィルタの削除                                     |
+| [services google mail filter list](doc/generated_ja/services-google-mail-filter-list.md)                       | フィルターの一覧                                   |
+| [services google mail label add](doc/generated_ja/services-google-mail-label-add.md)                           | ラベルの追加                                       |
+| [services google mail label delete](doc/generated_ja/services-google-mail-label-delete.md)                     | ラベルの削除.                                      |
+| [services google mail label list](doc/generated_ja/services-google-mail-label-list.md)                         | ラベルのリスト                                     |
+| [services google mail label rename](doc/generated_ja/services-google-mail-label-rename.md)                     | ラベルの名前を変更する                             |
+| [services google mail message label add](doc/generated_ja/services-google-mail-message-label-add.md)           | メッセージにラベルを追加                           |
+| [services google mail message label delete](doc/generated_ja/services-google-mail-message-label-delete.md)     | メッセージからラベルを削除する                     |
+| [services google mail message list](doc/generated_ja/services-google-mail-message-list.md)                     | メッセージの一覧                                   |
+| [services google mail message processed list](doc/generated_ja/services-google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します.        |
+| [services google mail sendas add](doc/generated_ja/services-google-mail-sendas-add.md)                         | カスタムの "from" send-asエイリアスの作成          |
+| [services google mail sendas delete](doc/generated_ja/services-google-mail-sendas-delete.md)                   | 指定したsend-asエイリアスを削除する                |
+| [services google mail sendas list](doc/generated_ja/services-google-mail-sendas-list.md)                       | 指定されたアカウントの送信エイリアスを一覧表示する |
+| [services google mail thread list](doc/generated_ja/services-google-mail-thread-list.md)                       | スレッド一覧                                       |
 
 ## Google Sheets
 
@@ -316,10 +319,10 @@ DropboxおよびDropbox Business向けのツールセット
 
 # 補助ドキュメント
 
-| 補助ドキュメント                                                                                              | コンテンツ概要                       |
-|---------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [doc/generated_ja/supplemental_path_variables](doc/generated_ja/supplemental_path_variables.md)               | パス変数のマニュアル                 |
-| [doc/generated_ja/supplemental_experimental_features](doc/generated_ja/supplemental_experimental_features.md) | 実験的機能のマニュアル               |
-| [doc/generated_ja/supplemental_troubleshooting](doc/generated_ja/supplemental_troubleshooting.md)             | トラブルシューティング マニュアル    |
-| [doc/generated_ja/supplemental_dropbox_business](doc/generated_ja/supplemental_dropbox_business.md)           | Dropbox Business コマンド マニュアル |
+| 補助ドキュメント                                                                                                 | コンテンツ概要            |
+|------------------------------------------------------------------------------------------------------------------|---------------------------|
+| [doc/generated_ja/supplemental_path_variables.md](doc/generated_ja/supplemental_path_variables.md)               | パス変数                  |
+| [doc/generated_ja/supplemental_experimental_features.md](doc/generated_ja/supplemental_experimental_features.md) | 実験的機能                |
+| [doc/generated_ja/supplemental_troubleshooting.md](doc/generated_ja/supplemental_troubleshooting.md)             | トラブルシューティング    |
+| [doc/generated_ja/supplemental_dropbox_business.md](doc/generated_ja/supplemental_dropbox_business.md)           | Dropbox Business コマンド |
 

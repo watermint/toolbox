@@ -13,8 +13,8 @@ const (
 	standardChunkSize  = 200 * 1024    // 200KiB
 	standardQuota      = 500 * 1048576 // 500MiB * 2 = 1000MiB
 	standardNumBackup  = esl_rotate.UnlimitedBackups
-	lowChunkSize       = 100 * 1024   // 100KiB
-	lowQuota           = 50 * 1048576 // 5MiB * 2 =  100MiB
+	lowChunkSize       = 100 * 1024    // 100KiB
+	lowQuota           = 50 * 1048576  // 5MiB * 2 =  100MiB
 	lowNumBackup       = esl_rotate.UnlimitedBackups
 
 	BudgetLow       Budget = "low"

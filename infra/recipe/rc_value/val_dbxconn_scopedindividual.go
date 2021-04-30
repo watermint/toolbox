@@ -3,11 +3,13 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
 	"strings"
@@ -23,6 +25,10 @@ func newValueDbxConnScopedIndividual(peerName string) rc_recipe.Value {
 type ValueDbxConnScopedIndividual struct {
 	conn     dbx_conn.ConnScopedIndividual
 	peerName string
+}
+
+func (z *ValueDbxConnScopedIndividual) ErrorHandler() rc_error_handler.ErrorHandler {
+	return dbx_error.NewHandler()
 }
 
 func (z *ValueDbxConnScopedIndividual) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

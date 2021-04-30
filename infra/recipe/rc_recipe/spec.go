@@ -2,12 +2,15 @@ package rc_recipe
 
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -35,7 +38,7 @@ type Spec interface {
 	SpecId() string
 
 	// Command name and link to the document
-	CliNameRef(relPath string) app_msg.Message
+	CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message
 
 	// Recipe path on cli
 	CliPath() string
@@ -120,4 +123,7 @@ type Spec interface {
 
 	// Specification document
 	Doc(ui app_ui.UI) *dc_recipe.Recipe
+
+	// Error handlers for the recipe.
+	ErrorHandlers() []rc_error_handler.ErrorHandler
 }

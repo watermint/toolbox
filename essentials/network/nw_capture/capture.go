@@ -92,7 +92,9 @@ func (z *Res) Apply(res es_response.Response, resErr error) {
 
 	if res.IsSuccess() {
 		z.ContentLength = res.Success().ContentLength()
-		if res.Success().IsFile() {
+		if !res.IsTextContentType() {
+			z.ResponseBody = ""
+		} else if res.Success().IsFile() {
 			z.ResponseBody = ""
 		} else {
 			z.ResponseBody = res.Success().BodyString()
@@ -102,7 +104,9 @@ func (z *Res) Apply(res es_response.Response, resErr error) {
 			z.ResponseError = resErr.Error()
 		}
 		z.ContentLength = res.Alt().ContentLength()
-		if res.Alt().IsFile() {
+		if !res.IsTextContentType() {
+			z.ResponseBody = ""
+		} else if res.Alt().IsFile() {
 			z.ResponseBody = ""
 		} else {
 			z.ResponseBody = res.Alt().BodyString()

@@ -17,7 +17,7 @@
 
 方法は次のヘルプセンター記事をご参照ください:
 * Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 * GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
 
 ## 認可スコープ
@@ -27,8 +27,7 @@
 
 # 認可
 
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
-にこの認証コードをペーストしてください.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -45,9 +44,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 3. 認証コードをコピーします:
 認証コードを入力してください
 ```
-
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
-にこの認証コードをペーストしてください.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -64,9 +61,7 @@ https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type
 3. 認証コードをコピーします:
 認証コードを入力してください
 ```
-
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`
-にこの認証コードをペーストしてください.
+最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -138,7 +133,8 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: result
 
-レシピテスト結果 このコマンドはレポートを3種類の書式で出力します. `result.csv`, `result.json`, ならびに `result.xlsx`.
+レシピテスト結果
+このコマンドはレポートを3種類の書式で出力します. `result.csv`, `result.json`, ならびに `result.xlsx`.
 
 | 列              | 説明                                   |
 |-----------------|----------------------------------------|
@@ -154,11 +150,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `result_0000.xlsx`, `result_0001.xlsx`, `result_0002.xlsx`,
-...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `result_0000.xlsx`, `result_0001.xlsx`, `result_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`
-のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 

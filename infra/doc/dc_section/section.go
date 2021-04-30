@@ -1,10 +1,13 @@
 package dc_section
 
 import (
+	"bytes"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"strings"
+	"text/template"
 )
 
 type Section interface {
@@ -18,12 +21,69 @@ type Document interface {
 	Sections() []Section
 }
 
-func Generate(mc app_msg_container.Container, sections ...Section) string {
-	return app_ui.MakeMarkdown(mc, func(ui app_ui.UI) {
-		for _, section := range sections {
-			ui.Header(section.Title())
-			section.Body(ui)
+const (
+	WebHeader = `---
+layout: {{.Layout}}
+title: {{.Title}}
+lang: {{.Lang}}
+---
+
+{{.Body}}
+`
+)
+
+type LayoutType int
+
+const (
+	LayoutPage LayoutType = iota
+	LayoutHome
+	LayoutCommand
+)
+
+func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.Container, doc Document) string {
+	sections := doc.Sections()
+	body := app_ui.MakeMarkdown(mc, func(ui app_ui.UI) {
+		for _, s := range sections {
+			sec := app_msg.Apply(s).(Section)
+			ui.Header(sec.Title())
+			sec.Body(ui)
 			ui.Break()
 		}
 	})
+
+	compiledDoc := app_msg.Apply(doc).(Document)
+	title := mc.Compile(compiledDoc.DocDesc())
+
+	switch media {
+	case dc_index.MediaRepository:
+		return body
+	case dc_index.MediaWeb:
+		tmpl, err := template.New("web").Parse(WebHeader)
+		if err != nil {
+			panic(err)
+		}
+		buf := bytes.Buffer{}
+		var layoutName string
+		switch layout {
+		case LayoutHome:
+			layoutName = "home"
+		case LayoutCommand:
+			layoutName = "command"
+		default:
+			layoutName = "page"
+		}
+		err = tmpl.Execute(&buf, map[string]string{
+			"Title":  title,
+			"Layout": layoutName,
+			"Lang":   mc.Lang().CodeString(),
+			"Body":   strings.ReplaceAll(body, "{{.", "{% raw %}{{.{% endraw %}"),
+		})
+		if err != nil {
+			panic(err)
+		}
+		return buf.String()
+
+	default:
+		panic("Undefined media type")
+	}
 }

@@ -30,9 +30,9 @@ Below commands are for managing team member accounts. Those commands are for a b
 
 ## Member profile setting commands
 
-Member profile commands are for bulk updating member profile information. If you need to update the members' email
-addresses, use the 'member update email` command. The command 'member update email` receives a CSV file to bulk update
-email addresses. If you need to update the member's display name, use the 'member update profile` command.
+Member profile commands are for bulk updating member profile information.
+If you need to update the members' email addresses, use the 'member update email` command. The command 'member update email` receives a CSV file to bulk update email addresses.
+If you need to update the member's display name, use the 'member update profile` command.
 
 | Command                                           | Description            |
 |---------------------------------------------------|------------------------|
@@ -41,9 +41,7 @@ email addresses. If you need to update the member's display name, use the 'membe
 
 ## Member storage quota control commands
 
-You can see existing member storage quota setting or usage by the `member quota list` and `member quota usage` command.
-If you need to update member quota, use the `member quota update` command. The command `member quota update` receives
-CSV input for bulk updating storage quota setting.
+You can see existing member storage quota setting or usage by the `member quota list` and `member quota usage` command. If you need to update member quota, use the `member quota update` command. The command `member quota update` receives CSV input for bulk updating storage quota setting.
 
 | Command                                       | Description                    |
 |-----------------------------------------------|--------------------------------|
@@ -53,8 +51,7 @@ CSV input for bulk updating storage quota setting.
 
 ## Directory restriction commands
 
-Directory restriction is the Dropbox Business feature to hide a member from others. Below commands update this setting
-to hide or unhide members from others.
+Directory restriction is the Dropbox Business feature to hide a member from others. Below commands update this setting to hide or unhide members from others.
 
 | Command                                               | Description                              |
 |-------------------------------------------------------|------------------------------------------|
@@ -77,8 +74,7 @@ Below commands are for managing groups.
 
 ## Group member management commands
 
-You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV
-file, use `group member batch add`, `group member batch delete`, or `group member batch delete`.
+You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `group member batch add`, `group member batch delete`, or `group member batch delete`.
 
 | Command                                                   | Description                       |
 |-----------------------------------------------------------|-----------------------------------|
@@ -91,12 +87,9 @@ file, use `group member batch add`, `group member batch delete`, or `group membe
 
 ## Find and delete unused groups
 
-There are two commands to find unused groups. The first command is `group list`. The command `group list` will report
-the number of members of each group. If it's zero, a group is not currently used to adding permission to folders. If you
-want to see which folder uses each group, use the command `group folder list`. `group folder list` will report the group
-to folder mapping. The report `group_with_no_folders` will show groups with no folders. You can safely remove groups
-once if you check both the number of members and folders. After confirmation, you can bulk delete groups by using the
-command `group batch delete`.
+There are two commands to find unused groups. The first command is `group list`. The command `group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.
+If you want to see which folder uses each group, use the command `group folder list`. `group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.
+You can safely remove groups once if you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `group batch delete`.
 
 | Command                                     | Description                |
 |---------------------------------------------|----------------------------|
@@ -106,17 +99,13 @@ command `group batch delete`.
 
 # Team content commands
 
-Admins' can handle team folders, shared folders or member's folder content thru Dropbox Business API. Please be careful
-to use those commands. The namespace is the term in Dropbox API that is for manage folder permissions or settings.
-Folder types such as shared folders, team folders, or nested folder in a team folder, member's root folder or member's
-app folder are all managed as a namespace. The namespace commands can handle all types of folders, including team
-folders and member's folder. But commands for specific folder types have more features or detailed information in the
-report.
+Admins' can handle team folders, shared folders or member's folder content thru Dropbox Business API. Please be careful to use those commands.
+The namespace is the term in Dropbox API that is for manage folder permissions or settings. Folder types such as shared folders, team folders, or nested folder in a team folder, member's root folder or member's app folder are all managed as a namespace.
+The namespace commands can handle all types of folders, including team folders and member's folder. But commands for specific folder types have more features or detailed information in the report.
 
 ## Team folder operation commands
 
-You can create, archive or permanently delete team folders by using the below commands. Please consider
-using `teamfolder batch` commands if you need to handle multiple team folders.
+You can create, archive or permanently delete team folders by using the below commands. Please consider using `teamfolder batch` commands if you need to handle multiple team folders.
 
 | Command                                                         | Description                       |
 |-----------------------------------------------------------------|-----------------------------------|
@@ -142,9 +131,8 @@ You can bulk add or delete members into team folders or sub-folders of a team fo
 
 ## Team folder & shared folder commands
 
-The below commands are for both team folders and shared folders of the team. If you wanted to know who are actually uses
-specific folders, please consider using the command `team content mount list`. Mount is a status a user add a shared
-folder to his/her Dropbox account.
+The below commands are for both team folders and shared folders of the team.
+If you wanted to know who are actually uses specific folders, please consider using the command `team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
 
 | Command                                                 | Description                                                  |
 |---------------------------------------------------------|--------------------------------------------------------------|
@@ -169,14 +157,13 @@ folder to his/her Dropbox account.
 
 ## Member file commands
 
-| Command                                             | Description                                                                                                                                                    |
-|-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [member file permdelete](member-file-permdelete.md) | Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. |
+| Command                                             | Description                                                               |
+|-----------------------------------------------------|---------------------------------------------------------------------------|
+| [member file permdelete](member-file-permdelete.md) | Permanently delete the file or folder at a given path of the team member. |
 
 # Team shared link commands
 
-The team shared link commands are capable of listing all shared links in the team or update/delete specified shared
-links.
+The team shared link commands are capable of listing all shared links in the team or update/delete specified shared links.
 
 | Command                                                                   | Description                                                   |
 |---------------------------------------------------------------------------|---------------------------------------------------------------|
@@ -195,8 +182,8 @@ List all public links in the team
 tbx team sharedlink list -visibility public
 ```
 
-Results are stored in CSV, xlsx, and JSON format. You can modify the report for updating shared links. If you are
-familiar with the command jq, then they can create CSV file directly like below.
+Results are stored in CSV, xlsx, and JSON format. You can modify the report for updating shared links.
+If you are familiar with the command jq, then they can create CSV file directly like below.
 
 ```
 tbx team sharedlink list -output json | jq '.sharedlink.url' > all_links.csv
@@ -216,8 +203,7 @@ Delete all link that listed in the CSV file
 tbx team sharedlink delete links -file /PATH/TO/DATA.csv
 ```
 
-If you are familiar with jq command, then they can send data directly from the pipe like below (pass single dash `-` to
-the `-file` option to read from standard input).
+If you are familiar with jq command, then they can send data directly from the pipe like below (pass single dash `-` to the `-file` option to read from standard input).
 
 ```
 tbx team sharedlink list -visibility public -output json | tbx team sharedlink delete links -file -
@@ -269,13 +255,9 @@ The below commands can retrieve information about connected devices or applicati
 
 ## External ID
 
-External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keep a
-relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software
-such as Dropbox AD Connector. In case if you are using Dropbox AD Connector and you built a new Active Directory tree.
-You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new
-tree. If you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the
-new tree. If you want to see existing external IDs, use the `member list` command. But the command will not include
-external ID by default. Please consider using [jq](https://stedolan.github.io/jq/) command and run like below.
+External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keep a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. In case if you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.
+If you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.
+If you want to see existing external IDs, use the `member list` command. But the command will not include external ID by default. Please consider using [jq](https://stedolan.github.io/jq/) command and run like below.
 
 ```
 tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @csv'
@@ -289,8 +271,7 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 
 ## Data migration helper commands
 
-Data migration helper commands copies member folders or team folders to another account or team. Please test before
-using those commands before actual data migration.
+Data migration helper commands copies member folders or team folders to another account or team. Please test before using those commands before actual data migration.
 
 | Command                                                             | Description                                            |
 |---------------------------------------------------------------------|--------------------------------------------------------|
@@ -308,6 +289,5 @@ using those commands before actual data migration.
 
 # Notes:
 
-Dropbox Business commands require admin permissions to execute them. Auth tokens must not share with anyone, including
-Dropbox support.
+Dropbox Business commands require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.
 

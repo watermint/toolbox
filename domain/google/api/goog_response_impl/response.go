@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_error"
 	"github.com/watermint/toolbox/domain/google/api/goog_response"
 	"github.com/watermint/toolbox/essentials/http/es_response"
+	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 )
 
 func New(res es_response.Response) goog_response.Response {
@@ -15,6 +16,10 @@ func New(res es_response.Response) goog_response.Response {
 
 type resImpl struct {
 	es_response.Proxy
+}
+
+func (z resImpl) IsTextContentType() bool {
+	return es_response_impl.IsTextContentType(z)
 }
 
 func (z resImpl) GoogleError() (err goog_error.GoogleError) {

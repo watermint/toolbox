@@ -232,7 +232,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// abort on error
 	if lastErr != nil {
-		ctl.Log().Error("Recipe failed with an error", esl.Error(lastErr))
+		ctl.Log().Debug("Recipe failed with an error", esl.Error(lastErr))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
 		app_exit.Abort(app_exit.FailureGeneral)
 	}

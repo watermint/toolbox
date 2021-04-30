@@ -70,6 +70,7 @@ import (
 	recipeservicesgooglemailmessage "github.com/watermint/toolbox/recipe/services/google/mail/message"
 	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
 	recipeservicesgooglemailmessageprocessed "github.com/watermint/toolbox/recipe/services/google/mail/message/processed"
+	recipeservicesgooglemailsendas "github.com/watermint/toolbox/recipe/services/google/mail/sendas"
 	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
 	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
 	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
@@ -155,6 +156,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevstage.Gmail{},
 		&recipedevstage.Griddata{},
 		&recipedevstage.Gui{},
+		&recipedevstage.HttpRange{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
 		&recipedevstage.UploadAppend{},
@@ -275,6 +277,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglemailmessagelabel.Add{},
 		&recipeservicesgooglemailmessagelabel.Delete{},
 		&recipeservicesgooglemailmessageprocessed.List{},
+		&recipeservicesgooglemailsendas.Add{},
+		&recipeservicesgooglemailsendas.Delete{},
+		&recipeservicesgooglemailsendas.List{},
 		&recipeservicesgooglemailthread.List{},
 		&recipeservicesgooglesheetssheet.Append{},
 		&recipeservicesgooglesheetssheet.Clear{},

@@ -29,7 +29,7 @@ func NewLocalToDropboxBatch(ctl app_control.Control, ctx dbx_context.Context, ba
 		queue:        nil,
 		sessions:     nil,
 		block:        nil,
-		fs:           es_block.NewPlainFileSystem(ctl.Log(), 4096*1024),
+		fs:           es_block.NewPlainReader(ctl.Log(), 4096*1024),
 		ctl:          ctl,
 		ctx:          ctx,
 		backlogCount: sync.WaitGroup{},
@@ -41,7 +41,7 @@ type copierLocalToDropboxBatch struct {
 	queue        eq_queue.Container
 	sessions     BatchSessions
 	block        BlockSession
-	fs           es_block.BlockFileSystem
+	fs           es_block.BlockReader
 	ctl          app_control.Control
 	ctx          dbx_context.Context
 	backlogCount sync.WaitGroup

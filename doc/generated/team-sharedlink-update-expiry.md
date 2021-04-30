@@ -2,10 +2,7 @@
 
 Update expiration date of public shared links within the team (Irreversible operation)
 
-Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the
-expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if
-you are familiar with the command [jq](https://stedolan.github.io/jq/), then you can do an equivalent operation as like
-below (force expiry within 28 days for every public link).
+Note: From Release 87, this command will receive a file to select shared links to update. If you wanted to update the expiry for all shared links in the team, please consider using a combination of `team sharedlink list`. For example, if you are familiar with the command [jq](https://stedolan.github.io/jq/), then you can do an equivalent operation as like below (force expiry within 28 days for every public link).
 
 ```
 tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -days 28
@@ -25,7 +22,7 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
@@ -124,8 +121,7 @@ https://www.dropbox.com/scl/fo/fir9vjelf
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see
-path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -135,8 +131,8 @@ path below. [job-id] will be the date/time of the run. Please see the latest job
 
 ## Report: operation_log
 
-This report shows the transaction result. The command will generate a report in three different
-formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
+This report shows the transaction result.
+The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
 | Column            | Description                                                                                                                                                                                                             |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -155,8 +151,7 @@ formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like
-follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # Proxy configuration
 

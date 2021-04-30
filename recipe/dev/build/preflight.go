@@ -169,6 +169,10 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	for _, la := range lang.Supported {
 		langCode := la.CodeString()
 		suffix := la.Suffix()
+		webLangPath := la.CodeString() + "/"
+		if la.IsDefault() {
+			webLangPath = ""
+		}
 
 		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(esl.String("lang", langCode), esl.String("suffix", suffix))
@@ -178,15 +182,20 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			if err := z.deleteOldGeneratedFiles(c, path); err != nil {
 				return err
 			}
+			ll.Info("Clean up docs/{lang}/commands folder")
+			if err := z.deleteOldGeneratedFiles(c, fmt.Sprintf("docs/%scommands", webLangPath)); err != nil {
+				return err
+			}
+			ll.Info("Clean up docs/{lang}/guide folder")
+			if err := z.deleteOldGeneratedFiles(c, fmt.Sprintf("docs/%sguides", webLangPath)); err != nil {
+				return err
+			}
 
 			ll.Info("Generating README & command documents")
 			err := rc_exec.Exec(c, &Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*Doc)
 				rr.Badge = true
 				rr.DocLang = mo_string.NewOptional(langCode)
-				rr.Readme = fmt.Sprintf("README%s.md", suffix)
-				rr.Security = fmt.Sprintf("SECURITY_AND_PRIVACY%s.md", suffix)
-				rr.CommandPath = path
 			})
 			if err != nil {
 				l.Error("Failed to generate documents", esl.Error(err))

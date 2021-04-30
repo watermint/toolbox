@@ -1,0 +1,17 @@
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1" name="viewport">
+    <title>
+        {% if page.title == "Home" %}
+        {{ site.title }} &middot; {{ site.tagline }}
+        {% else %}
+        {{ page.title }} &middot; {{ site.title }}
+        {% endif %}
+    </title>
+    <link href="/images/favicon.png" rel="apple-touch-icon-precomposed" sizes="144x144">
+    <link href="/images/favicon.png" rel="shortcut icon">
+    <link href="/atom.xml" rel="alternate" title="RSS" type="application/rss+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <style>{% include watermint.css %}</style>
+</head>

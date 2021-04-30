@@ -27,13 +27,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option          | Description                               | Default                 |
-|-----------------|-------------------------------------------|-------------------------|
-| `-badge`        | Include badges of build status            | true                    |
-| `-command-path` | Relative path to generate command manuals | doc/generated/          |
-| `-doc-lang`     | Language                                  |                         |
-| `-readme`       | Filename of README                        | README.md               |
-| `-security`     | Filename of SECURITY_AND_PRIVACY          | SECURITY_AND_PRIVACY.md |
+| Option      | Description                    | Default |
+|-------------|--------------------------------|---------|
+| `-badge`    | Include badges of build status | true    |
+| `-doc-lang` | Language                       |         |
 
 ## Common options:
 

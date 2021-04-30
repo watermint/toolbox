@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_readme"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -37,8 +38,8 @@ func (z *Readme) genDoc(path string, doc string, c app_control.Control) error {
 func (z *Readme) Exec(c app_control.Control) error {
 	l := c.Log()
 	l.Info("Generating README", esl.String("path", z.Path.Path()))
-	sec := dc_readme.New(false, "")
-	doc := dc_section.Generate(c.Messages(), sec...)
+	sec := dc_readme.New(dc_index.MediaRepository, c.Messages(), false)
+	doc := dc_section.Generate(dc_index.MediaRepository, dc_section.LayoutPage, c.Messages(), sec)
 
 	return z.genDoc(z.Path.Path(), doc, c)
 }

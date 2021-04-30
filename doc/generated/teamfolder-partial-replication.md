@@ -12,11 +12,11 @@ Partial team folder replication to the other team (Irreversible operation)
 | macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
 | Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
-Please do not share those files to anyone including Dropbox support. You can delete those files after use if you want to
-remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+Please do not share those files to anyone including Dropbox support.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
@@ -31,9 +31,7 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -68,13 +66,11 @@ macOS, Linux:
 $HOME/Desktop/tbx teamfolder partial replication -src-team-folder-name SRC_TEAMFOLDER_NAME -src-path /REL/PATH/SRC -dst-team-folder-name DST_TEAMFOLDER_NAME -dst-path /REL/PATH/DST
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
-select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "
-General" tab. You may find the message like:
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "
-Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
 ## Options:
 
@@ -108,7 +104,5 @@ Open" on the dialogue.
 
 # Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you
-want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't
-support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 

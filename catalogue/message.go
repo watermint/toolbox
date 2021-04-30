@@ -6,6 +6,7 @@ import (
 	domaindropboxapidbx_auth "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	domaindropboxapidbx_auth_attr "github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	domaindropboxapidbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	domaindropboxapidbx_error "github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	domaindropboxapidbx_list_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_list_impl"
 	domaindropboxfilesystem "github.com/watermint/toolbox/domain/dropbox/filesystem"
 	domaindropboxmodelmo_file_filter "github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
@@ -60,6 +61,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxapidbx_auth.MsgGenerated{},
 		&domaindropboxapidbx_auth_attr.MsgAttr{},
 		&domaindropboxapidbx_conn_impl.MsgConnect{},
+		&domaindropboxapidbx_error.MsgHandler{},
 		&domaindropboxapidbx_list_impl.MsgList{},
 		&domaindropboxfilesystem.MsgFileSystemCached{},
 		&domaindropboxmodelmo_file_filter.MsgFileFilterOpt{},

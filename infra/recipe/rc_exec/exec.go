@@ -55,6 +55,14 @@ func DoSpec(ctl app_control.Control, spec rc_recipe.Spec, custom func(r rc_recip
 
 	rcpErr := do(scr, ctl)
 
+	if rcpErr != nil {
+		for _, handler := range spec.ErrorHandlers() {
+			if handler.Handle(ctl.UI(), rcpErr) {
+				break
+			}
+		}
+	}
+
 	// mark indicators as done before spin down
 	ea_indicator.Global().Done()
 

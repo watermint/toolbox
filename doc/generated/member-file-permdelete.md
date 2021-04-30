@@ -1,6 +1,8 @@
 # member file permdelete
 
-Permanently delete the file or folder at a given path of the team member. Please see https://www.dropbox.com/help/40 for more detail about permanent deletion. (Experimental, and Irreversible operation)
+Permanently delete the file or folder at a given path of the team member. (Experimental, and Irreversible operation)
+
+Please see https://www.dropbox.com/help/40 for more detail about permanent deletion.
 
 # Security
 
@@ -16,7 +18,7 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/teams-admins/admin/app-integrations
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 

@@ -22,9 +22,9 @@ func PrintOptionsTable(ui app_ui.UI, spec rc_recipe.SpecValue) {
 	mt := ui.InfoTable("")
 
 	mt.Header(
-		MDoc.HeaderOption,      //app_msg.M("recipe.dev.doc.options.header.option"),
-		MDoc.HeaderDescription, //app_msg.M("recipe.dev.doc.options.header.description"),
-		MDoc.HeaderDefault,     //app_msg.M("recipe.dev.doc.options.header.default"),
+		MDoc.HeaderOption,
+		MDoc.HeaderDescription,
+		MDoc.HeaderDefault,
 	)
 
 	if len(spec.ValueNames()) < 1 {
@@ -39,7 +39,7 @@ func PrintOptionsTable(ui app_ui.UI, spec rc_recipe.SpecValue) {
 		}
 
 		mt.Row(
-			MDoc.BodyOption.With("Option", strcase.ToKebab(k)), //app_msg.M("recipe.dev.doc.options.body.option", app_msg.P{"Option": strcase.ToKebab(k)}),
+			MDoc.BodyOption.With("Option", strcase.ToKebab(k)),
 			spec.ValueDesc(k),
 			app_msg.Raw(vd),
 		)

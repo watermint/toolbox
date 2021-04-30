@@ -41,6 +41,7 @@ type Context interface {
 	Upload(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	Download(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	Notify(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
+	ContentHead(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 
 	AsMemberId(teamMemberId string) Context
 	AsAdminId(teamMemberId string) Context

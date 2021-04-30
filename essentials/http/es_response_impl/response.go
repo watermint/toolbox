@@ -70,6 +70,22 @@ func createHeaderLower(headers map[string]string) map[string]string {
 	return h
 }
 
+func IsTextContentType(res es_response.Response) bool {
+	contentType := res.Header("Content-Type")
+	if strings.HasPrefix(contentType, "text") {
+		return true
+	}
+	switch contentType {
+	case "application/json",
+		"application/xml",
+		"application/xhtml+xml":
+		return true
+
+	default:
+		return false
+	}
+}
+
 type resImpl struct {
 	code         int
 	proto        string
@@ -78,6 +94,10 @@ type resImpl struct {
 	success      es_response.Body
 	alt          es_response.Body
 	isSuccess    bool
+}
+
+func (z resImpl) IsTextContentType() bool {
+	return IsTextContentType(z)
 }
 
 func (z resImpl) Proto() string {

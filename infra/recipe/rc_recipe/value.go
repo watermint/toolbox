@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"reflect"
@@ -54,6 +55,12 @@ type ValueCustomValueText interface {
 	Value
 
 	ValueText() string
+}
+
+type ValueErrorHandler interface {
+	Value
+
+	ErrorHandler() rc_error_handler.ErrorHandler
 }
 
 type ValueFeed interface {

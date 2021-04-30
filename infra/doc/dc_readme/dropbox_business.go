@@ -21,6 +21,6 @@ func (z DropboxBusiness) Title() app_msg.Message {
 }
 
 func (z DropboxBusiness) Body(ui app_ui.UI) {
-	path := dc_index.DocName(dc_index.DocSupplementalDropboxBusiness, ui.Messages().Lang()) + ".md"
+	path := dc_index.DocName(dc_index.MediaRepository, dc_index.DocSupplementalDropboxBusiness, ui.Messages().Lang()) + ".md"
 	ui.Info(z.SectionDesc.With("Path", path))
 }

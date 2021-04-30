@@ -1,12 +1,15 @@
 package dc_supplemental
 
-import "github.com/watermint/toolbox/infra/doc/dc_section"
+import (
+	"github.com/watermint/toolbox/infra/doc/dc_index"
+	"github.com/watermint/toolbox/infra/doc/dc_section"
+)
 
-var (
-	Docs = []dc_section.Document{
+func Docs(media dc_index.MediaType) []dc_section.Document {
+	return []dc_section.Document{
 		&PathVariable{},
 		&ExperimentalFeature{},
 		&Troubleshooting{},
-		NewDropboxBusiness(),
+		NewDropboxBusiness(media),
 	}
-)
+}

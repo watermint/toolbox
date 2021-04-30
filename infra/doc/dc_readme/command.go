@@ -3,22 +3,25 @@ package dc_readme
 import (
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"sort"
 	"strings"
 )
 
-func NewCommand(forPublish bool, commandPath string) dc_section.Section {
-	return &Command{publish: forPublish, commandPath: commandPath}
+func NewCommand(forPublish bool, media dc_index.MediaType, container app_msg_container.Container) dc_section.Section {
+	return &Command{publish: forPublish, media: media, container: container}
 }
 
 type Command struct {
 	publish            bool
-	commandPath        string
+	media              dc_index.MediaType
+	container          app_msg_container.Container
 	CommandHeader      app_msg.Message
 	TableHeaderCommand app_msg.Message
 	TableHeaderDesc    app_msg.Message
@@ -29,8 +32,10 @@ func (z Command) Title() app_msg.Message {
 }
 
 func (z Command) commandName(spec rc_recipe.Spec) app_msg.Message {
+	lg := z.container.Lang()
 	if z.publish {
-		return spec.CliNameRef(z.commandPath)
+		name := dc_index.DocName(z.media, dc_index.DocManualCommand, lg)
+		return spec.CliNameRef(z.media, lg, name)
 	} else {
 		return app_msg.Raw(spec.CliPath())
 	}
