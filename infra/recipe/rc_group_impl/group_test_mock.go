@@ -3,6 +3,7 @@ package rc_group_impl
 import (
 	"flag"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
@@ -22,6 +23,10 @@ type MockSpec struct {
 	path []string
 }
 
+func (z MockSpec) CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message {
+	panic("implement me")
+}
+
 func (z MockSpec) ErrorHandlers() []rc_error_handler.ErrorHandler {
 	panic("implement me")
 }
@@ -39,10 +44,6 @@ func (z MockSpec) GridDataInput() map[string]da_griddata.GridDataInputSpec {
 }
 
 func (z MockSpec) GridDataOutput() map[string]da_griddata.GridDataOutputSpec {
-	panic("implement me")
-}
-
-func (z MockSpec) CliNameRef(media dc_index.MediaType, relPath string) app_msg.Message {
 	panic("implement me")
 }
 
