@@ -18,9 +18,9 @@ watermint toolboxには、日々の作業を解決するための190コマンド
 
 watermint toolboxは、Windows、macOS（Darwin）、Linux上で、追加のライブラリなしで動作します. バイナリをダウンロードして解凍した直後に、コマンドを実行することができます.
 
-Please see command references for more detail.
+詳細はコマンド リファレンスをご参照ください.
 
-| Reference                                                                       |
+| 参照                                                                            |
 |---------------------------------------------------------------------------------|
 | [コマンド]({{ site.baseurl }}/ja/commands/toc.html)                             |
 | [Dropbox Business コマンド]({{ site.baseurl }}/ja/guides/dropbox-business.html) |
