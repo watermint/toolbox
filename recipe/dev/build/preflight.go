@@ -169,6 +169,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	for _, la := range lang.Supported {
 		langCode := la.CodeString()
 		suffix := la.Suffix()
+		specPath := "resources/release/" + la.CodeString()
 		webLangPath := la.CodeString() + "/"
 		if la.IsDefault() {
 			webLangPath = ""
@@ -206,7 +207,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 				rr := r.(*spec.Doc)
 				rr.Lang = mo_string.NewOptional(langCode)
-				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json.gz"))
+				rr.FilePath = mo_string.NewOptional(filepath.Join(specPath, "spec.json.gz"))
 			})
 			if err != nil {
 				l.Error("Failed to generate documents", esl.Error(err))
@@ -219,7 +220,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		}
 
 		ll.Info("Clone spec")
-		if err := z.cloneSpec(c, path, release); err != nil {
+		if err := z.cloneSpec(c, specPath, release); err != nil {
 			return err
 		}
 

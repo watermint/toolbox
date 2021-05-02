@@ -57,7 +57,7 @@ func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*dc
 	if relName != "" {
 		fn = "spec_" + relName + ".json.gz"
 	}
-	p := filepath.Join("doc/generated", fn)
+	p := filepath.Join("resources/release/"+c.Messages().Lang().CodeString(), fn)
 	l := c.Log().With(esl.String("path", p))
 	l.Debug("Loading")
 

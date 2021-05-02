@@ -18,4 +18,6 @@ The experimental feature switch is for testing or accessing early access feature
 | file_sync_disable_reduce_create_folder | Disable reduce create_folder on syncing file systems. That will create empty folder while syncing folders. |
 | legacy_local_to_dbx_connector          | Use legacy local to dropbox sync connector                                                                 |
 | use_no_cache_dbxfs                     | Use non-cache dropbox file system                                                                          |
+| profile_cpu                            | Enable CPU profiler                                                                                        |
+| profile_memory                         | Enable memory profiler                                                                                     |
 

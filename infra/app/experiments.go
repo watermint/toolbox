@@ -26,6 +26,12 @@ const (
 	ExperimentFileSyncLegacyLocalToDropboxConnector = "legacy_local_to_dbx_connector"
 	// Use non-cache dropbox file system
 	ExperimentFileSyncNoCacheDropboxFileSystem = "use_no_cache_dbxfs"
+
+	// ExperimentProfileMemory Enable memory profiler
+	ExperimentProfileMemory = "profile_memory"
+
+	// ExperimentProfileCpu Enable CPU profiler
+	ExperimentProfileCpu = "profile_cpu"
 )
 
 var (
@@ -44,5 +50,7 @@ var (
 		ExperimentFileSyncDisableReduceCreateFolder,
 		ExperimentFileSyncLegacyLocalToDropboxConnector,
 		ExperimentFileSyncNoCacheDropboxFileSystem,
+		ExperimentProfileCpu,
+		ExperimentProfileMemory,
 	}
 )
