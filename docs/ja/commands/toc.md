@@ -225,6 +225,7 @@ lang: ja
 | [util decode base_64]({{ site.baseurl }}/ja/commands/util-decode-base_64.html)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
 | [util encode base_32]({{ site.baseurl }}/ja/commands/util-encode-base_32.html)       | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base_64]({{ site.baseurl }}/ja/commands/util-encode-base_64.html)       | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                 | Clone git repository                                                   |
 | [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)         | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)             | WIFI設定用のQRコードを生成                                             |
 | [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                   | 現在の時刻を表示                                                       |

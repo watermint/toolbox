@@ -306,6 +306,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util decode base_64](doc/generated_ja/util-decode-base_64.md)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
 | [util encode base_32](doc/generated_ja/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base_64](doc/generated_ja/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util git clone](doc/generated_ja/util-git-clone.md)                 | Clone git repository                                                   |
 | [util qrcode create](doc/generated_ja/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi](doc/generated_ja/util-qrcode-wifi.md)             | WIFI設定用のQRコードを生成                                             |
 | [util time now](doc/generated_ja/util-time-now.md)                   | 現在の時刻を表示                                                       |

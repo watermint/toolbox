@@ -308,6 +308,7 @@ Please see [Dropbox Business commands](doc/generated/supplemental_dropbox_busine
 | [util decode base_64](doc/generated/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                            |
 | [util encode base_32](doc/generated/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base_64](doc/generated/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                            |
+| [util git clone](doc/generated/util-git-clone.md)                 | Clone git repository                                                 |
 | [util qrcode create](doc/generated/util-qrcode-create.md)         | Create a QR code image file                                          |
 | [util qrcode wifi](doc/generated/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                              |
 | [util time now](doc/generated/util-time-now.md)                   | Display current time                                                 |
