@@ -24,7 +24,7 @@ BUILD_TIMESTAMP=$(date --iso-8601=seconds)
 
 if [ ! -d $BUILD_PATH ]; then
   mkdir -p $BUILD_PATH
-  for p in win win64 mac linux; do
+  for p in win mac linux; do
     mkdir -p $BUILD_PATH/$p
   done
 fi
@@ -117,12 +117,10 @@ X_APP_BUILDTIMESTAMP="-X github.com/watermint/toolbox/infra/app.BuildTimestamp=$
 X_APP_BRANCH="-X github.com/watermint/toolbox/infra/app.Branch=$CIRCLE_BRANCH"
 LD_FLAGS="$X_APP_RELEASE $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY $X_APP_BUILDTIMESTAMP $X_APP_BRANCH"
 
-echo Building: Windows 386
-CGO_ENABLED=0 GOOS=windows GOARCH=386 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
-echo Building: Windows amd64
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win64/tbx.exe github.com/watermint/toolbox
+echo Building: Windows
+CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
 echo Building: Linux
-CGO_ENABLED=0 GOOS=linux GOARCH=386 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx github.com/watermint/toolbox
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx github.com/watermint/toolbox
 echo Building: Darwin
 CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx github.com/watermint/toolbox
 
@@ -139,11 +137,6 @@ fi
 
 if [ ! -s $BUILD_PATH/win/tbx.exe ]; then
   echo Failed to build Windows binary
-  exit 1
-fi
-
-if [ ! -s $BUILD_PATH/win64/tbx.exe ]; then
-  echo Failed to build Windows x64 binary
   exit 1
 fi
 
@@ -175,7 +168,7 @@ fi
 
 echo --------------------
 echo BUILD: Packaging
-for p in win win64 mac linux; do
+for p in win mac linux; do
   echo BUILD: Packaging $p
   cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/LICENSE.txt
   cp $BUILD_PATH/README.txt $BUILD_PATH/"$p"/README.txt
