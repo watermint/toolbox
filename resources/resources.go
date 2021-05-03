@@ -3,6 +3,7 @@ package resources
 import (
 	"embed"
 	"github.com/watermint/toolbox/essentials/go/es_resource"
+	"strings"
 )
 
 //go:embed templates/*
@@ -23,6 +24,12 @@ var resImages embed.FS
 //go:embed data/*
 var resData embed.FS
 
+//go:embed release/release
+var resRelease string
+
+//go:embed release/release_notes
+var resReleaseNotes string
+
 func NewBundle() es_resource.Bundle {
 	return es_resource.New(
 		es_resource.NewResource("templates", resTemplates),
@@ -32,4 +39,14 @@ func NewBundle() es_resource.Bundle {
 		es_resource.NewResource("images", resImages),
 		es_resource.NewSecureResource("data", resData),
 	)
+}
+
+// Release release number (major version only)
+func Release() string {
+	return strings.TrimSpace(resRelease)
+}
+
+// ReleaseNotes release notes for the current release.
+func ReleaseNotes() string {
+	return resReleaseNotes
 }

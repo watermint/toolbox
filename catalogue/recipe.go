@@ -145,6 +145,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Dump{},
 		&recipedevrelease.Candidate{},
+		&recipedevrelease.Doc{},
 		&recipedevrelease.Publish{},
 		&recipedevreplay.Approve{},
 		&recipedevreplay.Bundle{},

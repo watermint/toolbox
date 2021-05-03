@@ -211,7 +211,7 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 		case DocRootSecurityAndPrivacy:
 			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "security_and_privacy", lg)
 		case DocWebHome:
-			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "index", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "home", lg)
 		case DocWebLicense:
 			return WebDocPath(nameOpts.RefPath, WebCategoryHome, "license", lg)
 		case DocWebCommandTableOfContent:

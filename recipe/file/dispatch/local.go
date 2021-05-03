@@ -234,7 +234,7 @@ func (z *Local) Test(c app_control.Control) error {
 	name := "TBX-2020-04-01.txt"
 	srcFile := filepath.Join(src, name)
 
-	err = ioutil.WriteFile(srcFile, []byte(app.Version), 0644)
+	err = ioutil.WriteFile(srcFile, []byte(app.BuildId), 0644)
 	if err != nil {
 		return err
 	}

@@ -108,13 +108,14 @@ go run tbx.go dev build license -quiet -source-path $BUILD_PATH/license -dest-pa
 
 echo BUILD: Building tool
 
+X_APP_RELEASE="-X github.com/watermint/toolbox/infra/app.Release=$BUILD_MAJOR_VERSION"
 X_APP_VERSION="-X github.com/watermint/toolbox/infra/app.Version=$BUILD_VERSION"
 X_APP_HASH="-X github.com/watermint/toolbox/infra/app.Hash=$BUILD_HASH"
 X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"
 X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_BUILDERKEY"
 X_APP_BUILDTIMESTAMP="-X github.com/watermint/toolbox/infra/app.BuildTimestamp=$BUILD_TIMESTAMP"
 X_APP_BRANCH="-X github.com/watermint/toolbox/infra/app.Branch=$CIRCLE_BRANCH"
-LD_FLAGS="$X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY $X_APP_BUILDTIMESTAMP $X_APP_BRANCH"
+LD_FLAGS="$X_APP_RELEASE $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY $X_APP_BUILDTIMESTAMP $X_APP_BRANCH"
 
 echo Building: Windows 386
 CGO_ENABLED=0 GOOS=windows GOARCH=386 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox

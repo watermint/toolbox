@@ -341,7 +341,7 @@ func (z *callbackImpl) Ping(g *gin.Context) {
 		http.StatusOK,
 		&ServerStatus{
 			Name:    app.Name,
-			Version: app.Version,
+			Version: app.BuildId,
 			Token:   z.serverToken,
 		},
 	)

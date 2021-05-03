@@ -1,0 +1,22 @@
+---
+title: watermint toolbox
+lang: en
+---
+
+<!DOCTYPE html>
+<html lang="{{ page.lang }}">
+{% include head.html %}
+<body class="theme-base-09">
+{% include sidebar.html %}
+<div class="wrap">
+    {% include page_header.html %}
+    <div class="container content">
+        {% capture home_content %}{% include_relative home.md %}{% endcapture %}
+        {% capture home_content %}{{ home_content | markdownify }}{% endcapture %}
+        {% include anchor_headings.html html=home_content beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
+    </div>
+    {% include page_footer.html %}
+</div>
+{% include sidebar_toggle.html %}}
+</body>
+</html>

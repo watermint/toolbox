@@ -93,13 +93,11 @@ func (z *Doc) genCommands(c app_control.Control) error {
 		spec := rc_spec.New(r)
 
 		l.Info("Generating command manual", esl.String("command", spec.CliPath()))
-		for _, m := range dc_index.AllMedia {
-			comDoc := dc_command.New(m, spec)
-			path := dc_index.DocName(m, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(spec.SpecId()))
-			doc := dc_section.Generate(m, dc_section.LayoutCommand, c.Messages(), comDoc)
-			if err := z.genDoc(path, doc, c); err != nil {
-				return err
-			}
+		comDoc := dc_command.New(dc_index.MediaWeb, spec)
+		path := dc_index.DocName(dc_index.MediaWeb, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(spec.SpecId()))
+		doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutCommand, c.Messages(), comDoc)
+		if err := z.genDoc(path, doc, c); err != nil {
+			return err
 		}
 
 		if err := qt_messages.SuggestCliArgs(c, r); err != nil {
@@ -127,15 +125,14 @@ func (z *Doc) genSupplemental(c app_control.Control) error {
 			}
 		}
 	}()
-	for _, m := range dc_index.AllMedia {
-		for _, d := range dc_supplemental.Docs(m) {
-			l.Info("Generating supplemental doc", esl.Int("media", int(m)), esl.Int("docId", int(d.DocId())))
-			path := dc_index.DocName(m, d.DocId(), c.Messages().Lang())
-			doc := dc_section.Generate(m, dc_section.LayoutPage, c.Messages(), d)
 
-			if err := z.genDoc(path, doc, c); err != nil {
-				return err
-			}
+	for _, d := range dc_supplemental.Docs(dc_index.MediaWeb) {
+		l.Info("Generating supplemental doc", esl.Int("media", int(dc_index.MediaWeb)), esl.Int("docId", int(d.DocId())))
+		path := dc_index.DocName(dc_index.MediaWeb, d.DocId(), c.Messages().Lang())
+		doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutPage, c.Messages(), d)
+
+		if err := z.genDoc(path, doc, c); err != nil {
+			return err
 		}
 	}
 	return nil

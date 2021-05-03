@@ -21,6 +21,17 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"text/template"
+)
+
+const (
+	changesHeader = `---
+layout: release
+title: {{.Title}}
+lang: {{.Lang}}
+---
+
+`
 )
 
 type Diff struct {
@@ -31,6 +42,7 @@ type Diff struct {
 	FilePath            mo_string.OptionalString
 	ReleaseCurrent      app_msg.Message
 	ReleaseVersion      app_msg.Message
+	DocTitle            app_msg.Message
 	DocHeader           app_msg.Message
 	SpecAdded           app_msg.Message
 	SpecDeleted         app_msg.Message
@@ -278,6 +290,20 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 			return c.UI().Text(z.ReleaseCurrent)
 		}
 		return c.UI().Text(z.ReleaseVersion.With("Release", strings.Replace(x, "_", "", 1)))
+	}
+
+	changeTmpl, err := template.New("release_header").Parse(changesHeader)
+	if err != nil {
+		l.Debug("Unable to compile the template", esl.Error(err))
+		return err
+	}
+	err = changeTmpl.Execute(w, map[string]interface{}{
+		"Title": c.UI().Text(z.DocTitle.With("Release", z.Release1.Value())),
+		"Lang":  c.Messages().Lang().CodeString(),
+	})
+	if err != nil {
+		l.Debug("Unable to exec the template", esl.Error(err))
+		return err
 	}
 
 	mui := app_ui.NewMarkdown(c.Messages(), c.Log(), w, es_dialogue.DenyAll())

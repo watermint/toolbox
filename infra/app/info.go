@@ -1,13 +1,17 @@
 package app
 
 import (
+	"github.com/watermint/toolbox/infra/control/app_build"
+	"github.com/watermint/toolbox/resources"
 	"runtime"
 	"strings"
 )
 
 var (
 	Name           = "watermint toolbox"
-	Version        = "`dev`"
+	Build          = app_build.Version()
+	BuildId        = Build.String()
+	Release        = resources.Release()
 	Copyright      = "© 2016-2021 Takayuki Okazaki"
 	Hash           = ""
 	Branch         = ""
@@ -18,7 +22,7 @@ var (
 )
 
 func UserAgent() string {
-	return strings.ReplaceAll(Name, " ", "-") + "/" + Version
+	return strings.ReplaceAll(Name, " ", "-") + "/" + BuildId
 }
 
 func ReleaseStage() string {

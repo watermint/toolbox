@@ -93,7 +93,7 @@ func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes m
 	paths = make([]string, 0)
 	sizes = make(map[string]int64)
 	for _, e := range entries {
-		if !strings.HasPrefix(e.Name(), "tbx-"+app.Version) || !strings.HasSuffix(e.Name(), ".zip") {
+		if !strings.HasPrefix(e.Name(), "tbx-"+app.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
 			l.Debug("Ignore non artifact file", esl.Any("file", e))
 			continue
 		}
@@ -136,7 +136,11 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 
 func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNote string, err error) {
 	l := c.Log()
-	baseUrl := "https://github.com/watermint/toolbox/blob/" + app.Version
+	baseUrl := "https://github.com/watermint/toolbox/blob/" + app.BuildId
+	if app.Release == "" {
+		l.Error("Release number undefined")
+		return "", errors.New("release number undefined")
+	}
 
 	md := app_ui.MakeMarkdown(c.WithLang("en").Messages(), func(mui app_ui.UI) {
 		mui.Header(z.HeadingReleaseTheme)
@@ -146,7 +150,7 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 
 		for _, la := range lang.Supported {
 			mui.Info(z.ListSpecChange.
-				With("Link", baseUrl+"/doc/generated"+la.Suffix()+"/changes.md").
+				With("Link", baseUrl+fmt.Sprintf("/docs/releases/changes%s.md", app.Release)).
 				With("Lang", la.Self()),
 			)
 		}
@@ -231,12 +235,12 @@ func (z *Publish) createTag(c app_control.Control) error {
 	l := c.Log().With(
 		esl.String("owner", app.RepositoryOwner),
 		esl.String("repository", app.RepositoryName),
-		esl.String("version", app.Version),
+		esl.String("version", app.BuildId),
 		esl.String("hash", app.Hash))
 	svt := sv_reference.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
-		"refs/tags/"+app.Version,
+		"refs/tags/"+app.BuildId,
 		app.Hash,
 	)
 	if err != nil && err != qt_errors.ErrorMock {
@@ -254,23 +258,23 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 	l := c.Log().With(
 		esl.String("owner", app.RepositoryOwner),
 		esl.String("repository", app.RepositoryName),
-		esl.String("version", app.Version),
+		esl.String("version", app.BuildId),
 		esl.String("hash", app.Hash))
 	ui := c.UI()
 
 	relName := ""
 	switch app.ReleaseStage() {
 	case app.StageDev:
-		relName = ui.Text(z.ReleaseNameDev.With("Version", app.Version))
+		relName = ui.Text(z.ReleaseNameDev.With("Version", app.BuildId))
 	case app.StageBeta:
-		relName = ui.Text(z.ReleaseNameBeta.With("Version", app.Version))
+		relName = ui.Text(z.ReleaseNameBeta.With("Version", app.BuildId))
 	case app.StageRelease:
-		relName = ui.Text(z.ReleaseName.With("Version", app.Version))
+		relName = ui.Text(z.ReleaseName.With("Version", app.BuildId))
 	}
 
 	svr := sv_release.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
 	rel, err = svr.CreateDraft(
-		app.Version,
+		app.BuildId,
 		relName,
 		relNote,
 		z.Branch,
@@ -322,8 +326,8 @@ func (z *Publish) updateHomebrewFormula(c app_control.Control, path string) erro
 		m.Repository = homebrewRepoName
 		m.Branch = homebrewRepoBranch
 		m.AssetPath = mo_path2.NewExistingFileSystemPath(path)
-		m.DownloadUrl = "https://github.com/watermint/toolbox/releases/download/" + app.Version + "/" + name
-		m.Message = "Release " + app.Version
+		m.DownloadUrl = "https://github.com/watermint/toolbox/releases/download/" + app.BuildId + "/" + name
+		m.Message = "Release " + app.BuildId
 		m.FormulaName = "toolbox.rb"
 	})
 }
@@ -388,8 +392,8 @@ func (z *Publish) Test(c app_control.Control) error {
 
 	platforms := []string{"linux", "mac", "win"}
 	for _, platform := range platforms {
-		app.Version = "dev-test"
-		err = ioutil.WriteFile(filepath.Join(d, "tbx-"+app.Version+"-"+platform+".zip"), []byte("Test artifact"), 0644)
+		app.BuildId = "dev-test"
+		err = ioutil.WriteFile(filepath.Join(d, "tbx-"+app.BuildId+"-"+platform+".zip"), []byte("Test artifact"), 0644)
 		if err != nil {
 			c.Log().Warn("Unable to create test artifact", esl.Error(err))
 			return err

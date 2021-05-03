@@ -112,7 +112,7 @@ func TestLocalPattern_Move(t *testing.T) {
 	srcPath := filepath.Join(src, name)
 	dstPath := filepath.Join(dst, name)
 
-	err = ioutil.WriteFile(srcPath, []byte(app.Version), 0644)
+	err = ioutil.WriteFile(srcPath, []byte(app.BuildId), 0644)
 	if err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func TestLocalPattern_Exec(t *testing.T) {
 	name := "TBX-2020-04-01.txt"
 	srcFile := filepath.Join(src, name)
 
-	err = ioutil.WriteFile(srcFile, []byte(app.Version), 0644)
+	err = ioutil.WriteFile(srcFile, []byte(app.BuildId), 0644)
 	if err != nil {
 		return
 	}
