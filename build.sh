@@ -51,6 +51,6 @@ function build_and_package() {
 }
 
 LINUX_BIN=$BUILD_PATH/linux/tbx
-build_and_package linux linux amd64 $BUILD_PATH/linux/tbx $LINUX_BIN
-build_and_package win windows amd64 $BUILD_PATH/win/tbx.exe $LINUX_BIN
-build_and_package mac darwin amd64 $BUILD_PATH/mac/tbx $LINUX_BIN
+build_and_package linux linux   amd64 $BUILD_PATH/linux/tbx   $LINUX_BIN
+build_and_package win   windows amd64 $BUILD_PATH/win/tbx.exe $LINUX_BIN
+build_and_package mac    darwin amd64 $BUILD_PATH/mac/tbx     $LINUX_BIN

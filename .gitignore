@@ -13,7 +13,8 @@
 /.idea
 /build
 /dist
-/resources/keys
+/resources/keys/toolbox.appkeys
+/resources/keys/toolbox.appkeys.secret
 /resources/release/build/info.json
 /test/dev
 /test/results

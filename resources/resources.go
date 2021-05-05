@@ -81,7 +81,7 @@ func Build() BuildInfo {
 		}
 	}
 
-	infoJson, err := resBuildInfo.ReadFile("info.json")
+	infoJson, err := resBuildInfo.ReadFile("release/build/info.json")
 	if err != nil {
 		return fallback()
 	}

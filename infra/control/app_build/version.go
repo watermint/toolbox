@@ -42,7 +42,9 @@ func Release() uint64 {
 // SelectVersion Select or define the version
 func SelectVersion(v string) es_version.Version {
 	if ver, err := es_version.Parse(v); err != nil {
-		if ver.Major != 0 {
+		return Version()
+	} else {
+		if ver.Major > 0 {
 			return ver
 		}
 	}
