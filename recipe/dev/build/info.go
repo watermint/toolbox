@@ -102,7 +102,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		Production: productionReady,
 	}
 
-	infoPath := filepath.Join(prjBase, "resources/release/build", "info.json")
+	infoPath := filepath.Join(prjBase, "resources/build", "info.json")
 	l.Info("Build info", esl.Any("branch", branch), esl.Any("hash", info.Hash), esl.String("version", app.BuildId), esl.Bool("releaseReady", productionReady))
 	infoData, err := json.Marshal(info)
 	if err != nil {
