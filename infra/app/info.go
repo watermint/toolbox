@@ -35,7 +35,7 @@ func ReleaseStage() string {
 }
 
 func IsProduction() bool {
-	return BuildInfo.Production
+	return BuildInfo.Production && ReleaseStage() == StageRelease
 }
 
 func IsWindows() bool {
