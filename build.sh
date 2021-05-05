@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+error_prebuild=1
+error_build=2
+error_package=3
+error_test=4
+
 if [ x"" = x"$PROJECT_ROOT" ]; then
   # Configure for regular build
   PROJECT_ROOT=$PWD
@@ -11,178 +16,41 @@ else
   DIST_PATH=/dist
 fi
 
-mkdir -p resources/data
-mkdir -p resources/images
-mkdir -p resources/keys
-mkdir -p resources/messages
-mkdir -p resources/templates
-mkdir -p resources/web
+for p in linux win mac; do
+  mkdir -p $BUILD_PATH/$p
+done
 
-BUILD_MAJOR_VERSION=$(cat "$PROJECT_ROOT"/version)
-BUILD_HASH=$(cd "$PROJECT_ROOT" && git rev-parse HEAD)
-BUILD_TIMESTAMP=$(date --iso-8601=seconds)
+go run tbx.go dev build info
+if [[ $? == 0 ]]; then
+  echo "Build information created."
+else
+  exit $error_prebuild
+fi
 
-if [ ! -d $BUILD_PATH ]; then
-  mkdir -p $BUILD_PATH
-  for p in win mac linux; do
-    mkdir -p $BUILD_PATH/$p
-  done
-fi
-if [ ! -d $DIST_PATH ]; then
-  mkdir -p $DIST_PATH
-fi
-if [ "$TOOLBOX_BUILD_ID"x = ""x ]; then
-  # Circle CI
-  if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
-    if [ "$CIRCLE_BRANCH"x = "main"x ]; then
-      TOOLBOX_BUILD_ID=8.$CIRCLE_BUILD_NUM
-    elif [ "$CIRCLE_BRANCH"x = "master"x ]; then
-      TOOLBOX_BUILD_ID=4.$CIRCLE_BUILD_NUM
+function build_and_package() {
+    platform_alias=$1
+    goos=$2
+    goarch=$3
+    bin_path=$4
+    bin_linux=$5
+
+    echo Building: $platform_alias [$goos][$goarch]
+    CGO_ENABLED=0 GOOS=$goos GOARCH=$goarch go build -o $bin_path github.com/watermint/toolbox
+    if [[ $? == 0 ]]; then
+      echo "The binary created: $bin_path"
     else
-      TOOLBOX_BUILD_ID=2.$CIRCLE_BUILD_NUM
+      exit $error_build
     fi
 
-  # GitHub Actions
-  elif [ "$GITHUB_RUN_ID"x != ""x ]; then
-    TOOLBOX_BUILD_ID=3.$GITHUB_RUN_ID
+    $5 dev build package -build-path $bin_path -dest-path $DIST_PATH -deploy-path /watermint-toolbox-build -platform $platform_alias
+    if [[ $? == 0 ]]; then
+      echo "The binary packaged"
+    else
+      exit $error_package
+    fi
+}
 
-  # Gitlab
-  elif [ "$CI_PIPELINE_IID" ]; then
-    TOOLBOX_BUILD_ID=1.$CI_PIPELINE_IID
-
-  # Docker
-  else
-    TOOLBOX_BUILD_ID=0.$(date +%Y%m%d%H%M%S)
-  fi
-fi
-BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
-
-echo --------------------
-echo BUILD: Start building version: $BUILD_VERSION
-
-echo --------------------n
-echo BUILD: Preparing resources
-
-mkdir -p resources/keys
-if [ x"" != x"$TOOLBOX_APPKEYS" ]; then
-  echo "$TOOLBOX_APPKEYS" >resources/keys/toolbox.appkeys
-fi
-
-if [ -e "resources/keys/toolbox.appkeys" ]; then
-  echo App keys file found. Verify app key file...
-  cat resources/keys/toolbox.appkeys | jq type >/dev/null
-  if [[ $? == 0 ]]; then
-    echo Valid
-  else
-    echo Invalid. return code: $?
-  fi
-
-  go run infra/security/sc_zap_tool/main.go
-  if [[ $? == 0 ]]; then
-    rm resources/keys/toolbox.appkeys
-  else
-    echo Zap exit with code $?
-    exit $?
-  fi
-  TOOLBOX_ZAP=$(cat /tmp/toolbox.zap)
-else
-  echo ERR: No app key file found
-  exit 1
-fi
-
-if [ x"" = x"$TOOLBOX_BUILDERKEY" ]; then
-  if [ -e resources/keys/toolbox.buildkey ]; then
-    TOOLBOX_BUILDERKEY=$(cat resources/keys/toolbox.buildkey)
-  else
-    TOOLBOX_BUILDERKEY="watermint-toolbox-default"
-  fi
-fi
-
-echo --------------------
-echo BUILD: License information
-
-mkdir $BUILD_PATH/license
-go-licenses csv github.com/watermint/toolbox 2>/dev/null >"$BUILD_PATH/license/licenses.csv"
-go-licenses save github.com/watermint/toolbox --save_path "$BUILD_PATH/license/licenses" 2>/dev/null
-go run tbx.go dev build license -quiet -source-path $BUILD_PATH/license -dest-path "$PROJECT_ROOT/resources/data/licenses.json"
-
-echo BUILD: Building tool
-
-X_APP_RELEASE="-X github.com/watermint/toolbox/infra/app.Release=$BUILD_MAJOR_VERSION"
-X_APP_VERSION="-X github.com/watermint/toolbox/infra/app.Version=$BUILD_VERSION"
-X_APP_HASH="-X github.com/watermint/toolbox/infra/app.Hash=$BUILD_HASH"
-X_APP_ZAP="-X github.com/watermint/toolbox/infra/app.Zap=$TOOLBOX_ZAP"
-X_APP_BUILDERKEY="-X github.com/watermint/toolbox/infra/app.BuilderKey=$TOOLBOX_BUILDERKEY"
-X_APP_BUILDTIMESTAMP="-X github.com/watermint/toolbox/infra/app.BuildTimestamp=$BUILD_TIMESTAMP"
-X_APP_BRANCH="-X github.com/watermint/toolbox/infra/app.Branch=$CIRCLE_BRANCH"
-LD_FLAGS="$X_APP_RELEASE $X_APP_VERSION $X_APP_HASH $X_APP_ZAP $X_APP_BUILDERKEY $X_APP_BUILDTIMESTAMP $X_APP_BRANCH"
-
-echo Building: Windows
-CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/win/tbx.exe github.com/watermint/toolbox
-echo Building: Linux
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/linux/tbx github.com/watermint/toolbox
-echo Building: Darwin
-CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build --ldflags "$LD_FLAGS" -o $BUILD_PATH/mac/tbx github.com/watermint/toolbox
-
-echo --------------------
-echo BUILD: Testing binary
-
-$BUILD_PATH/linux/tbx dev test resources -quiet
-if [[ $? == 0 ]]; then
-  echo Success: resources test
-else
-  echo Unable to pass binary resources test: code=$?
-  exit $?
-fi
-
-if [ ! -s $BUILD_PATH/win/tbx.exe ]; then
-  echo Failed to build Windows binary
-  exit 1
-fi
-
-if [ ! -s $BUILD_PATH/linux/tbx ]; then
-  echo Failed to build Linux binary
-  exit 1
-fi
-
-if [ ! -s $BUILD_PATH/mac/tbx ]; then
-  echo Failed to build macOS x64 binary
-  exit 1
-fi
-
-echo --------------------
-echo BUILD: Generating documents
-
-$BUILD_PATH/linux/tbx license -output markdown >$BUILD_PATH/LICENSE.txt
-$BUILD_PATH/linux/tbx dev build readme -path $BUILD_PATH/README.txt
-
-if [ ! -s $BUILD_PATH/LICENSE.txt ]; then
-  echo Failed to generate LICENSE
-  exit 1
-fi
-
-if [ ! -s $BUILD_PATH/README.txt ]; then
-  echo Failed to generate README
-  exit 1
-fi
-
-echo --------------------
-echo BUILD: Packaging
-for p in win mac linux; do
-  echo BUILD: Packaging $p
-  cp $BUILD_PATH/LICENSE.txt $BUILD_PATH/"$p"/LICENSE.txt
-  cp $BUILD_PATH/README.txt $BUILD_PATH/"$p"/README.txt
-  (cd $BUILD_PATH/"$p" && zip -9 -r $BUILD_PATH/tbx-"$BUILD_VERSION"-"$p".zip .)
-done
-echo BUILD: Packaging all
-(cd $BUILD_PATH && zip -0 $DIST_PATH/tbx-"$BUILD_VERSION".zip *.zip)
-
-if [ x"$TOOLBOX_DEPLOY_TOKEN" = x"" ]; then
-  exit 0
-fi
-
-echo --------------------
-echo BUILD: Deploying
-
-cd $PROJECT_ROOT
-$BUILD_PATH/linux/tbx dev ci artifact up -budget-memory low -dropbox-path /watermint-toolbox-build -local-path $DIST_PATH -peer-name deploy -quiet
+LINUX_BIN=$BUILD_PATH/linux/tbx
+build_and_package linux linux amd64 $BUILD_PATH/linux/tbx $LINUX_BIN
+build_and_package win windows amd64 $BUILD_PATH/win/tbx.exe $LINUX_BIN
+build_and_package mac darwin amd64 $BUILD_PATH/mac/tbx $LINUX_BIN

@@ -22,7 +22,6 @@ import (
 
 type Info struct {
 	rc_recipe.RemarkSecret
-	Production bool
 }
 
 func (z *Info) Preset() {
@@ -30,6 +29,8 @@ func (z *Info) Preset() {
 
 func (z *Info) Exec(c app_control.Control) error {
 	l := c.Log()
+
+	productionReady := false
 
 	prjBase, err := es_project.DetectRepositoryRoot()
 	if err != nil {
@@ -66,18 +67,19 @@ func (z *Info) Exec(c app_control.Control) error {
 
 	xap, found := os.LookupEnv(app.EnvNameToolboxBuilderKey)
 	if !found {
-		l.Warn("Builder key not found. Please set the build key", esl.String("key", app.EnvNameToolboxBuilderKey))
-		return errors.New("builder key not found")
+		l.Info("Builder key not found. Please set the build key for production release", esl.String("key", app.EnvNameToolboxBuilderKey))
+		xap = ""
+		productionReady = false
 	}
 
 	var zap string
-	if z.Production {
-		zap = sc_zap.NewZap(hash.String())
-		appKeyData, found := os.LookupEnv(app.EnvNameToolboxAppKeys)
-		if !found {
-			l.Warn("App key data not found. Please set the app key", esl.String("key", app.EnvNameToolboxAppKeys))
-			return errors.New("app key not found")
-		}
+	zap = sc_zap.NewZap(hash.String())
+	appKeyData, found := os.LookupEnv(app.EnvNameToolboxAppKeys)
+	if !found {
+		l.Warn("App key data not found. Please set the build key for production release", esl.String("key", app.EnvNameToolboxAppKeys))
+		zap = ""
+		productionReady = false
+	} else {
 		if !gjson.Valid(appKeyData) {
 			l.Warn("App key data is not look like a JSON data")
 			return errors.New("invalid app key data format")
@@ -97,11 +99,11 @@ func (z *Info) Exec(c app_control.Control) error {
 		Year:       buildTimestamp.Year(),
 		Zap:        zap,
 		Xap:        xap,
-		Production: z.Production,
+		Production: productionReady,
 	}
 
 	infoPath := filepath.Join(prjBase, "resources/release/build", "info.json")
-	l.Info("Head", esl.Any("hash", hash), esl.Any("branch", branch), esl.Any("info", info.Hash), esl.String("path", infoPath))
+	l.Info("Build info", esl.Any("branch", branch), esl.Any("hash", info.Hash), esl.String("version", app.BuildId))
 	infoData, err := json.Marshal(info)
 	if err != nil {
 		l.Debug("Unable to marshal the data", esl.Error(err))
@@ -109,7 +111,7 @@ func (z *Info) Exec(c app_control.Control) error {
 	}
 
 	if err := ioutil.WriteFile(infoPath, infoData, 0600); err != nil {
-		l.Warn("Unable to write the file",esl.Error(err))
+		l.Warn("Unable to write the file", esl.Error(err))
 		return err
 	}
 	return nil

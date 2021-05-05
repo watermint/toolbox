@@ -17,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/recipe/dev/spec"
 	"github.com/watermint/toolbox/resources"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -187,6 +188,29 @@ func (z *Doc) listReleases(c app_control.Control) (releases map[uint64]*Metadata
 	}
 	return releases, nil
 }
+func (z *Doc) removeOldReleaseNotes(c app_control.Control, base string) error {
+	l := c.Log()
+	path := filepath.Join(base, "docs/_posts")
+	entries, err := ioutil.ReadDir(path)
+	if err != nil {
+		l.Debug("Unable to read the directory", esl.Error(err))
+		return err
+	}
+
+	for _, entry := range entries {
+		entryPath := filepath.Join(path, entry.Name())
+		if strings.HasSuffix(entry.Name(), ".md") {
+			l.Info("Removing old release note", esl.String("file", entryPath))
+			err = os.Remove(entryPath)
+			if err != nil {
+				l.Warn("Unable to remove the file", esl.Error(err))
+				return err
+			}
+		}
+	}
+
+	return nil
+}
 
 func (z *Doc) Exec(c app_control.Control) error {
 	l := c.Log()
@@ -210,6 +234,13 @@ func (z *Doc) Exec(c app_control.Control) error {
 		l.Debug("Unable to update changes", esl.Error(err))
 		return err
 	}
+
+	l.Info("Remove old release notes")
+	if err = z.removeOldReleaseNotes(c, prjBase); err != nil {
+		l.Debug("Unable to remove old release notes")
+		return err
+	}
+
 	l.Info("Update release notes", esl.Uint64("Release", app.Version.Major))
 	notes := &Notes{
 		Version: &app.Version,

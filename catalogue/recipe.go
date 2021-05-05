@@ -136,6 +136,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevbuild.Doc{},
 		&recipedevbuild.Info{},
 		&recipedevbuild.License{},
+		&recipedevbuild.Package{},
 		&recipedevbuild.Preflight{},
 		&recipedevbuild.Readme{},
 		&recipedevciartifact.Connect{},

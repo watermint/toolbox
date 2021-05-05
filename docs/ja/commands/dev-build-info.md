@@ -38,10 +38,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                           | デフォルト |
-|---------------|--------------------------------|------------|
-| `-file-path`  | Path to save build information |            |
-| `-production` | Enable production build        | false      |
+| オプション    | 説明                    | デフォルト |
+|---------------|-------------------------|------------|
+| `-production` | Enable production build | false      |
 
 ## 共通のオプション:
 

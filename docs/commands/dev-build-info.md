@@ -38,10 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                    | Default |
-|---------------|--------------------------------|---------|
-| `-file-path`  | Path to save build information |         |
-| `-production` | Enable production build        | false   |
+| Option        | Description             | Default |
+|---------------|-------------------------|---------|
+| `-production` | Enable production build | false   |
 
 ## Common options:
 

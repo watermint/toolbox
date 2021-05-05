@@ -17,7 +17,9 @@ require (
 	github.com/go-git/go-git/v5 v5.3.0 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
+	github.com/golang/glog v0.0.0-20210429001901-424d2337a529 // indirect
 	github.com/google/go-cmp v0.5.4
+	github.com/google/go-licenses v0.0.0-20210329231322-ce1d9163b77d // indirect
 	github.com/google/go-querystring v1.0.0
 	github.com/google/uuid v1.1.4
 	github.com/iancoleman/strcase v0.1.2

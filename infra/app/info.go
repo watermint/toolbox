@@ -15,6 +15,7 @@ var (
 	BuildId        = Version.String()
 	Release        = resources.Release()
 	Copyright      = fmt.Sprintf("© 2016-%4d Takayuki Okazaki", BuildInfo.Year)
+	LandingPage    = "https://toolbox.watermint.org"
 	DefaultWebPort = 7800
 )
 
