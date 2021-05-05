@@ -47,7 +47,7 @@ const (
 type WebCategory int
 
 const (
-	GeneratedDocPath = "doc/generated"
+	GeneratedDocPath = "docs/generated"
 )
 
 type DocId int
@@ -185,19 +185,15 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 		case DocManualChanges:
 			return GeneratedPath(lg, "changes") + ".md"
 		case DocManualCommand:
-			if nameOpts.CommandName != "" {
-				return GeneratedPath(lg, nameOpts.CommandName) + ".md"
-			} else {
-				return GeneratedPath(lg, "")
-			}
+			return WebDocPath(nameOpts.RefPath, WebCategoryCommand, nameOpts.CommandName, lg)
 		case DocSupplementalPathVariables:
-			return SupplementalDocPath(lg, "path_variables") + ".md"
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "path-variables", lg)
 		case DocSupplementalExperimentalFeature:
-			return SupplementalDocPath(lg, "experimental_features") + ".md"
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "experimental-features", lg)
 		case DocSupplementalTroubleshooting:
-			return SupplementalDocPath(lg, "troubleshooting") + ".md"
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
-			return SupplementalDocPath(lg, "dropbox_business") + ".md"
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
 		}
 
 	case MediaWeb:

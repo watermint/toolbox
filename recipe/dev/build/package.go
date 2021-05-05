@@ -151,7 +151,7 @@ func (z *Package) Exec(c app_control.Control) error {
 		return rc_exec.Exec(c, z.Up, func(r rc_recipe.Recipe) {
 			m := r.(*artifact.Up)
 			m.LocalPath = mo_path.NewFileSystemPath(pkgPath)
-			m.DropboxPath = mo_path2.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), "tbx-"+app.BuildId)))
+			m.DropboxPath = mo_path2.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app.BuildInfo.Branch, "tbx-"+app.BuildId)))
 			m.PeerName = "deploy"
 		})
 	}

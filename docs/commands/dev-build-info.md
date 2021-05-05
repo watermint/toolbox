@@ -36,12 +36,6 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options:
-
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-production` | Enable production build | false   |
-
 ## Common options:
 
 | Option            | Description                                                                               | Default              |
