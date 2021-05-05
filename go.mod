@@ -14,13 +14,17 @@ require (
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
 	github.com/eiannone/keyboard v0.0.0-20200508000154-caf4b762e807
 	github.com/gin-gonic/gin v1.6.3
+	github.com/go-git/go-git/v5 v5.3.0 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
+	github.com/golang/glog v0.0.0-20210429001901-424d2337a529 // indirect
 	github.com/google/go-cmp v0.5.4
+	github.com/google/go-licenses v0.0.0-20210329231322-ce1d9163b77d // indirect
 	github.com/google/go-querystring v1.0.0
 	github.com/google/uuid v1.1.4
 	github.com/iancoleman/strcase v0.1.2
 	github.com/json-iterator/go v1.1.10 // indirect
+	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-colorable v0.1.8
 	github.com/onsi/ginkgo v1.12.0 // indirect
@@ -41,14 +45,14 @@ require (
 	go.uber.org/atomic v1.7.0
 	go.uber.org/multierr v1.6.0
 	go.uber.org/zap v1.16.0
-	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
+	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
 	golang.org/x/exp v0.0.0-20201229011636-eab1b5eb1a03
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8
-	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect
+	golang.org/x/net v0.0.0-20210326060303-6b1517762897 // indirect
 	golang.org/x/oauth2 v0.0.0-20201208152858-08078c50e5b5
 	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a
-	golang.org/x/sys v0.0.0-20210105210732-16f7687f5001 // indirect
 	golang.org/x/term v0.0.0-20201210144234-2321bbc49cbf // indirect
 	golang.org/x/text v0.3.4
+	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

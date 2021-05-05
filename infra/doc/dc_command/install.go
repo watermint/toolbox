@@ -11,8 +11,8 @@ func NewInstall() dc_section.Section {
 }
 
 type Install struct {
-	Header              app_msg.Message
-	Instruction         app_msg.Message
+	Header      app_msg.Message
+	Instruction app_msg.Message
 }
 
 func (z Install) Title() app_msg.Message {

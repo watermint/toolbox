@@ -8,4 +8,5 @@ type Context interface {
 	api_context.Get
 	api_context.Put
 	api_context.Upload
+	api_context.Patch
 }

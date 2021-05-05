@@ -57,8 +57,8 @@ func (z launchImpl) recordStartLog(ctl app_control.Control) error {
 		JobId:        ctl.Workspace().JobId(),
 		TimeStart:    time.Now().Format(time.RFC3339),
 		AppName:      app.Name,
-		AppHash:      app.Hash,
-		AppVersion:   app.Version,
+		AppHash:      app.BuildInfo.Hash,
+		AppVersion:   app.BuildId,
 		RecipeValues: rv,
 	}
 	return sl.Write(z.wb.Workspace())
@@ -103,8 +103,8 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 
 	sm.Debug("Up completed",
 		esl.String("name", app.Name),
-		esl.String("ver", app.Version),
-		esl.String("hash", app.Hash),
+		esl.String("ver", app.BuildId),
+		esl.String("hash", app.BuildInfo.Hash),
 		esl.String("recipe", z.rcp.CliPath()),
 	)
 

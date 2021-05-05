@@ -38,6 +38,7 @@ func CompressPath(arcPath, targetPath, arcComment string) error {
 				w, err := arc.CreateHeader(&zip.FileHeader{
 					Name:     filepath.ToSlash(ep),
 					Comment:  e.Name(),
+					Method:   zip.Deflate,
 					Modified: e.ModTime(),
 				})
 				if err != nil {

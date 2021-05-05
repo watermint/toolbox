@@ -274,7 +274,7 @@ func (z *specValueSelfContained) New() rc_recipe.Spec {
 }
 
 func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
-	rc_group.UsageHeader(ui, z.Title(), app.Version)
+	rc_group.UsageHeader(ui, z.Title(), app.BuildId)
 
 	ui.Header(MSelfContained.RecipeHeaderUsage)
 	ui.Info(MSelfContained.RecipeUsage.

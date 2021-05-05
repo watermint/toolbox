@@ -38,10 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                                  | Default |
-|----------------|----------------------------------------------|---------|
-| `-dest-path`   | Dest path                                    |         |
-| `-source-path` | Path to licenses (go-licenses output folder) |         |
+| Option       | Description | Default |
+|--------------|-------------|---------|
+| `-dest-path` | Dest path   |         |
 
 ## Common options:
 

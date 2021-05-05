@@ -1,0 +1,49 @@
+---
+title: watermint toolbox
+lang: en
+---
+
+<!DOCTYPE html>
+<html lang="{{ page.lang }}">
+{% include head.html %}
+<body class="theme-base-09">
+{% include sidebar.html %}
+<div class="wrap">
+    {% include page_header.html %}
+    <div class="container content">
+        {% capture home_content %}{% include_relative home.md %}{% endcapture %}
+        {% capture home_content %}{{ home_content | markdownify }}{% endcapture %}
+        {% include anchor_headings.html html=home_content beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
+    </div>
+
+    <div class="container content">
+        {% include anchor_headings.html html='<h1>Recent releases</h1>' beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
+        <table>
+            <thead>
+            <tr>
+                <th>Release</th>
+                <th>Date</th>
+                <th>Download</th>
+                <th>Changes</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in paginator.posts %}
+            <tr>
+                <td class="post-title">
+                    <i class="bi bi-check-circle-fill"></i> <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title
+                    }}</a>
+                </td>
+                <td>{{ post.date | date_to_string: "ordinal", "UK" }}</td>
+                <td><i class="bi bi-github"></i> <a href="{{ post.release_page }}">{{ post.title }}</a></td>
+                <td><i class="bi bi-card-text"></i> <a href="releases/changes{{ post.release }}.html">Release {{ post.release }}</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% include page_footer.html %}
+</div>
+{% include sidebar_toggle.html %}}
+</body>
+</html>

@@ -132,7 +132,7 @@ func VerifyMessages(ctl app_control.Control) error {
 }
 
 func verifyGroup(g rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.Version)
+	g.PrintUsage(ui, os.Args[0], app.BuildId)
 	for _, sg := range g.SubGroups() {
 		verifyGroup(sg, ui)
 	}

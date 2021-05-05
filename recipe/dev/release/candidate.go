@@ -5,8 +5,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -15,6 +17,7 @@ import (
 	"github.com/watermint/toolbox/recipe/dev/build"
 	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
+	"path/filepath"
 )
 
 type Candidate struct {
@@ -22,7 +25,9 @@ type Candidate struct {
 	rc_recipe.RemarkSecret
 	Auth      *auth.Connect
 	Recipe    *test.Recipe
+	Doc       *Doc
 	Preflight *build.Preflight
+	License   *build.License
 }
 
 func (z *Candidate) Preset() {
@@ -77,14 +82,33 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 func (z *Candidate) Exec(c app_control.Control) error {
 	l := c.Log()
 
+	prjBase, err := es_project.DetectRepositoryRoot()
+	if err != nil {
+		return err
+	}
+
 	l.Info("Verify translations")
 	if err := z.verifyMessages(c); err != nil {
 		return err
 	}
 
 	l.Info("Preview process")
-	err := rc_exec.Exec(c, z.Preflight, rc_recipe.NoCustomValues)
+	err = rc_exec.Exec(c, z.Preflight, rc_recipe.NoCustomValues)
 	if err != nil {
+		return err
+	}
+
+	l.Info("Update license information")
+	err = rc_exec.Exec(c, z.License, func(r rc_recipe.Recipe) {
+		m := r.(*build.License)
+		m.DestPath = mo_path.NewFileSystemPath(filepath.Join(prjBase, "resources/data/licenses.json"))
+	})
+	if err != nil {
+		return err
+	}
+
+	l.Info("Update release documents")
+	if err = rc_exec.Exec(c, z.Doc, rc_recipe.NoCustomValues); err != nil {
 		return err
 	}
 

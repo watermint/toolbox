@@ -7,12 +7,13 @@ tagline: "The multi-purpose utility command-line tool for web services"
 description: 'The multi-purpose utility command-line tool for web services.'
 
 url: 'https://toolbox.watermint.org'
-
-# Url
-paginate: 5
+future: true
 
 # Markdown
 markdown: kramdown
+
+# Paginate
+paginate: 5
 
 kramdown:
   input: GFM
@@ -26,5 +27,5 @@ author:
 
 # Plugins
 plugins:
-  - jekyll-paginate
   - jekyll-sitemap
+  - jekyll-paginate

@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"bytes"
 	"compress/gzip"
 	"encoding/json"
 	"github.com/google/go-cmp/cmp"
@@ -21,6 +22,17 @@ import (
 	"sort"
 	"strings"
 	"sync"
+	"text/template"
+)
+
+const (
+	changesHeader = `---
+layout: release
+title: {{.Title}}
+lang: {{.Lang}}
+---
+
+`
 )
 
 type Diff struct {
@@ -31,6 +43,7 @@ type Diff struct {
 	FilePath            mo_string.OptionalString
 	ReleaseCurrent      app_msg.Message
 	ReleaseVersion      app_msg.Message
+	DocTitle            app_msg.Message
 	DocHeader           app_msg.Message
 	SpecAdded           app_msg.Message
 	SpecDeleted         app_msg.Message
@@ -57,7 +70,7 @@ func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*dc
 	if relName != "" {
 		fn = "spec_" + relName + ".json.gz"
 	}
-	p := filepath.Join("doc/generated", fn)
+	p := filepath.Join("resources/release/"+c.Messages().Lang().CodeString(), fn)
 	l := c.Log().With(esl.String("path", p))
 	l.Debug("Loading")
 
@@ -280,7 +293,23 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 		return c.UI().Text(z.ReleaseVersion.With("Release", strings.Replace(x, "_", "", 1)))
 	}
 
-	mui := app_ui.NewMarkdown(c.Messages(), c.Log(), w, es_dialogue.DenyAll())
+	buf := bytes.Buffer{}
+
+	changeTmpl, err := template.New("release_header").Parse(changesHeader)
+	if err != nil {
+		l.Debug("Unable to compile the template", esl.Error(err))
+		return err
+	}
+	err = changeTmpl.Execute(&buf, map[string]interface{}{
+		"Title": c.UI().Text(z.DocTitle.With("Release", z.Release1.Value())),
+		"Lang":  c.Messages().Lang().CodeString(),
+	})
+	if err != nil {
+		l.Debug("Unable to exec the template", esl.Error(err))
+		return err
+	}
+
+	mui := app_ui.NewMarkdown(c.Messages(), c.Log(), &buf, es_dialogue.DenyAll())
 	mui.Header(z.DocHeader.With("Release1", relName(z.Release1.Value())).With("Release2", relName(z.Release2.Value())))
 
 	if len(added) > 0 {
@@ -317,6 +346,11 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	sort.Strings(changed)
 	for _, r := range changed {
 		z.diffSpec(mui, r1[r], r2[r])
+	}
+
+	content := strings.ReplaceAll(buf.String(), "{{.", "{% raw %}{{.{% endraw %}")
+	if _, err = w.Write([]byte(content)); err != nil {
+		return err
 	}
 
 	return nil

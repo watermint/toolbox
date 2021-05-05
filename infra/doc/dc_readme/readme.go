@@ -40,9 +40,7 @@ func (z Readme) Sections() []dc_section.Section {
 	sections = append(sections, NewSecuritySection())
 	sections = append(sections, NewUsage())
 	if z.forPublish {
-		sections = append(sections, NewDropboxBusiness())
 		sections = append(sections, NewCommand(z.forPublish, z.media, z.mc))
-		sections = append(sections, NewSupplemental())
 	}
 
 	for i := 0; i < len(sections); i++ {

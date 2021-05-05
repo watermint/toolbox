@@ -7,9 +7,9 @@
     </div>
     <nav class="sidebar-nav">
         {% if page.lang != "en" %}
-        <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.url }}/{{ page.lang }}" title="Home">{{ site.title }}</a>
+        <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.url }}/{{ page.lang }}" title="Home"><img src="{{ site.url }}/images/logo_white.png" /></a>
         {% else %}
-        <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.url }}" title="Home">{{ site.title }}</a>
+        <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.url }}" title="Home"><img src="{{ site.url }}/images/logo_white.png" /></a>
         {% endif %}
         {% assign pages_list = site.pages | sort:"url" %}
         {% for node in pages_list %}

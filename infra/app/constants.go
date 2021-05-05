@@ -56,6 +56,12 @@ const (
 
 	// Env variable name for toolbox home
 	EnvNameToolboxHome = "TOOLBOX_HOME"
+
+	// Env variable name for build signature
+	EnvNameToolboxBuilderKey = "TOOLBOX_BUILDERKEY"
+
+	// Env variable name for build app keys data
+	EnvNameToolboxAppKeys = "TOOLBOX_APPKEYS"
 )
 
 // Document

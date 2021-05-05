@@ -1,0 +1,12 @@
+<div class="masthead">
+    <div class="container">
+        <h3 class="masthead-title">
+            {% if page.lang != "en" %}
+            <a href="{{ site.url }}/{{ page.lang }}" title="Home">{{ site.title }}</a>
+            {% else %}
+            <a href="{{ site.url }}" title="Home">{{ site.title }}</a>
+            {% endif %}
+            <small>- {{ site.tagline }}</small>
+        </h3>
+    </div>
+</div>

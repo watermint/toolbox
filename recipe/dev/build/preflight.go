@@ -17,18 +17,10 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
-	"github.com/watermint/toolbox/recipe/dev/spec"
-	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
-	"strconv"
-	"strings"
-)
-
-const (
-	minimumSpecDocVersion = 59
 )
 
 type Preflight struct {
@@ -86,17 +78,6 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 
 func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) error {
 	l := c.Log()
-	whiteList := func(name string) bool {
-		nameLower := strings.ToLower(name)
-		switch {
-		case nameLower == "changes.md":
-			return true
-		case strings.HasPrefix(nameLower, "spec") && strings.HasSuffix(nameLower, ".json.gz"):
-			return true
-		default:
-			return false
-		}
-	}
 
 	entries, err := ioutil.ReadDir(path)
 	if err != nil {
@@ -104,67 +85,21 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 	}
 
 	for _, e := range entries {
-		if !whiteList(e.Name()) {
-			p := filepath.Join(path, e.Name())
-			if c.Feature().IsTest() {
-				continue
-			}
-			err := os.Remove(p)
-			if err != nil {
-				l.Error("Unable to remove file", esl.Error(err), esl.String("path", p))
-				return nil
-			}
+		p := filepath.Join(path, e.Name())
+		if c.Feature().IsTest() {
+			continue
+		}
+		err := os.Remove(p)
+		if err != nil {
+			l.Error("Unable to remove file", esl.Error(err), esl.String("path", p))
+			return nil
 		}
 	}
 	return nil
 }
 
-func (z *Preflight) cloneSpec(c app_control.Control, path string, release int) error {
-	l := c.Log()
-	if c.Feature().IsTest() {
-		l.Debug("Skip for test")
-		return nil
-	}
-	src := filepath.Join(path, "spec.json.gz")
-	dst := filepath.Join(path, fmt.Sprintf("spec_%d.json.gz", release))
-
-	s, err := os.Open(src)
-	if err != nil {
-		l.Error("Unable to open current spec file", esl.Error(err))
-		return err
-	}
-	defer func() {
-		_ = s.Close()
-	}()
-	d, err := os.Create(dst)
-	if err != nil {
-		l.Error("Unable to create version spec file", esl.Error(err))
-		return err
-	}
-	defer func() {
-		_ = d.Close()
-	}()
-
-	_, err = io.Copy(d, s)
-	return err
-}
-
 func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
-
-	release := 0
-	if !c.Feature().IsTest() {
-		v, err := ioutil.ReadFile("version")
-		if err != nil {
-			l.Error("Unable to read version file", esl.Error(err))
-			return err
-		}
-		release, err = strconv.Atoi(string(v))
-		if err != nil {
-			l.Error("Unable to parse version number", esl.Error(err))
-			return err
-		}
-	}
 
 	for _, la := range lang.Supported {
 		langCode := la.CodeString()
@@ -174,14 +109,9 @@ func (z *Preflight) Exec(c app_control.Control) error {
 			webLangPath = ""
 		}
 
-		path := fmt.Sprintf("doc/generated%s/", suffix)
 		ll := l.With(esl.String("lang", langCode), esl.String("suffix", suffix))
 
 		if !c.Feature().IsTest() {
-			ll.Info("Clean up generated document folder")
-			if err := z.deleteOldGeneratedFiles(c, path); err != nil {
-				return err
-			}
 			ll.Info("Clean up docs/{lang}/commands folder")
 			if err := z.deleteOldGeneratedFiles(c, fmt.Sprintf("docs/%scommands", webLangPath)); err != nil {
 				return err
@@ -202,38 +132,8 @@ func (z *Preflight) Exec(c app_control.Control) error {
 				return err
 			}
 
-			ll.Info("Generating Spec document")
-			err = rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
-				rr := r.(*spec.Doc)
-				rr.Lang = mo_string.NewOptional(langCode)
-				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "spec.json.gz"))
-			})
-			if err != nil {
-				l.Error("Failed to generate documents", esl.Error(err))
-				return err
-			}
 			l.Info("Verify message resources")
 			if err := qt_messages.VerifyMessages(c); err != nil {
-				return err
-			}
-		}
-
-		ll.Info("Clone spec")
-		if err := z.cloneSpec(c, path, release); err != nil {
-			return err
-		}
-
-		if !c.Feature().IsTest() && minimumSpecDocVersion < release {
-			ll.Info("Generating release changes")
-			err := rc_exec.Exec(c, &spec.Diff{}, func(r rc_recipe.Recipe) {
-				rr := r.(*spec.Diff)
-				rr.DocLang = mo_string.NewOptional(langCode)
-				rr.Release1 = mo_string.NewOptional(fmt.Sprintf("%d", release-1))
-				rr.Release2 = mo_string.NewOptional(fmt.Sprintf("%d", release))
-				rr.FilePath = mo_string.NewOptional(filepath.Join(path, "changes.md"))
-			})
-			if err != nil {
-				l.Error("Failed to generate documents", esl.Error(err))
 				return err
 			}
 		}

@@ -182,7 +182,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	go trapSignal(sig, ctl)
 
 	// App Header
-	rc_group.AppHeader(ui, app.Version)
+	rc_group.AppHeader(ui, app.BuildId)
 
 	// Global settings
 	nw_proxy.Setup("https://api.dropboxapi.com", com.Proxy.Value(), ctl.Log())
@@ -206,14 +206,6 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		}
 	}
 
-	// Apply profiler
-	if com.Debug {
-		defer profile.Start(
-			profile.ProfilePath(ctl.Workspace().Log()),
-			profile.MemProfile,
-		).Stop()
-	}
-
 	// Bootstrap recipe
 	if err := rc_exec.Exec(ctl, &bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {
 		ctl.Log().Error("Bootstrap failed with an error", esl.Error(err))
@@ -222,10 +214,29 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		app_exit.Abort(app_exit.FailureGeneral)
 	}
 
+	// Apply profiler
+	var prof interface{ Stop() }
+	if ctl.Feature().IsDebug() || ctl.Feature().Experiment(app.ExperimentProfileMemory) {
+		prof = profile.Start(
+			profile.ProfilePath(ctl.Workspace().Log()),
+			profile.MemProfile,
+		)
+	} else if ctl.Feature().Experiment(app.ExperimentProfileCpu) {
+		prof = profile.Start(
+			profile.ProfilePath(ctl.Workspace().Log()),
+			profile.CPUProfile,
+		)
+	}
+
 	// Run
 	var lastErr error
 	ctl.WorkBundle().Summary().Logger().Debug("Run recipe", esl.Any("vo", rcp.Debug()), esl.Any("common", com))
 	lastErr = rc_exec.ExecSpec(ctl, rcp, rc_recipe.NoCustomValues)
+
+	// stop the profiler
+	if prof != nil {
+		prof.Stop()
+	}
 
 	// shutdown job
 	jl.Down(lastErr, ctl)
@@ -278,14 +289,14 @@ func (z *bsImpl) Parse(args ...string) (rcp rc_recipe.Spec, com *rc_spec.CommonV
 	case err != nil:
 		ui.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
 		if grp != nil {
-			grp.PrintUsage(ui, os.Args[0], app.Version)
+			grp.PrintUsage(ui, os.Args[0], app.BuildId)
 		} else {
-			rg.PrintUsage(ui, os.Args[0], app.Version)
+			rg.PrintUsage(ui, os.Args[0], app.BuildId)
 		}
 		app_exit.Abort(app_exit.FailureInvalidCommand)
 
 	case rcp == nil:
-		grp.PrintUsage(ui, os.Args[0], app.Version)
+		grp.PrintUsage(ui, os.Args[0], app.BuildId)
 		app_exit.ExitSuccess()
 	}
 

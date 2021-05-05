@@ -109,6 +109,7 @@ import (
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
+	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
@@ -133,7 +134,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevbenchmark.Uploadlink{},
 		&recipedevbuild.Catalogue{},
 		&recipedevbuild.Doc{},
+		&recipedevbuild.Info{},
 		&recipedevbuild.License{},
+		&recipedevbuild.Package{},
 		&recipedevbuild.Preflight{},
 		&recipedevbuild.Readme{},
 		&recipedevciartifact.Connect{},
@@ -145,6 +148,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Dump{},
 		&recipedevrelease.Candidate{},
+		&recipedevrelease.Doc{},
 		&recipedevrelease.Publish{},
 		&recipedevreplay.Approve{},
 		&recipedevreplay.Bundle{},
@@ -348,6 +352,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutildecode.Base64{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
+		&recipeutilgit.Clone{},
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
 		&recipeutiltime.Now{},

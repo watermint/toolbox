@@ -94,7 +94,7 @@ func (z *Gui) Exec(c app_control.Control) error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	sessionAgent := fmt.Sprintf("%s/%s (Session%s)", app.Name, app.Version, sc_random.MustGetSecureRandomString(8))
+	sessionAgent := fmt.Sprintf("%s/%s (Session%s)", app.Name, app.BuildId, sc_random.MustGetSecureRandomString(8))
 
 	backend := &Server{
 		ctl:               c,

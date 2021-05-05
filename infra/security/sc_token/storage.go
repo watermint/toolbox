@@ -20,7 +20,7 @@ type Storage interface {
 }
 
 func storagePath(c app_control.Control, peerName, scope, suffix string) string {
-	s := sha256.Sum224([]byte(peerName + scope + app.BuilderKey))
+	s := sha256.Sum224([]byte(peerName + scope + app.BuildInfo.Xap))
 	return filepath.Join(c.Workspace().Secrets(), fmt.Sprintf("%x.%s", s, suffix))
 }
 

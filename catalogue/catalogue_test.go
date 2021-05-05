@@ -25,7 +25,7 @@ func TestCatalogue(t *testing.T) {
 }
 
 func testGroup(g rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.Version)
+	g.PrintUsage(ui, os.Args[0], app.BuildId)
 	for _, sg := range g.SubGroups() {
 		testGroup(sg, ui)
 	}
