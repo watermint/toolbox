@@ -8,7 +8,7 @@ import (
 
 func TestLimitStateImpl_AddError(t *testing.T) {
 	shortWait := 100 * time.Millisecond
-	longWait := 200 * time.Millisecond
+	longWait := 400 * time.Millisecond
 	newState := func() *limitStateImpl {
 		ls := newLimitState().(*limitStateImpl)
 		ls.durationShortWait = shortWait
