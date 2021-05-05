@@ -73,6 +73,14 @@ func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_re
 	return z.client.Call(&z, b)
 }
 
+func (z ctxImpl) Patch(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+	b := z.builder.With(
+		http.MethodPatch,
+		ServerRpc+endpoint,
+		api_request.Combine(d))
+	return z.client.Call(&z, b)
+}
+
 func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodGet,

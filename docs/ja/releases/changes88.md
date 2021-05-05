@@ -1,6 +1,6 @@
 ---
 layout: release
-title: Changes of Release 87
+title: リリースの変更点: 87
 lang: ja
 ---
 

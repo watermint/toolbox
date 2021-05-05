@@ -10,5 +10,5 @@ type Release struct {
 	TagName string `path:"tag_name" json:"tag_name"`
 	Name    string `path:"name" json:"name"`
 	Draft   bool   `path:"draft" json:"draft"`
-	Url     string `path:"url" json:"url"`
+	Url     string `path:"html_url" json:"url"`
 }

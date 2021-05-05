@@ -6,7 +6,7 @@ lang: ja
 
 # dev build package
 
-Package a build 
+ビルドのパッケージ化 
 
 # インストール
 
@@ -38,12 +38,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                                    | デフォルト |
-|----------------|-----------------------------------------|------------|
-| `-build-path`  | Full path to the binary                 |            |
-| `-deploy-path` | Deploy destination folder path (remote) |            |
-| `-dest-path`   | Package destination folder path (local) |            |
-| `-platform`    | Platform name like win/linux/mac        |            |
+| オプション     | 説明                                       | デフォルト |
+|----------------|--------------------------------------------|------------|
+| `-build-path`  | バイナリへのフルパス                       |            |
+| `-deploy-path` | デプロイ先フォルダパス(リモート)           |            |
+| `-dest-path`   | パッケージの保存先フォルダのパス(ローカル) |            |
+| `-platform`    | win/linux/macなどのプラットフォーム名      |            |
 
 ## 共通のオプション:
 

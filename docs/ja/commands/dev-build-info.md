@@ -6,7 +6,7 @@ lang: ja
 
 # dev build info
 
-Generate build information file 
+ビルド情報ファイルを生成 
 
 # インストール
 

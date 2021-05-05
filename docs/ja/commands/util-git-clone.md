@@ -6,7 +6,7 @@ lang: ja
 
 # util git clone
 
-Clone git repository 
+git リポジトリをクローン 
 
 # インストール
 
@@ -38,12 +38,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                | デフォルト |
-|----------------|---------------------|------------|
-| `-local-path`  | Local path to clone |            |
-| `-reference`   | Reference name      |            |
-| `-remote-name` | Name of the remote  | origin     |
-| `-url`         | Git repository url  |            |
+| オプション     | 説明                           | デフォルト |
+|----------------|--------------------------------|------------|
+| `-local-path`  | クローンを作成するローカルパス |            |
+| `-reference`   | リファレンス名                 |            |
+| `-remote-name` | リモートの名前                 | origin     |
+| `-url`         | GitリポジトリのURL             |            |
 
 ## 共通のオプション:
 

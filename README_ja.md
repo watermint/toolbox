@@ -302,7 +302,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util decode base_64](docs/ja/commands/util-decode-base_64.md)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
 | [util encode base_32](docs/ja/commands/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base_64](docs/ja/commands/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util git clone](docs/ja/commands/util-git-clone.md)                 | Clone git repository                                                   |
+| [util git clone](docs/ja/commands/util-git-clone.md)                 | git リポジトリをクローン                                               |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)             | WIFI設定用のQRコードを生成                                             |
 | [util time now](docs/ja/commands/util-time-now.md)                   | 現在の時刻を表示                                                       |

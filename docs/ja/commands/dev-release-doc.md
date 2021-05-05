@@ -6,7 +6,7 @@ lang: ja
 
 # dev release doc
 
-Generate release documents 
+リリースドキュメントの作成 
 
 # セキュリティ
 

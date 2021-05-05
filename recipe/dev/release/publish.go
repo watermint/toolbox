@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
+	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
@@ -43,7 +44,7 @@ var (
 const (
 	homebrewRepoOwner  = "watermint"
 	homebrewRepoName   = "homebrew-toolbox"
-	homebrewRepoBranch = "current"
+	homebrewRepoBranch = "master"
 )
 
 type Publish struct {
@@ -290,31 +291,40 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 	return rel, nil
 }
 
-func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) error {
+func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) (uploaded map[string]*mo_release_asset.Asset, err error) {
 	l := c.Log()
 	assets, _, err := z.artifactAssets(c)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	sva := sv_release_asset.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName, rel.Id)
+	uploaded = make(map[string]*mo_release_asset.Asset)
 	for _, p := range assets {
 		l.Info("Uploading asset", esl.String("path", p))
 		a, err := sva.Upload(mo_path2.NewExistingFileSystemPath(p))
 		if err != nil && err != qt_errors.ErrorMock {
-			return err
+			return nil, err
 		}
 		if err == qt_errors.ErrorMock {
 			continue
 		}
 		l.Info("Uploaded", esl.Any("asset", a.Name))
-		if strings.Contains(a.Name, "mac") {
-			l.Info("updating Homebrew formula", esl.String("asset", a.Name))
-			if err := z.updateHomebrewFormula(c, p); err != nil {
-				return err
-			}
-		}
+		uploaded[p] = a
 	}
+	return uploaded, nil
+}
+
+func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Release) error {
+	l := c.Log()
+	svr := sv_release.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
+	published, err := svr.Publish(release.Id)
+	if err != nil {
+		l.Warn("Unable to publish the release", esl.Error(err))
+		return err
+	}
+
+	l.Info("Release published", esl.Any("release", published))
 	return nil
 }
 
@@ -372,7 +382,8 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	if err := z.uploadAssets(c, rel); err != nil {
+	assets, err := z.uploadAssets(c, rel)
+	if err != nil {
 		return err
 	}
 
@@ -380,6 +391,20 @@ func (z *Publish) Exec(c app_control.Control) error {
 		l.Warn("The build does not satisfy release criteria")
 		return ErrorBuildIsNotReadyForRelease
 	}
+
+	if err := z.publishRelease(c, rel); err != nil {
+		return err
+	}
+
+	for p, a := range assets {
+		if strings.Contains(a.Name, "mac") {
+			l.Info("updating Homebrew formula", esl.String("asset", a.Name))
+			if err := z.updateHomebrewFormula(c, p); err != nil {
+				return err
+			}
+		}
+	}
+
 	l.Info("The build is ready to publish")
 	return nil
 }

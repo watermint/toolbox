@@ -16,6 +16,7 @@ type Release interface {
 	Get(tagName string) (release *mo_release.Release, err error)
 	List() (releases []*mo_release.Release, err error)
 	CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error)
+	Publish(releaseId string) (release *mo_release.Release, err error)
 }
 
 func New(ctx gh_context.Context, owner, repo string) Release {
@@ -59,6 +60,22 @@ func (z *releaseImpl) CreateDraft(tagName, name, body, branch string) (release *
 		Draft:           true,
 	}
 	res := z.ctx.Post(endpoint, api_request.Param(&p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	release = &mo_release.Release{}
+	err = res.Success().Json().Model(release)
+	return
+}
+
+func (z *releaseImpl) Publish(releaseId string) (release *mo_release.Release, err error) {
+	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/" + releaseId
+	p := struct {
+		Draft bool `json:"draft"`
+	}{
+		Draft: false,
+	}
+	res := z.ctx.Patch(endpoint, api_request.Param(&p))
 	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
