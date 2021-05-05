@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev ci auth connect
+# team sharedlink cap visibility
 
-エンドツーエンドテストのための認証 
+チーム内の共有リンクに可視性の上限を設定 (非可逆な操作です)
 
 # セキュリティ
 
@@ -22,17 +22,19 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Dropbox Business: チームメンバーの確認                      |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理 |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧    |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -43,7 +45,7 @@ watermint toolbox xx.x.xxx
 
 1. 次のURLを開き認証ダイアログを開いてください:
 
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
 
 2. 'Allow'をクリックします (先にログインしておく必要があります):
 3. 認証コードをコピーします:
@@ -64,12 +66,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev ci auth connect 
+.\tbx.exe team sharedlink cap visibility -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev ci auth connect 
+$HOME/Desktop/tbx team sharedlink cap visibility -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,9 +82,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                           | デフォルト |
-|------------|------------------------------------------------|------------|
-| `-github`  | GitHubへのデプロイメントのためのアカウント別名 | deploy     |
+| オプション        | 説明                   | デフォルト |
+|-------------------|------------------------|------------|
+| `-file`           | データファイルへのパス |            |
+| `-new-visibility` | 新しい視認性設定       | team_only  |
+| `-peer`           | アカウントの別名       | default    |
 
 ## 共通のオプション:
 
@@ -102,6 +106,56 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
+
+# ファイル書式
+
+## 書式: File
+
+対象となる共有リンク
+
+| 列  | 説明            | 例                                       |
+|-----|-----------------|------------------------------------------|
+| url | 共有リンクのURL | https://www.dropbox.com/scl/fo/fir9vjelf |
+
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
+```
+url
+https://www.dropbox.com/scl/fo/fir9vjelf
+```
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: operation_log
+
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+
+| 列                | 説明                                   |
+|-------------------|----------------------------------------|
+| status            | 処理の状態                             |
+| reason            | 失敗またはスキップの理由               |
+| input.url         | 共有リンクのURL                        |
+| result.tag        | エントリーの種別 (file, または folder) |
+| result.url        | 共有リンクのURL.                       |
+| result.name       | リンク先ファイル名称                   |
+| result.expires    | 有効期限 (設定されている場合)          |
+| result.path_lower | パス (すべて小文字に変換).             |
+| result.visibility | 共有リンクの開示範囲                   |
+| result.email      | ユーザーのメールアドレス               |
+| result.surname    | リンク所有者の名字                     |
+| result.given_name | リンク所有者の名                       |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

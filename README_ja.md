@@ -186,6 +186,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [team namespace file size](docs/ja/commands/team-namespace-file-size.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
 | [team namespace list](docs/ja/commands/team-namespace-list.md)                             | チーム内すべての名前空間を一覧                                                         |
 | [team namespace member list](docs/ja/commands/team-namespace-member-list.md)               | チームフォルダ以下のファイル・フォルダを一覧                                           |
+| [team sharedlink cap expiry](docs/ja/commands/team-sharedlink-cap-expiry.md)               | チーム内の共有リンクに有効期限の上限を設定                                             |
+| [team sharedlink cap visibility](docs/ja/commands/team-sharedlink-cap-visibility.md)       | チーム内の共有リンクに可視性の上限を設定                                               |
 | [team sharedlink delete links](docs/ja/commands/team-sharedlink-delete-links.md)           | 共有リンクの一括削除                                                                   |
 | [team sharedlink delete member](docs/ja/commands/team-sharedlink-delete-member.md)         | メンバーの共有リンクをすべて削除                                                       |
 | [team sharedlink list](docs/ja/commands/team-sharedlink-list.md)                           | 共有リンクの一覧                                                                       |

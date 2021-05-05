@@ -110,6 +110,8 @@ lang: ja
 | [team namespace file size]({{ site.baseurl }}/ja/commands/team-namespace-file-size.html)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
 | [team namespace list]({{ site.baseurl }}/ja/commands/team-namespace-list.html)                             | チーム内すべての名前空間を一覧                                                         |
 | [team namespace member list]({{ site.baseurl }}/ja/commands/team-namespace-member-list.html)               | チームフォルダ以下のファイル・フォルダを一覧                                           |
+| [team sharedlink cap expiry]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-expiry.html)               | チーム内の共有リンクに有効期限の上限を設定                                             |
+| [team sharedlink cap visibility]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-visibility.html)       | チーム内の共有リンクに可視性の上限を設定                                               |
 | [team sharedlink delete links]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-links.html)           | 共有リンクの一括削除                                                                   |
 | [team sharedlink delete member]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-member.html)         | メンバーの共有リンクをすべて削除                                                       |
 | [team sharedlink list]({{ site.baseurl }}/ja/commands/team-sharedlink-list.html)                           | 共有リンクの一覧                                                                       |

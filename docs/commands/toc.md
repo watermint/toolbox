@@ -110,6 +110,8 @@ lang: en
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)                   | List all files and folders of the team namespaces                         |
 | [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)                             | List all namespaces of the team                                           |
 | [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html)               | List members of shared folders and team folders in the team               |
+| [team sharedlink cap expiry]({{ site.baseurl }}/commands/team-sharedlink-cap-expiry.html)               | Set expiry cap to shared links in the team                                |
+| [team sharedlink cap visibility]({{ site.baseurl }}/commands/team-sharedlink-cap-visibility.html)       | Set visibility cap to shared links in the team                            |
 | [team sharedlink delete links]({{ site.baseurl }}/commands/team-sharedlink-delete-links.html)           | Batch delete shared links                                                 |
 | [team sharedlink delete member]({{ site.baseurl }}/commands/team-sharedlink-delete-member.html)         | Delete all shared links of the member                                     |
 | [team sharedlink list]({{ site.baseurl }}/commands/team-sharedlink-list.html)                           | List of shared links                                                      |

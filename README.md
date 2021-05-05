@@ -188,6 +188,8 @@ Available commands:
 | [team namespace file size](docs/commands/team-namespace-file-size.md)                   | List all files and folders of the team namespaces                         |
 | [team namespace list](docs/commands/team-namespace-list.md)                             | List all namespaces of the team                                           |
 | [team namespace member list](docs/commands/team-namespace-member-list.md)               | List members of shared folders and team folders in the team               |
+| [team sharedlink cap expiry](docs/commands/team-sharedlink-cap-expiry.md)               | Set expiry cap to shared links in the team                                |
+| [team sharedlink cap visibility](docs/commands/team-sharedlink-cap-visibility.md)       | Set visibility cap to shared links in the team                            |
 | [team sharedlink delete links](docs/commands/team-sharedlink-delete-links.md)           | Batch delete shared links                                                 |
 | [team sharedlink delete member](docs/commands/team-sharedlink-delete-member.md)         | Delete all shared links of the member                                     |
 | [team sharedlink list](docs/commands/team-sharedlink-list.md)                           | List of shared links                                                      |

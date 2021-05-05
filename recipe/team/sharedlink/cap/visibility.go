@@ -1,14 +1,13 @@
-package update
+package cap
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
-	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -16,24 +15,22 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/ingredient/team/sharedlink"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
-	"time"
 )
 
-type Expiry struct {
+type Visibility struct {
 	rc_recipe.RemarkIrreversible
-	Peer         dbx_conn.ConnScopedTeam
-	At           mo_time.Time
-	File         fd_file.RowFeed
-	OperationLog rp_model.TransactionReport
-	NoChange     app_msg.Message
-	LinkNotFound app_msg.Message
-	Updater      *sharedlink.Update
+	Peer          dbx_conn.ConnScopedTeam
+	NewVisibility mo_string.SelectString
+	File          fd_file.RowFeed
+	OperationLog  rp_model.TransactionReport
+	LinkNotFound  app_msg.Message
+	NoChange      app_msg.Message
+	Updater       *sharedlink.Update
 }
 
-func (z *Expiry) Preset() {
+func (z *Visibility) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeMembersRead,
 		dbx_auth.ScopeSharingWrite,
@@ -50,30 +47,68 @@ func (z *Expiry) Preset() {
 			"result.status",
 		),
 	)
+	z.NewVisibility.SetOptions(
+		"team_only",
+		"team_only",
+	)
 }
 
-func (z *Expiry) Exec(c app_control.Control) error {
+const (
+	levelPublic = iota
+	levelTeamOnly
+	levelPassword
+	levelTeamAndPassword
+	levelSharedFolderOnly
+	levelNoOne
+	levelUnknown
+)
+
+func visibilityLevel(l esl.Logger, visibility string) int {
+	switch visibility {
+	case "public":
+		return levelPublic
+	case "team_only":
+		return levelTeamOnly
+	case "password":
+		return levelPassword
+	case "team_and_password":
+		return levelTeamAndPassword
+	case "shared_folder_only":
+		return levelSharedFolderOnly
+	case "no_one":
+		return levelNoOne
+	default:
+		l.Warn("Unknown visibility value", esl.String("visibility", visibility))
+		return levelUnknown
+	}
+}
+
+func (z *Visibility) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-	newExpiry := z.At.Time()
-	newExpiryStr := dbx_util.ToApiTimeString(newExpiry)
+	newLevel := visibilityLevel(l, z.NewVisibility.Value())
 	updateOpts := uc_team_sharedlink.UpdateOpts{
 		Filter: func(target *uc_team_sharedlink.Target) bool {
-			return target.Entry.Expires != newExpiryStr
+			targetLevel := visibilityLevel(l, target.Entry.Visibility)
+			return targetLevel < newLevel
 		},
 		Opts: func(target *uc_team_sharedlink.Target) (opts []sv_sharedlink.LinkOpt) {
-			return []sv_sharedlink.LinkOpt{
-				sv_sharedlink.Expires(newExpiry),
+			if z.NewVisibility.Value() == "team_only" {
+				return []sv_sharedlink.LinkOpt{
+					sv_sharedlink.TeamOnly(),
+				}
+			} else {
+				return []sv_sharedlink.LinkOpt{}
 			}
 		},
 		OnMissing: func(url string) {
 			z.OperationLog.Skip(z.LinkNotFound, &uc_team_sharedlink.TargetLinks{Url: url})
 		},
 		OnSkip: func(target *uc_team_sharedlink.Target) {
-			l.Debug("Skipped", esl.String("curExpiry", target.Entry.Expires), esl.String("newExpiry", newExpiryStr))
+			l.Debug("Skipped", esl.String("curVisibility", target.Entry.Visibility), esl.String("newExpiry", z.NewVisibility.Value()))
 			z.OperationLog.Skip(z.NoChange, &uc_team_sharedlink.TargetLinks{
 				Url: target.Entry.Url,
 			})
@@ -101,7 +136,7 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	})
 }
 
-func (z *Expiry) Test(c app_control.Control) error {
+func (z *Visibility) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFile("links", "https://www.dropbox.com/scl/fo/fir9vjelf\nhttps://www.dropbox.com/scl/fo/fir9vjelg")
 	if err != nil {
 		return err
@@ -109,17 +144,8 @@ func (z *Expiry) Test(c app_control.Control) error {
 	defer func() {
 		_ = os.Remove(f)
 	}()
-
-	{
-		err := rc_exec.ExecMock(c, &Expiry{}, func(r rc_recipe.Recipe) {
-			m := r.(*Expiry)
-			m.File.SetFilePath(f)
-			m.At = mo_time.NewOptional(time.Now().Add(1 * 1000 * time.Millisecond))
-		})
-		if e, _ := qt_errors.ErrorsForTest(c.Log(), err); e != nil {
-			return e
-		}
-	}
-
-	return nil
+	return rc_exec.ExecMock(c, &Visibility{}, func(r rc_recipe.Recipe) {
+		m := r.(*Visibility)
+		m.File.SetFilePath(f)
+	})
 }

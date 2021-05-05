@@ -1,6 +1,6 @@
 ---
 layout: release
-title: リリースの変更点 68
+title: リリースの変更点: 68
 lang: ja
 ---
 

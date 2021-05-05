@@ -174,11 +174,21 @@ lang: ja
 | コマンド                                                                                                   | 説明                                                           |
 |------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|
 | [team sharedlink list]({{ site.baseurl }}/ja/commands/team-sharedlink-list.html)                           | 共有リンクの一覧                                               |
+| [team sharedlink cap expiry]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-expiry.html)               | チーム内の共有リンクに有効期限の上限を設定                     |
+| [team sharedlink cap visibility]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-visibility.html)       | チーム内の共有リンクに可視性の上限を設定                       |
 | [team sharedlink update expiry]({{ site.baseurl }}/ja/commands/team-sharedlink-update-expiry.html)         | チーム内の公開されている共有リンクについて有効期限を更新します |
 | [team sharedlink update password]({{ site.baseurl }}/ja/commands/team-sharedlink-update-password.html)     | 共有リンクのパスワードの設定・更新                             |
 | [team sharedlink update visibility]({{ site.baseurl }}/ja/commands/team-sharedlink-update-visibility.html) | 共有リンクの可視性の更新                                       |
 | [team sharedlink delete links]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-links.html)           | 共有リンクの一括削除                                           |
 | [team sharedlink delete member]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-member.html)         | メンバーの共有リンクをすべて削除                               |
+
+## `team sharedlink cap` と `team sharedlink update` の違い
+
+コマンド `team sharedlink update` は、共有リンクに値を設定するためのものです. コマンド `team sharedlink cap` は、共有リンクにキャップ値を設定するためのものです.
+例：有効期限を2021-05-06に設定して、`team sharedlink update expiry`で設定した場合. このコマンドは、既存のリンクが2021-05-04のように短い有効期限を持っている場合でも、有効期限を2021-05-06に更新します.
+一方、`team sharedlink cap expiry`は、リンクの有効期限が2021-05-07のように長い場合にリンクを更新します.
+
+同様に、`team sharedlink cap visibility`というコマンドは、リンクの保護された可視性が少ない場合にのみ、可視性を制限します. 例えば、パスワードのない共有リンクをteam_onlyにしたい場合などです. team sharelink cap visibility` は、リンクが公開されていてパスワードがない場合にteam_onlyへ可視性を更新します
 
 ## 例(リンクの一覧):
 

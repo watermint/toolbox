@@ -1,4 +1,4 @@
-package update
+package cap
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
@@ -27,9 +27,9 @@ type Expiry struct {
 	Peer         dbx_conn.ConnScopedTeam
 	At           mo_time.Time
 	File         fd_file.RowFeed
+	LinkNotFound app_msg.Message
 	OperationLog rp_model.TransactionReport
 	NoChange     app_msg.Message
-	LinkNotFound app_msg.Message
 	Updater      *sharedlink.Update
 }
 
@@ -62,7 +62,15 @@ func (z *Expiry) Exec(c app_control.Control) error {
 	newExpiryStr := dbx_util.ToApiTimeString(newExpiry)
 	updateOpts := uc_team_sharedlink.UpdateOpts{
 		Filter: func(target *uc_team_sharedlink.Target) bool {
-			return target.Entry.Expires != newExpiryStr
+			if target.Entry.Expires == "" {
+				return true
+			}
+			targetExpiry, err := dbx_util.Parse(target.Entry.Expires)
+			if err != nil {
+				l.Debug("Unable to parse the expiry", esl.Error(err))
+				return false
+			}
+			return targetExpiry.After(newExpiry)
 		},
 		Opts: func(target *uc_team_sharedlink.Target) (opts []sv_sharedlink.LinkOpt) {
 			return []sv_sharedlink.LinkOpt{
