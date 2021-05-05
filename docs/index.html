@@ -32,8 +32,7 @@ lang: en
             {% if forloop.index <= 5 %}
             <tr>
                 <td class="post-title">
-                    <i class="bi bi-check-circle-fill"></i> <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title
-                    }}</a>
+                    <i class="bi bi-check-circle-fill"></i> <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
                 </td>
                 <td>{{ post.date | date_to_string: "ordinal", "UK" }}</td>
                 <td><i class="bi bi-github"></i> <a href="{{ post.release_page }}">{{ post.title }}</a></td>
