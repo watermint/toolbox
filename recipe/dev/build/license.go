@@ -41,7 +41,7 @@ func (z *License) Exec(c app_control.Control) error {
 	}
 
 	licenses := dc_license.Licenses{
-		Project:    dc_license.LicenseInfo{
+		Project: dc_license.LicenseInfo{
 			Package:     "github.com/watermint/toolbox",
 			Url:         "https://github.com/watermint/toolbox",
 			LicenseType: "MIT",

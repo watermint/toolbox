@@ -79,6 +79,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 		}
 		w, err := pkg.CreateHeader(&zip.FileHeader{
 			Name:     "LICENSE.txt",
+			Method:   zip.Deflate,
 			Modified: buildTimestamp,
 		})
 		if err != nil {
@@ -95,6 +96,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 		body := dc_section.Generate(dc_index.MediaRepository, dc_section.LayoutPage, docMc, doc)
 		w, err := pkg.CreateHeader(&zip.FileHeader{
 			Name:     "README.txt",
+			Method:   zip.Deflate,
 			Modified: buildTimestamp,
 		})
 		if err != nil {
@@ -117,6 +119,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 
 		w, err := pkg.CreateHeader(&zip.FileHeader{
 			Name:     filepath.Base(z.BuildPath.Path()),
+			Method:   zip.Deflate,
 			Modified: buildTimestamp,
 		})
 		if _, err = io.Copy(w, bin); err != nil {
