@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"runtime"
+	"strconv"
 )
 
 type VersionInfo struct {
@@ -18,10 +19,12 @@ type VersionInfo struct {
 
 type Version struct {
 	rc_recipe.RemarkTransient
-	Versions        rp_model.RowReport
-	HeaderAppHash   app_msg.Message
-	HeaderBuildTime app_msg.Message
-	HeaderGoVersion app_msg.Message
+	Versions         rp_model.RowReport
+	HeaderAppHash    app_msg.Message
+	HeaderBuildTime  app_msg.Message
+	HeaderBranch     app_msg.Message
+	HeaderProduction app_msg.Message
+	HeaderGoVersion  app_msg.Message
 }
 
 func (z *Version) Preset() {
@@ -42,6 +45,16 @@ func (z *Version) Exec(c app_control.Control) error {
 		Key:       "app.hash",
 		Component: ui.Text(z.HeaderAppHash),
 		Version:   app.BuildInfo.Hash,
+	})
+	z.Versions.Row(&VersionInfo{
+		Key:       "app.branch",
+		Component: ui.Text(z.HeaderBranch),
+		Version:   app.BuildInfo.Branch,
+	})
+	z.Versions.Row(&VersionInfo{
+		Key:       "app.production",
+		Component: ui.Text(z.HeaderProduction),
+		Version:   strconv.FormatBool(app.BuildInfo.Production),
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "build.time",
