@@ -6,7 +6,6 @@ import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
-	recipeconnect "github.com/watermint/toolbox/recipe/connect"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
@@ -124,11 +123,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconfig.Disable{},
 		&recipeconfig.Enable{},
 		&recipeconfig.Features{},
-		&recipeconnect.BusinessAudit{},
-		&recipeconnect.BusinessFile{},
-		&recipeconnect.BusinessInfo{},
-		&recipeconnect.BusinessMgmt{},
-		&recipeconnect.UserFile{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
 		&recipedevbenchmark.Uploadlink{},

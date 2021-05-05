@@ -10,7 +10,6 @@ lang: ja
 
 | コマンド                                                                                   | 説明                                                               |
 |--------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| [connect user_file]({{ site.baseurl }}/ja/commands/connect-user_file.html)                 | ユーザーのファイルアクセスに接続する                               |
 | [file compare account]({{ site.baseurl }}/ja/commands/file-compare-account.html)           | 二つのアカウントのファイルを比較します                             |
 | [file compare local]({{ site.baseurl }}/ja/commands/file-compare-local.html)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy]({{ site.baseurl }}/ja/commands/file-copy.html)                                 | ファイルをコピーします                                             |
@@ -61,10 +60,6 @@ lang: ja
 
 | コマンド                                                                                                   | 説明                                                                                   |
 |------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [connect business_audit]({{ site.baseurl }}/ja/commands/connect-business_audit.html)                       | チーム監査アクセスに接続する                                                           |
-| [connect business_file]({{ site.baseurl }}/ja/commands/connect-business_file.html)                         | チームファイルアクセスに接続する                                                       |
-| [connect business_info]({{ site.baseurl }}/ja/commands/connect-business_info.html)                         | チームの情報アクセスに接続する                                                         |
-| [connect business_mgmt]({{ site.baseurl }}/ja/commands/connect-business_mgmt.html)                         | チームの管理アクセスに接続する                                                         |
 | [group add]({{ site.baseurl }}/ja/commands/group-add.html)                                                 | グループを作成します                                                                   |
 | [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html)                               | グループの削除                                                                         |
 | [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)                                           | グループを削除します                                                                   |

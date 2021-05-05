@@ -67,7 +67,6 @@ DropboxおよびDropbox Business向けのツールセット
 | コマンド     | 説明                       | 備考 |
 |--------------|----------------------------|------|
 | config       | watermint toolbox の設定   |      |
-| connect      | アカウントに接続する       |      |
 | file         | ファイル操作               |      |
 | filerequest  | ファイルリクエストの操作   |      |
 | group        | グループ管理               |      |
@@ -87,7 +86,6 @@ DropboxおよびDropbox Business向けのツールセット
 
 | コマンド                                                                   | 説明                                                               |
 |----------------------------------------------------------------------------|--------------------------------------------------------------------|
-| [connect user_file](docs/ja/commands/connect-user_file.md)                 | ユーザーのファイルアクセスに接続する                               |
 | [file compare account](docs/ja/commands/file-compare-account.md)           | 二つのアカウントのファイルを比較します                             |
 | [file compare local](docs/ja/commands/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](docs/ja/commands/file-copy.md)                                 | ファイルをコピーします                                             |
@@ -138,10 +136,6 @@ DropboxおよびDropbox Business向けのツールセット
 
 | コマンド                                                                                   | 説明                                                                                   |
 |--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [connect business_audit](docs/ja/commands/connect-business_audit.md)                       | チーム監査アクセスに接続する                                                           |
-| [connect business_file](docs/ja/commands/connect-business_file.md)                         | チームファイルアクセスに接続する                                                       |
-| [connect business_info](docs/ja/commands/connect-business_info.md)                         | チームの情報アクセスに接続する                                                         |
-| [connect business_mgmt](docs/ja/commands/connect-business_mgmt.md)                         | チームの管理アクセスに接続する                                                         |
 | [group add](docs/ja/commands/group-add.md)                                                 | グループを作成します                                                                   |
 | [group batch delete](docs/ja/commands/group-batch-delete.md)                               | グループの削除                                                                         |
 | [group delete](docs/ja/commands/group-delete.md)                                           | グループを削除します                                                                   |
