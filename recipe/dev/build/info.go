@@ -30,7 +30,7 @@ func (z *Info) Preset() {
 func (z *Info) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	productionReady := false
+	productionReady := true
 
 	prjBase, err := es_project.DetectRepositoryRoot()
 	if err != nil {
@@ -103,7 +103,7 @@ func (z *Info) Exec(c app_control.Control) error {
 	}
 
 	infoPath := filepath.Join(prjBase, "resources/release/build", "info.json")
-	l.Info("Build info", esl.Any("branch", branch), esl.Any("hash", info.Hash), esl.String("version", app.BuildId))
+	l.Info("Build info", esl.Any("branch", branch), esl.Any("hash", info.Hash), esl.String("version", app.BuildId), esl.Bool("releaseReady", productionReady))
 	infoData, err := json.Marshal(info)
 	if err != nil {
 		l.Debug("Unable to marshal the data", esl.Error(err))

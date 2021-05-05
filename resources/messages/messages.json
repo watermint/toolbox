@@ -1680,6 +1680,8 @@
   "recipe.job.log.last.notice_no_log_found": "No jobs or logs found",
   "recipe.job.log.last.title": "Print the last job log files",
   "recipe.job.log.title": "Log operation of jobs",
+  "recipe.version.header_branch": "Branch",
+  "recipe.version.header_production": "Release build",
   "recipe.job.title": "Job operation",
   "recipe.license.title": "Show license information",
   "recipe.member.clear.email_row.desc": "Email addresses of team members",
