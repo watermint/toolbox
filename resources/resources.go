@@ -32,7 +32,7 @@ var resRelease string
 //go:embed release/release_notes
 var resReleaseNotes string
 
-//go:embed release/build/*
+//go:embed build/*
 var resBuildInfo embed.FS
 
 type BuildInfo struct {
@@ -81,7 +81,7 @@ func Build() BuildInfo {
 		}
 	}
 
-	infoJson, err := resBuildInfo.ReadFile("release/build/info.json")
+	infoJson, err := resBuildInfo.ReadFile("build/info.json")
 	if err != nil {
 		return fallback()
 	}
