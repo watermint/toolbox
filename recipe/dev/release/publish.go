@@ -30,6 +30,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 	"github.com/watermint/toolbox/recipe/dev/test"
+	"github.com/watermint/toolbox/resources"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -145,6 +146,8 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 
 	md := app_ui.MakeMarkdown(c.WithLang("en").Messages(), func(mui app_ui.UI) {
 		mui.Header(z.HeadingReleaseTheme)
+		mui.Break()
+		mui.Info(app_msg.Raw(resources.ReleaseNotes()))
 		mui.Break()
 
 		mui.Header(z.HeadingChanges)
