@@ -1,6 +1,6 @@
 ---
 layout: release
-title: リリースの変更点: 67
+title: リリースの変更点 67
 lang: ja
 ---
 
@@ -34,27 +34,27 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "File", Desc: "データファイル", TypeName: "infra.feed.fd_file_impl.row_feed"},
-  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt", ...},
-+ 		&{
-+ 			Name:     "TransferDestMember",
-+ 			Desc:     "指定された場合は、指定ユーザーに削除するメンバーのコンテンツを転送します.",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-+ 		},
-+ 		&{
-+ 			Name:     "TransferNotifyAdminEmailOnError",
-+ 			Desc:     "指定された場合は、転送時にエラーが発生した時にこのユーザーにメールを送信します.",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-+ 		},
-  		&{Name: "WipeData", Desc: "指定した場合にはユーザーのデータがリンクさ\xe3"..., Default: "true", TypeName: "bool", ...},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "File", Desc: "データファイル", TypeName: "infra.feed.fd_file_impl.row_feed"},
+  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_mgmt", ...},
++ 		&{
++ 			Name:     "TransferDestMember",
++ 			Desc:     "指定された場合は、指定ユーザーに削除するメンバーのコンテンツを転送します.",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
++ 		&{
++ 			Name:     "TransferNotifyAdminEmailOnError",
++ 			Desc:     "指定された場合は、転送時にエラーが発生した時にこのユーザーにメールを送信します.",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
++ 		},
+  		&{Name: "WipeData", Desc: "指定した場合にはユーザーのデータがリンクさ\xe3"..., Default: "true", TypeName: "bool", ...},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```

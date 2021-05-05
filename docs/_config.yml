@@ -12,9 +12,6 @@ future: true
 # Markdown
 markdown: kramdown
 
-# Paginate
-paginate: 5
-
 kramdown:
   input: GFM
   hard_wrap: false
@@ -28,4 +25,3 @@ author:
 # Plugins
 plugins:
   - jekyll-sitemap
-  - jekyll-paginate
