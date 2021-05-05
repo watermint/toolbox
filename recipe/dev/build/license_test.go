@@ -7,7 +7,7 @@ import (
 )
 
 func TestLicense_Exec(t *testing.T) {
-	if qt_endtoend.IsSkipEndToEndTest(){
+	if qt_endtoend.IsSkipEndToEndTest() {
 		return
 	}
 	qtr_endtoend.TestRecipe(t, &License{})
