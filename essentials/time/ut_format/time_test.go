@@ -53,3 +53,22 @@ func TestDaily(t *testing.T) {
 	}
 
 }
+
+func TestParseDuration(t *testing.T) {
+	jitter := 1 * time.Second
+	inJitter := func(tm, expect time.Time) {
+		if expect.Add(-jitter).After(tm) {
+			t.Error(tm, expect, "invalid time")
+		}
+		if expect.Add(jitter).Before(tm) {
+			t.Error(tm, expect, "invalid time")
+		}
+	}
+
+	if tm, valid := ParseTimestamp("-24h"); valid {
+		inJitter(tm, time.Now().Add(-1*time.Hour*24))
+	}
+	if tm, valid := ParseTimestamp("24h"); valid {
+		inJitter(tm, time.Now().Add(1*time.Hour*24))
+	}
+}

@@ -32,6 +32,10 @@ func ParseTimestamp(ts string) (p time.Time, valid bool) {
 		}
 	}
 
+	if dur, err := time.ParseDuration(ts); err == nil {
+		return time.Now().Add(dur), true
+	}
+
 	return time.Unix(0, 0), false
 }
 
