@@ -109,6 +109,18 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 
 	// binary
 	{
+		info, err := os.Lstat(z.BuildPath.Path())
+		if err != nil {
+			return "", err
+		}
+
+		header, err := zip.FileInfoHeader(info)
+		if err != nil {
+			return "", err
+		}
+		header.Method = zip.Deflate
+		header.Modified = buildTimestamp
+
 		bin, err := os.Open(z.BuildPath.Path())
 		if err != nil {
 			return "", err
@@ -117,11 +129,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 			_ = bin.Close()
 		}()
 
-		w, err := pkg.CreateHeader(&zip.FileHeader{
-			Name:     filepath.Base(z.BuildPath.Path()),
-			Method:   zip.Deflate,
-			Modified: buildTimestamp,
-		})
+		w, err := pkg.CreateHeader(header)
 		if _, err = io.Copy(w, bin); err != nil {
 			return "", err
 		}
