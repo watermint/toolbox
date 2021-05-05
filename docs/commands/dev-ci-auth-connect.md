@@ -22,57 +22,16 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 * GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
 
 ## Auth scopes
 
 | Description                                                                                                                                                                                                                                                                                                                                                    |
 |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Dropbox Full access                                                                                                                                                                                                                                                                                                                                            |
-| Dropbox Business Auditing                                                                                                                                                                                                                                                                                                                                      |
-| Dropbox Business File access                                                                                                                                                                                                                                                                                                                                   |
-| Dropbox Business Information access                                                                                                                                                                                                                                                                                                                            |
-| Dropbox Business management                                                                                                                                                                                                                                                                                                                                    |
 | GitHub: Grants full access to repositories, including private repositories. That includes read/write access to code, commit statuses, repository and organization projects, invitations, collaborators, adding team memberships, deployment statuses, and repository webhooks for repositories and organizations. Also grants ability to manage user projects. |
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2021 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
-```
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2021 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
-```
 For the first run, `tbx` will ask you an authentication with your GitHub account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 ```
 
@@ -121,14 +80,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option    | Description                                                 | Default         |
-|-----------|-------------------------------------------------------------|-----------------|
-| `-audit`  | Authenticate with Dropbox Business Audit scope              | end_to_end_test |
-| `-file`   | Authenticate with Dropbox Business member file access scope | end_to_end_test |
-| `-full`   | Authenticate with Dropbox user full access scope            | end_to_end_test |
-| `-github` | Account alias for Github deployment                         | deploy          |
-| `-info`   | Authenticate with Dropbox Business info scope               | end_to_end_test |
-| `-mgmt`   | Authenticate with Dropbox Business management scope         | end_to_end_test |
+| Option    | Description                         | Default |
+|-----------|-------------------------------------|---------|
+| `-github` | Account alias for Github deployment | deploy  |
 
 ## Common options:
 

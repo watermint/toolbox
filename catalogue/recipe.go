@@ -86,7 +86,6 @@ import (
 	recipeteamcontentmount "github.com/watermint/toolbox/recipe/team/content/mount"
 	recipeteamcontentpolicy "github.com/watermint/toolbox/recipe/team/content/policy"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
-	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	recipeteamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
 	recipeteamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
@@ -136,7 +135,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevciartifact.Connect{},
 		&recipedevciartifact.Up{},
 		&recipedevciauth.Connect{},
-		&recipedevciauth.Export{},
 		&recipedevciauth.Import{},
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
@@ -304,7 +302,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamcontentpolicy.List{},
 		&recipeteamdevice.List{},
 		&recipeteamdevice.Unlink{},
-		&recipeteamdiag.Explorer{},
 		&recipeteamfilerequest.Clone{},
 		&recipeteamfilerequest.List{},
 		&recipeteamlinkedapp.List{},
