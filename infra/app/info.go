@@ -1,6 +1,7 @@
 package app
 
 import (
+	"fmt"
 	"github.com/watermint/toolbox/infra/control/app_build"
 	"github.com/watermint/toolbox/resources"
 	"runtime"
@@ -9,15 +10,11 @@ import (
 
 var (
 	Name           = "watermint toolbox"
-	Build          = app_build.Version()
-	BuildId        = Build.String()
+	Version        = app_build.SelectVersion(BuildInfo.Version)
+	BuildInfo      = resources.Build()
+	BuildId        = Version.String()
 	Release        = resources.Release()
-	Copyright      = "© 2016-2021 Takayuki Okazaki"
-	Hash           = ""
-	Branch         = ""
-	Zap            = ""
-	BuilderKey     = ""
-	BuildTimestamp = ""
+	Copyright      = fmt.Sprintf("© 2016-%4d Takayuki Okazaki", BuildInfo.Year)
 	DefaultWebPort = 7800
 )
 
@@ -26,7 +23,7 @@ func UserAgent() string {
 }
 
 func ReleaseStage() string {
-	switch Branch {
+	switch BuildInfo.Branch {
 	case "current":
 		return StageBeta
 	case "master", "main":
@@ -37,7 +34,7 @@ func ReleaseStage() string {
 }
 
 func IsProduction() bool {
-	return Hash != ""
+	return BuildInfo.Production
 }
 
 func IsWindows() bool {

@@ -36,7 +36,7 @@ type storageImpl struct {
 }
 
 func (z *storageImpl) key() []byte {
-	return []byte(app.BuilderKey + app.Name)
+	return []byte(app.BuildInfo.Xap + app.Name)
 }
 
 func (z *storageImpl) Put(path string, v interface{}) error {

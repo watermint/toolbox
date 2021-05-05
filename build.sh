@@ -60,7 +60,7 @@ BUILD_VERSION=$BUILD_MAJOR_VERSION.$TOOLBOX_BUILD_ID
 echo --------------------
 echo BUILD: Start building version: $BUILD_VERSION
 
-echo --------------------
+echo --------------------n
 echo BUILD: Preparing resources
 
 mkdir -p resources/keys

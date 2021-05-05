@@ -236,12 +236,12 @@ func (z *Publish) createTag(c app_control.Control) error {
 		esl.String("owner", app.RepositoryOwner),
 		esl.String("repository", app.RepositoryName),
 		esl.String("version", app.BuildId),
-		esl.String("hash", app.Hash))
+		esl.String("hash", app.BuildInfo.Hash))
 	svt := sv_reference.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
 		"refs/tags/"+app.BuildId,
-		app.Hash,
+		app.BuildInfo.Hash,
 	)
 	if err != nil && err != qt_errors.ErrorMock {
 		l.Debug("Unable to create tag", esl.Error(err))
@@ -259,7 +259,7 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 		esl.String("owner", app.RepositoryOwner),
 		esl.String("repository", app.RepositoryName),
 		esl.String("version", app.BuildId),
-		esl.String("hash", app.Hash))
+		esl.String("hash", app.BuildInfo.Hash))
 	ui := c.UI()
 
 	relName := ""

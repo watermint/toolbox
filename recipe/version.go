@@ -41,12 +41,12 @@ func (z *Version) Exec(c app_control.Control) error {
 	z.Versions.Row(&VersionInfo{
 		Key:       "app.hash",
 		Component: ui.Text(z.HeaderAppHash),
-		Version:   app.Hash,
+		Version:   app.BuildInfo.Hash,
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "build.time",
 		Component: ui.Text(z.HeaderBuildTime),
-		Version:   app.BuildTimestamp,
+		Version:   app.BuildInfo.Timestamp,
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "go.version",

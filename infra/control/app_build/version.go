@@ -39,6 +39,16 @@ func Release() uint64 {
 	}
 }
 
+// SelectVersion Select or define the version
+func SelectVersion(v string) es_version.Version {
+	if ver, err := es_version.Parse(v); err != nil {
+		if ver.Major != 0 {
+			return ver
+		}
+	}
+	return Version()
+}
+
 func Version() es_version.Version {
 	if buildNum, ok := os.LookupEnv("CIRCLE_BUILD_NUM"); ok {
 		num, err := strconv.ParseUint(buildNum, 10, 64)
@@ -109,6 +119,6 @@ func Version() es_version.Version {
 		Minor:      BuildMinorDocker,
 		Patch:      0,
 		PreRelease: "dev",
-		Build:      time.Now().UTC().Format("20060102T150405"),
+		Build:      time.Now().UTC().Format("20060102T150405Z"),
 	}
 }

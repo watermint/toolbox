@@ -20,6 +20,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"text/template"
 	"time"
 )
@@ -97,7 +98,7 @@ func (z *Doc) updateRelease(c app_control.Control, release *Notes, prjRoot strin
 		"Lang":         "en",
 		"ReleasePage":  release.Url,
 		"Release":      strconv.FormatUint(release.Version.Major, 10),
-		"ReleaseNotes": release.Notes,
+		"ReleaseNotes": strings.ReplaceAll(release.Notes, "{{.", "{% raw %}{{.{% endraw %}"),
 	})
 }
 
@@ -199,19 +200,19 @@ func (z *Doc) Exec(c app_control.Control) error {
 		return err
 	}
 
-	l.Info("Update spec", esl.Uint64("Release", app.Build.Major))
+	l.Info("Update spec", esl.Uint64("Release", app.Version.Major))
 	if err := z.updateSpec(c, filepath.Join(prjBase, "resources/release")); err != nil {
 		l.Debug("Unable to update spec", esl.Error(err))
 		return err
 	}
-	l.Info("Update changes", esl.Uint64("Release", app.Build.Major))
-	if err := z.updateChanges(c, &app.Build, prjBase); err != nil {
+	l.Info("Update changes", esl.Uint64("Release", app.Version.Major))
+	if err := z.updateChanges(c, &app.Version, prjBase); err != nil {
 		l.Debug("Unable to update changes", esl.Error(err))
 		return err
 	}
-	l.Info("Update release notes", esl.Uint64("Release", app.Build.Major))
+	l.Info("Update release notes", esl.Uint64("Release", app.Version.Major))
 	notes := &Notes{
-		Version: &app.Build,
+		Version: &app.Version,
 		Date:    time.Now(),
 		Notes:   resources.ReleaseNotes(),
 		Url:     "https://github.com/watermint/toolbox/releases/latest",

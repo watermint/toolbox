@@ -1,6 +1,7 @@
 package spec
 
 import (
+	"bytes"
 	"compress/gzip"
 	"encoding/json"
 	"github.com/google/go-cmp/cmp"
@@ -292,12 +293,14 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 		return c.UI().Text(z.ReleaseVersion.With("Release", strings.Replace(x, "_", "", 1)))
 	}
 
+	buf := bytes.Buffer{}
+
 	changeTmpl, err := template.New("release_header").Parse(changesHeader)
 	if err != nil {
 		l.Debug("Unable to compile the template", esl.Error(err))
 		return err
 	}
-	err = changeTmpl.Execute(w, map[string]interface{}{
+	err = changeTmpl.Execute(&buf, map[string]interface{}{
 		"Title": c.UI().Text(z.DocTitle.With("Release", z.Release1.Value())),
 		"Lang":  c.Messages().Lang().CodeString(),
 	})
@@ -306,7 +309,7 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 		return err
 	}
 
-	mui := app_ui.NewMarkdown(c.Messages(), c.Log(), w, es_dialogue.DenyAll())
+	mui := app_ui.NewMarkdown(c.Messages(), c.Log(), &buf, es_dialogue.DenyAll())
 	mui.Header(z.DocHeader.With("Release1", relName(z.Release1.Value())).With("Release2", relName(z.Release2.Value())))
 
 	if len(added) > 0 {
@@ -343,6 +346,11 @@ func (z *Diff) makeDiff(c app_control.Control) error {
 	sort.Strings(changed)
 	for _, r := range changed {
 		z.diffSpec(mui, r1[r], r2[r])
+	}
+
+	content := strings.ReplaceAll(buf.String(), "{{.", "{% raw %}{{.{% endraw %}")
+	if _, err = w.Write([]byte(content)); err != nil {
+		return err
 	}
 
 	return nil

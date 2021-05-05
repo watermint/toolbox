@@ -19,20 +19,24 @@ func Suite(ctl app_control.Control) {
 
 func checkResource(ctl app_control.Control) {
 	l := ctl.Log()
-	if app.Hash == "" {
+	if app.BuildInfo.Hash == "" {
 		l.Error("Hash is empty")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}
-	if app.BuilderKey == "" {
+	if app.BuildInfo.Xap == "" {
 		l.Error("BuilderKey is empty")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}
-	if app.Zap == "" {
+	if app.BuildInfo.Zap == "" {
 		l.Error("Zap is empty")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
+	}
+	if !app.BuildInfo.Production {
+		l.Error("The build is not for the production")
+		app_exit.Abort(app_exit.FatalResourceUnavailable)
 	}
 }
 
@@ -48,6 +52,12 @@ func checkZap(ctl app_control.Control) {
 	err = json.Unmarshal(b, &keys)
 	if err != nil {
 		l.Error("Unable to unmarshal", esl.Error(err))
+		app_exit.Abort(app_exit.FatalResourceUnavailable)
+		return
+	}
+	_, err = app_resource.Bundle().Keys().Bytes("toolbox.appkeys")
+	if err == nil {
+		l.Debug("Dev app keys still exists", esl.Error(err))
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}

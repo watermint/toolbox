@@ -134,6 +134,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevbenchmark.Uploadlink{},
 		&recipedevbuild.Catalogue{},
 		&recipedevbuild.Doc{},
+		&recipedevbuild.Info{},
 		&recipedevbuild.License{},
 		&recipedevbuild.Preflight{},
 		&recipedevbuild.Readme{},

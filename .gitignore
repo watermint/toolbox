@@ -14,6 +14,7 @@
 /build
 /dist
 /resources/keys
+/resources/release/build/info.json
 /test/dev
 /test/results
 /docs/.jekyll-cache
