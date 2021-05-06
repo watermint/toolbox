@@ -54,6 +54,11 @@ func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.
 	compiledDoc := app_msg.Apply(doc).(Document)
 	title := mc.Compile(compiledDoc.DocDesc())
 
+	// #522 : markdownify look like not work on GitHub Pages
+	if layout == LayoutHome {
+		return body
+	}
+
 	switch media {
 	case dc_index.MediaRepository:
 		return body

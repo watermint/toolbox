@@ -1,9 +1,3 @@
----
-layout: home
-title: watermint toolbox
-lang: ja
----
-
 # watermint toolbox
 
 ![watermint toolbox]({{ site.baseurl }}/images/logo.png){: width="160" }
@@ -57,5 +51,4 @@ watermint toolboxは、Dropbox のようなサービスとご自身のアカウ�
 
 APIトークンなどの機密データのほとんどは、難読化されてアクセス制限された状態でPCのストレージに保存されています. しかし、それらのデータを秘密にするのはあなたの責任です.
 特に、ツールボックスのワークパスの下にある`secrets`フォルダ(デフォルトでは`C:\Users\<ユーザー名>\.toolbox`、または`$HOME/.toolbox`フォルダ以下)は共有しないでください。
-
 

@@ -1129,7 +1129,7 @@
   "recipe.dev.spec.diff.change_report_changed": "変更されたレポート: {{.RowsName}}",
   "recipe.dev.spec.diff.change_report_deleted": "削除されたレポート",
   "recipe.dev.spec.diff.doc_header": "{{.Release1}} から {{.Release2}} までの変更点",
-  "recipe.dev.spec.diff.doc_title": "リリースの変更点: {{.Release}}",
+  "recipe.dev.spec.diff.doc_title": "リリースの変更点 {{.Release}}",
   "recipe.dev.spec.diff.flag.doc_lang": "ドキュメント言語",
   "recipe.dev.spec.diff.flag.file_path": "出力先ファイルパス",
   "recipe.dev.spec.diff.flag.release_1": "リリース名1",

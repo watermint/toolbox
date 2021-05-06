@@ -1,6 +1,6 @@
 ---
 layout: release
-title: リリースの変更点: 71
+title: リリースの変更点 71
 lang: ja
 ---
 
@@ -37,37 +37,37 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Badge", Desc: "ビルド状態のバッジを含める", Default: "true", TypeName: "bool", ...},
-  		&{Name: "CommandPath", Desc: "コマンドマニュアルを作成する相対パス", Default: "doc/generated/", TypeName: "string", ...},
-- 		&{
-- 			Name:     "Filename",
-- 			Desc:     "ファイル名",
-- 			Default:  "README.md",
-- 			TypeName: "string",
-- 		},
-  		&{
-- 			Name:    "Lang",
-+ 			Name:    "DocLang",
-  			Desc:    "言語",
-  			Default: "",
-  			... // 2 identical fields
-  		},
-+ 		&{
-+ 			Name:     "Filename",
-+ 			Desc:     "ファイル名",
-+ 			Default:  "README.md",
-+ 			TypeName: "string",
-+ 		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Badge", Desc: "ビルド状態のバッジを含める", Default: "true", TypeName: "bool", ...},
+  		&{Name: "CommandPath", Desc: "コマンドマニュアルを作成する相対パス", Default: "doc/generated/", TypeName: "string", ...},
+- 		&{
+- 			Name:     "Filename",
+- 			Desc:     "ファイル名",
+- 			Default:  "README.md",
+- 			TypeName: "string",
+- 		},
+  		&{
+- 			Name:    "Lang",
++ 			Name:    "DocLang",
+  			Desc:    "言語",
+  			Default: "",
+  			... // 2 identical fields
+  		},
++ 		&{
++ 			Name:     "Filename",
++ 			Desc:     "ファイル名",
++ 			Default:  "README.md",
++ 			TypeName: "string",
++ 		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev util curl`
 
@@ -77,25 +77,25 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "BufferSize", Desc: "バッファのサイズ", Default: "65536", TypeName: "domain.common.model.mo_int.range_int", ...},
-  		&{
-  			Name:     "Record",
-  			Desc:     "テスト用に直接テストレコードを指定",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "domain.common.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "BufferSize", Desc: "バッファのサイズ", Default: "65536", TypeName: "domain.common.model.mo_int.range_int", ...},
+  		&{
+  			Name:     "Record",
+  			Desc:     "テスト用に直接テストレコードを指定",
+  			Default:  "",
+- 			TypeName: "string",
++ 			TypeName: "domain.common.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `team diag explorer`
 
@@ -105,19 +105,19 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"File": "business_file",
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
+- 		"Peer": "business_file",
++ 		"Peer": "business_info",
+  	},
+  	Services: {"dropbox_business"},
+  	IsSecret: false,
+  	... // 11 identical fields
+  }
 ```
