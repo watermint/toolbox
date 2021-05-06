@@ -11,8 +11,11 @@ lang: ja
 注：リリース87以降、このコマンドは、アップデートする共有リンクを選択するためのファイルを受け取ります. チーム内のすべての共有リンクの有効期限を更新したい場合は、`team sharedlink list`の組み合わせをご検討ください. 例えば、[jq](https://stedolan.github.io/jq/)というコマンドに慣れていれば、以下のように同等の操作を行うことができます（すべての公開リンクに対して28日以内に強制失効させる）.
 
 ```
-tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -days 28
+tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' | tbx team sharedlink update expiry -file - -at +720h
 ```
+リリース92以降、このコマンドは引数 `-days` を受け取りません. 相対的な日時を設定したい場合は、`+720h`（720時間＝30日）のように`-at +HOURh`を使用してください.
+
+コマンド `team sharedlink update` は、共有リンクに値を設定するためのものです. コマンド `team sharedlink cap` は、共有リンクにキャップ値を設定するためのものです. 例：有効期限を2021-05-06に設定して、`team sharedlink update expiry`で設定した場合. このコマンドは、既存のリンクが2021-05-04のように短い有効期限を持っている場合でも、有効期限を2021-05-06に更新します.
 
 # セキュリティ
 
@@ -72,12 +75,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -days 28
+.\tbx.exe team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -at +720h
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -days 28
+$HOME/Desktop/tbx team sharedlink update expiry -file /PATH/TO/DATA_FILE.csv -at +720h
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -88,12 +91,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                     | デフォルト |
-|------------|--------------------------|------------|
-| `-at`      | 新しい有効期限の日時     |            |
-| `-days`    | 新しい有効期限までの日時 | 0          |
-| `-file`    | データファイルへのパス   |            |
-| `-peer`    | アカウントの別名         | default    |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-at`      | 新しい有効期限の日時   |            |
+| `-file`    | データファイルへのパス |            |
+| `-peer`    | アカウントの別名       | default    |
 
 ## 共通のオプション:
 

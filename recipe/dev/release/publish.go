@@ -3,8 +3,6 @@ package release
 import (
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/api/gh_context"
 	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
@@ -17,8 +15,6 @@ import (
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -198,25 +194,6 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	if c.Feature().IsTest() {
 		l.Info("Skip tests")
 		return nil
-	}
-
-	if c.Feature().IsProduction() {
-		l.Info("Prepare resources")
-		if !api_auth_impl.IsLegacyCacheAvailable(c, app.PeerEndToEndTest, []string{
-			api_auth.DropboxTokenFull,
-			api_auth.DropboxTokenBusinessAudit,
-			api_auth.DropboxTokenBusinessManagement,
-			api_auth.DropboxTokenBusinessFile,
-			api_auth.DropboxTokenBusinessInfo,
-		}, dbx_auth.NewLegacyApp(c)) {
-			return qt_errors.ErrorNotEnoughResource
-		}
-	}
-
-	l.Info("Ensure end to end resource availability")
-	if !dbx_conn_impl.IsEndToEndTokenAllAvailable(c) {
-		l.Error("At least one of end to end resource is not available.")
-		return qt_errors.ErrorNotEnoughResource
 	}
 
 	l.Info("Testing all end to end test")

@@ -7,6 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var (
@@ -87,6 +88,11 @@ func Extract(log esl.Logger, archivePath, destPath string) error {
 	}
 
 	for _, zf := range zr.File {
+		// CWE-22, https://cwe.mitre.org/data/definitions/22.html
+		if strings.Contains(zf.Name, "..") {
+			l.Debug("Skip the entry that contains '..' to avoid CWE-22", esl.String("name", zf.Name))
+			continue
+		}
 		if err := extractFile(zf); err != nil {
 			return err
 		}

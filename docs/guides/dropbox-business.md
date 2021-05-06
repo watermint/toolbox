@@ -174,11 +174,21 @@ The team shared link commands are capable of listing all shared links in the tea
 | Command                                                                                                 | Description                                                   |
 |---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
 | [team sharedlink list]({{ site.baseurl }}/commands/team-sharedlink-list.html)                           | List of shared links                                          |
+| [team sharedlink cap expiry]({{ site.baseurl }}/commands/team-sharedlink-cap-expiry.html)               | Set expiry cap to shared links in the team                    |
+| [team sharedlink cap visibility]({{ site.baseurl }}/commands/team-sharedlink-cap-visibility.html)       | Set visibility cap to shared links in the team                |
 | [team sharedlink update expiry]({{ site.baseurl }}/commands/team-sharedlink-update-expiry.html)         | Update expiration date of public shared links within the team |
 | [team sharedlink update password]({{ site.baseurl }}/commands/team-sharedlink-update-password.html)     | Set or update shared link passwords                           |
 | [team sharedlink update visibility]({{ site.baseurl }}/commands/team-sharedlink-update-visibility.html) | Update visibility of shared links                             |
 | [team sharedlink delete links]({{ site.baseurl }}/commands/team-sharedlink-delete-links.html)           | Batch delete shared links                                     |
 | [team sharedlink delete member]({{ site.baseurl }}/commands/team-sharedlink-delete-member.html)         | Delete all shared links of the member                         |
+
+## Difference between `team sharedlink cap` and `team sharedlink update`
+
+Commands `team sharedlink update` is for setting a value to the shared links. Commands `team sharedlink cap` is for putting a cap value to the shared links.
+For example: if you set expiry by `team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
+On the other hand, `team sharedlink cap expiry` updates links when the link has a longer expiration date, like 2021-05-07.
+
+Similarly, the command `team sharedlink cap visibility` will restrict visibility only when the link has less protected visibility. For example, if you want to ensure shared links without password to the team only. `team sharedlink cap visibility` will update visibility to the team only when a link is public and has no password.
 
 ## Example (list links):
 

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -110,12 +109,6 @@ func (z *Candidate) Exec(c app_control.Control) error {
 	l.Info("Update release documents")
 	if err = rc_exec.Exec(c, z.Doc, rc_recipe.NoCustomValues); err != nil {
 		return err
-	}
-
-	l.Info("Ensure end to end resource availability")
-	if !dbx_conn_impl.IsEndToEndTokenAllAvailable(c) {
-		l.Error("At least one of end to end resource is not available.")
-		return errors.New("end to end resource is not available")
 	}
 
 	l.Info("Testing all end to end test")

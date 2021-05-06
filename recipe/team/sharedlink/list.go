@@ -2,6 +2,7 @@ package sharedlink
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
@@ -27,12 +28,17 @@ var (
 )
 
 type List struct {
-	Peer       dbx_conn.ConnBusinessFile
+	Peer       dbx_conn.ConnScopedTeam
 	SharedLink rp_model.RowReport
 	Visibility mo_string.SelectString
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeTeamDataMember,
+	)
 	z.Visibility.SetOptions(
 		"all",
 		"all", "public", "team_only", "password", "team_and_password", "shared_folder_only",

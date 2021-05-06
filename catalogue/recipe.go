@@ -6,7 +6,6 @@ import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
-	recipeconnect "github.com/watermint/toolbox/recipe/connect"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
@@ -87,7 +86,6 @@ import (
 	recipeteamcontentmount "github.com/watermint/toolbox/recipe/team/content/mount"
 	recipeteamcontentpolicy "github.com/watermint/toolbox/recipe/team/content/policy"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
-	recipeteamdiag "github.com/watermint/toolbox/recipe/team/diag"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	recipeteamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
 	recipeteamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
@@ -95,6 +93,7 @@ import (
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
+	recipeteamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
 	recipeteamsharedlinkdelete "github.com/watermint/toolbox/recipe/team/sharedlink/delete"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
@@ -124,11 +123,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconfig.Disable{},
 		&recipeconfig.Enable{},
 		&recipeconfig.Features{},
-		&recipeconnect.BusinessAudit{},
-		&recipeconnect.BusinessFile{},
-		&recipeconnect.BusinessInfo{},
-		&recipeconnect.BusinessMgmt{},
-		&recipeconnect.UserFile{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
 		&recipedevbenchmark.Uploadlink{},
@@ -142,7 +136,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevciartifact.Connect{},
 		&recipedevciartifact.Up{},
 		&recipedevciauth.Connect{},
-		&recipedevciauth.Export{},
 		&recipedevciauth.Import{},
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
@@ -310,7 +303,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamcontentpolicy.List{},
 		&recipeteamdevice.List{},
 		&recipeteamdevice.Unlink{},
-		&recipeteamdiag.Explorer{},
 		&recipeteamfilerequest.Clone{},
 		&recipeteamfilerequest.List{},
 		&recipeteamlinkedapp.List{},
@@ -323,6 +315,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamreport.Membership{},
 		&recipeteamreport.Storage{},
 		&recipeteamsharedlink.List{},
+		&recipeteamsharedlinkcap.Expiry{},
+		&recipeteamsharedlinkcap.Visibility{},
 		&recipeteamsharedlinkdelete.Links{},
 		&recipeteamsharedlinkdelete.Member{},
 		&recipeteamsharedlinkupdate.Expiry{},

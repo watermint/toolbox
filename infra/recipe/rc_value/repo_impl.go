@@ -179,6 +179,11 @@ func (z *RepositoryImpl) Messages() []app_msg.Message {
 				msgs = append(msgs, m)
 			}
 		}
+		if vm, ok := v.(rc_recipe.ValueMessages); ok {
+			if m, ok := vm.Messages(); ok {
+				msgs = append(msgs, m...)
+			}
+		}
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
 				msgs = append(msgs, app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))

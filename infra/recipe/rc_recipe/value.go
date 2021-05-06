@@ -133,6 +133,13 @@ type ValueMessage interface {
 	Message() (msg app_msg.Message, valid bool)
 }
 
+type ValueMessages interface {
+	Value
+
+	// True when the value is type of message, and return the instance eof the conection
+	Messages() (msg []app_msg.Message, valid bool)
+}
+
 var (
 	ErrorValueRestoreFailed = errors.New("value restore failed")
 )

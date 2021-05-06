@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"reflect"
 )
 
@@ -61,11 +62,12 @@ func (z *ValueRcRecipeRecipe) Init() (v interface{}) {
 }
 
 func (z *ValueRcRecipeRecipe) ApplyPreset(v0 interface{}) {
-	z.recipe = v0.(rc_recipe.Recipe)
+	z.recipe = app_msg.Apply(v0).(rc_recipe.Recipe)
 	z.recipeType = reflect.TypeOf(z.recipe).Elem()
 }
 
 func (z *ValueRcRecipeRecipe) Apply() (v interface{}) {
+	z.recipe = app_msg.Apply(z.recipe).(rc_recipe.Recipe)
 	return z.recipe
 }
 
@@ -90,6 +92,10 @@ func (z *ValueRcRecipeRecipe) SpinUp(ctl app_control.Control) error {
 
 func (z *ValueRcRecipeRecipe) SpinDown(ctl app_control.Control) error {
 	return nil
+}
+
+func (z *ValueRcRecipeRecipe) Messages() (msg []app_msg.Message, valid bool) {
+	return app_msg.Messages(z.recipe), true
 }
 
 type EmptyRecipe struct {

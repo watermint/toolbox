@@ -1,9 +1,3 @@
----
-layout: home
-title: watermint toolbox
-lang: en
----
-
 # watermint toolbox
 
 ![watermint toolbox]({{ site.baseurl }}/images/logo.png){: width="160" }
@@ -12,7 +6,7 @@ The multi-purpose utility command-line tool for web services including Dropbox, 
 
 # Do more with the watermint toolbox
 
-The watermint toolbox has 191 commands to solve your daily tasks. For example, if you are an admin of Dropbox Business and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
+The watermint toolbox has 188 commands to solve your daily tasks. For example, if you are an admin of Dropbox Business and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -59,5 +53,4 @@ The watermint toolbox is for interacting with the services like Dropbox with you
 
 Most sensitive data, such as API token, are saved on your PC storage in obfuscated & made restricted access. However, it's your responsibility to keep those data secret. 
 Please do not share files, especially the `secrets` folder under toolbox work path (`C:\Users\<your user name>\.toolbox`, or `$HOME/.toolbox` by default).
-
 

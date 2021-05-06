@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# connect business_file
+# team sharedlink cap expiry
 
-チームファイルアクセスに接続する 
+チーム内の共有リンクに有効期限の上限を設定 (非可逆な操作です)
 
 # セキュリティ
 
@@ -26,9 +26,11 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                              |
-|-----------------------------------|
-| Dropbox Business ファイルアクセス |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Dropbox Business: チームメンバーの確認                      |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理 |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧    |
 
 # 認可
 
@@ -64,12 +66,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe connect business_file 
+.\tbx.exe team sharedlink cap expiry -at "+72h" -file /PATH/TO/shared_link_list.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx connect business_file 
+$HOME/Desktop/tbx team sharedlink cap expiry -at "+72h" -file /PATH/TO/shared_link_list.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,9 +82,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-peer`    | アカウントの別名 | default    |
+| オプション | 説明                      | デフォルト |
+|------------|---------------------------|------------|
+| `-at`      | 新しい有効期限の日付/時間 |            |
+| `-file`    | データファイルへのパス    |            |
+| `-peer`    | アカウントの別名          | default    |
 
 ## 共通のオプション:
 
@@ -102,6 +106,56 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
+
+# ファイル書式
+
+## 書式: File
+
+対象となる共有リンク
+
+| 列  | 説明            | 例                                       |
+|-----|-----------------|------------------------------------------|
+| url | 共有リンクのURL | https://www.dropbox.com/scl/fo/fir9vjelf |
+
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
+```
+url
+https://www.dropbox.com/scl/fo/fir9vjelf
+```
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: operation_log
+
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+
+| 列                | 説明                                   |
+|-------------------|----------------------------------------|
+| status            | 処理の状態                             |
+| reason            | 失敗またはスキップの理由               |
+| input.url         | 共有リンクのURL                        |
+| result.tag        | エントリーの種別 (file, または folder) |
+| result.url        | 共有リンクのURL.                       |
+| result.name       | リンク先ファイル名称                   |
+| result.expires    | 有効期限 (設定されている場合)          |
+| result.path_lower | パス (すべて小文字に変換).             |
+| result.visibility | 共有リンクの開示範囲                   |
+| result.email      | ユーザーのメールアドレス               |
+| result.surname    | リンク所有者の名字                     |
+| result.given_name | リンク所有者の名                       |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

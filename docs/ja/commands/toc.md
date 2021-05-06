@@ -10,7 +10,6 @@ lang: ja
 
 | コマンド                                                                                   | 説明                                                               |
 |--------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| [connect user_file]({{ site.baseurl }}/ja/commands/connect-user_file.html)                 | ユーザーのファイルアクセスに接続する                               |
 | [file compare account]({{ site.baseurl }}/ja/commands/file-compare-account.html)           | 二つのアカウントのファイルを比較します                             |
 | [file compare local]({{ site.baseurl }}/ja/commands/file-compare-local.html)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy]({{ site.baseurl }}/ja/commands/file-copy.html)                                 | ファイルをコピーします                                             |
@@ -61,10 +60,6 @@ lang: ja
 
 | コマンド                                                                                                   | 説明                                                                                   |
 |------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [connect business_audit]({{ site.baseurl }}/ja/commands/connect-business_audit.html)                       | チーム監査アクセスに接続する                                                           |
-| [connect business_file]({{ site.baseurl }}/ja/commands/connect-business_file.html)                         | チームファイルアクセスに接続する                                                       |
-| [connect business_info]({{ site.baseurl }}/ja/commands/connect-business_info.html)                         | チームの情報アクセスに接続する                                                         |
-| [connect business_mgmt]({{ site.baseurl }}/ja/commands/connect-business_mgmt.html)                         | チームの管理アクセスに接続する                                                         |
 | [group add]({{ site.baseurl }}/ja/commands/group-add.html)                                                 | グループを作成します                                                                   |
 | [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html)                               | グループの削除                                                                         |
 | [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)                                           | グループを削除します                                                                   |
@@ -115,6 +110,8 @@ lang: ja
 | [team namespace file size]({{ site.baseurl }}/ja/commands/team-namespace-file-size.html)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
 | [team namespace list]({{ site.baseurl }}/ja/commands/team-namespace-list.html)                             | チーム内すべての名前空間を一覧                                                         |
 | [team namespace member list]({{ site.baseurl }}/ja/commands/team-namespace-member-list.html)               | チームフォルダ以下のファイル・フォルダを一覧                                           |
+| [team sharedlink cap expiry]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-expiry.html)               | チーム内の共有リンクに有効期限の上限を設定                                             |
+| [team sharedlink cap visibility]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-visibility.html)       | チーム内の共有リンクに可視性の上限を設定                                               |
 | [team sharedlink delete links]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-links.html)           | 共有リンクの一括削除                                                                   |
 | [team sharedlink delete member]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-member.html)         | メンバーの共有リンクをすべて削除                                                       |
 | [team sharedlink list]({{ site.baseurl }}/ja/commands/team-sharedlink-list.html)                           | 共有リンクの一覧                                                                       |

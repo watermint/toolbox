@@ -15,7 +15,7 @@
 /dist
 /resources/keys/toolbox.appkeys
 /resources/keys/toolbox.appkeys.secret
-/resources/release/build/info.json
+/resources/build/info.json
 /test/dev
 /test/results
 /docs/.jekyll-cache

@@ -58,6 +58,8 @@ type MsgDropboxBusiness struct {
 
 	SharedLinkTitle               app_msg.Message
 	SharedLinkInfo                app_msg.Message
+	SharedLinkCapVsUpdateTitle    app_msg.Message
+	SharedLinkCapVsUpdateDesc     app_msg.Message
 	SharedLinkWithJqListTitle     app_msg.Message
 	SharedLinkWithJqListExample   app_msg.Message
 	SharedLinkWithJqDeleteTitle   app_msg.Message
@@ -369,12 +371,18 @@ func (z DropboxBusinessSharedLink) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.SharedLinkInfo)
 	z.cat.RecipeTable("team shared link commands", ui, []string{
 		"team sharedlink list",
+		"team sharedlink cap expiry",
+		"team sharedlink cap visibility",
 		"team sharedlink update expiry",
 		"team sharedlink update password",
 		"team sharedlink update visibility",
 		"team sharedlink delete links",
 		"team sharedlink delete member",
 	})
+
+	ui.SubHeader(MDropboxBusiness.SharedLinkCapVsUpdateTitle)
+	ui.Info(MDropboxBusiness.SharedLinkCapVsUpdateDesc)
+
 	ui.SubHeader(MDropboxBusiness.SharedLinkWithJqListTitle)
 	ui.Info(MDropboxBusiness.SharedLinkWithJqListExample)
 

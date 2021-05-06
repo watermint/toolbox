@@ -26,6 +26,7 @@ import (
 type Preflight struct {
 	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
+	Quick bool
 }
 
 func (z *Preflight) Preset() {
@@ -101,7 +102,14 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	for _, la := range lang.Supported {
+	var targetLanguages = make([]lang.Lang, 0)
+	if z.Quick {
+		targetLanguages = append(targetLanguages, lang.Default)
+	} else {
+		targetLanguages = lang.Supported
+	}
+
+	for _, la := range targetLanguages {
 		langCode := la.CodeString()
 		suffix := la.Suffix()
 		webLangPath := la.CodeString() + "/"

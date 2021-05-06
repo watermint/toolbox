@@ -1,9 +1,3 @@
----
-layout: home
-title: watermint toolbox
-lang: ja
----
-
 # watermint toolbox
 
 ![watermint toolbox]({{ site.baseurl }}/images/logo.png){: width="160" }
@@ -12,7 +6,7 @@ Dropbox、Dropbox Business、Google、GitHubなどのWebサービスに対応し
 
 # watermint toolboxでもっとできること
 
-watermint toolboxには、日々の作業を解決するための191コマンドが用意されています. 例えば、あなたがDropbox Businessの管理者で、グループを管理する必要がある場合. グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
+watermint toolboxには、日々の作業を解決するための188コマンドが用意されています. 例えば、あなたがDropbox Businessの管理者で、グループを管理する必要がある場合. グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -57,5 +51,4 @@ watermint toolboxは、Dropbox のようなサービスとご自身のアカウ�
 
 APIトークンなどの機密データのほとんどは、難読化されてアクセス制限された状態でPCのストレージに保存されています. しかし、それらのデータを秘密にするのはあなたの責任です.
 特に、ツールボックスのワークパスの下にある`secrets`フォルダ(デフォルトでは`C:\Users\<ユーザー名>\.toolbox`、または`$HOME/.toolbox`フォルダ以下)は共有しないでください。
-
 

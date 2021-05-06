@@ -10,7 +10,6 @@ lang: en
 
 | Command                                                                                 | Description                                                   |
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [connect user_file]({{ site.baseurl }}/commands/connect-user_file.html)                 | Connect to user file access                                   |
 | [file compare account]({{ site.baseurl }}/commands/file-compare-account.html)           | Compare files of two accounts                                 |
 | [file compare local]({{ site.baseurl }}/commands/file-compare-local.html)               | Compare local folders and Dropbox folders                     |
 | [file copy]({{ site.baseurl }}/commands/file-copy.html)                                 | Copy files                                                    |
@@ -61,10 +60,6 @@ lang: en
 
 | Command                                                                                                 | Description                                                               |
 |---------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [connect business_audit]({{ site.baseurl }}/commands/connect-business_audit.html)                       | Connect to the team audit access                                          |
-| [connect business_file]({{ site.baseurl }}/commands/connect-business_file.html)                         | Connect to the team file access                                           |
-| [connect business_info]({{ site.baseurl }}/commands/connect-business_info.html)                         | Connect to the team info access                                           |
-| [connect business_mgmt]({{ site.baseurl }}/commands/connect-business_mgmt.html)                         | Connect to the team management access                                     |
 | [group add]({{ site.baseurl }}/commands/group-add.html)                                                 | Create new group                                                          |
 | [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html)                               | Delete groups                                                             |
 | [group delete]({{ site.baseurl }}/commands/group-delete.html)                                           | Delete group                                                              |
@@ -115,6 +110,8 @@ lang: en
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)                   | List all files and folders of the team namespaces                         |
 | [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)                             | List all namespaces of the team                                           |
 | [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html)               | List members of shared folders and team folders in the team               |
+| [team sharedlink cap expiry]({{ site.baseurl }}/commands/team-sharedlink-cap-expiry.html)               | Set expiry cap to shared links in the team                                |
+| [team sharedlink cap visibility]({{ site.baseurl }}/commands/team-sharedlink-cap-visibility.html)       | Set visibility cap to shared links in the team                            |
 | [team sharedlink delete links]({{ site.baseurl }}/commands/team-sharedlink-delete-links.html)           | Batch delete shared links                                                 |
 | [team sharedlink delete member]({{ site.baseurl }}/commands/team-sharedlink-delete-member.html)         | Delete all shared links of the member                                     |
 | [team sharedlink list]({{ site.baseurl }}/commands/team-sharedlink-list.html)                           | List of shared links                                                      |

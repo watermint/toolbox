@@ -69,7 +69,6 @@ Available commands:
 | Command      | Description                     | Notes |
 |--------------|---------------------------------|-------|
 | config       | watermint toolbox configuration |       |
-| connect      | Connect to the account          |       |
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
 | group        | Group management                |       |
@@ -89,7 +88,6 @@ Available commands:
 
 | Command                                                                 | Description                                                   |
 |-------------------------------------------------------------------------|---------------------------------------------------------------|
-| [connect user_file](docs/commands/connect-user_file.md)                 | Connect to user file access                                   |
 | [file compare account](docs/commands/file-compare-account.md)           | Compare files of two accounts                                 |
 | [file compare local](docs/commands/file-compare-local.md)               | Compare local folders and Dropbox folders                     |
 | [file copy](docs/commands/file-copy.md)                                 | Copy files                                                    |
@@ -140,10 +138,6 @@ Available commands:
 
 | Command                                                                                 | Description                                                               |
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [connect business_audit](docs/commands/connect-business_audit.md)                       | Connect to the team audit access                                          |
-| [connect business_file](docs/commands/connect-business_file.md)                         | Connect to the team file access                                           |
-| [connect business_info](docs/commands/connect-business_info.md)                         | Connect to the team info access                                           |
-| [connect business_mgmt](docs/commands/connect-business_mgmt.md)                         | Connect to the team management access                                     |
 | [group add](docs/commands/group-add.md)                                                 | Create new group                                                          |
 | [group batch delete](docs/commands/group-batch-delete.md)                               | Delete groups                                                             |
 | [group delete](docs/commands/group-delete.md)                                           | Delete group                                                              |
@@ -194,6 +188,8 @@ Available commands:
 | [team namespace file size](docs/commands/team-namespace-file-size.md)                   | List all files and folders of the team namespaces                         |
 | [team namespace list](docs/commands/team-namespace-list.md)                             | List all namespaces of the team                                           |
 | [team namespace member list](docs/commands/team-namespace-member-list.md)               | List members of shared folders and team folders in the team               |
+| [team sharedlink cap expiry](docs/commands/team-sharedlink-cap-expiry.md)               | Set expiry cap to shared links in the team                                |
+| [team sharedlink cap visibility](docs/commands/team-sharedlink-cap-visibility.md)       | Set visibility cap to shared links in the team                            |
 | [team sharedlink delete links](docs/commands/team-sharedlink-delete-links.md)           | Batch delete shared links                                                 |
 | [team sharedlink delete member](docs/commands/team-sharedlink-delete-member.md)         | Delete all shared links of the member                                     |
 | [team sharedlink list](docs/commands/team-sharedlink-list.md)                           | List of shared links                                                      |

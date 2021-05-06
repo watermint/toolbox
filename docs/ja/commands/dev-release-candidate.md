@@ -22,8 +22,6 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 * GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
 
 ## 認可スコープ
@@ -33,40 +31,6 @@ lang: ja
 
 # 認可
 
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2021 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-```
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2021 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-```
 最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
