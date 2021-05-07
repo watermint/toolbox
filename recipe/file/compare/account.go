@@ -1,6 +1,7 @@
 package compare
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -14,8 +15,8 @@ import (
 )
 
 type Account struct {
-	Left      dbx_conn.ConnUserFile
-	Right     dbx_conn.ConnUserFile
+	Left      dbx_conn.ConnScopedIndividual
+	Right     dbx_conn.ConnScopedIndividual
 	LeftPath  mo_path.DropboxPath
 	RightPath mo_path.DropboxPath
 	Diff      rp_model.RowReport
@@ -27,7 +28,13 @@ type Account struct {
 func (z *Account) Preset() {
 	z.Diff.SetModel(&mo_file_diff.Diff{})
 	z.Left.SetPeerName("left")
+	z.Left.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+	)
 	z.Right.SetPeerName("right")
+	z.Right.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+	)
 }
 
 func (z *Account) Exec(c app_control.Control) error {
