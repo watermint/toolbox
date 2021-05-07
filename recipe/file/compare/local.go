@@ -1,6 +1,7 @@
 package compare
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -17,7 +18,7 @@ import (
 )
 
 type Local struct {
-	Peer        dbx_conn.ConnUserFile
+	Peer        dbx_conn.ConnScopedIndividual
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Diff        rp_model.RowReport
@@ -26,6 +27,7 @@ type Local struct {
 }
 
 func (z *Local) Preset() {
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
 	z.Diff.SetModel(&mo_file_diff.Diff{})
 	z.Skip.SetModel(&mo_file_diff.Diff{})
 }
@@ -34,7 +36,7 @@ func (z *Local) Exec(c app_control.Control) error {
 	ui := c.UI()
 	ctx := z.Peer.Context()
 
-	if err := z.Diff.Open(rp_model.NoConsoleOutput()); err != nil {
+	if err := z.Diff.Open(); err != nil {
 		return err
 	}
 	if err := z.Skip.Open(rp_model.NoConsoleOutput()); err != nil {
