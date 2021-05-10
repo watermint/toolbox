@@ -1,6 +1,7 @@
 package search
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -13,7 +14,7 @@ import (
 )
 
 type Content struct {
-	Peer      dbx_conn.ConnUserFile
+	Peer      dbx_conn.ConnScopedIndividual
 	Path      mo_string.OptionalString
 	Query     string
 	Extension mo_string.OptionalString
@@ -57,6 +58,9 @@ func (z *Content) Test(c app_control.Control) error {
 }
 
 func (z *Content) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+	)
 	z.Category.SetOptions(
 		"",
 		"", "image", "document", "pdf", "spreadsheet", "presentation", "audio", "video", "folder", "paper", "others",
