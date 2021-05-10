@@ -3,6 +3,7 @@ package batch
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -59,7 +60,7 @@ func (z *UrlWorker) Exec() error {
 
 type Url struct {
 	rc_recipe.RemarkIrreversible
-	Peer            dbx_conn.ConnUserFile
+	Peer            dbx_conn.ConnScopedIndividual
 	File            fd_file.RowFeed
 	Path            mo_string.OptionalString
 	OperationLog    rp_model.TransactionReport
@@ -80,6 +81,7 @@ func (z *Url) Preset() {
 		),
 	)
 	z.File.SetModel(&UrlRow{})
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentWrite)
 }
 
 func (z *Url) Exec(c app_control.Control) error {

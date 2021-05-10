@@ -1,6 +1,7 @@
 package mount
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
@@ -11,15 +12,19 @@ import (
 )
 
 type List struct {
-	Peer  dbx_conn.ConnUserFile
+	Peer  dbx_conn.ConnScopedIndividual
 	Mount rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingRead,
+	)
 	z.Mount.SetModel(&mo_sharedfolder.SharedFolder{},
 		rp_model.HiddenColumns(
 			"owner_team_id",
-		))
+		),
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
