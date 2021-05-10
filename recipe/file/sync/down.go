@@ -1,6 +1,7 @@
 package sync
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -15,7 +16,7 @@ import (
 )
 
 type Down struct {
-	Peer         dbx_conn.ConnUserFile
+	Peer         dbx_conn.ConnScopedIndividual
 	Delete       bool
 	SkipExisting bool
 	LocalPath    mo_path2.FileSystemPath
@@ -25,6 +26,9 @@ type Down struct {
 }
 
 func (z *Down) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+	)
 	z.Name.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNameSuffixFilter(),
