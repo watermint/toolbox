@@ -14,7 +14,6 @@ lang: ja
 | [file compare local]({{ site.baseurl }}/ja/commands/file-compare-local.html)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy]({{ site.baseurl }}/ja/commands/file-copy.html)                                 | ファイルをコピーします                                             |
 | [file delete]({{ site.baseurl }}/ja/commands/file-delete.html)                             | ファイルまたはフォルダは削除します.                                |
-| [file download]({{ site.baseurl }}/ja/commands/file-download.html)                         | Dropboxからファイルをダウンロードします                            |
 | [file export doc]({{ site.baseurl }}/ja/commands/file-export-doc.html)                     | ドキュメントのエクスポート                                         |
 | [file export url]({{ site.baseurl }}/ja/commands/file-export-url.html)                     | URLからドキュメントをエクスポート                                  |
 | [file import batch url]({{ site.baseurl }}/ja/commands/file-import-batch-url.html)         | URLからファイルを一括インポートします                              |
@@ -35,7 +34,7 @@ lang: ja
 | [file paper overwrite]({{ site.baseurl }}/ja/commands/file-paper-overwrite.html)           | 既存のPaperドキュメントを上書きする                                |
 | [file paper prepend]({{ site.baseurl }}/ja/commands/file-paper-prepend.html)               | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
 | [file replication]({{ site.baseurl }}/ja/commands/file-replication.html)                   | ファイルコンテンツを他のアカウントに複製します                     |
-| [file restore]({{ site.baseurl }}/ja/commands/file-restore.html)                           | 指定されたパス以下をリストアします                                 |
+| [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                   | Restore files under given path                                     |
 | [file search content]({{ site.baseurl }}/ja/commands/file-search-content.html)             | ファイルコンテンツを検索                                           |
 | [file search name]({{ site.baseurl }}/ja/commands/file-search-name.html)                   | ファイル名を検索                                                   |
 | [file size]({{ site.baseurl }}/ja/commands/file-size.html)                                 | ストレージの利用量                                                 |

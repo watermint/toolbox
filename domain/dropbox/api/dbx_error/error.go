@@ -68,6 +68,8 @@ type DropboxError interface {
 	IsIdNotFound() bool
 	// shared_link_already_exists
 	IsSharedLinkAlreadyExists() bool
+	// It may not exist or may point to a deleted file.
+	IsInvalidRevision() bool
 
 	Summary() string
 }
@@ -102,6 +104,8 @@ type ErrorAccess interface {
 type ErrorEndpointPath interface {
 	// There is nothing at the given path.
 	IsNotFound() bool
+	// Not a file
+	IsNotFile() bool
 	// The given path does not satisfy the required path format
 	IsMalformedPath() bool
 	// Couldn't write to the target path because there was something in the way.
@@ -132,6 +136,10 @@ type ErrorMember interface {
 
 type errorsImpl struct {
 	ei ErrorInfo
+}
+
+func (z errorsImpl) IsInvalidRevision() bool {
+	return z.ei.HasPrefix("invalid_revision")
 }
 
 func (z errorsImpl) IsSharedLinkAlreadyExists() bool {

@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# file download
+# file restore all
 
-Dropboxからファイルをダウンロードします (試験的実装です)
+Restore files under given path (Experimental, and Irreversible operation)
 
 # セキュリティ
 
@@ -26,9 +26,10 @@ Dropboxからファイルをダウンロードします (試験的実装です)
 
 ## 認可スコープ
 
-| 説明                     |
-|--------------------------|
-| Dropbox へのフルアクセス |
+| 説明                                                   |
+|--------------------------------------------------------|
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集 |
 
 # 認可
 
@@ -64,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
+.\tbx.exe file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
+$HOME/Desktop/tbx file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,11 +81,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                         | デフォルト |
-|-----------------|------------------------------|------------|
-| `-dropbox-path` | ダウンロードするファイルパス |            |
-| `-local-path`   | 保存先ローカルパス           |            |
-| `-peer`         | アカウントの別名             | default    |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-path`    | Path          |            |
+| `-peer`    | Account alias | default    |
 
 ## 共通のオプション:
 
@@ -117,17 +117,20 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: operation_log
 
-このレポートはファイルとフォルダのメタデータを出力します.
+このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列              | 説明                                                         |
-|-----------------|--------------------------------------------------------------|
-| tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| name            | 名称                                                         |
-| path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| server_modified | Dropbox上で最後に更新された日時                              |
-| size            | ファイルサイズ(バイト単位)                                   |
+| 列                     | 説明                                                         |
+|------------------------|--------------------------------------------------------------|
+| status                 | 処理の状態                                                   |
+| reason                 | 失敗またはスキップの理由                                     |
+| input.path             | Path                                                         |
+| result.tag             | エントリーの種別`file`, `folder`, または `deleted`           |
+| result.name            | 名称                                                         |
+| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| result.server_modified | Dropbox上で最後に更新された日時                              |
+| result.size            | ファイルサイズ(バイト単位)                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

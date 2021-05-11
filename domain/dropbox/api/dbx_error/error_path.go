@@ -10,6 +10,10 @@ type errorPathImpl struct {
 	de ErrorInfo
 }
 
+func (z errorPathImpl) IsNotFile() bool {
+	return z.de.HasPrefix("path/not_file")
+}
+
 func (z errorPathImpl) IsTooManyWriteOperations() bool {
 	return z.de.HasPrefix("path/too_many_write_operations")
 }

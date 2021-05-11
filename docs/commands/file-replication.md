@@ -28,9 +28,11 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description         |
-|---------------------|
-| Dropbox Full access |
+| Description                                                    |
+|----------------------------------------------------------------|
+| Dropbox: View content of your Dropbox files and folders        |
+| Dropbox: Edit content of your Dropbox files and folders        |
+| Dropbox: View information about your Dropbox files and folders |
 
 # Authorization
 

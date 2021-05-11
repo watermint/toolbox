@@ -4,7 +4,7 @@ title: Command
 lang: en
 ---
 
-# file restore
+# file restore all
 
 Restore files under given path (Experimental, and Irreversible operation)
 
@@ -26,9 +26,10 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description         |
-|---------------------|
-| Dropbox Full access |
+| Description                                             |
+|---------------------------------------------------------|
+| Dropbox: View content of your Dropbox files and folders |
+| Dropbox: Edit content of your Dropbox files and folders |
 
 # Authorization
 
@@ -64,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file restore -path /DROPBOX/PATH/TO/RESTORE
+.\tbx.exe file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file restore -path /DROPBOX/PATH/TO/RESTORE
+$HOME/Desktop/tbx file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

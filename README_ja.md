@@ -90,7 +90,6 @@ DropboxおよびDropbox Business向けのツールセット
 | [file compare local](docs/ja/commands/file-compare-local.md)               | ローカルフォルダとDropboxフォルダの内容を比較します                |
 | [file copy](docs/ja/commands/file-copy.md)                                 | ファイルをコピーします                                             |
 | [file delete](docs/ja/commands/file-delete.md)                             | ファイルまたはフォルダは削除します.                                |
-| [file download](docs/ja/commands/file-download.md)                         | Dropboxからファイルをダウンロードします                            |
 | [file export doc](docs/ja/commands/file-export-doc.md)                     | ドキュメントのエクスポート                                         |
 | [file export url](docs/ja/commands/file-export-url.md)                     | URLからドキュメントをエクスポート                                  |
 | [file import batch url](docs/ja/commands/file-import-batch-url.md)         | URLからファイルを一括インポートします                              |
@@ -111,7 +110,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file paper overwrite](docs/ja/commands/file-paper-overwrite.md)           | 既存のPaperドキュメントを上書きする                                |
 | [file paper prepend](docs/ja/commands/file-paper-prepend.md)               | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
 | [file replication](docs/ja/commands/file-replication.md)                   | ファイルコンテンツを他のアカウントに複製します                     |
-| [file restore](docs/ja/commands/file-restore.md)                           | 指定されたパス以下をリストアします                                 |
+| [file restore all](docs/ja/commands/file-restore-all.md)                   | Restore files under given path                                     |
 | [file search content](docs/ja/commands/file-search-content.md)             | ファイルコンテンツを検索                                           |
 | [file search name](docs/ja/commands/file-search-name.md)                   | ファイル名を検索                                                   |
 | [file size](docs/ja/commands/file-size.md)                                 | ストレージの利用量                                                 |
