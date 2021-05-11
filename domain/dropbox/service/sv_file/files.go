@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
@@ -280,7 +281,7 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.Entry), opts ...ListOpt) error {
 	p := MakeListOpts(path, opts)
 
-	type Cursor struct {
+	type CursorParam struct {
 		Cursor string `path:"cursor" json:"cursor"`
 	}
 	type LongPoll struct {
@@ -291,7 +292,7 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 	if err, fail := res.Failure(); fail {
 		return err
 	}
-	cursor := &Cursor{}
+	cursor := &CursorParam{}
 	if err := res.Success().Json().Model(cursor); err != nil {
 		return err
 	}
@@ -320,8 +321,19 @@ func (z *filesImpl) Poll(path mo_path.DropboxPath, onEntry func(entry mo_file.En
 					onEntry(e)
 					return nil
 				}),
-				dbx_list.OnLastCursor(func(c string) {
-					cursor.Cursor = c
+				dbx_list.OnResponse(func(res es_response.Response) error {
+					if err, fail := res.Failure(); fail {
+						return err
+					}
+					newCursor := &CursorParam{}
+					if j, err := res.Success().AsJson(); err != nil {
+						return err
+					} else if err := j.Model(newCursor); err != nil {
+						return err
+					} else {
+						cursor = newCursor
+						return nil
+					}
 				}),
 			)
 			if err, fail := res.Failure(); fail {

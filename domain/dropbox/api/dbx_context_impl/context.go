@@ -59,41 +59,53 @@ func NewReplayMock(name string, ctl app_control.Control, replay kv_storage.Stora
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.Context) dbx_context.Context {
-	l := ctl.Log()
-	opts := make([]nw_rest.ClientOpt, 0)
+func newClientOpts(feature app_feature.Feature, l esl.Logger) (opts []nw_rest.ClientOpt) {
+	opts = make([]nw_rest.ClientOpt, 0)
 	opts = append(opts, nw_rest.Assert(dbx_response_impl.AssertResponse))
 
 	// too many requests error simulator
-	if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow20) {
+	if feature.Experiment(app.ExperimentDbxClientConditionerNarrow20) {
 		l.Debug("Experiment: Network conditioner enabled: 20%")
 		opts = append(opts, nw_rest.RateLimitSimulator(20, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
-	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow40) {
+	} else if feature.Experiment(app.ExperimentDbxClientConditionerNarrow40) {
 		l.Debug("Experiment: Network conditioner enabled: 40%")
 		opts = append(opts, nw_rest.RateLimitSimulator(40, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
-	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerNarrow100) {
+	} else if feature.Experiment(app.ExperimentDbxClientConditionerNarrow100) {
 		l.Debug("Experiment: Network conditioner enabled: 100%")
 		opts = append(opts, nw_rest.RateLimitSimulator(100, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
 	}
 
 	// server error simulator
-	if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerError20) {
+	if feature.Experiment(app.ExperimentDbxClientConditionerError20) {
 		l.Debug("Experiment: Network conditioner enabled: 20%")
 		opts = append(opts, nw_rest.ServerErrorSimulator(20, http.StatusInternalServerError, decorateServerError))
-	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerError40) {
+	} else if feature.Experiment(app.ExperimentDbxClientConditionerError40) {
 		l.Debug("Experiment: Network conditioner enabled: 40%")
 		opts = append(opts, nw_rest.ServerErrorSimulator(40, http.StatusInternalServerError, decorateServerError))
-	} else if ctl.Feature().Experiment(app.ExperimentDbxClientConditionerError100) {
+	} else if feature.Experiment(app.ExperimentDbxClientConditionerError100) {
 		l.Debug("Experiment: Network conditioner enabled: 100%")
 		opts = append(opts, nw_rest.ServerErrorSimulator(100, http.StatusInternalServerError, decorateServerError))
 	}
 
-	opts = append(opts, nw_rest.Client(token.Config().Client(context.Background(), token.Token())))
+	return opts
+}
 
-	client := nw_rest.New(opts...)
+func newClientWithToken(feature app_feature.Feature, l esl.Logger,  token api_auth.Context) nw_client.Rest {
+	opts := newClientOpts(feature, l)
+	opts = append(opts, nw_rest.Client(token.Config().Client(context.Background(), token.Token())))
+	return nw_rest.New(opts...)
+}
+
+func newClientNoAuth(feature app_feature.Feature, l esl.Logger) nw_client.Rest {
+	opts := newClientOpts(feature, l)
+	opts = append(opts, nw_rest.Client(&http.Client{}))
+	return nw_rest.New(opts...)
+}
+
+func New(name string, ctl app_control.Control, token api_auth.Context) dbx_context.Context {
 	return &ctxImpl{
 		name:    name,
-		client:  client,
+		client:  newClientWithToken(ctl.Feature(), ctl.Log(), token),
 		ctl:     ctl,
 		builder: dbx_request.NewBuilder(ctl, token),
 	}
@@ -216,5 +228,6 @@ func (z ctxImpl) WithPath(pathRoot dbx_context.PathRoot) dbx_context.Context {
 
 func (z ctxImpl) NoAuth() dbx_context.Context {
 	z.builder = z.builder.NoAuth()
+	z.client = newClientNoAuth(z.ctl.Feature(), z.ctl.Log())
 	return z
 }

@@ -16,7 +16,6 @@ type ListOpts struct {
 	ResultTag        string
 	onResponse       func(res es_response.Response) error
 	onEntry          func(entry es_json.Json) error
-	onLastCursor     func(cursor string)
 }
 
 func (z ListOpts) HasOnEntry() bool {
@@ -24,9 +23,6 @@ func (z ListOpts) HasOnEntry() bool {
 }
 func (z ListOpts) HasOnResponse() bool {
 	return z.onResponse != nil
-}
-func (z ListOpts) HasLastCursor() bool {
-	return z.onLastCursor != nil
 }
 
 func (z ListOpts) OnResponse(res es_response.Response) error {
@@ -40,11 +36,6 @@ func (z ListOpts) OnEntry(entry es_json.Json) error {
 		return z.onEntry(entry)
 	}
 	return nil
-}
-func (z ListOpts) OnLastCursor(cursor string) {
-	if z.onLastCursor != nil {
-		z.onLastCursor(cursor)
-	}
 }
 
 type ListOpt func(o ListOpts) ListOpts
@@ -79,13 +70,6 @@ func OnEntry(f func(entry es_json.Json) error) ListOpt {
 		return o
 	}
 }
-func OnLastCursor(f func(cursor string)) ListOpt {
-	return func(o ListOpts) ListOpts {
-		o.onLastCursor = f
-		return o
-	}
-}
-
 func Combined(opts []ListOpt) ListOpts {
 	lo := ListOpts{}
 	for _, o := range opts {

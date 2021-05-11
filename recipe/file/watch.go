@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -11,7 +12,7 @@ import (
 )
 
 type Watch struct {
-	Peer      dbx_conn.ConnUserFile
+	Peer      dbx_conn.ConnScopedIndividual
 	Path      mo_path.DropboxPath
 	Recursive bool
 }
@@ -36,4 +37,5 @@ func (z *Watch) Test(c app_control.Control) error {
 }
 
 func (z *Watch) Preset() {
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
 }
