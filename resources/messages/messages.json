@@ -1433,6 +1433,7 @@
   "recipe.file.replication.progress_done": "Replication finished: Found {{.DiffCount}} differences",
   "recipe.file.replication.title": "Replicate file content to the other account",
   "recipe.file.restore.all.cli.args": "-path /DROPBOX/PATH/TO/RESTORE",
+  "recipe.file.restore.all.error_path_not_found": "No deleted file or folder found in the path: {{.Path}}",
   "recipe.file.restore.all.flag.path": "Path",
   "recipe.file.restore.all.flag.peer": "Account alias",
   "recipe.file.restore.all.skip_already_restored": "The file/folder is already restored",

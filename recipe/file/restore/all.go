@@ -20,6 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
+	"strings"
 )
 
 type TargetPath struct {
@@ -35,6 +36,7 @@ type All struct {
 	SkipAlreadyRestored   app_msg.Message
 	SkipNotExistOrDeleted app_msg.Message
 	SkipIsNotDeleted      app_msg.Message
+	ErrorPathNotFound     app_msg.Message
 }
 
 func (z *All) Preset() {
@@ -126,19 +128,60 @@ func (z *All) restore(entry *mo_file.Deleted, ctx dbx_context.Context, ctl app_c
 }
 
 func (z *All) Exec(c app_control.Control) error {
+	l := c.Log()
 	ctx := z.Peer.Context()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
+	searchBasePath := z.Path
+	svf := sv_file.NewFiles(z.Peer.Context())
+	for {
+		if searchBasePath.IsRoot() {
+			break
+		}
+
+		m, err := svf.Resolve(searchBasePath)
+		dbxErr := dbx_error.NewErrors(err)
+		if err == nil {
+			searchBasePath = mo_path.NewDropboxPath(m.PathDisplay())
+			l.Debug("Restore search from the path", esl.Any("meta", m))
+			break
+		}
+
+		switch {
+		case dbxErr.Path().IsNotFound():
+			searchBasePath = searchBasePath.Parent()
+			l.Debug("Try with ascendant", esl.String("path", searchBasePath.Path()))
+		default:
+			l.Debug("Other error, fail", esl.Error(err))
+			return err
+		}
+	}
+
+	targetPathLower := strings.ToLower(z.Path.Path())
+	isTargetPath := func(p string) bool {
+		if z.Path.IsRoot() {
+			return true
+		}
+		return strings.HasPrefix(strings.ToLower(p), targetPathLower)
+	}
+
 	var lastErr error
+	proceed := false
 	c.Sequence().Do(func(s eq_sequence.Stage) {
 		s.Define("restore", z.restore, ctx, c)
 		q := s.Get("restore")
+
 		lastErr = sv_file.NewFiles(ctx).ListEach(
-			z.Path,
+			searchBasePath,
 			func(entry mo_file.Entry) {
+				if !isTargetPath(entry.PathLower()) {
+					l.Debug("Skip non target path", esl.String("entryPath", entry.PathDisplay()))
+					return
+				}
 				if d, e := entry.Deleted(); e {
+					proceed = true
 					q.Enqueue(d)
 				}
 			},
@@ -146,6 +189,11 @@ func (z *All) Exec(c app_control.Control) error {
 			sv_file.Recursive(true),
 		)
 	})
+
+	if !proceed {
+		c.UI().Error(z.ErrorPathNotFound.With("Path", z.Path.Path()))
+		return errors.New("no deleted file or folder found in the path")
+	}
 
 	return lastErr
 }
