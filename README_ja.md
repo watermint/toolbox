@@ -110,7 +110,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file paper overwrite](docs/ja/commands/file-paper-overwrite.md)           | 既存のPaperドキュメントを上書きする                                |
 | [file paper prepend](docs/ja/commands/file-paper-prepend.md)               | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
 | [file replication](docs/ja/commands/file-replication.md)                   | ファイルコンテンツを他のアカウントに複製します                     |
-| [file restore all](docs/ja/commands/file-restore-all.md)                   | Restore files under given path                                     |
+| [file restore all](docs/ja/commands/file-restore-all.md)                   | 指定されたパス以下をリストアします                                 |
 | [file search content](docs/ja/commands/file-search-content.md)             | ファイルコンテンツを検索                                           |
 | [file search name](docs/ja/commands/file-search-name.md)                   | ファイル名を検索                                                   |
 | [file size](docs/ja/commands/file-size.md)                                 | ストレージの利用量                                                 |
@@ -173,7 +173,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team activity event](docs/ja/commands/team-activity-event.md)                             | イベントログ                                                                           |
 | [team activity user](docs/ja/commands/team-activity-user.md)                               | ユーザーごとのアクティビティ                                                           |
 | [team content member list](docs/ja/commands/team-content-member-list.md)                   | チームフォルダや共有フォルダのメンバー一覧                                             |
-| [team content member size](docs/ja/commands/team-content-member-size.md)                   | Count number of members of team folders and shared folders                             |
+| [team content member size](docs/ja/commands/team-content-member-size.md)                   | チームフォルダや共有フォルダのメンバー数をカウントする                                 |
 | [team content mount list](docs/ja/commands/team-content-mount-list.md)                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
 | [team content policy list](docs/ja/commands/team-content-policy-list.md)                   | チームフォルダと共有フォルダのポリシー一覧                                             |
 | [team device list](docs/ja/commands/team-device-list.md)                                   | チーム内全てのデバイス/セッションを一覧します                                          |

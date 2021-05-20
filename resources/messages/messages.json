@@ -393,7 +393,7 @@
   "domain.dropbox.usecase.uc_team_content.group_to_folder.namespace_name.desc": "The name of this namespace",
   "domain.dropbox.usecase.uc_team_content.group_to_folder.owner_team_name.desc": "Team name of the team that owns the folder",
   "domain.dropbox.usecase.uc_team_content.group_to_folder.path.desc": "Path",
-  "domain.dropbox.usecase.uc_team_content.member_count.capacity.desc": "The capacity of the folder. Empty if it's not able to determine by your permission (e.g. a folder contains an external group).",
+  "domain.dropbox.usecase.uc_team_content.member_count.capacity.desc": "Capacity number to add members. Empty if it's not able to determine by your permission (e.g. a folder contains an external group).",
   "domain.dropbox.usecase.uc_team_content.member_count.count_external_groups.desc": "Number of external teams' group",
   "domain.dropbox.usecase.uc_team_content.member_count.count_total.desc": "Total number of members",
   "domain.dropbox.usecase.uc_team_content.member_count.desc": "Folder member count",

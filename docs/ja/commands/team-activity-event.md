@@ -8,25 +8,25 @@ lang: ja
 
 イベントログ 
 
-From release 91, the command parses `-start-time` or `-end-time` as the relative duration from now with the format like "-24h" (24 hours) or "-10m" (10 minutes).
-If you wanted to retrieve events every hour, then run like:
+リリース91以降では、`-start-time`または`-end-time`を`-24h`（24時間）または`-10m`（10分）のようなフォーマットで現在からの相対的な時間として解析します.
+もし、1時間ごとにイベントを取得したい場合は、次のように実行します:
 
 ```
 tbx team activity event -start-time -1h -output json > latest_events.json
 ```
 
-Then, append the latest part to the entire log if you want.
+必要であれば、最新の部分をログ全体に追加します.
 
 ```
 cat latest_events.json >> all.json
 ```
 
-Or more precisely, retrieve events every hour with some overlap.
+より正確には、1時間ごとにすこし重複したイベントを取得します.
 ```
 tbx team activity event -start-time -1h5m -output json > latest_events.json
 ```
 
-Then, concatenate, and de-duplicate overlapped events:
+そして、オーバーラップしたイベントを連結し、重複を排除します:
 ```
 cat all.json latest_events.json | sort -u > _all.json && mv _all.json all.json
 ```

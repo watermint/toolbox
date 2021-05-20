@@ -6,7 +6,7 @@ lang: ja
 
 # file restore all
 
-Restore files under given path (Experimental, and Irreversible operation)
+指定されたパス以下をリストアします (試験的実装かつ非可逆な操作です)
 
 # セキュリティ
 
@@ -81,10 +81,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-path`    | Path          |            |
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-path`    | パス             |            |
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -124,7 +124,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |------------------------|--------------------------------------------------------------|
 | status                 | 処理の状態                                                   |
 | reason                 | 失敗またはスキップの理由                                     |
-| input.path             | Path                                                         |
+| input.path             | パス                                                         |
 | result.tag             | エントリーの種別`file`, `folder`, または `deleted`           |
 | result.name            | 名称                                                         |
 | result.path_display    | パス (表示目的で大文字小文字を区別する).                     |

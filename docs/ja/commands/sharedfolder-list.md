@@ -130,7 +130,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | policy_member         | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
 | policy_viewer_info    | だれが閲覧社情報を有効化・無効化できるか                                                             |
 | owner_team_name       | このフォルダを所有するチームの名前                                                                   |
-| access_inheritance    | Access inheritance type                                                                              |
+| access_inheritance    | アクセス継承タイプ                                                                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

@@ -6,7 +6,7 @@ lang: ja
 
 # team content member size
 
-Count number of members of team folders and shared folders 
+チームフォルダや共有フォルダのメンバー数をカウントする 
 
 # セキュリティ
 
@@ -86,14 +86,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション             | 説明                                                                                                                                                                               | デフォルト |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-folder-name`         | Filter by folder name. Filter by exact match to the name.                                                                                                                          |            |
-| `-folder-name-prefix`  | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |            |
-| `-folder-name-suffix`  | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |            |
-| `-include-sub-folders` | Include sub-folders to the report.                                                                                                                                                 | false      |
-| `-peer`                | Account alias                                                                                                                                                                      | default    |
-| `-scan-timeout`        | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short      |
+| オプション             | 説明                                                                                                                                                                                       | デフォルト |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-folder-name`         | フォルダ名によるフィルター. 名前による完全一致でフィルター.                                                                                                                                |            |
+| `-folder-name-prefix`  | フォルダ名によるフィルター. 名前の前方一致によるフィルター.                                                                                                                                |            |
+| `-folder-name-suffix`  | フォルダ名によるフィルター. 名前の後方一致によるフィルター.                                                                                                                                |            |
+| `-include-sub-folders` | レポートにサブフォルダーを含める.                                                                                                                                                          | false      |
+| `-peer`                | アカウントの別名                                                                                                                                                                           | default    |
+| `-scan-timeout`        | スキャンのタイムアウト設定. スキャンタイムアウトした場合、チームフォルダのサブフォルダのパスは `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME` のようなダミーパスに置き換えられます. | short      |
 
 ## 共通のオプション:
 
@@ -126,19 +126,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: member_count
 
-Folder member count
+フォルダのメンバー数
 このコマンドはレポートを3種類の書式で出力します. `member_count.csv`, `member_count.json`, ならびに `member_count.xlsx`.
 
-| 列                    | 説明                                                                                                                           |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| path                  | Path                                                                                                                           |
-| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                       |
-| owner_team_name       | Team name of the team that owns the folder                                                                                     |
-| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                             |
-| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                          |
-| capacity              | The capacity of the folder. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
-| count_total           | Total number of members                                                                                                        |
-| count_external_groups | Number of external teams' group                                                                                                |
+| 列                    | 説明                                                                                                              |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------|
+| path                  | パス                                                                                                              |
+| folder_type           | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ)  |
+| owner_team_name       | このフォルダを所有するチームの名前                                                                                |
+| has_no_inherit        | フォルダやサブフォルダが親フォルダからのアクセス権を継承していない場合はtrue.                                     |
+| is_no_inherit         | フォルダが親フォルダからのアクセスを継承していない場合はtrue                                                      |
+| capacity              | メンバーを追加するための定員数. 権限で判断できない場合は空となります（例：フォルダに外部グループが含まれている）. |
+| count_total           | メンバー総数                                                                                                      |
+| count_external_groups | 外部チームのグループの数                                                                                          |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

@@ -34,7 +34,7 @@ lang: ja
 | [file paper overwrite]({{ site.baseurl }}/ja/commands/file-paper-overwrite.html)           | 既存のPaperドキュメントを上書きする                                |
 | [file paper prepend]({{ site.baseurl }}/ja/commands/file-paper-prepend.html)               | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
 | [file replication]({{ site.baseurl }}/ja/commands/file-replication.html)                   | ファイルコンテンツを他のアカウントに複製します                     |
-| [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                   | Restore files under given path                                     |
+| [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                   | 指定されたパス以下をリストアします                                 |
 | [file search content]({{ site.baseurl }}/ja/commands/file-search-content.html)             | ファイルコンテンツを検索                                           |
 | [file search name]({{ site.baseurl }}/ja/commands/file-search-name.html)                   | ファイル名を検索                                                   |
 | [file size]({{ site.baseurl }}/ja/commands/file-size.html)                                 | ストレージの利用量                                                 |
@@ -97,7 +97,7 @@ lang: ja
 | [team activity event]({{ site.baseurl }}/ja/commands/team-activity-event.html)                             | イベントログ                                                                           |
 | [team activity user]({{ site.baseurl }}/ja/commands/team-activity-user.html)                               | ユーザーごとのアクティビティ                                                           |
 | [team content member list]({{ site.baseurl }}/ja/commands/team-content-member-list.html)                   | チームフォルダや共有フォルダのメンバー一覧                                             |
-| [team content member size]({{ site.baseurl }}/ja/commands/team-content-member-size.html)                   | Count number of members of team folders and shared folders                             |
+| [team content member size]({{ site.baseurl }}/ja/commands/team-content-member-size.html)                   | チームフォルダや共有フォルダのメンバー数をカウントする                                 |
 | [team content mount list]({{ site.baseurl }}/ja/commands/team-content-mount-list.html)                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
 | [team content policy list]({{ site.baseurl }}/ja/commands/team-content-policy-list.html)                   | チームフォルダと共有フォルダのポリシー一覧                                             |
 | [team device list]({{ site.baseurl }}/ja/commands/team-device-list.html)                                   | チーム内全てのデバイス/セッションを一覧します                                          |

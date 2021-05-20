@@ -129,16 +129,16 @@ Report file path will be displayed last line of the command line output. If you 
 Folder member count
 The command will generate a report in three different formats. `member_count.csv`, `member_count.json`, and `member_count.xlsx`.
 
-| Column                | Description                                                                                                                    |
-|-----------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| path                  | Path                                                                                                                           |
-| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                       |
-| owner_team_name       | Team name of the team that owns the folder                                                                                     |
-| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                             |
-| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                          |
-| capacity              | The capacity of the folder. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
-| count_total           | Total number of members                                                                                                        |
-| count_external_groups | Number of external teams' group                                                                                                |
+| Column                | Description                                                                                                                        |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| path                  | Path                                                                                                                               |
+| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                           |
+| owner_team_name       | Team name of the team that owns the folder                                                                                         |
+| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                                 |
+| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                              |
+| capacity              | Capacity number to add members. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
+| count_total           | Total number of members                                                                                                            |
+| count_external_groups | Number of external teams' group                                                                                                    |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
