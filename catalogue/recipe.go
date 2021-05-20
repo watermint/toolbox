@@ -299,6 +299,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamactivitybatch.User{},
 		&recipeteamactivitydaily.Event{},
 		&recipeteamcontentmember.List{},
+		&recipeteamcontentmember.Size{},
 		&recipeteamcontentmount.List{},
 		&recipeteamcontentpolicy.List{},
 		&recipeteamdevice.List{},

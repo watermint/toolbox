@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# file mount list
+# team content member size
 
-マウント/アンマウントされた共有フォルダの一覧 
+Count number of members of team folders and shared folders 
 
 # セキュリティ
 
@@ -22,13 +22,19 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                         |
-|----------------------------------------------|
-| Dropbox: Dropboxの共有設定と共同作業者の表示 |
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダに関する情報を表示                |
+| Dropbox Business: 自分のチームグループのメンバーを見る                         |
+| Dropbox Business: チームメンバーの確認                                         |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示                          |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
 
 # 認可
 
@@ -64,12 +70,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file mount list 
+.\tbx.exe team content member size 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file mount list 
+$HOME/Desktop/tbx team content member size 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,9 +86,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-peer`    | アカウントの別名 | default    |
+| オプション             | 説明                                                                                                                                                                               | デフォルト |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-folder-name`         | Filter by folder name. Filter by exact match to the name.                                                                                                                          |            |
+| `-folder-name-prefix`  | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |            |
+| `-folder-name-suffix`  | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |            |
+| `-include-sub-folders` | Include sub-folders to the report.                                                                                                                                                 | false      |
+| `-peer`                | Account alias                                                                                                                                                                      | default    |
+| `-scan-timeout`        | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short      |
 
 ## 共通のオプション:
 
@@ -113,30 +124,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: mount
+## レポート: member_count
 
-このレポートは共有フォルダの一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `mount.csv`, `mount.json`, ならびに `mount.xlsx`.
+Folder member count
+このコマンドはレポートを3種類の書式で出力します. `member_count.csv`, `member_count.json`, ならびに `member_count.xlsx`.
 
-| 列                      | 説明                                                                                                 |
-|-------------------------|------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | 共有フォルダのID                                                                                     |
-| parent_shared_folder_id | 親共有フォルダのID. このフィールドはフォルダが他の共有フォルダに含まれる場合のみ設定されます.        |
-| name                    | 共有フォルダの名称                                                                                   |
-| access_type             | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
-| path_lower              | 共有フォルダのフルパス(小文字に変換済み).                                                            |
-| is_inside_team_folder   | フォルダがチームフォルダに内包されているかどうか                                                     |
-| is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
-| policy_manage_access    | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
-| policy_shared_link      | このフォルダの共有リンクを誰が利用できるか                                                           |
-| policy_member           | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
-| policy_viewer_info      | だれが閲覧社情報を有効化・無効化できるか                                                             |
-| owner_team_name         | このフォルダを所有するチームの名前                                                                   |
-| access_inheritance      | Access inheritance type                                                                              |
+| 列                    | 説明                                                                                                                           |
+|-----------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| path                  | Path                                                                                                                           |
+| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                       |
+| owner_team_name       | Team name of the team that owns the folder                                                                                     |
+| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                             |
+| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                          |
+| capacity              | The capacity of the folder. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
+| count_total           | Total number of members                                                                                                        |
+| count_external_groups | Number of external teams' group                                                                                                |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_count_0000.xlsx`, `member_count_0001.xlsx`, `member_count_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

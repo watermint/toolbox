@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# team content member list
+# team content member size
 
-List team folder & shared folder members 
+Count number of members of team folders and shared folders 
 
 # Security
 
@@ -70,12 +70,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team content member list 
+.\tbx.exe team content member size 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team content member list 
+$HOME/Desktop/tbx team content member size 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -86,15 +86,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                  | Description                                                                                                                                                                        | Default |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                          |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |         |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.                                                 |         |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.                                                     |         |
-| `-peer`                 | Account alias                                                                                                                                                                      | default |
-| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short   |
+| Option                 | Description                                                                                                                                                                        | Default |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-folder-name`         | Filter by folder name. Filter by exact match to the name.                                                                                                                          |         |
+| `-folder-name-prefix`  | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |         |
+| `-folder-name-suffix`  | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |         |
+| `-include-sub-folders` | Include sub-folders to the report.                                                                                                                                                 | false   |
+| `-peer`                | Account alias                                                                                                                                                                      | default |
+| `-scan-timeout`        | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short   |
 
 ## Common options:
 
@@ -125,40 +124,25 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: membership
+## Report: member_count
 
-This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.
-The command will generate a report in three different formats. `membership.csv`, `membership.json`, and `membership.xlsx`.
+Folder member count
+The command will generate a report in three different formats. `member_count.csv`, `member_count.json`, and `member_count.xlsx`.
 
-| Column          | Description                                                                                                                          |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| path            | Path                                                                                                                                 |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                             |
-| owner_team_name | Team name of the team that owns the folder                                                                                           |
-| access_type     | User's access level for this folder                                                                                                  |
-| member_type     | Type of this member (user, group, or invitee)                                                                                        |
-| member_name     | Name of this member                                                                                                                  |
-| member_email    | Email address of this member                                                                                                         |
-| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
-
-## Report: no_member
-
-This report shows folders without members.
-The command will generate a report in three different formats. `no_member.csv`, `no_member.json`, and `no_member.xlsx`.
-
-| Column          | Description                                                                                              |
-|-----------------|----------------------------------------------------------------------------------------------------------|
-| owner_team_name | Team name of the team that owns the folder                                                               |
-| path            | Path                                                                                                     |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
+| Column                | Description                                                                                                                    |
+|-----------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| path                  | Path                                                                                                                           |
+| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                       |
+| owner_team_name       | Team name of the team that owns the folder                                                                                     |
+| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                             |
+| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                          |
+| capacity              | The capacity of the folder. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
+| count_total           | Total number of members                                                                                                        |
+| count_external_groups | Number of external teams' group                                                                                                |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_count_0000.xlsx`, `member_count_0001.xlsx`, `member_count_0002.xlsx`, ...
 
 # Proxy configuration
 

@@ -173,6 +173,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team activity event](docs/ja/commands/team-activity-event.md)                             | イベントログ                                                                           |
 | [team activity user](docs/ja/commands/team-activity-user.md)                               | ユーザーごとのアクティビティ                                                           |
 | [team content member list](docs/ja/commands/team-content-member-list.md)                   | チームフォルダや共有フォルダのメンバー一覧                                             |
+| [team content member size](docs/ja/commands/team-content-member-size.md)                   | Count number of members of team folders and shared folders                             |
 | [team content mount list](docs/ja/commands/team-content-mount-list.md)                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
 | [team content policy list](docs/ja/commands/team-content-policy-list.md)                   | チームフォルダと共有フォルダのポリシー一覧                                             |
 | [team device list](docs/ja/commands/team-device-list.md)                                   | チーム内全てのデバイス/セッションを一覧します                                          |

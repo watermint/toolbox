@@ -97,6 +97,7 @@ lang: ja
 | [team activity event]({{ site.baseurl }}/ja/commands/team-activity-event.html)                             | イベントログ                                                                           |
 | [team activity user]({{ site.baseurl }}/ja/commands/team-activity-user.html)                               | ユーザーごとのアクティビティ                                                           |
 | [team content member list]({{ site.baseurl }}/ja/commands/team-content-member-list.html)                   | チームフォルダや共有フォルダのメンバー一覧                                             |
+| [team content member size]({{ site.baseurl }}/ja/commands/team-content-member-size.html)                   | Count number of members of team folders and shared folders                             |
 | [team content mount list]({{ site.baseurl }}/ja/commands/team-content-mount-list.html)                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
 | [team content policy list]({{ site.baseurl }}/ja/commands/team-content-policy-list.html)                   | チームフォルダと共有フォルダのポリシー一覧                                             |
 | [team device list]({{ site.baseurl }}/ja/commands/team-device-list.html)                                   | チーム内全てのデバイス/セッションを一覧します                                          |

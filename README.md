@@ -175,6 +175,7 @@ Available commands:
 | [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
 | [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
 | [team content member list](docs/commands/team-content-member-list.md)                   | List team folder & shared folder members                                  |
+| [team content member size](docs/commands/team-content-member-size.md)                   | Count number of members of team folders and shared folders                |
 | [team content mount list](docs/commands/team-content-mount-list.md)                     | List all mounted/unmounted shared folders of team members.                |
 | [team content policy list](docs/commands/team-content-policy-list.md)                   | List policies of team folders and shared folders in the team              |
 | [team device list](docs/commands/team-device-list.md)                                   | List all devices/sessions in the team                                     |
