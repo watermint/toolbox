@@ -8,10 +8,19 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
+	"sync"
 )
 
-type GroupMember interface {
+type GroupDirectory interface {
+	List(groupId string) (members []*mo_group_member.Member, err error)
+}
+
+type GroupMemberReader interface {
 	List() (members []*mo_group_member.Member, err error)
+}
+
+type GroupMember interface {
+	GroupMemberReader
 	Add(members ...MemberOpt) (group *mo_group.Group, err error)
 	Remove(members ...MemberOpt) (group *mo_group.Group, err error)
 }
@@ -50,6 +59,70 @@ func NewByGroupId(ctx dbx_context.Context, groupId string) GroupMember {
 		ctx:     ctx,
 		groupId: groupId,
 	}
+}
+
+func NewCachedReader(ctx dbx_context.Context, groupId string) GroupMemberReader {
+	return &cachedReader{
+		group:   NewByGroupId(ctx, groupId),
+		mutex:   sync.Mutex{},
+		members: nil,
+		lastErr: nil,
+	}
+}
+
+func NewCachedDirectory(ctx dbx_context.Context) GroupDirectory {
+	return &cachedDirectory{
+		groups: make(map[string]GroupMemberReader),
+		mutex:  sync.Mutex{},
+		ctx:    ctx,
+	}
+}
+
+type cachedDirectory struct {
+	groups map[string]GroupMemberReader
+	mutex  sync.Mutex
+	ctx    dbx_context.Context
+}
+
+func (z *cachedDirectory) List(groupId string) (members []*mo_group_member.Member, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	if group, ok := z.groups[groupId]; ok {
+		return group.List()
+	}
+
+	group := NewCachedReader(z.ctx, groupId)
+	z.groups[groupId] = group
+	return group.List()
+}
+
+type cachedReader struct {
+	group   GroupMemberReader
+	mutex   sync.Mutex
+	members []*mo_group_member.Member
+	lastErr error
+}
+
+func (z *cachedReader) List() (members []*mo_group_member.Member, err error) {
+	z.mutex.Lock()
+	defer z.mutex.Unlock()
+
+	if z.lastErr != nil {
+		return nil, z.lastErr
+	}
+
+	if z.members != nil {
+		return z.members, nil
+	}
+
+	members, err = z.group.List()
+	if err != nil {
+		z.lastErr = err
+		return nil, err
+	}
+	z.members = members
+	return z.members, nil
 }
 
 type groupMemberImpl struct {

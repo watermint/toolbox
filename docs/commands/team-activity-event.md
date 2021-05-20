@@ -8,6 +8,34 @@ lang: en
 
 Event log 
 
+From release 91, the command parses `-start-time` or `-end-time` as the relative duration from now with the format like "-24h" (24 hours) or "-10m" (10 minutes).
+If you wanted to retrieve events every hour, then run like:
+
+```
+tbx team activity event -start-time -1h -output json > latest_events.json
+```
+
+Then, append the latest part to the entire log if you want.
+
+```
+cat latest_events.json >> all.json
+```
+
+Or more precisely, retrieve events every hour with some overlap.
+```
+tbx team activity event -start-time -1h5m -output json > latest_events.json
+```
+
+Then, concatenate, and de-duplicate overlapped events:
+```
+cat all.json latest_events.json | sort -u > _all.json && mv _all.json all.json
+```
+
+If you prefer CSV format, then use the `jq` command to convert it.
+```
+cat latest_events.json | jq -r '[.timestamp, .actor[.actor.".tag"].display_name, .actor[.actor.".tag"].email, .event_type.description, .event_category.".tag", .origin.access_method.end_user.".tag", .origin.geo_location.ip_address, .origin.geo_location.country, .origin.geo_location.city, .involve_non_team_member, (.participants | @text), (.context | @text)] | @csv' >> all.csv
+```
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

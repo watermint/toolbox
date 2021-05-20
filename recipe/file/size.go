@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -14,7 +15,7 @@ import (
 )
 
 type Size struct {
-	Peer  dbx_conn.ConnUserFile
+	Peer  dbx_conn.ConnScopedIndividual
 	Size  rp_model.RowReport
 	Path  mo_path.DropboxPath
 	Depth mo_int.RangeInt
@@ -25,6 +26,7 @@ func (z *Size) Preset() {
 		&es_size.FolderSize{},
 	)
 	z.Depth.SetRange(1, 300, 2)
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
 	z.Path = mo_path.NewDropboxPath("/")
 }
 

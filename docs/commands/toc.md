@@ -14,7 +14,6 @@ lang: en
 | [file compare local]({{ site.baseurl }}/commands/file-compare-local.html)               | Compare local folders and Dropbox folders                     |
 | [file copy]({{ site.baseurl }}/commands/file-copy.html)                                 | Copy files                                                    |
 | [file delete]({{ site.baseurl }}/commands/file-delete.html)                             | Delete file or folder                                         |
-| [file download]({{ site.baseurl }}/commands/file-download.html)                         | Download a file from Dropbox                                  |
 | [file export doc]({{ site.baseurl }}/commands/file-export-doc.html)                     | Export document                                               |
 | [file export url]({{ site.baseurl }}/commands/file-export-url.html)                     | Export a document from the URL                                |
 | [file import batch url]({{ site.baseurl }}/commands/file-import-batch-url.html)         | Batch import files from URL                                   |
@@ -35,7 +34,7 @@ lang: en
 | [file paper overwrite]({{ site.baseurl }}/commands/file-paper-overwrite.html)           | Overwrite existing Paper document                             |
 | [file paper prepend]({{ site.baseurl }}/commands/file-paper-prepend.html)               | Append the content to the beginning of the existing Paper doc |
 | [file replication]({{ site.baseurl }}/commands/file-replication.html)                   | Replicate file content to the other account                   |
-| [file restore]({{ site.baseurl }}/commands/file-restore.html)                           | Restore files under given path                                |
+| [file restore all]({{ site.baseurl }}/commands/file-restore-all.html)                   | Restore files under given path                                |
 | [file search content]({{ site.baseurl }}/commands/file-search-content.html)             | Search file content                                           |
 | [file search name]({{ site.baseurl }}/commands/file-search-name.html)                   | Search file name                                              |
 | [file size]({{ site.baseurl }}/commands/file-size.html)                                 | Storage usage                                                 |
@@ -98,6 +97,7 @@ lang: en
 | [team activity event]({{ site.baseurl }}/commands/team-activity-event.html)                             | Event log                                                                 |
 | [team activity user]({{ site.baseurl }}/commands/team-activity-user.html)                               | Activities log per user                                                   |
 | [team content member list]({{ site.baseurl }}/commands/team-content-member-list.html)                   | List team folder & shared folder members                                  |
+| [team content member size]({{ site.baseurl }}/commands/team-content-member-size.html)                   | Count number of members of team folders and shared folders                |
 | [team content mount list]({{ site.baseurl }}/commands/team-content-mount-list.html)                     | List all mounted/unmounted shared folders of team members.                |
 | [team content policy list]({{ site.baseurl }}/commands/team-content-policy-list.html)                   | List policies of team folders and shared folders in the team              |
 | [team device list]({{ site.baseurl }}/commands/team-device-list.html)                                   | List all devices/sessions in the team                                     |

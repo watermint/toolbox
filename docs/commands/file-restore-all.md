@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# file download
+# file restore all
 
-Download a file from Dropbox (Experimental)
+Restore files under given path (Experimental, and Irreversible operation)
 
 # Security
 
@@ -26,9 +26,10 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description         |
-|---------------------|
-| Dropbox Full access |
+| Description                                             |
+|---------------------------------------------------------|
+| Dropbox: View content of your Dropbox files and folders |
+| Dropbox: Edit content of your Dropbox files and folders |
 
 # Authorization
 
@@ -64,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
+.\tbx.exe file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
+$HOME/Desktop/tbx file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,11 +81,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option          | Description            | Default |
-|-----------------|------------------------|---------|
-| `-dropbox-path` | File path to download  |         |
-| `-local-path`   | Local path to download |         |
-| `-peer`         | Account alias          | default |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-path` | Path          |         |
+| `-peer` | Account alias | default |
 
 ## Common options:
 
@@ -117,17 +117,20 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: operation_log
 
-This report shows a list of metadata of files or folders in the path.
+This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column          | Description                                                                                            |
-|-----------------|--------------------------------------------------------------------------------------------------------|
-| tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name            | The last component of the path (including extension).                                                  |
-| path_display    | The cased path to be used for display purposes only.                                                   |
-| client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified | The last time the file was modified on Dropbox.                                                        |
-| size            | The file size in bytes.                                                                                |
+| Column                 | Description                                                                                            |
+|------------------------|--------------------------------------------------------------------------------------------------------|
+| status                 | Status of the operation                                                                                |
+| reason                 | Reason of failure or skipped operation                                                                 |
+| input.path             | Path                                                                                                   |
+| result.tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| result.name            | The last component of the path (including extension).                                                  |
+| result.path_display    | The cased path to be used for display purposes only.                                                   |
+| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| result.server_modified | The last time the file was modified on Dropbox.                                                        |
+| result.size            | The file size in bytes.                                                                                |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

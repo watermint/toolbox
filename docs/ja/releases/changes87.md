@@ -27,16 +27,16 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     {"Peer": "dropbox_scoped_individual"},
-  	Services:       {"dropbox"},
-- 	IsSecret:       false,
-+ 	IsSecret:       true,
-  	IsConsole:      false,
-  	IsExperimental: false,
-  	... // 9 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     {"Peer": "dropbox_scoped_individual"},
+  	Services:       {"dropbox"},
+- 	IsSecret:       false,
++ 	IsSecret:       true,
+  	IsConsole:      false,
+  	IsExperimental: false,
+  	... // 9 identical fields
+  }
 ```
 # コマンド仕様の変更: `file export doc`
 
@@ -46,24 +46,24 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "DropboxPath", Desc: "エクスポートするDropbox上のドキュメントパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-+ 		&{
-+ 			Name:     "Format",
-+ 			Desc:     "エクスポート書式",
-+ 			TypeName: "essentials.model.mo_string.opt_string",
-+ 		},
-  		&{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
-  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "DropboxPath", Desc: "エクスポートするDropbox上のドキュメントパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
++ 		&{
++ 			Name:     "Format",
++ 			Desc:     "エクスポート書式",
++ 			TypeName: "essentials.model.mo_string.opt_string",
++ 		},
+  		&{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `team sharedlink list`
 
@@ -73,29 +73,29 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
-  		&{
-  			Name: "Visibility",
-  			Desc: strings.Join({
-  				"\xe5",
-- 				"\x87\xba力するリンクを可視性にてフィルターします (",
-+ 				"\x8f\xaf視性によるリンクのフィルタリング (all/",
-  				"public/team_only/password)",
-  			}, ""),
-  			Default:  "all",
-  			TypeName: "essentials.model.mo_string.select_string",
-  			TypeAttr: map[string]interface{}{"options": []interface{}{string("all"), string("public"), string("team_only"), string("password"), ...}},
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
+  		&{
+  			Name: "Visibility",
+  			Desc: strings.Join({
+  				"\xe5",
+- 				"\x87\xba力するリンクを可視性にてフィルターします (",
++ 				"\x8f\xaf視性によるリンクのフィルタリング (all/",
+  				"public/team_only/password)",
+  			}, ""),
+  			Default:  "all",
+  			TypeName: "essentials.model.mo_string.select_string",
+  			TypeAttr: map[string]interface{}{"options": []interface{}{string("all"), string("public"), string("team_only"), string("password"), ...}},
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `team sharedlink update expiry`
 
@@ -105,63 +105,63 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	Name:            "expiry",
-  	Title:           "チーム内の公開されている共有リンクについて\xe6"...,
-- 	Desc:            "",
-+ 	Desc:            "注：リリース87以降、このコマンドは、アップデートする共有リンクを選択するためのファイルを受け取ります. チーム内のすべての共有リンクの有効期限を更新したい場合は、`team sharedlink l"...,
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "team sharedlink update expiry",
-- 	CliArgs:         "-days 28",
-+ 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -days 28",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-- 	ConnScopes:      map[string]string{"Peer": "business_file"},
-+ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
-  	Services:        {"dropbox_business"},
-  	IsSecret:        false,
-  	... // 4 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "At", Desc: "新しい有効期限の日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
-  		&{Name: "Days", Desc: "新しい有効期限までの日時", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...},
-- 		&{
-- 			Name:     "Peer",
-- 			Desc:     "アカウントの別名",
-- 			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-- 		},
-+ 		&{
-+ 			Name:     "File",
-+ 			Desc:     "データファイルへのパス",
-+ 			TypeName: "infra.feed.fd_file_impl.row_feed",
-+ 		},
-- 		&{
-- 			Name:     "Visibility",
-- 			Desc:     "対象となるリンクの公開範囲",
-- 			Default:  "public",
-- 			TypeName: "essentials.model.mo_string.select_string",
-- 			TypeAttr: map[string]interface{}{
-- 				"options": []interface{}{
-- 					string("public"), string("team_only"), string("password"),
-- 					string("team_and_password"), ...,
-- 				},
-- 			},
-- 		},
-+ 		&{
-+ 			Name:     "Peer",
-+ 			Desc:     "アカウントの別名",
-+ 			Default:  "default",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-+ 			TypeAttr: []interface{}{string("members.read"), string("sharing.write"), string("team_data.member")},
-+ 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	Name:            "expiry",
+  	Title:           "チーム内の公開されている共有リンクについて\xe6"...,
+- 	Desc:            "",
++ 	Desc:            "注：リリース87以降、このコマンドは、アップデートする共有リンクを選択するためのファイルを受け取ります. チーム内のすべての共有リンクの有効期限を更新したい場合は、`team sharedlink l"...,
+  	Remarks:         "(非可逆な操作です)",
+  	Path:            "team sharedlink update expiry",
+- 	CliArgs:         "-days 28",
++ 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -days 28",
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "business_file"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+  	Services:        {"dropbox_business"},
+  	IsSecret:        false,
+  	... // 4 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "At", Desc: "新しい有効期限の日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
+  		&{Name: "Days", Desc: "新しい有効期限までの日時", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...},
+- 		&{
+- 			Name:     "Peer",
+- 			Desc:     "アカウントの別名",
+- 			Default:  "default",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
+- 		},
++ 		&{
++ 			Name:     "File",
++ 			Desc:     "データファイルへのパス",
++ 			TypeName: "infra.feed.fd_file_impl.row_feed",
++ 		},
+- 		&{
+- 			Name:     "Visibility",
+- 			Desc:     "対象となるリンクの公開範囲",
+- 			Default:  "public",
+- 			TypeName: "essentials.model.mo_string.select_string",
+- 			TypeAttr: map[string]interface{}{
+- 				"options": []interface{}{
+- 					string("public"), string("team_only"), string("password"),
+- 					string("team_and_password"), ...,
+- 				},
+- 			},
+- 		},
++ 		&{
++ 			Name:     "Peer",
++ 			Desc:     "アカウントの別名",
++ 			Default:  "default",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
++ 			TypeAttr: []interface{}{string("members.read"), string("sharing.write"), string("team_data.member")},
++ 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 
 ## 追加されたレポート

@@ -71,7 +71,6 @@ func (z *listImpl) handleResponse(lo dbx_list.ListOpts, res dbx_response.Respons
 		l.Debug("continue")
 		return z.listContinue(lo, cursor)
 	} else {
-		lo.OnLastCursor(cursor)
 		return dbx_response_impl.New(res)
 	}
 }

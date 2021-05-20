@@ -1,6 +1,6 @@
 ---
 title: watermint toolbox
-lang: en
+lang: ja
 ---
 
 <!DOCTYPE html>
@@ -14,6 +14,33 @@ lang: en
         {% capture home_content %}{% include_relative home.md %}{% endcapture %}
         {% capture home_content %}{{ home_content | markdownify }}{% endcapture %}
         {% include anchor_headings.html html=home_content beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
+    </div>
+    <div class="container content">
+        {% include anchor_headings.html html='<h1>Recent releases</h1>' beforeHeading=true anchorBody='<i class="bi bi-bookmark anchor-heading"></i>' %}
+        <table>
+            <thead>
+            <tr>
+                <th>Release</th>
+                <th>Date</th>
+                <th>Download</th>
+                <th>Changes</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in site.posts %}
+            {% if forloop.index <= 5 %}
+            <tr>
+                <td class="post-title">
+                    <i class="bi bi-check-circle-fill"></i> <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+                </td>
+                <td>{{ post.date | date_to_string: "ordinal", "UK" }}</td>
+                <td><i class="bi bi-github"></i> <a href="{{ post.release_page }}">{{ post.title }}</a></td>
+                <td><i class="bi bi-card-text"></i> <a href="releases/changes{{ post.release }}.html">Release {{ post.release }}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
     {% include page_footer.html %}
 </div>

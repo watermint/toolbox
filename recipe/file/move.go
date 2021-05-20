@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
@@ -13,12 +14,16 @@ import (
 
 type Move struct {
 	rc_recipe.RemarkIrreversible
-	Peer dbx_conn.ConnUserFile
+	Peer dbx_conn.ConnScopedIndividual
 	Src  mo_path.DropboxPath
 	Dst  mo_path.DropboxPath
 }
 
 func (z *Move) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+		dbx_auth.ScopeFilesContentWrite,
+	)
 }
 
 func (z *Move) Exec(c app_control.Control) error {

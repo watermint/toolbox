@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -16,8 +17,8 @@ import (
 
 type Replication struct {
 	rc_recipe.RemarkIrreversible
-	Src             dbx_conn.ConnUserFile
-	Dst             dbx_conn.ConnUserFile
+	Src             dbx_conn.ConnScopedIndividual
+	Dst             dbx_conn.ConnScopedIndividual
 	SrcPath         mo_path.DropboxPath
 	DstPath         mo_path.DropboxPath
 	ReplicationDiff rp_model.RowReport
@@ -28,6 +29,13 @@ func (z *Replication) Preset() {
 	z.ReplicationDiff.SetModel(&mo_file_diff.Diff{})
 	z.Src.SetPeerName("src")
 	z.Dst.SetPeerName("dst")
+	z.Src.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+	)
+	z.Dst.SetScopes(
+		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeFilesContentWrite,
+	)
 }
 
 func (z *Replication) Exec(c app_control.Control) error {

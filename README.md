@@ -92,7 +92,6 @@ Available commands:
 | [file compare local](docs/commands/file-compare-local.md)               | Compare local folders and Dropbox folders                     |
 | [file copy](docs/commands/file-copy.md)                                 | Copy files                                                    |
 | [file delete](docs/commands/file-delete.md)                             | Delete file or folder                                         |
-| [file download](docs/commands/file-download.md)                         | Download a file from Dropbox                                  |
 | [file export doc](docs/commands/file-export-doc.md)                     | Export document                                               |
 | [file export url](docs/commands/file-export-url.md)                     | Export a document from the URL                                |
 | [file import batch url](docs/commands/file-import-batch-url.md)         | Batch import files from URL                                   |
@@ -113,7 +112,7 @@ Available commands:
 | [file paper overwrite](docs/commands/file-paper-overwrite.md)           | Overwrite existing Paper document                             |
 | [file paper prepend](docs/commands/file-paper-prepend.md)               | Append the content to the beginning of the existing Paper doc |
 | [file replication](docs/commands/file-replication.md)                   | Replicate file content to the other account                   |
-| [file restore](docs/commands/file-restore.md)                           | Restore files under given path                                |
+| [file restore all](docs/commands/file-restore-all.md)                   | Restore files under given path                                |
 | [file search content](docs/commands/file-search-content.md)             | Search file content                                           |
 | [file search name](docs/commands/file-search-name.md)                   | Search file name                                              |
 | [file size](docs/commands/file-size.md)                                 | Storage usage                                                 |
@@ -176,6 +175,7 @@ Available commands:
 | [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
 | [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
 | [team content member list](docs/commands/team-content-member-list.md)                   | List team folder & shared folder members                                  |
+| [team content member size](docs/commands/team-content-member-size.md)                   | Count number of members of team folders and shared folders                |
 | [team content mount list](docs/commands/team-content-mount-list.md)                     | List all mounted/unmounted shared folders of team members.                |
 | [team content policy list](docs/commands/team-content-policy-list.md)                   | List policies of team folders and shared folders in the team              |
 | [team device list](docs/commands/team-device-list.md)                                   | List all devices/sessions in the team                                     |

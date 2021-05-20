@@ -20,6 +20,11 @@ type SharedFolder struct {
 	PolicyViewerInfo     string `path:"policy.viewer_info_policy.\\.tag" json:"policy_viewer_info"`
 	OwnerTeamId          string `path:"owner_team.id" json:"owner_team_id"`
 	OwnerTeamName        string `path:"owner_team.name" json:"owner_team_name"`
+	AccessInheritance    string `path:"access_inheritance.\\.tag" json:"access_inheritance"`
+}
+
+func (z SharedFolder) IsNoInherit() bool {
+	return z.AccessInheritance == "no_inherit"
 }
 
 type MemberMount struct {

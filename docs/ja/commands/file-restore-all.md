@@ -4,7 +4,7 @@ title: コマンド
 lang: ja
 ---
 
-# file restore
+# file restore all
 
 指定されたパス以下をリストアします (試験的実装かつ非可逆な操作です)
 
@@ -26,9 +26,10 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                     |
-|--------------------------|
-| Dropbox へのフルアクセス |
+| 説明                                                   |
+|--------------------------------------------------------|
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集 |
 
 # 認可
 
@@ -64,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file restore -path /DROPBOX/PATH/TO/RESTORE
+.\tbx.exe file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file restore -path /DROPBOX/PATH/TO/RESTORE
+$HOME/Desktop/tbx file restore all -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

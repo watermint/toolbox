@@ -130,6 +130,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 | policy_member         | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
 | policy_viewer_info    | Who can enable/disable viewer info for this shared folder.                                                |
 | owner_team_name       | Team name of the team that owns the folder                                                                |
+| access_inheritance    | Access inheritance type                                                                                   |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

@@ -2,6 +2,7 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -14,7 +15,7 @@ import (
 )
 
 type List struct {
-	Peer           dbx_conn.ConnUserFile
+	Peer           dbx_conn.ConnScopedIndividual
 	Path           mo_path.DropboxPath
 	Recursive      bool
 	IncludeDeleted bool
@@ -22,6 +23,7 @@ type List struct {
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
 	z.FileList.SetModel(
 		&mo_file.ConcreteEntry{},
 		rp_model.HiddenColumns(

@@ -2,6 +2,7 @@ package dbx_response_impl
 
 import (
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/essentials/http/es_response"
@@ -16,6 +17,15 @@ var (
 	ErrorInternalServerError = errors.New("internal server error")
 )
 
+type ErrorMissingScope struct {
+	ErrorSummary  string `json:"error_summary" path:"error_summary"`
+	RequiredScope string `json:"required_scope" path:"error.required_scope"`
+}
+
+func (z ErrorMissingScope) Error() string {
+	return fmt.Sprintf("missing scope [%s]", z.RequiredScope)
+}
+
 func AssertResponse(res es_response.Response) es_response.Response {
 	l := esl.Default()
 
@@ -26,6 +36,17 @@ func AssertResponse(res es_response.Response) es_response.Response {
 		if strings.HasPrefix(res.Alt().BodyString(), "<!DOCTYPE html>") {
 			l.Debug("Bad response from server, assume that can retry", esl.String("response", res.Alt().BodyString()))
 			return es_response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
+		}
+
+	case dbx_context.DropboxApiErrorBadOrExpiredToken:
+		errMissingScope := ErrorMissingScope{}
+		if err := res.Alt().Json().Model(&errMissingScope); err != nil {
+			l.Debug("The response is not a JSON form. fall back to transport error", esl.Error(err))
+			return es_response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
+		}
+		if errMissingScope.RequiredScope != "" {
+			l.Warn("Missing scope", esl.String("missingScope", errMissingScope.RequiredScope))
+			return es_response_impl.NewTransportErrorResponse(errMissingScope, res)
 		}
 
 	case dbx_context.DropboxApiErrorEndpointSpecific:

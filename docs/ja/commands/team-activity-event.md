@@ -8,6 +8,34 @@ lang: ja
 
 イベントログ 
 
+リリース91以降では、`-start-time`または`-end-time`を`-24h`（24時間）または`-10m`（10分）のようなフォーマットで現在からの相対的な時間として解析します.
+もし、1時間ごとにイベントを取得したい場合は、次のように実行します:
+
+```
+tbx team activity event -start-time -1h -output json > latest_events.json
+```
+
+必要であれば、最新の部分をログ全体に追加します.
+
+```
+cat latest_events.json >> all.json
+```
+
+より正確には、1時間ごとにすこし重複したイベントを取得します.
+```
+tbx team activity event -start-time -1h5m -output json > latest_events.json
+```
+
+そして、オーバーラップしたイベントを連結し、重複を排除します:
+```
+cat all.json latest_events.json | sort -u > _all.json && mv _all.json all.json
+```
+
+If you prefer CSV format, then use the `jq` command to convert it.
+```
+cat latest_events.json | jq -r '[.timestamp, .actor[.actor.".tag"].display_name, .actor[.actor.".tag"].email, .event_type.description, .event_category.".tag", .origin.access_method.end_user.".tag", .origin.geo_location.ip_address, .origin.geo_location.country, .origin.geo_location.city, .involve_non_team_member, (.participants | @text), (.context | @text)] | @csv' >> all.csv
+```
+
 # セキュリティ
 
 `watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:

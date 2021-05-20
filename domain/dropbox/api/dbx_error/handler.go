@@ -28,7 +28,7 @@ func (z handlerImpl) Handle(ui app_ui.UI, e error) bool {
 		return true
 	}
 	de := NewErrors(e)
-	if de == nil {
+	if de == nil || de.Summary() == "" {
 		return false
 	}
 	ui.Error(MHandler.ErrorSummary.With("Error", de.Summary()))

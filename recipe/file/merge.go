@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
@@ -13,7 +14,7 @@ import (
 
 type Merge struct {
 	rc_recipe.RemarkIrreversible
-	Peer                dbx_conn.ConnUserFile
+	Peer                dbx_conn.ConnScopedIndividual
 	From                mo_path.DropboxPath
 	To                  mo_path.DropboxPath
 	DryRun              bool
@@ -22,6 +23,10 @@ type Merge struct {
 }
 
 func (z *Merge) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+		dbx_auth.ScopeFilesContentWrite,
+	)
 	z.DryRun = true
 }
 

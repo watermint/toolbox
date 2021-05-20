@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# file restore
+# team content member size
 
-Restore files under given path (Experimental, and Irreversible operation)
+Count number of members of team folders and shared folders 
 
 # Security
 
@@ -22,13 +22,19 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description         |
-|---------------------|
-| Dropbox Full access |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View information about your Dropbox files and folders                                 |
+| Dropbox Business: View your team group membership                                                       |
+| Dropbox Business: View your team membership                                                             |
+| Dropbox Business: View your Dropbox sharing settings and collaborators                                  |
+| Dropbox Business: View structure of your team's and members' folders                                    |
+| Dropbox Business: View and edit content of your team's files and folders                                |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 
@@ -64,12 +70,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file restore -path /DROPBOX/PATH/TO/RESTORE
+.\tbx.exe team content member size 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file restore -path /DROPBOX/PATH/TO/RESTORE
+$HOME/Desktop/tbx team content member size 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,10 +86,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-path` | Path          |         |
-| `-peer` | Account alias | default |
+| Option                 | Description                                                                                                                                                                        | Default |
+|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-folder-name`         | Filter by folder name. Filter by exact match to the name.                                                                                                                          |         |
+| `-folder-name-prefix`  | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |         |
+| `-folder-name-suffix`  | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |         |
+| `-include-sub-folders` | Include sub-folders to the report.                                                                                                                                                 | false   |
+| `-peer`                | Account alias                                                                                                                                                                      | default |
+| `-scan-timeout`        | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short   |
 
 ## Common options:
 
@@ -114,26 +124,25 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: operation_log
+## Report: member_count
 
-This report shows the transaction result.
-The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
+Folder member count
+The command will generate a report in three different formats. `member_count.csv`, `member_count.json`, and `member_count.xlsx`.
 
-| Column                 | Description                                                                                            |
-|------------------------|--------------------------------------------------------------------------------------------------------|
-| status                 | Status of the operation                                                                                |
-| reason                 | Reason of failure or skipped operation                                                                 |
-| input.path             | Path                                                                                                   |
-| result.tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name            | The last component of the path (including extension).                                                  |
-| result.path_display    | The cased path to be used for display purposes only.                                                   |
-| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified | The last time the file was modified on Dropbox.                                                        |
-| result.size            | The file size in bytes.                                                                                |
+| Column                | Description                                                                                                                        |
+|-----------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| path                  | Path                                                                                                                               |
+| folder_type           | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                           |
+| owner_team_name       | Team name of the team that owns the folder                                                                                         |
+| has_no_inherit        | True if the folder or any sub-folder does not inherit the access permission from the parent folder                                 |
+| is_no_inherit         | True if the folder does not inherit the access from the parent folder                                                              |
+| capacity              | Capacity number to add members. Empty if it's not able to determine by your permission (e.g. a folder contains an external group). |
+| count_total           | Total number of members                                                                                                            |
+| count_external_groups | Number of external teams' group                                                                                                    |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `member_count_0000.xlsx`, `member_count_0001.xlsx`, `member_count_0002.xlsx`, ...
 
 # Proxy configuration
 

@@ -1,6 +1,7 @@
 package member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -25,7 +26,7 @@ import (
 )
 
 type List struct {
-	Peer                           dbx_conn.ConnBusinessFile
+	Peer                           dbx_conn.ConnScopedTeam
 	FolderMember                   kv_storage.Storage
 	FolderOrphaned                 kv_storage.Storage
 	Membership                     rp_model.RowReport
@@ -39,6 +40,15 @@ type List struct {
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeGroupsRead,
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.Membership.SetModel(
 		&uc_team_content.Membership{},
 		rp_model.HiddenColumns(

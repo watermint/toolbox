@@ -1,8 +1,16 @@
 package uc_team_content
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
+)
+
+const (
+	MaximumTeamFolderMemberCount              = 1000
+	MaximumTeamFolderMemberCountWithNoInherit = 250
+	MaximumSharedFolderMemberCount            = 1000
 )
 
 type Membership struct {
@@ -27,6 +35,110 @@ type NoMember struct {
 	NamespaceName string `json:"namespace_name"`
 	Path          string `json:"path"`
 	FolderType    string `json:"folder_type"`
+}
+
+type MemberCount struct {
+	NamespaceId         string          `json:"namespace_id"`
+	NamespaceName       string          `json:"namespace_name"`
+	ParentNamespaceId   string          `json:"parent_namespace_id"`
+	Path                string          `json:"path"`
+	FolderType          string          `json:"folder_type"`
+	OwnerTeamId         string          `json:"owner_team_id"`
+	OwnerTeamName       string          `json:"owner_team_name"`
+	HasNoInherit        bool            `json:"has_no_inherit"`
+	IsNoInherit         bool            `json:"is_no_inherit"`
+	Capacity            *int            `json:"capacity"`
+	CountTotal          int             `json:"count_total"`
+	CountExternalGroups int             `json:"count_external_groups"`
+	MemberEmails        map[string]bool `json:"member_emails"`
+}
+
+func (z MemberCount) Merge(other MemberCount) MemberCount {
+	if other.HasNoInherit {
+		z.HasNoInherit = true
+	}
+	emails := make(map[string]bool)
+	for email := range z.MemberEmails {
+		emails[email] = true
+	}
+	for email := range other.MemberEmails {
+		emails[email] = true
+	}
+
+	z.MemberEmails = emails
+	z.CountTotal = len(emails)
+	z.CountExternalGroups += other.CountExternalGroups
+	if z.ParentNamespaceId == "" {
+		z.Capacity = MemberCapacity(z.HasNoInherit, z.CountExternalGroups, z.CountTotal)
+	}
+
+	return z
+}
+
+func MemberCapacity(hasNoInherit bool, countExternalGroups, countTotal int) *int {
+	// unknown
+	if 0 < countExternalGroups {
+		return nil
+	}
+
+	var capacity int
+	if hasNoInherit {
+		capacity = MaximumTeamFolderMemberCountWithNoInherit - countTotal
+	} else {
+		capacity = MaximumTeamFolderMemberCount - countTotal
+	}
+	return &capacity
+}
+
+func MemberCountFromSharedFolder(path string, sf *mo_sharedfolder.SharedFolder) MemberCount {
+	return MemberCount{
+		NamespaceId:         sf.SharedFolderId,
+		NamespaceName:       sf.Name,
+		ParentNamespaceId:   sf.ParentSharedFolderId,
+		Path:                folderPath(sf, path),
+		FolderType:          folderType(sf),
+		OwnerTeamId:         sf.OwnerTeamId,
+		OwnerTeamName:       sf.OwnerTeamName,
+		HasNoInherit:        sf.IsNoInherit(),
+		IsNoInherit:         sf.IsNoInherit(),
+		Capacity:            MemberCapacity(sf.IsNoInherit(), 0, 0),
+		CountTotal:          0,
+		CountExternalGroups: 0,
+		MemberEmails:        make(map[string]bool),
+	}
+}
+
+func MemberCountFromMemberEntry(path string, sf *mo_sharedfolder.SharedFolder, member mo_sharedfolder_member.Member, gd sv_group_member.GroupDirectory) (MemberCount, error) {
+	mc := MemberCountFromSharedFolder(path, sf)
+	defer func() {
+		mc.Capacity = MemberCapacity(mc.HasNoInherit, mc.CountExternalGroups, mc.CountTotal)
+	}()
+	if g, ok := member.Group(); ok {
+		if g.IsSameTeam {
+			groupMembers, err := gd.List(g.GroupId)
+			if err != nil {
+				return MemberCount{}, err
+			}
+			for _, gm := range groupMembers {
+				mc.MemberEmails[gm.Email] = true
+			}
+			mc.CountTotal = len(mc.MemberEmails)
+
+		} else {
+			mc.CountExternalGroups++
+		}
+		return mc, nil
+	} else if u, ok := member.User(); ok {
+		mc.MemberEmails[u.Email] = true
+		mc.CountTotal = len(mc.MemberEmails)
+		return mc, nil
+	} else if v, ok := member.Invitee(); ok {
+		mc.MemberEmails[v.InviteeEmail] = true
+		mc.CountTotal = len(mc.MemberEmails)
+		return mc, nil
+	} else {
+		return MemberCount{}, errors.New("unknown member type")
+	}
 }
 
 type FolderPolicy struct {

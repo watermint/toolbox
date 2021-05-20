@@ -1,6 +1,7 @@
 package sync
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -15,7 +16,7 @@ import (
 
 type Online struct {
 	rc_recipe.RemarkIrreversible
-	Peer         dbx_conn.ConnUserFile
+	Peer         dbx_conn.ConnScopedIndividual
 	Src          mo_path.DropboxPath
 	Dst          mo_path.DropboxPath
 	Upload       *file.Upload
@@ -26,6 +27,10 @@ type Online struct {
 }
 
 func (z *Online) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+		dbx_auth.ScopeFilesContentWrite,
+	)
 	z.Name.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNameSuffixFilter(),

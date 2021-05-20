@@ -1,4 +1,4 @@
-package file
+package restore
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestRestore_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Restore{})
+	qtr_endtoend.TestRecipe(t, &All{})
 }

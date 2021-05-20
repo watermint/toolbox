@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
@@ -12,12 +13,16 @@ import (
 )
 
 type Copy struct {
-	Peer dbx_conn.ConnUserFile
+	Peer dbx_conn.ConnScopedIndividual
 	Src  mo_path.DropboxPath
 	Dst  mo_path.DropboxPath
 }
 
 func (z *Copy) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+		dbx_auth.ScopeFilesContentWrite,
+	)
 }
 
 func (z *Copy) Exec(c app_control.Control) error {

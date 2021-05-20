@@ -1,6 +1,7 @@
 package export
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -19,7 +20,7 @@ import (
 
 type Doc struct {
 	rc_recipe.RemarkExperimental
-	Peer         dbx_conn.ConnUserFile
+	Peer         dbx_conn.ConnScopedIndividual
 	LocalPath    mo_path2.FileSystemPath
 	DropboxPath  mo_path.DropboxPath
 	OperationLog rp_model.RowReport
@@ -60,6 +61,7 @@ func (z *Doc) Test(c app_control.Control) error {
 }
 
 func (z *Doc) Preset() {
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
 	z.OperationLog.SetModel(
 		&mo_file.Export{},
 		rp_model.HiddenColumns(

@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# file download
+# team content member size
 
-Dropboxからファイルをダウンロードします (試験的実装です)
+チームフォルダや共有フォルダのメンバー数をカウントする 
 
 # セキュリティ
 
@@ -22,13 +22,19 @@ Dropboxからファイルをダウンロードします (試験的実装です)
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                     |
-|--------------------------|
-| Dropbox へのフルアクセス |
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダに関する情報を表示                |
+| Dropbox Business: 自分のチームグループのメンバーを見る                         |
+| Dropbox Business: チームメンバーの確認                                         |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示                          |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
 
 # 認可
 
@@ -64,12 +70,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
+.\tbx.exe team content member size 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file download -dropbox-path /DROPBOX/PATH/OF/FILE -local-path /LOCAL/PATH/TO/DOWNLOAD
+$HOME/Desktop/tbx team content member size 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,11 +86,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                         | デフォルト |
-|-----------------|------------------------------|------------|
-| `-dropbox-path` | ダウンロードするファイルパス |            |
-| `-local-path`   | 保存先ローカルパス           |            |
-| `-peer`         | アカウントの別名             | default    |
+| オプション             | 説明                                                                                                                                                                                       | デフォルト |
+|------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-folder-name`         | フォルダ名によるフィルター. 名前による完全一致でフィルター.                                                                                                                                |            |
+| `-folder-name-prefix`  | フォルダ名によるフィルター. 名前の前方一致によるフィルター.                                                                                                                                |            |
+| `-folder-name-suffix`  | フォルダ名によるフィルター. 名前の後方一致によるフィルター.                                                                                                                                |            |
+| `-include-sub-folders` | レポートにサブフォルダーを含める.                                                                                                                                                          | false      |
+| `-peer`                | アカウントの別名                                                                                                                                                                           | default    |
+| `-scan-timeout`        | スキャンのタイムアウト設定. スキャンタイムアウトした場合、チームフォルダのサブフォルダのパスは `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME` のようなダミーパスに置き換えられます. | short      |
 
 ## 共通のオプション:
 
@@ -115,23 +124,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: operation_log
+## レポート: member_count
 
-このレポートはファイルとフォルダのメタデータを出力します.
-このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+フォルダのメンバー数
+このコマンドはレポートを3種類の書式で出力します. `member_count.csv`, `member_count.json`, ならびに `member_count.xlsx`.
 
-| 列              | 説明                                                         |
-|-----------------|--------------------------------------------------------------|
-| tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| name            | 名称                                                         |
-| path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| server_modified | Dropbox上で最後に更新された日時                              |
-| size            | ファイルサイズ(バイト単位)                                   |
+| 列                    | 説明                                                                                                              |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------|
+| path                  | パス                                                                                                              |
+| folder_type           | フォルダの種別. (`team_folder`: チームフォルダまたはチームフォルダ以下のフォルダ, `shared_folder`: 共有フォルダ)  |
+| owner_team_name       | このフォルダを所有するチームの名前                                                                                |
+| has_no_inherit        | フォルダやサブフォルダが親フォルダからのアクセス権を継承していない場合はtrue.                                     |
+| is_no_inherit         | フォルダが親フォルダからのアクセスを継承していない場合はtrue                                                      |
+| capacity              | メンバーを追加するための定員数. 権限で判断できない場合は空となります（例：フォルダに外部グループが含まれている）. |
+| count_total           | メンバー総数                                                                                                      |
+| count_external_groups | 外部チームのグループの数                                                                                          |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_count_0000.xlsx`, `member_count_0001.xlsx`, `member_count_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

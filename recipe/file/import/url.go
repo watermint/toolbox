@@ -1,6 +1,7 @@
 package _import
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -15,7 +16,7 @@ import (
 
 type Url struct {
 	rc_recipe.RemarkIrreversible
-	Peer           dbx_conn.ConnUserFile
+	Peer           dbx_conn.ConnScopedIndividual
 	Path           mo_path.DropboxPath
 	Url            string
 	OperationLog   rp_model.RowReport
@@ -23,6 +24,7 @@ type Url struct {
 }
 
 func (z *Url) Preset() {
+	z.Peer.SetScopes(dbx_auth.ScopeFilesContentWrite)
 	z.OperationLog.SetModel(
 		&mo_file.ConcreteEntry{},
 		rp_model.HiddenColumns(
