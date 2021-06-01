@@ -98,6 +98,12 @@ func (z *Server) catalogue(g *gin.Context) {
 	)
 }
 
+func (z *Server) command(g *gin.Context) {
+	l := z.ctl.Log()
+	l.Info("catalogue")
+
+}
+
 type Gui struct {
 	rc_recipe.RemarkSecret
 	rc_recipe.RemarkExperimental
@@ -137,6 +143,7 @@ func (z *Gui) Exec(c app_control.Control) error {
 	g.Use(lgw_gin.GinRecovery(l))
 	g.StaticFS("/assets", hfs)
 	g.GET("/home", backend.home)
+	g.GET("/command", backend.command)
 	g.GET("/catalogue", backend.catalogue)
 	g.GET("/no_session", backend.noSession)
 	g.HTMLRender = htr
