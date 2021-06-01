@@ -16,10 +16,6 @@ else
   DIST_PATH=/dist
 fi
 
-for p in linux win win-arm mac mac-arm; do
-  mkdir -p $BUILD_PATH/$p
-done
-
 go run tbx.go dev build info
 if [[ $? == 0 ]]; then
   echo "Build information created."
@@ -33,7 +29,9 @@ function build_and_package() {
     goarch=$3
     bin_name=$4
     bin_linux=$5
-    bin_path="$BUILD/$platform_alias/$bin_name"
+    bin_path="$BUILD_PATH/$platform_alias/$bin_name"
+
+    mkdir -p "$BUILD_PATH/$platform_alias"
 
     echo Building: $platform_alias [$goos][$goarch]
     CGO_ENABLED=0 GOOS=$goos GOARCH=$goarch go build -o "$bin_path" github.com/watermint/toolbox
