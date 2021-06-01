@@ -3,6 +3,7 @@ package sv_message
 import (
 	"github.com/watermint/toolbox/domain/google/api/goog_context"
 	"github.com/watermint/toolbox/domain/google/mail/model/mo_message"
+	"github.com/watermint/toolbox/domain/google/mail/model/to_message"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -20,6 +21,7 @@ type Message interface {
 	Resolve(id string, opts ...ResolveOpt) (message *mo_message.Message, err error)
 	List(q ...QueryOpt) (messages []*mo_message.Message, err error)
 	Update(id string, opts ...UpdateOpt) (message *mo_message.Message, err error)
+	Send(send to_message.Message) (sent *mo_message.Message, err error)
 }
 
 func New(ctx goog_context.Context, userId string) Message {
@@ -134,6 +136,20 @@ func ResolveFormat(format string) ResolveOpt {
 type msgImpl struct {
 	ctx    goog_context.Context
 	userId string
+}
+
+func (z msgImpl) Send(send to_message.Message) (sent *mo_message.Message, err error) {
+	res := z.ctx.Post("gmail/v1/users/"+z.userId+"/messages/send", api_request.Param(&send))
+	if err, f := res.Failure(); f {
+		return nil, err
+	}
+	j, err := res.Success().AsJson()
+	if err != nil {
+		return nil, err
+	}
+	sent = &mo_message.Message{}
+	err = j.Model(sent)
+	return sent, err
 }
 
 func (z msgImpl) Update(id string, opts ...UpdateOpt) (message *mo_message.Message, err error) {

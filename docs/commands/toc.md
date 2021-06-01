@@ -168,6 +168,7 @@ lang: en
 | [services google mail message label delete]({{ site.baseurl }}/commands/services-google-mail-message-label-delete.html)     | Remove labels from the message                      |
 | [services google mail message list]({{ site.baseurl }}/commands/services-google-mail-message-list.html)                     | List messages                                       |
 | [services google mail message processed list]({{ site.baseurl }}/commands/services-google-mail-message-processed-list.html) | List messages in processed format.                  |
+| [services google mail message send]({{ site.baseurl }}/commands/services-google-mail-message-send.html)                     | Send a mail                                         |
 | [services google mail sendas add]({{ site.baseurl }}/commands/services-google-mail-sendas-add.html)                         | Creates a custom "from" send-as alias               |
 | [services google mail sendas delete]({{ site.baseurl }}/commands/services-google-mail-sendas-delete.html)                   | Deletes the specified send-as alias                 |
 | [services google mail sendas list]({{ site.baseurl }}/commands/services-google-mail-sendas-list.html)                       | Lists the send-as aliases for the specified account |

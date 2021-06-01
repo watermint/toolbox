@@ -271,6 +271,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglemaillabel.List{},
 		&recipeservicesgooglemaillabel.Rename{},
 		&recipeservicesgooglemailmessage.List{},
+		&recipeservicesgooglemailmessage.Send{},
 		&recipeservicesgooglemailmessagelabel.Add{},
 		&recipeservicesgooglemailmessagelabel.Delete{},
 		&recipeservicesgooglemailmessageprocessed.List{},
