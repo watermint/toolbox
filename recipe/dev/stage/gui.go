@@ -27,16 +27,45 @@ type Server struct {
 }
 
 func (z *Server) noSession(g *gin.Context) {
-	esl.Default().Info("noSession")
+	l := z.ctl.Log()
+	l.Info("noSession")
 	g.HTML(
 		http.StatusOK,
 		"error",
 		gin.H{},
 	)
 }
-
 func (z *Server) home(g *gin.Context) {
-	esl.Default().Info("home")
+	l := z.ctl.Log()
+	l.Info("home")
+
+	if g.Request.UserAgent() != z.expectedUserAgent {
+		g.Redirect(
+			http.StatusFound,
+			"/no_session",
+		)
+		return
+	}
+
+	menu := make([]map[string]string, 0)
+	menu = append(menu, map[string]string{
+		"Uri":         "/catalogue",
+		"Title":       "Commands",
+		"Description": "Show available commands",
+	})
+
+	g.HTML(
+		http.StatusOK,
+		"home",
+		gin.H{
+			"Menu": menu,
+		},
+	)
+}
+
+func (z *Server) catalogue(g *gin.Context) {
+	l := z.ctl.Log()
+	l.Info("catalogue")
 	ui := z.ctl.UI()
 
 	if g.Request.UserAgent() != z.expectedUserAgent {
@@ -51,6 +80,9 @@ func (z *Server) home(g *gin.Context) {
 	cat := make([]map[string]string, 0)
 	for _, r := range catRecipes {
 		s := rc_spec.New(r)
+		if s.IsSecret() {
+			continue
+		}
 		cat = append(cat, map[string]string{
 			"Title":       s.CliPath(),
 			"Description": ui.Text(s.Title()),
@@ -104,10 +136,15 @@ func (z *Gui) Exec(c app_control.Control) error {
 	g.Use(lgw_gin.GinWrapper(l))
 	g.Use(lgw_gin.GinRecovery(l))
 	g.StaticFS("/assets", hfs)
-	g.GET("/catalogue", backend.home)
+	g.GET("/home", backend.home)
+	g.GET("/catalogue", backend.catalogue)
 	g.GET("/no_session", backend.noSession)
 	g.HTMLRender = htr
-	if err := htp.Define("catalogue", "layout/simple.html", "pages/catalogue.html"); err != nil {
+	if err := htp.Define("home", "layout/layout.html", "pages/home.html"); err != nil {
+		l.Debug("Unable to prepare templates", esl.Error(err))
+		return err
+	}
+	if err := htp.Define("catalogue", "layout/layout.html", "pages/catalogue.html"); err != nil {
 		l.Debug("Unable to prepare templates", esl.Error(err))
 		return err
 	}

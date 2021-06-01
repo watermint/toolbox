@@ -53,5 +53,5 @@ LINUX_BIN=$BUILD_PATH/linux/tbx
 build_and_package linux   linux   amd64 tbx     $LINUX_BIN
 build_and_package win     windows amd64 tbx.exe $LINUX_BIN
 build_and_package mac     darwin  amd64 tbx     $LINUX_BIN
-build_and_package win-arm windows arm64 tbx.exe $LINUX_BIN
+build_and_package win-arm windows arm   tbx.exe $LINUX_BIN
 build_and_package mac-arm darwin  arm64 tbx     $LINUX_BIN
