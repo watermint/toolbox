@@ -1,6 +1,7 @@
 package stage
 
 import (
+	"encoding/base64"
 	"fmt"
 	"github.com/asticode/go-astikit"
 	"github.com/asticode/go-astilectron"
@@ -16,10 +17,43 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/security/sc_random"
+	"github.com/watermint/toolbox/infra/ui/app_template"
 	"github.com/watermint/toolbox/infra/ui/app_template_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"net/http"
 )
+
+type Command struct {
+	Command string `uri:"command" binding:"required"`
+}
+
+func (z Command) EncodeCommandUrl() string {
+	return base64.URLEncoding.EncodeToString([]byte(z.Command))
+}
+
+func (z Command) DecodeCommandName() (name string, err error) {
+	nameRaw, err := base64.URLEncoding.DecodeString(z.Command)
+	if err != nil {
+		return "", err
+	}
+	return string(nameRaw), nil
+}
+
+type Page struct {
+	Name    string
+	Layouts []string
+}
+
+func (z Page) Apply(htp app_template.Template) error {
+	l := esl.Default().With(esl.String("name", z.Name), esl.Strings("layouts", z.Layouts))
+
+	if err := htp.Define(z.Name, z.Layouts...); err != nil {
+		l.Debug("Unable to prepare templates", esl.Error(err))
+		return err
+	}
+	l.Debug("The layout defined")
+	return nil
+}
 
 type Server struct {
 	ctl               app_control.Control
@@ -86,6 +120,7 @@ func (z *Server) catalogue(g *gin.Context) {
 		cat = append(cat, map[string]string{
 			"Title":       s.CliPath(),
 			"Description": ui.Text(s.Title()),
+			"Uri":         "/command/" + Command{Command: s.CliPath()}.EncodeCommandUrl(),
 		})
 	}
 
@@ -100,8 +135,49 @@ func (z *Server) catalogue(g *gin.Context) {
 
 func (z *Server) command(g *gin.Context) {
 	l := z.ctl.Log()
-	l.Info("catalogue")
+	l.Info("command")
+	ui := z.ctl.UI()
 
+	cmd := &Command{}
+	if err := g.ShouldBindUri(cmd); err != nil {
+		g.HTML(
+			http.StatusOK,
+			"error",
+			gin.H{},
+		)
+		return
+	}
+	cmdCliPath, err := cmd.DecodeCommandName()
+	if err != nil {
+		g.HTML(
+			http.StatusOK,
+			"error",
+			gin.H{},
+		)
+		return
+	}
+	spec := app_catalogue.Current().RecipeSpec(cmdCliPath)
+
+	cmdValues := make([]map[string]interface{}, 0)
+	for _, valName := range spec.ValueNames() {
+		// valSpec := spec.Value(valName)
+		cmdValues = append(cmdValues, map[string]interface{}{
+			"Name":    valName,
+			"Desc":    ui.Text(spec.ValueDesc(valName)),
+			"Default": spec.ValueDefault(valName),
+		})
+	}
+
+	g.HTML(
+		http.StatusOK,
+		"command",
+		gin.H{
+			"Command":      cmdCliPath,
+			"CommandTitle": ui.Text(spec.Title()),
+			"CommandDesc":  ui.TextOrEmpty(spec.Desc()),
+			"Values":       cmdValues,
+		},
+	)
 }
 
 type Gui struct {
@@ -143,21 +219,33 @@ func (z *Gui) Exec(c app_control.Control) error {
 	g.Use(lgw_gin.GinRecovery(l))
 	g.StaticFS("/assets", hfs)
 	g.GET("/home", backend.home)
-	g.GET("/command", backend.command)
+	g.GET("/command/:command", backend.command)
 	g.GET("/catalogue", backend.catalogue)
 	g.GET("/no_session", backend.noSession)
 	g.HTMLRender = htr
-	if err := htp.Define("home", "layout/layout.html", "pages/home.html"); err != nil {
-		l.Debug("Unable to prepare templates", esl.Error(err))
-		return err
+
+	pages := []Page{
+		{
+			Name:    "home",
+			Layouts: []string{"layout/layout.html", "pages/home.html"},
+		},
+		{
+			Name:    "catalogue",
+			Layouts: []string{"layout/layout.html", "pages/catalogue.html"},
+		},
+		{
+			Name:    "command",
+			Layouts: []string{"layout/layout.html", "pages/command.html"},
+		},
+		{
+			Name:    "error",
+			Layouts: []string{"layout/simple.html", "pages/error.html"},
+		},
 	}
-	if err := htp.Define("catalogue", "layout/layout.html", "pages/catalogue.html"); err != nil {
-		l.Debug("Unable to prepare templates", esl.Error(err))
-		return err
-	}
-	if err := htp.Define("error", "layout/simple.html", "pages/error.html"); err != nil {
-		l.Debug("Unable to prepare templates", esl.Error(err))
-		return err
+	for _, page := range pages {
+		if err := page.Apply(htp); err != nil {
+			return err
+		}
 	}
 
 	server := &http.Server{

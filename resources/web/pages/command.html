@@ -1,0 +1,29 @@
+{{define "title"}}watermint toolbox: {{.CommandTitle}}{{end}}
+
+{{define "content"}}
+<div class="card-body">
+    <h1 class="card-title"><i class="fas fa-angle-right"></i> {{.Command}}</h1>
+    <p class="card-text">
+        {{.CommandTitle}}
+    </p>
+    <p class="card-text">
+        {{.CommandDesc}}
+    </p>
+</div>
+
+<h2>Options</h2>
+<div class="album">
+    {{ range .Values }}
+    <div class="row">
+        <div class="card-body">
+            <h3 class="card-title">{{ if not .Default }}<i class="fas fa-angle-double-right"></i>{{end}} {{.Name}}</h3>
+            <p class="card-text">
+                {{.Desc}}
+            </p>
+            <input type="text" name="{{.Name}}" class="form-control" aria-label="{{.Name}}" value="{{.Default}}"/>
+        </div>
+    </div>
+    {{ end }}
+</div>
+
+{{end}}
