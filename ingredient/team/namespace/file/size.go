@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
-	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_size"
 	"github.com/watermint/toolbox/essentials/file/es_size"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
@@ -21,7 +20,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"sync"
 )
 
 type Size struct {
@@ -65,16 +63,6 @@ func (z *Size) Exec(c app_control.Control) error {
 	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
 	if err != nil {
 		return err
-	}
-
-	namespaceDict := make(map[string]*mo_namespace.Namespace)
-	for _, ns := range namespaces {
-		namespaceDict[ns.NamespaceId] = ns
-	}
-
-	namespaceSizes := sync.Map{}
-	for _, namespace := range namespaces {
-		namespaceSizes.Store(namespace.NamespaceId, uc_file_size.NewSum(z.Depth.Value()))
 	}
 
 	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)

@@ -99,6 +99,9 @@ type ctxImpl struct {
 }
 
 func (z *ctxImpl) ListEach(depth int, h func(sessionId string, meta interface{}, size FolderSize)) error {
+	z.sessionsMutex.Lock()
+	defer z.sessionsMutex.Unlock()
+
 	var lastErr error
 	for _, session := range z.sessions {
 		err := session.ListEach(depth, func(size FolderSize) {
