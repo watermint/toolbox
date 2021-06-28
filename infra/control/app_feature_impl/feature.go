@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/infra/report/rp_artifact_feature"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -233,6 +234,10 @@ func (z featureImpl) IsSecure() bool {
 }
 
 func (z featureImpl) IsAutoOpen() bool {
+	aof := &rp_artifact_feature.OptInFeatureAutoOpen{}
+	if f, found := z.OptInGet(aof); found && f.OptInIsEnabled() {
+		return true
+	}
 	return z.com.AutoOpen
 }
 

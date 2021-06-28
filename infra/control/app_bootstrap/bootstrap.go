@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_diag"
 	"github.com/watermint/toolbox/essentials/network/nw_proxy"
 	"github.com/watermint/toolbox/essentials/runtime/es_env"
+	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
@@ -28,6 +29,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
@@ -246,6 +248,15 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		ctl.Log().Debug("Recipe failed with an error", esl.Error(lastErr))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
 		app_exit.Abort(app_exit.FailureGeneral)
+	}
+
+	if ctl.Feature().IsAutoOpen() {
+		artifacts := rp_artifact.Artifacts(wb.Workspace())
+		if len(artifacts) > 0 {
+			op := es_open.New()
+			opErr := op.Open(wb.Workspace().Report(), false)
+			ctl.Log().Debug("open", esl.Error(opErr))
+		}
 	}
 
 	app_exit.ExitSuccess()
