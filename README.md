@@ -246,7 +246,6 @@ Available commands:
 | [services google mail message label delete](docs/commands/services-google-mail-message-label-delete.md)     | Remove labels from the message                      |
 | [services google mail message list](docs/commands/services-google-mail-message-list.md)                     | List messages                                       |
 | [services google mail message processed list](docs/commands/services-google-mail-message-processed-list.md) | List messages in processed format.                  |
-| [services google mail message send](docs/commands/services-google-mail-message-send.md)                     | Send a mail                                         |
 | [services google mail sendas add](docs/commands/services-google-mail-sendas-add.md)                         | Creates a custom "from" send-as alias               |
 | [services google mail sendas delete](docs/commands/services-google-mail-sendas-delete.md)                   | Deletes the specified send-as alias                 |
 | [services google mail sendas list](docs/commands/services-google-mail-sendas-list.md)                       | Lists the send-as aliases for the specified account |

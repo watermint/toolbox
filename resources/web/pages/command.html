@@ -11,9 +11,10 @@
     </p>
 </div>
 
-<h2>Options</h2>
+{{ if .RequiredValues }}
+<h2>Params</h2>
 <div class="album">
-    {{ range .Values }}
+    {{ range .RequiredValues }}
     <div class="row">
         <div class="card-body">
             <h3 class="card-title">{{ if not .Default }}<i class="fas fa-angle-double-right"></i>{{end}} {{.Name}}</h3>
@@ -25,5 +26,22 @@
     </div>
     {{ end }}
 </div>
+{{ end }}
 
+{{ if .OptionalValues }}
+<h2>Options</h2>
+<div class="album">
+    {{ range .OptionalValues }}
+    <div class="row">
+        <div class="card-body">
+            <h3 class="card-title">{{ if not .Default }}<i class="fas fa-angle-double-right"></i>{{end}} {{.Name}}</h3>
+            <p class="card-text">
+                {{.Desc}}
+            </p>
+            <input type="text" name="{{.Name}}" class="form-control" aria-label="{{.Name}}" value="{{.Default}}"/>
+        </div>
+    </div>
+    {{ end }}
+</div>
+{{ end }}
 {{end}}

@@ -23,17 +23,6 @@ func NewConsoleCache(c app_control.Control, auth api_auth.Console, app api_auth.
 	}
 }
 
-func IsLegacyCacheAvailable(c app_control.Control, peerName string, scopes []string, app api_auth.App) bool {
-	for _, s := range scopes {
-		co := NewConsoleCacheOnly(c, peerName, app)
-		_, err := co.Auth([]string{s})
-		if err != nil {
-			return false
-		}
-	}
-	return true
-}
-
 type Cached struct {
 	app  api_auth.App
 	ctl  app_control.Control

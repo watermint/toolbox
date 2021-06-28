@@ -4,7 +4,7 @@ title: Command
 lang: en
 ---
 
-# dev stage gui
+# dev stage gui launch
 
 GUI proof of concept (Experimental)
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage gui 
+.\tbx.exe dev stage gui launch 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev stage gui 
+$HOME/Desktop/tbx dev stage gui launch 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

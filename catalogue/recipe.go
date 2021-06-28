@@ -16,6 +16,7 @@ import (
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevstage "github.com/watermint/toolbox/recipe/dev/stage"
+	recipedevstagegui "github.com/watermint/toolbox/recipe/dev/stage/gui"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevtestsetup "github.com/watermint/toolbox/recipe/dev/test/setup"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
@@ -153,11 +154,11 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevstage.Dbxfs{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Griddata{},
-		&recipedevstage.Gui{},
 		&recipedevstage.HttpRange{},
 		&recipedevstage.Scoped{},
 		&recipedevstage.Teamfolder{},
 		&recipedevstage.UploadAppend{},
+		&recipedevstagegui.Launch{},
 		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},

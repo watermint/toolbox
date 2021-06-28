@@ -22,8 +22,6 @@
   "domain.asana.model.mo_workspace.workspace.is_organization.desc": "ワークスペースが組織であるかどうか。",
   "domain.asana.model.mo_workspace.workspace.name.desc": "ワークスペースの名前。",
   "domain.asana.model.mo_workspace.workspace.resource_type.desc": "このリソースのベースタイプ。",
-  "domain.dropbox.api.dbx_auth.msg_generated.generated_token_1": "1. MyAppページを開きます (先にログインしておく必要があります):\n\nhttps://www.dropbox.com/developers/apps\n\n2. \"Create App\"をクリックして進みます\n3. \"{{.API}}\"を選択\n4. \"{{.TypeOfAccess}}\"を選択\n5. アプリケーション名をつけて入力してください\n6. \"Create App\"をクリックして進みます\n7. \"Generated access token\"欄の近くにある\"Generate\"ボタンを押します\n8. 生成されたトークン文字列をコピーします\n",
-  "domain.dropbox.api.dbx_auth.msg_generated.generated_token_2": "生成されたトークンを入力してください:",
   "domain.dropbox.api.dbx_auth_attr.msg_attr.attr_team_licenses": "{{.Licenses}} ライセンス",
   "domain.dropbox.api.dbx_auth_attr.msg_attr.error_verify_failed": "トークンの検証に失敗したか、不正なトークンです再試行してください",
   "domain.dropbox.api.dbx_conn_impl.msg_connect.verify_success": "接続されました: {{.Desc}}\n{{.Suppl}}",
