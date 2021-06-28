@@ -162,6 +162,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Echo{},
 		&recipedevtest.Kvsfootprint{},
 		&recipedevtest.Monkey{},
+		&recipedevtest.Panic{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
 		&recipedevtestsetup.Teamsharedlink{},

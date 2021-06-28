@@ -561,6 +561,13 @@
   "essentials.model.mo_image.exif.date_time.desc": "The date and time of image creation. In Exif standard, it is the date and time the file was changed.",
   "essentials.model.mo_image.exif.date_time_original.desc": "The date and time when the original image data was generated",
   "essentials.model.mo_image.exif.desc": "EXIF data",
+  "recipe.dev.stage.gui.title": "GUI proof of concept",
+  "recipe.dev.test.panic.flag.panic_type": "Panic type",
+
+  "infra.recipe.rc_exec.msg_panic.error_recipe_panic":"Application crashed. Please report below information.",
+  "infra.recipe.rc_exec.msg_panic.error_crash_report":"=== Crash report (begin) ===\n- Application version: {{.Version}}\n- OS: {{.OS}}\n- Recipe: {{.Recipe}}\n- Reason: {{.Reason}}\n- Trace: {{.Trace}}\n=== Crash report (end) ===",
+
+  "recipe.dev.test.panic.title": "Panic test",
   "essentials.model.mo_image.exif.make.desc": "The name of the manufacturer",
   "essentials.model.mo_image.exif.model.desc": "The model name or model number",
   "essentials.network.nw_diag.msg_network.error_unreachable": "Network unreachable to `{{.Url}}`.\nPlease ensure your network connection or proxy configuration.\nPlease specify `-proxy` option if your machine is under proxy or firewall.\n\nError:\n{{.Error}}",

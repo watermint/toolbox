@@ -29,6 +29,7 @@ import (
 	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infradocdc_supplemental "github.com/watermint/toolbox/infra/doc/dc_supplemental"
 	infrafeedfd_file_impl "github.com/watermint/toolbox/infra/feed/fd_file_impl"
+	infrareciperc_exec "github.com/watermint/toolbox/infra/recipe/rc_exec"
 	infrareciperc_group "github.com/watermint/toolbox/infra/recipe/rc_group"
 	infrareciperc_group_impl "github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	infrareciperc_spec "github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -89,6 +90,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradocdc_supplemental.MsgPathVariable{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
+		&infrareciperc_exec.MsgPanic{},
 		&infrareciperc_group.MsgHeader{},
 		&infrareciperc_group_impl.MsgGroup{},
 		&infrareciperc_spec.MsgSelfContained{},
