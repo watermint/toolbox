@@ -18,6 +18,7 @@ import (
 	recipedevstage "github.com/watermint/toolbox/recipe/dev/stage"
 	recipedevstagegui "github.com/watermint/toolbox/recipe/dev/stage/gui"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
+	recipedevtestauth "github.com/watermint/toolbox/recipe/dev/test/auth"
 	recipedevtestsetup "github.com/watermint/toolbox/recipe/dev/test/setup"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
@@ -165,6 +166,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Panic{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
+		&recipedevtestauth.All{},
 		&recipedevtestsetup.Teamsharedlink{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},

@@ -54,6 +54,7 @@ type msgRun struct {
 	ErrorRecipeFailed           app_msg.Message
 	ErrorUnsupportedOutput      app_msg.Message
 	ErrorInitialization         app_msg.Message
+	ErrorUnableToLoadExtra      app_msg.Message
 	ProgressInterruptedShutdown app_msg.Message
 }
 
@@ -146,7 +147,13 @@ func (z *bsImpl) verifyMessages(ui app_ui.UI, l esl.Logger) {
 
 func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	com := comSpec.Opts()
+
 	ui := z.SelectUI(com)
+
+	if exErr := com.ExtraLoad(); exErr != nil {
+		ui.Failure(MRun.ErrorUnableToLoadExtra.With("Error", exErr).With("Path", com.Extra.Value()))
+		app_exit.Abort(app_exit.FatalStartup)
+	}
 
 	clv := app_feature.ConsoleLogLevel(false, com.Debug)
 	wb, err := app_workspace.NewBundle(com.Workspace.Value(), app_budget.Budget(com.BudgetStorage.Value()), clv, rcp.IsTransient())

@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# teamfolder file size
+# dev test auth all
 
-Calculate size of team folders 
+Test for connect to Dropbox with all scopes 
 
 # Security
 
@@ -26,9 +26,8 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                  |
-|------------------------------|
-| Dropbox Business File access |
+| Description |
+|-------------|
 
 # Authorization
 
@@ -64,12 +63,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe teamfolder file size 
+.\tbx.exe dev test auth all 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx teamfolder file size 
+$HOME/Desktop/tbx dev test auth all 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,13 +79,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                | Description                                                                       | Default |
-|-----------------------|-----------------------------------------------------------------------------------|---------|
-| `-depth`              | Depth                                                                             | 3       |
-| `-folder-name`        | List only for the folder matched to the name. Filter by exact match to the name.  |         |
-| `-folder-name-prefix` | List only for the folder matched to the name. Filter by name match to the prefix. |         |
-| `-folder-name-suffix` | List only for the folder matched to the name. Filter by name match to the suffix. |         |
-| `-peer`               | Account alias                                                                     | default |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 ## Common options:
 
@@ -107,41 +102,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-secure`         | Do not store tokens into a file                                                           | false                |
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
-
-# Results
-
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path pattern                                | Example                                                |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## Report: namespace_size
-
-Namespace size
-The command will generate a report in three different formats. `namespace_size.csv`, `namespace_size.json`, and `namespace_size.xlsx`.
-
-| Column               | Description                                                                                |
-|----------------------|--------------------------------------------------------------------------------------------|
-| namespace_name       | The name of this namespace                                                                 |
-| namespace_id         | The ID of this namespace.                                                                  |
-| namespace_type       | The type of this namespace (app_folder, shared_folder, team_folder, or team_member_folder) |
-| owner_team_member_id | If this is a team member or app folder, the ID of the owning team member.                  |
-| path                 | Path to the folder                                                                         |
-| count_file           | Number of files under the folder                                                           |
-| count_folder         | Number of folders under the folder                                                         |
-| count_descendant     | Number of files and folders under the folder                                               |
-| size                 | Size of the folder                                                                         |
-| depth                | Folder depth                                                                               |
-| mod_time_earliest    | The earliest modification time of a file in this folder or child folders.                  |
-| mod_time_latest      | The latest modification time of a file in this folder or child folders                     |
-| api_complexity       | Folder complexity index for API operations                                                 |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
 
 # Proxy configuration
 

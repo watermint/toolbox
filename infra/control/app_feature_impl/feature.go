@@ -44,6 +44,10 @@ type featureImpl struct {
 	hashReplay   kv_storage.Storage
 }
 
+func (z featureImpl) Extra() app_opt.ExtraOpts {
+	return z.com.ExtraOpts()
+}
+
 func (z featureImpl) Experiment(name string) bool {
 	experiments := strings.Split(z.com.Experiment, ",")
 	for _, experiment := range experiments {
