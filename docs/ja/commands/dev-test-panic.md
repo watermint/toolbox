@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev stage gui
+# dev test panic
 
-GUIコンセプト実証 (試験的実装です)
+Panic test 
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage gui 
+.\tbx.exe dev test panic 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev stage gui 
+$HOME/Desktop/tbx dev test panic 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -35,6 +35,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 > "tbx"は開発元を確認できないため、使用がブロックされました。
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
+
+## オプション:
+
+| オプション    | 説明       | デフォルト |
+|---------------|------------|------------|
+| `-panic-type` | Panic type | 0          |
 
 ## 共通のオプション:
 
@@ -47,6 +53,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
 | `-experiment`     | 実験的機能を有効化する                                                                             |                |
+| `-extra`          | Extra parameter file path                                                                          |                |
 | `-lang`           | 表示言語                                                                                           | auto           |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`          | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |

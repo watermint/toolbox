@@ -26,9 +26,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                         |
-|-------------------------------------|
-| Dropbox Business Information access |
+| Description                                       |
+|---------------------------------------------------|
+| Dropbox Business: View your team group membership |
 
 # Authorization
 

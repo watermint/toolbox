@@ -54,9 +54,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description               |
-|---------------------------|
-| Dropbox Business Auditing |
+| Description                                     |
+|-------------------------------------------------|
+| Dropbox Business: View your team's activity log |
 
 # Authorization
 
