@@ -49,6 +49,10 @@ func (z featureImpl) Extra() app_opt.ExtraOpts {
 }
 
 func (z featureImpl) Experiment(name string) bool {
+	if z.com.ExtraOpts().HasExperiment(name) {
+		return true
+	}
+
 	experiments := strings.Split(z.com.Experiment, ",")
 	for _, experiment := range experiments {
 		if experiment == name {

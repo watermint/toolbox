@@ -12,9 +12,6 @@ import (
 
 func TestNoCache(t *testing.T) {
 	nc := NoCache()
-	if err := nc.Kvs().Lock(); err != nil {
-		t.Error(err)
-	}
 	if err := nc.Kvs().PutString("mango", "apple mango"); err != nil {
 		t.Error(err)
 	}

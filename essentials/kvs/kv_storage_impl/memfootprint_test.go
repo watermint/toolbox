@@ -29,7 +29,7 @@ func benchmarkLoadTest(b *testing.B, db kv_storage.Storage) {
 				return err
 			}
 
-			if err = bmf.PutBytes(key, data); err != nil {
+			if err = bmf.PutString(key, fmt.Sprintf("%x", data)); err != nil {
 				b.Error(err)
 				return err
 			}
@@ -47,7 +47,7 @@ func benchmarkLoadTest(b *testing.B, db kv_storage.Storage) {
 				return err
 			}
 
-			if _, err = bmf.GetBytes(key); err != nil {
+			if _, err = bmf.GetString(key); err != nil {
 				b.Error(err)
 				return err
 			}

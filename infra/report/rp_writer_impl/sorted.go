@@ -66,7 +66,7 @@ func (z *Sorted) Row(r interface{}) {
 	}
 
 	err = z.storage.Update(func(kvs kv_kvs.Kvs) error {
-		return kvs.PutRaw(b, []byte{1})
+		return kvs.PutString(string(b), "")
 	})
 	app_ui.ShowProgressWithMessage(z.ctl.UI(), MSortedWriter.ProgressPreparing)
 	if err != nil {

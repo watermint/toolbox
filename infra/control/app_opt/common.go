@@ -22,7 +22,8 @@ const (
 )
 
 type ExtraOpts struct {
-	AppKeys map[string]string `json:"app_keys,omitempty"`
+	AppKeys     map[string]string `json:"app_keys,omitempty"`
+	Experiments []string          `json:"experiments,omitempty"`
 }
 
 func (z ExtraOpts) AppKey(key string) (value string, found bool) {
@@ -31,6 +32,15 @@ func (z ExtraOpts) AppKey(key string) (value string, found bool) {
 	}
 	value, found = z.AppKeys[key]
 	return
+}
+
+func (z ExtraOpts) HasExperiment(key string) bool {
+	for _, experiment := range z.Experiments {
+		if experiment == key {
+			return true
+		}
+	}
+	return false
 }
 
 type CommonOpts struct {
