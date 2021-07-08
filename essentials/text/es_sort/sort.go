@@ -27,8 +27,8 @@ type Sorter interface {
 	// WriteLine Write single line. The function will split into multiple lines if a line contains '\n'.
 	WriteLine(line string) error
 
-	// Flush the result into destination stream, then close all resources.
-	Flush() error
+	// Close and flush the result into destination stream, then close all resources.
+	Close() error
 }
 
 // Compare returns an integer comparing two lines.
@@ -434,7 +434,7 @@ func (z *sorterImpl) WriteLine(line string) error {
 	return nil
 }
 
-func (z *sorterImpl) Flush() error {
+func (z *sorterImpl) Close() error {
 	l := z.log()
 	z.bufMutex.Lock()
 	defer z.bufMutex.Unlock()

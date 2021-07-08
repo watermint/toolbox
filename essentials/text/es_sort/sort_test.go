@@ -78,7 +78,7 @@ func testSortData(t *testing.T, digits, numLines, numDupLines int, seed int64, d
 	}
 
 	// flush
-	if flErr := sorter.Flush(); flErr != nil {
+	if flErr := sorter.Close(); flErr != nil {
 		t.Error(flErr)
 	}
 
@@ -107,7 +107,7 @@ func testSimple(t *testing.T, data, expected []string, sorter Sorter, out *bytes
 		}
 	}
 
-	if flErr := sorter.Flush(); flErr != nil {
+	if flErr := sorter.Close(); flErr != nil {
 		t.Error(flErr)
 	}
 
@@ -124,6 +124,33 @@ func testSimple(t *testing.T, data, expected []string, sorter Sorter, out *bytes
 			t.Error(i, result[i], expected[i])
 		}
 	}
+}
+
+func TestLongLine(t *testing.T) {
+	data := []string{
+		"01",
+		"02",
+		"03",
+		"04",
+		"05",
+	}
+	for i := 0; i < len(data); i++ {
+		data[i] = data[i] + strings.Repeat("x", 100)
+	}
+	expected := make([]string, len(data))
+	copy(expected[:], data[:])
+
+	seed := time.Now().Unix()
+	l := esl.Default()
+	l.Debug("Seed", esl.Int64("seed", seed))
+	r := rand.New(rand.NewSource(seed))
+	r.Shuffle(len(data), func(i, j int) {
+		data[i], data[j] = data[j], data[i]
+	})
+
+	out := &bytes.Buffer{}
+	sorter := New(es_close.NewNopWriteCloser(out), Logger(esl.Default()), MemoryLimit(32))
+	testSimple(t, data, expected, sorter, out)
 }
 
 func TestOwnComparator(t *testing.T) {
@@ -253,12 +280,12 @@ func TestAltBehavior(t *testing.T) {
 		out := es_close.NewNopWriteCloser(outData)
 		s := New(out)
 
-		if err := s.Flush(); err != nil {
+		if err := s.Close(); err != nil {
 			t.Error(err)
 		}
 
 		// 2nd flush should not return err
-		if err := s.Flush(); err != nil {
+		if err := s.Close(); err != nil {
 			t.Error(err)
 		}
 	}
@@ -268,7 +295,7 @@ func TestAltBehavior(t *testing.T) {
 		out := es_close.NewNopWriteCloser(outData)
 		s := New(out)
 
-		if err := s.Flush(); err != nil {
+		if err := s.Close(); err != nil {
 			t.Error(err)
 		}
 

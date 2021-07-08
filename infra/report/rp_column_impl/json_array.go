@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_column"
 )
 
-func NewBson(header []string) rp_column.Column {
+func NewJson(header []string) rp_column.Column {
 	return &JsonArray{header: header}
 }
 
