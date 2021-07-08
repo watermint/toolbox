@@ -5,11 +5,27 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_replay"
+	"runtime"
+)
+
+var (
+	ErrorPanic = errors.New("the program aborted")
+)
+
+type MsgPanic struct {
+	ErrorRecipePanic app_msg.Message
+	ErrorCrashReport app_msg.Message
+}
+
+var (
+	MPanic = app_msg.Apply(&MsgPanic{}).(*MsgPanic)
 )
 
 func Exec(ctl app_control.Control, r rc_recipe.Recipe, custom func(r rc_recipe.Recipe)) error {
@@ -53,7 +69,7 @@ func DoSpec(ctl app_control.Control, spec rc_recipe.Spec, custom func(r rc_recip
 		return err
 	}
 
-	rcpErr := do(scr, ctl)
+	rcpErr := doSpecInternal(spec, scr, ctl, do)
 
 	if rcpErr != nil {
 		for _, handler := range spec.ErrorHandlers() {
@@ -69,5 +85,55 @@ func DoSpec(ctl app_control.Control, spec rc_recipe.Spec, custom func(r rc_recip
 	if err = spec.SpinDown(ctl); err != nil {
 		l.Debug("Spin down error", esl.Error(err))
 	}
+	return rcpErr
+}
+
+type ErrorTrace struct {
+	Depth int    `json:"depth"`
+	File  string `json:"file"`
+	Line  int    `json:"line"`
+}
+
+func doSpecInternal(spec rc_recipe.Spec, scr rc_recipe.Recipe, ctl app_control.Control, do func(r rc_recipe.Recipe, ctl app_control.Control) error) (rcpErr error) {
+	l := ctl.Log()
+	ui := ctl.UI()
+
+	defer func() {
+		rErr := recover()
+		if rErr != nil && ctl.Feature().IsProduction() {
+			l.Debug("Recovery from panic")
+			traces := make([]ErrorTrace, 0)
+			for depth := 0; ; depth++ {
+				_, file, line, ok := runtime.Caller(depth)
+				if !ok {
+					break
+				}
+				l.Debug("Trace",
+					esl.Int("Depth", depth),
+					esl.String("File", file),
+					esl.Int("Line", line),
+				)
+				traces = append(traces, ErrorTrace{
+					Depth: depth,
+					File:  file,
+					Line:  line,
+				})
+			}
+			traceLog, _ := json.Marshal(traces)
+
+			ui.Error(MPanic.ErrorRecipePanic)
+			ui.Error(MPanic.ErrorCrashReport.
+				With("Version", app.Version.String()).
+				With("OS", runtime.GOOS).
+				With("Recipe", spec.CliPath()).
+				With("Reason", rErr).
+				With("Trace", string(traceLog)))
+
+			rcpErr = ErrorPanic
+		}
+	}()
+
+	rcpErr = do(scr, ctl)
+
 	return rcpErr
 }

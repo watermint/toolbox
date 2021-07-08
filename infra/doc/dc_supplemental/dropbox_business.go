@@ -319,6 +319,7 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.ContentTeamContentInfo)
 	z.cat.RecipeTable("team content", ui, []string{
 		"team content member list",
+		"team content member size",
 		"team content mount list",
 		"team content policy list",
 	})

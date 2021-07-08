@@ -1,6 +1,7 @@
 package group
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -13,7 +14,7 @@ import (
 
 type Rename struct {
 	rc_recipe.RemarkIrreversible
-	Peer         dbx_conn.ConnBusinessMgmt
+	Peer         dbx_conn.ConnScopedTeam
 	CurrentName  string
 	NewName      string
 	OperationLog rp_model.TransactionReport
@@ -62,6 +63,9 @@ func (z *Rename) Test(c app_control.Control) error {
 }
 
 func (z *Rename) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeGroupsWrite,
+	)
 	z.OperationLog.SetModel(
 		&RenameRow{},
 		&mo_group.Group{},

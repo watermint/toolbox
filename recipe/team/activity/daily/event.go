@@ -1,6 +1,7 @@
 package daily
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
@@ -14,7 +15,7 @@ import (
 )
 
 type Event struct {
-	Peer      dbx_conn.ConnBusinessAudit
+	Peer      dbx_conn.ConnScopedTeam
 	StartDate string
 	EndDate   mo_string.OptionalString
 	Category  mo_string.OptionalString
@@ -23,6 +24,9 @@ type Event struct {
 }
 
 func (z *Event) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeEventsRead,
+	)
 	z.Event.SetModel(&mo_activity.Compatible{})
 }
 

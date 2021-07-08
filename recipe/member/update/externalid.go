@@ -3,6 +3,7 @@ package update
 import (
 	"encoding/csv"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -29,13 +30,17 @@ type ExternalIdRow struct {
 
 type Externalid struct {
 	rc_recipe.RemarkIrreversible
-	Peer         dbx_conn.ConnBusinessMgmt
+	Peer         dbx_conn.ConnScopedTeam
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 	SkipNotFound app_msg.Message
 }
 
 func (z *Externalid) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeMembersWrite,
+	)
 	z.File.SetModel(&ExternalIdRow{})
 	z.OperationLog.SetModel(
 		&ExternalIdRow{},

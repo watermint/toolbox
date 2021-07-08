@@ -2,6 +2,7 @@ package quota
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -9,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_usage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -25,38 +27,34 @@ var (
 	MUsage = app_msg.Apply(&MsgUsage{}).(*MsgUsage)
 )
 
-type UsageVO struct {
+type Usage struct {
+	Peer  dbx_conn.ConnScopedTeam
+	Usage rp_model.RowReport
 }
 
-type UsageWorker struct {
-	member *mo_member.Member
-	ctx    dbx_context.Context
-	ctl    app_control.Control
-	rep    rp_model.RowReport
-}
-
-func (z *UsageWorker) Exec() error {
-	ui := z.ctl.UI()
-	ui.Progress(MUsage.ProgressScan.With("MemberEmail", z.member.Email))
-	l := z.ctl.Log().With(esl.Any("member", z.member))
+func (z *Usage) scanMember(member *mo_member.Member, ctl app_control.Control, ctx dbx_context.Context) error {
+	ui := ctl.UI()
+	ui.Progress(MUsage.ProgressScan.With("MemberEmail", member.Email))
+	l := ctl.Log().With(esl.Any("member", member))
 	l.Debug("Scanning")
 
-	usage, err := sv_usage.New(z.ctx.AsMemberId(z.member.TeamMemberId)).Resolve()
+	usage, err := sv_usage.New(ctx.AsMemberId(member.TeamMemberId)).Resolve()
 	if err != nil {
 		l.Debug("Unable to scan usage data", esl.Error(err))
 		return err
 	}
 
-	z.rep.Row(mo_usage.NewMemberUsage(z.member, usage))
+	z.Usage.Row(mo_usage.NewMemberUsage(member, usage))
 	return nil
 }
 
-type Usage struct {
-	Peer  dbx_conn.ConnBusinessFile
-	Usage rp_model.RowReport
-}
-
 func (z *Usage) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeAccountInfoRead,
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.Usage.SetModel(&mo_usage.MemberUsage{})
 }
 
@@ -70,16 +68,13 @@ func (z *Usage) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewLegacyQueue()
-	for _, member := range members {
-		q.Enqueue(&UsageWorker{
-			member: member,
-			ctx:    z.Peer.Context(),
-			ctl:    c,
-			rep:    z.Usage,
-		})
-	}
-	q.Wait()
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("scan_member", z.scanMember, c, z.Peer.Context())
+		q := s.Get("scan_member")
+		for _, member := range members {
+			q.Enqueue(member)
+		}
+	})
 	return nil
 }
 

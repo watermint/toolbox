@@ -1,4 +1,4 @@
-package stage
+package gui
 
 import (
 	"fmt"
@@ -10,71 +10,28 @@ import (
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_gin"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_print"
 	"github.com/watermint/toolbox/infra/app"
-	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_template_impl"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"net/http"
 )
 
-type Server struct {
-	ctl               app_control.Control
-	expectedUserAgent string
-}
+const (
+	serverPort = 7801
+)
 
-func (z *Server) noSession(g *gin.Context) {
-	esl.Default().Info("noSession")
-	g.HTML(
-		http.StatusOK,
-		"error",
-		gin.H{},
-	)
-}
-
-func (z *Server) home(g *gin.Context) {
-	esl.Default().Info("home")
-	ui := z.ctl.UI()
-
-	if g.Request.UserAgent() != z.expectedUserAgent {
-		g.Redirect(
-			http.StatusFound,
-			"/no_session",
-		)
-		return
-	}
-
-	catRecipes := app_catalogue.Current().Recipes()
-	cat := make([]map[string]string, 0)
-	for _, r := range catRecipes {
-		s := rc_spec.New(r)
-		cat = append(cat, map[string]string{
-			"Title":       s.CliPath(),
-			"Description": ui.Text(s.Title()),
-		})
-	}
-
-	g.HTML(
-		http.StatusOK,
-		"catalogue",
-		gin.H{
-			"Commands": cat,
-		},
-	)
-}
-
-type Gui struct {
+type Launch struct {
 	rc_recipe.RemarkSecret
 	rc_recipe.RemarkExperimental
 }
 
-func (z *Gui) Preset() {
+func (z *Launch) Preset() {
 }
 
-func (z *Gui) Exec(c app_control.Control) error {
+func (z *Launch) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	a, _ := astilectron.New(lgw_print.New(l), astilectron.Options{
@@ -104,20 +61,37 @@ func (z *Gui) Exec(c app_control.Control) error {
 	g.Use(lgw_gin.GinWrapper(l))
 	g.Use(lgw_gin.GinRecovery(l))
 	g.StaticFS("/assets", hfs)
-	g.GET("/catalogue", backend.home)
-	g.GET("/no_session", backend.noSession)
+	g.GET("/home", backend.home)
+	g.GET("/command/:command", backend.command)
+	g.GET("/catalogue", backend.catalogue)
 	g.HTMLRender = htr
-	if err := htp.Define("catalogue", "layout/simple.html", "pages/catalogue.html"); err != nil {
-		l.Debug("Unable to prepare templates", esl.Error(err))
-		return err
+
+	pages := []Page{
+		{
+			Name:    "home",
+			Layouts: []string{"layout/layout.html", "pages/home.html"},
+		},
+		{
+			Name:    "catalogue",
+			Layouts: []string{"layout/layout.html", "pages/catalogue.html"},
+		},
+		{
+			Name:    "command",
+			Layouts: []string{"layout/layout.html", "pages/command.html"},
+		},
+		{
+			Name:    "error",
+			Layouts: []string{"layout/simple.html", "pages/error.html"},
+		},
 	}
-	if err := htp.Define("error", "layout/simple.html", "pages/error.html"); err != nil {
-		l.Debug("Unable to prepare templates", esl.Error(err))
-		return err
+	for _, page := range pages {
+		if err := page.Apply(htp); err != nil {
+			return err
+		}
 	}
 
 	server := &http.Server{
-		Addr:    fmt.Sprintf(":%d", 7800),
+		Addr:    fmt.Sprintf(":%d", serverPort),
 		Handler: g,
 	}
 
@@ -130,7 +104,7 @@ func (z *Gui) Exec(c app_control.Control) error {
 		return err
 	}
 
-	w, _ := a.NewWindow("http://localhost:7800/catalogue", &astilectron.WindowOptions{
+	w, _ := a.NewWindow(fmt.Sprintf("http://localhost:%d/catalogue", serverPort), &astilectron.WindowOptions{
 		Center: astikit.BoolPtr(true),
 		Height: astikit.IntPtr(600),
 		Width:  astikit.IntPtr(600),
@@ -147,6 +121,6 @@ func (z *Gui) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *Gui) Test(c app_control.Control) error {
+func (z *Launch) Test(c app_control.Control) error {
 	return qt_errors.ErrorHumanInteractionRequired
 }

@@ -3,6 +3,7 @@ package batch
 import (
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
@@ -97,7 +98,7 @@ func (z *UserWorker) Exec() error {
 }
 
 type User struct {
-	Peer       dbx_conn.ConnBusinessAudit
+	Peer       dbx_conn.ConnScopedTeam
 	StartTime  mo_time.TimeOptional
 	EndTime    mo_time.TimeOptional
 	Category   mo_string.OptionalString
@@ -194,6 +195,10 @@ func (z *User) Test(c app_control.Control) error {
 }
 
 func (z *User) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeEventsRead,
+		dbx_auth.ScopeMembersRead,
+	)
 	z.Combined.SetModel(&mo_activity.Compatible{})
 	z.User.SetModel(&mo_activity.Compatible{})
 	z.File.SetModel(&UserEmail{})

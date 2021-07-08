@@ -1,6 +1,7 @@
 package folder
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -24,7 +25,7 @@ import (
 )
 
 type List struct {
-	Peer                           dbx_conn.ConnBusinessFile
+	Peer                           dbx_conn.ConnScopedTeam
 	ScanTimeout                    mo_string.SelectString
 	Folder                         mo_filter.Filter
 	Group                          mo_filter.Filter
@@ -37,6 +38,14 @@ type List struct {
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeGroupsRead,
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.Group.SetOptions(
 		mo_filter.NewNameFilter(),
 		mo_filter.NewNamePrefixFilter(),

@@ -9,77 +9,119 @@ import (
 
 // Individual Scopes
 const (
-	// Read Dropbox account information (Required)
+	// ScopeAccountInfoRead Read Dropbox account information
 	ScopeAccountInfoRead = "account_info.read"
 
-	// Create, modify, and delete Dropbox account information
+	// ScopeAccountInfoWrite Create, modify, and delete Dropbox account information
 	ScopeAccountInfoWrite = "account_info.write"
 
-	// Read file data
+	// ScopeFilesContentRead Read file data
 	ScopeFilesContentRead = "files.content.read"
 
-	// Create, modify, and delete file data
+	// ScopeFilesContentWrite Create, modify, and delete file data
 	ScopeFilesContentWrite = "files.content.write"
 
-	// Read file metadata
+	// ScopeFilesMetadataRead Read file metadata
 	ScopeFilesMetadataRead = "files.metadata.read"
 
-	// Create, modify, and delete file metadata
+	// ScopeFilesMetadataWrite Create, modify, and delete file metadata
 	ScopeFilesMetadataWrite = "files.metadata.write"
 
-	// Permanently delete files
+	// ScopeFilesPermanentDelete Permanently delete files
 	ScopeFilesPermanentDelete = "files.permanent_delete"
 
-	// Read sharing policies and memberships
+	// ScopeSharingRead Read sharing policies and memberships
 	ScopeSharingRead = "sharing.read"
 
-	// Create, modify, or delete sharing policies and memberships
+	// ScopeSharingWrite Create, modify, or delete sharing policies and memberships
 	ScopeSharingWrite = "sharing.write"
 
-	// Read a user's file requests
+	// ScopeFileRequestsRead Read a user's file requests
 	ScopeFileRequestsRead = "file_requests.read"
 
-	// Create, modify, or delete a user's file requests
+	// ScopeFileRequestsWrite Create, modify, or delete a user's file requests
 	ScopeFileRequestsWrite = "file_requests.write"
 
-	// Delete a user's manually added contacts
+	// ScopeContactsWrite Delete a user's manually added contacts
 	ScopeContactsWrite = "contacts.write"
+)
+
+var (
+	ScopeIndividual = []string{
+		ScopeAccountInfoRead,
+		ScopeAccountInfoWrite,
+		ScopeContactsWrite,
+		ScopeFileRequestsRead,
+		ScopeFileRequestsWrite,
+		ScopeFilesContentRead,
+		ScopeFilesContentWrite,
+		ScopeFilesMetadataRead,
+		ScopeFilesMetadataWrite,
+		ScopeFilesPermanentDelete,
+		ScopeSharingRead,
+		ScopeSharingWrite,
+	}
 )
 
 // Team Scopes
 const (
-	// Read basic team settings
+	// ScopeTeamInfoRead Read basic team settings
 	ScopeTeamInfoRead = "team_info.read"
 
-	// Read team memberships and member settings
+	// ScopeMembersRead Read team memberships and member settings
 	ScopeMembersRead = "members.read"
 
-	// Add, modify, and suspend team members
+	// ScopeMembersWrite Add, modify, and suspend team members
 	ScopeMembersWrite = "members.write"
 
-	// Delete team members
+	// ScopeMembersDelete Delete team members
 	ScopeMembersDelete = "members.delete"
 
-	// Read groups and their memberships
+	// ScopeGroupsRead Read groups and their memberships
 	ScopeGroupsRead = "groups.read"
 
-	// Create, modify, and delete groups
+	// ScopeGroupsWrite Create, modify, and delete groups
 	ScopeGroupsWrite = "groups.write"
 
-	// View linked web, device, and app sessions
+	// ScopeSessionsList View linked web, device, and app sessions
 	ScopeSessionsList = "sessions.list"
 
-	// Unlink web, device, and app sessions
+	// ScopeSessionsModify Unlink web, device, and app sessions
 	ScopeSessionsModify = "sessions.modify"
 
-	// Access data of other team members
+	// ScopeTeamDataMember Access data of other team members
 	ScopeTeamDataMember = "team_data.member"
 
-	// Manage the team space
+	// ScopeTeamDataTeamSpace Manage the team space
 	ScopeTeamDataTeamSpace = "team_data.team_space"
 
-	// Read the team event log
+	// ScopeEventsRead Read the team event log
 	ScopeEventsRead = "events.read"
+)
+
+func IsTeamScope(scope string) bool {
+	for _, s := range ScopeTeam {
+		if s == scope {
+			return true
+		}
+	}
+	return false
+}
+
+var (
+	ScopeTeam = []string{
+		ScopeTeamInfoRead,
+		ScopeMembersRead,
+		ScopeMembersWrite,
+		ScopeMembersDelete,
+		ScopeGroupsRead,
+		ScopeGroupsWrite,
+		ScopeSessionsList,
+		ScopeSessionsModify,
+		ScopeTeamDataMember,
+		ScopeTeamDataTeamSpace,
+		ScopeEventsRead,
+	}
 )
 
 type Scoped struct {

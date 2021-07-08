@@ -2,6 +2,7 @@ package activity
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
@@ -115,7 +116,7 @@ func (z *UserWorker) Exec() error {
 }
 
 type User struct {
-	Peer        dbx_conn.ConnBusinessAudit
+	Peer        dbx_conn.ConnScopedTeam
 	StartTime   mo_time.TimeOptional
 	EndTime     mo_time.TimeOptional
 	Category    mo_string.OptionalString
@@ -124,6 +125,10 @@ type User struct {
 }
 
 func (z *User) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeEventsRead,
+		dbx_auth.ScopeMembersRead,
+	)
 	z.User.SetModel(&mo_activity.Compatible{})
 	z.UserSummary.SetModel(&UserIn{}, &UserSummary{}, rp_model.HiddenColumns(
 		"result.user", // duplicated to `input.user`

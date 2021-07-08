@@ -2,6 +2,7 @@ package quota
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -63,13 +64,17 @@ func (z *UpdateWorker) Exec() error {
 }
 
 type Update struct {
-	Peer         dbx_conn.ConnBusinessMgmt
+	Peer         dbx_conn.ConnScopedTeam
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 	Quota        mo_int.RangeInt
 }
 
 func (z *Update) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeMembersWrite,
+	)
 	z.File.SetModel(&mo_member_quota.MemberQuota{})
 	z.OperationLog.SetModel(&mo_member_quota.MemberQuota{}, &mo_member_quota.MemberQuota{})
 	z.Quota.SetRange(0, math.MaxInt32, 0)

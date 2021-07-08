@@ -35,10 +35,8 @@ func (z *Replication) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, &teamfolder.Replication{}, func(r rc_recipe.Recipe) {
 		rc := r.(*teamfolder.Replication)
 		rc.TargetNames = names
-		rc.SrcFile.SetPeerName(z.SrcPeerName)
-		rc.SrcMgmt.SetPeerName(z.SrcPeerName)
-		rc.DstFile.SetPeerName(z.DstPeerName)
-		rc.DstMgmt.SetPeerName(z.DstPeerName)
+		rc.Src.SetPeerName(z.SrcPeerName)
+		rc.Dst.SetPeerName(z.DstPeerName)
 	})
 }
 

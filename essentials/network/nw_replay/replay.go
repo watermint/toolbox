@@ -97,7 +97,7 @@ func (z hashReplay) Call(ctx api_context.Context, builder nw_client.RequestBuild
 	l = l.With(esl.String("endpoint", hr.URL.String()))
 
 	_ = z.responses.View(func(kvs kv_kvs.Kvs) error {
-		capData, err := kvs.GetBytes(recReq.RequestHash)
+		capData, err := kvs.GetJson(recReq.RequestHash)
 		if err != nil {
 			l.Debug("No replay found for the hash", esl.String("hash", recReq.RequestHash))
 			res = es_response_impl.NewNoResponse(ErrorNoReplayFound)

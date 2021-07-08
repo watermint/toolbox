@@ -1,10 +1,10 @@
 package rp_writer_impl
 
 import (
+	"bufio"
 	"encoding/json"
-	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
-	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/text/es_sort"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_column"
 	"github.com/watermint/toolbox/infra/report/rp_column_impl"
@@ -12,12 +12,15 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"os"
+	"path/filepath"
 	"sync"
 )
 
 type MsgSortedWriter struct {
-	ProgressSorting   app_msg.Message
-	ProgressPreparing app_msg.Message
+	ProgressSorting          app_msg.Message
+	ProgressPreparing        app_msg.Message
+	ErrorUnableComposeReport app_msg.Message
 }
 
 var (
@@ -35,9 +38,11 @@ type Sorted struct {
 	ctl     app_control.Control
 	name    string
 	writers []rp_writer.Writer
-	storage kv_storage.Storage
+	dstPath string
+	dstFile *os.File
+	sorter  es_sort.Sorter
 	stream  rp_column.Column
-	bson    rp_column.Column
+	json    rp_column.Column
 	isOpen  bool
 	mutex   sync.Mutex
 }
@@ -65,9 +70,7 @@ func (z *Sorted) Row(r interface{}) {
 		return
 	}
 
-	err = z.storage.Update(func(kvs kv_kvs.Kvs) error {
-		return kvs.PutRaw(b, []byte{1})
-	})
+	err = z.sorter.WriteLine(string(b))
 	app_ui.ShowProgressWithMessage(z.ctl.UI(), MSortedWriter.ProgressPreparing)
 	if err != nil {
 		l.Warn("Unable to store row", esl.Error(err))
@@ -86,18 +89,23 @@ func (z *Sorted) Open(ctl app_control.Control, model interface{}, opts ...rp_mod
 	l := ctl.Log().With(esl.String("name", z.name))
 
 	z.ctl = ctl
-	z.storage, err = ctl.NewKvs("rp_writer_sorted-" + z.name + ro.ReportSuffix)
+	z.dstPath = filepath.Join(ctl.Workspace().Report(), z.Name()+ro.ReportSuffix+"_column.json")
+	z.dstFile, err = os.Create(z.dstPath)
 	if err != nil {
-		l.Debug("Unable to create storage")
+		l.Debug("Unable to create a file", esl.Error(err))
 		return err
 	}
+	z.sorter = es_sort.New(z.dstFile,
+		es_sort.Logger(ctl.Log()),
+		es_sort.TempCompress(true),
+	)
 
 	z.stream = rp_column_impl.NewStream(model, opts...)
-	z.bson = rp_column_impl.NewBson(z.stream.Header())
+	z.json = rp_column_impl.NewJson(z.stream.Header())
 
 	newOpts := make([]rp_model.ReportOpt, 0)
 	newOpts = append(newOpts, opts...)
-	newOpts = append(newOpts, rp_model.ColumnModel(z.bson))
+	newOpts = append(newOpts, rp_model.ColumnModel(z.json))
 
 	for _, w := range z.writers {
 		if err := w.Open(ctl, model, newOpts...); err != nil {
@@ -116,29 +124,59 @@ func (z *Sorted) Close() {
 		panic("the report is not yet opened")
 	}
 	l := z.ctl.Log()
+	ui := z.ctl.UI()
 
 	if !z.isOpen {
 		l.Debug("The writer is not yet open")
 		return
 	}
 
-	ui := z.ctl.UI()
+	defer func() {
+		l.Debug("Closing writers")
+		for _, w := range z.writers {
+			w.Close()
+		}
+	}()
+
 	l.Debug("Writing sorted report")
-	err := z.storage.View(func(kvs kv_kvs.Kvs) error {
-		return kvs.ForEachRaw(func(key, value []byte) error {
-			for _, w := range z.writers {
-				w.Row(key)
-			}
-			app_ui.ShowProgressWithMessage(ui, MSortedWriter.ProgressSorting)
-			return nil
-		})
-	})
-	if err != nil {
-		l.Debug("Unable to write sorted report", esl.Error(err))
+	if clErr := z.sorter.Close(); clErr != nil {
+		l.Debug("Unable to write sorted report", esl.Error(clErr))
+		ui.Error(MSortedWriter.ErrorUnableComposeReport.With("Error", clErr))
+		return
 	}
 
-	for _, w := range z.writers {
-		w.Close()
+	if z.dstFile == nil {
+		l.Debug("Inconsistent state. Dst file is not found")
+		ui.Error(MSortedWriter.ErrorUnableComposeReport.With("Error", "Failed to create the report file"))
+		return
 	}
-	z.storage.Close()
+	_ = z.dstFile.Close()
+
+	df, err := os.Open(z.dstPath)
+	if err != nil {
+		l.Debug("Unable to open the dst file", esl.Error(err))
+		ui.Error(MSortedWriter.ErrorUnableComposeReport.With("Error", err))
+		return
+	}
+	dfs := bufio.NewScanner(df)
+	var lastErr error
+	for dfs.Scan() {
+		line := dfs.Text()
+		for _, w := range z.writers {
+			w.Row([]byte(line))
+		}
+		app_ui.ShowProgressWithMessage(ui, MSortedWriter.ProgressSorting)
+	}
+	if err := dfs.Err(); err != nil {
+		l.Debug("Error during read temporary report file", esl.Error(err))
+		ui.Error(MSortedWriter.ErrorUnableComposeReport.With("Error", err))
+	}
+	if lastErr = dfs.Err(); lastErr != nil {
+		ui.Error(MSortedWriter.ErrorUnableComposeReport.With("Error", lastErr))
+	}
+
+	_ = df.Close()
+	if rmErr := os.Remove(z.dstPath); rmErr != nil {
+		l.Debug("Unable to clean up column json", esl.Error(rmErr))
+	}
 }

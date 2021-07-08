@@ -10,12 +10,12 @@ import (
 	"path/filepath"
 )
 
-func NewStorage(name string, logger esl.Logger) kv_storage.Lifecycle {
+func NewBitCask(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return newProxy(name, logger)
 }
 
 // New storage with absolute path.
-func NewStorageWithPath(absPath string, logger esl.Logger) (kv_storage.Storage, error) {
+func NewBitCaskWithPath(absPath string, logger esl.Logger) (kv_storage.Storage, error) {
 	s := newProxy(filepath.Base(absPath), logger)
 	err := s.Open(filepath.Dir(absPath))
 	return s, err

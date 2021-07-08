@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
+	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"os/user"
 	"time"
@@ -64,6 +65,9 @@ type Feature interface {
 
 	// Console log level
 	ConsoleLogLevel() esl.Level
+
+	// Extra options
+	Extra() app_opt.ExtraOpts
 }
 
 type OptIn interface {

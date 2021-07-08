@@ -14,7 +14,7 @@ import (
 
 func newValueKvStorageStorage(name string) rc_recipe.Value {
 	v := &ValueKvStorageStorage{name: name}
-	v.storage = kv_storage_impl.NewStorage(name, esl.Default())
+	v.storage = kv_storage_impl.NewBitCask(name, esl.Default())
 	return v
 }
 

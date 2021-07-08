@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/infra/report/rp_artifact_feature"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -43,7 +44,15 @@ type featureImpl struct {
 	hashReplay   kv_storage.Storage
 }
 
+func (z featureImpl) Extra() app_opt.ExtraOpts {
+	return z.com.ExtraOpts()
+}
+
 func (z featureImpl) Experiment(name string) bool {
+	if z.com.ExtraOpts().HasExperiment(name) {
+		return true
+	}
+
 	experiments := strings.Split(z.com.Experiment, ",")
 	for _, experiment := range experiments {
 		if experiment == name {
@@ -233,6 +242,10 @@ func (z featureImpl) IsSecure() bool {
 }
 
 func (z featureImpl) IsAutoOpen() bool {
+	aof := &rp_artifact_feature.OptInFeatureAutoOpen{}
+	if f, found := z.OptInGet(aof); found && f.OptInIsEnabled() {
+		return true
+	}
 	return z.com.AutoOpen
 }
 

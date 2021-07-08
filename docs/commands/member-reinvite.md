@@ -26,9 +26,11 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                 |
-|-----------------------------|
-| Dropbox Business management |
+| Description                                                      |
+|------------------------------------------------------------------|
+| Dropbox Business: Remove and recover your team members' accounts |
+| Dropbox Business: View your team membership                      |
+| Dropbox Business: View and manage your team membership           |
 
 # Authorization
 
@@ -96,6 +98,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-concurrency`    | Maximum concurrency for running operation                                                 | Number of processors |
 | `-debug`          | Enable debug mode                                                                         | false                |
 | `-experiment`     | Enable experimental feature(s).                                                           |                      |
+| `-extra`          | Extra parameter file path                                                                 |                      |
 | `-lang`           | Display language                                                                          | auto                 |
 | `-output`         | Output format (none/text/markdown/json)                                                   | text                 |
 | `-proxy`          | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |

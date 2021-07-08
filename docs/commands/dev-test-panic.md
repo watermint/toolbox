@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# dev stage gui
+# dev test panic
 
-GUI proof of concept (Experimental)
+Panic test 
 
 # Installation
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage gui 
+.\tbx.exe dev test panic 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev stage gui 
+$HOME/Desktop/tbx dev test panic 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -35,6 +35,12 @@ You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+
+## Options:
+
+| Option        | Description | Default |
+|---------------|-------------|---------|
+| `-panic-type` | Panic type  | 0       |
 
 ## Common options:
 
@@ -47,6 +53,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-concurrency`    | Maximum concurrency for running operation                                                 | Number of processors |
 | `-debug`          | Enable debug mode                                                                         | false                |
 | `-experiment`     | Enable experimental feature(s).                                                           |                      |
+| `-extra`          | Extra parameter file path                                                                 |                      |
 | `-lang`           | Display language                                                                          | auto                 |
 | `-output`         | Output format (none/text/markdown/json)                                                   | text                 |
 | `-proxy`          | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |

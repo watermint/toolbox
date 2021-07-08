@@ -26,9 +26,9 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                          |
-|-------------------------------|
-| Dropbox Business 情報アクセス |
+| 説明                                                   |
+|--------------------------------------------------------|
+| Dropbox Business: 自分のチームグループのメンバーを見る |
 
 # 認可
 
@@ -95,6 +95,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
 | `-experiment`     | 実験的機能を有効化する                                                                             |                |
+| `-extra`          | 追加パラメータファイルのパス                                                                       |                |
 | `-lang`           | 表示言語                                                                                           | auto           |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`          | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |

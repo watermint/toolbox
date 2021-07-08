@@ -222,7 +222,7 @@ func (z rpImpl) Replay(target app_workspace.Job, ctl app_control.Control) error 
 
 				err = captureData.Update(func(kvs kv_kvs.Kvs) error {
 					existingRecords := make([]nw_capture.Res, 0)
-					capData, err := kvs.GetBytes(capLine.Req.RequestHash)
+					capData, err := kvs.GetJson(capLine.Req.RequestHash)
 					if err != nil {
 						existingRecords = []nw_capture.Res{capLine.Res}
 					} else {

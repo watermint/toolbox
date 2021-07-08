@@ -1,7 +1,6 @@
 package kv_storage_impl_test
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
@@ -13,8 +12,8 @@ import (
 )
 
 func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
-	qt_file.TestWithTestFolder(t, "kvs"+name, false, func(path string) {
-		db := kv_storage_impl.InternalNewBitcask(name+"_bitcask", esl.Default())
+	qt_file.TestWithTestFolder(t, "kvs_bc_"+name, false, func(path string) {
+		db := kv_storage_impl.InternalNewBitcask(name, esl.Default())
 		if err := db.Open(path); err != nil {
 			t.Error(err)
 			return
@@ -51,38 +50,6 @@ func TestPutGetString(t *testing.T) {
 				return err
 			}
 			if v, err := coffee.GetString("A1234"); err == nil || v != "" {
-				t.Error(v, err)
-				return err
-			}
-			return nil
-		})
-		if err != nil {
-			t.Error(err)
-		}
-	})
-}
-
-func TestPutGetBytes(t *testing.T) {
-	kvsTest(t, "coffee_put-get-bytes", func(t *testing.T, db kv_storage.Storage) {
-		var err error
-
-		// put/get bytes
-		err = db.Update(func(coffee kv_kvs.Kvs) error {
-			a1234 := []byte("Espresso")
-			if err = coffee.PutBytes("A1234", a1234); err != nil {
-				t.Error(err)
-				return err
-			}
-			a5678 := []byte("カフェラテ")
-			if err = coffee.PutBytes("A5678", a5678); err != nil {
-				t.Error(err)
-				return err
-			}
-			if v, err := coffee.GetBytes("A1234"); bytes.Compare(v, a1234) != 0 || err != nil {
-				t.Error(v, err)
-				return err
-			}
-			if v, err := coffee.GetBytes("A5678"); bytes.Compare(v, a5678) != 0 || err != nil {
 				t.Error(v, err)
 				return err
 			}
@@ -135,14 +102,7 @@ func TestPutGetJSON(t *testing.T) {
 				t.Error(err)
 				return err
 			}
-			if v, err := coffee.GetBytes("A1234"); bytes.Compare(v, a1234raw) != 0 || err != nil {
-				t.Error(v, err)
-				return err
-			}
-			if v, err := coffee.GetBytes("A5678"); bytes.Compare(v, a5678raw) != 0 || err != nil {
-				t.Error(v, err)
-				return err
-			}
+
 			return nil
 		})
 		if err != nil {
@@ -153,10 +113,8 @@ func TestPutGetJSON(t *testing.T) {
 
 func TestPutGetJSONModel(t *testing.T) {
 	kvsTest(t, "coffee_put-get-json-model", func(t *testing.T, db kv_storage.Storage) {
-		var err error
-
 		// put/get json model
-		err = db.Update(func(coffee kv_kvs.Kvs) error {
+		upErr := db.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
 				Name  string `json:"name"`
 				Price int    `json:"price"`
@@ -170,48 +128,49 @@ func TestPutGetJSONModel(t *testing.T) {
 				Price: 500,
 			}
 
-			if err = coffee.PutJsonModel("A1234", a1234); err != nil {
-				t.Error(err)
-				return err
+			if puErr := coffee.PutJsonModel("A1234", a1234); puErr != nil {
+				t.Error(puErr)
+				return puErr
 			}
-			if err = coffee.PutJsonModel("A5678", a5678); err != nil {
-				t.Error(err)
-				return err
+			if puErr := coffee.PutJsonModel("A5678", a5678); puErr != nil {
+				t.Error(puErr)
+				return puErr
 			}
 			v := &SKU{}
-			if err := coffee.GetJsonModel("A1234", v); v.Name != a1234.Name || v.Price != a1234.Price || err != nil {
-				t.Error(v, err)
-				return err
+			if geErr := coffee.GetJsonModel("A1234", v); v.Name != a1234.Name || v.Price != a1234.Price || geErr != nil {
+				t.Error(v, geErr)
+				return geErr
 			}
 			v = &SKU{}
-			if err := coffee.GetJsonModel("A5678", v); v.Name != a5678.Name || v.Price != a5678.Price || err != nil {
-				t.Error(v, err)
-				return err
+			if geErr := coffee.GetJsonModel("A5678", v); v.Name != a5678.Name || v.Price != a5678.Price || geErr != nil {
+				t.Error(v, geErr)
+				return geErr
 			}
 			return nil
 		})
-		if err != nil {
-			t.Error(err)
+		if upErr != nil {
+			t.Error(upErr)
 		}
 
 		// foreach, cursor
-		err = db.Update(func(coffee kv_kvs.Kvs) error {
+		fcErr := db.Update(func(coffee kv_kvs.Kvs) error {
 			dat := map[string]string{
 				"A1234": "Espresso",
 				"A5678": "カフェラテ",
 				"A9012": "☕️",
 			}
 			for k, v := range dat {
-				if err = coffee.PutString(k, v); err != nil {
-					t.Error(err)
-					return err
+				if puErr := coffee.PutString(k, v); puErr != nil {
+					t.Error(puErr)
+					return puErr
 				}
 			}
 
 			// foreach
 			{
+				var foErr error
 				found := make(map[string]bool)
-				err = coffee.ForEach(func(key string, value []byte) error {
+				foErr = coffee.ForEach(func(key string, value []byte) error {
 					if c, e := dat[key]; !e || c != string(value) {
 						t.Error(key, value)
 						return errors.New("invalid value")
@@ -219,9 +178,10 @@ func TestPutGetJSONModel(t *testing.T) {
 					found[key] = true
 					return nil
 				})
-				if err != nil {
-					t.Error(err)
-					return err
+
+				if nil != foErr {
+					t.Error(foErr)
+					return foErr
 				}
 				for k := range dat {
 					if _, e := found[k]; !e {
@@ -233,8 +193,8 @@ func TestPutGetJSONModel(t *testing.T) {
 
 			return nil
 		})
-		if err != nil {
-			t.Error(err)
+		if fcErr != nil {
+			t.Error(fcErr)
 		}
 	})
 }

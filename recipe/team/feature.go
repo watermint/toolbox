@@ -2,6 +2,7 @@ package team
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
@@ -13,11 +14,14 @@ import (
 )
 
 type Feature struct {
-	Peer    dbx_conn.ConnBusinessInfo
+	Peer    dbx_conn.ConnScopedTeam
 	Feature rp_model.RowReport
 }
 
 func (z *Feature) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.Feature.SetModel(&mo_team.Feature{})
 }
 
