@@ -1,6 +1,7 @@
 package member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -15,7 +16,7 @@ import (
 
 type Delete struct {
 	rc_recipe.RemarkIrreversible
-	Peer             dbx_conn.ConnBusinessMgmt
+	Peer             dbx_conn.ConnScopedTeam
 	GroupName        string
 	MemberEmail      string
 	OperationLog     rp_model.TransactionReport
@@ -64,6 +65,9 @@ func (z *Delete) Test(c app_control.Control) error {
 }
 
 func (z *Delete) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeGroupsWrite,
+	)
 	z.OperationLog.SetModel(&UpdateInfo{}, &mo_group.Group{},
 		rp_model.HiddenColumns(
 			"result.group_id",

@@ -2,6 +2,7 @@ package group
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -13,7 +14,7 @@ import (
 
 type Delete struct {
 	rc_recipe.RemarkIrreversible
-	Peer                      dbx_conn.ConnBusinessMgmt
+	Peer                      dbx_conn.ConnScopedTeam
 	Name                      string
 	ErrorMissingOptionName    app_msg.Message
 	ErrorUnableToResolveGroup app_msg.Message
@@ -22,6 +23,9 @@ type Delete struct {
 }
 
 func (z *Delete) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeGroupsWrite,
+	)
 }
 
 func (z *Delete) Exec(c app_control.Control) error {

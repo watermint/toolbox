@@ -2,6 +2,7 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -41,12 +42,15 @@ func (z *InviteRow) Validate() error {
 type Invite struct {
 	rc_recipe.RemarkIrreversible
 	File         fd_file.RowFeed
-	Peer         dbx_conn.ConnBusinessMgmt
+	Peer         dbx_conn.ConnScopedTeam
 	OperationLog rp_model.TransactionReport
 	SilentInvite bool
 }
 
 func (z *Invite) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersWrite,
+	)
 	z.File.SetModel(&InviteRow{})
 	z.OperationLog.SetModel(
 		&InviteRow{},

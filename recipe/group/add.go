@@ -1,6 +1,7 @@
 package group
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -15,7 +16,7 @@ import (
 
 type Add struct {
 	rc_recipe.RemarkIrreversible
-	Peer                  dbx_conn.ConnBusinessMgmt
+	Peer                  dbx_conn.ConnScopedTeam
 	Name                  string
 	ManagementType        mo_string.SelectString
 	ErrorUnableToAddGroup app_msg.Message
@@ -60,6 +61,9 @@ func (z *Add) Test(c app_control.Control) error {
 }
 
 func (z *Add) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeGroupsWrite,
+	)
 	z.ManagementType.SetOptions(
 		"company_managed",
 		"company_managed", "user_managed",

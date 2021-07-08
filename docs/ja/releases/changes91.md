@@ -26,23 +26,23 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "DestPath", Desc: "出力先パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
-- 		&{
-- 			Name:     "SourcePath",
-- 			Desc:     "ライセンスへのパス (go-licenses 出力フォルダ)",
-- 			TypeName: "essentials.model.mo_path.file_system_path_impl",
-- 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
-- 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "DestPath", Desc: "出力先パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+- 		&{
+- 			Name:     "SourcePath",
+- 			Desc:     "ライセンスへのパス (go-licenses 出力フォルダ)",
+- 			TypeName: "essentials.model.mo_path.file_system_path_impl",
+- 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
+- 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `dev release candidate`
 
@@ -52,18 +52,18 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: true,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		... // 4 identical entries
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-+ 		"Peer": "github_public",
-  	},
-  	Services: {"dropbox", "dropbox_business", "github"},
-  	IsSecret: true,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: true,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		... // 4 identical entries
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
++ 		"Peer": "github_public",
+  	},
+  	Services: {"dropbox", "dropbox_business", "github"},
+  	IsSecret: true,
+  	... // 11 identical fields
+  }
 ```

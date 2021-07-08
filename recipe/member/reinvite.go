@@ -1,6 +1,7 @@
 package member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -15,7 +16,7 @@ import (
 
 type Reinvite struct {
 	rc_recipe.RemarkIrreversible
-	Peer             dbx_conn.ConnBusinessMgmt
+	Peer             dbx_conn.ConnScopedTeam
 	Silent           bool
 	OperationLog     rp_model.TransactionReport
 	ProgressReinvite app_msg.Message
@@ -75,6 +76,11 @@ func (z *Reinvite) Test(c app_control.Control) error {
 }
 
 func (z *Reinvite) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersDelete,
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeMembersWrite,
+	)
 	z.OperationLog.SetModel(
 		&mo_member.Member{},
 		&mo_member.Member{},

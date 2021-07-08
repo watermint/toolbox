@@ -5,6 +5,7 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
@@ -74,7 +75,7 @@ func (z *EmailWorker) Exec() error {
 
 type Email struct {
 	rc_recipe.RemarkIrreversible
-	Peer                dbx_conn.ConnBusinessMgmt
+	Peer                dbx_conn.ConnScopedTeam
 	File                fd_file.RowFeed
 	UpdateUnverified    bool
 	OperationLog        rp_model.TransactionReport
@@ -83,6 +84,10 @@ type Email struct {
 }
 
 func (z *Email) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeMembersWrite,
+	)
 	z.File.SetModel(&EmailRow{})
 	z.OperationLog.SetModel(
 		&EmailRow{},

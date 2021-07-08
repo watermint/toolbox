@@ -1,6 +1,7 @@
 package update
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -23,13 +24,17 @@ type ProfileRow struct {
 type Profile struct {
 	rc_recipe.RemarkIrreversible
 	File                fd_file.RowFeed
-	Peer                dbx_conn.ConnBusinessMgmt
+	Peer                dbx_conn.ConnScopedTeam
 	OperationLog        rp_model.TransactionReport
 	ErrorMemberNotFound app_msg.Message
 	ProgressUpdating    app_msg.Message
 }
 
 func (z *Profile) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeMembersWrite,
+	)
 	z.OperationLog.SetModel(
 		&ProfileRow{},
 		&mo_member.Member{},

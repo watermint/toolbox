@@ -1,6 +1,7 @@
 package member
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -19,13 +20,17 @@ type DetachRow struct {
 type Detach struct {
 	rc_recipe.RemarkIrreversible
 	File             fd_file.RowFeed
-	Peer             dbx_conn.ConnBusinessMgmt
+	Peer             dbx_conn.ConnScopedTeam
 	RevokeTeamShares bool
 	OperationLog     rp_model.TransactionReport
 }
 
 func (z *Detach) Preset() {
 	z.RevokeTeamShares = false
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersDelete,
+		dbx_auth.ScopeMembersWrite,
+	)
 	z.File.SetModel(&DetachRow{})
 	z.OperationLog.SetModel(&DetachRow{}, nil)
 }
