@@ -6,7 +6,7 @@ lang: ja
 
 # services google mail message send
 
-Send a mail (Irreversible operation)
+メールの送信 (非可逆な操作です)
 
 # セキュリティ
 
@@ -26,9 +26,9 @@ Send a mail (Irreversible operation)
 
 ## 認可スコープ
 
-| 説明                             |
-|----------------------------------|
-| Gmail: Send email on your behalf |
+| 説明                                |
+|-------------------------------------|
+| Gmail: あなたに代わってメールを送信 |
 
 # 認可
 
@@ -80,13 +80,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                           | デフォルト |
-|------------|------------------------------------------------------------------------------------------------|------------|
-| `-body`    | Mail body text                                                                                 |            |
-| `-peer`    | Account alias                                                                                  | default    |
-| `-subject` | Email subject                                                                                  |            |
-| `-to`      | To email address                                                                               |            |
-| `-user-id` | The user's email address. The special value me can be used to indicate the authenticated user. | me         |
+| オプション | 説明                                                                                        | デフォルト |
+|------------|---------------------------------------------------------------------------------------------|------------|
+| `-body`    | メールの本文                                                                                |            |
+| `-peer`    | アカウントの別名                                                                            | default    |
+| `-subject` | メールの件名                                                                                |            |
+| `-to`      | 宛先メールアドレス                                                                          |            |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |
 
 ## 共通のオプション:
 
@@ -99,7 +99,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-concurrency`    | 指定した並列度で並列処理を行います                                                                 | プロセッサー数 |
 | `-debug`          | デバッグモードを有効にする                                                                         | false          |
 | `-experiment`     | 実験的機能を有効化する                                                                             |                |
-| `-extra`          | Extra parameter file path                                                                          |                |
+| `-extra`          | 追加パラメータファイルのパス                                                                       |                |
 | `-lang`           | 表示言語                                                                                           | auto           |
 | `-output`         | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`          | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |
@@ -140,7 +140,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## テキスト入力: Body
 
-Mail body text
+メールの本文
 
 # ネットワークプロクシの設定
 

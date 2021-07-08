@@ -143,6 +143,7 @@ If you wanted to know who are actually uses specific folders, please consider us
 | Command                                                                               | Description                                                  |
 |---------------------------------------------------------------------------------------|--------------------------------------------------------------|
 | [team content member list]({{ site.baseurl }}/commands/team-content-member-list.html) | List team folder & shared folder members                     |
+| [team content member size]({{ site.baseurl }}/commands/team-content-member-size.html) | Count number of members of team folders and shared folders   |
 | [team content mount list]({{ site.baseurl }}/commands/team-content-mount-list.html)   | List all mounted/unmounted shared folders of team members.   |
 | [team content policy list]({{ site.baseurl }}/commands/team-content-policy-list.html) | List policies of team folders and shared folders in the team |
 

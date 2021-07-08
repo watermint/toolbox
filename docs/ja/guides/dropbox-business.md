@@ -143,6 +143,7 @@ lang: ja
 | コマンド                                                                                 | 説明                                                                                   |
 |------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | [team content member list]({{ site.baseurl }}/ja/commands/team-content-member-list.html) | チームフォルダや共有フォルダのメンバー一覧                                             |
+| [team content member size]({{ site.baseurl }}/ja/commands/team-content-member-size.html) | チームフォルダや共有フォルダのメンバー数をカウントする                                 |
 | [team content mount list]({{ site.baseurl }}/ja/commands/team-content-mount-list.html)   | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
 | [team content policy list]({{ site.baseurl }}/ja/commands/team-content-policy-list.html) | チームフォルダと共有フォルダのポリシー一覧                                             |
 

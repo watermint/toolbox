@@ -43,16 +43,16 @@ lang: ja
 | dev stage dbxfs                             | Dropboxのファイルシステムのインプリケーションを確認しますキャッシュされたシステムに対して |
 | dev stage gmail                             | Gmail コマンド                                                                            |
 | dev stage griddata                          | グリッドデータテスト                                                                      |
-| dev stage gui launch                        | GUI proof of concept                                                                      |
+| dev stage gui launch                        | GUIコンセプト実証                                                                         |
 | dev stage http_range                        | HTTPレンジリクエストのプルーフオブコンセプト                                              |
 | dev stage scoped                            | Dropboxのスコープ付きOAuthアプリテスト                                                    |
 | dev stage teamfolder                        | チームフォルダ処理のサンプル                                                              |
 | dev stage upload_append                     | 新しいアップロードAPIテスト                                                               |
-| dev test auth all                           | Test for connect to Dropbox with all scopes                                               |
+| dev test auth all                           | すべてのスコープでのDropboxへの接続テスト                                                 |
 | dev test echo                               | テキストのエコー                                                                          |
 | dev test kvsfootprint                       | KVSのメモリフットプリントをテストします                                                   |
 | dev test monkey                             | モンキーテスト                                                                            |
-| dev test panic                              | Panic test                                                                                |
+| dev test panic                              | パニック試験                                                                              |
 | dev test recipe                             | レシピのテスト                                                                            |
 | dev test resources                          | バイナリの品質テスト                                                                      |
 | dev test setup teamsharedlink               | デモ用共有リンクの作成                                                                    |
@@ -167,7 +167,7 @@ lang: ja
 | services google mail message label delete   | メッセージからラベルを削除する                                                            |
 | services google mail message list           | メッセージの一覧                                                                          |
 | services google mail message processed list | 処理された形式でメッセージを一覧表示します.                                               |
-| services google mail message send           | Send a mail                                                                               |
+| services google mail message send           | メールの送信                                                                              |
 | services google mail sendas add             | カスタムの "from" send-asエイリアスの作成                                                 |
 | services google mail sendas delete          | 指定したsend-asエイリアスを削除する                                                       |
 | services google mail sendas list            | 指定されたアカウントの送信エイリアスを一覧表示する                                        |
