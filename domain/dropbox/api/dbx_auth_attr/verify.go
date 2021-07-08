@@ -68,13 +68,23 @@ func VerifyToken(name string, ctx api_auth.Context, ctl app_control.Control, app
 	scopes := ctx.Scopes()
 	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 
+	isTeam := false
+
+	for _, scope := range scopes {
+		if dbx_auth.IsTeamScope(scope) {
+			isTeam = true
+		}
+	}
+
 	for _, scope := range scopes {
 		switch scope {
 		case dbx_auth.ScopeAccountInfoRead,
 			api_auth.DropboxTokenFull,
 			api_auth.DropboxTokenApp:
 			l.Debug("Verify individual")
-			return verifyTokenIndividual(name, scopes, ctx, ctl, app)
+			if !isTeam {
+				return verifyTokenIndividual(name, scopes, ctx, ctl, app)
+			}
 
 		case dbx_auth.ScopeTeamInfoRead,
 			api_auth.DropboxTokenBusinessInfo,

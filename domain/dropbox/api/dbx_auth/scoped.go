@@ -46,6 +46,23 @@ const (
 	ScopeContactsWrite = "contacts.write"
 )
 
+var (
+	ScopeIndividual = []string{
+		ScopeAccountInfoRead,
+		ScopeAccountInfoWrite,
+		ScopeContactsWrite,
+		ScopeFileRequestsRead,
+		ScopeFileRequestsWrite,
+		ScopeFilesContentRead,
+		ScopeFilesContentWrite,
+		ScopeFilesMetadataRead,
+		ScopeFilesMetadataWrite,
+		ScopeFilesPermanentDelete,
+		ScopeSharingRead,
+		ScopeSharingWrite,
+	}
+)
+
 // Team Scopes
 const (
 	// ScopeTeamInfoRead Read basic team settings
@@ -80,6 +97,31 @@ const (
 
 	// ScopeEventsRead Read the team event log
 	ScopeEventsRead = "events.read"
+)
+
+func IsTeamScope(scope string) bool {
+	for _, s := range ScopeTeam {
+		if s == scope {
+			return true
+		}
+	}
+	return false
+}
+
+var (
+	ScopeTeam = []string{
+		ScopeTeamInfoRead,
+		ScopeMembersRead,
+		ScopeMembersWrite,
+		ScopeMembersDelete,
+		ScopeGroupsRead,
+		ScopeGroupsWrite,
+		ScopeSessionsList,
+		ScopeSessionsModify,
+		ScopeTeamDataMember,
+		ScopeTeamDataTeamSpace,
+		ScopeEventsRead,
+	}
 )
 
 type Scoped struct {
