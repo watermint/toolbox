@@ -2,6 +2,7 @@ package activity
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
@@ -17,7 +18,7 @@ import (
 )
 
 type Event struct {
-	Peer      dbx_conn.ConnBusinessAudit
+	Peer      dbx_conn.ConnScopedTeam
 	StartTime mo_time.TimeOptional
 	EndTime   mo_time.TimeOptional
 	Category  mo_string.OptionalString
@@ -25,6 +26,9 @@ type Event struct {
 }
 
 func (z *Event) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeEventsRead,
+	)
 	z.Event.SetModel(&mo_activity.Compatible{})
 }
 
