@@ -2,6 +2,7 @@ package group
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -13,11 +14,14 @@ import (
 )
 
 type List struct {
-	Peer  dbx_conn.ConnBusinessInfo
+	Peer  dbx_conn.ConnScopedTeam
 	Group rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeGroupsRead,
+	)
 	z.Group.SetModel(&mo_group.Group{},
 		rp_model.HiddenColumns(
 			"group_id",

@@ -2,6 +2,7 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -13,12 +14,15 @@ import (
 )
 
 type List struct {
-	Peer           dbx_conn.ConnBusinessInfo
+	Peer           dbx_conn.ConnScopedTeam
 	Member         rp_model.RowReport
 	IncludeDeleted bool
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+	)
 	z.Member.SetModel(
 		&mo_member.Member{},
 		rp_model.HiddenColumns(
