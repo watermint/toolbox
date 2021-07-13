@@ -45,8 +45,9 @@ func AssertResponse(res es_response.Response) es_response.Response {
 			return es_response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
 		}
 		if errMissingScope.RequiredScope != "" {
-			l.Warn("Missing scope", esl.String("missingScope", errMissingScope.RequiredScope))
-			return es_response_impl.NewTransportErrorResponse(errMissingScope, res)
+			l.Error("Missing scope", esl.String("missingScope", errMissingScope.RequiredScope))
+			panic("missing scope:" + errMissingScope.RequiredScope)
+			//			return es_response_impl.NewTransportErrorResponse(errMissingScope, res)
 		}
 
 	case dbx_context.DropboxApiErrorEndpointSpecific:

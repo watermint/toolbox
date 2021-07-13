@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
@@ -13,13 +14,20 @@ import (
 )
 
 type Size struct {
-	Peer     dbx_conn.ConnBusinessFile
+	Peer     dbx_conn.ConnScopedTeam
 	FileSize *namespacefile.Size
 	Depth    mo_int.RangeInt
 	Folder   mo_filter.Filter
 }
 
 func (z *Size) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.Depth.SetRange(1, math.MaxInt32, 3)
 	z.Folder.SetOptions(
 		mo_filter.NewNameFilter(),
