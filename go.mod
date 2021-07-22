@@ -34,7 +34,7 @@ require (
 	github.com/onsi/ginkgo v1.12.0 // indirect
 	github.com/onsi/gomega v1.9.0 // indirect
 	github.com/pkg/profile v1.6.0
-	github.com/prologic/bitcask v0.3.9
+	git.mills.io/prologic/bitcask v0.3.9
 	github.com/rapid7/go-get-proxied v0.0.0-20181210221417-16249a544090
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd

@@ -2,7 +2,7 @@ package kv_kvs_impl
 
 import (
 	"encoding/json"
-	"github.com/prologic/bitcask"
+	"git.mills.io/prologic/bitcask"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"reflect"
