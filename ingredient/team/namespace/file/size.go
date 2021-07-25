@@ -2,6 +2,7 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
@@ -23,7 +24,7 @@ import (
 )
 
 type Size struct {
-	Peer                dbx_conn.ConnBusinessFile
+	Peer                dbx_conn.ConnScopedTeam
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	IncludeMemberFolder bool
@@ -34,6 +35,12 @@ type Size struct {
 }
 
 func (z *Size) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.NamespaceSize.SetModel(
 		&mo_file_size.NamespaceSize{},
 	)

@@ -2,6 +2,7 @@ package file
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -22,7 +23,7 @@ import (
 )
 
 type List struct {
-	Peer                dbx_conn.ConnBusinessFile
+	Peer                dbx_conn.ConnScopedTeam
 	IncludeDeleted      bool
 	IncludeMemberFolder bool
 	IncludeSharedFolder bool
@@ -33,6 +34,12 @@ type List struct {
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.IncludeTeamFolder = true
 	z.IncludeSharedFolder = true
 	z.IncludeMemberFolder = false
