@@ -22,14 +22,6 @@ type bcImpl struct {
 	db     *bitcask.Bitcask
 }
 
-func (z *bcImpl) Lock() error {
-	return z.db.Lock()
-}
-
-func (z *bcImpl) Unlock() error {
-	return z.db.Unlock()
-}
-
 func (z *bcImpl) log() esl.Logger {
 	return z.logger.With(esl.String("name", z.name))
 }

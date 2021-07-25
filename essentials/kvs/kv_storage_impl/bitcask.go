@@ -42,7 +42,7 @@ func (z *bcWrapper) Delete() error {
 }
 
 func (z *bcWrapper) Path() string {
-	return z.db.Path()
+	return z.path
 }
 
 func (z *bcWrapper) SetLogger(logger esl.Logger) {

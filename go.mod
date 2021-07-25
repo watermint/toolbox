@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	cloud.google.com/go v0.86.0 // indirect
+	git.mills.io/prologic/bitcask v1.0.0 // indirect
 	github.com/DataDog/zstd v1.4.5 // indirect
 	github.com/Microsoft/go-winio v0.5.0 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20210707164159-52430bf6b52c // indirect
@@ -37,7 +38,6 @@ require (
 	github.com/onsi/ginkgo v1.12.0 // indirect
 	github.com/onsi/gomega v1.9.0 // indirect
 	github.com/pkg/profile v1.6.0
-	git.mills.io/prologic/bitcask v0.3.9
 	github.com/rapid7/go-get-proxied v0.0.0-20181210221417-16249a544090
 	github.com/rivo/uniseg v0.2.0 // indirect
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
