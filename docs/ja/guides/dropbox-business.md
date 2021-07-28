@@ -55,6 +55,17 @@ lang: ja
 | [member quota usage]({{ site.baseurl }}/ja/commands/member-quota-usage.html)   | チームメンバーのストレージ利用状況を取得 |
 | [member quota update]({{ site.baseurl }}/ja/commands/member-quota-update.html) | チームメンバーの容量制限を変更           |
 
+## メンバーの一時停止/停止解除には、2種類のコマンドがあります. メンバーを一人ずつ一時停止/停止解除したい場合は、`member suspend`または`member unsuspend`を使用してください. また、CSVファイルを使ってメンバーの一時停止や停止解除を行う場合は、`member batch suspend`や`member batch unsuspend`コマンドをご利用ください.
+
+メンバーの一時停止/停止解除
+
+| コマンド                                                                             | 説明                         |
+|--------------------------------------------------------------------------------------|------------------------------|
+| [member suspend]({{ site.baseurl }}/ja/commands/member-suspend.html)                 | メンバーの一時停止処理       |
+| [member unsuspend]({{ site.baseurl }}/ja/commands/member-unsuspend.html)             | メンバーの一時停止を解除する |
+| [member batch suspend]({{ site.baseurl }}/ja/commands/member-batch-suspend.html)     | メンバーの一括一時停止       |
+| [member batch unsuspend]({{ site.baseurl }}/ja/commands/member-batch-unsuspend.html) | メンバーの一括停止解除       |
+
 ## ディレクトリ制限コマンド
 
 ディレクトリ制限は、Dropbox Businessの機能で、メンバーを他の人から隠すことができます. 以下のコマンドは、この設定を更新して、他の人からメンバーを隠したり、設定を解除したりします.

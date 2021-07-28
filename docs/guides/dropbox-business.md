@@ -55,6 +55,17 @@ You can see existing member storage quota setting or usage by the `member quota 
 | [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html)   | List team member storage usage |
 | [member quota update]({{ site.baseurl }}/commands/member-quota-update.html) | Update team member quota       |
 
+## There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `member suspend` or `member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `member batch suspend` or `member batch unsuspend` command.
+
+Suspend/unsuspend a member
+
+| Command                                                                           | Description            |
+|-----------------------------------------------------------------------------------|------------------------|
+| [member suspend]({{ site.baseurl }}/commands/member-suspend.html)                 | Suspend a member       |
+| [member unsuspend]({{ site.baseurl }}/commands/member-unsuspend.html)             | Unsuspend a member     |
+| [member batch suspend]({{ site.baseurl }}/commands/member-batch-suspend.html)     | Bulk suspend members   |
+| [member batch unsuspend]({{ site.baseurl }}/commands/member-batch-unsuspend.html) | Bulk unsuspend members |
+
 ## Directory restriction commands
 
 Directory restriction is the Dropbox Business feature to hide a member from others. Below commands update this setting to hide or unhide members from others.

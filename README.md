@@ -149,6 +149,8 @@ Available commands:
 | [group member delete](docs/commands/group-member-delete.md)                             | Delete a member from the group                                            |
 | [group member list](docs/commands/group-member-list.md)                                 | List members of groups                                                    |
 | [group rename](docs/commands/group-rename.md)                                           | Rename the group                                                          |
+| [member batch suspend](docs/commands/member-batch-suspend.md)                           | Bulk suspend members                                                      |
+| [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                       | Bulk unsuspend members                                                    |
 | [member clear externalid](docs/commands/member-clear-externalid.md)                     | Clear external_id of members                                              |
 | [member delete](docs/commands/member-delete.md)                                         | Delete members                                                            |
 | [member detach](docs/commands/member-detach.md)                                         | Convert Dropbox Business accounts to a Basic account                      |
@@ -165,6 +167,8 @@ Available commands:
 | [member quota usage](docs/commands/member-quota-usage.md)                               | List team member storage usage                                            |
 | [member reinvite](docs/commands/member-reinvite.md)                                     | Reinvite invited status members to the team                               |
 | [member replication](docs/commands/member-replication.md)                               | Replicate team member files                                               |
+| [member suspend](docs/commands/member-suspend.md)                                       | Suspend a member                                                          |
+| [member unsuspend](docs/commands/member-unsuspend.md)                                   | Unsuspend a member                                                        |
 | [member update email](docs/commands/member-update-email.md)                             | Member email operation                                                    |
 | [member update externalid](docs/commands/member-update-externalid.md)                   | Update External ID of team members                                        |
 | [member update invisible](docs/commands/member-update-invisible.md)                     | Enable directory restriction to members                                   |

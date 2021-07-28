@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# team device list
+# member unsuspend
 
-チーム内全てのデバイス/セッションを一覧します 
+メンバーの一時停止を解除する 
 
 # セキュリティ
 
@@ -26,10 +26,10 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                                                         |
-|--------------------------------------------------------------|
-| Dropbox Business: チームメンバーの確認                       |
-| Dropbox Business: チームのセッション、デバイス、アプリの表示 |
+| 説明                                         |
+|----------------------------------------------|
+| Dropbox Business: チームメンバーの確認       |
+| Dropbox Business: チームメンバーの表示と管理 |
 
 # 認可
 
@@ -65,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team device list 
+.\tbx.exe member unsuspend 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team device list 
+$HOME/Desktop/tbx member unsuspend 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -81,9 +81,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-peer`    | アカウントの別名 | default    |
+| オプション | 説明                     | デフォルト |
+|------------|--------------------------|------------|
+| `-email`   | メンバーのメールアドレス |            |
+| `-peer`    | アカウントの別名         | default    |
 
 ## 共通のオプション:
 
@@ -104,52 +105,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`         | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: device
-
-このレポートではチーム内の既存セッションとメンバー情報を一覧できます.
-このコマンドはレポートを3種類の書式で出力します. `device.csv`, `device.json`, ならびに `device.xlsx`.
-
-| 列                            | 説明                                                                   |
-|-------------------------------|------------------------------------------------------------------------|
-| team_member_id                | チームにおけるメンバーのID                                             |
-| email                         | ユーザーのメールアドレス                                               |
-| status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   |
-| given_name                    | 名                                                                     |
-| surname                       | 名字                                                                   |
-| display_name                  | ユーザーのDropboxアカウントの表示名称                                  |
-| device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) |
-| id                            | セッションID                                                           |
-| user_agent                    | ホストデバイスの情報                                                   |
-| os                            | ホストOSの情報                                                         |
-| browser                       | Webセッションのブラウザ情報                                            |
-| ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         |
-| country                       | このセッションの最終アクティビティの国                                 |
-| created                       | セッションが作成された日時                                             |
-| updated                       | このセッションの最終アクティビティの日時                               |
-| expires                       | このセッションが失効する日時                                           |
-| host_name                     | デスクトップホストの名称                                               |
-| client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        |
-| client_version                | Dropboxクライアントバージョン                                          |
-| platform                      | ホストプラットホームの情報                                             |
-| is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     |
-| device_name                   | デバイス名                                                             |
-| os_version                    | ホストOSのバージョン                                                   |
-| last_carrier                  | このデバイスで利用された最後のキャリア                                 |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `device_0000.xlsx`, `device_0001.xlsx`, `device_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

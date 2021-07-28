@@ -29,6 +29,49 @@ type Member interface {
 	ResolveByEmail(email string) (member *mo_member.Member, err error)
 	Add(email string, opts ...AddOpt) (member *mo_member.Member, err error)
 	Remove(member *mo_member.Member, opts ...RemoveOpt) (err error)
+	Suspend(member *mo_member.Member, opts ...SuspendOpt) (err error)
+	Unsuspend(member *mo_member.Member) (err error)
+}
+
+type userSelectorArg struct {
+	Tag          string `json:".tag"`
+	Email        string `json:"email,omitempty"`
+	TeamMemberId string `json:"team_member_id,omitempty"`
+	ExternalId   string `json:"external_id,omitempty"`
+}
+
+type SuspendOpt func(opt suspendOpts) suspendOpts
+
+func newSuspendOpt(email string) suspendOpts {
+	return suspendOpts{
+		User: userSelectorArg{
+			Tag:   "email",
+			Email: email,
+		},
+	}
+}
+
+func SuspendWipeData(enabled bool) SuspendOpt {
+	return func(opt suspendOpts) suspendOpts {
+		opt.WipeData = enabled
+		return opt
+	}
+}
+
+type suspendOpts struct {
+	User     userSelectorArg `json:"user"`
+	WipeData bool            `json:"wipe_data"`
+}
+
+func (z suspendOpts) Apply(opts []SuspendOpt) suspendOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
 }
 
 type UpdateOpt func(opt updateOpts) updateOpts
@@ -198,6 +241,14 @@ type cachedMember struct {
 	members []*mo_member.Member
 }
 
+func (z *cachedMember) Suspend(member *mo_member.Member, opts ...SuspendOpt) (err error) {
+	return z.impl.Suspend(member, opts...)
+}
+
+func (z *cachedMember) Unsuspend(member *mo_member.Member) (err error) {
+	return z.impl.Unsuspend(member)
+}
+
 func (z *cachedMember) UpdateVisibility(email string, visible bool) (updated *mo_member.Member, err error) {
 	return z.impl.UpdateVisibility(email, visible)
 }
@@ -265,6 +316,31 @@ func (z *cachedMember) Remove(member *mo_member.Member, opts ...RemoveOpt) (err 
 type memberImpl struct {
 	ctx   dbx_context.Context
 	limit int
+}
+
+func (z *memberImpl) Suspend(member *mo_member.Member, opts ...SuspendOpt) (err error) {
+	so := newSuspendOpt(member.Email).Apply(opts)
+	res := z.ctx.Post("team/members/suspend", api_request.Param(&so))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
+}
+
+func (z *memberImpl) Unsuspend(member *mo_member.Member) (err error) {
+	u := struct {
+		User userSelectorArg `json:"user"`
+	}{
+		User: userSelectorArg{
+			Tag:   "email",
+			Email: member.Email,
+		},
+	}
+	res := z.ctx.Post("team/members/unsuspend", api_request.Param(&u))
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *memberImpl) UpdateVisibility(email string, visible bool) (updated *mo_member.Member, err error) {

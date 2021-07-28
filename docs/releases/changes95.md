@@ -6,6 +6,18 @@ lang: en
 
 # Changes between `Release 94` to `Release 95`
 
+# Commands added
+
+
+| Command                | Title                  |
+|------------------------|------------------------|
+| member batch suspend   | Bulk suspend members   |
+| member batch unsuspend | Bulk unsuspend members |
+| member suspend         | Suspend a member       |
+| member unsuspend       | Unsuspend a member     |
+
+
+
 # Command spec changed: `dev test setup teamsharedlink`
 
 

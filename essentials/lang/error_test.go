@@ -28,9 +28,10 @@ func TestNewMultiErrorOrNull(t *testing.T) {
 		t.Error(e1.NumErrors())
 	}
 
-	e2 := NewMultiErrorOrNull(nil, nil, errors.New("def")).(*MultiError)
-	if e2.NumErrors() != 1 {
-		t.Error(e2.NumErrors())
+	expect2 := errors.New("def")
+	e2 := NewMultiErrorOrNull(nil, nil, expect2)
+	if e2 != expect2 {
+		t.Error(e2)
 	}
 
 	e3 := NewMultiErrorOrNull(nil, nil, nil)

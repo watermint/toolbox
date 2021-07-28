@@ -147,6 +147,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [group member delete](docs/ja/commands/group-member-delete.md)                             | メンバーをグループから削除                                                             |
 | [group member list](docs/ja/commands/group-member-list.md)                                 | グループに所属するメンバー一覧を取得します                                             |
 | [group rename](docs/ja/commands/group-rename.md)                                           | グループの改名                                                                         |
+| [member batch suspend](docs/ja/commands/member-batch-suspend.md)                           | メンバーの一括一時停止                                                                 |
+| [member batch unsuspend](docs/ja/commands/member-batch-unsuspend.md)                       | メンバーの一括停止解除                                                                 |
 | [member clear externalid](docs/ja/commands/member-clear-externalid.md)                     | メンバーのexternal_idを初期化します                                                    |
 | [member delete](docs/ja/commands/member-delete.md)                                         | メンバーを削除します                                                                   |
 | [member detach](docs/ja/commands/member-detach.md)                                         | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
@@ -163,6 +165,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [member quota usage](docs/ja/commands/member-quota-usage.md)                               | チームメンバーのストレージ利用状況を取得                                               |
 | [member reinvite](docs/ja/commands/member-reinvite.md)                                     | 招待済み状態メンバーをチームに再招待します                                             |
 | [member replication](docs/ja/commands/member-replication.md)                               | チームメンバーのファイルを複製します                                                   |
+| [member suspend](docs/ja/commands/member-suspend.md)                                       | メンバーの一時停止処理                                                                 |
+| [member unsuspend](docs/ja/commands/member-unsuspend.md)                                   | メンバーの一時停止を解除する                                                           |
 | [member update email](docs/ja/commands/member-update-email.md)                             | メンバーのメールアドレス処理                                                           |
 | [member update externalid](docs/ja/commands/member-update-externalid.md)                   | チームメンバーのExternal IDを更新します.                                               |
 | [member update invisible](docs/ja/commands/member-update-invisible.md)                     | メンバーへのディレクトリ制限を有効にします                                             |

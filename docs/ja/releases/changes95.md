@@ -6,6 +6,18 @@ lang: ja
 
 # `リリース 94` から `リリース 95` までの変更点
 
+# 追加されたコマンド
+
+
+| コマンド               | タイトル                     |
+|------------------------|------------------------------|
+| member batch suspend   | メンバーの一括一時停止       |
+| member batch unsuspend | メンバーの一括停止解除       |
+| member suspend         | メンバーの一時停止処理       |
+| member unsuspend       | メンバーの一時停止を解除する |
+
+
+
 # コマンド仕様の変更: `dev test setup teamsharedlink`
 
 

@@ -48,6 +48,7 @@ import (
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
+	recipememberbatch "github.com/watermint/toolbox/recipe/member/batch"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
 	recipememberfile "github.com/watermint/toolbox/recipe/member/file"
 	recipememberfilelock "github.com/watermint/toolbox/recipe/member/file/lock"
@@ -236,6 +237,10 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipemember.List{},
 		&recipemember.Reinvite{},
 		&recipemember.Replication{},
+		&recipemember.Suspend{},
+		&recipemember.Unsuspend{},
+		&recipememberbatch.Suspend{},
+		&recipememberbatch.Unsuspend{},
 		&recipememberclear.Externalid{},
 		&recipememberfile.Permdelete{},
 		&recipememberfilelock.List{},

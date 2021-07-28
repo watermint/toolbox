@@ -71,6 +71,8 @@ lang: en
 | [group member delete]({{ site.baseurl }}/commands/group-member-delete.html)                             | Delete a member from the group                                            |
 | [group member list]({{ site.baseurl }}/commands/group-member-list.html)                                 | List members of groups                                                    |
 | [group rename]({{ site.baseurl }}/commands/group-rename.html)                                           | Rename the group                                                          |
+| [member batch suspend]({{ site.baseurl }}/commands/member-batch-suspend.html)                           | Bulk suspend members                                                      |
+| [member batch unsuspend]({{ site.baseurl }}/commands/member-batch-unsuspend.html)                       | Bulk unsuspend members                                                    |
 | [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)                     | Clear external_id of members                                              |
 | [member delete]({{ site.baseurl }}/commands/member-delete.html)                                         | Delete members                                                            |
 | [member detach]({{ site.baseurl }}/commands/member-detach.html)                                         | Convert Dropbox Business accounts to a Basic account                      |
@@ -87,6 +89,8 @@ lang: en
 | [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html)                               | List team member storage usage                                            |
 | [member reinvite]({{ site.baseurl }}/commands/member-reinvite.html)                                     | Reinvite invited status members to the team                               |
 | [member replication]({{ site.baseurl }}/commands/member-replication.html)                               | Replicate team member files                                               |
+| [member suspend]({{ site.baseurl }}/commands/member-suspend.html)                                       | Suspend a member                                                          |
+| [member unsuspend]({{ site.baseurl }}/commands/member-unsuspend.html)                                   | Unsuspend a member                                                        |
 | [member update email]({{ site.baseurl }}/commands/member-update-email.html)                             | Member email operation                                                    |
 | [member update externalid]({{ site.baseurl }}/commands/member-update-externalid.html)                   | Update External ID of team members                                        |
 | [member update invisible]({{ site.baseurl }}/commands/member-update-invisible.html)                     | Enable directory restriction to members                                   |
