@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"sort"
 )
 
 func NewConnScopedIndividual(name string) dbx_conn.ConnScopedIndividual {
@@ -49,7 +50,10 @@ func (z *connScopedIndividual) Context() dbx_context.Context {
 }
 
 func (z *connScopedIndividual) SetScopes(scopes ...string) {
-	z.scopes = scopes
+	ss := make([]string, len(scopes))
+	copy(ss[:], scopes[:])
+	sort.Strings(ss)
+	z.scopes = ss
 }
 
 func (z *connScopedIndividual) Scopes() []string {

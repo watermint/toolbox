@@ -2,7 +2,7 @@ package kv_kvs_impl
 
 import (
 	"encoding/json"
-	"github.com/prologic/bitcask"
+	"git.mills.io/prologic/bitcask"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"reflect"
@@ -20,14 +20,6 @@ type bcImpl struct {
 	name   string
 	logger esl.Logger
 	db     *bitcask.Bitcask
-}
-
-func (z *bcImpl) Lock() error {
-	return z.db.Lock()
-}
-
-func (z *bcImpl) Unlock() error {
-	return z.db.Unlock()
 }
 
 func (z *bcImpl) log() esl.Logger {

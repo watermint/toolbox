@@ -71,6 +71,8 @@ lang: ja
 | [group member delete]({{ site.baseurl }}/ja/commands/group-member-delete.html)                             | メンバーをグループから削除                                                             |
 | [group member list]({{ site.baseurl }}/ja/commands/group-member-list.html)                                 | グループに所属するメンバー一覧を取得します                                             |
 | [group rename]({{ site.baseurl }}/ja/commands/group-rename.html)                                           | グループの改名                                                                         |
+| [member batch suspend]({{ site.baseurl }}/ja/commands/member-batch-suspend.html)                           | メンバーの一括一時停止                                                                 |
+| [member batch unsuspend]({{ site.baseurl }}/ja/commands/member-batch-unsuspend.html)                       | メンバーの一括停止解除                                                                 |
 | [member clear externalid]({{ site.baseurl }}/ja/commands/member-clear-externalid.html)                     | メンバーのexternal_idを初期化します                                                    |
 | [member delete]({{ site.baseurl }}/ja/commands/member-delete.html)                                         | メンバーを削除します                                                                   |
 | [member detach]({{ site.baseurl }}/ja/commands/member-detach.html)                                         | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
@@ -87,6 +89,8 @@ lang: ja
 | [member quota usage]({{ site.baseurl }}/ja/commands/member-quota-usage.html)                               | チームメンバーのストレージ利用状況を取得                                               |
 | [member reinvite]({{ site.baseurl }}/ja/commands/member-reinvite.html)                                     | 招待済み状態メンバーをチームに再招待します                                             |
 | [member replication]({{ site.baseurl }}/ja/commands/member-replication.html)                               | チームメンバーのファイルを複製します                                                   |
+| [member suspend]({{ site.baseurl }}/ja/commands/member-suspend.html)                                       | メンバーの一時停止処理                                                                 |
+| [member unsuspend]({{ site.baseurl }}/ja/commands/member-unsuspend.html)                                   | メンバーの一時停止を解除する                                                           |
 | [member update email]({{ site.baseurl }}/ja/commands/member-update-email.html)                             | メンバーのメールアドレス処理                                                           |
 | [member update externalid]({{ site.baseurl }}/ja/commands/member-update-externalid.html)                   | チームメンバーのExternal IDを更新します.                                               |
 | [member update invisible]({{ site.baseurl }}/ja/commands/member-update-invisible.html)                     | メンバーへのディレクトリ制限を有効にします                                             |

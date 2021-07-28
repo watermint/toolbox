@@ -1,6 +1,7 @@
 package device
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
@@ -58,11 +59,14 @@ type Unlink struct {
 	rc_recipe.RemarkIrreversible
 	DeleteOnUnlink bool
 	File           fd_file.RowFeed
-	Peer           dbx_conn.ConnBusinessFile
+	Peer           dbx_conn.ConnScopedTeam
 	OperationLog   rp_model.TransactionReport
 }
 
 func (z *Unlink) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSessionsModify,
+	)
 	z.File.SetModel(&mo_device.MemberSession{})
 	z.OperationLog.SetModel(&mo_device.MemberSession{}, nil,
 		rp_model.HiddenColumns(

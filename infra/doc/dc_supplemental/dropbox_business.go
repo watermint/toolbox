@@ -31,6 +31,8 @@ type MsgDropboxBusiness struct {
 	MemberDirectoryRestrictionInfo  app_msg.Message
 	MemberProfileTitle              app_msg.Message
 	MemberProfileInfo               app_msg.Message
+	MemberSuspendTitle              app_msg.Message
+	MemberSuspendInfo               app_msg.Message
 
 	GroupTitle       app_msg.Message
 	GroupMgmtTitle   app_msg.Message
@@ -229,6 +231,16 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 		"member quota list",
 		"member quota usage",
 		"member quota update",
+	})
+
+	ui.SubHeader(MDropboxBusiness.MemberSuspendTitle)
+	ui.Info(MDropboxBusiness.MemberSuspendInfo)
+
+	z.cat.RecipeTable("member suspend commands", ui, []string{
+		"member suspend",
+		"member unsuspend",
+		"member batch suspend",
+		"member batch unsuspend",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberDirectoryRestrictionTitle)

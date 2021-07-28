@@ -1,6 +1,7 @@
 package mount
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -16,12 +17,18 @@ import (
 )
 
 type List struct {
-	Peer   dbx_conn.ConnBusinessFile
+	Peer   dbx_conn.ConnScopedTeam
 	Mount  rp_model.RowReport
 	Member mo_filter.Filter
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+	)
 	z.Mount.SetModel(&mo_sharedfolder.MemberMount{}, rp_model.HiddenColumns(
 		"team_member_id",
 		"owner_team_id",

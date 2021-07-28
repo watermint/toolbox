@@ -6,7 +6,7 @@ The multi-purpose utility command-line tool for web services including Dropbox, 
 
 # Do more with the watermint toolbox
 
-The watermint toolbox has 188 commands to solve your daily tasks. For example, if you are an admin of Dropbox Business and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
+The watermint toolbox has 192 commands to solve your daily tasks. For example, if you are an admin of Dropbox Business and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
