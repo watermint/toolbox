@@ -80,11 +80,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明               | デフォルト |
-|---------------|--------------------|------------|
-| `-owner`      | レポジトリの所有者 |            |
-| `-peer`       | アカウントの別名   | default    |
-| `-repository` | レポジトリ名       |            |
+| オプション    | 説明                                                  | デフォルト |
+|---------------|-------------------------------------------------------|------------|
+| `-filter`     | Indicates which sorts of issues to return.            | assigned   |
+| `-labels`     | A list of comma separated label names.                |            |
+| `-owner`      | レポジトリの所有者                                    |            |
+| `-peer`       | アカウントの別名                                      | default    |
+| `-repository` | レポジトリ名                                          |            |
+| `-since`      | Only show notifications updated after the given time. |            |
+| `-state`      | Indicates the state of the issues to return.          | open       |
 
 ## 共通のオプション:
 

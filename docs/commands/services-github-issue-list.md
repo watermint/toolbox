@@ -80,11 +80,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-repository` | Repository name         |         |
+| Option        | Description                                           | Default  |
+|---------------|-------------------------------------------------------|----------|
+| `-filter`     | Indicates which sorts of issues to return.            | assigned |
+| `-labels`     | A list of comma separated label names.                |          |
+| `-owner`      | Owner of the repository                               |          |
+| `-peer`       | Account alias                                         | default  |
+| `-repository` | Repository name                                       |          |
+| `-since`      | Only show notifications updated after the given time. |          |
+| `-state`      | Indicates the state of the issues to return.          | open     |
 
 ## Common options:
 
