@@ -47,6 +47,8 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	nestedFolderSharedName := "Sales"
 	nestedFolderRestrictedName := "Report"
 	restedFolderRestrictedNoSyncName := "Finance"
+	teamFolderMarketing := "Marketing3"
+	nestedFolderMarketingPlan := "Plan"
 	adminGroupName := "toolbox-admin"
 	sampleGroupName := "toolbox-sample"
 
@@ -59,6 +61,10 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	//  |    +-- [Report] (nested folder, do not inherit, no external sharing, [editor=toolbox-sample])
 	//  |
 	//  +-- [Finance] (nested folder, not_synced, do not inherit)
+	//
+	// [Marketing] (Team folder, acl_policy=owner only)
+	//       |
+	//       +-- [Plan] (nested folder, no inherit)
 
 	l := c.Log()
 
@@ -370,6 +376,118 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 	l.Info("Sync access inheritance updated", esl.Any("updated", updatedFinanceInherit))
+
+	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
+	//       |
+	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>
+
+	folderMarketing, err := sv_teamfolder.New(z.Peer.Context()).Create(teamFolderMarketing)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("Team folder created", esl.Any("teamfolder", folderMarketing))
+		break
+
+	case de.IsFolderNameAlreadyUsed():
+		l.Info("The folder already created")
+		teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
+		if err != nil {
+			l.Warn("Unable to retrieve team folder list", esl.Error(err))
+			return err
+		}
+
+		for _, teamfolder := range teamfolders {
+			if strings.ToLower(teamfolder.Name) == strings.ToLower(teamFolderName) {
+				folderMarketing = teamfolder
+				break
+			}
+		}
+		if folderMarketing == nil {
+			l.Warn("Team folder not found")
+			return errors.New("team folder not found")
+		}
+
+		break
+
+	default:
+		l.Warn("Unable to create team folder", esl.Error(err))
+		return err
+	}
+
+	marketingCtx := z.Peer.Context().AsAdminId(admin.TeamMemberId).WithPath(dbx_context.Namespace(folderMarketing.TeamFolderId))
+
+	// Set acl_policy
+	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
+
+	updatedMarketingPolicy, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+		folderMarketing.TeamFolderId,
+		sv_sharedfolder.AclUpdatePolicy("owner"),
+	)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("The sales folder policy successfully updated", esl.Any("updated", updatedMarketingPolicy))
+
+	default:
+		l.Warn("Unable to update policies", esl.Error(err))
+	}
+
+	// Set acl_policy
+	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
+	// Add admin group to the team folder
+	err = sv_sharedfolder_member.NewByTeamFolder(z.Peer.Context().AsAdminId(admin.TeamMemberId), folderMarketing).Add(
+		sv_sharedfolder_member.AddByGroup(adminGroup, "editor"),
+	)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("The admin group added to the team folder as editor")
+
+	default:
+		l.Warn("Unable to update members", esl.Error(err))
+	}
+
+	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
+	//       |
+	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== create here
+
+	folderMarketingPlan, err := sv_sharedfolder.New(marketingCtx).Create(mo_path.NewDropboxPath("/" + nestedFolderMarketingPlan))
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("Team folder created", esl.Any("folder", folderMarketingPlan))
+		break
+
+	case de.BadPath().IsAlreadyShared():
+		l.Info("The folder is already shared")
+		folderMarketingPlanMeta, err := sv_file.NewFiles(marketingCtx).Resolve(mo_path.NewDropboxPath("/" + nestedFolderSharedName))
+		if err != nil {
+			l.Warn("Unable to resolve nested folder", esl.Error(err))
+			return err
+		}
+
+		folderMarketingPlan, err = sv_sharedfolder.New(marketingCtx).Resolve(folderMarketingPlanMeta.Concrete().SharedFolderId)
+		if err != nil {
+			l.Warn("Unable to resolve nested folder", esl.Error(err))
+			return err
+		}
+		l.Info("Nested folder resolved", esl.Any("folder", folderMarketingPlan))
+
+	default:
+		l.Warn("Unable to create team folder", esl.Error(err))
+		return err
+	}
+
+	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
+	//       |
+	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== set no inherit
+
+	updatedFolderMarketingPlan, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderMarketingPlan.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
+	if err != nil {
+		l.Warn("Unable to change: inherit", esl.Error(err))
+		return err
+	}
+	l.Info("Sync access inheritance updated", esl.Any("updated", updatedFolderMarketingPlan))
 
 	return nil
 }

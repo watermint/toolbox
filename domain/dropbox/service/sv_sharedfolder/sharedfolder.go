@@ -60,9 +60,9 @@ func ToTeamMemberId(teamMemberId string) TransferTo {
 type PolicyOpt func(opt *policyOpts) *policyOpts
 type policyOpts struct {
 	SharedFolderId   string `json:"shared_folder_id"`
-	MemberPolicy     string `json:"member_policy"`
-	AclUpdatePolicy  string `json:"acl_update_policy"`
-	SharedLinkPolicy string `json:"shared_link_policy"`
+	MemberPolicy     string `json:"member_policy,omitempty"`
+	AclUpdatePolicy  string `json:"acl_update_policy,omitempty"`
+	SharedLinkPolicy string `json:"shared_link_policy,omitempty"`
 }
 
 func MemberPolicy(policy string) PolicyOpt {
