@@ -61,6 +61,7 @@ import (
 	recipeservicesasanateamtask "github.com/watermint/toolbox/recipe/services/asana/team/task"
 	recipeservicesasanaworkspace "github.com/watermint/toolbox/recipe/services/asana/workspace"
 	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
+	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
@@ -233,6 +234,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipejoblog.Last{},
 		&recipemember.Delete{},
 		&recipemember.Detach{},
+		&recipemember.Feature{},
 		&recipemember.Invite{},
 		&recipemember.List{},
 		&recipemember.Reinvite{},
@@ -261,6 +263,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesasanateamtask.List{},
 		&recipeservicesasanaworkspace.List{},
 		&recipeservicesasanaworkspaceproject.List{},
+		&recipeservicesdropboxuser.Feature{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},
