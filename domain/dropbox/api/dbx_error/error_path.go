@@ -10,6 +10,18 @@ type errorPathImpl struct {
 	de ErrorInfo
 }
 
+func (z errorPathImpl) IsConflictFile() bool {
+	return z.de.HasPrefix("path/conflict/file")
+}
+
+func (z errorPathImpl) IsConflictFolder() bool {
+	return z.de.HasPrefix("path/conflict/folder")
+}
+
+func (z errorPathImpl) IsNotFolder() bool {
+	return z.de.HasPrefix("path/not_folder")
+}
+
 func (z errorPathImpl) IsNotFile() bool {
 	return z.de.HasPrefix("path/not_file")
 }

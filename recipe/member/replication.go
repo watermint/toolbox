@@ -20,8 +20,8 @@ type ReplicationRow struct {
 
 type Replication struct {
 	rc_recipe.RemarkIrreversible
-	Src                 dbx_conn.ConnBusinessFile
-	Dst                 dbx_conn.ConnBusinessFile
+	Src                 dbx_conn.ConnScopedTeam
+	Dst                 dbx_conn.ConnScopedTeam
 	File                fd_file.RowFeed
 	OperationLog        rp_model.TransactionReport
 	ProgressReplication app_msg.Message

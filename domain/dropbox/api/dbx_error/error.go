@@ -108,10 +108,16 @@ type ErrorEndpointPath interface {
 	IsNotFound() bool
 	// Not a file
 	IsNotFile() bool
+	// Not a folder
+	IsNotFolder() bool
 	// The given path does not satisfy the required path format
 	IsMalformedPath() bool
 	// Couldn't write to the target path because there was something in the way.
 	IsConflict() bool
+	// Couldn't write to the target path because there was something in the way.
+	IsConflictFile() bool
+	// Couldn't write to the target path because there was something in the way.
+	IsConflictFolder() bool
 	// There are too many write operations in user's Dropbox. Please retry this request.
 	IsTooManyWriteOperations() bool
 }

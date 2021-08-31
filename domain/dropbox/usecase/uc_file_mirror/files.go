@@ -80,7 +80,15 @@ func (z *filesImpl) mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst
 	entriesDst, err := svfDst.List(pathDstRelToSrc)
 	if err != nil {
 		ers := dbx_error.NewErrors(err)
-		if !ers.Path().IsNotFound() {
+		switch {
+		case ers.Path().IsNotFound():
+			l.Debug("DST: Path not found. Proceed to mirror")
+
+		case ers.Path().IsNotFolder():
+			l.Debug("DST: Path is not a folder. Proceed to single file mirror")
+			return z.mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst)
+
+		default:
 			l.Debug("DST: Unable to list", esl.Error(err), esl.String("error_summary", ers.Summary()))
 			return err
 		}
@@ -216,7 +224,7 @@ func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_pa
 	de := dbx_error.NewErrors(apiErr)
 	log := z.ctxSrc.Log().With(esl.String("origSrc", pathOrigSrc.Path()), esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()), esl.String("errorSummary", de.Summary()))
 	switch {
-	case de.Path().IsConflict(),
+	case de.Path().IsConflictFolder(),
 		de.IsTooManyFiles():
 		log.Debug("Mirror descendants")
 		return z.mirrorDescendants(pathOrigSrc, pathSrc, pathOrigDst, pathDst)
@@ -225,6 +233,10 @@ func (z *filesImpl) handleError(pathOrigSrc, pathSrc, pathOrigDst, pathDst mo_pa
 		log.Debug("Wait for too many write", esl.Duration("wait", z.pollInterval))
 		time.Sleep(z.pollInterval)
 		return z.mirrorCurrent(pathOrigSrc, pathSrc, pathOrigDst, pathDst)
+
+	case de.Path().IsConflictFile():
+		log.Info("Skipped: Conflict file found.", esl.String("srcPath", pathSrc.Path()), esl.String("dstPath", pathDst.Path()))
+		return nil
 
 	case de.Path().IsNotFound():
 		log.Debug("Can't copy file", esl.String("src", pathSrc.Path()), esl.String("dst", pathDst.Path()))
