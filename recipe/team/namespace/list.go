@@ -2,6 +2,7 @@ package namespace
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
@@ -13,11 +14,14 @@ import (
 )
 
 type List struct {
-	Peer      dbx_conn.ConnBusinessFile
+	Peer      dbx_conn.ConnScopedTeam
 	Namespace rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeTeamDataMember,
+	)
 	z.Namespace.SetModel(&mo_namespace.Namespace{},
 		rp_model.HiddenColumns(
 			"namespace_id",
