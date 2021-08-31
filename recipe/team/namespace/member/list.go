@@ -2,6 +2,7 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
@@ -9,53 +10,16 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
-type MsgList struct {
-	ProgressScan app_msg.Message
-}
-
-var (
-	MList = app_msg.Apply(&MsgList{}).(*MsgList)
-)
-
-type ListVO struct {
-}
-
-type ListWorker struct {
-	namespace *mo_namespace.Namespace
-	ctx       dbx_context.Context // should be with admin team member id.
-	rep       rp_model.RowReport
-	ctl       app_control.Control
-}
-
-func (z *ListWorker) Exec() error {
-	ui := z.ctl.UI()
-	ui.Progress(MList.ProgressScan.
-		With("NamespaceName", z.namespace.Name).
-		With("NamespaceId", z.namespace.NamespaceId))
-	l := z.ctl.Log().With(esl.Any("namespace", z.namespace))
-
-	members, err := sv_sharedfolder_member.NewBySharedFolderId(z.ctx, z.namespace.NamespaceId).List()
-	if err != nil {
-		l.Debug("Unable to list namespace member", esl.Error(err))
-		return nil
-	}
-
-	for _, member := range members {
-		z.rep.Row(mo_namespace.NewNamespaceMember(z.namespace, member))
-	}
-	return nil
-}
-
 type List struct {
-	Peer            dbx_conn.ConnBusinessFile
+	Peer            dbx_conn.ConnScopedTeam
 	AllColumns      bool
 	NamespaceMember rp_model.RowReport
 }
@@ -68,6 +32,26 @@ func (z *List) Preset() {
 		"team_member_id",
 		"namespace_id",
 	))
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamInfoRead,
+	)
+}
+
+func (z *List) scanNamespace(namespace *mo_namespace.Namespace, c app_control.Control, ctx dbx_context.Context) error {
+	l := c.Log().With(esl.Any("namespace", namespace))
+
+	members, err := sv_sharedfolder_member.NewBySharedFolderId(ctx, namespace.NamespaceId).List()
+	if err != nil {
+		l.Debug("Unable to list namespace member", esl.Error(err))
+		return nil
+	}
+
+	for _, member := range members {
+		z.NamespaceMember.Row(mo_namespace.NewNamespaceMember(namespace, member))
+	}
+	return nil
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -87,24 +71,19 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
-
-	q := c.NewLegacyQueue()
-	for _, namespace := range namespaces {
-		if namespace.NamespaceType != "team_folder" &&
-			namespace.NamespaceType != "shared_folder" {
-			l.Debug("Skip", esl.Any("namespace", namespace))
-			continue
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("scan_namespace", z.scanNamespace, c, z.Peer.Context().AsAdminId(admin.TeamMemberId))
+		q := s.Get("scan_namespace")
+		for _, namespace := range namespaces {
+			if namespace.NamespaceType != "team_folder" &&
+				namespace.NamespaceType != "shared_folder" {
+				l.Debug("Skip", esl.Any("namespace", namespace))
+				continue
+			}
+			q.Enqueue(namespace)
 		}
+	})
 
-		q.Enqueue(&ListWorker{
-			namespace: namespace,
-			ctx:       cta,
-			rep:       z.NamespaceMember,
-			ctl:       c,
-		})
-	}
-	q.Wait()
 	return nil
 }
 
