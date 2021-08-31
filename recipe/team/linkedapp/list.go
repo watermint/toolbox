@@ -1,6 +1,7 @@
 package linkedapp
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_linkedapp"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -13,11 +14,15 @@ import (
 )
 
 type List struct {
-	Peer      dbx_conn.ConnBusinessFile
+	Peer      dbx_conn.ConnScopedTeam
 	LinkedApp rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeSessionsList,
+	)
 	z.LinkedApp.SetModel(
 		&mo_linkedapp.MemberLinkedApp{},
 		rp_model.HiddenColumns(
