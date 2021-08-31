@@ -86,52 +86,53 @@ Available commands:
 
 ## Dropbox (Individual account)
 
-| Command                                                                 | Description                                                   |
-|-------------------------------------------------------------------------|---------------------------------------------------------------|
-| [file compare account](docs/commands/file-compare-account.md)           | Compare files of two accounts                                 |
-| [file compare local](docs/commands/file-compare-local.md)               | Compare local folders and Dropbox folders                     |
-| [file copy](docs/commands/file-copy.md)                                 | Copy files                                                    |
-| [file delete](docs/commands/file-delete.md)                             | Delete file or folder                                         |
-| [file export doc](docs/commands/file-export-doc.md)                     | Export document                                               |
-| [file export url](docs/commands/file-export-url.md)                     | Export a document from the URL                                |
-| [file import batch url](docs/commands/file-import-batch-url.md)         | Batch import files from URL                                   |
-| [file import url](docs/commands/file-import-url.md)                     | Import file from the URL                                      |
-| [file info](docs/commands/file-info.md)                                 | Resolve metadata of the path                                  |
-| [file list](docs/commands/file-list.md)                                 | List files and folders                                        |
-| [file lock acquire](docs/commands/file-lock-acquire.md)                 | Lock a file                                                   |
-| [file lock all release](docs/commands/file-lock-all-release.md)         | Release all locks under the specified path                    |
-| [file lock batch acquire](docs/commands/file-lock-batch-acquire.md)     | Lock multiple files                                           |
-| [file lock batch release](docs/commands/file-lock-batch-release.md)     | Release multiple locks                                        |
-| [file lock list](docs/commands/file-lock-list.md)                       | List locks under the specified path                           |
-| [file lock release](docs/commands/file-lock-release.md)                 | Release a lock                                                |
-| [file merge](docs/commands/file-merge.md)                               | Merge paths                                                   |
-| [file mount list](docs/commands/file-mount-list.md)                     | List mounted/unmounted shared folders                         |
-| [file move](docs/commands/file-move.md)                                 | Move files                                                    |
-| [file paper append](docs/commands/file-paper-append.md)                 | Append the content to the end of the existing Paper doc       |
-| [file paper create](docs/commands/file-paper-create.md)                 | Create new Paper in the path                                  |
-| [file paper overwrite](docs/commands/file-paper-overwrite.md)           | Overwrite existing Paper document                             |
-| [file paper prepend](docs/commands/file-paper-prepend.md)               | Append the content to the beginning of the existing Paper doc |
-| [file replication](docs/commands/file-replication.md)                   | Replicate file content to the other account                   |
-| [file restore all](docs/commands/file-restore-all.md)                   | Restore files under given path                                |
-| [file search content](docs/commands/file-search-content.md)             | Search file content                                           |
-| [file search name](docs/commands/file-search-name.md)                   | Search file name                                              |
-| [file size](docs/commands/file-size.md)                                 | Storage usage                                                 |
-| [file sync down](docs/commands/file-sync-down.md)                       | Downstream sync with Dropbox                                  |
-| [file sync online](docs/commands/file-sync-online.md)                   | Sync online files                                             |
-| [file sync up](docs/commands/file-sync-up.md)                           | Upstream sync with Dropbox                                    |
-| [file watch](docs/commands/file-watch.md)                               | Watch file activities                                         |
-| [filerequest create](docs/commands/filerequest-create.md)               | Create a file request                                         |
-| [filerequest delete closed](docs/commands/filerequest-delete-closed.md) | Delete all closed file requests on this account.              |
-| [filerequest delete url](docs/commands/filerequest-delete-url.md)       | Delete a file request by the file request URL                 |
-| [filerequest list](docs/commands/filerequest-list.md)                   | List file requests of the individual account                  |
-| [job history ship](docs/commands/job-history-ship.md)                   | Ship Job logs to Dropbox path                                 |
-| [sharedfolder list](docs/commands/sharedfolder-list.md)                 | List shared folder(s)                                         |
-| [sharedfolder member list](docs/commands/sharedfolder-member-list.md)   | List shared folder member(s)                                  |
-| [sharedlink create](docs/commands/sharedlink-create.md)                 | Create shared link                                            |
-| [sharedlink delete](docs/commands/sharedlink-delete.md)                 | Remove shared links                                           |
-| [sharedlink file list](docs/commands/sharedlink-file-list.md)           | List files for the shared link                                |
-| [sharedlink info](docs/commands/sharedlink-info.md)                     | Get information about the shared link                         |
-| [sharedlink list](docs/commands/sharedlink-list.md)                     | List of shared link(s)                                        |
+| Command                                                                         | Description                                                   |
+|---------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [file compare account](docs/commands/file-compare-account.md)                   | Compare files of two accounts                                 |
+| [file compare local](docs/commands/file-compare-local.md)                       | Compare local folders and Dropbox folders                     |
+| [file copy](docs/commands/file-copy.md)                                         | Copy files                                                    |
+| [file delete](docs/commands/file-delete.md)                                     | Delete file or folder                                         |
+| [file export doc](docs/commands/file-export-doc.md)                             | Export document                                               |
+| [file export url](docs/commands/file-export-url.md)                             | Export a document from the URL                                |
+| [file import batch url](docs/commands/file-import-batch-url.md)                 | Batch import files from URL                                   |
+| [file import url](docs/commands/file-import-url.md)                             | Import file from the URL                                      |
+| [file info](docs/commands/file-info.md)                                         | Resolve metadata of the path                                  |
+| [file list](docs/commands/file-list.md)                                         | List files and folders                                        |
+| [file lock acquire](docs/commands/file-lock-acquire.md)                         | Lock a file                                                   |
+| [file lock all release](docs/commands/file-lock-all-release.md)                 | Release all locks under the specified path                    |
+| [file lock batch acquire](docs/commands/file-lock-batch-acquire.md)             | Lock multiple files                                           |
+| [file lock batch release](docs/commands/file-lock-batch-release.md)             | Release multiple locks                                        |
+| [file lock list](docs/commands/file-lock-list.md)                               | List locks under the specified path                           |
+| [file lock release](docs/commands/file-lock-release.md)                         | Release a lock                                                |
+| [file merge](docs/commands/file-merge.md)                                       | Merge paths                                                   |
+| [file mount list](docs/commands/file-mount-list.md)                             | List mounted/unmounted shared folders                         |
+| [file move](docs/commands/file-move.md)                                         | Move files                                                    |
+| [file paper append](docs/commands/file-paper-append.md)                         | Append the content to the end of the existing Paper doc       |
+| [file paper create](docs/commands/file-paper-create.md)                         | Create new Paper in the path                                  |
+| [file paper overwrite](docs/commands/file-paper-overwrite.md)                   | Overwrite existing Paper document                             |
+| [file paper prepend](docs/commands/file-paper-prepend.md)                       | Append the content to the beginning of the existing Paper doc |
+| [file replication](docs/commands/file-replication.md)                           | Replicate file content to the other account                   |
+| [file restore all](docs/commands/file-restore-all.md)                           | Restore files under given path                                |
+| [file search content](docs/commands/file-search-content.md)                     | Search file content                                           |
+| [file search name](docs/commands/file-search-name.md)                           | Search file name                                              |
+| [file size](docs/commands/file-size.md)                                         | Storage usage                                                 |
+| [file sync down](docs/commands/file-sync-down.md)                               | Downstream sync with Dropbox                                  |
+| [file sync online](docs/commands/file-sync-online.md)                           | Sync online files                                             |
+| [file sync up](docs/commands/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
+| [file watch](docs/commands/file-watch.md)                                       | Watch file activities                                         |
+| [filerequest create](docs/commands/filerequest-create.md)                       | Create a file request                                         |
+| [filerequest delete closed](docs/commands/filerequest-delete-closed.md)         | Delete all closed file requests on this account.              |
+| [filerequest delete url](docs/commands/filerequest-delete-url.md)               | Delete a file request by the file request URL                 |
+| [filerequest list](docs/commands/filerequest-list.md)                           | List file requests of the individual account                  |
+| [job history ship](docs/commands/job-history-ship.md)                           | Ship Job logs to Dropbox path                                 |
+| [services dropbox user feature](docs/commands/services-dropbox-user-feature.md) | List feature settings for current user                        |
+| [sharedfolder list](docs/commands/sharedfolder-list.md)                         | List shared folder(s)                                         |
+| [sharedfolder member list](docs/commands/sharedfolder-member-list.md)           | List shared folder member(s)                                  |
+| [sharedlink create](docs/commands/sharedlink-create.md)                         | Create shared link                                            |
+| [sharedlink delete](docs/commands/sharedlink-delete.md)                         | Remove shared links                                           |
+| [sharedlink file list](docs/commands/sharedlink-file-list.md)                   | List files for the shared link                                |
+| [sharedlink info](docs/commands/sharedlink-info.md)                             | Get information about the shared link                         |
+| [sharedlink list](docs/commands/sharedlink-list.md)                             | List of shared link(s)                                        |
 
 ## Dropbox Business
 
@@ -154,6 +155,7 @@ Available commands:
 | [member clear externalid](docs/commands/member-clear-externalid.md)                     | Clear external_id of members                                              |
 | [member delete](docs/commands/member-delete.md)                                         | Delete members                                                            |
 | [member detach](docs/commands/member-detach.md)                                         | Convert Dropbox Business accounts to a Basic account                      |
+| [member feature](docs/commands/member-feature.md)                                       | List member feature settings                                              |
 | [member file lock all release](docs/commands/member-file-lock-all-release.md)           | Release all locks under the path of the member                            |
 | [member file lock list](docs/commands/member-file-lock-list.md)                         | List locks of the member under the path                                   |
 | [member file lock release](docs/commands/member-file-lock-release.md)                   | Release the lock of the path as the member                                |
@@ -178,6 +180,9 @@ Available commands:
 | [team activity daily event](docs/commands/team-activity-daily-event.md)                 | Report activities by day                                                  |
 | [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
 | [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
+| [team content legacypaper count](docs/commands/team-content-legacypaper-count.md)       | Count number of Paper documents per member                                |
+| [team content legacypaper export](docs/commands/team-content-legacypaper-export.md)     | Export entire team member Paper documents into local path                 |
+| [team content legacypaper list](docs/commands/team-content-legacypaper-list.md)         | List team member Paper documents                                          |
 | [team content member list](docs/commands/team-content-member-list.md)                   | List team folder & shared folder members                                  |
 | [team content member size](docs/commands/team-content-member-size.md)                   | Count number of members of team folders and shared folders                |
 | [team content mount list](docs/commands/team-content-mount-list.md)                     | List all mounted/unmounted shared folders of team members.                |

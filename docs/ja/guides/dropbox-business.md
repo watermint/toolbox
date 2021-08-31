@@ -13,6 +13,7 @@ lang: ja
 | コマンド                                                                     | 説明                                     |
 |------------------------------------------------------------------------------|------------------------------------------|
 | [member list]({{ site.baseurl }}/ja/commands/member-list.html)               | チームメンバーの一覧                     |
+| [member feature]({{ site.baseurl }}/ja/commands/member-feature.html)         | メンバーの機能設定一覧                   |
 | [member folder list]({{ site.baseurl }}/ja/commands/member-folder-list.html) | 各メンバーのフォルダを検索               |
 | [member quota list]({{ site.baseurl }}/ja/commands/member-quota-list.html)   | メンバーの容量制限情報を一覧します       |
 | [member quota usage]({{ site.baseurl }}/ja/commands/member-quota-usage.html) | チームメンバーのストレージ利用状況を取得 |
@@ -314,6 +315,18 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 |------------------------------------------------------------------|--------------------------|
 | [team feature]({{ site.baseurl }}/ja/commands/team-feature.html) | チームの機能を出力します |
 | [team info]({{ site.baseurl }}/ja/commands/team-info.html)       | チームの情報             |
+
+# Paperコマンド
+
+## レガシーPaperコマンド
+
+チームのレガシーPaperコンテンツのコマンドです. レガシーペーパーとマイグレーションの詳細については、[公式ガイド](https://developers.dropbox.com/paper-migration-guide)をご覧ください.
+
+| コマンド                                                                                               | 説明                                                       |
+|--------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| [team content legacypaper count]({{ site.baseurl }}/ja/commands/team-content-legacypaper-count.html)   | メンバー1人あたりのPaper文書の枚数                         |
+| [team content legacypaper list]({{ site.baseurl }}/ja/commands/team-content-legacypaper-list.html)     | チームメンバーのPaper文書リスト出力                        |
+| [team content legacypaper export]({{ site.baseurl }}/ja/commands/team-content-legacypaper-export.html) | チームメンバー全員のPaper文書をローカルパスにエクスポート. |
 
 # 注意事項:
 

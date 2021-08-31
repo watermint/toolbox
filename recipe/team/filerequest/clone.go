@@ -23,7 +23,7 @@ type Clone struct {
 	rc_recipe.RemarkSecret
 	rc_recipe.RemarkIrreversible
 	File         fd_file.RowFeed
-	Peer         dbx_conn.ConnBusinessFile
+	Peer         dbx_conn.ConnScopedTeam
 	OperationLog rp_model.TransactionReport
 }
 

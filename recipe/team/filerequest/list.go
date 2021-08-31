@@ -2,51 +2,23 @@ package filerequest
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
-type MsgList struct {
-	ProgressScan app_msg.Message
-}
-
-var (
-	MList = app_msg.Apply(&MsgList{}).(*MsgList)
-)
-
-type ListWorker struct {
-	member *mo_member.Member
-	conn   dbx_context.Context
-	rep    rp_model.RowReport
-	ctl    app_control.Control
-}
-
-func (z *ListWorker) Exec() error {
-	z.ctl.UI().Progress(MList.ProgressScan.With("MemberEmail", z.member.Email))
-	mc := z.conn.AsMemberId(z.member.TeamMemberId)
-	reqs, err := sv_filerequest.New(mc).List()
-	if err != nil {
-		return err
-	}
-	for _, req := range reqs {
-		fm := mo_filerequest.NewMemberFileRequest(req, z.member)
-		z.rep.Row(fm)
-	}
-	return nil
-}
-
 type List struct {
-	Peer        dbx_conn.ConnBusinessFile
+	Peer        dbx_conn.ConnScopedTeam
 	FileRequest rp_model.RowReport
 }
 
@@ -59,6 +31,26 @@ func (z *List) Preset() {
 			"file_request_id",
 		),
 	)
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFileRequestsRead,
+		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeTeamDataMember,
+	)
+}
+
+func (z *List) scanMember(member *mo_member.Member, c app_control.Control) error {
+	l := c.Log().With(esl.Any("mmeber", member))
+	mc := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	reqs, err := sv_filerequest.New(mc).List()
+	if err != nil {
+		l.Debug("Unable to retrieve file requests for the member", esl.Error(err))
+		return err
+	}
+	for _, req := range reqs {
+		fm := mo_filerequest.NewMemberFileRequest(req, member)
+		z.FileRequest.Row(fm)
+	}
+	return nil
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -71,16 +63,13 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewLegacyQueue()
-	for _, member := range members {
-		q.Enqueue(&ListWorker{
-			member: member,
-			conn:   z.Peer.Context(),
-			rep:    z.FileRequest,
-			ctl:    c,
-		})
-	}
-	q.Wait()
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("scan", z.scanMember, c)
+		scan := s.Get("scan")
+		for _, member := range members {
+			scan.Enqueue(member)
+		}
+	})
 
 	return nil
 }

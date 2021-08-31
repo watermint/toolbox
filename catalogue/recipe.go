@@ -61,6 +61,7 @@ import (
 	recipeservicesasanateamtask "github.com/watermint/toolbox/recipe/services/asana/team/task"
 	recipeservicesasanaworkspace "github.com/watermint/toolbox/recipe/services/asana/workspace"
 	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
+	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
@@ -86,6 +87,7 @@ import (
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
+	recipeteamcontentlegacypaper "github.com/watermint/toolbox/recipe/team/content/legacypaper"
 	recipeteamcontentmember "github.com/watermint/toolbox/recipe/team/content/member"
 	recipeteamcontentmount "github.com/watermint/toolbox/recipe/team/content/mount"
 	recipeteamcontentpolicy "github.com/watermint/toolbox/recipe/team/content/policy"
@@ -233,6 +235,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipejoblog.Last{},
 		&recipemember.Delete{},
 		&recipemember.Detach{},
+		&recipemember.Feature{},
 		&recipemember.Invite{},
 		&recipemember.List{},
 		&recipemember.Reinvite{},
@@ -261,6 +264,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesasanateamtask.List{},
 		&recipeservicesasanaworkspace.List{},
 		&recipeservicesasanaworkspaceproject.List{},
+		&recipeservicesdropboxuser.Feature{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},
@@ -308,6 +312,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamactivity.User{},
 		&recipeteamactivitybatch.User{},
 		&recipeteamactivitydaily.Event{},
+		&recipeteamcontentlegacypaper.Count{},
+		&recipeteamcontentlegacypaper.Export{},
+		&recipeteamcontentlegacypaper.List{},
 		&recipeteamcontentmember.List{},
 		&recipeteamcontentmember.Size{},
 		&recipeteamcontentmount.List{},
