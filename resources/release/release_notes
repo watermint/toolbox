@@ -1,2 +1,3 @@
 * Dropbox legacy Paper commands
 * Dropbox user feature commands
+* Migrate to Dropbox scoped API type for some commands

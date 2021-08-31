@@ -320,7 +320,7 @@ Data migration helper commands copies member folders or team folders to another 
 
 ## Legacy paper commands
 
-Commands for team legacy Paper content. Please see [official guide](https://developers.dropbox.com/paper-migration-guide) more detail about legacy Paper and migration
+Commands for a team's legacy Paper content. Please see [official guide](https://developers.dropbox.com/paper-migration-guide) more detail about legacy Paper and migration
 
 | Command                                                                                             | Description                                               |
 |-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
