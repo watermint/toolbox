@@ -2,6 +2,7 @@ package stage
 
 import (
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
@@ -20,6 +21,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"strings"
+	"time"
 )
 
 type Teamfolder struct {
@@ -42,12 +44,13 @@ func (z *Teamfolder) Preset() {
 }
 
 func (z *Teamfolder) Exec(c app_control.Control) error {
-	teamFolderName := "Tokyo Branch 4"
+	runId := fmt.Sprintf("%08x", time.Now().Unix())
+	teamFolderName := "Tokyo Branch " + runId
 	nestedFolderPlainName := "Organization"
 	nestedFolderSharedName := "Sales"
 	nestedFolderRestrictedName := "Report"
 	restedFolderRestrictedNoSyncName := "Finance"
-	teamFolderMarketing := "Marketing3"
+	teamFolderMarketing := "Marketing " + runId
 	nestedFolderMarketingPlan := "Plan"
 	adminGroupName := "toolbox-admin"
 	sampleGroupName := "toolbox-sample"
@@ -287,12 +290,25 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	}
 
 	// Do not inherit permission from parent : Sales/Report
-	updatedFolderSalesReport, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderSalesReport.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
-	if err != nil {
-		l.Warn("Unable to change: inherit", esl.Error(err))
-		return err
+	for {
+		updatedFolderSalesReport, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderSalesReport.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
+		de = dbx_error.NewErrors(err)
+		if de == nil {
+			l.Info("The sample group added to the team folder as editor", esl.Any("updated", updatedFolderSalesReport))
+			break
+		}
+		switch {
+		case de.HasPrefix("access_error/not_a_member"):
+			l.Warn("Permission look like not ready", esl.Error(err))
+			time.Sleep(3 * time.Second)
+			l.Info("Retry")
+			continue
+
+		default:
+			l.Warn("Unable to update members", esl.Error(err))
+			return err
+		}
 	}
-	l.Info("Sync access inheritance updated", esl.Any("updated", updatedFolderSalesReport))
 
 	// Add sample group to the nested folder
 	err = sv_sharedfolder_member.NewBySharedFolderId(z.Peer.Context().AsAdminId(admin.TeamMemberId), folderSalesReport.SharedFolderId).Add(
@@ -305,6 +321,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 
 	default:
 		l.Warn("Unable to update members", esl.Error(err))
+		return err
 	}
 
 	// Change folder policy : Sales
@@ -478,6 +495,44 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 
+	// Workaround: Turn acl_policy=editor
+	// backup  acl_policy
+	folderMarketingPlanMeta, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).Resolve(folderMarketingPlan.SharedFolderId)
+	de = dbx_error.NewErrors(err)
+	switch {
+	case de == nil:
+		l.Info("Acquired folder metadata", esl.Any("marketing/plan", folderMarketingPlanMeta),
+			esl.String("acl_policy", folderMarketingPlanMeta.PolicyManageAccess))
+
+	default:
+		l.Warn("Unable to retrieve the folder metadata", esl.Error(err))
+		return err
+	}
+
+	// Workaround: Turn acl_policy=editor
+	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
+	//       |
+	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== change it to acl_policy=editor
+	policyFolderMarketingPlanMetaChanged := false
+	if folderMarketingPlanMeta.PolicyManageAccess != "editors" {
+		updated, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+			folderMarketingPlan.SharedFolderId,
+			sv_sharedfolder.AclUpdatePolicy("editors"),
+		)
+		de = dbx_error.NewErrors(err)
+		switch {
+		case de == nil:
+			l.Info("The admin group added to the team folder as editor", esl.Any("updated", updated))
+			policyFolderMarketingPlanMetaChanged = true
+
+		default:
+			l.Warn("Unable to update members", esl.Error(err))
+			return err
+		}
+	} else {
+		l.Info("Skip policy update", esl.String("policy_manage_access", folderMarketingPlanMeta.PolicyManageAccess))
+	}
+
 	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
 	//       |
 	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== set no inherit
@@ -488,6 +543,26 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 	l.Info("Sync access inheritance updated", esl.Any("updated", updatedFolderMarketingPlan))
+
+	// Workaround: restore acl_policy
+	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
+	//       |
+	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== restore
+	if policyFolderMarketingPlanMetaChanged {
+		restored, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+			folderMarketingPlan.SharedFolderId,
+			sv_sharedfolder.AclUpdatePolicy(folderMarketingPlanMeta.PolicyManageAccess),
+		)
+		de = dbx_error.NewErrors(err)
+		switch {
+		case de == nil:
+			l.Info("The admin group added to the team folder as editor", esl.Any("restored", restored))
+
+		default:
+			l.Warn("Unable to update members", esl.Error(err))
+			return err
+		}
+	}
 
 	return nil
 }

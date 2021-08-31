@@ -52,6 +52,8 @@ type DropboxError interface {
 	BadPath() ErrorSharePath
 	Member() ErrorMember
 
+	HasPrefix(prefix string) bool
+
 	// too_many_write_operations
 	IsTooManyWriteOperations() bool
 	// too_many_files
@@ -136,6 +138,10 @@ type ErrorMember interface {
 
 type errorsImpl struct {
 	ei ErrorInfo
+}
+
+func (z errorsImpl) HasPrefix(prefix string) bool {
+	return z.ei.HasPrefix(prefix)
 }
 
 func (z errorsImpl) IsInvalidRevision() bool {

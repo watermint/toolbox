@@ -115,7 +115,8 @@ func (z *sharedFolderImpl) UpdateInheritance(sharedFolderId string, setting stri
 		AccessInheritance: setting,
 	}
 
-	res := z.ctx.Post("sharing/set_access_inheritance", api_request.Param(p))
+	res := z.ctx.Async("sharing/set_access_inheritance", api_request.Param(p)).Call(
+		dbx_async.Status("sharing/check_share_job_status"))
 	if err, fail := res.Failure(); fail {
 		return nil, err
 	}
