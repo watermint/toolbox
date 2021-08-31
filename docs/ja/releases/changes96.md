@@ -19,6 +19,55 @@ lang: ja
 
 
 
+# コマンド仕様の変更: `member replication`
+
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+- 		"Dst": "business_file",
++ 		"Dst": "dropbox_scoped_team",
+- 		"Src": "business_file",
++ 		"Src": "dropbox_scoped_team",
+  	},
+  	Services: {"dropbox_business"},
+  	IsSecret: false,
+  	... // 4 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Dst",
+  			Desc:     "宛先チーム; チームのファイルアクセス",
+  			Default:  "dst",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+- 			TypeAttr: nil,
++ 			TypeAttr: []interface{}{},
+  		},
+  		&{Name: "File", Desc: "データファイル", TypeName: "infra.feed.fd_file_impl.row_feed"},
+  		&{
+  			Name:     "Src",
+  			Desc:     "元チーム; チームのファイルアクセス",
+  			Default:  "src",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+- 			TypeAttr: nil,
++ 			TypeAttr: []interface{}{},
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
+```
 # コマンド仕様の変更: `services github issue list`
 
 
@@ -65,6 +114,77 @@ lang: ja
 + 			TypeName: "essentials.model.mo_string.select_string",
 + 			TypeAttr: map[string]interface{}{"options": []interface{}{string("open"), string("closed"), string("all")}},
 + 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
+```
+# コマンド仕様の変更: `team filerequest clone`
+
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "business_file"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+  	Services:        {"dropbox_business"},
+  	IsSecret:        true,
+  	... // 4 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "File", Desc: "データファイルへのパス", TypeName: "infra.feed.fd_file_impl.row_feed"},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "アカウントの別名",
+  			Default:  "default",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+- 			TypeAttr: nil,
++ 			TypeAttr: []interface{}{},
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
+```
+# コマンド仕様の変更: `team filerequest list`
+
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "business_file"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+  	Services:        {"dropbox_business"},
+  	IsSecret:        false,
+  	... // 4 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Peer",
+  			Desc:     "アカウントの別名",
+  			Default:  "default",
+- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
++ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+- 			TypeAttr: nil,
++ 			TypeAttr: []interface{}{string("file_requests.read"), string("members.read"), string("team_data.member")},
+  		},
   	},
   	GridDataInput:  {},
   	GridDataOutput: {},

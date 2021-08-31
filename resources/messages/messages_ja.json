@@ -2309,7 +2309,6 @@
   "recipe.team.filerequest.clone.title": "ファイルリクエストを入力データに従い複製します",
   "recipe.team.filerequest.list.flag.peer": "アカウントの別名",
   "recipe.team.filerequest.list.title": "チームないのファイルリクエストを一覧します",
-  "recipe.team.filerequest.msg_list.progress_scan": "メンバーの情報を取得中: {{.MemberEmail}}",
   "recipe.team.filerequest.title": "チーム内のファイルリクエスト",
   "recipe.team.info.flag.peer": "アカウントの別名",
   "recipe.team.info.title": "チームの情報",

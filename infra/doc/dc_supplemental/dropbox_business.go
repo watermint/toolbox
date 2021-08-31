@@ -84,6 +84,10 @@ type MsgDropboxBusiness struct {
 
 	FootnoteTitle app_msg.Message
 	FootnoteInfo  app_msg.Message
+
+	PaperTitle       app_msg.Message
+	LegacyPaperTitle app_msg.Message
+	LegacyPaperInfo  app_msg.Message
 }
 
 var (
@@ -177,6 +181,7 @@ func (z DropboxBusiness) Sections() []dc_section.Section {
 		&DropboxBusinessActivities{cat: z.cat},
 		&DropboxBusinessConnect{cat: z.cat},
 		&DropboxBusinessUsecase{cat: z.cat},
+		&DropboxBusinessPaper{cat: z.cat},
 
 		// footnote section must be placed at the end of the doc
 		&DropboxBusinessFootnote{cat: z.cat},
@@ -197,6 +202,7 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 
 	z.cat.RecipeTable("member info commands", ui, []string{
 		"member list",
+		"member feature",
 		"member folder list",
 		"member quota list",
 		"member quota usage",
@@ -477,6 +483,24 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 	z.cat.RecipeTable("information commands", ui, []string{
 		"team feature",
 		"team info",
+	})
+}
+
+type DropboxBusinessPaper struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessPaper) Title() app_msg.Message {
+	return MDropboxBusiness.PaperTitle
+}
+
+func (z DropboxBusinessPaper) Body(ui app_ui.UI) {
+	ui.SubHeader(MDropboxBusiness.LegacyPaperTitle)
+	ui.Info(MDropboxBusiness.LegacyPaperInfo)
+	z.cat.RecipeTable("legacy paper commands", ui, []string{
+		"team content legacypaper count",
+		"team content legacypaper list",
+		"team content legacypaper export",
 	})
 }
 

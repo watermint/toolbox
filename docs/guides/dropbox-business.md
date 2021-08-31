@@ -13,6 +13,7 @@ Below commands are to retrieve information about team members.
 | Command                                                                   | Description                    |
 |---------------------------------------------------------------------------|--------------------------------|
 | [member list]({{ site.baseurl }}/commands/member-list.html)               | List team member(s)            |
+| [member feature]({{ site.baseurl }}/commands/member-feature.html)         | List member feature settings   |
 | [member folder list]({{ site.baseurl }}/commands/member-folder-list.html) | Find folders for each member   |
 | [member quota list]({{ site.baseurl }}/commands/member-quota-list.html)   | List team member quota         |
 | [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html) | List team member storage usage |
@@ -314,6 +315,18 @@ Data migration helper commands copies member folders or team folders to another 
 |---------------------------------------------------------------|------------------|
 | [team feature]({{ site.baseurl }}/commands/team-feature.html) | Team feature     |
 | [team info]({{ site.baseurl }}/commands/team-info.html)       | Team information |
+
+# Paper commands
+
+## Legacy paper commands
+
+Commands for team legacy Paper content. Please see [official guide](https://developers.dropbox.com/paper-migration-guide) more detail about legacy Paper and migration
+
+| Command                                                                                             | Description                                               |
+|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| [team content legacypaper count]({{ site.baseurl }}/commands/team-content-legacypaper-count.html)   | Count number of Paper documents per member                |
+| [team content legacypaper list]({{ site.baseurl }}/commands/team-content-legacypaper-list.html)     | List team member Paper documents                          |
+| [team content legacypaper export]({{ site.baseurl }}/commands/team-content-legacypaper-export.html) | Export entire team member Paper documents into local path |
 
 # Notes:
 

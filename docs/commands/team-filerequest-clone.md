@@ -26,9 +26,8 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                  |
-|------------------------------|
-| Dropbox Business File access |
+| Description |
+|-------------|
 
 # Authorization
 
