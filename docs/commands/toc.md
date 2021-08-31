@@ -77,7 +77,7 @@ lang: en
 | [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)                     | Clear external_id of members                                              |
 | [member delete]({{ site.baseurl }}/commands/member-delete.html)                                         | Delete members                                                            |
 | [member detach]({{ site.baseurl }}/commands/member-detach.html)                                         | Convert Dropbox Business accounts to a Basic account                      |
-| [member feature]({{ site.baseurl }}/commands/member-feature.html)                                       | {"key":"recipe.member.feature.title","params":{}}                         |
+| [member feature]({{ site.baseurl }}/commands/member-feature.html)                                       | List member feature settings                                              |
 | [member file lock all release]({{ site.baseurl }}/commands/member-file-lock-all-release.html)           | Release all locks under the path of the member                            |
 | [member file lock list]({{ site.baseurl }}/commands/member-file-lock-list.html)                         | List locks of the member under the path                                   |
 | [member file lock release]({{ site.baseurl }}/commands/member-file-lock-release.html)                   | Release the lock of the path as the member                                |
@@ -102,6 +102,9 @@ lang: en
 | [team activity daily event]({{ site.baseurl }}/commands/team-activity-daily-event.html)                 | Report activities by day                                                  |
 | [team activity event]({{ site.baseurl }}/commands/team-activity-event.html)                             | Event log                                                                 |
 | [team activity user]({{ site.baseurl }}/commands/team-activity-user.html)                               | Activities log per user                                                   |
+| [team content legacypaper count]({{ site.baseurl }}/commands/team-content-legacypaper-count.html)       | Count number of Paper documents per member                                |
+| [team content legacypaper export]({{ site.baseurl }}/commands/team-content-legacypaper-export.html)     | Export entire team member Paper documents into local path                 |
+| [team content legacypaper list]({{ site.baseurl }}/commands/team-content-legacypaper-list.html)         | List team member Paper documents                                          |
 | [team content member list]({{ site.baseurl }}/commands/team-content-member-list.html)                   | List team folder & shared folder members                                  |
 | [team content member size]({{ site.baseurl }}/commands/team-content-member-size.html)                   | Count number of members of team folders and shared folders                |
 | [team content mount list]({{ site.baseurl }}/commands/team-content-mount-list.html)                     | List all mounted/unmounted shared folders of team members.                |

@@ -155,7 +155,7 @@ Available commands:
 | [member clear externalid](docs/commands/member-clear-externalid.md)                     | Clear external_id of members                                              |
 | [member delete](docs/commands/member-delete.md)                                         | Delete members                                                            |
 | [member detach](docs/commands/member-detach.md)                                         | Convert Dropbox Business accounts to a Basic account                      |
-| [member feature](docs/commands/member-feature.md)                                       | {"key":"recipe.member.feature.title","params":{}}                         |
+| [member feature](docs/commands/member-feature.md)                                       | List member feature settings                                              |
 | [member file lock all release](docs/commands/member-file-lock-all-release.md)           | Release all locks under the path of the member                            |
 | [member file lock list](docs/commands/member-file-lock-list.md)                         | List locks of the member under the path                                   |
 | [member file lock release](docs/commands/member-file-lock-release.md)                   | Release the lock of the path as the member                                |
@@ -180,6 +180,9 @@ Available commands:
 | [team activity daily event](docs/commands/team-activity-daily-event.md)                 | Report activities by day                                                  |
 | [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
 | [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
+| [team content legacypaper count](docs/commands/team-content-legacypaper-count.md)       | Count number of Paper documents per member                                |
+| [team content legacypaper export](docs/commands/team-content-legacypaper-export.md)     | Export entire team member Paper documents into local path                 |
+| [team content legacypaper list](docs/commands/team-content-legacypaper-list.md)         | List team member Paper documents                                          |
 | [team content member list](docs/commands/team-content-member-list.md)                   | List team folder & shared folder members                                  |
 | [team content member size](docs/commands/team-content-member-size.md)                   | Count number of members of team folders and shared folders                |
 | [team content mount list](docs/commands/team-content-mount-list.md)                     | List all mounted/unmounted shared folders of team members.                |
