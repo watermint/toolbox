@@ -2,6 +2,7 @@ package sharedfolder
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
@@ -13,11 +14,14 @@ import (
 )
 
 type List struct {
-	Peer         dbx_conn.ConnUserFile
+	Peer         dbx_conn.ConnScopedIndividual
 	SharedFolder rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingRead,
+	)
 	z.SharedFolder.SetModel(
 		&mo_sharedfolder.SharedFolder{},
 		rp_model.HiddenColumns(

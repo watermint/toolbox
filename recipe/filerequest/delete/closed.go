@@ -1,6 +1,7 @@
 package delete
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
@@ -12,11 +13,14 @@ import (
 
 type Closed struct {
 	rc_recipe.RemarkIrreversible
-	Peer    dbx_conn.ConnUserFile
+	Peer    dbx_conn.ConnScopedIndividual
 	Deleted rp_model.RowReport
 }
 
 func (z *Closed) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFileRequestsWrite,
+	)
 	z.Deleted.SetModel(&mo_filerequest.FileRequest{})
 }
 

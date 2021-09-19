@@ -28,9 +28,9 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                     |
-|--------------------------|
-| Dropbox へのフルアクセス |
+| 説明                                                                     |
+|--------------------------------------------------------------------------|
+| Dropbox: View and manage your Dropbox sharing settings and collaborators |
 
 # 認可
 

@@ -26,9 +26,10 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                     |
-|--------------------------|
-| Dropbox へのフルアクセス |
+| 説明                                                |
+|-----------------------------------------------------|
+| Dropbox: View your Dropbox file requests            |
+| Dropbox: View and manage your Dropbox file requests |
 
 # 認可
 

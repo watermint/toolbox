@@ -1,6 +1,7 @@
 package filerequest
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
@@ -22,11 +23,14 @@ type Create struct {
 	Path             mo_path.DropboxPath
 	Deadline         mo_time.TimeOptional
 	AllowLateUploads mo_string.OptionalString
-	Peer             dbx_conn.ConnUserFile
+	Peer             dbx_conn.ConnScopedIndividual
 	FileRequest      rp_model.RowReport
 }
 
 func (z *Create) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFileRequestsWrite,
+	)
 	z.FileRequest.SetModel(&mo_filerequest.FileRequest{})
 }
 

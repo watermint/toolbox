@@ -34,30 +34,30 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			Name:     "ChunkSizeKb",
-  			Desc:     "Upload chunk size in KB",
-- 			Default:  "153600",
-+ 			Default:  "4096",
-  			TypeName: "domain.common.model.mo_int.range_int",
-  			TypeAttr: map[string]interface{}{
-  				"max":   float64(153600),
-  				"min":   float64(1),
-- 				"value": float64(153600),
-+ 				"value": float64(4096),
-  			},
-  		},
-  		&{Name: "DropboxPath", Desc: "Destination Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{Name: "FailOnError", Desc: "Returns error when any error happens while the operation. This c"..., Default: "false", TypeName: "bool", ...},
-  		... // 2 identical elements
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "ChunkSizeKb",
+  			Desc:     "Upload chunk size in KB",
+- 			Default:  "153600",
++ 			Default:  "4096",
+  			TypeName: "domain.common.model.mo_int.range_int",
+  			TypeAttr: map[string]interface{}{
+  				"max":   float64(153600),
+  				"min":   float64(1),
+- 				"value": float64(153600),
++ 				"value": float64(4096),
+  			},
+  		},
+  		&{Name: "DropboxPath", Desc: "Destination Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
+  		&{Name: "FailOnError", Desc: "Returns error when any error happens while the operation. This c"..., Default: "false", TypeName: "bool", ...},
+  		... // 2 identical elements
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```

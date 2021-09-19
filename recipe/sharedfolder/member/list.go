@@ -2,57 +2,30 @@ package member
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
-type MsgList struct {
-	ProgressScan app_msg.Message
-}
-
-var (
-	MList = app_msg.Apply(&MsgList{}).(*MsgList)
-)
-
-type ListWorker struct {
-	folder *mo_sharedfolder.SharedFolder
-	conn   dbx_context.Context
-	rep    rp_model.RowReport
-	ctl    app_control.Control
-}
-
-func (z *ListWorker) Exec() error {
-	z.ctl.UI().Progress(MList.ProgressScan.With("Folder", z.folder.Name).With("FolderId", z.folder.SharedFolderId))
-
-	z.ctl.Log().Debug("Scanning folder", esl.Any("folder", z.folder))
-	members, err := sv_sharedfolder_member.New(z.conn, z.folder).List()
-	if err != nil {
-		return err
-	}
-
-	for _, member := range members {
-		z.rep.Row(mo_sharedfolder_member.NewSharedFolderMember(z.folder, member))
-	}
-	return nil
-}
-
 type List struct {
-	Peer   dbx_conn.ConnUserFile
+	Peer   dbx_conn.ConnScopedIndividual
 	Member rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingRead,
+	)
 	z.Member.SetModel(
 		&mo_sharedfolder_member.SharedFolderMember{},
 		rp_model.HiddenColumns(
@@ -62,6 +35,20 @@ func (z *List) Preset() {
 			"group_id",
 		),
 	)
+}
+
+func (z *List) listMembers(sf *mo_sharedfolder.SharedFolder, c app_control.Control) error {
+	l := c.Log().With(esl.Any("sf", sf))
+	l.Debug("Scanning")
+	members, err := sv_sharedfolder_member.New(z.Peer.Context(), sf).List()
+	if err != nil {
+		return err
+	}
+
+	for _, member := range members {
+		z.Member.Row(mo_sharedfolder_member.NewSharedFolderMember(sf, member))
+	}
+	return nil
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -74,16 +61,14 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	q := c.NewLegacyQueue()
-	for _, folder := range folders {
-		q.Enqueue(&ListWorker{
-			folder: folder,
-			conn:   z.Peer.Context(),
-			rep:    z.Member,
-			ctl:    c,
-		})
-	}
-	q.Wait()
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("scan_folder", z.listMembers, c)
+		q := s.Get("scan_folder")
+
+		for _, folder := range folders {
+			q.Enqueue(folder)
+		}
+	})
 
 	return nil
 }

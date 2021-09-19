@@ -1,6 +1,7 @@
 package file
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
@@ -13,13 +14,17 @@ import (
 )
 
 type List struct {
-	Peer     dbx_conn.ConnUserFile
+	Peer     dbx_conn.ConnScopedIndividual
 	Url      mo_url.Url
 	Password mo_string.OptionalString
 	FileList rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeFilesMetadataRead,
+	)
 	z.FileList.SetModel(
 		&mo_file.ConcreteEntry{},
 		rp_model.HiddenColumns(

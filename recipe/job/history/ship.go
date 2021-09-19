@@ -1,6 +1,7 @@
 package history
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -24,7 +25,7 @@ const (
 )
 
 type Ship struct {
-	Peer                       dbx_conn.ConnUserFile
+	Peer                       dbx_conn.ConnScopedIndividual
 	DropboxPath                mo_path.DropboxPath
 	ProgressUploading          app_msg.Message
 	ErrorFailedArchive         app_msg.Message
@@ -112,6 +113,10 @@ func (z *Ship) Test(c app_control.Control) error {
 }
 
 func (z *Ship) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesContentRead,
+		dbx_auth.ScopeFilesContentWrite,
+	)
 	z.OperationLog.SetModel(
 		&ShipInfo{},
 		&mo_file.ConcreteEntry{},
