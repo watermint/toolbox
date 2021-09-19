@@ -262,7 +262,10 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 
 	matches = make([]*mo_file.Match, 0)
 
-	var maxMatches int = *so.maxResults
+	var maxMatches int = searchHardMaxEntries
+	if so.maxResults != nil {
+		maxMatches = *so.maxResults
+	}
 	if maxMatches == 0 || maxMatches > searchHardMaxEntries {
 		maxMatches = searchHardMaxEntries
 	}
