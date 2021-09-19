@@ -84,7 +84,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |----------------|-----------------------------------------------------------------------------------------------------------------------------|------------|
 | `-category`    | 指定されたファイルカテゴリに検索を限定します (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others). |            |
 | `-extension`   | 指定されたファイル拡張子に検索を限定します.                                                                                 |            |
-| `-max-results` | Maximum number of entry to return                                                                                           | 25         |
+| `-max-results` | 返却するエントリーの最大数                                                                                                  | 25         |
 | `-path`        | 検索対象とするユーザーのDropbox上のパス.                                                                                    |            |
 | `-peer`        | アカウントの別名                                                                                                            | default    |
 | `-query`       | 検索文字列.                                                                                                                 |            |
