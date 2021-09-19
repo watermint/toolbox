@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -14,12 +15,13 @@ import (
 )
 
 type Content struct {
-	Peer      dbx_conn.ConnScopedIndividual
-	Path      mo_string.OptionalString
-	Query     string
-	Extension mo_string.OptionalString
-	Category  mo_string.SelectString
-	Matches   rp_model.RowReport
+	Peer       dbx_conn.ConnScopedIndividual
+	Path       mo_string.OptionalString
+	Query      string
+	Extension  mo_string.OptionalString
+	Category   mo_string.SelectString
+	Matches    rp_model.RowReport
+	MaxResults mo_int.RangeInt
 }
 
 func (z *Content) Exec(c app_control.Control) error {
@@ -33,6 +35,9 @@ func (z *Content) Exec(c app_control.Control) error {
 	}
 	if z.Path.IsExists() {
 		so = append(so, sv_file.SearchPath(mo_path.NewDropboxPath(z.Path.Value())))
+	}
+	if z.MaxResults.Value() != 0 {
+		so = append(so, sv_file.SearchMaxResults(z.MaxResults.Value()))
 	}
 
 	if err := z.Matches.Open(); err != nil {
@@ -72,4 +77,5 @@ func (z *Content) Preset() {
 			"path_lower",
 		),
 	)
+	z.MaxResults.SetRange(0, 100_000, 25)
 }
