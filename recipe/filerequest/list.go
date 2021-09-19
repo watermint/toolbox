@@ -1,6 +1,7 @@
 package filerequest
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
@@ -11,11 +12,14 @@ import (
 )
 
 type List struct {
-	Peer         dbx_conn.ConnUserFile
+	Peer         dbx_conn.ConnScopedIndividual
 	FileRequests rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFileRequestsRead,
+	)
 	z.FileRequests.SetModel(&mo_filerequest.FileRequest{})
 }
 

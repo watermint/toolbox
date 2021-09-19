@@ -80,13 +80,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option       | Description                                                                                                                           | Default |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-category`  | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others). |         |
-| `-extension` | Restricts search to only the extensions specified.                                                                                    |         |
-| `-path`      | Scopes the search to a path in the user's Dropbox.                                                                                    |         |
-| `-peer`      | Account alias                                                                                                                         | default |
-| `-query`     | The string to search for.                                                                                                             |         |
+| Option         | Description                                                                                                                           | Default |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-category`    | Restricts search to only the file categories specified (image/document/pdf/spreadsheet/presentation/audio/video/folder/paper/others). |         |
+| `-extension`   | Restricts search to only the extensions specified.                                                                                    |         |
+| `-max-results` | Maximum number of entry to return                                                                                                     | 25      |
+| `-path`        | Scopes the search to a path in the user's Dropbox.                                                                                    |         |
+| `-peer`        | Account alias                                                                                                                         | default |
+| `-query`       | The string to search for.                                                                                                             |         |
 
 ## Common options:
 

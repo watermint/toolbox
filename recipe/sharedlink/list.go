@@ -2,6 +2,7 @@ package sharedlink
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
@@ -13,11 +14,14 @@ import (
 )
 
 type List struct {
-	Peer       dbx_conn.ConnUserFile
+	Peer       dbx_conn.ConnScopedIndividual
 	SharedLink rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingRead,
+	)
 	z.SharedLink.SetModel(
 		&mo_sharedlink.Metadata{},
 		rp_model.HiddenColumns(

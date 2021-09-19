@@ -1,6 +1,7 @@
 package sharedlink
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
@@ -18,7 +19,7 @@ import (
 
 type Create struct {
 	rc_recipe.RemarkIrreversible
-	Peer     dbx_conn.ConnUserFile
+	Peer     dbx_conn.ConnScopedIndividual
 	Path     mo_path.DropboxPath
 	TeamOnly bool
 	Password mo_string.OptionalString
@@ -28,6 +29,9 @@ type Create struct {
 }
 
 func (z *Create) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingWrite,
+	)
 	z.Created.SetModel(&mo_sharedlink.Metadata{})
 }
 

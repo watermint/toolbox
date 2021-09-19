@@ -47,7 +47,6 @@ import (
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
-	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
@@ -112,7 +111,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&recipememberquota.MsgUsage{},
 		&recipememberupdate.MsgEmail{},
 		&recipeservicesgithubreleaseasset.MsgUp{},
-		&recipesharedfoldermember.MsgList{},
 		&recipeteamactivity.MsgUser{},
 		&recipeteamactivitybatch.MsgUser{},
 		&recipeteamdevice.MsgUnlink{},

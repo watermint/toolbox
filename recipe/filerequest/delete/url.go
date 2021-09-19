@@ -2,6 +2,7 @@ package delete
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
@@ -16,7 +17,7 @@ import (
 type Url struct {
 	rc_recipe.RemarkIrreversible
 	Url                    string
-	Peer                   dbx_conn.ConnUserFile
+	Peer                   dbx_conn.ConnScopedIndividual
 	Deleted                rp_model.RowReport
 	Force                  bool
 	ProgressClose          app_msg.Message
@@ -25,6 +26,10 @@ type Url struct {
 }
 
 func (z *Url) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFileRequestsRead,
+		dbx_auth.ScopeFileRequestsWrite,
+	)
 	z.Deleted.SetModel(&mo_filerequest.FileRequest{})
 }
 

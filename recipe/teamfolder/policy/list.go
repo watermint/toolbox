@@ -1,6 +1,7 @@
 package policy
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner"
@@ -14,13 +15,20 @@ import (
 )
 
 type List struct {
-	Peer        dbx_conn.ConnBusinessFile
+	Peer        dbx_conn.ConnScopedTeam
 	Policy      rp_model.RowReport
 	Folder      mo_filter.Filter
 	ScanTimeout mo_string.SelectString
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
+	)
 	z.Policy.SetModel(
 		&uc_team_content.FolderPolicy{},
 		rp_model.HiddenColumns(

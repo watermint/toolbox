@@ -12,6 +12,10 @@ import (
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
+const (
+	searchHardMaxEntries = 10_000
+)
+
 type Files interface {
 	Resolve(path mo_path.DropboxPath, opts ...ResolveOpt) (entry mo_file.Entry, err error)
 	List(path mo_path.DropboxPath, opts ...ListOpt) (entries []mo_file.Entry, err error)
@@ -258,6 +262,12 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 
 	matches = make([]*mo_file.Match, 0)
 
+	var maxMatches int = *so.maxResults
+	if maxMatches == 0 || maxMatches > searchHardMaxEntries {
+		maxMatches = searchHardMaxEntries
+	}
+	errMaxMatch := errors.New("max match")
+
 	res := z.ctx.List("files/search_v2", api_request.Param(p)).Call(
 		dbx_list.Continue("files/search/continue_v2"),
 		dbx_list.UseHasMore(),
@@ -269,10 +279,17 @@ func (z *filesImpl) Search(query string, opts ...SearchOpt) (matches []*mo_file.
 				return err
 			}
 			matches = append(matches, e)
+			if len(matches) > maxMatches {
+				return errMaxMatch
+			}
+
 			return nil
 		}),
 	)
 	if err, fail := res.Failure(); fail {
+		if err == errMaxMatch {
+			return matches, nil
+		}
 		return nil, err
 	}
 	return matches, nil

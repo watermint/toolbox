@@ -1,6 +1,7 @@
 package sharedlink
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
@@ -19,7 +20,7 @@ import (
 
 type Delete struct {
 	rc_recipe.RemarkIrreversible
-	Peer                 dbx_conn.ConnUserFile
+	Peer                 dbx_conn.ConnScopedIndividual
 	Path                 mo_path.DropboxPath
 	Recursive            bool
 	SharedLink           rp_model.TransactionReport
@@ -28,6 +29,9 @@ type Delete struct {
 }
 
 func (z *Delete) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeSharingWrite,
+	)
 	z.SharedLink.SetModel(
 		&mo_sharedlink.Metadata{},
 		nil,

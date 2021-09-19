@@ -2,6 +2,7 @@ package teamfolder
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -14,11 +15,14 @@ import (
 )
 
 type List struct {
-	Peer       dbx_conn.ConnBusinessFile
+	Peer       dbx_conn.ConnScopedTeam
 	TeamFolder rp_model.RowReport
 }
 
 func (z *List) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeTeamDataTeamSpace,
+	)
 	z.TeamFolder.SetModel(
 		&mo_teamfolder.TeamFolder{},
 		rp_model.HiddenColumns(
