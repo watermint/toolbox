@@ -2,6 +2,7 @@ package teamfolder
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -15,7 +16,7 @@ import (
 
 type Archive struct {
 	rc_recipe.RemarkIrreversible
-	Peer                           dbx_conn.ConnBusinessFile
+	Peer                           dbx_conn.ConnScopedTeam
 	Name                           string
 	ErrorUnableToResolveTeamfolder app_msg.Message
 	ErrorUnableToArchiveTeamfolder app_msg.Message
@@ -23,6 +24,9 @@ type Archive struct {
 }
 
 func (z *Archive) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeTeamDataTeamSpace,
+	)
 }
 
 func (z *Archive) Exec(c app_control.Control) error {

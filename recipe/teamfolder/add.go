@@ -1,6 +1,7 @@
 package teamfolder
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -14,7 +15,7 @@ import (
 
 type Add struct {
 	rc_recipe.RemarkIrreversible
-	Peer                dbx_conn.ConnBusinessFile
+	Peer                dbx_conn.ConnScopedTeam
 	Name                string
 	SyncSetting         mo_string.SelectString
 	Added               rp_model.RowReport
@@ -26,6 +27,9 @@ func (z *Add) Preset() {
 		rp_model.HiddenColumns(
 			"team_folder_id",
 		),
+	)
+	z.Peer.SetScopes(
+		dbx_auth.ScopeTeamDataTeamSpace,
 	)
 	z.SyncSetting.SetOptions(
 		"default",

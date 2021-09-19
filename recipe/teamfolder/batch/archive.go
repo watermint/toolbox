@@ -2,6 +2,7 @@ package batch
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -22,7 +23,7 @@ type Archive struct {
 	ErrUnableToRetrieveCurrentTeamFolders app_msg.Message
 	File                                  fd_file.RowFeed
 	OperationLog                          rp_model.TransactionReport
-	Peer                                  dbx_conn.ConnBusinessFile
+	Peer                                  dbx_conn.ConnScopedTeam
 	ProgressArchiveFolder                 app_msg.Message
 }
 
@@ -78,6 +79,9 @@ func (z *Archive) Test(c app_control.Control) error {
 }
 
 func (z *Archive) Preset() {
+	z.Peer.SetScopes(
+		dbx_auth.ScopeTeamDataTeamSpace,
+	)
 	z.File.SetModel(&TeamFolderName{})
 	z.OperationLog.SetModel(&TeamFolderName{}, &mo_teamfolder.TeamFolder{},
 		rp_model.HiddenColumns(

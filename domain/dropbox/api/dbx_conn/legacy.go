@@ -16,27 +16,3 @@ type ConnUserFile interface {
 	ConnLegacyDropboxApi
 	IsUserFile()
 }
-
-// Deprecated: ConnBusinessAudit
-type ConnBusinessAudit interface {
-	ConnLegacyDropboxApi
-	IsBusinessAudit()
-}
-
-// Deprecated: ConnBusinessInfo
-type ConnBusinessInfo interface {
-	ConnLegacyDropboxApi
-	IsBusinessInfo()
-}
-
-// Deprecated: ConnBusinessMgmt
-type ConnBusinessMgmt interface {
-	ConnLegacyDropboxApi
-	IsBusinessMgmt()
-}
-
-// Deprecated: ConnBusinessFile
-type ConnBusinessFile interface {
-	ConnLegacyDropboxApi
-	IsBusinessFile()
-}
