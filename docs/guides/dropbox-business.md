@@ -328,6 +328,18 @@ Commands for a team's legacy Paper content. Please see [official guide](https://
 | [team content legacypaper list]({{ site.baseurl }}/commands/team-content-legacypaper-list.html)     | List team member Paper documents                          |
 | [team content legacypaper export]({{ site.baseurl }}/commands/team-content-legacypaper-export.html) | Export entire team member Paper documents into local path |
 
+# Team admin commands
+
+Below commands are for managing team admins.
+
+| Command                                                                           | Description                            |
+|-----------------------------------------------------------------------------------|----------------------------------------|
+| [team admin list]({{ site.baseurl }}/commands/team-admin-list.html)               | List admin roles of members            |
+| [team admin role add]({{ site.baseurl }}/commands/team-admin-role-add.html)       | Add a new role to the member           |
+| [team admin role clear]({{ site.baseurl }}/commands/team-admin-role-clear.html)   | Remove all admin roles from the member |
+| [team admin role delete]({{ site.baseurl }}/commands/team-admin-role-delete.html) | Remove a role from the member          |
+| [team admin role list]({{ site.baseurl }}/commands/team-admin-role-list.html)     | List admin roles of the team           |
+
 # Notes:
 
 Dropbox Business commands require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.

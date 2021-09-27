@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# teamfolder member list
+# team admin role delete
 
-List team folder members 
+Remove a role from the member 
 
 # Security
 
@@ -26,15 +26,10 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| Dropbox Business: View information about your Dropbox files and folders                                 |
-| Dropbox Business: View your team group membership                                                       |
-| Dropbox Business: View your team membership                                                             |
-| Dropbox Business: View your Dropbox sharing settings and collaborators                                  |
-| Dropbox Business: View structure of your team's and members' folders                                    |
-| Dropbox Business: View and edit content of your team's files and folders                                |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description                                            |
+|--------------------------------------------------------|
+| Dropbox Business: View your team membership            |
+| Dropbox Business: View and manage your team membership |
 
 # Authorization
 
@@ -70,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe teamfolder member list 
+.\tbx.exe team admin role delete 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx teamfolder member list 
+$HOME/Desktop/tbx team admin role delete 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -86,15 +81,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                  | Description                                                                                                                                                                        | Default |
-|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-folder-name`          | Filter by folder name. Filter by exact match to the name.                                                                                                                          |         |
-| `-folder-name-prefix`   | Filter by folder name. Filter by name match to the prefix.                                                                                                                         |         |
-| `-folder-name-suffix`   | Filter by folder name. Filter by name match to the suffix.                                                                                                                         |         |
-| `-member-type-external` | Filter folder members. Keep only members are external (not in the same team). Note: Invited members are marked as external member.                                                 |         |
-| `-member-type-internal` | Filter folder members. Keep only members are internal (in the same team). Note: Invited members are marked as external member.                                                     |         |
-| `-peer`                 | Account alias                                                                                                                                                                      | default |
-| `-scan-timeout`         | Scan timeout mode. If the scan timeouts, the path of a subfolder of the team folder will be replaced with a dummy path like `TEAMFOLDER_NAME/:ERROR-SCAN-TIMEOUT:/SUBFOLDER_NAME`. | short   |
+| Option     | Description                 | Default |
+|------------|-----------------------------|---------|
+| `-email`   | Email address of the member |         |
+| `-peer`    | Account alias               | default |
+| `-role-id` | Role ID                     |         |
 
 ## Common options:
 
@@ -126,40 +117,22 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: membership
+## Report: roles
 
-This report shows a list of shared folders and team folders with their members. If a folder has multiple members, then members are listed with rows.
-The command will generate a report in three different formats. `membership.csv`, `membership.json`, and `membership.xlsx`.
+The user's roles in the team.
+The command will generate a report in three different formats. `roles.csv`, `roles.json`, and `roles.xlsx`.
 
-| Column          | Description                                                                                                                          |
-|-----------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| path            | Path                                                                                                                                 |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder)                             |
-| owner_team_name | Team name of the team that owns the folder                                                                                           |
-| access_type     | User's access level for this folder                                                                                                  |
-| member_type     | Type of this member (user, group, or invitee)                                                                                        |
-| member_name     | Name of this member                                                                                                                  |
-| member_email    | Email address of this member                                                                                                         |
-| same_team       | Whether the member is in the same team or not. Returns empty if the member is not able to determine whether in the same team or not. |
+| Column         | Description                         |
+|----------------|-------------------------------------|
+| team_member_id | Team member ID                      |
+| email          | Email address of the member         |
+| role_id        | A string containing encoded role ID |
+| name           | The role display name.              |
+| description    | Role description.                   |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `membership_0000.xlsx`, `membership_0001.xlsx`, `membership_0002.xlsx`, ...
-
-## Report: no_member
-
-This report shows folders without members.
-The command will generate a report in three different formats. `no_member.csv`, `no_member.json`, and `no_member.xlsx`.
-
-| Column          | Description                                                                                              |
-|-----------------|----------------------------------------------------------------------------------------------------------|
-| owner_team_name | Team name of the team that owns the folder                                                               |
-| path            | Path                                                                                                     |
-| folder_type     | Type of the folder. (`team_folder`: a team folder or in a team folder, `shared_folder`: a shared folder) |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `no_member_0000.xlsx`, `no_member_0001.xlsx`, `no_member_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `roles_0000.xlsx`, `roles_0001.xlsx`, `roles_0002.xlsx`, ...
 
 # Proxy configuration
 

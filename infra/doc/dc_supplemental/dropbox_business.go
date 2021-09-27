@@ -88,6 +88,9 @@ type MsgDropboxBusiness struct {
 	PaperTitle       app_msg.Message
 	LegacyPaperTitle app_msg.Message
 	LegacyPaperInfo  app_msg.Message
+
+	TeamAdminTitle app_msg.Message
+	TeamAdminInfo  app_msg.Message
 }
 
 var (
@@ -182,6 +185,7 @@ func (z DropboxBusiness) Sections() []dc_section.Section {
 		&DropboxBusinessConnect{cat: z.cat},
 		&DropboxBusinessUsecase{cat: z.cat},
 		&DropboxBusinessPaper{cat: z.cat},
+		&DropboxBusinessTeamAdmin{cat: z.cat},
 
 		// footnote section must be placed at the end of the doc
 		&DropboxBusinessFootnote{cat: z.cat},
@@ -501,6 +505,25 @@ func (z DropboxBusinessPaper) Body(ui app_ui.UI) {
 		"team content legacypaper count",
 		"team content legacypaper list",
 		"team content legacypaper export",
+	})
+}
+
+type DropboxBusinessTeamAdmin struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessTeamAdmin) Title() app_msg.Message {
+	return MDropboxBusiness.TeamAdminTitle
+}
+
+func (z DropboxBusinessTeamAdmin) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.TeamAdminInfo)
+	z.cat.RecipeTable("team admin commands", ui, []string{
+		"team admin list",
+		"team admin role add",
+		"team admin role clear",
+		"team admin role delete",
+		"team admin role list",
 	})
 }
 

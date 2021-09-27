@@ -180,6 +180,11 @@ Available commands:
 | [team activity daily event](docs/commands/team-activity-daily-event.md)                 | Report activities by day                                                  |
 | [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
 | [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
+| [team admin list](docs/commands/team-admin-list.md)                                     | List admin roles of members                                               |
+| [team admin role add](docs/commands/team-admin-role-add.md)                             | Add a new role to the member                                              |
+| [team admin role clear](docs/commands/team-admin-role-clear.md)                         | Remove all admin roles from the member                                    |
+| [team admin role delete](docs/commands/team-admin-role-delete.md)                       | Remove a role from the member                                             |
+| [team admin role list](docs/commands/team-admin-role-list.md)                           | List admin roles of the team                                              |
 | [team content legacypaper count](docs/commands/team-content-legacypaper-count.md)       | Count number of Paper documents per member                                |
 | [team content legacypaper export](docs/commands/team-content-legacypaper-export.md)     | Export entire team member Paper documents into local path                 |
 | [team content legacypaper list](docs/commands/team-content-legacypaper-list.md)         | List team member Paper documents                                          |
