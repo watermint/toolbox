@@ -139,6 +139,7 @@ Available commands:
 | Command                                                                                 | Description                                                               |
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | [group add](docs/commands/group-add.md)                                                 | Create new group                                                          |
+| [group batch add](docs/commands/group-batch-add.md)                                     | Bulk adding groups                                                        |
 | [group batch delete](docs/commands/group-batch-delete.md)                               | Delete groups                                                             |
 | [group delete](docs/commands/group-delete.md)                                           | Delete group                                                              |
 | [group folder list](docs/commands/group-folder-list.md)                                 | Find folders of each group                                                |

@@ -20,18 +20,23 @@ const (
 	Slack                          = "slack"
 )
 
-// Application key/secret manager
+// App OAuth Application key/secret manager
 type App interface {
-	// OAuth2 config
+	// Config OAuth2 config
 	Config(scope []string) *oauth2.Config
 
-	// Use PKCE on authentication
+	// UsePKCE Use PKCE on authentication
 	UsePKCE() bool
 }
 
-// Auth interface for console UI
+// Console OAuth interface for console UI
 type Console interface {
 	PeerName() string
 
 	Auth(scope []string) (token Context, err error)
+}
+
+// Basic is for Basic Authentication interface
+type Basic interface {
+	PeerName() string
 }

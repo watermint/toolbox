@@ -216,6 +216,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroup.Delete{},
 		&recipegroup.List{},
 		&recipegroup.Rename{},
+		&recipegroupbatch.Add{},
 		&recipegroupbatch.Delete{},
 		&recipegroupfolder.List{},
 		&recipegroupmember.Add{},
