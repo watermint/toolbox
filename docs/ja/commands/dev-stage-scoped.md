@@ -180,6 +180,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | account_id       | ユーザーのアカウントID                                                                          |
 | persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
 | joined_on        | メンバーがチームに参加した日時.                                                                 |
+| invited_on       | ユーザーがチームに招待された日付と時間                                                          |
 | role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 | tag              | 処理のタグ                                                                                      |
 

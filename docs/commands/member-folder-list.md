@@ -154,6 +154,7 @@ The command will generate a report in three different formats. `member_with_no_f
 | given_name   | Also known as a first name                                                           |
 | surname      | Also known as a last name or family name.                                            |
 | display_name | A name that can be used directly to represent the name of a user's Dropbox account.  |
+| invited_on   | The date and time the user was invited to the team                                   |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

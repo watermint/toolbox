@@ -129,6 +129,7 @@ The command will generate a report in three different formats. `member.csv`, `me
 | surname        | Also known as a last name or family name.                                                      |
 | display_name   | A name that can be used directly to represent the name of a user's Dropbox account.            |
 | joined_on      | The date and time the user joined as a member of a specific team.                              |
+| invited_on     | The date and time the user was invited to the team                                             |
 | role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.

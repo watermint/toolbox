@@ -24,6 +24,7 @@ type Member struct {
 	AccountId       string `path:"profile.account_id" json:"account_id"`
 	PersistentId    string `path:"profile.persistent_id" json:"persistent_id"`
 	JoinedOn        string `path:"profile.joined_on" json:"joined_on"`
+	InvitedOn       string `path:"profile.invited_on" json:"invited_on"`
 	Role            string `path:"role.\\.tag" json:"role"`
 	Tag             string `path:"\\.tag" json:"tag"`
 }

@@ -180,6 +180,7 @@ The command will generate a report in three different formats. `member_list.csv`
 | account_id       | A user's account identifier.                                                                                         |
 | persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
 | joined_on        | The date and time the user joined as a member of a specific team.                                                    |
+| invited_on       | The date and time the user was invited to the team                                                                   |
 | role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | tag              | Operation tag                                                                                                        |
 

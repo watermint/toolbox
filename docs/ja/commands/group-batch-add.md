@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# member invite
+# group batch add
 
-メンバーを招待します (非可逆な操作です)
+グループの一括追加 
 
 # セキュリティ
 
@@ -26,9 +26,9 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                                         |
-|----------------------------------------------|
-| Dropbox Business: チームメンバーの表示と管理 |
+| 説明                                                                                               |
+|----------------------------------------------------------------------------------------------------|
+| Dropbox Business: メンバーアカウントの削除や回復を含む、チームグループのメンバーシップの表示と管理 |
 
 # 認可
 
@@ -64,12 +64,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe member invite -file /path/to/data/file.csv
+.\tbx.exe group batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx member invite -file /path/to/data/file.csv
+$HOME/Desktop/tbx group batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,11 +80,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション       | 説明                                                         | デフォルト |
-|------------------|--------------------------------------------------------------|------------|
-| `-file`          | データファイル                                               |            |
-| `-peer`          | アカウントの別名                                             | default    |
-| `-silent-invite` | ウエルカムメールを送信しません (SSOとドメイン確認が必要です) | false      |
+| オプション         | 説明                                                                                    | デフォルト      |
+|--------------------|-----------------------------------------------------------------------------------------|-----------------|
+| `-file`            | データファイルへのパス                                                                  |                 |
+| `-management-type` | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) | company_managed |
+| `-peer`            | アカウントの別名                                                                        | default         |
 
 ## 共通のオプション:
 
@@ -110,18 +110,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-チームメンバーを招待するためのデータファイル.
+グループに対する一括操作のためのデータファイル.
 
-| 列         | 説明                       | 例               |
-|------------|----------------------------|------------------|
-| email      | アカウントのメールアドレス | john@example.com |
-| given_name | アカウントの名前           | John             |
-| surname    | アカウントの名字           | Smith            |
+| 列   | 説明       | 例   |
+|------|------------|------|
+| name | グループ名 | 営業 |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
-email,given_name,surname
-john@example.com,John,Smith
+name
+営業
 ```
 
 # 実行結果
@@ -139,23 +137,14 @@ john@example.com,John,Smith
 このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                    | 説明                                                                                            |
-|-----------------------|-------------------------------------------------------------------------------------------------|
-| status                | 処理の状態                                                                                      |
-| reason                | 失敗またはスキップの理由                                                                        |
-| input.email           | アカウントのメールアドレス                                                                      |
-| input.given_name      | アカウントの名前                                                                                |
-| input.surname         | アカウントの名字                                                                                |
-| result.email          | ユーザーのメールアドレス                                                                        |
-| result.email_verified | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
-| result.status         | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
-| result.given_name     | 名                                                                                              |
-| result.surname        | 名字                                                                                            |
-| result.display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
-| result.joined_on      | メンバーがチームに参加した日時.                                                                 |
-| result.invited_on     | ユーザーがチームに招待された日付と時間                                                          |
-| result.role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
-| result.tag            | 処理のタグ                                                                                      |
+| 列                           | 説明                                                                                    |
+|------------------------------|-----------------------------------------------------------------------------------------|
+| status                       | 処理の状態                                                                              |
+| reason                       | 失敗またはスキップの理由                                                                |
+| input.name                   | グループ名                                                                              |
+| result.group_name            | グループ名称                                                                            |
+| result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
+| result.member_count          | グループ内のメンバー数                                                                  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

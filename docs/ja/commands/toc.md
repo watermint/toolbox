@@ -61,6 +61,7 @@ lang: ja
 | コマンド                                                                                                   | 説明                                                                                   |
 |------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | [group add]({{ site.baseurl }}/ja/commands/group-add.html)                                                 | グループを作成します                                                                   |
+| [group batch add]({{ site.baseurl }}/ja/commands/group-batch-add.html)                                     | グループの一括追加                                                                     |
 | [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html)                               | グループの削除                                                                         |
 | [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)                                           | グループを削除します                                                                   |
 | [group folder list]({{ site.baseurl }}/ja/commands/group-folder-list.html)                                 | 各グループのフォルダを探す                                                             |
@@ -102,6 +103,11 @@ lang: ja
 | [team activity daily event]({{ site.baseurl }}/ja/commands/team-activity-daily-event.html)                 | アクティビティーを1日ごとに取得します                                                  |
 | [team activity event]({{ site.baseurl }}/ja/commands/team-activity-event.html)                             | イベントログ                                                                           |
 | [team activity user]({{ site.baseurl }}/ja/commands/team-activity-user.html)                               | ユーザーごとのアクティビティ                                                           |
+| [team admin list]({{ site.baseurl }}/ja/commands/team-admin-list.html)                                     | メンバーの管理者権限一覧                                                               |
+| [team admin role add]({{ site.baseurl }}/ja/commands/team-admin-role-add.html)                             | メンバーに新しいロールを追加する                                                       |
+| [team admin role clear]({{ site.baseurl }}/ja/commands/team-admin-role-clear.html)                         | メンバーからすべての管理者ロールを削除する                                             |
+| [team admin role delete]({{ site.baseurl }}/ja/commands/team-admin-role-delete.html)                       | メンバーからロールを削除する                                                           |
+| [team admin role list]({{ site.baseurl }}/ja/commands/team-admin-role-list.html)                           | チームの管理者の役割を列挙                                                             |
 | [team content legacypaper count]({{ site.baseurl }}/ja/commands/team-content-legacypaper-count.html)       | メンバー1人あたりのPaper文書の枚数                                                     |
 | [team content legacypaper export]({{ site.baseurl }}/ja/commands/team-content-legacypaper-export.html)     | チームメンバー全員のPaper文書をローカルパスにエクスポート.                             |
 | [team content legacypaper list]({{ site.baseurl }}/ja/commands/team-content-legacypaper-list.html)         | チームメンバーのPaper文書リスト出力                                                    |

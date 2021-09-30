@@ -3,6 +3,7 @@ package rp_model_impl
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
@@ -70,6 +71,9 @@ func (z *TransactionReport) Open(opts ...rp_model.ReportOpt) error {
 	allOpts = append(allOpts, z.opts...)
 	allOpts = append(allOpts, opts...)
 	allOpts = append(allOpts, rp_model.HiddenColumns("status_tag"))
+	if z.ctl.Feature().Experiment(app.ExperimentReportAllColumns) {
+		allOpts = append(allOpts, rp_model.ShowAllColumns(true))
+	}
 	return z.w.Open(z.ctl, z.model, allOpts...)
 }
 

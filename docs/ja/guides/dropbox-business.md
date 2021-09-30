@@ -328,6 +328,18 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 | [team content legacypaper list]({{ site.baseurl }}/ja/commands/team-content-legacypaper-list.html)     | チームメンバーのPaper文書リスト出力                        |
 | [team content legacypaper export]({{ site.baseurl }}/ja/commands/team-content-legacypaper-export.html) | チームメンバー全員のPaper文書をローカルパスにエクスポート. |
 
+# チーム管理者用コマンド
+
+以下のコマンドは、チーム管理者を管理するためのものです.
+
+| コマンド                                                                             | 説明                                       |
+|--------------------------------------------------------------------------------------|--------------------------------------------|
+| [team admin list]({{ site.baseurl }}/ja/commands/team-admin-list.html)               | メンバーの管理者権限一覧                   |
+| [team admin role add]({{ site.baseurl }}/ja/commands/team-admin-role-add.html)       | メンバーに新しいロールを追加する           |
+| [team admin role clear]({{ site.baseurl }}/ja/commands/team-admin-role-clear.html)   | メンバーからすべての管理者ロールを削除する |
+| [team admin role delete]({{ site.baseurl }}/ja/commands/team-admin-role-delete.html) | メンバーからロールを削除する               |
+| [team admin role list]({{ site.baseurl }}/ja/commands/team-admin-role-list.html)     | チームの管理者の役割を列挙                 |
+
 # 注意事項:
 
 Dropbox Businessのコマンドを実行するには、管理者権限が必要です. 認証トークンは、Dropboxのサポートを含め、誰とも共有してはいけません.

@@ -27,6 +27,9 @@ const (
 	// Use non-cache dropbox file system
 	ExperimentFileSyncNoCacheDropboxFileSystem = "use_no_cache_dbxfs"
 
+	// ExperimentReportAllColumns Do not hide columns
+	ExperimentReportAllColumns = "report_all_columns"
+
 	// ExperimentProfileMemory Enable memory profiler
 	ExperimentProfileMemory = "profile_memory"
 
@@ -36,21 +39,22 @@ const (
 
 var (
 	ExperimentalFeatures = []string{
-		ExperimentDbxClientConditionerNarrow20,
-		ExperimentDbxClientConditionerNarrow40,
-		ExperimentDbxClientConditionerNarrow100,
-		ExperimentDbxClientConditionerError20,
-		ExperimentDbxClientConditionerError40,
-		ExperimentDbxClientConditionerError100,
 		ExperimentBatchBalance,
 		ExperimentBatchRandom,
 		ExperimentBatchSequential,
-		ExperimentCongestionWindowNoLimit,
 		ExperimentCongestionWindowAggressive,
+		ExperimentCongestionWindowNoLimit,
+		ExperimentDbxClientConditionerError100,
+		ExperimentDbxClientConditionerError20,
+		ExperimentDbxClientConditionerError40,
+		ExperimentDbxClientConditionerNarrow100,
+		ExperimentDbxClientConditionerNarrow20,
+		ExperimentDbxClientConditionerNarrow40,
 		ExperimentFileSyncDisableReduceCreateFolder,
 		ExperimentFileSyncLegacyLocalToDropboxConnector,
 		ExperimentFileSyncNoCacheDropboxFileSystem,
 		ExperimentProfileCpu,
 		ExperimentProfileMemory,
+		ExperimentReportAllColumns,
 	}
 )

@@ -152,6 +152,7 @@ john@example.com,john.smith@example.net
 | result.surname        | 名字                                                                                            |
 | result.display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
 | result.joined_on      | メンバーがチームに参加した日時.                                                                 |
+| result.invited_on     | ユーザーがチームに招待された日付と時間                                                          |
 | result.role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 | result.tag            | 処理のタグ                                                                                      |
 
