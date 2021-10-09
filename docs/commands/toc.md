@@ -240,6 +240,7 @@ lang: en
 | [util encode base_32]({{ site.baseurl }}/commands/util-encode-base_32.html)       | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base_64]({{ site.baseurl }}/commands/util-encode-base_64.html)       | Encode text into Base64 (RFC 4648) format                            |
 | [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                 | Clone git repository                                                 |
+| [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html) | Create placeholder image                                             |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)         | Create a QR code image file                                          |
 | [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)             | Generate QR code for WIFI configuration                              |
 | [util time now]({{ site.baseurl }}/commands/util-time-now.html)                   | Display current time                                                 |

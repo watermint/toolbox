@@ -318,6 +318,7 @@ Available commands:
 | [util encode base_32](docs/commands/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base_64](docs/commands/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                            |
 | [util git clone](docs/commands/util-git-clone.md)                 | Clone git repository                                                 |
+| [util image placeholder](docs/commands/util-image-placeholder.md) | Create placeholder image                                             |
 | [util qrcode create](docs/commands/util-qrcode-create.md)         | Create a QR code image file                                          |
 | [util qrcode wifi](docs/commands/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                              |
 | [util time now](docs/commands/util-time-now.md)                   | Display current time                                                 |
