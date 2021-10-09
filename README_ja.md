@@ -137,6 +137,7 @@ DropboxおよびDropbox Business向けのツールセット
 | コマンド                                                                                   | 説明                                                                                   |
 |--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | [group add](docs/ja/commands/group-add.md)                                                 | グループを作成します                                                                   |
+| [group batch add](docs/ja/commands/group-batch-add.md)                                     | グループの一括追加                                                                     |
 | [group batch delete](docs/ja/commands/group-batch-delete.md)                               | グループの削除                                                                         |
 | [group delete](docs/ja/commands/group-delete.md)                                           | グループを削除します                                                                   |
 | [group folder list](docs/ja/commands/group-folder-list.md)                                 | 各グループのフォルダを探す                                                             |
@@ -178,6 +179,13 @@ DropboxおよびDropbox Business向けのツールセット
 | [team activity daily event](docs/ja/commands/team-activity-daily-event.md)                 | アクティビティーを1日ごとに取得します                                                  |
 | [team activity event](docs/ja/commands/team-activity-event.md)                             | イベントログ                                                                           |
 | [team activity user](docs/ja/commands/team-activity-user.md)                               | ユーザーごとのアクティビティ                                                           |
+| [team admin group role add](docs/ja/commands/team-admin-group-role-add.md)                 | グループのメンバーにロールを追加する                                                   |
+| [team admin group role delete](docs/ja/commands/team-admin-group-role-delete.md)           | 例外グループのメンバーを除くすべてのメンバーからロールを削除する                       |
+| [team admin list](docs/ja/commands/team-admin-list.md)                                     | メンバーの管理者権限一覧                                                               |
+| [team admin role add](docs/ja/commands/team-admin-role-add.md)                             | メンバーに新しいロールを追加する                                                       |
+| [team admin role clear](docs/ja/commands/team-admin-role-clear.md)                         | メンバーからすべての管理者ロールを削除する                                             |
+| [team admin role delete](docs/ja/commands/team-admin-role-delete.md)                       | メンバーからロールを削除する                                                           |
+| [team admin role list](docs/ja/commands/team-admin-role-list.md)                           | チームの管理者の役割を列挙                                                             |
 | [team content legacypaper count](docs/ja/commands/team-content-legacypaper-count.md)       | メンバー1人あたりのPaper文書の枚数                                                     |
 | [team content legacypaper export](docs/ja/commands/team-content-legacypaper-export.md)     | チームメンバー全員のPaper文書をローカルパスにエクスポート.                             |
 | [team content legacypaper list](docs/ja/commands/team-content-legacypaper-list.md)         | チームメンバーのPaper文書リスト出力                                                    |
@@ -308,6 +316,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util encode base_32](docs/ja/commands/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base_64](docs/ja/commands/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util git clone](docs/ja/commands/util-git-clone.md)                 | git リポジトリをクローン                                               |
+| [util image placeholder](docs/ja/commands/util-image-placeholder.md) | プレースホルダー画像の作成                                             |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)             | WIFI設定用のQRコードを生成                                             |
 | [util time now](docs/ja/commands/util-time-now.md)                   | 現在の時刻を表示                                                       |

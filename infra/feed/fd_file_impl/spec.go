@@ -11,6 +11,9 @@ import (
 
 func newSpec(rf *RowFeed) fd_file.Spec {
 	s := &Spec{rf: rf}
+	if rf.Model() == nil {
+		panic("Feed model is not defined")
+	}
 	s.base = es_reflect.Key(app.Pkg, rf.Model())
 	s.colDesc = make(map[string]app_msg.Message)
 	s.colExample = make(map[string]app_msg.Message)

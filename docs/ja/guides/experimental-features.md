@@ -10,21 +10,22 @@ lang: ja
 
 | 名前                                   | 説明                                                                                                                    |
 |----------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| dbx_client_conditioner_narrow20        | レートリミットエラーをシミュレートします. 20%のリクエストはレート制限で失敗します                                       |
-| dbx_client_conditioner_narrow40        | レートリミットエラーをシミュレートします. 40%のリクエストはレート制限で失敗します                                       |
-| dbx_client_conditioner_narrow100       | レートリミットエラーをシミュレートします. 100%のリクエストはレート制限で失敗します.                                     |
-| dbx_client_conditioner_error20         | サーバーエラーをシミュレートします. リクエストの20%がサーバーエラーで失敗します                                         |
-| dbx_client_conditioner_error40         | サーバーエラーをシミュレートします. リクエストの40%がサーバーエラーで失敗します                                         |
-| dbx_client_conditioner_error100        | サーバーエラーをシミュレートします. リクエストの100%がサーバーエラーで失敗します.                                       |
 | batch_balance                          | 大きいバッチから順に実行する                                                                                            |
 | batch_random                           | ランダムなバッチIDの順番でバッチを実行します.                                                                           |
 | batch_sequential                       | 同じバッチIDで順次バッチを実行します.                                                                                   |
-| congestion_window_no_limit             | 輻輳ウィンドウでの同時実行を制限しない.                                                                                 |
 | congestion_window_aggressive           | 積極的な初期混雑ウィンドウサイズの適用                                                                                  |
+| congestion_window_no_limit             | 輻輳ウィンドウでの同時実行を制限しない.                                                                                 |
+| dbx_client_conditioner_error100        | サーバーエラーをシミュレートします. リクエストの100%がサーバーエラーで失敗します.                                       |
+| dbx_client_conditioner_error20         | サーバーエラーをシミュレートします. リクエストの20%がサーバーエラーで失敗します                                         |
+| dbx_client_conditioner_error40         | サーバーエラーをシミュレートします. リクエストの40%がサーバーエラーで失敗します                                         |
+| dbx_client_conditioner_narrow100       | レートリミットエラーをシミュレートします. 100%のリクエストはレート制限で失敗します.                                     |
+| dbx_client_conditioner_narrow20        | レートリミットエラーをシミュレートします. 20%のリクエストはレート制限で失敗します                                       |
+| dbx_client_conditioner_narrow40        | レートリミットエラーをシミュレートします. 40%のリクエストはレート制限で失敗します                                       |
 | file_sync_disable_reduce_create_folder | ファイルシステムを同期する際に reduce create_folder を無効にします. これでフォルダの同期中に空のフォルダが作成されます. |
 | legacy_local_to_dbx_connector          | 古いローカルとDropboxの同期コネクタを使用                                                                               |
 | use_no_cache_dbxfs                     | ノンキャッシュのDropboxファイルシステムの使用                                                                           |
 | profile_cpu                            | CPUプロファイラの有効化                                                                                                 |
 | profile_memory                         | メモリプロファイラの有効化                                                                                              |
+| report_all_columns                     | データ構造として定義されているすべての列を表示します.                                                                   |
 
 

@@ -133,6 +133,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.surname         | Also known as a last name or family name.                                                      |
 | input.display_name    | A name that can be used directly to represent the name of a user's Dropbox account.            |
 | input.joined_on       | The date and time the user joined as a member of a specific team.                              |
+| input.invited_on      | The date and time the user was invited to the team                                             |
 | input.role            | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 | input.tag             | Operation tag                                                                                  |
 | result.email          | Email address of user.                                                                         |
@@ -142,6 +143,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.surname        | Also known as a last name or family name.                                                      |
 | result.display_name   | A name that can be used directly to represent the name of a user's Dropbox account.            |
 | result.joined_on      | The date and time the user joined as a member of a specific team.                              |
+| result.invited_on     | The date and time the user was invited to the team                                             |
 | result.role           | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only) |
 | result.tag            | Operation tag                                                                                  |
 

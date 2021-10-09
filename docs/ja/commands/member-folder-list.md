@@ -154,6 +154,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | given_name   | 名                                                                   |
 | surname      | 名字                                                                 |
 | display_name | ユーザーのDropboxアカウントの表示名称                                |
+| invited_on   | ユーザーがチームに招待された日付と時間                               |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

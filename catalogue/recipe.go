@@ -87,6 +87,9 @@ import (
 	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
+	recipeteamadmin "github.com/watermint/toolbox/recipe/team/admin"
+	recipeteamadmingrouprole "github.com/watermint/toolbox/recipe/team/admin/group/role"
+	recipeteamadminrole "github.com/watermint/toolbox/recipe/team/admin/role"
 	recipeteamcontentlegacypaper "github.com/watermint/toolbox/recipe/team/content/legacypaper"
 	recipeteamcontentmember "github.com/watermint/toolbox/recipe/team/content/member"
 	recipeteamcontentmount "github.com/watermint/toolbox/recipe/team/content/mount"
@@ -115,6 +118,7 @@ import (
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
+	recipeutilimage "github.com/watermint/toolbox/recipe/util/image"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
@@ -214,6 +218,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroup.Delete{},
 		&recipegroup.List{},
 		&recipegroup.Rename{},
+		&recipegroupbatch.Add{},
 		&recipegroupbatch.Delete{},
 		&recipegroupfolder.List{},
 		&recipegroupmember.Add{},
@@ -309,6 +314,13 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamactivity.User{},
 		&recipeteamactivitybatch.User{},
 		&recipeteamactivitydaily.Event{},
+		&recipeteamadmin.List{},
+		&recipeteamadmingrouprole.Add{},
+		&recipeteamadmingrouprole.Delete{},
+		&recipeteamadminrole.Add{},
+		&recipeteamadminrole.Clear{},
+		&recipeteamadminrole.Delete{},
+		&recipeteamadminrole.List{},
 		&recipeteamcontentlegacypaper.Count{},
 		&recipeteamcontentlegacypaper.Export{},
 		&recipeteamcontentlegacypaper.List{},
@@ -362,6 +374,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
 		&recipeutilgit.Clone{},
+		&recipeutilimage.Placeholder{},
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
 		&recipeutiltime.Now{},

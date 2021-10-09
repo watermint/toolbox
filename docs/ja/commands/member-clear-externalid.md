@@ -155,6 +155,7 @@ john@example.com
 | result.account_id       | ユーザーのアカウントID                                                                          |
 | result.persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
 | result.joined_on        | メンバーがチームに参加した日時.                                                                 |
+| result.invited_on       | ユーザーがチームに招待された日付と時間                                                          |
 | result.role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 | result.tag              | 処理のタグ                                                                                      |
 

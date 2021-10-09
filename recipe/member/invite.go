@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -93,52 +95,64 @@ func (z *Invite) msgFromTag(tag string) app_msg.Message {
 	return MInvite.TagUndefined.With("Tag", tag)
 }
 
-func (z *Invite) Exec(c app_control.Control) error {
-	ctx := z.Peer.Context()
+func (z *Invite) inviteMember(m *InviteRow, c app_control.Control) error {
+	opts := make([]sv_member.AddOpt, 0)
+	if m.GivenName != "" {
+		opts = append(opts, sv_member.AddWithGivenName(m.GivenName))
+	}
+	if m.Surname != "" {
+		opts = append(opts, sv_member.AddWithSurname(m.Surname))
+	}
+	if z.SilentInvite {
+		opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
+	}
 
-	svm := sv_member.New(ctx)
+	r, err := sv_member.New(z.Peer.Context()).Add(m.Email, opts...)
+	switch {
+	case err != nil:
+		z.OperationLog.Failure(err, m)
+		return nil
+
+	case r.Tag == "success":
+		z.OperationLog.Success(m, r)
+		return nil
+
+	case r.Tag == "user_already_on_team":
+		z.OperationLog.Skip(z.msgFromTag(r.Tag), m)
+		return nil
+
+	default:
+		// TODO: i18n
+		z.OperationLog.Failure(errors.New("failure due to "+r.Tag), m)
+		return nil
+	}
+}
+
+func (z *Invite) Exec(c app_control.Control) error {
 	err := z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
 
-	return z.File.EachRow(func(row interface{}, rowIndex int) error {
-		m := row.(*InviteRow)
-		if err = m.Validate(); err != nil {
-			if rowIndex > 0 {
-				z.OperationLog.Failure(err, m)
+	var lastErr, listErr error
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("invite", z.inviteMember, c)
+		q := s.Get("invite")
+
+		listErr = z.File.EachRow(func(row interface{}, rowIndex int) error {
+			m := row.(*InviteRow)
+			if err := m.Validate(); err != nil {
+				if rowIndex > 0 {
+					z.OperationLog.Failure(err, m)
+				}
+				return nil
 			}
+			q.Enqueue(m)
 			return nil
-		}
-		opts := make([]sv_member.AddOpt, 0)
-		if m.GivenName != "" {
-			opts = append(opts, sv_member.AddWithGivenName(m.GivenName))
-		}
-		if m.Surname != "" {
-			opts = append(opts, sv_member.AddWithSurname(m.Surname))
-		}
-		if z.SilentInvite {
-			opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
-		}
+		})
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
 
-		r, err := svm.Add(m.Email, opts...)
-		switch {
-		case err != nil:
-			z.OperationLog.Failure(err, m)
-			return nil
-
-		case r.Tag == "success":
-			z.OperationLog.Success(m, r)
-			return nil
-
-		case r.Tag == "user_already_on_team":
-			z.OperationLog.Skip(z.msgFromTag(r.Tag), m)
-			return nil
-
-		default:
-			// TODO: i18n
-			z.OperationLog.Failure(errors.New("failure due to "+r.Tag), m)
-			return nil
-		}
-	})
+	return lang.NewMultiErrorOrNull(lastErr, listErr)
 }

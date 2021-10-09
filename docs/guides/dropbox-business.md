@@ -82,13 +82,14 @@ Directory restriction is the Dropbox Business feature to hide a member from othe
 
 Below commands are for managing groups.
 
-| Command                                                                   | Description      |
-|---------------------------------------------------------------------------|------------------|
-| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group |
-| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group     |
-| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups    |
-| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)    |
-| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group |
+| Command                                                                   | Description        |
+|---------------------------------------------------------------------------|--------------------|
+| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group   |
+| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group       |
+| [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)       | Bulk adding groups |
+| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups      |
+| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)      |
+| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group   |
 
 ## Group member management commands
 
@@ -327,6 +328,20 @@ Commands for a team's legacy Paper content. Please see [official guide](https://
 | [team content legacypaper count]({{ site.baseurl }}/commands/team-content-legacypaper-count.html)   | Count number of Paper documents per member                |
 | [team content legacypaper list]({{ site.baseurl }}/commands/team-content-legacypaper-list.html)     | List team member Paper documents                          |
 | [team content legacypaper export]({{ site.baseurl }}/commands/team-content-legacypaper-export.html) | Export entire team member Paper documents into local path |
+
+# Team admin commands
+
+Below commands are for managing team admins.
+
+| Command                                                                                       | Description                                                               |
+|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [team admin list]({{ site.baseurl }}/commands/team-admin-list.html)                           | List admin roles of members                                               |
+| [team admin role add]({{ site.baseurl }}/commands/team-admin-role-add.html)                   | Add a new role to the member                                              |
+| [team admin role clear]({{ site.baseurl }}/commands/team-admin-role-clear.html)               | Remove all admin roles from the member                                    |
+| [team admin role delete]({{ site.baseurl }}/commands/team-admin-role-delete.html)             | Remove a role from the member                                             |
+| [team admin role list]({{ site.baseurl }}/commands/team-admin-role-list.html)                 | List admin roles of the team                                              |
+| [team admin group role add]({{ site.baseurl }}/commands/team-admin-group-role-add.html)       | Add the role to members of the group                                      |
+| [team admin group role delete]({{ site.baseurl }}/commands/team-admin-group-role-delete.html) | Delete the role from all members except of members of the exception group |
 
 # Notes:
 

@@ -2,7 +2,9 @@ package mo_member
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_adminrole"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
@@ -22,8 +24,26 @@ type Member struct {
 	AccountId       string `path:"profile.account_id" json:"account_id"`
 	PersistentId    string `path:"profile.persistent_id" json:"persistent_id"`
 	JoinedOn        string `path:"profile.joined_on" json:"joined_on"`
+	InvitedOn       string `path:"profile.invited_on" json:"invited_on"`
 	Role            string `path:"role.\\.tag" json:"role"`
 	Tag             string `path:"\\.tag" json:"tag"`
+}
+
+func (z *Member) Roles() []*mo_adminrole.Role {
+	roles := make([]*mo_adminrole.Role, 0)
+	if err := api_parser.ParseModelPathRaw(roles, z.Raw, "roles"); err != nil {
+		esl.Default().Debug("unable to parse", esl.Error(err))
+		// fall through
+	}
+	return roles
+}
+
+func (z *Member) RoleIds() []string {
+	roleIds := make([]string, 0)
+	for _, role := range z.Roles() {
+		roleIds = append(roleIds, role.RoleId)
+	}
+	return roleIds
 }
 
 func (z *Member) Profile() *mo_profile.Profile {

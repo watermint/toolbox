@@ -139,6 +139,7 @@ Available commands:
 | Command                                                                                 | Description                                                               |
 |-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
 | [group add](docs/commands/group-add.md)                                                 | Create new group                                                          |
+| [group batch add](docs/commands/group-batch-add.md)                                     | Bulk adding groups                                                        |
 | [group batch delete](docs/commands/group-batch-delete.md)                               | Delete groups                                                             |
 | [group delete](docs/commands/group-delete.md)                                           | Delete group                                                              |
 | [group folder list](docs/commands/group-folder-list.md)                                 | Find folders of each group                                                |
@@ -180,6 +181,13 @@ Available commands:
 | [team activity daily event](docs/commands/team-activity-daily-event.md)                 | Report activities by day                                                  |
 | [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
 | [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
+| [team admin group role add](docs/commands/team-admin-group-role-add.md)                 | Add the role to members of the group                                      |
+| [team admin group role delete](docs/commands/team-admin-group-role-delete.md)           | Delete the role from all members except of members of the exception group |
+| [team admin list](docs/commands/team-admin-list.md)                                     | List admin roles of members                                               |
+| [team admin role add](docs/commands/team-admin-role-add.md)                             | Add a new role to the member                                              |
+| [team admin role clear](docs/commands/team-admin-role-clear.md)                         | Remove all admin roles from the member                                    |
+| [team admin role delete](docs/commands/team-admin-role-delete.md)                       | Remove a role from the member                                             |
+| [team admin role list](docs/commands/team-admin-role-list.md)                           | List admin roles of the team                                              |
 | [team content legacypaper count](docs/commands/team-content-legacypaper-count.md)       | Count number of Paper documents per member                                |
 | [team content legacypaper export](docs/commands/team-content-legacypaper-export.md)     | Export entire team member Paper documents into local path                 |
 | [team content legacypaper list](docs/commands/team-content-legacypaper-list.md)         | List team member Paper documents                                          |
@@ -310,6 +318,7 @@ Available commands:
 | [util encode base_32](docs/commands/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base_64](docs/commands/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                            |
 | [util git clone](docs/commands/util-git-clone.md)                 | Clone git repository                                                 |
+| [util image placeholder](docs/commands/util-image-placeholder.md) | Create placeholder image                                             |
 | [util qrcode create](docs/commands/util-qrcode-create.md)         | Create a QR code image file                                          |
 | [util qrcode wifi](docs/commands/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                              |
 | [util time now](docs/commands/util-time-now.md)                   | Display current time                                                 |

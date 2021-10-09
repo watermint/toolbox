@@ -100,7 +100,7 @@ func doSpecInternal(spec rc_recipe.Spec, scr rc_recipe.Recipe, ctl app_control.C
 
 	defer func() {
 		rErr := recover()
-		if rErr != nil && ctl.Feature().IsProduction() {
+		if rErr != nil { // && ctl.Feature().IsProduction() {
 			l.Debug("Recovery from panic")
 			traces := make([]ErrorTrace, 0)
 			for depth := 0; ; depth++ {

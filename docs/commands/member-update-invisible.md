@@ -156,6 +156,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.account_id       | A user's account identifier.                                                                                         |
 | result.persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
 | result.joined_on        | The date and time the user joined as a member of a specific team.                                                    |
+| result.invited_on       | The date and time the user was invited to the team                                                                   |
 | result.role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
 | result.tag              | Operation tag                                                                                                        |
 

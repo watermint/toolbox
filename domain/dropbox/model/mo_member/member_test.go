@@ -43,7 +43,4 @@ func TestMember(t *testing.T) {
 	if m.TeamMemberId != "dbmid:FDFSVF-DFSDF" {
 		t.Error("invalid")
 	}
-	if m.Role != "member_only" {
-		t.Error("invalid")
-	}
 }

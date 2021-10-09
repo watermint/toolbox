@@ -133,6 +133,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | input.surname         | 名字                                                                                            |
 | input.display_name    | ユーザーのDropboxアカウントの表示名称                                                           |
 | input.joined_on       | メンバーがチームに参加した日時.                                                                 |
+| input.invited_on      | ユーザーがチームに招待された日付と時間                                                          |
 | input.role            | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 | input.tag             | 処理のタグ                                                                                      |
 | result.email          | ユーザーのメールアドレス                                                                        |
@@ -142,6 +143,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | result.surname        | 名字                                                                                            |
 | result.display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
 | result.joined_on      | メンバーがチームに参加した日時.                                                                 |
+| result.invited_on     | ユーザーがチームに招待された日付と時間                                                          |
 | result.role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 | result.tag            | 処理のタグ                                                                                      |
 

@@ -129,6 +129,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | surname        | 名字                                                                                            |
 | display_name   | ユーザーのDropboxアカウントの表示名称                                                           |
 | joined_on      | メンバーがチームに参加した日時.                                                                 |
+| invited_on     | ユーザーがチームに招待された日付と時間                                                          |
 | role           | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
