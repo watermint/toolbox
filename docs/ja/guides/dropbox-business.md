@@ -86,6 +86,7 @@ lang: ja
 |------------------------------------------------------------------------------|----------------------|
 | [group add]({{ site.baseurl }}/ja/commands/group-add.html)                   | グループを作成します |
 | [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)             | グループを削除します |
+| [group batch add]({{ site.baseurl }}/ja/commands/group-batch-add.html)       | グループの一括追加   |
 | [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html) | グループの削除       |
 | [group list]({{ site.baseurl }}/ja/commands/group-list.html)                 | グループを一覧       |
 | [group rename]({{ site.baseurl }}/ja/commands/group-rename.html)             | グループの改名       |
@@ -332,13 +333,15 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 
 以下のコマンドは、チーム管理者を管理するためのものです.
 
-| コマンド                                                                             | 説明                                       |
-|--------------------------------------------------------------------------------------|--------------------------------------------|
-| [team admin list]({{ site.baseurl }}/ja/commands/team-admin-list.html)               | メンバーの管理者権限一覧                   |
-| [team admin role add]({{ site.baseurl }}/ja/commands/team-admin-role-add.html)       | メンバーに新しいロールを追加する           |
-| [team admin role clear]({{ site.baseurl }}/ja/commands/team-admin-role-clear.html)   | メンバーからすべての管理者ロールを削除する |
-| [team admin role delete]({{ site.baseurl }}/ja/commands/team-admin-role-delete.html) | メンバーからロールを削除する               |
-| [team admin role list]({{ site.baseurl }}/ja/commands/team-admin-role-list.html)     | チームの管理者の役割を列挙                 |
+| コマンド                                                                                         | 説明                                                             |
+|--------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
+| [team admin list]({{ site.baseurl }}/ja/commands/team-admin-list.html)                           | メンバーの管理者権限一覧                                         |
+| [team admin role add]({{ site.baseurl }}/ja/commands/team-admin-role-add.html)                   | メンバーに新しいロールを追加する                                 |
+| [team admin role clear]({{ site.baseurl }}/ja/commands/team-admin-role-clear.html)               | メンバーからすべての管理者ロールを削除する                       |
+| [team admin role delete]({{ site.baseurl }}/ja/commands/team-admin-role-delete.html)             | メンバーからロールを削除する                                     |
+| [team admin role list]({{ site.baseurl }}/ja/commands/team-admin-role-list.html)                 | チームの管理者の役割を列挙                                       |
+| [team admin group role add]({{ site.baseurl }}/ja/commands/team-admin-group-role-add.html)       | グループのメンバーにロールを追加する                             |
+| [team admin group role delete]({{ site.baseurl }}/ja/commands/team-admin-group-role-delete.html) | 例外グループのメンバーを除くすべてのメンバーからロールを削除する |
 
 # 注意事項:
 

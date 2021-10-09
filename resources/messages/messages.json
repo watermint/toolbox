@@ -2622,7 +2622,7 @@
   "recipe.util.image.placeholder.flag.color": "Background color",
   "recipe.util.image.placeholder.flag.font_size": "Font size",
   "recipe.util.image.placeholder.flag.height": "Height (pixel)",
-  "recipe.util.image.placeholder.flag.path": "Path to export generated path",
+  "recipe.util.image.placeholder.flag.path": "Path to export generated image",
   "recipe.util.image.placeholder.flag.text": "Text if you need",
   "recipe.util.image.placeholder.flag.text_align": "Text alignment",
   "recipe.util.image.placeholder.flag.text_color": "Text color",
