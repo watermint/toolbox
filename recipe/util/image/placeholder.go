@@ -102,7 +102,7 @@ func (z *Placeholder) Test(c app_control.Control) error {
 		m.Path = mo_path.NewFileSystemPath(filepath.Join(p, "test.png"))
 		m.Text = mo_string.NewOptional("watermint toolbox")
 		m.Color = "marker(b18)"
-		m.TextColor = "marker(t00)"
+		m.TextColor = "marker(w00)"
 		m.TextPosition = "top-right"
 		m.TextAlign.SetSelect("right")
 	})
