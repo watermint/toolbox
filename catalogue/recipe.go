@@ -88,6 +88,7 @@ import (
 	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
 	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
 	recipeteamadmin "github.com/watermint/toolbox/recipe/team/admin"
+	recipeteamadmingrouprole "github.com/watermint/toolbox/recipe/team/admin/group/role"
 	recipeteamadminrole "github.com/watermint/toolbox/recipe/team/admin/role"
 	recipeteamcontentlegacypaper "github.com/watermint/toolbox/recipe/team/content/legacypaper"
 	recipeteamcontentmember "github.com/watermint/toolbox/recipe/team/content/member"
@@ -313,6 +314,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamactivitybatch.User{},
 		&recipeteamactivitydaily.Event{},
 		&recipeteamadmin.List{},
+		&recipeteamadmingrouprole.Add{},
+		&recipeteamadmingrouprole.Delete{},
 		&recipeteamadminrole.Add{},
 		&recipeteamadminrole.Clear{},
 		&recipeteamadminrole.Delete{},

@@ -525,6 +525,8 @@ func (z DropboxBusinessTeamAdmin) Body(ui app_ui.UI) {
 		"team admin role clear",
 		"team admin role delete",
 		"team admin role list",
+		"team admin group role add",
+		"team admin group role delete",
 	})
 }
 

@@ -181,6 +181,8 @@ Available commands:
 | [team activity daily event](docs/commands/team-activity-daily-event.md)                 | Report activities by day                                                  |
 | [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
 | [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
+| [team admin group role add](docs/commands/team-admin-group-role-add.md)                 | Add the role to members of the group                                      |
+| [team admin group role delete](docs/commands/team-admin-group-role-delete.md)           | Delete the role from all members except of members of the exception group |
 | [team admin list](docs/commands/team-admin-list.md)                                     | List admin roles of members                                               |
 | [team admin role add](docs/commands/team-admin-role-add.md)                             | Add a new role to the member                                              |
 | [team admin role clear](docs/commands/team-admin-role-clear.md)                         | Remove all admin roles from the member                                    |

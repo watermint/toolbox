@@ -103,6 +103,8 @@ lang: en
 | [team activity daily event]({{ site.baseurl }}/commands/team-activity-daily-event.html)                 | Report activities by day                                                  |
 | [team activity event]({{ site.baseurl }}/commands/team-activity-event.html)                             | Event log                                                                 |
 | [team activity user]({{ site.baseurl }}/commands/team-activity-user.html)                               | Activities log per user                                                   |
+| [team admin group role add]({{ site.baseurl }}/commands/team-admin-group-role-add.html)                 | Add the role to members of the group                                      |
+| [team admin group role delete]({{ site.baseurl }}/commands/team-admin-group-role-delete.html)           | Delete the role from all members except of members of the exception group |
 | [team admin list]({{ site.baseurl }}/commands/team-admin-list.html)                                     | List admin roles of members                                               |
 | [team admin role add]({{ site.baseurl }}/commands/team-admin-role-add.html)                             | Add a new role to the member                                              |
 | [team admin role clear]({{ site.baseurl }}/commands/team-admin-role-clear.html)                         | Remove all admin roles from the member                                    |
