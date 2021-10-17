@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# file list
+# team runas sharedfolder batch unshare
 
-List files and folders 
+Batch unshare folders for members 
 
 # Security
 
@@ -22,13 +22,12 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                             |
-|---------------------------------------------------------|
-| Dropbox: View content of your Dropbox files and folders |
+| Description |
+|-------------|
 
 # Authorization
 
@@ -64,12 +63,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file list -path /path
+.\tbx.exe team runas sharedfolder batch unshare -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file list -path /path
+$HOME/Desktop/tbx team runas sharedfolder batch unshare -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,14 +79,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                             | Description                                                                                                                | Default |
-|------------------------------------|----------------------------------------------------------------------------------------------------------------------------|---------|
-| `-include-deleted`                 | Include deleted files                                                                                                      | false   |
-| `-include-explicit-shared-members` |  If true, the results will include a flag for each file indicating whether or not that file has any explicit members.      | false   |
-| `-include-mounted-folders`         |  If true, the results will include entries under mounted folders which includes app folder, shared folder and team folder. | false   |
-| `-path`                            | Path                                                                                                                       |         |
-| `-peer`                            | Account alias                                                                                                              | default |
-| `-recursive`                       | List recursively                                                                                                           | false   |
+| Option        | Description                                                                                 | Default |
+|---------------|---------------------------------------------------------------------------------------------|---------|
+| `-file`       | Path to data file                                                                           |         |
+| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared.  | false   |
+| `-peer`       | Account alias                                                                               | default |
 
 ## Common options:
 
@@ -109,6 +105,23 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
 
+# File formats
+
+## Format: File
+
+Member folder data
+
+| Column       | Description          | Example              |
+|--------------|----------------------|----------------------|
+| member_email | Member email address | john@example.com     |
+| path         | Path to share        | /projects/my_project |
+
+The first line is a header line. The program will accept a file without the header.
+```
+member_email,path
+john@example.com,/projects/my_project
+```
+
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
@@ -119,23 +132,35 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: file_list
+## Report: operation_log
 
-This report shows a list of metadata of files or folders in the path.
-The command will generate a report in three different formats. `file_list.csv`, `file_list.json`, and `file_list.xlsx`.
+This report shows the transaction result.
+The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column          | Description                                                                                            |
-|-----------------|--------------------------------------------------------------------------------------------------------|
-| tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name            | The last component of the path (including extension).                                                  |
-| path_display    | The cased path to be used for display purposes only.                                                   |
-| client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified | The last time the file was modified on Dropbox.                                                        |
-| size            | The file size in bytes.                                                                                |
+| Column                         | Description                                                                                                             |
+|--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| status                         | Status of the operation                                                                                                 |
+| reason                         | Reason of failure or skipped operation                                                                                  |
+| input.member_email             | Member email address                                                                                                    |
+| input.path                     | Path to share                                                                                                           |
+| result.shared_folder_id        | The ID of the shared folder.                                                                                            |
+| result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
+| result.name                    | The name of the this shared folder.                                                                                     |
+| result.access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
+| result.path_lower              | The lower-cased full path of this shared folder.                                                                        |
+| result.is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
+| result.is_team_folder          | Whether this folder is a team folder.                                                                                   |
+| result.policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
+| result.policy_shared_link      | Who links can be shared with.                                                                                           |
+| result.policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
+| result.policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
+| result.owner_team_id           | Team ID of the folder owner team                                                                                        |
+| result.owner_team_name         | Team name of the team that owns the folder                                                                              |
+| result.access_inheritance      | Access inheritance type                                                                                                 |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # Proxy configuration
 

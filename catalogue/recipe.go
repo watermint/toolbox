@@ -36,6 +36,7 @@ import (
 	recipefilepaper "github.com/watermint/toolbox/recipe/file/paper"
 	recipefilerestore "github.com/watermint/toolbox/recipe/file/restore"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
+	recipefileshare "github.com/watermint/toolbox/recipe/file/share"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
 	recipefilerequest "github.com/watermint/toolbox/recipe/filerequest"
 	recipefilerequestdelete "github.com/watermint/toolbox/recipe/filerequest/delete"
@@ -101,6 +102,7 @@ import (
 	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
+	recipeteamrunassharedfolderbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/batch"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
 	recipeteamsharedlinkdelete "github.com/watermint/toolbox/recipe/team/sharedlink/delete"
@@ -207,6 +209,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilerestore.All{},
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
+		&recipefileshare.Info{},
 		&recipefilesync.Down{},
 		&recipefilesync.Online{},
 		&recipefilesync.Up{},
@@ -343,6 +346,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamreport.Devices{},
 		&recipeteamreport.Membership{},
 		&recipeteamreport.Storage{},
+		&recipeteamrunassharedfolderbatch.Share{},
+		&recipeteamrunassharedfolderbatch.Unshare{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkcap.Expiry{},
 		&recipeteamsharedlinkcap.Visibility{},

@@ -65,6 +65,7 @@ type ListOpts struct {
 	Path                            string `json:"path"`
 	Limit                           *int   `json:"limit,omitempty"`
 	Recursive                       bool   `json:"recursive,omitempty"`
+	IncludeMountedFolders           bool   `json:"include_mounted_folders,omitempty"`
 	IncludeDeleted                  bool   `json:"include_deleted,omitempty"`
 	IncludeHasExplicitSharedMembers bool   `json:"include_has_explicit_shared_members,omitempty"`
 	IncludeNonDownloadableFiles     bool   `json:"include_non_downloadable_files"` // should not omitempty, default is true
@@ -75,6 +76,7 @@ func MakeListOpts(path mo_path.DropboxPath, opts []ListOpt) ListOpts {
 		Path:                            path.Path(),
 		Limit:                           nil,
 		Recursive:                       false,
+		IncludeMountedFolders:           false,
 		IncludeDeleted:                  false,
 		IncludeHasExplicitSharedMembers: false,
 		IncludeNonDownloadableFiles:     true,
@@ -100,6 +102,12 @@ func IncludeDeleted(enabled bool) ListOpt {
 func IncludeHasExplicitSharedMembers(enabled bool) ListOpt {
 	return func(opt ListOpts) ListOpts {
 		opt.IncludeHasExplicitSharedMembers = enabled
+		return opt
+	}
+}
+func IncludeMountedFolders(enable bool) ListOpt {
+	return func(opt ListOpts) ListOpts {
+		opt.IncludeMountedFolders = enable
 		return opt
 	}
 }

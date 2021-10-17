@@ -115,6 +115,7 @@ Available commands:
 | [file restore all](docs/commands/file-restore-all.md)                           | Restore files under given path                                |
 | [file search content](docs/commands/file-search-content.md)                     | Search file content                                           |
 | [file search name](docs/commands/file-search-name.md)                           | Search file name                                              |
+| [file share info](docs/commands/file-share-info.md)                             | Retrieve sharing information of the file                      |
 | [file size](docs/commands/file-size.md)                                         | Storage usage                                                 |
 | [file sync down](docs/commands/file-sync-down.md)                               | Downstream sync with Dropbox                                  |
 | [file sync online](docs/commands/file-sync-online.md)                           | Sync online files                                             |
@@ -138,101 +139,103 @@ Available commands:
 
 ## Dropbox Business
 
-| Command                                                                                 | Description                                                               |
-|-----------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [group add](docs/commands/group-add.md)                                                 | Create new group                                                          |
-| [group batch add](docs/commands/group-batch-add.md)                                     | Bulk adding groups                                                        |
-| [group batch delete](docs/commands/group-batch-delete.md)                               | Delete groups                                                             |
-| [group delete](docs/commands/group-delete.md)                                           | Delete group                                                              |
-| [group folder list](docs/commands/group-folder-list.md)                                 | Find folders of each group                                                |
-| [group list](docs/commands/group-list.md)                                               | List group(s)                                                             |
-| [group member add](docs/commands/group-member-add.md)                                   | Add a member to the group                                                 |
-| [group member batch add](docs/commands/group-member-batch-add.md)                       | Bulk add members into groups                                              |
-| [group member batch delete](docs/commands/group-member-batch-delete.md)                 | Delete members from groups                                                |
-| [group member batch update](docs/commands/group-member-batch-update.md)                 | Add or delete members from groups                                         |
-| [group member delete](docs/commands/group-member-delete.md)                             | Delete a member from the group                                            |
-| [group member list](docs/commands/group-member-list.md)                                 | List members of groups                                                    |
-| [group rename](docs/commands/group-rename.md)                                           | Rename the group                                                          |
-| [member batch suspend](docs/commands/member-batch-suspend.md)                           | Bulk suspend members                                                      |
-| [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                       | Bulk unsuspend members                                                    |
-| [member clear externalid](docs/commands/member-clear-externalid.md)                     | Clear external_id of members                                              |
-| [member delete](docs/commands/member-delete.md)                                         | Delete members                                                            |
-| [member detach](docs/commands/member-detach.md)                                         | Convert Dropbox Business accounts to a Basic account                      |
-| [member feature](docs/commands/member-feature.md)                                       | List member feature settings                                              |
-| [member file lock all release](docs/commands/member-file-lock-all-release.md)           | Release all locks under the path of the member                            |
-| [member file lock list](docs/commands/member-file-lock-list.md)                         | List locks of the member under the path                                   |
-| [member file lock release](docs/commands/member-file-lock-release.md)                   | Release the lock of the path as the member                                |
-| [member file permdelete](docs/commands/member-file-permdelete.md)                       | Permanently delete the file or folder at a given path of the team member. |
-| [member folder list](docs/commands/member-folder-list.md)                               | Find folders for each member                                              |
-| [member folder replication](docs/commands/member-folder-replication.md)                 | Replicate a folder to another member's personal folder                    |
-| [member invite](docs/commands/member-invite.md)                                         | Invite member(s)                                                          |
-| [member list](docs/commands/member-list.md)                                             | List team member(s)                                                       |
-| [member quota list](docs/commands/member-quota-list.md)                                 | List team member quota                                                    |
-| [member quota update](docs/commands/member-quota-update.md)                             | Update team member quota                                                  |
-| [member quota usage](docs/commands/member-quota-usage.md)                               | List team member storage usage                                            |
-| [member reinvite](docs/commands/member-reinvite.md)                                     | Reinvite invited status members to the team                               |
-| [member replication](docs/commands/member-replication.md)                               | Replicate team member files                                               |
-| [member suspend](docs/commands/member-suspend.md)                                       | Suspend a member                                                          |
-| [member unsuspend](docs/commands/member-unsuspend.md)                                   | Unsuspend a member                                                        |
-| [member update email](docs/commands/member-update-email.md)                             | Member email operation                                                    |
-| [member update externalid](docs/commands/member-update-externalid.md)                   | Update External ID of team members                                        |
-| [member update invisible](docs/commands/member-update-invisible.md)                     | Enable directory restriction to members                                   |
-| [member update profile](docs/commands/member-update-profile.md)                         | Update member profile                                                     |
-| [member update visible](docs/commands/member-update-visible.md)                         | Disable directory restriction to members                                  |
-| [team activity batch user](docs/commands/team-activity-batch-user.md)                   | Scan activities for multiple users                                        |
-| [team activity daily event](docs/commands/team-activity-daily-event.md)                 | Report activities by day                                                  |
-| [team activity event](docs/commands/team-activity-event.md)                             | Event log                                                                 |
-| [team activity user](docs/commands/team-activity-user.md)                               | Activities log per user                                                   |
-| [team admin group role add](docs/commands/team-admin-group-role-add.md)                 | Add the role to members of the group                                      |
-| [team admin group role delete](docs/commands/team-admin-group-role-delete.md)           | Delete the role from all members except of members of the exception group |
-| [team admin list](docs/commands/team-admin-list.md)                                     | List admin roles of members                                               |
-| [team admin role add](docs/commands/team-admin-role-add.md)                             | Add a new role to the member                                              |
-| [team admin role clear](docs/commands/team-admin-role-clear.md)                         | Remove all admin roles from the member                                    |
-| [team admin role delete](docs/commands/team-admin-role-delete.md)                       | Remove a role from the member                                             |
-| [team admin role list](docs/commands/team-admin-role-list.md)                           | List admin roles of the team                                              |
-| [team content legacypaper count](docs/commands/team-content-legacypaper-count.md)       | Count number of Paper documents per member                                |
-| [team content legacypaper export](docs/commands/team-content-legacypaper-export.md)     | Export entire team member Paper documents into local path                 |
-| [team content legacypaper list](docs/commands/team-content-legacypaper-list.md)         | List team member Paper documents                                          |
-| [team content member list](docs/commands/team-content-member-list.md)                   | List team folder & shared folder members                                  |
-| [team content member size](docs/commands/team-content-member-size.md)                   | Count number of members of team folders and shared folders                |
-| [team content mount list](docs/commands/team-content-mount-list.md)                     | List all mounted/unmounted shared folders of team members.                |
-| [team content policy list](docs/commands/team-content-policy-list.md)                   | List policies of team folders and shared folders in the team              |
-| [team device list](docs/commands/team-device-list.md)                                   | List all devices/sessions in the team                                     |
-| [team device unlink](docs/commands/team-device-unlink.md)                               | Unlink device sessions                                                    |
-| [team feature](docs/commands/team-feature.md)                                           | Team feature                                                              |
-| [team filerequest list](docs/commands/team-filerequest-list.md)                         | List all file requests in the team                                        |
-| [team info](docs/commands/team-info.md)                                                 | Team information                                                          |
-| [team linkedapp list](docs/commands/team-linkedapp-list.md)                             | List linked applications                                                  |
-| [team namespace file list](docs/commands/team-namespace-file-list.md)                   | List all files and folders of the team namespaces                         |
-| [team namespace file size](docs/commands/team-namespace-file-size.md)                   | List all files and folders of the team namespaces                         |
-| [team namespace list](docs/commands/team-namespace-list.md)                             | List all namespaces of the team                                           |
-| [team namespace member list](docs/commands/team-namespace-member-list.md)               | List members of shared folders and team folders in the team               |
-| [team sharedlink cap expiry](docs/commands/team-sharedlink-cap-expiry.md)               | Set expiry cap to shared links in the team                                |
-| [team sharedlink cap visibility](docs/commands/team-sharedlink-cap-visibility.md)       | Set visibility cap to shared links in the team                            |
-| [team sharedlink delete links](docs/commands/team-sharedlink-delete-links.md)           | Batch delete shared links                                                 |
-| [team sharedlink delete member](docs/commands/team-sharedlink-delete-member.md)         | Delete all shared links of the member                                     |
-| [team sharedlink list](docs/commands/team-sharedlink-list.md)                           | List of shared links                                                      |
-| [team sharedlink update expiry](docs/commands/team-sharedlink-update-expiry.md)         | Update expiration date of public shared links within the team             |
-| [team sharedlink update password](docs/commands/team-sharedlink-update-password.md)     | Set or update shared link passwords                                       |
-| [team sharedlink update visibility](docs/commands/team-sharedlink-update-visibility.md) | Update visibility of shared links                                         |
-| [teamfolder add](docs/commands/teamfolder-add.md)                                       | Add team folder to the team                                               |
-| [teamfolder archive](docs/commands/teamfolder-archive.md)                               | Archive team folder                                                       |
-| [teamfolder batch archive](docs/commands/teamfolder-batch-archive.md)                   | Archiving team folders                                                    |
-| [teamfolder batch permdelete](docs/commands/teamfolder-batch-permdelete.md)             | Permanently delete team folders                                           |
-| [teamfolder batch replication](docs/commands/teamfolder-batch-replication.md)           | Batch replication of team folders                                         |
-| [teamfolder file list](docs/commands/teamfolder-file-list.md)                           | List files in team folders                                                |
-| [teamfolder file lock all release](docs/commands/teamfolder-file-lock-all-release.md)   | Release all locks under the path of the team folder                       |
-| [teamfolder file lock list](docs/commands/teamfolder-file-lock-list.md)                 | List locks in the team folder                                             |
-| [teamfolder file lock release](docs/commands/teamfolder-file-lock-release.md)           | Release lock of the path in the team folder                               |
-| [teamfolder file size](docs/commands/teamfolder-file-size.md)                           | Calculate size of team folders                                            |
-| [teamfolder list](docs/commands/teamfolder-list.md)                                     | List team folder(s)                                                       |
-| [teamfolder member add](docs/commands/teamfolder-member-add.md)                         | Batch adding users/groups to team folders                                 |
-| [teamfolder member delete](docs/commands/teamfolder-member-delete.md)                   | Batch removing users/groups from team folders                             |
-| [teamfolder member list](docs/commands/teamfolder-member-list.md)                       | List team folder members                                                  |
-| [teamfolder partial replication](docs/commands/teamfolder-partial-replication.md)       | Partial team folder replication to the other team                         |
-| [teamfolder permdelete](docs/commands/teamfolder-permdelete.md)                         | Permanently delete team folder                                            |
-| [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                       | List policies of team folders                                             |
-| [teamfolder replication](docs/commands/teamfolder-replication.md)                       | Replicate a team folder to the other team                                 |
+| Command                                                                                         | Description                                                               |
+|-------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [group add](docs/commands/group-add.md)                                                         | Create new group                                                          |
+| [group batch add](docs/commands/group-batch-add.md)                                             | Bulk adding groups                                                        |
+| [group batch delete](docs/commands/group-batch-delete.md)                                       | Delete groups                                                             |
+| [group delete](docs/commands/group-delete.md)                                                   | Delete group                                                              |
+| [group folder list](docs/commands/group-folder-list.md)                                         | Find folders of each group                                                |
+| [group list](docs/commands/group-list.md)                                                       | List group(s)                                                             |
+| [group member add](docs/commands/group-member-add.md)                                           | Add a member to the group                                                 |
+| [group member batch add](docs/commands/group-member-batch-add.md)                               | Bulk add members into groups                                              |
+| [group member batch delete](docs/commands/group-member-batch-delete.md)                         | Delete members from groups                                                |
+| [group member batch update](docs/commands/group-member-batch-update.md)                         | Add or delete members from groups                                         |
+| [group member delete](docs/commands/group-member-delete.md)                                     | Delete a member from the group                                            |
+| [group member list](docs/commands/group-member-list.md)                                         | List members of groups                                                    |
+| [group rename](docs/commands/group-rename.md)                                                   | Rename the group                                                          |
+| [member batch suspend](docs/commands/member-batch-suspend.md)                                   | Bulk suspend members                                                      |
+| [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                               | Bulk unsuspend members                                                    |
+| [member clear externalid](docs/commands/member-clear-externalid.md)                             | Clear external_id of members                                              |
+| [member delete](docs/commands/member-delete.md)                                                 | Delete members                                                            |
+| [member detach](docs/commands/member-detach.md)                                                 | Convert Dropbox Business accounts to a Basic account                      |
+| [member feature](docs/commands/member-feature.md)                                               | List member feature settings                                              |
+| [member file lock all release](docs/commands/member-file-lock-all-release.md)                   | Release all locks under the path of the member                            |
+| [member file lock list](docs/commands/member-file-lock-list.md)                                 | List locks of the member under the path                                   |
+| [member file lock release](docs/commands/member-file-lock-release.md)                           | Release the lock of the path as the member                                |
+| [member file permdelete](docs/commands/member-file-permdelete.md)                               | Permanently delete the file or folder at a given path of the team member. |
+| [member folder list](docs/commands/member-folder-list.md)                                       | Find folders for each member                                              |
+| [member folder replication](docs/commands/member-folder-replication.md)                         | Replicate a folder to another member's personal folder                    |
+| [member invite](docs/commands/member-invite.md)                                                 | Invite member(s)                                                          |
+| [member list](docs/commands/member-list.md)                                                     | List team member(s)                                                       |
+| [member quota list](docs/commands/member-quota-list.md)                                         | List team member quota                                                    |
+| [member quota update](docs/commands/member-quota-update.md)                                     | Update team member quota                                                  |
+| [member quota usage](docs/commands/member-quota-usage.md)                                       | List team member storage usage                                            |
+| [member reinvite](docs/commands/member-reinvite.md)                                             | Reinvite invited status members to the team                               |
+| [member replication](docs/commands/member-replication.md)                                       | Replicate team member files                                               |
+| [member suspend](docs/commands/member-suspend.md)                                               | Suspend a member                                                          |
+| [member unsuspend](docs/commands/member-unsuspend.md)                                           | Unsuspend a member                                                        |
+| [member update email](docs/commands/member-update-email.md)                                     | Member email operation                                                    |
+| [member update externalid](docs/commands/member-update-externalid.md)                           | Update External ID of team members                                        |
+| [member update invisible](docs/commands/member-update-invisible.md)                             | Enable directory restriction to members                                   |
+| [member update profile](docs/commands/member-update-profile.md)                                 | Update member profile                                                     |
+| [member update visible](docs/commands/member-update-visible.md)                                 | Disable directory restriction to members                                  |
+| [team activity batch user](docs/commands/team-activity-batch-user.md)                           | Scan activities for multiple users                                        |
+| [team activity daily event](docs/commands/team-activity-daily-event.md)                         | Report activities by day                                                  |
+| [team activity event](docs/commands/team-activity-event.md)                                     | Event log                                                                 |
+| [team activity user](docs/commands/team-activity-user.md)                                       | Activities log per user                                                   |
+| [team admin group role add](docs/commands/team-admin-group-role-add.md)                         | Add the role to members of the group                                      |
+| [team admin group role delete](docs/commands/team-admin-group-role-delete.md)                   | Delete the role from all members except of members of the exception group |
+| [team admin list](docs/commands/team-admin-list.md)                                             | List admin roles of members                                               |
+| [team admin role add](docs/commands/team-admin-role-add.md)                                     | Add a new role to the member                                              |
+| [team admin role clear](docs/commands/team-admin-role-clear.md)                                 | Remove all admin roles from the member                                    |
+| [team admin role delete](docs/commands/team-admin-role-delete.md)                               | Remove a role from the member                                             |
+| [team admin role list](docs/commands/team-admin-role-list.md)                                   | List admin roles of the team                                              |
+| [team content legacypaper count](docs/commands/team-content-legacypaper-count.md)               | Count number of Paper documents per member                                |
+| [team content legacypaper export](docs/commands/team-content-legacypaper-export.md)             | Export entire team member Paper documents into local path                 |
+| [team content legacypaper list](docs/commands/team-content-legacypaper-list.md)                 | List team member Paper documents                                          |
+| [team content member list](docs/commands/team-content-member-list.md)                           | List team folder & shared folder members                                  |
+| [team content member size](docs/commands/team-content-member-size.md)                           | Count number of members of team folders and shared folders                |
+| [team content mount list](docs/commands/team-content-mount-list.md)                             | List all mounted/unmounted shared folders of team members.                |
+| [team content policy list](docs/commands/team-content-policy-list.md)                           | List policies of team folders and shared folders in the team              |
+| [team device list](docs/commands/team-device-list.md)                                           | List all devices/sessions in the team                                     |
+| [team device unlink](docs/commands/team-device-unlink.md)                                       | Unlink device sessions                                                    |
+| [team feature](docs/commands/team-feature.md)                                                   | Team feature                                                              |
+| [team filerequest list](docs/commands/team-filerequest-list.md)                                 | List all file requests in the team                                        |
+| [team info](docs/commands/team-info.md)                                                         | Team information                                                          |
+| [team linkedapp list](docs/commands/team-linkedapp-list.md)                                     | List linked applications                                                  |
+| [team namespace file list](docs/commands/team-namespace-file-list.md)                           | List all files and folders of the team namespaces                         |
+| [team namespace file size](docs/commands/team-namespace-file-size.md)                           | List all files and folders of the team namespaces                         |
+| [team namespace list](docs/commands/team-namespace-list.md)                                     | List all namespaces of the team                                           |
+| [team namespace member list](docs/commands/team-namespace-member-list.md)                       | List members of shared folders and team folders in the team               |
+| [team runas sharedfolder batch share](docs/commands/team-runas-sharedfolder-batch-share.md)     | Batch share folders for members                                           |
+| [team runas sharedfolder batch unshare](docs/commands/team-runas-sharedfolder-batch-unshare.md) | Batch unshare folders for members                                         |
+| [team sharedlink cap expiry](docs/commands/team-sharedlink-cap-expiry.md)                       | Set expiry cap to shared links in the team                                |
+| [team sharedlink cap visibility](docs/commands/team-sharedlink-cap-visibility.md)               | Set visibility cap to shared links in the team                            |
+| [team sharedlink delete links](docs/commands/team-sharedlink-delete-links.md)                   | Batch delete shared links                                                 |
+| [team sharedlink delete member](docs/commands/team-sharedlink-delete-member.md)                 | Delete all shared links of the member                                     |
+| [team sharedlink list](docs/commands/team-sharedlink-list.md)                                   | List of shared links                                                      |
+| [team sharedlink update expiry](docs/commands/team-sharedlink-update-expiry.md)                 | Update expiration date of public shared links within the team             |
+| [team sharedlink update password](docs/commands/team-sharedlink-update-password.md)             | Set or update shared link passwords                                       |
+| [team sharedlink update visibility](docs/commands/team-sharedlink-update-visibility.md)         | Update visibility of shared links                                         |
+| [teamfolder add](docs/commands/teamfolder-add.md)                                               | Add team folder to the team                                               |
+| [teamfolder archive](docs/commands/teamfolder-archive.md)                                       | Archive team folder                                                       |
+| [teamfolder batch archive](docs/commands/teamfolder-batch-archive.md)                           | Archiving team folders                                                    |
+| [teamfolder batch permdelete](docs/commands/teamfolder-batch-permdelete.md)                     | Permanently delete team folders                                           |
+| [teamfolder batch replication](docs/commands/teamfolder-batch-replication.md)                   | Batch replication of team folders                                         |
+| [teamfolder file list](docs/commands/teamfolder-file-list.md)                                   | List files in team folders                                                |
+| [teamfolder file lock all release](docs/commands/teamfolder-file-lock-all-release.md)           | Release all locks under the path of the team folder                       |
+| [teamfolder file lock list](docs/commands/teamfolder-file-lock-list.md)                         | List locks in the team folder                                             |
+| [teamfolder file lock release](docs/commands/teamfolder-file-lock-release.md)                   | Release lock of the path in the team folder                               |
+| [teamfolder file size](docs/commands/teamfolder-file-size.md)                                   | Calculate size of team folders                                            |
+| [teamfolder list](docs/commands/teamfolder-list.md)                                             | List team folder(s)                                                       |
+| [teamfolder member add](docs/commands/teamfolder-member-add.md)                                 | Batch adding users/groups to team folders                                 |
+| [teamfolder member delete](docs/commands/teamfolder-member-delete.md)                           | Batch removing users/groups from team folders                             |
+| [teamfolder member list](docs/commands/teamfolder-member-list.md)                               | List team folder members                                                  |
+| [teamfolder partial replication](docs/commands/teamfolder-partial-replication.md)               | Partial team folder replication to the other team                         |
+| [teamfolder permdelete](docs/commands/teamfolder-permdelete.md)                                 | Permanently delete team folder                                            |
+| [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                               | List policies of team folders                                             |
+| [teamfolder replication](docs/commands/teamfolder-replication.md)                               | Replicate a team folder to the other team                                 |
 
 ## GitHub
 

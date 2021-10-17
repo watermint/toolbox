@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# file list
+# file share info
 
-List files and folders 
+Retrieve sharing information of the file 
 
 # Security
 
@@ -26,9 +26,10 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                             |
-|---------------------------------------------------------|
-| Dropbox: View content of your Dropbox files and folders |
+| Description                                                   |
+|---------------------------------------------------------------|
+| Dropbox: View content of your Dropbox files and folders       |
+| Dropbox: View your Dropbox sharing settings and collaborators |
 
 # Authorization
 
@@ -64,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file list -path /path
+.\tbx.exe file share info 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file list -path /path
+$HOME/Desktop/tbx file share info 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,14 +81,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                             | Description                                                                                                                | Default |
-|------------------------------------|----------------------------------------------------------------------------------------------------------------------------|---------|
-| `-include-deleted`                 | Include deleted files                                                                                                      | false   |
-| `-include-explicit-shared-members` |  If true, the results will include a flag for each file indicating whether or not that file has any explicit members.      | false   |
-| `-include-mounted-folders`         |  If true, the results will include entries under mounted folders which includes app folder, shared folder and team folder. | false   |
-| `-path`                            | Path                                                                                                                       |         |
-| `-peer`                            | Account alias                                                                                                              | default |
-| `-recursive`                       | List recursively                                                                                                           | false   |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-path` | File          |         |
+| `-peer` | Account alias | default |
 
 ## Common options:
 
@@ -119,23 +116,29 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: file_list
+## Report: metadata
 
 This report shows a list of metadata of files or folders in the path.
-The command will generate a report in three different formats. `file_list.csv`, `file_list.json`, and `file_list.xlsx`.
+The command will generate a report in three different formats. `metadata.csv`, `metadata.json`, and `metadata.xlsx`.
 
-| Column          | Description                                                                                            |
-|-----------------|--------------------------------------------------------------------------------------------------------|
-| tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name            | The last component of the path (including extension).                                                  |
-| path_display    | The cased path to be used for display purposes only.                                                   |
-| client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified | The last time the file was modified on Dropbox.                                                        |
-| size            | The file size in bytes.                                                                                |
+| Column                  | Description                                                                                            |
+|-------------------------|--------------------------------------------------------------------------------------------------------|
+| id                      | A unique identifier for the file.                                                                      |
+| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
+| name                    | The last component of the path (including extension).                                                  |
+| path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
+| path_display            | The cased path to be used for display purposes only.                                                   |
+| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
+| server_modified         | The last time the file was modified on Dropbox.                                                        |
+| revision                | A unique identifier for the current revision of a file.                                                |
+| size                    | The file size in bytes.                                                                                |
+| content_hash            | A hash of the file content.                                                                            |
+| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
+| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 # Proxy configuration
 
