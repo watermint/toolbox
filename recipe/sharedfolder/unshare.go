@@ -1,12 +1,11 @@
 package sharedfolder
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_sharedfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -28,18 +27,7 @@ func (z *Unshare) Preset() {
 }
 
 func (z *Unshare) Exec(c app_control.Control) error {
-	f1, err := sv_file.NewFiles(z.Peer.Context()).Resolve(z.Path)
-	if err != nil {
-		return err
-	}
-	f2, ok := f1.Folder()
-	if !ok {
-		return errors.New("shared folder not found")
-	}
-	if f2.EntrySharedFolderId == "" {
-		return errors.New("the folder is not a shared folder")
-	}
-	sf, err := sv_sharedfolder.New(z.Peer.Context()).Resolve(f2.EntrySharedFolderId)
+	sf, err := uc_sharedfolder.NewResolver(z.Peer.Context()).Resolve(z.Path)
 	if err != nil {
 		return err
 	}

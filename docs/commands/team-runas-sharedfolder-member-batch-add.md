@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# team runas sharedfolder batch share
+# team runas sharedfolder member batch add
 
-Batch share folders for members 
+Batch add members to member's shared folders 
 
 # Security
 
@@ -29,6 +29,7 @@ Please see below help article for more detail:
 | Description                                                                       |
 |-----------------------------------------------------------------------------------|
 | Dropbox Business: View content of your Dropbox files and folders                  |
+| Dropbox Business: View your team group membership                                 |
 | Dropbox Business: View your team membership                                       |
 | Dropbox Business: View your Dropbox sharing settings and collaborators            |
 | Dropbox Business: View and manage your Dropbox sharing settings and collaborators |
@@ -68,12 +69,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team runas sharedfolder batch share -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team runas sharedfolder batch share -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -84,13 +85,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                | Description                                                                        | Default |
-|-----------------------|------------------------------------------------------------------------------------|---------|
-| `-acl-update-policy`  | Who can add and remove members of this shared folder.                              | owner   |
-| `-file`               | Path to data file                                                                  |         |
-| `-member-policy`      | Who can be a member of this shared folder.                                         | anyone  |
-| `-peer`               | Account alias                                                                      | default |
-| `-shared-link-policy` | The policy to apply to shared links created for content inside this shared folder. | anyone  |
+| Option     | Description                   | Default |
+|------------|-------------------------------|---------|
+| `-file`    | Path to data file             |         |
+| `-message` | Custom message for invitation |         |
+| `-peer`    | Account alias                 | default |
+| `-silent`  | Do not send invitation email  | false   |
 
 ## Common options:
 
@@ -116,17 +116,19 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Member folder data
+Data record for adding member to member's shared folders
 
-| Column       | Description          | Example              |
-|--------------|----------------------|----------------------|
-| member_email | Member email address | john@example.com     |
-| path         | Path to share        | /projects/my_project |
+| Column         | Description                        | Example          |
+|----------------|------------------------------------|------------------|
+| member_email   | Team member email address          | emma@example.com |
+| path           | Shared folder path of the member   | /share/project_a |
+| access_level   | Access type (viewer/editor)        | editor           |
+| group_or_email | Group name or member email address | Sales            |
 
 The first line is a header line. The program will accept a file without the header.
 ```
-member_email,path
-john@example.com,/projects/my_project
+member_email,path,access_level,group_or_email
+emma@example.com,/share/project_a,editor,Sales
 ```
 
 # Results
@@ -144,26 +146,14 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column                         | Description                                                                                                             |
-|--------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| status                         | Status of the operation                                                                                                 |
-| reason                         | Reason of failure or skipped operation                                                                                  |
-| input.member_email             | Member email address                                                                                                    |
-| input.path                     | Path to share                                                                                                           |
-| result.shared_folder_id        | The ID of the shared folder.                                                                                            |
-| result.parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| result.name                    | The name of the this shared folder.                                                                                     |
-| result.access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
-| result.path_lower              | The lower-cased full path of this shared folder.                                                                        |
-| result.is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
-| result.is_team_folder          | Whether this folder is a team folder.                                                                                   |
-| result.policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
-| result.policy_shared_link      | Who links can be shared with.                                                                                           |
-| result.policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
-| result.policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
-| result.owner_team_id           | Team ID of the folder owner team                                                                                        |
-| result.owner_team_name         | Team name of the team that owns the folder                                                                              |
-| result.access_inheritance      | Access inheritance type                                                                                                 |
+| Column               | Description                            |
+|----------------------|----------------------------------------|
+| status               | Status of the operation                |
+| reason               | Reason of failure or skipped operation |
+| input.member_email   | Team member email address              |
+| input.path           | Shared folder path of the member       |
+| input.access_level   | Access type (viewer/editor)            |
+| input.group_or_email | Group name or member email address     |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

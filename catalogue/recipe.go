@@ -103,6 +103,7 @@ import (
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
 	recipeteamrunassharedfolderbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/batch"
+	recipeteamrunassharedfoldermemberbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/member/batch"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
 	recipeteamsharedlinkdelete "github.com/watermint/toolbox/recipe/team/sharedlink/delete"
@@ -307,6 +308,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipesharedfolder.List{},
 		&recipesharedfolder.Share{},
 		&recipesharedfolder.Unshare{},
+		&recipesharedfoldermember.Add{},
+		&recipesharedfoldermember.Delete{},
 		&recipesharedfoldermember.List{},
 		&recipesharedlink.Create{},
 		&recipesharedlink.Delete{},
@@ -348,6 +351,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamreport.Storage{},
 		&recipeteamrunassharedfolderbatch.Share{},
 		&recipeteamrunassharedfolderbatch.Unshare{},
+		&recipeteamrunassharedfoldermemberbatch.Add{},
+		&recipeteamrunassharedfoldermemberbatch.Delete{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkcap.Expiry{},
 		&recipeteamsharedlinkcap.Visibility{},

@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# sharedfolder unshare
+# sharedfolder member delete
 
-Unshare a folder 
+Delete a member from the shared folder 
 
 # Security
 
@@ -66,12 +66,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe sharedfolder unshare -path /DROPBOX/PATH/TO/UNSHARE
+.\tbx.exe sharedfolder member delete -path /SHARED_FOLDER/PATH/TO/DELETE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx sharedfolder unshare -path /DROPBOX/PATH/TO/UNSHARE
+$HOME/Desktop/tbx sharedfolder member delete -path /SHARED_FOLDER/PATH/TO/DELETE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -84,8 +84,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option        | Description                                                                                | Default |
 |---------------|--------------------------------------------------------------------------------------------|---------|
+| `-email`      | Email address of the folder member                                                         |         |
 | `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared. | false   |
-| `-path`       | Path to unshare                                                                            |         |
+| `-path`       | Shared folder path of the member                                                           |         |
 | `-peer`       | Account alias                                                                              | default |
 
 ## Common options:

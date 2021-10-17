@@ -26,8 +26,13 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description |
-|-------------|
+| Description                                                                       |
+|-----------------------------------------------------------------------------------|
+| Dropbox Business: View content of your Dropbox files and folders                  |
+| Dropbox Business: View your team membership                                       |
+| Dropbox Business: View your Dropbox sharing settings and collaborators            |
+| Dropbox Business: View and manage your Dropbox sharing settings and collaborators |
+| Dropbox Business: View structure of your team's and members' folders              |
 
 # Authorization
 

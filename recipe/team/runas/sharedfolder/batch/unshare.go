@@ -1,14 +1,13 @@
 package batch
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_sharedfolder"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -49,23 +48,15 @@ func (z *Unshare) unshare(mf *MemberFolder, svm sv_member.Member, c app_control.
 	}
 
 	cm := z.Peer.Context().AsMemberId(member.TeamMemberId)
-
-	f1, err := sv_file.NewFiles(cm).Resolve(mo_path.NewDropboxPath(mf.Path))
-	if err != nil {
-		return err
-	}
-	f2, ok := f1.Folder()
-	if !ok {
-		err = errors.New("shared folder not found")
-		z.OperationLog.Failure(err, mf)
-		return err
-	}
-	if f2.EntrySharedFolderId == "" {
+	sf, err := uc_sharedfolder.NewResolver(cm).Resolve(mo_path.NewDropboxPath(mf.Path))
+	switch err {
+	case nil:
+		// fall through
+	case uc_sharedfolder.ErrorNotSharedFolder:
 		z.OperationLog.Skip(z.SkipNotSharedFolder, mf)
 		return nil
-	}
-	sf, err := sv_sharedfolder.New(cm).Resolve(f2.EntrySharedFolderId)
-	if err != nil {
+
+	default:
 		z.OperationLog.Failure(err, mf)
 		return err
 	}
@@ -91,7 +82,9 @@ func (z *Unshare) Exec(c app_control.Control) error {
 			q.Enqueue(m)
 			return nil
 		})
-	})
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
 
 	return lang.NewMultiErrorOrNull(lastErr, listErr)
 }

@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# sharedfolder unshare
+# sharedfolder member add
 
-Unshare a folder 
+Add a member to the shared folder 
 
 # Security
 
@@ -66,12 +66,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe sharedfolder unshare -path /DROPBOX/PATH/TO/UNSHARE
+.\tbx.exe sharedfolder member add -path /SHARED_FOLDER/PATH/TO/ADD
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx sharedfolder unshare -path /DROPBOX/PATH/TO/UNSHARE
+$HOME/Desktop/tbx sharedfolder member add -path /SHARED_FOLDER/PATH/TO/ADD
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -82,11 +82,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                                                                | Default |
-|---------------|--------------------------------------------------------------------------------------------|---------|
-| `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared. | false   |
-| `-path`       | Path to unshare                                                                            |         |
-| `-peer`       | Account alias                                                                              | default |
+| Option          | Description                        | Default |
+|-----------------|------------------------------------|---------|
+| `-access-level` | Access type (viewer/editor)        | editor  |
+| `-email`        | Email address of the folder member |         |
+| `-message`      | Custom message for invitation      |         |
+| `-path`         | Shared folder path of the member   |         |
+| `-peer`         | Account alias                      | default |
+| `-silent`       | Do not send invitation email       | false   |
 
 ## Common options:
 

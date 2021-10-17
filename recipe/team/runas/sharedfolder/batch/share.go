@@ -90,7 +90,9 @@ func (z *Share) Exec(c app_control.Control) error {
 			q.Enqueue(m)
 			return nil
 		})
-	})
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
 
 	return lang.NewMultiErrorOrNull(lastErr, listErr)
 }
