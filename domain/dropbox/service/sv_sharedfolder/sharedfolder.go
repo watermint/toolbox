@@ -12,7 +12,7 @@ import (
 )
 
 type SharedFolder interface {
-	Create(path mo_path.DropboxPath, opts ...CreateOpt) (sf *mo_sharedfolder.SharedFolder, err error)
+	Create(path mo_path.DropboxPath, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error)
 	Remove(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error)
 	List() (sf []*mo_sharedfolder.SharedFolder, err error)
 	Leave(sf *mo_sharedfolder.SharedFolder, opts ...DeleteOpt) (err error)
@@ -84,19 +84,14 @@ func SharedLinkPolicy(policy string) PolicyOpt {
 	}
 }
 
-type createOpts struct {
-}
-
-type CreateOpt func(opt *createOpts) *createOpts
-
 type deleteOpts struct {
 	leaveACopy bool
 }
 type DeleteOpt func(opt *deleteOpts) *deleteOpts
 
-func LeaveACopy() DeleteOpt {
+func LeaveACopy(enabled bool) DeleteOpt {
 	return func(opt *deleteOpts) *deleteOpts {
-		opt.leaveACopy = true
+		opt.leaveACopy = enabled
 		return opt
 	}
 }
@@ -196,16 +191,22 @@ func (z *sharedFolderImpl) Leave(sf *mo_sharedfolder.SharedFolder, opts ...Delet
 	return nil
 }
 
-func (z *sharedFolderImpl) Create(path mo_path.DropboxPath, opts ...CreateOpt) (sf *mo_sharedfolder.SharedFolder, err error) {
-	co := &createOpts{}
+func (z *sharedFolderImpl) Create(path mo_path.DropboxPath, opts ...PolicyOpt) (sf *mo_sharedfolder.SharedFolder, err error) {
+	co := &policyOpts{}
 	for _, o := range opts {
 		o(co)
 	}
 
 	p := struct {
-		Path string `json:"path"`
+		Path             string `json:"path"`
+		MemberPolicy     string `json:"member_policy,omitempty"`
+		AclUpdatePolicy  string `json:"acl_update_policy,omitempty"`
+		SharedLinkPolicy string `json:"shared_link_policy,omitempty"`
 	}{
-		Path: path.Path(),
+		Path:             path.Path(),
+		MemberPolicy:     co.MemberPolicy,
+		AclUpdatePolicy:  co.AclUpdatePolicy,
+		SharedLinkPolicy: co.SharedLinkPolicy,
 	}
 
 	res := z.ctx.Async("sharing/share_folder", api_request.Param(p)).Call(

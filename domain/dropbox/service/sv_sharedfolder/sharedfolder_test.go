@@ -24,7 +24,7 @@ func TestSharedFolderImpl_Create(t *testing.T) {
 func TestSharedFolderImpl_Leave(t *testing.T) {
 	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
-		err := sv.Leave(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
+		err := sv.Leave(&mo_sharedfolder.SharedFolder{}, LeaveACopy(true))
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}
@@ -34,7 +34,7 @@ func TestSharedFolderImpl_Leave(t *testing.T) {
 func TestSharedFolderImpl_Remove(t *testing.T) {
 	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
 		sv := New(ctx)
-		err := sv.Remove(&mo_sharedfolder.SharedFolder{}, LeaveACopy())
+		err := sv.Remove(&mo_sharedfolder.SharedFolder{}, LeaveACopy(true))
 		if err != nil && err != qt_errors.ErrorMock {
 			t.Error(err)
 		}

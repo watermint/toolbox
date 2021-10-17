@@ -128,6 +128,8 @@ Available commands:
 | [services dropbox user feature](docs/commands/services-dropbox-user-feature.md) | List feature settings for current user                        |
 | [sharedfolder list](docs/commands/sharedfolder-list.md)                         | List shared folder(s)                                         |
 | [sharedfolder member list](docs/commands/sharedfolder-member-list.md)           | List shared folder member(s)                                  |
+| [sharedfolder share](docs/commands/sharedfolder-share.md)                       | Share a folder                                                |
+| [sharedfolder unshare](docs/commands/sharedfolder-unshare.md)                   | Unshare a folder                                              |
 | [sharedlink create](docs/commands/sharedlink-create.md)                         | Create shared link                                            |
 | [sharedlink delete](docs/commands/sharedlink-delete.md)                         | Remove shared links                                           |
 | [sharedlink file list](docs/commands/sharedlink-file-list.md)                   | List files for the shared link                                |

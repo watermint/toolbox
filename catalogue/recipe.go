@@ -302,6 +302,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglesheetsspreadsheet.Create{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.List{},
+		&recipesharedfolder.Share{},
+		&recipesharedfolder.Unshare{},
 		&recipesharedfoldermember.List{},
 		&recipesharedlink.Create{},
 		&recipesharedlink.Delete{},

@@ -50,6 +50,8 @@ lang: en
 | [services dropbox user feature]({{ site.baseurl }}/commands/services-dropbox-user-feature.html) | List feature settings for current user                        |
 | [sharedfolder list]({{ site.baseurl }}/commands/sharedfolder-list.html)                         | List shared folder(s)                                         |
 | [sharedfolder member list]({{ site.baseurl }}/commands/sharedfolder-member-list.html)           | List shared folder member(s)                                  |
+| [sharedfolder share]({{ site.baseurl }}/commands/sharedfolder-share.html)                       | Share a folder                                                |
+| [sharedfolder unshare]({{ site.baseurl }}/commands/sharedfolder-unshare.html)                   | Unshare a folder                                              |
 | [sharedlink create]({{ site.baseurl }}/commands/sharedlink-create.html)                         | Create shared link                                            |
 | [sharedlink delete]({{ site.baseurl }}/commands/sharedlink-delete.html)                         | Remove shared links                                           |
 | [sharedlink file list]({{ site.baseurl }}/commands/sharedlink-file-list.html)                   | List files for the shared link                                |
