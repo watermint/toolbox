@@ -68,7 +68,7 @@ func (z *Up) Exec(c app_control.Control) error {
 			return nil
 		}
 
-		return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
+		err = rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
 			ru := r.(*file.Upload)
 			ru.LocalPath = mo_path.NewFileSystemPath(um.LocalPath)
 			ru.DropboxPath = mo_path2.NewDropboxPath(um.DropboxPath)
@@ -78,6 +78,12 @@ func (z *Up) Exec(c app_control.Control) error {
 			ru.BatchSize = z.BatchSize.Value()
 			ru.Delete = z.Delete
 		})
+		if err != nil {
+			z.OperationLog.Failure(err, um)
+		} else {
+			z.OperationLog.Success(um, nil)
+		}
+		return err
 	})
 }
 
