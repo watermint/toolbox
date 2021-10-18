@@ -132,6 +132,7 @@ lang: en
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)                                       | List all files and folders of the team namespaces                         |
 | [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)                                                 | List all namespaces of the team                                           |
 | [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html)                                   | List members of shared folders and team folders in the team               |
+| [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                                         |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                                           |
 | [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                                         |
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders                              |

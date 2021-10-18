@@ -210,6 +210,7 @@ Available commands:
 | [team namespace file size](docs/commands/team-namespace-file-size.md)                                       | List all files and folders of the team namespaces                         |
 | [team namespace list](docs/commands/team-namespace-list.md)                                                 | List all namespaces of the team                                           |
 | [team namespace member list](docs/commands/team-namespace-member-list.md)                                   | List members of shared folders and team folders in the team               |
+| [team runas file sync batch up](docs/commands/team-runas-file-sync-batch-up.md)                             | Batch sync up that run as members                                         |
 | [team runas sharedfolder batch share](docs/commands/team-runas-sharedfolder-batch-share.md)                 | Batch share folders for members                                           |
 | [team runas sharedfolder batch unshare](docs/commands/team-runas-sharedfolder-batch-unshare.md)             | Batch unshare folders for members                                         |
 | [team runas sharedfolder member batch add](docs/commands/team-runas-sharedfolder-member-batch-add.md)       | Batch add members to member's shared folders                              |
