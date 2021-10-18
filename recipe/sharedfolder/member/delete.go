@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type Delete struct {
@@ -48,6 +49,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 func (z *Delete) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
 		m := r.(*Delete)
-		m.Email = "Sales"
+		m.Email = "emma@example.com"
+		m.Path = qtr_endtoend.NewTestDropboxFolderPath("delete")
 	})
 }
