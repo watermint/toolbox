@@ -2440,6 +2440,7 @@
   "recipe.team.runas.file.sync.batch.up.flag.name": "Filter by name.",
   "recipe.team.runas.file.sync.batch.up.flag.overwrite": "Overwrite existing file on the target path if that exists.",
   "recipe.team.runas.file.sync.batch.up.flag.peer": "Account alias",
+  "recipe.team.runas.file.sync.batch.up.progress_start": "Start processing[{{.Member}}]: {{.LocalPath}} -> {{.DropboxPath}}",
   "recipe.team.runas.file.sync.batch.up.title": "Batch sync up that run as members",
   "recipe.team.runas.file.sync.batch.up_mapping.desc": "Up load mapping",
   "recipe.team.runas.file.sync.batch.up_mapping.dropbox_path.desc": "Destination Dropbox path",

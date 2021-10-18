@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -14,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
@@ -30,6 +32,7 @@ type Up struct {
 	BatchSize     mo_int.RangeInt
 	ExitOnFailure bool
 	Name          mo_filter.Filter
+	ProgressStart app_msg.Message
 }
 
 func (z *Up) Preset() {
@@ -59,6 +62,9 @@ func (z *Up) Exec(c app_control.Control) error {
 
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		um := m.(*UpMapping)
+
+		c.UI().Progress(z.ProgressStart.With("Member", um.MemberEmail).With("LocalPath", um.LocalPath).With("DropboxPath", um.DropboxPath))
+
 		member, err := svm.ResolveByEmail(um.MemberEmail)
 		if err != nil {
 			z.OperationLog.Failure(err, um)
@@ -68,10 +74,19 @@ func (z *Up) Exec(c app_control.Control) error {
 			return nil
 		}
 
+		localPath, err := es_filepath.FormatPathWithPredefinedVariables(um.LocalPath)
+		if err != nil {
+			localPath = um.LocalPath
+		}
+		dbxPath, err := es_filepath.FormatPathWithPredefinedVariables(um.DropboxPath)
+		if err != nil {
+			dbxPath = um.DropboxPath
+		}
+
 		err = rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
 			ru := r.(*file.Upload)
-			ru.LocalPath = mo_path.NewFileSystemPath(um.LocalPath)
-			ru.DropboxPath = mo_path2.NewDropboxPath(um.DropboxPath)
+			ru.LocalPath = mo_path.NewFileSystemPath(localPath)
+			ru.DropboxPath = mo_path2.NewDropboxPath(dbxPath)
 			ru.Overwrite = z.Overwrite
 			ru.Name = z.Name
 			ru.Context = z.Peer.Context().AsMemberId(member.TeamMemberId)
