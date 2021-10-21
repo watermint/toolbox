@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/time/ut_compare"
@@ -453,7 +454,7 @@ func ScanSingleFileSystem(
 	})
 
 	if lastErr != nil || listErr != nil {
-		return multierr.Combine(lastErr, listErr)
+		return lang.NewMultiErrorOrNull(lastErr, listErr)
 	}
 	return nil
 }
