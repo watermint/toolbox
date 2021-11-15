@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/essentials/file/es_size"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
@@ -32,6 +33,8 @@ type Size struct {
 	Folder              mo_filter.Filter
 	Depth               mo_int.RangeInt
 	NamespaceSize       rp_model.RowReport
+	DataFolder          kv_storage.Storage
+	DataSum             kv_storage.Storage
 }
 
 func (z *Size) Preset() {
@@ -82,7 +85,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		factory.Close()
 	}()
 
-	sizeCtx := es_size.New(c.Log(), scanFolderQueueId, factory)
+	sizeCtx := es_size.New(c.Log(), scanFolderQueueId, z.DataFolder, z.DataSum)
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
 		s.Define(scanFolderQueueId, es_size.ScanFolder, sizeCtx)
@@ -118,6 +121,8 @@ func (z *Size) Exec(c app_control.Control) error {
 				filesystem.NewPath(namespace.NamespaceId, mo_path.NewDropboxPath("/")),
 				s,
 				dbxFs,
+				z.DataFolder,
+				z.DataSum,
 				namespace,
 			)
 
