@@ -85,7 +85,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option        | Description                                                                                | Default |
 |---------------|--------------------------------------------------------------------------------------------|---------|
 | `-leave-copy` | If true, members of this shared folder will get a copy of this folder after it's unshared. | false   |
-| `-path`       | Path to unshare                                                                            |         |
+| `-path`       | Path to be unshared                                                                        |         |
 | `-peer`       | Account alias                                                                              | default |
 
 ## Common options:

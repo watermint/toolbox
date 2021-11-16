@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# file list
+# team runas sharedfolder member batch add
 
-ファイルとフォルダを一覧します 
+メンバーの共有フォルダにメンバーを一括追加 
 
 # セキュリティ
 
@@ -22,13 +22,18 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                   |
-|--------------------------------------------------------|
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
+| 説明                                                            |
+|-----------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを表示 |
+| Dropbox Business: 自分のチームグループのメンバーを見る          |
+| Dropbox Business: チームメンバーの確認                          |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示           |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理     |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧        |
 
 # 認可
 
@@ -64,12 +69,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file list -path /path
+.\tbx.exe team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file list -path /path
+$HOME/Desktop/tbx team runas sharedfolder member batch add -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,14 +85,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                         | 説明                                                                                                            | デフォルト |
-|------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|
-| `-include-deleted`                 | 削除済みファイルを含める                                                                                        | false      |
-| `-include-explicit-shared-members` |  trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます.                      | false      |
-| `-include-mounted-folders`         |  Trueの場合は、マウントされたフォルダ（appフォルダ、sharedフォルダ、teamフォルダ）のエントリが結果に含まれます. | false      |
-| `-path`                            | パス                                                                                                            |            |
-| `-peer`                            | アカウントの別名                                                                                                | default    |
-| `-recursive`                       | 再起的に一覧を実行                                                                                              | false      |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-message` | カスタム招待メッセージ |            |
+| `-peer`    | アカウントの別名       | default    |
+| `-silent`  | 招待メールを送信しない | false      |
 
 ## 共通のオプション:
 
@@ -109,6 +112,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
+# ファイル書式
+
+## 書式: File
+
+メンバーの共有フォルダにメンバーを追加するためのデータレコード
+
+| 列             | 説明                                     | 例               |
+|----------------|------------------------------------------|------------------|
+| member_email   | チームメンバーのメールアドレス.          | emma@example.com |
+| path           | メンバーの共有フォルダのパス             | /share/project_a |
+| access_level   | アクセス権限 (viewer/editor)             | editor           |
+| group_or_email | グループ名またはメンバーのメールアドレス | 営業             |
+
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
+```
+member_email,path,access_level,group_or_email
+emma@example.com,/share/project_a,editor,営業
+```
+
 # 実行結果
 
 作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
@@ -119,23 +141,23 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: file_list
+## レポート: operation_log
 
-このレポートはファイルとフォルダのメタデータを出力します.
-このコマンドはレポートを3種類の書式で出力します. `file_list.csv`, `file_list.json`, ならびに `file_list.xlsx`.
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列              | 説明                                                         |
-|-----------------|--------------------------------------------------------------|
-| tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| name            | 名称                                                         |
-| path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| server_modified | Dropbox上で最後に更新された日時                              |
-| size            | ファイルサイズ(バイト単位)                                   |
+| 列                   | 説明                                     |
+|----------------------|------------------------------------------|
+| status               | 処理の状態                               |
+| reason               | 失敗またはスキップの理由                 |
+| input.member_email   | チームメンバーのメールアドレス.          |
+| input.path           | メンバーの共有フォルダのパス             |
+| input.access_level   | アクセス権限 (viewer/editor)             |
+| input.group_or_email | グループ名またはメンバーのメールアドレス |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

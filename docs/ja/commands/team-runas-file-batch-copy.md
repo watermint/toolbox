@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# file list
+# team runas file batch copy
 
-ファイルとフォルダを一覧します 
+ファイル/フォルダーをメンバーとして一括コピー (非可逆な操作です)
 
 # セキュリティ
 
@@ -22,13 +22,16 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                   |
-|--------------------------------------------------------|
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
+| 説明                                                            |
+|-----------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを表示 |
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを編集 |
+| Dropbox Business: チームメンバーの確認                          |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧        |
 
 # 認可
 
@@ -64,12 +67,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file list -path /path
+.\tbx.exe team runas file batch copy -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file list -path /path
+$HOME/Desktop/tbx team runas file batch copy -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,14 +83,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                         | 説明                                                                                                            | デフォルト |
-|------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|
-| `-include-deleted`                 | 削除済みファイルを含める                                                                                        | false      |
-| `-include-explicit-shared-members` |  trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます.                      | false      |
-| `-include-mounted-folders`         |  Trueの場合は、マウントされたフォルダ（appフォルダ、sharedフォルダ、teamフォルダ）のエントリが結果に含まれます. | false      |
-| `-path`                            | パス                                                                                                            |            |
-| `-peer`                            | アカウントの別名                                                                                                | default    |
-| `-recursive`                       | 再起的に一覧を実行                                                                                              | false      |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-peer`    | アカウントの別名       | default    |
 
 ## 共通のオプション:
 
@@ -109,6 +108,24 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
+# ファイル書式
+
+## 書式: File
+
+コピー元パスとコピー先パスのマッピング
+
+| 列           | 説明                            | 例               |
+|--------------|---------------------------------|------------------|
+| member_email | チームメンバーのメールアドレス. | emma@example.com |
+| src_path     | 元のパス                        | /report          |
+| dst_path     | 宛先のパス                      | /backup/report   |
+
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
+```
+member_email,src_path,dst_path
+emma@example.com,/report,/backup/report
+```
+
 # 実行結果
 
 作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
@@ -119,23 +136,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: file_list
+## レポート: operation_log
 
-このレポートはファイルとフォルダのメタデータを出力します.
-このコマンドはレポートを3種類の書式で出力します. `file_list.csv`, `file_list.json`, ならびに `file_list.xlsx`.
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列              | 説明                                                         |
-|-----------------|--------------------------------------------------------------|
-| tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| name            | 名称                                                         |
-| path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| server_modified | Dropbox上で最後に更新された日時                              |
-| size            | ファイルサイズ(バイト単位)                                   |
+| 列                 | 説明                            |
+|--------------------|---------------------------------|
+| status             | 処理の状態                      |
+| reason             | 失敗またはスキップの理由        |
+| input.member_email | チームメンバーのメールアドレス. |
+| input.src_path     | 元のパス                        |
+| input.dst_path     | 宛先のパス                      |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

@@ -120,7 +120,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Up load mapping
+Mapping of local to destination paths
 
 | Column       | Description                     | Example           |
 |--------------|---------------------------------|-------------------|

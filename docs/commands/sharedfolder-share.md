@@ -84,7 +84,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |-----------------------|-------------------------------------------------------------|---------|
 | `-acl-update-policy`  | Who can change a shared folder's access control list (ACL). | owner   |
 | `-member-policy`      | Who can be a member of this shared folder.                  | anyone  |
-| `-path`               | Path to share                                               |         |
+| `-path`               | Path to be shared                                           |         |
 | `-peer`               | Account alias                                               | default |
 | `-shared-link-policy` | Who can view shared links in this folder.                   | anyone  |
 

@@ -112,7 +112,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: File
 
-Copy mapping
+Mapping between source and destination paths
 
 | Column       | Description               | Example          |
 |--------------|---------------------------|------------------|
