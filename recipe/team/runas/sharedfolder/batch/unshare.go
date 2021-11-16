@@ -12,12 +12,9 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
-	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"os"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Unshare struct {
@@ -90,16 +87,18 @@ func (z *Unshare) Exec(c app_control.Control) error {
 }
 
 func (z *Unshare) Test(c app_control.Control) error {
-	f, err := qt_file.MakeTestFile("share", "john@example.com,/shared\nemma@example.com,/project")
-	if err != nil {
-		return err
-	}
-	defer func() {
-		_ = os.Remove(f)
-	}()
-
-	return rc_exec.ExecMock(c, &Unshare{}, func(r rc_recipe.Recipe) {
-		m := r.(*Unshare)
-		m.File.SetFilePath(f)
-	})
+	return qt_errors.ErrorHumanInteractionRequired
+	//
+	//f, err := qt_file.MakeTestFile("share", "john@example.com,/shared\nemma@example.com,/project")
+	//if err != nil {
+	//	return err
+	//}
+	//defer func() {
+	//	_ = os.Remove(f)
+	//}()
+	//
+	//return rc_exec.ExecMock(c, &Unshare{}, func(r rc_recipe.Recipe) {
+	//	m := r.(*Unshare)
+	//	m.File.SetFilePath(f)
+	//})
 }
