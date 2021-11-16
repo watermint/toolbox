@@ -137,13 +137,25 @@ func TestTraverseImpl_ScanSimple(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		model := em_file.DemoTree()
 		fs := es_filesystem_model.NewFileSystem(model)
-		factory := ctl.NewKvsFactory()
+		kvFolder, err := ctl.NewKvs("folder")
+		if err != nil {
+			t.Error(err)
+			return
+		}
 		defer func() {
-			factory.Close()
+			kvFolder.Close()
+		}()
+		kvSum, err := ctl.NewKvs("sum")
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		defer func() {
+			kvSum.Close()
 		}()
 
 		reportCount := 0
-		err := ScanSingleFileSystem(ctl.Log(), ctl.Sequence(), factory, fs, es_filesystem_model.NewPath("/"), 2, func(s FolderSize) {
+		err = ScanSingleFileSystem(ctl.Log(), ctl.Sequence(), kvFolder, kvSum, fs, es_filesystem_model.NewPath("/"), 2, func(s FolderSize) {
 			if s.Depth > 2 {
 				t.Error(es_json.ToJsonString(s))
 			}
@@ -174,12 +186,24 @@ func TestTraverseImpl_ScanLargeRandom(t *testing.T) {
 			em_file_random.NumFiles(100),
 		)
 		fs := es_filesystem_model.NewFileSystem(model)
-		factory := ctl.NewKvsFactory()
+		kvFolder, err := ctl.NewKvs("folder")
+		if err != nil {
+			t.Error(err)
+			return
+		}
 		defer func() {
-			factory.Close()
+			kvFolder.Close()
+		}()
+		kvSum, err := ctl.NewKvs("sum")
+		if err != nil {
+			t.Error(err)
+			return
+		}
+		defer func() {
+			kvSum.Close()
 		}()
 
-		err := ScanSingleFileSystem(ctl.Log(), ctl.Sequence(), factory, fs, es_filesystem_model.NewPath("/"), 2, func(s FolderSize) {
+		err = ScanSingleFileSystem(ctl.Log(), ctl.Sequence(), kvFolder, kvSum, fs, es_filesystem_model.NewPath("/"), 2, func(s FolderSize) {
 			if s.Depth > 2 {
 				t.Error(es_json.ToJsonString(s))
 			}
