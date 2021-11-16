@@ -15,11 +15,13 @@ import (
 )
 
 type List struct {
-	Peer           dbx_conn.ConnScopedIndividual
-	Path           mo_path.DropboxPath
-	Recursive      bool
-	IncludeDeleted bool
-	FileList       rp_model.RowReport
+	Peer                         dbx_conn.ConnScopedIndividual
+	Path                         mo_path.DropboxPath
+	Recursive                    bool
+	IncludeDeleted               bool
+	IncludeMountedFolders        bool
+	IncludeExplicitSharedMembers bool
+	FileList                     rp_model.RowReport
 }
 
 func (z *List) Preset() {
@@ -43,7 +45,8 @@ func (z *List) Exec(c app_control.Control) error {
 	opts := make([]sv_file.ListOpt, 0)
 	opts = append(opts, sv_file.IncludeDeleted(z.IncludeDeleted))
 	opts = append(opts, sv_file.Recursive(z.Recursive))
-	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers(true))
+	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers(z.IncludeExplicitSharedMembers))
+	opts = append(opts, sv_file.IncludeMountedFolders(z.IncludeMountedFolders))
 
 	if err := z.FileList.Open(); err != nil {
 		return err

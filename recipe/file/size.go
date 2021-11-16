@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_size"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -15,10 +16,12 @@ import (
 )
 
 type Size struct {
-	Peer  dbx_conn.ConnScopedIndividual
-	Size  rp_model.RowReport
-	Path  mo_path.DropboxPath
-	Depth mo_int.RangeInt
+	Peer   dbx_conn.ConnScopedIndividual
+	Size   rp_model.RowReport
+	Path   mo_path.DropboxPath
+	Depth  mo_int.RangeInt
+	Folder kv_storage.Storage
+	Sum    kv_storage.Storage
 }
 
 func (z *Size) Preset() {
@@ -45,7 +48,8 @@ func (z *Size) Exec(c app_control.Control) error {
 	return es_size.ScanSingleFileSystem(
 		c.Log(),
 		c.Sequence(),
-		factory,
+		z.Folder,
+		z.Sum,
 		fs,
 		filesystem.NewPath("", z.Path),
 		z.Depth.Value(),

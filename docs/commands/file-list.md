@@ -80,12 +80,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option             | Description           | Default |
-|--------------------|-----------------------|---------|
-| `-include-deleted` | Include deleted files | false   |
-| `-path`            | Path                  |         |
-| `-peer`            | Account alias         | default |
-| `-recursive`       | List recursively      | false   |
+| Option                             | Description                                                                                                                | Default |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------------|---------|
+| `-include-deleted`                 | Include deleted files                                                                                                      | false   |
+| `-include-explicit-shared-members` |  If true, the results will include a flag for each file indicating whether or not that file has any explicit members.      | false   |
+| `-include-mounted-folders`         |  If true, the results will include entries under mounted folders which includes app folder, shared folder and team folder. | false   |
+| `-path`                            | Path                                                                                                                       |         |
+| `-peer`                            | Account alias                                                                                                              | default |
+| `-recursive`                       | List recursively                                                                                                           | false   |
 
 ## Common options:
 

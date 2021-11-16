@@ -113,6 +113,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [file restore all](docs/ja/commands/file-restore-all.md)                           | 指定されたパス以下をリストアします                                 |
 | [file search content](docs/ja/commands/file-search-content.md)                     | ファイルコンテンツを検索                                           |
 | [file search name](docs/ja/commands/file-search-name.md)                           | ファイル名を検索                                                   |
+| [file share info](docs/ja/commands/file-share-info.md)                             | ファイルの共有情報を取得する                                       |
 | [file size](docs/ja/commands/file-size.md)                                         | ストレージの利用量                                                 |
 | [file sync down](docs/ja/commands/file-sync-down.md)                               | Dropboxと下り方向で同期します                                      |
 | [file sync online](docs/ja/commands/file-sync-online.md)                           | オンラインファイルを同期します                                     |
@@ -125,7 +126,11 @@ DropboxおよびDropbox Business向けのツールセット
 | [job history ship](docs/ja/commands/job-history-ship.md)                           | ログの転送先Dropboxパス                                            |
 | [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md) | 現在のユーザーの機能設定の一覧                                     |
 | [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                         | 共有フォルダの一覧                                                 |
+| [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)             | 共有フォルダへのメンバーの追加                                     |
+| [sharedfolder member delete](docs/ja/commands/sharedfolder-member-delete.md)       | 共有フォルダからメンバーを削除する                                 |
 | [sharedfolder member list](docs/ja/commands/sharedfolder-member-list.md)           | 共有フォルダのメンバーを一覧します                                 |
+| [sharedfolder share](docs/ja/commands/sharedfolder-share.md)                       | フォルダの共有                                                     |
+| [sharedfolder unshare](docs/ja/commands/sharedfolder-unshare.md)                   | フォルダの共有解除                                                 |
 | [sharedlink create](docs/ja/commands/sharedlink-create.md)                         | 共有リンクの作成                                                   |
 | [sharedlink delete](docs/ja/commands/sharedlink-delete.md)                         | 共有リンクを削除します                                             |
 | [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                   | 共有リンクのファイルを一覧する                                     |
@@ -134,101 +139,107 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Dropbox Business
 
-| コマンド                                                                                   | 説明                                                                                   |
-|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [group add](docs/ja/commands/group-add.md)                                                 | グループを作成します                                                                   |
-| [group batch add](docs/ja/commands/group-batch-add.md)                                     | グループの一括追加                                                                     |
-| [group batch delete](docs/ja/commands/group-batch-delete.md)                               | グループの削除                                                                         |
-| [group delete](docs/ja/commands/group-delete.md)                                           | グループを削除します                                                                   |
-| [group folder list](docs/ja/commands/group-folder-list.md)                                 | 各グループのフォルダを探す                                                             |
-| [group list](docs/ja/commands/group-list.md)                                               | グループを一覧                                                                         |
-| [group member add](docs/ja/commands/group-member-add.md)                                   | メンバーをグループに追加                                                               |
-| [group member batch add](docs/ja/commands/group-member-batch-add.md)                       | グループにメンバーを一括追加                                                           |
-| [group member batch delete](docs/ja/commands/group-member-batch-delete.md)                 | グループからメンバーを削除                                                             |
-| [group member batch update](docs/ja/commands/group-member-batch-update.md)                 | グループからメンバーを追加または削除                                                   |
-| [group member delete](docs/ja/commands/group-member-delete.md)                             | メンバーをグループから削除                                                             |
-| [group member list](docs/ja/commands/group-member-list.md)                                 | グループに所属するメンバー一覧を取得します                                             |
-| [group rename](docs/ja/commands/group-rename.md)                                           | グループの改名                                                                         |
-| [member batch suspend](docs/ja/commands/member-batch-suspend.md)                           | メンバーの一括一時停止                                                                 |
-| [member batch unsuspend](docs/ja/commands/member-batch-unsuspend.md)                       | メンバーの一括停止解除                                                                 |
-| [member clear externalid](docs/ja/commands/member-clear-externalid.md)                     | メンバーのexternal_idを初期化します                                                    |
-| [member delete](docs/ja/commands/member-delete.md)                                         | メンバーを削除します                                                                   |
-| [member detach](docs/ja/commands/member-detach.md)                                         | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
-| [member feature](docs/ja/commands/member-feature.md)                                       | メンバーの機能設定一覧                                                                 |
-| [member file lock all release](docs/ja/commands/member-file-lock-all-release.md)           | メンバーのパスの下にあるすべてのロックを解除します                                     |
-| [member file lock list](docs/ja/commands/member-file-lock-list.md)                         | パスの下にあるメンバーのロックを一覧表示                                               |
-| [member file lock release](docs/ja/commands/member-file-lock-release.md)                   | メンバーとしてパスのロックを解除します                                                 |
-| [member file permdelete](docs/ja/commands/member-file-permdelete.md)                       | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                 |
-| [member folder list](docs/ja/commands/member-folder-list.md)                               | 各メンバーのフォルダを検索                                                             |
-| [member folder replication](docs/ja/commands/member-folder-replication.md)                 | フォルダを他のメンバーの個人フォルダに複製します                                       |
-| [member invite](docs/ja/commands/member-invite.md)                                         | メンバーを招待します                                                                   |
-| [member list](docs/ja/commands/member-list.md)                                             | チームメンバーの一覧                                                                   |
-| [member quota list](docs/ja/commands/member-quota-list.md)                                 | メンバーの容量制限情報を一覧します                                                     |
-| [member quota update](docs/ja/commands/member-quota-update.md)                             | チームメンバーの容量制限を変更                                                         |
-| [member quota usage](docs/ja/commands/member-quota-usage.md)                               | チームメンバーのストレージ利用状況を取得                                               |
-| [member reinvite](docs/ja/commands/member-reinvite.md)                                     | 招待済み状態メンバーをチームに再招待します                                             |
-| [member replication](docs/ja/commands/member-replication.md)                               | チームメンバーのファイルを複製します                                                   |
-| [member suspend](docs/ja/commands/member-suspend.md)                                       | メンバーの一時停止処理                                                                 |
-| [member unsuspend](docs/ja/commands/member-unsuspend.md)                                   | メンバーの一時停止を解除する                                                           |
-| [member update email](docs/ja/commands/member-update-email.md)                             | メンバーのメールアドレス処理                                                           |
-| [member update externalid](docs/ja/commands/member-update-externalid.md)                   | チームメンバーのExternal IDを更新します.                                               |
-| [member update invisible](docs/ja/commands/member-update-invisible.md)                     | メンバーへのディレクトリ制限を有効にします                                             |
-| [member update profile](docs/ja/commands/member-update-profile.md)                         | メンバーのプロフィール変更                                                             |
-| [member update visible](docs/ja/commands/member-update-visible.md)                         | メンバーへのディレクトリ制限を無効にします                                             |
-| [team activity batch user](docs/ja/commands/team-activity-batch-user.md)                   | 複数ユーザーのアクティビティを一括取得します                                           |
-| [team activity daily event](docs/ja/commands/team-activity-daily-event.md)                 | アクティビティーを1日ごとに取得します                                                  |
-| [team activity event](docs/ja/commands/team-activity-event.md)                             | イベントログ                                                                           |
-| [team activity user](docs/ja/commands/team-activity-user.md)                               | ユーザーごとのアクティビティ                                                           |
-| [team admin group role add](docs/ja/commands/team-admin-group-role-add.md)                 | グループのメンバーにロールを追加する                                                   |
-| [team admin group role delete](docs/ja/commands/team-admin-group-role-delete.md)           | 例外グループのメンバーを除くすべてのメンバーからロールを削除する                       |
-| [team admin list](docs/ja/commands/team-admin-list.md)                                     | メンバーの管理者権限一覧                                                               |
-| [team admin role add](docs/ja/commands/team-admin-role-add.md)                             | メンバーに新しいロールを追加する                                                       |
-| [team admin role clear](docs/ja/commands/team-admin-role-clear.md)                         | メンバーからすべての管理者ロールを削除する                                             |
-| [team admin role delete](docs/ja/commands/team-admin-role-delete.md)                       | メンバーからロールを削除する                                                           |
-| [team admin role list](docs/ja/commands/team-admin-role-list.md)                           | チームの管理者の役割を列挙                                                             |
-| [team content legacypaper count](docs/ja/commands/team-content-legacypaper-count.md)       | メンバー1人あたりのPaper文書の枚数                                                     |
-| [team content legacypaper export](docs/ja/commands/team-content-legacypaper-export.md)     | チームメンバー全員のPaper文書をローカルパスにエクスポート.                             |
-| [team content legacypaper list](docs/ja/commands/team-content-legacypaper-list.md)         | チームメンバーのPaper文書リスト出力                                                    |
-| [team content member list](docs/ja/commands/team-content-member-list.md)                   | チームフォルダや共有フォルダのメンバー一覧                                             |
-| [team content member size](docs/ja/commands/team-content-member-size.md)                   | チームフォルダや共有フォルダのメンバー数をカウントする                                 |
-| [team content mount list](docs/ja/commands/team-content-mount-list.md)                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
-| [team content policy list](docs/ja/commands/team-content-policy-list.md)                   | チームフォルダと共有フォルダのポリシー一覧                                             |
-| [team device list](docs/ja/commands/team-device-list.md)                                   | チーム内全てのデバイス/セッションを一覧します                                          |
-| [team device unlink](docs/ja/commands/team-device-unlink.md)                               | デバイスのセッションを解除します                                                       |
-| [team feature](docs/ja/commands/team-feature.md)                                           | チームの機能を出力します                                                               |
-| [team filerequest list](docs/ja/commands/team-filerequest-list.md)                         | チームないのファイルリクエストを一覧します                                             |
-| [team info](docs/ja/commands/team-info.md)                                                 | チームの情報                                                                           |
-| [team linkedapp list](docs/ja/commands/team-linkedapp-list.md)                             | リンク済みアプリを一覧                                                                 |
-| [team namespace file list](docs/ja/commands/team-namespace-file-list.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
-| [team namespace file size](docs/ja/commands/team-namespace-file-size.md)                   | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
-| [team namespace list](docs/ja/commands/team-namespace-list.md)                             | チーム内すべての名前空間を一覧                                                         |
-| [team namespace member list](docs/ja/commands/team-namespace-member-list.md)               | チームフォルダ以下のファイル・フォルダを一覧                                           |
-| [team sharedlink cap expiry](docs/ja/commands/team-sharedlink-cap-expiry.md)               | チーム内の共有リンクに有効期限の上限を設定                                             |
-| [team sharedlink cap visibility](docs/ja/commands/team-sharedlink-cap-visibility.md)       | チーム内の共有リンクに可視性の上限を設定                                               |
-| [team sharedlink delete links](docs/ja/commands/team-sharedlink-delete-links.md)           | 共有リンクの一括削除                                                                   |
-| [team sharedlink delete member](docs/ja/commands/team-sharedlink-delete-member.md)         | メンバーの共有リンクをすべて削除                                                       |
-| [team sharedlink list](docs/ja/commands/team-sharedlink-list.md)                           | 共有リンクの一覧                                                                       |
-| [team sharedlink update expiry](docs/ja/commands/team-sharedlink-update-expiry.md)         | チーム内の公開されている共有リンクについて有効期限を更新します                         |
-| [team sharedlink update password](docs/ja/commands/team-sharedlink-update-password.md)     | 共有リンクのパスワードの設定・更新                                                     |
-| [team sharedlink update visibility](docs/ja/commands/team-sharedlink-update-visibility.md) | 共有リンクの可視性の更新                                                               |
-| [teamfolder add](docs/ja/commands/teamfolder-add.md)                                       | チームフォルダを追加します                                                             |
-| [teamfolder archive](docs/ja/commands/teamfolder-archive.md)                               | チームフォルダのアーカイブ                                                             |
-| [teamfolder batch archive](docs/ja/commands/teamfolder-batch-archive.md)                   | 複数のチームフォルダをアーカイブします                                                 |
-| [teamfolder batch permdelete](docs/ja/commands/teamfolder-batch-permdelete.md)             | 複数のチームフォルダを完全に削除します                                                 |
-| [teamfolder batch replication](docs/ja/commands/teamfolder-batch-replication.md)           | チームフォルダの一括レプリケーション                                                   |
-| [teamfolder file list](docs/ja/commands/teamfolder-file-list.md)                           | チームフォルダの一覧                                                                   |
-| [teamfolder file lock all release](docs/ja/commands/teamfolder-file-lock-all-release.md)   | チームフォルダのパスの下にあるすべてのロックを解除する                                 |
-| [teamfolder file lock list](docs/ja/commands/teamfolder-file-lock-list.md)                 | チームフォルダ内のロックを一覧表示                                                     |
-| [teamfolder file lock release](docs/ja/commands/teamfolder-file-lock-release.md)           | チームフォルダ内のパスのロックを解除                                                   |
-| [teamfolder file size](docs/ja/commands/teamfolder-file-size.md)                           | チームフォルダのサイズを計算                                                           |
-| [teamfolder list](docs/ja/commands/teamfolder-list.md)                                     | チームフォルダの一覧                                                                   |
-| [teamfolder member add](docs/ja/commands/teamfolder-member-add.md)                         | チームフォルダへのユーザー/グループの一括追加                                          |
-| [teamfolder member delete](docs/ja/commands/teamfolder-member-delete.md)                   | チームフォルダからのユーザー/グループの一括削除                                        |
-| [teamfolder member list](docs/ja/commands/teamfolder-member-list.md)                       | チームフォルダのメンバー一覧                                                           |
-| [teamfolder partial replication](docs/ja/commands/teamfolder-partial-replication.md)       | 部分的なチームフォルダの他チームへのレプリケーション                                   |
-| [teamfolder permdelete](docs/ja/commands/teamfolder-permdelete.md)                         | チームフォルダを完全に削除します                                                       |
-| [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                       | チームフォルダのポリシー一覧                                                           |
-| [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                       | チームフォルダを他のチームに複製します                                                 |
+| コマンド                                                                                                       | 説明                                                                                   |
+|----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [group add](docs/ja/commands/group-add.md)                                                                     | グループを作成します                                                                   |
+| [group batch add](docs/ja/commands/group-batch-add.md)                                                         | グループの一括追加                                                                     |
+| [group batch delete](docs/ja/commands/group-batch-delete.md)                                                   | グループの削除                                                                         |
+| [group delete](docs/ja/commands/group-delete.md)                                                               | グループを削除します                                                                   |
+| [group folder list](docs/ja/commands/group-folder-list.md)                                                     | 各グループのフォルダを探す                                                             |
+| [group list](docs/ja/commands/group-list.md)                                                                   | グループを一覧                                                                         |
+| [group member add](docs/ja/commands/group-member-add.md)                                                       | メンバーをグループに追加                                                               |
+| [group member batch add](docs/ja/commands/group-member-batch-add.md)                                           | グループにメンバーを一括追加                                                           |
+| [group member batch delete](docs/ja/commands/group-member-batch-delete.md)                                     | グループからメンバーを削除                                                             |
+| [group member batch update](docs/ja/commands/group-member-batch-update.md)                                     | グループからメンバーを追加または削除                                                   |
+| [group member delete](docs/ja/commands/group-member-delete.md)                                                 | メンバーをグループから削除                                                             |
+| [group member list](docs/ja/commands/group-member-list.md)                                                     | グループに所属するメンバー一覧を取得します                                             |
+| [group rename](docs/ja/commands/group-rename.md)                                                               | グループの改名                                                                         |
+| [member batch suspend](docs/ja/commands/member-batch-suspend.md)                                               | メンバーの一括一時停止                                                                 |
+| [member batch unsuspend](docs/ja/commands/member-batch-unsuspend.md)                                           | メンバーの一括停止解除                                                                 |
+| [member clear externalid](docs/ja/commands/member-clear-externalid.md)                                         | メンバーのexternal_idを初期化します                                                    |
+| [member delete](docs/ja/commands/member-delete.md)                                                             | メンバーを削除します                                                                   |
+| [member detach](docs/ja/commands/member-detach.md)                                                             | Dropbox BusinessユーザーをBasicユーザーに変更します                                    |
+| [member feature](docs/ja/commands/member-feature.md)                                                           | メンバーの機能設定一覧                                                                 |
+| [member file lock all release](docs/ja/commands/member-file-lock-all-release.md)                               | メンバーのパスの下にあるすべてのロックを解除します                                     |
+| [member file lock list](docs/ja/commands/member-file-lock-list.md)                                             | パスの下にあるメンバーのロックを一覧表示                                               |
+| [member file lock release](docs/ja/commands/member-file-lock-release.md)                                       | メンバーとしてパスのロックを解除します                                                 |
+| [member file permdelete](docs/ja/commands/member-file-permdelete.md)                                           | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                 |
+| [member folder list](docs/ja/commands/member-folder-list.md)                                                   | 各メンバーのフォルダを検索                                                             |
+| [member folder replication](docs/ja/commands/member-folder-replication.md)                                     | フォルダを他のメンバーの個人フォルダに複製します                                       |
+| [member invite](docs/ja/commands/member-invite.md)                                                             | メンバーを招待します                                                                   |
+| [member list](docs/ja/commands/member-list.md)                                                                 | チームメンバーの一覧                                                                   |
+| [member quota list](docs/ja/commands/member-quota-list.md)                                                     | メンバーの容量制限情報を一覧します                                                     |
+| [member quota update](docs/ja/commands/member-quota-update.md)                                                 | チームメンバーの容量制限を変更                                                         |
+| [member quota usage](docs/ja/commands/member-quota-usage.md)                                                   | チームメンバーのストレージ利用状況を取得                                               |
+| [member reinvite](docs/ja/commands/member-reinvite.md)                                                         | 招待済み状態メンバーをチームに再招待します                                             |
+| [member replication](docs/ja/commands/member-replication.md)                                                   | チームメンバーのファイルを複製します                                                   |
+| [member suspend](docs/ja/commands/member-suspend.md)                                                           | メンバーの一時停止処理                                                                 |
+| [member unsuspend](docs/ja/commands/member-unsuspend.md)                                                       | メンバーの一時停止を解除する                                                           |
+| [member update email](docs/ja/commands/member-update-email.md)                                                 | メンバーのメールアドレス処理                                                           |
+| [member update externalid](docs/ja/commands/member-update-externalid.md)                                       | チームメンバーのExternal IDを更新します.                                               |
+| [member update invisible](docs/ja/commands/member-update-invisible.md)                                         | メンバーへのディレクトリ制限を有効にします                                             |
+| [member update profile](docs/ja/commands/member-update-profile.md)                                             | メンバーのプロフィール変更                                                             |
+| [member update visible](docs/ja/commands/member-update-visible.md)                                             | メンバーへのディレクトリ制限を無効にします                                             |
+| [team activity batch user](docs/ja/commands/team-activity-batch-user.md)                                       | 複数ユーザーのアクティビティを一括取得します                                           |
+| [team activity daily event](docs/ja/commands/team-activity-daily-event.md)                                     | アクティビティーを1日ごとに取得します                                                  |
+| [team activity event](docs/ja/commands/team-activity-event.md)                                                 | イベントログ                                                                           |
+| [team activity user](docs/ja/commands/team-activity-user.md)                                                   | ユーザーごとのアクティビティ                                                           |
+| [team admin group role add](docs/ja/commands/team-admin-group-role-add.md)                                     | グループのメンバーにロールを追加する                                                   |
+| [team admin group role delete](docs/ja/commands/team-admin-group-role-delete.md)                               | 例外グループのメンバーを除くすべてのメンバーからロールを削除する                       |
+| [team admin list](docs/ja/commands/team-admin-list.md)                                                         | メンバーの管理者権限一覧                                                               |
+| [team admin role add](docs/ja/commands/team-admin-role-add.md)                                                 | メンバーに新しいロールを追加する                                                       |
+| [team admin role clear](docs/ja/commands/team-admin-role-clear.md)                                             | メンバーからすべての管理者ロールを削除する                                             |
+| [team admin role delete](docs/ja/commands/team-admin-role-delete.md)                                           | メンバーからロールを削除する                                                           |
+| [team admin role list](docs/ja/commands/team-admin-role-list.md)                                               | チームの管理者の役割を列挙                                                             |
+| [team content legacypaper count](docs/ja/commands/team-content-legacypaper-count.md)                           | メンバー1人あたりのPaper文書の枚数                                                     |
+| [team content legacypaper export](docs/ja/commands/team-content-legacypaper-export.md)                         | チームメンバー全員のPaper文書をローカルパスにエクスポート.                             |
+| [team content legacypaper list](docs/ja/commands/team-content-legacypaper-list.md)                             | チームメンバーのPaper文書リスト出力                                                    |
+| [team content member list](docs/ja/commands/team-content-member-list.md)                                       | チームフォルダや共有フォルダのメンバー一覧                                             |
+| [team content member size](docs/ja/commands/team-content-member-size.md)                                       | チームフォルダや共有フォルダのメンバー数をカウントする                                 |
+| [team content mount list](docs/ja/commands/team-content-mount-list.md)                                         | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
+| [team content policy list](docs/ja/commands/team-content-policy-list.md)                                       | チームフォルダと共有フォルダのポリシー一覧                                             |
+| [team device list](docs/ja/commands/team-device-list.md)                                                       | チーム内全てのデバイス/セッションを一覧します                                          |
+| [team device unlink](docs/ja/commands/team-device-unlink.md)                                                   | デバイスのセッションを解除します                                                       |
+| [team feature](docs/ja/commands/team-feature.md)                                                               | チームの機能を出力します                                                               |
+| [team filerequest list](docs/ja/commands/team-filerequest-list.md)                                             | チームないのファイルリクエストを一覧します                                             |
+| [team info](docs/ja/commands/team-info.md)                                                                     | チームの情報                                                                           |
+| [team linkedapp list](docs/ja/commands/team-linkedapp-list.md)                                                 | リンク済みアプリを一覧                                                                 |
+| [team namespace file list](docs/ja/commands/team-namespace-file-list.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
+| [team namespace file size](docs/ja/commands/team-namespace-file-size.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
+| [team namespace list](docs/ja/commands/team-namespace-list.md)                                                 | チーム内すべての名前空間を一覧                                                         |
+| [team namespace member list](docs/ja/commands/team-namespace-member-list.md)                                   | チームフォルダ以下のファイル・フォルダを一覧                                           |
+| [team runas file batch copy](docs/ja/commands/team-runas-file-batch-copy.md)                                   | ファイル/フォルダーをメンバーとして一括コピー                                          |
+| [team runas file sync batch up](docs/ja/commands/team-runas-file-sync-batch-up.md)                             | メンバーとして動作する一括同期                                                         |
+| [team runas sharedfolder batch share](docs/ja/commands/team-runas-sharedfolder-batch-share.md)                 | メンバーのフォルダを一括で共有                                                         |
+| [team runas sharedfolder batch unshare](docs/ja/commands/team-runas-sharedfolder-batch-unshare.md)             | メンバーのフォルダの共有を一括解除                                                     |
+| [team runas sharedfolder member batch add](docs/ja/commands/team-runas-sharedfolder-member-batch-add.md)       | メンバーの共有フォルダにメンバーを一括追加                                             |
+| [team runas sharedfolder member batch delete](docs/ja/commands/team-runas-sharedfolder-member-batch-delete.md) | メンバーの共有フォルダからメンバーを一括削除                                           |
+| [team sharedlink cap expiry](docs/ja/commands/team-sharedlink-cap-expiry.md)                                   | チーム内の共有リンクに有効期限の上限を設定                                             |
+| [team sharedlink cap visibility](docs/ja/commands/team-sharedlink-cap-visibility.md)                           | チーム内の共有リンクに可視性の上限を設定                                               |
+| [team sharedlink delete links](docs/ja/commands/team-sharedlink-delete-links.md)                               | 共有リンクの一括削除                                                                   |
+| [team sharedlink delete member](docs/ja/commands/team-sharedlink-delete-member.md)                             | メンバーの共有リンクをすべて削除                                                       |
+| [team sharedlink list](docs/ja/commands/team-sharedlink-list.md)                                               | 共有リンクの一覧                                                                       |
+| [team sharedlink update expiry](docs/ja/commands/team-sharedlink-update-expiry.md)                             | チーム内の公開されている共有リンクについて有効期限を更新します                         |
+| [team sharedlink update password](docs/ja/commands/team-sharedlink-update-password.md)                         | 共有リンクのパスワードの設定・更新                                                     |
+| [team sharedlink update visibility](docs/ja/commands/team-sharedlink-update-visibility.md)                     | 共有リンクの可視性の更新                                                               |
+| [teamfolder add](docs/ja/commands/teamfolder-add.md)                                                           | チームフォルダを追加します                                                             |
+| [teamfolder archive](docs/ja/commands/teamfolder-archive.md)                                                   | チームフォルダのアーカイブ                                                             |
+| [teamfolder batch archive](docs/ja/commands/teamfolder-batch-archive.md)                                       | 複数のチームフォルダをアーカイブします                                                 |
+| [teamfolder batch permdelete](docs/ja/commands/teamfolder-batch-permdelete.md)                                 | 複数のチームフォルダを完全に削除します                                                 |
+| [teamfolder batch replication](docs/ja/commands/teamfolder-batch-replication.md)                               | チームフォルダの一括レプリケーション                                                   |
+| [teamfolder file list](docs/ja/commands/teamfolder-file-list.md)                                               | チームフォルダの一覧                                                                   |
+| [teamfolder file lock all release](docs/ja/commands/teamfolder-file-lock-all-release.md)                       | チームフォルダのパスの下にあるすべてのロックを解除する                                 |
+| [teamfolder file lock list](docs/ja/commands/teamfolder-file-lock-list.md)                                     | チームフォルダ内のロックを一覧表示                                                     |
+| [teamfolder file lock release](docs/ja/commands/teamfolder-file-lock-release.md)                               | チームフォルダ内のパスのロックを解除                                                   |
+| [teamfolder file size](docs/ja/commands/teamfolder-file-size.md)                                               | チームフォルダのサイズを計算                                                           |
+| [teamfolder list](docs/ja/commands/teamfolder-list.md)                                                         | チームフォルダの一覧                                                                   |
+| [teamfolder member add](docs/ja/commands/teamfolder-member-add.md)                                             | チームフォルダへのユーザー/グループの一括追加                                          |
+| [teamfolder member delete](docs/ja/commands/teamfolder-member-delete.md)                                       | チームフォルダからのユーザー/グループの一括削除                                        |
+| [teamfolder member list](docs/ja/commands/teamfolder-member-list.md)                                           | チームフォルダのメンバー一覧                                                           |
+| [teamfolder partial replication](docs/ja/commands/teamfolder-partial-replication.md)                           | 部分的なチームフォルダの他チームへのレプリケーション                                   |
+| [teamfolder permdelete](docs/ja/commands/teamfolder-permdelete.md)                                             | チームフォルダを完全に削除します                                                       |
+| [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                           |
+| [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                 |
 
 ## GitHub
 

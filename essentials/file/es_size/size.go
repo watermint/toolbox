@@ -1,11 +1,12 @@
 package es_size
 
 import (
-	"encoding/base32"
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/time/ut_compare"
@@ -28,6 +29,25 @@ type FolderSize struct {
 var (
 	ErrorSessionNotFound = errors.New("session not found")
 )
+
+func toKvsKey(sessionId, path string) string {
+	k, err := json.Marshal(&sessionStoreKey{
+		SessionId: sessionId,
+		Path:      path,
+	})
+	if err != nil {
+		panic("unable to marshal session key: " + err.Error())
+	}
+	return string(k)
+}
+
+func fromKvsKey(key string) *sessionStoreKey {
+	sk := &sessionStoreKey{}
+	if err := json.Unmarshal([]byte(key), sk); err != nil {
+		panic("unable to unmarshal session key: " + err.Error())
+	}
+	return sk
+}
 
 // Returns new instance of this instance plus given s.
 // But keeps Path and Depth attributes.
@@ -65,21 +85,20 @@ func Fold(path string, fs es_filesystem.FileSystem, entries []es_filesystem.Entr
 	return
 }
 
-func New(log esl.Logger, queueIdScanFolder string, factory kv_storage.Factory) Context {
+func New(log esl.Logger, queueIdScanFolder string, folder, sum kv_storage.Storage) Context {
 	return &ctxImpl{
 		log:               log,
 		queueIdScanFolder: queueIdScanFolder,
 		sessions:          make(map[string]Session),
 		sessionsMutex:     sync.Mutex{},
 		sessionPath:       make(map[string]es_filesystem.Path),
-		factory:           factory,
 	}
 }
 
 type Context interface {
 	QueueIdScanFolder() string
 
-	New(sessionId string, path es_filesystem.Path, stg eq_sequence.Stage, fs es_filesystem.FileSystem, meta interface{}) Session
+	New(sessionId string, path es_filesystem.Path, stg eq_sequence.Stage, fs es_filesystem.FileSystem, folder, sum kv_storage.Storage, meta interface{}) Session
 	StartSession(sessionId string, stg eq_sequence.Stage) error
 
 	Get(sessionId string) (Session, error)
@@ -95,7 +114,7 @@ type ctxImpl struct {
 	sessions          map[string]Session
 	sessionsMutex     sync.Mutex
 	sessionPath       map[string]es_filesystem.Path
-	factory           kv_storage.Factory
+	folder, sum       kv_storage.Storage
 }
 
 func (z *ctxImpl) ListEach(depth int, h func(sessionId string, meta interface{}, size FolderSize)) error {
@@ -141,7 +160,7 @@ func (z *ctxImpl) StartSession(sessionId string, stg eq_sequence.Stage) error {
 	}
 }
 
-func (z *ctxImpl) New(sessionId string, path es_filesystem.Path, stg eq_sequence.Stage, fs es_filesystem.FileSystem, meta interface{}) Session {
+func (z *ctxImpl) New(sessionId string, path es_filesystem.Path, stg eq_sequence.Stage, fs es_filesystem.FileSystem, folder, sum kv_storage.Storage, meta interface{}) Session {
 	z.sessionsMutex.Lock()
 	defer z.sessionsMutex.Unlock()
 	l := z.Log()
@@ -150,7 +169,8 @@ func (z *ctxImpl) New(sessionId string, path es_filesystem.Path, stg eq_sequence
 		l.Debug("Session already exists", esl.String("sessionId", sessionId))
 		return session
 	}
-	session := newSession(z, sessionId, stg, fs, z.factory, meta)
+
+	session := newSession(z, sessionId, stg, fs, folder, sum, meta)
 
 	z.sessionPath[sessionId] = path
 	z.sessions[sessionId] = session
@@ -206,15 +226,21 @@ type Session interface {
 	Enqueue(path es_filesystem.Path, depth int)
 }
 
-func newSession(ctx Context, sessionId string, stg eq_sequence.Stage, fs es_filesystem.FileSystem, factory kv_storage.Factory, meta interface{}) Session {
+func newSession(ctx Context, sessionId string, stg eq_sequence.Stage, fs es_filesystem.FileSystem, folder, sum kv_storage.Storage, meta interface{}) Session {
 	return &sessionImpl{
 		ctx:       ctx,
 		sessionId: sessionId,
 		stg:       stg,
 		fs:        fs,
-		factory:   factory,
 		metadata:  meta,
+		folder:    folder,
+		sum:       sum,
 	}
+}
+
+type sessionStoreKey struct {
+	SessionId string `json:"s"`
+	Path      string `json:"p"`
 }
 
 type sessionImpl struct {
@@ -222,8 +248,6 @@ type sessionImpl struct {
 	stg       eq_sequence.Stage
 	fs        es_filesystem.FileSystem
 	metadata  interface{}
-
-	factory kv_storage.Factory
 
 	// folder structure (path -> descendants)
 	folder kv_storage.Storage
@@ -239,21 +263,6 @@ func (z *sessionImpl) Metadata() interface{} {
 }
 
 func (z *sessionImpl) Open() (err error) {
-	l := z.Log()
-
-	key := base32.StdEncoding.WithPadding(base32.NoPadding).EncodeToString([]byte(z.SessionId()))
-	l.Debug("Prepare traverse resources", esl.String("sessionId", z.SessionId()), esl.String("sessionKey", key))
-	z.folder, err = z.factory.New("folder_" + key)
-	if err != nil {
-		l.Debug("Unable to create new storage", esl.Error(err))
-		return err
-	}
-	z.sum, err = z.factory.New("sum_" + key)
-	if err != nil {
-		l.Debug("Unable to create new storage", esl.Error(err))
-		return err
-	}
-
 	return nil
 }
 
@@ -274,7 +283,12 @@ func (z *sessionImpl) ListEach(depth int, h func(size FolderSize)) error {
 	l := z.Log()
 	var lastErr error
 	viewErr := z.sum.View(func(kvs kv_kvs.Kvs) error {
-		return kvs.ForEachModel(&FolderSize{}, func(key string, m interface{}) error {
+		return kvs.ForEachModel(&FolderSize{}, func(k0 string, m interface{}) error {
+			sk := fromKvsKey(k0)
+			if sk.SessionId != z.sessionId {
+				return nil
+			}
+
 			sum := m.(*FolderSize)
 			if sum.Depth <= depth {
 				l.Debug("Reporting", esl.Any("sum", sum))
@@ -351,7 +365,7 @@ func ScanFolder(task *TaskScanFolder, ctx Context) error {
 	sum := Fold(task.Path.Path(), session.FileSystem(), entries)
 	sum.Depth = task.Depth
 	kvErr := session.Sum().Update(func(kvs kv_kvs.Kvs) error {
-		return kvs.PutJsonModel(path.Path(), &sum)
+		return kvs.PutJsonModel(toKvsKey(task.SessionId, path.Path()), &sum)
 	})
 	if kvErr != nil {
 		l.Debug("Unable to store result", esl.Error(kvErr))
@@ -372,7 +386,7 @@ func ScanFolder(task *TaskScanFolder, ctx Context) error {
 	}
 
 	kvErr = session.Folder().Update(func(kvs kv_kvs.Kvs) error {
-		return kvs.PutJsonModel(path.Path(), &descendants)
+		return kvs.PutJsonModel(toKvsKey(task.SessionId, path.Path()), &descendants)
 	})
 	if kvErr != nil {
 		l.Debug("Unable to store result", esl.Error(kvErr))
@@ -391,7 +405,7 @@ func sumDescendants(sum *FolderSize, session Session) (total FolderSize, err err
 	l.Debug("Summarize descendants")
 	descendants := &TaskScanFolderDescendants{}
 	err = session.Folder().View(func(kvd kv_kvs.Kvs) error {
-		return kvd.GetJsonModel(sum.Path, descendants)
+		return kvd.GetJsonModel(toKvsKey(session.SessionId(), sum.Path), descendants)
 	})
 	if err != nil {
 		l.Debug("Unable to retrieve descendants", esl.Error(err))
@@ -401,7 +415,7 @@ func sumDescendants(sum *FolderSize, session Session) (total FolderSize, err err
 	for _, path := range descendants.Folders {
 		descendant := &FolderSize{}
 		err = session.Sum().View(func(kvs kv_kvs.Kvs) error {
-			return kvs.GetJsonModel(path, descendant)
+			return kvs.GetJsonModel(toKvsKey(session.SessionId(), path), descendant)
 		})
 		if err != nil {
 			l.Debug("Unable to retrieve descendant data", esl.String("path", path), esl.Error(err))
@@ -428,17 +442,17 @@ func sumDescendants(sum *FolderSize, session Session) (total FolderSize, err err
 func ScanSingleFileSystem(
 	log esl.Logger,
 	seq eq_sequence.Sequence,
-	factory kv_storage.Factory,
+	folder, sum kv_storage.Storage,
 	fs es_filesystem.FileSystem,
 	path es_filesystem.Path,
 	depth int,
 	h func(s FolderSize),
 ) error {
-	ctx := New(log, "scan_folder", factory)
+	ctx := New(log, "scan_folder", folder, sum)
 	sessionId := "single"
 	var lastErr error
 	seq.Do(func(s eq_sequence.Stage) {
-		ctx.New(sessionId, path, s, fs, nil)
+		ctx.New(sessionId, path, s, fs, folder, sum, nil)
 		s.Define("scan_folder", ScanFolder, ctx)
 		s.Define("scan_session", ctx.StartSession, s)
 		s.Get("scan_session").Enqueue(sessionId)
@@ -452,8 +466,5 @@ func ScanSingleFileSystem(
 		h(size)
 	})
 
-	if lastErr != nil || listErr != nil {
-		return multierr.Combine(lastErr, listErr)
-	}
-	return nil
+	return lang.NewMultiErrorOrNull(lastErr, listErr)
 }
