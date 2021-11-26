@@ -39,7 +39,7 @@ require (
 	github.com/watermint/essentials v0.0.0-20211009040852-b5b03f0d056d
 	github.com/xanzy/ssh-agent v0.3.1 // indirect
 	go.uber.org/atomic v1.9.0
-	go.uber.org/multierr v1.7.0
+	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.19.1
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
 	golang.org/x/exp v0.0.0-20211008200323-95152d363a1c
