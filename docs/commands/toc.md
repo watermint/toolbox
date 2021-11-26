@@ -246,10 +246,10 @@ lang: en
 | [license]({{ site.baseurl }}/commands/license.html)                               | Show license information                                             |
 | [util date today]({{ site.baseurl }}/commands/util-date-today.html)               | Display current date                                                 |
 | [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)           | Display current date/time                                            |
-| [util decode base_32]({{ site.baseurl }}/commands/util-decode-base_32.html)       | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base_64]({{ site.baseurl }}/commands/util-decode-base_64.html)       | Decode text from Base64 (RFC 4648) format                            |
-| [util encode base_32]({{ site.baseurl }}/commands/util-encode-base_32.html)       | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base_64]({{ site.baseurl }}/commands/util-encode-base_64.html)       | Encode text into Base64 (RFC 4648) format                            |
+| [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)         | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)         | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)         | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)         | Encode text into Base64 (RFC 4648) format                            |
 | [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                 | Clone git repository                                                 |
 | [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html) | Create placeholder image                                             |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)         | Create a QR code image file                                          |

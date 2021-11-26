@@ -4,7 +4,7 @@ import (
 	"compress/gzip"
 	"encoding/csv"
 	"errors"
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -101,10 +101,10 @@ func (z *RowFeed) applyModel() {
 	ord := 0
 
 	appendField := func(f reflect.StructField) {
-		z.fields = append(z.fields, strcase.ToSnake(f.Name))
+		z.fields = append(z.fields, ecase.ToLowerSnakeCase(f.Name))
 		z.fieldNameToOrder[f.Name] = ord
-		z.fieldNameToOrder[strcase.ToSnake(f.Name)] = ord
-		z.fieldNameToOrder[strcase.ToCamel(f.Name)] = ord
+		z.fieldNameToOrder[ecase.ToLowerSnakeCase(f.Name)] = ord
+		z.fieldNameToOrder[ecase.ToUpperCamelCase(f.Name)] = ord
 		z.orderToFieldName[ord] = f.Name
 		ord++
 	}
@@ -160,7 +160,7 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 
 	z.headers = make([]string, len(cols))
 	for i, col := range cols {
-		z.headers[i] = strcase.ToSnake(col)
+		z.headers[i] = ecase.ToLowerSnakeCase(col)
 	}
 	z.mode = "fieldName"
 	for _, col := range cols {
@@ -203,7 +203,7 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 				return nil // ignore error
 			}
 			fieldName := z.headers[ci]
-			f := v.Elem().FieldByName(strcase.ToCamel(fieldName))
+			f := v.Elem().FieldByName(ecase.ToUpperCamelCase(fieldName))
 			if !f.IsValid() || !f.CanSet() {
 				l.Debug("Invalid column",
 					esl.Bool("isValid", f.IsValid()),

@@ -20,7 +20,6 @@ require (
 	github.com/google/go-cmp v0.5.6
 	github.com/google/go-licenses v0.0.0-20211006200916-ceb292363ec8
 	github.com/google/go-querystring v1.1.0
-	github.com/iancoleman/strcase v0.2.0
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kevinburke/ssh_config v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.11

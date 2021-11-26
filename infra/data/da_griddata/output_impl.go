@@ -3,7 +3,7 @@ package da_griddata
 import (
 	"errors"
 	"flag"
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -56,12 +56,12 @@ func (z *gdOutput) Name() string {
 }
 
 func (z *gdOutput) ApplyFlags(f *flag.FlagSet, fieldDesc app_msg.Message, ui app_ui.UI) {
-	//descFilePath := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + strcase.ToSnake(GridOutputOptionFilePath)))
-	//descFormat := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + strcase.ToSnake(GridOutputOptionFormat)))
+	//descFilePath := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + ecase.ToLowerSnakeCase(GridOutputOptionFilePath)))
+	//descFormat := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + ecase.ToLowerSnakeCase(GridOutputOptionFormat)))
 	descFilePath := ui.Text(z.FieldDesc(fieldDesc, z.Name()+GridOutputOptionFilePath))
 	descFormat := ui.Text(z.FieldDesc(fieldDesc, z.Name()+GridOutputOptionFormat))
-	f.StringVar(&z.filePath, strcase.ToKebab(z.Name()+GridOutputOptionFilePath), "", descFilePath)
-	f.StringVar(&z.outputType, strcase.ToKebab(z.Name()+GridOutputOptionFormat), OutputTypeCsv, descFormat)
+	f.StringVar(&z.filePath, ecase.ToLowerKebabCase(z.Name()+GridOutputOptionFilePath), "", descFilePath)
+	f.StringVar(&z.outputType, ecase.ToLowerKebabCase(z.Name()+GridOutputOptionFormat), OutputTypeCsv, descFormat)
 }
 
 func (z *gdOutput) Fields() []string {
@@ -79,7 +79,7 @@ func (z *gdOutput) FieldDesc(base app_msg.Message, name string) app_msg.Message 
 	if fieldName == "" {
 		return app_msg.CreateMessage(base.Key() + GridOutputDescSuffix)
 	} else {
-		return app_msg.CreateMessage(base.Key() + "." + strcase.ToSnake(fieldName) + ".output_grid_data")
+		return app_msg.CreateMessage(base.Key() + "." + ecase.ToLowerSnakeCase(fieldName) + ".output_grid_data")
 	}
 }
 

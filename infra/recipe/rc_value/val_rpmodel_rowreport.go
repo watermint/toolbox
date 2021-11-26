@@ -1,7 +1,7 @@
 package rc_value
 
 import (
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
@@ -13,7 +13,7 @@ import (
 )
 
 func newValueRpModelRowReport(name string) rc_recipe.Value {
-	n := strcase.ToSnake(name)
+	n := ecase.ToLowerSnakeCase(name)
 	v := &ValueRpModelRowReport{name: n}
 	v.rep = rp_model_impl.NewRowReport(n)
 	return v

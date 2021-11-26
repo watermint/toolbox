@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# util decode base_64
+# util encode base64
 
-Base64 (RFC 4648) フォーマットからテキストをデコードします 
+テキストをBase64(RFC 4648)形式にエンコード 
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util decode base_64 
+.\tbx.exe util encode base64 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util decode base_64 
+$HOME/Desktop/tbx util encode base64 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

@@ -1,7 +1,7 @@
 package es_reflect
 
 import (
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"reflect"
 	"strings"
 )
@@ -19,7 +19,7 @@ func Path(base string, r interface{}) (path []string, name string) {
 		path = append(path, strings.Split(pkg, "/")...)
 	}
 	//	return path, strings.ToLower(rt.Name())
-	return path, strcase.ToSnake(rt.Name())
+	return path, ecase.ToLowerSnakeCase(rt.Name())
 }
 
 func Key(base string, r interface{}) string {

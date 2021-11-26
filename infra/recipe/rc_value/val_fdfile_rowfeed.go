@@ -2,7 +2,7 @@ package rc_value
 
 import (
 	"compress/gzip"
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
@@ -153,7 +153,7 @@ func (z *ValueFdFileRowFeed) SpinUp(ctl app_control.Control) (err error) {
 	if err != nil {
 		ui := ctl.UI()
 		ui.Break()
-		ui.Header(MValFdFileRowFeed.HeadFeed.With("Name", strcase.ToSnake(z.rf.Spec().Name())))
+		ui.Header(MValFdFileRowFeed.HeadFeed.With("Name", ecase.ToLowerSnakeCase(z.rf.Spec().Name())))
 		ui.Info(MValFdFileRowFeed.FeedDesc)
 
 		FeedSpec(z.rf.Spec(), ctl.UI())

@@ -1,7 +1,7 @@
 package da_json
 
 import (
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
@@ -32,7 +32,7 @@ func (z jsSpec) Name() string {
 }
 
 func (z jsSpec) Desc() app_msg.Message {
-	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".json_input." + strcase.ToSnake(z.name) + ".desc")
+	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".json_input." + ecase.ToLowerSnakeCase(z.name) + ".desc")
 }
 
 func (z jsSpec) Doc(ui app_ui.UI) *dc_recipe.DocJsonInput {

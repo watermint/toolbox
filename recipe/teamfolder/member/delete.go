@@ -41,7 +41,7 @@ type Delete struct {
 	OperationLog       rp_model.TransactionReport
 	AdminGroupName     string
 	SkipFolderNotFound app_msg.Message
-	SkipNotAMember     app_msg.Message
+	SkipNotMember      app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -91,7 +91,7 @@ func (z *Delete) delete(r *DeleteRecord, c app_control.Control, tc uc_teamfolder
 
 		case uc_teamfolder.ErrorNotAMember:
 			l.Debug("The member does not have an access", esl.Error(err))
-			z.OperationLog.Skip(z.SkipNotAMember, r)
+			z.OperationLog.Skip(z.SkipNotMember, r)
 			return nil
 
 		default:

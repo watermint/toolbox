@@ -324,10 +324,10 @@ Available commands:
 | [license](docs/commands/license.md)                               | Show license information                                             |
 | [util date today](docs/commands/util-date-today.md)               | Display current date                                                 |
 | [util datetime now](docs/commands/util-datetime-now.md)           | Display current date/time                                            |
-| [util decode base_32](docs/commands/util-decode-base_32.md)       | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base_64](docs/commands/util-decode-base_64.md)       | Decode text from Base64 (RFC 4648) format                            |
-| [util encode base_32](docs/commands/util-encode-base_32.md)       | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base_64](docs/commands/util-encode-base_64.md)       | Encode text into Base64 (RFC 4648) format                            |
+| [util decode base32](docs/commands/util-decode-base32.md)         | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64](docs/commands/util-decode-base64.md)         | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base32](docs/commands/util-encode-base32.md)         | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64](docs/commands/util-encode-base64.md)         | Encode text into Base64 (RFC 4648) format                            |
 | [util git clone](docs/commands/util-git-clone.md)                 | Clone git repository                                                 |
 | [util image placeholder](docs/commands/util-image-placeholder.md) | Create placeholder image                                             |
 | [util qrcode create](docs/commands/util-qrcode-create.md)         | Create a QR code image file                                          |

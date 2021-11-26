@@ -322,10 +322,10 @@ DropboxおよびDropbox Business向けのツールセット
 | [license](docs/ja/commands/license.md)                               | ライセンス情報を表示します                                             |
 | [util date today](docs/ja/commands/util-date-today.md)               | 現在の日付を表示                                                       |
 | [util datetime now](docs/ja/commands/util-datetime-now.md)           | 現在の日時を表示                                                       |
-| [util decode base_32](docs/ja/commands/util-decode-base_32.md)       | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base_64](docs/ja/commands/util-decode-base_64.md)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util encode base_32](docs/ja/commands/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base_64](docs/ja/commands/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util decode base32](docs/ja/commands/util-decode-base32.md)         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64](docs/ja/commands/util-decode-base64.md)         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base32](docs/ja/commands/util-encode-base32.md)         | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64](docs/ja/commands/util-encode-base64.md)         | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util git clone](docs/ja/commands/util-git-clone.md)                 | git リポジトリをクローン                                               |
 | [util image placeholder](docs/ja/commands/util-image-placeholder.md) | プレースホルダー画像の作成                                             |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |
