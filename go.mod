@@ -10,7 +10,6 @@ require (
 	github.com/asticode/go-astikit v0.21.1
 	github.com/asticode/go-astilectron v0.25.0
 	github.com/boombuler/barcode v1.0.1
-	github.com/cloudfoundry/jibber_jabber v0.0.0-20151120183258-bcc4c8345a21
 	github.com/eiannone/keyboard v0.0.0-20200508000154-caf4b762e807
 	github.com/gin-gonic/gin v1.7.4
 	github.com/go-git/go-git/v5 v5.4.2
@@ -26,8 +25,6 @@ require (
 	github.com/kevinburke/ssh_config v1.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.11
 	github.com/mattn/go-runewidth v0.0.13 // indirect
-	github.com/onsi/ginkgo v1.12.0 // indirect
-	github.com/onsi/gomega v1.9.0 // indirect
 	github.com/pkg/profile v1.6.0
 	github.com/rapid7/go-get-proxied v0.0.0-20181210221417-16249a544090
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
