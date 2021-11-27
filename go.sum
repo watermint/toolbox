@@ -623,6 +623,8 @@ github.com/watermint/essentials v0.0.0-20211009040852-b5b03f0d056d h1:Q53dt2Lw0i
 github.com/watermint/essentials v0.0.0-20211009040852-b5b03f0d056d/go.mod h1:LiAhUU3MjTEmsmWJxCpGpDsfOH4oaSeEE0Nrjfn6xpA=
 github.com/watermint/essentials v0.4.0 h1:uZwS5Upp5fKBkasPY49FrqKydYECeyei+7qis36glz8=
 github.com/watermint/essentials v0.4.0/go.mod h1:LiAhUU3MjTEmsmWJxCpGpDsfOH4oaSeEE0Nrjfn6xpA=
+github.com/watermint/essentials v0.5.0 h1:kRrbbx2JIoibg7UgpzTa2kBOkx3WP2wWM1rXRBdHN/Y=
+github.com/watermint/essentials v0.5.0/go.mod h1:LiAhUU3MjTEmsmWJxCpGpDsfOH4oaSeEE0Nrjfn6xpA=
 github.com/xanzy/ssh-agent v0.2.1/go.mod h1:mLlQY/MoOhWBj+gOGMQkOeiEvkx+8pJSI+0Bx9h2kr4=
 github.com/xanzy/ssh-agent v0.3.0/go.mod h1:3s9xbODqPuuhK9JV1R321M/FlMZSBvE5aY6eAcqrDh0=
 github.com/xanzy/ssh-agent v0.3.1 h1:AmzO1SSWxw73zxFZPRwaMN1MohDw8UyHnmuxyceTEGo=
