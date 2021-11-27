@@ -122,7 +122,7 @@ func (z *Placeholder) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Placeholder{}, func(r rc_recipe.Recipe) {
 		m := r.(*Placeholder)
 		m.Path = mo_path.NewFileSystemPath(filepath.Join(p, "test.png"))
-		m.Text = mo_string.NewOptional("watermint toolbox")
+		//		m.Text = mo_string.NewOptional("watermint toolbox")
 		m.Color = "marker(b18)"
 		m.TextColor = "marker(w00)"
 		m.TextPosition = "top-right"
