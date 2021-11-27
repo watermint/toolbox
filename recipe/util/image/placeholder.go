@@ -1,6 +1,7 @@
 package image
 
 import (
+	"errors"
 	"github.com/watermint/essentials/egraphic/ecolor"
 	"github.com/watermint/essentials/egraphic/edraw"
 	"github.com/watermint/essentials/egraphic/egeom"
@@ -11,21 +12,26 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 )
 
 type Placeholder struct {
-	Width        int
-	Height       int
-	Color        string
-	Text         mo_string.OptionalString
-	TextColor    string
-	TextPosition string
-	TextAlign    mo_string.SelectString
-	FontSize     int
-	Path         mo_path.FileSystemPath
+	Width                 int
+	Height                int
+	Color                 string
+	Text                  mo_string.OptionalString
+	TextColor             string
+	TextPosition          string
+	TextAlign             mo_string.SelectString
+	FontSize              int
+	FontPath              mo_string.OptionalString
+	Path                  mo_path.FileSystemPath
+	ErrorFontPathRequired app_msg.Message
+	ErrorCantLoadFont     app_msg.Message
 }
 
 func (z *Placeholder) Preset() {
@@ -42,6 +48,7 @@ func (z *Placeholder) Preset() {
 }
 
 func (z *Placeholder) Exec(c app_control.Control) error {
+	ui := c.UI()
 	bgColor, oc := ecolor.ParseColor(z.Color)
 	if oc.IsError() {
 		return oc.Cause()
@@ -52,6 +59,21 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 	imgDraw.FillRectangle(img.Bounds(), bgColor)
 
 	if z.Text.IsExists() {
+		if !z.FontPath.IsExists() {
+			ui.Error(z.ErrorFontPathRequired)
+			return errors.New("font path required to draw text")
+		}
+		fontData, err := ioutil.ReadFile(z.FontPath.Value())
+		if err != nil {
+			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", err))
+			return err
+		}
+		ttf, oc := etext.NewTrueTypeParse(fontData)
+		if oc.IsError() {
+			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", oc.Cause()))
+			return oc.Cause()
+		}
+
 		txtColor, oc := ecolor.ParseColor(z.TextColor)
 		if oc.IsError() {
 			return oc.Cause()
@@ -65,7 +87,7 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 		default:
 			txtAlign = etext.AlignLeft
 		}
-		txtStyle := etext.NewStyle(etext.GoFontRegular.WithSize(z.FontSize), txtColor).WithAlignment(txtAlign)
+		txtStyle := etext.NewStyle(ttf.WithSize(z.FontSize), txtColor).WithAlignment(txtAlign)
 		txtPos, oc := egeom.ParsePosition(z.TextPosition)
 		if oc.IsError() {
 			return oc.Cause()

@@ -343,6 +343,19 @@ Below commands are for managing team admins.
 | [team admin group role add]({{ site.baseurl }}/commands/team-admin-group-role-add.html)       | Add the role to members of the group                                      |
 | [team admin group role delete]({{ site.baseurl }}/commands/team-admin-group-role-delete.html) | Delete the role from all members except of members of the exception group |
 
+# Commands that run as a team member
+
+You can run a command as a team member. For example, you can upload a file into member's folder by using `team runas file sync batch up`.
+
+| Command                                                                                                                     | Description                                       |
+|-----------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member              |
+| [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                 |
+| [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                   |
+| [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                 |
+| [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders      |
+| [team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-delete.html) | Batch delete members from member's shared folders |
+
 # Notes:
 
 Dropbox Business commands require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.

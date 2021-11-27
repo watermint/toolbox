@@ -261,7 +261,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		artifacts := rp_artifact.Artifacts(wb.Workspace())
 		if len(artifacts) > 0 {
 			op := es_open.New()
-			opErr := op.Open(wb.Workspace().Report(), false)
+			opErr := op.Open(wb.Workspace().Report())
 			ctl.Log().Debug("open", esl.Error(opErr))
 		}
 	}

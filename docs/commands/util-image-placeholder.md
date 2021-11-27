@@ -38,17 +38,18 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option           | Description                    | Default |
-|------------------|--------------------------------|---------|
-| `-color`         | Background color               | white   |
-| `-font-size`     | Font size                      | 12      |
-| `-height`        | Height (pixel)                 | 400     |
-| `-path`          | Path to export generated image |         |
-| `-text`          | Text if you need               |         |
-| `-text-align`    | Text alignment                 | left    |
-| `-text-color`    | Text color                     | black   |
-| `-text-position` | Text position                  | center  |
-| `-width`         | Width (pixel)                  | 640     |
+| Option           | Description                                                  | Default |
+|------------------|--------------------------------------------------------------|---------|
+| `-color`         | Background color                                             | white   |
+| `-font-path`     | Path to True Type font (required if you need to draw a text) |         |
+| `-font-size`     | Font size                                                    | 12      |
+| `-height`        | Height (pixel)                                               | 400     |
+| `-path`          | Path to export generated image                               |         |
+| `-text`          | Text if you need                                             |         |
+| `-text-align`    | Text alignment                                               | left    |
+| `-text-color`    | Text color                                                   | black   |
+| `-text-position` | Text position                                                | center  |
+| `-width`         | Width (pixel)                                                | 640     |
 
 ## Common options:
 

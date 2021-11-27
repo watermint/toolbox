@@ -343,6 +343,19 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 | [team admin group role add]({{ site.baseurl }}/ja/commands/team-admin-group-role-add.html)       | グループのメンバーにロールを追加する                             |
 | [team admin group role delete]({{ site.baseurl }}/ja/commands/team-admin-group-role-delete.html) | 例外グループのメンバーを除くすべてのメンバーからロールを削除する |
 
+# Commands that run as a team member
+
+You can run a command as a team member. For example, you can upload a file into member's folder by using `team runas file sync batch up`.
+
+| コマンド                                                                                                                       | 説明                                          |
+|--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー |
+| [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                |
+| [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                |
+| [team runas sharedfolder batch unshare]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-unshare.html)             | メンバーのフォルダの共有を一括解除            |
+| [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加    |
+| [team runas sharedfolder member batch delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-delete.html) | メンバーの共有フォルダからメンバーを一括削除  |
+
 # 注意事項:
 
 Dropbox Businessのコマンドを実行するには、管理者権限が必要です. 認証トークンは、Dropboxのサポートを含め、誰とも共有してはいけません.

@@ -18,14 +18,13 @@ require (
 	github.com/pkg/profile v1.6.0
 	github.com/rapid7/go-get-proxied v0.0.0-20211124153623-e4a594c9d009
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
-	github.com/skratchdot/open-golang v0.0.0-20200116055534-eef842397966
 	github.com/tdewolff/minify v2.3.6+incompatible
 	github.com/tdewolff/parse v2.3.4+incompatible
 	github.com/tealeg/xlsx v1.0.5
 	github.com/tidwall/gjson v1.12.0
 	github.com/vbauerster/mpb/v5 v5.4.0
 	github.com/watermint/bwlimit v0.0.0-20170711090810-815207958550
-	github.com/watermint/essentials v0.5.0
+	github.com/watermint/essentials v0.6.2
 	go.uber.org/atomic v1.9.0
 	go.uber.org/zap v1.19.1
 	golang.org/x/crypto v0.0.0-20211117183948-ae814b36b871

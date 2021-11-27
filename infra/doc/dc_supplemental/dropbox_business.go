@@ -91,6 +91,9 @@ type MsgDropboxBusiness struct {
 
 	TeamAdminTitle app_msg.Message
 	TeamAdminInfo  app_msg.Message
+
+	RunAsTitle app_msg.Message
+	RunAsInfo  app_msg.Message
 }
 
 var (
@@ -100,7 +103,8 @@ var (
 type DropboxBusinessCatalogue interface {
 	Recipe(path string) rc_recipe.Spec
 	RecipeTable(name string, ui app_ui.UI, paths []string)
-	WarnUnmentioned()
+	// WarnUnmentioned returns true if there is one or more unmentioned commands found.
+	WarnUnmentioned() bool
 }
 
 func NewDbxCatalogue(media dc_index.MediaType) DropboxBusinessCatalogue {
@@ -139,7 +143,7 @@ func (z *dbxCat) Recipe(path string) rc_recipe.Spec {
 	return app_catalogue.Current().RecipeSpec(path)
 }
 
-func (z *dbxCat) WarnUnmentioned() {
+func (z *dbxCat) WarnUnmentioned() bool {
 	businessRecipes := make([]string, 0)
 	for _, r := range app_catalogue.Current().Recipes() {
 		spec := rc_spec.New(r)
@@ -149,11 +153,14 @@ func (z *dbxCat) WarnUnmentioned() {
 	}
 	l := esl.Default()
 	sort.Strings(businessRecipes)
+	warn := false
 	for _, r := range businessRecipes {
 		if mentioned, ok := z.mentioned[r]; !ok || !mentioned {
 			l.Warn("Unmentioned Dropbox Business recipe found", esl.String("Path", r))
+			warn = true
 		}
 	}
+	return warn
 }
 
 func NewDropboxBusiness(media dc_index.MediaType) dc_section.Document {
@@ -186,6 +193,7 @@ func (z DropboxBusiness) Sections() []dc_section.Section {
 		&DropboxBusinessUsecase{cat: z.cat},
 		&DropboxBusinessPaper{cat: z.cat},
 		&DropboxBusinessTeamAdmin{cat: z.cat},
+		&DropboxBusinessRunAs{cat: z.cat},
 
 		// footnote section must be placed at the end of the doc
 		&DropboxBusinessFootnote{cat: z.cat},
@@ -540,5 +548,27 @@ func (z DropboxBusinessFootnote) Title() app_msg.Message {
 
 func (z DropboxBusinessFootnote) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.FootnoteInfo)
-	z.cat.WarnUnmentioned()
+	if z.cat.WarnUnmentioned() {
+		panic("Unmentioned Dropbox Business command found")
+	}
+}
+
+type DropboxBusinessRunAs struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessRunAs) Title() app_msg.Message {
+	return MDropboxBusiness.RunAsTitle
+}
+
+func (z DropboxBusinessRunAs) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.RunAsInfo)
+	z.cat.RecipeTable("team runas commands", ui, []string{
+		"team runas file batch copy",
+		"team runas file sync batch up",
+		"team runas sharedfolder batch share",
+		"team runas sharedfolder batch unshare",
+		"team runas sharedfolder member batch add",
+		"team runas sharedfolder member batch delete",
+	})
 }
