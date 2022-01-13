@@ -4,7 +4,7 @@ title: コマンド
 lang: ja
 ---
 
-# util decode base_32
+# util decode base32
 
 Base32 (RFC 4648) 形式からテキストをデコードします 
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util decode base_32 
+.\tbx.exe util decode base32 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util decode base_32 
+$HOME/Desktop/tbx util decode base32 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

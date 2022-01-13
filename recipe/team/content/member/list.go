@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -22,7 +23,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"go.uber.org/multierr"
 )
 
 type List struct {
@@ -173,7 +173,7 @@ func (z *List) Exec(c app_control.Control) error {
 			return nil
 		})
 	})
-	return multierr.Combine(err0, err1)
+	return lang.NewMultiErrorOrNull(err0, err1)
 }
 
 func (z *List) Test(c app_control.Control) error {

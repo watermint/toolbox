@@ -2,7 +2,7 @@ package mo_filter
 
 import (
 	"flag"
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -131,7 +131,7 @@ func (z *filterImpl) Accept(v interface{}) bool {
 
 func (z *filterImpl) ApplyFlags(fl *flag.FlagSet, fieldDesc app_msg.Message, ui app_ui.UI) {
 	for _, f := range z.filters {
-		name := strcase.ToKebab(z.Name() + f.NameSuffix())
+		name := ecase.ToLowerKebabCase(z.Name() + f.NameSuffix())
 		desc := ui.Text(app_ui.Join(ui, fieldDesc, f.Desc()))
 		bind := f.Bind()
 		switch bv := bind.(type) {

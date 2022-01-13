@@ -68,6 +68,7 @@ lang: en
 | [group add]({{ site.baseurl }}/commands/group-add.html)                                                                     | Create new group                                                          |
 | [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)                                                         | Bulk adding groups                                                        |
 | [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html)                                                   | Delete groups                                                             |
+| [group clear externalid]({{ site.baseurl }}/commands/group-clear-externalid.html)                                           | Clear an external ID of a group                                           |
 | [group delete]({{ site.baseurl }}/commands/group-delete.html)                                                               | Delete group                                                              |
 | [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)                                                     | Find folders of each group                                                |
 | [group list]({{ site.baseurl }}/commands/group-list.html)                                                                   | List group(s)                                                             |
@@ -246,10 +247,10 @@ lang: en
 | [license]({{ site.baseurl }}/commands/license.html)                               | Show license information                                             |
 | [util date today]({{ site.baseurl }}/commands/util-date-today.html)               | Display current date                                                 |
 | [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)           | Display current date/time                                            |
-| [util decode base_32]({{ site.baseurl }}/commands/util-decode-base_32.html)       | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base_64]({{ site.baseurl }}/commands/util-decode-base_64.html)       | Decode text from Base64 (RFC 4648) format                            |
-| [util encode base_32]({{ site.baseurl }}/commands/util-encode-base_32.html)       | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base_64]({{ site.baseurl }}/commands/util-encode-base_64.html)       | Encode text into Base64 (RFC 4648) format                            |
+| [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)         | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)         | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)         | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)         | Encode text into Base64 (RFC 4648) format                            |
 | [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                 | Clone git repository                                                 |
 | [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html) | Create placeholder image                                             |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)         | Create a QR code image file                                          |

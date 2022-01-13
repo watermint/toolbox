@@ -239,7 +239,7 @@ func (z *implGroup) Update(group *mo_group.Group) (g *mo_group.Group, err error)
 	u := struct {
 		Group                  *GroupSelector `json:"group"`
 		NewGroupName           string         `json:"new_group_name,omitempty"`
-		NewGroupExternalId     string         `json:"new_group_external_id,omitempty"`
+		NewGroupExternalId     string         `json:"new_group_external_id"`
 		NewGroupManagementType string         `json:"new_group_management_type,omitempty"`
 	}{
 		Group: &GroupSelector{

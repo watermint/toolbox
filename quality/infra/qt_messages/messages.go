@@ -4,7 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
@@ -37,7 +37,7 @@ func SuggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) error {
 	suggests := make([]string, 0)
 	for _, valName := range spec.ValueNames() {
 		v := spec.Value(valName)
-		valArg := "-" + strcase.ToKebab(valName) + " "
+		valArg := "-" + ecase.ToLowerKebabCase(valName) + " "
 		switch vt := v.(type) {
 		case *rc_value.ValueMoUrlUrl:
 			suggests = append(suggests, valArg+"URL")

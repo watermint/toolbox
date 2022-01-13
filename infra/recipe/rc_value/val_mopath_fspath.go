@@ -2,7 +2,7 @@ package rc_value
 
 import (
 	"errors"
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
@@ -107,7 +107,7 @@ func (z *ValueMoPathFileSystemPath) SpinUp(ctl app_control.Control) error {
 		l.Debug("verify the given file")
 		ls, err := os.Lstat(z.filePath)
 		if err != nil {
-			ui.Error(MRepository.ErrorMoPathFsPathNotFound.With("Path", z.filePath).With("Key", strcase.ToKebab(z.name)))
+			ui.Error(MRepository.ErrorMoPathFsPathNotFound.With("Path", z.filePath).With("Key", ecase.ToLowerKebabCase(z.name)))
 			l.Debug("The file is not found", esl.Error(err))
 			return ErrorPathNotFound
 		}

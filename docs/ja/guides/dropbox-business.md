@@ -287,10 +287,10 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 External IDは、Dropboxのどのユーザーインターフェースにも表示されない属性です. この属性は、Dropbox AD ConnectorなどのID管理ソフトウェアによって、DropboxとIDソース（Active Directoryや人事データベースなど）との関係を維持するためのものです. Dropbox AD Connectorを使用していて、新しいActive Directoryツリーを構築した場合は、以下のようになります. 古いActive Directoryツリーと新しいツリーとの関係を切断するために、既存の外部IDをクリアする必要があるかもしれません.
 External IDのクリアを省略すると、Dropbox AD Connectorが新しいツリーへの構成中に意図せずアカウントを削除してしまう可能性があります.
-既存の外部IDを確認したい場合は、`member list`コマンドを使います. しかし、このコマンドはデフォルトでは外部IDを含みません. [jq](https://stedolan.github.io/jq/)コマンドを使用して、以下のように実行することをご検討ください.
+既存の外部IDを確認したい場合は、`member list`コマンドを使います. しかし、このコマンドはデフォルトでは外部IDを含みません. 以下のように`-experiment report_all_columns`オプションを追加してください.
 
 ```
-tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @csv'
+tbx member list -experiment report_all_columns
 ```
 
 | コマンド                                                                                 | 説明                                     |
@@ -298,6 +298,8 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 | [member list]({{ site.baseurl }}/ja/commands/member-list.html)                           | チームメンバーの一覧                     |
 | [member clear externalid]({{ site.baseurl }}/ja/commands/member-clear-externalid.html)   | メンバーのexternal_idを初期化します      |
 | [member update externalid]({{ site.baseurl }}/ja/commands/member-update-externalid.html) | チームメンバーのExternal IDを更新します. |
+| [group list]({{ site.baseurl }}/ja/commands/group-list.html)                             | グループを一覧                           |
+| [group clear externalid]({{ site.baseurl }}/ja/commands/group-clear-externalid.html)     | グループの外部IDをクリアする             |
 
 ## データ移行補助コマンド
 
@@ -342,6 +344,19 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 | [team admin role list]({{ site.baseurl }}/ja/commands/team-admin-role-list.html)                 | チームの管理者の役割を列挙                                       |
 | [team admin group role add]({{ site.baseurl }}/ja/commands/team-admin-group-role-add.html)       | グループのメンバーにロールを追加する                             |
 | [team admin group role delete]({{ site.baseurl }}/ja/commands/team-admin-group-role-delete.html) | 例外グループのメンバーを除くすべてのメンバーからロールを削除する |
+
+# チームメンバーとして実行するコマンド
+
+チームメンバーとしてコマンドを実行することができます. 例えば、`team runas file sync batch up`を使えば、メンバーのフォルダにファイルをアップロードすることができます.
+
+| コマンド                                                                                                                       | 説明                                          |
+|--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー |
+| [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                |
+| [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                |
+| [team runas sharedfolder batch unshare]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-unshare.html)             | メンバーのフォルダの共有を一括解除            |
+| [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加    |
+| [team runas sharedfolder member batch delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-delete.html) | メンバーの共有フォルダからメンバーを一括削除  |
 
 # 注意事項:
 

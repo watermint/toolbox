@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# util decode base_64
+# util decode base32
 
-Decode text from Base64 (RFC 4648) format 
+Decode text from Base32 (RFC 4648) format 
 
 # Installation
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util decode base_64 
+.\tbx.exe util decode base32 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util decode base_64 
+$HOME/Desktop/tbx util decode base32 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

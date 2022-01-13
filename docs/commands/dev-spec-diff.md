@@ -42,8 +42,8 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |--------------|---------------------|---------|
 | `-doc-lang`  | Document language   |         |
 | `-file-path` | File path to output |         |
-| `-release-1` | Release name 1      |         |
-| `-release-2` | Release name 2      |         |
+| `-release1`  | Release name 1      |         |
+| `-release2`  | Release name 2      |         |
 
 ## Common options:
 

@@ -10,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/time/ut_compare"
-	"go.uber.org/multierr"
 	"sync"
 	"time"
 )
@@ -304,7 +303,7 @@ func (z *sessionImpl) ListEach(depth int, h func(size FolderSize)) error {
 		})
 	})
 	if lastErr != nil || viewErr != nil {
-		return multierr.Combine(lastErr, viewErr)
+		return lang.NewMultiErrorOrNull(lastErr, viewErr)
 	}
 	return nil
 }

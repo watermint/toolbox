@@ -1,7 +1,7 @@
 package dc_supplemental
 
 import (
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
@@ -53,7 +53,7 @@ func (z ExperimentalFeatureDefinitions) Body(ui app_ui.UI) {
 	for _, v := range app.ExperimentalFeatures {
 		vt.Row(
 			app_msg.Raw(v),
-			app_msg.ObjMessage(&z, strcase.ToSnake(v)+".desc"),
+			app_msg.ObjMessage(&z, ecase.ToLowerSnakeCase(v)+".desc"),
 		)
 	}
 

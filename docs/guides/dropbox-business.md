@@ -287,10 +287,10 @@ The below commands can retrieve information about connected devices or applicati
 
 External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keep a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. In case if you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.
 If you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.
-If you want to see existing external IDs, use the `member list` command. But the command will not include external ID by default. Please consider using [jq](https://stedolan.github.io/jq/) command and run like below.
+If you want to see existing external IDs, use the `member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.
 
 ```
-tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @csv'
+tbx member list -experiment report_all_columns
 ```
 
 | Command                                                                               | Description                        |
@@ -298,6 +298,8 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 | [member list]({{ site.baseurl }}/commands/member-list.html)                           | List team member(s)                |
 | [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)   | Clear external_id of members       |
 | [member update externalid]({{ site.baseurl }}/commands/member-update-externalid.html) | Update External ID of team members |
+| [group list]({{ site.baseurl }}/commands/group-list.html)                             | List group(s)                      |
+| [group clear externalid]({{ site.baseurl }}/commands/group-clear-externalid.html)     | Clear an external ID of a group    |
 
 ## Data migration helper commands
 
@@ -342,6 +344,19 @@ Below commands are for managing team admins.
 | [team admin role list]({{ site.baseurl }}/commands/team-admin-role-list.html)                 | List admin roles of the team                                              |
 | [team admin group role add]({{ site.baseurl }}/commands/team-admin-group-role-add.html)       | Add the role to members of the group                                      |
 | [team admin group role delete]({{ site.baseurl }}/commands/team-admin-group-role-delete.html) | Delete the role from all members except of members of the exception group |
+
+# Commands that run as a team member
+
+You can run a command as a team member. For example, you can upload a file into member's folder by using `team runas file sync batch up`.
+
+| Command                                                                                                                     | Description                                       |
+|-----------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member              |
+| [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                 |
+| [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                   |
+| [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                 |
+| [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders      |
+| [team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-delete.html) | Batch delete members from member's shared folders |
 
 # Notes:
 

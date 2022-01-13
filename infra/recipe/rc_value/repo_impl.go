@@ -4,7 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -92,7 +92,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 
 	vals := make(map[string]rc_recipe.Value)
 	fieldValue := make(map[string]reflect.Value)
-	rcpName := rt.PkgPath() + "." + strcase.ToSnake(rt.Name())
+	rcpName := rt.PkgPath() + "." + ecase.ToLowerSnakeCase(rt.Name())
 
 	numField := rt.NumField()
 	for i := 0; i < numField; i++ {
@@ -181,7 +181,7 @@ func (z *RepositoryImpl) Messages() []app_msg.Message {
 		}
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				msgs = append(msgs, app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				msgs = append(msgs, app_msg.ObjMessage(z.rcp, "conn."+ecase.ToLowerSnakeCase(k)))
 			}
 		}
 	}
@@ -416,7 +416,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 		prompt := false
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				ui.Header(app_msg.ObjMessage(z.rcp, "conn."+strcase.ToSnake(k)))
+				ui.Header(app_msg.ObjMessage(z.rcp, "conn."+ecase.ToLowerSnakeCase(k)))
 				prompt = true
 			}
 		}
@@ -431,11 +431,11 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 			continue
 
 		case ErrorInvalidValue:
-			ui.Error(MRepository.ErrorInvalidValue.With("Key", strcase.ToKebab(k)))
+			ui.Error(MRepository.ErrorInvalidValue.With("Key", ecase.ToLowerKebabCase(k)))
 			lastErr = err
 
 		case ErrorMissingRequiredOption:
-			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", strcase.ToKebab(k)))
+			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", ecase.ToLowerKebabCase(k)))
 			lastErr = err
 
 		default:
@@ -475,7 +475,7 @@ func (z *RepositoryImpl) SpinDown(ctl app_control.Control) error {
 
 func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 	for k, v := range z.values {
-		flagName := strcase.ToKebab(k)
+		flagName := ecase.ToLowerKebabCase(k)
 		flagDesc := z.FieldDesc(k)
 
 		b := v.Bind()
@@ -502,7 +502,7 @@ func (z *RepositoryImpl) fieldMessageKeyBase() string {
 }
 
 func (z *RepositoryImpl) fieldMessageKey(name string) string {
-	return z.fieldMessageKeyBase() + strcase.ToSnake(name)
+	return z.fieldMessageKeyBase() + ecase.ToLowerSnakeCase(name)
 }
 
 func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional {
@@ -518,7 +518,7 @@ func (z *RepositoryImpl) FieldDesc(name string) app_msg.Message {
 		switch v0 := v.Bind().(type) {
 		case mo_multi.MultiValue:
 			if strings.HasPrefix(name, v0.Name()) {
-				base := app_msg.CreateMessage(z.fieldMessageKeyBase() + strcase.ToSnake(v0.Name()))
+				base := app_msg.CreateMessage(z.fieldMessageKeyBase() + ecase.ToLowerSnakeCase(v0.Name()))
 				return v0.FieldDesc(base, name)
 			}
 		}

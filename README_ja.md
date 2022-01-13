@@ -51,7 +51,7 @@ APIトークンなどの機密データのほとんどは、難読化されて�
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2021 Takayuki Okazaki
+© 2016-2022 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 DropboxおよびDropbox Business向けのツールセット
@@ -144,6 +144,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group add](docs/ja/commands/group-add.md)                                                                     | グループを作成します                                                                   |
 | [group batch add](docs/ja/commands/group-batch-add.md)                                                         | グループの一括追加                                                                     |
 | [group batch delete](docs/ja/commands/group-batch-delete.md)                                                   | グループの削除                                                                         |
+| [group clear externalid](docs/ja/commands/group-clear-externalid.md)                                           | グループの外部IDをクリアする                                                           |
 | [group delete](docs/ja/commands/group-delete.md)                                                               | グループを削除します                                                                   |
 | [group folder list](docs/ja/commands/group-folder-list.md)                                                     | 各グループのフォルダを探す                                                             |
 | [group list](docs/ja/commands/group-list.md)                                                                   | グループを一覧                                                                         |
@@ -322,10 +323,10 @@ DropboxおよびDropbox Business向けのツールセット
 | [license](docs/ja/commands/license.md)                               | ライセンス情報を表示します                                             |
 | [util date today](docs/ja/commands/util-date-today.md)               | 現在の日付を表示                                                       |
 | [util datetime now](docs/ja/commands/util-datetime-now.md)           | 現在の日時を表示                                                       |
-| [util decode base_32](docs/ja/commands/util-decode-base_32.md)       | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base_64](docs/ja/commands/util-decode-base_64.md)       | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util encode base_32](docs/ja/commands/util-encode-base_32.md)       | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base_64](docs/ja/commands/util-encode-base_64.md)       | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util decode base32](docs/ja/commands/util-decode-base32.md)         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64](docs/ja/commands/util-decode-base64.md)         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base32](docs/ja/commands/util-encode-base32.md)         | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64](docs/ja/commands/util-encode-base64.md)         | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util git clone](docs/ja/commands/util-git-clone.md)                 | git リポジトリをクローン                                               |
 | [util image placeholder](docs/ja/commands/util-image-placeholder.md) | プレースホルダー画像の作成                                             |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |

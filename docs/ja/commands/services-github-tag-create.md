@@ -38,7 +38,7 @@ lang: ja
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2021 Takayuki Okazaki
+© 2016-2022 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 1. 次のURLを開き認証ダイアログを開いてください:
@@ -85,7 +85,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-owner`      | レポジトリの所有者     |            |
 | `-peer`       | アカウントの別名       | default    |
 | `-repository` | レポジトリ名           |            |
-| `-sha-1`      | コミットのSHA1ハッシュ |            |
+| `-sha1`       | コミットのSHA1ハッシュ |            |
 | `-tag`        | タグ名                 |            |
 
 ## 共通のオプション:

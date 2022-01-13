@@ -1,18 +1,12 @@
 package lang
 
 import (
-	"github.com/cloudfoundry/jibber_jabber"
-	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/essentials/ei18n/elocale"
 )
 
 // Detect & select language in select
 func Detect(supported []Lang) Lang {
-	l := esl.Default()
-	bcp47, err := jibber_jabber.DetectIETF()
-	if err != nil {
-		l.Debug("unable to detect language", esl.Error(err))
-		return Default
-	}
+	bcp47 := elocale.CurrentLocale().String()
 
 	return Select(bcp47, supported)
 }

@@ -1,7 +1,7 @@
 package rc_value
 
 import (
-	"github.com/iancoleman/strcase"
+	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/infra/app"
@@ -26,7 +26,7 @@ func (z *ValueAppMsgMessage) Spec() (typeName string, typeAttr interface{}) {
 
 func (z *ValueAppMsgMessage) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {
 	if t.Implements(reflect.TypeOf((*app_msg.Message)(nil)).Elem()) {
-		return newValueAppMsgMessage(name, app_msg.ObjMessage(v0, strcase.ToSnake(name)))
+		return newValueAppMsgMessage(name, app_msg.ObjMessage(v0, ecase.ToLowerSnakeCase(name)))
 	}
 	return nil
 }

@@ -2,7 +2,7 @@ package es_open
 
 import (
 	"errors"
-	"github.com/skratchdot/open-golang/open"
+	"github.com/watermint/essentials/edesktop"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
@@ -12,8 +12,7 @@ var (
 
 type Open interface {
 	// Open a file, folder, or URI using the OS's default app.
-	// Wait for the open command complete when `blocking` is true.
-	Open(input string, blocking bool) error
+	Open(input string) error
 }
 
 func New() Open {
@@ -30,28 +29,24 @@ func NewTestError() Open {
 type openWrapper struct {
 }
 
-func (z *openWrapper) Open(input string, blocking bool) error {
-	if blocking {
-		return open.Run(input)
-	} else {
-		return open.Start(input)
-	}
+func (z *openWrapper) Open(input string) error {
+	return edesktop.CurrentDesktop().Open(input).Cause()
 }
 
 type dummyOpener struct {
 }
 
-func (z *dummyOpener) Open(input string, blocking bool) error {
+func (z *dummyOpener) Open(input string) error {
 	l := esl.Default()
-	l.Debug("Open", esl.String("input", input), esl.Bool("blocking", blocking))
+	l.Debug("Open", esl.String("input", input))
 	return nil
 }
 
 type errorOpener struct {
 }
 
-func (z *errorOpener) Open(input string, blocking bool) error {
+func (z *errorOpener) Open(input string) error {
 	l := esl.Default()
-	l.Debug("Open", esl.String("input", input), esl.Bool("blocking", blocking))
+	l.Debug("Open", esl.String("input", input))
 	return ErrorAlwaysError
 }

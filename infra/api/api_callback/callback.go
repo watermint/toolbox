@@ -201,7 +201,7 @@ func (z *callbackImpl) openUrl(authUrl string) {
 	ui.Break()
 	ui.AskProceed(MCallback.MsgHitEnterToProceed)
 
-	if err := z.opener.Open(authUrl, true); err != nil {
+	if err := z.opener.Open(authUrl); err != nil {
 		l.Debug("Unable to open, ask user to open the url")
 		ui.Info(MCallback.MsgErrorOpenUrlOnYourBrowser.With("Url", authUrl))
 	}
