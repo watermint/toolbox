@@ -1,12 +1,12 @@
 ---
 layout: release
-title: リリースの変更点 98
+title: リリースの変更点 99
 lang: ja
 ---
 
-# `リリース 98` から `リリース 99` までの変更点
+# `リリース 99` から `リリース 100` までの変更点
 
-# 削除されたコマンド
+# 追加されたコマンド
 
 
 | コマンド                                    | タイトル                                                                                  |
@@ -86,6 +86,7 @@ lang: ja
 | file restore all                            | 指定されたパス以下をリストアします                                                        |
 | file search content                         | ファイルコンテンツを検索                                                                  |
 | file search name                            | ファイル名を検索                                                                          |
+| file share info                             | ファイルの共有情報を取得する                                                              |
 | file size                                   | ストレージの利用量                                                                        |
 | file sync down                              | Dropboxと下り方向で同期します                                                             |
 | file sync online                            | オンラインファイルを同期します                                                            |
@@ -98,6 +99,7 @@ lang: ja
 | group add                                   | グループを作成します                                                                      |
 | group batch add                             | グループの一括追加                                                                        |
 | group batch delete                          | グループの削除                                                                            |
+| group clear externalid                      | グループの外部IDをクリアする                                                              |
 | group delete                                | グループを削除します                                                                      |
 | group folder list                           | 各グループのフォルダを探す                                                                |
 | group list                                  | グループを一覧                                                                            |
@@ -184,7 +186,11 @@ lang: ja
 | services google sheets spreadsheet create   | 新しいスプレッドシートの作成                                                              |
 | services slack conversation list            | チャネルの一覧                                                                            |
 | sharedfolder list                           | 共有フォルダの一覧                                                                        |
+| sharedfolder member add                     | 共有フォルダへのメンバーの追加                                                            |
+| sharedfolder member delete                  | 共有フォルダからメンバーを削除する                                                        |
 | sharedfolder member list                    | 共有フォルダのメンバーを一覧します                                                        |
+| sharedfolder share                          | フォルダの共有                                                                            |
+| sharedfolder unshare                        | フォルダの共有解除                                                                        |
 | sharedlink create                           | 共有リンクの作成                                                                          |
 | sharedlink delete                           | 共有リンクを削除します                                                                    |
 | sharedlink file list                        | 共有リンクのファイルを一覧する                                                            |
@@ -223,6 +229,12 @@ lang: ja
 | team report devices                         | デバイス レポート空のレポート                                                             |
 | team report membership                      | メンバーシップ レポート                                                                   |
 | team report storage                         | ストレージ レポート                                                                       |
+| team runas file batch copy                  | ファイル/フォルダーをメンバーとして一括コピー                                             |
+| team runas file sync batch up               | メンバーとして動作する一括同期                                                            |
+| team runas sharedfolder batch share         | メンバーのフォルダを一括で共有                                                            |
+| team runas sharedfolder batch unshare       | メンバーのフォルダの共有を一括解除                                                        |
+| team runas sharedfolder member batch add    | メンバーの共有フォルダにメンバーを一括追加                                                |
+| team runas sharedfolder member batch delete | メンバーの共有フォルダからメンバーを一括削除                                              |
 | team sharedlink cap expiry                  | チーム内の共有リンクに有効期限の上限を設定                                                |
 | team sharedlink cap visibility              | チーム内の共有リンクに可視性の上限を設定                                                  |
 | team sharedlink delete links                | 共有リンクの一括削除                                                                      |
@@ -251,10 +263,10 @@ lang: ja
 | teamfolder replication                      | チームフォルダを他のチームに複製します                                                    |
 | util date today                             | 現在の日付を表示                                                                          |
 | util datetime now                           | 現在の日時を表示                                                                          |
-| util decode base_32                         | Base32 (RFC 4648) 形式からテキストをデコードします                                        |
-| util decode base_64                         | Base64 (RFC 4648) フォーマットからテキストをデコードします                                |
-| util encode base_32                         | テキストをBase32(RFC 4648)形式にエンコード                                                |
-| util encode base_64                         | テキストをBase64(RFC 4648)形式にエンコード                                                |
+| util decode base32                          | Base32 (RFC 4648) 形式からテキストをデコードします                                        |
+| util decode base64                          | Base64 (RFC 4648) フォーマットからテキストをデコードします                                |
+| util encode base32                          | テキストをBase32(RFC 4648)形式にエンコード                                                |
+| util encode base64                          | テキストをBase64(RFC 4648)形式にエンコード                                                |
 | util git clone                              | git リポジトリをクローン                                                                  |
 | util image placeholder                      | プレースホルダー画像の作成                                                                |
 | util qrcode create                          | QRコード画像ファイルの作成                                                                |

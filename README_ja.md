@@ -51,7 +51,7 @@ APIトークンなどの機密データのほとんどは、難読化されて�
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2021 Takayuki Okazaki
+© 2016-2022 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 DropboxおよびDropbox Business向けのツールセット
@@ -144,6 +144,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group add](docs/ja/commands/group-add.md)                                                                     | グループを作成します                                                                   |
 | [group batch add](docs/ja/commands/group-batch-add.md)                                                         | グループの一括追加                                                                     |
 | [group batch delete](docs/ja/commands/group-batch-delete.md)                                                   | グループの削除                                                                         |
+| [group clear externalid](docs/ja/commands/group-clear-externalid.md)                                           | グループの外部IDをクリアする                                                           |
 | [group delete](docs/ja/commands/group-delete.md)                                                               | グループを削除します                                                                   |
 | [group folder list](docs/ja/commands/group-folder-list.md)                                                     | 各グループのフォルダを探す                                                             |
 | [group list](docs/ja/commands/group-list.md)                                                                   | グループを一覧                                                                         |

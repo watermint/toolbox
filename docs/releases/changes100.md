@@ -1,12 +1,12 @@
 ---
 layout: release
-title: Changes of Release 98
+title: Changes of Release 99
 lang: en
 ---
 
-# Changes between `Release 98` to `Release 99`
+# Changes between `Release 99` to `Release 100`
 
-# Commands deleted
+# Commands added
 
 
 | Command                                     | Title                                                                     |
@@ -86,6 +86,7 @@ lang: en
 | file restore all                            | Restore files under given path                                            |
 | file search content                         | Search file content                                                       |
 | file search name                            | Search file name                                                          |
+| file share info                             | Retrieve sharing information of the file                                  |
 | file size                                   | Storage usage                                                             |
 | file sync down                              | Downstream sync with Dropbox                                              |
 | file sync online                            | Sync online files                                                         |
@@ -98,6 +99,7 @@ lang: en
 | group add                                   | Create new group                                                          |
 | group batch add                             | Bulk adding groups                                                        |
 | group batch delete                          | Delete groups                                                             |
+| group clear externalid                      | Clear an external ID of a group                                           |
 | group delete                                | Delete group                                                              |
 | group folder list                           | Find folders of each group                                                |
 | group list                                  | List group(s)                                                             |
@@ -184,7 +186,11 @@ lang: en
 | services google sheets spreadsheet create   | Create a new spreadsheet                                                  |
 | services slack conversation list            | List channels                                                             |
 | sharedfolder list                           | List shared folder(s)                                                     |
+| sharedfolder member add                     | Add a member to the shared folder                                         |
+| sharedfolder member delete                  | Delete a member from the shared folder                                    |
 | sharedfolder member list                    | List shared folder member(s)                                              |
+| sharedfolder share                          | Share a folder                                                            |
+| sharedfolder unshare                        | Unshare a folder                                                          |
 | sharedlink create                           | Create shared link                                                        |
 | sharedlink delete                           | Remove shared links                                                       |
 | sharedlink file list                        | List files for the shared link                                            |
@@ -223,6 +229,12 @@ lang: en
 | team report devices                         | Devices report                                                            |
 | team report membership                      | Membership report                                                         |
 | team report storage                         | Storage report                                                            |
+| team runas file batch copy                  | Batch copy files/folders as a member                                      |
+| team runas file sync batch up               | Batch sync up that run as members                                         |
+| team runas sharedfolder batch share         | Batch share folders for members                                           |
+| team runas sharedfolder batch unshare       | Batch unshare folders for members                                         |
+| team runas sharedfolder member batch add    | Batch add members to member's shared folders                              |
+| team runas sharedfolder member batch delete | Batch delete members from member's shared folders                         |
 | team sharedlink cap expiry                  | Set expiry cap to shared links in the team                                |
 | team sharedlink cap visibility              | Set visibility cap to shared links in the team                            |
 | team sharedlink delete links                | Batch delete shared links                                                 |
@@ -251,10 +263,10 @@ lang: en
 | teamfolder replication                      | Replicate a team folder to the other team                                 |
 | util date today                             | Display current date                                                      |
 | util datetime now                           | Display current date/time                                                 |
-| util decode base_32                         | Decode text from Base32 (RFC 4648) format                                 |
-| util decode base_64                         | Decode text from Base64 (RFC 4648) format                                 |
-| util encode base_32                         | Encode text into Base32 (RFC 4648) format                                 |
-| util encode base_64                         | Encode text into Base64 (RFC 4648) format                                 |
+| util decode base32                          | Decode text from Base32 (RFC 4648) format                                 |
+| util decode base64                          | Decode text from Base64 (RFC 4648) format                                 |
+| util encode base32                          | Encode text into Base32 (RFC 4648) format                                 |
+| util encode base64                          | Encode text into Base64 (RFC 4648) format                                 |
 | util git clone                              | Clone git repository                                                      |
 | util image placeholder                      | Create placeholder image                                                  |
 | util qrcode create                          | Create a QR code image file                                               |

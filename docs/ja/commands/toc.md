@@ -68,6 +68,7 @@ lang: ja
 | [group add]({{ site.baseurl }}/ja/commands/group-add.html)                                                                     | グループを作成します                                                                   |
 | [group batch add]({{ site.baseurl }}/ja/commands/group-batch-add.html)                                                         | グループの一括追加                                                                     |
 | [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html)                                                   | グループの削除                                                                         |
+| [group clear externalid]({{ site.baseurl }}/ja/commands/group-clear-externalid.html)                                           | グループの外部IDをクリアする                                                           |
 | [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)                                                               | グループを削除します                                                                   |
 | [group folder list]({{ site.baseurl }}/ja/commands/group-folder-list.html)                                                     | 各グループのフォルダを探す                                                             |
 | [group list]({{ site.baseurl }}/ja/commands/group-list.html)                                                                   | グループを一覧                                                                         |

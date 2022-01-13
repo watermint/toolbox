@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# teamfolder file size
+# group clear externalid
 
-チームフォルダのサイズを計算 
+グループの外部IDをクリアする 
 
 # セキュリティ
 
@@ -26,13 +26,10 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                                                                           |
-|--------------------------------------------------------------------------------|
-| Dropbox Business: Dropboxのファイルやフォルダに関する情報を表示                |
-| Dropbox Business: チームメンバーの確認                                         |
-| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
-| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
-| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
+| 説明                                                                                               |
+|----------------------------------------------------------------------------------------------------|
+| Dropbox Business: 自分のチームグループのメンバーを見る                                             |
+| Dropbox Business: メンバーアカウントの削除や回復を含む、チームグループのメンバーシップの表示と管理 |
 
 # 認可
 
@@ -68,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe teamfolder file size 
+.\tbx.exe group clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx teamfolder file size 
+$HOME/Desktop/tbx group clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -84,13 +81,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション            | 説明                                                                            | デフォルト |
-|-----------------------|---------------------------------------------------------------------------------|------------|
-| `-depth`              | 深さ                                                                            | 3          |
-| `-folder-name`        | 名前に一致するフォルダのみをリストアップします. 名前による完全一致でフィルター. |            |
-| `-folder-name-prefix` | 名前に一致するフォルダのみをリストアップします. 名前の前方一致によるフィルター. |            |
-| `-folder-name-suffix` | 名前に一致するフォルダのみをリストアップします. 名前の後方一致によるフィルター. |            |
-| `-peer`               | アカウントの別名                                                                | default    |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-peer`    | アカウントの別名       | default    |
 
 ## 共通のオプション:
 
@@ -112,6 +106,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`        | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`      | ワークスペースへのパス                                                                             |                |
 
+# ファイル書式
+
+## 書式: File
+
+グループ名
+
+| 列   | 説明                               | 例   |
+|------|------------------------------------|------|
+| name | 外部IDをクリアするためのグループ名 | 営業 |
+
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
+```
+name
+営業
+```
+
 # 実行結果
 
 作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
@@ -122,30 +132,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: namespace_size
+## レポート: operation_log
 
-名前空間のサイズ.
-このコマンドはレポートを3種類の書式で出力します. `namespace_size.csv`, `namespace_size.json`, ならびに `namespace_size.xlsx`.
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                   | 説明                                                                                   |
-|----------------------|----------------------------------------------------------------------------------------|
-| namespace_name       | 名前空間の名称                                                                         |
-| namespace_id         | 名前空間ID                                                                             |
-| namespace_type       | 名前異空間のタイプ (app_folder, shared_folder, team_folder, または team_member_folder) |
-| owner_team_member_id | メンバーフォルダまたはアプリフォルダである場合、その所有者チームメンバーのID           |
-| path                 | フォルダへのパス                                                                       |
-| count_file           | このフォルダに含まれるファイル数                                                       |
-| count_folder         | このフォルダに含まれるフォルダ数                                                       |
-| count_descendant     | このフォルダに含まれるファイル・フォルダ数                                             |
-| size                 | フォルダのサイズ                                                                       |
-| depth                | フォルダの深さ                                                                         |
-| mod_time_earliest    | このフォルダまたは子フォルダ内のファイルの最も古い更新日時                             |
-| mod_time_latest      | このフォルダまたは子フォルダ内のファイルの最も新しい更新日時                           |
-| api_complexity       | APIを用いて操作する場合のフォルダ複雑度の指標                                          |
+| 列                           | 説明                                                                                    |
+|------------------------------|-----------------------------------------------------------------------------------------|
+| status                       | 処理の状態                                                                              |
+| reason                       | 失敗またはスキップの理由                                                                |
+| input.name                   | 外部IDをクリアするためのグループ名                                                      |
+| result.group_name            | グループ名称                                                                            |
+| result.group_id              | グループ ID                                                                             |
+| result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
+| result.group_external_id     | チームがグループに付加することができる外部ID.                                           |
+| result.member_count          | グループ内のメンバー数                                                                  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `namespace_size_0000.xlsx`, `namespace_size_0001.xlsx`, `namespace_size_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
