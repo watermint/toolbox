@@ -287,10 +287,10 @@ The below commands can retrieve information about connected devices or applicati
 
 External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keep a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. In case if you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.
 If you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.
-If you want to see existing external IDs, use the `member list` command. But the command will not include external ID by default. Please consider using [jq](https://stedolan.github.io/jq/) command and run like below.
+If you want to see existing external IDs, use the `member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.
 
 ```
-tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @csv'
+tbx member list -experiment report_all_columns
 ```
 
 | Command                                                                               | Description                        |
@@ -298,6 +298,8 @@ tbx member list -output json | jq -r '[.profile.email, .profile.external_id] | @
 | [member list]({{ site.baseurl }}/commands/member-list.html)                           | List team member(s)                |
 | [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)   | Clear external_id of members       |
 | [member update externalid]({{ site.baseurl }}/commands/member-update-externalid.html) | Update External ID of team members |
+| [group list]({{ site.baseurl }}/commands/group-list.html)                             | List group(s)                      |
+| [group clear externalid]({{ site.baseurl }}/commands/group-clear-externalid.html)     | Clear an external ID of a group    |
 
 ## Data migration helper commands
 

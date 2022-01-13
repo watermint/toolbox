@@ -481,6 +481,8 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 		"member list",
 		"member clear externalid",
 		"member update externalid",
+		"group list",
+		"group clear externalid",
 	})
 
 	ui.SubHeader(MDropboxBusiness.UsecaseDataMigrationTitle)

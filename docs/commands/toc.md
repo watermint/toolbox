@@ -68,6 +68,7 @@ lang: en
 | [group add]({{ site.baseurl }}/commands/group-add.html)                                                                     | Create new group                                                          |
 | [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)                                                         | Bulk adding groups                                                        |
 | [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html)                                                   | Delete groups                                                             |
+| [group clear externalid]({{ site.baseurl }}/commands/group-clear-externalid.html)                                           | Clear an external ID of a group                                           |
 | [group delete]({{ site.baseurl }}/commands/group-delete.html)                                                               | Delete group                                                              |
 | [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)                                                     | Find folders of each group                                                |
 | [group list]({{ site.baseurl }}/commands/group-list.html)                                                                   | List group(s)                                                             |

@@ -53,7 +53,7 @@ You can see available commands and options by running executable without argumen
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2021 Takayuki Okazaki
+© 2016-2022 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Tools for Dropbox and Dropbox Business
@@ -146,6 +146,7 @@ Available commands:
 | [group add](docs/commands/group-add.md)                                                                     | Create new group                                                          |
 | [group batch add](docs/commands/group-batch-add.md)                                                         | Bulk adding groups                                                        |
 | [group batch delete](docs/commands/group-batch-delete.md)                                                   | Delete groups                                                             |
+| [group clear externalid](docs/commands/group-clear-externalid.md)                                           | Clear an external ID of a group                                           |
 | [group delete](docs/commands/group-delete.md)                                                               | Delete group                                                              |
 | [group folder list](docs/commands/group-folder-list.md)                                                     | Find folders of each group                                                |
 | [group list](docs/commands/group-list.md)                                                                   | List group(s)                                                             |

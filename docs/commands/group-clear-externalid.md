@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# file paper overwrite
+# group clear externalid
 
-Overwrite existing Paper document 
+Clear an external ID of a group 
 
 # Security
 
@@ -22,13 +22,14 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                             |
-|---------------------------------------------------------|
-| Dropbox: Edit content of your Dropbox files and folders |
+| Description                                                                                                     |
+|-----------------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View your team group membership                                                               |
+| Dropbox Business: View and manage your team group membership, including removing and recovering member accounts |
 
 # Authorization
 
@@ -64,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file paper overwrite -path /DROPBOX/PATH/TO/overwrite.paper
+.\tbx.exe group clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file paper overwrite -path /DROPBOX/PATH/TO/overwrite.paper
+$HOME/Desktop/tbx group clear externalid -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,12 +81,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                              | Default  |
-|------------|------------------------------------------|----------|
-| `-content` | Paper content                            |          |
-| `-format`  | Import format (html/markdown/plain_text) | markdown |
-| `-path`    | Path in the user's Dropbox               |          |
-| `-peer`    | Account alias                            | default  |
+| Option  | Description       | Default |
+|---------|-------------------|---------|
+| `-file` | Path to data file |         |
+| `-peer` | Account alias     | default |
 
 ## Common options:
 
@@ -107,6 +106,22 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-verbose`        | Show current operations for more detail.                                                  | false                |
 | `-workspace`      | Workspace path                                                                            |                      |
 
+# File formats
+
+## Format: File
+
+Group name
+
+| Column | Description                           | Example |
+|--------|---------------------------------------|---------|
+| name   | Name of group to clear an external ID | Sales   |
+
+The first line is a header line. The program will accept a file without the header.
+```
+name
+Sales
+```
+
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
@@ -117,24 +132,25 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: created
+## Report: operation_log
 
-Create/updated paper data
-The command will generate a report in three different formats. `created.csv`, `created.json`, and `created.xlsx`.
+This report shows the transaction result.
+The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column         | Description    |
-|----------------|----------------|
-| paper_revision | Paper revision |
+| Column                       | Description                                                                           |
+|------------------------------|---------------------------------------------------------------------------------------|
+| status                       | Status of the operation                                                               |
+| reason                       | Reason of failure or skipped operation                                                |
+| input.name                   | Name of group to clear an external ID                                                 |
+| result.group_name            | Name of a group                                                                       |
+| result.group_id              | Group ID                                                                              |
+| result.group_management_type | Who is allowed to manage the group (user_managed, company_managed, or system_managed) |
+| result.group_external_id     | External ID that a team can attach to the group.                                      |
+| result.member_count          | The number of members in the group.                                                   |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
-
-# Text inputs
-
-## Text input: Content
-
-Paper content
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # Proxy configuration
 
