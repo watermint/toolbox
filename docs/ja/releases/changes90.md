@@ -54,9 +54,12 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	Name:    "http_range",
-- 	Title:   "HTTP Range request proof of concept",
-+ 	Title:   "HTTPレンジリクエストのプルーフオブコンセプト",
+  	Name: "http_range",
+  	Title: strings.Join({
+  		"HTTP",
+- 		" Range request proof of concept",
++ 		"レンジリクエストのプルーフオブコンセプト",
+  	}, ""),
   	Desc:    "",
   	Remarks: "",
   	... // 12 identical fields
@@ -77,7 +80,7 @@ lang: ja
 + 			Desc:     "保存先のローカルパス",
   			Default:  "",
   			TypeName: "essentials.model.mo_path.file_system_path_impl",
-  			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
+  			TypeAttr: map[string]any{"shouldExist": bool(false)},
   		},
   		&{
   			Name:     "Peer",
@@ -85,7 +88,7 @@ lang: ja
 + 			Desc:     "アカウントの別名",
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-  			TypeAttr: []interface{}{string("files.content.read")},
+  			TypeAttr: []any{string("files.content.read")},
   		},
   	},
   	GridDataInput:  {},
@@ -125,9 +128,11 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	Name:    "add",
-- 	Title:   `Creates a custom "from" send-as alias`,
-+ 	Title:   `カスタムの "from" send-asエイリアスの作成`,
+  	Name: "add",
+  	Title: strings.Join({
+- 		`Creates a custom "from" send-as alias`,
++ 		`カスタムの "from" send-asエイリアスの作成`,
+  	}, ""),
   	Desc:    "",
   	Remarks: "",
   	... // 12 identical fields
@@ -161,7 +166,7 @@ lang: ja
 + 			Desc:     "アカウントの別名",
   			Default:  "default",
   			TypeName: "domain.google.api.goog_conn_impl.conn_google_mail",
-  			TypeAttr: []interface{}{string("https://www.googleapis.com/auth/gmail.settings.sharing")},
+  			TypeAttr: []any{string("https://www.googleapis.com/auth/gmail.settings.sharing")},
   		},
   		&{
   			Name: "ReplyTo",
@@ -310,9 +315,11 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	Name:    "delete",
-- 	Title:   "Deletes the specified send-as alias",
-+ 	Title:   "指定したsend-asエイリアスを削除する",
+  	Name: "delete",
+  	Title: strings.Join({
+- 		"Deletes the specified send-as alias",
++ 		"指定したsend-asエイリアスを削除する",
+  	}, ""),
   	Desc:    "",
   	Remarks: "",
   	... // 12 identical fields
@@ -333,7 +340,7 @@ lang: ja
 + 			Desc:     "アカウントの別名",
   			Default:  "default",
   			TypeName: "domain.google.api.goog_conn_impl.conn_google_mail",
-  			TypeAttr: []interface{}{string("https://www.googleapis.com/auth/gmail.settings.sharing")},
+  			TypeAttr: []any{string("https://www.googleapis.com/auth/gmail.settings.sharing")},
   		},
   		&{
   			Name: "UserId",
@@ -364,9 +371,12 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	Name:    "list",
-- 	Title:   "Lists the send-as aliases for the specified account",
-+ 	Title:   "指定されたアカウントの送信エイリアスを一覧表示する",
+  	Name: "list",
+  	Title: strings.Join({
+- 		"Lists the send-as aliases for the specified account",
++ 		"指定されたアカウントの送信エイリアスを一覧\xe8",
++ 		"\xa1\xa8示する",
+  	}, ""),
   	Desc:    "",
   	Remarks: "",
   	... // 12 identical fields
@@ -379,7 +389,7 @@ lang: ja
 + 			Desc:     "アカウントの別名",
   			Default:  "default",
   			TypeName: "domain.google.api.goog_conn_impl.conn_google_mail",
-  			TypeAttr: []interface{}{string("https://www.googleapis.com/auth/gmail.readonly")},
+  			TypeAttr: []any{string("https://www.googleapis.com/auth/gmail.readonly")},
   		},
   		&{
   			Name: "UserId",

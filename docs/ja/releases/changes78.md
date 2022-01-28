@@ -53,8 +53,12 @@ lang: ja
   		&{Name: "email", Desc: "ユーザーのメールアドレス"},
   		&{
   			Name: "display_name",
-- 			Desc: "セッションのタイプ (web_session, desktop_client, または mobile_client)",
-+ 			Desc: "チームメンバーの表示名.",
+  			Desc: strings.Join({
+  				"\xe3",
+- 				"\x82\xbbッションのタイプ (web_session, desktop_client, また\xe3",
+- 				"\x81\xaf mobile_client)",
++ 				"\x83\x81ームメンバーの表示名.",
+  			}, ""),
   		},
   		&{Name: "group_name", Desc: "グループ名称"},
   		&{Name: "invitee_email", Desc: "このフォルダに招待されたメールアドレス"},
@@ -77,8 +81,12 @@ lang: ja
   		&{Name: "email", Desc: "ユーザーのメールアドレス"},
   		&{
   			Name: "display_name",
-- 			Desc: "セッションのタイプ (web_session, desktop_client, または mobile_client)",
-+ 			Desc: "チームメンバーの表示名.",
+  			Desc: strings.Join({
+  				"\xe3",
+- 				"\x82\xbbッションのタイプ (web_session, desktop_client, また\xe3",
+- 				"\x81\xaf mobile_client)",
++ 				"\x83\x81ームメンバーの表示名.",
+  			}, ""),
   		},
   		&{Name: "group_name", Desc: "グループ名称"},
   		&{Name: "invitee_email", Desc: "このフォルダに招待されたメールアドレス"},

@@ -278,7 +278,7 @@ lang: en
 - 			Default:  "1",
 + 			Default:  "3",
   			TypeName: "essentials.model.mo_int.range_int",
-  			TypeAttr: map[string]interface{}{
+  			TypeAttr: map[string]any{
   				"max":   float64(300),
   				"min":   float64(1),
 - 				"value": float64(1),
@@ -378,7 +378,7 @@ lang: en
 - 			Default:  "1",
 + 			Default:  "3",
   			TypeName: "essentials.model.mo_int.range_int",
-  			TypeAttr: map[string]interface{}{
+  			TypeAttr: map[string]any{
   				"max":   float64(2.147483647e+09),
   				"min":   float64(1),
 - 				"value": float64(1),

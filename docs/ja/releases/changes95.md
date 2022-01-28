@@ -37,7 +37,7 @@ lang: ja
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
   				string("files.content.write"),
 - 				string("sharing.write"),
 + 				string("groups.read"),
@@ -69,13 +69,13 @@ lang: ja
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{Name: "Format", Desc: "エクスポート書式", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{Name: "LocalPath", Desc: "エクスポート先のローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "LocalPath", Desc: "エクスポート先のローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{Name: "Password", Desc: "共有リンクのパスワード", TypeName: "essentials.model.mo_string.opt_string"},
   		&{
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 - 				string("sharing.read"),
 + 				string("files.content.read"),
 - 				string("files.content.read"),
@@ -106,7 +106,7 @@ lang: ja
   			... // 2 identical fields
   			Default:  "dst",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 - 				string("files.metadata.read"),
 + 				string("files.content.write"),
 - 				string("files.content.write"),
@@ -141,7 +141,7 @@ lang: ja
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
   				string("files.permanent_delete"),
 - 				string("team_data.member"),
 + 				string("members.read"),
@@ -179,13 +179,16 @@ lang: ja
   		&{Name: "MemberNamePrefix", Desc: "メンバーをフィルタリングします. 名前の前方\xe4\xb8"...},
   		&{Name: "MemberNameSuffix", Desc: "メンバーをフィルタリングします. 名前の後方\xe4\xb8"...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("members.read"), string("sharing.read"), string("team_data.member"),
 + 				string("team_data.team_space"),
 + 			},
@@ -220,13 +223,16 @@ lang: ja
   		&{Name: "FolderNamePrefix", Desc: "フォルダ名によるフィルター. 名前の前方一致\xe3\x81"...},
   		&{Name: "FolderNameSuffix", Desc: "フォルダ名によるフィルター. 名前の後方一致\xe3\x81"...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("groups.read"), string("members.read"),
 + 				string("sharing.read"), string("team_data.member"),
 + 				string("team_data.team_space"), string("team_info.read"),
@@ -260,13 +266,16 @@ lang: ja
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{string("members.read"), string("sessions.list")},
++ 			TypeAttr: []any{string("members.read"), string("sessions.list")},
   		},
   	},
   	GridDataInput:  {},
@@ -297,13 +306,16 @@ lang: ja
   		&{Name: "DeleteOnUnlink", Desc: "デバイスリンク解除時にファイルを削除します", Default: "false", TypeName: "bool", ...},
   		&{Name: "File", Desc: "データファイル", TypeName: "infra.feed.fd_file_impl.row_feed"},
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{string("sessions.modify")},
++ 			TypeAttr: []any{string("sessions.modify")},
   		},
   	},
   	GridDataInput:  {},
@@ -335,13 +347,16 @@ lang: ja
   		&{Name: "IncludeSharedFolder", Desc: "Trueの場合、共有フォルダを含めます", Default: "true", TypeName: "bool", ...},
   		&{Name: "IncludeTeamFolder", Desc: "Trueの場合、チームフォルダを含めます", Default: "true", TypeName: "bool", ...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -377,13 +392,16 @@ lang: ja
   		&{Name: "IncludeSharedFolder", Desc: "Trueの場合、共有フォルダを含めます", Default: "true", TypeName: "bool", ...},
   		&{Name: "IncludeTeamFolder", Desc: "Trueの場合、チームフォルダを含めます", Default: "true", TypeName: "bool", ...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -419,13 +437,16 @@ lang: ja
   		&{Name: "FolderNamePrefix", Desc: "名前に一致するフォルダのみをリストアップし\xe3"...},
   		&{Name: "FolderNameSuffix", Desc: "名前に一致するフォルダのみをリストアップし\xe3"...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -461,13 +482,16 @@ lang: ja
   		&{Name: "FolderNamePrefix", Desc: "名前に一致するフォルダのみをリストアップし\xe3"...},
   		&{Name: "FolderNameSuffix", Desc: "名前に一致するフォルダのみをリストアップし\xe3"...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -498,7 +522,7 @@ lang: ja
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 + 				string("files.content.read"),
 + 				string("files.content.write"),
   				string("groups.read"),
@@ -535,7 +559,7 @@ lang: ja
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 + 				string("files.content.read"),
 + 				string("files.content.write"),
   				string("groups.read"),

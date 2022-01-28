@@ -43,8 +43,8 @@ lang: ja
 - 			Default:  "public",
 + 			Default:  "all",
   			TypeName: "essentials.model.mo_string.select_string",
-  			TypeAttr: map[string]interface{}{
-  				"options": []interface{}{
+  			TypeAttr: map[string]any{
+  				"options": []any{
 + 					string("all"),
   					string("public"),
   					string("team_only"),

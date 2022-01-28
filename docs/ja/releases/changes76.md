@@ -41,7 +41,7 @@ lang: ja
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{Name: "DropboxPath", Desc: "アップロード先Dropboxパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{Name: "LocalPath", Desc: "アップロードするローカルファイルのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "LocalPath", Desc: "アップロードするローカルファイルのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{Name: "PeerName", Desc: "アカウントの別名", Default: "deploy", TypeName: "string", ...},
   		&{
   			Name:     "Timeout",

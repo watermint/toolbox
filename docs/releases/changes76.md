@@ -41,7 +41,7 @@ lang: en
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{Name: "DropboxPath", Desc: "Dropbox path to upload", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{Name: "LocalPath", Desc: "Local path to upload", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "LocalPath", Desc: "Local path to upload", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{Name: "PeerName", Desc: "Account alias", Default: "deploy", TypeName: "string", ...},
   		&{
   			Name:     "Timeout",

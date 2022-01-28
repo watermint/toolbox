@@ -293,7 +293,7 @@ lang: en
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
   				string("files.metadata.read"),
 + 				string("groups.read"),
 + 				string("members.read"),

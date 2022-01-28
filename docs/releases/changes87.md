@@ -57,7 +57,7 @@ lang: en
 + 			Desc:     "Export format",
 + 			TypeName: "essentials.model.mo_string.opt_string",
 + 		},
-  		&{Name: "LocalPath", Desc: "Local path to save", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "LocalPath", Desc: "Local path to save", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...},
   	},
   	GridDataInput:  {},
@@ -80,12 +80,15 @@ lang: en
   	Values: []*dc_recipe.Value{
   		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...},
   		&{
-  			Name:     "Visibility",
-- 			Desc:     "Filter links by visibility (public/team_only/password)",
-+ 			Desc:     "Filter links by visibility (all/public/team_only/password)",
+  			Name: "Visibility",
+  			Desc: strings.Join({
+  				"Filter links by visibility (",
++ 				"all/",
+  				"public/team_only/password)",
+  			}, ""),
   			Default:  "all",
   			TypeName: "essentials.model.mo_string.select_string",
-  			TypeAttr: map[string]interface{}{"options": []interface{}{string("all"), string("public"), string("team_only"), string("password"), ...}},
+  			TypeAttr: map[string]any{"options": []any{string("all"), string("public"), string("team_only"), string("password"), ...}},
   		},
   	},
   	GridDataInput:  {},
@@ -121,7 +124,7 @@ lang: en
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
-  		&{Name: "At", Desc: "New expiration date and time", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
+  		&{Name: "At", Desc: "New expiration date and time", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
   		&{Name: "Days", Desc: "Days to the new expiration date", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...},
 - 		&{
 - 			Name:     "Peer",
@@ -139,8 +142,8 @@ lang: en
 - 			Desc:     "Target link visibility",
 - 			Default:  "public",
 - 			TypeName: "essentials.model.mo_string.select_string",
-- 			TypeAttr: map[string]interface{}{
-- 				"options": []interface{}{
+- 			TypeAttr: map[string]any{
+- 				"options": []any{
 - 					string("public"), string("team_only"), string("password"),
 - 					string("team_and_password"), ...,
 - 				},
@@ -151,7 +154,7 @@ lang: en
 + 			Desc:     "Account alias",
 + 			Default:  "default",
 + 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-+ 			TypeAttr: []interface{}{string("members.read"), string("sharing.write"), string("team_data.member")},
++ 			TypeAttr: []any{string("members.read"), string("sharing.write"), string("team_data.member")},
 + 		},
   	},
   	GridDataInput:  {},

@@ -49,7 +49,7 @@ lang: ja
   		},
 - 		&{Name: "NodeMax", Desc: "最大ノード数", Default: "1000", TypeName: "int"},
 - 		&{Name: "NodeMin", Desc: "最小ノード数", Default: "100", TypeName: "int"},
-  		&{Name: "Path", Desc: "作成するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "Path", Desc: "作成するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{
 - 			Name:     "SizeMax",
 + 			Name:     "SizeMaxKb",

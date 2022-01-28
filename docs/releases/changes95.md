@@ -37,7 +37,7 @@ lang: en
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
   				string("files.content.write"),
 - 				string("sharing.write"),
 + 				string("groups.read"),
@@ -69,13 +69,13 @@ lang: en
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{Name: "Format", Desc: "Export format", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{Name: "LocalPath", Desc: "Local path to export", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "LocalPath", Desc: "Local path to export", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{Name: "Password", Desc: "Password for the shared link", TypeName: "essentials.model.mo_string.opt_string"},
   		&{
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 - 				string("sharing.read"),
 + 				string("files.content.read"),
 - 				string("files.content.read"),
@@ -106,7 +106,7 @@ lang: en
   			... // 2 identical fields
   			Default:  "dst",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 - 				string("files.metadata.read"),
 + 				string("files.content.write"),
 - 				string("files.content.write"),
@@ -141,7 +141,7 @@ lang: en
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
   				string("files.permanent_delete"),
 - 				string("team_data.member"),
 + 				string("members.read"),
@@ -179,13 +179,16 @@ lang: en
   		&{Name: "MemberNamePrefix", Desc: "Filter members. Filter by name match to the prefix."},
   		&{Name: "MemberNameSuffix", Desc: "Filter members. Filter by name match to the suffix."},
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("members.read"), string("sharing.read"), string("team_data.member"),
 + 				string("team_data.team_space"),
 + 			},
@@ -220,13 +223,16 @@ lang: en
   		&{Name: "FolderNamePrefix", Desc: "Filter by folder name. Filter by name match to the prefix."},
   		&{Name: "FolderNameSuffix", Desc: "Filter by folder name. Filter by name match to the suffix."},
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("groups.read"), string("members.read"),
 + 				string("sharing.read"), string("team_data.member"),
 + 				string("team_data.team_space"), string("team_info.read"),
@@ -260,13 +266,16 @@ lang: en
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{string("members.read"), string("sessions.list")},
++ 			TypeAttr: []any{string("members.read"), string("sessions.list")},
   		},
   	},
   	GridDataInput:  {},
@@ -297,13 +306,16 @@ lang: en
   		&{Name: "DeleteOnUnlink", Desc: "Delete files on unlink", Default: "false", TypeName: "bool", ...},
   		&{Name: "File", Desc: "Data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{string("sessions.modify")},
++ 			TypeAttr: []any{string("sessions.modify")},
   		},
   	},
   	GridDataInput:  {},
@@ -335,13 +347,16 @@ lang: en
   		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool", ...},
   		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool", ...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -377,13 +392,16 @@ lang: en
   		&{Name: "IncludeSharedFolder", Desc: "If true, include shared folders", Default: "true", TypeName: "bool", ...},
   		&{Name: "IncludeTeamFolder", Desc: "If true, include team folders", Default: "true", TypeName: "bool", ...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -419,13 +437,16 @@ lang: en
   		&{Name: "FolderNamePrefix", Desc: "List only for the folder matched to the name. Filter by name mat"...},
   		&{Name: "FolderNameSuffix", Desc: "List only for the folder matched to the name. Filter by name mat"...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -461,13 +482,16 @@ lang: en
   		&{Name: "FolderNamePrefix", Desc: "List only for the folder matched to the name. Filter by name mat"...},
   		&{Name: "FolderNameSuffix", Desc: "List only for the folder matched to the name. Filter by name mat"...},
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.metadata.read"), string("members.read"),
 + 				string("team_data.member"), string("team_data.team_space"),
 + 				string("team_info.read"),
@@ -498,7 +522,7 @@ lang: en
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 + 				string("files.content.read"),
 + 				string("files.content.write"),
   				string("groups.read"),
@@ -535,7 +559,7 @@ lang: en
   			... // 2 identical fields
   			Default:  "default",
   			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []interface{}{
+  			TypeAttr: []any{
 + 				string("files.content.read"),
 + 				string("files.content.write"),
   				string("groups.read"),

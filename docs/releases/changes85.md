@@ -205,7 +205,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "NumFiles", Desc: "Number of files.", Default: "1000", TypeName: "int", ...}, &{Name: "Path", Desc: "Path to create", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "SizeMaxKb", Desc: "Maximum file size (KiB).", Default: "2048", TypeName: "int", ...}, &{Name: "SizeMinKb", Desc: "Minimum file size (KiB).", Default: "0", TypeName: "int", ...}},
+  	Values:         {&{Name: "NumFiles", Desc: "Number of files.", Default: "1000", TypeName: "int", ...}, &{Name: "Path", Desc: "Path to create", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "SizeMaxKb", Desc: "Maximum file size (KiB).", Default: "2048", TypeName: "int", ...}, &{Name: "SizeMinKb", Desc: "Minimum file size (KiB).", Default: "0", TypeName: "int", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -305,7 +305,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DestPath", Desc: "Dest path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "SourcePath", Desc: "Path to licenses (go-licenses output folder)", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "DestPath", Desc: "Dest path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "SourcePath", Desc: "Path to licenses (go-licenses output folder)", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -345,7 +345,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Path", Desc: "Path to create README.txt", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "Path", Desc: "Path to create README.txt", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -385,7 +385,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox path to upload", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path to upload", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "PeerName", Desc: "Account alias", Default: "deploy", TypeName: "string", ...}, &{Name: "Timeout", Desc: "Operation timeout in seconds", Default: "60", TypeName: "int", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox path to upload", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path to upload", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "PeerName", Desc: "Account alias", Default: "deploy", TypeName: "string", ...}, &{Name: "Timeout", Desc: "Operation timeout in seconds", Default: "60", TypeName: "int", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -505,7 +505,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Path", Desc: "Path to KVS data", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "Path", Desc: "Path to KVS data", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -563,7 +563,7 @@ lang: en
   	IsSecret: true,
   	... // 5 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "ArtifactPath", Desc: "Path to artifacts", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "Target branch", Default: "master", TypeName: "string", ...}, &{Name: "ConnGithub", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool", ...}},
+  	Values:         {&{Name: "ArtifactPath", Desc: "Path to artifacts", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "Target branch", Default: "master", TypeName: "string", ...}, &{Name: "ConnGithub", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -942,7 +942,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Count", Desc: "Number of files to generate", Default: "10", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Height", Desc: "Height", Default: "1080", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "NamePrefix", Desc: "Filename prefix", Default: "test_image", TypeName: "string", ...}, &{Name: "Path", Desc: "Path to generate files", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, ...},
+  	Values:         {&{Name: "Count", Desc: "Number of files to generate", Default: "10", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Height", Desc: "Height", Default: "1080", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "NamePrefix", Desc: "Filename prefix", Default: "test_image", TypeName: "string", ...}, &{Name: "Path", Desc: "Path to generate files", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -982,7 +982,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Dst", Desc: "The destination folder path. The command will create folders if "..., TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "ExcludeFolders", Desc: "Exclude folders", Default: "false", TypeName: "bool", ...}, &{Name: "IncludeSystemFiles", Desc: "Include system files", Default: "false", TypeName: "bool", ...}, &{Name: "Preview", Desc: "Preview mode", Default: "false", TypeName: "bool", ...}, ...},
+  	Values:         {&{Name: "Dst", Desc: "The destination folder path. The command will create folders if "..., TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "ExcludeFolders", Desc: "Exclude folders", Default: "false", TypeName: "bool", ...}, &{Name: "IncludeSystemFiles", Desc: "Include system files", Default: "false", TypeName: "bool", ...}, &{Name: "Preview", Desc: "Preview mode", Default: "false", TypeName: "bool", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1022,7 +1022,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1102,7 +1102,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "File path to download", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path to download", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "File path to download", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path to download", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1122,7 +1122,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox document path to export.", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path to save", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox document path to export.", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path to save", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1442,7 +1442,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "Restricts search to only the file categories specified (image/do"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "Restricts search to only the extensions specified.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "Scopes the search to a path in the user's Dropbox.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "Category", Desc: "Restricts search to only the file categories specified (image/do"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "Restricts search to only the extensions specified.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "Scopes the search to a path in the user's Dropbox.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1462,7 +1462,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "Restricts search to only the file categories specified (image/do"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "Restricts search to only the extensions specified.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "Scopes the search to a path in the user's Dropbox.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "Category", Desc: "Restricts search to only the file categories specified (image/do"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "Restricts search to only the extensions specified.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "Scopes the search to a path in the user's Dropbox.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1502,7 +1502,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Delete", Desc: "Delete local file if a file removed on Dropbox", Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "NameDisableIgnore", Desc: "Filter by name. Filter system file or ignore files."}, ...},
+  	Values:         {&{Name: "Delete", Desc: "Delete local file if a file removed on Dropbox", Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "NameDisableIgnore", Desc: "Filter by name. Filter system file or ignore files."}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1542,7 +1542,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "ChunkSizeKb", Desc: "Upload chunk size in KB", Default: "65536", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Delete", Desc: "Delete Dropbox file if a file removed locally", Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "Destination Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local file path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, ...},
+  	Values:         {&{Name: "ChunkSizeKb", Desc: "Upload chunk size in KB", Default: "65536", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Delete", Desc: "Delete Dropbox file if a file removed locally", Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "Destination Dropbox path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "Local file path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1582,7 +1582,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "AllowLateUploads", Desc: "If set, allow uploads after the deadline has passed (one_day/two"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Deadline", Desc: "The deadline for this file request.", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Path", Desc: "The path for the folder in the Dropbox where uploaded files will"..., TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "AllowLateUploads", Desc: "If set, allow uploads after the deadline has passed (one_day/two"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Deadline", Desc: "The deadline for this file request.", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Path", Desc: "The path for the folder in the Dropbox where uploaded files will"..., TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1902,7 +1902,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Path", Desc: "Path to the image", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "Path", Desc: "Path to the image", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2622,7 +2622,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Branch", Desc: "Name of the branch", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Content", Desc: "Path to a content file", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Message", Desc: "Commit message", TypeName: "string"}, &{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, ...},
+  	Values:         {&{Name: "Branch", Desc: "Name of the branch", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Content", Desc: "Path to a content file", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Message", Desc: "Commit message", TypeName: "string"}, &{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2682,7 +2682,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Path", Desc: "Path to download", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "Release tag name", TypeName: "string"}, ...},
+  	Values:         {&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Path", Desc: "Path to download", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "Release tag name", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2722,7 +2722,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Asset", Desc: "Path to assets", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "Release tag name", TypeName: "string"}, ...},
+  	Values:         {&{Name: "Asset", Desc: "Path to assets", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "Release tag name", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2742,7 +2742,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "BodyFile", Desc: "File path to body text. THe file must encoded in UTF-8 without BOM.", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "Name of the target branch", TypeName: "string"}, &{Name: "Name", Desc: "Name of the release", TypeName: "string"}, &{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, ...},
+  	Values:         {&{Name: "BodyFile", Desc: "File path to body text. THe file must encoded in UTF-8 without BOM.", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "Name of the target branch", TypeName: "string"}, &{Name: "Name", Desc: "Name of the release", TypeName: "string"}, &{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2882,7 +2882,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "ColorBackground", Desc: "The background color.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "ColorText", Desc: "The text color.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "LabelListVisibility", Desc: "The visibility of the label in the label list in the Gmail web i"..., Default: "labelShow", TypeName: "essentials.model.mo_string.select_string", ...}, &{Name: "MessageListVisibility", Desc: "The visibility of messages with this label in the message list i"..., Default: "show", TypeName: "essentials.model.mo_string.select_string", ...}, ...},
+  	Values:         {&{Name: "ColorBackground", Desc: "The background color.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "ColorText", Desc: "The text color.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "LabelListVisibility", Desc: "The visibility of the label in the label list in the Gmail web i"..., Default: "labelShow", TypeName: "essentials.model.mo_string.select_string", ...}, &{Name: "MessageListVisibility", Desc: "The visibility of messages with this label in the message list i"..., Default: "show", TypeName: "essentials.model.mo_string.select_string", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3122,7 +3122,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Expires", Desc: "Expiration date/time of the shared link", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Password", Desc: "Password", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "Path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "Expires", Desc: "Expiration date/time of the shared link", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Password", Desc: "Password", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "Path", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3202,7 +3202,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "Filter the returned events to a single category. This field is o"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "Ending time (exclusive).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "File", Desc: "User email address list file", TypeName: "infra.feed.fd_file_impl.row_feed"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, ...},
+  	Values:         {&{Name: "Category", Desc: "Filter the returned events to a single category. This field is o"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "Ending time (exclusive).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "File", Desc: "User email address list file", TypeName: "infra.feed.fd_file_impl.row_feed"}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3242,7 +3242,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "Filter the returned events to a single category. This field is o"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "Ending time (exclusive).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "Starting time (inclusive)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "Category", Desc: "Filter the returned events to a single category. This field is o"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "Ending time (exclusive).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "Starting time (inclusive)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3262,7 +3262,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "Filter the returned events to a single category. This field is o"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "Ending time (exclusive).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "Starting time (inclusive)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "Category", Desc: "Filter the returned events to a single category. This field is o"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "Ending time (exclusive).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "Starting time (inclusive)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3582,7 +3582,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3602,7 +3602,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3622,7 +3622,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3642,7 +3642,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3682,7 +3682,7 @@ lang: en
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "At", Desc: "New expiration date and time", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Days", Desc: "Days to the new expiration date", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...}, &{Name: "Visibility", Desc: "Target link visibility", Default: "public", TypeName: "essentials.model.mo_string.select_string", ...}},
+  	Values:         {&{Name: "At", Desc: "New expiration date and time", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Days", Desc: "Days to the new expiration date", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...}, &{Name: "Visibility", Desc: "Target link visibility", Default: "public", TypeName: "essentials.model.mo_string.select_string", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
