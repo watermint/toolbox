@@ -59,7 +59,7 @@ lang: en
 - 			Default:  "100",
 - 			TypeName: "int",
 - 		},
-  		&{Name: "Path", Desc: "Path to create", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "Path", Desc: "Path to create", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{
 - 			Name:     "SizeMax",
 + 			Name:     "SizeMaxKb",

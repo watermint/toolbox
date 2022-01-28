@@ -29,10 +29,12 @@ lang: en
 - 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file",
 - 		},
   		&{
-- 			Name:     "SkipExisting",
-+ 			Name:     "Overwrite",
-- 			Desc:     "Skip existing files. Do not overwrite",
-+ 			Desc:     "Overwrite existing file on the target path if that exists.",
+- 			Name: "SkipExisting",
++ 			Name: "Overwrite",
+  			Desc: strings.Join({
+- 				"Skip existing files. Do not overwrite",
++ 				"Overwrite existing file on the target path if that exists.",
+  			}, ""),
   			Default:  "false",
   			TypeName: "bool",
   			TypeAttr: nil,

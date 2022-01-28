@@ -57,7 +57,7 @@ lang: ja
 + 			Desc:     "エクスポート書式",
 + 			TypeName: "essentials.model.mo_string.opt_string",
 + 		},
-  		&{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
   		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...},
   	},
   	GridDataInput:  {},
@@ -89,7 +89,7 @@ lang: ja
   			}, ""),
   			Default:  "all",
   			TypeName: "essentials.model.mo_string.select_string",
-  			TypeAttr: map[string]interface{}{"options": []interface{}{string("all"), string("public"), string("team_only"), string("password"), ...}},
+  			TypeAttr: map[string]any{"options": []any{string("all"), string("public"), string("team_only"), string("password"), ...}},
   		},
   	},
   	GridDataInput:  {},
@@ -125,7 +125,7 @@ lang: ja
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
-  		&{Name: "At", Desc: "新しい有効期限の日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}},
+  		&{Name: "At", Desc: "新しい有効期限の日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
   		&{Name: "Days", Desc: "新しい有効期限までの日時", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...},
 - 		&{
 - 			Name:     "Peer",
@@ -143,8 +143,8 @@ lang: ja
 - 			Desc:     "対象となるリンクの公開範囲",
 - 			Default:  "public",
 - 			TypeName: "essentials.model.mo_string.select_string",
-- 			TypeAttr: map[string]interface{}{
-- 				"options": []interface{}{
+- 			TypeAttr: map[string]any{
+- 				"options": []any{
 - 					string("public"), string("team_only"), string("password"),
 - 					string("team_and_password"), ...,
 - 				},
@@ -155,7 +155,7 @@ lang: ja
 + 			Desc:     "アカウントの別名",
 + 			Default:  "default",
 + 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-+ 			TypeAttr: []interface{}{string("members.read"), string("sharing.write"), string("team_data.member")},
++ 			TypeAttr: []any{string("members.read"), string("sharing.write"), string("team_data.member")},
 + 		},
   	},
   	GridDataInput:  {},

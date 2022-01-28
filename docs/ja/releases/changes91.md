@@ -31,12 +31,12 @@ lang: ja
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
-  		&{Name: "DestPath", Desc: "出力先パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}},
+  		&{Name: "DestPath", Desc: "出力先パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
 - 		&{
 - 			Name:     "SourcePath",
 - 			Desc:     "ライセンスへのパス (go-licenses 出力フォルダ)",
 - 			TypeName: "essentials.model.mo_path.file_system_path_impl",
-- 			TypeAttr: map[string]interface{}{"shouldExist": bool(false)},
+- 			TypeAttr: map[string]any{"shouldExist": bool(false)},
 - 		},
   	},
   	GridDataInput:  {},

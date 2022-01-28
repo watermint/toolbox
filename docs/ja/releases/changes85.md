@@ -205,7 +205,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "NumFiles", Desc: "ファイル数.", Default: "1000", TypeName: "int", ...}, &{Name: "Path", Desc: "作成するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "SizeMaxKb", Desc: "最大ファイルサイズ (KiB).", Default: "2048", TypeName: "int", ...}, &{Name: "SizeMinKb", Desc: "最小ファイルサイズ (KiB).", Default: "0", TypeName: "int", ...}},
+  	Values:         {&{Name: "NumFiles", Desc: "ファイル数.", Default: "1000", TypeName: "int", ...}, &{Name: "Path", Desc: "作成するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "SizeMaxKb", Desc: "最大ファイルサイズ (KiB).", Default: "2048", TypeName: "int", ...}, &{Name: "SizeMinKb", Desc: "最小ファイルサイズ (KiB).", Default: "0", TypeName: "int", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -305,7 +305,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DestPath", Desc: "出力先パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "SourcePath", Desc: "ライセンスへのパス (go-licenses 出力フォルダ)", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "DestPath", Desc: "出力先パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "SourcePath", Desc: "ライセンスへのパス (go-licenses 出力フォルダ)", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -345,7 +345,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Path", Desc: "README.txtの作成パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "Path", Desc: "README.txtの作成パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -385,7 +385,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "アップロード先Dropboxパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "アップロードするローカルファイルのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "PeerName", Desc: "アカウントの別名", Default: "deploy", TypeName: "string", ...}, &{Name: "Timeout", Desc: "処理タイムアウト(秒)", Default: "60", TypeName: "int", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "アップロード先Dropboxパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "アップロードするローカルファイルのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "PeerName", Desc: "アカウントの別名", Default: "deploy", TypeName: "string", ...}, &{Name: "Timeout", Desc: "処理タイムアウト(秒)", Default: "60", TypeName: "int", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -505,7 +505,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Path", Desc: "KVSデータへのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "Path", Desc: "KVSデータへのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -563,7 +563,7 @@ lang: ja
   	IsSecret: true,
   	... // 5 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "ArtifactPath", Desc: "成果物へのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "対象ブランチ", Default: "master", TypeName: "string", ...}, &{Name: "ConnGithub", Desc: "アカウントの別名", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "SkipTests", Desc: "エンドツーエンドテストをスキップします.", Default: "false", TypeName: "bool", ...}},
+  	Values:         {&{Name: "ArtifactPath", Desc: "成果物へのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "対象ブランチ", Default: "master", TypeName: "string", ...}, &{Name: "ConnGithub", Desc: "アカウントの別名", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "SkipTests", Desc: "エンドツーエンドテストをスキップします.", Default: "false", TypeName: "bool", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -942,7 +942,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Count", Desc: "生成するファイル数", Default: "10", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Height", Desc: "高さ", Default: "1080", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "NamePrefix", Desc: "ファイル名のプリフィックス", Default: "test_image", TypeName: "string", ...}, &{Name: "Path", Desc: "ファイルを生成するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, ...},
+  	Values:         {&{Name: "Count", Desc: "生成するファイル数", Default: "10", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Height", Desc: "高さ", Default: "1080", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "NamePrefix", Desc: "ファイル名のプリフィックス", Default: "test_image", TypeName: "string", ...}, &{Name: "Path", Desc: "ファイルを生成するパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -982,7 +982,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Dst", Desc: "宛先フォルダのパス. このコマンドは、パス上\xe3\x81"..., TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "ExcludeFolders", Desc: "フォルダを除外する", Default: "false", TypeName: "bool", ...}, &{Name: "IncludeSystemFiles", Desc: "システムファイルを含める", Default: "false", TypeName: "bool", ...}, &{Name: "Preview", Desc: "プレビューモード", Default: "false", TypeName: "bool", ...}, ...},
+  	Values:         {&{Name: "Dst", Desc: "宛先フォルダのパス. このコマンドは、パス上\xe3\x81"..., TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "ExcludeFolders", Desc: "フォルダを除外する", Default: "false", TypeName: "bool", ...}, &{Name: "IncludeSystemFiles", Desc: "システムファイルを含める", Default: "false", TypeName: "bool", ...}, &{Name: "Preview", Desc: "プレビューモード", Default: "false", TypeName: "bool", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1022,7 +1022,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox上のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "Dropbox上のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1102,7 +1102,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "ダウンロードするファイルパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "ダウンロードするファイルパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1122,7 +1122,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "DropboxPath", Desc: "エクスポートするDropbox上のドキュメントパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
+  	Values:         {&{Name: "DropboxPath", Desc: "エクスポートするDropbox上のドキュメントパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "保存先ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1442,7 +1442,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "指定されたファイルカテゴリに検索を限定しま\xe3"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "指定されたファイル拡張子に検索を限定します.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "検索対象とするユーザーのDropbox上のパス.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "Category", Desc: "指定されたファイルカテゴリに検索を限定しま\xe3"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "指定されたファイル拡張子に検索を限定します.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "検索対象とするユーザーのDropbox上のパス.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1462,7 +1462,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "指定されたファイルカテゴリに検索を限定しま\xe3"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "指定されたファイル拡張子に検索を限定します.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "検索対象とするユーザーのDropbox上のパス.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "Category", Desc: "指定されたファイルカテゴリに検索を限定しま\xe3"..., TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("image"), string("document"), string("pdf"), ...}}}, &{Name: "Extension", Desc: "指定されたファイル拡張子に検索を限定します.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "検索対象とするユーザーのDropbox上のパス.", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1502,7 +1502,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Delete", Desc: "Dropbox上のファイルを削除した場合、ローカルフ"..., Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "Dropbox上のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "NameDisableIgnore", Desc: "名前によるフィルター. システムファイルと除\xe5\xa4"...}, ...},
+  	Values:         {&{Name: "Delete", Desc: "Dropbox上のファイルを削除した場合、ローカルフ"..., Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "Dropbox上のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "ローカルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "NameDisableIgnore", Desc: "名前によるフィルター. システムファイルと除\xe5\xa4"...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1542,7 +1542,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "ChunkSizeKb", Desc: "アップロードチャンク容量(Kバイト)", Default: "65536", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Delete", Desc: "ローカルで削除されたファイルがある場合はDrop"..., Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "転送先のDropboxパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "ローカルファイルのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, ...},
+  	Values:         {&{Name: "ChunkSizeKb", Desc: "アップロードチャンク容量(Kバイト)", Default: "65536", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Delete", Desc: "ローカルで削除されたファイルがある場合はDrop"..., Default: "false", TypeName: "bool", ...}, &{Name: "DropboxPath", Desc: "転送先のDropboxパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "LocalPath", Desc: "ローカルファイルのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1582,7 +1582,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "AllowLateUploads", Desc: "設定した場合、期限を過ぎてもアップロードを\xe8"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Deadline", Desc: "ファイルリクエストの締め切り.", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Path", Desc: "ファイルをアップロードするDropbox上のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "AllowLateUploads", Desc: "設定した場合、期限を過ぎてもアップロードを\xe8"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Deadline", Desc: "ファイルリクエストの締め切り.", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Path", Desc: "ファイルをアップロードするDropbox上のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -1902,7 +1902,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Path", Desc: "画像へのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}},
+  	Values:         {&{Name: "Path", Desc: "画像へのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2622,7 +2622,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Branch", Desc: "ブランチ名", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Content", Desc: "コンテンツファイルへのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Message", Desc: "コミットメッセージ", TypeName: "string"}, &{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, ...},
+  	Values:         {&{Name: "Branch", Desc: "ブランチ名", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Content", Desc: "コンテンツファイルへのパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Message", Desc: "コミットメッセージ", TypeName: "string"}, &{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2682,7 +2682,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, &{Name: "Path", Desc: "ダウンロード パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "リリースタグ名", TypeName: "string"}, ...},
+  	Values:         {&{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, &{Name: "Path", Desc: "ダウンロード パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "リリースタグ名", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2722,7 +2722,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Asset", Desc: "成果物のパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "リリースタグ名", TypeName: "string"}, ...},
+  	Values:         {&{Name: "Asset", Desc: "成果物のパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.github.api.gh_conn_impl.conn_github_repo", ...}, &{Name: "Release", Desc: "リリースタグ名", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2742,7 +2742,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "BodyFile", Desc: "本文テキストファイルへのパスファイルはBOMな\xe3"..., TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]interface{}{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "対象ブランチ名", TypeName: "string"}, &{Name: "Name", Desc: "リリース名称", TypeName: "string"}, &{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, ...},
+  	Values:         {&{Name: "BodyFile", Desc: "本文テキストファイルへのパスファイルはBOMな\xe3"..., TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}}, &{Name: "Branch", Desc: "対象ブランチ名", TypeName: "string"}, &{Name: "Name", Desc: "リリース名称", TypeName: "string"}, &{Name: "Owner", Desc: "レポジトリの所有者", TypeName: "string"}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -2882,7 +2882,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "ColorBackground", Desc: "背景色.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "ColorText", Desc: "テキストの色.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]interface{}{"options": []interface{}{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "LabelListVisibility", Desc: "Gmail ウェブインタフェースのラベルリストのラ\xe3"..., Default: "labelShow", TypeName: "essentials.model.mo_string.select_string", ...}, &{Name: "MessageListVisibility", Desc: "Gmail ウェブインターフェースのメッセージリス\xe3"..., Default: "show", TypeName: "essentials.model.mo_string.select_string", ...}, ...},
+  	Values:         {&{Name: "ColorBackground", Desc: "背景色.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "ColorText", Desc: "テキストの色.", TypeName: "essentials.model.mo_string.select_string", TypeAttr: map[string]any{"options": []any{string(""), string("#000000"), string("#434343"), string("#666666"), ...}}}, &{Name: "LabelListVisibility", Desc: "Gmail ウェブインタフェースのラベルリストのラ\xe3"..., Default: "labelShow", TypeName: "essentials.model.mo_string.select_string", ...}, &{Name: "MessageListVisibility", Desc: "Gmail ウェブインターフェースのメッセージリス\xe3"..., Default: "show", TypeName: "essentials.model.mo_string.select_string", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3122,7 +3122,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Expires", Desc: "共有リンクの有効期限日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Password", Desc: "パスワード", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "パス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
+  	Values:         {&{Name: "Expires", Desc: "共有リンクの有効期限日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Password", Desc: "パスワード", TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "Path", Desc: "パス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_user_file", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3202,7 +3202,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "一つのイベントカテゴリのみを返すようなフィ\xe3"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "終了日時 (該当同時刻を含まない).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "File", Desc: "メールアドレスリストのファイル", TypeName: "infra.feed.fd_file_impl.row_feed"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, ...},
+  	Values:         {&{Name: "Category", Desc: "一つのイベントカテゴリのみを返すようなフィ\xe3"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "終了日時 (該当同時刻を含まない).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "File", Desc: "メールアドレスリストのファイル", TypeName: "infra.feed.fd_file_impl.row_feed"}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, ...},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3242,7 +3242,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "一つのイベントカテゴリのみを返すようなフィ\xe3"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "終了日時 (該当同時刻を含まない).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "開始日時 (該当時刻を含む)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "Category", Desc: "一つのイベントカテゴリのみを返すようなフィ\xe3"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "終了日時 (該当同時刻を含まない).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "開始日時 (該当時刻を含む)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3262,7 +3262,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "Category", Desc: "一つのイベントカテゴリのみを返すようなフィ\xe3"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "終了日時 (該当同時刻を含まない).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "開始日時 (該当時刻を含む)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "Category", Desc: "一つのイベントカテゴリのみを返すようなフィ\xe3"..., TypeName: "essentials.model.mo_string.opt_string"}, &{Name: "EndTime", Desc: "終了日時 (該当同時刻を含まない).", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_audit", ...}, &{Name: "StartTime", Desc: "開始日時 (該当時刻を含む)", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3582,7 +3582,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3602,7 +3602,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3622,7 +3622,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3642,7 +3642,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}},
+  	Values:         {&{Name: "EndDate", Desc: "終了日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...}, &{Name: "StartDate", Desc: "開始日", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,
@@ -3682,7 +3682,7 @@ lang: ja
   &dc_recipe.Recipe{
   	... // 17 identical fields
   	Feeds:          nil,
-  	Values:         {&{Name: "At", Desc: "新しい有効期限の日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]interface{}{"optional": bool(true)}}, &{Name: "Days", Desc: "新しい有効期限までの日時", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...}, &{Name: "Visibility", Desc: "対象となるリンクの公開範囲", Default: "public", TypeName: "essentials.model.mo_string.select_string", ...}},
+  	Values:         {&{Name: "At", Desc: "新しい有効期限の日時", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}}, &{Name: "Days", Desc: "新しい有効期限までの日時", Default: "0", TypeName: "essentials.model.mo_int.range_int", ...}, &{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file", ...}, &{Name: "Visibility", Desc: "対象となるリンクの公開範囲", Default: "public", TypeName: "essentials.model.mo_string.select_string", ...}},
 - 	GridDataInput:  nil,
 + 	GridDataInput:  []*dc_recipe.DocGridDataInput{},
 - 	GridDataOutput: nil,

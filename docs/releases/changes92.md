@@ -178,13 +178,16 @@ lang: en
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{string("members.read"), string("sharing.read"), string("team_data.member")},
++ 			TypeAttr: []any{string("members.read"), string("sharing.read"), string("team_data.member")},
   		},
   		&{Name: "Visibility", Desc: "Filter links by visibility (all/public/team_only/password)", Default: "all", TypeName: "essentials.model.mo_string.select_string", ...},
   	},
@@ -217,10 +220,13 @@ lang: en
 + 		Commands `team sharedlink update` is for setting a value to the shared links. Commands `team sharedlink cap` is for putting a cap value to the shared links. For example: if you set expiry by `team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
   		"""
   	),
-  	Remarks:         "(Irreversible operation)",
-  	Path:            "team sharedlink update expiry",
-- 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -days 28",
-+ 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -at +720h",
+  	Remarks: "(Irreversible operation)",
+  	Path:    "team sharedlink update expiry",
+  	CliArgs: strings.Join({
+  		"-file /PATH/TO/DATA_FILE.csv -",
+- 		"days 28",
++ 		"at +720h",
+  	}, ""),
   	CliNote:         "",
   	ConnUsePersonal: false,
   	... // 8 identical fields
@@ -231,15 +237,15 @@ lang: en
   			... // 2 identical fields
   			Default:  "",
   			TypeName: "domain.dropbox.model.mo_time.time_impl",
-- 			TypeAttr: map[string]interface{}{"optional": bool(true)},
-+ 			TypeAttr: map[string]interface{}{"optional": bool(false)},
+- 			TypeAttr: map[string]any{"optional": bool(true)},
++ 			TypeAttr: map[string]any{"optional": bool(false)},
   		},
 - 		&{
 - 			Name:     "Days",
 - 			Desc:     "Days to the new expiration date",
 - 			Default:  "0",
 - 			TypeName: "essentials.model.mo_int.range_int",
-- 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(0)},
+- 			TypeAttr: map[string]any{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(0)},
 - 		},
   		&{Name: "File", Desc: "Path to data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
   		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...},

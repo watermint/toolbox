@@ -1,1 +1,2 @@
-#578 : add `group clear externalid` command
+* #580 : Dropbox API key consolidation
+* #579 : Crash on Windows

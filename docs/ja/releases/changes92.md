@@ -180,13 +180,16 @@ lang: ja
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
   		&{
-  			Name:     "Peer",
-  			Desc:     "アカウントの別名",
-  			Default:  "default",
-- 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_business_file",
-+ 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_",
+- 				"business_file",
++ 				"scoped_team",
+  			}, ""),
 - 			TypeAttr: nil,
-+ 			TypeAttr: []interface{}{string("members.read"), string("sharing.read"), string("team_data.member")},
++ 			TypeAttr: []any{string("members.read"), string("sharing.read"), string("team_data.member")},
   		},
   		&{Name: "Visibility", Desc: "可視性によるリンクのフィルタリング (all/public/"..., Default: "all", TypeName: "essentials.model.mo_string.select_string", ...},
   	},
@@ -219,10 +222,13 @@ lang: ja
 + 		コマンド `team sharedlink update` は、共有リンクに値を設定するためのものです. コマンド `team sharedlink cap` は、共有リンクにキャップ値を設定するためのものです. 例：有効期限を2021-05-06に設定して、`team sharedlink update expiry`で設定した場合. このコマンドは、既存のリンクが2021-05-04のように短い有効期限を持っている場合でも、有効期限を2021-05-06に更新します.
   		"""
   	),
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "team sharedlink update expiry",
-- 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -days 28",
-+ 	CliArgs:         "-file /PATH/TO/DATA_FILE.csv -at +720h",
+  	Remarks: "(非可逆な操作です)",
+  	Path:    "team sharedlink update expiry",
+  	CliArgs: strings.Join({
+  		"-file /PATH/TO/DATA_FILE.csv -",
+- 		"days 28",
++ 		"at +720h",
+  	}, ""),
   	CliNote:         "",
   	ConnUsePersonal: false,
   	... // 8 identical fields
@@ -233,15 +239,15 @@ lang: ja
   			... // 2 identical fields
   			Default:  "",
   			TypeName: "domain.dropbox.model.mo_time.time_impl",
-- 			TypeAttr: map[string]interface{}{"optional": bool(true)},
-+ 			TypeAttr: map[string]interface{}{"optional": bool(false)},
+- 			TypeAttr: map[string]any{"optional": bool(true)},
++ 			TypeAttr: map[string]any{"optional": bool(false)},
   		},
 - 		&{
 - 			Name:     "Days",
 - 			Desc:     "新しい有効期限までの日時",
 - 			Default:  "0",
 - 			TypeName: "essentials.model.mo_int.range_int",
-- 			TypeAttr: map[string]interface{}{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(0)},
+- 			TypeAttr: map[string]any{"max": float64(2.147483647e+09), "min": float64(0), "value": float64(0)},
 - 		},
   		&{Name: "File", Desc: "データファイルへのパス", TypeName: "infra.feed.fd_file_impl.row_feed"},
   		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...},

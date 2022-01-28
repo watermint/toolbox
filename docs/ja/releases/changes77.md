@@ -73,14 +73,14 @@ lang: ja
 - 			Desc:     "アカウントの別名",
 - 			Default:  "&{Peer [groups.write files.content.write] <nil>}",
 - 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-- 			TypeAttr: []interface{}{string("groups.write"), string("files.content.write")},
+- 			TypeAttr: []any{string("groups.write"), string("files.content.write")},
 - 		},
 + 		&{
 + 			Name:     "Peer",
 + 			Desc:     "アカウントの別名",
 + 			Default:  "&{Peer [files.content.read files.content.write groups.write sharing.read sharing.write team_data.member team_data.team_space tea"...,
 + 			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-+ 			TypeAttr: []interface{}{
++ 			TypeAttr: []any{
 + 				string("files.content.read"), string("files.content.write"),
 + 				string("groups.write"), string("sharing.read"), string("sharing.write"),
 + 				string("team_data.member"), string("team_data.team_space"),
@@ -109,8 +109,10 @@ lang: ja
   		&{Name: "name", Desc: "ワークスペースの名前。"},
   		&{
   			Name: "is_organization",
-- 			Desc: `	ワークスペースが組織であるかどうか。`,
-+ 			Desc: "ワークスペースが組織であるかどうか。",
+  			Desc: strings.Join({
+- 				`	`,
+  				"ワークスペースが組織であるかどうか。",
+  			}, ""),
   		},
   	},
   }
