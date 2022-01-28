@@ -13,7 +13,7 @@ jobs:
       - restore_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
       - run: go get github.com/google/go-licenses
-      - run: ./build.sh
+      - run: sh ./build.sh
       - store_artifacts:
           path: /go/src/github.com/watermint/toolbox/dist
 
@@ -32,7 +32,7 @@ jobs:
       - run: mkdir -p test/results
       - run: go get golang.org/x/tools/cmd/cover
       - run: go get github.com/jstemmer/go-junit-report
-      - run: ./test/test.sh
+      - run: sh ./test/test.sh
       - save_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
           paths:
