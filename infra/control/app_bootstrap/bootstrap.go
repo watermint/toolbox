@@ -44,18 +44,19 @@ import (
 )
 
 type msgRun struct {
-	ErrorInvalidArgument        app_msg.Message
-	ErrorTooManyArguments       app_msg.Message
-	ErrorInterrupted            app_msg.Message
-	ErrorInterruptedInstruction app_msg.Message
-	ErrorUnableToFormatPath     app_msg.Message
-	ErrorPanic                  app_msg.Message
-	ErrorPanicInstruction       app_msg.Message
-	ErrorRecipeFailed           app_msg.Message
-	ErrorUnsupportedOutput      app_msg.Message
-	ErrorInitialization         app_msg.Message
-	ErrorUnableToLoadExtra      app_msg.Message
-	ProgressInterruptedShutdown app_msg.Message
+	ErrorInvalidArgument                  app_msg.Message
+	ErrorTooManyArguments                 app_msg.Message
+	ErrorRetainNoneSupportsJsonReportOnly app_msg.Message
+	ErrorInterrupted                      app_msg.Message
+	ErrorInterruptedInstruction           app_msg.Message
+	ErrorUnableToFormatPath               app_msg.Message
+	ErrorPanic                            app_msg.Message
+	ErrorPanicInstruction                 app_msg.Message
+	ErrorRecipeFailed                     app_msg.Message
+	ErrorUnsupportedOutput                app_msg.Message
+	ErrorInitialization                   app_msg.Message
+	ErrorUnableToLoadExtra                app_msg.Message
+	ProgressInterruptedShutdown           app_msg.Message
 }
 
 var (
@@ -152,6 +153,13 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	if exErr := com.ExtraLoad(); exErr != nil {
 		ui.Failure(MRun.ErrorUnableToLoadExtra.With("Error", exErr).With("Path", com.Extra.Value()))
+		app_exit.Abort(app_exit.FatalStartup)
+	}
+
+	if 0 < len(rcp.Reports()) &&
+		com.RetainJobData.Value() == app_opt.RetainJobDataNone &&
+		com.Output.Value() != app_opt.OutputJson {
+		ui.Failure(MRun.ErrorRetainNoneSupportsJsonReportOnly)
 		app_exit.Abort(app_exit.FatalStartup)
 	}
 

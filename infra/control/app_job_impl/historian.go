@@ -163,5 +163,7 @@ func GetHistories(path mo_string.OptionalString) (histories []app_job.History, e
 	if len(histories) < 1 {
 		l.Debug("No log found", esl.Any("histories", histories))
 	}
+	l.Debug("Clean workspace", esl.String("historianJobPath", ws.Job()))
+	_ = os.RemoveAll(ws.Job())
 	return
 }

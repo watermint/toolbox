@@ -9,16 +9,19 @@ import (
 )
 
 const (
-	OutputNone      = "none"
-	OutputText      = "text"
-	OutputMarkdown  = "markdown"
-	OutputJson      = "json"
-	BudgetLow       = "low"
-	BudgetNormal    = "normal"
-	BudgetUnlimited = "unlimited"
-	LangAuto        = "auto"
-	LangEnglish     = "en"
-	LangJapanese    = "ja"
+	OutputNone           = "none"
+	OutputText           = "text"
+	OutputMarkdown       = "markdown"
+	OutputJson           = "json"
+	BudgetLow            = "low"
+	BudgetNormal         = "normal"
+	BudgetUnlimited      = "unlimited"
+	LangAuto             = "auto"
+	LangEnglish          = "en"
+	LangJapanese         = "ja"
+	RetainJobDataDefault = "retain"
+	RetainJobDataOnError = "on_error"
+	RetainJobDataNone    = "none"
 )
 
 type ExtraOpts struct {
@@ -71,6 +74,9 @@ type CommonOpts struct {
 	// Storage budget
 	BudgetStorage mo_string.SelectString
 
+	// Job data
+	RetainJobData mo_string.SelectString
+
 	// Set output format
 	Output mo_string.SelectString
 
@@ -113,6 +119,21 @@ func (z *CommonOpts) ExtraLoad() error {
 	return nil
 }
 
+func (z *CommonOpts) ShouldDeleteJobData(err error) bool {
+	switch z.RetainJobData.Value() {
+	case RetainJobDataNone:
+		// remove job data on exit
+		return true
+
+	case RetainJobDataOnError:
+		if err != nil {
+			return true
+		}
+	}
+
+	return false
+}
+
 func (z *CommonOpts) ExtraOpts() ExtraOpts {
 	if z.extraCache == nil {
 		return ExtraOpts{}
@@ -129,6 +150,7 @@ func (z *CommonOpts) Preset() {
 	z.Experiment = ""
 	z.BudgetMemory.SetOptions(BudgetNormal, BudgetLow, BudgetNormal)
 	z.BudgetStorage.SetOptions(string(app_budget.DefaultBudget), app_budget.StorageBudgets...)
+	z.RetainJobData.SetOptions(RetainJobDataDefault, RetainJobDataDefault, RetainJobDataOnError, RetainJobDataNone)
 	z.Lang.SetOptions(LangAuto, LangAuto, LangEnglish, LangJapanese)
 	z.Output.SetOptions(OutputText, OutputText, OutputMarkdown, OutputJson, OutputNone)
 	z.Proxy = mo_string.NewOptional("")
@@ -144,6 +166,7 @@ func Default() CommonOpts {
 	com.Proxy = mo_string.NewOptional("")
 	com.BudgetMemory = mo_string.NewSelect()
 	com.BudgetStorage = mo_string.NewSelect()
+	com.RetainJobData = mo_string.NewSelect()
 	com.Lang = mo_string.NewSelect()
 	com.Output = mo_string.NewSelect()
 	com.Extra = mo_string.NewOptional("")
