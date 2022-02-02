@@ -611,7 +611,7 @@
   "infra.control.app_bootstrap.msg_run.error_panic": "The program finished with a fatal error: {{.Error}}",
   "infra.control.app_bootstrap.msg_run.error_panic_instruction": "Please see logs and reports for more detail: {{.JobPath}}",
   "infra.control.app_bootstrap.msg_run.error_recipe_failed": "Operation failed with an error: {{.Error}}",
-  "infra.control.app_bootstrap.msg_run.error_retain_none_supports_json_report_only": "Only JSON format report supported when you specify `-retain-job-data none`. Please add the option `-output json`.",
+  "infra.control.app_bootstrap.msg_run.error_retain_none_supports_json_report_only": "Only JSON format report supported when you specify non default value to `-retain-job-data`. Please add the option `-output json`.",
   "infra.control.app_bootstrap.msg_run.error_too_many_arguments": "Extra arguments provided but not defined: {{.Args}}\nProvided command and arguments: {{.AllArgs}}",
   "infra.control.app_bootstrap.msg_run.error_unable_to_format_path": "Unable to format path with given variables: {{.Error}}",
   "infra.control.app_bootstrap.msg_run.error_unable_to_load_extra": "Unable to load the extra parameter file {{.Path}} due to an error: {{.Error}}",
