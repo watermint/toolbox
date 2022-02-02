@@ -157,7 +157,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	if 0 < len(rcp.Reports()) &&
-		com.RetainJobData.Value() == app_opt.RetainJobDataNone &&
+		com.RetainJobData.Value() != app_opt.RetainJobDataDefault &&
 		com.Output.Value() != app_opt.OutputJson {
 		ui.Failure(MRun.ErrorRetainNoneSupportsJsonReportOnly)
 		app_exit.Abort(app_exit.FatalStartup)

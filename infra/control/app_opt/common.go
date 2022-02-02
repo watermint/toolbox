@@ -19,7 +19,7 @@ const (
 	LangAuto             = "auto"
 	LangEnglish          = "en"
 	LangJapanese         = "ja"
-	RetainJobDataDefault = "retain"
+	RetainJobDataDefault = "default"
 	RetainJobDataOnError = "on_error"
 	RetainJobDataNone    = "none"
 )
