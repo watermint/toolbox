@@ -1,2 +1,0 @@
-* #572 : Add global `-retain-job-data` option. You can suppress job files on exit when you specify `-retain-job-data none`.
-* #584 : Links to commands documentations are broken.
