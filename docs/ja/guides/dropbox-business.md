@@ -287,7 +287,7 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 External IDは、Dropboxのどのユーザーインターフェースにも表示されない属性です. この属性は、Dropbox AD ConnectorなどのID管理ソフトウェアによって、DropboxとIDソース（Active Directoryや人事データベースなど）との関係を維持するためのものです. Dropbox AD Connectorを使用していて、新しいActive Directoryツリーを構築した場合は、以下のようになります. 古いActive Directoryツリーと新しいツリーとの関係を切断するために、既存の外部IDをクリアする必要があるかもしれません.
 External IDのクリアを省略すると、Dropbox AD Connectorが新しいツリーへの構成中に意図せずアカウントを削除してしまう可能性があります.
-既存の外部IDを確認したい場合は、`member list`コマンドを使います. しかし、このコマンドはデフォルトでは外部IDを含みません. 以下のように`-experiment report_all_columns`オプションを追加してください.
+既存の外部IDを確認したい場合は、`member list`コマンドを使います. しかし、このコマンドはデフォルトでは外部IDを含みません. 以下のように`experiment report_all_columns`オプションを追加してください
 
 ```
 tbx member list -experiment report_all_columns

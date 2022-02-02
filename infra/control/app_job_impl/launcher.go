@@ -15,6 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_artifact"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"os"
 	"time"
 )
 
@@ -118,14 +119,17 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	sm := ctl.WorkBundle().Summary().Logger()
 	ui := ctl.UI()
+	rmJobData := z.com.ShouldDeleteJobData(err)
 
 	if cc, ok := ctl.(app_control.ControlCloser); ok {
 		cc.Close()
 	}
 
-	artifacts := rp_artifact.Artifacts(ctl.Workspace())
-	for _, artifact := range artifacts {
-		ui.Link(artifact)
+	if !rmJobData {
+		artifacts := rp_artifact.Artifacts(ctl.Workspace())
+		for _, artifact := range artifacts {
+			ui.Link(artifact)
+		}
 	}
 
 	// Dump stats
@@ -138,8 +142,19 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 
 	ui.Progress(MLauncher.ElapsedTimeOnEnd.With("Duration", elapsedTime.String()))
 
-	sm.Debug("Down completed", esl.Error(err))
+	sm.Debug("Down completed", esl.Error(err), esl.Bool("rmJobData", rmJobData))
 
 	// Close work bundle
 	_ = z.wb.Close()
+
+	if rmJobData {
+		z.deleteJobData()
+	}
+}
+
+func (z launchImpl) deleteJobData() {
+	path := z.wb.Workspace().Job()
+	l := esl.ConsoleOnly()
+	l.Debug("Remove job data", esl.String("jobPath", path))
+	_ = os.RemoveAll(path)
 }
