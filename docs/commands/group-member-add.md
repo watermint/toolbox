@@ -102,7 +102,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-output`          | Output format (none/text/markdown/json)                                                   | text                 |
 | `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
-| `-retain-job-data` | Job data retain policy                                                                    | retain               |
+| `-retain-job-data` | Job data retain policy                                                                    | default              |
 | `-secure`          | Do not store tokens into a file                                                           | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |

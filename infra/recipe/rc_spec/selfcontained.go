@@ -396,7 +396,7 @@ func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
 func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message {
 	switch media {
 	case dc_index.MediaRepository:
-		path := filepath.Join(relPath, z.SpecId()+".md")
+		path := filepath.ToSlash(filepath.Join(relPath, z.SpecId()+".md"))
 		return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
 	case dc_index.MediaWeb:
 		path := dc_index.WebDocPath(true, dc_index.WebCategoryCommand, z.SpecId(), lg)
