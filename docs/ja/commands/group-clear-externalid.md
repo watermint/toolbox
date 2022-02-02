@@ -102,7 +102,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-output`          | 出力書式 (none/text/markdown/json)                                                                 | text           |
 | `-proxy`           | HTTP/HTTPS プロクシ (hostname:port). プロキシの設定を省略したい場合は`DIRECT`を指定してください    |                |
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
-| `-retain-job-data` | Job data retain policy                                                                             | default        |
+| `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
@@ -144,7 +144,7 @@ name
 | reason                       | 失敗またはスキップの理由                                                                |
 | input.name                   | 外部IDをクリアするためのグループ名                                                      |
 | result.group_name            | グループ名称                                                                            |
-| result.group_id              | グループ ID                                                                             |
+| result.group_id              | グループID                                                                              |
 | result.group_management_type | だれがこのグループを管理できるか (user_managed, company_managed, または system_managed) |
 | result.group_external_id     | チームがグループに付加することができる外部ID.                                           |
 | result.member_count          | グループ内のメンバー数                                                                  |
