@@ -98,23 +98,38 @@ func (z featureImpl) IsTransient() bool {
 	return z.transient
 }
 
-func (z featureImpl) pathConfig() string {
+func (z featureImpl) wsPathConfig() string {
 	return filepath.Join(z.ws.Home(), ConfigFileName)
 }
 
 func (z featureImpl) loadConfig() (values map[string]interface{}, err error) {
+	// #586 : Load config $HOME/.config/watermint-toolbox/config.json
+	configPath, err := app_workspace.GetOrCreateDefaultAppConfigPath()
+	if err != nil {
+		return nil, err
+	}
+	if values, err = z.loadConfigPath(filepath.Join(configPath, ConfigFileName)); values != nil {
+		return values, nil
+	}
+
+	// Fallback to old config path: $HOME/.toolbox/config.json
+	p := z.wsPathConfig()
+	values, err = z.loadConfigPath(p)
+	return
+}
+
+func (z featureImpl) loadConfigPath(path string) (values map[string]interface{}, err error) {
 	values = make(map[string]interface{})
 	l := esl.Default()
-	p := z.pathConfig()
 
-	_, err = os.Lstat(p)
+	_, err = os.Lstat(path)
 	if err != nil {
 		l.Debug("No file information; skip loading", esl.Error(err))
 		return values, nil
 	}
 
-	l.Debug("load config", esl.String("path", p))
-	b, err := ioutil.ReadFile(p)
+	l.Debug("load config", esl.String("path", path))
+	b, err := ioutil.ReadFile(path)
 	if err != nil {
 		l.Debug("Unable to read config", esl.Error(err))
 		return
@@ -138,8 +153,14 @@ func (z featureImpl) getConfig(key string) (v interface{}, err error) {
 
 func (z featureImpl) saveConfig(key string, v interface{}) (err error) {
 	l := esl.Default()
-	p := z.pathConfig()
-	l.Debug("load config", esl.String("path", p))
+	cp, err := app_workspace.GetOrCreateDefaultAppConfigPath()
+	if err != nil {
+		l.Debug("Unable to determine app config path", esl.Error(err))
+		return err
+	}
+	configPath := filepath.Join(cp, ConfigFileName)
+
+	l.Debug("load config", esl.String("path", configPath))
 	values, err := z.loadConfig()
 	if err != nil {
 		return err
@@ -151,7 +172,7 @@ func (z featureImpl) saveConfig(key string, v interface{}) (err error) {
 		l.Debug("Unable to marshal", esl.Error(err))
 		return err
 	}
-	if err := ioutil.WriteFile(p, b, 0644); err != nil {
+	if err := ioutil.WriteFile(configPath, b, 0644); err != nil {
 		l.Debug("Unable to write config", esl.Error(err))
 		return err
 	}
