@@ -1,10 +1,10 @@
 ---
 layout: release
-title: Changes of Release 101
+title: Changes of Release 102
 lang: en
 ---
 
-# Changes between `Release 101` to `Release 102`
+# Changes between `Release 102` to `Release 103`
 
 # Command spec changed: `dev benchmark upload`
 
@@ -22,14 +22,14 @@ lang: en
   		&{
   			Name:     "BlockBlockSize",
   			Desc:     "Block size for batch upload",
-- 			Default:  "8",
-+ 			Default:  "12",
+- 			Default:  "12",
++ 			Default:  "40",
   			TypeName: "essentials.model.mo_int.range_int",
   			TypeAttr: map[string]any{
   				"max":   float64(1000),
   				"min":   float64(1),
-- 				"value": float64(8),
-+ 				"value": float64(12),
+- 				"value": float64(12),
++ 				"value": float64(40),
   			},
   		},
   		&{Name: "Method", Desc: "Upload method", Default: "block", TypeName: "essentials.model.mo_string.select_string", ...},

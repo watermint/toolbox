@@ -177,6 +177,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
 		&recipedevtestauth.All{},
+		&recipedevtestsetup.Massfiles{},
 		&recipedevtestsetup.Teamsharedlink{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},

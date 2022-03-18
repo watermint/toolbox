@@ -1,10 +1,10 @@
 ---
 layout: release
-title: リリースの変更点 100
+title: リリースの変更点 102
 lang: ja
 ---
 
-# `リリース 100` から `リリース 101` までの変更点
+# `リリース 102` から `リリース 103` までの変更点
 
 # コマンド仕様の変更: `dev benchmark upload`
 
@@ -22,14 +22,14 @@ lang: ja
   		&{
   			Name:     "BlockBlockSize",
   			Desc:     "一括アップロード時のブロックサイズ",
-- 			Default:  "40",
-+ 			Default:  "8",
+- 			Default:  "12",
++ 			Default:  "40",
   			TypeName: "essentials.model.mo_int.range_int",
   			TypeAttr: map[string]any{
   				"max":   float64(1000),
   				"min":   float64(1),
-- 				"value": float64(40),
-+ 				"value": float64(8),
+- 				"value": float64(12),
++ 				"value": float64(40),
   			},
   		},
   		&{Name: "Method", Desc: "アップロード方法", Default: "block", TypeName: "essentials.model.mo_string.select_string", ...},

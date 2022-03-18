@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev benchmark upload
+# dev test setup massfiles
 
-アップロードのベンチマーク 
+Upload Wikimedia dump file as test file 
 
 # セキュリティ
 
@@ -28,6 +28,7 @@ lang: ja
 
 | 説明                                                   |
 |--------------------------------------------------------|
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
 | Dropbox: Dropboxのファイルやフォルダのコンテンツを編集 |
 
 # 認可
@@ -64,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe dev test setup massfiles -base /UPLOAD/PATH -source /LOCAL/PATH/TO/wikimedia/dumpfile/dump.xml.bz2
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx dev test setup massfiles -base /UPLOAD/PATH -source /LOCAL/PATH/TO/wikimedia/dumpfile/dump.xml.bz2
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,18 +81,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                                  | デフォルト |
-|----------------------|---------------------------------------|------------|
-| `-block-block-size`  | 一括アップロード時のブロックサイズ    | 40         |
-| `-method`            | アップロード方法                      | block      |
-| `-num-files`         | ファイル数.                           | 1000       |
-| `-path`              | Dropboxパス                           |            |
-| `-peer`              | アカウントの別名                      | default    |
-| `-pre-scan`          | プリスキャンのデスティネーションパス  | false      |
-| `-seq-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
-| `-size-max-kb`       | 最大ファイルサイズ (KiB).             | 2048       |
-| `-size-min-kb`       | 最小ファイルサイズ (KiB).             | 0          |
-| `-verify`            | アップロード後の検証                  | false      |
+| オプション    | 説明                         | デフォルト |
+|---------------|------------------------------|------------|
+| `-base`       | Dropbox base path            |            |
+| `-batch-size` | Batch size                   | 1000       |
+| `-offset`     | Upload offset (skip # pages) | 0          |
+| `-peer`       | Account alias                | default    |
+| `-source`     | Source file                  |            |
 
 ## 共通のオプション:
 

@@ -27,32 +27,32 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			Name:     "Individual",
-  			Desc:     "Account alias for individual",
-- 			Default:  "&{Individual [files.content.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-  			TypeAttr: []any{string("files.content.read")},
-  		},
-  		&{
-  			Name:     "Team",
-  			Desc:     "Account alias for team",
-- 			Default:  "&{Team [members.read team_info.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("members.read"), string("team_info.read")},
-  		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Individual",
+  			Desc:     "Account alias for individual",
+- 			Default:  "&{Individual [files.content.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
+  			TypeAttr: []any{string("files.content.read")},
+  		},
+  		&{
+  			Name:     "Team",
+  			Desc:     "Account alias for team",
+- 			Default:  "&{Team [members.read team_info.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("members.read"), string("team_info.read")},
+  		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev stage teamfolder`
 
@@ -62,24 +62,24 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [files.content.read files.content.write groups.write sharing.read sharing.write team_data.member team_data.team_space team_info.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("files.content.read"), string("files.content.write"), string("groups.write"), string("sharing.read"), ...},
-  		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [files.content.read files.content.write groups.write sharing.read sharing.write team_data.member team_data.team_space team_info.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("files.content.read"), string("files.content.write"), string("groups.write"), string("sharing.read"), ...},
+  		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `group member batch add`
 
@@ -89,25 +89,25 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "File", Desc: "Path to data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [groups.read groups.write] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("groups.read"), string("groups.write")},
-  		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "File", Desc: "Path to data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [groups.read groups.write] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("groups.read"), string("groups.write")},
+  		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `group member batch delete`
 
@@ -117,25 +117,25 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "File", Desc: "Path to data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [groups.read groups.write] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("groups.read"), string("groups.write")},
-  		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "File", Desc: "Path to data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [groups.read groups.write] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("groups.read"), string("groups.write")},
+  		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `group member batch update`
 
@@ -145,25 +145,25 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "File", Desc: "Path to data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [groups.read groups.write] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("groups.read"), string("groups.write")},
-  		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "File", Desc: "Path to data file", TypeName: "infra.feed.fd_file_impl.row_feed"},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [groups.read groups.write] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("groups.read"), string("groups.write")},
+  		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `member file permdelete`
 
@@ -173,26 +173,26 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "MemberEmail", Desc: "Team member email address", TypeName: "string"},
-  		&{Name: "Path", Desc: "Path to delete", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [files.permanent_delete team_data.member members.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
-  			TypeAttr: []any{string("files.permanent_delete"), string("team_data.member"), string("members.read")},
-  		},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "MemberEmail", Desc: "Team member email address", TypeName: "string"},
+  		&{Name: "Path", Desc: "Path to delete", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [files.permanent_delete team_data.member members.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual",
+  			TypeAttr: []any{string("files.permanent_delete"), string("team_data.member"), string("members.read")},
+  		},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `team diag explorer`
 
@@ -202,21 +202,21 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_info",
-+ 		"Peer": "business_file",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"File": "business_file",
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
+- 		"Peer": "business_info",
++ 		"Peer": "business_file",
+  	},
+  	Services: {"dropbox_business"},
+  	IsSecret: false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `team report activity`
 
@@ -226,26 +226,26 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [team_info.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("team_info.read")},
-  		},
-  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [team_info.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("team_info.read")},
+  		},
+  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `team report devices`
 
@@ -255,26 +255,26 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [team_info.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("team_info.read")},
-  		},
-  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [team_info.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("team_info.read")},
+  		},
+  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `team report membership`
 
@@ -284,26 +284,26 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [team_info.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("team_info.read")},
-  		},
-  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [team_info.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("team_info.read")},
+  		},
+  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `team report storage`
 
@@ -313,24 +313,24 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  		&{
-  			Name:     "Peer",
-  			Desc:     "Account alias",
-- 			Default:  "&{Peer [team_info.read] <nil>}",
-+ 			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{string("team_info.read")},
-  		},
-  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  	},
-  	GridDataInput:  nil,
-  	GridDataOutput: nil,
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "EndDate", Desc: "End date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  		&{
+  			Name:     "Peer",
+  			Desc:     "Account alias",
+- 			Default:  "&{Peer [team_info.read] <nil>}",
++ 			Default:  "default",
+  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
+  			TypeAttr: []any{string("team_info.read")},
+  		},
+  		&{Name: "StartDate", Desc: "Start date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  	},
+  	GridDataInput:  nil,
+  	GridDataOutput: nil,
+  	... // 2 identical fields
+  }
 ```

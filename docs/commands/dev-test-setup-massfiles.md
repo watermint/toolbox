@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# dev benchmark upload
+# dev test setup massfiles
 
-Upload benchmark 
+Upload Wikimedia dump file as test file 
 
 # Security
 
@@ -28,6 +28,7 @@ Please see below help article for more detail:
 
 | Description                                             |
 |---------------------------------------------------------|
+| Dropbox: View content of your Dropbox files and folders |
 | Dropbox: Edit content of your Dropbox files and folders |
 
 # Authorization
@@ -64,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe dev test setup massfiles -base /UPLOAD/PATH -source /LOCAL/PATH/TO/wikimedia/dumpfile/dump.xml.bz2
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx dev test setup massfiles -base /UPLOAD/PATH -source /LOCAL/PATH/TO/wikimedia/dumpfile/dump.xml.bz2
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,18 +81,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option               | Description                 | Default |
-|----------------------|-----------------------------|---------|
-| `-block-block-size`  | Block size for batch upload | 40      |
-| `-method`            | Upload method               | block   |
-| `-num-files`         | Number of files.            | 1000    |
-| `-path`              | Path to Dropbox             |         |
-| `-peer`              | Account alias               | default |
-| `-pre-scan`          | Pre-scan destination path   | false   |
-| `-seq-chunk-size-kb` | Upload chunk size in KiB    | 65536   |
-| `-size-max-kb`       | Maximum file size (KiB).    | 2048    |
-| `-size-min-kb`       | Minimum file size (KiB).    | 0       |
-| `-verify`            | Verify after upload         | false   |
+| Option        | Description                  | Default |
+|---------------|------------------------------|---------|
+| `-base`       | Dropbox base path            |         |
+| `-batch-size` | Batch size                   | 1000    |
+| `-offset`     | Upload offset (skip # pages) | 0       |
+| `-peer`       | Account alias                | default |
+| `-source`     | Source file                  |         |
 
 ## Common options:
 
