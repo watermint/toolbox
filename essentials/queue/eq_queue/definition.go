@@ -71,7 +71,7 @@ func (z *defImpl) Current() Container {
 }
 
 func (z *defImpl) Restore(session eq_bundle.Session) (Container, error) {
-	bundle, err := eq_bundle.RestoreSimple(z.opts.logger, z.opts.policy, z.opts.progress, z.opts.factory, session)
+	bundle, err := eq_bundle.RestoreDurable(z.opts.logger, z.opts.policy, z.opts.progress, z.opts.factory, session)
 	if err != nil {
 		return nil, err
 	}

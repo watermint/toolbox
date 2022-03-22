@@ -16,6 +16,8 @@ type Opts struct {
 	errorHandler []eq_mould.ErrorListener
 	policy       eq_bundle.FetchPolicy
 	mouldOpts    eq_mould.Opts
+	durable      bool
+	cacheSize    int
 }
 
 func (z Opts) Apply(opts ...Opt) Opts {
@@ -33,10 +35,12 @@ func defaultOpts() Opts {
 	return Opts{
 		logger:       esl.Default(),
 		numWorker:    1,
-		progress:     nil,
 		factory:      eq_pipe.NewTransientSimple(esl.Default()),
-		policy:       eq_bundle.FetchSequential,
+		progress:     nil,
 		errorHandler: make([]eq_mould.ErrorListener, 0),
+		policy:       eq_bundle.FetchSequential,
+		durable:      true,
+		cacheSize:    100,
 	}
 }
 
@@ -45,6 +49,20 @@ type Opt func(o Opts) Opts
 func Logger(l esl.Logger) Opt {
 	return func(o Opts) Opts {
 		o.logger = l
+		return o
+	}
+}
+
+func Durable(enabled bool) Opt {
+	return func(o Opts) Opts {
+		o.durable = enabled
+		return o
+	}
+}
+
+func CacheSize(size int) Opt {
+	return func(o Opts) Opts {
+		o.cacheSize = size
 		return o
 	}
 }

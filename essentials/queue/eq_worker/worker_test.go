@@ -12,7 +12,7 @@ import (
 
 func TestWorkerImpl(t *testing.T) {
 	for _, policy := range eq_bundle.FetchPolicies {
-		bundle := eq_bundle.NewSimple(esl.Default(), policy, nil, eq_pipe.NewTransientSimple(esl.Default()))
+		bundle := eq_bundle.NewDurable(esl.Default(), policy, nil, eq_pipe.NewTransientSimple(esl.Default()))
 		processor := func(v string) {
 			l := esl.Default()
 			l.Info("Process", esl.String("v", v))

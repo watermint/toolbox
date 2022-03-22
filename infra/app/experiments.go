@@ -15,6 +15,8 @@ const (
 	ExperimentBatchRandom = "batch_random"
 	// Execute batch from the largest batch
 	ExperimentBatchBalance = "batch_balance"
+	// ExperimentBatchNonDurable use non durable queue
+	ExperimentBatchNonDurable = "batch_non_durable"
 
 	// Do not hard limit window size
 	ExperimentCongestionWindowNoLimit = "congestion_window_no_limit"
@@ -40,6 +42,7 @@ const (
 var (
 	ExperimentalFeatures = []string{
 		ExperimentBatchBalance,
+		ExperimentBatchNonDurable,
 		ExperimentBatchRandom,
 		ExperimentBatchSequential,
 		ExperimentCongestionWindowAggressive,

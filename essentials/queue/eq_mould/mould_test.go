@@ -41,7 +41,7 @@ func TestQueue_Dequeue(t *testing.T) {
 			peerName: "default",
 		}
 		handler := eq_progress.NewProgress(ea_indicator.Global())
-		storage := eq_bundle.NewSimple(esl.Default(), policy, handler, eq_pipe.NewTransientSimple(esl.Default()))
+		storage := eq_bundle.NewDurable(esl.Default(), policy, handler, eq_pipe.NewTransientSimple(esl.Default()))
 
 		// struct ptr
 		{
@@ -106,7 +106,7 @@ func TestMouldImpl_Batch(t *testing.T) {
 		ctl := MockControl{
 			Logger: esl.Default().With(esl.Bool("FromContext", true)),
 		}
-		storage := eq_bundle.NewSimple(esl.Default(), policy, nil, eq_pipe.NewTransientSimple(esl.Default()))
+		storage := eq_bundle.NewDurable(esl.Default(), policy, nil, eq_pipe.NewTransientSimple(esl.Default()))
 
 		// struct
 		{
