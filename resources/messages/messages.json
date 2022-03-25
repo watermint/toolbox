@@ -1,5 +1,6 @@
 {
   "complex": "",
+  "infra.doc.dc_supplemental.experimental_feature_definitions.batch_non_durable.desc":"Use non-durable batch framework",
   "domain.asana.model.mo_project.project.desc": "A project represents a prioritized list of tasks in Asana or a board with columns of tasks represented as cards.",
   "domain.asana.model.mo_project.project.gid.desc": "Globally unique identifier of the resource, as a string.",
   "domain.asana.model.mo_project.project.name.desc": "Name of the project.",

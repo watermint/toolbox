@@ -11,6 +11,7 @@ The experimental feature switch is for testing or accessing early access feature
 | name                                   | Description                                                                                                |
 |----------------------------------------|------------------------------------------------------------------------------------------------------------|
 | batch_balance                          | Execute batch from the largest batch                                                                       |
+| batch_non_durable                      | {"key":"infra.doc.dc_supplemental.experimental_feature_definitions.batch_non_durable.desc","params":{}}    |
 | batch_random                           | Execute batch with random batchId order.                                                                   |
 | batch_sequential                       | Execute batch sequentially in same batchId.                                                                |
 | congestion_window_aggressive           | Apply aggressive initial congestion window size                                                            |
