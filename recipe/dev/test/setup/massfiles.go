@@ -104,15 +104,16 @@ func (z WikimediaLoader) load(stream io.Reader, handler func(p Page) error) erro
 			e := se.Name.Local
 			switch e {
 			case "page":
-				index++
-				if index <= z.skip {
-					continue
-				}
-
 				var page Page
 				if err := d.DecodeElement(&page, &se); err != nil {
 					z.l.Warn("Can't error", esl.Error(err))
 					return err
+				}
+				index++
+				if pageId, err := strconv.ParseInt(page.Id, 10, 64); err == nil {
+					if pageId < int64(z.skip) {
+						continue
+					}
 				}
 				if err := handler(page); err != nil {
 					z.l.Warn("Can't handle the page", esl.Error(err), esl.Any("page", page))
@@ -310,7 +311,7 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 				return nil
 			})
 		default:
-			panic("Look like the file is not supported format:" + sourcePath)
+			panic(fmt.Sprintf("Look like the file is not supported format %s", sourcePath))
 		}
 	})
 	return commit()
