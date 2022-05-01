@@ -6,7 +6,6 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
-    working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
       - run: shasum -a 256 go.mod > go.mod.sum
@@ -15,7 +14,7 @@ jobs:
       - run: go get github.com/google/go-licenses
       - run: bash ./build.sh
       - store_artifacts:
-          path: /go/src/github.com/watermint/toolbox/dist
+          path: dist
 
   test:
     docker:
@@ -23,7 +22,6 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
-    working_directory: /go/src/github.com/watermint/toolbox
     steps:
       - checkout
       - run: shasum -a 256 go.mod > go.mod.sum
@@ -36,11 +34,11 @@ jobs:
       - save_cache:
           key: go-pkg-mod-{{ checksum "go.mod.sum" }}
           paths:
-            - /go/pkg/mod
+            - $HOME/go/pkg/mod
       - store_test_results:
-          path: /go/src/github.com/watermint/toolbox/test/results
+          path: test/results
       - store_artifacts:
-          path: /go/src/github.com/watermint/toolbox/test/results
+          path: test/results
       - run: bash <(curl -s https://codecov.io/bash)
 
 workflows:
