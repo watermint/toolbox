@@ -62,7 +62,7 @@ func Detect(c app_control.Control) (inventory []LicenseInfo, err error) {
 		return nil, err
 	}
 
-	libs, err := licenses.Libraries(context.Background(), cf)
+	libs, err := licenses.Libraries(context.Background(), cf, []string{})
 	if err != nil {
 		l.Debug("Unable to load libraries", esl.Error(err))
 		return nil, err
@@ -104,11 +104,11 @@ func Detect(c app_control.Control) (inventory []LicenseInfo, err error) {
 			repo, err := licenses.FindGitRepo(lib.LicensePath)
 			if err != nil {
 				ll.Debug("Unable to find the git repository", esl.Error(err))
-				derivedUrl, err := lib.FileURL(lib.LicensePath)
+				derivedUrl, err := lib.FileURL(context.Background(), lib.LicensePath)
 				if err != nil {
 					ll.Debug("Unable to determine the library url", esl.Error(err))
 				} else {
-					licenseUrl = derivedUrl.String()
+					licenseUrl = derivedUrl
 				}
 			} else {
 				for _, remote := range gitRemotes {
