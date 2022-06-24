@@ -4,7 +4,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -38,40 +40,55 @@ func (z *Delete) Preset() {
 	z.OperationLog.SetModel(&DeleteRow{}, nil)
 }
 
-func (z *Delete) Exec(c app_control.Control) error {
+func (z *Delete) delete(m *DeleteRow) error {
 	ctx := z.Peer.Context()
-
 	svm := sv_member.New(ctx)
+
+	mem, err := svm.ResolveByEmail(m.Email)
+	if err != nil {
+		z.OperationLog.Failure(err, m)
+		return nil
+	}
+	ros := make([]sv_member.RemoveOpt, 0)
+	if z.WipeData {
+		ros = append(ros, sv_member.RemoveWipeData())
+	}
+	if z.TransferDestMember.IsExists() {
+		ros = append(ros, sv_member.TransferDest(z.TransferDestMember.Value()))
+	}
+	if z.TransferNotifyAdminEmailOnError.IsExists() {
+		ros = append(ros, sv_member.TransferNotifyAdminOnError(z.TransferNotifyAdminEmailOnError.Value()))
+	}
+	err = svm.Remove(mem, ros...)
+	if err != nil {
+		z.OperationLog.Failure(err, m)
+	} else {
+		z.OperationLog.Success(m, nil)
+	}
+	return nil
+}
+
+func (z *Delete) Exec(c app_control.Control) error {
 	err := z.OperationLog.Open()
 	if err != nil {
 		return err
 	}
 
-	return z.File.EachRow(func(mod interface{}, rowIndex int) error {
-		m := mod.(*DeleteRow)
-		mem, err := svm.ResolveByEmail(m.Email)
-		if err != nil {
-			z.OperationLog.Failure(err, m)
+	var rowErr, lastErr error
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("delete", z.delete)
+		q := s.Get("delete")
+
+		rowErr = z.File.EachRow(func(mod interface{}, rowIndex int) error {
+			m := mod.(*DeleteRow)
+			q.Enqueue(m)
 			return nil
-		}
-		ros := make([]sv_member.RemoveOpt, 0)
-		if z.WipeData {
-			ros = append(ros, sv_member.RemoveWipeData())
-		}
-		if z.TransferDestMember.IsExists() {
-			ros = append(ros, sv_member.TransferDest(z.TransferDestMember.Value()))
-		}
-		if z.TransferNotifyAdminEmailOnError.IsExists() {
-			ros = append(ros, sv_member.TransferNotifyAdminOnError(z.TransferNotifyAdminEmailOnError.Value()))
-		}
-		err = svm.Remove(mem, ros...)
-		if err != nil {
-			z.OperationLog.Failure(err, m)
-		} else {
-			z.OperationLog.Success(m, nil)
-		}
-		return nil
-	})
+		})
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
+
+	return lang.NewMultiErrorOrNull(lastErr, rowErr)
 }
 
 func (z *Delete) Test(c app_control.Control) error {
