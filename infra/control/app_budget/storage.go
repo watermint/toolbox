@@ -10,12 +10,12 @@ const (
 	unlimitedChunkSize = math.MaxInt64 // no rotate
 	unlimitedQuota     = esl_rotate.UnlimitedQuota
 	unlimitedNumBackup = esl_rotate.UnlimitedBackups
-	standardChunkSize  = 200 * 1024    // 200KiB
-	standardQuota      = 500 * 1048576 // 500MiB * 2 = 1000MiB
-	standardNumBackup  = esl_rotate.UnlimitedBackups
-	lowChunkSize       = 100 * 1024    // 100KiB
-	lowQuota           = 50 * 1048576  // 5MiB * 2 =  100MiB
-	lowNumBackup       = esl_rotate.UnlimitedBackups
+	standardChunkSize  = 100 * 1048576  // 100MiB
+	standardQuota      = 5 * 1073741824 // 5GiB * 2 = 10GiB
+	standardNumBackup  = standardQuota * 2 / standardChunkSize
+	lowChunkSize       = 10 * 1048576  // 10MiB
+	lowQuota           = 500 * 1048576 // 500MiB * 2 = 1GiB
+	lowNumBackup       = lowQuota * 2 / lowChunkSize
 
 	BudgetLow       Budget = "low"
 	BudgetNormal    Budget = "normal"
