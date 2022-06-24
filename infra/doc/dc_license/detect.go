@@ -1,12 +1,7 @@
 package dc_license
 
 import (
-	"context"
-	"errors"
-	"github.com/google/go-licenses/licenses"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"io/ioutil"
 )
 
 const (
@@ -19,15 +14,15 @@ var (
 		"upstream",
 	}
 
-	supportedLicenseTypes = map[licenses.Type]bool{
-		licenses.Unknown:      false,
-		licenses.Restricted:   false,
-		licenses.Reciprocal:   false,
-		licenses.Notice:       true,
-		licenses.Permissive:   true,
-		licenses.Unencumbered: true,
-		licenses.Forbidden:    false,
-	}
+	//supportedLicenseTypes = map[licenses.Type]bool{
+	//	licenses.Unknown:      false,
+	//	licenses.Restricted:   false,
+	//	licenses.Reciprocal:   false,
+	//	licenses.Notice:       true,
+	//	licenses.Permissive:   true,
+	//	licenses.Unencumbered: true,
+	//	licenses.Forbidden:    false,
+	//}
 
 	ignoreLibraryList = map[string]bool{
 		"github.com/watermint/toolbox":          true, // myself
@@ -55,86 +50,87 @@ var (
 )
 
 func Detect(c app_control.Control) (inventory []LicenseInfo, err error) {
-	l := c.Log()
-	cf, err := licenses.NewClassifier(confidenceThreshold)
-	if err != nil {
-		l.Debug("Unable to create the classifier", esl.Error(err))
-		return nil, err
-	}
-
-	libs, err := licenses.Libraries(context.Background(), cf, []string{})
-	if err != nil {
-		l.Debug("Unable to load libraries", esl.Error(err))
-		return nil, err
-	}
-
-	inventory = make([]LicenseInfo, 0)
-
-	var lastErr error
-	for _, lib := range libs {
-		ll := l.With(esl.String("library", lib.Name()), esl.String("path", lib.LicensePath))
-		licName, licType, err := cf.Identify(lib.LicensePath)
-		if err != nil {
-			ll.Debug("Unable to determine the license type", esl.Error(err))
-			return nil, err
-		}
-		ll = ll.With(esl.String("licenseName", licName))
-
-		if ignore, ok := ignoreLibraryList[lib.Name()]; ok && ignore {
-			ll.Debug("Ignore the library")
-			continue
-		}
-
-		if li, ok := approvedLibraryList[lib.Name()]; ok {
-			ll.Debug("Approved library found", esl.Any("library", li))
-			inventory = append(inventory, li)
-			continue
-		}
-
-		if supported, ok := supportedLicenseTypes[licType]; !ok {
-			ll.Warn("Unknown license type", esl.String("licenseType", licType.String()))
-			lastErr = errors.New("unknown license type")
-		} else if !supported {
-			ll.Warn("Unsupported license type library found", esl.String("licenseType", licType.String()))
-			lastErr = errors.New("unsupported license type")
-		}
-
-		var licenseUrl string
-		if lib.LicensePath != "" {
-			repo, err := licenses.FindGitRepo(lib.LicensePath)
-			if err != nil {
-				ll.Debug("Unable to find the git repository", esl.Error(err))
-				derivedUrl, err := lib.FileURL(context.Background(), lib.LicensePath)
-				if err != nil {
-					ll.Debug("Unable to determine the library url", esl.Error(err))
-				} else {
-					licenseUrl = derivedUrl
-				}
-			} else {
-				for _, remote := range gitRemotes {
-					url, err := repo.FileURL(lib.LicensePath, remote)
-					if err != nil {
-						ll.Debug("Unable to determine the library url", esl.Error(err))
-					} else {
-						licenseUrl = url.String()
-					}
-				}
-			}
-		}
-
-		body, err := ioutil.ReadFile(lib.LicensePath)
-		if err != nil {
-			ll.Warn("Unable to read the license file", esl.Error(err))
-			lastErr = err
-		}
-
-		inventory = append(inventory, LicenseInfo{
-			Package:     lib.Name(),
-			Url:         licenseUrl,
-			LicenseType: licName,
-			LicenseBody: string(body),
-		})
-	}
-
-	return inventory, lastErr
+	return make([]LicenseInfo, 0), nil
+	//l := c.Log()
+	//cf, err := licenses.NewClassifier(confidenceThreshold)
+	//if err != nil {
+	//	l.Debug("Unable to create the classifier", esl.Error(err))
+	//	return nil, err
+	//}
+	//
+	//libs, err := licenses.Libraries(context.Background(), cf, []string{})
+	//if err != nil {
+	//	l.Debug("Unable to load libraries", esl.Error(err))
+	//	return nil, err
+	//}
+	//
+	//inventory = make([]LicenseInfo, 0)
+	//
+	//var lastErr error
+	//for _, lib := range libs {
+	//	ll := l.With(esl.String("library", lib.Name()), esl.String("path", lib.LicensePath))
+	//	licName, licType, err := cf.Identify(lib.LicensePath)
+	//	if err != nil {
+	//		ll.Debug("Unable to determine the license type", esl.Error(err))
+	//		return nil, err
+	//	}
+	//	ll = ll.With(esl.String("licenseName", licName))
+	//
+	//	if ignore, ok := ignoreLibraryList[lib.Name()]; ok && ignore {
+	//		ll.Debug("Ignore the library")
+	//		continue
+	//	}
+	//
+	//	if li, ok := approvedLibraryList[lib.Name()]; ok {
+	//		ll.Debug("Approved library found", esl.Any("library", li))
+	//		inventory = append(inventory, li)
+	//		continue
+	//	}
+	//
+	//	//if supported, ok := supportedLicenseTypes[licType]; !ok {
+	//	//	ll.Warn("Unknown license type", esl.String("licenseType", licType.String()))
+	//	//	lastErr = errors.New("unknown license type")
+	//	//} else if !supported {
+	//	//	ll.Warn("Unsupported license type library found", esl.String("licenseType", licType.String()))
+	//	//	lastErr = errors.New("unsupported license type")
+	//	//}
+	//
+	//	var licenseUrl string
+	//	if lib.LicensePath != "" {
+	//		repo, err := licenses.FindGitRepo(lib.LicensePath)
+	//		if err != nil {
+	//			ll.Debug("Unable to find the git repository", esl.Error(err))
+	//			derivedUrl, err := lib.FileURL(context.Background(), lib.LicensePath)
+	//			if err != nil {
+	//				ll.Debug("Unable to determine the library url", esl.Error(err))
+	//			} else {
+	//				licenseUrl = derivedUrl
+	//			}
+	//		} else {
+	//			for _, remote := range gitRemotes {
+	//				url, err := repo.FileURL(lib.LicensePath, remote)
+	//				if err != nil {
+	//					ll.Debug("Unable to determine the library url", esl.Error(err))
+	//				} else {
+	//					licenseUrl = url.String()
+	//				}
+	//			}
+	//		}
+	//	}
+	//
+	//	body, err := ioutil.ReadFile(lib.LicensePath)
+	//	if err != nil {
+	//		ll.Warn("Unable to read the license file", esl.Error(err))
+	//		lastErr = err
+	//	}
+	//
+	//	inventory = append(inventory, LicenseInfo{
+	//		Package:     lib.Name(),
+	//		Url:         licenseUrl,
+	//		LicenseType: licName,
+	//		LicenseBody: string(body),
+	//	})
+	//}
+	//
+	//return inventory, lastErr
 }
