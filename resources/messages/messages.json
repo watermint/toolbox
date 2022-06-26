@@ -604,7 +604,7 @@
   "infra.api.api_callback.msg_callback.msg_result_failure_header": "Authorization failure",
   "infra.api.api_callback.msg_callback.msg_result_success_body": "Successfully authorized. Please close this window.",
   "infra.api.api_callback.msg_callback.msg_result_success_header": "Success",
-  "infra.control.app_bootstrap.msg_run.error_initialization": "Initialization failed",
+  "infra.control.app_bootstrap.msg_run.error_initialization": "Initialization failed (Error: {{.Error}})",
   "infra.control.app_bootstrap.msg_run.error_interrupted": "Interrupted",
   "infra.control.app_bootstrap.msg_run.error_interrupted_instruction": "Logs and reports are stored at: {{.JobPath}}",
   "infra.control.app_bootstrap.msg_run.error_invalid_argument": "Invalid argument: {{.Args}}\nError: {{.Error}}",
