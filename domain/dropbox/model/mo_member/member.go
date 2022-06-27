@@ -30,12 +30,14 @@ type Member struct {
 }
 
 func (z *Member) Roles() []*mo_adminrole.Role {
-	roles := make([]*mo_adminrole.Role, 0)
-	if err := api_parser.ParseModelPathRaw(roles, z.Raw, "roles"); err != nil {
+	roles := struct {
+		Roles []*mo_adminrole.Role `json:"roles"`
+	}{}
+	if err := json.Unmarshal(z.Raw, &roles); err != nil {
 		esl.Default().Debug("unable to parse", esl.Error(err))
 		// fall through
 	}
-	return roles
+	return roles.Roles
 }
 
 func (z *Member) RoleIds() []string {
