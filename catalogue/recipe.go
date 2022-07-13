@@ -36,6 +36,7 @@ import (
 	recipefilemount "github.com/watermint/toolbox/recipe/file/mount"
 	recipefilepaper "github.com/watermint/toolbox/recipe/file/paper"
 	recipefilerestore "github.com/watermint/toolbox/recipe/file/restore"
+	recipefilerevision "github.com/watermint/toolbox/recipe/file/revision"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefileshare "github.com/watermint/toolbox/recipe/file/share"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
@@ -214,6 +215,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilepaper.Overwrite{},
 		&recipefilepaper.Prepend{},
 		&recipefilerestore.All{},
+		&recipefilerevision.Download{},
+		&recipefilerevision.List{},
+		&recipefilerevision.Restore{},
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
 		&recipefileshare.Info{},

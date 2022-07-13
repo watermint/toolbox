@@ -35,6 +35,9 @@ lang: en
 | [file paper prepend]({{ site.baseurl }}/commands/file-paper-prepend.html)                       | Append the content to the beginning of the existing Paper doc |
 | [file replication]({{ site.baseurl }}/commands/file-replication.html)                           | Replicate file content to the other account                   |
 | [file restore all]({{ site.baseurl }}/commands/file-restore-all.html)                           | Restore files under given path                                |
+| [file revision download]({{ site.baseurl }}/commands/file-revision-download.html)               | {"key":"recipe.file.revision.download.title","params":{}}     |
+| [file revision list]({{ site.baseurl }}/commands/file-revision-list.html)                       | {"key":"recipe.file.revision.list.title","params":{}}         |
+| [file revision restore]({{ site.baseurl }}/commands/file-revision-restore.html)                 | {"key":"recipe.file.revision.restore.title","params":{}}      |
 | [file search content]({{ site.baseurl }}/commands/file-search-content.html)                     | Search file content                                           |
 | [file search name]({{ site.baseurl }}/commands/file-search-name.html)                           | Search file name                                              |
 | [file share info]({{ site.baseurl }}/commands/file-share-info.html)                             | Retrieve sharing information of the file                      |

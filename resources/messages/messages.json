@@ -1,5 +1,9 @@
 {
   "complex": "",
+  "recipe.file.revision.download.cli.args":"-local-path /LOCAL/PATH/TO/DOWNLOAD",
+  "recipe.file.revision.list.cli.args":"-path /DROPBOX/PATH/TO/FILE",
+  "recipe.file.revision.restore.cli.args":"-path /DROPBOX/PATH/TO/RESTORE",
+
   "domain.asana.model.mo_project.project.desc": "A project represents a prioritized list of tasks in Asana or a board with columns of tasks represented as cards.",
   "domain.asana.model.mo_project.project.gid.desc": "Globally unique identifier of the resource, as a string.",
   "domain.asana.model.mo_project.project.name.desc": "Name of the project.",
