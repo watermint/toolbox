@@ -90,9 +90,10 @@ func newClientOpts(feature app_feature.Feature, l esl.Logger) (opts []nw_rest.Cl
 	return opts
 }
 
-func newClientWithToken(feature app_feature.Feature, l esl.Logger,  token api_auth.Context) nw_client.Rest {
+func newClientWithToken(feature app_feature.Feature, l esl.Logger, token api_auth.Context) nw_client.Rest {
 	opts := newClientOpts(feature, l)
 	opts = append(opts, nw_rest.Client(token.Config().Client(context.Background(), token.Token())))
+	opts = append(opts)
 	return nw_rest.New(opts...)
 }
 
