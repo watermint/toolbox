@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev benchmark upload
+# file revision list
 
-アップロードのベンチマーク 
+List file revisions 
 
 # セキュリティ
 
@@ -28,7 +28,8 @@ lang: ja
 
 | 説明                                                   |
 |--------------------------------------------------------|
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集 |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示 |
+| Dropbox: Dropboxのファイルやフォルダに関する情報を表示 |
 
 # 認可
 
@@ -64,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe file revision list -path /DROPBOX/PATH/TO/FILE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx file revision list -path /DROPBOX/PATH/TO/FILE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,18 +81,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                                  | デフォルト |
-|----------------------|---------------------------------------|------------|
-| `-block-block-size`  | 一括アップロード時のブロックサイズ    | 16         |
-| `-method`            | アップロード方法                      | block      |
-| `-num-files`         | ファイル数.                           | 1000       |
-| `-path`              | Dropboxパス                           |            |
-| `-peer`              | アカウントの別名                      | default    |
-| `-pre-scan`          | プリスキャンのデスティネーションパス  | false      |
-| `-seq-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
-| `-size-max-kb`       | 最大ファイルサイズ (KiB).             | 2048       |
-| `-size-min-kb`       | 最小ファイルサイズ (KiB).             | 0          |
-| `-verify`            | アップロード後の検証                  | false      |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-path`    | File path     |            |
+| `-peer`    | Account alias | default    |
 
 ## 共通のオプション:
 
@@ -113,6 +106,36 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: revisions
+
+このレポートはファイルとフォルダのメタデータを出力します.
+このコマンドはレポートを3種類の書式で出力します. `revisions.csv`, `revisions.json`, ならびに `revisions.xlsx`.
+
+| 列              | 説明                                                         |
+|-----------------|--------------------------------------------------------------|
+| id              | ファイルへの一意なID                                         |
+| name            | 名称                                                         |
+| path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| server_modified | Dropbox上で最後に更新された日時                              |
+| revision        | ファイルの現在バージョンの一意な識別子                       |
+| size            | ファイルサイズ(バイト単位)                                   |
+| content_hash    | ファイルコンテンツのハッシュ                                 |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `revisions_0000.xlsx`, `revisions_0001.xlsx`, `revisions_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

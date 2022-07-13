@@ -35,6 +35,9 @@ lang: ja
 | [file paper prepend]({{ site.baseurl }}/ja/commands/file-paper-prepend.html)                       | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
 | [file replication]({{ site.baseurl }}/ja/commands/file-replication.html)                           | ファイルコンテンツを他のアカウントに複製します                     |
 | [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                           | 指定されたパス以下をリストアします                                 |
+| [file revision download]({{ site.baseurl }}/ja/commands/file-revision-download.html)               | Download the file revision                                         |
+| [file revision list]({{ site.baseurl }}/ja/commands/file-revision-list.html)                       | List file revisions                                                |
+| [file revision restore]({{ site.baseurl }}/ja/commands/file-revision-restore.html)                 | Restore the file revision                                          |
 | [file search content]({{ site.baseurl }}/ja/commands/file-search-content.html)                     | ファイルコンテンツを検索                                           |
 | [file search name]({{ site.baseurl }}/ja/commands/file-search-name.html)                           | ファイル名を検索                                                   |
 | [file share info]({{ site.baseurl }}/ja/commands/file-share-info.html)                             | ファイルの共有情報を取得する                                       |

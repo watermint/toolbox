@@ -111,6 +111,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [file paper prepend](docs/ja/commands/file-paper-prepend.md)                       | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
 | [file replication](docs/ja/commands/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                     |
 | [file restore all](docs/ja/commands/file-restore-all.md)                           | 指定されたパス以下をリストアします                                 |
+| [file revision download](docs/ja/commands/file-revision-download.md)               | Download the file revision                                         |
+| [file revision list](docs/ja/commands/file-revision-list.md)                       | List file revisions                                                |
+| [file revision restore](docs/ja/commands/file-revision-restore.md)                 | Restore the file revision                                          |
 | [file search content](docs/ja/commands/file-search-content.md)                     | ファイルコンテンツを検索                                           |
 | [file search name](docs/ja/commands/file-search-name.md)                           | ファイル名を検索                                                   |
 | [file share info](docs/ja/commands/file-share-info.md)                             | ファイルの共有情報を取得する                                       |
