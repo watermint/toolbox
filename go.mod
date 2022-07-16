@@ -7,8 +7,8 @@ require (
 	github.com/asticode/go-astikit v0.29.1
 	github.com/asticode/go-astilectron v0.29.0
 	github.com/boombuler/barcode v1.0.1
-	github.com/eiannone/keyboard v0.0.0-20200508000154-caf4b762e807
-	github.com/gin-gonic/gin v1.7.7
+	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
+	github.com/gin-gonic/gin v1.8.1
 	github.com/go-git/go-git/v5 v5.4.2
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/google/go-cmp v0.5.8
@@ -26,18 +26,18 @@ require (
 	github.com/watermint/essentials v0.6.2
 	go.uber.org/atomic v1.9.0
 	go.uber.org/zap v1.21.0
-	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
-	golang.org/x/exp v0.0.0-20220518171630-0b5c67f07fdf
-	golang.org/x/image v0.0.0-20220413100746-70e8d0d3baa9
-	golang.org/x/oauth2 v0.0.0-20220524215830-622c5d57e401
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
+	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
+	golang.org/x/exp v0.0.0-20220713135740-79cabaa25d75
+	golang.org/x/image v0.0.0-20220617043117-41969df76e82
+	golang.org/x/oauth2 v0.0.0-20220630143837-2104d58473e0
+	golang.org/x/sync v0.0.0-20220601150217-0de741cfad7f
 	golang.org/x/text v0.3.7
 )
 
 require (
-	cloud.google.com/go/compute v1.6.1 // indirect
+	cloud.google.com/go/compute v1.7.0 // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
-	github.com/ProtonMail/go-crypto v0.0.0-20220517143526-88bb52951d5b // indirect
+	github.com/ProtonMail/go-crypto v0.0.0-20220714114130-e85cedf506cd // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/abcum/lcp v0.0.0-20201209214815-7a3f3840be81 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
@@ -49,6 +49,7 @@ require (
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.11.0 // indirect
+	github.com/goccy/go-json v0.9.10 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/imdario/mergo v0.3.13 // indirect
@@ -61,6 +62,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/plar/go-adaptive-radix-tree v1.0.4 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
@@ -72,8 +74,8 @@ require (
 	github.com/ugorji/go/codec v1.2.7 // indirect
 	github.com/xanzy/ssh-agent v0.3.1 // indirect
 	go.uber.org/multierr v1.8.0 // indirect
-	golang.org/x/net v0.0.0-20220526153639-5463443f8c37 // indirect
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
+	golang.org/x/net v0.0.0-20220708220712-1185a9018129 // indirect
+	golang.org/x/sys v0.0.0-20220715151400-c0bba94af5f8 // indirect
 	golang.org/x/term v0.0.0-20220526004731-065cf7ba2467 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect

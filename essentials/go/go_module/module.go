@@ -41,5 +41,5 @@ func (z moduleImpl) Sum() string {
 }
 
 func (z moduleImpl) Licenses() []License {
-	return z.Licenses()
+	return z.licenses
 }

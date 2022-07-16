@@ -2,11 +2,13 @@ package es_download
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -47,4 +49,14 @@ func TestDownload(t *testing.T) {
 			t.Error(res.Args.Hello)
 		}
 	})
+}
+
+func TestDownloadText(t *testing.T) {
+	tx, err := DownloadText(esl.Default(), "https://raw.githubusercontent.com/watermint/toolbox/main/README.md")
+	if err != nil {
+		t.Error(err)
+	}
+	if !strings.Contains(tx, "watermint toolbox") {
+		t.Error(tx)
+	}
 }

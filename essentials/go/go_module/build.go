@@ -5,7 +5,9 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"os"
 	"path/filepath"
+	"regexp"
 	"runtime/debug"
+	"strings"
 )
 
 var (
@@ -51,22 +53,33 @@ func ScanBuild() (b Build, err error) {
 	if goPathEnv == "" {
 		return nil, ErrorNoGoPath
 	}
-	l.Info("GOPATH", esl.String("Path", goPathEnv))
+	l.Debug("GOPATH", esl.String("Path", goPathEnv))
 
 	modules := make([]Module, 0)
-	l.Info("Dependencies", esl.Int("NumModules", len(dbi.Deps)))
+	l.Debug("Dependencies", esl.Int("NumModules", len(dbi.Deps)))
 	for _, dep := range dbi.Deps {
-		l.Info("Loading module", esl.Any("module", dep))
-		modPath := filepath.Join(goPathEnv, "pkg", "mod", dep.Path+"@"+dep.Version)
-		l.Info("Looking for module root", esl.String("Path", modPath))
+		// Skip the main module
+		// https://github.com/golang/go/issues/29228
+		if dep.Version == "(devel)" {
+			continue
+		}
+		l.Debug("Loading module", esl.Any("module", dep))
+
+		depRegex := regexp.MustCompile(`([A-Z])`)
+		depPath := depRegex.ReplaceAllStringFunc(dep.Path, func(s string) string {
+			return "!" + strings.ToLower(s)
+		})
+
+		modPath := filepath.Join(goPathEnv, "pkg", "mod", depPath+"@"+dep.Version)
+		l.Debug("Looking for module root", esl.String("Path", modPath))
 
 		modPathInfo, err := os.Lstat(modPath)
 		if os.IsNotExist(err) {
-			l.Error("Module not found", esl.Any("module", dep), esl.String("path", modPath), esl.Error(err))
+			l.Warn("Module not found", esl.Any("module", dep), esl.String("path", modPath), esl.Error(err))
 			continue
 		}
 		if !modPathInfo.IsDir() {
-			l.Error("Module path is not a folder", esl.Any("module", dep), esl.String("path", modPath))
+			l.Warn("Module path is not a folder", esl.Any("module", dep), esl.String("path", modPath))
 			continue
 		}
 
@@ -79,5 +92,5 @@ func ScanBuild() (b Build, err error) {
 
 		modules = append(modules, NewModule(dep, licenses))
 	}
-	return NewBuild(modules), errors.New("failure")
+	return NewBuild(modules), nil
 }
