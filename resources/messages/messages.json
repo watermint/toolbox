@@ -1756,6 +1756,8 @@
   "recipe.member.clear.externalid.title": "Clear external_id of members",
   "recipe.member.clear.title": "Clear member attributes",
   "recipe.member.delete.cli.args": "-file /path/to/data/file.csv",
+  "recipe.member.delete.err_transfer_dest_member_required": "`-transfer-dest-member` is the required option.",
+  "recipe.member.delete.err_transfer_notify_admin_email_on_error_required": "`-transfer-notify-admin-email-on-error` is the required option.",
   "recipe.member.delete.flag.file": "Data file",
   "recipe.member.delete.flag.peer": "Account alias",
   "recipe.member.delete.flag.transfer_dest_member": "If provided, files from the deleted member account will be transferred to this user.",

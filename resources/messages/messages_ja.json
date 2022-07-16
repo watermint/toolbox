@@ -1756,6 +1756,8 @@
   "recipe.member.clear.externalid.title": "メンバーのexternal_idを初期化します",
   "recipe.member.clear.title": "メンバーの属性を初期化",
   "recipe.member.delete.cli.args": "-file /path/to/data/file.csv",
+  "recipe.member.delete.err_transfer_dest_member_required": "transfer-dest-member` は必須オプションです.",
+  "recipe.member.delete.err_transfer_notify_admin_email_on_error_required": "transfer-notify-admin-email-on-error` は必須オプションです.",
   "recipe.member.delete.flag.file": "データファイル",
   "recipe.member.delete.flag.peer": "アカウントの別名",
   "recipe.member.delete.flag.transfer_dest_member": "指定された場合は、指定ユーザーに削除するメンバーのコンテンツを転送します.",

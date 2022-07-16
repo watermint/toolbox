@@ -1,6 +1,7 @@
 package member
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -12,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
@@ -22,12 +24,14 @@ type DeleteRow struct {
 
 type Delete struct {
 	rc_recipe.RemarkIrreversible
-	File                            fd_file.RowFeed
-	Peer                            dbx_conn.ConnScopedTeam
-	TransferDestMember              mo_string.OptionalString
-	TransferNotifyAdminEmailOnError mo_string.OptionalString
-	WipeData                        bool
-	OperationLog                    rp_model.TransactionReport
+	File                                       fd_file.RowFeed
+	Peer                                       dbx_conn.ConnScopedTeam
+	TransferDestMember                         mo_string.OptionalString
+	TransferNotifyAdminEmailOnError            mo_string.OptionalString
+	WipeData                                   bool
+	OperationLog                               rp_model.TransactionReport
+	ErrTransferNotifyAdminEmailOnErrorRequired app_msg.Message
+	ErrTransferDestMemberRequired              app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -72,6 +76,15 @@ func (z *Delete) Exec(c app_control.Control) error {
 	err := z.OperationLog.Open()
 	if err != nil {
 		return err
+	}
+
+	if z.TransferDestMember.IsExists() && !z.TransferNotifyAdminEmailOnError.IsExists() {
+		c.UI().Error(z.ErrTransferNotifyAdminEmailOnErrorRequired)
+		return errors.New("missing option")
+	}
+	if !z.TransferDestMember.IsExists() && z.TransferNotifyAdminEmailOnError.IsExists() {
+		c.UI().Error(z.ErrTransferDestMemberRequired)
+		return errors.New("missing option")
 	}
 
 	var rowErr, lastErr error
