@@ -17,6 +17,7 @@ type MsgLicense struct {
 	ThirdPartyHeader         app_msg.Message
 	ThirdPartyNotice         app_msg.Message
 	ThirdPartyLink           app_msg.Message
+	ThirdPartyVersion        app_msg.Message
 	ThirdPartyPackage        app_msg.Message
 	ThirdPartyNoBody         app_msg.Message
 }
@@ -55,6 +56,10 @@ func Generate(c app_control.Control, ui app_ui.UI) error {
 
 	for _, pkg := range licenses.ThirdParty {
 		ui.SubHeader(MLicense.ThirdPartyPackage.With("Package", pkg.Package))
+		if pkg.Version != "" {
+			ui.Info(MLicense.ThirdPartyVersion.With("Version", pkg.Version))
+			ui.Break()
+		}
 		if pkg.Url != "" {
 			ui.Info(MLicense.ThirdPartyLink.With("Url", pkg.Url))
 			ui.Break()

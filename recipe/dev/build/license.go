@@ -26,7 +26,7 @@ func (z *License) Preset() {
 func (z *License) Exec(c app_control.Control) error {
 	l := c.Log()
 	l.Info("Please ignore logs starts from ERROR:")
-	inventory, err := dc_license.Detect(c)
+	inventory, err := dc_license.Detect()
 	if err != nil {
 		return err
 	}
@@ -72,10 +72,6 @@ func (z *License) Test(c app_control.Control) error {
 	defer func() {
 		_ = os.RemoveAll(path)
 	}()
-
-	if err := dc_license.MakeTestData(path); err != nil {
-		return err
-	}
 
 	return rc_exec.Exec(c, &License{}, func(r rc_recipe.Recipe) {
 		m := r.(*License)

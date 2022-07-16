@@ -756,6 +756,7 @@
   "infra.doc.dc_license.msg_license.third_party_no_body": "{{.Pkg}}",
   "infra.doc.dc_license.msg_license.third_party_notice": "This document contains licensing information relating to the use of\nfree and open-source software.\nThird-party software that is part of the `watermint toolbox`:",
   "infra.doc.dc_license.msg_license.third_party_package": "Package: {{.Package}}",
+  "infra.doc.dc_license.msg_license.third_party_version": "Version: {{.Version}}",
   "infra.doc.dc_license.msg_license.toolbox_header": "watermint toolbox License",
   "infra.doc.dc_options.msg_doc.body_option": "`-{{.Option}}`",
   "infra.doc.dc_options.msg_doc.header_default": "Default",
