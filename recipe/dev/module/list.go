@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/essentials/go/go_module"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type List struct {
@@ -47,5 +47,5 @@ func (z *List) Exec(c app_control.Control) error {
 }
 
 func (z *List) Test(c app_control.Control) error {
-	return qt_errors.ErrorNoTestRequired
+	return rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues)
 }
