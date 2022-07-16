@@ -87,16 +87,55 @@ func NewJobId() string {
 	return fmt.Sprintf("%s.%s", time.Now().Format(JobIdFormat), sc_random.MustGetSecureRandomString(3))
 }
 
+func UserHomePath() (path string, err error) {
+	u, err := user.Current()
+	if err != nil {
+		return "", err
+	}
+	return u.HomeDir, nil
+}
+
 func DefaultAppPath() (path string, err error) {
 	if eh := os.Getenv(app.EnvNameToolboxHome); eh != "" {
 		return eh, nil
 	}
 
-	u, err := user.Current()
+	p, err := UserHomePath()
 	if err != nil {
 		return "", err
 	}
-	return filepath.Join(u.HomeDir, ".toolbox"), nil
+	return filepath.Join(p, ".toolbox"), nil
+}
+
+func DefaultAppConfigPath() (path string, err error) {
+	p, err := UserHomePath()
+	if err != nil {
+		return "", err
+	}
+	return filepath.Join(p, ".config", "watermint-toolbox"), nil
+}
+
+func GetOrCreateDefaultAppConfigPath() (path string, err error) {
+	l := esl.Default()
+	path, err = DefaultAppConfigPath()
+	if err != nil {
+		return "", err
+	}
+	_, err = os.Lstat(path)
+	switch {
+	case os.IsNotExist(err):
+		l.Debug("Create default app config path", esl.String("path", path))
+		mkErr := os.MkdirAll(path, 0755)
+		if mkErr != nil {
+			l.Debug("Unable to create default app config path", esl.String("path", path), esl.Error(mkErr))
+			return "", mkErr
+		}
+	case err != nil:
+		l.Debug("Unable to retrieve path metadata", esl.Error(err))
+		return "", err
+	}
+
+	return path, nil
 }
 
 func NewWorkspace(home string, transient bool) (Workspace, error) {

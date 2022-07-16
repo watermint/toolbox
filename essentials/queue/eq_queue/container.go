@@ -23,9 +23,16 @@ type Container interface {
 	Suspend() (session eq_bundle.Session, err error)
 }
 
+func newBundle(opts Opts) eq_bundle.Bundle {
+	if opts.durable {
+		return eq_bundle.NewDurable(opts.logger, opts.policy, opts.progress, opts.factory)
+	} else {
+		return eq_bundle.NewPetty(opts.logger, opts.progress, opts.cacheSize)
+	}
+}
+
 func newContainer(definition Definition, opts Opts, el eq_mould.ErrorListener) Container {
-	bundle := eq_bundle.NewSimple(opts.logger, opts.policy, opts.progress, opts.factory)
-	return newContainerWithBundle(definition, bundle, opts, el)
+	return newContainerWithBundle(definition, newBundle(opts), opts, el)
 }
 
 func newContainerWithBundle(definition Definition, bundle eq_bundle.Bundle, opts Opts, el eq_mould.ErrorListener) Container {

@@ -37,6 +37,10 @@ func (z *Retry) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res
 	if res.TransportError() == nil {
 		return res
 	}
+	if res.IsAuthInvalidToken() {
+		l.Debug("No retry for auth invalid token")
+		return res
+	}
 
 	switch er := res.TransportError().(type) {
 	case *ErrorRateLimit:

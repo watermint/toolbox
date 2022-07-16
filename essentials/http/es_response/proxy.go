@@ -19,6 +19,14 @@ type Proxy struct {
 	res Response
 }
 
+func (z Proxy) IsTextContentType() bool {
+	return z.res.IsTextContentType()
+}
+
+func (z Proxy) IsAuthInvalidToken() bool {
+	return z.res.IsAuthInvalidToken()
+}
+
 func (z Proxy) Proto() string {
 	return z.res.Proto()
 }

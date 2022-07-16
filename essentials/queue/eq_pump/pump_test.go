@@ -8,14 +8,14 @@ import (
 )
 
 func TestPumpImpl_StartClose(t *testing.T) {
-	bundle := eq_bundle.NewSimple(esl.Default(), eq_bundle.FetchSequential, nil, eq_pipe.NewTransientSimple(esl.Default()))
+	bundle := eq_bundle.NewDurable(esl.Default(), eq_bundle.FetchSequential, nil, eq_pipe.NewTransientSimple(esl.Default()))
 	pump := New(esl.Default(), bundle)
 	pump.Start()
 	pump.Close()
 }
 
 func TestPumpImpl_StartShutdown(t *testing.T) {
-	bundle := eq_bundle.NewSimple(esl.Default(), eq_bundle.FetchSequential, nil, eq_pipe.NewTransientSimple(esl.Default()))
+	bundle := eq_bundle.NewDurable(esl.Default(), eq_bundle.FetchSequential, nil, eq_pipe.NewTransientSimple(esl.Default()))
 	pump := New(esl.Default(), bundle)
 	pump.Start()
 	pump.Shutdown()

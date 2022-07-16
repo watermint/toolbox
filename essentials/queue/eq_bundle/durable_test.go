@@ -13,7 +13,7 @@ import (
 func TestSimpleImpl_BasicBehavior(t *testing.T) {
 	for _, policy := range FetchPolicies {
 		factory := eq_pipe.NewTransientSimple(esl.Default())
-		bundle := NewSimple(esl.Default(), policy, nil, factory)
+		bundle := NewDurable(esl.Default(), policy, nil, factory)
 
 		d1 := NewBarrel("", "", []byte("D00-001"))
 
@@ -53,7 +53,7 @@ func TestSimpleImpl_BasicBehavior(t *testing.T) {
 func TestSimpleImpl_Concurrent(t *testing.T) {
 	for _, policy := range FetchPolicies {
 		factory := eq_pipe.NewTransientSimple(esl.Default())
-		bundle := NewSimple(esl.Default(), policy, nil, factory)
+		bundle := NewDurable(esl.Default(), policy, nil, factory)
 
 		wgPush := sync.WaitGroup{}
 		wgFetch := sync.WaitGroup{}

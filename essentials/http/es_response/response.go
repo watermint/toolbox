@@ -30,6 +30,9 @@ type Response interface {
 	// True if the content type is text like mime type of text/plain, application/json, etc.
 	IsTextContentType() bool
 
+	// True if the response is auth error and the reason was invalid token
+	IsAuthInvalidToken() bool
+
 	// True on the response recognized as success.
 	IsSuccess() bool
 

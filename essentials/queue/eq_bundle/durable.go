@@ -21,20 +21,20 @@ var (
 
 type FetchPolicy string
 
-func NewSimple(logger esl.Logger,
+func NewDurable(logger esl.Logger,
 	policy FetchPolicy,
 	progress eq_progress.Progress,
 	factory eq_pipe.Factory) Bundle {
-	return newSimple(logger, policy, progress, factory, factory.New(""), make(map[string]eq_pipe.Pipe))
+	return newDurable(logger, policy, progress, factory, factory.New(""), make(map[string]eq_pipe.Pipe))
 }
 
-func newSimple(logger esl.Logger,
+func newDurable(logger esl.Logger,
 	policy FetchPolicy,
 	progress eq_progress.Progress,
 	factory eq_pipe.Factory,
 	wip eq_pipe.Pipe,
 	pipes map[string]eq_pipe.Pipe) Bundle {
-	return &simpleImpl{
+	return &durableImpl{
 		logger:                       logger,
 		policy:                       policy,
 		progress:                     progress,
@@ -48,7 +48,7 @@ func newSimple(logger esl.Logger,
 	}
 }
 
-func RestoreSimple(logger esl.Logger,
+func RestoreDurable(logger esl.Logger,
 	policy FetchPolicy,
 	progress eq_progress.Progress,
 	factory eq_pipe.Factory,
@@ -78,7 +78,7 @@ func RestoreSimple(logger esl.Logger,
 	}
 
 	// Enqueue In progress data into the pipe
-	b = newSimple(logger, policy, progress, factory, wip, pipes)
+	b = newDurable(logger, policy, progress, factory, wip, pipes)
 
 	l.Debug("Dequeue from In Progress pipe")
 	for p := wip.Dequeue(); p != nil; p = wip.Dequeue() {
@@ -96,7 +96,7 @@ func RestoreSimple(logger esl.Logger,
 	return b, nil
 }
 
-type simpleImpl struct {
+type durableImpl struct {
 	logger                       esl.Logger
 	policy                       FetchPolicy
 	progress                     eq_progress.Progress
@@ -109,11 +109,11 @@ type simpleImpl struct {
 	sequentialCurrentBatchBarrel string
 }
 
-func (z *simpleImpl) SizeInProgress() int {
+func (z *durableImpl) SizeInProgress() int {
 	return z.wip.Size()
 }
 
-func (z *simpleImpl) Preserve() (session Session, err error) {
+func (z *durableImpl) Preserve() (session Session, err error) {
 	session.Pipes = make(map[string]eq_pipe.SessionId)
 	l := z.logger
 	l.Debug("Preserve")
@@ -143,7 +143,7 @@ func (z *simpleImpl) Preserve() (session Session, err error) {
 	return session, nil
 }
 
-func (z *simpleImpl) Complete(b Barrel) {
+func (z *durableImpl) Complete(b Barrel) {
 	bb := b.BarrelBatch()
 
 	l := z.logger.With(esl.String("barrelBatch", bb))
@@ -162,7 +162,7 @@ func (z *simpleImpl) Complete(b Barrel) {
 	z.wip.Delete(b.ToBytes())
 }
 
-func (z *simpleImpl) Close() {
+func (z *durableImpl) Close() {
 	l := z.logger
 	l.Debug("Shutdown bundle")
 
@@ -175,7 +175,7 @@ func (z *simpleImpl) Close() {
 	z.pipes = make(map[string]eq_pipe.Pipe)
 }
 
-func (z *simpleImpl) Enqueue(b Barrel) {
+func (z *durableImpl) Enqueue(b Barrel) {
 	bb := b.BarrelBatch()
 
 	l := z.logger.With(esl.String("barrelBatch", bb))
@@ -201,7 +201,7 @@ func (z *simpleImpl) Enqueue(b Barrel) {
 	l.Debug("Enqueue bundle: Done")
 }
 
-func (z *simpleImpl) fetchSequential() (b Barrel, found bool) {
+func (z *durableImpl) fetchSequential() (b Barrel, found bool) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
@@ -246,7 +246,7 @@ func (z *simpleImpl) fetchSequential() (b Barrel, found bool) {
 	}
 }
 
-func (z *simpleImpl) fetchRandom() (b Barrel, found bool) {
+func (z *durableImpl) fetchRandom() (b Barrel, found bool) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
@@ -286,7 +286,7 @@ func (z *simpleImpl) fetchRandom() (b Barrel, found bool) {
 	}
 }
 
-func (z *simpleImpl) fetchBalance() (b Barrel, found bool) {
+func (z *durableImpl) fetchBalance() (b Barrel, found bool) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
@@ -329,7 +329,7 @@ func (z *simpleImpl) fetchBalance() (b Barrel, found bool) {
 	}
 }
 
-func (z *simpleImpl) Fetch() (b Barrel, found bool) {
+func (z *durableImpl) Fetch() (b Barrel, found bool) {
 	switch z.policy {
 	case FetchSequential:
 		return z.fetchSequential()
@@ -344,7 +344,7 @@ func (z *simpleImpl) Fetch() (b Barrel, found bool) {
 	}
 }
 
-func (z *simpleImpl) Size() int {
+func (z *durableImpl) Size() int {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 

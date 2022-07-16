@@ -38,6 +38,10 @@ type resImpl struct {
 	complete  es_json.Json
 }
 
+func (z resImpl) IsAuthInvalidToken() bool {
+	return false
+}
+
 func (z resImpl) IsTextContentType() bool {
 	return es_response_impl.IsTextContentType(z)
 }

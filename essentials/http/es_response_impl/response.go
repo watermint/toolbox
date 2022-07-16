@@ -96,6 +96,10 @@ type resImpl struct {
 	isSuccess    bool
 }
 
+func (z resImpl) IsAuthInvalidToken() bool {
+	return false
+}
+
 func (z resImpl) IsTextContentType() bool {
 	return IsTextContentType(z)
 }

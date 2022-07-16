@@ -13,7 +13,7 @@ import (
 func TestRegImpl_Define(t *testing.T) {
 	logger := esl.Default()
 	handler := eq_progress.NewProgress(ea_indicator.Global())
-	storage := eq_bundle.NewSimple(logger, eq_bundle.FetchRandom, handler, eq_pipe.NewTransientSimple(logger))
+	storage := eq_bundle.NewDurable(logger, eq_bundle.FetchRandom, handler, eq_pipe.NewTransientSimple(logger))
 	reg := New(storage, nil)
 	if _, found := reg.Get("no_existent"); found {
 		t.Error(t)

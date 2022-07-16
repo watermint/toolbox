@@ -15,14 +15,15 @@ import (
 var (
 	ErrorBadContentResponse  = errors.New("bad response from server: res_code 400 with html body")
 	ErrorInternalServerError = errors.New("internal server error")
+	ErrorInvalidAccessToken  = errors.New("invalid access token")
 )
 
-type ErrorMissingScope struct {
+type ErrorBadOrExpiredToken struct {
 	ErrorSummary  string `json:"error_summary" path:"error_summary"`
 	RequiredScope string `json:"required_scope" path:"error.required_scope"`
 }
 
-func (z ErrorMissingScope) Error() string {
+func (z ErrorBadOrExpiredToken) Error() string {
 	return fmt.Sprintf("missing scope [%s]", z.RequiredScope)
 }
 
@@ -39,15 +40,20 @@ func AssertResponse(res es_response.Response) es_response.Response {
 		}
 
 	case dbx_context.DropboxApiErrorBadOrExpiredToken:
-		errMissingScope := ErrorMissingScope{}
-		if err := res.Alt().Json().Model(&errMissingScope); err != nil {
+		errBadOrExpired := ErrorBadOrExpiredToken{}
+		if err := res.Alt().Json().Model(&errBadOrExpired); err != nil {
 			l.Debug("The response is not a JSON form. fall back to transport error", esl.Error(err))
 			return es_response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
 		}
-		if errMissingScope.RequiredScope != "" {
-			l.Error("Missing scope", esl.String("missingScope", errMissingScope.RequiredScope))
-			panic("missing scope:" + errMissingScope.RequiredScope)
-			//			return es_response_impl.NewTransportErrorResponse(errMissingScope, res)
+		if strings.HasPrefix(errBadOrExpired.ErrorSummary, "invalid_access_token") {
+			l.Debug("The token is invalid or expired", esl.String("summary", errBadOrExpired.ErrorSummary))
+			return es_response_impl.NewAuthErrorResponse(ErrorInvalidAccessToken, res)
+		}
+
+		if errBadOrExpired.RequiredScope != "" {
+			l.Error("Missing scope", esl.String("missingScope", errBadOrExpired.RequiredScope))
+			panic("missing scope:" + errBadOrExpired.RequiredScope)
+			//			return es_response_impl.NewTransportErrorResponse(errBadOrExpired, res)
 		}
 
 	case dbx_context.DropboxApiErrorEndpointSpecific:

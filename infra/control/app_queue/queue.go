@@ -29,11 +29,20 @@ func selectBatchFetchPolicy(fe app_feature.Feature) eq_bundle.FetchPolicy {
 	return eq_bundle.FetchBalance
 }
 
+func selectDurableSetting(fe app_feature.Feature) (durable bool, cacheSize int) {
+	if fe.Experiment(app.ExperimentBatchNonDurable) {
+		return false, 100 * fe.Concurrency()
+	} else {
+		return true, 100
+	}
+}
+
 func NewSequence(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_workspace.Bundle) (seq eq_sequence.Sequence, er app_error.ErrorReport) {
 	preservePath := wb.Workspace().KVS()
 	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
 	factory := eq_pipe.NewSimple(lg, preserve)
 	progress := eq_progress.NewProgress(ea_indicator.Global())
+	durable, cacheSize := selectDurableSetting(fe)
 
 	er = app_error.NewErrorReport(lg, wb, ui)
 
@@ -45,6 +54,8 @@ func NewSequence(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_wor
 		eq_queue.NumWorker(fe.Concurrency()),
 		eq_queue.Progress(progress),
 		eq_queue.Verbose(fe.IsVerbose()),
+		eq_queue.CacheSize(cacheSize),
+		eq_queue.Durable(durable),
 	)
 	return
 }
@@ -54,6 +65,7 @@ func NewQueue(lg esl.Logger, fe app_feature.Feature, wb app_workspace.Bundle) (q
 	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
 	factory := eq_pipe.NewSimple(lg, preserve)
 	progress := eq_progress.NewProgress(ea_indicator.Global())
+	durable, cacheSize := selectDurableSetting(fe)
 
 	return eq_queue.New(
 		eq_queue.Factory(factory),
@@ -62,5 +74,7 @@ func NewQueue(lg esl.Logger, fe app_feature.Feature, wb app_workspace.Bundle) (q
 		eq_queue.NumWorker(fe.Concurrency()),
 		eq_queue.Progress(progress),
 		eq_queue.Verbose(fe.IsVerbose()),
+		eq_queue.CacheSize(cacheSize),
+		eq_queue.Durable(durable),
 	)
 }

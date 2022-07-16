@@ -12,6 +12,7 @@ import (
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
+	recipedevmodule "github.com/watermint/toolbox/recipe/dev/module"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
@@ -35,6 +36,7 @@ import (
 	recipefilemount "github.com/watermint/toolbox/recipe/file/mount"
 	recipefilepaper "github.com/watermint/toolbox/recipe/file/paper"
 	recipefilerestore "github.com/watermint/toolbox/recipe/file/restore"
+	recipefilerevision "github.com/watermint/toolbox/recipe/file/revision"
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefileshare "github.com/watermint/toolbox/recipe/file/share"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
@@ -155,6 +157,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Dump{},
+		&recipedevmodule.List{},
 		&recipedevrelease.Candidate{},
 		&recipedevrelease.Doc{},
 		&recipedevrelease.Publish{},
@@ -177,6 +180,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
 		&recipedevtestauth.All{},
+		&recipedevtestsetup.Massfiles{},
 		&recipedevtestsetup.Teamsharedlink{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Curl{},
@@ -211,6 +215,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilepaper.Overwrite{},
 		&recipefilepaper.Prepend{},
 		&recipefilerestore.All{},
+		&recipefilerevision.Download{},
+		&recipefilerevision.List{},
+		&recipefilerevision.Restore{},
 		&recipefilesearch.Content{},
 		&recipefilesearch.Name{},
 		&recipefileshare.Info{},

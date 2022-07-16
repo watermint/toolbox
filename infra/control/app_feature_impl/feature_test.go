@@ -31,15 +31,20 @@ func TestFeatureImpl_OptInGetSet(t *testing.T) {
 	fe := NewFeature(com, ws, true)
 
 	sfo := &SampleFeatureOptIn{}
-	if sfo1, found := fe.OptInGet(sfo); found {
-		t.Error(sfo1)
-	}
 	sfo.OptInCommit(true)
 	if err := fe.OptInUpdate(sfo); err != nil {
 		t.Error(err)
 	}
 	sfo2 := &SampleFeatureOptIn{}
 	if sfo3, found := fe.OptInGet(sfo2); !found || !sfo3.OptInIsEnabled() {
+		t.Error(sfo3, found)
+	}
+
+	sfo.OptInCommit(false)
+	if err := fe.OptInUpdate(sfo); err != nil {
+		t.Error(err)
+	}
+	if sfo3, found := fe.OptInGet(sfo); !found || sfo3.OptInIsEnabled() {
 		t.Error(sfo3, found)
 	}
 }

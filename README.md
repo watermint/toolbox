@@ -113,6 +113,9 @@ Available commands:
 | [file paper prepend](docs/commands/file-paper-prepend.md)                       | Append the content to the beginning of the existing Paper doc |
 | [file replication](docs/commands/file-replication.md)                           | Replicate file content to the other account                   |
 | [file restore all](docs/commands/file-restore-all.md)                           | Restore files under given path                                |
+| [file revision download](docs/commands/file-revision-download.md)               | Download the file revision                                    |
+| [file revision list](docs/commands/file-revision-list.md)                       | List file revisions                                           |
+| [file revision restore](docs/commands/file-revision-restore.md)                 | Restore the file revision                                     |
 | [file search content](docs/commands/file-search-content.md)                     | Search file content                                           |
 | [file search name](docs/commands/file-search-name.md)                           | Search file name                                              |
 | [file share info](docs/commands/file-share-info.md)                             | Retrieve sharing information of the file                      |

@@ -42,7 +42,7 @@ func (z *ObfuscatedStorage) PeerName() string {
 	return z.peerName
 }
 
-func (z *ObfuscatedStorage) log(scope string) (path string, l esl.Logger) {
+func (z *ObfuscatedStorage) pathAndLog(scope string) (path string, l esl.Logger) {
 	l = z.c.Log().With(esl.String("peerName", z.peerName))
 	p := z.path(scope)
 	l = l.With(esl.String("path", p))
@@ -54,7 +54,7 @@ func (z *ObfuscatedStorage) path(scope string) string {
 }
 
 func (z *ObfuscatedStorage) Purge(scope string) {
-	p, l := z.log(scope)
+	p, l := z.pathAndLog(scope)
 
 	l.Debug("Purge obfuscate storage")
 	if err := os.Remove(p); err != nil {
@@ -63,7 +63,7 @@ func (z *ObfuscatedStorage) Purge(scope string) {
 }
 
 func (z *ObfuscatedStorage) Get(scope string) (token *oauth2.Token, err error) {
-	p, l := z.log(scope)
+	p, l := z.pathAndLog(scope)
 
 	l.Debug("Load obfuscated storage")
 	token = &oauth2.Token{}
@@ -74,7 +74,7 @@ func (z *ObfuscatedStorage) Get(scope string) (token *oauth2.Token, err error) {
 }
 
 func (z *ObfuscatedStorage) Put(scope string, token *oauth2.Token) error {
-	p, l := z.log(scope)
+	p, l := z.pathAndLog(scope)
 
 	l.Debug("Load obfuscated storage")
 	if err := z.s.Put(p, token); err != nil {
