@@ -6,7 +6,7 @@ lang: ja
 
 # file revision download
 
-Download the file revision 
+ファイルリビジョンをダウンロードする 
 
 # セキュリティ
 
@@ -81,11 +81,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                                | デフォルト |
-|---------------|-------------------------------------|------------|
-| `-local-path` | Local path to store downloaded file |            |
-| `-peer`       | Account alias                       | default    |
-| `-revision`   | File revision                       |            |
+| オプション    | 説明                                           | デフォルト |
+|---------------|------------------------------------------------|------------|
+| `-local-path` | ダウンロードしたファイルを保存するローカルパス |            |
+| `-peer`       | アカウントの別名                               | default    |
+| `-revision`   | ファイルリビジョン                             |            |
 
 ## 共通のオプション:
 

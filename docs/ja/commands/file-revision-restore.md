@@ -6,7 +6,7 @@ lang: ja
 
 # file revision restore
 
-Restore the file revision 
+ファイルリビジョンを復元する 
 
 # セキュリティ
 
@@ -80,11 +80,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明          | デフォルト |
-|-------------|---------------|------------|
-| `-path`     | File path     |            |
-| `-peer`     | Account alias | default    |
-| `-revision` | File revision |            |
+| オプション  | 説明               | デフォルト |
+|-------------|--------------------|------------|
+| `-path`     | ファイルパス       |            |
+| `-peer`     | アカウントの別名   | default    |
+| `-revision` | ファイルリビジョン |            |
 
 ## 共通のオプション:
 

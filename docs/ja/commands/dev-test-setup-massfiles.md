@@ -6,7 +6,7 @@ lang: ja
 
 # dev test setup massfiles
 
-Upload Wikimedia dump file as test file 
+テストファイルとしてウィキメディアダンプファイルをアップロードする 
 
 # セキュリティ
 
@@ -81,13 +81,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                         | デフォルト |
-|---------------|------------------------------|------------|
-| `-base`       | Dropbox base path            |            |
-| `-batch-size` | Batch size                   | 1000       |
-| `-offset`     | Upload offset (skip # pages) | 0          |
-| `-peer`       | Account alias                | default    |
-| `-source`     | Source file                  |            |
+| オプション    | 説明                                   | デフォルト |
+|---------------|----------------------------------------|------------|
+| `-base`       | Dropboxのベースパス                    |            |
+| `-batch-size` | バッチサイズ                           | 1000       |
+| `-offset`     | アップロードオフセット（ページ数省略） | 0          |
+| `-peer`       | アカウントの別名                       | default    |
+| `-source`     | ソースファイル                         |            |
 
 ## 共通のオプション:
 

@@ -24,8 +24,6 @@ func (z *License) Preset() {
 }
 
 func (z *License) Exec(c app_control.Control) error {
-	l := c.Log()
-	l.Info("Please ignore logs starts from ERROR:")
 	inventory, err := dc_license.Detect()
 	if err != nil {
 		return err

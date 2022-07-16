@@ -6,7 +6,7 @@ lang: ja
 
 # dev module list
 
-Dependent module list 
+依存モジュール一覧 
 
 # インストール
 
