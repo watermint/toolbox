@@ -358,6 +358,7 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)
 	z.cat.RecipeTable("team namespace", ui, []string{
 		"team namespace list",
+		"team namespace summary",
 		"team namespace file list",
 		"team namespace file size",
 		"team namespace member list",

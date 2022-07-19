@@ -165,6 +165,7 @@ If you wanted to know who are actually uses specific folders, please consider us
 | Command                                                                                   | Description                                                 |
 |-------------------------------------------------------------------------------------------|-------------------------------------------------------------|
 | [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)               | List all namespaces of the team                             |
+| [team namespace summary]({{ site.baseurl }}/commands/team-namespace-summary.html)         | Report team namespace status summary                        |
 | [team namespace file list]({{ site.baseurl }}/commands/team-namespace-file-list.html)     | List all files and folders of the team namespaces           |
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)     | List all files and folders of the team namespaces           |
 | [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html) | List members of shared folders and team folders in the team |

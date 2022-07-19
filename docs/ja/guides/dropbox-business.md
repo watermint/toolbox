@@ -165,6 +165,7 @@ lang: ja
 | コマンド                                                                                     | 説明                                               |
 |----------------------------------------------------------------------------------------------|----------------------------------------------------|
 | [team namespace list]({{ site.baseurl }}/ja/commands/team-namespace-list.html)               | チーム内すべての名前空間を一覧                     |
+| [team namespace summary]({{ site.baseurl }}/ja/commands/team-namespace-summary.html)         | Report team namespace status summary               |
 | [team namespace file list]({{ site.baseurl }}/ja/commands/team-namespace-file-list.html)     | チーム内全ての名前空間でのファイル・フォルダを一覧 |
 | [team namespace file size]({{ site.baseurl }}/ja/commands/team-namespace-file-size.html)     | チーム内全ての名前空間でのファイル・フォルダを一覧 |
 | [team namespace member list]({{ site.baseurl }}/ja/commands/team-namespace-member-list.html) | チームフォルダ以下のファイル・フォルダを一覧       |

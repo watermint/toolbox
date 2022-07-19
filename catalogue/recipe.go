@@ -353,6 +353,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfilerequest.List{},
 		&recipeteamlinkedapp.List{},
 		&recipeteamnamespace.List{},
+		&recipeteamnamespace.Summary{},
 		&recipeteamnamespacefile.List{},
 		&recipeteamnamespacefile.Size{},
 		&recipeteamnamespacemember.List{},

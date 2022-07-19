@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev benchmark upload
+# team namespace summary
 
-アップロードのベンチマーク 
+Report team namespace status summary 
 
 # セキュリティ
 
@@ -22,13 +22,16 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                   |
-|--------------------------------------------------------|
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集 |
+| 説明                                                                     |
+|--------------------------------------------------------------------------|
+| Dropbox Business: チームメンバーの確認                                   |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示                    |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                 |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集 |
 
 # 認可
 
@@ -64,12 +67,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe team namespace summary 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx team namespace summary 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,18 +83,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                                  | デフォルト |
-|----------------------|---------------------------------------|------------|
-| `-block-block-size`  | 一括アップロード時のブロックサイズ    | 40         |
-| `-method`            | アップロード方法                      | block      |
-| `-num-files`         | ファイル数.                           | 1000       |
-| `-path`              | Dropboxパス                           |            |
-| `-peer`              | アカウントの別名                      | default    |
-| `-pre-scan`          | プリスキャンのデスティネーションパス  | false      |
-| `-seq-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
-| `-size-max-kb`       | 最大ファイルサイズ (KiB).             | 2048       |
-| `-size-min-kb`       | 最小ファイルサイズ (KiB).             | 0          |
-| `-verify`            | アップロード後の検証                  | false      |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 ## 共通のオプション:
 
@@ -113,6 +107,48 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: member
+
+Member namespace summary
+このコマンドはレポートを3種類の書式で出力します. `member.csv`, `member.json`, ならびに `member.xlsx`.
+
+| 列                  | 説明                                                         |
+|---------------------|--------------------------------------------------------------|
+| email               | Member email address                                         |
+| total_namespaces    | Number of total namespaces (excluding member root namespace) |
+| mounted_namespaces  | Number of mounted folders                                    |
+| owner_namespaces    | Number of shared folders owned by this member                |
+| team_folders        | Number of team folders                                       |
+| inside_team_folders | Number of inside team folders                                |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
+
+## レポート: team
+
+Team namespace summary
+このコマンドはレポートを3種類の書式で出力します. `team.csv`, `team.json`, ならびに `team.xlsx`.
+
+| 列              | 説明                 |
+|-----------------|----------------------|
+| namespace_type  | Type of namespace    |
+| namespace_count | Number of namespaces |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `team_0000.xlsx`, `team_0001.xlsx`, `team_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
