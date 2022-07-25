@@ -105,7 +105,6 @@ Available commands:
 | [file lock list](docs/commands/file-lock-list.md)                               | List locks under the specified path                           |
 | [file lock release](docs/commands/file-lock-release.md)                         | Release a lock                                                |
 | [file merge](docs/commands/file-merge.md)                                       | Merge paths                                                   |
-| [file mount list](docs/commands/file-mount-list.md)                             | List mounted/unmounted shared folders                         |
 | [file move](docs/commands/file-move.md)                                         | Move files                                                    |
 | [file paper append](docs/commands/file-paper-append.md)                         | Append the content to the end of the existing Paper doc       |
 | [file paper create](docs/commands/file-paper-create.md)                         | Create new Paper in the path                                  |

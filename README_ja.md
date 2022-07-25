@@ -103,7 +103,6 @@ DropboxおよびDropbox Business向けのツールセット
 | [file lock list](docs/ja/commands/file-lock-list.md)                               | 指定したパスの下にあるロックを一覧表示します                       |
 | [file lock release](docs/ja/commands/file-lock-release.md)                         | ロックを解除します                                                 |
 | [file merge](docs/ja/commands/file-merge.md)                                       | フォルダを統合します                                               |
-| [file mount list](docs/ja/commands/file-mount-list.md)                             | マウント/アンマウントされた共有フォルダの一覧                      |
 | [file move](docs/ja/commands/file-move.md)                                         | ファイルを移動します                                               |
 | [file paper append](docs/ja/commands/file-paper-append.md)                         | 既存のPaperドキュメントの最後にコンテンツを追加する                |
 | [file paper create](docs/ja/commands/file-paper-create.md)                         | パスに新しいPaperを作成                                            |

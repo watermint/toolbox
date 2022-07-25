@@ -27,7 +27,6 @@ lang: en
 | [file lock list]({{ site.baseurl }}/commands/file-lock-list.html)                               | List locks under the specified path                           |
 | [file lock release]({{ site.baseurl }}/commands/file-lock-release.html)                         | Release a lock                                                |
 | [file merge]({{ site.baseurl }}/commands/file-merge.html)                                       | Merge paths                                                   |
-| [file mount list]({{ site.baseurl }}/commands/file-mount-list.html)                             | List mounted/unmounted shared folders                         |
 | [file move]({{ site.baseurl }}/commands/file-move.html)                                         | Move files                                                    |
 | [file paper append]({{ site.baseurl }}/commands/file-paper-append.html)                         | Append the content to the end of the existing Paper doc       |
 | [file paper create]({{ site.baseurl }}/commands/file-paper-create.html)                         | Create new Paper in the path                                  |

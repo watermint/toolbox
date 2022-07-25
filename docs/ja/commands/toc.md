@@ -27,7 +27,6 @@ lang: ja
 | [file lock list]({{ site.baseurl }}/ja/commands/file-lock-list.html)                               | 指定したパスの下にあるロックを一覧表示します                       |
 | [file lock release]({{ site.baseurl }}/ja/commands/file-lock-release.html)                         | ロックを解除します                                                 |
 | [file merge]({{ site.baseurl }}/ja/commands/file-merge.html)                                       | フォルダを統合します                                               |
-| [file mount list]({{ site.baseurl }}/ja/commands/file-mount-list.html)                             | マウント/アンマウントされた共有フォルダの一覧                      |
 | [file move]({{ site.baseurl }}/ja/commands/file-move.html)                                         | ファイルを移動します                                               |
 | [file paper append]({{ site.baseurl }}/ja/commands/file-paper-append.html)                         | 既存のPaperドキュメントの最後にコンテンツを追加する                |
 | [file paper create]({{ site.baseurl }}/ja/commands/file-paper-create.html)                         | パスに新しいPaperを作成                                            |
