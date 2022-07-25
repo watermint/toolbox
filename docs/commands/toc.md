@@ -52,10 +52,15 @@ lang: en
 | [filerequest list]({{ site.baseurl }}/commands/filerequest-list.html)                           | List file requests of the individual account                  |
 | [job history ship]({{ site.baseurl }}/commands/job-history-ship.html)                           | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature]({{ site.baseurl }}/commands/services-dropbox-user-feature.html) | List feature settings for current user                        |
+| [sharedfolder leave]({{ site.baseurl }}/commands/sharedfolder-leave.html)                       | Leave from the shared folder                                  |
 | [sharedfolder list]({{ site.baseurl }}/commands/sharedfolder-list.html)                         | List shared folder(s)                                         |
 | [sharedfolder member add]({{ site.baseurl }}/commands/sharedfolder-member-add.html)             | Add a member to the shared folder                             |
 | [sharedfolder member delete]({{ site.baseurl }}/commands/sharedfolder-member-delete.html)       | Delete a member from the shared folder                        |
 | [sharedfolder member list]({{ site.baseurl }}/commands/sharedfolder-member-list.html)           | List shared folder member(s)                                  |
+| [sharedfolder mount add]({{ site.baseurl }}/commands/sharedfolder-mount-add.html)               | Add the shared folder to the current user's Dropbox           |
+| [sharedfolder mount delete]({{ site.baseurl }}/commands/sharedfolder-mount-delete.html)         | The current user unmounts the designated folder.              |
+| [sharedfolder mount list]({{ site.baseurl }}/commands/sharedfolder-mount-list.html)             | List all shared folders the current user mounted              |
+| [sharedfolder mount mountable]({{ site.baseurl }}/commands/sharedfolder-mount-mountable.html)   | List all shared folders the current user can mount            |
 | [sharedfolder share]({{ site.baseurl }}/commands/sharedfolder-share.html)                       | Share a folder                                                |
 | [sharedfolder unshare]({{ site.baseurl }}/commands/sharedfolder-unshare.html)                   | Unshare a folder                                              |
 | [sharedlink create]({{ site.baseurl }}/commands/sharedlink-create.html)                         | Create shared link                                            |

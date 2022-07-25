@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# team namespace summary
+# sharedfolder mount add
 
-Report team namespace status summary 
+Add the shared folder to the current user's Dropbox 
 
 # セキュリティ
 
@@ -22,17 +22,14 @@ Report team namespace status summary
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
 
-| 説明                                                                           |
-|--------------------------------------------------------------------------------|
-| Dropbox Business: チームメンバーの確認                                         |
-| Dropbox Business: Dropboxの共有設定と共同作業者の表示                          |
-| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
-| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
-| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
+| 説明                                               |
+|----------------------------------------------------|
+| Dropbox: Dropboxの共有設定と共同作業者の表示       |
+| Dropbox: Dropboxの共有設定と共同作業者の表示と管理 |
 
 # 認可
 
@@ -68,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team namespace summary 
+.\tbx.exe sharedfolder mount add 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team namespace summary 
+$HOME/Desktop/tbx sharedfolder mount add 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -84,9 +81,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| オプション          | 説明                          | デフォルト |
+|---------------------|-------------------------------|------------|
+| `-peer`             | Account alias                 | default    |
+| `-shared-folder-id` | The ID for the shared folder. |            |
 
 ## 共通のオプション:
 
@@ -119,39 +117,29 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: member
+## レポート: mount
 
-Member namespace summary
-このコマンドはレポートを3種類の書式で出力します. `member.csv`, `member.json`, ならびに `member.xlsx`.
+このレポートは共有フォルダの一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `mount.csv`, `mount.json`, ならびに `mount.xlsx`.
 
-| 列                  | 説明                                                         |
-|---------------------|--------------------------------------------------------------|
-| email               | Member email address                                         |
-| total_namespaces    | Number of total namespaces (excluding member root namespace) |
-| mounted_namespaces  | Number of mounted folders                                    |
-| owner_namespaces    | Number of shared folders owned by this member                |
-| team_folders        | Number of team folders                                       |
-| app_folders         | Number of app folders                                        |
-| inside_team_folders | Number of inside team folders                                |
-| external_folders    | Number of folders shared by a user outside the team          |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
-
-## レポート: team
-
-Team namespace summary
-このコマンドはレポートを3種類の書式で出力します. `team.csv`, `team.json`, ならびに `team.xlsx`.
-
-| 列              | 説明                 |
-|-----------------|----------------------|
-| namespace_type  | Type of namespace    |
-| namespace_count | Number of namespaces |
+| 列                    | 説明                                                                                                 |
+|-----------------------|------------------------------------------------------------------------------------------------------|
+| shared_folder_id      | 共有フォルダのID                                                                                     |
+| name                  | 共有フォルダの名称                                                                                   |
+| access_type           | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| path_lower            | 共有フォルダのフルパス(小文字に変換済み).                                                            |
+| is_inside_team_folder | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder        | このフォルダがチームフォルダであるかどうか                                                           |
+| policy_manage_access  | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
+| policy_shared_link    | このフォルダの共有リンクを誰が利用できるか                                                           |
+| policy_member         | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
+| policy_viewer_info    | だれが閲覧社情報を有効化・無効化できるか                                                             |
+| owner_team_name       | このフォルダを所有するチームの名前                                                                   |
+| access_inheritance    | アクセス継承タイプ                                                                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `team_0000.xlsx`, `team_0001.xlsx`, `team_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

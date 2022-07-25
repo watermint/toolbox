@@ -52,10 +52,15 @@ lang: ja
 | [filerequest list]({{ site.baseurl }}/ja/commands/filerequest-list.html)                           | 個人アカウントのファイルリクエストを一覧.                          |
 | [job history ship]({{ site.baseurl }}/ja/commands/job-history-ship.html)                           | ログの転送先Dropboxパス                                            |
 | [services dropbox user feature]({{ site.baseurl }}/ja/commands/services-dropbox-user-feature.html) | 現在のユーザーの機能設定の一覧                                     |
+| [sharedfolder leave]({{ site.baseurl }}/ja/commands/sharedfolder-leave.html)                       | Leave from the shared folder                                       |
 | [sharedfolder list]({{ site.baseurl }}/ja/commands/sharedfolder-list.html)                         | 共有フォルダの一覧                                                 |
 | [sharedfolder member add]({{ site.baseurl }}/ja/commands/sharedfolder-member-add.html)             | 共有フォルダへのメンバーの追加                                     |
 | [sharedfolder member delete]({{ site.baseurl }}/ja/commands/sharedfolder-member-delete.html)       | 共有フォルダからメンバーを削除する                                 |
 | [sharedfolder member list]({{ site.baseurl }}/ja/commands/sharedfolder-member-list.html)           | 共有フォルダのメンバーを一覧します                                 |
+| [sharedfolder mount add]({{ site.baseurl }}/ja/commands/sharedfolder-mount-add.html)               | Add the shared folder to the current user's Dropbox                |
+| [sharedfolder mount delete]({{ site.baseurl }}/ja/commands/sharedfolder-mount-delete.html)         | The current user unmounts the designated folder.                   |
+| [sharedfolder mount list]({{ site.baseurl }}/ja/commands/sharedfolder-mount-list.html)             | List all shared folders the current user mounted                   |
+| [sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/sharedfolder-mount-mountable.html)   | List all shared folders the current user can mount                 |
 | [sharedfolder share]({{ site.baseurl }}/ja/commands/sharedfolder-share.html)                       | フォルダの共有                                                     |
 | [sharedfolder unshare]({{ site.baseurl }}/ja/commands/sharedfolder-unshare.html)                   | フォルダの共有解除                                                 |
 | [sharedlink create]({{ site.baseurl }}/ja/commands/sharedlink-create.html)                         | 共有リンクの作成                                                   |

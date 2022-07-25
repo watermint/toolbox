@@ -130,10 +130,15 @@ Available commands:
 | [filerequest list](docs/commands/filerequest-list.md)                           | List file requests of the individual account                  |
 | [job history ship](docs/commands/job-history-ship.md)                           | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature](docs/commands/services-dropbox-user-feature.md) | List feature settings for current user                        |
+| [sharedfolder leave](docs/commands/sharedfolder-leave.md)                       | Leave from the shared folder                                  |
 | [sharedfolder list](docs/commands/sharedfolder-list.md)                         | List shared folder(s)                                         |
 | [sharedfolder member add](docs/commands/sharedfolder-member-add.md)             | Add a member to the shared folder                             |
 | [sharedfolder member delete](docs/commands/sharedfolder-member-delete.md)       | Delete a member from the shared folder                        |
 | [sharedfolder member list](docs/commands/sharedfolder-member-list.md)           | List shared folder member(s)                                  |
+| [sharedfolder mount add](docs/commands/sharedfolder-mount-add.md)               | Add the shared folder to the current user's Dropbox           |
+| [sharedfolder mount delete](docs/commands/sharedfolder-mount-delete.md)         | The current user unmounts the designated folder.              |
+| [sharedfolder mount list](docs/commands/sharedfolder-mount-list.md)             | List all shared folders the current user mounted              |
+| [sharedfolder mount mountable](docs/commands/sharedfolder-mount-mountable.md)   | List all shared folders the current user can mount            |
 | [sharedfolder share](docs/commands/sharedfolder-share.md)                       | Share a folder                                                |
 | [sharedfolder unshare](docs/commands/sharedfolder-unshare.md)                   | Unshare a folder                                              |
 | [sharedlink create](docs/commands/sharedlink-create.md)                         | Create shared link                                            |

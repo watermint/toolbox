@@ -128,10 +128,15 @@ DropboxおよびDropbox Business向けのツールセット
 | [filerequest list](docs/ja/commands/filerequest-list.md)                           | 個人アカウントのファイルリクエストを一覧.                          |
 | [job history ship](docs/ja/commands/job-history-ship.md)                           | ログの転送先Dropboxパス                                            |
 | [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md) | 現在のユーザーの機能設定の一覧                                     |
+| [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                       | Leave from the shared folder                                       |
 | [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                         | 共有フォルダの一覧                                                 |
 | [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)             | 共有フォルダへのメンバーの追加                                     |
 | [sharedfolder member delete](docs/ja/commands/sharedfolder-member-delete.md)       | 共有フォルダからメンバーを削除する                                 |
 | [sharedfolder member list](docs/ja/commands/sharedfolder-member-list.md)           | 共有フォルダのメンバーを一覧します                                 |
+| [sharedfolder mount add](docs/ja/commands/sharedfolder-mount-add.md)               | Add the shared folder to the current user's Dropbox                |
+| [sharedfolder mount delete](docs/ja/commands/sharedfolder-mount-delete.md)         | The current user unmounts the designated folder.                   |
+| [sharedfolder mount list](docs/ja/commands/sharedfolder-mount-list.md)             | List all shared folders the current user mounted                   |
+| [sharedfolder mount mountable](docs/ja/commands/sharedfolder-mount-mountable.md)   | List all shared folders the current user can mount                 |
 | [sharedfolder share](docs/ja/commands/sharedfolder-share.md)                       | フォルダの共有                                                     |
 | [sharedfolder unshare](docs/ja/commands/sharedfolder-unshare.md)                   | フォルダの共有解除                                                 |
 | [sharedlink create](docs/ja/commands/sharedlink-create.md)                         | 共有リンクの作成                                                   |

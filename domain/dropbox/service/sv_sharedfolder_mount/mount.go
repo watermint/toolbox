@@ -11,6 +11,7 @@ import (
 type Mount interface {
 	List() (mount []*mo_sharedfolder.SharedFolder, err error)
 	Mount(sf *mo_sharedfolder.SharedFolder) (mount *mo_sharedfolder.SharedFolder, err error)
+	Mountables() (mountables []*mo_sharedfolder.SharedFolder, err error)
 	Unmount(sf *mo_sharedfolder.SharedFolder) (err error)
 }
 
@@ -22,6 +23,26 @@ func New(ctx dbx_context.Context) Mount {
 
 type mountImpl struct {
 	ctx dbx_context.Context
+}
+
+func (z *mountImpl) Mountables() (mountables []*mo_sharedfolder.SharedFolder, err error) {
+	mountables = make([]*mo_sharedfolder.SharedFolder, 0)
+	res := z.ctx.List("sharing/list_mountable_folders").Call(
+		dbx_list.Continue("sharing/list_mountable_folders/continue"),
+		dbx_list.ResultTag("entries"),
+		dbx_list.OnEntry(func(entry es_json.Json) error {
+			m := &mo_sharedfolder.SharedFolder{}
+			if err = entry.Model(m); err != nil {
+				return err
+			}
+			mountables = append(mountables, m)
+			return nil
+		}),
+	)
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	return mountables, nil
 }
 
 func (z *mountImpl) List() (mount []*mo_sharedfolder.SharedFolder, err error) {

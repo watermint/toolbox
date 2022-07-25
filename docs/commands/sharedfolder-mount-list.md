@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# sharedfolder list
+# sharedfolder mount list
 
-List shared folder(s) 
+List all shared folders the current user mounted 
 
 # Security
 
@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe sharedfolder list 
+.\tbx.exe sharedfolder mount list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx sharedfolder list 
+$HOME/Desktop/tbx sharedfolder mount list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -115,10 +115,10 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: shared_folder
+## Report: mounts
 
 This report shows a list of shared folders.
-The command will generate a report in three different formats. `shared_folder.csv`, `shared_folder.json`, and `shared_folder.xlsx`.
+The command will generate a report in three different formats. `mounts.csv`, `mounts.json`, and `mounts.xlsx`.
 
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
@@ -137,7 +137,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mounts_0000.xlsx`, `mounts_0001.xlsx`, `mounts_0002.xlsx`, ...
 
 # Proxy configuration
 

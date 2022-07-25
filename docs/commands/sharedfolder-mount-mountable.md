@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# sharedfolder list
+# sharedfolder mount mountable
 
-List shared folder(s) 
+List all shared folders the current user can mount 
 
 # Security
 
@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe sharedfolder list 
+.\tbx.exe sharedfolder mount mountable 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx sharedfolder list 
+$HOME/Desktop/tbx sharedfolder mount mountable 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,9 +80,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| Option             | Description              | Default |
+|--------------------|--------------------------|---------|
+| `-include-mounted` | Include mounted folders. | false   |
+| `-peer`            | Account alias            | default |
 
 ## Common options:
 
@@ -115,10 +116,10 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: shared_folder
+## Report: mountables
 
 This report shows a list of shared folders.
-The command will generate a report in three different formats. `shared_folder.csv`, `shared_folder.json`, and `shared_folder.xlsx`.
+The command will generate a report in three different formats. `mountables.csv`, `mountables.json`, and `mountables.xlsx`.
 
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
@@ -137,7 +138,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `mountables_0000.xlsx`, `mountables_0001.xlsx`, `mountables_0002.xlsx`, ...
 
 # Proxy configuration
 

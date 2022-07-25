@@ -25,7 +25,6 @@ func (z *List) Preset() {
 	z.SharedFolder.SetModel(
 		&mo_sharedfolder.SharedFolder{},
 		rp_model.HiddenColumns(
-			"shared_folder_id",
 			"parent_shared_folder_id",
 			"owner_team_id",
 		),

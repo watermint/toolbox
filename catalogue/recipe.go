@@ -85,6 +85,7 @@ import (
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
+	recipesharedfoldermount "github.com/watermint/toolbox/recipe/sharedfolder/mount"
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
 	recipesharedlinkfile "github.com/watermint/toolbox/recipe/sharedlink/file"
 	recipeteam "github.com/watermint/toolbox/recipe/team"
@@ -316,12 +317,17 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglesheetssheet.List{},
 		&recipeservicesgooglesheetsspreadsheet.Create{},
 		&recipeservicesslackconversation.List{},
+		&recipesharedfolder.Leave{},
 		&recipesharedfolder.List{},
 		&recipesharedfolder.Share{},
 		&recipesharedfolder.Unshare{},
 		&recipesharedfoldermember.Add{},
 		&recipesharedfoldermember.Delete{},
 		&recipesharedfoldermember.List{},
+		&recipesharedfoldermount.Add{},
+		&recipesharedfoldermount.Delete{},
+		&recipesharedfoldermount.List{},
+		&recipesharedfoldermount.Mountable{},
 		&recipesharedlink.Create{},
 		&recipesharedlink.Delete{},
 		&recipesharedlink.Info{},

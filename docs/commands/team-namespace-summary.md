@@ -26,12 +26,13 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                              |
-|--------------------------------------------------------------------------|
-| Dropbox Business: View your team membership                              |
-| Dropbox Business: View your Dropbox sharing settings and collaborators   |
-| Dropbox Business: View structure of your team's and members' folders     |
-| Dropbox Business: View and edit content of your team's files and folders |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View your team membership                                                             |
+| Dropbox Business: View your Dropbox sharing settings and collaborators                                  |
+| Dropbox Business: View structure of your team's and members' folders                                    |
+| Dropbox Business: View and edit content of your team's files and folders                                |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 
@@ -130,7 +131,9 @@ The command will generate a report in three different formats. `member.csv`, `me
 | mounted_namespaces  | Number of mounted folders                                    |
 | owner_namespaces    | Number of shared folders owned by this member                |
 | team_folders        | Number of team folders                                       |
+| app_folders         | Number of app folders                                        |
 | inside_team_folders | Number of inside team folders                                |
+| external_folders    | Number of folders shared by a user outside the team          |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
