@@ -6,7 +6,7 @@ lang: en
 
 # team namespace summary
 
-Report team namespace status summary 
+Report team namespace status summary. 
 
 # Security
 
@@ -84,9 +84,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| Option                 | Description                     | Default |
+|------------------------|---------------------------------|---------|
+| `-peer`                | Account alias                   | default |
+| `-skip-member-summary` | Skip scanning member namespaces | false   |
 
 ## Common options:
 
@@ -119,6 +120,32 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## Report: folder_without_parent
+
+Folders without parent folder.
+The command will generate a report in three different formats. `folder_without_parent.csv`, `folder_without_parent.json`, and `folder_without_parent.xlsx`.
+
+| Column                  | Description                                                                                                             |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| shared_folder_id        | The ID of the shared folder.                                                                                            |
+| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
+| name                    | The name of the this shared folder.                                                                                     |
+| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
+| path_lower              | The lower-cased full path of this shared folder.                                                                        |
+| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
+| is_team_folder          | Whether this folder is a team folder.                                                                                   |
+| policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
+| policy_shared_link      | Who links can be shared with.                                                                                           |
+| policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
+| policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
+| owner_team_id           | Team ID of the folder owner team                                                                                        |
+| owner_team_name         | Team name of the team that owns the folder                                                                              |
+| access_inheritance      | Access inheritance type                                                                                                 |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `folder_without_parent_0000.xlsx`, `folder_without_parent_0001.xlsx`, `folder_without_parent_0002.xlsx`, ...
+
 ## Report: member
 
 Member namespace summary
@@ -131,9 +158,9 @@ The command will generate a report in three different formats. `member.csv`, `me
 | mounted_namespaces  | Number of mounted folders                                    |
 | owner_namespaces    | Number of shared folders owned by this member                |
 | team_folders        | Number of team folders                                       |
-| app_folders         | Number of app folders                                        |
-| inside_team_folders | Number of inside team folders                                |
+| inside_team_folders | Number of folders inside team folders                        |
 | external_folders    | Number of folders shared by a user outside the team          |
+| app_folders         | Number of app folders                                        |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
@@ -141,7 +168,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 ## Report: team
 
-Team namespace summary
+Team namespace summary.
 The command will generate a report in three different formats. `team.csv`, `team.json`, and `team.xlsx`.
 
 | Column          | Description          |
@@ -152,6 +179,20 @@ The command will generate a report in three different formats. `team.csv`, `team
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_0000.xlsx`, `team_0001.xlsx`, `team_0002.xlsx`, ...
+
+## Report: team_folder
+
+Team folder summary.
+The command will generate a report in three different formats. `team_folder.csv`, `team_folder.json`, and `team_folder.xlsx`.
+
+| Column                | Description                                  |
+|-----------------------|----------------------------------------------|
+| name                  | Team folder name                             |
+| num_namespaces_inside | Number of namespaces inside this team folder |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `team_folder_0000.xlsx`, `team_folder_0001.xlsx`, `team_folder_0002.xlsx`, ...
 
 # Proxy configuration
 

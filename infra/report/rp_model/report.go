@@ -12,6 +12,7 @@ type ReportOpt func(o *ReportOpts) *ReportOpts
 type ReportOpts struct {
 	HiddenColumns   map[string]bool
 	ShowAllColumns  bool
+	ShowReportTitle bool
 	ReportSuffix    string
 	NoConsoleOutput bool
 	ColumnModel     rp_column.Column
@@ -26,6 +27,13 @@ func (z *ReportOpts) IsHiddenColumn(name string) bool {
 	}
 	_, ok := z.HiddenColumns[name]
 	return ok
+}
+
+func ShowReportTitle() ReportOpt {
+	return func(o *ReportOpts) *ReportOpts {
+		o.ShowReportTitle = true
+		return o
+	}
 }
 
 func NoConsoleOutput() ReportOpt {

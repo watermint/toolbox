@@ -140,7 +140,7 @@ lang: en
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)                                       | List all files and folders of the team namespaces                         |
 | [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)                                                 | List all namespaces of the team                                           |
 | [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html)                                   | List members of shared folders and team folders in the team               |
-| [team namespace summary]({{ site.baseurl }}/commands/team-namespace-summary.html)                                           | Report team namespace status summary                                      |
+| [team namespace summary]({{ site.baseurl }}/commands/team-namespace-summary.html)                                           | Report team namespace status summary.                                     |
 | [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member                                      |
 | [team runas file list]({{ site.baseurl }}/commands/team-runas-file-list.html)                                               | List files and folders run as a member                                    |
 | [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                                         |

@@ -6,7 +6,7 @@ lang: ja
 
 # sharedfolder mount add
 
-Add the shared folder to the current user's Dropbox 
+共有フォルダを現在のユーザーのDropboxに追加する 
 
 # セキュリティ
 
@@ -81,10 +81,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                          | デフォルト |
-|---------------------|-------------------------------|------------|
-| `-peer`             | Account alias                 | default    |
-| `-shared-folder-id` | The ID for the shared folder. |            |
+| オプション          | 説明                | デフォルト |
+|---------------------|---------------------|------------|
+| `-peer`             | アカウントの別名    | default    |
+| `-shared-folder-id` | 共有フォルダーのID. |            |
 
 ## 共通のオプション:
 

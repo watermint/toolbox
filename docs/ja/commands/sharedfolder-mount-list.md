@@ -6,7 +6,7 @@ lang: ja
 
 # sharedfolder mount list
 
-List all shared folders the current user mounted 
+現在のユーザーがマウントしているすべての共有フォルダーを一覧表示 
 
 # セキュリティ
 
@@ -80,9 +80,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 

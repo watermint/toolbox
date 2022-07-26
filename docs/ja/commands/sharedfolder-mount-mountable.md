@@ -6,7 +6,7 @@ lang: ja
 
 # sharedfolder mount mountable
 
-List all shared folders the current user can mount 
+現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. 
 
 # セキュリティ
 
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション         | 説明                     | デフォルト |
-|--------------------|--------------------------|------------|
-| `-include-mounted` | Include mounted folders. | false      |
-| `-peer`            | Account alias            | default    |
+| オプション         | 説明                            | デフォルト |
+|--------------------|---------------------------------|------------|
+| `-include-mounted` | マウントされたフォルダーを含む. | false      |
+| `-peer`            | アカウントの別名                | default    |
 
 ## 共通のオプション:
 

@@ -84,65 +84,65 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Dropbox (個人アカウント)
 
-| コマンド                                                                           | 説明                                                               |
-|------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| [file compare account](docs/ja/commands/file-compare-account.md)                   | 二つのアカウントのファイルを比較します                             |
-| [file compare local](docs/ja/commands/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します                |
-| [file copy](docs/ja/commands/file-copy.md)                                         | ファイルをコピーします                                             |
-| [file delete](docs/ja/commands/file-delete.md)                                     | ファイルまたはフォルダは削除します.                                |
-| [file export doc](docs/ja/commands/file-export-doc.md)                             | ドキュメントのエクスポート                                         |
-| [file export url](docs/ja/commands/file-export-url.md)                             | URLからドキュメントをエクスポート                                  |
-| [file import batch url](docs/ja/commands/file-import-batch-url.md)                 | URLからファイルを一括インポートします                              |
-| [file import url](docs/ja/commands/file-import-url.md)                             | URLからファイルをインポートします                                  |
-| [file info](docs/ja/commands/file-info.md)                                         | パスのメタデータを解決                                             |
-| [file list](docs/ja/commands/file-list.md)                                         | ファイルとフォルダを一覧します                                     |
-| [file lock acquire](docs/ja/commands/file-lock-acquire.md)                         | ファイルをロック                                                   |
-| [file lock all release](docs/ja/commands/file-lock-all-release.md)                 | 指定したパスでのすべてのロックを解除する                           |
-| [file lock batch acquire](docs/ja/commands/file-lock-batch-acquire.md)             | 複数のファイルをロックする                                         |
-| [file lock batch release](docs/ja/commands/file-lock-batch-release.md)             | 複数のロックを解除                                                 |
-| [file lock list](docs/ja/commands/file-lock-list.md)                               | 指定したパスの下にあるロックを一覧表示します                       |
-| [file lock release](docs/ja/commands/file-lock-release.md)                         | ロックを解除します                                                 |
-| [file merge](docs/ja/commands/file-merge.md)                                       | フォルダを統合します                                               |
-| [file move](docs/ja/commands/file-move.md)                                         | ファイルを移動します                                               |
-| [file paper append](docs/ja/commands/file-paper-append.md)                         | 既存のPaperドキュメントの最後にコンテンツを追加する                |
-| [file paper create](docs/ja/commands/file-paper-create.md)                         | パスに新しいPaperを作成                                            |
-| [file paper overwrite](docs/ja/commands/file-paper-overwrite.md)                   | 既存のPaperドキュメントを上書きする                                |
-| [file paper prepend](docs/ja/commands/file-paper-prepend.md)                       | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
-| [file replication](docs/ja/commands/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                     |
-| [file restore all](docs/ja/commands/file-restore-all.md)                           | 指定されたパス以下をリストアします                                 |
-| [file revision download](docs/ja/commands/file-revision-download.md)               | ファイルリビジョンをダウンロードする                               |
-| [file revision list](docs/ja/commands/file-revision-list.md)                       | ファイルリビジョン一覧                                             |
-| [file revision restore](docs/ja/commands/file-revision-restore.md)                 | ファイルリビジョンを復元する                                       |
-| [file search content](docs/ja/commands/file-search-content.md)                     | ファイルコンテンツを検索                                           |
-| [file search name](docs/ja/commands/file-search-name.md)                           | ファイル名を検索                                                   |
-| [file share info](docs/ja/commands/file-share-info.md)                             | ファイルの共有情報を取得する                                       |
-| [file size](docs/ja/commands/file-size.md)                                         | ストレージの利用量                                                 |
-| [file sync down](docs/ja/commands/file-sync-down.md)                               | Dropboxと下り方向で同期します                                      |
-| [file sync online](docs/ja/commands/file-sync-online.md)                           | オンラインファイルを同期します                                     |
-| [file sync up](docs/ja/commands/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                      |
-| [file watch](docs/ja/commands/file-watch.md)                                       | ファイルアクティビティを監視                                       |
-| [filerequest create](docs/ja/commands/filerequest-create.md)                       | ファイルリクエストを作成します                                     |
-| [filerequest delete closed](docs/ja/commands/filerequest-delete-closed.md)         | このアカウントの全ての閉じられているファイルリクエストを削除します |
-| [filerequest delete url](docs/ja/commands/filerequest-delete-url.md)               | ファイルリクエストのURLを指定して削除                              |
-| [filerequest list](docs/ja/commands/filerequest-list.md)                           | 個人アカウントのファイルリクエストを一覧.                          |
-| [job history ship](docs/ja/commands/job-history-ship.md)                           | ログの転送先Dropboxパス                                            |
-| [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md) | 現在のユーザーの機能設定の一覧                                     |
-| [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                       | Leave from the shared folder                                       |
-| [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                         | 共有フォルダの一覧                                                 |
-| [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)             | 共有フォルダへのメンバーの追加                                     |
-| [sharedfolder member delete](docs/ja/commands/sharedfolder-member-delete.md)       | 共有フォルダからメンバーを削除する                                 |
-| [sharedfolder member list](docs/ja/commands/sharedfolder-member-list.md)           | 共有フォルダのメンバーを一覧します                                 |
-| [sharedfolder mount add](docs/ja/commands/sharedfolder-mount-add.md)               | Add the shared folder to the current user's Dropbox                |
-| [sharedfolder mount delete](docs/ja/commands/sharedfolder-mount-delete.md)         | The current user unmounts the designated folder.                   |
-| [sharedfolder mount list](docs/ja/commands/sharedfolder-mount-list.md)             | List all shared folders the current user mounted                   |
-| [sharedfolder mount mountable](docs/ja/commands/sharedfolder-mount-mountable.md)   | List all shared folders the current user can mount                 |
-| [sharedfolder share](docs/ja/commands/sharedfolder-share.md)                       | フォルダの共有                                                     |
-| [sharedfolder unshare](docs/ja/commands/sharedfolder-unshare.md)                   | フォルダの共有解除                                                 |
-| [sharedlink create](docs/ja/commands/sharedlink-create.md)                         | 共有リンクの作成                                                   |
-| [sharedlink delete](docs/ja/commands/sharedlink-delete.md)                         | 共有リンクを削除します                                             |
-| [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                   | 共有リンクのファイルを一覧する                                     |
-| [sharedlink info](docs/ja/commands/sharedlink-info.md)                             | 共有リンクの情報取得                                               |
-| [sharedlink list](docs/ja/commands/sharedlink-list.md)                             | 共有リンクの一覧                                                   |
+| コマンド                                                                           | 説明                                                                      |
+|------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [file compare account](docs/ja/commands/file-compare-account.md)                   | 二つのアカウントのファイルを比較します                                    |
+| [file compare local](docs/ja/commands/file-compare-local.md)                       | ローカルフォルダとDropboxフォルダの内容を比較します                       |
+| [file copy](docs/ja/commands/file-copy.md)                                         | ファイルをコピーします                                                    |
+| [file delete](docs/ja/commands/file-delete.md)                                     | ファイルまたはフォルダは削除します.                                       |
+| [file export doc](docs/ja/commands/file-export-doc.md)                             | ドキュメントのエクスポート                                                |
+| [file export url](docs/ja/commands/file-export-url.md)                             | URLからドキュメントをエクスポート                                         |
+| [file import batch url](docs/ja/commands/file-import-batch-url.md)                 | URLからファイルを一括インポートします                                     |
+| [file import url](docs/ja/commands/file-import-url.md)                             | URLからファイルをインポートします                                         |
+| [file info](docs/ja/commands/file-info.md)                                         | パスのメタデータを解決                                                    |
+| [file list](docs/ja/commands/file-list.md)                                         | ファイルとフォルダを一覧します                                            |
+| [file lock acquire](docs/ja/commands/file-lock-acquire.md)                         | ファイルをロック                                                          |
+| [file lock all release](docs/ja/commands/file-lock-all-release.md)                 | 指定したパスでのすべてのロックを解除する                                  |
+| [file lock batch acquire](docs/ja/commands/file-lock-batch-acquire.md)             | 複数のファイルをロックする                                                |
+| [file lock batch release](docs/ja/commands/file-lock-batch-release.md)             | 複数のロックを解除                                                        |
+| [file lock list](docs/ja/commands/file-lock-list.md)                               | 指定したパスの下にあるロックを一覧表示します                              |
+| [file lock release](docs/ja/commands/file-lock-release.md)                         | ロックを解除します                                                        |
+| [file merge](docs/ja/commands/file-merge.md)                                       | フォルダを統合します                                                      |
+| [file move](docs/ja/commands/file-move.md)                                         | ファイルを移動します                                                      |
+| [file paper append](docs/ja/commands/file-paper-append.md)                         | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
+| [file paper create](docs/ja/commands/file-paper-create.md)                         | パスに新しいPaperを作成                                                   |
+| [file paper overwrite](docs/ja/commands/file-paper-overwrite.md)                   | 既存のPaperドキュメントを上書きする                                       |
+| [file paper prepend](docs/ja/commands/file-paper-prepend.md)                       | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
+| [file replication](docs/ja/commands/file-replication.md)                           | ファイルコンテンツを他のアカウントに複製します                            |
+| [file restore all](docs/ja/commands/file-restore-all.md)                           | 指定されたパス以下をリストアします                                        |
+| [file revision download](docs/ja/commands/file-revision-download.md)               | ファイルリビジョンをダウンロードする                                      |
+| [file revision list](docs/ja/commands/file-revision-list.md)                       | ファイルリビジョン一覧                                                    |
+| [file revision restore](docs/ja/commands/file-revision-restore.md)                 | ファイルリビジョンを復元する                                              |
+| [file search content](docs/ja/commands/file-search-content.md)                     | ファイルコンテンツを検索                                                  |
+| [file search name](docs/ja/commands/file-search-name.md)                           | ファイル名を検索                                                          |
+| [file share info](docs/ja/commands/file-share-info.md)                             | ファイルの共有情報を取得する                                              |
+| [file size](docs/ja/commands/file-size.md)                                         | ストレージの利用量                                                        |
+| [file sync down](docs/ja/commands/file-sync-down.md)                               | Dropboxと下り方向で同期します                                             |
+| [file sync online](docs/ja/commands/file-sync-online.md)                           | オンラインファイルを同期します                                            |
+| [file sync up](docs/ja/commands/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                             |
+| [file watch](docs/ja/commands/file-watch.md)                                       | ファイルアクティビティを監視                                              |
+| [filerequest create](docs/ja/commands/filerequest-create.md)                       | ファイルリクエストを作成します                                            |
+| [filerequest delete closed](docs/ja/commands/filerequest-delete-closed.md)         | このアカウントの全ての閉じられているファイルリクエストを削除します        |
+| [filerequest delete url](docs/ja/commands/filerequest-delete-url.md)               | ファイルリクエストのURLを指定して削除                                     |
+| [filerequest list](docs/ja/commands/filerequest-list.md)                           | 個人アカウントのファイルリクエストを一覧.                                 |
+| [job history ship](docs/ja/commands/job-history-ship.md)                           | ログの転送先Dropboxパス                                                   |
+| [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md) | 現在のユーザーの機能設定の一覧                                            |
+| [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                       | 共有フォルダーから退出する.                                               |
+| [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                         | 共有フォルダの一覧                                                        |
+| [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)             | 共有フォルダへのメンバーの追加                                            |
+| [sharedfolder member delete](docs/ja/commands/sharedfolder-member-delete.md)       | 共有フォルダからメンバーを削除する                                        |
+| [sharedfolder member list](docs/ja/commands/sharedfolder-member-list.md)           | 共有フォルダのメンバーを一覧します                                        |
+| [sharedfolder mount add](docs/ja/commands/sharedfolder-mount-add.md)               | 共有フォルダを現在のユーザーのDropboxに追加する                           |
+| [sharedfolder mount delete](docs/ja/commands/sharedfolder-mount-delete.md)         | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
+| [sharedfolder mount list](docs/ja/commands/sharedfolder-mount-list.md)             | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
+| [sharedfolder mount mountable](docs/ja/commands/sharedfolder-mount-mountable.md)   | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
+| [sharedfolder share](docs/ja/commands/sharedfolder-share.md)                       | フォルダの共有                                                            |
+| [sharedfolder unshare](docs/ja/commands/sharedfolder-unshare.md)                   | フォルダの共有解除                                                        |
+| [sharedlink create](docs/ja/commands/sharedlink-create.md)                         | 共有リンクの作成                                                          |
+| [sharedlink delete](docs/ja/commands/sharedlink-delete.md)                         | 共有リンクを削除します                                                    |
+| [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                   | 共有リンクのファイルを一覧する                                            |
+| [sharedlink info](docs/ja/commands/sharedlink-info.md)                             | 共有リンクの情報取得                                                      |
+| [sharedlink list](docs/ja/commands/sharedlink-list.md)                             | 共有リンクの一覧                                                          |
 
 ## Dropbox Business
 
@@ -216,9 +216,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [team namespace file size](docs/ja/commands/team-namespace-file-size.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
 | [team namespace list](docs/ja/commands/team-namespace-list.md)                                                 | チーム内すべての名前空間を一覧                                                         |
 | [team namespace member list](docs/ja/commands/team-namespace-member-list.md)                                   | チームフォルダ以下のファイル・フォルダを一覧                                           |
-| [team namespace summary](docs/ja/commands/team-namespace-summary.md)                                           | Report team namespace status summary                                                   |
+| [team namespace summary](docs/ja/commands/team-namespace-summary.md)                                           | チーム・ネームスペースの状態概要を報告する.                                            |
 | [team runas file batch copy](docs/ja/commands/team-runas-file-batch-copy.md)                                   | ファイル/フォルダーをメンバーとして一括コピー                                          |
-| [team runas file list](docs/ja/commands/team-runas-file-list.md)                                               | List files and folders run as a member                                                 |
+| [team runas file list](docs/ja/commands/team-runas-file-list.md)                                               | メンバーとして実行するファイルやフォルダーの一覧                                       |
 | [team runas file sync batch up](docs/ja/commands/team-runas-file-sync-batch-up.md)                             | メンバーとして動作する一括同期                                                         |
 | [team runas sharedfolder batch share](docs/ja/commands/team-runas-sharedfolder-batch-share.md)                 | メンバーのフォルダを一括で共有                                                         |
 | [team runas sharedfolder batch unshare](docs/ja/commands/team-runas-sharedfolder-batch-unshare.md)             | メンバーのフォルダの共有を一括解除                                                     |

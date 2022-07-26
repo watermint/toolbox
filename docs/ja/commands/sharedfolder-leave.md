@@ -6,9 +6,9 @@ lang: ja
 
 # sharedfolder leave
 
-Leave from the shared folder 
+共有フォルダーから退出する. 
 
-Upon success, the current user will no longer have access to the folder. Please use `sharedfolder list` command to find the shared_folder_id of the folder you want to leave.
+成功すると、現在のユーザーはそのフォルダーへのアクセス権を失います. `sharedfolder list` コマンドで、抜けたいフォルダの shared_folder_id を探してください.
 
 # セキュリティ
 
@@ -83,11 +83,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                                                                | デフォルト |
-|---------------------|---------------------------------------------------------------------|------------|
-| `-keep-copy`        | Keep a copy of the folder's contents upon relinquishing membership. | false      |
-| `-peer`             | Account alias                                                       | default    |
-| `-shared-folder-id` | The ID for the shared folder.                                       |            |
+| オプション          | 説明                                                        | デフォルト |
+|---------------------|-------------------------------------------------------------|------------|
+| `-keep-copy`        | フォルダから抜ける時にフォルダの内容をコピーして保管します. | false      |
+| `-peer`             | アカウントの別名                                            | default    |
+| `-shared-folder-id` | 共有フォルダーのID.                                         |            |
 
 ## 共通のオプション:
 

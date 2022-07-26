@@ -96,6 +96,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infrareportrp_model_impl.MsgColumnSpec{},
 		&infrareportrp_model_impl.MsgTransactionReport{},
 		&infrareportrp_writer_impl.MsgSortedWriter{},
+		&infrareportrp_writer_impl.MsgUIWriter{},
 		&infrareportrp_writer_impl.MsgXlsxWriter{},
 		&infrauiapp_ui.MsgConsole{},
 		&infrauiapp_ui.MsgProgress{},

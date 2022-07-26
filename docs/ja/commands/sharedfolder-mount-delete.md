@@ -6,9 +6,9 @@ lang: ja
 
 # sharedfolder mount delete
 
-The current user unmounts the designated folder. 
+現在のユーザーが指定されたフォルダーをアンマウントする. 
 
-Upon success, the current user cannot access the folder unless adding the folder again. Please use `sharedfolder mount list` command to find the shared_folder_id of the folder you want to delete.
+成功すると、現在のユーザーは、そのフォルダーを再度追加しない限り、そのフォルダーにアクセスできなくなります. 削除したいフォルダのshared_folder_idは、`sharedfolder mount list`コマンドで探してください.
 
 # セキュリティ
 
@@ -83,10 +83,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                          | デフォルト |
-|---------------------|-------------------------------|------------|
-| `-peer`             | Account alias                 | default    |
-| `-shared-folder-id` | The ID for the shared folder. |            |
+| オプション          | 説明                | デフォルト |
+|---------------------|---------------------|------------|
+| `-peer`             | アカウントの別名    | default    |
+| `-shared-folder-id` | 共有フォルダーのID. |            |
 
 ## 共通のオプション:
 

@@ -218,7 +218,7 @@ Available commands:
 | [team namespace file size](docs/commands/team-namespace-file-size.md)                                       | List all files and folders of the team namespaces                         |
 | [team namespace list](docs/commands/team-namespace-list.md)                                                 | List all namespaces of the team                                           |
 | [team namespace member list](docs/commands/team-namespace-member-list.md)                                   | List members of shared folders and team folders in the team               |
-| [team namespace summary](docs/commands/team-namespace-summary.md)                                           | Report team namespace status summary                                      |
+| [team namespace summary](docs/commands/team-namespace-summary.md)                                           | Report team namespace status summary.                                     |
 | [team runas file batch copy](docs/commands/team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                                      |
 | [team runas file list](docs/commands/team-runas-file-list.md)                                               | List files and folders run as a member                                    |
 | [team runas file sync batch up](docs/commands/team-runas-file-sync-batch-up.md)                             | Batch sync up that run as members                                         |
