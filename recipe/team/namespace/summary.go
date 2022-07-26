@@ -166,7 +166,7 @@ func (z *Summary) scanMember(member *mo_member.Member, info *mo_team.Info, c app
 		case kv_kvs.ErrorNotFound:
 			return nil
 		case nil:
-			if numAppFolders, err = strconv.ParseInt(v, 10, 64); err != nil {
+			if numAppFolders, err = strconv.ParseInt(v, 10, 32); err != nil {
 				l.Debug("Unable to parse count", esl.Error(err), esl.String("value", v))
 				return err
 			}
