@@ -27,7 +27,6 @@ lang: en
 | [file lock list]({{ site.baseurl }}/commands/file-lock-list.html)                               | List locks under the specified path                           |
 | [file lock release]({{ site.baseurl }}/commands/file-lock-release.html)                         | Release a lock                                                |
 | [file merge]({{ site.baseurl }}/commands/file-merge.html)                                       | Merge paths                                                   |
-| [file mount list]({{ site.baseurl }}/commands/file-mount-list.html)                             | List mounted/unmounted shared folders                         |
 | [file move]({{ site.baseurl }}/commands/file-move.html)                                         | Move files                                                    |
 | [file paper append]({{ site.baseurl }}/commands/file-paper-append.html)                         | Append the content to the end of the existing Paper doc       |
 | [file paper create]({{ site.baseurl }}/commands/file-paper-create.html)                         | Create new Paper in the path                                  |
@@ -52,10 +51,15 @@ lang: en
 | [filerequest list]({{ site.baseurl }}/commands/filerequest-list.html)                           | List file requests of the individual account                  |
 | [job history ship]({{ site.baseurl }}/commands/job-history-ship.html)                           | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature]({{ site.baseurl }}/commands/services-dropbox-user-feature.html) | List feature settings for current user                        |
+| [sharedfolder leave]({{ site.baseurl }}/commands/sharedfolder-leave.html)                       | Leave from the shared folder                                  |
 | [sharedfolder list]({{ site.baseurl }}/commands/sharedfolder-list.html)                         | List shared folder(s)                                         |
 | [sharedfolder member add]({{ site.baseurl }}/commands/sharedfolder-member-add.html)             | Add a member to the shared folder                             |
 | [sharedfolder member delete]({{ site.baseurl }}/commands/sharedfolder-member-delete.html)       | Delete a member from the shared folder                        |
 | [sharedfolder member list]({{ site.baseurl }}/commands/sharedfolder-member-list.html)           | List shared folder member(s)                                  |
+| [sharedfolder mount add]({{ site.baseurl }}/commands/sharedfolder-mount-add.html)               | Add the shared folder to the current user's Dropbox           |
+| [sharedfolder mount delete]({{ site.baseurl }}/commands/sharedfolder-mount-delete.html)         | The current user unmounts the designated folder.              |
+| [sharedfolder mount list]({{ site.baseurl }}/commands/sharedfolder-mount-list.html)             | List all shared folders the current user mounted              |
+| [sharedfolder mount mountable]({{ site.baseurl }}/commands/sharedfolder-mount-mountable.html)   | List all shared folders the current user can mount            |
 | [sharedfolder share]({{ site.baseurl }}/commands/sharedfolder-share.html)                       | Share a folder                                                |
 | [sharedfolder unshare]({{ site.baseurl }}/commands/sharedfolder-unshare.html)                   | Unshare a folder                                              |
 | [sharedlink create]({{ site.baseurl }}/commands/sharedlink-create.html)                         | Create shared link                                            |
@@ -136,7 +140,9 @@ lang: en
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)                                       | List all files and folders of the team namespaces                         |
 | [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)                                                 | List all namespaces of the team                                           |
 | [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html)                                   | List members of shared folders and team folders in the team               |
+| [team namespace summary]({{ site.baseurl }}/commands/team-namespace-summary.html)                                           | Report team namespace status summary.                                     |
 | [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member                                      |
+| [team runas file list]({{ site.baseurl }}/commands/team-runas-file-list.html)                                               | List files and folders run as a member                                    |
 | [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                                         |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                                           |
 | [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                                         |

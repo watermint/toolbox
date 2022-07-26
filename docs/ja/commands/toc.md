@@ -8,61 +8,65 @@ lang: ja
 
 ## Dropbox (個人アカウント)
 
-| コマンド                                                                                           | 説明                                                               |
-|----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|
-| [file compare account]({{ site.baseurl }}/ja/commands/file-compare-account.html)                   | 二つのアカウントのファイルを比較します                             |
-| [file compare local]({{ site.baseurl }}/ja/commands/file-compare-local.html)                       | ローカルフォルダとDropboxフォルダの内容を比較します                |
-| [file copy]({{ site.baseurl }}/ja/commands/file-copy.html)                                         | ファイルをコピーします                                             |
-| [file delete]({{ site.baseurl }}/ja/commands/file-delete.html)                                     | ファイルまたはフォルダは削除します.                                |
-| [file export doc]({{ site.baseurl }}/ja/commands/file-export-doc.html)                             | ドキュメントのエクスポート                                         |
-| [file export url]({{ site.baseurl }}/ja/commands/file-export-url.html)                             | URLからドキュメントをエクスポート                                  |
-| [file import batch url]({{ site.baseurl }}/ja/commands/file-import-batch-url.html)                 | URLからファイルを一括インポートします                              |
-| [file import url]({{ site.baseurl }}/ja/commands/file-import-url.html)                             | URLからファイルをインポートします                                  |
-| [file info]({{ site.baseurl }}/ja/commands/file-info.html)                                         | パスのメタデータを解決                                             |
-| [file list]({{ site.baseurl }}/ja/commands/file-list.html)                                         | ファイルとフォルダを一覧します                                     |
-| [file lock acquire]({{ site.baseurl }}/ja/commands/file-lock-acquire.html)                         | ファイルをロック                                                   |
-| [file lock all release]({{ site.baseurl }}/ja/commands/file-lock-all-release.html)                 | 指定したパスでのすべてのロックを解除する                           |
-| [file lock batch acquire]({{ site.baseurl }}/ja/commands/file-lock-batch-acquire.html)             | 複数のファイルをロックする                                         |
-| [file lock batch release]({{ site.baseurl }}/ja/commands/file-lock-batch-release.html)             | 複数のロックを解除                                                 |
-| [file lock list]({{ site.baseurl }}/ja/commands/file-lock-list.html)                               | 指定したパスの下にあるロックを一覧表示します                       |
-| [file lock release]({{ site.baseurl }}/ja/commands/file-lock-release.html)                         | ロックを解除します                                                 |
-| [file merge]({{ site.baseurl }}/ja/commands/file-merge.html)                                       | フォルダを統合します                                               |
-| [file mount list]({{ site.baseurl }}/ja/commands/file-mount-list.html)                             | マウント/アンマウントされた共有フォルダの一覧                      |
-| [file move]({{ site.baseurl }}/ja/commands/file-move.html)                                         | ファイルを移動します                                               |
-| [file paper append]({{ site.baseurl }}/ja/commands/file-paper-append.html)                         | 既存のPaperドキュメントの最後にコンテンツを追加する                |
-| [file paper create]({{ site.baseurl }}/ja/commands/file-paper-create.html)                         | パスに新しいPaperを作成                                            |
-| [file paper overwrite]({{ site.baseurl }}/ja/commands/file-paper-overwrite.html)                   | 既存のPaperドキュメントを上書きする                                |
-| [file paper prepend]({{ site.baseurl }}/ja/commands/file-paper-prepend.html)                       | 既存のPaperドキュメントの先頭にコンテンツを追加する                |
-| [file replication]({{ site.baseurl }}/ja/commands/file-replication.html)                           | ファイルコンテンツを他のアカウントに複製します                     |
-| [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                           | 指定されたパス以下をリストアします                                 |
-| [file revision download]({{ site.baseurl }}/ja/commands/file-revision-download.html)               | ファイルリビジョンをダウンロードする                               |
-| [file revision list]({{ site.baseurl }}/ja/commands/file-revision-list.html)                       | ファイルリビジョン一覧                                             |
-| [file revision restore]({{ site.baseurl }}/ja/commands/file-revision-restore.html)                 | ファイルリビジョンを復元する                                       |
-| [file search content]({{ site.baseurl }}/ja/commands/file-search-content.html)                     | ファイルコンテンツを検索                                           |
-| [file search name]({{ site.baseurl }}/ja/commands/file-search-name.html)                           | ファイル名を検索                                                   |
-| [file share info]({{ site.baseurl }}/ja/commands/file-share-info.html)                             | ファイルの共有情報を取得する                                       |
-| [file size]({{ site.baseurl }}/ja/commands/file-size.html)                                         | ストレージの利用量                                                 |
-| [file sync down]({{ site.baseurl }}/ja/commands/file-sync-down.html)                               | Dropboxと下り方向で同期します                                      |
-| [file sync online]({{ site.baseurl }}/ja/commands/file-sync-online.html)                           | オンラインファイルを同期します                                     |
-| [file sync up]({{ site.baseurl }}/ja/commands/file-sync-up.html)                                   | Dropboxと上り方向で同期します                                      |
-| [file watch]({{ site.baseurl }}/ja/commands/file-watch.html)                                       | ファイルアクティビティを監視                                       |
-| [filerequest create]({{ site.baseurl }}/ja/commands/filerequest-create.html)                       | ファイルリクエストを作成します                                     |
-| [filerequest delete closed]({{ site.baseurl }}/ja/commands/filerequest-delete-closed.html)         | このアカウントの全ての閉じられているファイルリクエストを削除します |
-| [filerequest delete url]({{ site.baseurl }}/ja/commands/filerequest-delete-url.html)               | ファイルリクエストのURLを指定して削除                              |
-| [filerequest list]({{ site.baseurl }}/ja/commands/filerequest-list.html)                           | 個人アカウントのファイルリクエストを一覧.                          |
-| [job history ship]({{ site.baseurl }}/ja/commands/job-history-ship.html)                           | ログの転送先Dropboxパス                                            |
-| [services dropbox user feature]({{ site.baseurl }}/ja/commands/services-dropbox-user-feature.html) | 現在のユーザーの機能設定の一覧                                     |
-| [sharedfolder list]({{ site.baseurl }}/ja/commands/sharedfolder-list.html)                         | 共有フォルダの一覧                                                 |
-| [sharedfolder member add]({{ site.baseurl }}/ja/commands/sharedfolder-member-add.html)             | 共有フォルダへのメンバーの追加                                     |
-| [sharedfolder member delete]({{ site.baseurl }}/ja/commands/sharedfolder-member-delete.html)       | 共有フォルダからメンバーを削除する                                 |
-| [sharedfolder member list]({{ site.baseurl }}/ja/commands/sharedfolder-member-list.html)           | 共有フォルダのメンバーを一覧します                                 |
-| [sharedfolder share]({{ site.baseurl }}/ja/commands/sharedfolder-share.html)                       | フォルダの共有                                                     |
-| [sharedfolder unshare]({{ site.baseurl }}/ja/commands/sharedfolder-unshare.html)                   | フォルダの共有解除                                                 |
-| [sharedlink create]({{ site.baseurl }}/ja/commands/sharedlink-create.html)                         | 共有リンクの作成                                                   |
-| [sharedlink delete]({{ site.baseurl }}/ja/commands/sharedlink-delete.html)                         | 共有リンクを削除します                                             |
-| [sharedlink file list]({{ site.baseurl }}/ja/commands/sharedlink-file-list.html)                   | 共有リンクのファイルを一覧する                                     |
-| [sharedlink info]({{ site.baseurl }}/ja/commands/sharedlink-info.html)                             | 共有リンクの情報取得                                               |
-| [sharedlink list]({{ site.baseurl }}/ja/commands/sharedlink-list.html)                             | 共有リンクの一覧                                                   |
+| コマンド                                                                                           | 説明                                                                      |
+|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [file compare account]({{ site.baseurl }}/ja/commands/file-compare-account.html)                   | 二つのアカウントのファイルを比較します                                    |
+| [file compare local]({{ site.baseurl }}/ja/commands/file-compare-local.html)                       | ローカルフォルダとDropboxフォルダの内容を比較します                       |
+| [file copy]({{ site.baseurl }}/ja/commands/file-copy.html)                                         | ファイルをコピーします                                                    |
+| [file delete]({{ site.baseurl }}/ja/commands/file-delete.html)                                     | ファイルまたはフォルダは削除します.                                       |
+| [file export doc]({{ site.baseurl }}/ja/commands/file-export-doc.html)                             | ドキュメントのエクスポート                                                |
+| [file export url]({{ site.baseurl }}/ja/commands/file-export-url.html)                             | URLからドキュメントをエクスポート                                         |
+| [file import batch url]({{ site.baseurl }}/ja/commands/file-import-batch-url.html)                 | URLからファイルを一括インポートします                                     |
+| [file import url]({{ site.baseurl }}/ja/commands/file-import-url.html)                             | URLからファイルをインポートします                                         |
+| [file info]({{ site.baseurl }}/ja/commands/file-info.html)                                         | パスのメタデータを解決                                                    |
+| [file list]({{ site.baseurl }}/ja/commands/file-list.html)                                         | ファイルとフォルダを一覧します                                            |
+| [file lock acquire]({{ site.baseurl }}/ja/commands/file-lock-acquire.html)                         | ファイルをロック                                                          |
+| [file lock all release]({{ site.baseurl }}/ja/commands/file-lock-all-release.html)                 | 指定したパスでのすべてのロックを解除する                                  |
+| [file lock batch acquire]({{ site.baseurl }}/ja/commands/file-lock-batch-acquire.html)             | 複数のファイルをロックする                                                |
+| [file lock batch release]({{ site.baseurl }}/ja/commands/file-lock-batch-release.html)             | 複数のロックを解除                                                        |
+| [file lock list]({{ site.baseurl }}/ja/commands/file-lock-list.html)                               | 指定したパスの下にあるロックを一覧表示します                              |
+| [file lock release]({{ site.baseurl }}/ja/commands/file-lock-release.html)                         | ロックを解除します                                                        |
+| [file merge]({{ site.baseurl }}/ja/commands/file-merge.html)                                       | フォルダを統合します                                                      |
+| [file move]({{ site.baseurl }}/ja/commands/file-move.html)                                         | ファイルを移動します                                                      |
+| [file paper append]({{ site.baseurl }}/ja/commands/file-paper-append.html)                         | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
+| [file paper create]({{ site.baseurl }}/ja/commands/file-paper-create.html)                         | パスに新しいPaperを作成                                                   |
+| [file paper overwrite]({{ site.baseurl }}/ja/commands/file-paper-overwrite.html)                   | 既存のPaperドキュメントを上書きする                                       |
+| [file paper prepend]({{ site.baseurl }}/ja/commands/file-paper-prepend.html)                       | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
+| [file replication]({{ site.baseurl }}/ja/commands/file-replication.html)                           | ファイルコンテンツを他のアカウントに複製します                            |
+| [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                           | 指定されたパス以下をリストアします                                        |
+| [file revision download]({{ site.baseurl }}/ja/commands/file-revision-download.html)               | ファイルリビジョンをダウンロードする                                      |
+| [file revision list]({{ site.baseurl }}/ja/commands/file-revision-list.html)                       | ファイルリビジョン一覧                                                    |
+| [file revision restore]({{ site.baseurl }}/ja/commands/file-revision-restore.html)                 | ファイルリビジョンを復元する                                              |
+| [file search content]({{ site.baseurl }}/ja/commands/file-search-content.html)                     | ファイルコンテンツを検索                                                  |
+| [file search name]({{ site.baseurl }}/ja/commands/file-search-name.html)                           | ファイル名を検索                                                          |
+| [file share info]({{ site.baseurl }}/ja/commands/file-share-info.html)                             | ファイルの共有情報を取得する                                              |
+| [file size]({{ site.baseurl }}/ja/commands/file-size.html)                                         | ストレージの利用量                                                        |
+| [file sync down]({{ site.baseurl }}/ja/commands/file-sync-down.html)                               | Dropboxと下り方向で同期します                                             |
+| [file sync online]({{ site.baseurl }}/ja/commands/file-sync-online.html)                           | オンラインファイルを同期します                                            |
+| [file sync up]({{ site.baseurl }}/ja/commands/file-sync-up.html)                                   | Dropboxと上り方向で同期します                                             |
+| [file watch]({{ site.baseurl }}/ja/commands/file-watch.html)                                       | ファイルアクティビティを監視                                              |
+| [filerequest create]({{ site.baseurl }}/ja/commands/filerequest-create.html)                       | ファイルリクエストを作成します                                            |
+| [filerequest delete closed]({{ site.baseurl }}/ja/commands/filerequest-delete-closed.html)         | このアカウントの全ての閉じられているファイルリクエストを削除します        |
+| [filerequest delete url]({{ site.baseurl }}/ja/commands/filerequest-delete-url.html)               | ファイルリクエストのURLを指定して削除                                     |
+| [filerequest list]({{ site.baseurl }}/ja/commands/filerequest-list.html)                           | 個人アカウントのファイルリクエストを一覧.                                 |
+| [job history ship]({{ site.baseurl }}/ja/commands/job-history-ship.html)                           | ログの転送先Dropboxパス                                                   |
+| [services dropbox user feature]({{ site.baseurl }}/ja/commands/services-dropbox-user-feature.html) | 現在のユーザーの機能設定の一覧                                            |
+| [sharedfolder leave]({{ site.baseurl }}/ja/commands/sharedfolder-leave.html)                       | 共有フォルダーから退出する.                                               |
+| [sharedfolder list]({{ site.baseurl }}/ja/commands/sharedfolder-list.html)                         | 共有フォルダの一覧                                                        |
+| [sharedfolder member add]({{ site.baseurl }}/ja/commands/sharedfolder-member-add.html)             | 共有フォルダへのメンバーの追加                                            |
+| [sharedfolder member delete]({{ site.baseurl }}/ja/commands/sharedfolder-member-delete.html)       | 共有フォルダからメンバーを削除する                                        |
+| [sharedfolder member list]({{ site.baseurl }}/ja/commands/sharedfolder-member-list.html)           | 共有フォルダのメンバーを一覧します                                        |
+| [sharedfolder mount add]({{ site.baseurl }}/ja/commands/sharedfolder-mount-add.html)               | 共有フォルダを現在のユーザーのDropboxに追加する                           |
+| [sharedfolder mount delete]({{ site.baseurl }}/ja/commands/sharedfolder-mount-delete.html)         | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
+| [sharedfolder mount list]({{ site.baseurl }}/ja/commands/sharedfolder-mount-list.html)             | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
+| [sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/sharedfolder-mount-mountable.html)   | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
+| [sharedfolder share]({{ site.baseurl }}/ja/commands/sharedfolder-share.html)                       | フォルダの共有                                                            |
+| [sharedfolder unshare]({{ site.baseurl }}/ja/commands/sharedfolder-unshare.html)                   | フォルダの共有解除                                                        |
+| [sharedlink create]({{ site.baseurl }}/ja/commands/sharedlink-create.html)                         | 共有リンクの作成                                                          |
+| [sharedlink delete]({{ site.baseurl }}/ja/commands/sharedlink-delete.html)                         | 共有リンクを削除します                                                    |
+| [sharedlink file list]({{ site.baseurl }}/ja/commands/sharedlink-file-list.html)                   | 共有リンクのファイルを一覧する                                            |
+| [sharedlink info]({{ site.baseurl }}/ja/commands/sharedlink-info.html)                             | 共有リンクの情報取得                                                      |
+| [sharedlink list]({{ site.baseurl }}/ja/commands/sharedlink-list.html)                             | 共有リンクの一覧                                                          |
 
 ## Dropbox Business
 
@@ -136,7 +140,9 @@ lang: ja
 | [team namespace file size]({{ site.baseurl }}/ja/commands/team-namespace-file-size.html)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                     |
 | [team namespace list]({{ site.baseurl }}/ja/commands/team-namespace-list.html)                                                 | チーム内すべての名前空間を一覧                                                         |
 | [team namespace member list]({{ site.baseurl }}/ja/commands/team-namespace-member-list.html)                                   | チームフォルダ以下のファイル・フォルダを一覧                                           |
+| [team namespace summary]({{ site.baseurl }}/ja/commands/team-namespace-summary.html)                                           | チーム・ネームスペースの状態概要を報告する.                                            |
 | [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー                                          |
+| [team runas file list]({{ site.baseurl }}/ja/commands/team-runas-file-list.html)                                               | メンバーとして実行するファイルやフォルダーの一覧                                       |
 | [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                                                         |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                                                         |
 | [team runas sharedfolder batch unshare]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-unshare.html)             | メンバーのフォルダの共有を一括解除                                                     |

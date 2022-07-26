@@ -11,24 +11,29 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
-type List struct {
-	Peer  dbx_conn.ConnScopedIndividual
-	Mount rp_model.RowReport
+type Mountable struct {
+	Peer           dbx_conn.ConnScopedIndividual
+	Mountables     rp_model.RowReport
+	IncludeMounted bool
 }
 
-func (z *List) Preset() {
+func (z *Mountable) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeSharingRead,
 	)
-	z.Mount.SetModel(&mo_sharedfolder.SharedFolder{},
+	z.Mountables.SetModel(
+		&mo_sharedfolder.SharedFolder{},
 		rp_model.HiddenColumns(
+			"parent_shared_folder_id",
+			"team_member_id",
+			"namespace_id",
 			"owner_team_id",
 		),
 	)
 }
 
-func (z *List) Exec(c app_control.Control) error {
-	if err := z.Mount.Open(); err != nil {
+func (z *Mountable) Exec(c app_control.Control) error {
+	if err := z.Mountables.Open(); err != nil {
 		return err
 	}
 
@@ -38,11 +43,16 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	for _, mount := range mounts {
-		z.Mount.Row(mount)
+		if mount.PathLower != "" {
+			if !z.IncludeMounted {
+				continue
+			}
+		}
+		z.Mountables.Row(mount)
 	}
 	return nil
 }
 
-func (z *List) Test(c app_control.Control) error {
-	return rc_exec.ExecMock(c, &List{}, rc_recipe.NoCustomValues)
+func (z *Mountable) Test(c app_control.Control) error {
+	return rc_exec.ExecMock(c, &Mountable{}, rc_recipe.NoCustomValues)
 }

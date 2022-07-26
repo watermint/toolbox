@@ -165,6 +165,7 @@ If you wanted to know who are actually uses specific folders, please consider us
 | Command                                                                                   | Description                                                 |
 |-------------------------------------------------------------------------------------------|-------------------------------------------------------------|
 | [team namespace list]({{ site.baseurl }}/commands/team-namespace-list.html)               | List all namespaces of the team                             |
+| [team namespace summary]({{ site.baseurl }}/commands/team-namespace-summary.html)         | Report team namespace status summary.                       |
 | [team namespace file list]({{ site.baseurl }}/commands/team-namespace-file-list.html)     | List all files and folders of the team namespaces           |
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)     | List all files and folders of the team namespaces           |
 | [team namespace member list]({{ site.baseurl }}/commands/team-namespace-member-list.html) | List members of shared folders and team folders in the team |
@@ -351,6 +352,7 @@ You can run a command as a team member. For example, you can upload a file into 
 
 | Command                                                                                                                     | Description                                       |
 |-----------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [team runas file list]({{ site.baseurl }}/commands/team-runas-file-list.html)                                               | List files and folders run as a member            |
 | [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member              |
 | [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                 |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                   |

@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	MaxLastErrors                  = 100
-	SameErrorThreshold             = 80
+	MaxLastErrors                  = 10
+	SameErrorThreshold             = 6
 	LastErrorRecycleTimeMultiplier = 100
 	ShortWait                      = 3 * time.Second
 	LongWait                       = 1 * time.Minute

@@ -105,7 +105,6 @@ Available commands:
 | [file lock list](docs/commands/file-lock-list.md)                               | List locks under the specified path                           |
 | [file lock release](docs/commands/file-lock-release.md)                         | Release a lock                                                |
 | [file merge](docs/commands/file-merge.md)                                       | Merge paths                                                   |
-| [file mount list](docs/commands/file-mount-list.md)                             | List mounted/unmounted shared folders                         |
 | [file move](docs/commands/file-move.md)                                         | Move files                                                    |
 | [file paper append](docs/commands/file-paper-append.md)                         | Append the content to the end of the existing Paper doc       |
 | [file paper create](docs/commands/file-paper-create.md)                         | Create new Paper in the path                                  |
@@ -130,10 +129,15 @@ Available commands:
 | [filerequest list](docs/commands/filerequest-list.md)                           | List file requests of the individual account                  |
 | [job history ship](docs/commands/job-history-ship.md)                           | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature](docs/commands/services-dropbox-user-feature.md) | List feature settings for current user                        |
+| [sharedfolder leave](docs/commands/sharedfolder-leave.md)                       | Leave from the shared folder                                  |
 | [sharedfolder list](docs/commands/sharedfolder-list.md)                         | List shared folder(s)                                         |
 | [sharedfolder member add](docs/commands/sharedfolder-member-add.md)             | Add a member to the shared folder                             |
 | [sharedfolder member delete](docs/commands/sharedfolder-member-delete.md)       | Delete a member from the shared folder                        |
 | [sharedfolder member list](docs/commands/sharedfolder-member-list.md)           | List shared folder member(s)                                  |
+| [sharedfolder mount add](docs/commands/sharedfolder-mount-add.md)               | Add the shared folder to the current user's Dropbox           |
+| [sharedfolder mount delete](docs/commands/sharedfolder-mount-delete.md)         | The current user unmounts the designated folder.              |
+| [sharedfolder mount list](docs/commands/sharedfolder-mount-list.md)             | List all shared folders the current user mounted              |
+| [sharedfolder mount mountable](docs/commands/sharedfolder-mount-mountable.md)   | List all shared folders the current user can mount            |
 | [sharedfolder share](docs/commands/sharedfolder-share.md)                       | Share a folder                                                |
 | [sharedfolder unshare](docs/commands/sharedfolder-unshare.md)                   | Unshare a folder                                              |
 | [sharedlink create](docs/commands/sharedlink-create.md)                         | Create shared link                                            |
@@ -214,7 +218,9 @@ Available commands:
 | [team namespace file size](docs/commands/team-namespace-file-size.md)                                       | List all files and folders of the team namespaces                         |
 | [team namespace list](docs/commands/team-namespace-list.md)                                                 | List all namespaces of the team                                           |
 | [team namespace member list](docs/commands/team-namespace-member-list.md)                                   | List members of shared folders and team folders in the team               |
+| [team namespace summary](docs/commands/team-namespace-summary.md)                                           | Report team namespace status summary.                                     |
 | [team runas file batch copy](docs/commands/team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                                      |
+| [team runas file list](docs/commands/team-runas-file-list.md)                                               | List files and folders run as a member                                    |
 | [team runas file sync batch up](docs/commands/team-runas-file-sync-batch-up.md)                             | Batch sync up that run as members                                         |
 | [team runas sharedfolder batch share](docs/commands/team-runas-sharedfolder-batch-share.md)                 | Batch share folders for members                                           |
 | [team runas sharedfolder batch unshare](docs/commands/team-runas-sharedfolder-batch-unshare.md)             | Batch unshare folders for members                                         |

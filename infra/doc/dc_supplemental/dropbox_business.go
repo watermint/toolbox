@@ -358,6 +358,7 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)
 	z.cat.RecipeTable("team namespace", ui, []string{
 		"team namespace list",
+		"team namespace summary",
 		"team namespace file list",
 		"team namespace file size",
 		"team namespace member list",
@@ -566,6 +567,7 @@ func (z DropboxBusinessRunAs) Title() app_msg.Message {
 func (z DropboxBusinessRunAs) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.RunAsInfo)
 	z.cat.RecipeTable("team runas commands", ui, []string{
+		"team runas file list",
 		"team runas file batch copy",
 		"team runas file sync batch up",
 		"team runas sharedfolder batch share",

@@ -1,1 +1,3 @@
-#586 : New config path $HOME/.config/watermint-toolbox/config.json
+* #412 : add `team namespace summary`
+* #607 : new shared folder commands
+* `file mount list` command is now `sharedfolder mount list`

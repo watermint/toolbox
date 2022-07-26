@@ -33,7 +33,6 @@ import (
 	recipefilelock "github.com/watermint/toolbox/recipe/file/lock"
 	recipefilelockall "github.com/watermint/toolbox/recipe/file/lock/all"
 	recipefilelockbatch "github.com/watermint/toolbox/recipe/file/lock/batch"
-	recipefilemount "github.com/watermint/toolbox/recipe/file/mount"
 	recipefilepaper "github.com/watermint/toolbox/recipe/file/paper"
 	recipefilerestore "github.com/watermint/toolbox/recipe/file/restore"
 	recipefilerevision "github.com/watermint/toolbox/recipe/file/revision"
@@ -85,6 +84,7 @@ import (
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
+	recipesharedfoldermount "github.com/watermint/toolbox/recipe/sharedfolder/mount"
 	recipesharedlink "github.com/watermint/toolbox/recipe/sharedlink"
 	recipesharedlinkfile "github.com/watermint/toolbox/recipe/sharedlink/file"
 	recipeteam "github.com/watermint/toolbox/recipe/team"
@@ -105,6 +105,7 @@ import (
 	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
+	recipeteamrunasfile "github.com/watermint/toolbox/recipe/team/runas/file"
 	recipeteamrunasfilebatch "github.com/watermint/toolbox/recipe/team/runas/file/batch"
 	recipeteamrunasfilesyncbatch "github.com/watermint/toolbox/recipe/team/runas/file/sync/batch"
 	recipeteamrunassharedfolderbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/batch"
@@ -209,7 +210,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilelockall.Release{},
 		&recipefilelockbatch.Acquire{},
 		&recipefilelockbatch.Release{},
-		&recipefilemount.List{},
 		&recipefilepaper.Append{},
 		&recipefilepaper.Create{},
 		&recipefilepaper.Overwrite{},
@@ -316,12 +316,17 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglesheetssheet.List{},
 		&recipeservicesgooglesheetsspreadsheet.Create{},
 		&recipeservicesslackconversation.List{},
+		&recipesharedfolder.Leave{},
 		&recipesharedfolder.List{},
 		&recipesharedfolder.Share{},
 		&recipesharedfolder.Unshare{},
 		&recipesharedfoldermember.Add{},
 		&recipesharedfoldermember.Delete{},
 		&recipesharedfoldermember.List{},
+		&recipesharedfoldermount.Add{},
+		&recipesharedfoldermount.Delete{},
+		&recipesharedfoldermount.List{},
+		&recipesharedfoldermount.Mountable{},
 		&recipesharedlink.Create{},
 		&recipesharedlink.Delete{},
 		&recipesharedlink.Info{},
@@ -353,6 +358,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfilerequest.List{},
 		&recipeteamlinkedapp.List{},
 		&recipeteamnamespace.List{},
+		&recipeteamnamespace.Summary{},
 		&recipeteamnamespacefile.List{},
 		&recipeteamnamespacefile.Size{},
 		&recipeteamnamespacemember.List{},
@@ -360,6 +366,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamreport.Devices{},
 		&recipeteamreport.Membership{},
 		&recipeteamreport.Storage{},
+		&recipeteamrunasfile.List{},
 		&recipeteamrunasfilebatch.Copy{},
 		&recipeteamrunasfilesyncbatch.Up{},
 		&recipeteamrunassharedfolderbatch.Share{},

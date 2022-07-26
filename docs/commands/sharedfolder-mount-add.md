@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# file mount list
+# sharedfolder mount add
 
-List mounted/unmounted shared folders 
+Add the shared folder to the current user's Dropbox 
 
 # Security
 
@@ -26,9 +26,10 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                   |
-|---------------------------------------------------------------|
-| Dropbox: View your Dropbox sharing settings and collaborators |
+| Description                                                              |
+|--------------------------------------------------------------------------|
+| Dropbox: View your Dropbox sharing settings and collaborators            |
+| Dropbox: View and manage your Dropbox sharing settings and collaborators |
 
 # Authorization
 
@@ -64,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file mount list 
+.\tbx.exe sharedfolder mount add 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file mount list 
+$HOME/Desktop/tbx sharedfolder mount add 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,9 +81,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| Option              | Description                   | Default |
+|---------------------|-------------------------------|---------|
+| `-peer`             | Account alias                 | default |
+| `-shared-folder-id` | The ID for the shared folder. |         |
 
 ## Common options:
 
@@ -120,21 +122,20 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows a list of shared folders.
 The command will generate a report in three different formats. `mount.csv`, `mount.json`, and `mount.xlsx`.
 
-| Column                  | Description                                                                                                             |
-|-------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| shared_folder_id        | The ID of the shared folder.                                                                                            |
-| parent_shared_folder_id | The ID of the parent shared folder. This field is present only if the folder is contained within another shared folder. |
-| name                    | The name of the this shared folder.                                                                                     |
-| access_type             | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment)               |
-| path_lower              | The lower-cased full path of this shared folder.                                                                        |
-| is_inside_team_folder   | Whether this folder is inside of a team folder.                                                                         |
-| is_team_folder          | Whether this folder is a team folder.                                                                                   |
-| policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
-| policy_shared_link      | Who links can be shared with.                                                                                           |
-| policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
-| policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
-| owner_team_name         | Team name of the team that owns the folder                                                                              |
-| access_inheritance      | Access inheritance type                                                                                                 |
+| Column                | Description                                                                                               |
+|-----------------------|-----------------------------------------------------------------------------------------------------------|
+| shared_folder_id      | The ID of the shared folder.                                                                              |
+| name                  | The name of the this shared folder.                                                                       |
+| access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| path_lower            | The lower-cased full path of this shared folder.                                                          |
+| is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
+| is_team_folder        | Whether this folder is a team folder.                                                                     |
+| policy_manage_access  | Who can add and remove members from this shared folder.                                                   |
+| policy_shared_link    | Who links can be shared with.                                                                             |
+| policy_member         | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
+| policy_viewer_info    | Who can enable/disable viewer info for this shared folder.                                                |
+| owner_team_name       | Team name of the team that owns the folder                                                                |
+| access_inheritance    | Access inheritance type                                                                                   |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

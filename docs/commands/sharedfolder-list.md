@@ -122,6 +122,7 @@ The command will generate a report in three different formats. `shared_folder.cs
 
 | Column                | Description                                                                                               |
 |-----------------------|-----------------------------------------------------------------------------------------------------------|
+| shared_folder_id      | The ID of the shared folder.                                                                              |
 | name                  | The name of the this shared folder.                                                                       |
 | access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
 | path_lower            | The lower-cased full path of this shared folder.                                                          |
