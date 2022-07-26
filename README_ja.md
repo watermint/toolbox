@@ -218,6 +218,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team namespace member list](docs/ja/commands/team-namespace-member-list.md)                                   | チームフォルダ以下のファイル・フォルダを一覧                                           |
 | [team namespace summary](docs/ja/commands/team-namespace-summary.md)                                           | Report team namespace status summary                                                   |
 | [team runas file batch copy](docs/ja/commands/team-runas-file-batch-copy.md)                                   | ファイル/フォルダーをメンバーとして一括コピー                                          |
+| [team runas file list](docs/ja/commands/team-runas-file-list.md)                                               | List files and folders run as a member                                                 |
 | [team runas file sync batch up](docs/ja/commands/team-runas-file-sync-batch-up.md)                             | メンバーとして動作する一括同期                                                         |
 | [team runas sharedfolder batch share](docs/ja/commands/team-runas-sharedfolder-batch-share.md)                 | メンバーのフォルダを一括で共有                                                         |
 | [team runas sharedfolder batch unshare](docs/ja/commands/team-runas-sharedfolder-batch-unshare.md)             | メンバーのフォルダの共有を一括解除                                                     |

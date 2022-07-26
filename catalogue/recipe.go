@@ -105,6 +105,7 @@ import (
 	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
 	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
 	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
+	recipeteamrunasfile "github.com/watermint/toolbox/recipe/team/runas/file"
 	recipeteamrunasfilebatch "github.com/watermint/toolbox/recipe/team/runas/file/batch"
 	recipeteamrunasfilesyncbatch "github.com/watermint/toolbox/recipe/team/runas/file/sync/batch"
 	recipeteamrunassharedfolderbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/batch"
@@ -365,6 +366,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamreport.Devices{},
 		&recipeteamreport.Membership{},
 		&recipeteamreport.Storage{},
+		&recipeteamrunasfile.List{},
 		&recipeteamrunasfilebatch.Copy{},
 		&recipeteamrunasfilesyncbatch.Up{},
 		&recipeteamrunassharedfolderbatch.Share{},

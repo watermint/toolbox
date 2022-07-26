@@ -352,6 +352,7 @@ tbx member list -experiment report_all_columns
 
 | コマンド                                                                                                                       | 説明                                          |
 |--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [team runas file list]({{ site.baseurl }}/ja/commands/team-runas-file-list.html)                                               | List files and folders run as a member        |
 | [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー |
 | [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                |

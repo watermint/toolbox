@@ -567,6 +567,7 @@ func (z DropboxBusinessRunAs) Title() app_msg.Message {
 func (z DropboxBusinessRunAs) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.RunAsInfo)
 	z.cat.RecipeTable("team runas commands", ui, []string{
+		"team runas file list",
 		"team runas file batch copy",
 		"team runas file sync batch up",
 		"team runas sharedfolder batch share",
