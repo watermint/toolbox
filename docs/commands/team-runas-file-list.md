@@ -66,12 +66,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team runas file list -path /DROPBOX/PATH/TO/LIST
+.\tbx.exe team runas file list -member-email MEMBER@DOMAIN -path /DROPBOX/PATH/TO/LIST
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team runas file list -path /DROPBOX/PATH/TO/LIST
+$HOME/Desktop/tbx team runas file list -member-email MEMBER@DOMAIN -path /DROPBOX/PATH/TO/LIST
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

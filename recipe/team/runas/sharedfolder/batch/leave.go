@@ -20,15 +20,15 @@ import (
 	"os"
 )
 
-type Unshare struct {
+type Leave struct {
 	Peer                dbx_conn.ConnScopedTeam
 	File                fd_file.RowFeed
 	OperationLog        rp_model.TransactionReport
-	LeaveCopy           bool
+	KeepCopy            bool
 	SkipNotSharedFolder app_msg.Message
 }
 
-func (z *Unshare) Preset() {
+func (z *Leave) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentRead,
 		dbx_auth.ScopeMembersRead,
@@ -40,7 +40,7 @@ func (z *Unshare) Preset() {
 	z.OperationLog.SetModel(&MemberFolder{}, &mo_sharedfolder.SharedFolder{})
 }
 
-func (z *Unshare) unshare(mf *MemberFolder, svm sv_member.Member, c app_control.Control) error {
+func (z *Leave) leave(mf *MemberFolder, svm sv_member.Member, c app_control.Control) error {
 	member, err := svm.ResolveByEmail(mf.MemberEmail)
 	if err != nil {
 		z.OperationLog.Failure(err, mf)
@@ -61,12 +61,12 @@ func (z *Unshare) unshare(mf *MemberFolder, svm sv_member.Member, c app_control.
 		return err
 	}
 
-	err = sv_sharedfolder.New(cm).Remove(sf, sv_sharedfolder.LeaveACopy(z.LeaveCopy))
+	err = sv_sharedfolder.New(cm).Leave(sf, sv_sharedfolder.LeaveACopy(z.KeepCopy))
 	z.OperationLog.Success(mf, sf)
 	return nil
 }
 
-func (z *Unshare) Exec(c app_control.Control) error {
+func (z *Leave) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
@@ -75,8 +75,8 @@ func (z *Unshare) Exec(c app_control.Control) error {
 	var lastErr, listErr error
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("unshare", z.unshare, svm, c)
-		q := s.Get("unshare")
+		s.Define("leave", z.leave, svm, c)
+		q := s.Get("leave")
 
 		listErr = z.File.EachRow(func(m interface{}, rowIndex int) error {
 			q.Enqueue(m)
@@ -89,16 +89,17 @@ func (z *Unshare) Exec(c app_control.Control) error {
 	return lang.NewMultiErrorOrNull(lastErr, listErr)
 }
 
-func (z *Unshare) Test(c app_control.Control) error {
-	tf, err := qt_file.MakeTestFile("unshare", "john@example.com,/Iris\nemma@example.com,/Mango")
+func (z *Leave) Test(c app_control.Control) error {
+	f, err := qt_file.MakeTestFile("leave", "john@example.com,/shared\nemma@example.com,/project")
 	if err != nil {
 		return err
 	}
 	defer func() {
-		_ = os.Remove(tf)
+		_ = os.Remove(f)
 	}()
-	return rc_exec.ExecMock(c, &Unshare{}, func(r rc_recipe.Recipe) {
-		m := r.(*Unshare)
-		m.File.SetFilePath(tf)
+
+	return rc_exec.ExecMock(c, &Leave{}, func(r rc_recipe.Recipe) {
+		m := r.(*Leave)
+		m.File.SetFilePath(f)
 	})
 }

@@ -222,6 +222,7 @@ Available commands:
 | [team runas file batch copy](docs/commands/team-runas-file-batch-copy.md)                                   | Batch copy files/folders as a member                                      |
 | [team runas file list](docs/commands/team-runas-file-list.md)                                               | List files and folders run as a member                                    |
 | [team runas file sync batch up](docs/commands/team-runas-file-sync-batch-up.md)                             | Batch sync up that run as members                                         |
+| [team runas sharedfolder batch leave](docs/commands/team-runas-sharedfolder-batch-leave.md)                 | Batch leave from shared folders as a member                               |
 | [team runas sharedfolder batch share](docs/commands/team-runas-sharedfolder-batch-share.md)                 | Batch share folders for members                                           |
 | [team runas sharedfolder batch unshare](docs/commands/team-runas-sharedfolder-batch-unshare.md)             | Batch unshare folders for members                                         |
 | [team runas sharedfolder member batch add](docs/commands/team-runas-sharedfolder-member-batch-add.md)       | Batch add members to member's shared folders                              |

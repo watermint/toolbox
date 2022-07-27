@@ -144,6 +144,7 @@ lang: ja
 | [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー                                          |
 | [team runas file list]({{ site.baseurl }}/ja/commands/team-runas-file-list.html)                                               | メンバーとして実行するファイルやフォルダーの一覧                                       |
 | [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                                                         |
+| [team runas sharedfolder batch leave]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-leave.html)                 | Batch leave from shared folders as a member                                            |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                                                         |
 | [team runas sharedfolder batch unshare]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-unshare.html)             | メンバーのフォルダの共有を一括解除                                                     |
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加                                             |

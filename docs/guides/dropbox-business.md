@@ -355,6 +355,7 @@ You can run a command as a team member. For example, you can upload a file into 
 | [team runas file list]({{ site.baseurl }}/commands/team-runas-file-list.html)                                               | List files and folders run as a member            |
 | [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member              |
 | [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                 |
+| [team runas sharedfolder batch leave]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-leave.html)                 | Batch leave from shared folders as a member       |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                   |
 | [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                 |
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders      |
