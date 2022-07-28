@@ -49,7 +49,6 @@ lang: en
   	... // 2 identical fields
   }
 ```
-
 # Command spec changed: `team runas file list`
 
 ## Command configuration changed

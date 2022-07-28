@@ -311,6 +311,7 @@ func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Rele
 }
 
 func (z *Publish) updateHomebrewFormula(c app_control.Control, macIntel, macArm, linux *mo_release_asset.Asset) error {
+	baseUrl := "https://github.com/watermint/toolbox/releases/download/" + app.BuildId + "/"
 	return rc_exec.Exec(c, z.Formula, func(r rc_recipe.Recipe) {
 		m := r.(*homebrew.Formula)
 		m.Owner = homebrewRepoOwner
@@ -320,11 +321,11 @@ func (z *Publish) updateHomebrewFormula(c app_control.Control, macIntel, macArm,
 		m.FormulaName = "toolbox.rb"
 
 		m.AssetPathMacIntel = mo_path2.NewExistingFileSystemPath(macIntel.Name)
-		m.DownloadUrlMacIntel = macIntel.DownloadUrl
+		m.DownloadUrlMacIntel = baseUrl + macIntel.Name
 		m.AssetPathMacArm = mo_path2.NewExistingFileSystemPath(macArm.Name)
-		m.DownloadUrlMacArm = macArm.DownloadUrl
+		m.DownloadUrlMacArm = baseUrl + macArm.Name
 		m.AssetPathLinux = mo_path2.NewExistingFileSystemPath(linux.Name)
-		m.DownloadUrlLinux = linux.DownloadUrl
+		m.DownloadUrlLinux = baseUrl + linux.Name
 	})
 }
 

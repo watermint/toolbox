@@ -13,7 +13,8 @@ class Toolbox < Formula
     on_arm do
       url    "{{.DownloadUrlMacArm}}"
       sha256 "{{.Sha256MacArm}}"
-    else
+    end
+    on_intel do
       url    "{{.DownloadUrlMacIntel}}"
       sha256 "{{.Sha256MacIntel}}"
     end
