@@ -43,13 +43,15 @@ func (z *Delete) Exec(c app_control.Control) error {
 	}
 
 	err := sv_sharedfolder_mount.New(z.Peer.Context()).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
-	de := dbx_error.NewErrors(err)
-	switch {
-	case de.HasPrefix("access_error/unmounted"):
-		c.UI().Info(z.InfoAlreadyUnmounted)
+	if err != nil {
+		de := dbx_error.NewErrors(err)
+		switch {
+		case de.HasPrefix("access_error/unmounted"):
+			c.UI().Info(z.InfoAlreadyUnmounted)
 
-	case err != nil:
-		return err
+		default:
+			return err
+		}
 	}
 
 	mount, err := sv_sharedfolder.New(z.Peer.Context()).Resolve(z.SharedFolderId)

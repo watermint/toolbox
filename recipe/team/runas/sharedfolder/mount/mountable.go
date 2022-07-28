@@ -23,6 +23,7 @@ func (z *Mountable) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeMembersRead,
 		dbx_auth.ScopeSharingRead,
+		dbx_auth.ScopeTeamDataMember,
 		dbx_auth.ScopeTeamDataTeamSpace,
 	)
 	z.Mountables.SetModel(

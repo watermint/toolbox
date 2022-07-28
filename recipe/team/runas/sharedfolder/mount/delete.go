@@ -28,6 +28,7 @@ func (z *Delete) Preset() {
 		dbx_auth.ScopeMembersRead,
 		dbx_auth.ScopeSharingRead,
 		dbx_auth.ScopeSharingWrite,
+		dbx_auth.ScopeTeamDataMember,
 		dbx_auth.ScopeTeamDataTeamSpace,
 	)
 	z.Mount.SetModel(
@@ -57,13 +58,15 @@ func (z *Delete) Exec(c app_control.Control) error {
 	l.Debug("Member found", esl.Any("member", member))
 
 	err = sv_sharedfolder_mount.New(ctx).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
-	de := dbx_error.NewErrors(err)
-	switch {
-	case de.HasPrefix("access_error/unmounted"):
-		c.UI().Info(z.InfoAlreadyUnmounted)
+	if err != nil {
+		de := dbx_error.NewErrors(err)
+		switch {
+		case de.HasPrefix("access_error/unmounted"):
+			c.UI().Info(z.InfoAlreadyUnmounted)
 
-	case err != nil:
-		return err
+		default:
+			return err
+		}
 	}
 
 	mount, err := sv_sharedfolder.New(ctx).Resolve(z.SharedFolderId)
