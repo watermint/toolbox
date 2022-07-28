@@ -310,7 +310,7 @@ func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Rele
 	return nil
 }
 
-func (z *Publish) updateHomebrewFormula(c app_control.Control, macIntel, macArm, linux *mo_release_asset.Asset) error {
+func (z *Publish) updateHomebrewFormula(c app_control.Control, macIntel, macArm, linuxIntel, linuxArm *mo_release_asset.Asset) error {
 	baseUrl := "https://github.com/watermint/toolbox/releases/download/" + app.BuildId + "/"
 	return rc_exec.Exec(c, z.Formula, func(r rc_recipe.Recipe) {
 		m := r.(*homebrew.Formula)
@@ -324,8 +324,10 @@ func (z *Publish) updateHomebrewFormula(c app_control.Control, macIntel, macArm,
 		m.DownloadUrlMacIntel = baseUrl + macIntel.Name
 		m.AssetPathMacArm = mo_path2.NewExistingFileSystemPath(macArm.Name)
 		m.DownloadUrlMacArm = baseUrl + macArm.Name
-		m.AssetPathLinux = mo_path2.NewExistingFileSystemPath(linux.Name)
-		m.DownloadUrlLinux = baseUrl + linux.Name
+		m.AssetPathLinuxIntel = mo_path2.NewExistingFileSystemPath(linuxIntel.Name)
+		m.DownloadUrlLinuxIntel = baseUrl + linuxIntel.Name
+		m.AssetPathLinuxArm = mo_path2.NewExistingFileSystemPath(linuxArm.Name)
+		m.DownloadUrlLinuxArm = baseUrl + linuxArm.Name
 	})
 }
 
@@ -384,7 +386,7 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	var assetLinux, assetMacArm, assetMacIntel *mo_release_asset.Asset
+	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel *mo_release_asset.Asset
 	for _, a := range assets {
 		switch {
 		case strings.HasSuffix(a.Name, "mac.zip"):
@@ -392,17 +394,20 @@ func (z *Publish) Exec(c app_control.Control) error {
 		case strings.HasSuffix(a.Name, "mac-arm.zip"):
 			assetMacArm = a
 		case strings.HasSuffix(a.Name, "linux.zip"):
-			assetLinux = a
+			assetLinuxIntel = a
+		case strings.HasSuffix(a.Name, "linux-arm.zip"):
+			assetLinuxArm = a
 		}
 	}
 
 	l.Info("updating Homebrew formula",
 		esl.Any("macIntel", assetMacIntel),
 		esl.Any("macArm", assetMacArm),
-		esl.Any("linux", assetLinux),
+		esl.Any("linuxIntel", assetLinuxIntel),
+		esl.Any("linuxArm", assetLinuxArm),
 	)
 
-	if err := z.updateHomebrewFormula(c, assetMacIntel, assetMacArm, assetLinux); err != nil {
+	if err := z.updateHomebrewFormula(c, assetMacIntel, assetMacArm, assetLinuxIntel, assetLinuxArm); err != nil {
 		return err
 	}
 
