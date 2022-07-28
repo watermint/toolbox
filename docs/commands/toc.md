@@ -147,8 +147,13 @@ lang: en
 | [team runas sharedfolder batch leave]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-leave.html)                 | Batch leave from shared folders as a member                               |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                                           |
 | [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                                         |
+| [team runas sharedfolder list]({{ site.baseurl }}/commands/team-runas-sharedfolder-list.html)                               | List shared folders run as the member                                     |
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders                              |
 | [team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-delete.html) | Batch delete members from member's shared folders                         |
+| [team runas sharedfolder mount add]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-add.html)                     | Add the shared folder to the specified member's Dropbox                   |
+| [team runas sharedfolder mount delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-delete.html)               | The specified user unmounts the designated folder.                        |
+| [team runas sharedfolder mount list]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-list.html)                   | List all shared folders the specified member mounted                      |
+| [team runas sharedfolder mount mountable]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-mountable.html)         | List all shared folders the member can mount                              |
 | [team sharedlink cap expiry]({{ site.baseurl }}/commands/team-sharedlink-cap-expiry.html)                                   | Set expiry cap to shared links in the team                                |
 | [team sharedlink cap visibility]({{ site.baseurl }}/commands/team-sharedlink-cap-visibility.html)                           | Set visibility cap to shared links in the team                            |
 | [team sharedlink delete links]({{ site.baseurl }}/commands/team-sharedlink-delete-links.html)                               | Batch delete shared links                                                 |

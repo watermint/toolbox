@@ -225,8 +225,13 @@ Available commands:
 | [team runas sharedfolder batch leave](docs/commands/team-runas-sharedfolder-batch-leave.md)                 | Batch leave from shared folders as a member                               |
 | [team runas sharedfolder batch share](docs/commands/team-runas-sharedfolder-batch-share.md)                 | Batch share folders for members                                           |
 | [team runas sharedfolder batch unshare](docs/commands/team-runas-sharedfolder-batch-unshare.md)             | Batch unshare folders for members                                         |
+| [team runas sharedfolder list](docs/commands/team-runas-sharedfolder-list.md)                               | List shared folders run as the member                                     |
 | [team runas sharedfolder member batch add](docs/commands/team-runas-sharedfolder-member-batch-add.md)       | Batch add members to member's shared folders                              |
 | [team runas sharedfolder member batch delete](docs/commands/team-runas-sharedfolder-member-batch-delete.md) | Batch delete members from member's shared folders                         |
+| [team runas sharedfolder mount add](docs/commands/team-runas-sharedfolder-mount-add.md)                     | Add the shared folder to the specified member's Dropbox                   |
+| [team runas sharedfolder mount delete](docs/commands/team-runas-sharedfolder-mount-delete.md)               | The specified user unmounts the designated folder.                        |
+| [team runas sharedfolder mount list](docs/commands/team-runas-sharedfolder-mount-list.md)                   | List all shared folders the specified member mounted                      |
+| [team runas sharedfolder mount mountable](docs/commands/team-runas-sharedfolder-mount-mountable.md)         | List all shared folders the member can mount                              |
 | [team sharedlink cap expiry](docs/commands/team-sharedlink-cap-expiry.md)                                   | Set expiry cap to shared links in the team                                |
 | [team sharedlink cap visibility](docs/commands/team-sharedlink-cap-visibility.md)                           | Set visibility cap to shared links in the team                            |
 | [team sharedlink delete links](docs/commands/team-sharedlink-delete-links.md)                               | Batch delete shared links                                                 |
