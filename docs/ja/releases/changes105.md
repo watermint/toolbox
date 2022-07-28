@@ -49,7 +49,6 @@ lang: ja
   	... // 2 identical fields
   }
 ```
-
 # コマンド仕様の変更: `team runas file list`
 
 ## 設定が変更されたコマンド
