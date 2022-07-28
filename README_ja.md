@@ -220,16 +220,16 @@ DropboxおよびDropbox Business向けのツールセット
 | [team runas file batch copy](docs/ja/commands/team-runas-file-batch-copy.md)                                   | ファイル/フォルダーをメンバーとして一括コピー                                          |
 | [team runas file list](docs/ja/commands/team-runas-file-list.md)                                               | メンバーとして実行するファイルやフォルダーの一覧                                       |
 | [team runas file sync batch up](docs/ja/commands/team-runas-file-sync-batch-up.md)                             | メンバーとして動作する一括同期                                                         |
-| [team runas sharedfolder batch leave](docs/ja/commands/team-runas-sharedfolder-batch-leave.md)                 | Batch leave from shared folders as a member                                            |
+| [team runas sharedfolder batch leave](docs/ja/commands/team-runas-sharedfolder-batch-leave.md)                 | 共有フォルダからメンバーとして一括退出                                                 |
 | [team runas sharedfolder batch share](docs/ja/commands/team-runas-sharedfolder-batch-share.md)                 | メンバーのフォルダを一括で共有                                                         |
 | [team runas sharedfolder batch unshare](docs/ja/commands/team-runas-sharedfolder-batch-unshare.md)             | メンバーのフォルダの共有を一括解除                                                     |
-| [team runas sharedfolder list](docs/ja/commands/team-runas-sharedfolder-list.md)                               | List shared folders run as the member                                                  |
+| [team runas sharedfolder list](docs/ja/commands/team-runas-sharedfolder-list.md)                               | 共有フォルダーの一覧をメンバーとして実行                                               |
 | [team runas sharedfolder member batch add](docs/ja/commands/team-runas-sharedfolder-member-batch-add.md)       | メンバーの共有フォルダにメンバーを一括追加                                             |
 | [team runas sharedfolder member batch delete](docs/ja/commands/team-runas-sharedfolder-member-batch-delete.md) | メンバーの共有フォルダからメンバーを一括削除                                           |
-| [team runas sharedfolder mount add](docs/ja/commands/team-runas-sharedfolder-mount-add.md)                     | Add the shared folder to the specified member's Dropbox                                |
-| [team runas sharedfolder mount delete](docs/ja/commands/team-runas-sharedfolder-mount-delete.md)               | The specified user unmounts the designated folder.                                     |
-| [team runas sharedfolder mount list](docs/ja/commands/team-runas-sharedfolder-mount-list.md)                   | List all shared folders the specified member mounted                                   |
-| [team runas sharedfolder mount mountable](docs/ja/commands/team-runas-sharedfolder-mount-mountable.md)         | List all shared folders the member can mount                                           |
+| [team runas sharedfolder mount add](docs/ja/commands/team-runas-sharedfolder-mount-add.md)                     | 指定したメンバーのDropboxに共有フォルダを追加する                                      |
+| [team runas sharedfolder mount delete](docs/ja/commands/team-runas-sharedfolder-mount-delete.md)               | 指定されたユーザーが指定されたフォルダーをアンマウントする.                            |
+| [team runas sharedfolder mount list](docs/ja/commands/team-runas-sharedfolder-mount-list.md)                   | 指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.        |
+| [team runas sharedfolder mount mountable](docs/ja/commands/team-runas-sharedfolder-mount-mountable.md)         | メンバーがマウントできるすべての共有フォルダーをリストアップ.                          |
 | [team sharedlink cap expiry](docs/ja/commands/team-sharedlink-cap-expiry.md)                                   | チーム内の共有リンクに有効期限の上限を設定                                             |
 | [team sharedlink cap visibility](docs/ja/commands/team-sharedlink-cap-visibility.md)                           | チーム内の共有リンクに可視性の上限を設定                                               |
 | [team sharedlink delete links](docs/ja/commands/team-sharedlink-delete-links.md)                               | 共有リンクの一括削除                                                                   |

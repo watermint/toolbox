@@ -30,6 +30,7 @@ Please see below help article for more detail:
 |--------------------------------------------------------------------------|
 | Dropbox Business: View your team membership                              |
 | Dropbox Business: View your Dropbox sharing settings and collaborators   |
+| Dropbox Business: View structure of your team's and members' folders     |
 | Dropbox Business: View and edit content of your team's files and folders |
 
 # Authorization

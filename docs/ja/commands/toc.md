@@ -144,16 +144,16 @@ lang: ja
 | [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー                                          |
 | [team runas file list]({{ site.baseurl }}/ja/commands/team-runas-file-list.html)                                               | メンバーとして実行するファイルやフォルダーの一覧                                       |
 | [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                                                         |
-| [team runas sharedfolder batch leave]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-leave.html)                 | Batch leave from shared folders as a member                                            |
+| [team runas sharedfolder batch leave]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-leave.html)                 | 共有フォルダからメンバーとして一括退出                                                 |
 | [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                                                         |
 | [team runas sharedfolder batch unshare]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-unshare.html)             | メンバーのフォルダの共有を一括解除                                                     |
-| [team runas sharedfolder list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-list.html)                               | List shared folders run as the member                                                  |
+| [team runas sharedfolder list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-list.html)                               | 共有フォルダーの一覧をメンバーとして実行                                               |
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加                                             |
 | [team runas sharedfolder member batch delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-delete.html) | メンバーの共有フォルダからメンバーを一括削除                                           |
-| [team runas sharedfolder mount add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-add.html)                     | Add the shared folder to the specified member's Dropbox                                |
-| [team runas sharedfolder mount delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-delete.html)               | The specified user unmounts the designated folder.                                     |
-| [team runas sharedfolder mount list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-list.html)                   | List all shared folders the specified member mounted                                   |
-| [team runas sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-mountable.html)         | List all shared folders the member can mount                                           |
+| [team runas sharedfolder mount add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-add.html)                     | 指定したメンバーのDropboxに共有フォルダを追加する                                      |
+| [team runas sharedfolder mount delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-delete.html)               | 指定されたユーザーが指定されたフォルダーをアンマウントする.                            |
+| [team runas sharedfolder mount list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-list.html)                   | 指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.        |
+| [team runas sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-mountable.html)         | メンバーがマウントできるすべての共有フォルダーをリストアップ.                          |
 | [team sharedlink cap expiry]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-expiry.html)                                   | チーム内の共有リンクに有効期限の上限を設定                                             |
 | [team sharedlink cap visibility]({{ site.baseurl }}/ja/commands/team-sharedlink-cap-visibility.html)                           | チーム内の共有リンクに可視性の上限を設定                                               |
 | [team sharedlink delete links]({{ site.baseurl }}/ja/commands/team-sharedlink-delete-links.html)                               | 共有リンクの一括削除                                                                   |

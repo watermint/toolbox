@@ -6,7 +6,7 @@ lang: ja
 
 # team runas sharedfolder batch leave
 
-Batch leave from shared folders as a member 
+共有フォルダからメンバーとして一括退出
 
 # セキュリティ
 
@@ -84,11 +84,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                                                                | デフォルト |
-|--------------|---------------------------------------------------------------------|------------|
-| `-file`      | Path to data file                                                   |            |
-| `-keep-copy` | Keep a copy of the folder's contents upon relinquishing membership. | false      |
-| `-peer`      | Account alias                                                       | default    |
+| オプション   | 説明                                                        | デフォルト |
+|--------------|-------------------------------------------------------------|------------|
+| `-file`      | データファイルへのパス                                      |            |
+| `-keep-copy` | フォルダから抜ける時にフォルダの内容をコピーして保管します. | false      |
+| `-peer`      | アカウントの別名                                            | default    |
 
 ## 共通のオプション:
 

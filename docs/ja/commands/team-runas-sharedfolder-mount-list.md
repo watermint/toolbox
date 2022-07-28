@@ -6,7 +6,7 @@ lang: ja
 
 # team runas sharedfolder mount list
 
-List all shared folders the specified member mounted 
+指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.
 
 # セキュリティ
 
@@ -30,6 +30,7 @@ List all shared folders the specified member mounted
 |--------------------------------------------------------------------------|
 | Dropbox Business: チームメンバーの確認                                   |
 | Dropbox Business: Dropboxの共有設定と共同作業者の表示                    |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                 |
 | Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集 |
 
 # 認可
@@ -82,10 +83,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                 | デフォルト |
-|-----------------|----------------------|------------|
-| `-member-email` | Member email address |            |
-| `-peer`         | Account alias        | default    |
+| オプション      | 説明                     | デフォルト |
+|-----------------|--------------------------|------------|
+| `-member-email` | メンバーのメールアドレス |            |
+| `-peer`         | アカウントの別名         | default    |
 
 ## 共通のオプション:
 

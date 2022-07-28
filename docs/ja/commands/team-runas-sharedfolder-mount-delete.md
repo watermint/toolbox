@@ -6,7 +6,7 @@ lang: ja
 
 # team runas sharedfolder mount delete
 
-The specified user unmounts the designated folder. 
+指定されたユーザーが指定されたフォルダーをアンマウントする.
 
 # セキュリティ
 
@@ -31,6 +31,7 @@ The specified user unmounts the designated folder.
 | Dropbox Business: チームメンバーの確認                                   |
 | Dropbox Business: Dropboxの共有設定と共同作業者の表示                    |
 | Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理              |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                 |
 | Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集 |
 
 # 認可
@@ -83,11 +84,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                          | デフォルト |
-|---------------------|-------------------------------|------------|
-| `-member-email`     | Member email address          |            |
-| `-peer`             | Account alias                 | default    |
-| `-shared-folder-id` | The ID for the shared folder. |            |
+| オプション          | 説明                     | デフォルト |
+|---------------------|--------------------------|------------|
+| `-member-email`     | メンバーのメールアドレス |            |
+| `-peer`             | アカウントの別名         | default    |
+| `-shared-folder-id` | 共有フォルダーのID.      |            |
 
 ## 共通のオプション:
 
