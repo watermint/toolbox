@@ -88,17 +88,4 @@ func (z *Unshare) Exec(c app_control.Control) error {
 
 func (z *Unshare) Test(c app_control.Control) error {
 	return qt_errors.ErrorHumanInteractionRequired
-	//
-	//f, err := qt_file.MakeTestFile("share", "john@example.com,/shared\nemma@example.com,/project")
-	//if err != nil {
-	//	return err
-	//}
-	//defer func() {
-	//	_ = os.Remove(f)
-	//}()
-	//
-	//return rc_exec.ExecMock(c, &Unshare{}, func(r rc_recipe.Recipe) {
-	//	m := r.(*Unshare)
-	//	m.File.SetFilePath(f)
-	//})
 }

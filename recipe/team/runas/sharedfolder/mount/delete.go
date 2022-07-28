@@ -5,26 +5,31 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/recipe/rc_exec"
-	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Delete struct {
-	Peer                 dbx_conn.ConnScopedIndividual
+	Peer                 dbx_conn.ConnScopedTeam
 	SharedFolderId       string
+	MemberEmail          string
 	Mount                rp_model.RowReport
 	InfoAlreadyUnmounted app_msg.Message
 }
 
 func (z *Delete) Preset() {
 	z.Peer.SetScopes(
+		dbx_auth.ScopeMembersRead,
 		dbx_auth.ScopeSharingRead,
 		dbx_auth.ScopeSharingWrite,
+		dbx_auth.ScopeTeamDataMember,
+		dbx_auth.ScopeTeamDataTeamSpace,
 	)
 	z.Mount.SetModel(
 		&mo_sharedfolder.SharedFolder{},
@@ -38,11 +43,21 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
+	l := c.Log()
 	if err := z.Mount.Open(); err != nil {
 		return err
 	}
 
-	err := sv_sharedfolder_mount.New(z.Peer.Context()).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
+	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	if err != nil {
+		return err
+	}
+
+	ctx := z.Peer.Context().AsMemberId(member.TeamMemberId)
+
+	l.Debug("Member found", esl.Any("member", member))
+
+	err = sv_sharedfolder_mount.New(ctx).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
 	if err != nil {
 		de := dbx_error.NewErrors(err)
 		switch {
@@ -54,7 +69,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		}
 	}
 
-	mount, err := sv_sharedfolder.New(z.Peer.Context()).Resolve(z.SharedFolderId)
+	mount, err := sv_sharedfolder.New(ctx).Resolve(z.SharedFolderId)
 	if err != nil {
 		return err
 	}
@@ -64,8 +79,5 @@ func (z *Delete) Exec(c app_control.Control) error {
 }
 
 func (z *Delete) Test(c app_control.Control) error {
-	return rc_exec.ExecMock(c, &Delete{}, func(r rc_recipe.Recipe) {
-		m := r.(*Delete)
-		m.SharedFolderId = "123456"
-	})
+	return qt_errors.ErrorHumanInteractionRequired
 }

@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# team runas file list
+# team runas sharedfolder mount add
 
-メンバーとして実行するファイルやフォルダーの一覧 
+指定したメンバーのDropboxに共有フォルダを追加する
 
 # セキュリティ
 
@@ -26,11 +26,13 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                                                            |
-|-----------------------------------------------------------------|
-| Dropbox Business: Dropboxのファイルやフォルダに関する情報を表示 |
-| Dropbox Business: チームメンバーの確認                          |
-| Dropbox Business: チームやメンバーのフォルダの構造を閲覧        |
+| 説明                                                                     |
+|--------------------------------------------------------------------------|
+| Dropbox Business: チームメンバーの確認                                   |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示                    |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理              |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                 |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集 |
 
 # 認可
 
@@ -66,12 +68,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team runas file list -member-email MEMBER@DOMAIN -path /DROPBOX/PATH/TO/LIST
+.\tbx.exe team runas sharedfolder mount add 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team runas file list -member-email MEMBER@DOMAIN -path /DROPBOX/PATH/TO/LIST
+$HOME/Desktop/tbx team runas sharedfolder mount add 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -82,15 +84,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                         | 説明                                                                                                            | デフォルト |
-|------------------------------------|-----------------------------------------------------------------------------------------------------------------|------------|
-| `-include-deleted`                 | 削除済みファイルを含める                                                                                        | false      |
-| `-include-explicit-shared-members` |  trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます.                      | false      |
-| `-include-mounted-folders`         |  Trueの場合は、マウントされたフォルダ（appフォルダ、sharedフォルダ、teamフォルダ）のエントリが結果に含まれます. | false      |
-| `-member-email`                    | メンバーのメールアドレス                                                                                        |            |
-| `-path`                            | パス                                                                                                            |            |
-| `-peer`                            | アカウントの別名                                                                                                | default    |
-| `-recursive`                       | 再起的に一覧を実行                                                                                              | false      |
+| オプション          | 説明                     | デフォルト |
+|---------------------|--------------------------|------------|
+| `-member-email`     | メンバーのメールアドレス |            |
+| `-peer`             | アカウントの別名         | default    |
+| `-shared-folder-id` | 共有フォルダーのID.      |            |
 
 ## 共通のオプション:
 
@@ -123,23 +121,29 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: file_list
+## レポート: mount
 
-このレポートはファイルとフォルダのメタデータを出力します.
-このコマンドはレポートを3種類の書式で出力します. `file_list.csv`, `file_list.json`, ならびに `file_list.xlsx`.
+このレポートは共有フォルダの一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `mount.csv`, `mount.json`, ならびに `mount.xlsx`.
 
-| 列              | 説明                                                         |
-|-----------------|--------------------------------------------------------------|
-| tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| name            | 名称                                                         |
-| path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| server_modified | Dropbox上で最後に更新された日時                              |
-| size            | ファイルサイズ(バイト単位)                                   |
+| 列                    | 説明                                                                                                 |
+|-----------------------|------------------------------------------------------------------------------------------------------|
+| shared_folder_id      | 共有フォルダのID                                                                                     |
+| name                  | 共有フォルダの名称                                                                                   |
+| access_type           | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| path_lower            | 共有フォルダのフルパス(小文字に変換済み).                                                            |
+| is_inside_team_folder | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder        | このフォルダがチームフォルダであるかどうか                                                           |
+| policy_manage_access  | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
+| policy_shared_link    | このフォルダの共有リンクを誰が利用できるか                                                           |
+| policy_member         | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
+| policy_viewer_info    | だれが閲覧社情報を有効化・無効化できるか                                                             |
+| owner_team_name       | このフォルダを所有するチームの名前                                                                   |
+| access_inheritance    | アクセス継承タイプ                                                                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_list_0000.xlsx`, `file_list_0001.xlsx`, `file_list_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `mount_0000.xlsx`, `mount_0001.xlsx`, `mount_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

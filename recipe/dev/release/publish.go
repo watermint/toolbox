@@ -279,6 +279,8 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) (
 	}
 
 	sva := sv_release_asset.New(z.ghCtx(c), app.RepositoryOwner, app.RepositoryName, rel.Id)
+
+	// filename -> asset info
 	uploaded = make(map[string]*mo_release_asset.Asset)
 	for _, p := range assets {
 		l.Info("Uploading asset", esl.String("path", p))
@@ -308,17 +310,21 @@ func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Rele
 	return nil
 }
 
-func (z *Publish) updateHomebrewFormula(c app_control.Control, path string) error {
-	name := filepath.Base(path)
+func (z *Publish) updateHomebrewFormula(c app_control.Control, macIntel, macArm, linux *mo_release_asset.Asset) error {
 	return rc_exec.Exec(c, z.Formula, func(r rc_recipe.Recipe) {
 		m := r.(*homebrew.Formula)
 		m.Owner = homebrewRepoOwner
 		m.Repository = homebrewRepoName
 		m.Branch = homebrewRepoBranch
-		m.AssetPath = mo_path2.NewExistingFileSystemPath(path)
-		m.DownloadUrl = "https://github.com/watermint/toolbox/releases/download/" + app.BuildId + "/" + name
 		m.Message = "Release " + app.BuildId
 		m.FormulaName = "toolbox.rb"
+
+		m.AssetPathMacIntel = mo_path2.NewExistingFileSystemPath(macIntel.Name)
+		m.DownloadUrlMacIntel = macIntel.DownloadUrl
+		m.AssetPathMacArm = mo_path2.NewExistingFileSystemPath(macArm.Name)
+		m.DownloadUrlMacArm = macArm.DownloadUrl
+		m.AssetPathLinux = mo_path2.NewExistingFileSystemPath(linux.Name)
+		m.DownloadUrlLinux = linux.DownloadUrl
 	})
 }
 
@@ -362,6 +368,7 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
+	// assets: filename -> asset data
 	assets, err := z.uploadAssets(c, rel)
 	if err != nil {
 		return err
@@ -376,13 +383,26 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	for p, a := range assets {
-		if strings.Contains(a.Name, "mac") {
-			l.Info("updating Homebrew formula", esl.String("asset", a.Name))
-			if err := z.updateHomebrewFormula(c, p); err != nil {
-				return err
-			}
+	var assetLinux, assetMacArm, assetMacIntel *mo_release_asset.Asset
+	for _, a := range assets {
+		switch {
+		case strings.HasSuffix(a.Name, "mac.zip"):
+			assetMacIntel = a
+		case strings.HasSuffix(a.Name, "mac-arm.zip"):
+			assetMacArm = a
+		case strings.HasSuffix(a.Name, "linux.zip"):
+			assetLinux = a
 		}
+	}
+
+	l.Info("updating Homebrew formula",
+		esl.Any("macIntel", assetMacIntel),
+		esl.Any("macArm", assetMacArm),
+		esl.Any("linux", assetLinux),
+	)
+
+	if err := z.updateHomebrewFormula(c, assetMacIntel, assetMacArm, assetLinux); err != nil {
+		return err
 	}
 
 	l.Info("The build is ready to publish")

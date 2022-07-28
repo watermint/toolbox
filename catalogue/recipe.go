@@ -108,8 +108,10 @@ import (
 	recipeteamrunasfile "github.com/watermint/toolbox/recipe/team/runas/file"
 	recipeteamrunasfilebatch "github.com/watermint/toolbox/recipe/team/runas/file/batch"
 	recipeteamrunasfilesyncbatch "github.com/watermint/toolbox/recipe/team/runas/file/sync/batch"
+	recipeteamrunassharedfolder "github.com/watermint/toolbox/recipe/team/runas/sharedfolder"
 	recipeteamrunassharedfolderbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/batch"
 	recipeteamrunassharedfoldermemberbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/member/batch"
+	recipeteamrunassharedfoldermount "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/mount"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 	recipeteamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
 	recipeteamsharedlinkdelete "github.com/watermint/toolbox/recipe/team/sharedlink/delete"
@@ -369,10 +371,16 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamrunasfile.List{},
 		&recipeteamrunasfilebatch.Copy{},
 		&recipeteamrunasfilesyncbatch.Up{},
+		&recipeteamrunassharedfolder.List{},
+		&recipeteamrunassharedfolderbatch.Leave{},
 		&recipeteamrunassharedfolderbatch.Share{},
 		&recipeteamrunassharedfolderbatch.Unshare{},
 		&recipeteamrunassharedfoldermemberbatch.Add{},
 		&recipeteamrunassharedfoldermemberbatch.Delete{},
+		&recipeteamrunassharedfoldermount.Add{},
+		&recipeteamrunassharedfoldermount.Delete{},
+		&recipeteamrunassharedfoldermount.List{},
+		&recipeteamrunassharedfoldermount.Mountable{},
 		&recipeteamsharedlink.List{},
 		&recipeteamsharedlinkcap.Expiry{},
 		&recipeteamsharedlinkcap.Visibility{},

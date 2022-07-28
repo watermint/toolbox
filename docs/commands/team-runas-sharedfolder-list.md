@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# dev benchmark upload
+# team runas sharedfolder list
 
-Upload benchmark 
+List shared folders run as the member 
 
 # Security
 
@@ -22,13 +22,16 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                             |
-|---------------------------------------------------------|
-| Dropbox: Edit content of your Dropbox files and folders |
+| Description                                                              |
+|--------------------------------------------------------------------------|
+| Dropbox Business: View your team membership                              |
+| Dropbox Business: View your Dropbox sharing settings and collaborators   |
+| Dropbox Business: View structure of your team's and members' folders     |
+| Dropbox Business: View and edit content of your team's files and folders |
 
 # Authorization
 
@@ -64,12 +67,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+.\tbx.exe team runas sharedfolder list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload -path /DROPBOX/PATH/TO/PROCESS
+$HOME/Desktop/tbx team runas sharedfolder list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,18 +83,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option               | Description                 | Default |
-|----------------------|-----------------------------|---------|
-| `-block-block-size`  | Block size for batch upload | 16      |
-| `-method`            | Upload method               | block   |
-| `-num-files`         | Number of files.            | 1000    |
-| `-path`              | Path to Dropbox             |         |
-| `-peer`              | Account alias               | default |
-| `-pre-scan`          | Pre-scan destination path   | false   |
-| `-seq-chunk-size-kb` | Upload chunk size in KiB    | 65536   |
-| `-size-max-kb`       | Maximum file size (KiB).    | 2048    |
-| `-size-min-kb`       | Minimum file size (KiB).    | 0       |
-| `-verify`            | Verify after upload         | false   |
+| Option          | Description          | Default |
+|-----------------|----------------------|---------|
+| `-member-email` | Member email address |         |
+| `-peer`         | Account alias        | default |
 
 ## Common options:
 
@@ -113,6 +108,40 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-secure`          | Do not store tokens into a file                                                           | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
+
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: shared_folder
+
+This report shows a list of shared folders.
+The command will generate a report in three different formats. `shared_folder.csv`, `shared_folder.json`, and `shared_folder.xlsx`.
+
+| Column                | Description                                                                                               |
+|-----------------------|-----------------------------------------------------------------------------------------------------------|
+| shared_folder_id      | The ID of the shared folder.                                                                              |
+| name                  | The name of the this shared folder.                                                                       |
+| access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| path_lower            | The lower-cased full path of this shared folder.                                                          |
+| is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
+| is_team_folder        | Whether this folder is a team folder.                                                                     |
+| policy_manage_access  | Who can add and remove members from this shared folder.                                                   |
+| policy_shared_link    | Who links can be shared with.                                                                             |
+| policy_member         | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
+| policy_viewer_info    | Who can enable/disable viewer info for this shared folder.                                                |
+| owner_team_name       | Team name of the team that owns the folder                                                                |
+| access_inheritance    | Access inheritance type                                                                                   |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `shared_folder_0000.xlsx`, `shared_folder_0001.xlsx`, `shared_folder_0002.xlsx`, ...
 
 # Proxy configuration
 
