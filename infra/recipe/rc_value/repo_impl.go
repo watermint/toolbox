@@ -35,6 +35,7 @@ var (
 		newValueFdFileRowFeed(""),
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
+		newValueGoogConnCalendar(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnSheets(dbx_conn_impl.DefaultPeerName),
 		newValueDaGridDataInput(nil, ""),

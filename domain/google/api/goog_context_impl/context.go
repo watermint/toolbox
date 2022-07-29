@@ -19,8 +19,9 @@ import (
 )
 
 const (
-	EndpointGoogleApis   EndpointType = "https://www.googleapis.com/"
-	EndpointGoogleSheets EndpointType = "https://sheets.googleapis.com/v4/"
+	EndpointGoogleApis     EndpointType = "https://www.googleapis.com/"
+	EndpointGoogleSheets   EndpointType = "https://sheets.googleapis.com/v4/"
+	EndpointGoogleCalendar EndpointType = "https://www.googleapis.com/calendar/v3/"
 )
 
 type EndpointType string

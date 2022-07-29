@@ -72,13 +72,11 @@ func createHeaderLower(headers map[string]string) map[string]string {
 
 func IsTextContentType(res es_response.Response) bool {
 	contentType := res.Header("Content-Type")
-	if strings.HasPrefix(contentType, "text") {
-		return true
-	}
-	switch contentType {
-	case "application/json",
-		"application/xml",
-		"application/xhtml+xml":
+	switch {
+	case strings.HasPrefix(contentType, "text"),
+		strings.HasPrefix(contentType, "application/json"),
+		strings.HasPrefix(contentType, "application/xml"),
+		strings.HasPrefix(contentType, "application/xhtml+xml"):
 		return true
 
 	default:

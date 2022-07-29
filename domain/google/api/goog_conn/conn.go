@@ -20,3 +20,8 @@ type ConnGoogleSheets interface {
 	ConnGoogleApi
 	IsSheets() bool
 }
+
+type ConnGoogleCalendar interface {
+	ConnGoogleApi
+	IsCalendar() bool
+}

@@ -9,6 +9,7 @@ const (
 	ServiceDropbox         = "dropbox"
 	ServiceDropboxBusiness = "dropbox_business"
 	ServiceGithub          = "github"
+	ServiceGoogleCalendar  = "google_calendar"
 	ServiceGoogleMail      = "google_mail"
 	ServiceGoogleSheets    = "google_sheets"
 	ServiceAsana           = "asana"

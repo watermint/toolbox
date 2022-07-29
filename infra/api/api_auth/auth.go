@@ -16,6 +16,7 @@ const (
 	Github                         = "github"
 	GoogleMail                     = "google_mail"
 	GoogleSheets                   = "google_sheets"
+	GoogleCalendar                 = "google_calendar"
 	Asana                          = "asana"
 	Slack                          = "slack"
 )
