@@ -22,7 +22,6 @@ List Google Calendar events
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Google: https://support.google.com/accounts/answer/3466521
 
 ## 認可スコープ
@@ -35,7 +34,6 @@ List Google Calendar events
 
 最初の実行では、`tbx`はあなたのGoogleアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います.
 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -67,14 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe services google calendar event list 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx services google calendar event list 
 ```
@@ -133,13 +129,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 Calendar event
 このコマンドはレポートを3種類の書式で出力します. `events.csv`, `events.json`, ならびに `events.xlsx`.
 
-| 列              | 説明                                                |
-|-----------------|-----------------------------------------------------|
-| status          | Status of the event.                                |
-| location        | Geographic location of the event as free-form text. |
-| start_date_time | The (inclusive) start time of the event.            |
-| end_date_time   | The (exclusive) end time of the event.              |
-| summary         | Title of the event.                                 |
+| 列              | 説明                                                               |
+|-----------------|--------------------------------------------------------------------|
+| status          | Status of the event.                                               |
+| location        | Geographic location of the event as free-form text.                |
+| start_date      | The date, in the format "yyyy-mm-dd", if this is an all-day event. |
+| end_date        | The date, in the format "yyyy-mm-dd", if this is an all-day event. |
+| start_date_time | The (inclusive) start time of the event.                           |
+| end_date_time   | The (exclusive) end time of the event.                             |
+| summary         | Title of the event.                                                |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

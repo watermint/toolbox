@@ -60,10 +60,10 @@ func TestEvent(t *testing.T) {
 	if e.Id != "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" {
 		t.Error(e.Id)
 	}
-	if e.StartDateTime != "2017-07-13" {
-		t.Error(e.StartDateTime)
+	if e.StartDate != "2017-07-13" {
+		t.Error(e.StartDate)
 	}
-	if e.EndDateTime != "2017-07-15" {
-		t.Error(e.EndDateTime)
+	if e.EndDate != "2017-07-15" {
+		t.Error(e.EndDate)
 	}
 }
