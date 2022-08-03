@@ -160,6 +160,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevciauth.Import{},
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
+		&recipedevkvs.Benchmark{},
 		&recipedevkvs.Dump{},
 		&recipedevmodule.List{},
 		&recipedevrelease.Candidate{},

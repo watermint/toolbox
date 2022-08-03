@@ -17,12 +17,13 @@ import (
 )
 
 type List struct {
-	Peer       goog_conn.ConnGoogleCalendar
-	CalendarId mo_string.OptionalString
-	Events     rp_model.RowReport
-	Query      mo_string.OptionalString
-	Start      mo_time.TimeOptional
-	End        mo_time.TimeOptional
+	Peer        goog_conn.ConnGoogleCalendar
+	CalendarId  mo_string.OptionalString
+	Events      rp_model.RowReport
+	Query       mo_string.OptionalString
+	Start       mo_time.TimeOptional
+	End         mo_time.TimeOptional
+	DoNotFilter bool
 }
 
 func (z *List) Preset() {
