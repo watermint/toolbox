@@ -69,8 +69,16 @@ func (z *sqWrapper) Open(path string) (err error) {
 		l.Debug("Ping failed", esl.Error(err))
 		return err
 	}
-	z.kvs = kv_kvs_impl.NewSqlite(z.name, z.log(), z.db)
-	return nil
+	_, err = z.db.Exec(kv_kvs_impl.KvsTableSchema)
+	if err != nil {
+		l.Debug("Unable to create the table", esl.Error(err))
+		return err
+	}
+	z.kvs, err = kv_kvs_impl.NewSqlite(z.name, z.log(), z.db)
+	if err != nil {
+		_ = z.db.Close()
+	}
+	return err
 }
 
 func (z *sqWrapper) SetLogger(logger esl.Logger) {
