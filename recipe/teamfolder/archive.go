@@ -25,7 +25,8 @@ type Archive struct {
 
 func (z *Archive) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamDataContentRead,
+		dbx_auth.ScopeTeamDataContentWrite,
 	)
 }
 

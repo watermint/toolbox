@@ -84,13 +84,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                                                                                                                                                            | デフォルト |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-calendar-id` | Calendar identifier (email address of the account).                                                                                                             |            |
-| `-end`         | Upper bound (exclusive) for an event's start time to filter by.                                                                                                 |            |
-| `-peer`        | Account alias                                                                                                                                                   | default    |
-| `-query`       | Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. |            |
-| `-start`       | Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time.                                               |            |
+| オプション       | 説明                                                                                                                                                            | デフォルト |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-calendar-id`   | Calendar identifier (email address of the account).                                                                                                             |            |
+| `-do-not-filter` | Report all events returned from Google Calendar                                                                                                                 | false      |
+| `-end`           | Upper bound (exclusive) for an event's start time to filter by.                                                                                                 |            |
+| `-peer`          | Account alias                                                                                                                                                   | default    |
+| `-query`         | Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. |            |
+| `-start`         | Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time.                                               |            |
 
 ## 共通のオプション:
 

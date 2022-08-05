@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/google/calendar/service/sv_event"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
+	"github.com/watermint/toolbox/essentials/time/ut_compare"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -64,7 +65,34 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	return sv_event.New(z.Peer.Context()).ListEach(func(event *mo_event.Event) {
-		z.Events.Row(event)
+		if z.DoNotFilter {
+			z.Events.Row(event)
+			return
+		}
+
+		switch {
+		case event.StartDate != "":
+			startDate, err := dbx_util.Parse(event.StartDate)
+			// do not filter in case of error
+			if err != nil {
+				z.Events.Row(event)
+				return
+			}
+			if ut_compare.IsBetweenOptional(startDate, z.Start, z.End) {
+				z.Events.Row(event)
+			}
+
+		case event.StartDateTime != "":
+			startDateTime, err := dbx_util.Parse(event.StartDate)
+			// do not filter in case of error
+			if err != nil {
+				z.Events.Row(event)
+				return
+			}
+			if ut_compare.IsBetweenOptional(startDateTime, z.Start, z.End) {
+				z.Events.Row(event)
+			}
+		}
 	}, calendarId, lang.ApplyOpts(sv_event.ListOpts{}, opts))
 }
 

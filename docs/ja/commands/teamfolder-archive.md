@@ -26,9 +26,10 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                                                                     |
-|--------------------------------------------------------------------------|
-| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集 |
+| 説明                                                   |
+|--------------------------------------------------------|
+| View content of your team's files and folders          |
+| View and edit content of your team's files and folders |
 
 # 認可
 
