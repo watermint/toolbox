@@ -257,6 +257,16 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                           |
 | [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                 |
 
+## Asana
+
+| コマンド                                                                                           | 説明                             |
+|----------------------------------------------------------------------------------------------------|----------------------------------|
+| [services asana team list](docs/ja/commands/services-asana-team-list.md)                           | チームのリスト                   |
+| [services asana team project list](docs/ja/commands/services-asana-team-project-list.md)           | チームのプロジェクト一覧         |
+| [services asana team task list](docs/ja/commands/services-asana-team-task-list.md)                 | チームのタスク一覧               |
+| [services asana workspace list](docs/ja/commands/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
+| [services asana workspace project list](docs/ja/commands/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
+
 ## GitHub
 
 | コマンド                                                                                             | 説明                                             |
@@ -271,6 +281,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [services github release draft](docs/ja/commands/services-github-release-draft.md)                   | リリースの下書きを作成                           |
 | [services github release list](docs/ja/commands/services-github-release-list.md)                     | リリースの一覧                                   |
 | [services github tag create](docs/ja/commands/services-github-tag-create.md)                         | レポジトリにタグを作成します                     |
+
+## Google Calendar
+
+| コマンド                                                                                       | 説明                        |
+|------------------------------------------------------------------------------------------------|-----------------------------|
+| [services google calendar event list](docs/ja/commands/services-google-calendar-event-list.md) | List Google Calendar events |
 
 ## Google Gmail
 
@@ -303,16 +319,6 @@ DropboxおよびDropbox Business向けのツールセット
 | [services google sheets sheet import](docs/ja/commands/services-google-sheets-sheet-import.md)             | スプレッドシートにデータをインポート |
 | [services google sheets sheet list](docs/ja/commands/services-google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |
 | [services google sheets spreadsheet create](docs/ja/commands/services-google-sheets-spreadsheet-create.md) | 新しいスプレッドシートの作成         |
-
-## Asana
-
-| コマンド                                                                                           | 説明                             |
-|----------------------------------------------------------------------------------------------------|----------------------------------|
-| [services asana team list](docs/ja/commands/services-asana-team-list.md)                           | チームのリスト                   |
-| [services asana team project list](docs/ja/commands/services-asana-team-project-list.md)           | チームのプロジェクト一覧         |
-| [services asana team task list](docs/ja/commands/services-asana-team-task-list.md)                 | チームのタスク一覧               |
-| [services asana workspace list](docs/ja/commands/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
-| [services asana workspace project list](docs/ja/commands/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
 
 ## Slack
 

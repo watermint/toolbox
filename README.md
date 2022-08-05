@@ -259,6 +259,16 @@ Available commands:
 | [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                                           | List policies of team folders                                             |
 | [teamfolder replication](docs/commands/teamfolder-replication.md)                                           | Replicate a team folder to the other team                                 |
 
+## Asana
+
+| Command                                                                                         | Description                    |
+|-------------------------------------------------------------------------------------------------|--------------------------------|
+| [services asana team list](docs/commands/services-asana-team-list.md)                           | List team                      |
+| [services asana team project list](docs/commands/services-asana-team-project-list.md)           | List projects of the team      |
+| [services asana team task list](docs/commands/services-asana-team-task-list.md)                 | List task of the team          |
+| [services asana workspace list](docs/commands/services-asana-workspace-list.md)                 | List workspaces                |
+| [services asana workspace project list](docs/commands/services-asana-workspace-project-list.md) | List projects of the workspace |
+
 ## GitHub
 
 | Command                                                                                           | Description                                         |
@@ -273,6 +283,12 @@ Available commands:
 | [services github release draft](docs/commands/services-github-release-draft.md)                   | Create release draft                                |
 | [services github release list](docs/commands/services-github-release-list.md)                     | List releases                                       |
 | [services github tag create](docs/commands/services-github-tag-create.md)                         | Create a tag on the repository                      |
+
+## Google Calendar
+
+| Command                                                                                     | Description                 |
+|---------------------------------------------------------------------------------------------|-----------------------------|
+| [services google calendar event list](docs/commands/services-google-calendar-event-list.md) | List Google Calendar events |
 
 ## Google Gmail
 
@@ -305,16 +321,6 @@ Available commands:
 | [services google sheets sheet import](docs/commands/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet |
 | [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet   |
 | [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet         |
-
-## Asana
-
-| Command                                                                                         | Description                    |
-|-------------------------------------------------------------------------------------------------|--------------------------------|
-| [services asana team list](docs/commands/services-asana-team-list.md)                           | List team                      |
-| [services asana team project list](docs/commands/services-asana-team-project-list.md)           | List projects of the team      |
-| [services asana team task list](docs/commands/services-asana-team-task-list.md)                 | List task of the team          |
-| [services asana workspace list](docs/commands/services-asana-workspace-list.md)                 | List workspaces                |
-| [services asana workspace project list](docs/commands/services-asana-workspace-project-list.md) | List projects of the workspace |
 
 ## Slack
 

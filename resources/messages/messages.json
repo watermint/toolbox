@@ -781,6 +781,7 @@
   "infra.doc.dc_readme.command.services.dropbox": "Dropbox (Individual account)",
   "infra.doc.dc_readme.command.services.dropbox_business": "Dropbox Business",
   "infra.doc.dc_readme.command.services.github": "GitHub",
+  "infra.doc.dc_readme.command.services.google_calendar": "Google Calendar",
   "infra.doc.dc_readme.command.services.google_mail": "Google Gmail",
   "infra.doc.dc_readme.command.services.google_sheets": "Google Sheets",
   "infra.doc.dc_readme.command.services.slack": "Slack",

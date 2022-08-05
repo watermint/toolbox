@@ -181,6 +181,16 @@ lang: ja
 | [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)                                           | チームフォルダのポリシー一覧                                                           |
 | [teamfolder replication]({{ site.baseurl }}/ja/commands/teamfolder-replication.html)                                           | チームフォルダを他のチームに複製します                                                 |
 
+## Asana
+
+| コマンド                                                                                                           | 説明                             |
+|--------------------------------------------------------------------------------------------------------------------|----------------------------------|
+| [services asana team list]({{ site.baseurl }}/ja/commands/services-asana-team-list.html)                           | チームのリスト                   |
+| [services asana team project list]({{ site.baseurl }}/ja/commands/services-asana-team-project-list.html)           | チームのプロジェクト一覧         |
+| [services asana team task list]({{ site.baseurl }}/ja/commands/services-asana-team-task-list.html)                 | チームのタスク一覧               |
+| [services asana workspace list]({{ site.baseurl }}/ja/commands/services-asana-workspace-list.html)                 | ワークスペースの一覧             |
+| [services asana workspace project list]({{ site.baseurl }}/ja/commands/services-asana-workspace-project-list.html) | ワークスペースのプロジェクト一覧 |
+
 ## GitHub
 
 | コマンド                                                                                                             | 説明                                             |
@@ -195,6 +205,12 @@ lang: ja
 | [services github release draft]({{ site.baseurl }}/ja/commands/services-github-release-draft.html)                   | リリースの下書きを作成                           |
 | [services github release list]({{ site.baseurl }}/ja/commands/services-github-release-list.html)                     | リリースの一覧                                   |
 | [services github tag create]({{ site.baseurl }}/ja/commands/services-github-tag-create.html)                         | レポジトリにタグを作成します                     |
+
+## Google Calendar
+
+| コマンド                                                                                                       | 説明                        |
+|----------------------------------------------------------------------------------------------------------------|-----------------------------|
+| [services google calendar event list]({{ site.baseurl }}/ja/commands/services-google-calendar-event-list.html) | List Google Calendar events |
 
 ## Google Gmail
 
@@ -227,16 +243,6 @@ lang: ja
 | [services google sheets sheet import]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-import.html)             | スプレッドシートにデータをインポート |
 | [services google sheets sheet list]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-list.html)                 | スプレッドシートのシート一覧         |
 | [services google sheets spreadsheet create]({{ site.baseurl }}/ja/commands/services-google-sheets-spreadsheet-create.html) | 新しいスプレッドシートの作成         |
-
-## Asana
-
-| コマンド                                                                                                           | 説明                             |
-|--------------------------------------------------------------------------------------------------------------------|----------------------------------|
-| [services asana team list]({{ site.baseurl }}/ja/commands/services-asana-team-list.html)                           | チームのリスト                   |
-| [services asana team project list]({{ site.baseurl }}/ja/commands/services-asana-team-project-list.html)           | チームのプロジェクト一覧         |
-| [services asana team task list]({{ site.baseurl }}/ja/commands/services-asana-team-task-list.html)                 | チームのタスク一覧               |
-| [services asana workspace list]({{ site.baseurl }}/ja/commands/services-asana-workspace-list.html)                 | ワークスペースの一覧             |
-| [services asana workspace project list]({{ site.baseurl }}/ja/commands/services-asana-workspace-project-list.html) | ワークスペースのプロジェクト一覧 |
 
 ## Slack
 

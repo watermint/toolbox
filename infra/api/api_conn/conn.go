@@ -20,10 +20,11 @@ var (
 	Services = []string{
 		ServiceDropbox,
 		ServiceDropboxBusiness,
+		ServiceAsana,
 		ServiceGithub,
+		ServiceGoogleCalendar,
 		ServiceGoogleMail,
 		ServiceGoogleSheets,
-		ServiceAsana,
 		ServiceSlack,
 		ServiceUtility,
 	}

@@ -181,6 +181,16 @@ lang: en
 | [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                                           | List policies of team folders                                             |
 | [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                           | Replicate a team folder to the other team                                 |
 
+## Asana
+
+| Command                                                                                                         | Description                    |
+|-----------------------------------------------------------------------------------------------------------------|--------------------------------|
+| [services asana team list]({{ site.baseurl }}/commands/services-asana-team-list.html)                           | List team                      |
+| [services asana team project list]({{ site.baseurl }}/commands/services-asana-team-project-list.html)           | List projects of the team      |
+| [services asana team task list]({{ site.baseurl }}/commands/services-asana-team-task-list.html)                 | List task of the team          |
+| [services asana workspace list]({{ site.baseurl }}/commands/services-asana-workspace-list.html)                 | List workspaces                |
+| [services asana workspace project list]({{ site.baseurl }}/commands/services-asana-workspace-project-list.html) | List projects of the workspace |
+
 ## GitHub
 
 | Command                                                                                                           | Description                                         |
@@ -195,6 +205,12 @@ lang: en
 | [services github release draft]({{ site.baseurl }}/commands/services-github-release-draft.html)                   | Create release draft                                |
 | [services github release list]({{ site.baseurl }}/commands/services-github-release-list.html)                     | List releases                                       |
 | [services github tag create]({{ site.baseurl }}/commands/services-github-tag-create.html)                         | Create a tag on the repository                      |
+
+## Google Calendar
+
+| Command                                                                                                     | Description                 |
+|-------------------------------------------------------------------------------------------------------------|-----------------------------|
+| [services google calendar event list]({{ site.baseurl }}/commands/services-google-calendar-event-list.html) | List Google Calendar events |
 
 ## Google Gmail
 
@@ -227,16 +243,6 @@ lang: en
 | [services google sheets sheet import]({{ site.baseurl }}/commands/services-google-sheets-sheet-import.html)             | Import data into the spreadsheet |
 | [services google sheets sheet list]({{ site.baseurl }}/commands/services-google-sheets-sheet-list.html)                 | List sheets of the spreadsheet   |
 | [services google sheets spreadsheet create]({{ site.baseurl }}/commands/services-google-sheets-spreadsheet-create.html) | Create a new spreadsheet         |
-
-## Asana
-
-| Command                                                                                                         | Description                    |
-|-----------------------------------------------------------------------------------------------------------------|--------------------------------|
-| [services asana team list]({{ site.baseurl }}/commands/services-asana-team-list.html)                           | List team                      |
-| [services asana team project list]({{ site.baseurl }}/commands/services-asana-team-project-list.html)           | List projects of the team      |
-| [services asana team task list]({{ site.baseurl }}/commands/services-asana-team-task-list.html)                 | List task of the team          |
-| [services asana workspace list]({{ site.baseurl }}/commands/services-asana-workspace-list.html)                 | List workspaces                |
-| [services asana workspace project list]({{ site.baseurl }}/commands/services-asana-workspace-project-list.html) | List projects of the workspace |
 
 ## Slack
 
