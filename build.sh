@@ -34,7 +34,7 @@ function build_and_package() {
     mkdir -p "$BUILD_PATH/$platform_alias"
 
     echo Building: $platform_alias [$goos][$goarch]
-    CGO_ENABLED=1 GOOS=$goos GOARCH=$goarch go build -o "$bin_path" github.com/watermint/toolbox
+    CGO_ENABLED=0 GOOS=$goos GOARCH=$goarch go build -o "$bin_path" github.com/watermint/toolbox
     if [[ $? == 0 ]]; then
       echo "The binary created: $bin_path"
     else
