@@ -37,6 +37,9 @@ const (
 
 	// ExperimentProfileCpu Enable CPU profiler
 	ExperimentProfileCpu = "profile_cpu"
+
+	// ExperimentKvsSqlite Use SQLite as KVS engine
+	ExperimentKvsSqlite = "kvs_sqlite"
 )
 
 var (
@@ -56,6 +59,7 @@ var (
 		ExperimentFileSyncDisableReduceCreateFolder,
 		ExperimentFileSyncLegacyLocalToDropboxConnector,
 		ExperimentFileSyncNoCacheDropboxFileSystem,
+		ExperimentKvsSqlite,
 		ExperimentProfileCpu,
 		ExperimentProfileMemory,
 		ExperimentReportAllColumns,

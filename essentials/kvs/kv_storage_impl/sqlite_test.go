@@ -12,7 +12,7 @@ import (
 
 func kvsSqliteTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
 	qt_file.TestWithTestFolder(t, "kvs_bc_"+name, false, func(path string) {
-		db := NewSqlite(name, esl.Default())
+		db := InternalNewSqlite(name, esl.Default())
 		if err := db.Open(path); err != nil {
 			t.Error(err)
 			return

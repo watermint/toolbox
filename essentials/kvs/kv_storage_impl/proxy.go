@@ -6,17 +6,23 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
-func newProxy(name string, logger esl.Logger) kv_storage.Lifecycle {
+func NewProxy(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &proxyImpl{
+		engine: kv_storage.KvsEngineBitCask,
 		name:   name,
 		logger: logger,
 	}
 }
 
 type proxyImpl struct {
+	engine  kv_storage.KvsEngine
 	name    string
 	storage kv_storage.Lifecycle
 	logger  esl.Logger
+}
+
+func (z *proxyImpl) SetEngine(engine kv_storage.KvsEngine) {
+	z.engine = engine
 }
 
 func (z *proxyImpl) Delete() error {
@@ -36,7 +42,15 @@ func (z *proxyImpl) Kvs() kv_kvs.Kvs {
 }
 
 func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
-	return InternalNewBitcask(z.name, z.logger)
+	switch z.engine {
+	case kv_storage.KvsEngineBitCask:
+		return InternalNewBitcask(z.name, z.logger)
+	case kv_storage.KvsEngineSqlite:
+		return InternalNewSqlite(z.name, z.logger)
+	default:
+		// fallback
+		return InternalNewBitcask(z.name, z.logger)
+	}
 }
 
 func (z *proxyImpl) Close() {

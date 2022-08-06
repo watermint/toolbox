@@ -14,7 +14,7 @@ func (z *Benchmark) Preset() {
 }
 
 func (z *Benchmark) Exec(c app_control.Control) error {
-	kvSqlite := kv_storage_impl.NewSqlite("benchmark", c.Log())
+	kvSqlite := kv_storage_impl.InternalNewSqlite("benchmark", c.Log())
 	if err := kvSqlite.Open(c.Workspace().KVS()); err != nil {
 		return err
 	}

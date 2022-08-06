@@ -32,7 +32,7 @@ func (z *factoryImpl) New(name string) (kv_storage.Lifecycle, error) {
 	l := z.log().With(esl.String("name", name))
 	l.Debug("Create new storage")
 
-	sto := newProxy(name, z.logger)
+	sto := NewProxy(name, z.logger)
 	err := sto.Open(z.basePath)
 	if err != nil {
 		l.Debug("Unable to open the storage", esl.Error(err))
