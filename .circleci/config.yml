@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: cimg/go:1.18
+      - image: cimg/go:1.19
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
@@ -18,7 +18,7 @@ jobs:
 
   test:
     docker:
-      - image: cimg/go:1.18
+      - image: cimg/go:1.19
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD

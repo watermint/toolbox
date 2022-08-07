@@ -1,8 +1,4 @@
-FROM golang:1.18
-
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install -y zip git curl jq
+FROM golang:1.19
 
 ENV GOBIN=/usr/local/go/bin
 ENV PATH=$PATH:/usr/local/go/bin
