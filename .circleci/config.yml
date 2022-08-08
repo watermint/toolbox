@@ -21,6 +21,7 @@ jobs:
           key: build-mod-{{ checksum "go.mod.sum" }}
           paths:
             - $HOME/go/pkg/mod
+            - /go/pkg/mod
 
   test:
     docker:
