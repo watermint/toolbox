@@ -3,7 +3,7 @@ services:
   build:
     build:
       context: .
-    command: /app/build.sh
+    command: ls /source && bash /source/build.sh
     volumes:
       - /tmp/dist:/dist
     ports:

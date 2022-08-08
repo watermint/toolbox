@@ -123,7 +123,7 @@ func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c ap
 		With("Suffix", z.Suffix).
 		With("SourcePath", z.SourcePath).
 		With("SourceFile", z.SourceFilePattern).
-		With("DestPath", z.DestPathPattern).
+		With("DistPath", z.DestPathPattern).
 		With("DestFile", z.DestFilePattern))
 
 	srcPattern, err := newNamePattern(z.SourceFilePattern)

@@ -1,9 +1,10 @@
-FROM golang:1.19
+FROM techknowlogick/xgo:latest
 
-ENV GOBIN=/usr/local/go/bin
-ENV PATH=$PATH:/usr/local/go/bin
-RUN mkdir /dist
-ENV PROJECT_ROOT=/app
-
+ENV PROJECT_ROOT=/source
+ENV BUILD_FILE=$PROJECT_ROOT/build.sh
+ENV mkdir -p $PROJECT_ROOT
 ADD . $PROJECT_ROOT
 WORKDIR $PROJECT_ROOT
+
+ENTRYPOINT ["bash", "/source/build.sh"]
+

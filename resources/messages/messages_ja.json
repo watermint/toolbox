@@ -1076,7 +1076,6 @@
   "recipe.dev.build.package.cli.args": "-build-path /LOCAL/PATH/OF/build -deploy-path /DROPBOX/PATH/TO/deploy -dest-path /LOCAL/PATH/TO/save_package",
   "recipe.dev.build.package.flag.build_path": "バイナリへのフルパス",
   "recipe.dev.build.package.flag.deploy_path": "デプロイ先フォルダパス(リモート)",
-  "recipe.dev.build.package.flag.dest_path": "パッケージの保存先フォルダのパス(ローカル)",
   "recipe.dev.build.package.flag.platform": "win/linux/macなどのプラットフォーム名",
   "recipe.dev.build.package.title": "ビルドのパッケージ化",
   "recipe.dev.build.preflight.flag.quick": "クイックモード",

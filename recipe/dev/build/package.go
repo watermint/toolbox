@@ -30,7 +30,7 @@ import (
 type Package struct {
 	rc_recipe.RemarkSecret
 	BuildPath  mo_path.ExistingFileSystemPath
-	DestPath   mo_path.FileSystemPath
+	DistPath   mo_path.FileSystemPath
 	DeployPath mo_string.OptionalString
 	Platform   string
 	Up         *artifact.Up
@@ -42,11 +42,11 @@ func (z *Package) Preset() {
 func (z *Package) createPackage(c app_control.Control) (path string, err error) {
 	name := fmt.Sprintf("tbx-%s-%s.zip", app.Version, z.Platform)
 	l := c.Log().With(esl.String("name", name))
-	if err := os.MkdirAll(z.DestPath.Path(), 0755); err != nil {
+	if err := os.MkdirAll(z.DistPath.Path(), 0755); err != nil {
 		return "", err
 	}
 
-	path = filepath.Join(z.DestPath.Path(), name)
+	path = filepath.Join(z.DistPath.Path(), name)
 	buildTimestamp, err := time.Parse(time.RFC3339, app.BuildInfo.Timestamp)
 	if err != nil {
 		return "", err
@@ -186,7 +186,7 @@ func (z *Package) Test(c app_control.Control) error {
 
 	return rc_exec.Exec(c, &Package{}, func(r rc_recipe.Recipe) {
 		m := r.(*Package)
-		m.DestPath = mo_path.NewFileSystemPath(dest)
+		m.DistPath = mo_path.NewFileSystemPath(dest)
 		m.BuildPath = mo_path.NewExistingFileSystemPath(bin)
 		m.Platform = "test"
 	})
