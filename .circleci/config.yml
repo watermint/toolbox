@@ -6,6 +6,9 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
+    parameters:
+      target:
+        type: string
     steps:
       - checkout
       - run: shasum -a 256 go.mod > go.mod.sum
