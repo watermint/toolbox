@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: techknowlogick/xgo:latest
+      - image: techknowlogick/xgo:go-1.19.x
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
