@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build_linux:
+  build:
     docker:
       - image: techknowlogick/xgo:latest
         auth:
@@ -11,80 +11,13 @@ jobs:
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
           key: build-mod-{{ checksum "go.mod.sum" }}
-      - run: bash ./build.sh linux
+      - run: bash ./build.sh << parameters.target >>
       - store_artifacts:
           path: dist
       - save_cache:
           key: build-mod-{{ checksum "go.mod.sum" }}
           paths:
             - $HOME/go/pkg/mod
-
-  build_linux_arm:
-    docker:
-      - image: techknowlogick/xgo:latest
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - run: shasum -a 256 go.mod > go.mod.sum
-      - restore_cache:
-          key: build-mod-{{ checksum "go.mod.sum" }}
-      - run: bash ./build.sh linux-arm
-      - store_artifacts:
-          path: dist
-      - save_cache:
-          key: build-mod-{{ checksum "go.mod.sum" }}
-          paths:
-            - $HOME/go/pkg/mod
-
-  build_win:
-    docker:
-      - image: techknowlogick/xgo:latest
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - run: shasum -a 256 go.mod > go.mod.sum
-      - restore_cache:
-          key: build-mod-{{ checksum "go.mod.sum" }}
-      - run: bash ./build.sh win
-      - store_artifacts:
-          path: dist
-
-
-  build_darwin:
-    docker:
-      - image: techknowlogick/xgo:latest
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - run: shasum -a 256 go.mod > go.mod.sum
-      - restore_cache:
-          key: build-mod-{{ checksum "go.mod.sum" }}
-      - run: bash ./build.sh darwin
-      - store_artifacts:
-          path: dist
-
-
-  build_darwin_arm:
-    docker:
-      - image: techknowlogick/xgo:latest
-        auth:
-          username: $DOCKERHUB_USERNAME
-          password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - run: shasum -a 256 go.mod > go.mod.sum
-      - restore_cache:
-          key: build-mod-{{ checksum "go.mod.sum" }}
-      - run: bash ./build.sh darwin-arm
-      - store_artifacts:
-          path: dist
-
 
   test:
     docker:
@@ -115,9 +48,14 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build_linux
-      - build_linux_arm
-      - build_win
-      - build_darwin
-      - build_darwin_arm
+      - build:
+          target: linux
+      - build:
+          target: linux_arm
+      - build:
+          target: win
+      - build:
+          target: darwin
+      - build:
+          target: darwin_arm
       - test
