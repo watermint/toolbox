@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/resources"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -58,7 +59,7 @@ func Version() es_version.Version {
 
 		buildNum, ok := os.LookupEnv("TOOLBOX_PATCH_VERSION")
 		if ok {
-			patchVer, err = strconv.ParseUint(buildNum, 10, 64)
+			patchVer, err = strconv.ParseUint(strings.TrimSpace(buildNum), 10, 64)
 			if err != nil {
 				panic(err)
 			}

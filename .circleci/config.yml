@@ -14,9 +14,11 @@ jobs:
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
           key: build-mod-{{ checksum "go.mod.sum" }}
-      - environment:
-          TOOLBOX_PATCH_VERSION: << pipeline.number >>
-      - run: bash ./build.sh << parameters.target >>
+      - run:
+          command: bash ./build.sh << parameters.target >>
+          environment:
+            TOOLBOX_PATCH_VERSION: << pipeline.number >>
+
       - store_artifacts:
           path: dist
       - save_cache:
