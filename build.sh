@@ -11,6 +11,9 @@ else
   DIST_PATH=/dist
 fi
 
+echo GOROOT: $GOROOT
+echo GOPATH: $GOPATH
+
 if [ x"" = x"$1" ]; then
   TARGET=linux
 else

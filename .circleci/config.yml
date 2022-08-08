@@ -54,11 +54,11 @@ workflows:
       - build:
           target: linux
       - build:
-          target: linux_arm
+          target: linux-arm
       - build:
           target: win
       - build:
           target: darwin
       - build:
-          target: darwin_arm
+          target: darwin-arm
       - test
