@@ -12,15 +12,15 @@ else
 fi
 
 if [ x"" = x"$1" ]; then
-  TARGET=$1
-else
   TARGET=linux
+else
+  TARGET=$1
 fi
 
 go run tbx.go dev build target          \
   -dist-path $DIST_PATH                 \
   -build-path $BUILD_PATH               \
   -deploy-path /watermint-toolbox-build \
-  -target-name $TARGET
+  -target-name "$TARGET"
 
 bash $BUILD_PATH/build-target.sh
