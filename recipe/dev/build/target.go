@@ -63,7 +63,7 @@ func (z *Target) osArch(target string) (targetOs, targetArch string) {
 	case "darwin-arm":
 		return "darwin", "arm64"
 	default:
-		panic("unsupported os/arch combination")
+		panic("unsupported os/arch combination [" + target + "]")
 	}
 }
 

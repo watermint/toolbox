@@ -6,5 +6,5 @@ ENV mkdir -p $PROJECT_ROOT
 ADD . $PROJECT_ROOT
 WORKDIR $PROJECT_ROOT
 
-ENTRYPOINT ["bash", "/source/build.sh"]
+ENTRYPOINT ["bash", "/source/build.sh", "linux"]
 
