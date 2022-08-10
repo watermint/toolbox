@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe dev build compile 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx dev build compile 
 ```

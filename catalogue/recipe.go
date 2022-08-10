@@ -175,6 +175,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevstage.Dbxfs{},
+		&recipedevstage.Encoding{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Griddata{},
 		&recipedevstage.HttpRange{},

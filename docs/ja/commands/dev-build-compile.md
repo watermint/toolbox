@@ -22,14 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe dev build compile 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx dev build compile 
 ```
