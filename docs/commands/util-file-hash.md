@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util file hash -file /LOCAL/PATH/TO/DIGEST
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util file hash -file /LOCAL/PATH/TO/DIGEST
 ```

@@ -276,6 +276,7 @@ lang: en
 | [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)           | Encode text into Base64 (RFC 4648) format                            |
 | [util file hash]({{ site.baseurl }}/commands/util-file-hash.html)                   | Print file digest                                                    |
 | [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                   | Clone git repository                                                 |
+| [util image exif]({{ site.baseurl }}/commands/util-image-exif.html)                 | Print EXIF metadata of image file                                    |
 | [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html)   | Create placeholder image                                             |
 | [util net download]({{ site.baseurl }}/commands/util-net-download.html)             | Download a file                                                      |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)           | Create a QR code image file                                          |

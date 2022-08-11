@@ -14,6 +14,7 @@ import (
 )
 
 type Hash struct {
+	rc_recipe.RemarkTransient
 	Algorithm mo_string.SelectString
 	File      mo_path.ExistingFileSystemPath
 }

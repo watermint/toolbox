@@ -22,14 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util file hash -file /LOCAL/PATH/TO/DIGEST
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util file hash -file /LOCAL/PATH/TO/DIGEST
 ```

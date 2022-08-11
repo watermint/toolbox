@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestInfo_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Info{})
+func TestExif_Exec(t *testing.T) {
+	qtr_endtoend.TestRecipe(t, &Exif{})
 }
