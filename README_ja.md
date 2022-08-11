@@ -328,36 +328,38 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                             | 説明                                                                   |
-|----------------------------------------------------------------------|------------------------------------------------------------------------|
-| [config disable](docs/ja/commands/config-disable.md)                 | 機能を無効化します.                                                    |
-| [config enable](docs/ja/commands/config-enable.md)                   | 機能を有効化します.                                                    |
-| [config features](docs/ja/commands/config-features.md)               | 利用可能なオプション機能一覧.                                          |
-| [file archive local](docs/ja/commands/file-archive-local.md)         | ローカルファイルをアーカイブします                                     |
-| [file dispatch local](docs/ja/commands/file-dispatch-local.md)       | ローカルファイルを整理します                                           |
-| [job history archive](docs/ja/commands/job-history-archive.md)       | ジョブのアーカイブ                                                     |
-| [job history delete](docs/ja/commands/job-history-delete.md)         | 古いジョブ履歴の削除                                                   |
-| [job history list](docs/ja/commands/job-history-list.md)             | ジョブ履歴の表示                                                       |
-| [job log jobid](docs/ja/commands/job-log-jobid.md)                   | 指定したジョブIDのログを取得する                                       |
-| [job log kind](docs/ja/commands/job-log-kind.md)                     | 指定種別のログを結合して出力します                                     |
-| [job log last](docs/ja/commands/job-log-last.md)                     | 最後のジョブのログファイルを出力.                                      |
-| [license](docs/ja/commands/license.md)                               | ライセンス情報を表示します                                             |
-| [util date today](docs/ja/commands/util-date-today.md)               | 現在の日付を表示                                                       |
-| [util datetime now](docs/ja/commands/util-datetime-now.md)           | 現在の日時を表示                                                       |
-| [util decode base32](docs/ja/commands/util-decode-base32.md)         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base64](docs/ja/commands/util-decode-base64.md)         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util encode base32](docs/ja/commands/util-encode-base32.md)         | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base64](docs/ja/commands/util-encode-base64.md)         | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util git clone](docs/ja/commands/util-git-clone.md)                 | git リポジトリをクローン                                               |
-| [util image placeholder](docs/ja/commands/util-image-placeholder.md) | プレースホルダー画像の作成                                             |
-| [util qrcode create](docs/ja/commands/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |
-| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)             | WIFI設定用のQRコードを生成                                             |
-| [util time now](docs/ja/commands/util-time-now.md)                   | 現在の時刻を表示                                                       |
-| [util unixtime format](docs/ja/commands/util-unixtime-format.md)     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
-| [util unixtime now](docs/ja/commands/util-unixtime-now.md)           | UNIX時間で現在の時刻を表示する                                         |
-| [util xlsx create](docs/ja/commands/util-xlsx-create.md)             | 空のスプレッドシートを作成する                                         |
-| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md) | xlsxファイルからデータをエクスポート                                   |
-| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md) | データをxlsxファイルにインポート                                       |
-| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)     | xlsxファイルのシート一覧                                               |
-| [version](docs/ja/commands/version.md)                               | バージョン情報                                                         |
+| コマンド                                                               | 説明                                                                   |
+|------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config disable](docs/ja/commands/config-disable.md)                   | 機能を無効化します.                                                    |
+| [config enable](docs/ja/commands/config-enable.md)                     | 機能を有効化します.                                                    |
+| [config features](docs/ja/commands/config-features.md)                 | 利用可能なオプション機能一覧.                                          |
+| [file archive local](docs/ja/commands/file-archive-local.md)           | ローカルファイルをアーカイブします                                     |
+| [file dispatch local](docs/ja/commands/file-dispatch-local.md)         | ローカルファイルを整理します                                           |
+| [job history archive](docs/ja/commands/job-history-archive.md)         | ジョブのアーカイブ                                                     |
+| [job history delete](docs/ja/commands/job-history-delete.md)           | 古いジョブ履歴の削除                                                   |
+| [job history list](docs/ja/commands/job-history-list.md)               | ジョブ履歴の表示                                                       |
+| [job log jobid](docs/ja/commands/job-log-jobid.md)                     | 指定したジョブIDのログを取得する                                       |
+| [job log kind](docs/ja/commands/job-log-kind.md)                       | 指定種別のログを結合して出力します                                     |
+| [job log last](docs/ja/commands/job-log-last.md)                       | 最後のジョブのログファイルを出力.                                      |
+| [license](docs/ja/commands/license.md)                                 | ライセンス情報を表示します                                             |
+| [util date today](docs/ja/commands/util-date-today.md)                 | 現在の日付を表示                                                       |
+| [util datetime now](docs/ja/commands/util-datetime-now.md)             | 現在の日時を表示                                                       |
+| [util decode base32](docs/ja/commands/util-decode-base32.md)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64](docs/ja/commands/util-decode-base64.md)           | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base32](docs/ja/commands/util-encode-base32.md)           | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64](docs/ja/commands/util-encode-base64.md)           | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util git clone](docs/ja/commands/util-git-clone.md)                   | git リポジトリをクローン                                               |
+| [util image placeholder](docs/ja/commands/util-image-placeholder.md)   | プレースホルダー画像の作成                                             |
+| [util qrcode create](docs/ja/commands/util-qrcode-create.md)           | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)               | WIFI設定用のQRコードを生成                                             |
+| [util text encoding from](docs/ja/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.      |
+| [util text encoding to](docs/ja/commands/util-text-encoding-to.md)     | Convert text encoding to specified encoding from UTF-8 text file.      |
+| [util time now](docs/ja/commands/util-time-now.md)                     | 現在の時刻を表示                                                       |
+| [util unixtime format](docs/ja/commands/util-unixtime-format.md)       | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now](docs/ja/commands/util-unixtime-now.md)             | UNIX時間で現在の時刻を表示する                                         |
+| [util xlsx create](docs/ja/commands/util-xlsx-create.md)               | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)   | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)   | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)       | xlsxファイルのシート一覧                                               |
+| [version](docs/ja/commands/version.md)                                 | バージョン情報                                                         |
 

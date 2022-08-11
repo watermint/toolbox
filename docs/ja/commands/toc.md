@@ -252,37 +252,39 @@ lang: ja
 
 ## ユーティリティー
 
-| コマンド                                                                             | 説明                                                                   |
-|--------------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                 | 機能を無効化します.                                                    |
-| [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                   | 機能を有効化します.                                                    |
-| [config features]({{ site.baseurl }}/ja/commands/config-features.html)               | 利用可能なオプション機能一覧.                                          |
-| [file archive local]({{ site.baseurl }}/ja/commands/file-archive-local.html)         | ローカルファイルをアーカイブします                                     |
-| [file dispatch local]({{ site.baseurl }}/ja/commands/file-dispatch-local.html)       | ローカルファイルを整理します                                           |
-| [job history archive]({{ site.baseurl }}/ja/commands/job-history-archive.html)       | ジョブのアーカイブ                                                     |
-| [job history delete]({{ site.baseurl }}/ja/commands/job-history-delete.html)         | 古いジョブ履歴の削除                                                   |
-| [job history list]({{ site.baseurl }}/ja/commands/job-history-list.html)             | ジョブ履歴の表示                                                       |
-| [job log jobid]({{ site.baseurl }}/ja/commands/job-log-jobid.html)                   | 指定したジョブIDのログを取得する                                       |
-| [job log kind]({{ site.baseurl }}/ja/commands/job-log-kind.html)                     | 指定種別のログを結合して出力します                                     |
-| [job log last]({{ site.baseurl }}/ja/commands/job-log-last.html)                     | 最後のジョブのログファイルを出力.                                      |
-| [license]({{ site.baseurl }}/ja/commands/license.html)                               | ライセンス情報を表示します                                             |
-| [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)               | 現在の日付を表示                                                       |
-| [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)           | 現在の日時を表示                                                       |
-| [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)         | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)         | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                 | git リポジトリをクローン                                               |
-| [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html) | プレースホルダー画像の作成                                             |
-| [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)         | QRコード画像ファイルの作成                                             |
-| [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)             | WIFI設定用のQRコードを生成                                             |
-| [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                   | 現在の時刻を表示                                                       |
-| [util unixtime format]({{ site.baseurl }}/ja/commands/util-unixtime-format.html)     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
-| [util unixtime now]({{ site.baseurl }}/ja/commands/util-unixtime-now.html)           | UNIX時間で現在の時刻を表示する                                         |
-| [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)             | 空のスプレッドシートを作成する                                         |
-| [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html) | xlsxファイルからデータをエクスポート                                   |
-| [util xlsx sheet import]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-import.html) | データをxlsxファイルにインポート                                       |
-| [util xlsx sheet list]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-list.html)     | xlsxファイルのシート一覧                                               |
-| [version]({{ site.baseurl }}/ja/commands/version.html)                               | バージョン情報                                                         |
+| コマンド                                                                               | 説明                                                                   |
+|----------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                   | 機能を無効化します.                                                    |
+| [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                     | 機能を有効化します.                                                    |
+| [config features]({{ site.baseurl }}/ja/commands/config-features.html)                 | 利用可能なオプション機能一覧.                                          |
+| [file archive local]({{ site.baseurl }}/ja/commands/file-archive-local.html)           | ローカルファイルをアーカイブします                                     |
+| [file dispatch local]({{ site.baseurl }}/ja/commands/file-dispatch-local.html)         | ローカルファイルを整理します                                           |
+| [job history archive]({{ site.baseurl }}/ja/commands/job-history-archive.html)         | ジョブのアーカイブ                                                     |
+| [job history delete]({{ site.baseurl }}/ja/commands/job-history-delete.html)           | 古いジョブ履歴の削除                                                   |
+| [job history list]({{ site.baseurl }}/ja/commands/job-history-list.html)               | ジョブ履歴の表示                                                       |
+| [job log jobid]({{ site.baseurl }}/ja/commands/job-log-jobid.html)                     | 指定したジョブIDのログを取得する                                       |
+| [job log kind]({{ site.baseurl }}/ja/commands/job-log-kind.html)                       | 指定種別のログを結合して出力します                                     |
+| [job log last]({{ site.baseurl }}/ja/commands/job-log-last.html)                       | 最後のジョブのログファイルを出力.                                      |
+| [license]({{ site.baseurl }}/ja/commands/license.html)                                 | ライセンス情報を表示します                                             |
+| [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)                 | 現在の日付を表示                                                       |
+| [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)             | 現在の日時を表示                                                       |
+| [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)           | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)           | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)           | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                   | git リポジトリをクローン                                               |
+| [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html)   | プレースホルダー画像の作成                                             |
+| [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)           | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)               | WIFI設定用のQRコードを生成                                             |
+| [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html) | Convert text encoding to UTF-8 text file from specified encoding.      |
+| [util text encoding to]({{ site.baseurl }}/ja/commands/util-text-encoding-to.html)     | Convert text encoding to specified encoding from UTF-8 text file.      |
+| [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                     | 現在の時刻を表示                                                       |
+| [util unixtime format]({{ site.baseurl }}/ja/commands/util-unixtime-format.html)       | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now]({{ site.baseurl }}/ja/commands/util-unixtime-now.html)             | UNIX時間で現在の時刻を表示する                                         |
+| [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)               | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html)   | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-import.html)   | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-list.html)       | xlsxファイルのシート一覧                                               |
+| [version]({{ site.baseurl }}/ja/commands/version.html)                                 | バージョン情報                                                         |
 
 

@@ -252,37 +252,39 @@ lang: en
 
 ## Utilities
 
-| Command                                                                           | Description                                                          |
-|-----------------------------------------------------------------------------------|----------------------------------------------------------------------|
-| [config disable]({{ site.baseurl }}/commands/config-disable.html)                 | Disable a feature.                                                   |
-| [config enable]({{ site.baseurl }}/commands/config-enable.html)                   | Enable a feature.                                                    |
-| [config features]({{ site.baseurl }}/commands/config-features.html)               | List available optional features.                                    |
-| [file archive local]({{ site.baseurl }}/commands/file-archive-local.html)         | Archive local files                                                  |
-| [file dispatch local]({{ site.baseurl }}/commands/file-dispatch-local.html)       | Dispatch local files                                                 |
-| [job history archive]({{ site.baseurl }}/commands/job-history-archive.html)       | Archive jobs                                                         |
-| [job history delete]({{ site.baseurl }}/commands/job-history-delete.html)         | Delete old job history                                               |
-| [job history list]({{ site.baseurl }}/commands/job-history-list.html)             | Show job history                                                     |
-| [job log jobid]({{ site.baseurl }}/commands/job-log-jobid.html)                   | Retrieve logs of specified Job ID                                    |
-| [job log kind]({{ site.baseurl }}/commands/job-log-kind.html)                     | Concatenate and print logs of specified log kind                     |
-| [job log last]({{ site.baseurl }}/commands/job-log-last.html)                     | Print the last job log files                                         |
-| [license]({{ site.baseurl }}/commands/license.html)                               | Show license information                                             |
-| [util date today]({{ site.baseurl }}/commands/util-date-today.html)               | Display current date                                                 |
-| [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)           | Display current date/time                                            |
-| [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)         | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)         | Decode text from Base64 (RFC 4648) format                            |
-| [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)         | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)         | Encode text into Base64 (RFC 4648) format                            |
-| [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                 | Clone git repository                                                 |
-| [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html) | Create placeholder image                                             |
-| [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)         | Create a QR code image file                                          |
-| [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)             | Generate QR code for WIFI configuration                              |
-| [util time now]({{ site.baseurl }}/commands/util-time-now.html)                   | Display current time                                                 |
-| [util unixtime format]({{ site.baseurl }}/commands/util-unixtime-format.html)     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
-| [util unixtime now]({{ site.baseurl }}/commands/util-unixtime-now.html)           | Display current time in unixtime                                     |
-| [util xlsx create]({{ site.baseurl }}/commands/util-xlsx-create.html)             | Create an empty spreadsheet                                          |
-| [util xlsx sheet export]({{ site.baseurl }}/commands/util-xlsx-sheet-export.html) | Export data from the xlsx file                                       |
-| [util xlsx sheet import]({{ site.baseurl }}/commands/util-xlsx-sheet-import.html) | Import data into xlsx file                                           |
-| [util xlsx sheet list]({{ site.baseurl }}/commands/util-xlsx-sheet-list.html)     | List sheets of the xlsx file                                         |
-| [version]({{ site.baseurl }}/commands/version.html)                               | Show version                                                         |
+| Command                                                                             | Description                                                          |
+|-------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config disable]({{ site.baseurl }}/commands/config-disable.html)                   | Disable a feature.                                                   |
+| [config enable]({{ site.baseurl }}/commands/config-enable.html)                     | Enable a feature.                                                    |
+| [config features]({{ site.baseurl }}/commands/config-features.html)                 | List available optional features.                                    |
+| [file archive local]({{ site.baseurl }}/commands/file-archive-local.html)           | Archive local files                                                  |
+| [file dispatch local]({{ site.baseurl }}/commands/file-dispatch-local.html)         | Dispatch local files                                                 |
+| [job history archive]({{ site.baseurl }}/commands/job-history-archive.html)         | Archive jobs                                                         |
+| [job history delete]({{ site.baseurl }}/commands/job-history-delete.html)           | Delete old job history                                               |
+| [job history list]({{ site.baseurl }}/commands/job-history-list.html)               | Show job history                                                     |
+| [job log jobid]({{ site.baseurl }}/commands/job-log-jobid.html)                     | Retrieve logs of specified Job ID                                    |
+| [job log kind]({{ site.baseurl }}/commands/job-log-kind.html)                       | Concatenate and print logs of specified log kind                     |
+| [job log last]({{ site.baseurl }}/commands/job-log-last.html)                       | Print the last job log files                                         |
+| [license]({{ site.baseurl }}/commands/license.html)                                 | Show license information                                             |
+| [util date today]({{ site.baseurl }}/commands/util-date-today.html)                 | Display current date                                                 |
+| [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)             | Display current date/time                                            |
+| [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)           | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)           | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)           | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)           | Encode text into Base64 (RFC 4648) format                            |
+| [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                   | Clone git repository                                                 |
+| [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html)   | Create placeholder image                                             |
+| [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)           | Create a QR code image file                                          |
+| [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)               | Generate QR code for WIFI configuration                              |
+| [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html) | Convert text encoding to UTF-8 text file from specified encoding.    |
+| [util text encoding to]({{ site.baseurl }}/commands/util-text-encoding-to.html)     | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util time now]({{ site.baseurl }}/commands/util-time-now.html)                     | Display current time                                                 |
+| [util unixtime format]({{ site.baseurl }}/commands/util-unixtime-format.html)       | Time format to convert the unix time (epoch seconds from 1970-01-01) |
+| [util unixtime now]({{ site.baseurl }}/commands/util-unixtime-now.html)             | Display current time in unixtime                                     |
+| [util xlsx create]({{ site.baseurl }}/commands/util-xlsx-create.html)               | Create an empty spreadsheet                                          |
+| [util xlsx sheet export]({{ site.baseurl }}/commands/util-xlsx-sheet-export.html)   | Export data from the xlsx file                                       |
+| [util xlsx sheet import]({{ site.baseurl }}/commands/util-xlsx-sheet-import.html)   | Import data into xlsx file                                           |
+| [util xlsx sheet list]({{ site.baseurl }}/commands/util-xlsx-sheet-list.html)       | List sheets of the xlsx file                                         |
+| [version]({{ site.baseurl }}/commands/version.html)                                 | Show version                                                         |
 
 

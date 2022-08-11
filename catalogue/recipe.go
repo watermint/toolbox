@@ -132,6 +132,7 @@ import (
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
 	recipeutilimage "github.com/watermint/toolbox/recipe/util/image"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
+	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
@@ -423,6 +424,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilimage.Placeholder{},
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
+		&recipeutiltextencoding.From{},
+		&recipeutiltextencoding.To{},
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},

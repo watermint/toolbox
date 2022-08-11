@@ -330,36 +330,38 @@ Available commands:
 
 ## Utilities
 
-| Command                                                           | Description                                                          |
-|-------------------------------------------------------------------|----------------------------------------------------------------------|
-| [config disable](docs/commands/config-disable.md)                 | Disable a feature.                                                   |
-| [config enable](docs/commands/config-enable.md)                   | Enable a feature.                                                    |
-| [config features](docs/commands/config-features.md)               | List available optional features.                                    |
-| [file archive local](docs/commands/file-archive-local.md)         | Archive local files                                                  |
-| [file dispatch local](docs/commands/file-dispatch-local.md)       | Dispatch local files                                                 |
-| [job history archive](docs/commands/job-history-archive.md)       | Archive jobs                                                         |
-| [job history delete](docs/commands/job-history-delete.md)         | Delete old job history                                               |
-| [job history list](docs/commands/job-history-list.md)             | Show job history                                                     |
-| [job log jobid](docs/commands/job-log-jobid.md)                   | Retrieve logs of specified Job ID                                    |
-| [job log kind](docs/commands/job-log-kind.md)                     | Concatenate and print logs of specified log kind                     |
-| [job log last](docs/commands/job-log-last.md)                     | Print the last job log files                                         |
-| [license](docs/commands/license.md)                               | Show license information                                             |
-| [util date today](docs/commands/util-date-today.md)               | Display current date                                                 |
-| [util datetime now](docs/commands/util-datetime-now.md)           | Display current date/time                                            |
-| [util decode base32](docs/commands/util-decode-base32.md)         | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base64](docs/commands/util-decode-base64.md)         | Decode text from Base64 (RFC 4648) format                            |
-| [util encode base32](docs/commands/util-encode-base32.md)         | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base64](docs/commands/util-encode-base64.md)         | Encode text into Base64 (RFC 4648) format                            |
-| [util git clone](docs/commands/util-git-clone.md)                 | Clone git repository                                                 |
-| [util image placeholder](docs/commands/util-image-placeholder.md) | Create placeholder image                                             |
-| [util qrcode create](docs/commands/util-qrcode-create.md)         | Create a QR code image file                                          |
-| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                              |
-| [util time now](docs/commands/util-time-now.md)                   | Display current time                                                 |
-| [util unixtime format](docs/commands/util-unixtime-format.md)     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
-| [util unixtime now](docs/commands/util-unixtime-now.md)           | Display current time in unixtime                                     |
-| [util xlsx create](docs/commands/util-xlsx-create.md)             | Create an empty spreadsheet                                          |
-| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md) | Export data from the xlsx file                                       |
-| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md) | Import data into xlsx file                                           |
-| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                         |
-| [version](docs/commands/version.md)                               | Show version                                                         |
+| Command                                                             | Description                                                          |
+|---------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config disable](docs/commands/config-disable.md)                   | Disable a feature.                                                   |
+| [config enable](docs/commands/config-enable.md)                     | Enable a feature.                                                    |
+| [config features](docs/commands/config-features.md)                 | List available optional features.                                    |
+| [file archive local](docs/commands/file-archive-local.md)           | Archive local files                                                  |
+| [file dispatch local](docs/commands/file-dispatch-local.md)         | Dispatch local files                                                 |
+| [job history archive](docs/commands/job-history-archive.md)         | Archive jobs                                                         |
+| [job history delete](docs/commands/job-history-delete.md)           | Delete old job history                                               |
+| [job history list](docs/commands/job-history-list.md)               | Show job history                                                     |
+| [job log jobid](docs/commands/job-log-jobid.md)                     | Retrieve logs of specified Job ID                                    |
+| [job log kind](docs/commands/job-log-kind.md)                       | Concatenate and print logs of specified log kind                     |
+| [job log last](docs/commands/job-log-last.md)                       | Print the last job log files                                         |
+| [license](docs/commands/license.md)                                 | Show license information                                             |
+| [util date today](docs/commands/util-date-today.md)                 | Display current date                                                 |
+| [util datetime now](docs/commands/util-datetime-now.md)             | Display current date/time                                            |
+| [util decode base32](docs/commands/util-decode-base32.md)           | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64](docs/commands/util-decode-base64.md)           | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base32](docs/commands/util-encode-base32.md)           | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64](docs/commands/util-encode-base64.md)           | Encode text into Base64 (RFC 4648) format                            |
+| [util git clone](docs/commands/util-git-clone.md)                   | Clone git repository                                                 |
+| [util image placeholder](docs/commands/util-image-placeholder.md)   | Create placeholder image                                             |
+| [util qrcode create](docs/commands/util-qrcode-create.md)           | Create a QR code image file                                          |
+| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)               | Generate QR code for WIFI configuration                              |
+| [util text encoding from](docs/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.    |
+| [util text encoding to](docs/commands/util-text-encoding-to.md)     | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util time now](docs/commands/util-time-now.md)                     | Display current time                                                 |
+| [util unixtime format](docs/commands/util-unixtime-format.md)       | Time format to convert the unix time (epoch seconds from 1970-01-01) |
+| [util unixtime now](docs/commands/util-unixtime-now.md)             | Display current time in unixtime                                     |
+| [util xlsx create](docs/commands/util-xlsx-create.md)               | Create an empty spreadsheet                                          |
+| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)   | Export data from the xlsx file                                       |
+| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md)   | Import data into xlsx file                                           |
+| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)       | List sheets of the xlsx file                                         |
+| [version](docs/commands/version.md)                                 | Show version                                                         |
 

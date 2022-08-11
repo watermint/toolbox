@@ -4,52 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev stage encoding
+# util text encoding from
 
-Encoding test command (upload a dummy file with specified encoding name)
-
-# セキュリティ
-
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
-
-| OS      | パス                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
-
-方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-
-## 認可スコープ
-
-| 説明                                                   |
-|--------------------------------------------------------|
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集 |
-
-# 認可
-
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います.
-認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2022 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-```
+Convert text encoding to UTF-8 text file from specified encoding.
 
 # インストール
 
@@ -65,14 +22,16 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage encoding -path /DROPBOX/PATH/TO/UPLOAD
+.\tbx.exe util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx dev stage encoding -path /DROPBOX/PATH/TO/UPLOAD
+$HOME/Desktop/tbx util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -86,10 +45,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション  | 説明             | デフォルト |
 |-------------|------------------|------------|
-| `-encoding` | Encoding         |            |
-| `-name`     | Name of the file |            |
-| `-path`     | Path to upload   |            |
-| `-peer`     | Account alias    | default    |
+| `-encoding` | Encoding name    |            |
+| `-in`       | Input file path  |            |
+| `-out`      | Output file path |            |
 
 ## 共通のオプション:
 
