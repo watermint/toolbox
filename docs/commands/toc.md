@@ -266,6 +266,8 @@ lang: en
 | [job log kind]({{ site.baseurl }}/commands/job-log-kind.html)                       | Concatenate and print logs of specified log kind                     |
 | [job log last]({{ site.baseurl }}/commands/job-log-last.html)                       | Print the last job log files                                         |
 | [license]({{ site.baseurl }}/commands/license.html)                                 | Show license information                                             |
+| [util archive unzip]({{ site.baseurl }}/commands/util-archive-unzip.html)           | Extract the zip archive file                                         |
+| [util archive zip]({{ site.baseurl }}/commands/util-archive-zip.html)               | Compress target files into the zip archive                           |
 | [util date today]({{ site.baseurl }}/commands/util-date-today.html)                 | Display current date                                                 |
 | [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)             | Display current date/time                                            |
 | [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)           | Decode text from Base32 (RFC 4648) format                            |

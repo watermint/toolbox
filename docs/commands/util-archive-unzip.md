@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# util text encoding from
+# util archive unzip
 
-Convert text encoding to UTF-8 text file from specified encoding.
+Extract the zip archive file
 
 # Installation
 
@@ -23,14 +23,16 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
+.\tbx.exe util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
+$HOME/Desktop/tbx util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -44,11 +46,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-encoding` | Encoding name    |         |
-| `-in`       | Input file path  |         |
-| `-out`      | Output file path |         |
+| Option | Description           | Default |
+|--------|-----------------------|---------|
+| `-in`  | Zip archive file path |         |
+| `-out` | Path to extract files |         |
 
 ## Common options:
 

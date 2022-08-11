@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util text encoding to -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util text encoding to -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
 ```

@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# util text encoding from
+# util archive unzip
 
-Convert text encoding to UTF-8 text file from specified encoding.
+Extract the zip archive file
 
 # インストール
 
@@ -22,14 +22,16 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
+.\tbx.exe util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util text encoding from -in /LOCAL/PATH/TO/INPUT_FILE -out /LOCAL/PATH/TO/OUTPUT_FILE -encoding ENCODING
+$HOME/Desktop/tbx util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -41,11 +43,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明             | デフォルト |
-|-------------|------------------|------------|
-| `-encoding` | Encoding name    |            |
-| `-in`       | Input file path  |            |
-| `-out`      | Output file path |            |
+| オプション | 説明                  | デフォルト |
+|------------|-----------------------|------------|
+| `-in`      | Zip archive file path |            |
+| `-out`     | Path to extract files |            |
 
 ## 共通のオプション:
 

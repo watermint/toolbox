@@ -344,6 +344,8 @@ Available commands:
 | [job log kind](docs/commands/job-log-kind.md)                       | Concatenate and print logs of specified log kind                     |
 | [job log last](docs/commands/job-log-last.md)                       | Print the last job log files                                         |
 | [license](docs/commands/license.md)                                 | Show license information                                             |
+| [util archive unzip](docs/commands/util-archive-unzip.md)           | Extract the zip archive file                                         |
+| [util archive zip](docs/commands/util-archive-zip.md)               | Compress target files into the zip archive                           |
 | [util date today](docs/commands/util-date-today.md)                 | Display current date                                                 |
 | [util datetime now](docs/commands/util-datetime-now.md)             | Display current date/time                                            |
 | [util decode base32](docs/commands/util-decode-base32.md)           | Decode text from Base32 (RFC 4648) format                            |

@@ -342,6 +342,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [job log kind](docs/ja/commands/job-log-kind.md)                       | 指定種別のログを結合して出力します                                     |
 | [job log last](docs/ja/commands/job-log-last.md)                       | 最後のジョブのログファイルを出力.                                      |
 | [license](docs/ja/commands/license.md)                                 | ライセンス情報を表示します                                             |
+| [util archive unzip](docs/ja/commands/util-archive-unzip.md)           | Extract the zip archive file                                           |
+| [util archive zip](docs/ja/commands/util-archive-zip.md)               | Compress target files into the zip archive                             |
 | [util date today](docs/ja/commands/util-date-today.md)                 | 現在の日付を表示                                                       |
 | [util datetime now](docs/ja/commands/util-datetime-now.md)             | 現在の日時を表示                                                       |
 | [util decode base32](docs/ja/commands/util-decode-base32.md)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |

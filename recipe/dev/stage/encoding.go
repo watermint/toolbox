@@ -67,7 +67,7 @@ func (z *Encoding) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Encoding{}, func(r rc_recipe.Recipe) {
 		m := r.(*Encoding)
 		m.Path = qtr_endtoend.NewTestDropboxFolderPath("encoding")
-		m.Encoding = "iso8859-1"
+		m.Encoding = "shift-jis"
 		m.Name = "エンコーディング"
 	})
 }
