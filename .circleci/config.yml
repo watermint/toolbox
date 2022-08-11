@@ -19,8 +19,6 @@ jobs:
           environment:
             TOOLBOX_PATCH_VERSION: << pipeline.number >>
 
-      - store_artifacts:
-          path: dist
       - save_cache:
           key: build-mod-{{ checksum "go.mod.sum" }}
           paths:
@@ -37,15 +35,16 @@ jobs:
       - checkout
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
-          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
+          key: test-mod-{{ checksum "go.mod.sum" }}
       - run: mkdir -p test/results
       - run: go get golang.org/x/tools/cmd/cover
       - run: go get github.com/jstemmer/go-junit-report
       - run: bash ./test/test.sh
       - save_cache:
-          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
+          key: test-mod-{{ checksum "go.mod.sum" }}
           paths:
             - $HOME/go/pkg/mod
+            - /go/pkg/mod
       - store_test_results:
           path: test/results
       - store_artifacts:
