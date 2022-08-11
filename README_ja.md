@@ -352,6 +352,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util encode base64](docs/ja/commands/util-encode-base64.md)           | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util git clone](docs/ja/commands/util-git-clone.md)                   | git リポジトリをクローン                                               |
 | [util image placeholder](docs/ja/commands/util-image-placeholder.md)   | プレースホルダー画像の作成                                             |
+| [util net download](docs/ja/commands/util-net-download.md)             | Download a file                                                        |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)           | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)               | WIFI設定用のQRコードを生成                                             |
 | [util text encoding from](docs/ja/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.      |

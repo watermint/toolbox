@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# util archive unzip
+# util net download
 
-Extract the zip archive file
+Download a file
 
 # インストール
 
@@ -22,14 +22,16 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
+.\tbx.exe util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
+$HOME/Desktop/tbx util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -41,10 +43,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                  | デフォルト |
-|------------|-----------------------|------------|
-| `-in`      | Zip archive file path |            |
-| `-out`     | Path to extract files |            |
+| オプション | 説明                | デフォルト |
+|------------|---------------------|------------|
+| `-out`     | Local path to store |            |
+| `-url`     | URL to download     |            |
 
 ## 共通のオプション:
 

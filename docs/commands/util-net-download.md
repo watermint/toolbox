@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# util archive unzip
+# util net download
 
-Extract the zip archive file
+Download a file
 
 # Installation
 
@@ -23,14 +23,16 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
+.\tbx.exe util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util archive unzip -in /LOCAL/PATH/TO/ARCHIVE.zip -out /LOCAL/PATH/TO/EXTRACT
+$HOME/Desktop/tbx util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -44,10 +46,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option | Description           | Default |
-|--------|-----------------------|---------|
-| `-in`  | Zip archive file path |         |
-| `-out` | Path to extract files |         |
+| Option | Description         | Default |
+|--------|---------------------|---------|
+| `-out` | Local path to store |         |
+| `-url` | URL to download     |         |
 
 ## Common options:
 

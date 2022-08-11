@@ -276,6 +276,7 @@ lang: ja
 | [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)           | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                   | git リポジトリをクローン                                               |
 | [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html)   | プレースホルダー画像の作成                                             |
+| [util net download]({{ site.baseurl }}/ja/commands/util-net-download.html)             | Download a file                                                        |
 | [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)           | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)               | WIFI設定用のQRコードを生成                                             |
 | [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html) | Convert text encoding to UTF-8 text file from specified encoding.      |

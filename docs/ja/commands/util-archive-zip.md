@@ -22,14 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util archive zip -out /LOCAL/PATH/TO/ARCHIVE.zip -target /LOCAL/PATH/TO/COMPRESS
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util archive zip -out /LOCAL/PATH/TO/ARCHIVE.zip -target /LOCAL/PATH/TO/COMPRESS
 ```

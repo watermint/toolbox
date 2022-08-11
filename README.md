@@ -354,6 +354,7 @@ Available commands:
 | [util encode base64](docs/commands/util-encode-base64.md)           | Encode text into Base64 (RFC 4648) format                            |
 | [util git clone](docs/commands/util-git-clone.md)                   | Clone git repository                                                 |
 | [util image placeholder](docs/commands/util-image-placeholder.md)   | Create placeholder image                                             |
+| [util net download](docs/commands/util-net-download.md)             | Download a file                                                      |
 | [util qrcode create](docs/commands/util-qrcode-create.md)           | Create a QR code image file                                          |
 | [util qrcode wifi](docs/commands/util-qrcode-wifi.md)               | Generate QR code for WIFI configuration                              |
 | [util text encoding from](docs/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.    |
