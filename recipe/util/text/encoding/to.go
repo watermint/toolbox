@@ -18,6 +18,7 @@ import (
 )
 
 type To struct {
+	rc_recipe.RemarkTransient
 	Encoding    string
 	In          mo_path.ExistingFileSystemPath
 	Out         mo_path.FileSystemPath

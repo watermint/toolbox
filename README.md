@@ -357,6 +357,8 @@ Available commands:
 | [util net download](docs/commands/util-net-download.md)             | Download a file                                                      |
 | [util qrcode create](docs/commands/util-qrcode-create.md)           | Create a QR code image file                                          |
 | [util qrcode wifi](docs/commands/util-qrcode-wifi.md)               | Generate QR code for WIFI configuration                              |
+| [util text case down](docs/commands/util-text-case-down.md)         | Print lower case text                                                |
+| [util text case up](docs/commands/util-text-case-up.md)             | Print upper case text                                                |
 | [util text encoding from](docs/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.    |
 | [util text encoding to](docs/commands/util-text-encoding-to.md)     | Convert text encoding to specified encoding from UTF-8 text file.    |
 | [util time now](docs/commands/util-time-now.md)                     | Display current time                                                 |

@@ -279,6 +279,8 @@ lang: ja
 | [util net download]({{ site.baseurl }}/ja/commands/util-net-download.html)             | Download a file                                                        |
 | [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)           | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)               | WIFI設定用のQRコードを生成                                             |
+| [util text case down]({{ site.baseurl }}/ja/commands/util-text-case-down.html)         | Print lower case text                                                  |
+| [util text case up]({{ site.baseurl }}/ja/commands/util-text-case-up.html)             | Print upper case text                                                  |
 | [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html) | Convert text encoding to UTF-8 text file from specified encoding.      |
 | [util text encoding to]({{ site.baseurl }}/ja/commands/util-text-encoding-to.html)     | Convert text encoding to specified encoding from UTF-8 text file.      |
 | [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                     | 現在の時刻を表示                                                       |

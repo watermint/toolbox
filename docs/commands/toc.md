@@ -279,6 +279,8 @@ lang: en
 | [util net download]({{ site.baseurl }}/commands/util-net-download.html)             | Download a file                                                      |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)           | Create a QR code image file                                          |
 | [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)               | Generate QR code for WIFI configuration                              |
+| [util text case down]({{ site.baseurl }}/commands/util-text-case-down.html)         | Print lower case text                                                |
+| [util text case up]({{ site.baseurl }}/commands/util-text-case-up.html)             | Print upper case text                                                |
 | [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html) | Convert text encoding to UTF-8 text file from specified encoding.    |
 | [util text encoding to]({{ site.baseurl }}/commands/util-text-encoding-to.html)     | Convert text encoding to specified encoding from UTF-8 text file.    |
 | [util time now]({{ site.baseurl }}/commands/util-time-now.html)                     | Display current time                                                 |

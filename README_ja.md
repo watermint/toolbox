@@ -355,6 +355,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [util net download](docs/ja/commands/util-net-download.md)             | Download a file                                                        |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)           | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)               | WIFI設定用のQRコードを生成                                             |
+| [util text case down](docs/ja/commands/util-text-case-down.md)         | Print lower case text                                                  |
+| [util text case up](docs/ja/commands/util-text-case-up.md)             | Print upper case text                                                  |
 | [util text encoding from](docs/ja/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.      |
 | [util text encoding to](docs/ja/commands/util-text-encoding-to.md)     | Convert text encoding to specified encoding from UTF-8 text file.      |
 | [util time now](docs/ja/commands/util-time-now.md)                     | 現在の時刻を表示                                                       |

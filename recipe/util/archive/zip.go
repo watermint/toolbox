@@ -16,6 +16,7 @@ import (
 )
 
 type Zip struct {
+	rc_recipe.RemarkTransient
 	Target  mo_path.ExistingFileSystemPath
 	Out     mo_path.FileSystemPath
 	Comment mo_string.OptionalString

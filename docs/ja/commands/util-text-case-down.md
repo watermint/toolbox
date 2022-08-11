@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# util net download
+# util text case down
 
-Download a file
+Print lower case text
 
 # インストール
 
@@ -22,14 +22,16 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
+.\tbx.exe util text case down 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
+$HOME/Desktop/tbx util text case down 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -41,10 +43,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                | デフォルト |
-|------------|---------------------|------------|
-| `-out`     | Local path to store |            |
-| `-url`     | URL to download     |            |
+| オプション | 説明 | デフォルト |
+|------------|------|------------|
+| `-text`    | Text |            |
 
 ## 共通のオプション:
 

@@ -134,6 +134,7 @@ import (
 	recipeutilimage "github.com/watermint/toolbox/recipe/util/image"
 	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
+	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
@@ -429,6 +430,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilnet.Download{},
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
+		&recipeutiltextcase.Down{},
+		&recipeutiltextcase.Up{},
 		&recipeutiltextencoding.From{},
 		&recipeutiltextencoding.To{},
 		&recipeutiltime.Now{},

@@ -15,6 +15,7 @@ import (
 )
 
 type Unzip struct {
+	rc_recipe.RemarkTransient
 	In  mo_path.ExistingFileSystemPath
 	Out mo_path.FileSystemPath
 }

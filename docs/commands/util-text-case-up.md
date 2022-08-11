@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# util net download
+# util text case up
 
-Download a file
+Print upper case text
 
 # Installation
 
@@ -23,14 +23,16 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
+.\tbx.exe util text case up 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util net download -out /LOCAL/PATH/TO/STORE -url URL_TO_DOWNLOAD
+$HOME/Desktop/tbx util text case up 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -44,10 +46,9 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option | Description         | Default |
-|--------|---------------------|---------|
-| `-out` | Local path to store |         |
-| `-url` | URL to download     |         |
+| Option  | Description | Default |
+|---------|-------------|---------|
+| `-text` | Text        |         |
 
 ## Common options:
 
