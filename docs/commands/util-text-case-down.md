@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util text case down 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util text case down 
 ```

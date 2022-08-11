@@ -274,6 +274,7 @@ lang: en
 | [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)           | Decode text from Base64 (RFC 4648) format                            |
 | [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)           | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)           | Encode text into Base64 (RFC 4648) format                            |
+| [util file hash]({{ site.baseurl }}/commands/util-file-hash.html)                   | Print file digest                                                    |
 | [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                   | Clone git repository                                                 |
 | [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html)   | Create placeholder image                                             |
 | [util net download]({{ site.baseurl }}/commands/util-net-download.html)             | Download a file                                                      |

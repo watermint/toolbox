@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# util text case up
+# util file hash
 
-Print upper case text
+Print file digest
 
 # Installation
 
@@ -23,14 +23,16 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util text case up 
+.\tbx.exe util file hash -file /LOCAL/PATH/TO/DIGEST
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util text case up 
+$HOME/Desktop/tbx util file hash -file /LOCAL/PATH/TO/DIGEST
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -44,9 +46,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description | Default |
-|---------|-------------|---------|
-| `-text` | Text        |         |
+| Option       | Description                      | Default |
+|--------------|----------------------------------|---------|
+| `-algorithm` | Hash algorithm (md5/sha1/sha256) | sha1    |
+| `-file`      | Path to digest                   |         |
 
 ## Common options:
 

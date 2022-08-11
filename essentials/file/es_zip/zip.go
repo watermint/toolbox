@@ -61,9 +61,6 @@ func CompressPath(arcPath, targetPath, arcComment string) error {
 				}
 
 				_ = r.Close()
-				//l.Debug("Try remove the log file", esl.String("path", rp))
-				//err = os.Remove(rp)
-				//l.Debug("Removed", esl.String("path", rp), esl.Error(err))
 			}
 		}
 		return nil

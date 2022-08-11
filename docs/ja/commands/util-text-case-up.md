@@ -22,14 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util text case up 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util text case up 
 ```

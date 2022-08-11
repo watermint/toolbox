@@ -352,6 +352,7 @@ Available commands:
 | [util decode base64](docs/commands/util-decode-base64.md)           | Decode text from Base64 (RFC 4648) format                            |
 | [util encode base32](docs/commands/util-encode-base32.md)           | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base64](docs/commands/util-encode-base64.md)           | Encode text into Base64 (RFC 4648) format                            |
+| [util file hash](docs/commands/util-file-hash.md)                   | Print file digest                                                    |
 | [util git clone](docs/commands/util-git-clone.md)                   | Clone git repository                                                 |
 | [util image placeholder](docs/commands/util-image-placeholder.md)   | Create placeholder image                                             |
 | [util net download](docs/commands/util-net-download.md)             | Download a file                                                      |

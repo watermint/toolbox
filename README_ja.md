@@ -350,6 +350,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util decode base64](docs/ja/commands/util-decode-base64.md)           | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
 | [util encode base32](docs/ja/commands/util-encode-base32.md)           | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base64](docs/ja/commands/util-encode-base64.md)           | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util file hash](docs/ja/commands/util-file-hash.md)                   | Print file digest                                                      |
 | [util git clone](docs/ja/commands/util-git-clone.md)                   | git リポジトリをクローン                                               |
 | [util image placeholder](docs/ja/commands/util-image-placeholder.md)   | プレースホルダー画像の作成                                             |
 | [util net download](docs/ja/commands/util-net-download.md)             | Download a file                                                        |

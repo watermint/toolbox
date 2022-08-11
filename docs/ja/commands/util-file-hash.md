@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# util text case down
+# util file hash
 
-Print lower case text
+Print file digest
 
 # インストール
 
@@ -22,14 +22,16 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe util text case down 
+.\tbx.exe util file hash -file /LOCAL/PATH/TO/DIGEST
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx util text case down 
+$HOME/Desktop/tbx util file hash -file /LOCAL/PATH/TO/DIGEST
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -41,9 +43,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明 | デフォルト |
-|------------|------|------------|
-| `-text`    | Text |            |
+| オプション   | 説明                             | デフォルト |
+|--------------|----------------------------------|------------|
+| `-algorithm` | Hash algorithm (md5/sha1/sha256) | sha1       |
+| `-file`      | Path to digest                   |            |
 
 ## 共通のオプション:
 

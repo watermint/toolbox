@@ -274,6 +274,7 @@ lang: ja
 | [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)           | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
 | [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)           | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)           | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util file hash]({{ site.baseurl }}/ja/commands/util-file-hash.html)                   | Print file digest                                                      |
 | [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                   | git リポジトリをクローン                                               |
 | [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html)   | プレースホルダー画像の作成                                             |
 | [util net download]({{ site.baseurl }}/ja/commands/util-net-download.html)             | Download a file                                                        |
