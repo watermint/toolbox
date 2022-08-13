@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util image exif -file /LOCAL/PATH/TO/IMG.jpg
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util image exif -file /LOCAL/PATH/TO/IMG.jpg
 ```

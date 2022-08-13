@@ -145,6 +145,7 @@ Available commands:
 | [sharedlink file list](docs/commands/sharedlink-file-list.md)                   | List files for the shared link                                |
 | [sharedlink info](docs/commands/sharedlink-info.md)                             | Get information about the shared link                         |
 | [sharedlink list](docs/commands/sharedlink-list.md)                             | List of shared link(s)                                        |
+| [util monitor client](docs/commands/util-monitor-client.md)                     | Start device monitor client                                   |
 
 ## Dropbox Business
 

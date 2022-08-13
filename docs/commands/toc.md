@@ -67,6 +67,7 @@ lang: en
 | [sharedlink file list]({{ site.baseurl }}/commands/sharedlink-file-list.html)                   | List files for the shared link                                |
 | [sharedlink info]({{ site.baseurl }}/commands/sharedlink-info.html)                             | Get information about the shared link                         |
 | [sharedlink list]({{ site.baseurl }}/commands/sharedlink-list.html)                             | List of shared link(s)                                        |
+| [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                     | Start device monitor client                                   |
 
 ## Dropbox Business
 

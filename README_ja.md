@@ -143,6 +143,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                   | 共有リンクのファイルを一覧する                                            |
 | [sharedlink info](docs/ja/commands/sharedlink-info.md)                             | 共有リンクの情報取得                                                      |
 | [sharedlink list](docs/ja/commands/sharedlink-list.md)                             | 共有リンクの一覧                                                          |
+| [util monitor client](docs/ja/commands/util-monitor-client.md)                     | Start device monitor client                                               |
 
 ## Dropbox Business
 

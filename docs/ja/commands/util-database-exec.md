@@ -22,14 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util database exec -file /LOCAL/PATH/DATA.sql -sql SQL
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util database exec -file /LOCAL/PATH/DATA.sql -sql SQL
 ```

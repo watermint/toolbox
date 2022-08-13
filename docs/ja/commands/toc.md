@@ -67,6 +67,7 @@ lang: ja
 | [sharedlink file list]({{ site.baseurl }}/ja/commands/sharedlink-file-list.html)                   | 共有リンクのファイルを一覧する                                            |
 | [sharedlink info]({{ site.baseurl }}/ja/commands/sharedlink-info.html)                             | 共有リンクの情報取得                                                      |
 | [sharedlink list]({{ site.baseurl }}/ja/commands/sharedlink-list.html)                             | 共有リンクの一覧                                                          |
+| [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                     | Start device monitor client                                               |
 
 ## Dropbox Business
 

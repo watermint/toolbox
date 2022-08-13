@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util database exec -file /LOCAL/PATH/DATA.sql -sql SQL
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util database exec -file /LOCAL/PATH/DATA.sql -sql SQL
 ```
