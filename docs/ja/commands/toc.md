@@ -268,6 +268,8 @@ lang: ja
 | [license]({{ site.baseurl }}/ja/commands/license.html)                                 | ライセンス情報を表示します                                             |
 | [util archive unzip]({{ site.baseurl }}/ja/commands/util-archive-unzip.html)           | Extract the zip archive file                                           |
 | [util archive zip]({{ site.baseurl }}/ja/commands/util-archive-zip.html)               | Compress target files into the zip archive                             |
+| [util database exec]({{ site.baseurl }}/ja/commands/util-database-exec.html)           | Execute query on SQLite3 database file                                 |
+| [util database query]({{ site.baseurl }}/ja/commands/util-database-query.html)         | Query SQLite3 database                                                 |
 | [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)                 | 現在の日付を表示                                                       |
 | [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)             | 現在の日時を表示                                                       |
 | [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |

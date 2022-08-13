@@ -344,6 +344,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [license](docs/ja/commands/license.md)                                 | ライセンス情報を表示します                                             |
 | [util archive unzip](docs/ja/commands/util-archive-unzip.md)           | Extract the zip archive file                                           |
 | [util archive zip](docs/ja/commands/util-archive-zip.md)               | Compress target files into the zip archive                             |
+| [util database exec](docs/ja/commands/util-database-exec.md)           | Execute query on SQLite3 database file                                 |
+| [util database query](docs/ja/commands/util-database-query.md)         | Query SQLite3 database                                                 |
 | [util date today](docs/ja/commands/util-date-today.md)                 | 現在の日付を表示                                                       |
 | [util datetime now](docs/ja/commands/util-datetime-now.md)             | 現在の日時を表示                                                       |
 | [util decode base32](docs/ja/commands/util-decode-base32.md)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |

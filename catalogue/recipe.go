@@ -125,6 +125,7 @@ import (
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
 	recipeutilarchive "github.com/watermint/toolbox/recipe/util/archive"
+	recipeutildatabase "github.com/watermint/toolbox/recipe/util/database"
 	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
@@ -418,6 +419,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderpolicy.List{},
 		&recipeutilarchive.Unzip{},
 		&recipeutilarchive.Zip{},
+		&recipeutildatabase.Exec{},
+		&recipeutildatabase.Query{},
 		&recipeutildate.Today{},
 		&recipeutildatetime.Now{},
 		&recipeutildecode.Base32{},

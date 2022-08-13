@@ -268,6 +268,8 @@ lang: en
 | [license]({{ site.baseurl }}/commands/license.html)                                 | Show license information                                             |
 | [util archive unzip]({{ site.baseurl }}/commands/util-archive-unzip.html)           | Extract the zip archive file                                         |
 | [util archive zip]({{ site.baseurl }}/commands/util-archive-zip.html)               | Compress target files into the zip archive                           |
+| [util database exec]({{ site.baseurl }}/commands/util-database-exec.html)           | Execute query on SQLite3 database file                               |
+| [util database query]({{ site.baseurl }}/commands/util-database-query.html)         | Query SQLite3 database                                               |
 | [util date today]({{ site.baseurl }}/commands/util-date-today.html)                 | Display current date                                                 |
 | [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)             | Display current date/time                                            |
 | [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)           | Decode text from Base32 (RFC 4648) format                            |
