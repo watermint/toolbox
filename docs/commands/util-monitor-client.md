@@ -23,20 +23,19 @@ You can delete those files after use if you want to remove it. If you want to ma
 application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
 
-| Description |
-|-------------|
+| Description                                             |
+|---------------------------------------------------------|
+| Dropbox: Edit content of your Dropbox files and folders |
 
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -69,16 +68,14 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
-.\tbx.exe util monitor client 
+.\tbx.exe util monitor client -name NAME -data-path /LOCAL/PATH/TO/PROCESS -sync-path /DROPBOX/PATH/TO/PROCESS
 ```
 
 macOS, Linux:
-
 ```
-$HOME/Desktop/tbx util monitor client 
+$HOME/Desktop/tbx util monitor client -name NAME -data-path /LOCAL/PATH/TO/PROCESS -sync-path /DROPBOX/PATH/TO/PROCESS
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -94,10 +91,13 @@ Open" on the dialogue.
 
 | Option              | Description                        | Default |
 |---------------------|------------------------------------|---------|
+| `-data-path`        | Path to store journal log data     |         |
+| `-monitor-end`      | Date/time of terminate monitoring  |         |
 | `-monitor-interval` | Monitoring interval (seconds)      | 10      |
 | `-name`             | Client name                        |         |
 | `-peer`             | Account alias                      | default |
-| `-sync-interval`    | Sync to Dropbox interval (seconds) | 300     |
+| `-sync-interval`    | Sync to Dropbox interval (seconds) | 3600    |
+| `-sync-path`        | Path to upload                     |         |
 
 ## Common options:
 

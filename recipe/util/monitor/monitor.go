@@ -1,6 +1,7 @@
 package monitor
 
 type Event struct {
+	Time string      `json:"time"`
 	Type string      `json:"type"`
 	Data interface{} `json:"data"`
 }

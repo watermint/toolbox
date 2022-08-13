@@ -103,7 +103,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		ll := l.With(esl.String("fieldName", fn))
 
 		vot := valueOfType(rcp, rtf.Type, rcp, fn)
-		if vot != nil {
+		if vot != nil && rvf.CanSet() {
 			ll.Debug("Set value", esl.Any("debug", vot.Debug()))
 			vals[fn] = vot
 			fieldValue[fn] = rvf
