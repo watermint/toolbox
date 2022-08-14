@@ -29,6 +29,11 @@ func (z *Unzip) Exec(c app_control.Control) error {
 }
 
 func (z *Unzip) Test(c app_control.Control) error {
+	// skip on production
+	if c.Feature().IsProduction() {
+		return nil
+	}
+
 	p, err := qt_file.MakeTestFolder("zip", false)
 	if err != nil {
 		return err
