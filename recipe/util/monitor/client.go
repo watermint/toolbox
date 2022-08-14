@@ -34,6 +34,7 @@ const (
 )
 
 type Client struct {
+	rc_recipe.RemarkTransient
 	DataPath        mo_path.FileSystemPath
 	SyncPath        mo_path2.DropboxPath
 	Peer            dbx_conn.ConnScopedIndividual
