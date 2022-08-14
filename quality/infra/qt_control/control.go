@@ -23,7 +23,7 @@ func WithControl(f func(c app_control.Control) error) error {
 		l.Debug("unable to create home", esl.Error(err))
 		return err
 	}
-	wb, err := app_workspace.NewBundle(home, app_budget.BudgetUnlimited, esl.LevelQuiet, false)
+	wb, err := app_workspace.NewBundle(home, app_budget.BudgetUnlimited, esl.LevelQuiet, false, false)
 	if err != nil {
 		l.Debug("unable to create bundle", esl.Error(err))
 		return err

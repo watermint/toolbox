@@ -14,7 +14,7 @@ import (
 
 func TestHistorian_Histories(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "launch", false, func(path string) {
-		wb, err := app_workspace.NewBundle(path, app_budget.BudgetUnlimited, esl.LevelInfo, false)
+		wb, err := app_workspace.NewBundle(path, app_budget.BudgetUnlimited, esl.LevelInfo, false, false)
 		if err != nil {
 			t.Error(err)
 			return
