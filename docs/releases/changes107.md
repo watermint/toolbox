@@ -50,7 +50,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `config enable`
 
 ## Command configuration changed
@@ -67,7 +66,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev benchmark local`
 
 ## Command configuration changed
@@ -84,7 +82,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev benchmark upload`
 
 ## Command configuration changed
@@ -101,7 +98,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev benchmark uploadlink`
 
 ## Command configuration changed
@@ -118,7 +114,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev build package`
 
 ## Command configuration changed
@@ -156,7 +151,6 @@ lang: en
   	... // 2 identical fields
   }
 ```
-
 # Command spec changed: `dev ci artifact up`
 
 ## Command configuration changed
@@ -176,7 +170,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev replay approve`
 
 ## Command configuration changed
@@ -193,7 +186,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev replay recipe`
 
 ## Command configuration changed
@@ -210,7 +202,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev stage griddata`
 
 ## Command configuration changed
@@ -227,7 +218,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev test echo`
 
 ## Command configuration changed
@@ -244,7 +234,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev test panic`
 
 ## Command configuration changed
@@ -261,7 +250,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `dev test setup teamsharedlink`
 
 ## Command configuration changed
@@ -278,7 +266,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file paper append`
 
 ## Command configuration changed
@@ -299,7 +286,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file paper create`
 
 ## Command configuration changed
@@ -320,7 +306,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file paper overwrite`
 
 ## Command configuration changed
@@ -342,7 +327,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file paper prepend`
 
 ## Command configuration changed
@@ -363,7 +347,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file revision download`
 
 ## Command configuration changed
@@ -382,7 +365,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file revision restore`
 
 ## Command configuration changed
@@ -399,7 +381,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file search content`
 
 ## Command configuration changed
@@ -416,7 +397,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file search name`
 
 ## Command configuration changed
@@ -433,7 +413,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `file share info`
 
 ## Command configuration changed
@@ -466,7 +445,6 @@ lang: en
   	... // 2 identical fields
   }
 ```
-
 # Command spec changed: `filerequest create`
 
 ## Command configuration changed
@@ -487,7 +465,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `filerequest delete url`
 
 ## Command configuration changed
@@ -521,7 +498,6 @@ lang: en
   	... // 2 identical fields
   }
 ```
-
 # Command spec changed: `group add`
 
 ## Command configuration changed
@@ -538,7 +514,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `group member add`
 
 ## Command configuration changed
@@ -555,7 +530,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `group member delete`
 
 ## Command configuration changed
@@ -572,7 +546,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `group rename`
 
 ## Command configuration changed
@@ -589,7 +562,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `job log jobid`
 
 ## Command configuration changed
@@ -606,7 +578,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `member file lock all release`
 
 ## Command configuration changed
@@ -626,7 +597,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `member file lock list`
 
 ## Command configuration changed
@@ -643,7 +613,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `member file lock release`
 
 ## Command configuration changed
@@ -663,7 +632,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `member file permdelete`
 
 ## Command configuration changed
@@ -685,7 +653,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `member suspend`
 
 ## Command configuration changed
@@ -702,7 +669,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `member unsuspend`
 
 ## Command configuration changed
@@ -719,7 +685,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github content get`
 
 ## Command configuration changed
@@ -736,7 +701,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github content put`
 
 ## Command configuration changed
@@ -753,7 +717,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github issue list`
 
 ## Command configuration changed
@@ -770,7 +733,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github release asset download`
 
 ## Command configuration changed
@@ -787,7 +749,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github release asset list`
 
 ## Command configuration changed
@@ -804,7 +765,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github release asset upload`
 
 ## Command configuration changed
@@ -821,7 +781,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github release draft`
 
 ## Command configuration changed
@@ -842,7 +801,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github release list`
 
 ## Command configuration changed
@@ -859,7 +817,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services github tag create`
 
 ## Command configuration changed
@@ -876,7 +833,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail filter delete`
 
 ## Command configuration changed
@@ -893,7 +849,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail label add`
 
 ## Command configuration changed
@@ -910,7 +865,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail label delete`
 
 ## Command configuration changed
@@ -927,7 +881,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail label rename`
 
 ## Command configuration changed
@@ -944,7 +897,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail message label add`
 
 ## Command configuration changed
@@ -961,7 +913,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail message label delete`
 
 ## Command configuration changed
@@ -978,7 +929,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail message send`
 
 ## Command configuration changed
@@ -995,7 +945,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail sendas add`
 
 ## Command configuration changed
@@ -1012,7 +961,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google mail sendas delete`
 
 ## Command configuration changed
@@ -1029,7 +977,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google sheets sheet append`
 
 ## Command configuration changed
@@ -1046,7 +993,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google sheets sheet clear`
 
 ## Command configuration changed
@@ -1063,7 +1009,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google sheets sheet export`
 
 ## Command configuration changed
@@ -1080,7 +1025,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google sheets sheet import`
 
 ## Command configuration changed
@@ -1097,7 +1041,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google sheets sheet list`
 
 ## Command configuration changed
@@ -1114,7 +1057,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `services google sheets spreadsheet create`
 
 ## Command configuration changed
@@ -1131,7 +1073,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `sharedfolder leave`
 
 ## Command configuration changed
@@ -1148,7 +1089,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `sharedfolder member add`
 
 ## Command configuration changed
@@ -1169,7 +1109,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `sharedfolder member delete`
 
 ## Command configuration changed
@@ -1190,7 +1129,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `sharedfolder mount add`
 
 ## Command configuration changed
@@ -1207,7 +1145,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `sharedfolder mount delete`
 
 ## Command configuration changed
@@ -1224,7 +1161,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team activity daily event`
 
 ## Command configuration changed
@@ -1241,7 +1177,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team admin group role add`
 
 ## Command configuration changed
@@ -1258,7 +1193,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team admin group role delete`
 
 ## Command configuration changed
@@ -1275,7 +1209,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team admin role add`
 
 ## Command configuration changed
@@ -1292,7 +1225,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team admin role clear`
 
 ## Command configuration changed
@@ -1309,7 +1241,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team admin role delete`
 
 ## Command configuration changed
@@ -1326,7 +1257,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team runas sharedfolder list`
 
 ## Command configuration changed
@@ -1343,7 +1273,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team runas sharedfolder mount add`
 
 ## Command configuration changed
@@ -1360,7 +1289,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team runas sharedfolder mount delete`
 
 ## Command configuration changed
@@ -1377,7 +1305,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team runas sharedfolder mount list`
 
 ## Command configuration changed
@@ -1394,7 +1321,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team runas sharedfolder mount mountable`
 
 ## Command configuration changed
@@ -1411,7 +1337,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `team sharedlink delete member`
 
 ## Command configuration changed
@@ -1428,7 +1353,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `teamfolder add`
 
 ## Command configuration changed
@@ -1445,7 +1369,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `teamfolder archive`
 
 ## Command configuration changed
@@ -1473,7 +1396,6 @@ lang: en
   	... // 2 identical fields
   }
 ```
-
 # Command spec changed: `teamfolder file lock all release`
 
 ## Command configuration changed
@@ -1493,7 +1415,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `teamfolder file lock list`
 
 ## Command configuration changed
@@ -1510,7 +1431,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `teamfolder file lock release`
 
 ## Command configuration changed
@@ -1530,7 +1450,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `teamfolder replication`
 
 ## Command configuration changed
@@ -1547,7 +1466,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `util decode base32`
 
 ## Command configuration changed
@@ -1582,7 +1500,6 @@ lang: en
   	JsonInput:      {},
   }
 ```
-
 # Command spec changed: `util decode base64`
 
 ## Command configuration changed
@@ -1617,7 +1534,6 @@ lang: en
   	JsonInput:      {},
   }
 ```
-
 # Command spec changed: `util encode base32`
 
 ## Command configuration changed
@@ -1652,7 +1568,6 @@ lang: en
   	JsonInput:      {},
   }
 ```
-
 # Command spec changed: `util encode base64`
 
 ## Command configuration changed
@@ -1687,7 +1602,6 @@ lang: en
   	JsonInput:      {},
   }
 ```
-
 # Command spec changed: `util qrcode create`
 
 ## Command configuration changed
@@ -1727,7 +1641,6 @@ lang: en
   	JsonInput:      {},
   }
 ```
-
 # Command spec changed: `util qrcode wifi`
 
 ## Command configuration changed
@@ -1747,7 +1660,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `util xlsx create`
 
 ## Command configuration changed
@@ -1767,7 +1679,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `util xlsx sheet export`
 
 ## Command configuration changed
@@ -1787,7 +1698,6 @@ lang: en
   	... // 15 identical fields
   }
 ```
-
 # Command spec changed: `util xlsx sheet import`
 
 ## Command configuration changed

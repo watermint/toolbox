@@ -38,6 +38,10 @@ func (z *Exif) Exec(c app_control.Control) error {
 }
 
 func (z *Exif) Test(c app_control.Control) error {
+	// skip on production
+	if c.Feature().IsProduction() {
+		return nil
+	}
 	wsr, err := es_project.DetectRepositoryRoot()
 	if err != nil {
 		return err
