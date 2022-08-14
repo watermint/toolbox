@@ -65,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe sharedfolder mount add 
+.\tbx.exe sharedfolder mount add -shared-folder-id SHARED_FOLDER_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx sharedfolder mount add 
+$HOME/Desktop/tbx sharedfolder mount add -shared-folder-id SHARED_FOLDER_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

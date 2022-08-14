@@ -44,10 +44,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option       | Description                      | Default |
-|--------------|----------------------------------|---------|
-| `-algorithm` | Hash algorithm (md5/sha1/sha256) | sha1    |
-| `-file`      | Path to digest                   |         |
+| Option       | Description                       | Default |
+|--------------|-----------------------------------|---------|
+| `-algorithm` | Hash algorithm (md5/sha1/sha256)  | sha1    |
+| `-file`      | Path to the file to create digest |         |
 
 ## Common options:
 

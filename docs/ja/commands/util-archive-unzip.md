@@ -6,7 +6,7 @@ lang: ja
 
 # util archive unzip
 
-Extract the zip archive file
+ZIPアーカイブファイルを解凍する
 
 # インストール
 
@@ -41,10 +41,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                  | デフォルト |
-|------------|-----------------------|------------|
-| `-in`      | Zip archive file path |            |
-| `-out`     | Path to extract files |            |
+| オプション | 説明                         | デフォルト |
+|------------|------------------------------|------------|
+| `-in`      | Zip アーカイブのファイルパス |            |
+| `-out`     | ファイルを展開するためのパス |            |
 
 ## 共通のオプション:
 
@@ -64,7 +64,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

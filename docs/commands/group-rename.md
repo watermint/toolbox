@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe group rename 
+.\tbx.exe group rename -current-name CURRENT_NAME -new-name NEW_NAME
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx group rename 
+$HOME/Desktop/tbx group rename -current-name CURRENT_NAME -new-name NEW_NAME
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

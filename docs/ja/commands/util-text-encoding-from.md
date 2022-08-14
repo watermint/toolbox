@@ -6,7 +6,7 @@ lang: ja
 
 # util text encoding from
 
-Convert text encoding to UTF-8 text file from specified encoding.
+指定されたエンコーディングからUTF-8テキストファイルに変換します.
 
 # インストール
 
@@ -41,11 +41,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明             | デフォルト |
-|-------------|------------------|------------|
-| `-encoding` | Encoding name    |            |
-| `-in`       | Input file path  |            |
-| `-out`      | Output file path |            |
+| オプション  | 説明               | デフォルト |
+|-------------|--------------------|------------|
+| `-encoding` | エンコード名       |            |
+| `-in`       | 入力ファイルのパス |            |
+| `-out`      | 出力ファイルのパス |            |
 
 ## 共通のオプション:
 
@@ -65,9 +65,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# テキスト入力
+
+## テキスト入力: In
+
+エンコードを変更するテキスト
 
 # ネットワークプロクシの設定
 

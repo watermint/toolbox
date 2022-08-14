@@ -6,7 +6,7 @@ lang: ja
 
 # util text case down
 
-Print lower case text
+小文字のテキストを表示する
 
 # インストール
 
@@ -24,12 +24,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util text case down 
+.\tbx.exe util text case down -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util text case down 
+$HOME/Desktop/tbx util text case down -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -41,9 +41,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明 | デフォルト |
-|------------|------|------------|
-| `-text`    | Text |            |
+| オプション | 説明     | デフォルト |
+|------------|----------|------------|
+| `-text`    | テキスト |            |
 
 ## 共通のオプション:
 
@@ -63,9 +63,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# テキスト入力
+
+## テキスト入力: Text
+
+大文字小文字を変更するテキスト
 
 # ネットワークプロクシの設定
 

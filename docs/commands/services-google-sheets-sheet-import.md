@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google sheets sheet import 
+.\tbx.exe services google sheets sheet import -data /LOCAL/PATH/TO/INPUT.csv -id VALUE -range VALUE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google sheets sheet import 
+$HOME/Desktop/tbx services google sheets sheet import -data /LOCAL/PATH/TO/INPUT.csv -id VALUE -range VALUE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

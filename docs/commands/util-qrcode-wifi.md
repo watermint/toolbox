@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util qrcode wifi -out /LOCAL/PATH/TO/create_qrcode.png
+.\tbx.exe util qrcode wifi -out /LOCAL/PATH/TO/OUT.png -ssid SSID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util qrcode wifi -out /LOCAL/PATH/TO/create_qrcode.png
+$HOME/Desktop/tbx util qrcode wifi -out /LOCAL/PATH/TO/OUT.png -ssid SSID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

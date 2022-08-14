@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail message label add 
+.\tbx.exe services google mail message label add -label LABEL -message-id MSG_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail message label add 
+$HOME/Desktop/tbx services google mail message label add -label LABEL -message-id MSG_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

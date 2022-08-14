@@ -92,7 +92,8 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	}
 
 	if ctl.Feature().IsTransient() || ctl.Feature().IsSkipLogging() {
-		return ctl, nil
+		_, err = z.rcp.Capture(ctl)
+		return ctl, err
 	}
 
 	if err := z.recordStartLog(ctl); err != nil {

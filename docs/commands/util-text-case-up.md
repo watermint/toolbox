@@ -25,12 +25,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util text case up 
+.\tbx.exe util text case up -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util text case up 
+$HOME/Desktop/tbx util text case up -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -69,6 +69,12 @@ Open" on the dialogue.
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
+
+# Text inputs
+
+## Text input: Text
+
+Text to change case
 
 # Proxy configuration
 

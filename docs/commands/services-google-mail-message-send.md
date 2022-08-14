@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google mail message send 
+.\tbx.exe services google mail message send -body /LOCAL/PATH/TO/INPUT.txt -subject SUBJECT -to TO
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google mail message send 
+$HOME/Desktop/tbx services google mail message send -body /LOCAL/PATH/TO/INPUT.txt -subject SUBJECT -to TO
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util xlsx create -file /LOCAL/PATH/TO/create.xlsx
+.\tbx.exe util xlsx create -file /LOCAL/PATH/TO/CREATE.xlsx -sheet SHEET_NAME
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util xlsx create -file /LOCAL/PATH/TO/create.xlsx
+$HOME/Desktop/tbx util xlsx create -file /LOCAL/PATH/TO/CREATE.xlsx -sheet SHEET_NAME
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

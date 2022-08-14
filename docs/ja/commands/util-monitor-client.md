@@ -6,7 +6,7 @@ lang: ja
 
 # util monitor client
 
-Start device monitor client
+デバイスモニタークライアントを起動する
 
 # セキュリティ
 
@@ -86,14 +86,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション          | 説明                               | デフォルト |
 |---------------------|------------------------------------|------------|
-| `-data-path`        | Path to store journal log data     |            |
-| `-display`          | Display current stats              | false      |
-| `-monitor-end`      | Date/time of terminate monitoring  |            |
-| `-monitor-interval` | Monitoring interval (seconds)      | 10         |
-| `-name`             | Client name                        |            |
-| `-peer`             | Account alias                      | default    |
-| `-sync-interval`    | Sync to Dropbox interval (seconds) | 3600       |
-| `-sync-path`        | Path to upload                     |            |
+| `-data-path`        | ジャーナルログデータを保存するパス |            |
+| `-display`          | 現在の統計情報を表示する           | false      |
+| `-monitor-end`      | モニタリング終了日時               |            |
+| `-monitor-interval` | モニタリング間隔（秒）             | 10         |
+| `-name`             | クライアント名                     |            |
+| `-peer`             | アカウントの別名                   | default    |
+| `-sync-interval`    | Dropboxへの同期間隔（秒）          | 3600       |
+| `-sync-path`        | アップロード先のパス               |            |
 
 ## 共通のオプション:
 
@@ -113,7 +113,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

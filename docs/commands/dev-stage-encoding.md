@@ -70,12 +70,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage encoding -path /DROPBOX/PATH/TO/UPLOAD
+.\tbx.exe dev stage encoding -encoding ENCODING -name FILENAME -path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev stage encoding -path /DROPBOX/PATH/TO/UPLOAD
+$HOME/Desktop/tbx dev stage encoding -encoding ENCODING -name FILENAME -path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please

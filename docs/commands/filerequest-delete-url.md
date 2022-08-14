@@ -65,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe filerequest delete url 
+.\tbx.exe filerequest delete url -url URL
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx filerequest delete url 
+$HOME/Desktop/tbx filerequest delete url -url URL
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

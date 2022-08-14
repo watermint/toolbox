@@ -65,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team admin role delete 
+.\tbx.exe team admin role delete -email EMAIL -role-id ROLE_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team admin role delete 
+$HOME/Desktop/tbx team admin role delete -email EMAIL -role-id ROLE_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

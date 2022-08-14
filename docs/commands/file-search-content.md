@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file search content 
+.\tbx.exe file search content -query QUERY
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file search content 
+$HOME/Desktop/tbx file search content -query QUERY
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

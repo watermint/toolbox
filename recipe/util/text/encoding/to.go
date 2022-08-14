@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/text/es_encoding"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -20,7 +21,7 @@ import (
 type To struct {
 	rc_recipe.RemarkTransient
 	Encoding    string
-	In          mo_path.ExistingFileSystemPath
+	In          da_text.TextInput
 	Out         mo_path.FileSystemPath
 	ErrNotFound app_msg.Message
 }
@@ -34,7 +35,7 @@ func (z *To) Exec(c app_control.Control) error {
 		c.UI().Error(z.ErrNotFound.With("Encoding", z.Encoding))
 		return errors.New("encoding not found")
 	}
-	in, err := os.Open(z.In.Path())
+	in, err := os.Open(z.In.FilePath())
 	if err != nil {
 		return err
 	}
@@ -73,7 +74,7 @@ func (z *To) Test(c app_control.Control) error {
 		of := filepath.Join(p, enc)
 		err = rc_exec.Exec(c, &To{}, func(r rc_recipe.Recipe) {
 			m := r.(*To)
-			m.In = mo_path.NewExistingFileSystemPath("from_test_data.txt")
+			m.In.SetFilePath("from_test_data.txt")
 			m.Out = mo_path.NewFileSystemPath(of)
 			m.Encoding = enc
 		})

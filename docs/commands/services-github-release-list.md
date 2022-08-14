@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release list 
+.\tbx.exe services github release list -owner OWNER -repository REPO
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release list 
+$HOME/Desktop/tbx services github release list -owner OWNER -repository REPO
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

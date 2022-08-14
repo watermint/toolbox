@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file paper append -path /DROPBOX/PATH/TO/append.paper
+.\tbx.exe file paper append -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/APPEND.paper
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file paper append -path /DROPBOX/PATH/TO/append.paper
+$HOME/Desktop/tbx file paper append -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/APPEND.paper
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

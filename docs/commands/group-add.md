@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe group add 
+.\tbx.exe group add -name GROUP_NAME
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx group add 
+$HOME/Desktop/tbx group add -name GROUP_NAME
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file paper overwrite -path /DROPBOX/PATH/TO/overwrite.paper
+.\tbx.exe file paper overwrite -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/OVERWRITE.paper
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file paper overwrite -path /DROPBOX/PATH/TO/overwrite.paper
+$HOME/Desktop/tbx file paper overwrite -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/OVERWRITE.paper
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

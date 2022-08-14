@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util encode base32 
+.\tbx.exe util encode base32 -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util encode base32 
+$HOME/Desktop/tbx util encode base32 -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -61,12 +61,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 
+# テキスト入力
+
+## テキスト入力: Text
+
+エンコードするテキスト
+
 # ネットワークプロクシの設定
 
-プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
+プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy`
+オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.
 
 

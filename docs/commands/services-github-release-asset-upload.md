@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release asset upload -asset /LOCAL/PATH/TO/assets
+.\tbx.exe services github release asset upload -owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release asset upload -asset /LOCAL/PATH/TO/assets
+$HOME/Desktop/tbx services github release asset upload -owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

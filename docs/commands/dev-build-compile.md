@@ -25,12 +25,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev build compile 
+.\tbx.exe dev build compile -arch ARCH -os OS -out /PATH/TO/BUILD_SCRIPT -package VALUE -path /PATH/FOR/BUILD/BINARY
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev build compile 
+$HOME/Desktop/tbx dev build compile -arch ARCH -os OS -out /PATH/TO/BUILD_SCRIPT -package VALUE -path /PATH/FOR/BUILD/BINARY
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please

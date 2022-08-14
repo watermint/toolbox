@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github content put -content /LOCAL/PATH/TO/content
+.\tbx.exe services github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github content put -content /LOCAL/PATH/TO/content
+$HOME/Desktop/tbx services github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

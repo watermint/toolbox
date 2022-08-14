@@ -26,10 +26,10 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明                                                   |
-|--------------------------------------------------------|
-| View content of your team's files and folders          |
-| View and edit content of your team's files and folders |
+| 説明                                                       |
+|------------------------------------------------------------|
+| チーム内のファイルやフォルダの内容を確認することができます |
+| チーム内のファイルやフォルダの内容を閲覧・編集可能         |
 
 # 認可
 
@@ -104,7 +104,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

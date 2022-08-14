@@ -67,12 +67,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe teamfolder file lock list -path /DROPBOX/PATH/TO/LIST
+.\tbx.exe teamfolder file lock list -path /DROPBOX/PATH/TO/LIST -team-folder NAME
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx teamfolder file lock list -path /DROPBOX/PATH/TO/LIST
+$HOME/Desktop/tbx teamfolder file lock list -path /DROPBOX/PATH/TO/LIST -team-folder NAME
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

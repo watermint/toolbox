@@ -6,7 +6,7 @@ lang: ja
 
 # util archive zip
 
-Compress target files into the zip archive
+対象ファイルをZIPアーカイブに圧縮する
 
 # インストール
 
@@ -41,11 +41,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                        | デフォルト |
-|------------|-----------------------------|------------|
-| `-comment` | Comment for the zip archive |            |
-| `-out`     | Zip archive file path       |            |
-| `-target`  | Target path to compress     |            |
+| オプション | 説明                         | デフォルト |
+|------------|------------------------------|------------|
+| `-comment` | ZIPアーカイブへのコメント    |            |
+| `-out`     | Zip アーカイブのファイルパス |            |
+| `-target`  | 圧縮するターゲットパス       |            |
 
 ## 共通のオプション:
 
@@ -65,7 +65,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

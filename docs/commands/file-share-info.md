@@ -65,12 +65,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file share info 
+.\tbx.exe file share info -path /DROPBOX/PATH/TO/GET_INFO
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file share info 
+$HOME/Desktop/tbx file share info -path /DROPBOX/PATH/TO/GET_INFO
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

@@ -25,12 +25,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev build target 
+.\tbx.exe dev build target -build-path VALUE -deploy-path VALUE -dist-path VALUE -target-name VALUE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev build target 
+$HOME/Desktop/tbx dev build target -build-path VALUE -deploy-path VALUE -dist-path VALUE -target-name VALUE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please

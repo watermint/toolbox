@@ -6,7 +6,7 @@ lang: ja
 
 # dev build compile
 
-Create build script
+ビルドスクリプトの作成
 
 # インストール
 
@@ -24,12 +24,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev build compile 
+.\tbx.exe dev build compile -arch ARCH -os OS -out /PATH/TO/BUILD_SCRIPT -package VALUE -path /PATH/FOR/BUILD/BINARY
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev build compile 
+$HOME/Desktop/tbx dev build compile -arch ARCH -os OS -out /PATH/TO/BUILD_SCRIPT -package VALUE -path /PATH/FOR/BUILD/BINARY
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -41,13 +41,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                       | デフォルト |
-|------------|----------------------------|------------|
-| `-arch`    | Architecture (amd64/arm64) |            |
-| `-os`      | OS (windows/linux/arm)     |            |
-| `-out`     | Build script path          |            |
-| `-package` | Package name to compile    |            |
-| `-path`    | Path for build output      |            |
+| オプション | 説明                         | デフォルト |
+|------------|------------------------------|------------|
+| `-arch`    | アーキテクチャ (amd64/arm64) |            |
+| `-os`      | OS (windows/linux/arm)       |            |
+| `-out`     | ビルドスクリプトのパス       |            |
+| `-package` | コンパイルするパッケージ名   |            |
+| `-path`    | ビルド出力用のパス           |            |
 
 ## 共通のオプション:
 
@@ -67,7 +67,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

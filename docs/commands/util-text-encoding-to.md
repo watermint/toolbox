@@ -72,6 +72,12 @@ Open" on the dialogue.
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 
+# Text inputs
+
+## Text input: In
+
+Text to change encoding
+
 # Proxy configuration
 
 The executable automatically detects your proxy configuration from the environment. However, if you got an error or you

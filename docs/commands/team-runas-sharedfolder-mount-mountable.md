@@ -67,12 +67,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team runas sharedfolder mount mountable 
+.\tbx.exe team runas sharedfolder mount mountable -member-email EMAIL
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team runas sharedfolder mount mountable 
+$HOME/Desktop/tbx team runas sharedfolder mount mountable -member-email EMAIL
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

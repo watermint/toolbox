@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file paper create -path /DROPBOX/PATH/TO/create.paper
+.\tbx.exe file paper create -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/CREATE.paper
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file paper create -path /DROPBOX/PATH/TO/create.paper
+$HOME/Desktop/tbx file paper create -content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/CREATE.paper
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

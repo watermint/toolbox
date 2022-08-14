@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe filerequest create -path /DROPBOX/PATH/OF/FILEREQUEST
+.\tbx.exe filerequest create -path /DROPBOX/PATH/OF/FILE_REQUEST -title TITLE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx filerequest create -path /DROPBOX/PATH/OF/FILEREQUEST
+$HOME/Desktop/tbx filerequest create -path /DROPBOX/PATH/OF/FILE_REQUEST -title TITLE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

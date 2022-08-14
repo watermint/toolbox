@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe config disable 
+.\tbx.exe config disable -key FEATURE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx config disable 
+$HOME/Desktop/tbx config disable -key FEATURE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

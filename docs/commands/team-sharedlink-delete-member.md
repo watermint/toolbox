@@ -66,12 +66,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team sharedlink delete member 
+.\tbx.exe team sharedlink delete member -member-email EMAIL
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team sharedlink delete member 
+$HOME/Desktop/tbx team sharedlink delete member -member-email EMAIL
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

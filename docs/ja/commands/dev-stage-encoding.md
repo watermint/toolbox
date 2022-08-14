@@ -6,7 +6,7 @@ lang: ja
 
 # dev stage encoding
 
-Encoding test command (upload a dummy file with specified encoding name)
+エンコードテストコマンド（指定したエンコード名でダミーファイルをアップロードします）
 
 # セキュリティ
 
@@ -67,12 +67,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage encoding -path /DROPBOX/PATH/TO/UPLOAD
+.\tbx.exe dev stage encoding -encoding ENCODING -name FILENAME -path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev stage encoding -path /DROPBOX/PATH/TO/UPLOAD
+$HOME/Desktop/tbx dev stage encoding -encoding ENCODING -name FILENAME -path /DROPBOX/PATH/TO/UPLOAD
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします.
@@ -84,12 +84,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明             | デフォルト |
-|-------------|------------------|------------|
-| `-encoding` | Encoding         |            |
-| `-name`     | Name of the file |            |
-| `-path`     | Path to upload   |            |
-| `-peer`     | Account alias    | default    |
+| オプション  | 説明                 | デフォルト |
+|-------------|----------------------|------------|
+| `-encoding` | エンコーディング     |            |
+| `-name`     | ファイル名           |            |
+| `-path`     | アップロード先のパス |            |
+| `-peer`     | アカウントの別名     | default    |
 
 ## 共通のオプション:
 
@@ -109,7 +109,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

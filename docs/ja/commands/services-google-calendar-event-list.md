@@ -6,7 +6,7 @@ lang: ja
 
 # services google calendar event list
 
-List Google Calendar events
+Googleカレンダーのイベントを一覧表示
 
 # セキュリティ
 
@@ -84,14 +84,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション       | 説明                                                                                                                                                            | デフォルト |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-calendar-id`   | Calendar identifier (email address of the account).                                                                                                             |            |
-| `-do-not-filter` | Report all events returned from Google Calendar                                                                                                                 | false      |
-| `-end`           | Upper bound (exclusive) for an event's start time to filter by.                                                                                                 |            |
-| `-peer`          | Account alias                                                                                                                                                   | default    |
-| `-query`         | Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. |            |
-| `-start`         | Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time.                                               |            |
+| オプション       | 説明                                                                                                                                            | デフォルト |
+|------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-calendar-id`   | カレンダーの識別子（アカウントのメールアドレス）.                                                                                               |            |
+| `-do-not-filter` | Googleカレンダーから返されたすべてのイベントを報告する                                                                                          | false      |
+| `-end`           | イベントの開始時刻の上限値（該当値を含まない）                                                                                                  |            |
+| `-peer`          | アカウントの別名                                                                                                                                | default    |
+| `-query`         | フリーテキストで検索し、以下のフィールドに一致するイベントを検索します：概要、説明、場所、参加者の表示名、参加者のe-mail                        |            |
+| `-start`         | イベントの終了時刻の下限値（下限値を含まない）を指定し、フィルタリングする省略可能. デフォルトでは、終了時刻によるフィルタリングは行われません. |            |
 
 ## 共通のオプション:
 
@@ -111,7 +111,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
-| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 
@@ -128,18 +128,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: events
 
-Calendar event
+カレンダーイベント
 このコマンドはレポートを3種類の書式で出力します. `events.csv`, `events.json`, ならびに `events.xlsx`.
 
-| 列              | 説明                                                               |
-|-----------------|--------------------------------------------------------------------|
-| status          | Status of the event.                                               |
-| location        | Geographic location of the event as free-form text.                |
-| start_date      | The date, in the format "yyyy-mm-dd", if this is an all-day event. |
-| end_date        | The date, in the format "yyyy-mm-dd", if this is an all-day event. |
-| start_date_time | The (inclusive) start time of the event.                           |
-| end_date_time   | The (exclusive) end time of the event.                             |
-| summary         | Title of the event.                                                |
+| 列              | 説明                                                           |
+|-----------------|----------------------------------------------------------------|
+| status          | イベントの状態.                                                |
+| location        | イベントの地理的な位置を自由形式のテキストで表示します.        |
+| start_date      | 終日開催の場合は、"yyyy-mm-dd "のフォーマットで日付を指定する. |
+| end_date        | 終日開催の場合は、"yyyy-mm-dd "のフォーマットで日付を指定する. |
+| start_date_time | イベントの開始時刻（を含む）.                                  |
+| end_date_time   | イベントの終了時刻(同時刻を含まない)。                         |
+| summary         | イベントのタイトル.                                            |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
