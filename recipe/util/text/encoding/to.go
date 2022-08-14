@@ -3,6 +3,7 @@ package encoding
 import (
 	"bytes"
 	"errors"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/text/es_encoding"
@@ -69,12 +70,16 @@ func (z *To) Test(c app_control.Control) error {
 		"sjis":   "from_test_data_sjis.txt",
 		"euc-jp": "from_test_data_eucjp.txt",
 	}
+	wsr, err := es_project.DetectRepositoryRoot()
+	if err != nil {
+		return err
+	}
 
 	for enc, dataFile := range scenario {
 		of := filepath.Join(p, enc)
 		err = rc_exec.Exec(c, &To{}, func(r rc_recipe.Recipe) {
 			m := r.(*To)
-			m.In.SetFilePath("from_test_data.txt")
+			m.In.SetFilePath(filepath.Join(wsr, "recipe/util/text/encoding", "from_test_data.txt"))
 			m.Out = mo_path.NewFileSystemPath(of)
 			m.Encoding = enc
 		})
@@ -82,7 +87,7 @@ func (z *To) Test(c app_control.Control) error {
 			return err
 		}
 
-		expectedContent, err := os.ReadFile(dataFile)
+		expectedContent, err := os.ReadFile(filepath.Join(wsr, "recipe/util/text/encoding", dataFile))
 		if err != nil {
 			return err
 		}

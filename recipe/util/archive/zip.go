@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"github.com/watermint/toolbox/essentials/file/es_zip"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -37,11 +38,15 @@ func (z *Zip) Test(c app_control.Control) error {
 	defer func() {
 		_ = os.Remove(p)
 	}()
+	wsr, err := es_project.DetectRepositoryRoot()
+	if err != nil {
+		return err
+	}
 
 	arcPath := filepath.Join(p, "zip-test.zip")
 	err = rc_exec.Exec(c, &Zip{}, func(r rc_recipe.Recipe) {
 		m := r.(*Zip)
-		m.Target = mo_path.NewExistingFileSystemPath(".")
+		m.Target = mo_path.NewExistingFileSystemPath(filepath.Join(wsr, "recipe/util/archive"))
 		m.Out = mo_path.NewFileSystemPath(arcPath)
 	})
 	if err != nil {
@@ -58,7 +63,7 @@ func (z *Zip) Test(c app_control.Control) error {
 		return err
 	}
 
-	expected, err := os.ReadFile("zip.go")
+	expected, err := os.ReadFile(filepath.Join(wsr, "recipe/util/archive", "zip.go"))
 	if err != nil {
 		return err
 	}

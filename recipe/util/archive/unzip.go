@@ -3,6 +3,7 @@ package archive
 import (
 	"bytes"
 	"errors"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/io/es_zip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -35,10 +36,14 @@ func (z *Unzip) Test(c app_control.Control) error {
 	defer func() {
 		_ = os.Remove(p)
 	}()
+	wsr, err := es_project.DetectRepositoryRoot()
+	if err != nil {
+		return err
+	}
 
 	err = rc_exec.Exec(c, &Unzip{}, func(r rc_recipe.Recipe) {
 		m := r.(*Unzip)
-		m.In = mo_path.NewExistingFileSystemPath("unzip-test.zip")
+		m.In = mo_path.NewExistingFileSystemPath(filepath.Join(wsr, "recipe/util/archive", "unzip-test.zip"))
 		m.Out = mo_path.NewFileSystemPath(p)
 	})
 	if err != nil {
