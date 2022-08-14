@@ -92,8 +92,20 @@ const (
 	// ScopeTeamDataMember Access data of other team members
 	ScopeTeamDataMember = "team_data.member"
 
-	// ScopeTeamDataTeamSpace Manage the team space
+	// ScopeTeamDataTeamSpace View and edit content of your team's files and folders
 	ScopeTeamDataTeamSpace = "team_data.team_space"
+
+	// ScopeTeamDataGovernanceWrite View and edit governance data of your team's files and folders
+	ScopeTeamDataGovernanceWrite = "team_data.governance.write"
+
+	// ScopeTeamDataGovernanceRead View governance data of your team's files and folders
+	ScopeTeamDataGovernanceRead = "team_data.governance.read"
+
+	// ScopeTeamDataContentRead View content of your team's files and folders
+	ScopeTeamDataContentRead = "team_data.content.read"
+
+	// ScopeTeamDataContentWrite View and edit content of your team's files and folders
+	ScopeTeamDataContentWrite = "team_data.content.write"
 
 	// ScopeEventsRead Read the team event log
 	ScopeEventsRead = "events.read"
@@ -120,6 +132,10 @@ var (
 		ScopeSessionsModify,
 		ScopeTeamDataMember,
 		ScopeTeamDataTeamSpace,
+		ScopeTeamDataContentRead,
+		ScopeTeamDataContentWrite,
+		ScopeTeamDataGovernanceRead,
+		ScopeTeamDataGovernanceWrite,
 		ScopeEventsRead,
 	}
 )

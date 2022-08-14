@@ -35,6 +35,7 @@ var (
 		newValueFdFileRowFeed(""),
 		newValueGhConnGithubPublic(),
 		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
+		newValueGoogConnCalendar(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnSheets(dbx_conn_impl.DefaultPeerName),
 		newValueDaGridDataInput(nil, ""),
@@ -102,7 +103,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 		ll := l.With(esl.String("fieldName", fn))
 
 		vot := valueOfType(rcp, rtf.Type, rcp, fn)
-		if vot != nil {
+		if vot != nil && rvf.CanSet() {
 			ll.Debug("Set value", esl.Any("debug", vot.Debug()))
 			vals[fn] = vot
 			fieldValue[fn] = rvf

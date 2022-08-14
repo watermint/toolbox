@@ -1,1 +1,6 @@
-* homebrew formula update for Mac Intel/Apple Silicon
+* #614 : Linux Arm64 build
+* #616 : Google Calendar command
+* #619 : Utility commands
+* #620 : Device monitoring util command
+* #625 : Skip logging common option: `-skip-logging`
+* #627 : Incompatible change in util commands

@@ -14,7 +14,7 @@ import (
 
 func newValueKvStorageStorage(name string) rc_recipe.Value {
 	v := &ValueKvStorageStorage{name: name}
-	v.storage = kv_storage_impl.NewBitCask(name, esl.Default())
+	v.storage = kv_storage_impl.NewProxy(name, esl.Default())
 	return v
 }
 
@@ -67,6 +67,11 @@ func (z *ValueKvStorageStorage) Restore(v es_json.Json, ctl app_control.Control)
 
 func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 	storage := z.storage.(kv_storage.Lifecycle)
+	if ctl.Feature().Experiment(app.ExperimentKvsSqlite) {
+		if p, ok := storage.(kv_storage.Proxy); ok {
+			p.SetEngine(kv_storage.KvsEngineSqlite)
+		}
+	}
 	storage.SetLogger(ctl.Log())
 	return storage.Open(ctl.Workspace().KVS())
 }

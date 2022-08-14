@@ -33,7 +33,19 @@ type Factory interface {
 	Close()
 }
 
-// Storage with lifecycle control
+const (
+	KvsEngineBitCask KvsEngine = iota
+	KvsEngineSqlite
+)
+
+type KvsEngine int
+
+type Proxy interface {
+	// SetEngine apply new engine type from next call of Open
+	SetEngine(engine KvsEngine)
+}
+
+// Lifecycle Storage with lifecycle control
 type Lifecycle interface {
 	Storage
 

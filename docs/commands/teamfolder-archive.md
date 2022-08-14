@@ -26,9 +26,10 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                              |
-|--------------------------------------------------------------------------|
-| Dropbox Business: View and edit content of your team's files and folders |
+| Description                                            |
+|--------------------------------------------------------|
+| View content of your team's files and folders          |
+| View and edit content of your team's files and folders |
 
 # Authorization
 
@@ -103,6 +104,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-retain-job-data` | Job data retain policy                                                                    | default              |
 | `-secure`          | Do not store tokens into a file                                                           | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 

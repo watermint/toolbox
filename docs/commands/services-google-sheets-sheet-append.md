@@ -66,12 +66,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google sheets sheet append 
+.\tbx.exe services google sheets sheet append -data /LOCAL/PATH/TO/INPUT.csv -id GOOGLE_SHEET_ID -range RANGE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google sheets sheet append 
+$HOME/Desktop/tbx services google sheets sheet append -data /LOCAL/PATH/TO/INPUT.csv -id GOOGLE_SHEET_ID -range RANGE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -108,6 +108,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-retain-job-data` | Job data retain policy                                                                    | default              |
 | `-secure`          | Do not store tokens into a file                                                           | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 

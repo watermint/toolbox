@@ -1,6 +1,7 @@
 package dbx_util
 
 import (
+	"bytes"
 	"encoding/json"
 	"testing"
 )
@@ -13,7 +14,7 @@ func TestHeaderSafeJson(t *testing.T) {
 			Num     int    `json:"num"`
 			Enabled bool   `json:"enabled"`
 			Message string `json:"message"`
-			Data    string `json:"data"`
+			Data    []byte `json:"data"`
 		}
 
 		p := &Data{
@@ -21,7 +22,7 @@ func TestHeaderSafeJson(t *testing.T) {
 			Num:     1,
 			Enabled: false,
 			Message: "☺️",
-			Data:    "\x7f",
+			Data:    []byte{0x7f, 0x80, 0xee, 0xf0},
 		}
 		j, err := HeaderSafeJson(p)
 		if err != nil {
@@ -52,7 +53,7 @@ func TestHeaderSafeJson(t *testing.T) {
 		if q.Message != p.Message {
 			t.Error("message broken")
 		}
-		if q.Data != p.Data {
+		if bytes.Compare(q.Data, p.Data) != 0 {
 			t.Error("data broken")
 		}
 	}

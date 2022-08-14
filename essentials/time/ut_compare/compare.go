@@ -1,6 +1,9 @@
 package ut_compare
 
-import "time"
+import (
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"time"
+)
 
 func Clone(t time.Time) time.Time {
 	return time.Date(t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second(), t.Nanosecond(), t.Location())
@@ -77,5 +80,53 @@ func LatestPtr(times ...*time.Time) (latest *time.Time) {
 		return nil
 	} else {
 		return &e
+	}
+}
+
+// IsBetween true if `t` is between `a` and `b` (inclusive).
+func IsBetween(t, a, b time.Time) bool {
+	if b.Before(a) {
+		return IsBetween(t, b, a)
+	}
+	if a.Equal(t) || b.Equal(t) {
+		return true
+	}
+	return a.Before(t) && b.After(t)
+}
+
+// IsBetweenOptional true if `t` is (1) between `a` and `b`, (2) `a` < `t` and `b` is zero,
+// (3) `t` < `b` and `a` is zero, and (4) both `a` and `b` is zero.
+// Always returns false if `b` < `a` and both `a`/`b` is non zero.
+func IsBetweenOptional(t time.Time, a, b mo_time.TimeOptional) bool {
+	switch {
+	case a.IsZero() && b.IsZero():
+		return true
+
+	case !a.IsZero() && b.IsZero(): // `a` < `t`, `b` is zero
+		at := a.Time()
+		if at.Equal(t) {
+			return true
+		}
+		return at.Before(t)
+
+	case a.IsZero() && !b.IsZero(): // `t` < `b`, `a` is zero
+		bt := b.Time()
+		if bt.Equal(t) {
+			return true
+		}
+		return bt.After(t)
+
+	default:
+		// always return false in case `b` < `a`.
+		if a.Time().After(b.Time()) {
+			return false
+		}
+		at := a.Time()
+		bt := b.Time()
+
+		if at.Equal(t) || bt.Equal(t) {
+			return true
+		}
+		return at.Before(t) && bt.After(t)
 	}
 }

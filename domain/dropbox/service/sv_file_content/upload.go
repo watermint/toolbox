@@ -23,6 +23,9 @@ type UploadOpt func(o *UploadOpts) *UploadOpts
 type UploadOpts struct {
 	ChunkSize int64
 	Mute      bool
+
+	// Use destPath as file name. Do not use local file name.
+	CustomFileName bool
 }
 
 const (
@@ -61,6 +64,13 @@ func NewUpload(ctx dbx_context.Context, opts ...UploadOpt) Upload {
 func ChunkSizeKb(chunkSizeKb int) UploadOpt {
 	return func(o *UploadOpts) *UploadOpts {
 		o.ChunkSize = int64(chunkSizeKb * 1024)
+		return o
+	}
+}
+
+func UseCustomFileName(enabled bool) UploadOpt {
+	return func(o *UploadOpts) *UploadOpts {
+		o.CustomFileName = true
 		return o
 	}
 }
@@ -116,8 +126,14 @@ func (z *uploadImpl) makeParams(info os.FileInfo, destPath mo_path.DropboxPath, 
 		Tag:    mode,
 		Update: "",
 	}
+	var ulPath string
+	if z.uo.CustomFileName {
+		ulPath = destPath.Path()
+	} else {
+		ulPath = UploadPath(destPath, info).Path()
+	}
 	up := &UploadParams{
-		Path:           UploadPath(destPath, info).Path(),
+		Path:           ulPath,
 		Mode:           upm,
 		Mute:           false,
 		ClientModified: dbx_util.ToApiTimeString(info.ModTime()),

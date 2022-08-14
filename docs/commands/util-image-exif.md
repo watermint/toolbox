@@ -4,14 +4,17 @@ title: Command
 lang: en
 ---
 
-# image info
+# util image exif
 
-Show EXIF information of the image file 
+Print EXIF metadata of image file
 
 # Installation
 
-Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 
-The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
+Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If
+you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and
+place `tbx.exe` on the Desktop folder.
+The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are
+using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
 
 # Usage
 
@@ -22,25 +25,28 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe image info -path /LOCAL/PATH/TO/image_file
+.\tbx.exe util image exif -file /LOCAL/PATH/TO/IMG.jpg
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx image info -path /LOCAL/PATH/TO/image_file
+$HOME/Desktop/tbx util image exif -file /LOCAL/PATH/TO/IMG.jpg
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
+select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "
+General" tab.
 You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "
+Open" on the dialogue.
 
 ## Options:
 
 | Option  | Description       | Default |
 |---------|-------------------|---------|
-| `-path` | Path to the image |         |
+| `-file` | Path to data file |         |
 
 ## Common options:
 
@@ -60,12 +66,14 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-retain-job-data` | Job data retain policy                                                                    | default              |
 | `-secure`          | Do not store tokens into a file                                                           | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 
 # Results
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+Report file path will be displayed last line of the command line output. If you missed command line output, please see
+path below. [job-id] will be the date/time of the run. Please see the latest job-id.
 
 | OS      | Path pattern                                | Example                                                |
 |---------|---------------------------------------------|--------------------------------------------------------|
@@ -73,10 +81,10 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: exif
+## Report: metadata
 
 EXIF data
-The command will generate a report in three different formats. `exif.csv`, `exif.json`, and `exif.xlsx`.
+The command will generate a report in three different formats. `metadata.csv`, `metadata.json`, and `metadata.xlsx`.
 
 | Column             | Description                                                                                          |
 |--------------------|------------------------------------------------------------------------------------------------------|
@@ -87,10 +95,13 @@ The command will generate a report in three different formats. `exif.csv`, `exif
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `exif_0000.xlsx`, `exif_0001.xlsx`, `exif_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like
+follows; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 # Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you
+want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't
+support proxies which require authentication.
 
 

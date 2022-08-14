@@ -13,7 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/security/sc_zap"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/resources"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -110,7 +109,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		return err
 	}
 
-	if err := ioutil.WriteFile(infoPath, infoData, 0600); err != nil {
+	if err := os.WriteFile(infoPath, infoData, 0600); err != nil {
 		l.Warn("Unable to write the file", esl.Error(err))
 		return err
 	}

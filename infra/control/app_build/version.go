@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/resources"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -52,37 +53,50 @@ func SelectVersion(v string) es_version.Version {
 }
 
 func Version() es_version.Version {
-	if buildNum, ok := os.LookupEnv("CIRCLE_BUILD_NUM"); ok {
-		num, err := strconv.ParseUint(buildNum, 10, 64)
-		if err != nil {
-			panic(err)
+	var err error
+	if branch, ok := os.LookupEnv("CIRCLE_BRANCH"); ok {
+		var patchVer uint64
+
+		buildNum, ok := os.LookupEnv("TOOLBOX_PATCH_VERSION")
+		if ok {
+			patchVer, err = strconv.ParseUint(strings.TrimSpace(buildNum), 10, 64)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			buildNum, ok := os.LookupEnv("CIRCLE_BUILD_NUM")
+			if ok {
+				patchVer, err = strconv.ParseUint(buildNum, 10, 64)
+				if err != nil {
+					panic(err)
+				}
+			}
 		}
-		if branch, ok := os.LookupEnv("CIRCLE_BRANCH"); ok {
-			switch branch {
-			case "main":
-				return es_version.Version{
-					Major:      Release(),
-					Minor:      BuildMinorCircleCiMain,
-					Patch:      num,
-					PreRelease: "",
-					Build:      "",
-				}
-			case "master":
-				return es_version.Version{
-					Major:      Release(),
-					Minor:      BuildMinorCircleCiMaster,
-					Patch:      num,
-					PreRelease: "",
-					Build:      "",
-				}
-			default:
-				return es_version.Version{
-					Major:      Release(),
-					Minor:      BuildMinorCircleCiCurrent,
-					Patch:      num,
-					PreRelease: "",
-					Build:      "",
-				}
+
+		switch branch {
+		case "main":
+			return es_version.Version{
+				Major:      Release(),
+				Minor:      BuildMinorCircleCiMain,
+				Patch:      patchVer,
+				PreRelease: "",
+				Build:      "",
+			}
+		case "master":
+			return es_version.Version{
+				Major:      Release(),
+				Minor:      BuildMinorCircleCiMaster,
+				Patch:      patchVer,
+				PreRelease: "",
+				Build:      "",
+			}
+		default:
+			return es_version.Version{
+				Major:      Release(),
+				Minor:      BuildMinorCircleCiCurrent,
+				Patch:      patchVer,
+				PreRelease: "",
+				Build:      "",
 			}
 		}
 		panic("branch not found")

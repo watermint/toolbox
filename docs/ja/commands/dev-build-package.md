@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev build package -build-path /LOCAL/PATH/OF/build -deploy-path /DROPBOX/PATH/TO/deploy -dest-path /LOCAL/PATH/TO/save_package
+.\tbx.exe dev build package -build-path /LOCAL/PATH/TO/build -dist-path /LOCAL/PATH/TO/dist -platform PLATFORM_TYPE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev build package -build-path /LOCAL/PATH/OF/build -deploy-path /DROPBOX/PATH/TO/deploy -dest-path /LOCAL/PATH/TO/save_package
+$HOME/Desktop/tbx dev build package -build-path /LOCAL/PATH/TO/build -dist-path /LOCAL/PATH/TO/dist -platform PLATFORM_TYPE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -42,7 +42,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |----------------|--------------------------------------------|------------|
 | `-build-path`  | バイナリへのフルパス                       |            |
 | `-deploy-path` | デプロイ先フォルダパス(リモート)           |            |
-| `-dest-path`   | パッケージの保存先フォルダのパス(ローカル) |            |
+| `-dist-path`   | パッケージの保存先フォルダのパス(ローカル) |            |
 | `-platform`    | win/linux/macなどのプラットフォーム名      |            |
 
 ## 共通のオプション:
@@ -63,6 +63,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

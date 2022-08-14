@@ -80,7 +80,7 @@ func Resources() (ui app_ui.UI) {
 
 func MustCreateControl() (ctl app_control.Control, jl app_job.Launcher) {
 	ui := Resources()
-	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel(), false)
+	wb, err := app_workspace.NewBundle("", app_budget.BudgetUnlimited, esl.ConsoleDefaultLevel(), false, false)
 	if err != nil {
 		panic(err)
 	}

@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util xlsx create -file /LOCAL/PATH/TO/create.xlsx
+.\tbx.exe util xlsx create -file /LOCAL/PATH/TO/CREATE.xlsx -sheet SHEET_NAME
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util xlsx create -file /LOCAL/PATH/TO/create.xlsx
+$HOME/Desktop/tbx util xlsx create -file /LOCAL/PATH/TO/CREATE.xlsx -sheet SHEET_NAME
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -61,6 +61,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

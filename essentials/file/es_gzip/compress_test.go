@@ -12,7 +12,7 @@ import (
 func TestExecCompress(t *testing.T) {
 	content := time.Now().String()
 	qt_file.TestWithTestFile(t, "test", content, func(path string) {
-		if err := Compress(path); err != nil {
+		if _, err := Compress(path); err != nil {
 			t.Error(err)
 		}
 

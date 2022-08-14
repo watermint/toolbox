@@ -60,6 +60,23 @@ const (
 	ScopeSheetsFull = "https://www.googleapis.com/auth/drive"
 )
 
+// Google Calendar API scopes
+// https://developers.google.com/calendar/api/guides/auth
+const (
+	// ScopeCalendarAllReadWrite read/write access to Calendars
+	ScopeCalendarAllReadWrite = "https://www.googleapis.com/auth/calendar"
+	// ScopeCalendarAllReadOnly read-only access to Calendars
+	ScopeCalendarAllReadOnly = "https://www.googleapis.com/auth/calendar.readonly"
+	// ScopeCalendarEventsReadWrite read/write access to Events
+	ScopeCalendarEventsReadWrite = "https://www.googleapis.com/auth/calendar.events"
+	// ScopeCalendarEventsReadOnly read-only access to Events
+	ScopeCalendarEventsReadOnly = "https://www.googleapis.com/auth/calendar.events.readonly"
+	// ScopeCalendarSettingsReadOnly read-only access to Settings
+	ScopeCalendarSettingsReadOnly = "https://www.googleapis.com/auth/calendar.settings.readonly"
+	// ScopeCalendarAddonsExecute run as a Calendar add-on
+	ScopeCalendarAddonsExecute = "https://www.googleapis.com/auth/calendar.addons.execute"
+)
+
 func NewApp(ctl app_control.Control) api_auth.App {
 	return &App{
 		ctl: ctl,

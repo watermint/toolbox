@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev build package -build-path /LOCAL/PATH/OF/build -deploy-path /DROPBOX/PATH/TO/deploy -dest-path /LOCAL/PATH/TO/save_package
+.\tbx.exe dev build package -build-path /LOCAL/PATH/TO/build -dist-path /LOCAL/PATH/TO/dist -platform PLATFORM_TYPE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev build package -build-path /LOCAL/PATH/OF/build -deploy-path /DROPBOX/PATH/TO/deploy -dest-path /LOCAL/PATH/TO/save_package
+$HOME/Desktop/tbx dev build package -build-path /LOCAL/PATH/TO/build -dist-path /LOCAL/PATH/TO/dist -platform PLATFORM_TYPE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -42,7 +42,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |----------------|-----------------------------------------|---------|
 | `-build-path`  | Full path to the binary                 |         |
 | `-deploy-path` | Deploy destination folder path (remote) |         |
-| `-dest-path`   | Package destination folder path (local) |         |
+| `-dist-path`   | Package destination folder path (local) |         |
 | `-platform`    | Platform name like win/linux/mac        |         |
 
 ## Common options:
@@ -63,6 +63,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-retain-job-data` | Job data retain policy                                                                    | default              |
 | `-secure`          | Do not store tokens into a file                                                           | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 

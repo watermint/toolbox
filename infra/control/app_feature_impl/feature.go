@@ -44,6 +44,10 @@ type featureImpl struct {
 	hashReplay   kv_storage.Storage
 }
 
+func (z featureImpl) IsSkipLogging() bool {
+	return z.com.SkipLogging
+}
+
 func (z featureImpl) Extra() app_opt.ExtraOpts {
 	return z.com.ExtraOpts()
 }

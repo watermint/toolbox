@@ -26,19 +26,21 @@ var (
 )
 
 type Formula struct {
-	AssetPathLinux      mo_path.ExistingFileSystemPath
-	AssetPathMacArm     mo_path.ExistingFileSystemPath
-	AssetPathMacIntel   mo_path.ExistingFileSystemPath
-	DownloadUrlLinux    string
-	DownloadUrlMacArm   string
-	DownloadUrlMacIntel string
-	Message             string
-	Branch              string
-	Owner               string
-	Repository          string
-	FormulaName         string
-	Peer                gh_conn.ConnGithubRepo
-	Commit              rp_model.RowReport
+	AssetPathLinuxArm     mo_path.ExistingFileSystemPath
+	AssetPathLinuxIntel   mo_path.ExistingFileSystemPath
+	AssetPathMacArm       mo_path.ExistingFileSystemPath
+	AssetPathMacIntel     mo_path.ExistingFileSystemPath
+	DownloadUrlLinuxArm   string
+	DownloadUrlLinuxIntel string
+	DownloadUrlMacArm     string
+	DownloadUrlMacIntel   string
+	Message               string
+	Branch                string
+	Owner                 string
+	Repository            string
+	FormulaName           string
+	Peer                  gh_conn.ConnGithubRepo
+	Commit                rp_model.RowReport
 }
 
 func (z *Formula) Preset() {
@@ -48,7 +50,12 @@ func (z *Formula) Preset() {
 func (z *Formula) makeFormula(c app_control.Control) (formula string, err error) {
 	l := c.Log()
 	h := es_filehash.NewHash(l)
-	sha256Linux, err := h.SHA256(z.AssetPathLinux.Path())
+	sha256LinuxIntel, err := h.SHA256(z.AssetPathLinuxIntel.Path())
+	if err != nil {
+		l.Debug("Unable to calculate SHA sum of the asset", esl.Error(err))
+		return "", err
+	}
+	sha256LinuxArm, err := h.SHA256(z.AssetPathLinuxArm.Path())
 	if err != nil {
 		l.Debug("Unable to calculate SHA sum of the asset", esl.Error(err))
 		return "", err
@@ -79,13 +86,15 @@ func (z *Formula) makeFormula(c app_control.Control) (formula string, err error)
 
 	var buf bytes.Buffer
 	err = formulaTmpl.Execute(&buf, map[string]string{
-		"Version":             app.BuildId,
-		"DownloadUrlLinux":    z.DownloadUrlLinux,
-		"DownloadUrlMacArm":   z.DownloadUrlMacArm,
-		"DownloadUrlMacIntel": z.DownloadUrlMacIntel,
-		"Sha256Linux":         sha256Linux,
-		"Sha256MacArm":        sha256MacArm,
-		"Sha256MacIntel":      sha256MacIntel,
+		"Version":               app.BuildId,
+		"DownloadUrlLinuxArm":   z.DownloadUrlLinuxArm,
+		"DownloadUrlLinuxIntel": z.DownloadUrlLinuxIntel,
+		"DownloadUrlMacArm":     z.DownloadUrlMacArm,
+		"DownloadUrlMacIntel":   z.DownloadUrlMacIntel,
+		"Sha256LinuxArm":        sha256LinuxArm,
+		"Sha256LinuxIntel":      sha256LinuxIntel,
+		"Sha256MacArm":          sha256MacArm,
+		"Sha256MacIntel":        sha256MacIntel,
 	})
 	if err != nil {
 		l.Debug("Unable to compile template", esl.Error(err))
@@ -159,10 +168,12 @@ func (z *Formula) Test(c app_control.Control) error {
 
 	return rc_exec.Exec(c, &Formula{}, func(r rc_recipe.Recipe) {
 		m := r.(*Formula)
-		m.AssetPathLinux = mo_path.NewExistingFileSystemPath(filepath.Join(root, "README.md"))
+		m.AssetPathLinuxArm = mo_path.NewExistingFileSystemPath(filepath.Join(root, "SECURITY_AND_PRIVACY.md"))
+		m.AssetPathLinuxIntel = mo_path.NewExistingFileSystemPath(filepath.Join(root, "README.md"))
 		m.AssetPathMacArm = mo_path.NewExistingFileSystemPath(filepath.Join(root, "LICENSE.md"))
 		m.AssetPathMacIntel = mo_path.NewExistingFileSystemPath(filepath.Join(root, "CONTRIBUTING.md"))
-		m.DownloadUrlLinux = "https://raw.githubusercontent.com/watermint/toolbox/master/README.md"
+		m.DownloadUrlLinuxArm = "https://raw.githubusercontent.com/watermint/toolbox/master/SECURITY_AND_PRIVACY.md"
+		m.DownloadUrlLinuxIntel = "https://raw.githubusercontent.com/watermint/toolbox/master/README.md"
 		m.DownloadUrlMacArm = "https://raw.githubusercontent.com/watermint/toolbox/master/LICENSE.md"
 		m.DownloadUrlMacIntel = "https://raw.githubusercontent.com/watermint/toolbox/master/CONTRIBUTING.md"
 		m.Message = "Release:" + time.Now().Format(time.RFC3339)

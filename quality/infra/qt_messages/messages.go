@@ -30,17 +30,43 @@ var (
 func SuggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) error {
 	l := ctl.Log()
 	spec := rc_spec.New(r)
+	existingCliArgs := ""
 	if ctl.UI().Exists(spec.CliArgs()) {
-		return nil
+		existingCliArgs = ctl.UI().Text(spec.CliArgs())
 	}
 
 	suggests := make([]string, 0)
+	missings := make([]string, 0)
+	optionals := make([]string, 0)
+	suggestCount := 0
 	for _, valName := range spec.ValueNames() {
 		v := spec.Value(valName)
+		vd := spec.ValueDefault(valName)
 		valArg := "-" + ecase.ToLowerKebabCase(valName) + " "
+		found := strings.Contains(existingCliArgs, valArg)
+
 		switch vt := v.(type) {
+		case *rc_value.ValueString:
+			if vd != "" {
+				if found {
+					optionals = append(optionals, valArg)
+				}
+				continue
+			} else {
+				suggests = append(suggests, valArg+"VALUE")
+			}
+
 		case *rc_value.ValueMoUrlUrl:
 			suggests = append(suggests, valArg+"URL")
+
+		case *rc_value.ValueDaJsonInput:
+			suggests = append(suggests, valArg+"/LOCAL/PATH/TO/INPUT.json")
+
+		case *rc_value.ValueDaTextInput:
+			suggests = append(suggests, valArg+"/LOCAL/PATH/TO/INPUT.txt")
+
+		case *rc_value.ValueDaGridDataInput:
+			suggests = append(suggests, valArg+"/LOCAL/PATH/TO/INPUT.csv")
 
 		case *rc_value.ValueMoPathFileSystemPath:
 			suggests = append(suggests, valArg+"/LOCAL/PATH/TO/PROCESS")
@@ -59,13 +85,23 @@ func SuggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) error {
 
 		default:
 			l.Debug("Skip suggest", esl.Any("value", vt))
+			continue
+		}
+
+		if !found {
+			missings = append(missings, valArg)
+			suggestCount++
 		}
 	}
-	if len(suggests) > 0 {
+	if suggestCount > 0 || len(optionals) > 0 {
+		sort.Strings(suggests)
+
 		msgCliArgs := spec.CliArgs()
-		l.Error("cli.arg might required",
-			esl.String("key", msgCliArgs.Key()),
-			esl.String("suggest", strings.Join(suggests, " ")))
+		l.Error("cli.arg might required", esl.String("key", msgCliArgs.Key()))
+		l.Error("cli.arg optional options", esl.Strings("optional", optionals))
+		l.Error("cli.arg missing options", esl.Strings("missing", missings))
+		l.Error("cli.arg existing cli.arg", esl.String("existing", existingCliArgs))
+		l.Error("cli.arg suggested", esl.String("suggest", strings.Join(suggests, " ")))
 
 		SuggestMessages(ctl, func(out io.Writer) {
 			fmt.Fprintf(out, `"%s":"%s",`, msgCliArgs.Key(), strings.Join(suggests, " "))

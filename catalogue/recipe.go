@@ -47,7 +47,6 @@ import (
 	recipegroupfolder "github.com/watermint/toolbox/recipe/group/folder"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
-	recipeimage "github.com/watermint/toolbox/recipe/image"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
@@ -71,6 +70,7 @@ import (
 	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
 	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
 	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
+	recipeservicesgooglecalendarevent "github.com/watermint/toolbox/recipe/services/google/calendar/event"
 	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
 	recipeservicesgooglemailfilterbatch "github.com/watermint/toolbox/recipe/services/google/mail/filter/batch"
 	recipeservicesgooglemaillabel "github.com/watermint/toolbox/recipe/services/google/mail/label"
@@ -124,13 +124,20 @@ import (
 	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
+	recipeutilarchive "github.com/watermint/toolbox/recipe/util/archive"
+	recipeutildatabase "github.com/watermint/toolbox/recipe/util/database"
 	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
+	recipeutilfile "github.com/watermint/toolbox/recipe/util/file"
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
 	recipeutilimage "github.com/watermint/toolbox/recipe/util/image"
+	recipeutilmonitor "github.com/watermint/toolbox/recipe/util/monitor"
+	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
+	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
+	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
@@ -148,17 +155,20 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevbenchmark.Upload{},
 		&recipedevbenchmark.Uploadlink{},
 		&recipedevbuild.Catalogue{},
+		&recipedevbuild.Compile{},
 		&recipedevbuild.Doc{},
 		&recipedevbuild.Info{},
 		&recipedevbuild.License{},
 		&recipedevbuild.Package{},
 		&recipedevbuild.Preflight{},
 		&recipedevbuild.Readme{},
+		&recipedevbuild.Target{},
 		&recipedevciartifact.Up{},
 		&recipedevciauth.Connect{},
 		&recipedevciauth.Import{},
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
+		&recipedevkvs.Benchmark{},
 		&recipedevkvs.Dump{},
 		&recipedevmodule.List{},
 		&recipedevrelease.Candidate{},
@@ -171,6 +181,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevstage.Dbxfs{},
+		&recipedevstage.Encoding{},
 		&recipedevstage.Gmail{},
 		&recipedevstage.Griddata{},
 		&recipedevstage.HttpRange{},
@@ -244,7 +255,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmemberbatch.Add{},
 		&recipegroupmemberbatch.Delete{},
 		&recipegroupmemberbatch.Update{},
-		&recipeimage.Info{},
 		&recipejobhistory.Archive{},
 		&recipejobhistory.Delete{},
 		&recipejobhistory.List{},
@@ -294,6 +304,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgithubreleaseasset.List{},
 		&recipeservicesgithubreleaseasset.Upload{},
 		&recipeservicesgithubtag.Create{},
+		&recipeservicesgooglecalendarevent.List{},
 		&recipeservicesgooglemailfilter.Add{},
 		&recipeservicesgooglemailfilter.Delete{},
 		&recipeservicesgooglemailfilter.List{},
@@ -407,16 +418,28 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfoldermember.List{},
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
+		&recipeutilarchive.Unzip{},
+		&recipeutilarchive.Zip{},
+		&recipeutildatabase.Exec{},
+		&recipeutildatabase.Query{},
 		&recipeutildate.Today{},
 		&recipeutildatetime.Now{},
 		&recipeutildecode.Base32{},
 		&recipeutildecode.Base64{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
+		&recipeutilfile.Hash{},
 		&recipeutilgit.Clone{},
+		&recipeutilimage.Exif{},
 		&recipeutilimage.Placeholder{},
+		&recipeutilmonitor.Client{},
+		&recipeutilnet.Download{},
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
+		&recipeutiltextcase.Down{},
+		&recipeutiltextcase.Up{},
+		&recipeutiltextencoding.From{},
+		&recipeutiltextencoding.To{},
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},

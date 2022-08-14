@@ -32,15 +32,15 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `config enable`
 
@@ -48,17 +48,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `config features`
 
@@ -66,17 +65,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `connect business_audit`
 
@@ -84,17 +82,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `connect business_file`
 
@@ -102,17 +99,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `connect business_info`
 
@@ -120,17 +116,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `connect business_mgmt`
 
@@ -138,17 +133,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `connect user_file`
 
@@ -156,17 +150,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev benchmark local`
 
@@ -174,17 +167,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev benchmark upload`
 
@@ -192,17 +184,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev benchmark uploadlink`
 
@@ -210,17 +201,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev build catalogue`
 
@@ -228,17 +218,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev build doc`
 
@@ -246,17 +235,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev build license`
 
@@ -264,17 +252,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev build preflight`
 
@@ -282,17 +269,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev build readme`
 
@@ -300,17 +286,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev ci artifact connect`
 
@@ -318,17 +303,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev ci artifact up`
 
@@ -336,17 +320,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev ci auth connect`
 
@@ -354,17 +337,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev ci auth export`
 
@@ -372,17 +354,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev ci auth import`
 
@@ -390,17 +371,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev diag endpoint`
 
@@ -408,17 +388,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev diag throughput`
 
@@ -426,17 +405,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev kvs dump`
 
@@ -444,17 +422,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev release candidate`
 
@@ -462,17 +439,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev release publish`
 
@@ -480,17 +456,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev replay approve`
 
@@ -498,17 +473,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev replay bundle`
 
@@ -516,17 +490,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev replay recipe`
 
@@ -534,17 +507,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev replay remote`
 
@@ -552,17 +524,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev spec diff`
 
@@ -570,41 +541,40 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-- 			Name:     "FilePath",
-+ 			Name:     "DocLang",
-- 			Desc:     "出力先ファイルパス",
-+ 			Desc:     "ドキュメント言語",
-  			Default:  "",
-  			TypeName: "essentials.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{
-- 			Name:     "Lang",
-+ 			Name:     "FilePath",
-- 			Desc:     "言語",
-+ 			Desc:     "出力先ファイルパス",
-  			Default:  "",
-  			TypeName: "essentials.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Release1", Desc: "リリース名1", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{Name: "Release2", Desc: "リリース名2", TypeName: "essentials.model.mo_string.opt_string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+- 			Name:     "FilePath",
++ 			Name:     "DocLang",
+- 			Desc:     "出力先ファイルパス",
++ 			Desc:     "ドキュメント言語",
+  			Default:  "",
+  			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{
+- 			Name:     "Lang",
++ 			Name:     "FilePath",
+- 			Desc:     "言語",
++ 			Desc:     "出力先ファイルパス",
+  			Default:  "",
+  			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Release1", Desc: "リリース名1", TypeName: "essentials.model.mo_string.opt_string"},
+  		&{Name: "Release2", Desc: "リリース名2", TypeName: "essentials.model.mo_string.opt_string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev spec doc`
 
@@ -612,17 +582,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev stage dbxfs`
 
@@ -630,17 +599,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev stage gmail`
 
@@ -648,17 +616,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev stage griddata`
 
@@ -666,17 +633,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "In", Desc: "テスト入力グリッドデータ"}},
-  	GridDataOutput: {&{Name: "Out", Desc: "出力グリッドデータ"}},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "In", Desc: "テスト入力グリッドデータ"}},
+  	GridDataOutput: {&{Name: "Out", Desc: "出力グリッドデータ"}},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev stage gui`
 
@@ -684,17 +650,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev stage scoped`
 
@@ -702,17 +667,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev stage teamfolder`
 
@@ -720,17 +684,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev stage upload_append`
 
@@ -738,17 +701,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev test echo`
 
@@ -756,17 +718,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev test kvsfootprint`
 
@@ -774,17 +735,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev test monkey`
 
@@ -792,17 +752,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev test recipe`
 
@@ -810,17 +769,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev test resources`
 
@@ -828,17 +786,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev test setup teamsharedlink`
 
@@ -846,31 +803,30 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 2 identical elements
-  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...},
-  		&{Name: "Query", Desc: "クエリ", TypeName: "string"},
-+ 		&{
-+ 			Name:     "Seed",
-+ 			Desc:     "シェアードリンクのシード値",
-+ 			Default:  "0",
-+ 			TypeName: "int",
-+ 		},
-  		&{Name: "Visibility", Desc: "ビジビリティ", Default: "random", TypeName: "essentials.model.mo_string.select_string", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...},
+  		&{Name: "Query", Desc: "クエリ", TypeName: "string"},
++ 		&{
++ 			Name:     "Seed",
++ 			Desc:     "シェアードリンクのシード値",
++ 			Default:  "0",
++ 			TypeName: "int",
++ 		},
+  		&{Name: "Visibility", Desc: "ビジビリティ", Default: "random", TypeName: "essentials.model.mo_string.select_string", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev util anonymise`
 
@@ -878,17 +834,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev util curl`
 
@@ -896,17 +851,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev util image jpeg`
 
@@ -914,17 +868,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `dev util wait`
 
@@ -932,17 +885,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file archive local`
 
@@ -950,17 +902,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file compare account`
 
@@ -968,17 +919,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file compare local`
 
@@ -986,17 +936,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file copy`
 
@@ -1004,17 +953,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file delete`
 
@@ -1022,17 +970,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file dispatch local`
 
@@ -1040,17 +987,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file download`
 
@@ -1058,17 +1004,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file export doc`
 
@@ -1076,17 +1021,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file import batch url`
 
@@ -1094,17 +1038,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file import url`
 
@@ -1112,17 +1055,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file info`
 
@@ -1130,17 +1072,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file list`
 
@@ -1148,17 +1089,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file lock acquire`
 
@@ -1166,17 +1106,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file lock all release`
 
@@ -1184,17 +1123,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file lock batch acquire`
 
@@ -1202,17 +1140,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file lock batch release`
 
@@ -1220,17 +1157,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file lock list`
 
@@ -1238,17 +1174,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file lock release`
 
@@ -1256,17 +1191,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file merge`
 
@@ -1274,17 +1208,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file mount list`
 
@@ -1292,17 +1225,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file move`
 
@@ -1310,17 +1242,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file replication`
 
@@ -1328,17 +1259,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file restore`
 
@@ -1346,17 +1276,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file search content`
 
@@ -1364,17 +1293,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file search name`
 
@@ -1382,17 +1310,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file size`
 
@@ -1400,17 +1327,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file sync down`
 
@@ -1418,17 +1344,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file sync online`
 
@@ -1436,17 +1361,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file sync up`
 
@@ -1454,17 +1378,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `file watch`
 
@@ -1472,17 +1395,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `filerequest create`
 
@@ -1490,17 +1412,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `filerequest delete closed`
 
@@ -1508,17 +1429,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `filerequest delete url`
 
@@ -1526,17 +1446,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `filerequest list`
 
@@ -1544,17 +1463,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group add`
 
@@ -1562,17 +1480,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group batch delete`
 
@@ -1580,17 +1497,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group delete`
 
@@ -1598,17 +1514,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group folder list`
 
@@ -1616,17 +1531,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group list`
 
@@ -1634,17 +1548,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group member add`
 
@@ -1652,17 +1565,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group member batch add`
 
@@ -1670,17 +1582,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group member batch delete`
 
@@ -1688,17 +1599,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group member batch update`
 
@@ -1706,17 +1616,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group member delete`
 
@@ -1724,17 +1633,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group member list`
 
@@ -1742,17 +1650,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `group rename`
 
@@ -1760,17 +1667,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `image info`
 
@@ -1778,17 +1684,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `job history archive`
 
@@ -1796,17 +1701,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `job history delete`
 
@@ -1814,17 +1718,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `job history list`
 
@@ -1832,17 +1735,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `job history ship`
 
@@ -1850,17 +1752,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `job log jobid`
 
@@ -1868,17 +1769,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `job log kind`
 
@@ -1886,17 +1786,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `job log last`
 
@@ -1904,17 +1803,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `license`
 
@@ -1922,17 +1820,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member clear externalid`
 
@@ -1940,17 +1837,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member delete`
 
@@ -1958,17 +1854,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member detach`
 
@@ -1976,17 +1871,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member file lock all release`
 
@@ -1994,17 +1888,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member file lock list`
 
@@ -2012,17 +1905,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member file lock release`
 
@@ -2030,17 +1922,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member file permdelete`
 
@@ -2048,47 +1939,46 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /DROPBOX/PATH/TO/PERM_DELETE",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
-- 	ConnUseBusiness: false,
-+ 	ConnUseBusiness: true,
-- 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
-+ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 3 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "MemberEmail", Desc: "チームメンバーのメールアドレス.", TypeName: "string"},
-  		&{Name: "Path", Desc: "削除対象のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{
-  			Name:    "Peer",
-  			Desc:    "アカウントの別名",
-  			Default: "default",
-  			TypeName: strings.Join({
-  				"domain.dropbox.api.dbx_conn_impl.conn_scoped_",
-- 				"individual",
-+ 				"team",
-  			}, ""),
-  			TypeAttr: []any{string("files.permanent_delete"), string("team_data.member"), string("members.read")},
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 5 identical fields
+  	CliArgs:         "-path /DROPBOX/PATH/TO/PERM_DELETE",
+  	CliNote:         "",
+- 	ConnUsePersonal: true,
++ 	ConnUsePersonal: false,
+- 	ConnUseBusiness: false,
++ 	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "MemberEmail", Desc: "チームメンバーのメールアドレス.", TypeName: "string"},
+  		&{Name: "Path", Desc: "削除対象のパス", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
+  		&{
+  			Name:    "Peer",
+  			Desc:    "アカウントの別名",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_scoped_",
+- 				"individual",
++ 				"team",
+  			}, ""),
+  			TypeAttr: []any{string("files.permanent_delete"), string("team_data.member"), string("members.read")},
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member folder list`
 
@@ -2096,17 +1986,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member folder replication`
 
@@ -2114,17 +2003,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member invite`
 
@@ -2132,17 +2020,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member list`
 
@@ -2150,17 +2037,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member quota list`
 
@@ -2168,17 +2054,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member quota update`
 
@@ -2186,17 +2071,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member quota usage`
 
@@ -2204,17 +2088,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member reinvite`
 
@@ -2222,17 +2105,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member replication`
 
@@ -2240,17 +2122,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member update email`
 
@@ -2258,17 +2139,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member update externalid`
 
@@ -2276,17 +2156,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member update invisible`
 
@@ -2294,17 +2173,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member update profile`
 
@@ -2312,17 +2190,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `member update visible`
 
@@ -2330,17 +2207,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services asana team list`
 
@@ -2348,17 +2224,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services asana team project list`
 
@@ -2366,17 +2241,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services asana team task list`
 
@@ -2384,17 +2258,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services asana workspace list`
 
@@ -2402,17 +2275,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services asana workspace project list`
 
@@ -2420,17 +2292,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github content get`
 
@@ -2438,17 +2309,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github content put`
 
@@ -2456,17 +2326,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github issue list`
 
@@ -2474,17 +2343,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github profile`
 
@@ -2492,17 +2360,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github release asset download`
 
@@ -2510,17 +2377,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github release asset list`
 
@@ -2528,17 +2394,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github release asset upload`
 
@@ -2546,17 +2411,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github release draft`
 
@@ -2564,17 +2428,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github release list`
 
@@ -2582,17 +2445,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services github tag create`
 
@@ -2600,17 +2462,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail filter add`
 
@@ -2618,17 +2479,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail filter batch add`
 
@@ -2636,17 +2496,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail filter delete`
 
@@ -2654,17 +2513,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail filter list`
 
@@ -2672,17 +2530,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail label add`
 
@@ -2690,17 +2547,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail label delete`
 
@@ -2708,17 +2564,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail label list`
 
@@ -2726,17 +2581,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail label rename`
 
@@ -2744,17 +2598,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail message label add`
 
@@ -2762,17 +2615,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail message label delete`
 
@@ -2780,17 +2632,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail message list`
 
@@ -2798,17 +2649,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail message processed list`
 
@@ -2816,17 +2666,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google mail thread list`
 
@@ -2834,17 +2683,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google sheets sheet append`
 
@@ -2852,17 +2700,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google sheets sheet clear`
 
@@ -2870,17 +2717,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google sheets sheet export`
 
@@ -2888,17 +2734,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {&{Name: "Data", Desc: "書き出したシートデータ"}},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {&{Name: "Data", Desc: "書き出したシートデータ"}},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google sheets sheet import`
 
@@ -2906,17 +2751,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google sheets sheet list`
 
@@ -2924,17 +2768,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services google sheets spreadsheet create`
 
@@ -2942,17 +2785,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `services slack conversation list`
 
@@ -2960,17 +2802,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `sharedfolder list`
 
@@ -2978,17 +2819,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `sharedfolder member list`
 
@@ -2996,17 +2836,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `sharedlink create`
 
@@ -3014,17 +2853,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `sharedlink delete`
 
@@ -3032,17 +2870,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `sharedlink file list`
 
@@ -3050,17 +2887,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `sharedlink list`
 
@@ -3068,17 +2904,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team activity batch user`
 
@@ -3086,17 +2921,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team activity daily event`
 
@@ -3104,17 +2938,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team activity event`
 
@@ -3122,17 +2955,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team activity user`
 
@@ -3140,17 +2972,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team content member list`
 
@@ -3158,17 +2989,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team content mount list`
 
@@ -3176,17 +3006,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team content policy list`
 
@@ -3194,17 +3023,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team device list`
 
@@ -3212,17 +3040,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team device unlink`
 
@@ -3230,17 +3057,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team diag explorer`
 
@@ -3248,24 +3074,23 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     {"File": "business_file", "Info": "business_info", "Mgmt": "business_management", "Peer": "business_file"},
-  	Services:       {"dropbox_business"},
-- 	IsSecret:       false,
-+ 	IsSecret:       true,
-  	IsConsole:      false,
-  	IsExperimental: false,
-  	... // 5 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     {"File": "business_file", "Info": "business_info", "Mgmt": "business_management", "Peer": "business_file"},
+  	Services:       {"dropbox_business"},
+- 	IsSecret:       false,
++ 	IsSecret:       true,
+  	IsConsole:      false,
+  	IsExperimental: false,
+  	... // 5 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team feature`
 
@@ -3273,17 +3098,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team filerequest clone`
 
@@ -3291,17 +3115,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team filerequest list`
 
@@ -3309,17 +3132,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team info`
 
@@ -3327,17 +3149,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team linkedapp list`
 
@@ -3345,17 +3166,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team namespace file list`
 
@@ -3363,17 +3183,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team namespace file size`
 
@@ -3381,17 +3200,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team namespace list`
 
@@ -3399,17 +3217,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team namespace member list`
 
@@ -3417,17 +3234,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team report activity`
 
@@ -3435,17 +3251,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team report devices`
 
@@ -3453,17 +3268,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team report membership`
 
@@ -3471,17 +3285,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team report storage`
 
@@ -3489,17 +3302,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team sharedlink delete links`
 
@@ -3507,17 +3319,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team sharedlink delete member`
 
@@ -3525,17 +3336,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team sharedlink list`
 
@@ -3543,17 +3353,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team sharedlink update expiry`
 
@@ -3561,17 +3370,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team sharedlink update password`
 
@@ -3579,17 +3387,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `team sharedlink update visibility`
 
@@ -3597,17 +3404,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder add`
 
@@ -3615,17 +3421,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder archive`
 
@@ -3633,17 +3438,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder batch archive`
 
@@ -3651,17 +3455,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder batch permdelete`
 
@@ -3669,17 +3472,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder batch replication`
 
@@ -3687,17 +3489,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder file list`
 
@@ -3705,17 +3506,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder file lock all release`
 
@@ -3723,17 +3523,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder file lock list`
 
@@ -3741,17 +3540,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder file lock release`
 
@@ -3759,17 +3557,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder file size`
 
@@ -3777,17 +3574,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder list`
 
@@ -3795,17 +3591,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder member add`
 
@@ -3813,48 +3608,46 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	Name:  "add",
-  	Title: "チームフォルダへのユーザー/グループの一括追加",
-  	Desc: strings.Join({
-  		... // 605 identical bytes
-  		"\x81\xaf、「メンバーはすでにそのフォルダにアクセ\xe3\x82",
-  		"\xb9している」というようなエラーを報告しません",
-+ 		".\n\n例:\n\n* Sales（チームフォルダ、グループ「Sales\xe3",
-+ 		"\x80\x8dの編集者アクセス)\n\t* Sydney (個人アカウント syd",
-+ 		"ney@example.com の閲覧アクセス)\n\t* Tokyo (グループ \"T",
-+ 		"okyo Deal Desk\" の編集者アクセス)\n\t\t* Monthly (個人ア",
-+ 		"カウント success@example.com の閲覧アクセス )\n* Marke",
-+ 		`ting (チームフォルダ、グループ "Marketing "の編集`,
-+ 		"者アクセス)\n\t* Sydney (グループ \"Sydney Sales\" の編\xe9\x9b",
-+ 		"\x86者アクセス)\n\t* Tokyo (グループ \"Tokyo Sales \"のビュ",
-+ 		"ーアアクセス)\n\n1. 次のようなCSVファイルを準備\xe3",
-+ 		"\x81\x97ます\n\n```\nSales,,editor,Sales\nSales,Sydney,editor,sydney@exa",
-+ 		"mple.com\nSales,Tokyo,editor,Tokyo Deal Desk\nSales,Tokyo/Monthly,",
-+ 		"viewer,success@example.com\nMarketing,,editor,Marketing\nMarketing",
-+ 		",Sydney,editor,Sydney Sales\nMarketing,Tokyo,viewer,Tokyo Sales\n`",
-+ 		"``\n\n2. その後、以下のようにコマンドを実行しま",
-+ 		"す.\n\n```\ntbx teamfolder member add -file /PATH/TO/DATA.csv\n```\n",
-+ 		"\n注: このコマンドは、チームフォルダが存在し\xe3",
-+ 		"\x81\xaaい場合には、チームフォルダを作成します. し",
-+ 		"かし、このコマンドは、グループが見つからな\xe3",
-+ 		"\x81\x84場合には、グループを作成しません. このコマ",
-+ 		"ンドを実行する前に、グループが存在している\xe5",
-+ 		"\xbf\x85要があります",
-  		... // 1 identical byte
-  	}, ""),
-  	Remarks: "(非可逆な操作です)",
-  	Path:    "teamfolder member add",
-  	... // 14 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	Name:  "add",
+  	Title: "チームフォルダへのユーザー/グループの一括追加",
+  	Desc: strings.Join({
+  		... // 606 identical bytes
+  		"\xaf、「メンバーはすでにそのフォルダにアクセス",
+  		"している」というようなエラーを報告しません.",
++ 		"\n\n例:\n\n* Sales（チームフォルダ、グループ「Sales\xe3\x80",
++ 		"\x8dの編集者アクセス)\n\t* Sydney (個人アカウント sydn",
++ 		"ey@example.com の閲覧アクセス)\n\t* Tokyo (グループ \"To",
++ 		"kyo Deal Desk\" の編集者アクセス)\n\t\t* Monthly (個人ア\xe3",
++ 		"\x82\xabウント success@example.com の閲覧アクセス )\n* Market",
++ 		"ing (チームフォルダ、グループ \"Marketing \"の編集\xe8",
++ 		"\x80\x85アクセス)\n\t* Sydney (グループ \"Sydney Sales\" の編集",
++ 		"者アクセス)\n\t* Tokyo (グループ \"Tokyo Sales \"のビュ\xe3",
++ 		"\x83\xbcアアクセス)\n\n1. 次のようなCSVファイルを準備\xe3\x81",
++ 		"\x97ます\n\n```\nSales,,editor,Sales\nSales,Sydney,editor,sydney@exam",
++ 		"ple.com\nSales,Tokyo,editor,Tokyo Deal Desk\nSales,Tokyo/Monthly,v",
++ 		"iewer,success@example.com\nMarketing,,editor,Marketing\nMarketing,",
++ 		"Sydney,editor,Sydney Sales\nMarketing,Tokyo,viewer,Tokyo Sales\n``",
++ 		"`\n\n2. その後、以下のようにコマンドを実行しま\xe3",
++ 		"\x81\x99.\n\n```\ntbx teamfolder member add -file /PATH/TO/DATA.csv\n```\n\n",
++ 		"注: このコマンドは、チームフォルダが存在し\xe3\x81",
++ 		"\xaaい場合には、チームフォルダを作成します. し\xe3",
++ 		"\x81\x8bし、このコマンドは、グループが見つからな\xe3\x81",
++ 		"\x84場合には、グループを作成しません. このコマ\xe3",
++ 		"\x83\xb3ドを実行する前に、グループが存在している\xe5\xbf",
++ 		"\x85要があります.",
+  	}, ""),
+  	Remarks: "(非可逆な操作です)",
+  	Path:    "teamfolder member add",
+  	... // 14 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder member delete`
 
@@ -3862,17 +3655,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder member list`
 
@@ -3880,17 +3672,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder partial replication`
 
@@ -3898,17 +3689,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder permdelete`
 
@@ -3916,17 +3706,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder policy list`
 
@@ -3934,17 +3723,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `teamfolder replication`
 
@@ -3952,17 +3740,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util date today`
 
@@ -3970,17 +3757,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util datetime now`
 
@@ -3988,17 +3774,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util decode base_32`
 
@@ -4006,17 +3791,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util decode base_64`
 
@@ -4024,17 +3808,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util encode base_32`
 
@@ -4042,17 +3825,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util encode base_64`
 
@@ -4060,17 +3842,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util qrcode create`
 
@@ -4078,17 +3859,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util qrcode wifi`
 
@@ -4096,17 +3876,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util time now`
 
@@ -4114,17 +3893,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util unixtime format`
 
@@ -4132,24 +3910,23 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Format", Desc: "時間フォーマット", Default: "iso8601", TypeName: "essentials.model.mo_string.select_string", ...},
-  		&{Name: "Precision", Desc: "時間精度 (second/ms/ns)", Default: "second", TypeName: "essentials.model.mo_string.select_string", ...},
-+ 		&{Name: "Time", Desc: "Unix 時間", Default: "0", TypeName: "int"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Format", Desc: "時間フォーマット", Default: "iso8601", TypeName: "essentials.model.mo_string.select_string", ...},
+  		&{Name: "Precision", Desc: "時間精度 (second/ms/ns)", Default: "second", TypeName: "essentials.model.mo_string.select_string", ...},
++ 		&{Name: "Time", Desc: "Unix 時間", Default: "0", TypeName: "int"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util unixtime now`
 
@@ -4157,17 +3934,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util xlsx create`
 
@@ -4175,17 +3951,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util xlsx sheet export`
 
@@ -4193,17 +3968,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {&{Name: "Data", Desc: "データの書き出し"}},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {&{Name: "Data", Desc: "データの書き出し"}},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util xlsx sheet import`
 
@@ -4211,17 +3985,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `util xlsx sheet list`
 
@@ -4229,17 +4002,16 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # コマンド仕様の変更: `version`
 
@@ -4247,15 +4019,14 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
-
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```

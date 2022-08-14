@@ -145,6 +145,7 @@ Available commands:
 | [sharedlink file list](docs/commands/sharedlink-file-list.md)                   | List files for the shared link                                |
 | [sharedlink info](docs/commands/sharedlink-info.md)                             | Get information about the shared link                         |
 | [sharedlink list](docs/commands/sharedlink-list.md)                             | List of shared link(s)                                        |
+| [util monitor client](docs/commands/util-monitor-client.md)                     | Start device monitor client                                   |
 
 ## Dropbox Business
 
@@ -259,6 +260,16 @@ Available commands:
 | [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                                           | List policies of team folders                                             |
 | [teamfolder replication](docs/commands/teamfolder-replication.md)                                           | Replicate a team folder to the other team                                 |
 
+## Asana
+
+| Command                                                                                         | Description                    |
+|-------------------------------------------------------------------------------------------------|--------------------------------|
+| [services asana team list](docs/commands/services-asana-team-list.md)                           | List team                      |
+| [services asana team project list](docs/commands/services-asana-team-project-list.md)           | List projects of the team      |
+| [services asana team task list](docs/commands/services-asana-team-task-list.md)                 | List task of the team          |
+| [services asana workspace list](docs/commands/services-asana-workspace-list.md)                 | List workspaces                |
+| [services asana workspace project list](docs/commands/services-asana-workspace-project-list.md) | List projects of the workspace |
+
 ## GitHub
 
 | Command                                                                                           | Description                                         |
@@ -273,6 +284,12 @@ Available commands:
 | [services github release draft](docs/commands/services-github-release-draft.md)                   | Create release draft                                |
 | [services github release list](docs/commands/services-github-release-list.md)                     | List releases                                       |
 | [services github tag create](docs/commands/services-github-tag-create.md)                         | Create a tag on the repository                      |
+
+## Google Calendar
+
+| Command                                                                                     | Description                 |
+|---------------------------------------------------------------------------------------------|-----------------------------|
+| [services google calendar event list](docs/commands/services-google-calendar-event-list.md) | List Google Calendar events |
 
 ## Google Gmail
 
@@ -306,16 +323,6 @@ Available commands:
 | [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet   |
 | [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet         |
 
-## Asana
-
-| Command                                                                                         | Description                    |
-|-------------------------------------------------------------------------------------------------|--------------------------------|
-| [services asana team list](docs/commands/services-asana-team-list.md)                           | List team                      |
-| [services asana team project list](docs/commands/services-asana-team-project-list.md)           | List projects of the team      |
-| [services asana team task list](docs/commands/services-asana-team-task-list.md)                 | List task of the team          |
-| [services asana workspace list](docs/commands/services-asana-workspace-list.md)                 | List workspaces                |
-| [services asana workspace project list](docs/commands/services-asana-workspace-project-list.md) | List projects of the workspace |
-
 ## Slack
 
 | Command                                                                               | Description   |
@@ -324,36 +331,47 @@ Available commands:
 
 ## Utilities
 
-| Command                                                           | Description                                                          |
-|-------------------------------------------------------------------|----------------------------------------------------------------------|
-| [config disable](docs/commands/config-disable.md)                 | Disable a feature.                                                   |
-| [config enable](docs/commands/config-enable.md)                   | Enable a feature.                                                    |
-| [config features](docs/commands/config-features.md)               | List available optional features.                                    |
-| [file archive local](docs/commands/file-archive-local.md)         | Archive local files                                                  |
-| [file dispatch local](docs/commands/file-dispatch-local.md)       | Dispatch local files                                                 |
-| [job history archive](docs/commands/job-history-archive.md)       | Archive jobs                                                         |
-| [job history delete](docs/commands/job-history-delete.md)         | Delete old job history                                               |
-| [job history list](docs/commands/job-history-list.md)             | Show job history                                                     |
-| [job log jobid](docs/commands/job-log-jobid.md)                   | Retrieve logs of specified Job ID                                    |
-| [job log kind](docs/commands/job-log-kind.md)                     | Concatenate and print logs of specified log kind                     |
-| [job log last](docs/commands/job-log-last.md)                     | Print the last job log files                                         |
-| [license](docs/commands/license.md)                               | Show license information                                             |
-| [util date today](docs/commands/util-date-today.md)               | Display current date                                                 |
-| [util datetime now](docs/commands/util-datetime-now.md)           | Display current date/time                                            |
-| [util decode base32](docs/commands/util-decode-base32.md)         | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base64](docs/commands/util-decode-base64.md)         | Decode text from Base64 (RFC 4648) format                            |
-| [util encode base32](docs/commands/util-encode-base32.md)         | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base64](docs/commands/util-encode-base64.md)         | Encode text into Base64 (RFC 4648) format                            |
-| [util git clone](docs/commands/util-git-clone.md)                 | Clone git repository                                                 |
-| [util image placeholder](docs/commands/util-image-placeholder.md) | Create placeholder image                                             |
-| [util qrcode create](docs/commands/util-qrcode-create.md)         | Create a QR code image file                                          |
-| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)             | Generate QR code for WIFI configuration                              |
-| [util time now](docs/commands/util-time-now.md)                   | Display current time                                                 |
-| [util unixtime format](docs/commands/util-unixtime-format.md)     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
-| [util unixtime now](docs/commands/util-unixtime-now.md)           | Display current time in unixtime                                     |
-| [util xlsx create](docs/commands/util-xlsx-create.md)             | Create an empty spreadsheet                                          |
-| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md) | Export data from the xlsx file                                       |
-| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md) | Import data into xlsx file                                           |
-| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)     | List sheets of the xlsx file                                         |
-| [version](docs/commands/version.md)                               | Show version                                                         |
+| Command                                                             | Description                                                          |
+|---------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config disable](docs/commands/config-disable.md)                   | Disable a feature.                                                   |
+| [config enable](docs/commands/config-enable.md)                     | Enable a feature.                                                    |
+| [config features](docs/commands/config-features.md)                 | List available optional features.                                    |
+| [file archive local](docs/commands/file-archive-local.md)           | Archive local files                                                  |
+| [file dispatch local](docs/commands/file-dispatch-local.md)         | Dispatch local files                                                 |
+| [job history archive](docs/commands/job-history-archive.md)         | Archive jobs                                                         |
+| [job history delete](docs/commands/job-history-delete.md)           | Delete old job history                                               |
+| [job history list](docs/commands/job-history-list.md)               | Show job history                                                     |
+| [job log jobid](docs/commands/job-log-jobid.md)                     | Retrieve logs of specified Job ID                                    |
+| [job log kind](docs/commands/job-log-kind.md)                       | Concatenate and print logs of specified log kind                     |
+| [job log last](docs/commands/job-log-last.md)                       | Print the last job log files                                         |
+| [license](docs/commands/license.md)                                 | Show license information                                             |
+| [util archive unzip](docs/commands/util-archive-unzip.md)           | Extract the zip archive file                                         |
+| [util archive zip](docs/commands/util-archive-zip.md)               | Compress target files into the zip archive                           |
+| [util database exec](docs/commands/util-database-exec.md)           | Execute query on SQLite3 database file                               |
+| [util database query](docs/commands/util-database-query.md)         | Query SQLite3 database                                               |
+| [util date today](docs/commands/util-date-today.md)                 | Display current date                                                 |
+| [util datetime now](docs/commands/util-datetime-now.md)             | Display current date/time                                            |
+| [util decode base32](docs/commands/util-decode-base32.md)           | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64](docs/commands/util-decode-base64.md)           | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base32](docs/commands/util-encode-base32.md)           | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64](docs/commands/util-encode-base64.md)           | Encode text into Base64 (RFC 4648) format                            |
+| [util file hash](docs/commands/util-file-hash.md)                   | Print file digest                                                    |
+| [util git clone](docs/commands/util-git-clone.md)                   | Clone git repository                                                 |
+| [util image exif](docs/commands/util-image-exif.md)                 | Print EXIF metadata of image file                                    |
+| [util image placeholder](docs/commands/util-image-placeholder.md)   | Create placeholder image                                             |
+| [util net download](docs/commands/util-net-download.md)             | Download a file                                                      |
+| [util qrcode create](docs/commands/util-qrcode-create.md)           | Create a QR code image file                                          |
+| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)               | Generate QR code for WIFI configuration                              |
+| [util text case down](docs/commands/util-text-case-down.md)         | Print lower case text                                                |
+| [util text case up](docs/commands/util-text-case-up.md)             | Print upper case text                                                |
+| [util text encoding from](docs/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.    |
+| [util text encoding to](docs/commands/util-text-encoding-to.md)     | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util time now](docs/commands/util-time-now.md)                     | Display current time                                                 |
+| [util unixtime format](docs/commands/util-unixtime-format.md)       | Time format to convert the unix time (epoch seconds from 1970-01-01) |
+| [util unixtime now](docs/commands/util-unixtime-now.md)             | Display current time in unixtime                                     |
+| [util xlsx create](docs/commands/util-xlsx-create.md)               | Create an empty spreadsheet                                          |
+| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)   | Export data from the xlsx file                                       |
+| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md)   | Import data into xlsx file                                           |
+| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)       | List sheets of the xlsx file                                         |
+| [version](docs/commands/version.md)                                 | Show version                                                         |
 

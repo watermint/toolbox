@@ -119,7 +119,7 @@ func execOut(m MsgOut) {
 
 	// ignore errors. the original file retains if compression failed.
 	// that will be processed on purge process.
-	_ = es_gzip.Compress(m.Path)
+	_, _ = es_gzip.Compress(m.Path)
 }
 
 func enqueuePurge(m MsgPurge) {

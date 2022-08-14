@@ -66,12 +66,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe sharedfolder member delete -path /SHARED_FOLDER/PATH/TO/DELETE
+.\tbx.exe sharedfolder member delete -email EMAIL -path /DROPBOX/PATH/TO/DELETE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx sharedfolder member delete -path /SHARED_FOLDER/PATH/TO/DELETE
+$HOME/Desktop/tbx sharedfolder member delete -email EMAIL -path /DROPBOX/PATH/TO/DELETE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -107,6 +107,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-retain-job-data` | Job data retain policy                                                                    | default              |
 | `-secure`          | Do not store tokens into a file                                                           | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 

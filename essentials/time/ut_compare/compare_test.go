@@ -1,6 +1,7 @@
 package ut_compare
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"math/rand"
 	"testing"
@@ -99,6 +100,106 @@ func TestLatest(t *testing.T) {
 		t.Error(x)
 	}
 	if x := LatestPtr(nil); x != nil {
+		t.Error(x)
+	}
+}
+
+func TestIsBetween(t *testing.T) {
+	n := time.Now()
+
+	// true cases:
+	// -----------
+
+	if x := IsBetween(n, n.Add(-1*time.Hour), n.Add(1*time.Hour)); !x {
+		t.Error(x)
+	}
+	if x := IsBetween(n, n.Add(1*time.Hour), n.Add(-1*time.Hour)); !x {
+		t.Error(x)
+	}
+
+	// inclusive
+	if x := IsBetween(n, n, n.Add(1*time.Hour)); !x {
+		t.Error(x)
+	}
+	if x := IsBetween(n, n.Add(-1*time.Hour), n); !x {
+		t.Error(x)
+	}
+
+	// false cases:
+	// ------------
+
+	if x := IsBetween(n.Add(-2*time.Hour), n.Add(-1*time.Hour), n.Add(1*time.Hour)); x {
+		t.Error(x)
+	}
+	if x := IsBetween(n.Add(2*time.Hour), n.Add(-1*time.Hour), n.Add(1*time.Hour)); x {
+		t.Error(x)
+	}
+	if x := IsBetween(n.Add(-2*time.Hour), n.Add(1*time.Hour), n.Add(-1*time.Hour)); x {
+		t.Error(x)
+	}
+	if x := IsBetween(n.Add(2*time.Hour), n.Add(1*time.Hour), n.Add(-1*time.Hour)); x {
+		t.Error(x)
+	}
+}
+
+func TestIsBetweenOptional(t *testing.T) {
+	n := time.Now()
+	zero := mo_time.NewOptional(mo_time.Zero().Time())
+	offset := func(h int) mo_time.TimeOptional {
+		return mo_time.NewOptional(n.Add(time.Duration(h) * time.Hour))
+	}
+
+	// true cases:
+	// -----------
+
+	if x := IsBetweenOptional(n, offset(-1), offset(1)); !x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n, zero, offset(1)); !x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n, offset(-1), zero); !x {
+		t.Error(x)
+	}
+
+	// inclusive
+	if x := IsBetweenOptional(n, offset(0), offset(1)); !x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n, offset(-1), offset(0)); !x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n, zero, offset(0)); !x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n, offset(0), zero); !x {
+		t.Error(x)
+	}
+
+	// false cases:
+	// ------------
+
+	// `b` < `a`
+	if x := IsBetweenOptional(n, offset(1), offset(-1)); x {
+		t.Error(x)
+	}
+
+	if x := IsBetweenOptional(n.Add(-2*time.Hour), offset(-1), offset(1)); x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n.Add(2*time.Hour), offset(-1), offset(1)); x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n.Add(-2*time.Hour), offset(1), offset(-1)); x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n.Add(2*time.Hour), offset(1), offset(-1)); x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n.Add(2*time.Hour), zero, offset(1)); x {
+		t.Error(x)
+	}
+	if x := IsBetweenOptional(n.Add(-2*time.Hour), offset(-1), zero); x {
 		t.Error(x)
 	}
 }

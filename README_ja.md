@@ -143,6 +143,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                   | 共有リンクのファイルを一覧する                                            |
 | [sharedlink info](docs/ja/commands/sharedlink-info.md)                             | 共有リンクの情報取得                                                      |
 | [sharedlink list](docs/ja/commands/sharedlink-list.md)                             | 共有リンクの一覧                                                          |
+| [util monitor client](docs/ja/commands/util-monitor-client.md)                     | デバイスモニタークライアントを起動する                                    |
 
 ## Dropbox Business
 
@@ -257,6 +258,16 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                           |
 | [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                 |
 
+## Asana
+
+| コマンド                                                                                           | 説明                             |
+|----------------------------------------------------------------------------------------------------|----------------------------------|
+| [services asana team list](docs/ja/commands/services-asana-team-list.md)                           | チームのリスト                   |
+| [services asana team project list](docs/ja/commands/services-asana-team-project-list.md)           | チームのプロジェクト一覧         |
+| [services asana team task list](docs/ja/commands/services-asana-team-task-list.md)                 | チームのタスク一覧               |
+| [services asana workspace list](docs/ja/commands/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
+| [services asana workspace project list](docs/ja/commands/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
+
 ## GitHub
 
 | コマンド                                                                                             | 説明                                             |
@@ -271,6 +282,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [services github release draft](docs/ja/commands/services-github-release-draft.md)                   | リリースの下書きを作成                           |
 | [services github release list](docs/ja/commands/services-github-release-list.md)                     | リリースの一覧                                   |
 | [services github tag create](docs/ja/commands/services-github-tag-create.md)                         | レポジトリにタグを作成します                     |
+
+## Google Calendar
+
+| コマンド                                                                                       | 説明                                 |
+|------------------------------------------------------------------------------------------------|--------------------------------------|
+| [services google calendar event list](docs/ja/commands/services-google-calendar-event-list.md) | Googleカレンダーのイベントを一覧表示 |
 
 ## Google Gmail
 
@@ -304,16 +321,6 @@ DropboxおよびDropbox Business向けのツールセット
 | [services google sheets sheet list](docs/ja/commands/services-google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |
 | [services google sheets spreadsheet create](docs/ja/commands/services-google-sheets-spreadsheet-create.md) | 新しいスプレッドシートの作成         |
 
-## Asana
-
-| コマンド                                                                                           | 説明                             |
-|----------------------------------------------------------------------------------------------------|----------------------------------|
-| [services asana team list](docs/ja/commands/services-asana-team-list.md)                           | チームのリスト                   |
-| [services asana team project list](docs/ja/commands/services-asana-team-project-list.md)           | チームのプロジェクト一覧         |
-| [services asana team task list](docs/ja/commands/services-asana-team-task-list.md)                 | チームのタスク一覧               |
-| [services asana workspace list](docs/ja/commands/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
-| [services asana workspace project list](docs/ja/commands/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
-
 ## Slack
 
 | コマンド                                                                                 | 説明           |
@@ -322,36 +329,47 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                             | 説明                                                                   |
-|----------------------------------------------------------------------|------------------------------------------------------------------------|
-| [config disable](docs/ja/commands/config-disable.md)                 | 機能を無効化します.                                                    |
-| [config enable](docs/ja/commands/config-enable.md)                   | 機能を有効化します.                                                    |
-| [config features](docs/ja/commands/config-features.md)               | 利用可能なオプション機能一覧.                                          |
-| [file archive local](docs/ja/commands/file-archive-local.md)         | ローカルファイルをアーカイブします                                     |
-| [file dispatch local](docs/ja/commands/file-dispatch-local.md)       | ローカルファイルを整理します                                           |
-| [job history archive](docs/ja/commands/job-history-archive.md)       | ジョブのアーカイブ                                                     |
-| [job history delete](docs/ja/commands/job-history-delete.md)         | 古いジョブ履歴の削除                                                   |
-| [job history list](docs/ja/commands/job-history-list.md)             | ジョブ履歴の表示                                                       |
-| [job log jobid](docs/ja/commands/job-log-jobid.md)                   | 指定したジョブIDのログを取得する                                       |
-| [job log kind](docs/ja/commands/job-log-kind.md)                     | 指定種別のログを結合して出力します                                     |
-| [job log last](docs/ja/commands/job-log-last.md)                     | 最後のジョブのログファイルを出力.                                      |
-| [license](docs/ja/commands/license.md)                               | ライセンス情報を表示します                                             |
-| [util date today](docs/ja/commands/util-date-today.md)               | 現在の日付を表示                                                       |
-| [util datetime now](docs/ja/commands/util-datetime-now.md)           | 現在の日時を表示                                                       |
-| [util decode base32](docs/ja/commands/util-decode-base32.md)         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base64](docs/ja/commands/util-decode-base64.md)         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util encode base32](docs/ja/commands/util-encode-base32.md)         | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base64](docs/ja/commands/util-encode-base64.md)         | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util git clone](docs/ja/commands/util-git-clone.md)                 | git リポジトリをクローン                                               |
-| [util image placeholder](docs/ja/commands/util-image-placeholder.md) | プレースホルダー画像の作成                                             |
-| [util qrcode create](docs/ja/commands/util-qrcode-create.md)         | QRコード画像ファイルの作成                                             |
-| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)             | WIFI設定用のQRコードを生成                                             |
-| [util time now](docs/ja/commands/util-time-now.md)                   | 現在の時刻を表示                                                       |
-| [util unixtime format](docs/ja/commands/util-unixtime-format.md)     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
-| [util unixtime now](docs/ja/commands/util-unixtime-now.md)           | UNIX時間で現在の時刻を表示する                                         |
-| [util xlsx create](docs/ja/commands/util-xlsx-create.md)             | 空のスプレッドシートを作成する                                         |
-| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md) | xlsxファイルからデータをエクスポート                                   |
-| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md) | データをxlsxファイルにインポート                                       |
-| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)     | xlsxファイルのシート一覧                                               |
-| [version](docs/ja/commands/version.md)                               | バージョン情報                                                         |
+| コマンド                                                               | 説明                                                                   |
+|------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config disable](docs/ja/commands/config-disable.md)                   | 機能を無効化します.                                                    |
+| [config enable](docs/ja/commands/config-enable.md)                     | 機能を有効化します.                                                    |
+| [config features](docs/ja/commands/config-features.md)                 | 利用可能なオプション機能一覧.                                          |
+| [file archive local](docs/ja/commands/file-archive-local.md)           | ローカルファイルをアーカイブします                                     |
+| [file dispatch local](docs/ja/commands/file-dispatch-local.md)         | ローカルファイルを整理します                                           |
+| [job history archive](docs/ja/commands/job-history-archive.md)         | ジョブのアーカイブ                                                     |
+| [job history delete](docs/ja/commands/job-history-delete.md)           | 古いジョブ履歴の削除                                                   |
+| [job history list](docs/ja/commands/job-history-list.md)               | ジョブ履歴の表示                                                       |
+| [job log jobid](docs/ja/commands/job-log-jobid.md)                     | 指定したジョブIDのログを取得する                                       |
+| [job log kind](docs/ja/commands/job-log-kind.md)                       | 指定種別のログを結合して出力します                                     |
+| [job log last](docs/ja/commands/job-log-last.md)                       | 最後のジョブのログファイルを出力.                                      |
+| [license](docs/ja/commands/license.md)                                 | ライセンス情報を表示します                                             |
+| [util archive unzip](docs/ja/commands/util-archive-unzip.md)           | ZIPアーカイブファイルを解凍する                                        |
+| [util archive zip](docs/ja/commands/util-archive-zip.md)               | 対象ファイルをZIPアーカイブに圧縮する                                  |
+| [util database exec](docs/ja/commands/util-database-exec.md)           | SQLite3データベースファイルへのクエリ実行                              |
+| [util database query](docs/ja/commands/util-database-query.md)         | SQLite3データベースへの問い合わせ                                      |
+| [util date today](docs/ja/commands/util-date-today.md)                 | 現在の日付を表示                                                       |
+| [util datetime now](docs/ja/commands/util-datetime-now.md)             | 現在の日時を表示                                                       |
+| [util decode base32](docs/ja/commands/util-decode-base32.md)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64](docs/ja/commands/util-decode-base64.md)           | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base32](docs/ja/commands/util-encode-base32.md)           | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64](docs/ja/commands/util-encode-base64.md)           | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util file hash](docs/ja/commands/util-file-hash.md)                   | ファイルダイジェストの表示                                             |
+| [util git clone](docs/ja/commands/util-git-clone.md)                   | git リポジトリをクローン                                               |
+| [util image exif](docs/ja/commands/util-image-exif.md)                 | 画像ファイルのEXIFメタデータを表示                                     |
+| [util image placeholder](docs/ja/commands/util-image-placeholder.md)   | プレースホルダー画像の作成                                             |
+| [util net download](docs/ja/commands/util-net-download.md)             | ファイルをダウンロードする                                             |
+| [util qrcode create](docs/ja/commands/util-qrcode-create.md)           | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)               | WIFI設定用のQRコードを生成                                             |
+| [util text case down](docs/ja/commands/util-text-case-down.md)         | 小文字のテキストを表示する                                             |
+| [util text case up](docs/ja/commands/util-text-case-up.md)             | 大文字のテキストを表示する                                             |
+| [util text encoding from](docs/ja/commands/util-text-encoding-from.md) | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
+| [util text encoding to](docs/ja/commands/util-text-encoding-to.md)     | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
+| [util time now](docs/ja/commands/util-time-now.md)                     | 現在の時刻を表示                                                       |
+| [util unixtime format](docs/ja/commands/util-unixtime-format.md)       | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now](docs/ja/commands/util-unixtime-now.md)             | UNIX時間で現在の時刻を表示する                                         |
+| [util xlsx create](docs/ja/commands/util-xlsx-create.md)               | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)   | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)   | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)       | xlsxファイルのシート一覧                                               |
+| [version](docs/ja/commands/version.md)                                 | バージョン情報                                                         |
 

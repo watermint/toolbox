@@ -3,13 +3,9 @@ services:
   build:
     build:
       context: .
-    command: /app/build.sh
+    command: bash /source/build.sh linux
     volumes:
       - /tmp/dist:/dist
-    ports:
-      - 2345:2345
-    security_opt:
-      - seccomp:unconfined
 
   test:
     build:

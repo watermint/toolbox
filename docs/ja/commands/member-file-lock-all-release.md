@@ -66,12 +66,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe member file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
+.\tbx.exe member file lock all release -member-email VALUE -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx member file lock all release -path /DROPBOX/PATH/TO/RELEASE/LOCK
+$HOME/Desktop/tbx member file lock all release -member-email VALUE -path /DROPBOX/PATH/TO/RELEASE/LOCK
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -107,6 +107,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
+| `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

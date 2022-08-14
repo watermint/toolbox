@@ -32,6 +32,10 @@ func captureFile(c app_control.Control, origPath string, callback func(path stri
 		return captureReader(c, os.Stdin, true, origPath, callback)
 
 	default:
+		if c.Feature().IsTransient() {
+			callback(origPath)
+			return nil, nil
+		}
 		l.Debug("Capture from a file")
 		var formattedPath string
 		formattedPath, err = es_filepath.FormatPathWithPredefinedVariables(origPath)
@@ -57,6 +61,12 @@ func captureFile(c app_control.Control, origPath string, callback func(path stri
 
 func captureReader(c app_control.Control, r io.ReadCloser, useBackup bool, origPath string, callback func(path string)) (v *CapturedData, err error) {
 	l := c.Log()
+	if c.Feature().IsTransient() {
+		if err := os.MkdirAll(c.Workspace().Log(), 0755); err != nil {
+			l.Debug("Unable to create log path", esl.Error(err))
+			return nil, err
+		}
+	}
 	backupId := sc_random.MustGetSecureRandomString(8)
 	backupName := FeedBackupFilePrefix + backupId + ".gz"
 	backupPath := filepath.Join(c.Workspace().Log(), backupName)

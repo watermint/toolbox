@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 )
 
+// CompressPath creates zip archive `arcPath` for `targetPath`
 func CompressPath(arcPath, targetPath, arcComment string) error {
 	l := esl.Default()
 	arcFile, err := os.Create(arcPath)
@@ -59,10 +60,7 @@ func CompressPath(arcPath, targetPath, arcComment string) error {
 					continue
 				}
 
-				r.Close()
-				l.Debug("Try remove the log file", esl.String("path", rp))
-				err = os.Remove(rp)
-				l.Debug("Removed", esl.String("path", rp), esl.Error(err))
+				_ = r.Close()
 			}
 		}
 		return nil

@@ -31,7 +31,7 @@ var (
 		"HOSTNAME",
 		"CI_BUILD_REF",
 		"CI_JOB_ID",
-		"CIRCLE_BUILD_NUM",
+		"CIRCLE_WORKFLOW_ID",
 		"CIRCLE_NODE_INDEX",
 	}
 )

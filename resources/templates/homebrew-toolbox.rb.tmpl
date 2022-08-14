@@ -5,8 +5,14 @@ class Toolbox < Formula
   license "MIT"
 
   on_linux do
-    url    "{{.DownloadUrlLinux}}"
-    sha256 "{{.Sha256Linux}}"
+    on_arm do
+      url    "{{.DownloadUrlLinuxArm}}"
+      sha256 "{{.Sha256LinuxArm}}"
+    end
+    on_intel do
+      url    "{{.DownloadUrlLinuxIntel}}"
+      sha256 "{{.Sha256LinuxIntel}}"
+    end
   end
 
   on_macos do

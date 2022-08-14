@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharing"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -13,7 +14,7 @@ import (
 
 type Info struct {
 	Peer     dbx_conn.ConnScopedIndividual
-	Path     string
+	Path     mo_path.DropboxPath
 	Metadata rp_model.RowReport
 }
 
@@ -30,7 +31,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		return err
 	}
 
-	info, err := sv_sharing.New(z.Peer.Context()).Resolve(z.Path)
+	info, err := sv_sharing.New(z.Peer.Context()).Resolve(z.Path.Path())
 	if err != nil {
 		return err
 	}
@@ -42,6 +43,6 @@ func (z *Info) Exec(c app_control.Control) error {
 func (z *Info) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Info{}, func(r rc_recipe.Recipe) {
 		m := r.(*Info)
-		m.Path = "id:3kmLmQFnf1AAAAAAAAAAAw"
+		m.Path = mo_path.NewDropboxPath("id:3kmLmQFnf1AAAAAAAAAAAw")
 	})
 }

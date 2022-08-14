@@ -3,14 +3,17 @@ package decode
 import (
 	"encoding/base32"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/ui_out"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"os"
 )
 
 type Base32 struct {
 	rc_recipe.RemarkTransient
-	Text      string
+	Text      da_text.TextInput
 	NoPadding bool
 }
 
@@ -24,7 +27,11 @@ func (z *Base32) Exec(c app_control.Control) error {
 	} else {
 		coder = base32.StdEncoding
 	}
-	t, err := coder.DecodeString(z.Text)
+	tx, err := z.Text.Content()
+	if err != nil {
+		return err
+	}
+	t, err := coder.DecodeString(string(tx))
 	if err != nil {
 		return err
 	}
@@ -34,8 +41,15 @@ func (z *Base32) Exec(c app_control.Control) error {
 }
 
 func (z *Base32) Test(c app_control.Control) error {
+	f, err := qt_file.MakeTestFile("encode", "O5QXIZLSNVUW45BAORXW63DCN54A====")
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.Remove(f)
+	}()
 	return rc_exec.Exec(c, &Base32{}, func(r rc_recipe.Recipe) {
 		m := r.(*Base32)
-		m.Text = "O5QXIZLSNVUW45BAORXW63DCN54A===="
+		m.Text.SetFilePath(f)
 	})
 }

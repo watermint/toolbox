@@ -67,6 +67,7 @@ lang: ja
 | [sharedlink file list]({{ site.baseurl }}/ja/commands/sharedlink-file-list.html)                   | 共有リンクのファイルを一覧する                                            |
 | [sharedlink info]({{ site.baseurl }}/ja/commands/sharedlink-info.html)                             | 共有リンクの情報取得                                                      |
 | [sharedlink list]({{ site.baseurl }}/ja/commands/sharedlink-list.html)                             | 共有リンクの一覧                                                          |
+| [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                     | デバイスモニタークライアントを起動する                                    |
 
 ## Dropbox Business
 
@@ -181,6 +182,16 @@ lang: ja
 | [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)                                           | チームフォルダのポリシー一覧                                                           |
 | [teamfolder replication]({{ site.baseurl }}/ja/commands/teamfolder-replication.html)                                           | チームフォルダを他のチームに複製します                                                 |
 
+## Asana
+
+| コマンド                                                                                                           | 説明                             |
+|--------------------------------------------------------------------------------------------------------------------|----------------------------------|
+| [services asana team list]({{ site.baseurl }}/ja/commands/services-asana-team-list.html)                           | チームのリスト                   |
+| [services asana team project list]({{ site.baseurl }}/ja/commands/services-asana-team-project-list.html)           | チームのプロジェクト一覧         |
+| [services asana team task list]({{ site.baseurl }}/ja/commands/services-asana-team-task-list.html)                 | チームのタスク一覧               |
+| [services asana workspace list]({{ site.baseurl }}/ja/commands/services-asana-workspace-list.html)                 | ワークスペースの一覧             |
+| [services asana workspace project list]({{ site.baseurl }}/ja/commands/services-asana-workspace-project-list.html) | ワークスペースのプロジェクト一覧 |
+
 ## GitHub
 
 | コマンド                                                                                                             | 説明                                             |
@@ -195,6 +206,12 @@ lang: ja
 | [services github release draft]({{ site.baseurl }}/ja/commands/services-github-release-draft.html)                   | リリースの下書きを作成                           |
 | [services github release list]({{ site.baseurl }}/ja/commands/services-github-release-list.html)                     | リリースの一覧                                   |
 | [services github tag create]({{ site.baseurl }}/ja/commands/services-github-tag-create.html)                         | レポジトリにタグを作成します                     |
+
+## Google Calendar
+
+| コマンド                                                                                                       | 説明                                 |
+|----------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| [services google calendar event list]({{ site.baseurl }}/ja/commands/services-google-calendar-event-list.html) | Googleカレンダーのイベントを一覧表示 |
 
 ## Google Gmail
 
@@ -228,16 +245,6 @@ lang: ja
 | [services google sheets sheet list]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-list.html)                 | スプレッドシートのシート一覧         |
 | [services google sheets spreadsheet create]({{ site.baseurl }}/ja/commands/services-google-sheets-spreadsheet-create.html) | 新しいスプレッドシートの作成         |
 
-## Asana
-
-| コマンド                                                                                                           | 説明                             |
-|--------------------------------------------------------------------------------------------------------------------|----------------------------------|
-| [services asana team list]({{ site.baseurl }}/ja/commands/services-asana-team-list.html)                           | チームのリスト                   |
-| [services asana team project list]({{ site.baseurl }}/ja/commands/services-asana-team-project-list.html)           | チームのプロジェクト一覧         |
-| [services asana team task list]({{ site.baseurl }}/ja/commands/services-asana-team-task-list.html)                 | チームのタスク一覧               |
-| [services asana workspace list]({{ site.baseurl }}/ja/commands/services-asana-workspace-list.html)                 | ワークスペースの一覧             |
-| [services asana workspace project list]({{ site.baseurl }}/ja/commands/services-asana-workspace-project-list.html) | ワークスペースのプロジェクト一覧 |
-
 ## Slack
 
 | コマンド                                                                                                 | 説明           |
@@ -246,37 +253,48 @@ lang: ja
 
 ## ユーティリティー
 
-| コマンド                                                                             | 説明                                                                   |
-|--------------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                 | 機能を無効化します.                                                    |
-| [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                   | 機能を有効化します.                                                    |
-| [config features]({{ site.baseurl }}/ja/commands/config-features.html)               | 利用可能なオプション機能一覧.                                          |
-| [file archive local]({{ site.baseurl }}/ja/commands/file-archive-local.html)         | ローカルファイルをアーカイブします                                     |
-| [file dispatch local]({{ site.baseurl }}/ja/commands/file-dispatch-local.html)       | ローカルファイルを整理します                                           |
-| [job history archive]({{ site.baseurl }}/ja/commands/job-history-archive.html)       | ジョブのアーカイブ                                                     |
-| [job history delete]({{ site.baseurl }}/ja/commands/job-history-delete.html)         | 古いジョブ履歴の削除                                                   |
-| [job history list]({{ site.baseurl }}/ja/commands/job-history-list.html)             | ジョブ履歴の表示                                                       |
-| [job log jobid]({{ site.baseurl }}/ja/commands/job-log-jobid.html)                   | 指定したジョブIDのログを取得する                                       |
-| [job log kind]({{ site.baseurl }}/ja/commands/job-log-kind.html)                     | 指定種別のログを結合して出力します                                     |
-| [job log last]({{ site.baseurl }}/ja/commands/job-log-last.html)                     | 最後のジョブのログファイルを出力.                                      |
-| [license]({{ site.baseurl }}/ja/commands/license.html)                               | ライセンス情報を表示します                                             |
-| [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)               | 現在の日付を表示                                                       |
-| [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)           | 現在の日時を表示                                                       |
-| [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)         | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)         | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                 | git リポジトリをクローン                                               |
-| [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html) | プレースホルダー画像の作成                                             |
-| [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)         | QRコード画像ファイルの作成                                             |
-| [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)             | WIFI設定用のQRコードを生成                                             |
-| [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                   | 現在の時刻を表示                                                       |
-| [util unixtime format]({{ site.baseurl }}/ja/commands/util-unixtime-format.html)     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
-| [util unixtime now]({{ site.baseurl }}/ja/commands/util-unixtime-now.html)           | UNIX時間で現在の時刻を表示する                                         |
-| [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)             | 空のスプレッドシートを作成する                                         |
-| [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html) | xlsxファイルからデータをエクスポート                                   |
-| [util xlsx sheet import]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-import.html) | データをxlsxファイルにインポート                                       |
-| [util xlsx sheet list]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-list.html)     | xlsxファイルのシート一覧                                               |
-| [version]({{ site.baseurl }}/ja/commands/version.html)                               | バージョン情報                                                         |
+| コマンド                                                                               | 説明                                                                   |
+|----------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                   | 機能を無効化します.                                                    |
+| [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                     | 機能を有効化します.                                                    |
+| [config features]({{ site.baseurl }}/ja/commands/config-features.html)                 | 利用可能なオプション機能一覧.                                          |
+| [file archive local]({{ site.baseurl }}/ja/commands/file-archive-local.html)           | ローカルファイルをアーカイブします                                     |
+| [file dispatch local]({{ site.baseurl }}/ja/commands/file-dispatch-local.html)         | ローカルファイルを整理します                                           |
+| [job history archive]({{ site.baseurl }}/ja/commands/job-history-archive.html)         | ジョブのアーカイブ                                                     |
+| [job history delete]({{ site.baseurl }}/ja/commands/job-history-delete.html)           | 古いジョブ履歴の削除                                                   |
+| [job history list]({{ site.baseurl }}/ja/commands/job-history-list.html)               | ジョブ履歴の表示                                                       |
+| [job log jobid]({{ site.baseurl }}/ja/commands/job-log-jobid.html)                     | 指定したジョブIDのログを取得する                                       |
+| [job log kind]({{ site.baseurl }}/ja/commands/job-log-kind.html)                       | 指定種別のログを結合して出力します                                     |
+| [job log last]({{ site.baseurl }}/ja/commands/job-log-last.html)                       | 最後のジョブのログファイルを出力.                                      |
+| [license]({{ site.baseurl }}/ja/commands/license.html)                                 | ライセンス情報を表示します                                             |
+| [util archive unzip]({{ site.baseurl }}/ja/commands/util-archive-unzip.html)           | ZIPアーカイブファイルを解凍する                                        |
+| [util archive zip]({{ site.baseurl }}/ja/commands/util-archive-zip.html)               | 対象ファイルをZIPアーカイブに圧縮する                                  |
+| [util database exec]({{ site.baseurl }}/ja/commands/util-database-exec.html)           | SQLite3データベースファイルへのクエリ実行                              |
+| [util database query]({{ site.baseurl }}/ja/commands/util-database-query.html)         | SQLite3データベースへの問い合わせ                                      |
+| [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)                 | 現在の日付を表示                                                       |
+| [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)             | 現在の日時を表示                                                       |
+| [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)           | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)           | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)           | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util file hash]({{ site.baseurl }}/ja/commands/util-file-hash.html)                   | ファイルダイジェストの表示                                             |
+| [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                   | git リポジトリをクローン                                               |
+| [util image exif]({{ site.baseurl }}/ja/commands/util-image-exif.html)                 | 画像ファイルのEXIFメタデータを表示                                     |
+| [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html)   | プレースホルダー画像の作成                                             |
+| [util net download]({{ site.baseurl }}/ja/commands/util-net-download.html)             | ファイルをダウンロードする                                             |
+| [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)           | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)               | WIFI設定用のQRコードを生成                                             |
+| [util text case down]({{ site.baseurl }}/ja/commands/util-text-case-down.html)         | 小文字のテキストを表示する                                             |
+| [util text case up]({{ site.baseurl }}/ja/commands/util-text-case-up.html)             | 大文字のテキストを表示する                                             |
+| [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html) | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
+| [util text encoding to]({{ site.baseurl }}/ja/commands/util-text-encoding-to.html)     | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
+| [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                     | 現在の時刻を表示                                                       |
+| [util unixtime format]({{ site.baseurl }}/ja/commands/util-unixtime-format.html)       | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now]({{ site.baseurl }}/ja/commands/util-unixtime-now.html)             | UNIX時間で現在の時刻を表示する                                         |
+| [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)               | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html)   | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-import.html)   | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-list.html)       | xlsxファイルのシート一覧                                               |
+| [version]({{ site.baseurl }}/ja/commands/version.html)                                 | バージョン情報                                                         |
 
 

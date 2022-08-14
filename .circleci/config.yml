@@ -1,24 +1,33 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/go:1.18
+      - image: techknowlogick/xgo:go-1.19.x
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
+    parameters:
+      target:
+        type: string
     steps:
       - checkout
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
-          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
-      - run: go get github.com/google/go-licenses
-      - run: bash ./build.sh
-      - store_artifacts:
-          path: dist
+          key: build-mod-{{ checksum "go.mod.sum" }}
+      - run:
+          command: bash ./build.sh << parameters.target >>
+          environment:
+            TOOLBOX_PATCH_VERSION: << pipeline.number >>
+
+      - save_cache:
+          key: build-mod-{{ checksum "go.mod.sum" }}
+          paths:
+            - $HOME/go/pkg/mod
+            - /go/pkg/mod
 
   test:
     docker:
-      - image: cimg/go:1.18
+      - image: cimg/go:1.19
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
@@ -26,15 +35,16 @@ jobs:
       - checkout
       - run: shasum -a 256 go.mod > go.mod.sum
       - restore_cache:
-          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
+          key: test-mod-{{ checksum "go.mod.sum" }}
       - run: mkdir -p test/results
       - run: go get golang.org/x/tools/cmd/cover
       - run: go get github.com/jstemmer/go-junit-report
       - run: bash ./test/test.sh
       - save_cache:
-          key: go-pkg-mod-{{ checksum "go.mod.sum" }}
+          key: test-mod-{{ checksum "go.mod.sum" }}
           paths:
             - $HOME/go/pkg/mod
+            - /go/pkg/mod
       - store_test_results:
           path: test/results
       - store_artifacts:
@@ -45,5 +55,14 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
+      - build:
+          target: linux
+      - build:
+          target: linux-arm
+      - build:
+          target: win
+      - build:
+          target: darwin
+      - build:
+          target: darwin-arm
       - test
