@@ -164,7 +164,13 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	clv := app_feature.ConsoleLogLevel(false, com.Debug)
-	wb, err := app_workspace.NewBundle(com.Workspace.Value(), app_budget.Budget(com.BudgetStorage.Value()), clv, rcp.IsTransient())
+	wb, err := app_workspace.NewBundle(
+		com.Workspace.Value(),
+		app_budget.Budget(com.BudgetStorage.Value()),
+		clv,
+		rcp.IsTransient(),
+		rcp.IsTransient() || com.SkipLogging,
+	)
 	if err != nil {
 		ui.Failure(MRun.ErrorInitialization.With("Error", err))
 		app_exit.Abort(app_exit.FatalStartup)

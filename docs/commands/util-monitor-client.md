@@ -92,6 +92,7 @@ Open" on the dialogue.
 | Option              | Description                        | Default |
 |---------------------|------------------------------------|---------|
 | `-data-path`        | Path to store journal log data     |         |
+| `-display`          | Display current stats              | false   |
 | `-monitor-end`      | Date/time of terminate monitoring  |         |
 | `-monitor-interval` | Monitoring interval (seconds)      | 10      |
 | `-name`             | Client name                        |         |
@@ -117,6 +118,7 @@ Open" on the dialogue.
 | `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
 | `-retain-job-data` | Job data retain policy                                                                    | default              |
 | `-secure`          | Do not store tokens into a file                                                           | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 

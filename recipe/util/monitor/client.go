@@ -7,6 +7,7 @@ import (
 	"github.com/shirou/gopsutil/v3/host"
 	"github.com/shirou/gopsutil/v3/load"
 	"github.com/shirou/gopsutil/v3/mem"
+	"github.com/shirou/gopsutil/v3/net"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -34,7 +35,6 @@ const (
 )
 
 type Client struct {
-	rc_recipe.RemarkTransient
 	DataPath        mo_path.FileSystemPath
 	SyncPath        mo_path2.DropboxPath
 	Peer            dbx_conn.ConnScopedIndividual
@@ -42,6 +42,7 @@ type Client struct {
 	MonitorInterval mo_int.RangeInt
 	SyncInterval    mo_int.RangeInt
 	MonitorEnd      mo_time.TimeOptional
+	Display         bool
 
 	sentErrors      map[string]bool
 	currentJournal  *os.File
@@ -136,6 +137,9 @@ func (z *Client) sendEvent(c app_control.Control, eventType string, data interfa
 		z.sendError(c, eventType, err)
 		return
 	}
+	if z.Display {
+		c.Log().Info("event", esl.Any("data", ev))
+	}
 
 	if z.currentJournal != nil {
 		_, err0 := z.currentJournal.Write(evs)
@@ -167,6 +171,15 @@ func (z *Client) eventCpuTime(c app_control.Control) {
 		return
 	}
 	z.sendEvent(c, EventCpuTime, stat)
+}
+
+func (z *Client) eventCpuPercent(c app_control.Control) {
+	stat, err := cpu.Percent(0, true)
+	if err != nil {
+		z.sendError(c, EventCpuPercent, err)
+		return
+	}
+	z.sendEvent(c, EventCpuPercent, stat)
 }
 
 func (z *Client) eventHostInfo(c app_control.Control) {
@@ -213,13 +226,30 @@ func (z *Client) eventLoadAverage(c app_control.Control) {
 }
 
 func (z *Client) eventMemoryStat(c app_control.Control) {
-	l := c.Log()
 	vm, err := mem.VirtualMemory()
 	if err != nil {
-		l.Warn("Unable to retrieve memory stat", esl.Error(err))
+		z.sendError(c, EventMemoryStat, err)
 		return
 	}
 	z.sendEvent(c, EventMemoryStat, vm)
+}
+
+func (z *Client) eventNetIO(c app_control.Control) {
+	stats, err := net.IOCounters(true)
+	if err != nil {
+		z.sendError(c, EventNetIO, err)
+		return
+	}
+	z.sendEvent(c, EventNetIO, stats)
+}
+
+func (z *Client) eventNetProtocol(c app_control.Control) {
+	stats, err := net.ProtoCounters([]string{})
+	if err != nil {
+		z.sendError(c, EventNetProtocol, err)
+		return
+	}
+	z.sendEvent(c, EventNetProtocol, stats)
 }
 
 func (z *Client) Exec(c app_control.Control) error {
@@ -237,10 +267,13 @@ func (z *Client) Exec(c app_control.Control) error {
 
 	// Periodical events
 	for {
-		z.eventLoadAverage(c)
+		z.eventCpuPercent(c)
 		z.eventCpuTime(c)
-		z.eventMemoryStat(c)
 		z.eventDiskUsage(c)
+		z.eventLoadAverage(c)
+		z.eventMemoryStat(c)
+		z.eventNetIO(c)
+		z.eventNetProtocol(c)
 
 		if !z.MonitorEnd.IsZero() && z.MonitorEnd.Time().Before(time.Now()) {
 			return z.syncJournal(c)

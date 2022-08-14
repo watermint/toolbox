@@ -26,44 +26,45 @@ type Feature interface {
 	IsSecure() bool
 	IsAutoOpen() bool
 	IsTransient() bool
+	IsSkipLogging() bool
 
-	// Is the experiment enabled or not.
+	// Experiment Is the experiment enabled or not.
 	Experiment(name string) bool
 
-	// UI format
+	// UIFormat UI format
 	UIFormat() string
 
 	// Concurrency configuration.
 	Concurrency() int
 
-	// Toolbox home path. Returns empty if a user doesn't specify the path.
+	// Home Toolbox home path. Returns empty if a user doesn't specify the path.
 	Home() string
 
-	// Budget for memory usage
+	// BudgetMemory Budget for memory usage
 	BudgetMemory() app_budget.Budget
 
-	// Budget for storage usage
+	// BudgetStorage Budget for storage usage
 	BudgetStorage() app_budget.Budget
 
-	// Retrieve feature
+	// OptInGet Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)
 
-	// Update opt-in feature
+	// OptInUpdate Update opt-in feature
 	OptInUpdate(oi OptIn) error
 
-	// With test mode
+	// AsTest With test mode
 	AsTest(useMock bool) Feature
 
-	// With sequential replay test
+	// AsSeqReplayTest With sequential replay test
 	AsSeqReplayTest(replay []nw_replay.Response) Feature
 
-	// With replay test
+	// AsReplayTest With replay test
 	AsReplayTest(replays kv_storage.Storage) Feature
 
-	// With quiet mode, but this will not guarantee UI/log are converted into quiet mode.
+	// AsQuiet With quiet mode, but this will not guarantee UI/log are converted into quiet mode.
 	AsQuiet() Feature
 
-	// Console log level
+	// ConsoleLogLevel Console log level
 	ConsoleLogLevel() esl.Level
 
 	// Extra options

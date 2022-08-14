@@ -8,10 +8,13 @@ type Event struct {
 
 const (
 	EventCpuInfo       = "cpuInfo"
+	EventCpuPercent    = "cpuPercent"
 	EventCpuTime       = "cpuTime"
-	EventHostInfo      = "hostInfo"
 	EventDiskPartition = "diskPartition"
 	EventDiskUsage     = "diskUsage"
+	EventHostInfo      = "hostInfo"
 	EventLoadAverage   = "loadAverage"
 	EventMemoryStat    = "memStat"
+	EventNetIO         = "netIo"
+	EventNetProtocol   = "netProtocol"
 )

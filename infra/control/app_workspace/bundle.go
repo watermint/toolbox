@@ -61,22 +61,22 @@ func WithFork(wb Bundle, name string, f func(fwb Bundle) error) error {
 	return f(fwb)
 }
 
-func NewBundle(home string, budget app_budget.Budget, consoleLevel esl.Level, transient bool) (bundle Bundle, err error) {
+func NewBundle(home string, budget app_budget.Budget, consoleLevel esl.Level, transient bool, skipLogging bool) (bundle Bundle, err error) {
 	ws, err := NewWorkspace(home, transient)
 	if err != nil {
 		return nil, err
 	}
 
-	if transient {
-		l, c, s := esl_container.NewTransient(consoleLevel)
-		return newBundleInternal(ws, budget, c, l, s, consoleLevel, true), nil
+	var l, c, s esl_container.Logger
+	if skipLogging {
+		l, c, s = esl_container.NewTransient(consoleLevel)
 	} else {
-		l, c, s, err := esl_container.NewAll(ws.Log(), budget, consoleLevel)
+		l, c, s, err = esl_container.NewAll(ws.Log(), budget, consoleLevel)
 		if err != nil {
 			return nil, err
 		}
-		return newBundleInternal(ws, budget, c, l, s, consoleLevel, false), nil
 	}
+	return newBundleInternal(ws, budget, c, l, s, consoleLevel, transient), nil
 }
 
 func newBundleInternal(ws Workspace, budget app_budget.Budget, capture, logger, summary esl_container.Logger, consoleLevel esl.Level, transient bool) Bundle {

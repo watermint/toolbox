@@ -87,6 +87,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | オプション          | 説明                               | デフォルト |
 |---------------------|------------------------------------|------------|
 | `-data-path`        | Path to store journal log data     |            |
+| `-display`          | Display current stats              | false      |
 | `-monitor-end`      | Date/time of terminate monitoring  |            |
 | `-monitor-interval` | Monitoring interval (seconds)      | 10         |
 | `-name`             | Client name                        |            |
@@ -112,6 +113,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-quiet`           | エラー以外のメッセージを抑制し、出力をJSONLフォーマットに変更します                                | false          |
 | `-retain-job-data` | ジョブデータ保持ポリシー                                                                           | default        |
 | `-secure`          | トークンをファイルに保存しません                                                                   | false          |
+| `-skip-logging`    | Skip logging in the local storage                                                                  | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 

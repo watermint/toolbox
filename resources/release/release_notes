@@ -2,3 +2,4 @@
 * #616 : Google Calendar command
 * #619 : Utility commands
 * #620 : Device monitoring util command
+* #625 : Skip logging common option: `-skip-logging`

@@ -91,7 +91,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 		return nil, err
 	}
 
-	if ctl.Feature().IsTransient() {
+	if ctl.Feature().IsTransient() || ctl.Feature().IsSkipLogging() {
 		return ctl, nil
 	}
 
@@ -135,7 +135,9 @@ func (z launchImpl) Down(err error, ctl app_control.Control) {
 	// Dump stats
 	es_memory.DumpMemStats(sm)
 
-	_ = z.recordResultLog(err)
+	if !ctl.Feature().IsSkipLogging() {
+		_ = z.recordResultLog(err)
+	}
 
 	timeEnd := time.Now()
 	elapsedTime := timeEnd.Sub(z.wb.Workspace().JobStartTime()).Truncate(time.Millisecond)

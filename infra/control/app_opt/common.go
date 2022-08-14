@@ -89,6 +89,9 @@ type CommonOpts struct {
 	// Do not store token in the file
 	Secure bool
 
+	// Skip logging
+	SkipLogging bool
+
 	// Extra parameters
 	Extra mo_string.OptionalString
 
@@ -147,6 +150,7 @@ func (z *CommonOpts) Preset() {
 	z.Concurrency = runtime.NumCPU()
 	z.Debug = false
 	z.Verbose = false
+	z.SkipLogging = false
 	z.Experiment = ""
 	z.BudgetMemory.SetOptions(BudgetNormal, BudgetLow, BudgetNormal)
 	z.BudgetStorage.SetOptions(string(app_budget.DefaultBudget), app_budget.StorageBudgets...)
