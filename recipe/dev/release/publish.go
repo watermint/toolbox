@@ -389,9 +389,9 @@ func (z *Publish) Exec(c app_control.Control) error {
 	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel *mo_release_asset.Asset
 	for _, a := range assets {
 		switch {
-		case strings.HasSuffix(a.Name, "darwin.zip"):
+		case strings.HasSuffix(a.Name, "mac.zip"):
 			assetMacIntel = a
-		case strings.HasSuffix(a.Name, "darwin-arm.zip"):
+		case strings.HasSuffix(a.Name, "mac-arm.zip"):
 			assetMacArm = a
 		case strings.HasSuffix(a.Name, "linux.zip"):
 			assetLinuxIntel = a

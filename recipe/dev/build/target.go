@@ -59,9 +59,9 @@ func (z *Target) osArch(target string) (targetOs, targetArch string) {
 	case "linux-arm":
 		return "linux", "arm64"
 	case "darwin":
-		return "darwin", "amd64"
+		return "mac", "amd64"
 	case "darwin-arm":
-		return "darwin", "arm64"
+		return "mac", "arm64"
 	default:
 		panic("unsupported os/arch combination [" + target + "]")
 	}
@@ -158,7 +158,7 @@ func (z *Target) Test(c app_control.Control) error {
 	}
 	err = rc_exec.Exec(c, &Target{}, func(r rc_recipe.Recipe) {
 		m := r.(*Target)
-		m.TargetName = "darwin"
+		m.TargetName = "mac"
 		m.DistPath = p
 		m.BuildPath = p
 		m.DeployPath = p
@@ -168,7 +168,7 @@ func (z *Target) Test(c app_control.Control) error {
 	}
 	err = rc_exec.Exec(c, &Target{}, func(r rc_recipe.Recipe) {
 		m := r.(*Target)
-		m.TargetName = "darwin-arm"
+		m.TargetName = "mac-arm"
 		m.DistPath = p
 		m.BuildPath = p
 		m.DeployPath = p
