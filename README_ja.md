@@ -317,6 +317,8 @@ DropboxおよびDropbox Business向けのツールセット
 |------------------------------------------------------------------------------------------------------------|--------------------------------------|
 | [services google sheets sheet append](docs/ja/commands/services-google-sheets-sheet-append.md)             | スプレッドシートにデータを追加する   |
 | [services google sheets sheet clear](docs/ja/commands/services-google-sheets-sheet-clear.md)               | スプレッドシートから値をクリアする   |
+| [services google sheets sheet create](docs/ja/commands/services-google-sheets-sheet-create.md)             | 新規シートの作成                     |
+| [services google sheets sheet delete](docs/ja/commands/services-google-sheets-sheet-delete.md)             | スプレッドシートからシートを削除する |
 | [services google sheets sheet export](docs/ja/commands/services-google-sheets-sheet-export.md)             | シートデータのエクスポート           |
 | [services google sheets sheet import](docs/ja/commands/services-google-sheets-sheet-import.md)             | スプレッドシートにデータをインポート |
 | [services google sheets sheet list](docs/ja/commands/services-google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |

@@ -193,7 +193,6 @@ lang: en
   	... // 2 identical fields
   }
 ```
-
 # Command spec changed: `team sharedlink update expiry`
 
 ## Command configuration changed

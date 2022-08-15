@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/google/sheets/model/bo_sheet"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_cell"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_spreadsheet"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -17,6 +18,9 @@ type Sheet interface {
 	Export(spreadsheetId, sheetRange string, opts ...RenderOpt) (value to_cell.ValueRange, err error)
 	Import(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (updated bo_sheet.ValueUpdate, err error)
 	Append(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (appended bo_sheet.ValueAppend, err error)
+
+	Create(spreadsheetId, sheetTitle string, cols, rows int) (sheet bo_sheet.Sheet, err error)
+	Delete(spreadsheetId, sheetId string) error
 }
 
 var (
@@ -108,8 +112,53 @@ func New(ctx goog_context.Context) Sheet {
 	}
 }
 
+func parseSheetFromBatchUpdateAddSheetResponse(d es_json.Json) (sheet bo_sheet.Sheet, err error) {
+	err = d.FindModel("replies|0|addSheet", &sheet)
+	return
+}
+
 type shImpl struct {
 	ctx goog_context.Context
+}
+
+func (z shImpl) Delete(spreadsheetId, sheetId string) error {
+	bu := &to_spreadsheet.BatchUpdate{
+		Requests: []to_spreadsheet.BatchUpdateRequest{
+			{
+				DeleteSheet: &to_spreadsheet.BatchUpdateRequestDeleteSheet{
+					SheetId: sheetId,
+				},
+			},
+		},
+	}
+	res := z.ctx.Post("spreadsheets/"+spreadsheetId+":batchUpdate", api_request.Param(bu))
+	if err, f := res.Failure(); f {
+		return err
+	}
+	return nil
+}
+
+func (z shImpl) Create(spreadsheetId, sheetTitle string, cols, rows int) (sheet bo_sheet.Sheet, err error) {
+	bu := &to_spreadsheet.BatchUpdate{
+		Requests: []to_spreadsheet.BatchUpdateRequest{
+			{
+				AddSheet: &to_spreadsheet.BatchUpdateRequestAddSheet{
+					Properties: to_spreadsheet.BatchUpdateRequestAddSheetProperties{
+						Title: sheetTitle,
+						GridProperties: &to_spreadsheet.BatchUpdateRequestGridProperties{
+							RowCount:    &rows,
+							ColumnCount: &cols,
+						},
+					},
+				},
+			},
+		},
+	}
+	res := z.ctx.Post("spreadsheets/"+spreadsheetId+":batchUpdate", api_request.Param(bu))
+	if err, f := res.Failure(); f {
+		return bo_sheet.Sheet{}, err
+	}
+	return parseSheetFromBatchUpdateAddSheetResponse(res.Success().Json())
 }
 
 func (z shImpl) Append(spreadsheetId, sheetRange string, values [][]interface{}, rawInput bool) (appended bo_sheet.ValueAppend, err error) {

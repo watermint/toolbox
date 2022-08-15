@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_paper"
+	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -73,7 +74,7 @@ func (z *Export) exportMemberDoc(md *MemberDoc, c app_control.Control) error {
 		ext = ".md"
 	}
 	exportFilePath := filepath.Join(exportPath, md.PaperDocId+ext)
-	if mvErr := os.Rename(path.Path(), exportFilePath); mvErr != nil {
+	if mvErr := es_filemove.Move(path.Path(), exportFilePath); mvErr != nil {
 		l.Debug("Unable to move the file", esl.Error(mvErr))
 		return mvErr
 	}

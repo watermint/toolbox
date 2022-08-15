@@ -315,14 +315,16 @@ Available commands:
 
 ## Google Sheets
 
-| Command                                                                                                 | Description                      |
-|---------------------------------------------------------------------------------------------------------|----------------------------------|
-| [services google sheets sheet append](docs/commands/services-google-sheets-sheet-append.md)             | Append data to a spreadsheet     |
-| [services google sheets sheet clear](docs/commands/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet |
-| [services google sheets sheet export](docs/commands/services-google-sheets-sheet-export.md)             | Export sheet data                |
-| [services google sheets sheet import](docs/commands/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet |
-| [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet   |
-| [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet         |
+| Command                                                                                                 | Description                         |
+|---------------------------------------------------------------------------------------------------------|-------------------------------------|
+| [services google sheets sheet append](docs/commands/services-google-sheets-sheet-append.md)             | Append data to a spreadsheet        |
+| [services google sheets sheet clear](docs/commands/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet    |
+| [services google sheets sheet create](docs/commands/services-google-sheets-sheet-create.md)             | Create a new sheet                  |
+| [services google sheets sheet delete](docs/commands/services-google-sheets-sheet-delete.md)             | Delete a sheet from the spreadsheet |
+| [services google sheets sheet export](docs/commands/services-google-sheets-sheet-export.md)             | Export sheet data                   |
+| [services google sheets sheet import](docs/commands/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet    |
+| [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet      |
+| [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet            |
 
 ## Slack
 

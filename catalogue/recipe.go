@@ -324,6 +324,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglemailthread.List{},
 		&recipeservicesgooglesheetssheet.Append{},
 		&recipeservicesgooglesheetssheet.Clear{},
+		&recipeservicesgooglesheetssheet.Create{},
+		&recipeservicesgooglesheetssheet.Delete{},
 		&recipeservicesgooglesheetssheet.Export{},
 		&recipeservicesgooglesheetssheet.Import{},
 		&recipeservicesgooglesheetssheet.List{},

@@ -237,14 +237,16 @@ lang: en
 
 ## Google Sheets
 
-| Command                                                                                                                 | Description                      |
-|-------------------------------------------------------------------------------------------------------------------------|----------------------------------|
-| [services google sheets sheet append]({{ site.baseurl }}/commands/services-google-sheets-sheet-append.html)             | Append data to a spreadsheet     |
-| [services google sheets sheet clear]({{ site.baseurl }}/commands/services-google-sheets-sheet-clear.html)               | Clears values from a spreadsheet |
-| [services google sheets sheet export]({{ site.baseurl }}/commands/services-google-sheets-sheet-export.html)             | Export sheet data                |
-| [services google sheets sheet import]({{ site.baseurl }}/commands/services-google-sheets-sheet-import.html)             | Import data into the spreadsheet |
-| [services google sheets sheet list]({{ site.baseurl }}/commands/services-google-sheets-sheet-list.html)                 | List sheets of the spreadsheet   |
-| [services google sheets spreadsheet create]({{ site.baseurl }}/commands/services-google-sheets-spreadsheet-create.html) | Create a new spreadsheet         |
+| Command                                                                                                                 | Description                         |
+|-------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| [services google sheets sheet append]({{ site.baseurl }}/commands/services-google-sheets-sheet-append.html)             | Append data to a spreadsheet        |
+| [services google sheets sheet clear]({{ site.baseurl }}/commands/services-google-sheets-sheet-clear.html)               | Clears values from a spreadsheet    |
+| [services google sheets sheet create]({{ site.baseurl }}/commands/services-google-sheets-sheet-create.html)             | Create a new sheet                  |
+| [services google sheets sheet delete]({{ site.baseurl }}/commands/services-google-sheets-sheet-delete.html)             | Delete a sheet from the spreadsheet |
+| [services google sheets sheet export]({{ site.baseurl }}/commands/services-google-sheets-sheet-export.html)             | Export sheet data                   |
+| [services google sheets sheet import]({{ site.baseurl }}/commands/services-google-sheets-sheet-import.html)             | Import data into the spreadsheet    |
+| [services google sheets sheet list]({{ site.baseurl }}/commands/services-google-sheets-sheet-list.html)                 | List sheets of the spreadsheet      |
+| [services google sheets spreadsheet create]({{ site.baseurl }}/commands/services-google-sheets-spreadsheet-create.html) | Create a new spreadsheet            |
 
 ## Slack
 

@@ -1,2 +1,3 @@
-* #633 : Mark `teamfolder` command will not work on team space team
-* #635 : `team runas sharedfolder isolate`
+* fix #637 : `file sync down` didn't work
+* #613 : Create sheet command for Google Sheets
+* #638 : add offset option for `util date today` and `util datetime now`

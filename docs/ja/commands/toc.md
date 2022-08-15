@@ -241,6 +241,8 @@ lang: ja
 |----------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
 | [services google sheets sheet append]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-append.html)             | スプレッドシートにデータを追加する   |
 | [services google sheets sheet clear]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-clear.html)               | スプレッドシートから値をクリアする   |
+| [services google sheets sheet create]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-create.html)             | 新規シートの作成                     |
+| [services google sheets sheet delete]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-delete.html)             | スプレッドシートからシートを削除する |
 | [services google sheets sheet export]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-export.html)             | シートデータのエクスポート           |
 | [services google sheets sheet import]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-import.html)             | スプレッドシートにデータをインポート |
 | [services google sheets sheet list]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-list.html)                 | スプレッドシートのシート一覧         |
