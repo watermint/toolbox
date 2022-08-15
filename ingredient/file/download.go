@@ -95,9 +95,10 @@ func (z *Download) Exec(c app_control.Control) error {
 	tgtFs := es_filesystem_local.NewFileSystem()
 	var conn es_filesystem.Connector
 	if c.Feature().Experiment(app.ExperimentDbxDownloadBlock) {
-		l.Debug("Use range request copier")
+		l.Debug("Use block copier")
 		conn = dfs_dbx_to_local_block.NewDropboxToLocal(z.Context)
 	} else {
+		l.Debug("Use standard copier")
 		conn = dfs_dbx_to_local.NewDropboxToLocal(z.Context)
 	}
 
