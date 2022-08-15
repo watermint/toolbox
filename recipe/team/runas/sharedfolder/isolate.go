@@ -29,6 +29,7 @@ func (z *Isolate) Preset() {
 		dbx_auth.ScopeSharingWrite,
 		dbx_auth.ScopeTeamDataMember,
 		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
 	)
 	z.Isolated.SetModel(
 		&mo_sharedfolder.SharedFolder{},
