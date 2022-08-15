@@ -1,12 +1,12 @@
 ---
 layout: release
-title: リリースの変更点 106
+title: リリースの変更点 107
 lang: ja
 ---
 
-# `リリース 106` から `リリース 107` までの変更点
+# `リリース 107` から `リリース 108` までの変更点
 
-# 削除されたコマンド
+# 追加されたコマンド
 
 | コマンド                                    | タイトル                                                                                  |
 |---------------------------------------------|-------------------------------------------------------------------------------------------|
@@ -17,17 +17,20 @@ lang: ja
 | dev benchmark upload                        | アップロードのベンチマーク                                                                |
 | dev benchmark uploadlink                    | アップロードテンポラリリンクAPIを使ったシングルファイルのアップロードをベンチマーク.      |
 | dev build catalogue                         | カタログを生成します                                                                      |
+| dev build compile                           | ビルドスクリプトの作成                                                                    |
 | dev build doc                               | ドキュメントを生成                                                                        |
 | dev build info                              | ビルド情報ファイルを生成                                                                  |
 | dev build license                           | LICENSE.txtの生成                                                                         |
 | dev build package                           | ビルドのパッケージ化                                                                      |
 | dev build preflight                         | リリースに向けて必要な事前準備を実施                                                      |
 | dev build readme                            | README.txtの生成                                                                          |
+| dev build target                            | ターゲットビルドスクリプトの生成                                                          |
 | dev ci artifact up                          | CI成果物をアップロードします                                                              |
 | dev ci auth connect                         | エンドツーエンドテストのための認証                                                        |
 | dev ci auth import                          | 環境変数はエンドツーエンドトークンをインポートします                                      |
 | dev diag endpoint                           | エンドポイントを一覧                                                                      |
 | dev diag throughput                         | キャプチャログからスループットを評価                                                      |
+| dev kvs benchmark                           | KVSエンジンのベンチマーク                                                                 |
 | dev kvs dump                                | KVSデータのダンプ                                                                         |
 | dev module list                             | 依存モジュール一覧                                                                        |
 | dev release candidate                       | リリース候補を検査します                                                                  |
@@ -40,6 +43,7 @@ lang: ja
 | dev spec diff                               | 2リリース間の仕様を比較します                                                             |
 | dev spec doc                                | 仕様ドキュメントを生成します                                                              |
 | dev stage dbxfs                             | Dropboxのファイルシステムのインプリケーションを確認しますキャッシュされたシステムに対して |
+| dev stage encoding                          | エンコードテストコマンド（指定したエンコード名でダミーファイルをアップロードします）      |
 | dev stage gmail                             | Gmail コマンド                                                                            |
 | dev stage griddata                          | グリッドデータテスト                                                                      |
 | dev stage gui launch                        | GUIコンセプト実証                                                                         |
@@ -113,7 +117,6 @@ lang: ja
 | group member delete                         | メンバーをグループから削除                                                                |
 | group member list                           | グループに所属するメンバー一覧を取得します                                                |
 | group rename                                | グループの改名                                                                            |
-| image info                                  | 画像ファイルのEXIF情報を表示します                                                        |
 | job history archive                         | ジョブのアーカイブ                                                                        |
 | job history delete                          | 古いジョブ履歴の削除                                                                      |
 | job history list                            | ジョブ履歴の表示                                                                          |
@@ -164,6 +167,7 @@ lang: ja
 | services github release draft               | リリースの下書きを作成                                                                    |
 | services github release list                | リリースの一覧                                                                            |
 | services github tag create                  | レポジトリにタグを作成します                                                              |
+| services google calendar event list         | Googleカレンダーのイベントを一覧表示                                                      |
 | services google mail filter add             | フィルターを追加します.                                                                   |
 | services google mail filter batch add       | クエリによるラベルの一括追加・削除                                                        |
 | services google mail filter delete          | フィルタの削除                                                                            |
@@ -244,6 +248,7 @@ lang: ja
 | team runas sharedfolder batch leave         | 共有フォルダからメンバーとして一括退出                                                    |
 | team runas sharedfolder batch share         | メンバーのフォルダを一括で共有                                                            |
 | team runas sharedfolder batch unshare       | メンバーのフォルダの共有を一括解除                                                        |
+| team runas sharedfolder isolate             | 所有する共有フォルダの共有を解除し、メンバーとして実行する外部共有フォルダから離脱する.   |
 | team runas sharedfolder list                | 共有フォルダーの一覧をメンバーとして実行                                                  |
 | team runas sharedfolder member batch add    | メンバーの共有フォルダにメンバーを一括追加                                                |
 | team runas sharedfolder member batch delete | メンバーの共有フォルダからメンバーを一括削除                                              |
@@ -277,16 +282,28 @@ lang: ja
 | teamfolder permdelete                       | チームフォルダを完全に削除します                                                          |
 | teamfolder policy list                      | チームフォルダのポリシー一覧                                                              |
 | teamfolder replication                      | チームフォルダを他のチームに複製します                                                    |
+| util archive unzip                          | ZIPアーカイブファイルを解凍する                                                           |
+| util archive zip                            | 対象ファイルをZIPアーカイブに圧縮する                                                     |
+| util database exec                          | SQLite3データベースファイルへのクエリ実行                                                 |
+| util database query                         | SQLite3データベースへの問い合わせ                                                         |
 | util date today                             | 現在の日付を表示                                                                          |
 | util datetime now                           | 現在の日時を表示                                                                          |
 | util decode base32                          | Base32 (RFC 4648) 形式からテキストをデコードします                                        |
 | util decode base64                          | Base64 (RFC 4648) フォーマットからテキストをデコードします                                |
 | util encode base32                          | テキストをBase32(RFC 4648)形式にエンコード                                                |
 | util encode base64                          | テキストをBase64(RFC 4648)形式にエンコード                                                |
+| util file hash                              | ファイルダイジェストの表示                                                                |
 | util git clone                              | git リポジトリをクローン                                                                  |
+| util image exif                             | 画像ファイルのEXIFメタデータを表示                                                        |
 | util image placeholder                      | プレースホルダー画像の作成                                                                |
+| util monitor client                         | デバイスモニタークライアントを起動する                                                    |
+| util net download                           | ファイルをダウンロードする                                                                |
 | util qrcode create                          | QRコード画像ファイルの作成                                                                |
 | util qrcode wifi                            | WIFI設定用のQRコードを生成                                                                |
+| util text case down                         | 小文字のテキストを表示する                                                                |
+| util text case up                           | 大文字のテキストを表示する                                                                |
+| util text encoding from                     | 指定されたエンコーディングからUTF-8テキストファイルに変換します.                          |
+| util text encoding to                       | UTF-8テキストファイルから指定されたエンコーディングに変換する.                            |
 | util time now                               | 現在の時刻を表示                                                                          |
 | util unixtime format                        | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット                    |
 | util unixtime now                           | UNIX時間で現在の時刻を表示する                                                            |

@@ -6,7 +6,7 @@ lang: ja
 
 # team runas sharedfolder isolate
 
-Unshare owned shared folders and leave from external shared folders run as a member
+所有する共有フォルダの共有を解除し、メンバーとして実行する外部共有フォルダから離脱する. (非可逆な操作です)
 
 # セキュリティ
 
@@ -22,24 +22,23 @@ Unshare owned shared folders and leave from external shared folders run as a mem
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-
 * Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                                     |
-|--------------------------------------------------------------------------|
-| Dropbox Business: チームメンバーの確認                                   |
-| Dropbox Business: Dropboxの共有設定と共同作業者の表示                    |
-| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理              |
-| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                 |
-| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集 |
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| Dropbox Business: チームメンバーの確認                                         |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示                          |
+| Dropbox Business: Dropboxの共有設定と共同作業者の表示と管理                    |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します. リンクをブラウザにペーストしてください. その後、認可を行います.
 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -71,14 +70,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 ## 実行
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe team runas sharedfolder isolate -member-email EMAIL
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx team runas sharedfolder isolate -member-email EMAIL
 ```
@@ -92,11 +89,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                                                                | デフォルト |
-|-----------------|---------------------------------------------------------------------|------------|
-| `-keep-copy`    | Keep a copy of the folder's contents upon relinquishing membership. | false      |
-| `-member-email` | Member email address                                                |            |
-| `-peer`         | Account alias                                                       | default    |
+| オプション      | 説明                                                        | デフォルト |
+|-----------------|-------------------------------------------------------------|------------|
+| `-keep-copy`    | フォルダから抜ける時にフォルダの内容をコピーして保管します. | false      |
+| `-member-email` | メンバーのメールアドレス                                    |            |
+| `-peer`         | アカウントの別名                                            | default    |
 
 ## 共通のオプション:
 

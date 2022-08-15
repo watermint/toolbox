@@ -350,22 +350,22 @@ tbx member list -experiment report_all_columns
 
 チームメンバーとしてコマンドを実行することができます. 例えば、`team runas file sync batch up`を使えば、メンバーのフォルダにファイルをアップロードすることができます.
 
-| コマンド                                                                                                                       | 説明                                                                                |
-|--------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| [team runas file list]({{ site.baseurl }}/ja/commands/team-runas-file-list.html)                                               | メンバーとして実行するファイルやフォルダーの一覧                                    |
-| [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー                                       |
-| [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                                                      |
-| [team runas sharedfolder list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-list.html)                               | 共有フォルダーの一覧をメンバーとして実行                                            |
-| [team runas sharedfolder isolate]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-isolate.html)                         | Unshare owned shared folders and leave from external shared folders run as a member |
-| [team runas sharedfolder mount add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-add.html)                     | 指定したメンバーのDropboxに共有フォルダを追加する                                   |
-| [team runas sharedfolder mount delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-delete.html)               | 指定されたユーザーが指定されたフォルダーをアンマウントする.                         |
-| [team runas sharedfolder mount list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-list.html)                   | 指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.     |
-| [team runas sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-mountable.html)         | メンバーがマウントできるすべての共有フォルダーをリストアップ.                       |
-| [team runas sharedfolder batch leave]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-leave.html)                 | 共有フォルダからメンバーとして一括退出                                              |
-| [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                                                      |
-| [team runas sharedfolder batch unshare]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-unshare.html)             | メンバーのフォルダの共有を一括解除                                                  |
-| [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加                                          |
-| [team runas sharedfolder member batch delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-delete.html) | メンバーの共有フォルダからメンバーを一括削除                                        |
+| コマンド                                                                                                                       | 説明                                                                                    |
+|--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| [team runas file list]({{ site.baseurl }}/ja/commands/team-runas-file-list.html)                                               | メンバーとして実行するファイルやフォルダーの一覧                                        |
+| [team runas file batch copy]({{ site.baseurl }}/ja/commands/team-runas-file-batch-copy.html)                                   | ファイル/フォルダーをメンバーとして一括コピー                                           |
+| [team runas file sync batch up]({{ site.baseurl }}/ja/commands/team-runas-file-sync-batch-up.html)                             | メンバーとして動作する一括同期                                                          |
+| [team runas sharedfolder list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-list.html)                               | 共有フォルダーの一覧をメンバーとして実行                                                |
+| [team runas sharedfolder isolate]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-isolate.html)                         | 所有する共有フォルダの共有を解除し、メンバーとして実行する外部共有フォルダから離脱する. |
+| [team runas sharedfolder mount add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-add.html)                     | 指定したメンバーのDropboxに共有フォルダを追加する                                       |
+| [team runas sharedfolder mount delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-delete.html)               | 指定されたユーザーが指定されたフォルダーをアンマウントする.                             |
+| [team runas sharedfolder mount list]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-list.html)                   | 指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.         |
+| [team runas sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-mount-mountable.html)         | メンバーがマウントできるすべての共有フォルダーをリストアップ.                           |
+| [team runas sharedfolder batch leave]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-leave.html)                 | 共有フォルダからメンバーとして一括退出                                                  |
+| [team runas sharedfolder batch share]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-share.html)                 | メンバーのフォルダを一括で共有                                                          |
+| [team runas sharedfolder batch unshare]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-batch-unshare.html)             | メンバーのフォルダの共有を一括解除                                                      |
+| [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加                                              |
+| [team runas sharedfolder member batch delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-delete.html) | メンバーの共有フォルダからメンバーを一括削除                                            |
 
 # 注意事項:
 

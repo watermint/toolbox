@@ -6,7 +6,7 @@ lang: en
 
 # team runas sharedfolder isolate
 
-Unshare owned shared folders and leave from external shared folders run as a member
+Unshare owned shared folders and leave from external shared folders run as a member (Irreversible operation)
 
 # Security
 
@@ -23,25 +23,24 @@ You can delete those files after use if you want to remove it. If you want to ma
 application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                                                       |
-|-----------------------------------------------------------------------------------|
-| Dropbox Business: View your team membership                                       |
-| Dropbox Business: View your Dropbox sharing settings and collaborators            |
-| Dropbox Business: View and manage your Dropbox sharing settings and collaborators |
-| Dropbox Business: View structure of your team's and members' folders              |
-| Dropbox Business: View and edit content of your team's files and folders          |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View your team membership                                                             |
+| Dropbox Business: View your Dropbox sharing settings and collaborators                                  |
+| Dropbox Business: View and manage your Dropbox sharing settings and collaborators                       |
+| Dropbox Business: View structure of your team's and members' folders                                    |
+| Dropbox Business: View and edit content of your team's files and folders                                |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 
 For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
 into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
 Please copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -74,14 +73,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe team runas sharedfolder isolate -member-email EMAIL
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx team runas sharedfolder isolate -member-email EMAIL
 ```
