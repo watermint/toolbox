@@ -80,10 +80,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description    | Default                                                                  |
-|---------|----------------|--------------------------------------------------------------------------|
-| `-id`   | Spreadsheet ID |                                                                          |
-| `-peer` | Account alias  | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
+| Option  | Description    | Default |
+|---------|----------------|---------|
+| `-id`   | Spreadsheet ID |         |
+| `-peer` | Account alias  | default |
 
 ## Common options:
 

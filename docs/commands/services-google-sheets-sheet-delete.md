@@ -89,11 +89,11 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option      | Description                                                               | Default                                                         |
-|-------------|---------------------------------------------------------------------------|-----------------------------------------------------------------|
-| `-id`       | Spreadsheet Id                                                            |                                                                 |
-| `-peer`     | Account alias                                                             | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
-| `-sheet-id` | Sheet ID (Please use `services google sheets sheet list` to see sheet_id) |                                                                 |
+| Option      | Description                                                               | Default |
+|-------------|---------------------------------------------------------------------------|---------|
+| `-id`       | Spreadsheet Id                                                            |         |
+| `-peer`     | Account alias                                                             | default |
+| `-sheet-id` | Sheet ID (Please use `services google sheets sheet list` to see sheet_id) |         |
 
 ## Common options:
 

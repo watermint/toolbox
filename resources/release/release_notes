@@ -1,3 +1,0 @@
-* fix #637 : `file sync down` didn't work
-* #613 : Create sheet command for Google Sheets
-* #638 : add offset option for `util date today` and `util datetime now`

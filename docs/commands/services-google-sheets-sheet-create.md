@@ -89,13 +89,13 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option   | Description       | Default                                                         |
-|----------|-------------------|-----------------------------------------------------------------|
-| `-cols`  | Number of columns | 26                                                              |
-| `-id`    | Spreadsheet ID    |                                                                 |
-| `-peer`  | Account alias     | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
-| `-rows`  | Number of rows    | 1000                                                            |
-| `-title` | Sheet title       |                                                                 |
+| Option   | Description       | Default |
+|----------|-------------------|---------|
+| `-cols`  | Number of columns | 26      |
+| `-id`    | Spreadsheet ID    |         |
+| `-peer`  | Account alias     | default |
+| `-rows`  | Number of rows    | 1000    |
+| `-title` | Sheet title       |         |
 
 ## Common options:
 

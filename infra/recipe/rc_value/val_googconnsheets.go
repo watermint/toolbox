@@ -82,7 +82,7 @@ func (z *ValueGoogConnSheets) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.conn), z.conn.Scopes()
 }
 
-func (z *ValueGoogConnSheets) ValueTxt() string {
+func (z *ValueGoogConnSheets) ValueText() string {
 	return z.peerName
 }
 
