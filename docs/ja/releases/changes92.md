@@ -195,7 +195,6 @@ lang: ja
   	... // 2 identical fields
   }
 ```
-
 # コマンド仕様の変更: `team sharedlink update expiry`
 
 ## 設定が変更されたコマンド

@@ -22,6 +22,7 @@ lang: ja
 | dbx_client_conditioner_narrow100       | レートリミットエラーをシミュレートします. 100%のリクエストはレート制限で失敗します.                                     |
 | dbx_client_conditioner_narrow20        | レートリミットエラーをシミュレートします. 20%のリクエストはレート制限で失敗します                                       |
 | dbx_client_conditioner_narrow40        | レートリミットエラーをシミュレートします. 40%のリクエストはレート制限で失敗します                                       |
+| dbx_download_block                     | ダウンロードファイルをブロック単位で分割（並行処理性の向上）                                                            |
 | file_sync_disable_reduce_create_folder | ファイルシステムを同期する際に reduce create_folder を無効にします. これでフォルダの同期中に空のフォルダが作成されます. |
 | legacy_local_to_dbx_connector          | 古いローカルとDropboxの同期コネクタを使用                                                                               |
 | use_no_cache_dbxfs                     | ノンキャッシュのDropboxファイルシステムの使用                                                                           |
