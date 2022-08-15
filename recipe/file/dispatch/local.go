@@ -3,6 +3,7 @@ package dispatch
 import (
 	"bytes"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
@@ -105,7 +106,7 @@ func (z *LocalPattern) move(src, dst string, c app_control.Control) error {
 	}
 
 	l.Debug("Moving")
-	err := os.Rename(src, dst)
+	err := es_filemove.Move(src, dst)
 	if err != nil {
 		l.Debug("Unable to move", esl.Error(err))
 		ui.Error(MLocal.ExecMove.With("Src", src).With("Dst", dst).With("Error", err))

@@ -6,13 +6,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
+	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"os"
 )
 
 type Download struct {
@@ -47,7 +47,7 @@ func (z *Download) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	err = os.Rename(path.Path(), z.LocalPath.Path())
+	err = es_filemove.Move(path.Path(), z.LocalPath.Path())
 	if err != nil {
 		return err
 	}

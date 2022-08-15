@@ -2,6 +2,7 @@ package archive
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -79,7 +80,7 @@ func (z *Local) move(c app_control.Control) (err error) {
 			continue
 		}
 
-		err = os.Rename(s, d)
+		err = es_filemove.Move(s, d)
 		if err != nil {
 			ui.Error(z.ErrorUnableToMove.With("Source", s).With("Dest", d).With("Error", err))
 			ll.Debug("Unable to move", esl.Error(err))

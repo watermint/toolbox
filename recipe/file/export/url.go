@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
+	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -18,7 +19,6 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"os"
 	"path/filepath"
 )
 
@@ -72,7 +72,7 @@ func (z *Url) Exec(c app_control.Control) error {
 		return err
 	}
 	dest := filepath.Join(z.LocalPath.Path(), export.ExportName)
-	if err := os.Rename(path.Path(), dest); err != nil {
+	if err := es_filemove.Move(path.Path(), dest); err != nil {
 		l.Debug("Unable to move file to specified path",
 			esl.Error(err),
 			esl.String("downloaded", path.Path()),
