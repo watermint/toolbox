@@ -38,9 +38,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `-utc` | Use UTC     | false   |
+| Option         | Description   | Default |
+|----------------|---------------|---------|
+| `-offset-day`  | Offset (day)  | 0       |
+| `-offset-hour` | Offset (hour) | 0       |
+| `-offset-min`  | Offset (min)  | 0       |
+| `-offset-sec`  | Offset (sec)  | 0       |
+| `-utc`         | Use UTC       | false   |
 
 ## Common options:
 
