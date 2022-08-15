@@ -59,6 +59,10 @@ func (z *Leave) leave(mf *MemberFolder, svm sv_member.Member, c app_control.Cont
 	}
 
 	err = sv_sharedfolder.New(cm).Leave(sf, sv_sharedfolder.LeaveACopy(z.KeepCopy))
+	if err != nil {
+		z.OperationLog.Failure(err, sf)
+		return err
+	}
 	z.OperationLog.Success(mf, sf)
 	return nil
 }

@@ -224,6 +224,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team runas sharedfolder batch leave](docs/ja/commands/team-runas-sharedfolder-batch-leave.md)                 | 共有フォルダからメンバーとして一括退出                                                 |
 | [team runas sharedfolder batch share](docs/ja/commands/team-runas-sharedfolder-batch-share.md)                 | メンバーのフォルダを一括で共有                                                         |
 | [team runas sharedfolder batch unshare](docs/ja/commands/team-runas-sharedfolder-batch-unshare.md)             | メンバーのフォルダの共有を一括解除                                                     |
+| [team runas sharedfolder isolate](docs/ja/commands/team-runas-sharedfolder-isolate.md)                         | Unshare owned shared folders and leave from external shared folders run as a member    |
 | [team runas sharedfolder list](docs/ja/commands/team-runas-sharedfolder-list.md)                               | 共有フォルダーの一覧をメンバーとして実行                                               |
 | [team runas sharedfolder member batch add](docs/ja/commands/team-runas-sharedfolder-member-batch-add.md)       | メンバーの共有フォルダにメンバーを一括追加                                             |
 | [team runas sharedfolder member batch delete](docs/ja/commands/team-runas-sharedfolder-member-batch-delete.md) | メンバーの共有フォルダからメンバーを一括削除                                           |

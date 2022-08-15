@@ -1,1 +1,2 @@
-#633 : Mark `teamfolder` command will not work on team space team
+* #633 : Mark `teamfolder` command will not work on team space team
+* #635 : `team runas sharedfolder isolate`

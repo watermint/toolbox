@@ -571,6 +571,7 @@ func (z DropboxBusinessRunAs) Body(ui app_ui.UI) {
 		"team runas file batch copy",
 		"team runas file sync batch up",
 		"team runas sharedfolder list",
+		"team runas sharedfolder isolate",
 		"team runas sharedfolder mount add",
 		"team runas sharedfolder mount delete",
 		"team runas sharedfolder mount list",
