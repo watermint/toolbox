@@ -58,10 +58,10 @@ func (z *Target) osArch(target string) (targetOs, targetArch string) {
 		return "linux", "amd64"
 	case "linux-arm":
 		return "linux", "arm64"
-	case "darwin":
-		return "mac", "amd64"
-	case "darwin-arm":
-		return "mac", "arm64"
+	case "mac":
+		return "darwin", "amd64"
+	case "mac-arm":
+		return "darwin", "arm64"
 	default:
 		panic("unsupported os/arch combination [" + target + "]")
 	}
