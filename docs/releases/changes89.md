@@ -32,15 +32,15 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `config enable`
 
@@ -49,15 +49,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `config features`
 
@@ -66,15 +66,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `connect business_audit`
 
@@ -83,15 +83,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `connect business_file`
 
@@ -100,15 +100,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `connect business_info`
 
@@ -117,15 +117,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `connect business_mgmt`
 
@@ -134,15 +134,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `connect user_file`
 
@@ -151,15 +151,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev benchmark local`
 
@@ -168,15 +168,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev benchmark upload`
 
@@ -185,15 +185,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev benchmark uploadlink`
 
@@ -202,15 +202,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev build catalogue`
 
@@ -219,15 +219,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev build doc`
 
@@ -236,15 +236,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev build license`
 
@@ -253,15 +253,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev build preflight`
 
@@ -270,15 +270,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev build readme`
 
@@ -287,15 +287,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev ci artifact connect`
 
@@ -304,15 +304,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev ci artifact up`
 
@@ -321,15 +321,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev ci auth connect`
 
@@ -338,15 +338,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev ci auth export`
 
@@ -355,15 +355,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev ci auth import`
 
@@ -372,15 +372,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev diag endpoint`
 
@@ -389,15 +389,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev diag throughput`
 
@@ -406,15 +406,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev kvs dump`
 
@@ -423,15 +423,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev release candidate`
 
@@ -440,15 +440,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev release publish`
 
@@ -457,15 +457,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev replay approve`
 
@@ -474,15 +474,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev replay bundle`
 
@@ -491,15 +491,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev replay recipe`
 
@@ -508,15 +508,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev replay remote`
 
@@ -525,15 +525,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev spec diff`
 
@@ -542,39 +542,39 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-- 			Name:     "FilePath",
-+ 			Name:     "DocLang",
-- 			Desc:     "File path to output",
-+ 			Desc:     "Document language",
-  			Default:  "",
-  			TypeName: "essentials.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{
-- 			Name:     "Lang",
-+ 			Name:     "FilePath",
-- 			Desc:     "Language",
-+ 			Desc:     "File path to output",
-  			Default:  "",
-  			TypeName: "essentials.model.mo_string.opt_string",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Release1", Desc: "Release name 1", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{Name: "Release2", Desc: "Release name 2", TypeName: "essentials.model.mo_string.opt_string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+- 			Name:     "FilePath",
++ 			Name:     "DocLang",
+- 			Desc:     "File path to output",
++ 			Desc:     "Document language",
+  			Default:  "",
+  			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{
+- 			Name:     "Lang",
++ 			Name:     "FilePath",
+- 			Desc:     "Language",
++ 			Desc:     "File path to output",
+  			Default:  "",
+  			TypeName: "essentials.model.mo_string.opt_string",
+  			TypeAttr: nil,
+  		},
+  		&{Name: "Release1", Desc: "Release name 1", TypeName: "essentials.model.mo_string.opt_string"},
+  		&{Name: "Release2", Desc: "Release name 2", TypeName: "essentials.model.mo_string.opt_string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev spec doc`
 
@@ -583,15 +583,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev stage dbxfs`
 
@@ -600,15 +600,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev stage gmail`
 
@@ -617,15 +617,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev stage griddata`
 
@@ -634,15 +634,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "In", Desc: "Test input grid data"}},
-  	GridDataOutput: {&{Name: "Out", Desc: "Output grid data"}},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "In", Desc: "Test input grid data"}},
+  	GridDataOutput: {&{Name: "Out", Desc: "Output grid data"}},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev stage gui`
 
@@ -651,15 +651,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev stage scoped`
 
@@ -668,15 +668,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev stage teamfolder`
 
@@ -685,15 +685,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev stage upload_append`
 
@@ -702,15 +702,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev test echo`
 
@@ -719,15 +719,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev test kvsfootprint`
 
@@ -736,15 +736,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev test monkey`
 
@@ -753,15 +753,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev test recipe`
 
@@ -770,15 +770,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev test resources`
 
@@ -787,15 +787,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev test setup teamsharedlink`
 
@@ -804,24 +804,24 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 2 identical elements
-  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...},
-  		&{Name: "Query", Desc: "Query", TypeName: "string"},
-+ 		&{Name: "Seed", Desc: "Shared link seed value", Default: "0", TypeName: "int"},
-  		&{Name: "Visibility", Desc: "Visibility", Default: "random", TypeName: "essentials.model.mo_string.select_string", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "Peer", Desc: "Account alias", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team", ...},
+  		&{Name: "Query", Desc: "Query", TypeName: "string"},
++ 		&{Name: "Seed", Desc: "Shared link seed value", Default: "0", TypeName: "int"},
+  		&{Name: "Visibility", Desc: "Visibility", Default: "random", TypeName: "essentials.model.mo_string.select_string", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev util anonymise`
 
@@ -830,15 +830,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev util curl`
 
@@ -847,15 +847,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev util image jpeg`
 
@@ -864,15 +864,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `dev util wait`
 
@@ -881,15 +881,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file archive local`
 
@@ -898,15 +898,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file compare account`
 
@@ -915,15 +915,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file compare local`
 
@@ -932,15 +932,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file copy`
 
@@ -949,15 +949,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file delete`
 
@@ -966,15 +966,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file dispatch local`
 
@@ -983,15 +983,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file download`
 
@@ -1000,15 +1000,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file export doc`
 
@@ -1017,15 +1017,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file import batch url`
 
@@ -1034,15 +1034,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file import url`
 
@@ -1051,15 +1051,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file info`
 
@@ -1068,15 +1068,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file list`
 
@@ -1085,15 +1085,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file lock acquire`
 
@@ -1102,15 +1102,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file lock all release`
 
@@ -1119,15 +1119,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file lock batch acquire`
 
@@ -1136,15 +1136,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file lock batch release`
 
@@ -1153,15 +1153,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file lock list`
 
@@ -1170,15 +1170,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file lock release`
 
@@ -1187,15 +1187,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file merge`
 
@@ -1204,15 +1204,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file mount list`
 
@@ -1221,15 +1221,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file move`
 
@@ -1238,15 +1238,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file replication`
 
@@ -1255,15 +1255,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file restore`
 
@@ -1272,15 +1272,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file search content`
 
@@ -1289,15 +1289,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file search name`
 
@@ -1306,15 +1306,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file size`
 
@@ -1323,15 +1323,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file sync down`
 
@@ -1340,15 +1340,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file sync online`
 
@@ -1357,15 +1357,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file sync up`
 
@@ -1374,15 +1374,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `file watch`
 
@@ -1391,15 +1391,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `filerequest create`
 
@@ -1408,15 +1408,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `filerequest delete closed`
 
@@ -1425,15 +1425,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `filerequest delete url`
 
@@ -1442,15 +1442,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `filerequest list`
 
@@ -1459,15 +1459,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group add`
 
@@ -1476,15 +1476,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group batch delete`
 
@@ -1493,15 +1493,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group delete`
 
@@ -1510,15 +1510,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group folder list`
 
@@ -1527,15 +1527,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group list`
 
@@ -1544,15 +1544,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group member add`
 
@@ -1561,15 +1561,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group member batch add`
 
@@ -1578,15 +1578,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group member batch delete`
 
@@ -1595,15 +1595,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group member batch update`
 
@@ -1612,15 +1612,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group member delete`
 
@@ -1629,15 +1629,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group member list`
 
@@ -1646,15 +1646,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `group rename`
 
@@ -1663,15 +1663,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `image info`
 
@@ -1680,15 +1680,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `job history archive`
 
@@ -1697,15 +1697,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `job history delete`
 
@@ -1714,15 +1714,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `job history list`
 
@@ -1731,15 +1731,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `job history ship`
 
@@ -1748,15 +1748,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `job log jobid`
 
@@ -1765,15 +1765,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `job log kind`
 
@@ -1782,15 +1782,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `job log last`
 
@@ -1799,15 +1799,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `license`
 
@@ -1816,15 +1816,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member clear externalid`
 
@@ -1833,15 +1833,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member delete`
 
@@ -1850,15 +1850,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member detach`
 
@@ -1867,15 +1867,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member file lock all release`
 
@@ -1884,15 +1884,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member file lock list`
 
@@ -1901,15 +1901,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member file lock release`
 
@@ -1918,15 +1918,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member file permdelete`
 
@@ -1935,45 +1935,45 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 5 identical fields
-  	CliArgs:         "-path /DROPBOX/PATH/TO/PERM_DELETE",
-  	CliNote:         "",
-- 	ConnUsePersonal: true,
-+ 	ConnUsePersonal: false,
-- 	ConnUseBusiness: false,
-+ 	ConnUseBusiness: true,
-- 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
-+ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_business"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 3 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "MemberEmail", Desc: "Team member email address", TypeName: "string"},
-  		&{Name: "Path", Desc: "Path to delete", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
-  		&{
-  			Name:    "Peer",
-  			Desc:    "Account alias",
-  			Default: "default",
-  			TypeName: strings.Join({
-  				"domain.dropbox.api.dbx_conn_impl.conn_scoped_",
-- 				"individual",
-+ 				"team",
-  			}, ""),
-  			TypeAttr: []any{string("files.permanent_delete"), string("team_data.member"), string("members.read")},
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 5 identical fields
+  	CliArgs:         "-path /DROPBOX/PATH/TO/PERM_DELETE",
+  	CliNote:         "",
+- 	ConnUsePersonal: true,
++ 	ConnUsePersonal: false,
+- 	ConnUseBusiness: false,
++ 	ConnUseBusiness: true,
+- 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
++ 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_business"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "MemberEmail", Desc: "Team member email address", TypeName: "string"},
+  		&{Name: "Path", Desc: "Path to delete", TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl"},
+  		&{
+  			Name:    "Peer",
+  			Desc:    "Account alias",
+  			Default: "default",
+  			TypeName: strings.Join({
+  				"domain.dropbox.api.dbx_conn_impl.conn_scoped_",
+- 				"individual",
++ 				"team",
+  			}, ""),
+  			TypeAttr: []any{string("files.permanent_delete"), string("team_data.member"), string("members.read")},
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member folder list`
 
@@ -1982,15 +1982,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member folder replication`
 
@@ -1999,15 +1999,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member invite`
 
@@ -2016,15 +2016,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member list`
 
@@ -2033,15 +2033,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member quota list`
 
@@ -2050,15 +2050,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member quota update`
 
@@ -2067,15 +2067,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member quota usage`
 
@@ -2084,15 +2084,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member reinvite`
 
@@ -2101,15 +2101,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member replication`
 
@@ -2118,15 +2118,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member update email`
 
@@ -2135,15 +2135,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member update externalid`
 
@@ -2152,15 +2152,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member update invisible`
 
@@ -2169,15 +2169,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member update profile`
 
@@ -2186,15 +2186,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `member update visible`
 
@@ -2203,15 +2203,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services asana team list`
 
@@ -2220,15 +2220,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services asana team project list`
 
@@ -2237,15 +2237,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services asana team task list`
 
@@ -2254,15 +2254,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services asana workspace list`
 
@@ -2271,15 +2271,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services asana workspace project list`
 
@@ -2288,15 +2288,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github content get`
 
@@ -2305,15 +2305,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github content put`
 
@@ -2322,15 +2322,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github issue list`
 
@@ -2339,15 +2339,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github profile`
 
@@ -2356,15 +2356,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github release asset download`
 
@@ -2373,15 +2373,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github release asset list`
 
@@ -2390,15 +2390,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github release asset upload`
 
@@ -2407,15 +2407,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github release draft`
 
@@ -2424,15 +2424,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github release list`
 
@@ -2441,15 +2441,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services github tag create`
 
@@ -2458,15 +2458,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail filter add`
 
@@ -2475,15 +2475,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail filter batch add`
 
@@ -2492,15 +2492,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail filter delete`
 
@@ -2509,15 +2509,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail filter list`
 
@@ -2526,15 +2526,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail label add`
 
@@ -2543,15 +2543,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail label delete`
 
@@ -2560,15 +2560,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail label list`
 
@@ -2577,15 +2577,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail label rename`
 
@@ -2594,15 +2594,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail message label add`
 
@@ -2611,15 +2611,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail message label delete`
 
@@ -2628,15 +2628,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail message list`
 
@@ -2645,15 +2645,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail message processed list`
 
@@ -2662,15 +2662,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google mail thread list`
 
@@ -2679,15 +2679,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google sheets sheet append`
 
@@ -2696,15 +2696,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google sheets sheet clear`
 
@@ -2713,15 +2713,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google sheets sheet export`
 
@@ -2730,15 +2730,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {&{Name: "Data", Desc: "Exported sheet data"}},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {&{Name: "Data", Desc: "Exported sheet data"}},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google sheets sheet import`
 
@@ -2747,15 +2747,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google sheets sheet list`
 
@@ -2764,15 +2764,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services google sheets spreadsheet create`
 
@@ -2781,15 +2781,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `services slack conversation list`
 
@@ -2798,15 +2798,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `sharedfolder list`
 
@@ -2815,15 +2815,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `sharedfolder member list`
 
@@ -2832,15 +2832,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `sharedlink create`
 
@@ -2849,15 +2849,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `sharedlink delete`
 
@@ -2866,15 +2866,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `sharedlink file list`
 
@@ -2883,15 +2883,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `sharedlink list`
 
@@ -2900,15 +2900,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team activity batch user`
 
@@ -2917,15 +2917,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team activity daily event`
 
@@ -2934,15 +2934,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team activity event`
 
@@ -2951,15 +2951,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team activity user`
 
@@ -2968,15 +2968,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team content member list`
 
@@ -2985,15 +2985,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team content mount list`
 
@@ -3002,15 +3002,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team content policy list`
 
@@ -3019,15 +3019,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team device list`
 
@@ -3036,15 +3036,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team device unlink`
 
@@ -3053,15 +3053,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team diag explorer`
 
@@ -3070,22 +3070,22 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 9 identical fields
-  	ConnScopes:     {"File": "business_file", "Info": "business_info", "Mgmt": "business_management", "Peer": "business_file"},
-  	Services:       {"dropbox_business"},
-- 	IsSecret:       false,
-+ 	IsSecret:       true,
-  	IsConsole:      false,
-  	IsExperimental: false,
-  	... // 5 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 9 identical fields
+  	ConnScopes:     {"File": "business_file", "Info": "business_info", "Mgmt": "business_management", "Peer": "business_file"},
+  	Services:       {"dropbox_business"},
+- 	IsSecret:       false,
++ 	IsSecret:       true,
+  	IsConsole:      false,
+  	IsExperimental: false,
+  	... // 5 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team feature`
 
@@ -3094,15 +3094,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team filerequest clone`
 
@@ -3111,15 +3111,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team filerequest list`
 
@@ -3128,15 +3128,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team info`
 
@@ -3145,15 +3145,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team linkedapp list`
 
@@ -3162,15 +3162,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team namespace file list`
 
@@ -3179,15 +3179,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team namespace file size`
 
@@ -3196,15 +3196,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team namespace list`
 
@@ -3213,15 +3213,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team namespace member list`
 
@@ -3230,15 +3230,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team report activity`
 
@@ -3247,15 +3247,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team report devices`
 
@@ -3264,15 +3264,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team report membership`
 
@@ -3281,15 +3281,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team report storage`
 
@@ -3298,15 +3298,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team sharedlink delete links`
 
@@ -3315,15 +3315,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team sharedlink delete member`
 
@@ -3332,15 +3332,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team sharedlink list`
 
@@ -3349,15 +3349,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team sharedlink update expiry`
 
@@ -3366,15 +3366,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team sharedlink update password`
 
@@ -3383,15 +3383,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `team sharedlink update visibility`
 
@@ -3400,15 +3400,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder add`
 
@@ -3417,15 +3417,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder archive`
 
@@ -3434,15 +3434,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder batch archive`
 
@@ -3451,15 +3451,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder batch permdelete`
 
@@ -3468,15 +3468,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder batch replication`
 
@@ -3485,15 +3485,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder file list`
 
@@ -3502,15 +3502,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder file lock all release`
 
@@ -3519,15 +3519,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder file lock list`
 
@@ -3536,15 +3536,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder file lock release`
 
@@ -3553,15 +3553,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder file size`
 
@@ -3570,15 +3570,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder list`
 
@@ -3587,15 +3587,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder member add`
 
@@ -3604,54 +3604,54 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	Name:  "add",
-  	Title: "Batch adding users/groups to team folders",
-  	Desc: (
-  		"""
-  		This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
-+ 		
-+ 		Example:
-+ 		
-+ 		* Sales (team folder, editor access for the group "Sales")
-+ 			* Sydney (viewer access for individual account sydney@example.com)
-+ 			* Tokyo (editor access for the group "Tokyo Deal Desk")
-+ 				* Monthly (viewer access for individual account success@example.com)
-+ 		* Marketing (team folder, editor access for the group "Marketing")
-+ 			* Sydney (editor access for the group "Sydney Sales")
-+ 			* Tokyo (viewer access for the group "Tokyo Sales")
-+ 		
-+ 		1. Prepare CSV like below
-+ 		
-+ 		```
-+ 		Sales,,editor,Sales
-+ 		Sales,Sydney,editor,sydney@example.com
-+ 		Sales,Tokyo,editor,Tokyo Deal Desk
-+ 		Sales,Tokyo/Monthly,viewer,success@example.com
-+ 		Marketing,,editor,Marketing
-+ 		Marketing,Sydney,editor,Sydney Sales
-+ 		Marketing,Tokyo,viewer,Tokyo Sales
-+ 		```
-+ 		
-+ 		2. Then run the command like below
-+ 		
-+ 		```
-+ 		tbx teamfolder member add -file /PATH/TO/DATA.csv
-+ 		```
-+ 		
-+ 		Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
-  		"""
-  	),
-  	Remarks: "(Irreversible operation)",
-  	Path:    "teamfolder member add",
-  	... // 14 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	Name:  "add",
+  	Title: "Batch adding users/groups to team folders",
+  	Desc: (
+  		"""
+  		This command will do (1) create new team folders or new sub-folders if the team folder does not exist. The command does not (2) change access inheritance setting of any folders, (3) create a group if that not exist. This command is designed to be idempotent. You can safely retry if any errors happen on the operation. The command will not report an error to keep idempotence. For example, the command will not report an error like, the member already have access to the folder.
++ 		
++ 		Example:
++ 		
++ 		* Sales (team folder, editor access for the group "Sales")
++ 			* Sydney (viewer access for individual account sydney@example.com)
++ 			* Tokyo (editor access for the group "Tokyo Deal Desk")
++ 				* Monthly (viewer access for individual account success@example.com)
++ 		* Marketing (team folder, editor access for the group "Marketing")
++ 			* Sydney (editor access for the group "Sydney Sales")
++ 			* Tokyo (viewer access for the group "Tokyo Sales")
++ 		
++ 		1. Prepare CSV like below
++ 		
++ 		```
++ 		Sales,,editor,Sales
++ 		Sales,Sydney,editor,sydney@example.com
++ 		Sales,Tokyo,editor,Tokyo Deal Desk
++ 		Sales,Tokyo/Monthly,viewer,success@example.com
++ 		Marketing,,editor,Marketing
++ 		Marketing,Sydney,editor,Sydney Sales
++ 		Marketing,Tokyo,viewer,Tokyo Sales
++ 		```
++ 		
++ 		2. Then run the command like below
++ 		
++ 		```
++ 		tbx teamfolder member add -file /PATH/TO/DATA.csv
++ 		```
++ 		
++ 		Note: the command will create a team folder if not exist. But the command will not a group if not found. Groups must exist before run this command.
+  		"""
+  	),
+  	Remarks: "(Irreversible operation)",
+  	Path:    "teamfolder member add",
+  	... // 14 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder member delete`
 
@@ -3660,15 +3660,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder member list`
 
@@ -3677,15 +3677,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder partial replication`
 
@@ -3694,15 +3694,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder permdelete`
 
@@ -3711,15 +3711,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder policy list`
 
@@ -3728,15 +3728,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `teamfolder replication`
 
@@ -3745,15 +3745,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util date today`
 
@@ -3762,15 +3762,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util datetime now`
 
@@ -3779,15 +3779,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util decode base_32`
 
@@ -3796,15 +3796,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util decode base_64`
 
@@ -3813,15 +3813,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util encode base_32`
 
@@ -3830,15 +3830,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util encode base_64`
 
@@ -3847,15 +3847,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util qrcode create`
 
@@ -3864,15 +3864,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util qrcode wifi`
 
@@ -3881,15 +3881,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util time now`
 
@@ -3898,15 +3898,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util unixtime format`
 
@@ -3915,22 +3915,22 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Format", Desc: "Time format", Default: "iso8601", TypeName: "essentials.model.mo_string.select_string", ...},
-  		&{Name: "Precision", Desc: "Time precision (second/ms/ns)", Default: "second", TypeName: "essentials.model.mo_string.select_string", ...},
-+ 		&{Name: "Time", Desc: "Unix Time", Default: "0", TypeName: "int"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 16 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Format", Desc: "Time format", Default: "iso8601", TypeName: "essentials.model.mo_string.select_string", ...},
+  		&{Name: "Precision", Desc: "Time precision (second/ms/ns)", Default: "second", TypeName: "essentials.model.mo_string.select_string", ...},
++ 		&{Name: "Time", Desc: "Unix Time", Default: "0", TypeName: "int"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util unixtime now`
 
@@ -3939,15 +3939,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util xlsx create`
 
@@ -3956,15 +3956,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util xlsx sheet export`
 
@@ -3973,15 +3973,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {&{Name: "Data", Desc: "Export data"}},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {&{Name: "Data", Desc: "Export data"}},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util xlsx sheet import`
 
@@ -3990,15 +3990,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `util xlsx sheet list`
 
@@ -4007,15 +4007,15 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```
 # Command spec changed: `version`
 
@@ -4024,13 +4024,13 @@ lang: en
 ## Command configuration changed
 
 ```
-  &dc_recipe.Recipe{
-  	... // 19 identical fields
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      nil,
-+ 	TextInput:      []*dc_recipe.DocTextInput{},
-- 	JsonInput:      nil,
-+ 	JsonInput:      []*dc_recipe.DocJsonInput{},
-  }
+  &dc_recipe.Recipe{
+  	... // 19 identical fields
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+- 	TextInput:      nil,
++ 	TextInput:      []*dc_recipe.DocTextInput{},
+- 	JsonInput:      nil,
++ 	JsonInput:      []*dc_recipe.DocJsonInput{},
+  }
 ```

@@ -11,16 +11,23 @@ touch resources/keys/toolbox.build
 mkdir -p $TEST_RESULTS
 mkdir -p $TEST_DEBUG
 
-echo TEST: Run tests
-go test -v -short -timeout 30s -covermode=atomic -coverprofile=$TEST_PROFILE ./... >"$TEST_OUT" 2>"$TEST_ERR"
+if [ -e test/target_package ]; then
+  TEST_PACKAGES=$(cat test/target_package)
+else
+  TEST_PACKAGES=./...
+fi
+TEST_PACKAGES_SUM=$(echo $TEST_PACKAGES | shasum -a 256 | awk '{print $1}')
+
+echo TEST: Run tests: $TEST_PACKAGES
+go test -v -short -timeout 30s -covermode=atomic -coverprofile=$TEST_PROFILE $TEST_PACKAGES >"$TEST_OUT" 2>"$TEST_ERR"
 TEST_EXIT_CODE=$?
 
 if [ $TEST_EXIT_CODE -ne 0 ]; then
   echo Test failed: $TEST_EXIT_CODE
   if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
     echo TEST: Uploading logs
-    go run tbx.go dev ci artifact up -budget-memory low -local-path $TEST_DEBUG -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM -peer-name deploy -quiet
-    go run tbx.go dev ci artifact up -budget-memory low -local-path $HOME/.toolbox/jobs -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM -peer-name deploy -quiet
+    go run tbx.go dev ci artifact up -budget-memory low -local-path $TEST_DEBUG -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM/$TEST_PACKAGE_SUM -peer-name deploy -quiet
+    go run tbx.go dev ci artifact up -budget-memory low -local-path $HOME/.toolbox/jobs -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM/$TEST_PACKAGE_SUM -peer-name deploy -quiet
   fi
   exit 1
 fi

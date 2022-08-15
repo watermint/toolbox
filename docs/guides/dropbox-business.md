@@ -350,21 +350,22 @@ Below commands are for managing team admins.
 
 You can run a command as a team member. For example, you can upload a file into member's folder by using `team runas file sync batch up`.
 
-| Command                                                                                                                     | Description                                             |
-|-----------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|
-| [team runas file list]({{ site.baseurl }}/commands/team-runas-file-list.html)                                               | List files and folders run as a member                  |
-| [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member                    |
-| [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                       |
-| [team runas sharedfolder list]({{ site.baseurl }}/commands/team-runas-sharedfolder-list.html)                               | List shared folders run as the member                   |
-| [team runas sharedfolder mount add]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-add.html)                     | Add the shared folder to the specified member's Dropbox |
-| [team runas sharedfolder mount delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-delete.html)               | The specified user unmounts the designated folder.      |
-| [team runas sharedfolder mount list]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-list.html)                   | List all shared folders the specified member mounted    |
-| [team runas sharedfolder mount mountable]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-mountable.html)         | List all shared folders the member can mount            |
-| [team runas sharedfolder batch leave]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-leave.html)                 | Batch leave from shared folders as a member             |
-| [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                         |
-| [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                       |
-| [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders            |
-| [team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-delete.html) | Batch delete members from member's shared folders       |
+| Command                                                                                                                     | Description                                                                         |
+|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| [team runas file list]({{ site.baseurl }}/commands/team-runas-file-list.html)                                               | List files and folders run as a member                                              |
+| [team runas file batch copy]({{ site.baseurl }}/commands/team-runas-file-batch-copy.html)                                   | Batch copy files/folders as a member                                                |
+| [team runas file sync batch up]({{ site.baseurl }}/commands/team-runas-file-sync-batch-up.html)                             | Batch sync up that run as members                                                   |
+| [team runas sharedfolder list]({{ site.baseurl }}/commands/team-runas-sharedfolder-list.html)                               | List shared folders run as the member                                               |
+| [team runas sharedfolder isolate]({{ site.baseurl }}/commands/team-runas-sharedfolder-isolate.html)                         | Unshare owned shared folders and leave from external shared folders run as a member |
+| [team runas sharedfolder mount add]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-add.html)                     | Add the shared folder to the specified member's Dropbox                             |
+| [team runas sharedfolder mount delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-delete.html)               | The specified user unmounts the designated folder.                                  |
+| [team runas sharedfolder mount list]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-list.html)                   | List all shared folders the specified member mounted                                |
+| [team runas sharedfolder mount mountable]({{ site.baseurl }}/commands/team-runas-sharedfolder-mount-mountable.html)         | List all shared folders the member can mount                                        |
+| [team runas sharedfolder batch leave]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-leave.html)                 | Batch leave from shared folders as a member                                         |
+| [team runas sharedfolder batch share]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-share.html)                 | Batch share folders for members                                                     |
+| [team runas sharedfolder batch unshare]({{ site.baseurl }}/commands/team-runas-sharedfolder-batch-unshare.html)             | Batch unshare folders for members                                                   |
+| [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders                                        |
+| [team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-delete.html) | Batch delete members from member's shared folders                                   |
 
 # Notes:
 

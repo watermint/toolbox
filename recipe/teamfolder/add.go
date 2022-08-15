@@ -1,6 +1,7 @@
 package teamfolder
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
@@ -11,15 +12,17 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 )
 
 type Add struct {
 	rc_recipe.RemarkIrreversible
-	Peer                dbx_conn.ConnScopedTeam
-	Name                string
-	SyncSetting         mo_string.SelectString
-	Added               rp_model.RowReport
-	ErrorUnableToCreate app_msg.Message
+	Peer                       dbx_conn.ConnScopedTeam
+	Name                       string
+	SyncSetting                mo_string.SelectString
+	Added                      rp_model.RowReport
+	ErrorUnableToCreate        app_msg.Message
+	ErrorTeamSpaceNotSupported app_msg.Message
 }
 
 func (z *Add) Preset() {
@@ -30,6 +33,7 @@ func (z *Add) Preset() {
 	)
 	z.Peer.SetScopes(
 		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
 	)
 	z.SyncSetting.SetOptions(
 		"default",
@@ -39,6 +43,11 @@ func (z *Add) Preset() {
 
 func (z *Add) Exec(c app_control.Control) error {
 	ui := c.UI()
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		ui.Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	if err := z.Added.Open(); err != nil {
 		return err
 	}

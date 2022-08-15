@@ -59,6 +59,10 @@ func (z *Unshare) unshare(mf *MemberFolder, svm sv_member.Member, c app_control.
 	}
 
 	err = sv_sharedfolder.New(cm).Remove(sf, sv_sharedfolder.LeaveACopy(z.LeaveCopy))
+	if err != nil {
+		z.OperationLog.Failure(err, sf)
+		return err
+	}
 	z.OperationLog.Success(mf, sf)
 	return nil
 }

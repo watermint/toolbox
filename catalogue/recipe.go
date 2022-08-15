@@ -382,6 +382,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamrunasfile.List{},
 		&recipeteamrunasfilebatch.Copy{},
 		&recipeteamrunasfilesyncbatch.Up{},
+		&recipeteamrunassharedfolder.Isolate{},
 		&recipeteamrunassharedfolder.List{},
 		&recipeteamrunassharedfolderbatch.Leave{},
 		&recipeteamrunassharedfolderbatch.Share{},

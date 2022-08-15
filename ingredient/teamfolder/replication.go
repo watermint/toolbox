@@ -27,6 +27,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"strings"
 	"time"
@@ -179,14 +180,25 @@ func (z *mirrorContext) AdminDst() *mo_profile.Profile {
 }
 
 type Replication struct {
-	TargetNames  []string
-	TargetAll    bool
-	Verification rp_model.RowReport
-	Src          dbx_conn.ConnScopedTeam
-	Dst          dbx_conn.ConnScopedTeam
+	TargetNames                              []string
+	TargetAll                                bool
+	Verification                             rp_model.RowReport
+	Src                                      dbx_conn.ConnScopedTeam
+	Dst                                      dbx_conn.ConnScopedTeam
+	ErrorTeamSpaceNotSupportedSrcIsTeamSpace app_msg.Message
+	ErrorTeamSpaceNotSupportedDstIsTeamSpace app_msg.Message
 }
 
 func (z *Replication) Exec(c app_control.Control) (err error) {
+	if ok, _ := IsTeamSpaceSupported(z.Src.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupportedSrcIsTeamSpace)
+		return errors.New("team space is not supported by this command")
+	}
+	if ok, _ := IsTeamSpaceSupported(z.Dst.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupportedDstIsTeamSpace)
+		return errors.New("team space is not supported by this command")
+	}
+
 	var ctx Context
 	if z.TargetAll {
 		ctx, err = z.AllFolderScope()

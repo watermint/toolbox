@@ -15,6 +15,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 )
@@ -36,10 +38,11 @@ func (z AddRecord) DropboxPath() mo_path.DropboxPath {
 
 type Add struct {
 	rc_recipe.RemarkIrreversible
-	Peer           dbx_conn.ConnScopedTeam
-	File           fd_file.RowFeed
-	OperationLog   rp_model.TransactionReport
-	AdminGroupName string
+	Peer                       dbx_conn.ConnScopedTeam
+	File                       fd_file.RowFeed
+	OperationLog               rp_model.TransactionReport
+	AdminGroupName             string
+	ErrorTeamSpaceNotSupported app_msg.Message
 }
 
 func (z *Add) Preset() {
@@ -60,6 +63,11 @@ func (z *Add) Preset() {
 }
 
 func (z *Add) add(r *AddRecord, c app_control.Control, tc uc_teamfolder.TeamContent, sg sv_group.Group) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	l := c.Log()
 	l.Debug("Add", esl.Any("record", r))
 

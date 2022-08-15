@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 )
@@ -36,12 +37,13 @@ func (z DeleteRecord) DropboxPath() mo_path.DropboxPath {
 
 type Delete struct {
 	rc_recipe.RemarkIrreversible
-	Peer               dbx_conn.ConnScopedTeam
-	File               fd_file.RowFeed
-	OperationLog       rp_model.TransactionReport
-	AdminGroupName     string
-	SkipFolderNotFound app_msg.Message
-	SkipNotMember      app_msg.Message
+	Peer                       dbx_conn.ConnScopedTeam
+	File                       fd_file.RowFeed
+	OperationLog               rp_model.TransactionReport
+	AdminGroupName             string
+	SkipFolderNotFound         app_msg.Message
+	SkipNotMember              app_msg.Message
+	ErrorTeamSpaceNotSupported app_msg.Message
 }
 
 func (z *Delete) Preset() {
@@ -62,6 +64,11 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) delete(r *DeleteRecord, c app_control.Control, tc uc_teamfolder.TeamContent, sg sv_group.Group) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	l := c.Log()
 	l.Debug("Remove", esl.Any("record", r))
 

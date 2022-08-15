@@ -6,1715 +6,295 @@ lang: ja
 
 # `リリース 106` から `リリース 107` までの変更点
 
-# 追加されたコマンド
-
-| コマンド                            | タイトル                                                                             |
-|-------------------------------------|--------------------------------------------------------------------------------------|
-| dev build compile                   | ビルドスクリプトの作成                                                               |
-| dev build target                    | ターゲットビルドスクリプトの生成                                                     |
-| dev kvs benchmark                   | KVSエンジンのベンチマーク                                                            |
-| dev stage encoding                  | エンコードテストコマンド（指定したエンコード名でダミーファイルをアップロードします） |
-| services google calendar event list | Googleカレンダーのイベントを一覧表示                                                 |
-| util archive unzip                  | ZIPアーカイブファイルを解凍する                                                      |
-| util archive zip                    | 対象ファイルをZIPアーカイブに圧縮する                                                |
-| util database exec                  | SQLite3データベースファイルへのクエリ実行                                            |
-| util database query                 | SQLite3データベースへの問い合わせ                                                    |
-| util file hash                      | ファイルダイジェストの表示                                                           |
-| util image exif                     | 画像ファイルのEXIFメタデータを表示                                                   |
-| util monitor client                 | デバイスモニタークライアントを起動する                                               |
-| util net download                   | ファイルをダウンロードする                                                           |
-| util text case down                 | 小文字のテキストを表示する                                                           |
-| util text case up                   | 大文字のテキストを表示する                                                           |
-| util text encoding from             | 指定されたエンコーディングからUTF-8テキストファイルに変換します.                     |
-| util text encoding to               | UTF-8テキストファイルから指定されたエンコーディングに変換する.                       |
-
 # 削除されたコマンド
 
-| コマンド   | タイトル                           |
-|------------|------------------------------------|
-| image info | 画像ファイルのEXIF情報を表示します |
+| コマンド                                    | タイトル                                                                                  |
+|---------------------------------------------|-------------------------------------------------------------------------------------------|
+| config disable                              | 機能を無効化します.                                                                       |
+| config enable                               | 機能を有効化します.                                                                       |
+| config features                             | 利用可能なオプション機能一覧.                                                             |
+| dev benchmark local                         | ローカルファイルシステムにダミーのフォルダ構造を作成します.                               |
+| dev benchmark upload                        | アップロードのベンチマーク                                                                |
+| dev benchmark uploadlink                    | アップロードテンポラリリンクAPIを使ったシングルファイルのアップロードをベンチマーク.      |
+| dev build catalogue                         | カタログを生成します                                                                      |
+| dev build doc                               | ドキュメントを生成                                                                        |
+| dev build info                              | ビルド情報ファイルを生成                                                                  |
+| dev build license                           | LICENSE.txtの生成                                                                         |
+| dev build package                           | ビルドのパッケージ化                                                                      |
+| dev build preflight                         | リリースに向けて必要な事前準備を実施                                                      |
+| dev build readme                            | README.txtの生成                                                                          |
+| dev ci artifact up                          | CI成果物をアップロードします                                                              |
+| dev ci auth connect                         | エンドツーエンドテストのための認証                                                        |
+| dev ci auth import                          | 環境変数はエンドツーエンドトークンをインポートします                                      |
+| dev diag endpoint                           | エンドポイントを一覧                                                                      |
+| dev diag throughput                         | キャプチャログからスループットを評価                                                      |
+| dev kvs dump                                | KVSデータのダンプ                                                                         |
+| dev module list                             | 依存モジュール一覧                                                                        |
+| dev release candidate                       | リリース候補を検査します                                                                  |
+| dev release doc                             | リリースドキュメントの作成                                                                |
+| dev release publish                         | リリースを公開します                                                                      |
+| dev replay approve                          | リプレイをテストバンドルとして承認する                                                    |
+| dev replay bundle                           | すべてのリプレイを実行                                                                    |
+| dev replay recipe                           | レシピのリプレイ実行                                                                      |
+| dev replay remote                           | リモートリプレイバンドルの実行                                                            |
+| dev spec diff                               | 2リリース間の仕様を比較します                                                             |
+| dev spec doc                                | 仕様ドキュメントを生成します                                                              |
+| dev stage dbxfs                             | Dropboxのファイルシステムのインプリケーションを確認しますキャッシュされたシステムに対して |
+| dev stage gmail                             | Gmail コマンド                                                                            |
+| dev stage griddata                          | グリッドデータテスト                                                                      |
+| dev stage gui launch                        | GUIコンセプト実証                                                                         |
+| dev stage http_range                        | HTTPレンジリクエストのプルーフオブコンセプト                                              |
+| dev stage scoped                            | Dropboxのスコープ付きOAuthアプリテスト                                                    |
+| dev stage teamfolder                        | チームフォルダ処理のサンプル                                                              |
+| dev stage upload_append                     | 新しいアップロードAPIテスト                                                               |
+| dev test auth all                           | すべてのスコープでのDropboxへの接続テスト                                                 |
+| dev test echo                               | テキストのエコー                                                                          |
+| dev test panic                              | パニック試験                                                                              |
+| dev test recipe                             | レシピのテスト                                                                            |
+| dev test resources                          | バイナリの品質テスト                                                                      |
+| dev test setup massfiles                    | テストファイルとしてウィキメディアダンプファイルをアップロードする                        |
+| dev test setup teamsharedlink               | デモ用共有リンクの作成                                                                    |
+| dev util anonymise                          | キャプチャログを匿名化します.                                                             |
+| dev util curl                               | capture.logからcURLのプレビューを生成します                                               |
+| dev util image jpeg                         | ダミー画像ファイルを作成します                                                            |
+| dev util wait                               | 指定した秒数待機します                                                                    |
+| file archive local                          | ローカルファイルをアーカイブします                                                        |
+| file compare account                        | 二つのアカウントのファイルを比較します                                                    |
+| file compare local                          | ローカルフォルダとDropboxフォルダの内容を比較します                                       |
+| file copy                                   | ファイルをコピーします                                                                    |
+| file delete                                 | ファイルまたはフォルダは削除します.                                                       |
+| file dispatch local                         | ローカルファイルを整理します                                                              |
+| file export doc                             | ドキュメントのエクスポート                                                                |
+| file export url                             | URLからドキュメントをエクスポート                                                         |
+| file import batch url                       | URLからファイルを一括インポートします                                                     |
+| file import url                             | URLからファイルをインポートします                                                         |
+| file info                                   | パスのメタデータを解決                                                                    |
+| file list                                   | ファイルとフォルダを一覧します                                                            |
+| file lock acquire                           | ファイルをロック                                                                          |
+| file lock all release                       | 指定したパスでのすべてのロックを解除する                                                  |
+| file lock batch acquire                     | 複数のファイルをロックする                                                                |
+| file lock batch release                     | 複数のロックを解除                                                                        |
+| file lock list                              | 指定したパスの下にあるロックを一覧表示します                                              |
+| file lock release                           | ロックを解除します                                                                        |
+| file merge                                  | フォルダを統合します                                                                      |
+| file move                                   | ファイルを移動します                                                                      |
+| file paper append                           | 既存のPaperドキュメントの最後にコンテンツを追加する                                       |
+| file paper create                           | パスに新しいPaperを作成                                                                   |
+| file paper overwrite                        | 既存のPaperドキュメントを上書きする                                                       |
+| file paper prepend                          | 既存のPaperドキュメントの先頭にコンテンツを追加する                                       |
+| file replication                            | ファイルコンテンツを他のアカウントに複製します                                            |
+| file restore all                            | 指定されたパス以下をリストアします                                                        |
+| file revision download                      | ファイルリビジョンをダウンロードする                                                      |
+| file revision list                          | ファイルリビジョン一覧                                                                    |
+| file revision restore                       | ファイルリビジョンを復元する                                                              |
+| file search content                         | ファイルコンテンツを検索                                                                  |
+| file search name                            | ファイル名を検索                                                                          |
+| file share info                             | ファイルの共有情報を取得する                                                              |
+| file size                                   | ストレージの利用量                                                                        |
+| file sync down                              | Dropboxと下り方向で同期します                                                             |
+| file sync online                            | オンラインファイルを同期します                                                            |
+| file sync up                                | Dropboxと上り方向で同期します                                                             |
+| file watch                                  | ファイルアクティビティを監視                                                              |
+| filerequest create                          | ファイルリクエストを作成します                                                            |
+| filerequest delete closed                   | このアカウントの全ての閉じられているファイルリクエストを削除します                        |
+| filerequest delete url                      | ファイルリクエストのURLを指定して削除                                                     |
+| filerequest list                            | 個人アカウントのファイルリクエストを一覧.                                                 |
+| group add                                   | グループを作成します                                                                      |
+| group batch add                             | グループの一括追加                                                                        |
+| group batch delete                          | グループの削除                                                                            |
+| group clear externalid                      | グループの外部IDをクリアする                                                              |
+| group delete                                | グループを削除します                                                                      |
+| group folder list                           | 各グループのフォルダを探す                                                                |
+| group list                                  | グループを一覧                                                                            |
+| group member add                            | メンバーをグループに追加                                                                  |
+| group member batch add                      | グループにメンバーを一括追加                                                              |
+| group member batch delete                   | グループからメンバーを削除                                                                |
+| group member batch update                   | グループからメンバーを追加または削除                                                      |
+| group member delete                         | メンバーをグループから削除                                                                |
+| group member list                           | グループに所属するメンバー一覧を取得します                                                |
+| group rename                                | グループの改名                                                                            |
+| image info                                  | 画像ファイルのEXIF情報を表示します                                                        |
+| job history archive                         | ジョブのアーカイブ                                                                        |
+| job history delete                          | 古いジョブ履歴の削除                                                                      |
+| job history list                            | ジョブ履歴の表示                                                                          |
+| job history ship                            | ログの転送先Dropboxパス                                                                   |
+| job log jobid                               | 指定したジョブIDのログを取得する                                                          |
+| job log kind                                | 指定種別のログを結合して出力します                                                        |
+| job log last                                | 最後のジョブのログファイルを出力.                                                         |
+| license                                     | ライセンス情報を表示します                                                                |
+| member batch suspend                        | メンバーの一括一時停止                                                                    |
+| member batch unsuspend                      | メンバーの一括停止解除                                                                    |
+| member clear externalid                     | メンバーのexternal_idを初期化します                                                       |
+| member delete                               | メンバーを削除します                                                                      |
+| member detach                               | Dropbox BusinessユーザーをBasicユーザーに変更します                                       |
+| member feature                              | メンバーの機能設定一覧                                                                    |
+| member file lock all release                | メンバーのパスの下にあるすべてのロックを解除します                                        |
+| member file lock list                       | パスの下にあるメンバーのロックを一覧表示                                                  |
+| member file lock release                    | メンバーとしてパスのロックを解除します                                                    |
+| member file permdelete                      | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                    |
+| member folder list                          | 各メンバーのフォルダを検索                                                                |
+| member folder replication                   | フォルダを他のメンバーの個人フォルダに複製します                                          |
+| member invite                               | メンバーを招待します                                                                      |
+| member list                                 | チームメンバーの一覧                                                                      |
+| member quota list                           | メンバーの容量制限情報を一覧します                                                        |
+| member quota update                         | チームメンバーの容量制限を変更                                                            |
+| member quota usage                          | チームメンバーのストレージ利用状況を取得                                                  |
+| member reinvite                             | 招待済み状態メンバーをチームに再招待します                                                |
+| member replication                          | チームメンバーのファイルを複製します                                                      |
+| member suspend                              | メンバーの一時停止処理                                                                    |
+| member unsuspend                            | メンバーの一時停止を解除する                                                              |
+| member update email                         | メンバーのメールアドレス処理                                                              |
+| member update externalid                    | チームメンバーのExternal IDを更新します.                                                  |
+| member update invisible                     | メンバーへのディレクトリ制限を有効にします                                                |
+| member update profile                       | メンバーのプロフィール変更                                                                |
+| member update visible                       | メンバーへのディレクトリ制限を無効にします                                                |
+| services asana team list                    | チームのリスト                                                                            |
+| services asana team project list            | チームのプロジェクト一覧                                                                  |
+| services asana team task list               | チームのタスク一覧                                                                        |
+| services asana workspace list               | ワークスペースの一覧                                                                      |
+| services asana workspace project list       | ワークスペースのプロジェクト一覧                                                          |
+| services dropbox user feature               | 現在のユーザーの機能設定の一覧                                                            |
+| services github content get                 | レポジトリのコンテンツメタデータを取得します.                                             |
+| services github content put                 | レポジトリに小さなテキストコンテンツを格納します                                          |
+| services github issue list                  | 公開・プライベートGitHubレポジトリの課題一覧                                              |
+| services github profile                     | 認証したユーザーの情報を取得                                                              |
+| services github release asset download      | アセットをダウンロードします                                                              |
+| services github release asset list          | GitHubリリースの成果物一覧                                                                |
+| services github release asset upload        | GitHub リリースへ成果物をアップロードします                                               |
+| services github release draft               | リリースの下書きを作成                                                                    |
+| services github release list                | リリースの一覧                                                                            |
+| services github tag create                  | レポジトリにタグを作成します                                                              |
+| services google mail filter add             | フィルターを追加します.                                                                   |
+| services google mail filter batch add       | クエリによるラベルの一括追加・削除                                                        |
+| services google mail filter delete          | フィルタの削除                                                                            |
+| services google mail filter list            | フィルターの一覧                                                                          |
+| services google mail label add              | ラベルの追加                                                                              |
+| services google mail label delete           | ラベルの削除.                                                                             |
+| services google mail label list             | ラベルのリスト                                                                            |
+| services google mail label rename           | ラベルの名前を変更する                                                                    |
+| services google mail message label add      | メッセージにラベルを追加                                                                  |
+| services google mail message label delete   | メッセージからラベルを削除する                                                            |
+| services google mail message list           | メッセージの一覧                                                                          |
+| services google mail message processed list | 処理された形式でメッセージを一覧表示します.                                               |
+| services google mail message send           | メールの送信                                                                              |
+| services google mail sendas add             | カスタムの "from" send-asエイリアスの作成                                                 |
+| services google mail sendas delete          | 指定したsend-asエイリアスを削除する                                                       |
+| services google mail sendas list            | 指定されたアカウントの送信エイリアスを一覧表示する                                        |
+| services google mail thread list            | スレッド一覧                                                                              |
+| services google sheets sheet append         | スプレッドシートにデータを追加する                                                        |
+| services google sheets sheet clear          | スプレッドシートから値をクリアする                                                        |
+| services google sheets sheet export         | シートデータのエクスポート                                                                |
+| services google sheets sheet import         | スプレッドシートにデータをインポート                                                      |
+| services google sheets sheet list           | スプレッドシートのシート一覧                                                              |
+| services google sheets spreadsheet create   | 新しいスプレッドシートの作成                                                              |
+| services slack conversation list            | チャネルの一覧                                                                            |
+| sharedfolder leave                          | 共有フォルダーから退出する.                                                               |
+| sharedfolder list                           | 共有フォルダの一覧                                                                        |
+| sharedfolder member add                     | 共有フォルダへのメンバーの追加                                                            |
+| sharedfolder member delete                  | 共有フォルダからメンバーを削除する                                                        |
+| sharedfolder member list                    | 共有フォルダのメンバーを一覧します                                                        |
+| sharedfolder mount add                      | 共有フォルダを現在のユーザーのDropboxに追加する                                           |
+| sharedfolder mount delete                   | 現在のユーザーが指定されたフォルダーをアンマウントする.                                   |
+| sharedfolder mount list                     | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示                          |
+| sharedfolder mount mountable                | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします.                 |
+| sharedfolder share                          | フォルダの共有                                                                            |
+| sharedfolder unshare                        | フォルダの共有解除                                                                        |
+| sharedlink create                           | 共有リンクの作成                                                                          |
+| sharedlink delete                           | 共有リンクを削除します                                                                    |
+| sharedlink file list                        | 共有リンクのファイルを一覧する                                                            |
+| sharedlink info                             | 共有リンクの情報取得                                                                      |
+| sharedlink list                             | 共有リンクの一覧                                                                          |
+| team activity batch user                    | 複数ユーザーのアクティビティを一括取得します                                              |
+| team activity daily event                   | アクティビティーを1日ごとに取得します                                                     |
+| team activity event                         | イベントログ                                                                              |
+| team activity user                          | ユーザーごとのアクティビティ                                                              |
+| team admin group role add                   | グループのメンバーにロールを追加する                                                      |
+| team admin group role delete                | 例外グループのメンバーを除くすべてのメンバーからロールを削除する                          |
+| team admin list                             | メンバーの管理者権限一覧                                                                  |
+| team admin role add                         | メンバーに新しいロールを追加する                                                          |
+| team admin role clear                       | メンバーからすべての管理者ロールを削除する                                                |
+| team admin role delete                      | メンバーからロールを削除する                                                              |
+| team admin role list                        | チームの管理者の役割を列挙                                                                |
+| team content legacypaper count              | メンバー1人あたりのPaper文書の枚数                                                        |
+| team content legacypaper export             | チームメンバー全員のPaper文書をローカルパスにエクスポート.                                |
+| team content legacypaper list               | チームメンバーのPaper文書リスト出力                                                       |
+| team content member list                    | チームフォルダや共有フォルダのメンバー一覧                                                |
+| team content member size                    | チームフォルダや共有フォルダのメンバー数をカウントする                                    |
+| team content mount list                     | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします.    |
+| team content policy list                    | チームフォルダと共有フォルダのポリシー一覧                                                |
+| team device list                            | チーム内全てのデバイス/セッションを一覧します                                             |
+| team device unlink                          | デバイスのセッションを解除します                                                          |
+| team feature                                | チームの機能を出力します                                                                  |
+| team filerequest clone                      | ファイルリクエストを入力データに従い複製します                                            |
+| team filerequest list                       | チームないのファイルリクエストを一覧します                                                |
+| team info                                   | チームの情報                                                                              |
+| team linkedapp list                         | リンク済みアプリを一覧                                                                    |
+| team namespace file list                    | チーム内全ての名前空間でのファイル・フォルダを一覧                                        |
+| team namespace file size                    | チーム内全ての名前空間でのファイル・フォルダを一覧                                        |
+| team namespace list                         | チーム内すべての名前空間を一覧                                                            |
+| team namespace member list                  | チームフォルダ以下のファイル・フォルダを一覧                                              |
+| team namespace summary                      | チーム・ネームスペースの状態概要を報告する.                                               |
+| team report activity                        | アクティビティ レポート                                                                   |
+| team report devices                         | デバイス レポート空のレポート                                                             |
+| team report membership                      | メンバーシップ レポート                                                                   |
+| team report storage                         | ストレージ レポート                                                                       |
+| team runas file batch copy                  | ファイル/フォルダーをメンバーとして一括コピー                                             |
+| team runas file list                        | メンバーとして実行するファイルやフォルダーの一覧                                          |
+| team runas file sync batch up               | メンバーとして動作する一括同期                                                            |
+| team runas sharedfolder batch leave         | 共有フォルダからメンバーとして一括退出                                                    |
+| team runas sharedfolder batch share         | メンバーのフォルダを一括で共有                                                            |
+| team runas sharedfolder batch unshare       | メンバーのフォルダの共有を一括解除                                                        |
+| team runas sharedfolder list                | 共有フォルダーの一覧をメンバーとして実行                                                  |
+| team runas sharedfolder member batch add    | メンバーの共有フォルダにメンバーを一括追加                                                |
+| team runas sharedfolder member batch delete | メンバーの共有フォルダからメンバーを一括削除                                              |
+| team runas sharedfolder mount add           | 指定したメンバーのDropboxに共有フォルダを追加する                                         |
+| team runas sharedfolder mount delete        | 指定されたユーザーが指定されたフォルダーをアンマウントする.                               |
+| team runas sharedfolder mount list          | 指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.           |
+| team runas sharedfolder mount mountable     | メンバーがマウントできるすべての共有フォルダーをリストアップ.                             |
+| team sharedlink cap expiry                  | チーム内の共有リンクに有効期限の上限を設定                                                |
+| team sharedlink cap visibility              | チーム内の共有リンクに可視性の上限を設定                                                  |
+| team sharedlink delete links                | 共有リンクの一括削除                                                                      |
+| team sharedlink delete member               | メンバーの共有リンクをすべて削除                                                          |
+| team sharedlink list                        | 共有リンクの一覧                                                                          |
+| team sharedlink update expiry               | チーム内の公開されている共有リンクについて有効期限を更新します                            |
+| team sharedlink update password             | 共有リンクのパスワードの設定・更新                                                        |
+| team sharedlink update visibility           | 共有リンクの可視性の更新                                                                  |
+| teamfolder add                              | チームフォルダを追加します                                                                |
+| teamfolder archive                          | チームフォルダのアーカイブ                                                                |
+| teamfolder batch archive                    | 複数のチームフォルダをアーカイブします                                                    |
+| teamfolder batch permdelete                 | 複数のチームフォルダを完全に削除します                                                    |
+| teamfolder batch replication                | チームフォルダの一括レプリケーション                                                      |
+| teamfolder file list                        | チームフォルダの一覧                                                                      |
+| teamfolder file lock all release            | チームフォルダのパスの下にあるすべてのロックを解除する                                    |
+| teamfolder file lock list                   | チームフォルダ内のロックを一覧表示                                                        |
+| teamfolder file lock release                | チームフォルダ内のパスのロックを解除                                                      |
+| teamfolder file size                        | チームフォルダのサイズを計算                                                              |
+| teamfolder list                             | チームフォルダの一覧                                                                      |
+| teamfolder member add                       | チームフォルダへのユーザー/グループの一括追加                                             |
+| teamfolder member delete                    | チームフォルダからのユーザー/グループの一括削除                                           |
+| teamfolder member list                      | チームフォルダのメンバー一覧                                                              |
+| teamfolder partial replication              | 部分的なチームフォルダの他チームへのレプリケーション                                      |
+| teamfolder permdelete                       | チームフォルダを完全に削除します                                                          |
+| teamfolder policy list                      | チームフォルダのポリシー一覧                                                              |
+| teamfolder replication                      | チームフォルダを他のチームに複製します                                                    |
+| util date today                             | 現在の日付を表示                                                                          |
+| util datetime now                           | 現在の日時を表示                                                                          |
+| util decode base32                          | Base32 (RFC 4648) 形式からテキストをデコードします                                        |
+| util decode base64                          | Base64 (RFC 4648) フォーマットからテキストをデコードします                                |
+| util encode base32                          | テキストをBase32(RFC 4648)形式にエンコード                                                |
+| util encode base64                          | テキストをBase64(RFC 4648)形式にエンコード                                                |
+| util git clone                              | git リポジトリをクローン                                                                  |
+| util image placeholder                      | プレースホルダー画像の作成                                                                |
+| util qrcode create                          | QRコード画像ファイルの作成                                                                |
+| util qrcode wifi                            | WIFI設定用のQRコードを生成                                                                |
+| util time now                               | 現在の時刻を表示                                                                          |
+| util unixtime format                        | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット                    |
+| util unixtime now                           | UNIX時間で現在の時刻を表示する                                                            |
+| util xlsx create                            | 空のスプレッドシートを作成する                                                            |
+| util xlsx sheet export                      | xlsxファイルからデータをエクスポート                                                      |
+| util xlsx sheet import                      | データをxlsxファイルにインポート                                                          |
+| util xlsx sheet list                        | xlsxファイルのシート一覧                                                                  |
+| version                                     | バージョン情報                                                                            |
 
-# コマンド仕様の変更: `config disable`
 
-## 設定が変更されたコマンド
 
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "config disable",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-key FEATURE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `config enable`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "config enable",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-key FEATURE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev benchmark local`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev benchmark local",
-- 	CliArgs:         "-path /LOCAL/PATH/TO/PROCESS",
-+ 	CliArgs:         `-num-files NUM -path /LOCAL/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM"`,
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev benchmark upload`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev benchmark upload",
-- 	CliArgs:         "-path /DROPBOX/PATH/TO/PROCESS",
-+ 	CliArgs:         "-num-files NUM -path /DROPBOX/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev benchmark uploadlink`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev benchmark uploadlink",
-- 	CliArgs:         "-path /DROPBOX/PATH/TO/UPLOAD",
-+ 	CliArgs:         "-path /DROPBOX/PATH/TO/UPLOAD -size-kb NUM",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev build package`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "dev build package",
-  	CliArgs: strings.Join({
-  		"-build-path /LOCAL/PATH/",
-- 		"OF/build -deploy-path /DROPBOX/PATH/TO/deploy -dest-path /LOCAL/",
-- 		"PATH/TO/save_package",
-+ 		"TO/build -dist-path /LOCAL/PATH/TO/dist -platform PLATFORM_TYPE",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "BuildPath", Desc: "バイナリへのフルパス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  		&{Name: "DeployPath", Desc: "デプロイ先フォルダパス(リモート)", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{
-- 			Name:    "DestPath",
-+ 			Name:    "DistPath",
-  			Desc:    "パッケージの保存先フォルダのパス(ローカル)",
-  			Default: "",
-  			... // 2 identical fields
-  		},
-  		&{Name: "Platform", Desc: "win/linux/macなどのプラットフォーム名", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
-```
-# コマンド仕様の変更: `dev ci artifact up`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "dev ci artifact up",
-  	CliArgs: strings.Join({
-  		"-dropbox-path /DROPBOX/PATH/TO/UPLOAD -local-path /LOCAL/PATH/OF",
-  		"/ARTIFACT",
-+ 		" -timeout NUM",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev replay approve`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev replay approve",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-id JOB_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev replay recipe`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev replay recipe",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-id JOB_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev stage griddata`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev stage griddata",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-in /LOCAL/PATH/TO/INPUT.csv",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev test echo`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev test echo",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-text VALUE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev test panic`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "dev test panic",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-panic-type VALUE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `dev test setup teamsharedlink`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "dev test setup teamsharedlink",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-group GROUP_NAME -num-links-per-member NUM -query QUERY",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file paper append`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "file paper append",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"path /DROPBOX/PATH/TO/append",
-+ 		"content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/APPEND",
-  		".paper",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file paper create`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "file paper create",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"path /DROPBOX/PATH/TO/create",
-+ 		"content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/CREATE",
-  		".paper",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file paper overwrite`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "file paper overwrite",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"path /DROPBOX/PATH/TO/overwrite",
-+ 		"content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/OVERWRIT",
-+ 		"E",
-  		".paper",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file paper prepend`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "file paper prepend",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"path /DROPBOX/PATH/TO/prepend",
-+ 		"content /LOCAL/PATH/TO/INPUT.txt -path /DROPBOX/PATH/TO/PREPEND",
-  		".paper",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file revision download`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "file revision download",
-  	CliArgs: strings.Join({
-  		"-local-path /LOCAL/PATH/TO/DOWNLOAD",
-+ 		" -revision REVISION",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file revision restore`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "file revision restore",
-- 	CliArgs:         "-path /DROPBOX/PATH/TO/RESTORE",
-+ 	CliArgs:         "-path /DROPBOX/PATH/TO/RESTORE -revision REVISION",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file search content`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "file search content",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-query QUERY",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file search name`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "file search name",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-query QUERY",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `file share info`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "file share info",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-path /DROPBOX/PATH/TO/GET_INFO",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			Name:     "Path",
-  			Desc:     "ファイル",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "domain.dropbox.model.mo_path.dropbox_path_impl",
-  			TypeAttr: nil,
-  		},
-  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
-```
-# コマンド仕様の変更: `filerequest create`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "(非可逆な操作です)",
-  	Path:    "filerequest create",
-  	CliArgs: strings.Join({
-  		"-path /DROPBOX/PATH/OF/FILE",
-+ 		"_",
-  		"REQUEST",
-+ 		" -title TITLE",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `filerequest delete url`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "filerequest delete url",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-url URL",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Force", Desc: "ファイリクエストを強制的に削除する.", Default: "false", TypeName: "bool", ...},
-  		&{Name: "Peer", Desc: "アカウントの別名", Default: "default", TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_individual", ...},
-  		&{
-  			Name:     "Url",
-  			Desc:     "ファイルリクエストのURL",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "domain.dropbox.model.mo_url.url_impl",
-  			TypeAttr: nil,
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
-```
-# コマンド仕様の変更: `group add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "group add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-name グループ名",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `group member add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "group member add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-group-name GROUP_NAME -member-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `group member delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "group member delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-group-name GROUP_NAME -member-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `group rename`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "group rename",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-current-name CURRENT_NAME -new-name NEW_NAME",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `job log jobid`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "job log jobid",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-id JOB_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `member file lock all release`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "member file lock all release",
-  	CliArgs: strings.Join({
-  		"-",
-+ 		"member-email VALUE -",
-  		"path /DROPBOX/PATH/TO/RELEASE/LOCK",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `member file lock list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "member file lock list",
-- 	CliArgs:         "-path /DROPBOX/PATH/TO/LIST",
-+ 	CliArgs:         "-member-email EMAIL -path /DROPBOX/PATH/TO/LIST_LOCK",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `member file lock release`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "member file lock release",
-  	CliArgs: strings.Join({
-  		"-",
-+ 		"member-email VALUE -",
-  		"path /DROPBOX/PATH/TO/RELEASE/LOCK",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `member file permdelete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "(試験的実装かつ非可逆な操作です)",
-  	Path:    "member file permdelete",
-  	CliArgs: strings.Join({
-  		"-",
-+ 		"member-email EMAIL -",
-  		"path /DROPBOX/PATH/TO/",
-- 		"PERM_",
-  		"DELETE",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `member suspend`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "member suspend",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `member unsuspend`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "member unsuspend",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github content get`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services github content get",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-owner OWNER -repository REPOSITORY -path PATH",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github content put`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services github content put",
-- 	CliArgs:         "-content /LOCAL/PATH/TO/content",
-+ 	CliArgs:         " -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github issue list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(試験的実装です)",
-  	Path:            "services github issue list",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-owner OWNER -repository REPO",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github release asset download`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(試験的実装です)",
-  	Path:            "services github release asset download",
-- 	CliArgs:         "-path /LOCAL/PATH/TO/DOWNLOAD",
-+ 	CliArgs:         "-owner OWNER -repository REPO -path /LOCAL/PATH/TO/DOWNLOAD -release RELEASE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github release asset list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(試験的実装です)",
-  	Path:            "services github release asset list",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-owner OWNER -repository REPO -release RELEASE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github release asset upload`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(試験的実装かつ非可逆な操作です)",
-  	Path:            "services github release asset upload",
-- 	CliArgs:         "-asset /LOCAL/PATH/TO/assets",
-+ 	CliArgs:         "-owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github release draft`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "(試験的実装かつ非可逆な操作です)",
-  	Path:    "services github release draft",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"body-file /LOCAL/PATH/TO/body.txt",
-+ 		"owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt ",
-+ 		"-branch BRANCH -name NAME -tag TAG",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github release list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(試験的実装です)",
-  	Path:            "services github release list",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-owner OWNER -repository REPO",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services github tag create`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(試験的実装かつ非可逆な操作です)",
-  	Path:            "services github tag create",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-owner OWNER -repository REPO -sha1 SHA -tag TAG",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail filter delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail filter delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-id ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail label add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail label add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-name NAME",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail label delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail label delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-name NAME",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail label rename`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail label rename",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-current-name CURRENT_NAME -new-name NEW_NAME",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail message label add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail message label add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-label LABEL -message-id MSG_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail message label delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail message label delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-label LABEL -message-id MSG_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail message send`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "services google mail message send",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-body /LOCAL/PATH/TO/INPUT.txt -subject SUBJECT -to TO",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail sendas add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail sendas add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google mail sendas delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google mail sendas delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google sheets sheet append`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google sheets sheet append",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-data /LOCAL/PATH/TO/INPUT.csv -id GOOGLE_SHEET_ID -range RANGE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google sheets sheet clear`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google sheets sheet clear",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-id GOOGLE_SPREADSHEET_ID -range RANGE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google sheets sheet export`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google sheets sheet export",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-id GOOGLE_SPREADSHEET_ID -range RANGE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google sheets sheet import`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google sheets sheet import",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-data /LOCAL/PATH/TO/INPUT.csv -id VALUE -range VALUE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google sheets sheet list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google sheets sheet list",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-id GOOGLE_SPREADSHEET_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `services google sheets spreadsheet create`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "services google sheets spreadsheet create",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-title TITLE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `sharedfolder leave`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "sharedfolder leave",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-shared-folder-id SHARED_FOLDER_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `sharedfolder member add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "sharedfolder member add",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"path /SHARED_FOLDER",
-+ 		"email EMAIL -path /DROPBOX",
-  		"/PATH/TO/ADD",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `sharedfolder member delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "sharedfolder member delete",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"path /SHARED_FOLDER",
-+ 		"email EMAIL -path /DROPBOX",
-  		"/PATH/TO/DELETE",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `sharedfolder mount add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "sharedfolder mount add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-shared-folder-id SHARED_FOLDER_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `sharedfolder mount delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "sharedfolder mount delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-shared-folder-id SHARED_FOLDER_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: true,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team activity daily event`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team activity daily event",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-start-date DATE",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team admin group role add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team admin group role add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-group GROUP_NAME -role-id ROLE_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team admin group role delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team admin group role delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-exception-group GROUP_NAME -role-id ROLE_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team admin role add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team admin role add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-email EMAIL -role-id ROLE_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team admin role clear`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team admin role clear",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team admin role delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team admin role delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-email EMAIL -role-id ROLE_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team runas sharedfolder list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team runas sharedfolder list",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-member-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team runas sharedfolder mount add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team runas sharedfolder mount add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-member-email EMAIL -shared-folder-id SHARED_FOLDER_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team runas sharedfolder mount delete`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team runas sharedfolder mount delete",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-member-email EMAIL -shared-folder-id SHARED_FOLDER_ID",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team runas sharedfolder mount list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team runas sharedfolder mount list",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-member-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team runas sharedfolder mount mountable`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "team runas sharedfolder mount mountable",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-member-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `team sharedlink delete member`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "team sharedlink delete member",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-member-email EMAIL",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `teamfolder add`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(非可逆な操作です)",
-  	Path:            "teamfolder add",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-name NAME",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `teamfolder archive`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 16 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Name", Desc: "チームフォルダ名", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.dropbox.api.dbx_conn_impl.conn_scoped_team",
-  			TypeAttr: []any{
-- 				string("team_data.team_space"),
-+ 				string("team_data.content.read"),
-+ 				string("team_data.content.write"),
-  			},
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
-```
-# コマンド仕様の変更: `teamfolder file lock all release`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "teamfolder file lock all release",
-  	CliArgs: strings.Join({
-  		"-path /DROPBOX/PATH/TO/RELEASE",
-- 		"/LOCK",
-+ 		" -team-folder NAME",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `teamfolder file lock list`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "teamfolder file lock list",
-- 	CliArgs:         "-path /DROPBOX/PATH/TO/LIST",
-+ 	CliArgs:         "-path /DROPBOX/PATH/TO/LIST -team-folder NAME",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `teamfolder file lock release`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "teamfolder file lock release",
-  	CliArgs: strings.Join({
-  		"-path /DROPBOX/PATH/TO/RELEASE",
-- 		"/LOCK",
-+ 		" -team-folder NAME",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `teamfolder replication`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "(試験的実装かつ非可逆な操作です)",
-  	Path:            "teamfolder replication",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-name NAME",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `util decode base32`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "util decode base32",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-text /LOCAL/PATH/TO/INPUT.txt",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "NoPadding", Desc: "パディングなし", Default: "false", TypeName: "bool", ...},
-  		&{
-  			Name:     "Text",
-  			Desc:     "テキスト",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "Text",
-  			TypeAttr: nil,
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      []*dc_recipe.DocTextInput{},
-+ 	TextInput:      []*dc_recipe.DocTextInput{&{Name: "Text", Desc: "デコードするテキスト"}},
-  	JsonInput:      {},
-  }
-```
-# コマンド仕様の変更: `util decode base64`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "util decode base64",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-text /LOCAL/PATH/TO/INPUT.txt",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "NoPadding", Desc: "パディングなし", Default: "false", TypeName: "bool", ...},
-  		&{
-  			Name:     "Text",
-  			Desc:     "テキスト",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "Text",
-  			TypeAttr: nil,
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      []*dc_recipe.DocTextInput{},
-+ 	TextInput:      []*dc_recipe.DocTextInput{&{Name: "Text", Desc: "デコードするテキスト"}},
-  	JsonInput:      {},
-  }
-```
-# コマンド仕様の変更: `util encode base32`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "util encode base32",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-text /LOCAL/PATH/TO/INPUT.txt",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "NoPadding", Desc: "パディングなし", Default: "false", TypeName: "bool", ...},
-  		&{
-  			Name:     "Text",
-  			Desc:     "テキスト",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "Text",
-  			TypeAttr: nil,
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      []*dc_recipe.DocTextInput{},
-+ 	TextInput:      []*dc_recipe.DocTextInput{&{Name: "Text", Desc: "エンコードするテキスト"}},
-  	JsonInput:      {},
-  }
-```
-# コマンド仕様の変更: `util encode base64`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks:         "",
-  	Path:            "util encode base64",
-- 	CliArgs:         "",
-+ 	CliArgs:         "-text /LOCAL/PATH/TO/INPUT.txt",
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "NoPadding", Desc: "パディングなし", Default: "false", TypeName: "bool", ...},
-  		&{
-  			Name:     "Text",
-  			Desc:     "テキスト",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "Text",
-  			TypeAttr: nil,
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      []*dc_recipe.DocTextInput{},
-+ 	TextInput:      []*dc_recipe.DocTextInput{&{Name: "Text", Desc: "デコードするテキスト"}},
-  	JsonInput:      {},
-  }
-```
-# コマンド仕様の変更: `util qrcode create`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "util qrcode create",
-  	CliArgs: strings.Join({
-  		"-out /LOCAL/PATH/TO/",
-- 		"create_qrcode.png",
-+ 		"OUT.png -text /LOCAL/PATH/TO/INPUT.txt",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 8 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 2 identical elements
-  		&{Name: "Out", Desc: "ファイル名付きの出力パス", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  		&{Name: "Size", Desc: "画像解像度(ピクセル)", Default: "256", TypeName: "essentials.model.mo_int.range_int", ...},
-  		&{
-  			Name:     "Text",
-  			Desc:     "テキストデータ",
-  			Default:  "",
-- 			TypeName: "string",
-+ 			TypeName: "Text",
-  			TypeAttr: nil,
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-- 	TextInput:      []*dc_recipe.DocTextInput{},
-+ 	TextInput:      []*dc_recipe.DocTextInput{&{Name: "Text", Desc: "テキスト"}},
-  	JsonInput:      {},
-  }
-```
-# コマンド仕様の変更: `util qrcode wifi`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "util qrcode wifi",
-  	CliArgs: strings.Join({
-  		"-out /LOCAL/PATH/TO/",
-- 		"create_qrcode.png",
-+ 		"OUT.png -ssid SSID",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `util xlsx create`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "util xlsx create",
-  	CliArgs: strings.Join({
-  		"-file /LOCAL/PATH/TO/",
-- 		"create.xlsx",
-+ 		"CREATE.xlsx -sheet SHEET_NAME",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `util xlsx sheet export`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "util xlsx sheet export",
-  	CliArgs: strings.Join({
-  		"-file /LOCAL/PATH/TO/",
-- 		"export.xlsx",
-+ 		"EXPORT.xlsx -sheet SHEET_NAME",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```
-# コマンド仕様の変更: `util xlsx sheet import`
-
-## 設定が変更されたコマンド
-
-```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "util xlsx sheet import",
-  	CliArgs: strings.Join({
-  		"-",
-- 		"file /LOCAL/PATH/TO/import.xlsx",
-+ 		"data /LOCAL/PATH/TO/INPUT.csv -file /LOCAL/PATH/TO/TARGET.xlsx -",
-+ 		"sheet SHEET_NAME",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 15 identical fields
-  }
-```

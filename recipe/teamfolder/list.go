@@ -11,17 +11,21 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 type List struct {
-	Peer       dbx_conn.ConnScopedTeam
-	TeamFolder rp_model.RowReport
+	Peer                       dbx_conn.ConnScopedTeam
+	TeamFolder                 rp_model.RowReport
+	ErrorTeamSpaceNotSupported app_msg.Message
 }
 
 func (z *List) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
 	)
 	z.TeamFolder.SetModel(
 		&mo_teamfolder.TeamFolder{},
@@ -44,6 +48,11 @@ func (z *List) Test(c app_control.Control) error {
 }
 
 func (z *List) Exec(c app_control.Control) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	folders, err := sv_teamfolder.New(z.Peer.Context()).List()
 	if err != nil {
 		// ApiError will be reported by infra
