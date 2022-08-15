@@ -820,6 +820,7 @@
   "infra.doc.dc_supplemental.experimental_feature_definitions.dbx_client_conditioner_narrow100.desc": "Simulate rate limit errors. 100% of requests will fail with rate limitation.",
   "infra.doc.dc_supplemental.experimental_feature_definitions.dbx_client_conditioner_narrow20.desc": "Simulate rate limit errors. 20% of requests will fail with rate limitation.",
   "infra.doc.dc_supplemental.experimental_feature_definitions.dbx_client_conditioner_narrow40.desc": "Simulate rate limit errors. 40% of requests will fail with rate limitation.",
+  "infra.doc.dc_supplemental.experimental_feature_definitions.dbx_download_block.desc": "Download file divide by blocks (improve concurrency)",
   "infra.doc.dc_supplemental.experimental_feature_definitions.file_sync_disable_reduce_create_folder.desc": "Disable reduce create_folder on syncing file systems. That will create empty folder while syncing folders.",
   "infra.doc.dc_supplemental.experimental_feature_definitions.kvs_sqlite.desc": "Use Sqlite3 as KVS engine (requires SQLite3)",
   "infra.doc.dc_supplemental.experimental_feature_definitions.legacy_local_to_dbx_connector.desc": "Use legacy local to dropbox sync connector",

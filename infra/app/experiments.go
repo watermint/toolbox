@@ -40,6 +40,9 @@ const (
 
 	// ExperimentKvsSqlite Use SQLite as KVS engine
 	ExperimentKvsSqlite = "kvs_sqlite"
+
+	// ExperimentDbxDownloadBlock download by block
+	ExperimentDbxDownloadBlock = "dbx_download_block"
 )
 
 var (
@@ -56,6 +59,7 @@ var (
 		ExperimentDbxClientConditionerNarrow100,
 		ExperimentDbxClientConditionerNarrow20,
 		ExperimentDbxClientConditionerNarrow40,
+		ExperimentDbxDownloadBlock,
 		ExperimentFileSyncDisableReduceCreateFolder,
 		ExperimentFileSyncLegacyLocalToDropboxConnector,
 		ExperimentFileSyncNoCacheDropboxFileSystem,

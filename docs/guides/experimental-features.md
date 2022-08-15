@@ -22,6 +22,7 @@ The experimental feature switch is for testing or accessing early access feature
 | dbx_client_conditioner_narrow100       | Simulate rate limit errors. 100% of requests will fail with rate limitation.                               |
 | dbx_client_conditioner_narrow20        | Simulate rate limit errors. 20% of requests will fail with rate limitation.                                |
 | dbx_client_conditioner_narrow40        | Simulate rate limit errors. 40% of requests will fail with rate limitation.                                |
+| dbx_download_block                     | Download file divide by blocks (improve concurrency)                                                       |
 | file_sync_disable_reduce_create_folder | Disable reduce create_folder on syncing file systems. That will create empty folder while syncing folders. |
 | legacy_local_to_dbx_connector          | Use legacy local to dropbox sync connector                                                                 |
 | use_no_cache_dbxfs                     | Use non-cache dropbox file system                                                                          |

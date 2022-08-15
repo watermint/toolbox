@@ -14,8 +14,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -94,12 +94,11 @@ func (z *Download) Exec(c app_control.Control) error {
 	srcFs := filesystem.NewFileSystem(z.Context)
 	tgtFs := es_filesystem_local.NewFileSystem()
 	var conn es_filesystem.Connector
-	if c.Feature().BudgetMemory() == app_opt.BudgetLow {
-		l.Debug("Use low memory connector")
-		conn = dfs_dbx_to_local.NewDropboxToLocal(z.Context)
-	} else {
+	if c.Feature().Experiment(app.ExperimentDbxDownloadBlock) {
 		l.Debug("Use range request copier")
 		conn = dfs_dbx_to_local_block.NewDropboxToLocal(z.Context)
+	} else {
+		conn = dfs_dbx_to_local.NewDropboxToLocal(z.Context)
 	}
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
