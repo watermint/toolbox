@@ -58,6 +58,11 @@ func (z *To) Exec(c app_control.Control) error {
 }
 
 func (z *To) Test(c app_control.Control) error {
+	// skip on production
+	if c.Feature().IsProduction() {
+		return nil
+	}
+
 	p, err := qt_file.MakeTestFolder("encoding", false)
 	if err != nil {
 		return err
