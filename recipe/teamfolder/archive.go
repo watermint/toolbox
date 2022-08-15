@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"strings"
 )
 
@@ -21,16 +22,23 @@ type Archive struct {
 	ErrorUnableToResolveTeamfolder app_msg.Message
 	ErrorUnableToArchiveTeamfolder app_msg.Message
 	SuccessArchived                app_msg.Message
+	ErrorTeamSpaceNotSupported     app_msg.Message
 }
 
 func (z *Archive) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeTeamDataContentRead,
 		dbx_auth.ScopeTeamDataContentWrite,
+		dbx_auth.ScopeTeamInfoRead,
 	)
 }
 
 func (z *Archive) Exec(c app_control.Control) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	ui := c.UI()
 
 	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()

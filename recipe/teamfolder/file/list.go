@@ -1,20 +1,24 @@
 package file
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
 	namespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type List struct {
-	Peer     dbx_conn.ConnScopedTeam
-	FileList *namespacefile.List
-	Folder   mo_filter.Filter
+	Peer                       dbx_conn.ConnScopedTeam
+	FileList                   *namespacefile.List
+	Folder                     mo_filter.Filter
+	ErrorTeamSpaceNotSupported app_msg.Message
 }
 
 func (z *List) Preset() {
@@ -33,6 +37,11 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	return rc_exec.Exec(c, z.FileList, func(r rc_recipe.Recipe) {
 		rc := r.(*namespacefile.List)
 		rc.IncludeTeamFolder = true

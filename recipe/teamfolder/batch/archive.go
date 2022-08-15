@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"strings"
 )
@@ -25,9 +26,15 @@ type Archive struct {
 	OperationLog                          rp_model.TransactionReport
 	Peer                                  dbx_conn.ConnScopedTeam
 	ProgressArchiveFolder                 app_msg.Message
+	ErrorTeamSpaceNotSupported            app_msg.Message
 }
 
 func (z *Archive) Exec(c app_control.Control) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	ui := c.UI()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
@@ -81,6 +88,7 @@ func (z *Archive) Test(c app_control.Control) error {
 func (z *Archive) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeTeamDataTeamSpace,
+		dbx_auth.ScopeTeamInfoRead,
 	)
 	z.File.SetModel(&TeamFolderName{})
 	z.OperationLog.SetModel(&TeamFolderName{}, &mo_teamfolder.TeamFolder{},

@@ -1,6 +1,7 @@
 package lock
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
@@ -13,6 +14,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
@@ -21,10 +24,11 @@ type PathLock struct {
 }
 
 type Release struct {
-	Peer         dbx_conn.ConnScopedTeam
-	TeamFolder   string
-	Path         mo_path.DropboxPath
-	OperationLog rp_model.TransactionReport
+	Peer                       dbx_conn.ConnScopedTeam
+	TeamFolder                 string
+	Path                       mo_path.DropboxPath
+	OperationLog               rp_model.TransactionReport
+	ErrorTeamSpaceNotSupported app_msg.Message
 }
 
 func (z *Release) Preset() {
@@ -53,6 +57,11 @@ func (z *Release) Preset() {
 }
 
 func (z *Release) Exec(c app_control.Control) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}

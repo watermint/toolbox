@@ -1,6 +1,7 @@
 package partial
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
@@ -13,18 +14,21 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 )
 
 type Replication struct {
 	rc_recipe.RemarkIrreversible
-	Src                      dbx_conn.ConnScopedTeam
-	Dst                      dbx_conn.ConnScopedTeam
-	SrcTeamFolderName        string
-	DstTeamFolderName        string
-	SrcPath                  mo_path.DropboxPath
-	DstPath                  mo_path.DropboxPath
-	ErrSrcTeamFolderNotFound app_msg.Message
-	ErrDstTeamFolderNotFound app_msg.Message
+	Src                           dbx_conn.ConnScopedTeam
+	Dst                           dbx_conn.ConnScopedTeam
+	SrcTeamFolderName             string
+	DstTeamFolderName             string
+	SrcPath                       mo_path.DropboxPath
+	DstPath                       mo_path.DropboxPath
+	ErrSrcTeamFolderNotFound      app_msg.Message
+	ErrDstTeamFolderNotFound      app_msg.Message
+	ErrorTeamSpaceNotSupportedSrc app_msg.Message
+	ErrorTeamSpaceNotSupportedDst app_msg.Message
 }
 
 func (z *Replication) Preset() {
@@ -48,6 +52,15 @@ func (z *Replication) Preset() {
 }
 
 func (z *Replication) Exec(c app_control.Control) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Src.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupportedSrc)
+		return errors.New("team space is not supported by this command")
+	}
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Dst.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupportedDst)
+		return errors.New("team space is not supported by this command")
+	}
+
 	l := c.Log()
 	ui := c.UI()
 	srcAdmin, err := sv_profile.NewTeam(z.Src.Context()).Admin()

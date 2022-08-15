@@ -1,6 +1,7 @@
 package policy
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
@@ -12,13 +13,16 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/ingredient/teamfolder"
 )
 
 type List struct {
-	Peer        dbx_conn.ConnScopedTeam
-	Policy      rp_model.RowReport
-	Folder      mo_filter.Filter
-	ScanTimeout mo_string.SelectString
+	Peer                       dbx_conn.ConnScopedTeam
+	Policy                     rp_model.RowReport
+	Folder                     mo_filter.Filter
+	ScanTimeout                mo_string.SelectString
+	ErrorTeamSpaceNotSupported app_msg.Message
 }
 
 func (z *List) Preset() {
@@ -49,6 +53,11 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+		c.UI().Error(z.ErrorTeamSpaceNotSupported)
+		return errors.New("team space is not supported by this command")
+	}
+
 	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Context(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
