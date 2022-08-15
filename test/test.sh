@@ -11,10 +11,11 @@ touch resources/keys/toolbox.build
 mkdir -p $TEST_RESULTS
 mkdir -p $TEST_DEBUG
 
-echo TEST: Run tests
 if [ "$TEST_PACKAGES"x != ""x ]; then
+  echo TEST: Run tests: $TEST_TEST_PACKAGES
   go test -v -short -timeout 30s -covermode=atomic -coverprofile=$TEST_PROFILE $TEST_PACKAGES >"$TEST_OUT" 2>"$TEST_ERR"
 else
+  echo TEST: Run tests: all packages
   go test -v -short -timeout 30s -covermode=atomic -coverprofile=$TEST_PROFILE ./... >"$TEST_OUT" 2>"$TEST_ERR"
 fi
 TEST_EXIT_CODE=$?
