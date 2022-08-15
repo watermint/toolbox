@@ -31,6 +31,7 @@ jobs:
         auth:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_PASSWORD
+    parallelism: 3
     steps:
       - checkout
       - run: shasum -a 256 go.mod > go.mod.sum
@@ -38,6 +39,7 @@ jobs:
           key: test-mod-{{ checksum "go.mod.sum" }}
       - run: mkdir -p test/results
       - run: go get golang.org/x/tools/cmd/cover
+      - run: export TEST_PACKAGES=$(go list ./... | circleci tests split --split-by=timings)
       - run: bash ./test/test.sh
       - save_cache:
           key: test-mod-{{ checksum "go.mod.sum" }}

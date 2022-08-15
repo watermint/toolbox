@@ -12,7 +12,11 @@ mkdir -p $TEST_RESULTS
 mkdir -p $TEST_DEBUG
 
 echo TEST: Run tests
-go test -v -short -timeout 30s -covermode=atomic -coverprofile=$TEST_PROFILE ./... >"$TEST_OUT" 2>"$TEST_ERR"
+if [ "$TEST_PACKAGES"x != ""x ]; then
+  go test -v -short -timeout 30s -covermode=atomic -coverprofile=$TEST_PROFILE $TEST_PACKAGES >"$TEST_OUT" 2>"$TEST_ERR"
+else
+  go test -v -short -timeout 30s -covermode=atomic -coverprofile=$TEST_PROFILE ./... >"$TEST_OUT" 2>"$TEST_ERR"
+fi
 TEST_EXIT_CODE=$?
 
 if [ $TEST_EXIT_CODE -ne 0 ]; then
