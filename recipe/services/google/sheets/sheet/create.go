@@ -15,6 +15,8 @@ type Create struct {
 	Peer    goog_conn.ConnGoogleSheets
 	Id      string
 	Title   string
+	Cols    int
+	Rows    int
 	Created rp_model.RowReport
 }
 
@@ -23,6 +25,8 @@ func (z *Create) Preset() {
 	z.Created.SetModel(
 		&bo_sheet.Sheet{},
 	)
+	z.Cols = 26
+	z.Rows = 1000
 }
 
 func (z *Create) Exec(c app_control.Control) error {
@@ -30,7 +34,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		return err
 	}
 
-	sheet, err := sv_sheet.New(z.Peer.Context()).Create(z.Id, z.Title)
+	sheet, err := sv_sheet.New(z.Peer.Context()).Create(z.Id, z.Title, z.Cols, z.Rows)
 	if err != nil {
 		return err
 	}

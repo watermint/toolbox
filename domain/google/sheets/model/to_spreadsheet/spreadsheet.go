@@ -28,16 +28,27 @@ func IsValidSpreadsheetId(id string) bool {
 	return SpreadsheetIdPattern.MatchString(id)
 }
 
+type BatchUpdateRequestGridProperties struct {
+	RowCount    *int `json:"rowCount"`
+	ColumnCount *int `json:"columnCount"`
+}
+
 type BatchUpdateRequestAddSheetProperties struct {
-	Title string `json:"title,omitempty"`
+	Title          string                            `json:"title,omitempty"`
+	GridProperties *BatchUpdateRequestGridProperties `json:"gridProperties,omitempty"`
 }
 
 type BatchUpdateRequestAddSheet struct {
 	Properties BatchUpdateRequestAddSheetProperties `json:"properties"`
 }
 
+type BatchUpdateRequestDeleteSheet struct {
+	SheetId string `json:"sheetId"`
+}
+
 type BatchUpdateRequest struct {
-	AddSheet *BatchUpdateRequestAddSheet `json:"addSheet,omitempty"`
+	AddSheet    *BatchUpdateRequestAddSheet    `json:"addSheet,omitempty"`
+	DeleteSheet *BatchUpdateRequestDeleteSheet `json:"deleteSheet,omitempty"`
 }
 
 type BatchUpdate struct {

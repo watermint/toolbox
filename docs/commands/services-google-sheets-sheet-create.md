@@ -23,7 +23,6 @@ You can delete those files after use if you want to remove it. If you want to ma
 application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * Google: https://support.google.com/accounts/answer/3466521
 
 ## Auth scopes
@@ -37,7 +36,6 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your Google account. Please copy the link and paste it into
 your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
 copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -70,14 +68,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe services google sheets sheet create -id SPREADSHEET_ID -title TITLE
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx services google sheets sheet create -id SPREADSHEET_ID -title TITLE
 ```
@@ -93,11 +89,13 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option   | Description    | Default                                                         |
-|----------|----------------|-----------------------------------------------------------------|
-| `-id`    | Spreadsheet ID |                                                                 |
-| `-peer`  | Account alias  | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
-| `-title` | Sheet title    |                                                                 |
+| Option   | Description       | Default                                                         |
+|----------|-------------------|-----------------------------------------------------------------|
+| `-cols`  | Number of columns | 26                                                              |
+| `-id`    | Spreadsheet ID    |                                                                 |
+| `-peer`  | Account alias     | &{default [https://www.googleapis.com/auth/spreadsheets] <nil>} |
+| `-rows`  | Number of rows    | 1000                                                            |
+| `-title` | Sheet title       |                                                                 |
 
 ## Common options:
 
