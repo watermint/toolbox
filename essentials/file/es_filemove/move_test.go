@@ -101,10 +101,11 @@ func TestMove(t *testing.T) {
 		target1Text := "target1-content"
 
 		if err := createFile(target1Path, target1Text, target1Mode, target1Time); err != nil {
+			t.Error(err)
 			return
 		}
 
-		// Success case
+		// Success case: regular move
 		success1Path := filepath.Join(path, "success1.txt")
 		if err := Move(target1Path, success1Path); err != nil {
 			t.Error(err)
@@ -124,6 +125,26 @@ func TestMove(t *testing.T) {
 		// Error case not found
 		if err := Move(target1Path, success1Path); err == nil {
 			t.Error("not found was not reported")
+			return
+		}
+
+		// Prepare symlink
+		link1Path := filepath.Join(path, "link1.txt")
+		if err := os.Symlink(success1Path, link1Path); err != nil {
+			t.Error(err)
+			return
+		}
+
+		success2Path := filepath.Join(path, "success2.txt")
+		if err := Move(link1Path, success2Path); err != nil {
+			t.Error(err)
+			return
+		}
+		if link, err := os.Readlink(success2Path); err != nil {
+			t.Error(err)
+			return
+		} else if link != success1Path {
+			t.Error(link, success1Path)
 			return
 		}
 	})
