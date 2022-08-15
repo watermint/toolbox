@@ -27,3 +27,19 @@ var (
 func IsValidSpreadsheetId(id string) bool {
 	return SpreadsheetIdPattern.MatchString(id)
 }
+
+type BatchUpdateRequestAddSheetProperties struct {
+	Title string `json:"title,omitempty"`
+}
+
+type BatchUpdateRequestAddSheet struct {
+	Properties BatchUpdateRequestAddSheetProperties `json:"properties"`
+}
+
+type BatchUpdateRequest struct {
+	AddSheet *BatchUpdateRequestAddSheet `json:"addSheet,omitempty"`
+}
+
+type BatchUpdate struct {
+	Requests []BatchUpdateRequest `json:"requests,omitempty"`
+}
