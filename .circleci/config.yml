@@ -61,7 +61,7 @@ workflows:
       - build:
           target: win
       - build:
-          target: darwin
+          target: mac
       - build:
-          target: darwin-arm
+          target: mac-arm
       - test
