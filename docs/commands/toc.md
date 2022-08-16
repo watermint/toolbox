@@ -207,6 +207,7 @@ lang: en
 | [services github release draft]({{ site.baseurl }}/commands/services-github-release-draft.html)                   | Create release draft                                |
 | [services github release list]({{ site.baseurl }}/commands/services-github-release-list.html)                     | List releases                                       |
 | [services github tag create]({{ site.baseurl }}/commands/services-github-tag-create.html)                         | Create a tag on the repository                      |
+| [util release install]({{ site.baseurl }}/commands/util-release-install.html)                                     | Download & install watermint toolbox to the path    |
 
 ## Google Calendar
 

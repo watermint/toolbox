@@ -285,6 +285,7 @@ Available commands:
 | [services github release draft](docs/commands/services-github-release-draft.md)                   | Create release draft                                |
 | [services github release list](docs/commands/services-github-release-list.md)                     | List releases                                       |
 | [services github tag create](docs/commands/services-github-tag-create.md)                         | Create a tag on the repository                      |
+| [util release install](docs/commands/util-release-install.md)                                     | Download & install watermint toolbox to the path    |
 
 ## Google Calendar
 

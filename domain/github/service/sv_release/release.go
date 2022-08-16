@@ -15,6 +15,7 @@ var (
 type Release interface {
 	Get(tagName string) (release *mo_release.Release, err error)
 	List() (releases []*mo_release.Release, err error)
+	Latest() (release *mo_release.Release, err error)
 	CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error)
 	Publish(releaseId string) (release *mo_release.Release, err error)
 }
@@ -31,6 +32,17 @@ type releaseImpl struct {
 	ctx   gh_context.Context
 	owner string
 	repo  string
+}
+
+func (z *releaseImpl) Latest() (release *mo_release.Release, err error) {
+	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/latest"
+	res := z.ctx.Get(endpoint)
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	release = &mo_release.Release{}
+	err = res.Success().Json().Model(release)
+	return
 }
 
 func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err error) {
