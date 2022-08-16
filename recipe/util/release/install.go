@@ -19,6 +19,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io"
 	"os"
+	"os/user"
 	"path/filepath"
 	"runtime"
 	"strings"
@@ -38,6 +39,7 @@ type InstallData struct {
 	Installed              *mo_release_asset.Asset `json:"installed"`
 	LicenseAccepted        bool
 	LicenseAcceptTimestamp string
+	LicenseAcceptedBy      string
 }
 
 type Install struct {
@@ -229,11 +231,19 @@ func (z *Install) Exec(c app_control.Control) error {
 		return err
 	}
 
+	var licenseAcceptedBy string
+	if usr, err := user.Current(); err != nil {
+		licenseAcceptedBy = "unknown"
+	} else {
+		licenseAcceptedBy = usr.Username
+	}
+
 	// write install state file
 	installedStateContent, err := json.Marshal(&InstallData{
 		Installed:              asset,
 		LicenseAccepted:        z.AcceptLicenseAgreement,
 		LicenseAcceptTimestamp: time.Now().Format(time.RFC3339),
+		LicenseAcceptedBy:      licenseAcceptedBy,
 	})
 	if err != nil {
 		l.Debug("Unable to create state file", esl.Error(err))
