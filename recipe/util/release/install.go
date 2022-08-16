@@ -22,6 +22,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"strings"
+	"time"
 )
 
 const (
@@ -34,7 +35,9 @@ var (
 )
 
 type InstallData struct {
-	Installed *mo_release_asset.Asset `json:"installed"`
+	Installed              *mo_release_asset.Asset `json:"installed"`
+	LicenseAccepted        bool
+	LicenseAcceptTimestamp string
 }
 
 type Install struct {
@@ -228,7 +231,9 @@ func (z *Install) Exec(c app_control.Control) error {
 
 	// write install state file
 	installedStateContent, err := json.Marshal(&InstallData{
-		Installed: asset,
+		Installed:              asset,
+		LicenseAccepted:        z.AcceptLicenseAgreement,
+		LicenseAcceptTimestamp: time.Now().Format(time.RFC3339),
 	})
 	if err != nil {
 		l.Debug("Unable to create state file", esl.Error(err))
