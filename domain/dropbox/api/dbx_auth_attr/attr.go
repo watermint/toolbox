@@ -26,7 +26,7 @@ func (z *Attr) PeerName() string {
 	return z.auth.PeerName()
 }
 
-func (z *Attr) Start(scopes []string) (token api_auth.Context, err error) {
+func (z *Attr) Start(scopes []string) (token api_auth.OAuthContext, err error) {
 	l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.Strings("scopes", scopes))
 	ui := z.ctl.UI()
 

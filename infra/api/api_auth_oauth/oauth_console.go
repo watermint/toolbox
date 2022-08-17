@@ -1,4 +1,4 @@
-package api_auth_impl
+package api_auth_oauth
 
 import (
 	"context"
@@ -26,24 +26,24 @@ var (
 )
 
 func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
-	return &Console{
+	return &OAuthConsole{
 		ctl:      c,
 		app:      app,
 		peerName: peerName,
 	}
 }
 
-type Console struct {
+type OAuthConsole struct {
 	ctl      app_control.Control
 	app      api_auth.OAuthApp
 	peerName string
 }
 
-func (z *Console) PeerName() string {
+func (z *OAuthConsole) PeerName() string {
 	return z.peerName
 }
 
-func (z *Console) Start(scopes []string) (tc api_auth.Context, err error) {
+func (z *OAuthConsole) Start(scopes []string) (tc api_auth.OAuthContext, err error) {
 	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.Strings("scopes", scopes))
 	ui := z.ctl.UI()
 
@@ -58,7 +58,7 @@ func (z *Console) Start(scopes []string) (tc api_auth.Context, err error) {
 	return api_auth.NewContext(t, z.app.Config(scopes), z.peerName, scopes), nil
 }
 
-func (z *Console) oauthStart(scopes []string) (*oauth2.Token, error) {
+func (z *OAuthConsole) oauthStart(scopes []string) (*oauth2.Token, error) {
 	l := z.ctl.Log()
 	l.Debug("Start OAuth sequence")
 	state := sc_random.MustGetSecureRandomString(8)
@@ -72,7 +72,7 @@ func (z *Console) oauthStart(scopes []string) (*oauth2.Token, error) {
 	return tok, nil
 }
 
-func (z *Console) oauthUrl(cfg *oauth2.Config, state, challenge string) string {
+func (z *OAuthConsole) oauthUrl(cfg *oauth2.Config, state, challenge string) string {
 	if z.app.UsePKCE() {
 		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
 		s256a32 := sha256.Sum256([]byte(challenge64))
@@ -94,7 +94,7 @@ func (z *Console) oauthUrl(cfg *oauth2.Config, state, challenge string) string {
 	}
 }
 
-func (z *Console) oauthExchange(cfg *oauth2.Config, code, challenge string) (*oauth2.Token, error) {
+func (z *OAuthConsole) oauthExchange(cfg *oauth2.Config, code, challenge string) (*oauth2.Token, error) {
 	if z.app.UsePKCE() {
 		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
 		return cfg.Exchange(context.Background(),
@@ -106,7 +106,7 @@ func (z *Console) oauthExchange(cfg *oauth2.Config, code, challenge string) (*oa
 	}
 }
 
-func (z *Console) oauthCode(state, challenge string) string {
+func (z *OAuthConsole) oauthCode(state, challenge string) string {
 	ui := z.ctl.UI()
 	for {
 		code, cancel := ui.AskText(MApiAuth.OauthSeq2)
@@ -120,7 +120,7 @@ func (z *Console) oauthCode(state, challenge string) string {
 	}
 }
 
-func (z *Console) oauthAskCode(scopes []string, state, challenge string) (*oauth2.Token, error) {
+func (z *OAuthConsole) oauthAskCode(scopes []string, state, challenge string) (*oauth2.Token, error) {
 	ui := z.ctl.UI()
 	cfg := z.app.Config(scopes)
 	url := z.oauthUrl(cfg, state, challenge)

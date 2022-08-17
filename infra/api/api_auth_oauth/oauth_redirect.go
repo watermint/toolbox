@@ -1,4 +1,4 @@
-package api_auth_impl
+package api_auth_oauth
 
 import (
 	"context"
@@ -42,7 +42,7 @@ func (z *Redirect) PeerName() string {
 	return z.peerName
 }
 
-func (z *Redirect) Start(scopes []string) (token api_auth.Context, err error) {
+func (z *Redirect) Start(scopes []string) (token api_auth.OAuthContext, err error) {
 	l := z.ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", z.peerName))
 
 	if z.ctl.Feature().IsTest() {

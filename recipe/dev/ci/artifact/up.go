@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/api_auth_oauth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -49,7 +49,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
+	a := api_auth_oauth.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
 	ctx, err := a.Start([]string{api_auth.DropboxTokenFull})
 	if err != nil {
 		l.Info("Skip operation")

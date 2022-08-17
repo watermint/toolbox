@@ -26,7 +26,7 @@ func NewMock(name string, ctl app_control.Control) work_context.Context {
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.Context) work_context.Context {
+func New(name string, ctl app_control.Control, token api_auth.OAuthContext) work_context.Context {
 	client := nw_rest.New(
 		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
 		nw_rest.Assert(api_response.AssertResponse),

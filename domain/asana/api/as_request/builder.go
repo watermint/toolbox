@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
+func NewBuilder(ctl app_control.Control, token api_auth.OAuthContext) Builder {
 	return &builderImpl{
 		ctl:   ctl,
 		token: token,
@@ -29,7 +29,7 @@ type Builder interface {
 
 type builderImpl struct {
 	ctl    app_control.Control
-	token  api_auth.Context
+	token  api_auth.OAuthContext
 	method string
 	url    string
 	limit  int

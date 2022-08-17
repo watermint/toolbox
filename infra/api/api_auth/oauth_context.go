@@ -4,7 +4,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
-func NewContext(token *oauth2.Token, cfg *oauth2.Config, peerName string, scopes []string) Context {
+func NewContext(token *oauth2.Token, cfg *oauth2.Config, peerName string, scopes []string) OAuthContext {
 	return &contextImpl{
 		cfg:      cfg,
 		token:    token,
@@ -13,7 +13,7 @@ func NewContext(token *oauth2.Token, cfg *oauth2.Config, peerName string, scopes
 	}
 }
 
-func NewContextWithAttr(c Context, cfg *oauth2.Config, desc, suppl string) Context {
+func NewContextWithAttr(c OAuthContext, cfg *oauth2.Config, desc, suppl string) OAuthContext {
 	return &contextImpl{
 		cfg:      cfg,
 		token:    c.Token(),
@@ -24,8 +24,8 @@ func NewContextWithAttr(c Context, cfg *oauth2.Config, desc, suppl string) Conte
 	}
 }
 
-// Auth context
-type Context interface {
+// OAuthContext of OAuth
+type OAuthContext interface {
 	Config() *oauth2.Config
 	Token() *oauth2.Token
 	Scopes() []string
@@ -35,7 +35,7 @@ type Context interface {
 	IsNoAuth() bool
 }
 
-func NewNoAuth() Context {
+func NewNoAuth() OAuthContext {
 	return &noAuthContext{}
 }
 

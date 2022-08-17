@@ -57,7 +57,7 @@ func (z *MockConsoleAuth) PeerName() string {
 	return z.peerName
 }
 
-func (z *MockConsoleAuth) Start(scopes []string) (token api_auth.Context, err error) {
+func (z *MockConsoleAuth) Start(scopes []string) (token api_auth.OAuthContext, err error) {
 	emptyMock := &MockContext{
 		peerName: z.peerName,
 		scopes:   scopes,

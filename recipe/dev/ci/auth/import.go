@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/api_auth_oauth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -38,7 +38,7 @@ func (z *Import) Exec(c app_control.Control) error {
 	}
 
 	pa := dbx_auth.NewMockWithPreset(z.PeerName, tokens)
-	ca := api_auth_impl.NewConsoleCache(c, pa, dbx_auth.NewLegacyApp(c))
+	ca := api_auth_oauth.NewConsoleCache(c, pa, dbx_auth.NewLegacyApp(c))
 
 	for _, scope := range Scopes {
 		if _, err := ca.Start([]string{scope}); err != nil {

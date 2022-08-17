@@ -7,12 +7,12 @@ import (
 	"strings"
 )
 
-type AuthType struct {
+type OAuthType struct {
 	Type   string   `json:"type"`
 	Scopes []string `json:"scopes"`
 }
 
-func (z AuthType) Id() string {
+func (z OAuthType) Id() string {
 	scopes := make([]string, len(z.Scopes))
 	copy(scopes[:], z.Scopes[:])
 	sort.Strings(scopes)

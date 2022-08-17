@@ -1,4 +1,4 @@
-package api_auth_impl
+package api_auth_oauth
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
@@ -15,7 +15,7 @@ func NewConsoleCacheOnly(c app_control.Control, peerName string, app api_auth.OA
 }
 
 func NewConsoleCache(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthApp) api_auth.OAuthConsole {
-	return &Cached{
+	return &OAuthFileCachedConsole{
 		app:  app,
 		ctl:  c,
 		auth: auth,
@@ -23,22 +23,22 @@ func NewConsoleCache(c app_control.Control, auth api_auth.OAuthConsole, app api_
 	}
 }
 
-type Cached struct {
+type OAuthFileCachedConsole struct {
 	app  api_auth.OAuthApp
 	ctl  app_control.Control
 	auth api_auth.OAuthConsole
 	s    sc_token.Storage
 }
 
-func (z *Cached) PeerName() string {
+func (z *OAuthFileCachedConsole) PeerName() string {
 	return z.auth.PeerName()
 }
 
-func (z *Cached) Purge(scope string) {
+func (z *OAuthFileCachedConsole) Purge(scope string) {
 	z.s.Purge(scope)
 }
 
-func (z *Cached) Start(scopes []string) (tc api_auth.Context, err error) {
+func (z *OAuthFileCachedConsole) Start(scopes []string) (tc api_auth.OAuthContext, err error) {
 	sort.Strings(scopes)
 	cacheKey := strings.Join(scopes, ",")
 	l := z.ctl.Log().With(esl.String("peerName", z.auth.PeerName()), esl.Strings("scopes", scopes))

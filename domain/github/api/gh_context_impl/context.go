@@ -31,7 +31,7 @@ func NewMock(name string, ctl app_control.Control) gh_context.Context {
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.Context) gh_context.Context {
+func New(name string, ctl app_control.Control, token api_auth.OAuthContext) gh_context.Context {
 	client := nw_rest.New(
 		nw_rest.Assert(gh_response.AssertResponse))
 	return &ctxImpl{

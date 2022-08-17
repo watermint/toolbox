@@ -51,7 +51,7 @@ func NewReplayMock(endpoint EndpointType, name string, ctl app_control.Control, 
 	}
 }
 
-func New(et EndpointType, name string, ctl app_control.Control, token api_auth.Context) goog_context.Context {
+func New(et EndpointType, name string, ctl app_control.Control, token api_auth.OAuthContext) goog_context.Context {
 	client := nw_rest.New(
 		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
 	)

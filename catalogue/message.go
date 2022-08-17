@@ -19,7 +19,7 @@ import (
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
-	infraapiapi_auth_impl "github.com/watermint/toolbox/infra/api/api_auth_impl"
+	infraapiapi_auth_oauth "github.com/watermint/toolbox/infra/api/api_auth_oauth"
 	infraapiapi_callback "github.com/watermint/toolbox/infra/api/api_callback"
 	infracontrolapp_error "github.com/watermint/toolbox/infra/control/app_error"
 	infracontrolapp_job_impl "github.com/watermint/toolbox/infra/control/app_job_impl"
@@ -74,7 +74,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&essentialslogesl_rotate.MsgRotate{},
 		&essentialsmodelmo_filter.MsgFilter{},
 		&essentialsnetworknw_diag.MsgNetwork{},
-		&infraapiapi_auth_impl.MsgApiAuth{},
+		&infraapiapi_auth_oauth.MsgApiAuth{},
 		&infraapiapi_callback.MsgCallback{},
 		&infracontrolapp_error.MsgErrorReport{},
 		&infracontrolapp_job_impl.MsgLauncher{},

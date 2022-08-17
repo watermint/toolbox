@@ -35,7 +35,7 @@ func NewReplayMock(name string, ctl app_control.Control, rr []nw_replay.Response
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.Context) as_context.Context {
+func New(name string, ctl app_control.Control, token api_auth.OAuthContext) as_context.Context {
 	client := nw_rest.New(
 		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
 	)

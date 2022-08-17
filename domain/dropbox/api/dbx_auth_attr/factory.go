@@ -3,7 +3,7 @@ package dbx_auth_attr
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/api_auth_oauth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -12,10 +12,10 @@ func NewConsole(c app_control.Control, peerName string, app api_auth.OAuthApp) a
 	var oa api_auth.OAuthConsole
 
 	// Make redirect impl. hidden for while
-	if f, found := c.Feature().OptInGet(&api_auth_impl.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
-		oa = api_auth_impl.NewConsoleRedirect(c, peerName, app)
+	if f, found := c.Feature().OptInGet(&api_auth_oauth.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
+		oa = api_auth_oauth.NewConsoleRedirect(c, peerName, app)
 	} else {
-		oa = api_auth_impl.NewConsoleOAuth(c, peerName, app)
+		oa = api_auth_oauth.NewConsoleOAuth(c, peerName, app)
 	}
 	aa := NewConsoleAttr(c, oa, app)
 	if c.Feature().IsSecure() {
@@ -23,7 +23,7 @@ func NewConsole(c app_control.Control, peerName string, app api_auth.OAuthApp) a
 		return aa
 	}
 	l.Debug("Token cache enabled")
-	ca := api_auth_impl.NewConsoleCache(c, aa, app)
+	ca := api_auth_oauth.NewConsoleCache(c, aa, app)
 	return ca
 }
 

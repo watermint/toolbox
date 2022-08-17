@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
+func NewBuilder(ctl app_control.Control, token api_auth.OAuthContext) Builder {
 	return &builderImpl{
 		disablePretty: true,
 		ctl:           ctl,
@@ -30,7 +30,7 @@ type Builder interface {
 type builderImpl struct {
 	disablePretty bool
 	ctl           app_control.Control
-	token         api_auth.Context
+	token         api_auth.OAuthContext
 	method        string
 	url           string
 	data          api_request.RequestData

@@ -3,13 +3,13 @@ package api_conn_impl
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
+	"github.com/watermint/toolbox/infra/api/api_auth_oauth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
-func Connect(scopes []string, peerName string, app api_auth.OAuthApp, ctl app_control.Control) (ctx api_auth.Context, useMock bool, err error) {
+func Connect(scopes []string, peerName string, app api_auth.OAuthApp, ctl app_control.Control) (ctx api_auth.OAuthContext, useMock bool, err error) {
 	l := ctl.Log()
 	ui := ctl.UI()
 
@@ -25,10 +25,10 @@ func Connect(scopes []string, peerName string, app api_auth.OAuthApp, ctl app_co
 		l.Debug("non console UI is not supported")
 		return nil, false, qt_errors.ErrorUnsupportedUI
 	}
-	a := api_auth_impl.NewConsoleRedirect(ctl, peerName, app)
+	a := api_auth_oauth.NewConsoleRedirect(ctl, peerName, app)
 	if !ctl.Feature().IsSecure() {
 		l.Debug("Enable cache")
-		a = api_auth_impl.NewConsoleCache(ctl, a, app)
+		a = api_auth_oauth.NewConsoleCache(ctl, a, app)
 	}
 	l.Debug("Start auth sequence", esl.Strings("scopes", scopes))
 	ctx, err = a.Start(scopes)

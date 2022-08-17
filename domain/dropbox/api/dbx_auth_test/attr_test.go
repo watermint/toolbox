@@ -22,8 +22,5 @@ func TestAttr_Auth(t *testing.T) {
 		if _, err := aa.Start([]string{api_auth.DropboxTokenFull}); err == nil {
 			t.Error("invalid")
 		}
-		if _, err := aa.Start([]string{api_auth.DropboxTokenBusinessAudit}); err == nil {
-			t.Error("invalid")
-		}
 	})
 }
