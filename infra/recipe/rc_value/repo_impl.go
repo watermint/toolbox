@@ -26,7 +26,7 @@ import (
 )
 
 var (
-	valueTypes = []rc_recipe.Value{
+	ValueTypes = []rc_recipe.Value{
 		newValueAppMsgMessage("", app_msg.Raw("")),
 		newValueAsConnAsana(dbx_conn_impl.DefaultPeerName),
 		newValueBool(),
@@ -66,7 +66,7 @@ var (
 // Find value of type.
 // Returns nil when the value type is not supported
 func valueOfType(recipe interface{}, t reflect.Type, r interface{}, name string) rc_recipe.Value {
-	for _, vt := range valueTypes {
+	for _, vt := range ValueTypes {
 		if v := vt.Accept(recipe, t, r, name); v != nil {
 			return v
 		}

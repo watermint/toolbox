@@ -23,7 +23,6 @@ You can delete those files after use if you want to remove it. If you want to ma
 application access from setting or the admin console.
 
 Please see below help article for more detail:
-
 * GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
 
 ## Auth scopes
@@ -36,7 +35,6 @@ Please see below help article for more detail:
 For the first run, `tbx` will ask you an authentication with your GitHub account. Please copy the link and paste it into
 your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please
 copy that code and paste it to the `tbx`.
-
 ```
 
 watermint toolbox xx.x.xxx
@@ -69,14 +67,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe util release install -path /LOCAL/PATH/TO/INSTALL
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx util release install -path /LOCAL/PATH/TO/INSTALL
 ```

@@ -11,5 +11,6 @@ func Docs(media dc_index.MediaType) []dc_section.Document {
 		&ExperimentalFeature{},
 		&Troubleshooting{},
 		NewDropboxBusiness(media),
+		&Developer{},
 	}
 }

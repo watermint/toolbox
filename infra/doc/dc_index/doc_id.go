@@ -29,6 +29,7 @@ const (
 	DocSupplementalExperimentalFeature
 	DocSupplementalTroubleshooting
 	DocSupplementalDropboxBusiness
+	DocSupplementalDeveloper
 )
 
 const (
@@ -69,6 +70,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
+		DocSupplementalDeveloper,
 	}
 
 	WebDocs = []DocId{
@@ -83,6 +85,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
+		DocSupplementalDeveloper,
 	}
 
 	AllMedia = []MediaType{
@@ -194,6 +197,8 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
+		case DocSupplementalDeveloper:
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "developer", lg)
 		}
 
 	case MediaWeb:
@@ -222,6 +227,8 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
+		case DocSupplementalDeveloper:
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "developer", lg)
 		}
 	}
 

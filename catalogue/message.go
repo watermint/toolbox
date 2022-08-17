@@ -82,6 +82,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradatada_json.MsgJsonInput{},
 		&infradocdc_license.MsgLicense{},
 		&infradocdc_options.MsgDoc{},
+		&infradocdc_supplemental.MsgDeveloper{},
 		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},

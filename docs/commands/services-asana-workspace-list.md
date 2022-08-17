@@ -80,9 +80,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default                  |
-|---------|---------------|--------------------------|
-| `-peer` | Account alias | &{default <nil> default} |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 ## Common options:
 

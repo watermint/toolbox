@@ -80,12 +80,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                   | Description                                                       | Default                  |
-|--------------------------|-------------------------------------------------------------------|--------------------------|
-| `-peer`                  | Account alias                                                     | &{default <nil> default} |
-| `-workspace-name`        | Name or GID of the workspace. Filter by exact match to the name.  |                          |
-| `-workspace-name-prefix` | Name or GID of the workspace. Filter by name match to the prefix. |                          |
-| `-workspace-name-suffix` | Name or GID of the workspace. Filter by name match to the suffix. |                          |
+| Option                   | Description                                                       | Default |
+|--------------------------|-------------------------------------------------------------------|---------|
+| `-peer`                  | Account alias                                                     | default |
+| `-workspace-name`        | Name or GID of the workspace. Filter by exact match to the name.  |         |
+| `-workspace-name-prefix` | Name or GID of the workspace. Filter by name match to the prefix. |         |
+| `-workspace-name-suffix` | Name or GID of the workspace. Filter by name match to the suffix. |         |
 
 ## Common options:
 
