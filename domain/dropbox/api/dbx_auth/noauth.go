@@ -9,7 +9,7 @@ var (
 	ErrorNoAuthDefined = errors.New("no auth defined")
 )
 
-func NewConsoleNoAuth(peerName string) api_auth.Console {
+func NewConsoleNoAuth(peerName string) api_auth.OAuthConsole {
 	return &NoAuth{peerName: peerName}
 }
 
@@ -21,6 +21,6 @@ func (z *NoAuth) PeerName() string {
 	return z.peerName
 }
 
-func (z *NoAuth) Auth(scopes []string) (tc api_auth.Context, err error) {
+func (z *NoAuth) Start(scopes []string) (tc api_auth.Context, err error) {
 	return nil, ErrorNoAuthDefined
 }

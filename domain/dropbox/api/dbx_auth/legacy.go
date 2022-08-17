@@ -30,7 +30,7 @@ func (z *Legacy) Config(scopes []string) *oauth2.Config {
 	}
 }
 
-func NewLegacyApp(ctl app_control.Control) api_auth.App {
+func NewLegacyApp(ctl app_control.Control) api_auth.OAuthApp {
 	a := &Legacy{
 		ctl: ctl,
 		res: api_appkey.New(ctl),

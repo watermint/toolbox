@@ -15,7 +15,7 @@ func TestOAuth_Auth(t *testing.T) {
 		if a.PeerName() != "test-oauth-auth" {
 			t.Error(a.PeerName())
 		}
-		_, err := a.Auth([]string{"test-scope"})
+		_, err := a.Start([]string{"test-scope"})
 		if err != app.ErrorUserCancelled {
 			t.Error(err)
 		}

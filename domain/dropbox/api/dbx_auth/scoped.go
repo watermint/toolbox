@@ -160,7 +160,7 @@ func (z Scoped) Config(scopes []string) *oauth2.Config {
 	}
 }
 
-func NewScopedIndividual(ctl app_control.Control) api_auth.App {
+func NewScopedIndividual(ctl app_control.Control) api_auth.OAuthApp {
 	return &Scoped{
 		appType: api_auth.DropboxScopedIndividual,
 		ctl:     ctl,
@@ -168,7 +168,7 @@ func NewScopedIndividual(ctl app_control.Control) api_auth.App {
 	}
 }
 
-func NewScopedTeam(ctl app_control.Control) api_auth.App {
+func NewScopedTeam(ctl app_control.Control) api_auth.OAuthApp {
 	return &Scoped{
 		appType: api_auth.DropboxScopedTeam,
 		ctl:     ctl,

@@ -55,7 +55,7 @@ func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_context.Contex
 		return nil, errors.New("no token found")
 	}
 	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
-	apiCtx, err := a.Auth([]string{api_auth.DropboxTokenFull})
+	apiCtx, err := a.Start([]string{api_auth.DropboxTokenFull})
 	if err != nil {
 		l.Info("Skip operation")
 		return nil, errors.New("token not found")

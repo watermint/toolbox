@@ -10,11 +10,11 @@ import (
 	"strings"
 )
 
-func NewConsoleCacheOnly(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
+func NewConsoleCacheOnly(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
 	return NewConsoleCache(c, dbx_auth.NewConsoleNoAuth(peerName), app)
 }
 
-func NewConsoleCache(c app_control.Control, auth api_auth.Console, app api_auth.App) api_auth.Console {
+func NewConsoleCache(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthApp) api_auth.OAuthConsole {
 	return &Cached{
 		app:  app,
 		ctl:  c,
@@ -24,9 +24,9 @@ func NewConsoleCache(c app_control.Control, auth api_auth.Console, app api_auth.
 }
 
 type Cached struct {
-	app  api_auth.App
+	app  api_auth.OAuthApp
 	ctl  app_control.Control
-	auth api_auth.Console
+	auth api_auth.OAuthConsole
 	s    sc_token.Storage
 }
 
@@ -38,7 +38,7 @@ func (z *Cached) Purge(scope string) {
 	z.s.Purge(scope)
 }
 
-func (z *Cached) Auth(scopes []string) (tc api_auth.Context, err error) {
+func (z *Cached) Start(scopes []string) (tc api_auth.Context, err error) {
 	sort.Strings(scopes)
 	cacheKey := strings.Join(scopes, ",")
 	l := z.ctl.Log().With(esl.String("peerName", z.auth.PeerName()), esl.Strings("scopes", scopes))
@@ -48,7 +48,7 @@ func (z *Cached) Auth(scopes []string) (tc api_auth.Context, err error) {
 	} else {
 		return api_auth.NewContext(t, z.app.Config(scopes), z.auth.PeerName(), scopes), nil
 	}
-	tc, err = z.auth.Auth(scopes)
+	tc, err = z.auth.Start(scopes)
 	if err != nil {
 		return nil, err
 	}

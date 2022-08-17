@@ -77,7 +77,7 @@ const (
 	ScopeCalendarAddonsExecute = "https://www.googleapis.com/auth/calendar.addons.execute"
 )
 
-func NewApp(ctl app_control.Control) api_auth.App {
+func NewApp(ctl app_control.Control) api_auth.OAuthApp {
 	return &App{
 		ctl: ctl,
 		res: api_appkey.New(ctl),

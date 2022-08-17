@@ -7,7 +7,7 @@ import (
 
 type Service interface {
 	// OAuth app information
-	App() api_auth.App
+	App() api_auth.OAuthApp
 
 	// Returns custom retry & rate limit error.
 	TransportHandler(res es_response.Response) error

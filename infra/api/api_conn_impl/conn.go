@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
-func Connect(scopes []string, peerName string, app api_auth.App, ctl app_control.Control) (ctx api_auth.Context, useMock bool, err error) {
+func Connect(scopes []string, peerName string, app api_auth.OAuthApp, ctl app_control.Control) (ctx api_auth.Context, useMock bool, err error) {
 	l := ctl.Log()
 	ui := ctl.UI()
 
@@ -31,6 +31,6 @@ func Connect(scopes []string, peerName string, app api_auth.App, ctl app_control
 		a = api_auth_impl.NewConsoleCache(ctl, a, app)
 	}
 	l.Debug("Start auth sequence", esl.Strings("scopes", scopes))
-	ctx, err = a.Auth(scopes)
+	ctx, err = a.Start(scopes)
 	return ctx, false, err
 }

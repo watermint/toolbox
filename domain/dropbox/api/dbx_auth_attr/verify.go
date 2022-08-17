@@ -15,7 +15,7 @@ var (
 	ErrorUnexpectedResponseFormat = errors.New("unexpected response format")
 )
 
-func verifyTokenIndividual(name string, scopes []string, ctx api_auth.Context, ctl app_control.Control, app api_auth.App) (actx api_auth.Context, err error) {
+func verifyTokenIndividual(name string, scopes []string, ctx api_auth.Context, ctl app_control.Control, app api_auth.OAuthApp) (actx api_auth.Context, err error) {
 	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 	apiCtx := dbx_context_impl.New(name, ctl, ctx)
 	res := apiCtx.Post("users/get_current_account")
@@ -38,7 +38,7 @@ func verifyTokenIndividual(name string, scopes []string, ctx api_auth.Context, c
 	return api_auth.NewContextWithAttr(ctx, app.Config(scopes), desc, suppl), nil
 }
 
-func verifyTokenTeam(name string, scopes []string, ctx api_auth.Context, ctl app_control.Control, app api_auth.App) (actx api_auth.Context, err error) {
+func verifyTokenTeam(name string, scopes []string, ctx api_auth.Context, ctl app_control.Control, app api_auth.OAuthApp) (actx api_auth.Context, err error) {
 	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 	ui := ctl.UI()
 
@@ -64,7 +64,7 @@ func verifyTokenTeam(name string, scopes []string, ctx api_auth.Context, ctl app
 }
 
 // Returns description of the account
-func VerifyToken(name string, ctx api_auth.Context, ctl app_control.Control, app api_auth.App) (actx api_auth.Context, err error) {
+func VerifyToken(name string, ctx api_auth.Context, ctl app_control.Control, app api_auth.OAuthApp) (actx api_auth.Context, err error) {
 	scopes := ctx.Scopes()
 	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 

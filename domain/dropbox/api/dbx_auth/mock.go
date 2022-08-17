@@ -6,11 +6,11 @@ import (
 	"strings"
 )
 
-func NewMock(peerName string) api_auth.Console {
+func NewMock(peerName string) api_auth.OAuthConsole {
 	return &MockConsoleAuth{peerName: peerName}
 }
 
-func NewMockWithPreset(peerName string, preset map[string]*oauth2.Token) api_auth.Console {
+func NewMockWithPreset(peerName string, preset map[string]*oauth2.Token) api_auth.OAuthConsole {
 	return &MockConsoleAuth{peerName: peerName, preset: preset}
 }
 
@@ -57,7 +57,7 @@ func (z *MockConsoleAuth) PeerName() string {
 	return z.peerName
 }
 
-func (z *MockConsoleAuth) Auth(scopes []string) (token api_auth.Context, err error) {
+func (z *MockConsoleAuth) Start(scopes []string) (token api_auth.Context, err error) {
 	emptyMock := &MockContext{
 		peerName: z.peerName,
 		scopes:   scopes,

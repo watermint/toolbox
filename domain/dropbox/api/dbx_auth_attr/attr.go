@@ -17,20 +17,20 @@ var (
 )
 
 type Attr struct {
-	app  api_auth.App
+	app  api_auth.OAuthApp
 	ctl  app_control.Control
-	auth api_auth.Console
+	auth api_auth.OAuthConsole
 }
 
 func (z *Attr) PeerName() string {
 	return z.auth.PeerName()
 }
 
-func (z *Attr) Auth(scopes []string) (token api_auth.Context, err error) {
+func (z *Attr) Start(scopes []string) (token api_auth.Context, err error) {
 	l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.Strings("scopes", scopes))
 	ui := z.ctl.UI()
 
-	tc, err := z.auth.Auth(scopes)
+	tc, err := z.auth.Start(scopes)
 	if err != nil {
 		return nil, err
 	}

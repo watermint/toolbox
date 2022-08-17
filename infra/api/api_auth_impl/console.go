@@ -25,7 +25,7 @@ var (
 	MApiAuth = app_msg.Apply(&MsgApiAuth{}).(*MsgApiAuth)
 )
 
-func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
+func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
 	return &Console{
 		ctl:      c,
 		app:      app,
@@ -35,7 +35,7 @@ func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.App) a
 
 type Console struct {
 	ctl      app_control.Control
-	app      api_auth.App
+	app      api_auth.OAuthApp
 	peerName string
 }
 
@@ -43,7 +43,7 @@ func (z *Console) PeerName() string {
 	return z.peerName
 }
 
-func (z *Console) Auth(scopes []string) (tc api_auth.Context, err error) {
+func (z *Console) Start(scopes []string) (tc api_auth.Context, err error) {
 	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.Strings("scopes", scopes))
 	ui := z.ctl.UI()
 

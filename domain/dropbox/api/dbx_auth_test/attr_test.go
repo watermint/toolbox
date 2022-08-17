@@ -16,13 +16,13 @@ func TestAttr_Auth(t *testing.T) {
 		if aa.PeerName() != "test-mock" {
 			t.Error(aa.PeerName())
 		}
-		if _, err := aa.Auth([]string{"test-scope"}); err != nil {
+		if _, err := aa.Start([]string{"test-scope"}); err != nil {
 			t.Error(err)
 		}
-		if _, err := aa.Auth([]string{api_auth.DropboxTokenFull}); err == nil {
+		if _, err := aa.Start([]string{api_auth.DropboxTokenFull}); err == nil {
 			t.Error("invalid")
 		}
-		if _, err := aa.Auth([]string{api_auth.DropboxTokenBusinessAudit}); err == nil {
+		if _, err := aa.Start([]string{api_auth.DropboxTokenBusinessAudit}); err == nil {
 			t.Error("invalid")
 		}
 	})

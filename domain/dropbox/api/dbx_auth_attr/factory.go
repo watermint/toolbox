@@ -7,9 +7,9 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func NewConsole(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
+func NewConsole(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
 	l := c.Log().With(esl.String("peerName", peerName))
-	var oa api_auth.Console
+	var oa api_auth.OAuthConsole
 
 	// Make redirect impl. hidden for while
 	if f, found := c.Feature().OptInGet(&api_auth_impl.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
@@ -27,7 +27,7 @@ func NewConsole(c app_control.Control, peerName string, app api_auth.App) api_au
 	return ca
 }
 
-func NewConsoleAttr(c app_control.Control, auth api_auth.Console, app api_auth.App) api_auth.Console {
+func NewConsoleAttr(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthApp) api_auth.OAuthConsole {
 	return &Attr{
 		app:  app,
 		ctl:  c,

@@ -50,7 +50,7 @@ func (z *Up) Exec(c app_control.Control) error {
 	}
 
 	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
-	ctx, err := a.Auth([]string{api_auth.DropboxTokenFull})
+	ctx, err := a.Start([]string{api_auth.DropboxTokenFull})
 	if err != nil {
 		l.Info("Skip operation")
 		return nil

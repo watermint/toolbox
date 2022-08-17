@@ -11,7 +11,7 @@ func TestMockConsoleAuth_Auth(t *testing.T) {
 		if a.PeerName() != "test-mock" {
 			t.Error(a.PeerName())
 		}
-		c, err := a.Auth([]string{"test-scope"})
+		c, err := a.Start([]string{"test-scope"})
 		if err != nil {
 			t.Error(err)
 		}
@@ -27,7 +27,7 @@ func TestMockConsoleAuth_Auth(t *testing.T) {
 		if a.PeerName() != "test-mock" {
 			t.Error(a.PeerName())
 		}
-		c, err := a.Auth([]string{"test-scope"})
+		c, err := a.Start([]string{"test-scope"})
 		if err != nil {
 			t.Error(err)
 		}

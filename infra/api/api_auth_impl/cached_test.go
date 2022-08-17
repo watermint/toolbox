@@ -14,14 +14,14 @@ func TestCached_Auth(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		name := "test-cached-auth-" + time.Now().String()
 		a := api_auth_impl.NewConsoleCacheOnly(ctl, name, dbx_auth.NewLegacyApp(ctl))
-		_, err := a.Auth([]string{"test-cached-auth"})
+		_, err := a.Start([]string{"test-cached-auth"})
 		if err == nil {
 			// should not exist
 			t.Error("invalid")
 		}
 
 		a = api_auth_impl.NewConsoleCache(ctl, dbx_auth.NewMock(name), dbx_auth.NewLegacyApp(ctl))
-		_, err = a.Auth([]string{api_auth.DropboxTokenBusinessInfo})
+		_, err = a.Start([]string{api_auth.DropboxTokenBusinessInfo})
 		if err != nil {
 			// should exist
 			t.Error(err)
@@ -34,7 +34,7 @@ func TestCached_Auth(t *testing.T) {
 		}
 
 		a = api_auth_impl.NewConsoleCacheOnly(ctl, name, dbx_auth.NewLegacyApp(ctl))
-		_, err = a.Auth([]string{"test-cached-auth"})
+		_, err = a.Start([]string{"test-cached-auth"})
 		if err == nil {
 			// should not exist
 			t.Error("invalid")

@@ -14,7 +14,7 @@ const (
 	DefaultPeerName = "default"
 )
 
-func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.App) (ctx dbx_context.Context, err error) {
+func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthApp) (ctx dbx_context.Context, err error) {
 	l := ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", peerName))
 	ui := ctl.UI()
 
@@ -39,7 +39,7 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")
 		c := dbx_auth_attr.NewConsole(ctl, peerName, app)
-		ctx, err := c.Auth(scopes)
+		ctx, err := c.Start(scopes)
 		if err != nil {
 			return nil, err
 		}

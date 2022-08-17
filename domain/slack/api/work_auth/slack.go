@@ -18,7 +18,7 @@ const (
 	ScopeUsersRead = "users:read"
 )
 
-func New(ctl app_control.Control) api_auth.App {
+func New(ctl app_control.Control) api_auth.OAuthApp {
 	return &App{
 		ctl: ctl,
 		res: api_appkey.New(ctl),

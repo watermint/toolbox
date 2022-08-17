@@ -24,7 +24,7 @@ type OptInFeatureRedirect struct {
 	app_feature.OptInStatus
 }
 
-func NewConsoleRedirect(c app_control.Control, peerName string, app api_auth.App) api_auth.Console {
+func NewConsoleRedirect(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
 	return &Redirect{
 		ctl:      c,
 		app:      app,
@@ -34,7 +34,7 @@ func NewConsoleRedirect(c app_control.Control, peerName string, app api_auth.App
 
 type Redirect struct {
 	ctl      app_control.Control
-	app      api_auth.App
+	app      api_auth.OAuthApp
 	peerName string
 }
 
@@ -42,7 +42,7 @@ func (z *Redirect) PeerName() string {
 	return z.peerName
 }
 
-func (z *Redirect) Auth(scopes []string) (token api_auth.Context, err error) {
+func (z *Redirect) Start(scopes []string) (token api_auth.Context, err error) {
 	l := z.ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", z.peerName))
 
 	if z.ctl.Feature().IsTest() {
@@ -92,7 +92,7 @@ func (z *Redirect) Auth(scopes []string) (token api_auth.Context, err error) {
 
 type RedirectService struct {
 	ctl         app_control.Control
-	app         api_auth.App
+	app         api_auth.OAuthApp
 	peerName    string
 	scopes      []string
 	state       string

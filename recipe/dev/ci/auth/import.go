@@ -41,7 +41,7 @@ func (z *Import) Exec(c app_control.Control) error {
 	ca := api_auth_impl.NewConsoleCache(c, pa, dbx_auth.NewLegacyApp(c))
 
 	for _, scope := range Scopes {
-		if _, err := ca.Auth([]string{scope}); err != nil {
+		if _, err := ca.Start([]string{scope}); err != nil {
 			l.Info("Skip loading", esl.String("scope", scope), esl.Error(err))
 		} else {
 			l.Info("Loaded", esl.String("scope", scope))
