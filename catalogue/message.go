@@ -45,7 +45,6 @@ import (
 	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
-	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
 )
 
@@ -105,7 +104,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&recipegroupmemberbatch.MsgOperation{},
 		&recipemember.MsgInvite{},
 		&recipememberupdate.MsgEmail{},
-		&recipeteamdevice.MsgUnlink{},
 		&recipeteamsharedlink.MsgList{},
 	}
 }

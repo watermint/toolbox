@@ -3,57 +3,17 @@ package device
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_device"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_device"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
-
-type MsgUnlink struct {
-	ProgressUnlink app_msg.Message
-}
-
-var (
-	MUnlink = app_msg.Apply(&MsgUnlink{}).(*MsgUnlink)
-)
-
-type UnlinkVO struct {
-}
-
-type UnlinkWorker struct {
-	session *mo_device.MemberSession
-	rep     rp_model.TransactionReport
-	ctx     dbx_context.Context
-	ctl     app_control.Control
-}
-
-func (z *UnlinkWorker) Exec() error {
-	ui := z.ctl.UI()
-	ui.Progress(MUnlink.ProgressUnlink.
-		With("Member", z.session.Email).
-		With("SessionType", z.session.DeviceTag).
-		With("SessionId", z.session.Id))
-
-	s := &mo_device.Metadata{
-		Tag:          z.session.DeviceTag,
-		TeamMemberId: z.session.TeamMemberId,
-		Id:           z.session.Id,
-	}
-	err := sv_device.New(z.ctx).Revoke(s)
-	if err != nil {
-		z.rep.Failure(err, z.session)
-		return err
-	}
-	z.rep.Success(z.session, nil)
-	return nil
-}
 
 type Unlink struct {
 	rc_recipe.RemarkIrreversible
@@ -80,23 +40,37 @@ func (z *Unlink) Preset() {
 	)
 }
 
+func (z *Unlink) unlink(session *mo_device.MemberSession) error {
+	s := &mo_device.Metadata{
+		Tag:          session.DeviceTag,
+		TeamMemberId: session.TeamMemberId,
+		Id:           session.Id,
+	}
+	err := sv_device.New(z.Peer.Context()).Revoke(s)
+	if err != nil {
+		z.OperationLog.Failure(err, session)
+		return err
+	}
+	z.OperationLog.Success(session, nil)
+	return nil
+}
+
 func (z *Unlink) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
-	q := c.NewLegacyQueue()
-	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
-		q.Enqueue(&UnlinkWorker{
-			session: m.(*mo_device.MemberSession),
-			rep:     z.OperationLog,
-			ctx:     z.Peer.Context(),
-			ctl:     c,
+	var lastErr error
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("unlink", z.unlink)
+		q := s.Get("unlink")
+		lastErr = z.File.EachRow(func(m interface{}, rowIndex int) error {
+			q.Enqueue(m)
+			return nil
 		})
-		return nil
 	})
-	q.Wait()
-	return err
+
+	return lastErr
 }
 
 func (z *Unlink) Test(c app_control.Control) error {
