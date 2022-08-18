@@ -1,6 +1,7 @@
 package dc_supplemental
 
 import (
+	"github.com/watermint/toolbox/infra/doc/dc_contributor"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 )
@@ -11,6 +12,6 @@ func Docs(media dc_index.MediaType) []dc_section.Document {
 		&ExperimentalFeature{},
 		&Troubleshooting{},
 		NewDropboxBusiness(media),
-		&Developer{},
+		&dc_contributor.Developer{},
 	}
 }

@@ -43,6 +43,7 @@ const (
 	WebCategoryHome WebCategory = iota
 	WebCategoryCommand
 	WebCategoryGuide
+	WebCategoryContributor
 )
 
 type WebCategory int
@@ -160,6 +161,8 @@ func WebDocPath(refPath bool, cat WebCategory, name string, lg lang.Lang) string
 		return basePath + pathLang + "commands/" + name + suffix
 	case WebCategoryGuide:
 		return basePath + pathLang + "guides/" + name + suffix
+	case WebCategoryContributor:
+		return basePath + pathLang + "contributor/" + name + suffix
 	}
 
 	esl.Default().Warn("Invalid web category id", esl.Int("category", int(cat)))
@@ -198,7 +201,7 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
 		case DocSupplementalDeveloper:
-			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "developer", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "overview", lg)
 		}
 
 	case MediaWeb:
@@ -228,7 +231,7 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
 		case DocSupplementalDeveloper:
-			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "developer", lg)
+			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "overview", lg)
 		}
 	}
 

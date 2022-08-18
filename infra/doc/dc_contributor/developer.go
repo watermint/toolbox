@@ -1,4 +1,4 @@
-package dc_supplemental
+package dc_contributor
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -31,6 +31,7 @@ type MsgDeveloper struct {
 	RecipeValueTypeTextInput       app_msg.Message
 	RecipeValueConnValueTypes      app_msg.Message
 	RecipeValueConnScopeLabel      app_msg.Message
+	RecipeValueConnServiceName     app_msg.Message
 }
 
 var (
@@ -140,6 +141,7 @@ func (z DeveloperRecipeValues) Body(ui app_ui.UI) {
 		t.Header(
 			MDeveloper.RecipeValueTypeImpl,
 			MDeveloper.RecipeValueTypeCustomValueText,
+			MDeveloper.RecipeValueConnServiceName,
 			MDeveloper.RecipeValueConnScopeLabel,
 		)
 		for _, ct := range connTypes {
@@ -162,6 +164,7 @@ func (z DeveloperRecipeValues) Body(ui app_ui.UI) {
 			t.RowRaw(
 				ct,
 				strconv.FormatBool(isValueTypeCustomValueText),
+				conn.ServiceName(),
 				conn.ScopeLabel(),
 			)
 		}
