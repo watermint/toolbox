@@ -29,7 +29,9 @@ const (
 	DocSupplementalExperimentalFeature
 	DocSupplementalTroubleshooting
 	DocSupplementalDropboxBusiness
-	DocSupplementalDeveloper
+
+	// Contributor documents
+	DocContributorRecipeValues
 )
 
 const (
@@ -71,7 +73,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
-		DocSupplementalDeveloper,
+		DocContributorRecipeValues,
 	}
 
 	WebDocs = []DocId{
@@ -86,7 +88,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
-		DocSupplementalDeveloper,
+		DocContributorRecipeValues,
 	}
 
 	AllMedia = []MediaType{
@@ -97,10 +99,6 @@ var (
 
 func GeneratedPath(l lang.Lang, name string) string {
 	return GeneratedDocPath + l.Suffix() + "/" + name
-}
-
-func SupplementalDocPath(l lang.Lang, name string) string {
-	return GeneratedPath(l, "supplemental_"+name)
 }
 
 type NameOpts struct {
@@ -200,8 +198,8 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
-		case DocSupplementalDeveloper:
-			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "overview", lg)
+		case DocContributorRecipeValues:
+			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
 		}
 
 	case MediaWeb:
@@ -230,8 +228,8 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
-		case DocSupplementalDeveloper:
-			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "overview", lg)
+		case DocContributorRecipeValues:
+			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
 		}
 	}
 

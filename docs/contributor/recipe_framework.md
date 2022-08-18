@@ -1,5 +1,5 @@
 ---
-layout: developer
+layout: contributor
 title: Recipe framework
 lang: en
 ---
