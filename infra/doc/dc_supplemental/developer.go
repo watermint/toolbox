@@ -30,6 +30,7 @@ type MsgDeveloper struct {
 	RecipeValueTypeReports         app_msg.Message
 	RecipeValueTypeTextInput       app_msg.Message
 	RecipeValueConnValueTypes      app_msg.Message
+	RecipeValueConnScopeLabel      app_msg.Message
 }
 
 var (
@@ -139,6 +140,7 @@ func (z DeveloperRecipeValues) Body(ui app_ui.UI) {
 		t.Header(
 			MDeveloper.RecipeValueTypeImpl,
 			MDeveloper.RecipeValueTypeCustomValueText,
+			MDeveloper.RecipeValueConnScopeLabel,
 		)
 		for _, ct := range connTypes {
 			v := connTypeValues[ct]
@@ -149,9 +151,18 @@ func (z DeveloperRecipeValues) Body(ui app_ui.UI) {
 				panic("found connection value type without custom value text")
 			}
 
+			vc := v.(rc_recipe.ValueConn)
+			conn, ok := vc.Conn()
+			if !ok {
+				l := esl.Default()
+				l.Error("Found Connection Value Type without valid connection")
+				panic("found connection value type without valid connection")
+			}
+
 			t.RowRaw(
 				ct,
 				strconv.FormatBool(isValueTypeCustomValueText),
+				conn.ScopeLabel(),
 			)
 		}
 	})
