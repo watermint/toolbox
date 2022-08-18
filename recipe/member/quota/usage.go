@@ -15,16 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-)
-
-type MsgUsage struct {
-	ProgressScan app_msg.Message
-}
-
-var (
-	MUsage = app_msg.Apply(&MsgUsage{}).(*MsgUsage)
 )
 
 type Usage struct {
@@ -33,8 +24,6 @@ type Usage struct {
 }
 
 func (z *Usage) scanMember(member *mo_member.Member, ctl app_control.Control, ctx dbx_context.Context) error {
-	ui := ctl.UI()
-	ui.Progress(MUsage.ProgressScan.With("MemberEmail", member.Email))
 	l := ctl.Log().With(esl.Any("member", member))
 	l.Debug("Scanning")
 

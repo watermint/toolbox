@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member_quota"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -16,38 +15,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
-
-type MsgList struct {
-	ProgressScan app_msg.Message
-}
-
-var (
-	MList = app_msg.Apply(&MsgList{}).(*MsgList)
-)
-
-type ListWorker struct {
-	member *mo_member.Member
-	ctx    dbx_context.Context
-	rep    rp_model.RowReport
-	ctl    app_control.Control
-}
-
-func (z *ListWorker) Exec() error {
-	l := z.ctl.Log()
-	z.ctl.UI().Progress(MList.ProgressScan.With("MemberEmail", z.member.Email))
-
-	l.Debug("Scan member", esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("Member", z.member))
-
-	q, err := sv_member_quota.NewQuota(z.ctx).Resolve(z.member.TeamMemberId)
-	if err != nil {
-		return err
-	}
-	z.rep.Row(mo_member_quota.NewMemberQuota(z.member, q))
-	return nil
-}
 
 type List struct {
 	Peer        dbx_conn.ConnScopedTeam
