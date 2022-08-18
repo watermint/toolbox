@@ -3119,7 +3119,7 @@
   "recipe.util.release.install.info_complete": "Installation completed.",
   "recipe.util.release.install.info_downloading": "Downloading the asset",
   "recipe.util.release.install.info_installing": "Installing the asset",
-  "recipe.util.release.install.info_other_version_installed": "Other version installed, try replacing the existing installation.",
+  "recipe.util.release.install.info_other_version_installed": "Other version installed, the command will try replace the existing installation.",
   "recipe.util.release.install.info_release_asset": "Compatible release asset: {{.AssetName}}",
   "recipe.util.release.install.info_release_name": "Release: {{.Release}}, Tag: {{.Tag}}",
   "recipe.util.release.install.title": "Download & install watermint toolbox to the path",

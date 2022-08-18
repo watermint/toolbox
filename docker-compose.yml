@@ -11,3 +11,12 @@ services:
     build:
       context: .
     command: ./test/test.sh
+
+  docs:
+    build:
+      context: docs
+    command: jekyll serve --config /srv/jekyll/source/_config.yml,/srv/jekyll/source/_config_dev.yml --watch --destination /srv/jekyll/staging --source /srv/jekyll/source --future
+    volumes:
+      - ./docs:/srv/jekyll/source
+    ports:
+      - "4000:4000"
