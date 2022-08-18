@@ -45,9 +45,6 @@ const (
 	// Env variable name for end to end token. Expected format is JSON encoded tokens
 	EnvNameEndToEndToken = "TOOLBOX_ENDTOEND_TOKEN"
 
-	// Env variable name for test resource file. Expected format is file path.
-	EnvNameTestResource = "TOOLBOX_TEST_RESOURCE"
-
 	// Env variable name for replay store path.
 	EnvNameReplayPath = "TOOLBOX_REPLAY_PATH"
 

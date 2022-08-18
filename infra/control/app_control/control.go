@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -31,9 +30,6 @@ type Control interface {
 
 	// Feature
 	Feature() app_feature.Feature
-
-	// Create new worker queue
-	NewLegacyQueue() rc_worker.LegacyQueue
 
 	// Create new queue definition
 	NewQueue() eq_queue.Definition

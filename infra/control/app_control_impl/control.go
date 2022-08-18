@@ -14,8 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_queue"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recipe/rc_worker"
-	"github.com/watermint/toolbox/infra/recipe/rc_worker_impl"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -164,10 +162,6 @@ func (z ctlImpl) Feature() app_feature.Feature {
 
 func (z ctlImpl) Messages() app_msg_container.Container {
 	return z.ui.Messages()
-}
-
-func (z ctlImpl) NewLegacyQueue() rc_worker.LegacyQueue {
-	return rc_worker_impl.NewQueue(z, z.feature.Concurrency())
 }
 
 func (z ctlImpl) Workspace() app_workspace.Workspace {
