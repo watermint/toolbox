@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_activity"
@@ -15,27 +14,16 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"go.uber.org/atomic"
 	"strings"
-)
-
-type MsgUser struct {
-	ProgressScanningUser      app_msg.Message
-	ProgressScanningUserEvent app_msg.Message
-	ErrorUserNotFound         app_msg.Message
-}
-
-var (
-	MUser = app_msg.Apply(&MsgUser{}).(*MsgUser)
 )
 
 type UserEmail struct {
@@ -46,56 +34,6 @@ const (
 	keySeparator = "/"
 	keySeqPrefix = "seq"
 )
-
-type UserWorker struct {
-	Ctl        app_control.Control
-	Context    dbx_context.Context
-	StartTime  string
-	EndTime    string
-	Category   mo_string.OptionalString
-	EventCache kv_storage.Storage
-	UserEmail  string
-}
-
-func (z *UserWorker) Exec() error {
-	l := z.Ctl.Log().With(esl.String("UserEmail", z.UserEmail))
-	ui := z.Ctl.UI()
-	ui.Info(MUser.ProgressScanningUser.With("Email", z.UserEmail))
-
-	member, err := sv_member.New(z.Context).ResolveByEmail(z.UserEmail)
-	if err != nil {
-		l.Debug("user not found", esl.Error(err))
-		ui.Error(MUser.ErrorUserNotFound.With("Email", z.UserEmail).With("Error", err))
-		return err
-	}
-
-	opts := make([]sv_activity.ListOpt, 0)
-	opts = append(opts, sv_activity.AccountId(member.AccountId))
-	opts = append(opts, sv_activity.StartTime(z.StartTime))
-	opts = append(opts, sv_activity.EndTime(z.EndTime))
-	if z.Category.IsExists() {
-		opts = append(opts, sv_activity.Category(z.Category.Value()))
-	}
-
-	eventSeq := atomic.Int64{}
-
-	return sv_activity.New(z.Context).List(
-		func(event *mo_activity.Event) error {
-			return z.EventCache.Update(func(kvs kv_kvs.Kvs) error {
-				seq := eventSeq.Inc()
-				key := strings.Join([]string{event.Timestamp, z.UserEmail, fmt.Sprintf("%d", seq)}, keySeparator)
-				app_ui.ShowProgressWithMessage(ui, MUser.ProgressScanningUserEvent)
-
-				if err = kvs.PutJson(key, event.Raw); err != nil {
-					l.Debug("Unable to store data", esl.Error(err))
-					return err
-				}
-				return nil
-			})
-		},
-		opts...,
-	)
-}
 
 type User struct {
 	Peer       dbx_conn.ConnScopedTeam
@@ -108,6 +46,42 @@ type User struct {
 	EventCache kv_storage.Storage
 }
 
+func (z *User) activity(u *UserEmail, c app_control.Control) error {
+	l := c.Log().With(esl.String("UserEmail", u.Email))
+
+	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(u.Email)
+	if err != nil {
+		l.Debug("user not found", esl.Error(err))
+		return err
+	}
+
+	opts := make([]sv_activity.ListOpt, 0)
+	opts = append(opts, sv_activity.AccountId(member.AccountId))
+	opts = append(opts, sv_activity.StartTime(z.StartTime.Iso8601()))
+	opts = append(opts, sv_activity.EndTime(z.EndTime.Iso8601()))
+	if z.Category.IsExists() {
+		opts = append(opts, sv_activity.Category(z.Category.Value()))
+	}
+
+	eventSeq := atomic.Int64{}
+
+	return sv_activity.New(z.Peer.Context()).List(
+		func(event *mo_activity.Event) error {
+			return z.EventCache.Update(func(kvs kv_kvs.Kvs) error {
+				seq := eventSeq.Inc()
+				key := strings.Join([]string{event.Timestamp, u.Email, fmt.Sprintf("%d", seq)}, keySeparator)
+
+				if err = kvs.PutJson(key, event.Raw); err != nil {
+					l.Debug("Unable to store data", esl.Error(err))
+					return err
+				}
+				return nil
+			})
+		},
+		opts...,
+	)
+}
+
 func (z *User) Exec(c app_control.Control) error {
 	l := c.Log()
 
@@ -117,30 +91,27 @@ func (z *User) Exec(c app_control.Control) error {
 
 	userReps := make(map[string]rp_model.RowReport)
 
-	q := c.NewLegacyQueue()
-	err := z.File.EachRow(func(m interface{}, rowIndex int) error {
-		e := m.(*UserEmail)
+	var lastErr error
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("activity", z.activity, c)
+		q := s.Get("activity")
 
-		suffix := es_filepath.Escape(e.Email)
-		ur, err := z.User.OpenNew(rp_model.Suffix("_"+suffix), rp_model.NoConsoleOutput())
-		if err != nil {
-			return err
-		}
-		userReps[e.Email] = ur
+		lastErr = z.File.EachRow(func(m interface{}, rowIndex int) error {
+			e := m.(*UserEmail)
 
-		q.Enqueue(&UserWorker{
-			Ctl:        c,
-			Context:    z.Peer.Context(),
-			StartTime:  z.StartTime.Iso8601(),
-			EndTime:    z.EndTime.Iso8601(),
-			Category:   z.Category,
-			EventCache: z.EventCache,
-			UserEmail:  e.Email,
+			suffix := es_filepath.Escape(e.Email)
+			ur, err := z.User.OpenNew(rp_model.Suffix("_"+suffix), rp_model.NoConsoleOutput())
+			if err != nil {
+				return err
+			}
+			userReps[e.Email] = ur
+
+			q.Enqueue(e)
+			return nil
 		})
-		return nil
 	})
+
 	l.Debug("Waiting for workers")
-	q.Wait()
 
 	defer func() {
 		for _, ur := range userReps {
@@ -148,9 +119,9 @@ func (z *User) Exec(c app_control.Control) error {
 		}
 	}()
 
-	if err != nil {
-		l.Debug("Failure during reading model", esl.Error(err))
-		return err
+	if lastErr != nil {
+		l.Debug("Failure during reading model", esl.Error(lastErr))
+		return lastErr
 	}
 
 	return z.EventCache.View(func(kvs kv_kvs.Kvs) error {
@@ -170,7 +141,7 @@ func (z *User) Exec(c app_control.Control) error {
 
 			ll := l.With(esl.String("email", email))
 			ev := &mo_activity.Event{}
-			if err = api_parser.ParseModelRaw(ev, value); err != nil {
+			if err := api_parser.ParseModelRaw(ev, value); err != nil {
 				ll.Debug("Unable to parse model", esl.Error(err))
 				return err
 			}
