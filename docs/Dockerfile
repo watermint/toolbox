@@ -12,3 +12,5 @@ RUN gem install jekyll-paginate
 RUN gem install webrick
 EXPOSE 4000
 ENV TZ Asia/Tokyo
+
+ENTRYPOINT ["jekyll", "serve", "--config", "/srv/jekyll/source/_config.yml,/srv/jekyll/source/_config_dev.yml", "--watch", "--destination", "/srv/jekyll/staging", "--source", "/srv/jekyll/source", "--future"]
