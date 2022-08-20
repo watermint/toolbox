@@ -22,6 +22,17 @@ const (
 	ScopeProfile = "profile"
 )
 
+var (
+	Asana = api_auth.OAuthAppData{
+		AppKeyName:       api_auth.Asana,
+		EndpointAuthUrl:  "https://app.asana.com/-/oauth_authorize",
+		EndpointTokenUrl: "https://app.asana.com/-/oauth_token",
+		EndpointStyle:    api_auth.AuthStyleAutoDetect,
+		UsePKCE:          true,
+		RedirectUrl:      "",
+	}
+)
+
 func New(ctl app_control.Control) api_auth.OAuthApp {
 	return &App{
 		ctl: ctl,

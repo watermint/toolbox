@@ -2,7 +2,7 @@ package sc_obfuscate_test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
+	"github.com/watermint/toolbox/infra/security/sc_storage"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
@@ -32,9 +32,9 @@ func TestStorageImpl_PutGet(t *testing.T) {
 	}
 
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		s := sc_obfuscate.NewStorage(ctl)
+		s := sc_storage.NewStorage(ctl)
 
-		if err := s.Get(p, &ObfuscateTest{}); err != sc_obfuscate.ErrorStorageNotFound {
+		if err := s.Get(p, &ObfuscateTest{}); err != sc_storage.ErrorStorageNotFound {
 			t.Error(err)
 			return
 		}

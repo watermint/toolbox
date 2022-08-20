@@ -38,7 +38,7 @@ func (z *connScopedIndividual) SetPeerName(name string) {
 }
 
 func (z *connScopedIndividual) ScopeLabel() string {
-	return api_auth.DropboxScopedIndividual
+	return api_auth.DropboxIndividual
 }
 
 func (z *connScopedIndividual) ServiceName() string {

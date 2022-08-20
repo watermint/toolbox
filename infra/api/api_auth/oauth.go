@@ -1,21 +1,29 @@
 package api_auth
 
-import (
-	"golang.org/x/oauth2"
+type OAuthEndpointStyle string
+
+const (
+	AuthStyleAutoDetect OAuthEndpointStyle = ""
+	AuthStyleInParams   OAuthEndpointStyle = "param"
+	AuthStyleInHeader   OAuthEndpointStyle = "header"
 )
 
-// OAuthApp OAuth Application key/secret manager
-type OAuthApp interface {
-	// Config OAuth2 config
-	Config(scope []string) *oauth2.Config
+type OAuthAppData struct {
+	// Name to retrieve client_id/client_secret from app key registry.
+	AppKeyName string `json:"app_key_name"`
 
-	// UsePKCE Use PKCE on authentication
-	UsePKCE() bool
-}
+	// Auth Endpoint
+	EndpointAuthUrl string `json:"endpoint_auth_url"`
 
-// OAuthConsole OAuth interface for console UI
-type OAuthConsole interface {
-	Auth
+	// Token Endpoint
+	EndpointTokenUrl string `json:"endpoint_token_url"`
 
-	Start(scope []string) (token OAuthContext, err error)
+	// Endpoint parameter type
+	EndpointStyle OAuthEndpointStyle `json:"endpoint_style"`
+
+	// Use PKCE (Proof Key for Code Exchange, RFC7636) or not
+	UsePKCE bool `json:"use_pkce"`
+
+	// Redirect URL
+	RedirectUrl string `json:"redirect_url"`
 }

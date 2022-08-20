@@ -30,6 +30,17 @@ const (
 	ScopeLabelRepo   = "github_repo"
 )
 
+var (
+	Github = api_auth.OAuthAppData{
+		AppKeyName:       api_auth.Github,
+		EndpointAuthUrl:  "https://github.com/login/oauth/authorize",
+		EndpointTokenUrl: "https://github.com/login/oauth/access_token",
+		EndpointStyle:    api_auth.AuthStyleAutoDetect,
+		UsePKCE:          false,
+		RedirectUrl:      "",
+	}
+)
+
 func NewApp(ctl app_control.Control) api_auth.OAuthApp {
 	return &App{
 		ctl: ctl,

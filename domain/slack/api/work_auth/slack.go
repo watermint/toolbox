@@ -18,6 +18,17 @@ const (
 	ScopeUsersRead = "users:read"
 )
 
+var (
+	Slack = api_auth.OAuthAppData{
+		AppKeyName:       api_auth.Slack,
+		EndpointAuthUrl:  "https://slack.com/oauth/v2/authorize",
+		EndpointTokenUrl: "https://slack.com/api/oauth.v2.access",
+		EndpointStyle:    api_auth.AuthStyleAutoDetect,
+		UsePKCE:          false,
+		RedirectUrl:      "",
+	}
+)
+
 func New(ctl app_control.Control) api_auth.OAuthApp {
 	return &App{
 		ctl: ctl,

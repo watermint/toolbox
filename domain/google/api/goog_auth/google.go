@@ -77,6 +77,35 @@ const (
 	ScopeCalendarAddonsExecute = "https://www.googleapis.com/auth/calendar.addons.execute"
 )
 
+var (
+	Mail = api_auth.OAuthAppData{
+		AppKeyName:       api_auth.GoogleMail,
+		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
+		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
+		EndpointStyle:    api_auth.AuthStyleInParams,
+		UsePKCE:          false,
+		RedirectUrl:      "",
+	}
+
+	Calendar = api_auth.OAuthAppData{
+		AppKeyName:       api_auth.GoogleCalendar,
+		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
+		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
+		EndpointStyle:    api_auth.AuthStyleInParams,
+		UsePKCE:          false,
+		RedirectUrl:      "",
+	}
+
+	Sheets = api_auth.OAuthAppData{
+		AppKeyName:       api_auth.GoogleSheets,
+		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
+		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
+		EndpointStyle:    api_auth.AuthStyleInParams,
+		UsePKCE:          false,
+		RedirectUrl:      "",
+	}
+)
+
 func NewApp(ctl app_control.Control) api_auth.OAuthApp {
 	return &App{
 		ctl: ctl,
