@@ -27,3 +27,13 @@ type OAuthAppData struct {
 	// Redirect URL
 	RedirectUrl string `json:"redirect_url"`
 }
+
+type OAuthSessionData struct {
+	AppData  OAuthAppData `json:"app_data"`
+	PeerName string       `json:"peer_name"`
+	Scopes   []string     `json:"scopes"`
+}
+
+type OAuthSession interface {
+	Start(session OAuthSessionData) (entity OAuthEntity, err error)
+}
