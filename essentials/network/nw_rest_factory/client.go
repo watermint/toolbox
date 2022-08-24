@@ -1,28 +1,25 @@
-package nw_rest
+package nw_rest_factory
 
 import (
-	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_assert"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_http"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/essentials/network/nw_simulator"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"net/http"
 	"time"
 )
 
-// Assert broken response or rate limit for retry
-type AssertResponse func(res es_response.Response) es_response.Response
-
 type ClientOpts struct {
-	Assert     AssertResponse
+	Assert     nw_assert.AssertResponse
 	Mock       bool
 	ReplayMock []nw_replay.Response
 
-	client *http.Client
+	client      *http.Client
+	authFactory func(client nw_client.Rest) nw_client.Rest
 
 	// rate limit simulator
 	rateLimitRate       int
@@ -58,6 +55,13 @@ func Client(client *http.Client) ClientOpt {
 	}
 }
 
+func Auth(factory func(client nw_client.Rest) nw_client.Rest) ClientOpt {
+	return func(o ClientOpts) ClientOpts {
+		o.authFactory = factory
+		return o
+	}
+}
+
 func Mock() ClientOpt {
 	return func(o ClientOpts) ClientOpts {
 		o.Mock = true
@@ -72,7 +76,7 @@ func ReplayMock(rm []nw_replay.Response) ClientOpt {
 	}
 }
 
-func Assert(ar AssertResponse) ClientOpt {
+func Assert(ar nw_assert.AssertResponse) ClientOpt {
 	return func(o ClientOpts) ClientOpts {
 		o.Assert = ar
 		return o
@@ -117,54 +121,44 @@ func New(opts ...ClientOpt) nw_client.Rest {
 		}
 	}
 
-	var c0, c1, c2, c3 nw_client.Rest
+	var c0, c1, c2, c3, c4, c5 nw_client.Rest
 
 	// Layer 0: capture
 	c0 = nw_capture.New(hc)
 
-	// Layer 1: rate limit simulator
-	if co.rateLimitEnabled {
-		l.Debug("Rate limit simulator enabled",
-			esl.Int("Rate", co.rateLimitRate),
-			esl.Int("HeaderType", int(co.rateLimitHeaderType)))
-		c1 = nw_simulator.NewRateLimit(c0, co.rateLimitRate, co.rateLimitHeaderType, co.rateLimitDecorator)
+	// Layer 1: auth
+	if co.authFactory != nil {
+		c1 = co.authFactory(c0)
 	} else {
 		c1 = c0
 	}
 
-	// Layer 2: server error simulator
-	if co.serverErrorEnabled {
-		l.Debug("Server error simulator enabled",
-			esl.Int("Rate", co.serverErrorRate),
-			esl.Int("Code", co.serverErrorCode))
-		c2 = nw_simulator.NewServerError(c1, co.serverErrorRate, co.serverErrorCode, co.serverErrorDecorator)
+	// Layer 2: rate limit simulator
+	if co.rateLimitEnabled {
+		l.Debug("Rate limit simulator enabled",
+			esl.Int("Rate", co.rateLimitRate),
+			esl.Int("HeaderType", int(co.rateLimitHeaderType)))
+		c2 = nw_simulator.NewRateLimit(c1, co.rateLimitRate, co.rateLimitHeaderType, co.rateLimitDecorator)
 	} else {
 		c2 = c1
 	}
 
-	// Layer 3: assert
-	c3 = NewAssert(co.Assert, c2)
-
-	// Layer 4: retry
-	return nw_retry.NewRetry(nw_retry.NewRatelimit(c3))
-}
-
-func NewAssert(assert AssertResponse, client nw_client.Rest) nw_client.Rest {
-	return &AssertClient{
-		assert: assert,
-		client: client,
+	// Layer 3: server error simulator
+	if co.serverErrorEnabled {
+		l.Debug("Server error simulator enabled",
+			esl.Int("Rate", co.serverErrorRate),
+			esl.Int("Code", co.serverErrorCode))
+		c3 = nw_simulator.NewServerError(c2, co.serverErrorRate, co.serverErrorCode, co.serverErrorDecorator)
+	} else {
+		c3 = c2
 	}
-}
 
-type AssertClient struct {
-	assert AssertResponse
-	client nw_client.Rest
-}
+	// Layer 4: assert
+	c4 = nw_assert.NewAssert(co.Assert, c3)
 
-func (z AssertClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
-	res = z.client.Call(ctx, req)
-	if !res.IsSuccess() && z.assert != nil {
-		return z.assert(res)
-	}
-	return res
+	// Layer 5: rate limit
+	c5 = nw_retry.NewRatelimit(c4)
+
+	// Layer 6: retry
+	return nw_retry.NewRetry(c5)
 }

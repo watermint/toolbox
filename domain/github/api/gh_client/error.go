@@ -1,4 +1,4 @@
-package gh_context
+package gh_client
 
 type ApiError struct {
 	Message          string `path:"message" json:"message"`

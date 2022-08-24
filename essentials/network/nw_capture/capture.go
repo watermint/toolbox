@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_request"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_client"
 	"net/http"
 )
 
@@ -19,7 +19,7 @@ type Client struct {
 	httpClient nw_client.Http
 }
 
-func (z *Client) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
+func (z *Client) Call(ctx api_client.Client, req nw_client.RequestBuilder) (res es_response.Response) {
 	l := ctx.Log()
 	hReq, err := req.Build()
 	if err != nil {
@@ -48,14 +48,14 @@ type Capture interface {
 	WithResponse(rb nw_client.RequestBuilder, req *http.Request, res es_response.Response, resErr error, latency int64)
 }
 
-func NewCapture(ctx api_context.Context) Capture {
+func NewCapture(ctx api_client.Client) Capture {
 	return &captureImpl{
 		ctx: ctx,
 	}
 }
 
 type captureImpl struct {
-	ctx api_context.Context
+	ctx api_client.Client
 }
 
 type Record struct {

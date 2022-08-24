@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/vbauerster/mpb/v5"
 	"github.com/vbauerster/mpb/v5/decor"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
@@ -38,7 +38,7 @@ type DownloadHeadResponse struct {
 	Size        int64  `json:"size" path:"size"`
 }
 
-func NewDropboxToLocal(ctx dbx_context.Context) es_filesystem.Connector {
+func NewDropboxToLocal(ctx dbx_client.Client) es_filesystem.Connector {
 	return &copierDropboxToLocal{
 		ctx:    ctx,
 		target: es_filesystem_local.NewFileSystem(),
@@ -46,7 +46,7 @@ func NewDropboxToLocal(ctx dbx_context.Context) es_filesystem.Connector {
 }
 
 type copierDropboxToLocal struct {
-	ctx       dbx_context.Context
+	ctx       dbx_client.Client
 	target    es_filesystem.FileSystem
 	bwf       es_block.BlockWriterFactory
 	indicator ea_indicator.Indicator
@@ -105,7 +105,7 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 		return
 	}
 
-	resHeader := res.Header(dbx_context.DropboxApiResHeaderResult)
+	resHeader := res.Header(dbx_client.DropboxApiResHeaderResult)
 	j, err := es_json.ParseString(resHeader)
 	if err != nil {
 		l.Debug("Unable to parse response header", esl.Error(err), esl.String("header", resHeader))

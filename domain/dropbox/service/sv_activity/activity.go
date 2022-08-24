@@ -1,7 +1,7 @@
 package sv_activity
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_activity"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -46,14 +46,14 @@ func AccountId(accountId string) ListOpt {
 	}
 }
 
-func New(ctx dbx_context.Context) Activity {
+func New(ctx dbx_client.Client) Activity {
 	return &activityImpl{
 		ctx: ctx,
 	}
 }
 
 type activityImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *activityImpl) All(handler func(event *mo_activity.Event) error) (err error) {

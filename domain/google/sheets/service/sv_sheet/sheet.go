@@ -2,7 +2,7 @@ package sv_sheet
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/sheets/model/bo_sheet"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_cell"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_spreadsheet"
@@ -106,7 +106,7 @@ func DateTimeRenderOption(opt string) RenderOpt {
 	}
 }
 
-func New(ctx goog_context.Context) Sheet {
+func New(ctx goog_client.Client) Sheet {
 	return &shImpl{
 		ctx: ctx,
 	}
@@ -118,7 +118,7 @@ func parseSheetFromBatchUpdateAddSheetResponse(d es_json.Json) (sheet bo_sheet.S
 }
 
 type shImpl struct {
-	ctx goog_context.Context
+	ctx goog_client.Client
 }
 
 func (z shImpl) Delete(spreadsheetId, sheetId string) error {

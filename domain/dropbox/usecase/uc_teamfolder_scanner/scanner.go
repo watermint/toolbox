@@ -2,7 +2,7 @@ package uc_teamfolder_scanner
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -69,7 +69,7 @@ type Scanner interface {
 	Scan(filter mo_filter.Filter) (teamFolders []*TeamFolder, err error)
 }
 
-func New(ctl app_control.Control, ctx dbx_context.Context, scanTimeout ScanTimeoutMode) Scanner {
+func New(ctl app_control.Control, ctx dbx_client.Client, scanTimeout ScanTimeoutMode) Scanner {
 	return &scanImpl{
 		ctl:         ctl,
 		ctx:         ctx,
@@ -79,7 +79,7 @@ func New(ctl app_control.Control, ctx dbx_context.Context, scanTimeout ScanTimeo
 
 type scanImpl struct {
 	ctl         app_control.Control
-	ctx         dbx_context.Context
+	ctx         dbx_client.Client
 	scanTimeout ScanTimeoutMode
 }
 
@@ -266,7 +266,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 			return
 		}
 
-		ctx := z.ctx.WithPath(dbx_context.Namespace(teamfolder.NamespaceId)).AsMemberId(rootMemberTeamMemberId).NoRetry()
+		ctx := z.ctx.WithPath(dbx_client.Namespace(teamfolder.NamespaceId)).AsMemberId(rootMemberTeamMemberId).NoRetry()
 
 		for _, descendantNamespaceId := range teamfolder.Descendants {
 			ll := l.With(esl.String("descendant", descendantNamespaceId))
@@ -332,7 +332,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 		}
 
 		ll.Debug("Scan path")
-		ctx := z.ctx.WithPath(dbx_context.Namespace(teamfolder.NamespaceId)).AsAdminId(admin.TeamMemberId)
+		ctx := z.ctx.WithPath(dbx_client.Namespace(teamfolder.NamespaceId)).AsAdminId(admin.TeamMemberId)
 		entries, err := sv_file.NewFiles(ctx).List(path)
 		if err != nil {
 			l.Debug("Unable to retrieve entries", esl.Error(err), esl.String("path", path.Path()))

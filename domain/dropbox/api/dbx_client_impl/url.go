@@ -1,4 +1,4 @@
-package dbx_context_impl
+package dbx_client_impl
 
 import "fmt"
 

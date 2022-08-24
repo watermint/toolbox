@@ -2,7 +2,7 @@ package sv_group_member
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
@@ -47,21 +47,21 @@ func ByTeamMemberId(teamMemberId string) MemberOpt {
 	}
 }
 
-func New(ctx dbx_context.Context, group *mo_group.Group) GroupMember {
+func New(ctx dbx_client.Client, group *mo_group.Group) GroupMember {
 	return &groupMemberImpl{
 		ctx:     ctx,
 		groupId: group.GroupId,
 	}
 }
 
-func NewByGroupId(ctx dbx_context.Context, groupId string) GroupMember {
+func NewByGroupId(ctx dbx_client.Client, groupId string) GroupMember {
 	return &groupMemberImpl{
 		ctx:     ctx,
 		groupId: groupId,
 	}
 }
 
-func NewCachedReader(ctx dbx_context.Context, groupId string) GroupMemberReader {
+func NewCachedReader(ctx dbx_client.Client, groupId string) GroupMemberReader {
 	return &cachedReader{
 		group:   NewByGroupId(ctx, groupId),
 		mutex:   sync.Mutex{},
@@ -70,7 +70,7 @@ func NewCachedReader(ctx dbx_context.Context, groupId string) GroupMemberReader 
 	}
 }
 
-func NewCachedDirectory(ctx dbx_context.Context) GroupDirectory {
+func NewCachedDirectory(ctx dbx_client.Client) GroupDirectory {
 	return &cachedDirectory{
 		groups: make(map[string]GroupMemberReader),
 		mutex:  sync.Mutex{},
@@ -81,7 +81,7 @@ func NewCachedDirectory(ctx dbx_context.Context) GroupDirectory {
 type cachedDirectory struct {
 	groups map[string]GroupMemberReader
 	mutex  sync.Mutex
-	ctx    dbx_context.Context
+	ctx    dbx_client.Client
 }
 
 func (z *cachedDirectory) List(groupId string) (members []*mo_group_member.Member, err error) {
@@ -126,7 +126,7 @@ func (z *cachedReader) List() (members []*mo_group_member.Member, err error) {
 }
 
 type groupMemberImpl struct {
-	ctx     dbx_context.Context
+	ctx     dbx_client.Client
 	groupId string
 }
 

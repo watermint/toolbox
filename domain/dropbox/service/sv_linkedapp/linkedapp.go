@@ -1,7 +1,7 @@
 package sv_linkedapp
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_linkedapp"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -11,14 +11,14 @@ type LinkedApp interface {
 	List() (apps []*mo_linkedapp.LinkedApp, err error)
 }
 
-func New(ctx dbx_context.Context) LinkedApp {
+func New(ctx dbx_client.Client) LinkedApp {
 	return &linkedAppImpl{
 		ctx: ctx,
 	}
 }
 
 type linkedAppImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *linkedAppImpl) List() (apps []*mo_linkedapp.LinkedApp, err error) {

@@ -3,7 +3,7 @@ package sv_content
 import (
 	"encoding/base64"
 	"errors"
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_commit"
 	"github.com/watermint/toolbox/domain/github/model/mo_content"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -62,7 +62,7 @@ type ParamRef struct {
 	Ref string `json:"ref" url:"ref"`
 }
 
-func New(ctx gh_context.Context, owner, repo string) Content {
+func New(ctx gh_client.Client, owner, repo string) Content {
 	return &ctsImpl{
 		ctx:   ctx,
 		owner: owner,
@@ -71,7 +71,7 @@ func New(ctx gh_context.Context, owner, repo string) Content {
 }
 
 type ctsImpl struct {
-	ctx   gh_context.Context
+	ctx   gh_client.Client
 	owner string
 	repo  string
 }

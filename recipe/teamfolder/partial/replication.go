@@ -3,8 +3,8 @@ package partial
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -89,8 +89,8 @@ func (z *Replication) Exec(c app_control.Control) error {
 	}
 	l.Debug("Dest team folder found", esl.Any("dstTeamFolder", dstTeamFolder))
 
-	srcCtx := z.Src.Context().AsMemberId(srcAdmin.TeamMemberId).WithPath(dbx_context.Namespace(srcTeamFolder.TeamFolderId))
-	dstCtx := z.Dst.Context().AsMemberId(dstAdmin.TeamMemberId).WithPath(dbx_context.Namespace(dstTeamFolder.TeamFolderId))
+	srcCtx := z.Src.Context().AsMemberId(srcAdmin.TeamMemberId).WithPath(dbx_client.Namespace(srcTeamFolder.TeamFolderId))
+	dstCtx := z.Dst.Context().AsMemberId(dstAdmin.TeamMemberId).WithPath(dbx_client.Namespace(dstTeamFolder.TeamFolderId))
 
 	mirror := uc_file_mirror.New(srcCtx, dstCtx)
 	return mirror.Mirror(z.SrcPath, z.DstPath)

@@ -2,7 +2,7 @@ package sv_file_content
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -28,12 +28,12 @@ type Opts struct {
 	Path          string `json:"path"`
 }
 
-func NewDownload(ctx dbx_context.Context) Download {
+func NewDownload(ctx dbx_client.Client) Download {
 	return &downloadImpl{ctx: ctx}
 }
 
 type downloadImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *downloadImpl) DownloadUrl(path mo_path.DropboxPath) (url string, err error) {
@@ -79,7 +79,7 @@ func (z *downloadImpl) Download(path mo_path.DropboxPath) (entry mo_file.Entry, 
 	if err != nil {
 		return nil, nil, err
 	}
-	resData := dbx_context.ContentResponseData(res)
+	resData := dbx_client.ContentResponseData(res)
 
 	entry = &mo_file.Metadata{}
 	if err := resData.Model(entry); err != nil {

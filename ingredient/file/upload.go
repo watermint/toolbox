@@ -1,8 +1,8 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_local_to_dbx"
@@ -37,7 +37,7 @@ var (
 )
 
 type Upload struct {
-	Context     dbx_context.Context
+	Context     dbx_client.Client
 	Delete      bool
 	Overwrite   bool
 	BatchSize   int
@@ -201,7 +201,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 func (z *Upload) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*Upload)
-		m.Context = dbx_context_impl.NewMock("mock", c)
+		m.Context = dbx_client_impl.NewMock("mock", c)
 		m.LocalPath = qtr_endtoend.NewTestFileSystemFolderPath(c, "up")
 		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("up")
 	})

@@ -1,9 +1,9 @@
 package goog_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
+	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
-	"github.com/watermint/toolbox/domain/google/api/goog_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -19,11 +19,11 @@ func NewConnGoogleSheets(name string) goog_conn.ConnGoogleSheets {
 type connSheets struct {
 	name   string
 	scopes []string
-	ctx    goog_context.Context
+	ctx    goog_client.Client
 }
 
 func (z *connSheets) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(goog_context_impl.EndpointGoogleSheets, z.scopes, z.name, ctl)
+	z.ctx, err = connect(goog_client_impl.EndpointGoogleSheets, z.scopes, z.name, ctl)
 	return
 }
 
@@ -51,7 +51,7 @@ func (z *connSheets) Scopes() []string {
 	return z.scopes
 }
 
-func (z *connSheets) Context() goog_context.Context {
+func (z *connSheets) Context() goog_client.Client {
 	return z.ctx
 }
 

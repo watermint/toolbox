@@ -3,7 +3,7 @@ package sv_group
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -49,13 +49,13 @@ func ManagementType(mgmtType string) CreateOpt {
 	}
 }
 
-func New(ctx dbx_context.Context) Group {
+func New(ctx dbx_client.Client) Group {
 	g := &implGroup{
 		ctx: ctx,
 	}
 	return g
 }
-func NewCached(ctx dbx_context.Context) Group {
+func NewCached(ctx dbx_client.Client) Group {
 	g := &cachedGroup{
 		impl: &implGroup{
 			ctx: ctx,
@@ -125,7 +125,7 @@ func (z *cachedGroup) Update(group *mo_group.Group) (g *mo_group.Group, err erro
 }
 
 type implGroup struct {
-	ctx   dbx_context.Context
+	ctx   dbx_client.Client
 	limit int
 }
 

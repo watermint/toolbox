@@ -1,7 +1,7 @@
 package sv_team
 
 import (
-	"github.com/watermint/toolbox/domain/asana/api/as_context"
+	"github.com/watermint/toolbox/domain/asana/api/as_client"
 	"github.com/watermint/toolbox/domain/asana/api/as_pagination"
 	"github.com/watermint/toolbox/domain/asana/model/mo_team"
 	"github.com/watermint/toolbox/domain/asana/model/mo_workspace"
@@ -37,14 +37,14 @@ func Workspace(ws *mo_workspace.Workspace) Opt {
 	}
 }
 
-func New(ctx as_context.Context) Team {
+func New(ctx as_client.Client) Team {
 	return &teamImpl{
 		ctx: ctx,
 	}
 }
 
 type teamImpl struct {
-	ctx as_context.Context
+	ctx as_client.Client
 	ws  *mo_workspace.Workspace
 }
 

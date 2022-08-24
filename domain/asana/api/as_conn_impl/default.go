@@ -3,9 +3,9 @@ package as_conn_impl
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/asana/api/as_auth"
+	"github.com/watermint/toolbox/domain/asana/api/as_client"
+	"github.com/watermint/toolbox/domain/asana/api/as_client_impl"
 	"github.com/watermint/toolbox/domain/asana/api/as_conn"
-	"github.com/watermint/toolbox/domain/asana/api/as_context"
-	"github.com/watermint/toolbox/domain/asana/api/as_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/api/api_conn_impl"
@@ -21,22 +21,22 @@ func NewConnAsana(name string) as_conn.ConnAsanaApi {
 
 type connAsanaApi struct {
 	name  string
-	ctx   as_context.Context
+	ctx   as_client.Client
 	scope string
 }
 
 func (z *connAsanaApi) Connect(ctl app_control.Control) (err error) {
 	ac, useMock, err := api_conn_impl.Connect(z.Scopes(), z.name, as_auth.New(ctl), ctl)
 	if useMock {
-		z.ctx = as_context_impl.NewMock(z.name, ctl)
+		z.ctx = as_client_impl.NewMock(z.name, ctl)
 		return nil
 	}
 	if replay, enabled := ctl.Feature().IsTestWithSeqReplay(); enabled {
-		z.ctx = as_context_impl.NewReplayMock(z.name, ctl, replay)
+		z.ctx = as_client_impl.NewReplayMock(z.name, ctl, replay)
 		return nil
 	}
 	if ac != nil {
-		z.ctx = as_context_impl.New(z.name, ctl, ac)
+		z.ctx = as_client_impl.New(z.name, ctl, ac)
 		return nil
 	}
 	if err != nil {
@@ -80,6 +80,6 @@ func (z *connAsanaApi) Scopes() []string {
 	return []string{z.scope}
 }
 
-func (z *connAsanaApi) Context() as_context.Context {
+func (z *connAsanaApi) Context() as_client.Client {
 	return z.ctx
 }

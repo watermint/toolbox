@@ -1,7 +1,7 @@
 package sv_team
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -14,14 +14,14 @@ type Report interface {
 	Storage(span ReportSpan) (storage mo_team.Storage, err error)
 }
 
-func NewReport(ctx dbx_context.Context) Report {
+func NewReport(ctx dbx_client.Client) Report {
 	return &repImpl{
 		ctx: ctx,
 	}
 }
 
 type repImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 type ReportSpan struct {

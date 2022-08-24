@@ -3,8 +3,8 @@ package all
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
@@ -79,7 +79,7 @@ func (z *Release) Exec(c app_control.Control) error {
 		return err
 	}
 
-	ctx := z.Peer.Context().WithPath(dbx_context.Namespace(teamFolder.TeamFolderId)).AsAdminId(admin.TeamMemberId)
+	ctx := z.Peer.Context().WithPath(dbx_client.Namespace(teamFolder.TeamFolderId)).AsAdminId(admin.TeamMemberId)
 	l := c.Log()
 	sfl := sv_file_lock.New(ctx)
 

@@ -1,4 +1,4 @@
-package dbx_context
+package dbx_client
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_client"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 )
@@ -30,10 +30,10 @@ type AsyncContext interface {
 	Async(endpoint string) dbx_async.Async
 }
 
-type Context interface {
-	api_context.Context
-	api_context.QualityContext
-	api_context.UI
+type Client interface {
+	api_client.Client
+	api_client.QualityContext
+	api_client.UI
 
 	Async(endpoint string, d ...api_request.RequestDatum) dbx_async.Async
 	List(endpoint string, d ...api_request.RequestDatum) dbx_list.List
@@ -43,11 +43,11 @@ type Context interface {
 	Notify(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	ContentHead(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 
-	AsMemberId(teamMemberId string) Context
-	AsAdminId(teamMemberId string) Context
-	WithPath(pathRoot PathRoot) Context
-	NoAuth() Context
-	NoRetry() Context
+	AsMemberId(teamMemberId string) Client
+	AsAdminId(teamMemberId string) Client
+	WithPath(pathRoot PathRoot) Client
+	NoAuth() Client
+	NoRetry() Client
 	Feature() app_feature.Feature
 }
 

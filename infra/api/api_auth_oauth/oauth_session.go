@@ -133,10 +133,14 @@ type sessionRepository struct {
 }
 
 func (z sessionRepository) Start(session api_auth.OAuthSessionData) (entity api_auth.OAuthEntity, err error) {
+	entity, found := z.repository.Get(session.AppData.AppKeyName, session.Scopes, session.PeerName)
+	if found {
+		return entity, nil
+	}
 	entity, err = z.session.Start(session)
 	if err != nil {
 		return api_auth.OAuthEntity{}, err
 	}
 	z.repository.Put(entity)
-	return entity, err
+	return entity, nil
 }

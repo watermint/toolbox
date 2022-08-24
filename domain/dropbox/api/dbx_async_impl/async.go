@@ -3,7 +3,7 @@ package dbx_async_impl
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -20,7 +20,7 @@ var (
 	ErrorAsyncJobIdNotFound = errors.New("async job id not found in the response")
 )
 
-func New(ctx dbx_context.Context, endpoint string, reqData []api_request.RequestDatum) dbx_async.Async {
+func New(ctx dbx_client.Client, endpoint string, reqData []api_request.RequestDatum) dbx_async.Async {
 	return &asyncImpl{
 		ctx:         ctx,
 		reqData:     reqData,
@@ -29,7 +29,7 @@ func New(ctx dbx_context.Context, endpoint string, reqData []api_request.Request
 }
 
 type asyncImpl struct {
-	ctx         dbx_context.Context
+	ctx         dbx_client.Client
 	reqData     []api_request.RequestDatum
 	reqEndpoint string
 }

@@ -1,16 +1,16 @@
-package goog_context_impl
+package goog_client_impl
 
 import (
 	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/api/goog_request"
 	"github.com/watermint/toolbox/domain/google/api/goog_response_impl"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
-	"github.com/watermint/toolbox/essentials/network/nw_rest"
+	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -26,10 +26,10 @@ const (
 
 type EndpointType string
 
-func NewMock(endpoint EndpointType, name string, ctl app_control.Control) goog_context.Context {
-	client := nw_rest.New(
-		nw_rest.Mock())
-	return &ctxImpl{
+func NewMock(endpoint EndpointType, name string, ctl app_control.Control) goog_client.Client {
+	client := nw_rest_factory.New(
+		nw_rest_factory.Mock())
+	return &clientImpl{
 		baseEndpoint: endpoint,
 		name:         name,
 		client:       client,
@@ -38,11 +38,11 @@ func NewMock(endpoint EndpointType, name string, ctl app_control.Control) goog_c
 	}
 }
 
-func NewReplayMock(endpoint EndpointType, name string, ctl app_control.Control, rr []nw_replay.Response) goog_context.Context {
-	client := nw_rest.New(
-		nw_rest.Assert(dbx_response_impl.AssertResponse),
-		nw_rest.ReplayMock(rr))
-	return &ctxImpl{
+func NewReplayMock(endpoint EndpointType, name string, ctl app_control.Control, rr []nw_replay.Response) goog_client.Client {
+	client := nw_rest_factory.New(
+		nw_rest_factory.Assert(dbx_response_impl.AssertResponse),
+		nw_rest_factory.ReplayMock(rr))
+	return &clientImpl{
 		baseEndpoint: endpoint,
 		name:         name,
 		client:       client,
@@ -51,11 +51,11 @@ func NewReplayMock(endpoint EndpointType, name string, ctl app_control.Control, 
 	}
 }
 
-func New(et EndpointType, name string, ctl app_control.Control, token api_auth.OAuthContext) goog_context.Context {
-	client := nw_rest.New(
-		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
+func New(et EndpointType, name string, ctl app_control.Control, token api_auth.OAuthContext) goog_client.Client {
+	client := nw_rest_factory.New(
+		nw_rest_factory.Client(token.Config().Client(context.Background(), token.Token())),
 	)
-	return &ctxImpl{
+	return &clientImpl{
 		baseEndpoint: et,
 		name:         name,
 		client:       client,
@@ -64,7 +64,7 @@ func New(et EndpointType, name string, ctl app_control.Control, token api_auth.O
 	}
 }
 
-type ctxImpl struct {
+type clientImpl struct {
 	baseEndpoint EndpointType
 	name         string
 	builder      goog_request.Builder
@@ -72,15 +72,15 @@ type ctxImpl struct {
 	ctl          app_control.Control
 }
 
-func (z ctxImpl) Name() string {
+func (z clientImpl) Name() string {
 	return z.name
 }
 
-func (z ctxImpl) UI() app_ui.UI {
+func (z clientImpl) UI() app_ui.UI {
 	return z.ctl.UI()
 }
 
-func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodGet,
 		string(z.baseEndpoint)+endpoint,
@@ -89,7 +89,7 @@ func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_res
 	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
-func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPost,
 		string(z.baseEndpoint)+endpoint,
@@ -98,7 +98,7 @@ func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_re
 	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
-func (z ctxImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPut,
 		string(z.baseEndpoint)+endpoint,
@@ -107,7 +107,7 @@ func (z ctxImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_res
 	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
-func (z ctxImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodDelete,
 		string(z.baseEndpoint)+endpoint,
@@ -116,14 +116,14 @@ func (z ctxImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_
 	return goog_response_impl.New(z.client.Call(&z, b))
 }
 
-func (z ctxImpl) ClientHash() string {
+func (z clientImpl) ClientHash() string {
 	return z.builder.ClientHash()
 }
 
-func (z ctxImpl) Log() esl.Logger {
+func (z clientImpl) Log() esl.Logger {
 	return z.builder.Log()
 }
 
-func (z ctxImpl) Capture() esl.Logger {
+func (z clientImpl) Capture() esl.Logger {
 	return z.ctl.Capture()
 }

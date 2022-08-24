@@ -1,7 +1,7 @@
 package filesystem
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -26,7 +26,7 @@ var (
 	MFileSystemCached = app_msg.Apply(&MsgFileSystemCached{}).(*MsgFileSystemCached)
 )
 
-func NewPreScanFileSystem(ctl app_control.Control, ctx dbx_context.Context, path mo_path.DropboxPath) (fs es_filesystem.FileSystem, err es_filesystem.FileSystemError) {
+func NewPreScanFileSystem(ctl app_control.Control, ctx dbx_client.Client, path mo_path.DropboxPath) (fs es_filesystem.FileSystem, err es_filesystem.FileSystemError) {
 	l := ctl.Log().With(esl.String("Path", path.Path()))
 	l.Debug("Prepare pre-scan file system")
 
@@ -71,7 +71,7 @@ type cachedFs struct {
 	cacheMutex   sync.Mutex
 	cacheList    kv_storage.Storage // path -> list of path (CacheEntryList)
 	cacheEntries kv_storage.Storage // path -> entry (*mo_file.Metadata)
-	ctx          dbx_context.Context
+	ctx          dbx_client.Client
 }
 
 type CacheEntryList struct {

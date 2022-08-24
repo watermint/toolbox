@@ -9,6 +9,7 @@ type Builder interface {
 	Log() esl.Logger
 	ClientHash() string
 	Build() (*http.Request, error)
+	WithData(data RequestDatum) Builder
 	Endpoint() string
 	Param() string
 }

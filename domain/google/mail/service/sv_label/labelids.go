@@ -1,7 +1,7 @@
 package sv_label
 
 import (
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -17,7 +17,7 @@ var (
 	MFindLabel = app_msg.Apply(&MsgFindLabel{}).(*MsgFindLabel)
 )
 
-func FindLabelIdsByNames(ctx goog_context.Context, ui app_ui.UI, userId string, names []string) (labelIds []string, err error) {
+func FindLabelIdsByNames(ctx goog_client.Client, ui app_ui.UI, userId string, names []string) (labelIds []string, err error) {
 	l := ctx.Log()
 	l.Debug("Build query param: labels")
 	queryLabelIds := make([]string, 0)
@@ -33,7 +33,7 @@ func FindLabelIdsByNames(ctx goog_context.Context, ui app_ui.UI, userId string, 
 	return queryLabelIds, nil
 }
 
-func FindOrAddLabelIdsByNames(ctx goog_context.Context, ui app_ui.UI, userId string, names []string) (labelIds []string, err error) {
+func FindOrAddLabelIdsByNames(ctx goog_client.Client, ui app_ui.UI, userId string, names []string) (labelIds []string, err error) {
 	l := ctx.Log()
 	l.Debug("Build query param: labels")
 	queryLabelIds := make([]string, 0)

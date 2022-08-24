@@ -2,7 +2,7 @@ package sv_paper
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_paper"
@@ -21,7 +21,7 @@ type Legacy interface {
 	Export(docId string, format string) (export *mo_paper.LegacyPaper, exportPath mo_path.FileSystemPath, err error)
 }
 
-func NewLegacy(ctx dbx_context.Context) Legacy {
+func NewLegacy(ctx dbx_client.Client) Legacy {
 	return &legacyImpl{
 		ctx: ctx,
 	}
@@ -32,7 +32,7 @@ type legacyRequest struct {
 }
 
 type legacyImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z legacyImpl) List(filterBy string, onEntry func(docId string)) error {
@@ -89,7 +89,7 @@ func (z legacyImpl) Metadata(docId string, format string) (export *mo_paper.Lega
 		return nil, err
 	}
 
-	resData := dbx_context.ContentResponseData(res)
+	resData := dbx_client.ContentResponseData(res)
 	export = &mo_paper.LegacyPaper{}
 	if err := resData.Model(export); err != nil {
 		return nil, err
@@ -124,7 +124,7 @@ func (z legacyImpl) Export(docId string, format string) (export *mo_paper.Legacy
 		l.Debug("Unable to retrieve a file", esl.Error(err))
 		return nil, nil, err
 	}
-	resData := dbx_context.ContentResponseData(res)
+	resData := dbx_client.ContentResponseData(res)
 	export = &mo_paper.LegacyPaper{}
 	if err := resData.Model(export); err != nil {
 		if removeErr := os.Remove(contentFilePath); removeErr != nil {

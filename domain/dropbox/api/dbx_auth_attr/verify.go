@@ -3,7 +3,7 @@ package dbx_auth_attr
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -17,7 +17,7 @@ var (
 
 func verifyTokenIndividual(name string, scopes []string, ctx api_auth.OAuthContext, ctl app_control.Control, app api_auth.OAuthApp) (actx api_auth.OAuthContext, err error) {
 	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
-	apiCtx := dbx_context_impl.New(name, ctl, ctx)
+	apiCtx := dbx_client_impl.New(name, ctl, ctx)
 	res := apiCtx.Post("users/get_current_account")
 	if err, fail := res.Failure(); fail {
 		l.Debug("Unable to verify token", esl.Error(err))
@@ -42,7 +42,7 @@ func verifyTokenTeam(name string, scopes []string, ctx api_auth.OAuthContext, ct
 	l := ctl.Log().With(esl.String("peerName", ctx.PeerName()), esl.Strings("scopes", scopes))
 	ui := ctl.UI()
 
-	apiCtx := dbx_context_impl.New(name, ctl, ctx)
+	apiCtx := dbx_client_impl.New(name, ctl, ctx)
 	res := apiCtx.Post("team/get_info")
 	if err, fail := res.Failure(); fail {
 		l.Debug("Unable to verify token", esl.Error(err))

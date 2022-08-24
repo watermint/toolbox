@@ -3,9 +3,9 @@ package work_conn_impl
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/slack/api/work_auth"
+	"github.com/watermint/toolbox/domain/slack/api/work_client"
+	"github.com/watermint/toolbox/domain/slack/api/work_client_impl"
 	"github.com/watermint/toolbox/domain/slack/api/work_conn"
-	"github.com/watermint/toolbox/domain/slack/api/work_context"
-	"github.com/watermint/toolbox/domain/slack/api/work_context_impl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/api/api_conn_impl"
@@ -21,18 +21,18 @@ func NewSlackApi(name string) work_conn.ConnSlackApi {
 
 type connSlackApi struct {
 	name   string
-	ctx    work_context.Context
+	ctx    work_client.Client
 	scopes []string
 }
 
 func (z *connSlackApi) Connect(ctl app_control.Control) (err error) {
 	ac, useMock, err := api_conn_impl.Connect(z.Scopes(), z.name, work_auth.New(ctl), ctl)
 	if useMock {
-		z.ctx = work_context_impl.NewMock(z.name, ctl)
+		z.ctx = work_client_impl.NewMock(z.name, ctl)
 		return nil
 	}
 	if ac != nil {
-		z.ctx = work_context_impl.New(z.name, ctl, ac)
+		z.ctx = work_client_impl.New(z.name, ctl, ac)
 		return nil
 	}
 	if err != nil {
@@ -66,6 +66,6 @@ func (z *connSlackApi) Scopes() []string {
 	return z.scopes
 }
 
-func (z *connSlackApi) Context() work_context.Context {
+func (z *connSlackApi) Context() work_client.Client {
 	return z.ctx
 }

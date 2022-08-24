@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
@@ -589,7 +589,7 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 	}
 
 	// Ensure access
-	ensureAccess := func(admin *mo_profile.Profile, ctx dbx_context.Context, folder *mo_teamfolder.TeamFolder) error {
+	ensureAccess := func(admin *mo_profile.Profile, ctx dbx_client.Client, folder *mo_teamfolder.TeamFolder) error {
 		mount, ensureErr := sv_sharedfolder.New(ctx.AsMemberId(admin.TeamMemberId)).Resolve(folder.TeamFolderId)
 		if ensureErr != nil {
 			return ensureErr
@@ -625,10 +625,10 @@ func (z *Replication) Content(c app_control.Control, ctx Context, scope Scope) (
 
 	ctxSrc := z.Src.Context().
 		AsMemberId(ctx.AdminSrc().TeamMemberId).
-		WithPath(dbx_context.Namespace(scope.Pair().Src.TeamFolderId))
+		WithPath(dbx_client.Namespace(scope.Pair().Src.TeamFolderId))
 	ctxDst := z.Dst.Context().
 		AsMemberId(ctx.AdminDst().TeamMemberId).
-		WithPath(dbx_context.Namespace(scope.Pair().Dst.TeamFolderId))
+		WithPath(dbx_client.Namespace(scope.Pair().Dst.TeamFolderId))
 
 	ucm := uc_file_mirror.New(ctxSrc, ctxDst)
 	return ucm.Mirror(mo_path.NewDropboxPath("/"), mo_path.NewDropboxPath("/"))
@@ -650,10 +650,10 @@ func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (e
 
 	ctxSrc := z.Src.Context().
 		AsMemberId(ctx.AdminSrc().TeamMemberId).
-		WithPath(dbx_context.Namespace(scope.Pair().Src.TeamFolderId))
+		WithPath(dbx_client.Namespace(scope.Pair().Src.TeamFolderId))
 	ctxDst := z.Dst.Context().
 		AsMemberId(ctx.AdminDst().TeamMemberId).
-		WithPath(dbx_context.Namespace(scope.Pair().Dst.TeamFolderId))
+		WithPath(dbx_client.Namespace(scope.Pair().Dst.TeamFolderId))
 
 	ucc := uc_compare_paths.New(ctxSrc, ctxDst, c.UI())
 	count, err := ucc.Diff(

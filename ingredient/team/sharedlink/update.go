@@ -1,7 +1,7 @@
 package sharedlink
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -14,7 +14,7 @@ import (
 )
 
 type Update struct {
-	Ctx  dbx_context.Context
+	Ctx  dbx_client.Client
 	File fd_file.RowFeed
 	Opts uc_team_sharedlink.UpdateOpts
 }

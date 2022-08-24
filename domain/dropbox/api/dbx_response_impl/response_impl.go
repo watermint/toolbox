@@ -1,7 +1,7 @@
 package dbx_response_impl
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -64,7 +64,7 @@ func (z resImpl) Failure() (error, bool) {
 
 func (z resImpl) Result() es_json.Json {
 	if z.IsSuccess() {
-		r := z.Header(dbx_context.DropboxApiResHeaderResult)
+		r := z.Header(dbx_client.DropboxApiResHeaderResult)
 		if r != "" {
 			return es_json.MustParseString(r)
 		}

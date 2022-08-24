@@ -1,7 +1,7 @@
 package sv_file_content
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -37,7 +37,7 @@ var (
 	warnExceededChunkSize = sync.Once{}
 )
 
-func NewUpload(ctx dbx_context.Context, opts ...UploadOpt) Upload {
+func NewUpload(ctx dbx_client.Client, opts ...UploadOpt) Upload {
 	uo := &UploadOpts{
 		ChunkSize: DefaultChunkSize,
 		Mute:      false,
@@ -76,7 +76,7 @@ func UseCustomFileName(enabled bool) UploadOpt {
 }
 
 type uploadImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 	uo  *UploadOpts
 }
 

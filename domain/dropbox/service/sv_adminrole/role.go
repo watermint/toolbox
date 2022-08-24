@@ -2,7 +2,7 @@ package sv_adminrole
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_adminrole"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_user"
 	"github.com/watermint/toolbox/essentials/http/es_response"
@@ -14,7 +14,7 @@ type Role interface {
 	UpdateRole(user mo_user.UserSelector, roleIds []string) (roles []*mo_adminrole.Role, err error)
 }
 
-func New(ctx dbx_context.Context) Role {
+func New(ctx dbx_client.Client) Role {
 	return &roleImpl{
 		ctx: ctx,
 	}
@@ -26,7 +26,7 @@ type RoleUpdate struct {
 }
 
 type roleImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z roleImpl) parseRoles(res es_response.Response) (roles []*mo_adminrole.Role, err error) {

@@ -1,7 +1,7 @@
 package sv_release_asset
 
 import (
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
@@ -18,7 +18,7 @@ type Asset interface {
 	Upload(file mo_path.ExistingFileSystemPath) (asset *mo_release_asset.Asset, err error)
 }
 
-func New(ctx gh_context.Context, owner, repository, release string) Asset {
+func New(ctx gh_client.Client, owner, repository, release string) Asset {
 	return &assetImpl{
 		ctx:        ctx,
 		owner:      owner,
@@ -28,7 +28,7 @@ func New(ctx gh_context.Context, owner, repository, release string) Asset {
 }
 
 type assetImpl struct {
-	ctx        gh_context.Context
+	ctx        gh_client.Client
 	owner      string
 	repository string
 	release    string

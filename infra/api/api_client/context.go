@@ -1,4 +1,4 @@
-package api_context
+package api_client
 
 import (
 	"github.com/watermint/toolbox/essentials/http/es_context"
@@ -35,7 +35,7 @@ type UI interface {
 	UI() app_ui.UI
 }
 
-type Context interface {
+type Client interface {
 	es_context.Context
 }
 

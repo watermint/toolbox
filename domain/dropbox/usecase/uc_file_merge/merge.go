@@ -2,7 +2,7 @@ package uc_file_merge
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
@@ -31,7 +31,7 @@ type Merge interface {
 	Merge(from, to mo_path.DropboxPath, opts ...MergeOpt) error
 }
 
-func New(ctx dbx_context.Context, ctl app_control.Control) Merge {
+func New(ctx dbx_client.Client, ctl app_control.Control) Merge {
 	return &mergeImpl{
 		ctx: ctx,
 		ctl: ctl,
@@ -65,7 +65,7 @@ func ClearEmptyFolder() MergeOpt {
 }
 
 type mergeImpl struct {
-	ctx       dbx_context.Context
+	ctx       dbx_client.Client
 	ctl       app_control.Control
 	from      mo_path.DropboxPath
 	fromEntry mo_file.Entry

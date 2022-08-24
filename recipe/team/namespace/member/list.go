@@ -3,8 +3,8 @@ package member
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
@@ -39,7 +39,7 @@ func (z *List) Preset() {
 	)
 }
 
-func (z *List) scanNamespace(namespace *mo_namespace.Namespace, c app_control.Control, ctx dbx_context.Context) error {
+func (z *List) scanNamespace(namespace *mo_namespace.Namespace, c app_control.Control, ctx dbx_client.Client) error {
 	l := c.Log().With(esl.Any("namespace", namespace))
 
 	members, err := sv_sharedfolder_member.NewBySharedFolderId(ctx, namespace.NamespaceId).List()

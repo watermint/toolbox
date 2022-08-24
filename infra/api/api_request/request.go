@@ -20,10 +20,22 @@ const (
 )
 
 type RequestData struct {
+	d []RequestDatum
 	p interface{}
 	q interface{}
 	h map[string]string
 	c es_rewinder.ReadRewinder
+}
+
+func (z RequestData) WithDatum(datum RequestDatum) RequestData {
+	all := make([]RequestDatum, len(z.d)+1)
+	copy(all[:], z.d[:])
+	all[len(z.d)] = datum
+	return Combine(all)
+}
+
+func (z RequestData) Data() []RequestDatum {
+	return z.d
 }
 
 // Convert into JSON form of param. Returns `null` string if an error occurred.
@@ -115,7 +127,9 @@ func Content(c es_rewinder.ReadRewinder) RequestDatum {
 
 // Combine datum into data
 func Combine(rds []RequestDatum) RequestData {
-	rd := RequestData{}
+	rd := RequestData{
+		d: rds,
+	}
 	for _, d := range rds {
 		rd = d(rd)
 	}

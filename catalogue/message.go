@@ -25,7 +25,7 @@ import (
 	infracontrolapp_job_impl "github.com/watermint/toolbox/infra/control/app_job_impl"
 	infradatada_griddata "github.com/watermint/toolbox/infra/data/da_griddata"
 	infradatada_json "github.com/watermint/toolbox/infra/data/da_json"
-	"github.com/watermint/toolbox/infra/doc/dc_contributor"
+	infradocdc_contributor "github.com/watermint/toolbox/infra/doc/dc_contributor"
 	infradocdc_license "github.com/watermint/toolbox/infra/doc/dc_license"
 	infradocdc_options "github.com/watermint/toolbox/infra/doc/dc_options"
 	infradocdc_supplemental "github.com/watermint/toolbox/infra/doc/dc_supplemental"
@@ -76,9 +76,9 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infracontrolapp_job_impl.MsgLauncher{},
 		&infradatada_griddata.MsgGridDataInput{},
 		&infradatada_json.MsgJsonInput{},
+		&infradocdc_contributor.MsgDeveloper{},
 		&infradocdc_license.MsgLicense{},
 		&infradocdc_options.MsgDoc{},
-		&dc_contributor.MsgDeveloper{},
 		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
