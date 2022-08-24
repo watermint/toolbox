@@ -29,7 +29,7 @@ type RevisionOpts struct {
 }
 
 func New(ctx dbx_context.Context, opt ...RevisionOpt) Revision {
-	opts := &RevisionOpts{Limit: 10}
+	opts := &RevisionOpts{Limit: 100}
 	for _, o := range opt {
 		o(opts)
 	}
