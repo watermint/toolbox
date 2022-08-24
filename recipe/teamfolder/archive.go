@@ -2,7 +2,6 @@ package teamfolder
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -27,9 +26,9 @@ type Archive struct {
 
 func (z *Archive) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeTeamDataContentRead,
-		dbx_auth.ScopeTeamDataContentWrite,
-		dbx_auth.ScopeTeamInfoRead,
+	//dbx_auth.ScopeTeamDataContentRead,
+	//dbx_auth.ScopeTeamDataContentWrite,
+	//dbx_auth.ScopeTeamInfoRead,
 	)
 }
 

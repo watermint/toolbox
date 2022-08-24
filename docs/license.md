@@ -10,7 +10,7 @@ lang: en
 
 The MIT License (MIT)
 
-Copyright (c) 2016-2021 Takayuki Okazaki.
+Copyright (c) 2016-2022 Takayuki Okazaki.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -29,7 +29,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 The MIT License (MIT)
 
-Copyright (c) 2016-2021 Takayuki Okazaki.
+Copyright (c) 2016-2022 Takayuki Okazaki.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
