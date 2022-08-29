@@ -3,8 +3,8 @@ package file
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
@@ -112,7 +112,7 @@ func (z *Size) Exec(c app_control.Control) error {
 				continue
 			}
 
-			dbxCtx := cta.WithPath(dbx_context.Namespace(namespace.NamespaceId))
+			dbxCtx := cta.WithPath(dbx_client.Namespace(namespace.NamespaceId))
 			dbxFs := filesystem.NewFileSystem(dbxCtx)
 			sessionId := namespace.NamespaceId
 

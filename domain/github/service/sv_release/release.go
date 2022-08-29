@@ -2,7 +2,7 @@ package sv_release
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -20,7 +20,7 @@ type Release interface {
 	Publish(releaseId string) (release *mo_release.Release, err error)
 }
 
-func New(ctx gh_context.Context, owner, repo string) Release {
+func New(ctx gh_client.Client, owner, repo string) Release {
 	return &releaseImpl{
 		ctx:   ctx,
 		owner: owner,
@@ -29,7 +29,7 @@ func New(ctx gh_context.Context, owner, repo string) Release {
 }
 
 type releaseImpl struct {
-	ctx   gh_context.Context
+	ctx   gh_client.Client
 	owner string
 	repo  string
 }

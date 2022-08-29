@@ -1,7 +1,7 @@
 package sv_spreadsheet
 
 import (
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/sheets/model/bo_spreadsheet"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_spreadsheet"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -13,14 +13,14 @@ type Spreadsheet interface {
 	Resolve(id string) (spreadsheet *bo_spreadsheet.Spreadsheet, err error)
 }
 
-func New(ctx goog_context.Context) Spreadsheet {
+func New(ctx goog_client.Client) Spreadsheet {
 	return &ssImpl{
 		ctx: ctx,
 	}
 }
 
 type ssImpl struct {
-	ctx goog_context.Context
+	ctx goog_client.Client
 }
 
 func (z ssImpl) resolveSpreadsheet(id string, includeGridData bool) (spreadsheet *bo_spreadsheet.Spreadsheet, err error) {

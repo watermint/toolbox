@@ -1,7 +1,7 @@
 package dbx_request
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -25,7 +25,7 @@ type Builder interface {
 	api_request.Builder
 	AsMemberId(teamMemberId string) Builder
 	AsAdminId(teamMemberId string) Builder
-	WithPath(pathRoot dbx_context.PathRoot) Builder
+	WithPath(pathRoot dbx_client.PathRoot) Builder
 	With(method, url string, data api_request.RequestData) Builder
 	NoAuth() Builder
 }
@@ -35,10 +35,15 @@ type builderImpl struct {
 	token      api_auth.OAuthContext
 	asMemberId string
 	asAdminId  string
-	basePath   dbx_context.PathRoot
+	basePath   dbx_client.PathRoot
 	method     string
 	data       api_request.RequestData
 	url        string
+}
+
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
+	z.data = z.data.WithDatum(data)
+	return z
 }
 
 func (z builderImpl) Endpoint() string {
@@ -57,7 +62,7 @@ func (z builderImpl) AsAdminId(teamMemberId string) Builder {
 	z.asAdminId = teamMemberId
 	return z
 }
-func (z builderImpl) WithPath(pathRoot dbx_context.PathRoot) Builder {
+func (z builderImpl) WithPath(pathRoot dbx_client.PathRoot) Builder {
 	z.basePath = pathRoot
 	return z
 }

@@ -1,7 +1,7 @@
 package filesystem
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -20,7 +20,7 @@ func TestNewPath(t *testing.T) {
 		}
 
 		qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-			fs := NewFileSystem(dbx_context_impl.NewMock("mock", ctl))
+			fs := NewFileSystem(dbx_client_impl.NewMock("mock", ctl))
 
 			root2, err := fs.Path(root.AsData())
 			if err != nil {

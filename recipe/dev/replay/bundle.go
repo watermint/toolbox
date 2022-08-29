@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
@@ -44,7 +44,7 @@ func (z *Bundle) Preset() {
 	z.ResultsPath = mo_path.NewDropboxPath("/watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}}")
 }
 
-func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_context.Context, err error) {
+func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_client.Client, err error) {
 	l := c.Log()
 	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
 		m := r.(*auth.Import)
@@ -60,11 +60,11 @@ func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_context.Contex
 		l.Info("Skip operation")
 		return nil, errors.New("token not found")
 	}
-	ctx = dbx_context_impl.New(z.PeerName, c, apiCtx)
+	ctx = dbx_client_impl.New(z.PeerName, c, apiCtx)
 	return
 }
 
-func (z *Bundle) execReplay(l esl.Logger, entryName string, replay rc_replay.Replay, dbxCtx dbx_context.Context, c, forkCtl app_control.Control) (err error) {
+func (z *Bundle) execReplay(l esl.Logger, entryName string, replay rc_replay.Replay, dbxCtx dbx_client.Client, c, forkCtl app_control.Control) (err error) {
 	defer func() {
 		if rescue := recover(); rescue != nil {
 			var ok bool

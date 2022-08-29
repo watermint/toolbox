@@ -3,8 +3,8 @@ package update
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -36,7 +36,7 @@ type EmailRow struct {
 type EmailWorker struct {
 	transaction *EmailRow
 	member      *mo_member.Member
-	ctx         dbx_context.Context
+	ctx         dbx_client.Client
 	rep         rp_model.TransactionReport
 	ctl         app_control.Control
 }

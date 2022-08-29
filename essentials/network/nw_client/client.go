@@ -7,14 +7,14 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_client"
 	"net/http"
 	"strings"
 	"time"
 )
 
 type Rest interface {
-	Call(ctx api_context.Context, req RequestBuilder) (res es_response.Response)
+	Call(ctx api_client.Client, req RequestBuilder) (res es_response.Response)
 }
 
 type Http interface {
@@ -22,15 +22,18 @@ type Http interface {
 }
 
 type RequestBuilder interface {
-	// Create new http request
+	// Build Create new http request
 	Build() (*http.Request, error)
 
-	// Identifier of endpoint. That could be url or part of url.
+	// Endpoint Identifier of endpoint. That could be url or part of url.
 	// This will be used for QoS control.
 	Endpoint() string
 
-	// String form of parameters. This will be used for logging.
+	// Param String form of parameters. This will be used for logging.
 	Param() string
+
+	//// WithData additional data
+	//WithData(datum api_request.RequestDatum) RequestBuilder
 }
 
 type RequestUrlFilter interface {

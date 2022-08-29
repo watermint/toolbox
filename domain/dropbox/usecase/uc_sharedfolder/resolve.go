@@ -2,7 +2,7 @@ package uc_sharedfolder
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -27,7 +27,7 @@ type Resolver interface {
 	GroupOrEmailForRemoveMember(groupOrEmail string) (m sv_sharedfolder_member.MemberRemoveOption, err error)
 }
 
-func NewResolver(ctx dbx_context.Context) Resolver {
+func NewResolver(ctx dbx_client.Client) Resolver {
 	return &resImpl{
 		ctx: ctx,
 		svg: sv_group.NewCached(ctx),
@@ -35,7 +35,7 @@ func NewResolver(ctx dbx_context.Context) Resolver {
 }
 
 type resImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 	svg sv_group.Group
 }
 

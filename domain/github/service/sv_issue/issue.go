@@ -2,7 +2,7 @@ package sv_issue
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_issue"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -61,7 +61,7 @@ func (z listOpts) Apply(opts []ListOpt) listOpts {
 	}
 }
 
-func New(ctx gh_context.Context, owner, repo string) Issue {
+func New(ctx gh_client.Client, owner, repo string) Issue {
 	return &repoIssueImpl{
 		ctx:   ctx,
 		owner: owner,
@@ -70,7 +70,7 @@ func New(ctx gh_context.Context, owner, repo string) Issue {
 }
 
 type repoIssueImpl struct {
-	ctx   gh_context.Context
+	ctx   gh_client.Client
 	owner string
 	repo  string
 }

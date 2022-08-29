@@ -3,8 +3,8 @@ package restore
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -58,7 +58,7 @@ func (z *All) Preset() {
 	)
 }
 
-func (z *All) restore(entry *mo_file.Deleted, ctx dbx_context.Context, ctl app_control.Control) error {
+func (z *All) restore(entry *mo_file.Deleted, ctx dbx_client.Client, ctl app_control.Control) error {
 	l := ctl.Log().With(esl.String("path", entry.EntryPathDisplay))
 	target := &TargetPath{
 		Path: entry.EntryPathDisplay,

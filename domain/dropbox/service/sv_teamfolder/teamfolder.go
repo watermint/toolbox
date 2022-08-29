@@ -3,7 +3,7 @@ package sv_teamfolder
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -127,7 +127,7 @@ func SyncNoSync() CreateOption {
 	}
 }
 
-func NewCached(ctx dbx_context.Context) TeamFolder {
+func NewCached(ctx dbx_client.Client) TeamFolder {
 	return &teamFolderCached{
 		impl:  New(ctx),
 		cache: nil,
@@ -228,14 +228,14 @@ func (z *teamFolderCached) UpdateSyncSetting(tf *mo_teamfolder.TeamFolder, opts 
 	return z.impl.UpdateSyncSetting(tf, opts...)
 }
 
-func New(ctx dbx_context.Context) TeamFolder {
+func New(ctx dbx_client.Client) TeamFolder {
 	return &teamFolderImpl{
 		ctx: ctx,
 	}
 }
 
 type teamFolderImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *teamFolderImpl) UpdateSyncSetting(tf *mo_teamfolder.TeamFolder, opts ...SyncSettingOpt) (teamfolder *mo_teamfolder.TeamFolder, err error) {

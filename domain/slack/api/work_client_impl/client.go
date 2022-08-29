@@ -1,13 +1,13 @@
-package work_context_impl
+package work_client_impl
 
 import (
 	"context"
-	"github.com/watermint/toolbox/domain/slack/api/work_context"
+	"github.com/watermint/toolbox/domain/slack/api/work_client"
 	"github.com/watermint/toolbox/domain/slack/api/work_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/essentials/network/nw_rest"
+	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -16,9 +16,9 @@ import (
 	"net/http"
 )
 
-func NewMock(name string, ctl app_control.Control) work_context.Context {
-	client := nw_rest.New(nw_rest.Mock())
-	return &ctxImpl{
+func NewMock(name string, ctl app_control.Control) work_client.Client {
+	client := nw_rest_factory.New(nw_rest_factory.Mock())
+	return &clientImpl{
 		name:    name,
 		client:  client,
 		ctl:     ctl,
@@ -26,13 +26,13 @@ func NewMock(name string, ctl app_control.Control) work_context.Context {
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.OAuthContext) work_context.Context {
-	client := nw_rest.New(
-		nw_rest.Client(token.Config().Client(context.Background(), token.Token())),
-		nw_rest.Assert(api_response.AssertResponse),
+func New(name string, ctl app_control.Control, token api_auth.OAuthContext) work_client.Client {
+	client := nw_rest_factory.New(
+		nw_rest_factory.Client(token.Config().Client(context.Background(), token.Token())),
+		nw_rest_factory.Assert(api_response.AssertResponse),
 	)
 
-	return &ctxImpl{
+	return &clientImpl{
 		name:    name,
 		client:  nw_retry.NewRetry(nw_retry.NewRatelimit(client)),
 		ctl:     ctl,
@@ -44,35 +44,35 @@ const (
 	Endpoint = "https://slack.com/api/"
 )
 
-type ctxImpl struct {
+type clientImpl struct {
 	name    string
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder work_request.Builder
 }
 
-func (z ctxImpl) Name() string {
+func (z clientImpl) Name() string {
 	return z.name
 }
 
-func (z ctxImpl) ClientHash() string {
+func (z clientImpl) ClientHash() string {
 	return z.builder.ClientHash()
 }
 
-func (z ctxImpl) Log() esl.Logger {
+func (z clientImpl) Log() esl.Logger {
 	return z.builder.Log()
 }
 
-func (z ctxImpl) Capture() esl.Logger {
+func (z clientImpl) Capture() esl.Logger {
 	return z.ctl.Capture()
 }
 
-func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(http.MethodGet, Endpoint+endpoint, api_request.Combine(d))
 	return z.client.Call(&z, b)
 }
 
-func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(http.MethodPost, Endpoint+endpoint, api_request.Combine(d))
 	return z.client.Call(&z, b)
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/essentials/network/nw_throttle"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_client"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -53,7 +53,7 @@ type rateLimitClient struct {
 	client nw_client.Rest
 }
 
-func (z rateLimitClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
+func (z rateLimitClient) Call(ctx api_client.Client, req nw_client.RequestBuilder) (res es_response.Response) {
 	if rand.Intn(100) >= z.rate {
 		return z.client.Call(ctx, req)
 	} else {

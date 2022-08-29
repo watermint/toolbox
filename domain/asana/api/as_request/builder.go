@@ -37,6 +37,16 @@ type builderImpl struct {
 	data   api_request.RequestData
 }
 
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
+	current := z.data.Data()
+	allData := make([]api_request.RequestDatum, len(current)+1)
+	copy(allData[:], current[:])
+	allData[len(current)] = data
+
+	z.data = api_request.Combine(allData)
+	return z
+}
+
 func (z builderImpl) WithOffset(limit int, offset string) Builder {
 	z.limit = limit
 	z.offset = offset

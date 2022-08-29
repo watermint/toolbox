@@ -32,6 +32,10 @@ type builderImpl struct {
 	data   api_request.RequestData
 }
 
+func (z builderImpl) WithData(datum api_request.RequestDatum) api_request.Builder {
+	return z.WithData(datum)
+}
+
 func (z builderImpl) Log() esl.Logger {
 	l := z.ctl.Log()
 	if z.method != "" {

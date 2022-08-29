@@ -1,7 +1,7 @@
 package sv_user
 
 import (
-	"github.com/watermint/toolbox/domain/slack/api/work_context"
+	"github.com/watermint/toolbox/domain/slack/api/work_client"
 	"github.com/watermint/toolbox/domain/slack/api/work_pagination"
 	"github.com/watermint/toolbox/domain/slack/model/mo_user"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -11,7 +11,7 @@ type User interface {
 	Resolve(id string) (u *mo_user.User, err error)
 }
 
-func New(ctx work_context.Context) User {
+func New(ctx work_client.Client) User {
 	return &userImpl{
 		ctx: ctx,
 	}
@@ -50,7 +50,7 @@ func (z *cachedImpl) Resolve(id string) (u *mo_user.User, err error) {
 }
 
 type userImpl struct {
-	ctx work_context.Context
+	ctx work_client.Client
 }
 
 func (z userImpl) Resolve(id string) (u *mo_user.User, err error) {

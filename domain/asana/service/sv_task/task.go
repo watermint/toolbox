@@ -1,7 +1,7 @@
 package sv_task
 
 import (
-	"github.com/watermint/toolbox/domain/asana/api/as_context"
+	"github.com/watermint/toolbox/domain/asana/api/as_client"
 	"github.com/watermint/toolbox/domain/asana/api/as_pagination"
 	"github.com/watermint/toolbox/domain/asana/model/mo_project"
 	"github.com/watermint/toolbox/domain/asana/model/mo_task"
@@ -37,14 +37,14 @@ func Project(prj *mo_project.Project) Opt {
 		return o
 	}
 }
-func New(ctx as_context.Context) Task {
+func New(ctx as_client.Client) Task {
 	return &taskImpl{
 		ctx: ctx,
 	}
 }
 
 type taskImpl struct {
-	ctx as_context.Context
+	ctx as_client.Client
 }
 
 func (z taskImpl) Resolve(gid string) (task *mo_task.Task, err error) {

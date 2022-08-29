@@ -1,7 +1,7 @@
 package uc_file_traverse
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -19,7 +19,7 @@ type TraverseEntry struct {
 	Path      string                  `json:"path"`
 }
 
-func NewTraverse(ctx dbx_context.Context, ctl app_control.Control, queueId string, handler TraverseHandler, errHandler TraverseErrorHandler, opts ...sv_file.ListOpt) *Traverse {
+func NewTraverse(ctx dbx_client.Client, ctl app_control.Control, queueId string, handler TraverseHandler, errHandler TraverseErrorHandler, opts ...sv_file.ListOpt) *Traverse {
 	return &Traverse{
 		ctx:          ctx,
 		ctl:          ctl,
@@ -31,7 +31,7 @@ func NewTraverse(ctx dbx_context.Context, ctl app_control.Control, queueId strin
 }
 
 type Traverse struct {
-	ctx          dbx_context.Context
+	ctx          dbx_client.Client
 	ctl          app_control.Control
 	listOpts     []sv_file.ListOpt
 	queueId      string
@@ -41,9 +41,9 @@ type Traverse struct {
 
 func (z Traverse) Traverse(te TraverseEntry, stage eq_sequence.Stage) error {
 	l := z.ctx.Log().With(esl.String("namespace", te.Namespace.NamespaceId), esl.String("path", te.Path))
-	var ctn dbx_context.Context
+	var ctn dbx_client.Client
 	if te.Namespace.NamespaceId != "" {
-		ctn = z.ctx.WithPath(dbx_context.Namespace(te.Namespace.NamespaceId))
+		ctn = z.ctx.WithPath(dbx_client.Namespace(te.Namespace.NamespaceId))
 	} else {
 		ctn = z.ctx
 	}

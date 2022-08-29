@@ -35,6 +35,11 @@ type builderImpl struct {
 	data   api_request.RequestData
 }
 
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
+	z.data = z.data.WithDatum(data)
+	return z
+}
+
 var (
 	slackTokenParam   = regexp.MustCompile(`token=([\w-]+)`)
 	slackTokenReplace = "token=<SECRET>"

@@ -2,7 +2,7 @@ package sv_sharedlink_file
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -45,12 +45,12 @@ func Password(password string) ListOpt {
 	}
 }
 
-func New(ctx dbx_context.Context) File {
+func New(ctx dbx_client.Client) File {
 	return &fileImpl{ctx: ctx}
 }
 
 type fileImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *fileImpl) ListRecursive(url mo_url.Url, nEntry func(entry mo_file.Entry), opts ...ListOpt) error {

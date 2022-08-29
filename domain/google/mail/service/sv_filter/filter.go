@@ -1,7 +1,7 @@
 package sv_filter
 
 import (
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/mail/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/api/api_request"
@@ -123,7 +123,7 @@ func Forward(v string) Opt {
 	}
 }
 
-func New(ctx goog_context.Context, userId string) Filter {
+func New(ctx goog_client.Client, userId string) Filter {
 	return &filterImpl{
 		ctx:    ctx,
 		userId: userId,
@@ -131,7 +131,7 @@ func New(ctx goog_context.Context, userId string) Filter {
 }
 
 type filterImpl struct {
-	ctx    goog_context.Context
+	ctx    goog_client.Client
 	userId string
 }
 

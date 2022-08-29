@@ -3,8 +3,8 @@ package qtr_endtoend
 import (
 	"encoding/csv"
 	"github.com/pkg/profile"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -94,21 +94,21 @@ func MustCreateControl() (ctl app_control.Control, jl app_job.Launcher) {
 	return ctl, jl
 }
 
-func TestWithDbxContext(t *testing.T, twc func(ctx dbx_context.Context)) {
+func TestWithDbxContext(t *testing.T, twc func(ctx dbx_client.Client)) {
 	TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context_impl.NewMock("mock", ctl)
+		ctx := dbx_client_impl.NewMock("mock", ctl)
 		twc(ctx)
 	})
 }
 
-func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_context.Context)) {
+func TestWithReplayDbxContext(t *testing.T, name string, twc func(ctx dbx_client.Client)) {
 	TestWithControl(t, func(ctl app_control.Control) {
 		rm, err := qt_replay.LoadReplay(name)
 		if err != nil {
 			t.Error(err)
 			return
 		}
-		ctx := dbx_context_impl.NewSeqReplayMock(name, ctl, rm)
+		ctx := dbx_client_impl.NewSeqReplayMock(name, ctl, rm)
 		twc(ctx)
 	})
 }

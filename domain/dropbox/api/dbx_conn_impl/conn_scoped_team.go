@@ -2,8 +2,8 @@ package dbx_conn_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -21,7 +21,7 @@ func NewConnScopedTeam(name string) dbx_conn.ConnScopedTeam {
 type connScopedTeam struct {
 	name   string
 	scopes []string
-	ctx    dbx_context.Context
+	ctx    dbx_client.Client
 }
 
 func (z *connScopedTeam) Connect(ctl app_control.Control) (err error) {
@@ -45,7 +45,7 @@ func (z *connScopedTeam) ServiceName() string {
 	return api_conn.ServiceDropboxBusiness
 }
 
-func (z *connScopedTeam) Context() dbx_context.Context {
+func (z *connScopedTeam) Context() dbx_client.Client {
 	return z.ctx
 }
 

@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -62,7 +62,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 		return errors.New("invalid content length")
 	}
 
-	contentResponse := dbx_context.ContentResponseData(res)
+	contentResponse := dbx_client.ContentResponseData(res)
 	contentFile := &mo_file.File{}
 	if err := contentResponse.Model(contentFile); err != nil {
 		l.Debug("Unable to parse the result", esl.Error(err))

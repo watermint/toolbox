@@ -2,7 +2,7 @@ package sv_member
 
 import (
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -69,7 +69,7 @@ func TestModelMemberImpl_Resolve(t *testing.T) {
 // -- mock test impl
 
 func TestMemberImpl_Add(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Add("test@example.com",
 			AddWithGivenName("test"),
@@ -86,7 +86,7 @@ func TestMemberImpl_Add(t *testing.T) {
 }
 
 func TestMemberImpl_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -96,7 +96,7 @@ func TestMemberImpl_List(t *testing.T) {
 }
 
 func TestMemberImpl_Remove(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.Remove(&mo_member.Member{},
 			Downgrade(),
@@ -110,7 +110,7 @@ func TestMemberImpl_Remove(t *testing.T) {
 }
 
 func TestMemberImpl_Resolve(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -120,7 +120,7 @@ func TestMemberImpl_Resolve(t *testing.T) {
 }
 
 func TestMemberImpl_ResolveByEmail(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.ResolveByEmail("test@example.com")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -130,7 +130,7 @@ func TestMemberImpl_ResolveByEmail(t *testing.T) {
 }
 
 func TestMemberImpl_Update(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_member.Member{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -142,7 +142,7 @@ func TestMemberImpl_Update(t *testing.T) {
 // -- Test cached
 
 func TestCachedMember_Add(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := NewCached(ctx)
 		_, err := sv.Add("test@example.com")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -152,7 +152,7 @@ func TestCachedMember_Add(t *testing.T) {
 }
 
 func TestCachedMember_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := NewCached(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -162,7 +162,7 @@ func TestCachedMember_List(t *testing.T) {
 }
 
 func TestCachedMember_Remove(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := NewCached(ctx)
 		err := sv.Remove(&mo_member.Member{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -172,7 +172,7 @@ func TestCachedMember_Remove(t *testing.T) {
 }
 
 func TestCachedMember_Resolve(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := NewCached(ctx)
 		_, err := sv.Resolve("test")
 		if err != ErrorMemberNotFoundForTeamMemberId && err != qt_errors.ErrorMock {
@@ -182,7 +182,7 @@ func TestCachedMember_Resolve(t *testing.T) {
 }
 
 func TestCachedMember_ResolveByEmail(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := NewCached(ctx)
 		_, err := sv.ResolveByEmail("test@example.com")
 		if err != ErrorMemberNotFoundForEmail && err != qt_errors.ErrorMock {
@@ -192,7 +192,7 @@ func TestCachedMember_ResolveByEmail(t *testing.T) {
 }
 
 func TestCachedMember_Update(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_context.Context) {
+	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_member.Member{})
 		if err != nil && err != qt_errors.ErrorMock {

@@ -1,13 +1,13 @@
-package gh_context_impl
+package gh_client_impl
 
 import (
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/api/gh_request"
 	"github.com/watermint/toolbox/domain/github/api/gh_response"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/essentials/network/nw_rest"
+	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -19,11 +19,11 @@ const (
 	ServerUpload = "https://uploads.github.com/"
 )
 
-func NewMock(name string, ctl app_control.Control) gh_context.Context {
-	client := nw_rest.New(
-		nw_rest.Assert(gh_response.AssertResponse),
-		nw_rest.Mock())
-	return &ctxImpl{
+func NewMock(name string, ctl app_control.Control) gh_client.Client {
+	client := nw_rest_factory.New(
+		nw_rest_factory.Assert(gh_response.AssertResponse),
+		nw_rest_factory.Mock())
+	return &clientImpl{
 		name:    name,
 		client:  client,
 		ctl:     ctl,
@@ -31,10 +31,10 @@ func NewMock(name string, ctl app_control.Control) gh_context.Context {
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.OAuthContext) gh_context.Context {
-	client := nw_rest.New(
-		nw_rest.Assert(gh_response.AssertResponse))
-	return &ctxImpl{
+func New(name string, ctl app_control.Control, token api_auth.OAuthContext) gh_client.Client {
+	client := nw_rest_factory.New(
+		nw_rest_factory.Assert(gh_response.AssertResponse))
+	return &clientImpl{
 		name:    name,
 		client:  client,
 		ctl:     ctl,
@@ -42,30 +42,30 @@ func New(name string, ctl app_control.Control, token api_auth.OAuthContext) gh_c
 	}
 }
 
-type ctxImpl struct {
+type clientImpl struct {
 	name    string
 	client  nw_client.Rest
 	ctl     app_control.Control
 	builder gh_request.Builder
 }
 
-func (z ctxImpl) Name() string {
+func (z clientImpl) Name() string {
 	return z.name
 }
 
-func (z ctxImpl) ClientHash() string {
+func (z clientImpl) ClientHash() string {
 	return z.builder.ClientHash()
 }
 
-func (z ctxImpl) Log() esl.Logger {
+func (z clientImpl) Log() esl.Logger {
 	return z.builder.Log()
 }
 
-func (z ctxImpl) Capture() esl.Logger {
+func (z clientImpl) Capture() esl.Logger {
 	return z.ctl.Capture()
 }
 
-func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPost,
 		ServerRpc+endpoint,
@@ -73,7 +73,7 @@ func (z ctxImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_re
 	return z.client.Call(&z, b)
 }
 
-func (z ctxImpl) Patch(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Patch(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPatch,
 		ServerRpc+endpoint,
@@ -81,7 +81,7 @@ func (z ctxImpl) Patch(endpoint string, d ...api_request.RequestDatum) (res es_r
 	return z.client.Call(&z, b)
 }
 
-func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodGet,
 		ServerRpc+endpoint,
@@ -89,7 +89,7 @@ func (z ctxImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_res
 	return z.client.Call(&z, b)
 }
 
-func (z ctxImpl) Upload(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Upload(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPost,
 		ServerUpload+endpoint, // Upload endpoint
@@ -97,7 +97,7 @@ func (z ctxImpl) Upload(endpoint string, d ...api_request.RequestDatum) (res es_
 	return z.client.Call(&z, b)
 }
 
-func (z ctxImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+func (z clientImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
 	b := z.builder.With(
 		http.MethodPut,
 		ServerRpc+endpoint,

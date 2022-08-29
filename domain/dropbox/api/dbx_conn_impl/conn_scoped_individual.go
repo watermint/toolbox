@@ -2,8 +2,8 @@ package dbx_conn_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -21,7 +21,7 @@ func NewConnScopedIndividual(name string) dbx_conn.ConnScopedIndividual {
 type connScopedIndividual struct {
 	name   string
 	scopes []string
-	ctx    dbx_context.Context
+	ctx    dbx_client.Client
 }
 
 func (z *connScopedIndividual) Connect(ctl app_control.Control) (err error) {
@@ -45,7 +45,7 @@ func (z *connScopedIndividual) ServiceName() string {
 	return api_conn.ServiceDropbox
 }
 
-func (z *connScopedIndividual) Context() dbx_context.Context {
+func (z *connScopedIndividual) Context() dbx_client.Client {
 	return z.ctx
 }
 

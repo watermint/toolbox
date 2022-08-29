@@ -3,8 +3,8 @@ package member
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -34,7 +34,7 @@ type ListWorker struct {
 
 	// recipe's context
 	ctl  app_control.Control
-	conn dbx_context.Context
+	conn dbx_client.Client
 	rep  rp_model.RowReport
 }
 

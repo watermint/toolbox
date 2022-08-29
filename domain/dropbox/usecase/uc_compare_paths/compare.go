@@ -1,7 +1,7 @@
 package uc_compare_paths
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -25,7 +25,7 @@ type Compare interface {
 	Diff(leftPath mo_path.DropboxPath, rightPath mo_path.DropboxPath, onDiff func(diff mo_file_diff.Diff) error) (diffCount int, err error)
 }
 
-func New(left, right dbx_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
+func New(left, right dbx_client.Client, ui app_ui.UI, opts ...CompareOpt) Compare {
 	co := &CompareOpts{}
 	for _, o := range opts {
 		o(co)
@@ -45,8 +45,8 @@ type CompareOpts struct {
 }
 
 type compareImpl struct {
-	ctxLeft  dbx_context.Context
-	ctxRight dbx_context.Context
+	ctxLeft  dbx_client.Client
+	ctxRight dbx_client.Client
 	opts     *CompareOpts
 	ui       app_ui.UI
 }

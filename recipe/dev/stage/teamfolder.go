@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
@@ -111,7 +111,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 
-	tfCtx := z.Peer.Context().AsAdminId(admin.TeamMemberId).WithPath(dbx_context.Namespace(tf.TeamFolderId))
+	tfCtx := z.Peer.Context().AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(tf.TeamFolderId))
 
 	// create sub folder : Organization
 	folderOrganization, err := sv_file_folder.New(tfCtx).Create(mo_path.NewDropboxPath("/" + nestedFolderPlainName))
@@ -431,7 +431,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 
-	marketingCtx := z.Peer.Context().AsAdminId(admin.TeamMemberId).WithPath(dbx_context.Namespace(folderMarketing.TeamFolderId))
+	marketingCtx := z.Peer.Context().AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(folderMarketing.TeamFolderId))
 
 	// Set acl_policy
 	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>

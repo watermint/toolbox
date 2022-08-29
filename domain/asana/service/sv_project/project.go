@@ -1,7 +1,7 @@
 package sv_project
 
 import (
-	"github.com/watermint/toolbox/domain/asana/api/as_context"
+	"github.com/watermint/toolbox/domain/asana/api/as_client"
 	"github.com/watermint/toolbox/domain/asana/api/as_pagination"
 	"github.com/watermint/toolbox/domain/asana/model/mo_project"
 	"github.com/watermint/toolbox/domain/asana/model/mo_team"
@@ -47,14 +47,14 @@ func Team(team *mo_team.Team) Opt {
 	}
 }
 
-func New(ctx as_context.Context) Project {
+func New(ctx as_client.Client) Project {
 	return &prjImpl{
 		ctx: ctx,
 	}
 }
 
 type prjImpl struct {
-	ctx as_context.Context
+	ctx as_client.Client
 }
 
 func (z prjImpl) Resolve(gid string) (prj *mo_project.Project, err error) {

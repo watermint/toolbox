@@ -1,7 +1,7 @@
 package bulk
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
@@ -20,7 +20,7 @@ var (
 	MOperation = app_msg.Apply(&MsgOperation{}).(*MsgOperation)
 )
 
-func memberAdd(r *MemberRecord, svg sv_group.Group, c app_control.Control, d dbx_context.Context, ol rp_model.TransactionReport) error {
+func memberAdd(r *MemberRecord, svg sv_group.Group, c app_control.Control, d dbx_client.Client, ol rp_model.TransactionReport) error {
 	l := c.Log().With(esl.Any("record", r))
 	group, err := svg.ResolveByName(r.GroupName)
 	if err != nil {
@@ -45,7 +45,7 @@ func memberAdd(r *MemberRecord, svg sv_group.Group, c app_control.Control, d dbx
 	return nil
 }
 
-func memberDelete(r *MemberRecord, svg sv_group.Group, c app_control.Control, d dbx_context.Context, ol rp_model.TransactionReport) error {
+func memberDelete(r *MemberRecord, svg sv_group.Group, c app_control.Control, d dbx_client.Client, ol rp_model.TransactionReport) error {
 	l := c.Log().With(esl.Any("record", r))
 	group, err := svg.ResolveByName(r.GroupName)
 	if err != nil {

@@ -1,17 +1,17 @@
-package as_context
+package as_client
 
 import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/infra/api/api_context"
+	"github.com/watermint/toolbox/infra/api/api_client"
 	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
-type Context interface {
-	api_context.Context
-	api_context.Get
-	api_context.Post
-	api_context.Delete
-	api_context.Put
+type Client interface {
+	api_client.Client
+	api_client.Get
+	api_client.Post
+	api_client.Delete
+	api_client.Put
 
 	// Pagination request
 	GetWithPagination(endpoint string, offset string, limit int, d ...api_request.RequestDatum) (res es_response.Response)

@@ -2,7 +2,7 @@ package sv_namespace
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -14,13 +14,13 @@ type Namespace interface {
 	ListEach(f func(entry *mo_namespace.Namespace) bool) error
 }
 
-func New(ctx dbx_context.Context) Namespace {
+func New(ctx dbx_client.Client) Namespace {
 	return &namespaceImpl{
 		ctx: ctx,
 	}
 }
 
-func newTest(ctx dbx_context.Context, limit int) Namespace {
+func newTest(ctx dbx_client.Client, limit int) Namespace {
 	return &namespaceImpl{
 		ctx:   ctx,
 		limit: limit,
@@ -28,7 +28,7 @@ func newTest(ctx dbx_context.Context, limit int) Namespace {
 }
 
 type namespaceImpl struct {
-	ctx   dbx_context.Context
+	ctx   dbx_client.Client
 	limit int
 }
 

@@ -1,7 +1,7 @@
 package sv_conversation
 
 import (
-	"github.com/watermint/toolbox/domain/slack/api/work_context"
+	"github.com/watermint/toolbox/domain/slack/api/work_client"
 	"github.com/watermint/toolbox/domain/slack/api/work_pagination"
 	"github.com/watermint/toolbox/domain/slack/model/mo_conversation"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -11,14 +11,14 @@ type Conversation interface {
 	ListEach(h func(c *mo_conversation.Conversation)) error
 }
 
-func New(ctx work_context.Context) Conversation {
+func New(ctx work_client.Client) Conversation {
 	return &conImpl{
 		ctx: ctx,
 	}
 }
 
 type conImpl struct {
-	ctx work_context.Context
+	ctx work_client.Client
 }
 
 func (z conImpl) ListEach(h func(c *mo_conversation.Conversation)) error {

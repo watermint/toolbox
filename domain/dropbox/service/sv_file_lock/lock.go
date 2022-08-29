@@ -2,7 +2,7 @@ package sv_file_lock
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
@@ -31,14 +31,14 @@ type Lock interface {
 	UnlockBatch(path []mo_path.DropboxPath) (entries map[string]LockResult, err error)
 }
 
-func New(ctx dbx_context.Context) Lock {
+func New(ctx dbx_client.Client) Lock {
 	return &lockImpl{
 		ctx: ctx,
 	}
 }
 
 type lockImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *lockImpl) List(path mo_path.DropboxPath, onLockEntry func(entry *mo_file.LockInfo)) error {

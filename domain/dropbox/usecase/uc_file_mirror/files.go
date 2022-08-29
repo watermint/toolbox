@@ -2,7 +2,7 @@ package uc_file_mirror
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -19,7 +19,7 @@ type Files interface {
 	Mirror(pathSrc, pathDst mo_path.DropboxPath) (err error)
 }
 
-func New(ctxSrc, ctxDst dbx_context.Context) Files {
+func New(ctxSrc, ctxDst dbx_client.Client) Files {
 	return &filesImpl{
 		ctxSrc:       ctxSrc,
 		ctxDst:       ctxDst,
@@ -28,8 +28,8 @@ func New(ctxSrc, ctxDst dbx_context.Context) Files {
 }
 
 type filesImpl struct {
-	ctxSrc       dbx_context.Context
-	ctxDst       dbx_context.Context
+	ctxSrc       dbx_client.Client
+	ctxDst       dbx_client.Client
 	pollInterval time.Duration
 }
 

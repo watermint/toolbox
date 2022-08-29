@@ -4,8 +4,8 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_url"
@@ -38,7 +38,7 @@ type UrlRow struct {
 
 type UrlWorker struct {
 	row *UrlRow
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 	ctl app_control.Control
 	rep rp_model.TransactionReport
 }

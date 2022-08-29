@@ -1,12 +1,12 @@
 package sv_label
 
 import (
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/mail/model/mo_label"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
-func NewCached(ctx goog_context.Context, userId string) Label {
+func NewCached(ctx goog_client.Client, userId string) Label {
 	return &labelCacheImpl{
 		ctx:   ctx,
 		label: New(ctx, userId),
@@ -14,7 +14,7 @@ func NewCached(ctx goog_context.Context, userId string) Label {
 }
 
 type labelCacheImpl struct {
-	ctx   goog_context.Context
+	ctx   goog_client.Client
 	label Label
 	cache []*mo_label.Label
 }

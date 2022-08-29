@@ -1,7 +1,7 @@
 package uc_compare_local
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
@@ -34,7 +34,7 @@ type CompareOpts struct {
 	ForceCalcLocalHash bool
 }
 
-func New(ctx dbx_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
+func New(ctx dbx_client.Client, ui app_ui.UI, opts ...CompareOpt) Compare {
 	co := &CompareOpts{}
 	for _, o := range opts {
 		o(co)
@@ -47,7 +47,7 @@ func New(ctx dbx_context.Context, ui app_ui.UI, opts ...CompareOpt) Compare {
 }
 
 type compareImpl struct {
-	ctx  dbx_context.Context
+	ctx  dbx_client.Client
 	ui   app_ui.UI
 	opts *CompareOpts
 }

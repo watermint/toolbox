@@ -1,7 +1,7 @@
 package dfs_local_to_dbx
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 )
 
-func NewLocalToDropbox(ctx dbx_context.Context, opts ...sv_file_content.UploadOpt) es_filesystem.Connector {
+func NewLocalToDropbox(ctx dbx_client.Client, opts ...sv_file_content.UploadOpt) es_filesystem.Connector {
 	return &copierLocalToDropbox{
 		ctx:        ctx,
 		uploadOpts: opts,
@@ -17,7 +17,7 @@ func NewLocalToDropbox(ctx dbx_context.Context, opts ...sv_file_content.UploadOp
 }
 
 type copierLocalToDropbox struct {
-	ctx        dbx_context.Context
+	ctx        dbx_client.Client
 	uploadOpts []sv_file_content.UploadOpt
 }
 

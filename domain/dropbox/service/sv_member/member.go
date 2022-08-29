@@ -3,7 +3,7 @@ package sv_member
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
@@ -215,13 +215,13 @@ func TransferNotifyAdminOnError(email string) RemoveOpt {
 	}
 }
 
-func New(ctx dbx_context.Context) Member {
+func New(ctx dbx_client.Client) Member {
 	return &memberImpl{
 		ctx: ctx,
 	}
 }
 
-func NewCached(ctx dbx_context.Context) Member {
+func NewCached(ctx dbx_client.Client) Member {
 	return &cachedMember{
 		impl: &memberImpl{
 			ctx: ctx,
@@ -229,7 +229,7 @@ func NewCached(ctx dbx_context.Context) Member {
 	}
 }
 
-func newTest(ctx dbx_context.Context) Member {
+func newTest(ctx dbx_client.Client) Member {
 	return &memberImpl{
 		ctx:   ctx,
 		limit: 3,
@@ -314,7 +314,7 @@ func (z *cachedMember) Remove(member *mo_member.Member, opts ...RemoveOpt) (err 
 }
 
 type memberImpl struct {
-	ctx   dbx_context.Context
+	ctx   dbx_client.Client
 	limit int
 }
 

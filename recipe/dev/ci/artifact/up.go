@@ -3,7 +3,7 @@ package artifact
 import (
 	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
@@ -55,7 +55,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		l.Info("Skip operation")
 		return nil
 	}
-	dbxCtx := dbx_context_impl.New(ctx.PeerName(), c, ctx)
+	dbxCtx := dbx_client_impl.New(ctx.PeerName(), c, ctx)
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 			m := r.(*file.Upload)
