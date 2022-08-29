@@ -2,7 +2,6 @@ package batch
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -87,8 +86,8 @@ func (z *Permdelete) Test(c app_control.Control) error {
 
 func (z *Permdelete) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeTeamDataTeamSpace,
-		dbx_auth.ScopeTeamInfoRead,
+	//dbx_auth.ScopeTeamDataTeamSpace,
+	//dbx_auth.ScopeTeamInfoRead,
 	)
 	z.File.SetModel(&TeamFolderName{})
 	z.OperationLog.SetModel(&TeamFolderName{}, nil)
