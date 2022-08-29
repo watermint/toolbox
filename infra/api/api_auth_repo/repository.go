@@ -6,11 +6,50 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
+	"os"
+	"path/filepath"
+	"time"
 )
 
 // NewPersistent creates new Repository that persist to the file
 func NewPersistent(path string) (r api_auth.Repository, err error) {
+	l := esl.Default().With(esl.String("path", path))
+	info, err := os.Lstat(path)
+	if err == nil && info.IsDir() {
+		l.Debug("Create auth database with default database name")
+		return NewPersistent(filepath.Join(path, app.AuthDatabaseDefaultName))
+	}
+
+	if os.IsNotExist(err) {
+		l.Debug("Create new database")
+		tmpDb, err := sql.Open("sqlite3", path)
+		if err != nil {
+			l.Debug("Unable to create the database", esl.Error(err))
+			return nil, err
+		}
+		if _, err = tmpDb.Exec(`CREATE TABLE app (version TEXT, timestamp DATETIME)`); err != nil {
+			l.Debug("Unable to create app version table", esl.Error(err))
+			return nil, err
+		}
+		if _, err = tmpDb.Exec("INSERT INTO app (version, timestamp) VALUES(?, ?)", app.Version.String(), time.Now()); err != nil {
+			l.Debug("Unable to record app version data", esl.Error(err))
+			return nil, err
+		}
+		if err := tmpDb.Close(); err != nil {
+			l.Debug("Unable to close the database", esl.Error(err))
+			return nil, err
+		}
+		l.Debug("Protect the database")
+		if err := os.Chmod(path, 0600); err != nil {
+			l.Debug("Unable to protect the database, try remove it")
+			rmErr := os.Remove(path)
+			l.Debug("Remove operation finished", esl.Error(rmErr))
+			return nil, err
+		}
+	}
+
 	db, err := sql.Open("sqlite3", path)
 	if err != nil {
 		return nil, err

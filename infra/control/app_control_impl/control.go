@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
@@ -19,7 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, er app_error.ErrorReport) app_control.Control {
+func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, ar api_auth.Repository, er app_error.ErrorReport) app_control.Control {
 	return &ctlImpl{
 		seq:         seq,
 		wb:          wb,
@@ -78,6 +79,11 @@ type ctlImpl struct {
 	cacheCtl    cache.Controller
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
+	authRepo    api_auth.Repository
+}
+
+func (z ctlImpl) AuthRepository() api_auth.Repository {
+	return z.authRepo
 }
 
 func (z ctlImpl) NewQueue() eq_queue.Definition {

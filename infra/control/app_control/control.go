@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
@@ -36,6 +37,9 @@ type Control interface {
 
 	// Async queue sequence
 	Sequence() eq_sequence.Sequence
+
+	// AuthRepository returns auth repository
+	AuthRepository() api_auth.Repository
 
 	// Get or create new cache
 	NewCache(namespace, name string) cache.Cache

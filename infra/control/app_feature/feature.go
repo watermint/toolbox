@@ -69,6 +69,12 @@ type Feature interface {
 
 	// Extra options
 	Extra() app_opt.ExtraOpts
+
+	// PathAuthRepository path to auth repository
+	PathAuthRepository() string
+
+	// IsDefaultPathAuthRepository returns true when the repository
+	IsDefaultPathAuthRepository() bool
 }
 
 type OptIn interface {

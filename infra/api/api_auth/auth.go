@@ -1,15 +1,20 @@
 package api_auth
 
 const (
-	DropboxTokenFull  = "user_full"
+	// Deprecated: user full access
+	DropboxTokenFull = "user_full"
+
+	// DropboxIndividual Dropbox for individual user (personal or end user of business team)
 	DropboxIndividual = "dropbox_individual"
-	DropboxTeam       = "dropbox_team"
-	Github            = "github"
-	GoogleMail        = "google_mail"
-	GoogleSheets      = "google_sheets"
-	GoogleCalendar    = "google_calendar"
-	Asana             = "asana"
-	Slack             = "slack"
+
+	// DropboxTeam Admin scope
+	DropboxTeam    = "dropbox_team"
+	Github         = "github"
+	GoogleMail     = "google_mail"
+	GoogleSheets   = "google_sheets"
+	GoogleCalendar = "google_calendar"
+	Asana          = "asana"
+	Slack          = "slack"
 )
 
 type Auth interface {

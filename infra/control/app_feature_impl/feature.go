@@ -44,6 +44,18 @@ type featureImpl struct {
 	hashReplay   kv_storage.Storage
 }
 
+func (z featureImpl) IsDefaultPathAuthRepository() bool {
+	return !z.com.AuthDatabase.IsExists()
+}
+
+func (z featureImpl) PathAuthRepository() string {
+	if z.com.AuthDatabase.IsExists() {
+		return z.com.AuthDatabase.Value()
+	} else {
+		return filepath.Join(z.ws.Secrets(), app.AuthDatabaseDefaultName)
+	}
+}
+
 func (z featureImpl) IsSkipLogging() bool {
 	return z.com.SkipLogging
 }

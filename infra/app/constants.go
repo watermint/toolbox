@@ -21,6 +21,11 @@ const (
 	PeerEndToEndTest = "end_to_end_test"
 )
 
+// Auth database
+const (
+	AuthDatabaseDefaultName = "secrets.db"
+)
+
 // Stages of deployment
 const (
 	StageDev     = "dev"
