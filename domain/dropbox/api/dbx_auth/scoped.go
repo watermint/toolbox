@@ -1,12 +1,5 @@
 package dbx_auth
 
-import (
-	"github.com/watermint/toolbox/infra/api/api_appkey"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"golang.org/x/oauth2"
-)
-
 // Individual Scopes
 const (
 	// ScopeAccountInfoRead Read Dropbox account information
@@ -139,39 +132,3 @@ var (
 		ScopeTeamInfoRead,
 	}
 )
-
-type Scoped struct {
-	appType string
-	ctl     app_control.Control
-	res     api_appkey.Resource
-}
-
-func (z Scoped) UsePKCE() bool {
-	return true
-}
-
-func (z Scoped) Config(scopes []string) *oauth2.Config {
-	key, secret := z.res.Key(z.appType)
-	return &oauth2.Config{
-		ClientID:     key,
-		ClientSecret: secret,
-		Endpoint:     DropboxOAuthEndpoint(),
-		Scopes:       scopes,
-	}
-}
-
-func NewScopedIndividual(ctl app_control.Control) api_auth.OAuthAppLegacy {
-	return &Scoped{
-		appType: api_auth.DropboxIndividual,
-		ctl:     ctl,
-		res:     api_appkey.New(ctl),
-	}
-}
-
-func NewScopedTeam(ctl app_control.Control) api_auth.OAuthAppLegacy {
-	return &Scoped{
-		appType: api_auth.DropboxTeam,
-		ctl:     ctl,
-		res:     api_appkey.New(ctl),
-	}
-}
