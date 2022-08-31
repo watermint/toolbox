@@ -2,11 +2,11 @@ package dbx_conn_impl
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/api/api_auth_oauth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -14,9 +14,23 @@ const (
 	DefaultPeerName = "default"
 )
 
-func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthApp) (ctx dbx_client.Client, err error) {
+func authSession(ctl app_control.Control) api_auth.OAuthSession {
+	if f, found := ctl.Feature().OptInGet(&api_auth_oauth.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
+		return api_auth_oauth.NewSessionRedirect(ctl)
+	} else {
+		return api_auth_oauth.NewSessionCodeAuth(ctl)
+	}
+}
+
+func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthAppData) (ctx dbx_client.Client, err error) {
 	l := ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", peerName))
 	ui := ctl.UI()
+
+	session := api_auth.OAuthSessionData{
+		AppData:  app,
+		PeerName: peerName,
+		Scopes:   scopes,
+	}
 
 	if ctl.Feature().IsTestWithMock() {
 		l.Debug("Test with mock")
@@ -38,13 +52,15 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 
 	case ui.IsConsole():
 		l.Debug("Connect through console UI")
-		c := dbx_auth_attr.NewConsole(ctl, peerName, app)
-		ctx, err := c.Start(scopes)
+
+		s1 := authSession(ctl)
+		s2 := api_auth_oauth.NewSessionRepository(s1, ctl.AuthRepository())
+
+		entity, err := s2.Start(session)
 		if err != nil {
 			return nil, err
 		}
-		return dbx_client_impl.New(peerName, ctl, ctx), nil
-
+		return dbx_client_impl.New(ctl, app, entity), nil
 	}
 
 	l.Debug("Unsupported UI type")

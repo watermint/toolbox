@@ -24,7 +24,8 @@ type OptInFeatureRedirect struct {
 	app_feature.OptInStatus
 }
 
-func NewConsoleRedirect(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
+// Deprecated: NewConsoleRedirect
+func NewConsoleRedirect(c app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 	return &Redirect{
 		ctl:      c,
 		app:      app,
@@ -32,9 +33,10 @@ func NewConsoleRedirect(c app_control.Control, peerName string, app api_auth.OAu
 	}
 }
 
+// Deprecated: Redirect
 type Redirect struct {
 	ctl      app_control.Control
-	app      api_auth.OAuthApp
+	app      api_auth.OAuthAppLegacy
 	peerName string
 }
 
@@ -92,7 +94,7 @@ func (z *Redirect) Start(scopes []string) (token api_auth.OAuthContext, err erro
 
 type RedirectService struct {
 	ctl         app_control.Control
-	app         api_auth.OAuthApp
+	app         api_auth.OAuthAppLegacy
 	peerName    string
 	scopes      []string
 	state       string

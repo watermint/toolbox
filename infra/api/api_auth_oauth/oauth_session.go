@@ -4,12 +4,12 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/infra/api/api_appkey"
 	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/infra/api/api_auth_repo"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"golang.org/x/oauth2"
-	"sort"
 )
 
-func newOAuthAppWrapper(ctl app_control.Control, app api_auth.OAuthAppData) api_auth.OAuthApp {
+func newOAuthAppWrapper(ctl app_control.Control, app api_auth.OAuthAppData) api_auth.OAuthAppLegacy {
 	return &oauthAppWrapper{
 		app: app,
 		ctl: ctl,
@@ -22,31 +22,9 @@ type oauthAppWrapper struct {
 }
 
 func (z oauthAppWrapper) Config(scope []string) *oauth2.Config {
-	style := oauth2.AuthStyleAutoDetect
-	switch z.app.EndpointStyle {
-	case api_auth.AuthStyleInParams:
-		style = oauth2.AuthStyleInParams
-	case api_auth.AuthStyleInHeader:
-		style = oauth2.AuthStyleInHeader
-	}
-	sortedScopes := make([]string, len(scope))
-	copy(sortedScopes[:], scope[:])
-	sort.Strings(sortedScopes)
-
-	ak := api_appkey.New(z.ctl)
-	clientId, clientSecret := ak.Key(z.app.AppKeyName)
-
-	return &oauth2.Config{
-		ClientID:     clientId,
-		ClientSecret: clientSecret,
-		Endpoint: oauth2.Endpoint{
-			AuthURL:   z.app.EndpointAuthUrl,
-			TokenURL:  z.app.EndpointTokenUrl,
-			AuthStyle: style,
-		},
-		RedirectURL: z.app.RedirectUrl,
-		Scopes:      sortedScopes,
-	}
+	return z.app.Config(scope, func(appKey string) (clientId, clientSecret string) {
+		return api_appkey.Resolve(z.ctl, z.app.AppKeyName)
+	})
 }
 
 func (z oauthAppWrapper) UsePKCE() bool {
@@ -56,7 +34,7 @@ func (z oauthAppWrapper) UsePKCE() bool {
 func NewSessionCodeAuth(ctl app_control.Control) api_auth.OAuthSession {
 	return &sessionCodeAuth{
 		ctl: ctl,
-		newConsole: func(ctl app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
+		newConsole: func(ctl app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 			return NewConsoleOAuth(ctl, peerName, app)
 		},
 	}
@@ -65,7 +43,7 @@ func NewSessionCodeAuth(ctl app_control.Control) api_auth.OAuthSession {
 func NewSessionRedirect(ctl app_control.Control) api_auth.OAuthSession {
 	return &sessionCodeAuth{
 		ctl: ctl,
-		newConsole: func(ctl app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
+		newConsole: func(ctl app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 			return NewConsoleRedirect(ctl, peerName, app)
 		},
 	}
@@ -74,7 +52,7 @@ func NewSessionRedirect(ctl app_control.Control) api_auth.OAuthSession {
 func NewSessionAlwaysFail(ctl app_control.Control) api_auth.OAuthSession {
 	return &sessionCodeAuth{
 		ctl: ctl,
-		newConsole: func(ctl app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
+		newConsole: func(ctl app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 			return &sessionAlwaysFail{
 				peerName: peerName,
 			}
@@ -96,7 +74,7 @@ func (z sessionAlwaysFail) Start(scope []string) (token api_auth.OAuthContext, e
 
 type sessionCodeAuth struct {
 	ctl        app_control.Control
-	newConsole func(ctl app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole
+	newConsole func(ctl app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole
 }
 
 func (z sessionCodeAuth) Start(session api_auth.OAuthSessionData) (entity api_auth.OAuthEntity, err error) {
@@ -120,10 +98,10 @@ func (z sessionCodeAuth) Start(session api_auth.OAuthSessionData) (entity api_au
 	}, nil
 }
 
-func NewSessionRepository(session api_auth.OAuthSession, repository api_auth.OAuthRepository) api_auth.OAuthSession {
+func NewSessionRepository(session api_auth.OAuthSession, repository api_auth.Repository) api_auth.OAuthSession {
 	return &sessionRepository{
 		session:    session,
-		repository: repository,
+		repository: api_auth_repo.NewOAuth(repository),
 	}
 }
 
@@ -143,4 +121,22 @@ func (z sessionRepository) Start(session api_auth.OAuthSessionData) (entity api_
 	}
 	z.repository.Put(entity)
 	return entity, nil
+}
+
+func NewSessionReadOnly(repository api_auth.Repository) api_auth.OAuthSession {
+	return &readOnlySession{
+		repository: api_auth_repo.NewOAuth(repository),
+	}
+}
+
+type readOnlySession struct {
+	repository api_auth.OAuthRepository
+}
+
+func (z readOnlySession) Start(session api_auth.OAuthSessionData) (entity api_auth.OAuthEntity, err error) {
+	entity, found := z.repository.Get(session.AppData.AppKeyName, session.Scopes, session.PeerName)
+	if found {
+		return entity, nil
+	}
+	return api_auth.NewNoAuthOAuthEntity(), errors.New("no existing token")
 }

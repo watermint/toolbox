@@ -1,7 +1,6 @@
 package as_conn_impl
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/asana/api/as_auth"
 	"github.com/watermint/toolbox/domain/asana/api/as_client"
 	"github.com/watermint/toolbox/domain/asana/api/as_client_impl"
@@ -14,44 +13,45 @@ import (
 
 func NewConnAsana(name string) as_conn.ConnAsanaApi {
 	return &connAsanaApi{
-		name:  name,
-		scope: as_auth.ScopeDefault,
+		peerName: name,
+		scope:    as_auth.ScopeDefault,
 	}
 }
 
 type connAsanaApi struct {
-	name  string
-	ctx   as_client.Client
-	scope string
+	peerName string
+	ctx      as_client.Client
+	scope    string
 }
 
 func (z *connAsanaApi) Connect(ctl app_control.Control) (err error) {
-	ac, useMock, err := api_conn_impl.Connect(z.Scopes(), z.name, as_auth.New(ctl), ctl)
+	session := api_auth.OAuthSessionData{
+		AppData:  as_auth.Asana,
+		PeerName: z.peerName,
+		Scopes:   z.Scopes(),
+	}
+	entity, useMock, err := api_conn_impl.ConnectByRedirect(session, ctl)
 	if useMock {
-		z.ctx = as_client_impl.NewMock(z.name, ctl)
+		z.ctx = as_client_impl.NewMock(z.peerName, ctl)
 		return nil
 	}
 	if replay, enabled := ctl.Feature().IsTestWithSeqReplay(); enabled {
-		z.ctx = as_client_impl.NewReplayMock(z.name, ctl, replay)
-		return nil
-	}
-	if ac != nil {
-		z.ctx = as_client_impl.New(z.name, ctl, ac)
+		z.ctx = as_client_impl.NewReplayMock(z.peerName, ctl, replay)
 		return nil
 	}
 	if err != nil {
 		return err
-	} else {
-		return errors.New("unknown state")
 	}
+	z.ctx = as_client_impl.New(z.peerName, ctl, entity)
+	return nil
 }
 
 func (z *connAsanaApi) PeerName() string {
-	return z.name
+	return z.peerName
 }
 
 func (z *connAsanaApi) SetPeerName(name string) {
-	z.name = name
+	z.peerName = name
 }
 
 func (z *connAsanaApi) ScopeLabel() string {

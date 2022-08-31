@@ -1,5 +1,10 @@
 package api_auth
 
+import (
+	"golang.org/x/oauth2"
+	"sort"
+)
+
 type OAuthEndpointStyle string
 
 const (
@@ -26,6 +31,36 @@ type OAuthAppData struct {
 
 	// Redirect URL
 	RedirectUrl string `json:"redirect_url"`
+}
+
+type OAuthKeyResolver func(appKey string) (clientId, clientSecret string)
+
+func (z OAuthAppData) Config(scopes []string, resolve OAuthKeyResolver) *oauth2.Config {
+	sortedScopes := make([]string, len(scopes))
+	copy(sortedScopes[:], scopes[:])
+	sort.Strings(sortedScopes)
+
+	style := oauth2.AuthStyleAutoDetect
+	switch z.EndpointStyle {
+	case AuthStyleInParams:
+		style = oauth2.AuthStyleInParams
+	case AuthStyleInHeader:
+		style = oauth2.AuthStyleInHeader
+	}
+
+	clientId, clientSecret := resolve(z.AppKeyName)
+
+	return &oauth2.Config{
+		ClientID:     clientId,
+		ClientSecret: clientSecret,
+		Endpoint: oauth2.Endpoint{
+			AuthURL:   z.EndpointAuthUrl,
+			TokenURL:  z.EndpointTokenUrl,
+			AuthStyle: style,
+		},
+		RedirectURL: z.RedirectUrl,
+		Scopes:      scopes,
+	}
 }
 
 type OAuthSessionData struct {

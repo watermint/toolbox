@@ -25,7 +25,8 @@ var (
 	MApiAuth = app_msg.Apply(&MsgApiAuth{}).(*MsgApiAuth)
 )
 
-func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
+// Deprecated: NewConsoleOAuth
+func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 	return &OAuthConsole{
 		ctl:      c,
 		app:      app,
@@ -33,9 +34,10 @@ func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.OAuthA
 	}
 }
 
+// Deprecated: OAuthConsole
 type OAuthConsole struct {
 	ctl      app_control.Control
-	app      api_auth.OAuthApp
+	app      api_auth.OAuthAppLegacy
 	peerName string
 }
 
@@ -106,7 +108,7 @@ func (z *OAuthConsole) oauthExchange(cfg *oauth2.Config, code, challenge string)
 	}
 }
 
-func (z *OAuthConsole) oauthCode(state, challenge string) string {
+func (z *OAuthConsole) oauthCode() string {
 	ui := z.ctl.UI()
 	for {
 		code, cancel := ui.AskText(MApiAuth.OauthSeq2)
@@ -127,7 +129,7 @@ func (z *OAuthConsole) oauthAskCode(scopes []string, state, challenge string) (*
 
 	ui.Info(MApiAuth.OauthSeq1.With("Url", url))
 
-	code := z.oauthCode(state, challenge)
+	code := z.oauthCode()
 	if code == "" {
 		return nil, app.ErrorUserCancelled
 	}

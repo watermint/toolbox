@@ -54,13 +54,20 @@ func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_client.Client,
 		l.Info("No token imported. Skip operation")
 		return nil, errors.New("no token found")
 	}
-	a := api_auth_oauth.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
-	apiCtx, err := a.Start([]string{api_auth.DropboxTokenFull})
+	session := api_auth_oauth.NewSessionReadOnly(c.AuthRepository())
+	entity, err := session.Start(api_auth.OAuthSessionData{
+		AppData:  dbx_auth.DropboxIndividual,
+		PeerName: z.PeerName,
+		Scopes: []string{
+			dbx_auth.ScopeFilesContentRead,
+			dbx_auth.ScopeFilesContentWrite,
+		},
+	})
 	if err != nil {
 		l.Info("Skip operation")
 		return nil, errors.New("token not found")
 	}
-	ctx = dbx_client_impl.New(z.PeerName, c, apiCtx)
+	ctx = dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	return
 }
 

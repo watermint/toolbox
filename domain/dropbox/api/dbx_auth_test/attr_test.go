@@ -3,7 +3,6 @@ package dbx_auth
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth_attr"
-	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
@@ -19,7 +18,7 @@ func TestAttr_Auth(t *testing.T) {
 		if _, err := aa.Start([]string{"test-scope"}); err != nil {
 			t.Error(err)
 		}
-		if _, err := aa.Start([]string{api_auth.DropboxTokenFull}); err == nil {
+		if _, err := aa.Start([]string{dbx_auth.ScopeFilesContentRead}); err == nil {
 			t.Error("invalid")
 		}
 	})

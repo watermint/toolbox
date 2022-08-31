@@ -20,7 +20,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
-func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, ar api_auth.Repository, er app_error.ErrorReport) app_control.Control {
+func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, authRepo api_auth.Repository, er app_error.ErrorReport) app_control.Control {
 	return &ctlImpl{
 		seq:         seq,
 		wb:          wb,
@@ -28,6 +28,7 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq
 		feature:     feature,
 		errorReport: er,
 		cacheCtl:    cache.New(wb.Workspace().Cache(), wb.Logger().Logger()),
+		authRepo:    authRepo,
 	}
 }
 

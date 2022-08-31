@@ -9,28 +9,24 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
-func Connect(scopes []string, peerName string, app api_auth.OAuthApp, ctl app_control.Control) (ctx api_auth.OAuthContext, useMock bool, err error) {
+func ConnectByRedirect(session api_auth.OAuthSessionData, ctl app_control.Control) (entity api_auth.OAuthEntity, useMock bool, err error) {
 	l := ctl.Log()
 	ui := ctl.UI()
 
 	if ctl.Feature().IsTestWithMock() {
 		l.Debug("Test with mock")
-		return api_auth.NewNoAuth(), true, nil
+		return api_auth.NewNoAuthOAuthEntity(), true, nil
 	}
 	if ctl.Feature().IsTest() && qt_endtoend.IsSkipEndToEndTest() {
 		l.Debug("Skip end to end test")
-		return api_auth.NewNoAuth(), true, nil
+		return api_auth.NewNoAuthOAuthEntity(), true, nil
 	}
 	if !ui.IsConsole() {
 		l.Debug("non console UI is not supported")
-		return nil, false, qt_errors.ErrorUnsupportedUI
+		return api_auth.NewNoAuthOAuthEntity(), false, qt_errors.ErrorUnsupportedUI
 	}
-	a := api_auth_oauth.NewConsoleRedirect(ctl, peerName, app)
-	if !ctl.Feature().IsSecure() {
-		l.Debug("Enable cache")
-		a = api_auth_oauth.NewConsoleCache(ctl, a, app)
-	}
-	l.Debug("Start auth sequence", esl.Strings("scopes", scopes))
-	ctx, err = a.Start(scopes)
-	return ctx, false, err
+	a := api_auth_oauth.NewSessionRepository(api_auth_oauth.NewSessionRedirect(ctl), ctl.AuthRepository())
+	l.Debug("Start auth sequence", esl.Strings("scopes", session.Scopes))
+	entity, err = a.Start(session)
+	return entity, false, err
 }

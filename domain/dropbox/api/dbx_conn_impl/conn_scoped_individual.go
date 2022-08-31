@@ -25,7 +25,7 @@ type connScopedIndividual struct {
 }
 
 func (z *connScopedIndividual) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(z.Scopes(), z.name, ctl, dbx_auth.NewScopedIndividual(ctl))
+	z.ctx, err = connect(z.Scopes(), z.name, ctl, dbx_auth.DropboxIndividual)
 	return err
 }
 

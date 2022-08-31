@@ -10,6 +10,7 @@ func NewMock(peerName string) api_auth.OAuthConsole {
 	return &MockConsoleAuth{peerName: peerName}
 }
 
+// Deprecated: NewMockWithPreset
 func NewMockWithPreset(peerName string, preset map[string]*oauth2.Token) api_auth.OAuthConsole {
 	return &MockConsoleAuth{peerName: peerName, preset: preset}
 }

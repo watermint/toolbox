@@ -2,8 +2,8 @@ package api_auth
 
 import "golang.org/x/oauth2"
 
-// OAuthApp OAuth Application key/secret manager
-type OAuthApp interface {
+// Deprecated: OAuthAppLegacy OAuth Application key/secret manager
+type OAuthAppLegacy interface {
 	// Config OAuth2 config
 	Config(scope []string) *oauth2.Config
 

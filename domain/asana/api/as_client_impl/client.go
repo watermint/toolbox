@@ -1,14 +1,16 @@
 package as_client_impl
 
 import (
-	"context"
 	"github.com/watermint/toolbox/domain/asana/api/as_client"
 	"github.com/watermint/toolbox/domain/asana/api/as_request"
+	"github.com/watermint/toolbox/domain/slack/api/work_auth"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_auth"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
+	"github.com/watermint/toolbox/infra/api/api_appkey"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -21,7 +23,7 @@ func NewMock(name string, ctl app_control.Control) as_client.Client {
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: as_request.NewBuilder(ctl, nil),
+		builder: as_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
 	}
 }
 
@@ -31,19 +33,24 @@ func NewReplayMock(name string, ctl app_control.Control, rr []nw_replay.Response
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: as_request.NewBuilder(ctl, nil),
+		builder: as_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.OAuthContext) as_client.Client {
+func New(name string, ctl app_control.Control, entity api_auth.OAuthEntity) as_client.Client {
 	client := nw_rest_factory.New(
-		nw_rest_factory.Client(token.Config().Client(context.Background(), token.Token())),
+		nw_rest_factory.OAuthEntity(work_auth.Slack, func(appKey string) (clientId, clientSecret string) {
+			return api_appkey.Resolve(ctl, appKey)
+		}, entity),
+		nw_rest_factory.Auth(func(client nw_client.Rest) (rest nw_client.Rest) {
+			return nw_auth.NewOAuthRestClient(entity, ctl.AuthRepository(), client)
+		}),
 	)
 	return &clientImpl{
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: as_request.NewBuilder(ctl, token),
+		builder: as_request.NewBuilder(ctl, entity),
 	}
 }
 

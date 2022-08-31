@@ -1,6 +1,7 @@
 package goog_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
@@ -23,7 +24,7 @@ type connSheets struct {
 }
 
 func (z *connSheets) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(goog_client_impl.EndpointGoogleSheets, z.scopes, z.name, ctl)
+	z.ctx, err = connect(goog_auth.Sheets, goog_client_impl.EndpointGoogleSheets, z.scopes, z.name, ctl)
 	return
 }
 

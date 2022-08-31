@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func NewConsole(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
+func NewConsole(c app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 	l := c.Log().With(esl.String("peerName", peerName))
 	var oa api_auth.OAuthConsole
 
@@ -27,7 +27,7 @@ func NewConsole(c app_control.Control, peerName string, app api_auth.OAuthApp) a
 	return ca
 }
 
-func NewConsoleAttr(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthApp) api_auth.OAuthConsole {
+func NewConsoleAttr(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 	return &Attr{
 		app:  app,
 		ctl:  c,

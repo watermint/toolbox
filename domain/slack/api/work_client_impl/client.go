@@ -1,14 +1,16 @@
 package work_client_impl
 
 import (
-	"context"
+	"github.com/watermint/toolbox/domain/slack/api/work_auth"
 	"github.com/watermint/toolbox/domain/slack/api/work_client"
 	"github.com/watermint/toolbox/domain/slack/api/work_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_auth"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
+	"github.com/watermint/toolbox/infra/api/api_appkey"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/api/api_response"
@@ -22,13 +24,18 @@ func NewMock(name string, ctl app_control.Control) work_client.Client {
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: work_request.New(ctl, nil),
+		builder: work_request.New(ctl, api_auth.NewNoAuthOAuthEntity()),
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.OAuthContext) work_client.Client {
+func New(name string, ctl app_control.Control, entity api_auth.OAuthEntity) work_client.Client {
 	client := nw_rest_factory.New(
-		nw_rest_factory.Client(token.Config().Client(context.Background(), token.Token())),
+		nw_rest_factory.OAuthEntity(work_auth.Slack, func(appKey string) (clientId, clientSecret string) {
+			return api_appkey.Resolve(ctl, appKey)
+		}, entity),
+		nw_rest_factory.Auth(func(client nw_client.Rest) (rest nw_client.Rest) {
+			return nw_auth.NewOAuthRestClient(entity, ctl.AuthRepository(), client)
+		}),
 		nw_rest_factory.Assert(api_response.AssertResponse),
 	)
 
@@ -36,7 +43,7 @@ func New(name string, ctl app_control.Control, token api_auth.OAuthContext) work
 		name:    name,
 		client:  nw_retry.NewRetry(nw_retry.NewRatelimit(client)),
 		ctl:     ctl,
-		builder: work_request.New(ctl, token),
+		builder: work_request.New(ctl, entity),
 	}
 }
 

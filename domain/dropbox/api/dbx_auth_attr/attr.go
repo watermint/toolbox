@@ -1,7 +1,6 @@
 package dbx_auth_attr
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -17,7 +16,7 @@ var (
 )
 
 type Attr struct {
-	app  api_auth.OAuthApp
+	app  api_auth.OAuthAppLegacy
 	ctl  app_control.Control
 	auth api_auth.OAuthConsole
 }
@@ -27,21 +26,21 @@ func (z *Attr) PeerName() string {
 }
 
 func (z *Attr) Start(scopes []string) (token api_auth.OAuthContext, err error) {
-	l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.Strings("scopes", scopes))
-	ui := z.ctl.UI()
+	//l := z.ctl.Log().With(esl.String("peerName", z.PeerName()), esl.Strings("scopes", scopes))
+	//ui := z.ctl.UI()
 
-	tc, err := z.auth.Start(scopes)
+	entity, err := z.auth.Start(scopes)
 	if err != nil {
 		return nil, err
 	}
 
-	l.Debug("Start verify token")
-
-	tc, err = VerifyToken(z.PeerName(), tc, z.ctl, z.app)
-	if err != nil {
-		l.Debug("failed verify token", esl.Error(err))
-		ui.Error(MAttr.ErrorVerifyFailed.With("Error", err))
-		return nil, err
-	}
-	return tc, nil
+	//l.Debug("Start verify token")
+	//
+	//entity, err = VerifyToken(z.PeerName(), entity, z.ctl, z.app)
+	//if err != nil {
+	//	l.Debug("failed verify token", esl.Error(err))
+	//	ui.Error(MAttr.ErrorVerifyFailed.With("Error", err))
+	//	return nil, err
+	//}
+	return entity, nil
 }

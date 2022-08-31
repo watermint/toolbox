@@ -2,6 +2,7 @@ package dbx_auth
 
 import "golang.org/x/oauth2"
 
+// Deprecated: DropboxOAuthEndpoint
 func DropboxOAuthEndpoint() oauth2.Endpoint {
 	return oauth2.Endpoint{
 		AuthURL:  "https://www.dropbox.com/oauth2/authorize",

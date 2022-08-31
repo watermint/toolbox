@@ -1,6 +1,7 @@
 package goog_conn_impl
 
 import (
+	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
@@ -27,7 +28,7 @@ func (z *connGoogleMail) IsGmail() bool {
 }
 
 func (z *connGoogleMail) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(goog_client_impl.EndpointGoogleApis, z.scopes, z.name, ctl)
+	z.ctx, err = connect(goog_auth.Mail, goog_client_impl.EndpointGoogleApis, z.scopes, z.name, ctl)
 	return
 }
 

@@ -1,6 +1,7 @@
 package nw_rest_factory
 
 import (
+	"context"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_assert"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
@@ -9,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/essentials/network/nw_simulator"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"net/http"
 	"time"
 )
@@ -18,8 +20,10 @@ type ClientOpts struct {
 	Mock       bool
 	ReplayMock []nw_replay.Response
 
-	client      *http.Client
-	authFactory func(client nw_client.Rest) nw_client.Rest
+	oAuthApp         api_auth.OAuthAppData
+	oAuthKeyResolver api_auth.OAuthKeyResolver
+	oAuthEntity      api_auth.OAuthEntity
+	authFactory      func(client nw_client.Rest) (rest nw_client.Rest)
 
 	// rate limit simulator
 	rateLimitRate       int
@@ -48,14 +52,16 @@ func (z ClientOpts) Apply(opts ...ClientOpt) ClientOpts {
 
 type ClientOpt func(o ClientOpts) ClientOpts
 
-func Client(client *http.Client) ClientOpt {
+func OAuthEntity(app api_auth.OAuthAppData, resolver api_auth.OAuthKeyResolver, entity api_auth.OAuthEntity) ClientOpt {
 	return func(o ClientOpts) ClientOpts {
-		o.client = client
+		o.oAuthApp = app
+		o.oAuthKeyResolver = resolver
+		o.oAuthEntity = entity
 		return o
 	}
 }
 
-func Auth(factory func(client nw_client.Rest) nw_client.Rest) ClientOpt {
+func Auth(factory func(client nw_client.Rest) (rest nw_client.Rest)) ClientOpt {
 	return func(o ClientOpts) ClientOpts {
 		o.authFactory = factory
 		return o
@@ -106,18 +112,28 @@ func ServerErrorSimulator(rate int, code int, decorator nw_simulator.ResponseDec
 func New(opts ...ClientOpt) nw_client.Rest {
 	l := esl.Default()
 
-	co := ClientOpts{}.Apply(opts...)
+	co := ClientOpts{}
+	co.oAuthEntity = api_auth.NewNoAuthOAuthEntity()
+	co = co.Apply(opts...)
+
 	var hc nw_client.Http
+
 	switch {
 	case co.Mock:
 		hc = nw_http.Mock{}
 	case len(co.ReplayMock) > 0:
 		hc = nw_replay.NewSequentialReplay(co.ReplayMock)
 	default:
-		if co.client != nil {
-			hc = nw_http.NewClient(co.client)
-		} else {
+		if co.oAuthEntity.IsNoAuth() {
 			hc = nw_http.NewClient(&http.Client{Timeout: 1 * time.Minute})
+		} else {
+			cfg := co.oAuthApp.Config(co.oAuthEntity.Scopes, co.oAuthKeyResolver)
+			hc = nw_http.NewClient(
+				cfg.Client(
+					context.Background(),
+					co.oAuthEntity.Token.OAuthToken(),
+				),
+			)
 		}
 	}
 

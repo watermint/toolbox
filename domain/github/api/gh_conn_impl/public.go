@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_auth"
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/api/gh_client_impl"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
@@ -39,5 +40,5 @@ func (z *ConnGithubPublic) Connect(ctl app_control.Control) (err error) {
 }
 
 func (z *ConnGithubPublic) Context() gh_client.Client {
-	return gh_client_impl.New("public", z.ctl, nil)
+	return gh_client_impl.New("public", z.ctl, api_auth.NewNoAuthOAuthEntity())
 }

@@ -14,10 +14,10 @@ import (
 	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, token api_auth.OAuthContext) Builder {
+func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 	return &builderImpl{
-		ctl:   ctl,
-		token: token,
+		ctl:    ctl,
+		entity: entity,
 	}
 }
 
@@ -32,7 +32,7 @@ type Builder interface {
 
 type builderImpl struct {
 	ctl        app_control.Control
-	token      api_auth.OAuthContext
+	entity     api_auth.OAuthEntity
 	asMemberId string
 	asAdminId  string
 	basePath   dbx_client.PathRoot
@@ -51,7 +51,7 @@ func (z builderImpl) Endpoint() string {
 }
 
 func (z builderImpl) NoAuth() Builder {
-	z.token = nil
+	z.entity = api_auth.NewNoAuthOAuthEntity()
 	return z
 }
 func (z builderImpl) AsMemberId(teamMemberId string) Builder {
@@ -98,11 +98,11 @@ func (z builderImpl) ClientHash() string {
 		"m", z.asMemberId,
 		"a", z.asAdminId,
 	}
-	if z.token != nil {
+	if z.entity.KeyName != "" {
 		st = []string{
-			"p", z.token.PeerName(),
-			"t", z.token.Token().AccessToken,
-			"y", strings.Join(z.token.Scopes(), ","),
+			"p", z.entity.PeerName,
+			"t", z.entity.Token.AccessToken,
+			"y", strings.Join(z.entity.Scopes, ","),
 		}
 	}
 	if z.basePath != nil {
@@ -133,8 +133,8 @@ func (z builderImpl) reqHeaders() map[string]string {
 
 	headers := make(map[string]string)
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
-	if z.token != nil && !z.token.IsNoAuth() {
-		headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.token.Token().AccessToken
+	if !z.entity.IsNoAuth() {
+		headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.entity.Token.AccessToken
 	}
 	if z.asAdminId != "" {
 		headers[api_request.ReqHeaderDropboxApiSelectAdmin] = z.asAdminId

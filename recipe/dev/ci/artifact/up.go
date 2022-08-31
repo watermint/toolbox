@@ -49,13 +49,20 @@ func (z *Up) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	a := api_auth_oauth.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
-	ctx, err := a.Start([]string{api_auth.DropboxTokenFull})
+	session := api_auth_oauth.NewSessionReadOnly(c.AuthRepository())
+	entity, err := session.Start(api_auth.OAuthSessionData{
+		AppData:  dbx_auth.DropboxIndividual,
+		PeerName: z.PeerName,
+		Scopes: []string{
+			dbx_auth.ScopeFilesContentRead,
+			dbx_auth.ScopeFilesContentWrite,
+		},
+	})
 	if err != nil {
 		l.Info("Skip operation")
 		return nil
 	}
-	dbxCtx := dbx_client_impl.New(ctx.PeerName(), c, ctx)
+	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 			m := r.(*file.Upload)

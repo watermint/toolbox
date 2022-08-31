@@ -106,7 +106,7 @@ var (
 	}
 )
 
-func NewApp(ctl app_control.Control) api_auth.OAuthApp {
+func NewApp(ctl app_control.Control) api_auth.OAuthAppLegacy {
 	return &App{
 		ctl: ctl,
 		res: api_appkey.New(ctl),

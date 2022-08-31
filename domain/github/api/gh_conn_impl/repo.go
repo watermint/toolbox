@@ -5,20 +5,21 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/api/gh_client_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
+	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func NewConnGithubRepo(name string) gh_conn.ConnGithubRepo {
+func NewConnGithubRepo(peerName string) gh_conn.ConnGithubRepo {
 	return &ConnGithubRepo{
-		name: name,
+		peerName: peerName,
 	}
 }
 
 type ConnGithubRepo struct {
-	name string
-	ctx  gh_client.Client
+	peerName string
+	ctx      gh_client.Client
 }
 
 func (z *ConnGithubRepo) ServiceName() string {
@@ -30,24 +31,29 @@ func (z *ConnGithubRepo) ScopeLabel() string {
 }
 
 func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
-	ac, useMock, err := api_conn_impl.Connect([]string{gh_auth.ScopeRepo}, z.name, gh_auth.NewApp(ctl), ctl)
+	session := api_auth.OAuthSessionData{
+		AppData:  gh_auth.Github,
+		PeerName: z.peerName,
+		Scopes:   []string{gh_auth.ScopeRepo},
+	}
+	entity, useMock, err := api_conn_impl.ConnectByRedirect(session, ctl)
 	if useMock {
-		z.ctx = gh_client_impl.NewMock(z.name, ctl)
+		z.ctx = gh_client_impl.NewMock(z.peerName, ctl)
 		return nil
 	}
-	if ac != nil {
-		z.ctx = gh_client_impl.New(z.name, ctl, ac)
-		return nil
+	if err != nil {
+		return err
 	}
-	return err
+	z.ctx = gh_client_impl.New(z.peerName, ctl, entity)
+	return nil
 }
 
 func (z *ConnGithubRepo) PeerName() string {
-	return z.name
+	return z.peerName
 }
 
 func (z *ConnGithubRepo) SetPeerName(name string) {
-	z.name = name
+	z.peerName = name
 }
 
 func (z *ConnGithubRepo) Context() gh_client.Client {

@@ -1,7 +1,6 @@
 package work_conn_impl
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/slack/api/work_auth"
 	"github.com/watermint/toolbox/domain/slack/api/work_client"
 	"github.com/watermint/toolbox/domain/slack/api/work_client_impl"
@@ -12,42 +11,44 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func NewSlackApi(name string) work_conn.ConnSlackApi {
+func NewSlackApi(peerName string) work_conn.ConnSlackApi {
 	return &connSlackApi{
-		name:   name,
-		scopes: make([]string, 0),
+		peerName: peerName,
+		scopes:   make([]string, 0),
 	}
 }
 
 type connSlackApi struct {
-	name   string
-	ctx    work_client.Client
-	scopes []string
+	peerName string
+	client   work_client.Client
+	scopes   []string
 }
 
 func (z *connSlackApi) Connect(ctl app_control.Control) (err error) {
-	ac, useMock, err := api_conn_impl.Connect(z.Scopes(), z.name, work_auth.New(ctl), ctl)
-	if useMock {
-		z.ctx = work_client_impl.NewMock(z.name, ctl)
-		return nil
+	session := api_auth.OAuthSessionData{
+		AppData:  work_auth.Slack,
+		PeerName: z.peerName,
+		Scopes:   z.scopes,
 	}
-	if ac != nil {
-		z.ctx = work_client_impl.New(z.name, ctl, ac)
+	entity, useMock, err := api_conn_impl.ConnectByRedirect(session, ctl)
+	if useMock {
+		z.client = work_client_impl.NewMock(z.peerName, ctl)
 		return nil
 	}
 	if err != nil {
 		return err
-	} else {
-		return errors.New("unknown state")
 	}
+
+	z.client = work_client_impl.New(z.peerName, ctl, entity)
+	return nil
 }
 
 func (z *connSlackApi) PeerName() string {
-	return z.name
+	return z.peerName
 }
 
 func (z *connSlackApi) SetPeerName(name string) {
-	z.name = name
+	z.peerName = name
 }
 
 func (z *connSlackApi) ScopeLabel() string {
@@ -67,5 +68,5 @@ func (z *connSlackApi) Scopes() []string {
 }
 
 func (z *connSlackApi) Context() work_client.Client {
-	return z.ctx
+	return z.client
 }

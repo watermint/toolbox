@@ -1,16 +1,18 @@
 package goog_client_impl
 
 import (
-	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/api/goog_request"
 	"github.com/watermint/toolbox/domain/google/api/goog_response_impl"
+	"github.com/watermint/toolbox/domain/slack/api/work_auth"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_auth"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
+	"github.com/watermint/toolbox/infra/api/api_appkey"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -34,7 +36,7 @@ func NewMock(endpoint EndpointType, name string, ctl app_control.Control) goog_c
 		name:         name,
 		client:       client,
 		ctl:          ctl,
-		builder:      goog_request.NewBuilder(ctl, nil),
+		builder:      goog_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
 	}
 }
 
@@ -47,20 +49,25 @@ func NewReplayMock(endpoint EndpointType, name string, ctl app_control.Control, 
 		name:         name,
 		client:       client,
 		ctl:          ctl,
-		builder:      goog_request.NewBuilder(ctl, nil),
+		builder:      goog_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
 	}
 }
 
-func New(et EndpointType, name string, ctl app_control.Control, token api_auth.OAuthContext) goog_client.Client {
+func New(et EndpointType, name string, ctl app_control.Control, entity api_auth.OAuthEntity) goog_client.Client {
 	client := nw_rest_factory.New(
-		nw_rest_factory.Client(token.Config().Client(context.Background(), token.Token())),
+		nw_rest_factory.OAuthEntity(work_auth.Slack, func(appKey string) (clientId, clientSecret string) {
+			return api_appkey.Resolve(ctl, appKey)
+		}, entity),
+		nw_rest_factory.Auth(func(client nw_client.Rest) (rest nw_client.Rest) {
+			return nw_auth.NewOAuthRestClient(entity, ctl.AuthRepository(), client)
+		}),
 	)
 	return &clientImpl{
 		baseEndpoint: et,
 		name:         name,
 		client:       client,
 		ctl:          ctl,
-		builder:      goog_request.NewBuilder(ctl, token),
+		builder:      goog_request.NewBuilder(ctl, entity),
 	}
 }
 

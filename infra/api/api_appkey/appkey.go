@@ -15,7 +15,7 @@ const (
 
 type Resource interface {
 	// Key/secret
-	Key(scope string) (key, secret string)
+	Key(keyName string) (key, secret string)
 }
 
 func New(ctl app_control.Control) Resource {
@@ -58,4 +58,8 @@ func (z resourceImpl) Key(scope string) (key, secret string) {
 		return "", ""
 	}
 	return
+}
+
+func Resolve(ctl app_control.Control, appKey string) (clientId, clientSecret string) {
+	return New(ctl).Key(appKey)
 }

@@ -10,11 +10,11 @@ import (
 	"strings"
 )
 
-func NewConsoleCacheOnly(c app_control.Control, peerName string, app api_auth.OAuthApp) api_auth.OAuthConsole {
+func NewConsoleCacheOnly(c app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 	return NewConsoleCache(c, dbx_auth.NewConsoleNoAuth(peerName), app)
 }
 
-func NewConsoleCache(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthApp) api_auth.OAuthConsole {
+func NewConsoleCache(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 	return &OAuthFileCachedConsole{
 		app:  app,
 		ctl:  c,
@@ -24,7 +24,7 @@ func NewConsoleCache(c app_control.Control, auth api_auth.OAuthConsole, app api_
 }
 
 type OAuthFileCachedConsole struct {
-	app  api_auth.OAuthApp
+	app  api_auth.OAuthAppLegacy
 	ctl  app_control.Control
 	auth api_auth.OAuthConsole
 	s    sc_token.Storage

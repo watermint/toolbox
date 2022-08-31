@@ -27,18 +27,18 @@ func NewMock(name string, ctl app_control.Control) gh_client.Client {
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: gh_request.NewBuilder(ctl, nil),
+		builder: gh_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
 	}
 }
 
-func New(name string, ctl app_control.Control, token api_auth.OAuthContext) gh_client.Client {
+func New(name string, ctl app_control.Control, entity api_auth.OAuthEntity) gh_client.Client {
 	client := nw_rest_factory.New(
 		nw_rest_factory.Assert(gh_response.AssertResponse))
 	return &clientImpl{
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: gh_request.NewBuilder(ctl, token),
+		builder: gh_request.NewBuilder(ctl, entity),
 	}
 }
 

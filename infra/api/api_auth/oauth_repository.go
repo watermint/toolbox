@@ -50,6 +50,16 @@ const (
 	OAuthScopeSeparator = " "
 )
 
+func NewNoAuthOAuthEntity() OAuthEntity {
+	return OAuthEntity{
+		KeyName:     "",
+		Scopes:      []string{},
+		PeerName:    "",
+		Token:       OAuthTokenData{},
+		Description: "",
+	}
+}
+
 type OAuthEntity struct {
 	// App key name to retrieve client_id/client_secret
 	KeyName string
@@ -65,6 +75,10 @@ type OAuthEntity struct {
 
 	// Supplemental information (e.g. email address of the authenticated account)
 	Description string
+}
+
+func (z OAuthEntity) IsNoAuth() bool {
+	return z.KeyName == ""
 }
 
 func (z OAuthEntity) Entity() Entity {

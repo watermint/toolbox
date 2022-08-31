@@ -122,21 +122,21 @@ func IsTeamScope(scope string) bool {
 
 var (
 	ScopeTeam = []string{
-		ScopeTeamInfoRead,
-		ScopeMembersRead,
-		ScopeMembersWrite,
-		ScopeMembersDelete,
+		ScopeEventsRead,
 		ScopeGroupsRead,
 		ScopeGroupsWrite,
+		ScopeMembersDelete,
+		ScopeMembersRead,
+		ScopeMembersWrite,
 		ScopeSessionsList,
 		ScopeSessionsModify,
-		ScopeTeamDataMember,
-		ScopeTeamDataTeamSpace,
 		ScopeTeamDataContentRead,
 		ScopeTeamDataContentWrite,
 		ScopeTeamDataGovernanceRead,
 		ScopeTeamDataGovernanceWrite,
-		ScopeEventsRead,
+		ScopeTeamDataMember,
+		ScopeTeamDataTeamSpace,
+		ScopeTeamInfoRead,
 	}
 )
 
@@ -160,7 +160,7 @@ func (z Scoped) Config(scopes []string) *oauth2.Config {
 	}
 }
 
-func NewScopedIndividual(ctl app_control.Control) api_auth.OAuthApp {
+func NewScopedIndividual(ctl app_control.Control) api_auth.OAuthAppLegacy {
 	return &Scoped{
 		appType: api_auth.DropboxIndividual,
 		ctl:     ctl,
@@ -168,7 +168,7 @@ func NewScopedIndividual(ctl app_control.Control) api_auth.OAuthApp {
 	}
 }
 
-func NewScopedTeam(ctl app_control.Control) api_auth.OAuthApp {
+func NewScopedTeam(ctl app_control.Control) api_auth.OAuthAppLegacy {
 	return &Scoped{
 		appType: api_auth.DropboxTeam,
 		ctl:     ctl,

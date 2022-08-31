@@ -12,10 +12,10 @@ import (
 	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, token api_auth.OAuthContext) Builder {
+func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 	return &builderImpl{
-		ctl:   ctl,
-		token: token,
+		ctl:    ctl,
+		entity: entity,
 	}
 }
 
@@ -26,7 +26,7 @@ type Builder interface {
 
 type builderImpl struct {
 	ctl    app_control.Control
-	token  api_auth.OAuthContext
+	entity api_auth.OAuthEntity
 	method string
 	url    string
 	data   api_request.RequestData
@@ -44,8 +44,8 @@ func (z builderImpl) Log() esl.Logger {
 	if z.url != "" {
 		l = l.With(esl.String("url", z.url))
 	}
-	if z.token != nil {
-		l = l.With(esl.Strings("scopes", z.token.Scopes()))
+	if !z.entity.IsNoAuth() {
+		l = l.With(esl.Strings("scopes", z.entity.Scopes))
 	}
 	return l
 }
@@ -64,12 +64,10 @@ func (z builderImpl) ClientHash() string {
 		"m", z.method,
 		"u", z.url,
 	}
-	if z.token != nil {
-		st = []string{
-			"p", z.token.PeerName(),
-			"t", z.token.Token().AccessToken,
-			"y", strings.Join(z.token.Scopes(), ","),
-		}
+	st = []string{
+		"p", z.entity.PeerName,
+		"t", z.entity.Token.AccessToken,
+		"y", strings.Join(z.entity.Scopes, ","),
 	}
 
 	return nw_client.ClientHash(sr, st)
@@ -85,8 +83,8 @@ func (z builderImpl) With(method, url string, data api_request.RequestData) Buil
 func (z builderImpl) reqHeaders() map[string]string {
 	headers := make(map[string]string)
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
-	if z.token != nil && !z.token.IsNoAuth() {
-		headers[api_request.ReqHeaderAuthorization] = "token " + z.token.Token().AccessToken
+	if !z.entity.IsNoAuth() {
+		headers[api_request.ReqHeaderAuthorization] = "token " + z.entity.Token.AccessToken
 	}
 
 	// this will overwritten if a custom header provided thru request data

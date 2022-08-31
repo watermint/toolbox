@@ -4,6 +4,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Deprecated: NewContext
 func NewContext(token *oauth2.Token, cfg *oauth2.Config, peerName string, scopes []string) OAuthContext {
 	return &contextImpl{
 		cfg:      cfg,
@@ -13,6 +14,7 @@ func NewContext(token *oauth2.Token, cfg *oauth2.Config, peerName string, scopes
 	}
 }
 
+// Deprecated: NewContextWithAttr
 func NewContextWithAttr(c OAuthContext, cfg *oauth2.Config, desc, suppl string) OAuthContext {
 	return &contextImpl{
 		cfg:      cfg,
@@ -24,7 +26,7 @@ func NewContextWithAttr(c OAuthContext, cfg *oauth2.Config, desc, suppl string) 
 	}
 }
 
-// OAuthContext of OAuth
+// Deprecated: OAuthContext of OAuth
 type OAuthContext interface {
 	Config() *oauth2.Config
 	Token() *oauth2.Token
@@ -35,6 +37,7 @@ type OAuthContext interface {
 	IsNoAuth() bool
 }
 
+// Deprecated: NewNoAuth
 func NewNoAuth() OAuthContext {
 	return &noAuthContext{}
 }
