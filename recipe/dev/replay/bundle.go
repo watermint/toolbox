@@ -23,7 +23,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -44,30 +43,23 @@ func (z *Bundle) Preset() {
 	z.ResultsPath = mo_path.NewDropboxPath("/watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}}")
 }
 
-func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_client.Client, err error) {
+func (z *Bundle) deployDbxContext(c app_control.Control) (client dbx_client.Client, err error) {
 	l := c.Log()
-	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
-		m := r.(*auth.Import)
-		m.PeerName = z.PeerName
-		m.EnvName = app.EnvNameDeployToken
-	}); err != nil {
-		l.Info("No token imported. Skip operation")
-		return nil, errors.New("no token found")
-	}
-	session := api_auth_oauth.NewSessionReadOnly(c.AuthRepository())
-	entity, err := session.Start(api_auth.OAuthSessionData{
+	sd := api_auth.OAuthSessionData{
 		AppData:  dbx_auth.DropboxIndividual,
 		PeerName: z.PeerName,
 		Scopes: []string{
 			dbx_auth.ScopeFilesContentRead,
 			dbx_auth.ScopeFilesContentWrite,
 		},
-	})
-	if err != nil {
-		l.Info("Skip operation")
-		return nil, errors.New("token not found")
 	}
-	ctx = dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
+	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
+	entity, err := session.Start(sd)
+	if err != nil {
+		l.Info("No token found. Skip operation")
+		return nil, errors.New("skip")
+	}
+	client = dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	return
 }
 

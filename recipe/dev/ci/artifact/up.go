@@ -18,7 +18,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"os"
 	"time"
 )
@@ -40,28 +39,21 @@ func (z *Up) Preset() {
 func (z *Up) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
-		m := r.(*auth.Import)
-		m.PeerName = app.PeerDeploy
-		m.EnvName = app.EnvNameDeployToken
-	}); err != nil {
-		l.Info("No token imported. Skip operation")
-		return nil
-	}
-
-	session := api_auth_oauth.NewSessionReadOnly(c.AuthRepository())
-	entity, err := session.Start(api_auth.OAuthSessionData{
+	sd := api_auth.OAuthSessionData{
 		AppData:  dbx_auth.DropboxIndividual,
 		PeerName: z.PeerName,
 		Scopes: []string{
 			dbx_auth.ScopeFilesContentRead,
 			dbx_auth.ScopeFilesContentWrite,
 		},
-	})
+	}
+	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
+	entity, err := session.Start(sd)
 	if err != nil {
-		l.Info("Skip operation")
+		l.Info("No token found. Skip operation")
 		return nil
 	}
+
 	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {

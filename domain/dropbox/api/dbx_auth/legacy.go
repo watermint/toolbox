@@ -7,6 +7,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Deprecated: Legacy
 type Legacy struct {
 	ctl app_control.Control
 	res api_appkey.Resource

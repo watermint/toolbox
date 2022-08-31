@@ -26,11 +26,8 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| View content of your team's files and folders                                                           |
-| View and edit content of your team's files and folders                                                  |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description |
+|-------------|
 
 # Authorization
 
@@ -91,6 +88,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option             | Description                                                                               | Default              |
 |--------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
 | `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
 | `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
 | `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |

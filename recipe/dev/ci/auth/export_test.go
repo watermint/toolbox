@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestImport_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Import{})
+func TestExport_Exec(t *testing.T) {
+	qtr_endtoend.TestRecipe(t, &Export{})
 }

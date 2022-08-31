@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# dev ci auth import
+# dev ci auth export
 
-Import auth tokens of end to end test from environment variable 
+Export deploy token data for CI build 
 
 # Installation
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev ci auth import 
+.\tbx.exe dev ci auth export 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev ci auth import 
+$HOME/Desktop/tbx dev ci auth export 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -36,17 +36,11 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
-## Options:
-
-| Option       | Description               | Default                |
-|--------------|---------------------------|------------------------|
-| `-env-name`  | Environment variable name | TOOLBOX_ENDTOEND_TOKEN |
-| `-peer-name` | Account alias             | end_to_end_test        |
-
 ## Common options:
 
 | Option             | Description                                                                               | Default              |
 |--------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
 | `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
 | `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
 | `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |

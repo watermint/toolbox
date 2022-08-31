@@ -2,19 +2,19 @@ package api_auth
 
 type Entity struct {
 	// App key name to retrieve client_id/client_secret
-	KeyName string
+	KeyName string `json:"key_name"`
 
 	// Serialized scope
-	Scope string
+	Scope string `json:"scope,omitempty"`
 
 	// Peer name
-	PeerName string
+	PeerName string `json:"peer_name"`
 
 	// Serialized credential
-	Credential string
+	Credential string `json:"credential,omitempty"`
 
 	// Supplemental information (e.g. email address of the authenticated account)
-	Description string
+	Description string `json:"description,omitempty"`
 }
 
 type Repository interface {

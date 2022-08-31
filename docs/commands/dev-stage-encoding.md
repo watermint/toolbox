@@ -6,7 +6,7 @@ lang: en
 
 # dev stage encoding
 
-Encoding test command (upload a dummy file with specified encoding name)
+Encoding test command (upload a dummy file with specified encoding name) 
 
 # Security
 
@@ -19,8 +19,7 @@ Encoding test command (upload a dummy file with specified encoding name)
 | Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
 
 Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke
-application access from setting or the admin console.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
@@ -33,9 +32,7 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it
-into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code.
-Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -55,11 +52,8 @@ Enter the authorisation code
 
 # Installation
 
-Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If
-you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and
-place `tbx.exe` on the Desktop folder.
-The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are
-using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
+Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 
+The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
 
 # Usage
 
@@ -78,14 +72,11 @@ macOS, Linux:
 $HOME/Desktop/tbx dev stage encoding -encoding ENCODING -name FILENAME -path /DROPBOX/PATH/TO/UPLOAD
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
-select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "
-General" tab.
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
 You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "
-Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
 ## Options:
 
@@ -100,6 +91,7 @@ Open" on the dialogue.
 
 | Option             | Description                                                                               | Default              |
 |--------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
 | `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
 | `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
 | `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |
@@ -120,8 +112,6 @@ Open" on the dialogue.
 
 # Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you
-want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't
-support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
 
 
