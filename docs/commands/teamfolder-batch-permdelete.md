@@ -26,10 +26,8 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| Dropbox Business: View and edit content of your team's files and folders                                |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description |
+|-------------|
 
 # Authorization
 

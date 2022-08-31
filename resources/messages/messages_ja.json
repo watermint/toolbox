@@ -22,8 +22,6 @@
   "domain.asana.model.mo_workspace.workspace.is_organization.desc": "ワークスペースが組織であるかどうか。",
   "domain.asana.model.mo_workspace.workspace.name.desc": "ワークスペースの名前。",
   "domain.asana.model.mo_workspace.workspace.resource_type.desc": "このリソースのベースタイプ。",
-  "domain.dropbox.api.dbx_auth_attr.msg_attr.attr_team_licenses": "{{.Licenses}} ライセンス",
-  "domain.dropbox.api.dbx_auth_attr.msg_attr.error_verify_failed": "トークンの検証に失敗したか、不正なトークンです再試行してください",
   "domain.dropbox.api.dbx_conn_impl.msg_connect.verify_success": "接続されました: {{.Desc}}\n{{.Suppl}}",
   "domain.dropbox.api.dbx_error.msg_handler.error_bad_request": "リクエスト パラメータに問題があります: {{.Error}}",
   "domain.dropbox.api.dbx_error.msg_handler.error_summary": "Dropboxサーバーからのエラー: {{.Error}}",

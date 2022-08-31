@@ -1,15 +1,5 @@
 package dbx_auth_attr
 
-import (
-	"errors"
-)
-
-var (
-	ErrorUnableToRetrieveResponse = errors.New("unable to retrieve json response")
-	ErrorNoVerification           = errors.New("no verification")
-	ErrorUnexpectedResponseFormat = errors.New("unexpected response format")
-)
-
 //
 //func verifyTokenIndividual(entity api_auth.OAuthEntity, ctl app_control.Control) (actx api_auth.OAuthContext, err error) {
 //	l := ctl.Log().With(esl.String("peerName", entity.PeerName), esl.Strings("scopes", entity.Scopes))

@@ -1,7 +1,6 @@
 package api_auth_oauth
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -9,10 +8,6 @@ import (
 	"sort"
 	"strings"
 )
-
-func NewConsoleCacheOnly(c app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
-	return NewConsoleCache(c, dbx_auth.NewConsoleNoAuth(peerName), app)
-}
 
 func NewConsoleCache(c app_control.Control, auth api_auth.OAuthConsole, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
 	return &OAuthFileCachedConsole{
