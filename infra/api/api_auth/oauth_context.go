@@ -14,18 +14,6 @@ func NewContext(token *oauth2.Token, cfg *oauth2.Config, peerName string, scopes
 	}
 }
 
-// Deprecated: NewContextWithAttr
-func NewContextWithAttr(c OAuthContext, cfg *oauth2.Config, desc, suppl string) OAuthContext {
-	return &contextImpl{
-		cfg:      cfg,
-		token:    c.Token(),
-		peerName: c.PeerName(),
-		scopes:   c.Scopes(),
-		desc:     desc,
-		suppl:    suppl,
-	}
-}
-
 // Deprecated: OAuthContext of OAuth
 type OAuthContext interface {
 	Config() *oauth2.Config
@@ -35,42 +23,6 @@ type OAuthContext interface {
 	Description() string
 	Supplemental() string
 	IsNoAuth() bool
-}
-
-// Deprecated: NewNoAuth
-func NewNoAuth() OAuthContext {
-	return &noAuthContext{}
-}
-
-type noAuthContext struct {
-}
-
-func (z *noAuthContext) Config() *oauth2.Config {
-	return &oauth2.Config{}
-}
-
-func (z *noAuthContext) Scopes() []string {
-	return []string{}
-}
-
-func (z *noAuthContext) Token() *oauth2.Token {
-	return &oauth2.Token{}
-}
-
-func (z *noAuthContext) PeerName() string {
-	return ""
-}
-
-func (z *noAuthContext) Description() string {
-	return ""
-}
-
-func (z *noAuthContext) Supplemental() string {
-	return ""
-}
-
-func (z *noAuthContext) IsNoAuth() bool {
-	return true
 }
 
 type contextImpl struct {

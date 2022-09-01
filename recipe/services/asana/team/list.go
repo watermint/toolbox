@@ -16,6 +16,7 @@ import (
 )
 
 type List struct {
+	rc_recipe.RemarkDeprecated
 	Peer              as_conn.ConnAsanaApi
 	Workspace         mo_filter.Filter
 	Teams             rp_model.RowReport

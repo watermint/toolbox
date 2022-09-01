@@ -62,13 +62,3 @@ func (z OAuthAppData) Config(scopes []string, resolve OAuthKeyResolver) *oauth2.
 		Scopes:      scopes,
 	}
 }
-
-type OAuthSessionData struct {
-	AppData  OAuthAppData `json:"app_data"`
-	PeerName string       `json:"peer_name"`
-	Scopes   []string     `json:"scopes"`
-}
-
-type OAuthSession interface {
-	Start(session OAuthSessionData) (entity OAuthEntity, err error)
-}

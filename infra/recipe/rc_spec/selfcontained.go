@@ -332,6 +332,13 @@ func (z *specValueSelfContained) IsTransient() bool {
 	return false
 }
 
+func (z *specValueSelfContained) IsDeprecated() bool {
+	if z.annotation != nil {
+		return z.annotation.IsDeprecated()
+	}
+	return false
+}
+
 func (z *specValueSelfContained) Value(name string) rc_recipe.Value {
 	return z.repo.FieldValue(name)
 }

@@ -1,2 +1,6 @@
+#645 : Incompatible change: new token file format. re-authentication required
+#647 : Deprecation: Asana commands will no longer tested before release.
+
 #639 : watermint toolbox Deployment command
 #643 : new contributor doc
+#623 : new authentication framework

@@ -12,6 +12,7 @@ import (
 	"os"
 	"reflect"
 	"sort"
+	"time"
 )
 
 var (
@@ -104,6 +105,7 @@ func (z sessionCodeAuth) Start(session api_auth.OAuthSessionData) (entity api_au
 			Expiry:       token.Token().Expiry,
 		},
 		Description: token.Description(),
+		Timestamp:   time.Now().Format(time.RFC3339),
 	}, nil
 }
 

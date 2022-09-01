@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
-	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
@@ -89,7 +88,7 @@ func (z builderImpl) Log() esl.Logger {
 }
 
 func (z builderImpl) ClientHash() string {
-	var ss, sr, st, sp []string
+	var ss, sr, sp []string
 	sr = []string{
 		"m", z.method,
 		"u", z.url,
@@ -98,17 +97,10 @@ func (z builderImpl) ClientHash() string {
 		"m", z.asMemberId,
 		"a", z.asAdminId,
 	}
-	if z.entity.KeyName != "" {
-		st = []string{
-			"p", z.entity.PeerName,
-			"t", z.entity.Token.AccessToken,
-			"y", strings.Join(z.entity.Scopes, ","),
-		}
-	}
 	if z.basePath != nil {
 		sp = []string{"p", z.basePath.Header()}
 	}
-	return nw_client.ClientHash(ss, sr, st, sp)
+	return nw_client.ClientHash(ss, sr, z.entity.HashSeed(), sp)
 }
 
 func (z builderImpl) Build() (*http.Request, error) {
@@ -133,9 +125,9 @@ func (z builderImpl) reqHeaders() map[string]string {
 
 	headers := make(map[string]string)
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
-	if !z.entity.IsNoAuth() {
-		headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.entity.Token.AccessToken
-	}
+	//if !z.entity.IsNoAuth() {
+	//	headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.entity.Token.AccessToken
+	//}
 	if z.asAdminId != "" {
 		headers[api_request.ReqHeaderDropboxApiSelectAdmin] = z.asAdminId
 	}

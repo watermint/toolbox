@@ -74,6 +74,7 @@ func newWithDb(db *sql.DB) (r api_auth.Repository, err error) {
 	peer_name    TEXT NOT NULL,
 	credential   TEXT,
 	description  TEXT,
+	entity_ts    TEXT,
 	PRIMARY KEY(build_stream, key_name, scopes, peer_name)
 	)`)
 	if err != nil {
@@ -81,16 +82,16 @@ func newWithDb(db *sql.DB) (r api_auth.Repository, err error) {
 	}
 
 	sp, err := db.Prepare(`INSERT INTO repository (
-                        build_stream, key_name, scopes, peer_name, credential, description
-                        ) VALUES (?, ?, ?, ?, ?, ?)
+                        build_stream, key_name, scopes, peer_name, credential, description, entity_ts
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?)
 						ON CONFLICT(build_stream, key_name, scopes, peer_name)
-						DO UPDATE SET credential = ?, description = ?
+						DO UPDATE SET credential = ?, description = ?, entity_ts = ?
                         `)
 	if err != nil {
 		return nil, err
 	}
 
-	sg, err := db.Prepare(`SELECT credential, description FROM repository WHERE build_stream = ? AND key_name = ? AND scopes = ? AND peer_name = ?`)
+	sg, err := db.Prepare(`SELECT credential, description, entity_ts FROM repository WHERE build_stream = ? AND key_name = ? AND scopes = ? AND peer_name = ?`)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +101,7 @@ func newWithDb(db *sql.DB) (r api_auth.Repository, err error) {
 		return nil, err
 	}
 
-	sl, err := db.Prepare(`SELECT peer_name, credential, description FROM repository WHERE build_stream = ? AND key_name = ? AND scopes = ? ORDER BY peer_name`)
+	sl, err := db.Prepare(`SELECT peer_name, credential, description, entity_ts FROM repository WHERE build_stream = ? AND key_name = ? AND scopes = ? ORDER BY peer_name`)
 	if err != nil {
 		return nil, err
 	}
@@ -146,10 +147,12 @@ func (z sqlRepo) Put(entity api_auth.Entity) {
 		entity.PeerName,
 		encCred,
 		entity.Description,
+		entity.Timestamp,
 
 		// update set
 		encCred,
 		entity.Description,
+		entity.Timestamp,
 	)
 	if err != nil {
 		l.Debug("Unable to insert/update data", esl.Error(err))
@@ -183,8 +186,8 @@ func (z sqlRepo) Get(keyName, scope, peerName string) (entity api_auth.Entity, f
 		return entity, false
 	}
 
-	var credObf, desc string
-	if err := r.Scan(&credObf, &desc); err != nil {
+	var credObf, desc, entityTs string
+	if err := r.Scan(&credObf, &desc, &entityTs); err != nil {
 		l.Debug("Cannot retrieve", esl.Error(err))
 		return entity, false
 	}
@@ -202,6 +205,7 @@ func (z sqlRepo) Get(keyName, scope, peerName string) (entity api_auth.Entity, f
 		PeerName:    peerName,
 		Credential:  credRaw,
 		Description: desc,
+		Timestamp:   entityTs,
 	}, true
 }
 
@@ -224,8 +228,8 @@ func (z sqlRepo) List(keyName, scope string) (entities []api_auth.Entity) {
 	}
 
 	for r.Next() {
-		var peerName, credObf, desc string
-		if err := r.Scan(&peerName, &credObf, &desc); err != nil {
+		var peerName, credObf, desc, entityTs string
+		if err := r.Scan(&peerName, &credObf, &desc, &entityTs); err != nil {
 			l.Debug("Cannot retrieve, skip", esl.Error(err))
 			continue
 		}
@@ -240,6 +244,7 @@ func (z sqlRepo) List(keyName, scope string) (entities []api_auth.Entity) {
 			PeerName:    peerName,
 			Credential:  credRaw,
 			Description: desc,
+			Timestamp:   entityTs,
 		})
 	}
 	if err := r.Close(); err != nil {

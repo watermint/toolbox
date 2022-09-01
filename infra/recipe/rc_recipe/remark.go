@@ -20,6 +20,10 @@ type RemarkRecipeTransient interface {
 	// True if the operation is transient. Logs will not be managed as like regular commands.
 	IsTransient() bool
 }
+type RemarkRecipeDeprecated interface {
+	// IsDeprecated returns true if the operation is no longer supported
+	IsDeprecated() bool
+}
 
 type RemarkSecret struct {
 }
@@ -53,5 +57,12 @@ type RemarkTransient struct {
 }
 
 func (z RemarkTransient) IsTransient() bool {
+	return true
+}
+
+type RemarkDeprecated struct {
+}
+
+func (z RemarkDeprecated) IsDeprecated() bool {
 	return true
 }

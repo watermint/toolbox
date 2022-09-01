@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
 	"strconv"
-	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
@@ -68,20 +67,10 @@ func (z builderImpl) Log() esl.Logger {
 }
 
 func (z builderImpl) ClientHash() string {
-	var sr, st []string
-	sr = []string{
+	return nw_client.ClientHash(z.entity.HashSeed(), []string{
 		"m", z.method,
 		"u", z.url,
-	}
-	if !z.entity.IsNoAuth() {
-		st = []string{
-			"p", z.entity.PeerName,
-			"t", z.entity.Token.AccessToken,
-			"y", strings.Join(z.entity.Scopes, ","),
-		}
-	}
-
-	return nw_client.ClientHash(sr, st)
+	})
 }
 
 func (z builderImpl) reqContent() es_rewinder.ReadRewinder {
@@ -96,11 +85,11 @@ func (z builderImpl) reqHeaders() (headers map[string]string) {
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
 	headers[api_request.ReqHeaderContentType] = "application/json"
 	headers[api_request.ReqHeaderAccept] = "application/json"
-	if !z.entity.IsNoAuth() {
-		headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.entity.Token.AccessToken
-	} else {
-		headers[api_request.ReqHeaderAuthorization] = "MOCK_CALL"
-	}
+	//if !z.entity.IsNoAuth() {
+	//	headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.entity.Token.AccessToken
+	//} else {
+	//	headers[api_request.ReqHeaderAuthorization] = "MOCK_CALL"
+	//}
 
 	for k, v := range z.data.Headers() {
 		headers[k] = v

@@ -7,6 +7,14 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
+type MsgHeader struct {
+	WarnDeprecation app_msg.Message
+}
+
+var (
+	MHeader = app_msg.Apply(&MsgHeader{}).(*MsgHeader)
+)
+
 func NewHeader(spec rc_recipe.Spec) dc_section.Section {
 	return &Header{
 		spec: spec,
@@ -22,6 +30,9 @@ func (z Header) Title() app_msg.Message {
 }
 
 func (z Header) Body(ui app_ui.UI) {
+	if z.spec.IsDeprecated() {
+		ui.Info(MHeader.WarnDeprecation)
+	}
 	ui.Info(app_msg.Join(z.spec.Title(), z.spec.Remarks()))
 	ui.Break()
 	ui.Info(z.spec.Desc())

@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
-	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
@@ -59,18 +58,10 @@ func (z builderImpl) Param() string {
 }
 
 func (z builderImpl) ClientHash() string {
-	var sr, st []string
-	sr = []string{
+	return nw_client.ClientHash(z.entity.HashSeed(), []string{
 		"m", z.method,
 		"u", z.url,
-	}
-	st = []string{
-		"p", z.entity.PeerName,
-		"t", z.entity.Token.AccessToken,
-		"y", strings.Join(z.entity.Scopes, ","),
-	}
-
-	return nw_client.ClientHash(sr, st)
+	})
 }
 
 func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {

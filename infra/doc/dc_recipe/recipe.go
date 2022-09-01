@@ -17,6 +17,7 @@ type Recipe struct {
 	IsExperimental  bool                 `json:"is_experimental"`
 	IsIrreversible  bool                 `json:"is_irreversible"`
 	IsTransient     bool                 `json:"is_transient"`
+	IsDeprecated    bool                 `json:"is_deprecated"`
 	Reports         []*Report            `json:"reports"`
 	Feeds           []*Feed              `json:"feeds"`
 	Values          []*Value             `json:"values"`

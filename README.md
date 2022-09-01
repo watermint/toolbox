@@ -261,7 +261,7 @@ Available commands:
 | [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                                           | List policies of team folders                                                       |
 | [teamfolder replication](docs/commands/teamfolder-replication.md)                                           | Replicate a team folder to the other team                                           |
 
-## Asana
+## Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647))
 
 | Command                                                                                         | Description                    |
 |-------------------------------------------------------------------------------------------------|--------------------------------|

@@ -7,15 +7,20 @@ import (
 	"path/filepath"
 	"reflect"
 	"testing"
+	"time"
 )
 
 func repoTestScenario(t *testing.T, repo api_auth.Repository) {
+	ts1 := time.Now().Format(time.RFC3339)
+	ts2 := time.Now().Add(-1 * time.Hour).Format(time.RFC3339)
+	ts3 := time.Now().Add(1 * time.Hour).Format(time.RFC3339)
 	entity1 := api_auth.Entity{
 		KeyName:     "watermint",
 		Scope:       "toolbox",
 		PeerName:    "default",
 		Credential:  "*TOP*SECRET*",
 		Description: "default connection",
+		Timestamp:   ts1,
 	}
 	entity2 := api_auth.Entity{
 		KeyName:     "watermint",
@@ -23,6 +28,7 @@ func repoTestScenario(t *testing.T, repo api_auth.Repository) {
 		PeerName:    "green",
 		Credential:  "*TOP*SECRET*GREEN*",
 		Description: "green connection",
+		Timestamp:   ts2,
 	}
 	entity3 := api_auth.Entity{
 		KeyName:     "stonemint",
@@ -30,6 +36,7 @@ func repoTestScenario(t *testing.T, repo api_auth.Repository) {
 		PeerName:    "default",
 		Credential:  "*SECRET*STONEMINT*",
 		Description: "stonemint connection",
+		Timestamp:   ts3,
 	}
 	entities := []api_auth.Entity{entity1, entity2, entity3}
 

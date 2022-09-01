@@ -183,7 +183,7 @@ lang: en
 | [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                                           | List policies of team folders                                                       |
 | [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                           | Replicate a team folder to the other team                                           |
 
-## Asana
+## Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647))
 
 | Command                                                                                                         | Description                    |
 |-----------------------------------------------------------------------------------------------------------------|--------------------------------|

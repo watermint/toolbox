@@ -11,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
 	url2 "net/url"
-	"strings"
 )
 
 func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
@@ -63,20 +62,10 @@ func (z builderImpl) Log() esl.Logger {
 }
 
 func (z builderImpl) ClientHash() string {
-	var sr, st []string
-	sr = []string{
+	return nw_client.ClientHash(z.entity.HashSeed(), []string{
 		"m", z.method,
 		"u", z.url,
-	}
-	if !z.entity.IsNoAuth() {
-		st = []string{
-			"p", z.entity.PeerName,
-			"t", z.entity.Token.AccessToken,
-			"y", strings.Join(z.entity.Scopes, ","),
-		}
-	}
-
-	return nw_client.ClientHash(sr, st)
+	})
 }
 
 func (z builderImpl) Endpoint() string {

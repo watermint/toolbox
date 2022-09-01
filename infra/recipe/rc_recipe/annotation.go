@@ -22,6 +22,9 @@ type Annotation interface {
 
 	// True if the operation is transient.
 	IsTransient() bool
+
+	// IsDeprecated returns true if the operation is deprecated.
+	IsDeprecated() bool
 }
 
 func NewAnnotated(seed Recipe) Annotation {
@@ -48,6 +51,13 @@ func (z AnnotatedRecipe) Test(c app_control.Control) error {
 
 func (z AnnotatedRecipe) Seed() Recipe {
 	return z.seed
+}
+
+func (z AnnotatedRecipe) IsDeprecated() bool {
+	if r, ok := z.seed.(RemarkRecipeDeprecated); ok {
+		return r.IsDeprecated()
+	}
+	return false
 }
 
 func (z AnnotatedRecipe) IsSecret() bool {
