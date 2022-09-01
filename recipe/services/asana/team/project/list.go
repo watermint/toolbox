@@ -19,6 +19,7 @@ import (
 
 type List struct {
 	rc_recipe.RemarkDeprecated
+	rc_recipe.RemarkSecret
 	Peer              as_conn.ConnAsanaApi
 	Workspace         mo_filter.Filter
 	Team              mo_filter.Filter

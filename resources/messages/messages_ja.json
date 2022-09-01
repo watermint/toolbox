@@ -767,7 +767,6 @@
   "infra.doc.dc_options.msg_doc.header_description": "説明",
   "infra.doc.dc_options.msg_doc.header_option": "オプション",
   "infra.doc.dc_readme.command.command_header": "コマンド",
-  "infra.doc.dc_readme.command.services.asana": "Asana",
   "infra.doc.dc_readme.command.services.dropbox": "Dropbox (個人アカウント)",
   "infra.doc.dc_readme.command.services.dropbox_business": "Dropbox Business",
   "infra.doc.dc_readme.command.services.github": "GitHub",

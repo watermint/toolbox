@@ -12,6 +12,7 @@ import (
 
 type List struct {
 	rc_recipe.RemarkDeprecated
+	rc_recipe.RemarkSecret
 	Peer       as_conn.ConnAsanaApi
 	Workspaces rp_model.RowReport
 }

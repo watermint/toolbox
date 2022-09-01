@@ -795,7 +795,6 @@
   "infra.doc.dc_options.msg_doc.header_description": "Description",
   "infra.doc.dc_options.msg_doc.header_option": "Option",
   "infra.doc.dc_readme.command.command_header": "Commands",
-  "infra.doc.dc_readme.command.services.asana": "Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647))",
   "infra.doc.dc_readme.command.services.dropbox": "Dropbox (Individual account)",
   "infra.doc.dc_readme.command.services.dropbox_business": "Dropbox Business",
   "infra.doc.dc_readme.command.services.github": "GitHub",

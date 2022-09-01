@@ -183,16 +183,6 @@ lang: en
 | [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                                           | List policies of team folders                                                       |
 | [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                           | Replicate a team folder to the other team                                           |
 
-## Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647))
-
-| Command                                                                                                         | Description                    |
-|-----------------------------------------------------------------------------------------------------------------|--------------------------------|
-| [services asana team list]({{ site.baseurl }}/commands/services-asana-team-list.html)                           | List team                      |
-| [services asana team project list]({{ site.baseurl }}/commands/services-asana-team-project-list.html)           | List projects of the team      |
-| [services asana team task list]({{ site.baseurl }}/commands/services-asana-team-task-list.html)                 | List task of the team          |
-| [services asana workspace list]({{ site.baseurl }}/commands/services-asana-workspace-list.html)                 | List workspaces                |
-| [services asana workspace project list]({{ site.baseurl }}/commands/services-asana-workspace-project-list.html) | List projects of the workspace |
-
 ## GitHub
 
 | Command                                                                                                           | Description                                         |
