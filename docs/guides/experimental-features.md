@@ -16,6 +16,7 @@ The experimental feature switch is for testing or accessing early access feature
 | batch_sequential                       | Execute batch sequentially in same batchId.                                                                |
 | congestion_window_aggressive           | Apply aggressive initial congestion window size                                                            |
 | congestion_window_no_limit             | Do not limit concurrency with the congestion window.                                                       |
+| dbx_auth_redirect                      |                                                                                                            |
 | dbx_client_conditioner_error100        | Simulate server errors. 100% of requests will fail with a server error.                                    |
 | dbx_client_conditioner_error20         | Simulate server errors. 20% of requests will fail with a server error.                                     |
 | dbx_client_conditioner_error40         | Simulate server errors. 40% of requests will fail with a server error.                                     |

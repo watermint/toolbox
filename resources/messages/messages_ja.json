@@ -774,7 +774,6 @@
   "infra.doc.dc_readme.command.services.google_calendar": "Google Calendar",
   "infra.doc.dc_readme.command.services.google_mail": "Google Gmail",
   "infra.doc.dc_readme.command.services.google_sheets": "Google Sheets",
-  "infra.doc.dc_readme.command.services.slack": "Slack",
   "infra.doc.dc_readme.command.services.utility": "ユーティリティー",
   "infra.doc.dc_readme.command.table_header_command": "コマンド",
   "infra.doc.dc_readme.command.table_header_desc": "説明",

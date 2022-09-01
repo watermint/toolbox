@@ -327,12 +327,6 @@ Available commands:
 | [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet      |
 | [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet            |
 
-## Slack
-
-| Command                                                                               | Description   |
-|---------------------------------------------------------------------------------------|---------------|
-| [services slack conversation list](docs/commands/services-slack-conversation-list.md) | List channels |
-
 ## Utilities
 
 | Command                                                             | Description                                                          |

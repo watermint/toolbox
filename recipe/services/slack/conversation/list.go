@@ -12,6 +12,7 @@ import (
 )
 
 type List struct {
+	rc_recipe.RemarkSecret
 	Peer         work_conn.ConnSlackApi
 	Conversation rp_model.RowReport
 }

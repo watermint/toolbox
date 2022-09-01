@@ -249,12 +249,6 @@ lang: en
 | [services google sheets sheet list]({{ site.baseurl }}/commands/services-google-sheets-sheet-list.html)                 | List sheets of the spreadsheet      |
 | [services google sheets spreadsheet create]({{ site.baseurl }}/commands/services-google-sheets-spreadsheet-create.html) | Create a new spreadsheet            |
 
-## Slack
-
-| Command                                                                                               | Description   |
-|-------------------------------------------------------------------------------------------------------|---------------|
-| [services slack conversation list]({{ site.baseurl }}/commands/services-slack-conversation-list.html) | List channels |
-
 ## Utilities
 
 | Command                                                                             | Description                                                          |
