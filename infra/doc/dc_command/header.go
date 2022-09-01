@@ -31,7 +31,9 @@ func (z Header) Title() app_msg.Message {
 
 func (z Header) Body(ui app_ui.UI) {
 	if z.spec.IsDeprecated() {
+		ui.Break()
 		ui.Info(MHeader.WarnDeprecation)
+		ui.Break()
 	}
 	ui.Info(app_msg.Join(z.spec.Title(), z.spec.Remarks()))
 	ui.Break()

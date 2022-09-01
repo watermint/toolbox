@@ -85,11 +85,6 @@ func (z builderImpl) reqHeaders() (headers map[string]string) {
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
 	headers[api_request.ReqHeaderContentType] = "application/json"
 	headers[api_request.ReqHeaderAccept] = "application/json"
-	//if !z.entity.IsNoAuth() {
-	//	headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.entity.Token.AccessToken
-	//} else {
-	//	headers[api_request.ReqHeaderAuthorization] = "MOCK_CALL"
-	//}
 
 	for k, v := range z.data.Headers() {
 		headers[k] = v

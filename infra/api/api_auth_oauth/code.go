@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/api/api_appkey"
 	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -12,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"golang.org/x/oauth2"
 	"strings"
+	"time"
 )
 
 type MsgApiAuth struct {
@@ -25,48 +27,50 @@ var (
 	MApiAuth = app_msg.Apply(&MsgApiAuth{}).(*MsgApiAuth)
 )
 
-// Deprecated: NewConsoleOAuth
-func NewConsoleOAuth(c app_control.Control, peerName string, app api_auth.OAuthAppLegacy) api_auth.OAuthConsole {
-	return &OAuthConsole{
-		ctl:      c,
-		app:      app,
-		peerName: peerName,
+func NewSessionCodeAuth(ctl app_control.Control) api_auth.OAuthSession {
+	return &sessionCodeAuthImpl{
+		ctl: ctl,
 	}
 }
 
-// Deprecated: OAuthConsole
-type OAuthConsole struct {
-	ctl      app_control.Control
-	app      api_auth.OAuthAppLegacy
-	peerName string
+// sessionCodeAuthImpl
+type sessionCodeAuthImpl struct {
+	ctl app_control.Control
 }
 
-func (z *OAuthConsole) PeerName() string {
-	return z.peerName
-}
-
-func (z *OAuthConsole) Start(scopes []string) (tc api_auth.OAuthContext, err error) {
-	l := z.ctl.Log().With(esl.String("peerName", z.peerName), esl.Strings("scopes", scopes))
+func (z *sessionCodeAuthImpl) Start(session api_auth.OAuthSessionData) (entity api_auth.OAuthEntity, err error) {
+	l := z.ctl.Log().With(esl.String("peerName", session.PeerName), esl.Strings("scopes", session.Scopes))
 	ui := z.ctl.UI()
 
 	l.Debug("Start OAuth sequence")
-	t, err := z.oauthStart(scopes)
+	token, err := z.oauthStart(session)
 	if err != nil {
 		l.Debug("Authentication finished with an error", esl.Error(err))
 		ui.Error(MApiAuth.FailedOrCancelled.With("Cause", err))
-		return nil, err
+		return api_auth.NewNoAuthOAuthEntity(), err
 	}
 	ui.Progress(MApiAuth.ProgressAuthSuccess)
-	return api_auth.NewContext(t, z.app.Config(scopes), z.peerName, scopes), nil
+	return api_auth.OAuthEntity{
+		KeyName:  session.AppData.AppKeyName,
+		Scopes:   session.Scopes,
+		PeerName: session.PeerName,
+		Token: api_auth.OAuthTokenData{
+			AccessToken:  token.AccessToken,
+			RefreshToken: token.RefreshToken,
+			Expiry:       token.Expiry,
+		},
+		Description: "",
+		Timestamp:   time.Now().Format(time.RFC3339),
+	}, nil
 }
 
-func (z *OAuthConsole) oauthStart(scopes []string) (*oauth2.Token, error) {
+func (z *sessionCodeAuthImpl) oauthStart(session api_auth.OAuthSessionData) (*oauth2.Token, error) {
 	l := z.ctl.Log()
 	l.Debug("Start OAuth sequence")
 	state := sc_random.MustGetSecureRandomString(8)
 	challenge := sc_random.MustGetSecureRandomString(64)
 
-	tok, err := z.oauthAskCode(scopes, state, challenge)
+	tok, err := z.oauthAskCode(session, state, challenge)
 	if err != nil {
 		l.Debug("Authentication failed due to the error", esl.Error(err))
 		return nil, err
@@ -74,8 +78,8 @@ func (z *OAuthConsole) oauthStart(scopes []string) (*oauth2.Token, error) {
 	return tok, nil
 }
 
-func (z *OAuthConsole) oauthUrl(cfg *oauth2.Config, state, challenge string) string {
-	if z.app.UsePKCE() {
+func (z *sessionCodeAuthImpl) oauthUrl(session api_auth.OAuthSessionData, cfg *oauth2.Config, state, challenge string) string {
+	if session.AppData.UsePKCE {
 		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
 		s256a32 := sha256.Sum256([]byte(challenge64))
 		s256 := make([]byte, len(s256a32))
@@ -96,8 +100,8 @@ func (z *OAuthConsole) oauthUrl(cfg *oauth2.Config, state, challenge string) str
 	}
 }
 
-func (z *OAuthConsole) oauthExchange(cfg *oauth2.Config, code, challenge string) (*oauth2.Token, error) {
-	if z.app.UsePKCE() {
+func (z *sessionCodeAuthImpl) oauthExchange(session api_auth.OAuthSessionData, cfg *oauth2.Config, code, challenge string) (*oauth2.Token, error) {
+	if session.AppData.UsePKCE {
 		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
 		return cfg.Exchange(context.Background(),
 			code,
@@ -108,7 +112,7 @@ func (z *OAuthConsole) oauthExchange(cfg *oauth2.Config, code, challenge string)
 	}
 }
 
-func (z *OAuthConsole) oauthCode() string {
+func (z *sessionCodeAuthImpl) oauthCode() string {
 	ui := z.ctl.UI()
 	for {
 		code, cancel := ui.AskText(MApiAuth.OauthSeq2)
@@ -122,10 +126,12 @@ func (z *OAuthConsole) oauthCode() string {
 	}
 }
 
-func (z *OAuthConsole) oauthAskCode(scopes []string, state, challenge string) (*oauth2.Token, error) {
+func (z *sessionCodeAuthImpl) oauthAskCode(session api_auth.OAuthSessionData, state, challenge string) (*oauth2.Token, error) {
 	ui := z.ctl.UI()
-	cfg := z.app.Config(scopes)
-	url := z.oauthUrl(cfg, state, challenge)
+	cfg := session.AppData.Config(session.Scopes, func(appKey string) (clientId, clientSecret string) {
+		return api_appkey.Resolve(z.ctl, session.AppData.AppKeyName)
+	})
+	url := z.oauthUrl(session, cfg, state, challenge)
 
 	ui.Info(MApiAuth.OauthSeq1.With("Url", url))
 
@@ -134,5 +140,5 @@ func (z *OAuthConsole) oauthAskCode(scopes []string, state, challenge string) (*
 		return nil, app.ErrorUserCancelled
 	}
 
-	return z.oauthExchange(cfg, code, challenge)
+	return z.oauthExchange(session, cfg, code, challenge)
 }
