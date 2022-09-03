@@ -1,12 +1,12 @@
 package nw_retry
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_congestion"
-	"github.com/watermint/toolbox/infra/api/api_client"
 	"net/http"
 	"time"
 )

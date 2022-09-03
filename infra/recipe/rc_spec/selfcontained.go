@@ -3,12 +3,12 @@ package rc_spec
 import (
 	"flag"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"

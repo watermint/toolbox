@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"sort"
 )
@@ -38,7 +38,7 @@ func (z *connScopedTeam) SetPeerName(name string) {
 }
 
 func (z *connScopedTeam) ScopeLabel() string {
-	return api_auth.DropboxTeam
+	return app.ServiceDropboxTeam
 }
 
 func (z *connScopedTeam) ServiceName() string {

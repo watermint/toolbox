@@ -3,13 +3,13 @@ package goog_conn_impl
 import (
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_conn_impl"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func connect(app api_auth.OAuthAppData, endpointBase goog_client_impl.EndpointType, scopes []string, peerName string, ctl app_control.Control) (ctx goog_client.Client, err error) {
-	session := api_auth.OAuthSessionData{
+func connect(app api_auth2.OAuthAppData, endpointBase goog_client_impl.EndpointType, scopes []string, peerName string, ctl app_control.Control) (ctx goog_client.Client, err error) {
+	session := api_auth2.OAuthSessionData{
 		AppData:  app,
 		PeerName: peerName,
 		Scopes:   scopes,

@@ -2,7 +2,7 @@ package work_request_test
 
 import (
 	"github.com/watermint/toolbox/domain/slack/api/work_request"
-	"github.com/watermint/toolbox/infra/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"

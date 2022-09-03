@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -37,7 +37,7 @@ func (z *connSheets) SetPeerName(name string) {
 }
 
 func (z *connSheets) ScopeLabel() string {
-	return api_auth.GoogleSheets
+	return app.ServiceGoogleSheets
 }
 
 func (z *connSheets) ServiceName() string {

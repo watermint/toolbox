@@ -2,7 +2,7 @@ package dbx_conn
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
-	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 )
 
 type ConnScopedDropboxApi interface {

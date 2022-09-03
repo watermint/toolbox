@@ -5,9 +5,10 @@ import (
 	"github.com/watermint/toolbox/domain/asana/api/as_client"
 	"github.com/watermint/toolbox/domain/asana/api/as_client_impl"
 	"github.com/watermint/toolbox/domain/asana/api/as_conn"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_conn"
-	"github.com/watermint/toolbox/infra/api/api_conn_impl"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
@@ -25,7 +26,7 @@ type connAsanaApi struct {
 }
 
 func (z *connAsanaApi) Connect(ctl app_control.Control) (err error) {
-	session := api_auth.OAuthSessionData{
+	session := api_auth2.OAuthSessionData{
 		AppData:  as_auth.Asana,
 		PeerName: z.peerName,
 		Scopes:   z.Scopes(),
@@ -55,7 +56,7 @@ func (z *connAsanaApi) SetPeerName(name string) {
 }
 
 func (z *connAsanaApi) ScopeLabel() string {
-	return api_auth.Asana
+	return app.ServiceAsana
 }
 
 func (z *connAsanaApi) ServiceName() string {

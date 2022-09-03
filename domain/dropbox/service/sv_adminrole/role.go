@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_adminrole"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_user"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Role interface {

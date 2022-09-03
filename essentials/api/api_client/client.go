@@ -1,9 +1,9 @@
 package api_client
 
 import (
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/api/api_request"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
 
@@ -36,7 +36,7 @@ type UI interface {
 }
 
 type Client interface {
-	es_context.Context
+	es_client.Client
 }
 
 type QualityContext interface {

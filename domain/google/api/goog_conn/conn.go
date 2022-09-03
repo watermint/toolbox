@@ -2,7 +2,7 @@ package goog_conn
 
 import (
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
-	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 )
 
 type ConnGoogleApi interface {

@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
@@ -17,7 +18,6 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_block"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"os"
 )
 

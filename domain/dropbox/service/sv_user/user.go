@@ -5,8 +5,8 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_user"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type User interface {

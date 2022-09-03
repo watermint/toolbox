@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/api/gh_client_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_conn"
-	"github.com/watermint/toolbox/infra/api/api_conn_impl"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 

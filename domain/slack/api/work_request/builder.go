@@ -3,11 +3,11 @@ package work_request
 import (
 	"encoding/json"
 	"github.com/google/go-querystring/query"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	api_request2 "github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
@@ -22,8 +22,8 @@ func New(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 }
 
 type Builder interface {
-	api_request.Builder
-	With(method, url string, data api_request.RequestData) Builder
+	api_request2.Builder
+	With(method, url string, data api_request2.RequestData) Builder
 }
 
 type builderImpl struct {
@@ -31,10 +31,10 @@ type builderImpl struct {
 	entity api_auth.OAuthEntity
 	method string
 	url    string
-	data   api_request.RequestData
+	data   api_request2.RequestData
 }
 
-func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
+func (z builderImpl) WithData(data api_request2.RequestDatum) api_request2.Builder {
 	z.data = z.data.WithDatum(data)
 	return z
 }
@@ -81,9 +81,9 @@ func (z builderImpl) reqContent() es_rewinder.ReadRewinder {
 
 func (z builderImpl) reqHeaders() (headers map[string]string) {
 	headers = make(map[string]string)
-	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
-	headers[api_request.ReqHeaderContentType] = "application/json; charset=UTF-8"
-	headers[api_request.ReqHeaderAccept] = "application/json"
+	headers[api_request2.ReqHeaderUserAgent] = app.UserAgent()
+	headers[api_request2.ReqHeaderContentType] = "application/json; charset=UTF-8"
+	headers[api_request2.ReqHeaderAccept] = "application/json"
 	//if z.token != nil {
 	//	headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.token.Token().AccessToken
 	//} else {
@@ -151,7 +151,7 @@ func (z builderImpl) Param() string {
 	return string(pjd)
 }
 
-func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
+func (z builderImpl) With(method, url string, data api_request2.RequestData) Builder {
 	z.method = method
 	z.url = url
 	z.data = data

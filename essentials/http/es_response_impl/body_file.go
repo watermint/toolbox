@@ -3,14 +3,14 @@ package es_response_impl
 import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/esl_encode"
 	"io/ioutil"
 )
 
-func newFileBody(ctx es_context.Context, path string, contentLength int64) es_response.Body {
+func newFileBody(ctx es_client.Client, path string, contentLength int64) es_response.Body {
 	return &bodyFileImpl{
 		ctx:           ctx,
 		path:          path,
@@ -19,7 +19,7 @@ func newFileBody(ctx es_context.Context, path string, contentLength int64) es_re
 }
 
 type bodyFileImpl struct {
-	ctx           es_context.Context
+	ctx           es_client.Client
 	path          string
 	contentLength int64
 }

@@ -10,8 +10,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 const (

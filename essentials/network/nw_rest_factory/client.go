@@ -2,6 +2,7 @@ package nw_rest_factory
 
 import (
 	"context"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_assert"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
@@ -10,7 +11,6 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"github.com/watermint/toolbox/essentials/network/nw_simulator"
-	"github.com/watermint/toolbox/infra/api/api_auth"
 	"net/http"
 	"time"
 )
@@ -20,9 +20,9 @@ type ClientOpts struct {
 	Mock       bool
 	ReplayMock []nw_replay.Response
 
-	oAuthApp         api_auth.OAuthAppData
-	oAuthKeyResolver api_auth.OAuthKeyResolver
-	oAuthEntity      api_auth.OAuthEntity
+	oAuthApp         api_auth2.OAuthAppData
+	oAuthKeyResolver api_auth2.OAuthKeyResolver
+	oAuthEntity      api_auth2.OAuthEntity
 	authFactory      func(client nw_client.Rest) (rest nw_client.Rest)
 
 	// rate limit simulator
@@ -52,7 +52,7 @@ func (z ClientOpts) Apply(opts ...ClientOpt) ClientOpts {
 
 type ClientOpt func(o ClientOpts) ClientOpts
 
-func OAuthEntity(app api_auth.OAuthAppData, resolver api_auth.OAuthKeyResolver, entity api_auth.OAuthEntity) ClientOpt {
+func OAuthEntity(app api_auth2.OAuthAppData, resolver api_auth2.OAuthKeyResolver, entity api_auth2.OAuthEntity) ClientOpt {
 	return func(o ClientOpts) ClientOpts {
 		o.oAuthApp = app
 		o.oAuthKeyResolver = resolver
@@ -113,7 +113,7 @@ func New(opts ...ClientOpt) nw_client.Rest {
 	l := esl.Default()
 
 	co := ClientOpts{}
-	co.oAuthEntity = api_auth.NewNoAuthOAuthEntity()
+	co.oAuthEntity = api_auth2.NewNoAuthOAuthEntity()
 	co = co.Apply(opts...)
 
 	var hc nw_client.Http

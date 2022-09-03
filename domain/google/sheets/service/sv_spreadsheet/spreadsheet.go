@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/sheets/model/bo_spreadsheet"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_spreadsheet"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Spreadsheet interface {

@@ -6,10 +6,10 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/time/ut_format"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"os"
 	"time"
 )

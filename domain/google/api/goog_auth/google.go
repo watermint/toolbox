@@ -1,7 +1,8 @@
 package goog_auth
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_auth"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/infra/app"
 )
 
 // Gmail scopes
@@ -74,29 +75,29 @@ const (
 )
 
 var (
-	Mail = api_auth.OAuthAppData{
-		AppKeyName:       api_auth.GoogleMail,
+	Mail = api_auth2.OAuthAppData{
+		AppKeyName:       app.ServiceGoogleMail,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
-		EndpointStyle:    api_auth.AuthStyleInParams,
+		EndpointStyle:    api_auth2.AuthStyleInParams,
 		UsePKCE:          false,
 		RedirectUrl:      "",
 	}
 
-	Calendar = api_auth.OAuthAppData{
-		AppKeyName:       api_auth.GoogleCalendar,
+	Calendar = api_auth2.OAuthAppData{
+		AppKeyName:       app.ServiceGoogleCalendar,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
-		EndpointStyle:    api_auth.AuthStyleInParams,
+		EndpointStyle:    api_auth2.AuthStyleInParams,
 		UsePKCE:          false,
 		RedirectUrl:      "",
 	}
 
-	Sheets = api_auth.OAuthAppData{
-		AppKeyName:       api_auth.GoogleSheets,
+	Sheets = api_auth2.OAuthAppData{
+		AppKeyName:       app.ServiceGoogleSheets,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
-		EndpointStyle:    api_auth.AuthStyleInParams,
+		EndpointStyle:    api_auth2.AuthStyleInParams,
 		UsePKCE:          false,
 		RedirectUrl:      "",
 	}

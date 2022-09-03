@@ -4,9 +4,9 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/mail/model/mo_label"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (

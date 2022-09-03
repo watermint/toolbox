@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/asana/model/mo_project"
 	"github.com/watermint/toolbox/domain/asana/model/mo_team"
 	"github.com/watermint/toolbox/domain/asana/model/mo_workspace"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Project interface {

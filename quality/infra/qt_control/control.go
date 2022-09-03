@@ -1,10 +1,10 @@
 package qt_control
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_auth_repo"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
-	"github.com/watermint/toolbox/infra/api/api_auth_repo"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"

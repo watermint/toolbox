@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_tag"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (

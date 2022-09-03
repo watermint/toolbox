@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_issue"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (

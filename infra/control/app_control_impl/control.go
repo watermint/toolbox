@@ -2,6 +2,7 @@ package app_control_impl
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
@@ -9,7 +10,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
-	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"

@@ -1,4 +1,4 @@
-package es_context
+package es_client
 
 import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-type Context interface {
+type Client interface {
 	Name() string
 	ClientHash() string
 	Log() esl.Logger

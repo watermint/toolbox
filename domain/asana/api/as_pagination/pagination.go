@@ -2,9 +2,9 @@ package as_pagination
 
 import (
 	"github.com/watermint/toolbox/domain/asana/api/as_client"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 const (

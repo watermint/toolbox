@@ -4,12 +4,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/io/es_block"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"sync"
 )

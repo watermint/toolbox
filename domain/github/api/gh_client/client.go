@@ -1,6 +1,8 @@
 package gh_client
 
-import "github.com/watermint/toolbox/infra/api/api_client"
+import (
+	"github.com/watermint/toolbox/essentials/api/api_client"
+)
 
 type Client interface {
 	api_client.Client

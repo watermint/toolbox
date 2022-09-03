@@ -9,6 +9,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_auth"
@@ -16,10 +18,8 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
 	"github.com/watermint/toolbox/essentials/network/nw_simulator"
-	"github.com/watermint/toolbox/infra/api/api_appkey"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -34,7 +34,7 @@ func NewMock(name string, ctl app_control.Control) dbx_client.Client {
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth2.NewNoAuthOAuthEntity()),
 	}
 }
 
@@ -46,7 +46,7 @@ func NewSeqReplayMock(name string, ctl app_control.Control, rr []nw_replay.Respo
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth2.NewNoAuthOAuthEntity()),
 	}
 }
 
@@ -56,7 +56,7 @@ func NewReplayMock(name string, ctl app_control.Control, replay kv_storage.Stora
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth2.NewNoAuthOAuthEntity()),
 	}
 }
 
@@ -91,10 +91,10 @@ func newClientOpts(feature app_feature.Feature, l esl.Logger) (opts []nw_rest_fa
 	return opts
 }
 
-func newClientWithToken(ctl app_control.Control, l esl.Logger, app api_auth.OAuthAppData, entity api_auth.OAuthEntity) nw_client.Rest {
+func newClientWithToken(ctl app_control.Control, l esl.Logger, app api_auth2.OAuthAppData, entity api_auth2.OAuthEntity) nw_client.Rest {
 	opts := newClientOpts(ctl.Feature(), l)
 	opts = append(opts, nw_rest_factory.OAuthEntity(app, func(appKey string) (clientId, clientSecret string) {
-		return api_appkey.Resolve(ctl, app.AppKeyName)
+		return app_apikey.Resolve(ctl, app.AppKeyName)
 	}, entity))
 	opts = append(opts, nw_rest_factory.Auth(func(client nw_client.Rest) nw_client.Rest {
 		return nw_auth.NewOAuthRestClient(entity, ctl.AuthRepository(), client)
@@ -108,7 +108,7 @@ func newClientNoAuth(feature app_feature.Feature, l esl.Logger) nw_client.Rest {
 	return nw_rest_factory.New(opts...)
 }
 
-func New(ctl app_control.Control, app api_auth.OAuthAppData, entity api_auth.OAuthEntity) dbx_client.Client {
+func New(ctl app_control.Control, app api_auth2.OAuthAppData, entity api_auth2.OAuthEntity) dbx_client.Client {
 	return &clientImpl{
 		name:    entity.PeerName,
 		client:  newClientWithToken(ctl, ctl.Log(), app, entity),

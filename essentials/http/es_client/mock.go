@@ -1,10 +1,10 @@
-package es_context
+package es_client
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
-func NewMock() Context {
+func NewMock() Client {
 	return &mockImpl{}
 }
 

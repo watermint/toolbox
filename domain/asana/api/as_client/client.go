@@ -1,9 +1,9 @@
 package as_client
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_client"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
-	"github.com/watermint/toolbox/infra/api/api_client"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Client interface {

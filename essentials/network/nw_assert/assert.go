@@ -1,9 +1,9 @@
 package nw_assert
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/api/api_client"
 )
 
 // AssertResponse asserts broken response or rate limit for retry

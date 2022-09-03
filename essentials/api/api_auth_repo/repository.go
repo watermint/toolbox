@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"encoding/base64"
 	_ "github.com/mattn/go-sqlite3"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"os"
@@ -14,7 +14,7 @@ import (
 )
 
 // NewPersistent creates new Repository that persist to the file
-func NewPersistent(path string) (r api_auth.Repository, err error) {
+func NewPersistent(path string) (r api_auth2.Repository, err error) {
 	l := esl.Default().With(esl.String("path", path))
 	info, err := os.Lstat(path)
 	if err == nil && info.IsDir() {
@@ -58,7 +58,7 @@ func NewPersistent(path string) (r api_auth.Repository, err error) {
 }
 
 // NewInMemory creates new in-memory repository
-func NewInMemory() (r api_auth.Repository, err error) {
+func NewInMemory() (r api_auth2.Repository, err error) {
 	db, err := sql.Open("sqlite3", ":memory:")
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func NewInMemory() (r api_auth.Repository, err error) {
 	return newWithDb(db)
 }
 
-func newWithDb(db *sql.DB) (r api_auth.Repository, err error) {
+func newWithDb(db *sql.DB) (r api_auth2.Repository, err error) {
 	_, err = db.Exec(`CREATE TABLE IF NOT EXISTS repository (
 	build_stream TEXT NOT NULL,
 	key_name     TEXT NOT NULL,
@@ -130,7 +130,7 @@ func (z sqlRepo) Close() {
 	}
 }
 
-func (z sqlRepo) Put(entity api_auth.Entity) {
+func (z sqlRepo) Put(entity api_auth2.Entity) {
 	l := esl.Default()
 	cred, err := sc_obfuscate.Obfuscate(l, sc_obfuscate.XapKey(), []byte(entity.Credential))
 	if err != nil {
@@ -174,7 +174,7 @@ func (z sqlRepo) decodeCredential(credObf string) (cred string, found bool) {
 	return string(credRaw), true
 }
 
-func (z sqlRepo) Get(keyName, scope, peerName string) (entity api_auth.Entity, found bool) {
+func (z sqlRepo) Get(keyName, scope, peerName string) (entity api_auth2.Entity, found bool) {
 	l := esl.Default()
 	r, err := z.stmtGet.Query(sc_obfuscate.BuildStream(), keyName, scope, peerName)
 	if err != nil {
@@ -199,7 +199,7 @@ func (z sqlRepo) Get(keyName, scope, peerName string) (entity api_auth.Entity, f
 		l.Debug("Unable to close the result", esl.Error(err))
 	}
 
-	return api_auth.Entity{
+	return api_auth2.Entity{
 		KeyName:     keyName,
 		Scope:       scope,
 		PeerName:    peerName,
@@ -217,9 +217,9 @@ func (z sqlRepo) Delete(keyName, scope, peerName string) {
 	}
 }
 
-func (z sqlRepo) List(keyName, scope string) (entities []api_auth.Entity) {
+func (z sqlRepo) List(keyName, scope string) (entities []api_auth2.Entity) {
 	l := esl.Default()
-	entities = make([]api_auth.Entity, 0)
+	entities = make([]api_auth2.Entity, 0)
 
 	r, err := z.stmtList.Query(sc_obfuscate.BuildStream(), keyName, scope)
 	if err != nil {
@@ -238,7 +238,7 @@ func (z sqlRepo) List(keyName, scope string) (entities []api_auth.Entity) {
 			continue
 		}
 
-		entities = append(entities, api_auth.Entity{
+		entities = append(entities, api_auth2.Entity{
 			KeyName:     keyName,
 			Scope:       scope,
 			PeerName:    peerName,

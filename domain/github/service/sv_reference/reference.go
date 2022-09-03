@@ -3,7 +3,7 @@ package sv_reference
 import (
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_reference"
-	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 )
 
 type Reference interface {

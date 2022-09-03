@@ -2,7 +2,7 @@ package dbx_request
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
-	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 )
 
 func DropboxApiArg(p interface{}) (r api_request.RequestDatum, err error) {

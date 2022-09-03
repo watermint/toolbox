@@ -6,10 +6,10 @@ import (
 	"github.com/watermint/toolbox/domain/google/sheets/model/bo_sheet"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_cell"
 	"github.com/watermint/toolbox/domain/google/sheets/model/to_spreadsheet"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"net/url"
 )
 

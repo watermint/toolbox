@@ -4,7 +4,7 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"

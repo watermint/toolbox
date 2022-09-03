@@ -3,11 +3,11 @@ package api_auth_oauth
 import (
 	"context"
 	"errors"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_callback"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_appkey"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_callback"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/security/sc_random"
@@ -26,7 +26,7 @@ type OptInFeatureRedirect struct {
 	app_feature.OptInStatus
 }
 
-func NewSessionRedirect(ctl app_control.Control) api_auth.OAuthSession {
+func NewSessionRedirect(ctl app_control.Control) api_auth2.OAuthSession {
 	return &sessionRedirectImpl{
 		ctl: ctl,
 	}
@@ -36,15 +36,15 @@ type sessionRedirectImpl struct {
 	ctl app_control.Control
 }
 
-func (z *sessionRedirectImpl) Start(session api_auth.OAuthSessionData) (entity api_auth.OAuthEntity, err error) {
+func (z *sessionRedirectImpl) Start(session api_auth2.OAuthSessionData) (entity api_auth2.OAuthEntity, err error) {
 	l := z.ctl.Log().With(esl.Strings("scopes", session.Scopes), esl.String("peerName", session.PeerName))
 
 	if z.ctl.Feature().IsTest() {
-		return api_auth.NewNoAuthOAuthEntity(), qt_errors.ErrorSkipEndToEndTest
+		return api_auth2.NewNoAuthOAuthEntity(), qt_errors.ErrorSkipEndToEndTest
 	}
 
 	cfg := session.AppData.Config(session.Scopes, func(appKey string) (clientId, clientSecret string) {
-		return api_appkey.Resolve(z.ctl, session.AppData.AppKeyName)
+		return app_apikey.Resolve(z.ctl, session.AppData.AppKeyName)
 	})
 	rs := &redirectServiceImpl{
 		ctl:     z.ctl,
@@ -59,35 +59,35 @@ func (z *sessionRedirectImpl) Start(session api_auth.OAuthSessionData) (entity a
 	l.Debug("Starting sequence")
 	if err := cb.Flow(); err != nil {
 		l.Debug("Failure on the flow", esl.Error(err))
-		return api_auth.NewNoAuthOAuthEntity(), err
+		return api_auth2.NewNoAuthOAuthEntity(), err
 	}
 
 	done, result, err := rs.Result()
 	if !done {
 		l.Debug("redirectServiceImpl did not catch result")
-		return api_auth.NewNoAuthOAuthEntity(), ErrorOAuthSequenceStopped
+		return api_auth2.NewNoAuthOAuthEntity(), ErrorOAuthSequenceStopped
 	}
 	if !result {
 		l.Debug("Auth failure", esl.Error(err))
 		if err != nil {
-			return api_auth.NewNoAuthOAuthEntity(), err
+			return api_auth2.NewNoAuthOAuthEntity(), err
 		} else {
-			return api_auth.NewNoAuthOAuthEntity(), ErrorOAuthFailure
+			return api_auth2.NewNoAuthOAuthEntity(), ErrorOAuthFailure
 		}
 	}
 
 	t := rs.Token()
 	if t == nil {
 		l.Debug("No token available")
-		return api_auth.NewNoAuthOAuthEntity(), ErrorOAuthFailure
+		return api_auth2.NewNoAuthOAuthEntity(), ErrorOAuthFailure
 	}
 
 	l.Debug("Auth success")
-	return api_auth.OAuthEntity{
+	return api_auth2.OAuthEntity{
 		KeyName:  session.AppData.AppKeyName,
 		Scopes:   session.Scopes,
 		PeerName: session.PeerName,
-		Token: api_auth.OAuthTokenData{
+		Token: api_auth2.OAuthTokenData{
 			AccessToken:  t.AccessToken,
 			RefreshToken: t.RefreshToken,
 			Expiry:       t.Expiry,
@@ -100,7 +100,7 @@ func (z *sessionRedirectImpl) Start(session api_auth.OAuthSessionData) (entity a
 type redirectServiceImpl struct {
 	ctl         app_control.Control
 	cfg         *oauth2.Config
-	session     api_auth.OAuthSessionData
+	session     api_auth2.OAuthSessionData
 	state       string
 	result      *bool
 	resultErr   error

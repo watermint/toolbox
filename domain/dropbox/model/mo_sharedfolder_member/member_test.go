@@ -1,7 +1,7 @@
 package mo_sharedfolder_member
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"testing"
 )
 

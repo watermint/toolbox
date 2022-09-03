@@ -3,11 +3,11 @@ package nw_client
 import (
 	"crypto/sha256"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
-	"github.com/watermint/toolbox/infra/api/api_client"
 	"net/http"
 	"strings"
 	"time"

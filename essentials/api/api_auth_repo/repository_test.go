@@ -1,7 +1,7 @@
 package api_auth_repo
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_auth"
+	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 	"path/filepath"
@@ -10,11 +10,11 @@ import (
 	"time"
 )
 
-func repoTestScenario(t *testing.T, repo api_auth.Repository) {
+func repoTestScenario(t *testing.T, repo api_auth2.Repository) {
 	ts1 := time.Now().Format(time.RFC3339)
 	ts2 := time.Now().Add(-1 * time.Hour).Format(time.RFC3339)
 	ts3 := time.Now().Add(1 * time.Hour).Format(time.RFC3339)
-	entity1 := api_auth.Entity{
+	entity1 := api_auth2.Entity{
 		KeyName:     "watermint",
 		Scope:       "toolbox",
 		PeerName:    "default",
@@ -22,7 +22,7 @@ func repoTestScenario(t *testing.T, repo api_auth.Repository) {
 		Description: "default connection",
 		Timestamp:   ts1,
 	}
-	entity2 := api_auth.Entity{
+	entity2 := api_auth2.Entity{
 		KeyName:     "watermint",
 		Scope:       "toolbox",
 		PeerName:    "green",
@@ -30,7 +30,7 @@ func repoTestScenario(t *testing.T, repo api_auth.Repository) {
 		Description: "green connection",
 		Timestamp:   ts2,
 	}
-	entity3 := api_auth.Entity{
+	entity3 := api_auth2.Entity{
 		KeyName:     "stonemint",
 		Scope:       "toolbox",
 		PeerName:    "default",
@@ -38,7 +38,7 @@ func repoTestScenario(t *testing.T, repo api_auth.Repository) {
 		Description: "stonemint connection",
 		Timestamp:   ts3,
 	}
-	entities := []api_auth.Entity{entity1, entity2, entity3}
+	entities := []api_auth2.Entity{entity1, entity2, entity3}
 
 	for _, entity := range entities {
 		repo.Put(entity)

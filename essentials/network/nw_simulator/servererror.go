@@ -2,11 +2,11 @@ package nw_simulator
 
 import (
 	"bytes"
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_throttle"
-	"github.com/watermint/toolbox/infra/api/api_client"
 	"io/ioutil"
 	"math/rand"
 	"net/http"

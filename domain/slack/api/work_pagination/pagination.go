@@ -3,9 +3,9 @@ package work_pagination
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/slack/api/work_client"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 func New(ctx work_client.Client) Pagination {

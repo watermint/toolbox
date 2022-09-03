@@ -1,7 +1,7 @@
 package dc_readme
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
