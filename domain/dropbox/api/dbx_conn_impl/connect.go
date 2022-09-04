@@ -57,9 +57,10 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 		l.Debug("Connect through console UI")
 
 		s1 := authSession(ctl)
-		s2 := api_auth_oauth2.NewSessionRepository(s1, ctl.AuthRepository())
+		s2 := newAnnotate(ctl, s1)
+		s3 := api_auth_oauth2.NewSessionRepository(s2, ctl.AuthRepository())
 
-		entity, err := s2.Start(session)
+		entity, err := s3.Start(session)
 		if err != nil {
 			return nil, err
 		}

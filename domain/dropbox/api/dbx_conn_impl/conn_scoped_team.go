@@ -52,6 +52,9 @@ func (z *connScopedTeam) Context() dbx_client.Client {
 func (z *connScopedTeam) SetScopes(scopes ...string) {
 	ss := make([]string, len(scopes))
 	copy(ss[:], scopes[:])
+	if !dbx_auth.HasTeamInfoRead(scopes) {
+		ss = append(ss, dbx_auth.ScopeTeamInfoRead)
+	}
 	sort.Strings(ss)
 	z.scopes = ss
 }

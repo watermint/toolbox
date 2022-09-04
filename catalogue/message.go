@@ -15,8 +15,8 @@ import (
 	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
 	domaingooglemailservicesv_label "github.com/watermint/toolbox/domain/google/mail/service/sv_label"
 	domaingooglemailservicesv_message "github.com/watermint/toolbox/domain/google/mail/service/sv_message"
-	infraapiapi_auth_oauth "github.com/watermint/toolbox/essentials/api/api_auth_oauth"
-	infraapiapi_callback "github.com/watermint/toolbox/essentials/api/api_callback"
+	essentialsapiapi_auth_oauth "github.com/watermint/toolbox/essentials/api/api_auth_oauth"
+	essentialsapiapi_callback "github.com/watermint/toolbox/essentials/api/api_callback"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
@@ -64,13 +64,13 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
 		&domaingooglemailservicesv_label.MsgFindLabel{},
 		&domaingooglemailservicesv_message.MsgProgress{},
+		&essentialsapiapi_auth_oauth.MsgApiAuth{},
+		&essentialsapiapi_callback.MsgCallback{},
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},
 		&essentialslogesl_rotate.MsgRotate{},
 		&essentialsmodelmo_filter.MsgFilter{},
 		&essentialsnetworknw_diag.MsgNetwork{},
-		&infraapiapi_auth_oauth.MsgApiAuth{},
-		&infraapiapi_callback.MsgCallback{},
 		&infracontrolapp_error.MsgErrorReport{},
 		&infracontrolapp_job_impl.MsgLauncher{},
 		&infradatada_griddata.MsgGridDataInput{},

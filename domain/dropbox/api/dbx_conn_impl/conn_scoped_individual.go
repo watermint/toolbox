@@ -52,6 +52,9 @@ func (z *connScopedIndividual) Context() dbx_client.Client {
 func (z *connScopedIndividual) SetScopes(scopes ...string) {
 	ss := make([]string, len(scopes))
 	copy(ss[:], scopes[:])
+	if !dbx_auth.HasAccountInfoRead(scopes) {
+		ss = append(ss, dbx_auth.ScopeAccountInfoRead)
+	}
 	sort.Strings(ss)
 	z.scopes = ss
 }

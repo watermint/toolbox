@@ -1,5 +1,7 @@
 package dbx_auth
 
+import "github.com/watermint/toolbox/essentials/api/api_auth"
+
 // Individual Scopes
 const (
 	// ScopeAccountInfoRead Read Dropbox account information
@@ -107,6 +109,33 @@ const (
 func IsTeamScope(scope string) bool {
 	for _, s := range ScopeTeam {
 		if s == scope {
+			return true
+		}
+	}
+	return false
+}
+
+func IsTeamScopeSession(session api_auth.OAuthSessionData) bool {
+	for _, scope := range session.Scopes {
+		if IsTeamScope(scope) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasAccountInfoRead(scopes []string) bool {
+	for _, scope := range scopes {
+		if scope == ScopeAccountInfoRead {
+			return true
+		}
+	}
+	return false
+}
+
+func HasTeamInfoRead(scopes []string) bool {
+	for _, scope := range scopes {
+		if scope == ScopeTeamInfoRead {
 			return true
 		}
 	}
