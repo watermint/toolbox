@@ -26,9 +26,10 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                             |
-|---------------------------------------------------------|
-| Dropbox: Edit content of your Dropbox files and folders |
+| Description                                                                                          |
+|------------------------------------------------------------------------------------------------------|
+| Dropbox: View basic information about your Dropbox account such as your username, email, and country |
+| Dropbox: Edit content of your Dropbox files and folders                                              |
 
 # Authorization
 

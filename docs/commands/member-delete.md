@@ -26,10 +26,11 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                      |
-|------------------------------------------------------------------|
-| Dropbox Business: Remove and recover your team members' accounts |
-| Dropbox Business: View and manage your team membership           |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: Remove and recover your team members' accounts                                        |
+| Dropbox Business: View and manage your team membership                                                  |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

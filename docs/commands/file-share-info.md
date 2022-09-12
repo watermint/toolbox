@@ -26,10 +26,11 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                   |
-|---------------------------------------------------------------|
-| Dropbox: View content of your Dropbox files and folders       |
-| Dropbox: View your Dropbox sharing settings and collaborators |
+| Description                                                                                          |
+|------------------------------------------------------------------------------------------------------|
+| Dropbox: View basic information about your Dropbox account such as your username, email, and country |
+| Dropbox: View content of your Dropbox files and folders                                              |
+| Dropbox: View your Dropbox sharing settings and collaborators                                        |
 
 # Authorization
 

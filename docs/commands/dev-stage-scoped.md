@@ -29,6 +29,7 @@ Please see below help article for more detail:
 
 | Description                                                                                             |
 |---------------------------------------------------------------------------------------------------------|
+| Dropbox: View basic information about your Dropbox account such as your username, email, and country    |
 | Dropbox: View content of your Dropbox files and folders                                                 |
 | Dropbox Business: View your team membership                                                             |
 | Dropbox Business: View basic information about your team including names, user count, and team settings |

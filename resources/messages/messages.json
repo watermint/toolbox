@@ -973,6 +973,7 @@
   "infra.doc.dc_web.home_usage.refs": "Please see command references for more detail.",
   "infra.feed.fd_file_impl.msg_row_feed.error_unable_to_read": "Unable to read file `{{.Path}}` due to an error {{.Error}}",
   "infra.recipe.rc_exec.msg_panic.error_crash_report": "=== Crash report (begin) ===\n- Application version: {{.Version}}\n- OS: {{.OS}}\n- Recipe: {{.Recipe}}\n- Reason: {{.Reason}}\n- Trace: {{.Trace}}\n=== Crash report (end) ===",
+  "infra.recipe.rc_exec.msg_panic.error_invalid_or_expired_oauth_token": "Authentication token was expired or invalid. Please rerun to reacquire the authentication token.",
   "infra.recipe.rc_exec.msg_panic.error_recipe_panic": "Application crashed. Please report below information.",
   "infra.recipe.rc_group.msg_header.header": "watermint toolbox {{.AppVersion}}",
   "infra.recipe.rc_group.msg_header.license": "Licensed under open source licenses. Use the `license` command for more detail.",

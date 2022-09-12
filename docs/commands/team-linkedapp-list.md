@@ -26,10 +26,11 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                    |
-|----------------------------------------------------------------|
-| Dropbox Business: View your team membership                    |
-| Dropbox Business: View your team's sessions, devices, and apps |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View your team membership                                                             |
+| Dropbox Business: View your team's sessions, devices, and apps                                          |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

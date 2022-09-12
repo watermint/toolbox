@@ -28,11 +28,12 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                             |
-|-------------------------------------------------------------------------|
-| Dropbox Business: Permanently delete members' Dropbox files and folders |
-| Dropbox Business: View your team membership                             |
-| Dropbox Business: View structure of your team's and members' folders    |
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: Permanently delete members' Dropbox files and folders                                 |
+| Dropbox Business: View your team membership                                                             |
+| Dropbox Business: View structure of your team's and members' folders                                    |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

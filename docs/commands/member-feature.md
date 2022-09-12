@@ -31,6 +31,7 @@ Please see below help article for more detail:
 | Dropbox Business: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox Business: View your team membership                                                             |
 | Dropbox Business: View structure of your team's and members' folders                                    |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

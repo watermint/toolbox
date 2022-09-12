@@ -30,6 +30,7 @@ Please see below help article for more detail:
 |-----------------------------------------------------------------------------------------------------------------|
 | Dropbox Business: View your team group membership                                                               |
 | Dropbox Business: View and manage your team group membership, including removing and recovering member accounts |
+| Dropbox Business: View basic information about your team including names, user count, and team settings         |
 
 # Authorization
 

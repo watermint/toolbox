@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_auth"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"strings"
 )
@@ -15,7 +16,7 @@ import (
 var (
 	ErrorBadContentResponse  = errors.New("bad response from server: res_code 400 with html body")
 	ErrorInternalServerError = errors.New("internal server error")
-	ErrorInvalidAccessToken  = errors.New("invalid access token")
+	ErrorInvalidAccessToken  = nw_auth.ErrorInvalidOrExpiredRefreshToken
 )
 
 type ErrorBadOrExpiredToken struct {
