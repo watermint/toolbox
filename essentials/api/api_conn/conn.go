@@ -49,6 +49,14 @@ type Connection interface {
 	ServiceName() string
 }
 
+// BasicConnection Basic auth connection
+type BasicConnection interface {
+	Connection
+
+	IsBasic() bool
+}
+
+// ScopedConnection OAuth2 Scoped connection
 type ScopedConnection interface {
 	Connection
 

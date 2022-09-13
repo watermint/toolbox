@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
-func isTestMode(ctl app_control.Control) (isTest, mock bool, err error) {
+func IsTestMode(ctl app_control.Control) (isTest, mock bool, err error) {
 	l := ctl.Log()
 	if ctl.Feature().IsTestWithMock() {
 		l.Debug("Test with mock")

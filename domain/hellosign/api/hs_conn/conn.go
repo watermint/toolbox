@@ -6,7 +6,7 @@ import (
 )
 
 type ConnHelloSignApi interface {
-	api_conn.Connection
+	api_conn.BasicConnection
 
 	Client() hs_client.Client
 }

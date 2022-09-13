@@ -5,11 +5,21 @@ import (
 	"github.com/watermint/toolbox/domain/hellosign/api/hs_client_impl"
 	"github.com/watermint/toolbox/domain/hellosign/api/hs_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/ui/app_msg"
+)
+
+type MsgHelloSign struct {
+	AskApiKey app_msg.Message
+}
+
+var (
+	MHelloSign = app_msg.Apply(&MsgHelloSign{}).(*MsgHelloSign)
 )
 
 func NewConnHelloSign(name string) hs_conn.ConnHelloSignApi {
@@ -23,6 +33,10 @@ type connHelloSignApi struct {
 	client   hs_client.Client
 }
 
+func (z *connHelloSignApi) IsBasic() bool {
+	return true
+}
+
 func (z *connHelloSignApi) Connect(ctl app_control.Control) (err error) {
 	l := ctl.Log()
 	sessionData := api_auth.BasicSessionData{
@@ -33,7 +47,11 @@ func (z *connHelloSignApi) Connect(ctl app_control.Control) (err error) {
 		},
 		PeerName: z.peerName,
 	}
-	entity, mock, err := api_conn_impl.BasicConnect(sessionData, ctl)
+	entity, mock, err := api_conn_impl.BasicConnect(
+		sessionData,
+		ctl,
+		api_auth_basic.CustomAskUserName(MHelloSign.AskApiKey),
+	)
 	if mock {
 		z.client = hs_client_impl.NewMock(z.peerName, ctl)
 		return nil

@@ -6,12 +6,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-func BasicConnect(session api_auth.BasicSessionData, ctl app_control.Control) (entity api_auth.BasicEntity, useMock bool, err error) {
-	if isTest, mock, err := isTestMode(ctl); isTest {
+func BasicConnect(session api_auth.BasicSessionData, ctl app_control.Control, opts ...api_auth_basic.ConsoleOpt) (entity api_auth.BasicEntity, useMock bool, err error) {
+	if isTest, mock, err := IsTestMode(ctl); isTest {
 		return api_auth.NewNoAuthBasicEntity(), mock, err
 	}
 	s := api_auth_basic.NewRepository(
-		api_auth_basic.NewConsole(ctl),
+		api_auth_basic.NewConsole(ctl, opts...),
 		ctl.AuthRepository(),
 	)
 	entity, err = s.Start(session)

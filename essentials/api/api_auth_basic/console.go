@@ -22,14 +22,47 @@ var (
 	MConsole = app_msg.Apply(&MsgConsole{}).(*MsgConsole)
 )
 
-func NewConsole(ctl app_control.Control) api_auth.BasicSession {
+type consoleOpts struct {
+	CustomAskUserName app_msg.Message
+	CustomAskPassword app_msg.Message
+}
+
+type ConsoleOpt func(o consoleOpts) consoleOpts
+
+func CustomAskUserName(message app_msg.Message) ConsoleOpt {
+	return func(o consoleOpts) consoleOpts {
+		o.CustomAskUserName = message
+		return o
+	}
+}
+func CustomAskPassword(message app_msg.Message) ConsoleOpt {
+	return func(o consoleOpts) consoleOpts {
+		o.CustomAskPassword = message
+		return o
+	}
+}
+
+func (z consoleOpts) Apply(opts []ConsoleOpt) consoleOpts {
+	switch len(opts) {
+	case 0:
+		return z
+	case 1:
+		return opts[0](z)
+	default:
+		return opts[0](z).Apply(opts[1:])
+	}
+}
+
+func NewConsole(ctl app_control.Control, opts ...ConsoleOpt) api_auth.BasicSession {
 	return &consoleImpl{
-		ctl: ctl,
+		ctl:  ctl,
+		opts: consoleOpts{}.Apply(opts),
 	}
 }
 
 type consoleImpl struct {
-	ctl app_control.Control
+	ctl  app_control.Control
+	opts consoleOpts
 }
 
 func (z consoleImpl) Start(session api_auth.BasicSessionData) (entity api_auth.BasicEntity, err error) {
@@ -38,13 +71,21 @@ func (z consoleImpl) Start(session api_auth.BasicSessionData) (entity api_auth.B
 	credential := api_auth.BasicCredential{}
 	var cancel bool
 	if !session.AppData.DontUseUsername {
-		credential.Username, cancel = ui.AskSecure(MConsole.AskUserName)
+		askMsg := MConsole.AskUserName
+		if z.opts.CustomAskUserName != nil {
+			askMsg = z.opts.CustomAskUserName
+		}
+		credential.Username, cancel = ui.AskText(askMsg)
 		if cancel {
 			return api_auth.BasicEntity{}, ErrorUserCancelled
 		}
 	}
 	if !session.AppData.DontUsePassword {
-		credential.Password, cancel = ui.AskSecure(MConsole.AskPassword)
+		askMsg := MConsole.AskPassword
+		if z.opts.CustomAskPassword != nil {
+			askMsg = z.opts.CustomAskPassword
+		}
+		credential.Password, cancel = ui.AskSecure(askMsg)
 		if cancel {
 			return api_auth.BasicEntity{}, ErrorUserCancelled
 		}

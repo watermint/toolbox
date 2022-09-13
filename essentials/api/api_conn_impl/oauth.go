@@ -10,7 +10,7 @@ import (
 func OAuthConnectByRedirect(session api_auth.OAuthSessionData, ctl app_control.Control) (entity api_auth.OAuthEntity, useMock bool, err error) {
 	l := ctl.Log()
 
-	if isTest, mock, err := isTestMode(ctl); isTest {
+	if isTest, mock, err := IsTestMode(ctl); isTest {
 		return api_auth.NewNoAuthOAuthEntity(), mock, err
 	}
 
