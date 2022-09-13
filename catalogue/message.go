@@ -15,6 +15,7 @@ import (
 	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
 	domaingooglemailservicesv_label "github.com/watermint/toolbox/domain/google/mail/service/sv_label"
 	domaingooglemailservicesv_message "github.com/watermint/toolbox/domain/google/mail/service/sv_message"
+	essentialsapiapi_auth_basic "github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	essentialsapiapi_auth_oauth "github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	essentialsapiapi_callback "github.com/watermint/toolbox/essentials/api/api_callback"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
@@ -64,6 +65,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
 		&domaingooglemailservicesv_label.MsgFindLabel{},
 		&domaingooglemailservicesv_message.MsgProgress{},
+		&essentialsapiapi_auth_basic.MsgConsole{},
 		&essentialsapiapi_auth_oauth.MsgApiAuth{},
 		&essentialsapiapi_callback.MsgCallback{},
 		&essentialslogesl_rotate.MsgOut{},

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
-	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
-	api_auth_oauth2 "github.com/watermint/toolbox/essentials/api/api_auth_oauth"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -15,21 +15,21 @@ const (
 	DefaultPeerName = "default"
 )
 
-func authSession(ctl app_control.Control) api_auth2.OAuthSession {
+func authSession(ctl app_control.Control) api_auth.OAuthSession {
 	if ctl.Feature().Experiment(app.ExperimentDbxAuthRedirect) {
-		return api_auth_oauth2.NewSessionRedirect(ctl)
-	} else if f, found := ctl.Feature().OptInGet(&api_auth_oauth2.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
-		return api_auth_oauth2.NewSessionRedirect(ctl)
+		return api_auth_oauth.NewSessionRedirect(ctl)
+	} else if f, found := ctl.Feature().OptInGet(&api_auth_oauth.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
+		return api_auth_oauth.NewSessionRedirect(ctl)
 	} else {
-		return api_auth_oauth2.NewSessionCodeAuth(ctl)
+		return api_auth_oauth.NewSessionCodeAuth(ctl)
 	}
 }
 
-func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth2.OAuthAppData) (ctx dbx_client.Client, err error) {
+func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthAppData) (ctx dbx_client.Client, err error) {
 	l := ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", peerName))
 	ui := ctl.UI()
 
-	session := api_auth2.OAuthSessionData{
+	session := api_auth.OAuthSessionData{
 		AppData:  app,
 		PeerName: peerName,
 		Scopes:   scopes,
@@ -58,7 +58,7 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 
 		s1 := authSession(ctl)
 		s2 := newAnnotate(ctl, s1)
-		s3 := api_auth_oauth2.NewSessionRepository(s2, ctl.AuthRepository())
+		s3 := api_auth_oauth.NewSessionRepository(s2, ctl.AuthRepository())
 
 		entity, err := s3.Start(session)
 		if err != nil {

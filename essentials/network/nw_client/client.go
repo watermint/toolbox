@@ -4,6 +4,7 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/api/api_client"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -31,9 +32,13 @@ type RequestBuilder interface {
 
 	// Param String form of parameters. This will be used for logging.
 	Param() string
+}
 
-	//// WithData additional data
-	//WithData(datum api_request.RequestDatum) RequestBuilder
+type MutableRequestBuilder interface {
+	RequestBuilder
+
+	// WithData additional data
+	WithData(datum api_request.RequestDatum) RequestBuilder
 }
 
 type RequestUrlFilter interface {

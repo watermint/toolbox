@@ -4,7 +4,7 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/base64"
-	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_apikey"
@@ -27,7 +27,7 @@ var (
 	MApiAuth = app_msg.Apply(&MsgApiAuth{}).(*MsgApiAuth)
 )
 
-func NewSessionCodeAuth(ctl app_control.Control) api_auth2.OAuthSession {
+func NewSessionCodeAuth(ctl app_control.Control) api_auth.OAuthSession {
 	return &sessionCodeAuthImpl{
 		ctl: ctl,
 	}
@@ -38,7 +38,7 @@ type sessionCodeAuthImpl struct {
 	ctl app_control.Control
 }
 
-func (z *sessionCodeAuthImpl) Start(session api_auth2.OAuthSessionData) (entity api_auth2.OAuthEntity, err error) {
+func (z *sessionCodeAuthImpl) Start(session api_auth.OAuthSessionData) (entity api_auth.OAuthEntity, err error) {
 	l := z.ctl.Log().With(esl.String("peerName", session.PeerName), esl.Strings("scopes", session.Scopes))
 	ui := z.ctl.UI()
 
@@ -47,14 +47,14 @@ func (z *sessionCodeAuthImpl) Start(session api_auth2.OAuthSessionData) (entity 
 	if err != nil {
 		l.Debug("Authentication finished with an error", esl.Error(err))
 		ui.Error(MApiAuth.FailedOrCancelled.With("Cause", err))
-		return api_auth2.NewNoAuthOAuthEntity(), err
+		return api_auth.NewNoAuthOAuthEntity(), err
 	}
 	ui.Progress(MApiAuth.ProgressAuthSuccess)
-	return api_auth2.OAuthEntity{
+	return api_auth.OAuthEntity{
 		KeyName:  session.AppData.AppKeyName,
 		Scopes:   session.Scopes,
 		PeerName: session.PeerName,
-		Token: api_auth2.OAuthTokenData{
+		Token: api_auth.OAuthTokenData{
 			AccessToken:  token.AccessToken,
 			RefreshToken: token.RefreshToken,
 			Expiry:       token.Expiry,
@@ -64,7 +64,7 @@ func (z *sessionCodeAuthImpl) Start(session api_auth2.OAuthSessionData) (entity 
 	}, nil
 }
 
-func (z *sessionCodeAuthImpl) oauthStart(session api_auth2.OAuthSessionData) (*oauth2.Token, error) {
+func (z *sessionCodeAuthImpl) oauthStart(session api_auth.OAuthSessionData) (*oauth2.Token, error) {
 	l := z.ctl.Log()
 	l.Debug("Start OAuth sequence")
 	state := sc_random.MustGetSecureRandomString(8)
@@ -78,7 +78,7 @@ func (z *sessionCodeAuthImpl) oauthStart(session api_auth2.OAuthSessionData) (*o
 	return tok, nil
 }
 
-func (z *sessionCodeAuthImpl) oauthUrl(session api_auth2.OAuthSessionData, cfg *oauth2.Config, state, challenge string) string {
+func (z *sessionCodeAuthImpl) oauthUrl(session api_auth.OAuthSessionData, cfg *oauth2.Config, state, challenge string) string {
 	if session.AppData.UsePKCE {
 		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
 		s256a32 := sha256.Sum256([]byte(challenge64))
@@ -100,7 +100,7 @@ func (z *sessionCodeAuthImpl) oauthUrl(session api_auth2.OAuthSessionData, cfg *
 	}
 }
 
-func (z *sessionCodeAuthImpl) oauthExchange(session api_auth2.OAuthSessionData, cfg *oauth2.Config, code, challenge string) (*oauth2.Token, error) {
+func (z *sessionCodeAuthImpl) oauthExchange(session api_auth.OAuthSessionData, cfg *oauth2.Config, code, challenge string) (*oauth2.Token, error) {
 	if session.AppData.UsePKCE {
 		challenge64 := base64.RawURLEncoding.EncodeToString([]byte(challenge))
 		return cfg.Exchange(context.Background(),
@@ -126,7 +126,7 @@ func (z *sessionCodeAuthImpl) oauthCode() string {
 	}
 }
 
-func (z *sessionCodeAuthImpl) oauthAskCode(session api_auth2.OAuthSessionData, state, challenge string) (*oauth2.Token, error) {
+func (z *sessionCodeAuthImpl) oauthAskCode(session api_auth.OAuthSessionData, state, challenge string) (*oauth2.Token, error) {
 	ui := z.ctl.UI()
 	cfg := session.AppData.Config(session.Scopes, func(appKey string) (clientId, clientSecret string) {
 		return app_apikey.Resolve(z.ctl, session.AppData.AppKeyName)

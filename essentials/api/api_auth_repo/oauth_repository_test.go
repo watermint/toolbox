@@ -1,7 +1,7 @@
 package api_auth_repo
 
 import (
-	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"reflect"
 	"testing"
 	"time"
@@ -18,51 +18,51 @@ func TestNewOAuth(t *testing.T) {
 
 	repo := NewOAuth(baseRepo)
 
-	entity1 := api_auth2.OAuthEntity{
+	entity1 := api_auth.OAuthEntity{
 		KeyName:  "watermint",
 		Scopes:   []string{"toolbox:read", "toolbox:write"},
 		PeerName: "default",
-		Token: api_auth2.OAuthTokenData{
+		Token: api_auth.OAuthTokenData{
 			AccessToken:  "*SECRET*ACCESS*",
 			RefreshToken: "*SECRET*REFRESH*",
 			Expiry:       expiry.Add(1 * time.Hour),
 		},
 		Description: "default connection",
 	}
-	entity1b := api_auth2.OAuthEntity{
+	entity1b := api_auth.OAuthEntity{
 		KeyName:  "watermint",
 		Scopes:   []string{"toolbox:write", "toolbox:read"},
 		PeerName: "default",
-		Token: api_auth2.OAuthTokenData{
+		Token: api_auth.OAuthTokenData{
 			AccessToken:  "*SECRET*ACCESS*",
 			RefreshToken: "*SECRET*REFRESH*",
 			Expiry:       expiry.Add(1 * time.Hour),
 		},
 		Description: "default connection",
 	}
-	entity2 := api_auth2.OAuthEntity{
+	entity2 := api_auth.OAuthEntity{
 		KeyName:  "watermint",
 		Scopes:   []string{"toolbox:read", "toolbox:write"},
 		PeerName: "green",
-		Token: api_auth2.OAuthTokenData{
+		Token: api_auth.OAuthTokenData{
 			AccessToken:  "*SECRET*ACCESS*GREEN*",
 			RefreshToken: "*SECRET*REFRESH*GREEN*",
 			Expiry:       expiry.Add(1 * time.Hour),
 		},
 		Description: "green connection",
 	}
-	entity3 := api_auth2.OAuthEntity{
+	entity3 := api_auth.OAuthEntity{
 		KeyName:  "watermint",
 		Scopes:   []string{"toolbox:read"},
 		PeerName: "default",
-		Token: api_auth2.OAuthTokenData{
+		Token: api_auth.OAuthTokenData{
 			AccessToken:  "*SECRET*ACCESS*READONLY*",
 			RefreshToken: "*SECRET*REFRESH*READONLY*",
 			Expiry:       expiry.Add(1 * time.Hour),
 		},
 		Description: "green connection",
 	}
-	entities := []api_auth2.OAuthEntity{entity1, entity2, entity3}
+	entities := []api_auth.OAuthEntity{entity1, entity2, entity3}
 
 	for _, entity := range entities {
 		repo.Put(entity)

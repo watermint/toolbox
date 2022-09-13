@@ -3,7 +3,7 @@ package as_request
 import (
 	"github.com/google/go-querystring/query"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	api_request2 "github.com/watermint/toolbox/essentials/api/api_request"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
@@ -21,8 +21,8 @@ func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 }
 
 type Builder interface {
-	api_request2.Builder
-	With(method, url string, data api_request2.RequestData) Builder
+	api_request.Builder
+	With(method, url string, data api_request.RequestData) Builder
 	WithOffset(limit int, offset string) Builder
 }
 
@@ -33,16 +33,16 @@ type builderImpl struct {
 	url    string
 	limit  int
 	offset string
-	data   api_request2.RequestData
+	data   api_request.RequestData
 }
 
-func (z builderImpl) WithData(data api_request2.RequestDatum) api_request2.Builder {
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
 	current := z.data.Data()
-	allData := make([]api_request2.RequestDatum, len(current)+1)
+	allData := make([]api_request.RequestDatum, len(current)+1)
 	copy(allData[:], current[:])
 	allData[len(current)] = data
 
-	z.data = api_request2.Combine(allData)
+	z.data = api_request.Combine(allData)
 	return z
 }
 
@@ -82,9 +82,9 @@ func (z builderImpl) reqContent() es_rewinder.ReadRewinder {
 
 func (z builderImpl) reqHeaders() (headers map[string]string) {
 	headers = make(map[string]string)
-	headers[api_request2.ReqHeaderUserAgent] = app.UserAgent()
-	headers[api_request2.ReqHeaderContentType] = "application/json"
-	headers[api_request2.ReqHeaderAccept] = "application/json"
+	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
+	headers[api_request.ReqHeaderContentType] = "application/json"
+	headers[api_request.ReqHeaderAccept] = "application/json"
 
 	for k, v := range z.data.Headers() {
 		headers[k] = v
@@ -131,7 +131,7 @@ func (z builderImpl) Param() string {
 	return string(z.data.ParamJson())
 }
 
-func (z builderImpl) With(method, url string, data api_request2.RequestData) Builder {
+func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
 	z.method = method
 	z.url = url
 	z.data = data

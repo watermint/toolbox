@@ -3,7 +3,7 @@ package goog_request
 import (
 	"github.com/google/go-querystring/query"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	api_request2 "github.com/watermint/toolbox/essentials/api/api_request"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
@@ -22,8 +22,8 @@ func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 }
 
 type Builder interface {
-	api_request2.Builder
-	With(method, url string, data api_request2.RequestData) Builder
+	api_request.Builder
+	With(method, url string, data api_request.RequestData) Builder
 }
 
 type builderImpl struct {
@@ -32,15 +32,15 @@ type builderImpl struct {
 	entity        api_auth.OAuthEntity
 	method        string
 	url           string
-	data          api_request2.RequestData
+	data          api_request.RequestData
 }
 
-func (z builderImpl) WithData(data api_request2.RequestDatum) api_request2.Builder {
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
 	z.data = z.data.WithDatum(data)
 	return z
 }
 
-func (z builderImpl) With(method, url string, data api_request2.RequestData) Builder {
+func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
 	z.method = method
 	z.url = url
 	z.data = data
@@ -78,13 +78,13 @@ func (z builderImpl) Param() string {
 
 func (z builderImpl) reqHeaders() map[string]string {
 	headers := make(map[string]string)
-	headers[api_request2.ReqHeaderUserAgent] = app.UserAgent()
+	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
 	if !z.entity.IsNoAuth() {
-		headers[api_request2.ReqHeaderAuthorization] = "token " + z.entity.Token.AccessToken
+		headers[api_request.ReqHeaderAuthorization] = "token " + z.entity.Token.AccessToken
 	}
 
 	// this will overwritten if a custom header provided thru request data
-	headers[api_request2.ReqHeaderContentType] = "application/json"
+	headers[api_request.ReqHeaderContentType] = "application/json"
 	for k, v := range z.data.Headers() {
 		headers[k] = v
 	}

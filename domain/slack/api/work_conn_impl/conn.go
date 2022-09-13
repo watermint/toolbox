@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/slack/api/work_client"
 	"github.com/watermint/toolbox/domain/slack/api/work_client_impl"
 	"github.com/watermint/toolbox/domain/slack/api/work_conn"
-	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/app"
@@ -26,7 +26,7 @@ type connSlackApi struct {
 }
 
 func (z *connSlackApi) Connect(ctl app_control.Control) (err error) {
-	session := api_auth2.OAuthSessionData{
+	session := api_auth.OAuthSessionData{
 		AppData:  work_auth.Slack,
 		PeerName: z.peerName,
 		Scopes:   z.scopes,

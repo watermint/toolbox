@@ -1,7 +1,7 @@
 package goog_auth
 
 import (
-	api_auth2 "github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/infra/app"
 )
 
@@ -75,29 +75,29 @@ const (
 )
 
 var (
-	Mail = api_auth2.OAuthAppData{
+	Mail = api_auth.OAuthAppData{
 		AppKeyName:       app.ServiceGoogleMail,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
-		EndpointStyle:    api_auth2.AuthStyleInParams,
+		EndpointStyle:    api_auth.AuthStyleInParams,
 		UsePKCE:          false,
 		RedirectUrl:      "",
 	}
 
-	Calendar = api_auth2.OAuthAppData{
+	Calendar = api_auth.OAuthAppData{
 		AppKeyName:       app.ServiceGoogleCalendar,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
-		EndpointStyle:    api_auth2.AuthStyleInParams,
+		EndpointStyle:    api_auth.AuthStyleInParams,
 		UsePKCE:          false,
 		RedirectUrl:      "",
 	}
 
-	Sheets = api_auth2.OAuthAppData{
+	Sheets = api_auth.OAuthAppData{
 		AppKeyName:       app.ServiceGoogleSheets,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
-		EndpointStyle:    api_auth2.AuthStyleInParams,
+		EndpointStyle:    api_auth.AuthStyleInParams,
 		UsePKCE:          false,
 		RedirectUrl:      "",
 	}
