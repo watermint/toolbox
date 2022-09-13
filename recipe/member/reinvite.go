@@ -30,7 +30,7 @@ func (z *Reinvite) Exec(c app_control.Control) error {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,7 @@ func (z *Reinvite) Exec(c app_control.Control) error {
 		}
 
 		ui.Info(z.ProgressReinvite.With("MemberEmail", member.Email))
-		if err = sv_member.New(z.Peer.Context()).Remove(member); err != nil {
+		if err = sv_member.New(z.Peer.Client()).Remove(member); err != nil {
 			ll.Debug("Unable to remove", esl.Error(err))
 			z.OperationLog.Failure(err, member)
 			continue
@@ -52,7 +52,7 @@ func (z *Reinvite) Exec(c app_control.Control) error {
 		if z.Silent {
 			opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
 		}
-		invite, err := sv_member.New(z.Peer.Context()).Add(member.Email, opts...)
+		invite, err := sv_member.New(z.Peer.Client()).Add(member.Email, opts...)
 		if err != nil {
 			ll.Debug("Unable to invite", esl.Error(err))
 			z.OperationLog.Failure(err, member)

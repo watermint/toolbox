@@ -22,7 +22,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	workspaces, err := sv_workspace.New(z.Peer.Context()).List()
+	workspaces, err := sv_workspace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -30,7 +30,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 	for _, wsCompact := range workspaces {
-		ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
+		ws, err := sv_workspace.New(z.Peer.Client()).Resolve(wsCompact.Gid)
 		if err != nil {
 			return err
 		}

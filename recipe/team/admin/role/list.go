@@ -30,7 +30,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	roles, err := sv_adminrole.New(z.Peer.Context()).List()
+	roles, err := sv_adminrole.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

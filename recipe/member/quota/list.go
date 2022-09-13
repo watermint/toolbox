@@ -32,7 +32,7 @@ func (z *List) Preset() {
 
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -45,7 +45,7 @@ func (z *List) Exec(c app_control.Control) error {
 		ll := l.With(esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("member", member))
 		ll.Debug("Scan member")
 
-		q, err := sv_member_quota.NewQuota(z.Peer.Context()).Resolve(member.TeamMemberId)
+		q, err := sv_member_quota.NewQuota(z.Peer.Client()).Resolve(member.TeamMemberId)
 		if err != nil {
 			ll.Debug("Unable to scan member")
 			return err

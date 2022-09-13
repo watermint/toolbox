@@ -41,8 +41,8 @@ func (z *Replication) Preset() {
 func (z *Replication) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	ctxSrc := z.Src.Context()
-	ctxDst := z.Dst.Context()
+	ctxSrc := z.Src.Client()
+	ctxDst := z.Dst.Client()
 
 	err := uc_file_mirror.New(ctxSrc, ctxDst).Mirror(z.SrcPath, z.DstPath)
 	if err != nil {

@@ -58,7 +58,7 @@ func (z *Password) Preset() {
 
 func (z *Password) updatePassword(target *uc_team_sharedlink.Target, c app_control.Control, sel uc_team_sharedlink.Selector) error {
 	l := c.Log().With(esl.String("member", target.Member.Email), esl.String("url", target.Entry.Url))
-	mc := z.Peer.Context().AsMemberId(target.Member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(target.Member.TeamMemberId)
 
 	defer func() {
 		_ = sel.Processed(target.Entry.Url)
@@ -145,10 +145,10 @@ func (z *Password) Exec(c app_control.Control) error {
 			}
 		}
 
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Context(), onSharedLink)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink)
 		qsm := s.Get("scan_member")
 
-		dErr := sv_member.New(z.Peer.Context()).ListEach(func(member *mo_member.Member) bool {
+		dErr := sv_member.New(z.Peer.Client()).ListEach(func(member *mo_member.Member) bool {
 			qsm.Enqueue(member)
 			return true
 		})

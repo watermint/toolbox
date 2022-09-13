@@ -55,7 +55,7 @@ func (z *Encoding) Exec(c app_control.Control) error {
 		_ = os.Remove(f)
 	}()
 
-	ulf, err := sv_file_content.NewUpload(z.Peer.Context(), sv_file_content.UseCustomFileName(true)).Add(up, f)
+	ulf, err := sv_file_content.NewUpload(z.Peer.Client(), sv_file_content.UseCustomFileName(true)).Add(up, f)
 	if err != nil {
 		return err
 	}

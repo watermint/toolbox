@@ -8,5 +8,5 @@ import (
 type ConnSlackApi interface {
 	api_conn.ScopedConnection
 
-	Context() work_client.Client
+	Client() work_client.Client
 }

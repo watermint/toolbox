@@ -39,6 +39,6 @@ func (z *ConnGithubPublic) Connect(ctl app_control.Control) (err error) {
 	return nil
 }
 
-func (z *ConnGithubPublic) Context() gh_client.Client {
+func (z *ConnGithubPublic) Client() gh_client.Client {
 	return gh_client_impl.New("public", z.ctl, api_auth.NewNoAuthOAuthEntity())
 }

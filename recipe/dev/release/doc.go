@@ -151,7 +151,7 @@ func (z *Doc) updateChanges(c app_control.Control, release *es_version.Version, 
 // Returns versionMajor -> release metadata
 func (z *Doc) listReleases(c app_control.Control) (releases map[uint64]*Metadata, err error) {
 	l := c.Log()
-	releasesData, err := sv_release.New(z.Peer.Context(), app.RepositoryOwner, app.RepositoryName).List()
+	releasesData, err := sv_release.New(z.Peer.Client(), app.RepositoryOwner, app.RepositoryName).List()
 	if err != nil {
 		l.Debug("Unable to retrieve release information", esl.Error(err))
 		return nil, err

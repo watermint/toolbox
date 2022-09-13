@@ -129,13 +129,13 @@ func (z *All) restore(entry *mo_file.Deleted, ctx dbx_client.Client, ctl app_con
 
 func (z *All) Exec(c app_control.Control) error {
 	l := c.Log()
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
 	searchBasePath := z.Path
-	svf := sv_file.NewFiles(z.Peer.Context())
+	svf := sv_file.NewFiles(z.Peer.Client())
 	for {
 		if searchBasePath.IsRoot() {
 			break

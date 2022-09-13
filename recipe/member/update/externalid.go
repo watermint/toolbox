@@ -50,7 +50,7 @@ func (z *Externalid) Preset() {
 }
 
 func (z *Externalid) Exec(c app_control.Control) error {
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -70,7 +70,7 @@ func (z *Externalid) Exec(c app_control.Control) error {
 		}
 
 		mem.ExternalId = row.ExternalId
-		updated, err := sv_member.New(z.Peer.Context()).Update(mem)
+		updated, err := sv_member.New(z.Peer.Client()).Update(mem)
 		if err != nil {
 			z.OperationLog.Failure(err, row)
 			return err

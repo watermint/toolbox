@@ -28,7 +28,7 @@ func (z *Closed) Exec(c app_control.Control) error {
 	if err := z.Deleted.Open(); err != nil {
 		return err
 	}
-	frs, err := sv_filerequest.New(z.Peer.Context()).DeleteAllClosed()
+	frs, err := sv_filerequest.New(z.Peer.Client()).DeleteAllClosed()
 	if err != nil {
 		return err
 	}

@@ -62,7 +62,7 @@ func (z *Install) Preset() {
 }
 
 func (z *Install) getRelease() (release *mo_release.Release, err error) {
-	svr := sv_release.New(z.Peer.Context(), "watermint", "toolbox")
+	svr := sv_release.New(z.Peer.Client(), "watermint", "toolbox")
 	if z.Release == "latest" {
 		return svr.Latest()
 	} else {
@@ -135,7 +135,7 @@ func (z *Install) Exec(c app_control.Control) error {
 	}
 	ui.Info(z.InfoReleaseName.With("Release", release.Name).With("Tag", release.TagName))
 
-	assets, err := sv_release_asset.New(z.Peer.Context(), "watermint", "toolbox", release.Id).List()
+	assets, err := sv_release_asset.New(z.Peer.Client(), "watermint", "toolbox", release.Id).List()
 	if err != nil {
 		l.Debug("Unable to retrieve release assets", esl.Error(err))
 		return err

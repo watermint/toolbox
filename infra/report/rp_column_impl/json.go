@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"reflect"
 )
 
 var (
@@ -20,6 +21,19 @@ func Headers(r interface{}, isHidden func(name string) bool) (headers []string, 
 	}
 	if !gjson.ValidBytes(b) {
 		l.Debug("Invalid JSON sequence")
+		return nil, ErrorInvalidRowDataFormat
+	}
+	bs := string(b)
+	if bs == "{}" || bs == "[]" {
+		modelType := reflect.TypeOf(r)
+		if modelType.Kind() == reflect.Pointer {
+			modelType = modelType.Elem()
+		}
+		l.Error("Empty report model object found. Please make sure the report model has at least one column without `omitempty`.",
+			esl.String("modelName", modelType.Name()),
+			esl.String("modelPkg", modelType.PkgPath()),
+		)
+
 		return nil, ErrorInvalidRowDataFormat
 	}
 	s := gjson.ParseBytes(b)

@@ -48,7 +48,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 		l.Debug("Unable to create an arg", esl.Error(err))
 		return err
 	}
-	res := z.Peer.Context().ContentHead("files/download", q)
+	res := z.Peer.Client().ContentHead("files/download", q)
 	if err, fail := res.Failure(); fail {
 		return err
 	}
@@ -92,7 +92,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 
 	downloader := func(chunk *DownloadChunk) error {
 		requestRange := fmt.Sprintf("bytes=%d-%d", chunk.Offset, es_number.Min(chunk.Offset+chunk.ChunkSize-1, contentLength).Int64())
-		res = z.Peer.Context().Download("files/download", q, api_request.Header("Range", requestRange))
+		res = z.Peer.Client().Download("files/download", q, api_request.Header("Range", requestRange))
 		if err, fail := res.Failure(); fail {
 			l.Debug("Error on download", esl.Error(err))
 			return err

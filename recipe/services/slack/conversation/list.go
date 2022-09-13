@@ -27,7 +27,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	return sv_conversation.New(z.Peer.Context()).ListEach(func(c *mo_conversation.Conversation) {
+	return sv_conversation.New(z.Peer.Client()).ListEach(func(c *mo_conversation.Conversation) {
 		z.Conversation.Row(c)
 	})
 }

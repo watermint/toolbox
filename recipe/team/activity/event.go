@@ -49,7 +49,7 @@ func (z *Event) Exec(c app_control.Control) error {
 		opts = append(opts, sv_activity.Category(z.Category.Value()))
 	}
 
-	return sv_activity.New(z.Peer.Context()).List(handler, opts...)
+	return sv_activity.New(z.Peer.Client()).List(handler, opts...)
 }
 
 func (z *Event) Test(c app_control.Control) error {

@@ -48,7 +48,7 @@ func (z *Put) Exec(c app_control.Control) error {
 		opts = append(opts, sv_content.Branch(z.Branch.Value()))
 	}
 
-	svc := sv_content.New(z.Peer.Context(), z.Owner, z.Repository)
+	svc := sv_content.New(z.Peer.Client(), z.Owner, z.Repository)
 	existing, err := svc.Get(z.Path, opts...)
 	if err != nil {
 		l.Debug("no prior content found", esl.Error(err))

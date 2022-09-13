@@ -58,7 +58,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -73,7 +73,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Context(), handler)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), handler)
 		q := s.Get("scan_member")
 		for _, member := range members {
 			q.Enqueue(member)

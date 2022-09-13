@@ -5,11 +5,11 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_repo"
 	"github.com/watermint/toolbox/essentials/api/api_client"
-	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
+	"net/http"
 )
 
 var (
@@ -24,6 +24,35 @@ func NewBasicRestClient(entity api_auth.BasicEntity, repository api_auth.Reposit
 	}
 }
 
+func NewBasicRequestBuilder(entity api_auth.BasicEntity, builder nw_client.RequestBuilder) nw_client.RequestBuilder {
+	return &basicRequestBuilder{
+		builder: builder,
+		entity:  entity,
+	}
+}
+
+type basicRequestBuilder struct {
+	builder nw_client.RequestBuilder
+	entity  api_auth.BasicEntity
+}
+
+func (z basicRequestBuilder) Build() (*http.Request, error) {
+	req, err := z.builder.Build()
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Add("Authorization", z.entity.Credential.HeaderValue())
+	return req, nil
+}
+
+func (z basicRequestBuilder) Endpoint() string {
+	return z.builder.Endpoint()
+}
+
+func (z basicRequestBuilder) Param() string {
+	return z.builder.Param()
+}
+
 type basicClient struct {
 	entity     api_auth.BasicEntity
 	repository api_auth.BasicRepository
@@ -32,16 +61,12 @@ type basicClient struct {
 
 func (z basicClient) Call(client api_client.Client, req nw_client.RequestBuilder) (res es_response.Response) {
 	l := esl.Default().With(esl.String("endpoint", req.Endpoint()))
-	mrq1, ok := req.(nw_client.MutableRequestBuilder)
-	if !ok {
-		panic("Basic Auth client requires MutableRequestBuilder implementation")
-	}
 	abandon := func() {
 		z.repository.Delete(z.entity.KeyName, z.entity.PeerName)
 	}
 
-	mrq2 := mrq1.WithData(api_request.Header("Authorization", z.entity.Credential.HeaderValue()))
-	res = z.rest.Call(client, mrq2)
+	brq := NewBasicRequestBuilder(z.entity, req)
+	res = z.rest.Call(client, brq)
 
 	// abandon existing credential on auth error
 	if res.Code() == 401 || res.IsAuthInvalidToken() {

@@ -69,7 +69,7 @@ func (z *Profile) Test(c app_control.Control) error {
 func (z *Profile) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func (z *Profile) Exec(c app_control.Control) error {
 		}
 
 		ui.Info(z.ProgressUpdating.With("Email", m.Email))
-		r, err := sv_member.New(z.Peer.Context()).Update(member)
+		r, err := sv_member.New(z.Peer.Client()).Update(member)
 		switch {
 		case err != nil:
 			z.OperationLog.Failure(err, m)

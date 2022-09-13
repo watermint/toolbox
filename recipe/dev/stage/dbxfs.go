@@ -118,8 +118,8 @@ func (z *Dbxfs) compare(l esl.Logger, base, cached es_filesystem.FileSystem, pat
 }
 
 func (z *Dbxfs) Exec(c app_control.Control) error {
-	base := filesystem.NewFileSystem(z.Peer.Context())
-	cached, err := filesystem.NewPreScanFileSystem(c, z.Peer.Context(), z.Path)
+	base := filesystem.NewFileSystem(z.Peer.Client())
+	cached, err := filesystem.NewPreScanFileSystem(c, z.Peer.Client(), z.Path)
 	if err != nil {
 		return err
 	}

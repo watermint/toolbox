@@ -78,7 +78,7 @@ func (z *Upload) upload(target *UploadTarget, c app_control.Control, s eq_sequen
 	uf := &UploadFile{
 		File: target.Path,
 	}
-	asset, err := sv_release_asset.New(z.Peer.Context(), z.Owner, z.Repository, target.Release.Id).Upload(mo_path.NewExistingFileSystemPath(target.Path))
+	asset, err := sv_release_asset.New(z.Peer.Client(), z.Owner, z.Repository, target.Release.Id).Upload(mo_path.NewExistingFileSystemPath(target.Path))
 	if err != nil {
 		z.Uploads.Failure(err, uf)
 		return err
@@ -92,7 +92,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		return err
 	}
 
-	rel, err := sv_release.New(z.Peer.Context(), z.Owner, z.Repository).Get(z.Release)
+	rel, err := sv_release.New(z.Peer.Client(), z.Owner, z.Repository).Get(z.Release)
 	if err != nil {
 		return err
 	}

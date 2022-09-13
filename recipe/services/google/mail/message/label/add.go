@@ -37,15 +37,15 @@ func (z *Add) Exec(c app_control.Control) error {
 	var labelIds []string
 	var err error
 	if z.AddLabelIfNotExist {
-		labelIds, err = sv_label.FindOrAddLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		labelIds, err = sv_label.FindOrAddLabelIdsByNames(z.Peer.Client(), c.UI(), z.UserId, labelNames)
 	} else {
-		labelIds, err = sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		labelIds, err = sv_label.FindLabelIdsByNames(z.Peer.Client(), c.UI(), z.UserId, labelNames)
 	}
 	if err := z.Message.Open(); err != nil {
 		return err
 	}
 
-	message, err := sv_message.New(z.Peer.Context(), z.UserId).Update(z.MessageId, sv_message.AddLabelIds(labelIds))
+	message, err := sv_message.New(z.Peer.Client(), z.UserId).Update(z.MessageId, sv_message.AddLabelIds(labelIds))
 	if err != nil {
 		return err
 	}

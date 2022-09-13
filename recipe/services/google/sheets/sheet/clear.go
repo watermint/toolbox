@@ -22,7 +22,7 @@ func (z *Clear) Preset() {
 }
 
 func (z *Clear) Exec(c app_control.Control) error {
-	clearedRange, err := sv_sheet.New(z.Peer.Context()).Clear(z.Id, z.Range)
+	clearedRange, err := sv_sheet.New(z.Peer.Client()).Clear(z.Id, z.Range)
 	if err != nil {
 		return err
 	}

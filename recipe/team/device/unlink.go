@@ -46,7 +46,7 @@ func (z *Unlink) unlink(session *mo_device.MemberSession) error {
 		TeamMemberId: session.TeamMemberId,
 		Id:           session.Id,
 	}
-	err := sv_device.New(z.Peer.Context()).Revoke(s)
+	err := sv_device.New(z.Peer.Client()).Revoke(s)
 	if err != nil {
 		z.OperationLog.Failure(err, session)
 		return err

@@ -34,7 +34,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
+	namespaces, err := sv_namespace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

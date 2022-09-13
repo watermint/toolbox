@@ -36,7 +36,7 @@ func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {
 		PeerName: z.peerName,
 		Scopes:   []string{gh_auth.ScopeRepo},
 	}
-	entity, useMock, err := api_conn_impl.ConnectByRedirect(session, ctl)
+	entity, useMock, err := api_conn_impl.OAuthConnectByRedirect(session, ctl)
 	if useMock {
 		z.ctx = gh_client_impl.NewMock(z.peerName, ctl)
 		return nil
@@ -56,7 +56,7 @@ func (z *ConnGithubRepo) SetPeerName(name string) {
 	z.peerName = name
 }
 
-func (z *ConnGithubRepo) Context() gh_client.Client {
+func (z *ConnGithubRepo) Client() gh_client.Client {
 	return z.ctx
 }
 

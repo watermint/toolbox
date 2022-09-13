@@ -36,14 +36,14 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return errors.New("missing required option")
 	}
 
-	group, err := sv_group.New(z.Peer.Context()).ResolveByName(z.Name)
+	group, err := sv_group.New(z.Peer.Client()).ResolveByName(z.Name)
 	if err != nil {
 		ui.Error(z.ErrorUnableToResolveGroup.With("Error", err))
 		return err
 	}
 	c.Log().Debug("Removing group", esl.Any("group", group))
 
-	err = sv_group.New(z.Peer.Context()).Remove(group.GroupId)
+	err = sv_group.New(z.Peer.Client()).Remove(group.GroupId)
 	if err != nil {
 		ui.Error(z.ErrorUnableToRemoveGroup.With("Error", err))
 		return err

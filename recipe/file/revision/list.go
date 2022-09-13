@@ -39,7 +39,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svr := sv_file_revision.New(z.Peer.Context())
+	svr := sv_file_revision.New(z.Peer.Client())
 	revisions, err := svr.List(z.Path)
 	if err != nil {
 		return err

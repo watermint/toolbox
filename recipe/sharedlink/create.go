@@ -53,7 +53,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		return err
 	}
 
-	link, err := sv_sharedlink.New(z.Peer.Context()).Create(z.Path, opts...)
+	link, err := sv_sharedlink.New(z.Peer.Client()).Create(z.Path, opts...)
 	if err != nil {
 		return err
 	}

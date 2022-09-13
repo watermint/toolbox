@@ -21,7 +21,7 @@ func NewConnAsana(name string) as_conn.ConnAsanaApi {
 
 type connAsanaApi struct {
 	peerName string
-	ctx      as_client.Client
+	client   as_client.Client
 	scope    string
 }
 
@@ -31,19 +31,19 @@ func (z *connAsanaApi) Connect(ctl app_control.Control) (err error) {
 		PeerName: z.peerName,
 		Scopes:   z.Scopes(),
 	}
-	entity, useMock, err := api_conn_impl.ConnectByRedirect(session, ctl)
+	entity, useMock, err := api_conn_impl.OAuthConnectByRedirect(session, ctl)
 	if useMock {
-		z.ctx = as_client_impl.NewMock(z.peerName, ctl)
+		z.client = as_client_impl.NewMock(z.peerName, ctl)
 		return nil
 	}
 	if replay, enabled := ctl.Feature().IsTestWithSeqReplay(); enabled {
-		z.ctx = as_client_impl.NewReplayMock(z.peerName, ctl, replay)
+		z.client = as_client_impl.NewReplayMock(z.peerName, ctl, replay)
 		return nil
 	}
 	if err != nil {
 		return err
 	}
-	z.ctx = as_client_impl.New(z.peerName, ctl, entity)
+	z.client = as_client_impl.New(z.peerName, ctl, entity)
 	return nil
 }
 
@@ -64,7 +64,7 @@ func (z *connAsanaApi) ServiceName() string {
 }
 
 func (z *connAsanaApi) SetScopes(scopes ...string) {
-	l := z.ctx.Log()
+	l := z.client.Log()
 	switch len(z.scope) {
 	case 0:
 		l.Debug("No scope defined, fallback to default")
@@ -81,6 +81,6 @@ func (z *connAsanaApi) Scopes() []string {
 	return []string{z.scope}
 }
 
-func (z *connAsanaApi) Context() as_client.Client {
-	return z.ctx
+func (z *connAsanaApi) Client() as_client.Client {
+	return z.client
 }

@@ -65,9 +65,9 @@ func (z *Add) labelIds(labelNames []string, c app_control.Control) (labelIds []s
 	l := c.Log()
 	l.Debug("Looking for label Ids", esl.Strings("labelNames", labelNames))
 	if z.AddLabelIfNotExist {
-		labelIds, err = sv_label.FindOrAddLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		labelIds, err = sv_label.FindOrAddLabelIdsByNames(z.Peer.Client(), c.UI(), z.UserId, labelNames)
 	} else {
-		labelIds, err = sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, labelNames)
+		labelIds, err = sv_label.FindLabelIdsByNames(z.Peer.Client(), c.UI(), z.UserId, labelNames)
 	}
 	return
 }
@@ -100,7 +100,7 @@ func (z *Add) processMessages(query string, addLabelIds, deleteLabelIds []string
 	ui := c.UI()
 	l := c.Log().With(esl.String("query", query), esl.Strings("addLabels", addLabelIds), esl.Strings("deleteLabels", deleteLabelIds))
 	l.Debug("Retrieve existing messages that satisfies query")
-	svm := sv_message.New(z.Peer.Context(), z.UserId)
+	svm := sv_message.New(z.Peer.Client(), z.UserId)
 	messages, err := svm.List(sv_message.Query(query))
 	if err != nil {
 		l.Debug("Unable to retrieve messages", esl.Error(err))
@@ -144,7 +144,7 @@ func (z *Add) addFilter(query string, addLabelIds, deleteLabelIds []string, c ap
 	}
 	opts = append(opts, sv_filter.Query(query))
 
-	svf := sv_filter.New(z.Peer.Context(), z.UserId)
+	svf := sv_filter.New(z.Peer.Client(), z.UserId)
 
 	c.UI().Progress(z.ProgressCreateFilter.With("Query", query))
 	return svf.Add(opts...)

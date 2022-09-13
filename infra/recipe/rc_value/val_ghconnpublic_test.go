@@ -41,7 +41,7 @@ func TestValueGhConnGithubPublic(t *testing.T) {
 			return err
 		}
 		mod2 := rcp2.(*ValueGhConnGithubPublicRecipe)
-		if mod2.Peer.Context().ClientHash() == "" {
+		if mod2.Peer.Client().ClientHash() == "" {
 			t.Error(mod2)
 		}
 

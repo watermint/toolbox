@@ -79,7 +79,7 @@ func (z *List) Preset() {
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	gsv := sv_group.New(z.Peer.Context())
+	gsv := sv_group.New(z.Peer.Client())
 	groups, err := gsv.List()
 	if err != nil {
 		return err
@@ -93,7 +93,7 @@ func (z *List) Exec(c app_control.Control) error {
 		ll := l.With(esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("Group", group))
 		ll.Debug("Scan group")
 
-		msv := sv_group_member.New(z.Peer.Context(), group)
+		msv := sv_group_member.New(z.Peer.Client(), group)
 		members, err := msv.List()
 		if err != nil {
 			ll.Debug("Unable to list members", esl.Error(err))

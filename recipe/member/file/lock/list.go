@@ -46,12 +46,12 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.MemberEmail)
 	if err != nil {
 		return err
 	}
 
-	ctx := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
 
 	return sv_file_lock.New(ctx).List(z.Path, func(entry *mo_file.LockInfo) {
 		z.Lock.Row(entry)

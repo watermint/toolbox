@@ -48,7 +48,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.FileList.Open(); err != nil {
 		return err
 	}
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.MemberEmail)
 	if err != nil {
 		return err
 	}
@@ -59,7 +59,7 @@ func (z *List) Exec(c app_control.Control) error {
 	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers(z.IncludeExplicitSharedMembers))
 	opts = append(opts, sv_file.IncludeMountedFolders(z.IncludeMountedFolders))
 
-	return sv_file.NewFiles(z.Peer.Context().AsMemberId(member.TeamMemberId)).ListEach(
+	return sv_file.NewFiles(z.Peer.Client().AsMemberId(member.TeamMemberId)).ListEach(
 		z.Path,
 		func(entry mo_file.Entry) {
 			z.FileList.Row(entry.Concrete())

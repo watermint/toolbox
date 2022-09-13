@@ -30,7 +30,7 @@ func (z *Add) Exec(c app_control.Control) error {
 	opts := make([]sv_group.CreateOpt, 0)
 	opts = append(opts, sv_group.ManagementType(z.ManagementType.Value()))
 
-	group, err := sv_group.New(z.Peer.Context()).Create(z.Name, opts...)
+	group, err := sv_group.New(z.Peer.Client()).Create(z.Name, opts...)
 	if err != nil {
 		c.UI().Error(z.ErrorUnableToAddGroup.With("Name", z.Name).With("Error", err))
 		return err

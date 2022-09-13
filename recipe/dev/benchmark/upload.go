@@ -56,9 +56,9 @@ func (z *Upload) Preset() {
 
 func (z *Upload) newDbxFileSystem(c app_control.Control) (fs es_filesystem.FileSystem, err error) {
 	if z.PreScan {
-		return filesystem.NewPreScanFileSystem(c, z.Peer.Context(), z.Path)
+		return filesystem.NewPreScanFileSystem(c, z.Peer.Client(), z.Path)
 	} else {
-		return filesystem.NewFileSystem(z.Peer.Context()), nil
+		return filesystem.NewFileSystem(z.Peer.Client()), nil
 	}
 }
 
@@ -74,10 +74,10 @@ func (z *Upload) Exec(c app_control.Control) error {
 	var conn es_filesystem.Connector
 	switch z.Method.Value() {
 	case "block":
-		conn = dfs_copier_batch.NewLocalToDropboxBatch(c, z.Peer.Context(), z.BlockBlockSize.Value())
+		conn = dfs_copier_batch.NewLocalToDropboxBatch(c, z.Peer.Client(), z.BlockBlockSize.Value())
 
 	default:
-		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Peer.Context(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
+		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Peer.Client(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
 	}
 	copier := dfs_model_to_dbx.NewModelToDropbox(c.Log(), modelRoot, conn)
 	dbxFs, err := z.newDbxFileSystem(c)

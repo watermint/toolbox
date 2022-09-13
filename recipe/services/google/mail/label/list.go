@@ -30,7 +30,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	labels, err := sv_label.New(z.Peer.Context(), z.UserId).List()
+	labels, err := sv_label.New(z.Peer.Client(), z.UserId).List()
 	if err != nil {
 		return err
 	}

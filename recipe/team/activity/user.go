@@ -95,7 +95,7 @@ func (z *User) activity(member *mo_member.Member, c app_control.Control) error {
 		return nil
 	}
 
-	err = sv_activity.New(z.Peer.Context()).List(handler,
+	err = sv_activity.New(z.Peer.Client()).List(handler,
 		sv_activity.StartTime(z.StartTime.Iso8601()),
 		sv_activity.EndTime(z.EndTime.Iso8601()),
 		sv_activity.Category(z.Category.Value()),
@@ -115,7 +115,7 @@ func (z *User) Exec(c app_control.Control) error {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

@@ -88,7 +88,7 @@ func (z *Url) Preset() {
 func (z *Url) process(row *UrlRow) error {
 	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(row.Path), row.Url)
 
-	entry, err := sv_file_url.New(z.Peer.Context()).Save(path, row.Url)
+	entry, err := sv_file_url.New(z.Peer.Client()).Save(path, row.Url)
 	if err != nil {
 		z.OperationLog.Failure(err, row)
 		return err

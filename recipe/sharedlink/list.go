@@ -49,7 +49,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	links, err := sv_sharedlink.New(z.Peer.Context()).List()
+	links, err := sv_sharedlink.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

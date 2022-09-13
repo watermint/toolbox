@@ -56,7 +56,7 @@ func (z *Share) share(mf *MemberFolder, svm sv_member.Member, c app_control.Cont
 		return err
 	}
 
-	cm := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	cm := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	sf, err := sv_sharedfolder.New(cm).Create(
 		mo_path.NewDropboxPath(mf.Path),
 		sv_sharedfolder.AclUpdatePolicy(z.AclUpdatePolicy.Value()),
@@ -75,7 +75,7 @@ func (z *Share) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-	svm := sv_member.NewCached(z.Peer.Context())
+	svm := sv_member.NewCached(z.Peer.Client())
 
 	var lastErr, listErr error
 

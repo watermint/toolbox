@@ -31,7 +31,7 @@ func (z *connSlackApi) Connect(ctl app_control.Control) (err error) {
 		PeerName: z.peerName,
 		Scopes:   z.scopes,
 	}
-	entity, useMock, err := api_conn_impl.ConnectByRedirect(session, ctl)
+	entity, useMock, err := api_conn_impl.OAuthConnectByRedirect(session, ctl)
 	if useMock {
 		z.client = work_client_impl.NewMock(z.peerName, ctl)
 		return nil
@@ -68,6 +68,6 @@ func (z *connSlackApi) Scopes() []string {
 	return z.scopes
 }
 
-func (z *connSlackApi) Context() work_client.Client {
+func (z *connSlackApi) Client() work_client.Client {
 	return z.client
 }

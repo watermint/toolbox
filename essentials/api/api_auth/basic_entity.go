@@ -20,6 +20,10 @@ func (z BasicCredential) HeaderValue() string {
 	return "Basic " + base64.StdEncoding.EncodeToString([]byte(z.Serialize()))
 }
 
+func NewNoAuthBasicEntity() BasicEntity {
+	return BasicEntity{}
+}
+
 type BasicEntity struct {
 	// App key name
 	KeyName string `json:"key_name"`
@@ -45,6 +49,14 @@ func (z BasicEntity) Entity() Entity {
 		Credential:  z.Credential.Serialize(),
 		Description: z.Description,
 		Timestamp:   z.Timestamp,
+	}
+}
+
+func (z BasicEntity) HashSeed() []string {
+	return []string{
+		"a", z.KeyName,
+		"p", z.PeerName,
+		"c", z.Credential.Serialize(),
 	}
 }
 

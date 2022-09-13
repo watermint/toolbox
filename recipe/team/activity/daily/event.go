@@ -53,7 +53,7 @@ func (z *Event) Exec(c app_control.Control) error {
 			return nil
 		}
 
-		err = sv_activity.New(z.Peer.Context()).List(handler,
+		err = sv_activity.New(z.Peer.Client()).List(handler,
 			sv_activity.StartTime(d.Start),
 			sv_activity.EndTime(d.End),
 			sv_activity.Category(z.Category.Value()),

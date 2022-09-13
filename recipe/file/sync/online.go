@@ -46,7 +46,7 @@ func (z *Online) Exec(c app_control.Control) error {
 		ru.DstPath = z.Dst
 		ru.Overwrite = !z.SkipExisting
 		ru.Name = z.Name
-		ru.Context = z.Peer.Context()
+		ru.Context = z.Peer.Client()
 	})
 }
 

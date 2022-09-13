@@ -40,7 +40,7 @@ func (z *List) Preset() {
 func (z *List) listMembers(sf *mo_sharedfolder.SharedFolder, c app_control.Control) error {
 	l := c.Log().With(esl.Any("sf", sf))
 	l.Debug("Scanning")
-	members, err := sv_sharedfolder_member.New(z.Peer.Context(), sf).List()
+	members, err := sv_sharedfolder_member.New(z.Peer.Client(), sf).List()
 	if err != nil {
 		return err
 	}
@@ -52,7 +52,7 @@ func (z *List) listMembers(sf *mo_sharedfolder.SharedFolder, c app_control.Contr
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	folders, err := sv_sharedfolder.New(z.Peer.Context()).List()
+	folders, err := sv_sharedfolder.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

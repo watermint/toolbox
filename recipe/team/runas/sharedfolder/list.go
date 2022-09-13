@@ -37,14 +37,14 @@ func (z *List) Preset() {
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.MemberEmail)
 	if err != nil {
 		return err
 	}
 
 	l.Debug("Member found", esl.Any("member", member))
 
-	ctx := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
 
 	folders, err := sv_sharedfolder.New(ctx).List()
 	if err != nil {

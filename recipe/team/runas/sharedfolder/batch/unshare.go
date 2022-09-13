@@ -44,7 +44,7 @@ func (z *Unshare) unshare(mf *MemberFolder, svm sv_member.Member, c app_control.
 		return err
 	}
 
-	cm := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	cm := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	sf, err := uc_sharedfolder.NewResolver(cm).Resolve(mo_path.NewDropboxPath(mf.Path))
 	switch err {
 	case nil:
@@ -71,7 +71,7 @@ func (z *Unshare) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-	svm := sv_member.NewCached(z.Peer.Context())
+	svm := sv_member.NewCached(z.Peer.Client())
 
 	var lastErr, listErr error
 

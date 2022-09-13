@@ -8,7 +8,7 @@ import (
 type ConnGoogleApi interface {
 	api_conn.ScopedConnection
 
-	Context() goog_client.Client
+	Client() goog_client.Client
 }
 
 type ConnGoogleMail interface {

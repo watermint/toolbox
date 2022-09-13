@@ -31,7 +31,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		return err
 	}
 
-	s, err := sv_spreadsheet.New(z.Peer.Context()).Create(z.Title)
+	s, err := sv_spreadsheet.New(z.Peer.Client()).Create(z.Title)
 	if err != nil {
 		return err
 	}

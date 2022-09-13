@@ -23,7 +23,7 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
-	return sv_sendas.New(z.Peer.Context(), z.UserId).Remove(z.Email)
+	return sv_sendas.New(z.Peer.Client(), z.UserId).Remove(z.Email)
 }
 
 func (z *Delete) Test(c app_control.Control) error {

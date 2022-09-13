@@ -37,7 +37,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}

@@ -58,7 +58,7 @@ func (z *Delete) deleteRoleMember(member *mo_member.Member, c app_control.Contro
 		return nil
 	}
 
-	updated, err := sv_adminrole.New(z.Peer.Context()).UpdateRole(mo_user.NewUserSelectorByTeamMemberId(member.TeamMemberId), newRoleIds)
+	updated, err := sv_adminrole.New(z.Peer.Client()).UpdateRole(mo_user.NewUserSelectorByTeamMemberId(member.TeamMemberId), newRoleIds)
 	if err != nil {
 		return err
 	}
@@ -72,11 +72,11 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	group, err := sv_group.New(z.Peer.Context()).ResolveByName(z.ExceptionGroup)
+	group, err := sv_group.New(z.Peer.Client()).ResolveByName(z.ExceptionGroup)
 	if err != nil {
 		return err
 	}
-	exceptionMembers, err := sv_group_member.New(z.Peer.Context(), group).List()
+	exceptionMembers, err := sv_group_member.New(z.Peer.Client(), group).List()
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		s.Define("delete_role", z.deleteRoleMember, c)
 		q := s.Get("delete_role")
 
-		listErr = sv_member.New(z.Peer.Context()).ListEach(func(member *mo_member.Member) bool {
+		listErr = sv_member.New(z.Peer.Client()).ListEach(func(member *mo_member.Member) bool {
 			if isTargetMember(member) {
 				q.Enqueue(member)
 			}

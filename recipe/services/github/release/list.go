@@ -31,7 +31,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.Releases.Open(); err != nil {
 		return err
 	}
-	releases, err := sv_release.New(z.Peer.Context(), z.Owner, z.Repository).List()
+	releases, err := sv_release.New(z.Peer.Client(), z.Owner, z.Repository).List()
 	if err != nil {
 		return err
 	}

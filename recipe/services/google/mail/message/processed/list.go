@@ -47,7 +47,7 @@ func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 	ui := c.UI()
 
-	svm := sv_message.New(z.Peer.Context(), z.UserId)
+	svm := sv_message.New(z.Peer.Client(), z.UserId)
 	queries := make([]sv_message.QueryOpt, 0)
 	queries = append(queries, sv_message.IncludeSpamTrash(z.IncludeSpamTrash))
 	queries = append(queries, sv_message.MaxResults(z.MaxResults))
@@ -58,7 +58,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if z.Labels.IsExists() {
 		l.Debug("Build query param: labels")
 		queryLabelNames := strings.Split(z.Labels.Value(), ",")
-		queryLabelIds, err := sv_label.FindLabelIdsByNames(z.Peer.Context(), c.UI(), z.UserId, queryLabelNames)
+		queryLabelIds, err := sv_label.FindLabelIdsByNames(z.Peer.Client(), c.UI(), z.UserId, queryLabelNames)
 		if err != nil {
 			return err
 		}
@@ -73,7 +73,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svl := sv_label.NewCached(z.Peer.Context(), z.UserId)
+	svl := sv_label.NewCached(z.Peer.Client(), z.UserId)
 
 	for i, msgId := range messages {
 		ui.Progress(z.ProgressGetMessage.With("Index", i+1).With("Total", len(messages)))

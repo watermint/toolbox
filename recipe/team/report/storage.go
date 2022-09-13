@@ -32,7 +32,7 @@ func (z *Storage) Exec(c app_control.Control) error {
 		return err
 	}
 
-	storage, err := sv_team.NewReport(z.Peer.Context()).Storage(sv_team.NewSpan(z.StartDate, z.EndDate))
+	storage, err := sv_team.NewReport(z.Peer.Client()).Storage(sv_team.NewSpan(z.StartDate, z.EndDate))
 	if err != nil {
 		return err
 	}

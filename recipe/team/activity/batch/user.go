@@ -49,7 +49,7 @@ type User struct {
 func (z *User) activity(u *UserEmail, c app_control.Control) error {
 	l := c.Log().With(esl.String("UserEmail", u.Email))
 
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(u.Email)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(u.Email)
 	if err != nil {
 		l.Debug("user not found", esl.Error(err))
 		return err
@@ -65,7 +65,7 @@ func (z *User) activity(u *UserEmail, c app_control.Control) error {
 
 	eventSeq := atomic.Int64{}
 
-	return sv_activity.New(z.Peer.Context()).List(
+	return sv_activity.New(z.Peer.Client()).List(
 		func(event *mo_activity.Event) error {
 			return z.EventCache.Update(func(kvs kv_kvs.Kvs) error {
 				seq := eventSeq.Inc()

@@ -14,7 +14,7 @@ func connect(app api_auth.OAuthAppData, endpointBase goog_client_impl.EndpointTy
 		PeerName: peerName,
 		Scopes:   scopes,
 	}
-	entity, useMock, err := api_conn_impl.ConnectByRedirect(session, ctl)
+	entity, useMock, err := api_conn_impl.OAuthConnectByRedirect(session, ctl)
 	if useMock {
 		return goog_client_impl.NewMock(endpointBase, peerName, ctl), nil
 	}

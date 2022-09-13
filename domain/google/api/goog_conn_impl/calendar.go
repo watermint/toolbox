@@ -52,7 +52,7 @@ func (z *connGoogleCalendar) Scopes() []string {
 	return z.scopes
 }
 
-func (z *connGoogleCalendar) Context() goog_client.Client {
+func (z *connGoogleCalendar) Client() goog_client.Client {
 	return z.ctx
 }
 

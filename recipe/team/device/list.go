@@ -39,7 +39,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	memberList, err := sv_member.New(z.Peer.Context()).List()
+	memberList, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -49,7 +49,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	sessions, err := sv_device.New(z.Peer.Context()).List()
+	sessions, err := sv_device.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

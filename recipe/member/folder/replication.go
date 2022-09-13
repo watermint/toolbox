@@ -32,7 +32,7 @@ func (z *Replication) Preset() {
 
 func (z *Replication) Exec(c app_control.Control) error {
 	l := c.Log().With(esl.String("srcMemberEmail", z.SrcMemberEmail), esl.String("dstMemberEmail", z.DstMemberEmail))
-	svm := sv_member.NewCached(z.Peer.Context())
+	svm := sv_member.NewCached(z.Peer.Client())
 	srcMember, err := svm.ResolveByEmail(z.SrcMemberEmail)
 	if err != nil {
 		l.Debug("Unable to resolve src member", esl.Error(err))
@@ -47,8 +47,8 @@ func (z *Replication) Exec(c app_control.Control) error {
 	}
 	l.Debug("dst member resolved", esl.Any("dstMember", dstMember))
 
-	ctxSrc := z.Peer.Context().AsMemberId(srcMember.TeamMemberId)
-	ctxDst := z.Peer.Context().AsMemberId(dstMember.TeamMemberId)
+	ctxSrc := z.Peer.Client().AsMemberId(srcMember.TeamMemberId)
+	ctxDst := z.Peer.Client().AsMemberId(dstMember.TeamMemberId)
 	mirror := uc_file_mirror.New(ctxSrc, ctxDst)
 
 	l.Debug("Try mirroring", esl.String("srcPath", z.SrcPath.Path()), esl.String("dstPath", z.DstPath.Path()))

@@ -79,7 +79,7 @@ func (z *Summary) Preset() {
 
 func (z *Summary) scanTeam(dummy string, stage eq_sequence.Stage, c app_control.Control) error {
 	l := c.Log()
-	svn := sv_namespace.New(z.Peer.Context())
+	svn := sv_namespace.New(z.Peer.Client())
 	qn := stage.Get("scan_namespace")
 
 	summaries := make(map[string]int)
@@ -133,7 +133,7 @@ func (z *Summary) scanTeam(dummy string, stage eq_sequence.Stage, c app_control.
 
 func (z *Summary) scanNamespace(namespace *mo_namespace.Namespace, admin *mo_profile.Profile, c app_control.Control) error {
 	l := c.Log().With(esl.Any("namespace", namespace))
-	meta, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).Resolve(namespace.NamespaceId)
+	meta, err := sv_sharedfolder.New(z.Peer.Client().AsAdminId(admin.TeamMemberId)).Resolve(namespace.NamespaceId)
 	if err != nil {
 		l.Debug("Unable to retrieve namespace metadata", esl.Error(err))
 		return err
@@ -146,14 +146,14 @@ func (z *Summary) scanNamespace(namespace *mo_namespace.Namespace, admin *mo_pro
 
 func (z *Summary) scanMember(member *mo_member.Member, info *mo_team.Info, c app_control.Control) error {
 	l := c.Log().With(esl.String("member", member.Email))
-	svs := sv_sharedfolder.New(z.Peer.Context().AsMemberId(member.TeamMemberId))
+	svs := sv_sharedfolder.New(z.Peer.Client().AsMemberId(member.TeamMemberId))
 	namespaces, err := svs.List()
 	if err != nil {
 		l.Debug("Unable to retrieve namespaces", esl.Error(err))
 		return err
 	}
 
-	mounts, err := sv_sharedfolder_mount.New(z.Peer.Context().AsMemberId(member.TeamMemberId)).List()
+	mounts, err := sv_sharedfolder_mount.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).List()
 	if err != nil {
 		l.Debug("Unable to retrieve mount info", esl.Error(err))
 		return err
@@ -211,7 +211,7 @@ func (z *Summary) scanMember(member *mo_member.Member, info *mo_team.Info, c app
 
 func (z *Summary) scanTeamFolders(dummy string, info *mo_team.Info, c app_control.Control) error {
 	l := c.Log()
-	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
+	teamfolders, err := sv_teamfolder.New(z.Peer.Client()).List()
 	if err != nil {
 		l.Debug("Unable to retrieve team folders", esl.Error(err))
 		return err
@@ -385,18 +385,18 @@ func (z *Summary) Exec(c app_control.Control) error {
 		return err
 	}
 
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		l.Debug("Unable to retrieve admin info", esl.Error(err))
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
 
-	info, err := sv_team.New(z.Peer.Context()).Info()
+	info, err := sv_team.New(z.Peer.Client()).Info()
 	if err != nil {
 		return err
 	}

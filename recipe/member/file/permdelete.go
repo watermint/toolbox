@@ -35,7 +35,7 @@ func (z *Permdelete) Preset() {
 func (z *Permdelete) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.MemberEmail)
 	if err != nil {
 		return err
 	}
@@ -45,7 +45,7 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 		With("MemberEmail", member.Email).
 		With("Path", z.Path.Path()))
 
-	ctx := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
 
 	var del func(path mo_path.DropboxPath) error
 	del = func(path mo_path.DropboxPath) error {

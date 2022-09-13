@@ -64,18 +64,18 @@ func (z *Size) Exec(c app_control.Control) error {
 		return err
 	}
 
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
 	l.Debug("Run as admin", esl.Any("admin", admin))
 
-	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
+	namespaces, err := sv_namespace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
 
-	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
+	cta := z.Peer.Client().AsAdminId(admin.TeamMemberId)
 
 	scanFolderQueueId := "scan_folder"
 	scanSessionQueueId := "scan_session"

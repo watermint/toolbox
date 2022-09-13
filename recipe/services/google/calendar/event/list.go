@@ -64,7 +64,7 @@ func (z *List) Exec(c app_control.Control) error {
 		opts = append(opts, sv_event.TimeMax(z.End.Iso8601()))
 	}
 
-	return sv_event.New(z.Peer.Context()).ListEach(func(event *mo_event.Event) {
+	return sv_event.New(z.Peer.Client()).ListEach(func(event *mo_event.Event) {
 		if z.DoNotFilter {
 			z.Events.Row(event)
 			return

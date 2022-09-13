@@ -52,7 +52,7 @@ func (z *connSheets) Scopes() []string {
 	return z.scopes
 }
 
-func (z *connSheets) Context() goog_client.Client {
+func (z *connSheets) Client() goog_client.Client {
 	return z.ctx
 }
 

@@ -113,7 +113,7 @@ func (z *Email) update(u *EmailUpdate, c app_control.Control) error {
 	}
 
 	newEmail.Email = u.Row.ToEmail
-	newMember, err := sv_member.New(z.Peer.Context()).Update(newEmail)
+	newMember, err := sv_member.New(z.Peer.Client()).Update(newEmail)
 	if err != nil {
 		l.Debug("API returned an error", esl.Error(err))
 		z.OperationLog.Failure(err, u.Row)
@@ -126,7 +126,7 @@ func (z *Email) update(u *EmailUpdate, c app_control.Control) error {
 
 func (z *Email) Exec(c app_control.Control) error {
 	l := c.Log()
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	members, err := sv_member.New(ctx).List()
 	if err != nil {

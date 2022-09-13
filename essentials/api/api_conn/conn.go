@@ -8,11 +8,12 @@ const (
 	ServiceUtility         = ""
 	ServiceDropbox         = "dropbox"
 	ServiceDropboxBusiness = "dropbox_business"
+	ServiceAsana           = "asana"
 	ServiceGithub          = "github"
 	ServiceGoogleCalendar  = "google_calendar"
 	ServiceGoogleMail      = "google_mail"
 	ServiceGoogleSheets    = "google_sheets"
-	ServiceAsana           = "asana"
+	ServiceHelloSign       = "hellosign"
 	ServiceSlack           = "slack"
 )
 
@@ -26,6 +27,7 @@ var (
 		ServiceGoogleMail,
 		ServiceGoogleSheets,
 		ServiceSlack,
+		ServiceHelloSign,
 		ServiceUtility,
 	}
 )

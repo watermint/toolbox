@@ -45,7 +45,7 @@ func (z *UploadAppend) Exec(c app_control.Control) error {
 
 	var sessionId string
 	{
-		sessionRes := z.Peer.Context().Upload("files/upload_session/start",
+		sessionRes := z.Peer.Client().Upload("files/upload_session/start",
 			api_request.Content(es_rewinder.NewReadRewinderOnMemory([]byte{})),
 			api_request.Param(&startParam))
 		if err, f := sessionRes.Failure(); f {
@@ -90,7 +90,7 @@ func (z *UploadAppend) Exec(c app_control.Control) error {
 			},
 			Close: true,
 		}
-		appendRes := z.Peer.Context().Upload("files/upload_session/append_v2",
+		appendRes := z.Peer.Client().Upload("files/upload_session/append_v2",
 			api_request.Param(&appendParam),
 			api_request.Content(es_rewinder.NewReadRewinderOnMemory(dummyDataBlock2)))
 		if err, f := appendRes.Failure(); f {
@@ -107,7 +107,7 @@ func (z *UploadAppend) Exec(c app_control.Control) error {
 			},
 			Close: false,
 		}
-		appendRes := z.Peer.Context().Upload("files/upload_session/append_v2",
+		appendRes := z.Peer.Client().Upload("files/upload_session/append_v2",
 			api_request.Param(&appendParam),
 			api_request.Content(es_rewinder.NewReadRewinderOnMemory(dummyDataBlock1)))
 		if err, f := appendRes.Failure(); f {
@@ -146,7 +146,7 @@ func (z *UploadAppend) Exec(c app_control.Control) error {
 				ClientModified: dbx_util.ToApiTimeString(time.Now().Add(-10 * time.Hour)),
 			},
 		}
-		finishRes := z.Peer.Context().Upload("files/upload_session/finish",
+		finishRes := z.Peer.Client().Upload("files/upload_session/finish",
 			api_request.Content(es_rewinder.NewReadRewinderOnMemory([]byte{})),
 			api_request.Param(&finishParam))
 

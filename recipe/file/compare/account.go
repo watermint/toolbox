@@ -41,10 +41,10 @@ func (z *Account) Exec(c app_control.Control) error {
 	ui := c.UI()
 
 	ui.Info(z.ConnLeft)
-	ctxLeft := z.Left.Context()
+	ctxLeft := z.Left.Client()
 
 	ui.Info(z.ConnRight)
-	ctxRight := z.Right.Context()
+	ctxRight := z.Right.Client()
 
 	err := z.Diff.Open()
 	if err != nil {

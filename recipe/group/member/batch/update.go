@@ -39,7 +39,7 @@ func (z *Update) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svg := sv_group.NewCached(z.Peer.Context())
+	svg := sv_group.NewCached(z.Peer.Client())
 
 	l := c.Log()
 	expectedGroupAndMembers := make(map[string][]string)
@@ -75,7 +75,7 @@ func (z *Update) Exec(c app_control.Control) error {
 			return err
 		}
 
-		sgm := sv_group_member.New(z.Peer.Context(), g)
+		sgm := sv_group_member.New(z.Peer.Client(), g)
 		members, err := sgm.List()
 		if err != nil {
 			ll.Debug("Unable to retrieve group members", esl.Error(err))
@@ -105,8 +105,8 @@ func (z *Update) Exec(c app_control.Control) error {
 			return
 		}
 
-		s.Define(queueIdMemberAdd, memberAdd, svg, c, z.Peer.Context(), z.OperationLog)
-		s.Define(queueIdMemberDelete, memberDelete, svg, c, z.Peer.Context(), z.OperationLog)
+		s.Define(queueIdMemberAdd, memberAdd, svg, c, z.Peer.Client(), z.OperationLog)
+		s.Define(queueIdMemberDelete, memberDelete, svg, c, z.Peer.Client(), z.OperationLog)
 		qa := s.Get(queueIdMemberAdd)
 		qd := s.Get(queueIdMemberDelete)
 

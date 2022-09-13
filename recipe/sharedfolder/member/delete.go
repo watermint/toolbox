@@ -28,7 +28,7 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
-	sfr := uc_sharedfolder.NewResolver(z.Peer.Context())
+	sfr := uc_sharedfolder.NewResolver(z.Peer.Client())
 
 	sf, err := sfr.Resolve(z.Path)
 	if err != nil {
@@ -39,7 +39,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 	if z.LeaveCopy {
 		opts = append(opts, sv_sharedfolder_member.LeaveACopy())
 	}
-	err = sv_sharedfolder_member.New(z.Peer.Context(), sf).Remove(sv_sharedfolder_member.RemoveByEmail(z.Email), opts...)
+	err = sv_sharedfolder_member.New(z.Peer.Client(), sf).Remove(sv_sharedfolder_member.RemoveByEmail(z.Email), opts...)
 	if err != nil {
 		return err
 	}

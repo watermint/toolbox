@@ -8,7 +8,7 @@ import (
 type ConnScopedDropboxApi interface {
 	api_conn.ScopedConnection
 
-	Context() dbx_client.Client
+	Client() dbx_client.Client
 }
 
 type ConnScopedTeam interface {

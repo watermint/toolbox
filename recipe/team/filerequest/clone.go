@@ -44,7 +44,7 @@ func (z *Clone) Preset() {
 }
 
 func (z *Clone) Exec(c app_control.Control) error {
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -73,7 +73,7 @@ func (z *Clone) Exec(c app_control.Control) error {
 		if fm.DeadlineAllowLateUploads != "" {
 			opts = append(opts, sv_filerequest.OptAllowLateUploads(fm.DeadlineAllowLateUploads))
 		}
-		req, err := sv_filerequest.New(z.Peer.Context().AsMemberId(member.TeamMemberId)).Create(
+		req, err := sv_filerequest.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).Create(
 			fm.Title,
 			mo_path.NewDropboxPath(fm.Destination),
 			opts...,

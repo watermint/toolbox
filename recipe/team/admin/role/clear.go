@@ -24,12 +24,12 @@ func (z *Clear) Preset() {
 }
 
 func (z *Clear) Exec(c app_control.Control) error {
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.Email)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.Email)
 	if err != nil {
 		return err
 	}
 
-	_, err = sv_adminrole.New(z.Peer.Context()).UpdateRole(mo_user.NewUserSelectorByTeamMemberId(member.TeamMemberId), []string{})
+	_, err = sv_adminrole.New(z.Peer.Client()).UpdateRole(mo_user.NewUserSelectorByTeamMemberId(member.TeamMemberId), []string{})
 	if err != nil {
 		return err
 	}

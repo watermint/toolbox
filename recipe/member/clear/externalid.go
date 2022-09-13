@@ -45,7 +45,7 @@ func (z *Externalid) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-	svm := sv_member.NewCached(z.Peer.Context())
+	svm := sv_member.NewCached(z.Peer.Client())
 
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*EmailRow)

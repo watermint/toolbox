@@ -37,7 +37,7 @@ func (z *Mountable) Exec(c app_control.Control) error {
 		return err
 	}
 
-	mounts, err := sv_sharedfolder_mount.New(z.Peer.Context()).List()
+	mounts, err := sv_sharedfolder_mount.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

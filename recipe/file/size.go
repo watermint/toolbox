@@ -34,7 +34,7 @@ func (z *Size) Preset() {
 }
 
 func (z *Size) Exec(c app_control.Control) error {
-	fs := filesystem.NewFileSystem(z.Peer.Context())
+	fs := filesystem.NewFileSystem(z.Peer.Client())
 
 	factory := c.NewKvsFactory()
 	defer func() {

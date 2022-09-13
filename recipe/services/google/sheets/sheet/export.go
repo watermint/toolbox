@@ -33,7 +33,7 @@ func (z *Export) Preset() {
 }
 
 func (z *Export) Exec(c app_control.Control) error {
-	vr, err := sv_sheet.New(z.Peer.Context()).Export(
+	vr, err := sv_sheet.New(z.Peer.Client()).Export(
 		z.Id,
 		z.Range,
 		sv_sheet.DateTimeRenderOption(z.DateTimeRender.Value()),

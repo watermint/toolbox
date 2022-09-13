@@ -42,7 +42,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	err := sv_sharedfolder_mount.New(z.Peer.Context()).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
+	err := sv_sharedfolder_mount.New(z.Peer.Client()).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
 	if err != nil {
 		de := dbx_error.NewErrors(err)
 		switch {
@@ -54,7 +54,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		}
 	}
 
-	mount, err := sv_sharedfolder.New(z.Peer.Context()).Resolve(z.SharedFolderId)
+	mount, err := sv_sharedfolder.New(z.Peer.Client()).Resolve(z.SharedFolderId)
 	if err != nil {
 		return err
 	}

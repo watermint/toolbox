@@ -31,7 +31,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	spreadsheet, err := sv_spreadsheet.New(z.Peer.Context()).Resolve(z.Id)
+	spreadsheet, err := sv_spreadsheet.New(z.Peer.Client()).Resolve(z.Id)
 	if err != nil {
 		return err
 	}

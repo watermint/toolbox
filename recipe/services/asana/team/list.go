@@ -35,7 +35,7 @@ func (z *List) Preset() {
 
 func (z *List) listTeam(c app_control.Control, ws *mo_workspace.Workspace) error {
 	c.UI().Progress(z.ProgressWorkspace.With("Name", ws.Name))
-	svt := sv_team.New(z.Peer.Context())
+	svt := sv_team.New(z.Peer.Client())
 	teams, err := svt.List(sv_team.Workspace(ws))
 	if err != nil {
 		return err
@@ -54,7 +54,7 @@ func (z *List) listTeam(c app_control.Control, ws *mo_workspace.Workspace) error
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	workspaces, err := sv_workspace.New(z.Peer.Context()).List()
+	workspaces, err := sv_workspace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -64,7 +64,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	for _, wsCompact := range workspaces {
-		ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
+		ws, err := sv_workspace.New(z.Peer.Client()).Resolve(wsCompact.Gid)
 		if err != nil {
 			return err
 		}

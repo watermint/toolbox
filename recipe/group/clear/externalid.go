@@ -46,8 +46,8 @@ func (z *Externalid) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svg := sv_group.NewCached(z.Peer.Context())
-	svNoCache := sv_group.New(z.Peer.Context())
+	svg := sv_group.NewCached(z.Peer.Client())
+	svNoCache := sv_group.New(z.Peer.Client())
 
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*GroupNameRow)

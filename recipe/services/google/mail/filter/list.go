@@ -26,7 +26,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	filters, err := sv_filter.New(z.Peer.Context(), z.UserId).List()
+	filters, err := sv_filter.New(z.Peer.Client(), z.UserId).List()
 	if err != nil {
 		return err
 	}

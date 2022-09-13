@@ -105,7 +105,7 @@ func (z *Formula) makeFormula(c app_control.Control) (formula string, err error)
 
 func (z *Formula) getCurrentSha(c app_control.Control) (sha string, err error) {
 	l := c.Log()
-	svc := sv_content.New(z.Peer.Context(), z.Owner, z.Repository)
+	svc := sv_content.New(z.Peer.Client(), z.Owner, z.Repository)
 	opts := make([]sv_content.ContentOpt, 0)
 	opts = append(opts, sv_content.Ref(z.Branch))
 
@@ -124,7 +124,7 @@ func (z *Formula) getCurrentSha(c app_control.Control) (sha string, err error) {
 
 func (z *Formula) updateFormula(c app_control.Control, formula, sha string) error {
 	l := c.Log()
-	svc := sv_content.New(z.Peer.Context(), z.Owner, z.Repository)
+	svc := sv_content.New(z.Peer.Client(), z.Owner, z.Repository)
 	opts := make([]sv_content.ContentOpt, 0)
 	opts = append(opts, sv_content.Branch(z.Branch))
 	opts = append(opts, sv_content.Sha(sha))

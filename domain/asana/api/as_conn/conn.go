@@ -8,5 +8,5 @@ import (
 type ConnAsanaApi interface {
 	api_conn.ScopedConnection
 
-	Context() as_client.Client
+	Client() as_client.Client
 }

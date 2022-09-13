@@ -39,7 +39,7 @@ func (z *Scoped) Exec(c app_control.Control) error {
 	if err := z.FileList.Open(); err != nil {
 		return err
 	}
-	entries, err := sv_file.NewFiles(z.Individual.Context()).List(mo_path.NewDropboxPath("/"))
+	entries, err := sv_file.NewFiles(z.Individual.Client()).List(mo_path.NewDropboxPath("/"))
 	if err != nil {
 		return err
 	}
@@ -50,7 +50,7 @@ func (z *Scoped) Exec(c app_control.Control) error {
 	if err := z.MemberList.Open(); err != nil {
 		return err
 	}
-	members, err := sv_member.New(z.Team.Context()).List()
+	members, err := sv_member.New(z.Team.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func (z *Scoped) Exec(c app_control.Control) error {
 		z.MemberList.Row(member)
 	}
 
-	admin, err := sv_profile.NewTeam(z.Team.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Team.Client()).Admin()
 	if err != nil {
 		return err
 	}

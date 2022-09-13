@@ -51,7 +51,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	return sv_sharedlink_file.New(z.Peer.Context()).ListRecursive(z.Url, func(entry mo_file.Entry) {
+	return sv_sharedlink_file.New(z.Peer.Client()).ListRecursive(z.Url, func(entry mo_file.Entry) {
 		z.FileList.Row(entry.Concrete())
 	}, sv_sharedlink_file.Password(z.Password.Value()))
 }

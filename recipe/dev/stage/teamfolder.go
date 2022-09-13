@@ -72,13 +72,13 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	// find admin
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
 
 	// create team folder
-	tf, err := sv_teamfolder.New(z.Peer.Context()).Create(teamFolderName)
+	tf, err := sv_teamfolder.New(z.Peer.Client()).Create(teamFolderName)
 	de := dbx_error.NewErrors(err)
 	switch {
 	case de == nil:
@@ -87,7 +87,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 
 	case de.IsFolderNameAlreadyUsed():
 		l.Info("The folder already created")
-		teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
+		teamfolders, err := sv_teamfolder.New(z.Peer.Client()).List()
 		if err != nil {
 			l.Warn("Unable to retrieve team folder list", esl.Error(err))
 			return err
@@ -111,7 +111,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 
-	tfCtx := z.Peer.Context().AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(tf.TeamFolderId))
+	tfCtx := z.Peer.Client().AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(tf.TeamFolderId))
 
 	// create sub folder : Organization
 	folderOrganization, err := sv_file_folder.New(tfCtx).Create(mo_path.NewDropboxPath("/" + nestedFolderPlainName))
@@ -203,7 +203,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 
-	updated, err := sv_teamfolder.New(z.Peer.Context()).UpdateSyncSetting(tf,
+	updated, err := sv_teamfolder.New(z.Peer.Client()).UpdateSyncSetting(tf,
 		sv_teamfolder.AddNestedSetting(folderOrganizationMeta, sv_teamfolder.SyncSettingNotSynced),
 		sv_teamfolder.AddNestedSetting(folderSalesMeta, sv_teamfolder.SyncSettingNotSynced),
 	)
@@ -214,7 +214,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	l.Info("Sync settings updated", esl.Any("updated", updated))
 
 	// Create toolbox admin group
-	adminGroup, err := sv_group.New(z.Peer.Context()).Create(
+	adminGroup, err := sv_group.New(z.Peer.Client()).Create(
 		adminGroupName,
 		sv_group.CompanyManaged(),
 	)
@@ -225,7 +225,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 
 	case de.IsGroupNameAlreadyUsed():
 		l.Info("The admin group already created")
-		adminGroup, err = sv_group.New(z.Peer.Context()).ResolveByName(adminGroupName)
+		adminGroup, err = sv_group.New(z.Peer.Client()).ResolveByName(adminGroupName)
 		if err != nil {
 			l.Warn("Unable to find the admin group", esl.Error(err))
 			return err
@@ -237,7 +237,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	}
 
 	// Add the admin to the admin group
-	updatedAdminGroup, err := sv_group_member.NewByGroupId(z.Peer.Context(), adminGroup.GroupId).Add(
+	updatedAdminGroup, err := sv_group_member.NewByGroupId(z.Peer.Client(), adminGroup.GroupId).Add(
 		sv_group_member.ByTeamMemberId(admin.TeamMemberId),
 	)
 	de = dbx_error.NewErrors(err)
@@ -254,7 +254,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	}
 
 	// Create toolbox sample group
-	sampleGroup, err := sv_group.New(z.Peer.Context()).Create(
+	sampleGroup, err := sv_group.New(z.Peer.Client()).Create(
 		sampleGroupName,
 		sv_group.UserManaged(),
 	)
@@ -265,7 +265,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 
 	case de.IsGroupNameAlreadyUsed():
 		l.Info("The sample group already created")
-		sampleGroup, err = sv_group.New(z.Peer.Context()).ResolveByName(sampleGroupName)
+		sampleGroup, err = sv_group.New(z.Peer.Client()).ResolveByName(sampleGroupName)
 		if err != nil {
 			l.Warn("Unable to find the sample group", esl.Error(err))
 			return err
@@ -277,7 +277,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	}
 
 	// Add admin group to the team folder
-	err = sv_sharedfolder_member.NewByTeamFolder(z.Peer.Context().AsAdminId(admin.TeamMemberId), tf).Add(
+	err = sv_sharedfolder_member.NewByTeamFolder(z.Peer.Client().AsAdminId(admin.TeamMemberId), tf).Add(
 		sv_sharedfolder_member.AddByGroup(adminGroup, "editor"),
 	)
 	de = dbx_error.NewErrors(err)
@@ -291,7 +291,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 
 	// Do not inherit permission from parent : Sales/Report
 	for {
-		updatedFolderSalesReport, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderSalesReport.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
+		updatedFolderSalesReport, err := sv_sharedfolder.New(z.Peer.Client().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderSalesReport.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
 		de = dbx_error.NewErrors(err)
 		if de == nil {
 			l.Info("The sample group added to the team folder as editor", esl.Any("updated", updatedFolderSalesReport))
@@ -311,7 +311,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	}
 
 	// Add sample group to the nested folder
-	err = sv_sharedfolder_member.NewBySharedFolderId(z.Peer.Context().AsAdminId(admin.TeamMemberId), folderSalesReport.SharedFolderId).Add(
+	err = sv_sharedfolder_member.NewBySharedFolderId(z.Peer.Client().AsAdminId(admin.TeamMemberId), folderSalesReport.SharedFolderId).Add(
 		sv_sharedfolder_member.AddByGroup(sampleGroup, "editor"),
 	)
 	de = dbx_error.NewErrors(err)
@@ -325,7 +325,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	}
 
 	// Change folder policy : Sales
-	updatedSalesPolicy, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+	updatedSalesPolicy, err := sv_sharedfolder.New(z.Peer.Client().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
 		folderSales.SharedFolderId,
 		sv_sharedfolder.MemberPolicy("team"),
 		sv_sharedfolder.AclUpdatePolicy("owner"),
@@ -376,7 +376,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	}
 
 	// 2. set un-sync
-	updatedFinance, err := sv_teamfolder.New(z.Peer.Context()).UpdateSyncSetting(tf,
+	updatedFinance, err := sv_teamfolder.New(z.Peer.Client()).UpdateSyncSetting(tf,
 		sv_teamfolder.AddNestedSetting(folderOrganizationMeta, sv_teamfolder.SyncSettingNotSynced),
 		sv_teamfolder.AddNestedSetting(folderFinanceMeta, sv_teamfolder.SyncSettingNotSynced),
 	)
@@ -387,7 +387,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	l.Info("Sync settings updated", esl.Any("updated", updatedFinance))
 
 	// 3. set no_inherit
-	updatedFinanceInherit, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderFinance.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
+	updatedFinanceInherit, err := sv_sharedfolder.New(z.Peer.Client().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderFinance.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
 	if err != nil {
 		l.Warn("Unable to change: inherit", esl.Error(err))
 		return err
@@ -398,7 +398,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	//       |
 	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>
 
-	folderMarketing, err := sv_teamfolder.New(z.Peer.Context()).Create(teamFolderMarketing)
+	folderMarketing, err := sv_teamfolder.New(z.Peer.Client()).Create(teamFolderMarketing)
 	de = dbx_error.NewErrors(err)
 	switch {
 	case de == nil:
@@ -407,7 +407,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 
 	case de.IsFolderNameAlreadyUsed():
 		l.Info("The folder already created")
-		teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
+		teamfolders, err := sv_teamfolder.New(z.Peer.Client()).List()
 		if err != nil {
 			l.Warn("Unable to retrieve team folder list", esl.Error(err))
 			return err
@@ -431,12 +431,12 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 		return err
 	}
 
-	marketingCtx := z.Peer.Context().AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(folderMarketing.TeamFolderId))
+	marketingCtx := z.Peer.Client().AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(folderMarketing.TeamFolderId))
 
 	// Set acl_policy
 	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
 
-	updatedMarketingPolicy, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+	updatedMarketingPolicy, err := sv_sharedfolder.New(z.Peer.Client().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
 		folderMarketing.TeamFolderId,
 		sv_sharedfolder.AclUpdatePolicy("owner"),
 	)
@@ -452,7 +452,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	// Set acl_policy
 	//  +-- [Marketing] (nested folder, acl_policy=owner only)  <<teamFolderMarketing>>
 	// Add admin group to the team folder
-	err = sv_sharedfolder_member.NewByTeamFolder(z.Peer.Context().AsAdminId(admin.TeamMemberId), folderMarketing).Add(
+	err = sv_sharedfolder_member.NewByTeamFolder(z.Peer.Client().AsAdminId(admin.TeamMemberId), folderMarketing).Add(
 		sv_sharedfolder_member.AddByGroup(adminGroup, "editor"),
 	)
 	de = dbx_error.NewErrors(err)
@@ -497,7 +497,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 
 	// Workaround: Turn acl_policy=editor
 	// backup  acl_policy
-	folderMarketingPlanMeta, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).Resolve(folderMarketingPlan.SharedFolderId)
+	folderMarketingPlanMeta, err := sv_sharedfolder.New(z.Peer.Client().AsAdminId(admin.TeamMemberId)).Resolve(folderMarketingPlan.SharedFolderId)
 	de = dbx_error.NewErrors(err)
 	switch {
 	case de == nil:
@@ -515,7 +515,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== change it to acl_policy=editor
 	policyFolderMarketingPlanMetaChanged := false
 	if folderMarketingPlanMeta.PolicyManageAccess != "editors" {
-		updated, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+		updated, err := sv_sharedfolder.New(z.Peer.Client().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
 			folderMarketingPlan.SharedFolderId,
 			sv_sharedfolder.AclUpdatePolicy("editors"),
 		)
@@ -537,7 +537,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	//       |
 	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== set no inherit
 
-	updatedFolderMarketingPlan, err := sv_sharedfolder.New(z.Peer.Context().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderMarketingPlan.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
+	updatedFolderMarketingPlan, err := sv_sharedfolder.New(z.Peer.Client().AsMemberId(admin.TeamMemberId)).UpdateInheritance(folderMarketingPlan.SharedFolderId, sv_sharedfolder.AccessInheritanceNoInherit)
 	if err != nil {
 		l.Warn("Unable to change: inherit", esl.Error(err))
 		return err
@@ -549,7 +549,7 @@ func (z *Teamfolder) Exec(c app_control.Control) error {
 	//       |
 	//       +-- [Plan] (nested folder, no inherit) <<nestedFolderMarketingPlan>>      <=== restore
 	if policyFolderMarketingPlanMetaChanged {
-		restored, err := sv_sharedfolder.New(z.Peer.Context().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
+		restored, err := sv_sharedfolder.New(z.Peer.Client().AsAdminId(admin.TeamMemberId)).UpdatePolicy(
 			folderMarketingPlan.SharedFolderId,
 			sv_sharedfolder.AclUpdatePolicy(folderMarketingPlanMeta.PolicyManageAccess),
 		)

@@ -33,7 +33,7 @@ func (z *Doc) Exec(c app_control.Control) error {
 		return err
 	}
 
-	export, path, err := sv_file_content.NewExport(z.Peer.Context()).Export(z.DropboxPath, sv_file_content.ExportFormat(z.Format.Value()))
+	export, path, err := sv_file_content.NewExport(z.Peer.Client()).Export(z.DropboxPath, sv_file_content.ExportFormat(z.Format.Value()))
 	if err != nil {
 		return err
 	}

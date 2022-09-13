@@ -60,19 +60,19 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
 	l.Debug("Run as admin", esl.Any("admin", admin))
 
-	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
+	namespaces, err := sv_namespace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_namespace", z.scanNamespace, c, z.Peer.Context().AsAdminId(admin.TeamMemberId))
+		s.Define("scan_namespace", z.scanNamespace, c, z.Peer.Client().AsAdminId(admin.TeamMemberId))
 		q := s.Get("scan_namespace")
 		for _, namespace := range namespaces {
 			if namespace.NamespaceType != "team_folder" &&

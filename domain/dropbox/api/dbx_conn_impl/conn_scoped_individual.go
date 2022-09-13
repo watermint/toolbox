@@ -45,7 +45,7 @@ func (z *connScopedIndividual) ServiceName() string {
 	return api_conn.ServiceDropbox
 }
 
-func (z *connScopedIndividual) Context() dbx_client.Client {
+func (z *connScopedIndividual) Client() dbx_client.Client {
 	return z.ctx
 }
 

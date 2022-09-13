@@ -45,7 +45,7 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) delete(m *DeleteRow) error {
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 	svm := sv_member.New(ctx)
 
 	mem, err := svm.ResolveByEmail(m.Email)

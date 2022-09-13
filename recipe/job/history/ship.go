@@ -81,7 +81,7 @@ func (z *Ship) Exec(c app_control.Control) error {
 				z.OperationLog.Failure(err, si)
 				continue
 			}
-			entry, err := sv_file_content.NewUpload(z.Peer.Context()).Add(z.DropboxPath, path)
+			entry, err := sv_file_content.NewUpload(z.Peer.Client()).Add(z.DropboxPath, path)
 			if err != nil {
 				l.Debug("Unable to upload", esl.Error(err), esl.Any("history", h))
 				c.UI().Error(z.ErrorFailedUpload.With("JobId", h.JobId()).With("Error", err.Error()))

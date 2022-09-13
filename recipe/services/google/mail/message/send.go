@@ -56,7 +56,7 @@ func (z *Send) Exec(c app_control.Control) error {
 		Payload: msgPart,
 	}
 
-	sent, err := sv_message.New(z.Peer.Context(), z.UserId).Send(msg)
+	sent, err := sv_message.New(z.Peer.Client(), z.UserId).Send(msg)
 	if err != nil {
 		return err
 	}

@@ -32,7 +32,7 @@ func (z *Feature) Preset() {
 func (z *Feature) memberFeature(member *mo_member.Member, c app_control.Control) error {
 	l := c.Log().With(esl.String("scanMemberId", member.TeamMemberId), esl.String("scanMemberEmail", member.Email))
 	l.Debug("scan")
-	feature, err := sv_user.New(z.Peer.Context().AsMemberId(member.TeamMemberId)).Features()
+	feature, err := sv_user.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).Features()
 	if err != nil {
 		l.Debug("Unable to retrieve member features", esl.Error(err))
 		return err
@@ -47,7 +47,7 @@ func (z *Feature) Exec(c app_control.Control) error {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

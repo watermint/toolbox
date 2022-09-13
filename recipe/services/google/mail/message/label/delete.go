@@ -33,7 +33,7 @@ func (z *Delete) Preset() {
 
 func (z *Delete) Exec(c app_control.Control) error {
 	labelNames := strings.Split(z.Label, ",")
-	labels, missing, err := sv_label.NewCached(z.Peer.Context(), z.UserId).ResolveByNames(labelNames)
+	labels, missing, err := sv_label.NewCached(z.Peer.Client(), z.UserId).ResolveByNames(labelNames)
 	if err != nil {
 		c.UI().Error(z.ErrorLabelsNotFound.With("Labels", strings.Join(missing, ",")))
 		return err
@@ -46,7 +46,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	message, err := sv_message.New(z.Peer.Context(), z.UserId).Update(z.MessageId, sv_message.RemoveLabelIds(labelIds))
+	message, err := sv_message.New(z.Peer.Client(), z.UserId).Update(z.MessageId, sv_message.RemoveLabelIds(labelIds))
 	if err != nil {
 		return err
 	}

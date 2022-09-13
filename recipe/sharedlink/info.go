@@ -39,7 +39,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		return err
 	}
 
-	link, err := sv_sharedlink.New(z.Peer.Context()).Resolve(z.Url, z.Password.Value())
+	link, err := sv_sharedlink.New(z.Peer.Client()).Resolve(z.Url, z.Password.Value())
 	if err != nil {
 		return err
 	}

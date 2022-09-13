@@ -43,7 +43,7 @@ func (z *List) Preset() {
 
 func (z *List) scanMember(member *mo_member.Member, c app_control.Control) error {
 	l := c.Log().With(esl.Any("member", member))
-	ctx := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	l.Debug("Scan member")
 
 	mounts, err := sv_sharedfolder_mount.New(ctx).List()
@@ -64,7 +64,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

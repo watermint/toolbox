@@ -53,7 +53,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) listTask(taskCompact *mo_task.Task, s eq_sequence.Stage) error {
-	svt := sv_task.New(z.Peer.Context())
+	svt := sv_task.New(z.Peer.Client())
 	task, err := svt.Resolve(taskCompact.Gid)
 	if err != nil {
 		return err
@@ -64,7 +64,7 @@ func (z *List) listTask(taskCompact *mo_task.Task, s eq_sequence.Stage) error {
 
 func (z *List) listTasks(prj *mo_project.Project, s eq_sequence.Stage) error {
 	//c.UI().Progress(z.ProgressProject.With("Name", prj.Name))
-	svt := sv_task.New(z.Peer.Context())
+	svt := sv_task.New(z.Peer.Client())
 	tasks, err := svt.List(sv_task.Project(prj))
 	if err != nil {
 		return err
@@ -79,7 +79,7 @@ func (z *List) listTasks(prj *mo_project.Project, s eq_sequence.Stage) error {
 
 func (z *List) listProjects(team *mo_team.Team, s eq_sequence.Stage) error {
 	//c.UI().Progress(z.ProgressTeam.With("Name", team.Name))
-	prjs, err := sv_project.New(z.Peer.Context()).List(sv_project.Team(team))
+	prjs, err := sv_project.New(z.Peer.Client()).List(sv_project.Team(team))
 	if err != nil {
 		return err
 	}
@@ -95,7 +95,7 @@ func (z *List) listProjects(team *mo_team.Team, s eq_sequence.Stage) error {
 
 func (z *List) listTeam(ws *mo_workspace.Workspace, s eq_sequence.Stage) error {
 	//c.UI().Progress(z.ProgressWorkspace.With("Name", ws.Name))
-	teams, err := sv_team.New(z.Peer.Context()).List(sv_team.Workspace(ws))
+	teams, err := sv_team.New(z.Peer.Client()).List(sv_team.Workspace(ws))
 	if err != nil {
 		return err
 	}
@@ -112,7 +112,7 @@ func (z *List) listTeam(ws *mo_workspace.Workspace, s eq_sequence.Stage) error {
 
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
-	workspaces, err := sv_workspace.New(z.Peer.Context()).List()
+	workspaces, err := sv_workspace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -130,7 +130,7 @@ func (z *List) Exec(c app_control.Control) error {
 		q := s.Get("team")
 
 		for _, wsCompact := range workspaces {
-			ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
+			ws, err := sv_workspace.New(z.Peer.Client()).Resolve(wsCompact.Gid)
 			if err != nil {
 				l.Warn("Unable to retrieve workspace", esl.Error(err))
 				continue

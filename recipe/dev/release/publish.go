@@ -208,7 +208,7 @@ func (z *Publish) ghCtx(c app_control.Control) gh_client.Client {
 	if c.Feature().IsTest() {
 		return gh_client_impl.NewMock("mock", c)
 	} else {
-		return z.ConnGithub.Context()
+		return z.ConnGithub.Client()
 	}
 }
 

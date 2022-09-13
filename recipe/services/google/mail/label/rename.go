@@ -33,7 +33,7 @@ func (z *Rename) Preset() {
 
 func (z *Rename) Exec(c app_control.Control) error {
 	l := c.Log()
-	svl := sv_label.New(z.Peer.Context(), z.UserId)
+	svl := sv_label.New(z.Peer.Client(), z.UserId)
 
 	labels, err := svl.List()
 	if err != nil {

@@ -44,7 +44,7 @@ func (z *Down) Exec(c app_control.Control) error {
 		ru.DropboxPath = z.DropboxPath
 		ru.Overwrite = !z.SkipExisting
 		ru.Name = z.Name
-		ru.Context = z.Peer.Context()
+		ru.Context = z.Peer.Client()
 	})
 }
 

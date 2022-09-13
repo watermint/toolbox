@@ -46,7 +46,7 @@ func (z *Share) Exec(c app_control.Control) error {
 	if err := z.Shared.Open(); err != nil {
 		return err
 	}
-	sf, err := sv_sharedfolder.New(z.Peer.Context()).Create(
+	sf, err := sv_sharedfolder.New(z.Peer.Client()).Create(
 		z.Path,
 		sv_sharedfolder.AclUpdatePolicy(z.AclUpdatePolicy.Value()),
 		sv_sharedfolder.MemberPolicy(z.MemberPolicy.Value()),

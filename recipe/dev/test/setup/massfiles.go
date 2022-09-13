@@ -148,7 +148,7 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 	offsets := make(map[string]int64)
 	sessionMutex := sync.Mutex{}
 	batchSize := z.BatchSize.Value()
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	pageContent := func(p Page) string {
 		switch len(p.Revision) {

@@ -52,23 +52,23 @@ func (z *Replication) Preset() {
 }
 
 func (z *Replication) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Src.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Src.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupportedSrc)
 		return errors.New("team space is not supported by this command")
 	}
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Dst.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Dst.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupportedDst)
 		return errors.New("team space is not supported by this command")
 	}
 
 	l := c.Log()
 	ui := c.UI()
-	srcAdmin, err := sv_profile.NewTeam(z.Src.Context()).Admin()
+	srcAdmin, err := sv_profile.NewTeam(z.Src.Client()).Admin()
 	if err != nil {
 		l.Debug("Unable to resolve src admin", esl.Error(err))
 		return err
 	}
-	srcTeamFolder, err := sv_teamfolder.New(z.Src.Context()).ResolveByName(z.SrcTeamFolderName)
+	srcTeamFolder, err := sv_teamfolder.New(z.Src.Client()).ResolveByName(z.SrcTeamFolderName)
 	if err != nil {
 		l.Debug("Unable to find the src team folder", esl.Error(err))
 		ui.Error(z.ErrSrcTeamFolderNotFound.With("Name", z.SrcTeamFolderName).With("Error", err))
@@ -76,12 +76,12 @@ func (z *Replication) Exec(c app_control.Control) error {
 	}
 	l.Debug("Source team folder found", esl.Any("srcTeamFolder", srcTeamFolder))
 
-	dstAdmin, err := sv_profile.NewTeam(z.Dst.Context()).Admin()
+	dstAdmin, err := sv_profile.NewTeam(z.Dst.Client()).Admin()
 	if err != nil {
 		l.Debug("Unable to resolve dst admin", esl.Error(err))
 		return err
 	}
-	dstTeamFolder, err := sv_teamfolder.New(z.Dst.Context()).ResolveByName(z.DstTeamFolderName)
+	dstTeamFolder, err := sv_teamfolder.New(z.Dst.Client()).ResolveByName(z.DstTeamFolderName)
 	if err != nil {
 		l.Debug("Unable to find the dst team folder", esl.Error(err))
 		ui.Error(z.ErrDstTeamFolderNotFound.With("Name", z.DstTeamFolderName).With("Error", err))
@@ -89,8 +89,8 @@ func (z *Replication) Exec(c app_control.Control) error {
 	}
 	l.Debug("Dest team folder found", esl.Any("dstTeamFolder", dstTeamFolder))
 
-	srcCtx := z.Src.Context().AsMemberId(srcAdmin.TeamMemberId).WithPath(dbx_client.Namespace(srcTeamFolder.TeamFolderId))
-	dstCtx := z.Dst.Context().AsMemberId(dstAdmin.TeamMemberId).WithPath(dbx_client.Namespace(dstTeamFolder.TeamFolderId))
+	srcCtx := z.Src.Client().AsMemberId(srcAdmin.TeamMemberId).WithPath(dbx_client.Namespace(srcTeamFolder.TeamFolderId))
+	dstCtx := z.Dst.Client().AsMemberId(dstAdmin.TeamMemberId).WithPath(dbx_client.Namespace(dstTeamFolder.TeamFolderId))
 
 	mirror := uc_file_mirror.New(srcCtx, dstCtx)
 	return mirror.Mirror(z.SrcPath, z.DstPath)

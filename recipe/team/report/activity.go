@@ -32,7 +32,7 @@ func (z *Activity) Exec(c app_control.Control) error {
 		return err
 	}
 
-	activity, err := sv_team.NewReport(z.Peer.Context()).Activity(sv_team.NewSpan(z.StartDate, z.EndDate))
+	activity, err := sv_team.NewReport(z.Peer.Client()).Activity(sv_team.NewSpan(z.StartDate, z.EndDate))
 	if err != nil {
 		return err
 	}

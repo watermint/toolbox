@@ -27,7 +27,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.FileRequests.Open(); err != nil {
 		return err
 	}
-	reqs, err := sv_filerequest.New(z.Peer.Context()).List()
+	reqs, err := sv_filerequest.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

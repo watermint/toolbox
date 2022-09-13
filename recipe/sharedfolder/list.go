@@ -45,7 +45,7 @@ func (z *List) Test(c app_control.Control) error {
 
 func (z *List) Exec(c app_control.Control) error {
 	c.Log().Debug("Scanning folders")
-	folders, err := sv_sharedfolder.New(z.Peer.Context()).List()
+	folders, err := sv_sharedfolder.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

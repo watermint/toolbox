@@ -53,12 +53,12 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
 
-	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Context(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err

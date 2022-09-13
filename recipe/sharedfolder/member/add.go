@@ -35,7 +35,7 @@ func (z *Add) Preset() {
 }
 
 func (z *Add) Exec(c app_control.Control) error {
-	sfr := uc_sharedfolder.NewResolver(z.Peer.Context())
+	sfr := uc_sharedfolder.NewResolver(z.Peer.Client())
 
 	sf, err := sfr.Resolve(z.Path)
 	if err != nil {
@@ -49,7 +49,7 @@ func (z *Add) Exec(c app_control.Control) error {
 	if z.Message.IsExists() {
 		opts = append(opts, sv_sharedfolder_member.AddCustomMessage(z.Message.Value()))
 	}
-	err = sv_sharedfolder_member.New(z.Peer.Context(), sf).Add(sv_sharedfolder_member.AddByEmail(z.Email, z.AccessLevel.Value()), opts...)
+	err = sv_sharedfolder_member.New(z.Peer.Client(), sf).Add(sv_sharedfolder_member.AddByEmail(z.Email, z.AccessLevel.Value()), opts...)
 	if err != nil {
 		return err
 	}

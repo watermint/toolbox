@@ -44,7 +44,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		Sha1:       z.Sha1,
 	}
 
-	tag, err := sv_reference.New(z.Peer.Context(), z.Owner, z.Repository).Create("refs/tags/"+z.Tag, z.Sha1)
+	tag, err := sv_reference.New(z.Peer.Client(), z.Owner, z.Repository).Create("refs/tags/"+z.Tag, z.Sha1)
 	if err != nil {
 		z.Created.Failure(err, ct)
 		return err

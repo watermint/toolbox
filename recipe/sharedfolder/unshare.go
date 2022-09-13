@@ -27,12 +27,12 @@ func (z *Unshare) Preset() {
 }
 
 func (z *Unshare) Exec(c app_control.Control) error {
-	sf, err := uc_sharedfolder.NewResolver(z.Peer.Context()).Resolve(z.Path)
+	sf, err := uc_sharedfolder.NewResolver(z.Peer.Client()).Resolve(z.Path)
 	if err != nil {
 		return err
 	}
 
-	return sv_sharedfolder.New(z.Peer.Context()).Remove(sf, sv_sharedfolder.LeaveACopy(z.LeaveCopy))
+	return sv_sharedfolder.New(z.Peer.Client()).Remove(sf, sv_sharedfolder.LeaveACopy(z.LeaveCopy))
 }
 
 func (z *Unshare) Test(c app_control.Control) error {

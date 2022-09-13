@@ -20,7 +20,7 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
-	return sv_sheet.New(z.Peer.Context()).Delete(z.Id, z.SheetId)
+	return sv_sheet.New(z.Peer.Client()).Delete(z.Id, z.SheetId)
 }
 
 func (z *Delete) Test(c app_control.Control) error {

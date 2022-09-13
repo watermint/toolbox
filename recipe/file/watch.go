@@ -18,7 +18,7 @@ type Watch struct {
 }
 
 func (z *Watch) Exec(c app_control.Control) error {
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 	opts := make([]sv_file.ListOpt, 0)
 	opts = append(opts, sv_file.Recursive(z.Recursive))
 	w := rp_writer_impl.NewJsonWriter("entries", c, true)

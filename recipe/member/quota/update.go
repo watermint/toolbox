@@ -52,7 +52,7 @@ func (z *Update) updateQuota(mq *UpdateMemberQuota) error {
 		Quota: mq.Quota,
 	}
 
-	newQuota, err := sv_member_quota.NewQuota(z.Peer.Context()).Update(q)
+	newQuota, err := sv_member_quota.NewQuota(z.Peer.Client()).Update(q)
 	if err != nil {
 		z.OperationLog.Failure(err, in)
 	} else {
@@ -62,7 +62,7 @@ func (z *Update) updateQuota(mq *UpdateMemberQuota) error {
 }
 
 func (z *Update) Exec(c app_control.Control) error {
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	members, err := sv_member.New(ctx).List()
 	if err != nil {

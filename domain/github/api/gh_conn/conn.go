@@ -8,7 +8,7 @@ import (
 type ConnGithub interface {
 	api_conn.Connection
 
-	Context() gh_client.Client
+	Client() gh_client.Client
 }
 
 type ConnGithubPublic interface {

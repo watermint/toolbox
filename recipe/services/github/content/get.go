@@ -32,7 +32,7 @@ func (z *Get) Exec(c app_control.Control) error {
 	if z.Ref.IsExists() {
 		opts = append(opts, sv_content.Ref(z.Ref.Value()))
 	}
-	cts, err := sv_content.New(z.Peer.Context(), z.Owner, z.Repository).Get(z.Path, opts...)
+	cts, err := sv_content.New(z.Peer.Client(), z.Owner, z.Repository).Get(z.Path, opts...)
 	if err != nil {
 		return err
 	}

@@ -107,7 +107,7 @@ func (z *Client) syncJournal(c app_control.Control) error {
 		return err
 	}
 
-	sv := sv_file_content.NewUpload(z.Peer.Context())
+	sv := sv_file_content.NewUpload(z.Peer.Client())
 	basePath := z.SyncPath.ChildPath(es_filepath.Escape(z.Name), z.currentStart.Format("2006-01"), z.currentStart.Format("2006-01-02"))
 	for _, f := range files {
 		if !strings.HasPrefix(f.Name(), monitorFilePrefix) {
