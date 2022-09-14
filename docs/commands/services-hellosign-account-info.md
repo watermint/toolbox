@@ -43,7 +43,6 @@ watermint toolbox xx.x.xxx
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Please enter your credential(s).
-Enter your app API key, which can be retrieved from the API tab of your API Settings page.
 ```
 
 # Installation

@@ -25,7 +25,11 @@ type connScopedTeam struct {
 }
 
 func (z *connScopedTeam) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(z.Scopes(), z.name, ctl, dbx_auth.DropboxTeam)
+	currentScope := z.Scopes()
+	if ctl.Feature().Experiment(app.ExperimentDbxAuthCourseGrainedScope) {
+		currentScope = []string{}
+	}
+	z.ctx, err = connect(currentScope, z.name, ctl, dbx_auth.DropboxTeam)
 	return err
 }
 
