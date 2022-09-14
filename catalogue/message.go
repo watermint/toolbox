@@ -19,6 +19,7 @@ import (
 	essentialsapiapi_auth_basic "github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	essentialsapiapi_auth_oauth "github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	essentialsapiapi_callback "github.com/watermint/toolbox/essentials/api/api_callback"
+	essentialsapiapi_doc "github.com/watermint/toolbox/essentials/api/api_doc"
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
@@ -70,6 +71,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&essentialsapiapi_auth_basic.MsgConsole{},
 		&essentialsapiapi_auth_oauth.MsgApiAuth{},
 		&essentialsapiapi_callback.MsgCallback{},
+		&essentialsapiapi_doc.MsgApiDoc{},
 		&essentialslogesl_rotate.MsgOut{},
 		&essentialslogesl_rotate.MsgPurge{},
 		&essentialslogesl_rotate.MsgRotate{},

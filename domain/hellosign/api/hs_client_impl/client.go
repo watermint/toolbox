@@ -23,6 +23,7 @@ func NewMock(name string, ctl app_control.Control) hs_client.Client {
 		peerName: name,
 		client:   nw_rest_factory.New(nw_rest_factory.Mock()),
 		ctl:      ctl,
+		builder:  hs_request.NewBuilder(),
 	}
 }
 

@@ -34,7 +34,8 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647)) account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647)) account.
+Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
 ```
 
 watermint toolbox xx.x.xxx
@@ -43,13 +44,9 @@ watermint toolbox xx.x.xxx
 © 2016-2022 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
+Opening the authorization URL:
 https://app.asana.com/-/oauth_authorize?client_id=xxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=default&state=xxxxxxxx
 
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
 ```
 
 # Installation

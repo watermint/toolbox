@@ -32,7 +32,8 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your HelloSign account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your HelloSign account.
+Log in to HelloSign and copy the API key of your application from API Integration. Enter the copied API key into tbx.
 ```
 
 watermint toolbox xx.x.xxx
@@ -41,13 +42,8 @@ watermint toolbox xx.x.xxx
 © 2016-2022 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
-https://api.hellosign.com/v3
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+Please enter your credential(s).
+Enter your app API key, which can be retrieved from the API tab of your API Settings page.
 ```
 
 # Installation
