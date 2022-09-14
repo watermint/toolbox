@@ -4,9 +4,47 @@ title: コマンド
 lang: ja
 ---
 
-# dev ci auth import
+# util release install
 
-環境変数はエンドツーエンドトークンをインポートします 
+watermint toolboxをダウンロードし、パスにインストールします。 
+
+# セキュリティ
+
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+
+| OS      | パス                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+
+方法は次のヘルプセンター記事をご参照ください:
+* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+
+## 認可スコープ
+
+| 説明 |
+|------|
+
+# 認可
+
+最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2022 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+認可URLを開きます:
+https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+
+```
 
 # インストール
 
@@ -22,12 +60,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev ci auth import 
+.\tbx.exe util release install -path /LOCAL/PATH/TO/INSTALL
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev ci auth import 
+$HOME/Desktop/tbx util release install -path /LOCAL/PATH/TO/INSTALL
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,15 +76,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明             | デフォルト             |
-|--------------|------------------|------------------------|
-| `-env-name`  | 環境変数名       | TOOLBOX_ENDTOEND_TOKEN |
-| `-peer-name` | アカウントの別名 | end_to_end_test        |
+| オプション                  | 説明                                 | デフォルト |
+|-----------------------------|--------------------------------------|------------|
+| `-accept-license-agreement` | 対象リリースの使用許諾契約に同意する | false      |
+| `-path`                     | インストールするパス                 |            |
+| `-release`                  | リリースタグ名                       | latest     |
 
 ## 共通のオプション:
 
 | オプション         | 説明                                                                                               | デフォルト     |
 |--------------------|----------------------------------------------------------------------------------------------------|----------------|
+| `-auth-database`   | 認証データベースへのカスタムパス (デフォルト: $HOME/.toolbox/secrets/secrets.db)                   |                |
 | `-auto-open`       | 成果物フォルダまたはURLを自動で開く                                                                | false          |
 | `-bandwidth-kb`    | コンテンツをアップロードまたはダウンロードする際の帯域幅制限(Kバイト毎秒). 0の場合、制限を行わない | 0              |
 | `-budget-memory`   | メモリの割り当て目標 (メモリ使用量を減らすために幾つかの機能が制限されます)                        | normal         |

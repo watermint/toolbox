@@ -183,30 +183,21 @@ lang: ja
 | [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication]({{ site.baseurl }}/ja/commands/teamfolder-replication.html)                                           | チームフォルダを他のチームに複製します                                                  |
 
-## Asana
-
-| コマンド                                                                                                           | 説明                             |
-|--------------------------------------------------------------------------------------------------------------------|----------------------------------|
-| [services asana team list]({{ site.baseurl }}/ja/commands/services-asana-team-list.html)                           | チームのリスト                   |
-| [services asana team project list]({{ site.baseurl }}/ja/commands/services-asana-team-project-list.html)           | チームのプロジェクト一覧         |
-| [services asana team task list]({{ site.baseurl }}/ja/commands/services-asana-team-task-list.html)                 | チームのタスク一覧               |
-| [services asana workspace list]({{ site.baseurl }}/ja/commands/services-asana-workspace-list.html)                 | ワークスペースの一覧             |
-| [services asana workspace project list]({{ site.baseurl }}/ja/commands/services-asana-workspace-project-list.html) | ワークスペースのプロジェクト一覧 |
-
 ## GitHub
 
-| コマンド                                                                                                             | 説明                                             |
-|----------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| [services github content get]({{ site.baseurl }}/ja/commands/services-github-content-get.html)                       | レポジトリのコンテンツメタデータを取得します.    |
-| [services github content put]({{ site.baseurl }}/ja/commands/services-github-content-put.html)                       | レポジトリに小さなテキストコンテンツを格納します |
-| [services github issue list]({{ site.baseurl }}/ja/commands/services-github-issue-list.html)                         | 公開・プライベートGitHubレポジトリの課題一覧     |
-| [services github profile]({{ site.baseurl }}/ja/commands/services-github-profile.html)                               | 認証したユーザーの情報を取得                     |
-| [services github release asset download]({{ site.baseurl }}/ja/commands/services-github-release-asset-download.html) | アセットをダウンロードします                     |
-| [services github release asset list]({{ site.baseurl }}/ja/commands/services-github-release-asset-list.html)         | GitHubリリースの成果物一覧                       |
-| [services github release asset upload]({{ site.baseurl }}/ja/commands/services-github-release-asset-upload.html)     | GitHub リリースへ成果物をアップロードします      |
-| [services github release draft]({{ site.baseurl }}/ja/commands/services-github-release-draft.html)                   | リリースの下書きを作成                           |
-| [services github release list]({{ site.baseurl }}/ja/commands/services-github-release-list.html)                     | リリースの一覧                                   |
-| [services github tag create]({{ site.baseurl }}/ja/commands/services-github-tag-create.html)                         | レポジトリにタグを作成します                     |
+| コマンド                                                                                                             | 説明                                                          |
+|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [services github content get]({{ site.baseurl }}/ja/commands/services-github-content-get.html)                       | レポジトリのコンテンツメタデータを取得します.                 |
+| [services github content put]({{ site.baseurl }}/ja/commands/services-github-content-put.html)                       | レポジトリに小さなテキストコンテンツを格納します              |
+| [services github issue list]({{ site.baseurl }}/ja/commands/services-github-issue-list.html)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |
+| [services github profile]({{ site.baseurl }}/ja/commands/services-github-profile.html)                               | 認証したユーザーの情報を取得                                  |
+| [services github release asset download]({{ site.baseurl }}/ja/commands/services-github-release-asset-download.html) | アセットをダウンロードします                                  |
+| [services github release asset list]({{ site.baseurl }}/ja/commands/services-github-release-asset-list.html)         | GitHubリリースの成果物一覧                                    |
+| [services github release asset upload]({{ site.baseurl }}/ja/commands/services-github-release-asset-upload.html)     | GitHub リリースへ成果物をアップロードします                   |
+| [services github release draft]({{ site.baseurl }}/ja/commands/services-github-release-draft.html)                   | リリースの下書きを作成                                        |
+| [services github release list]({{ site.baseurl }}/ja/commands/services-github-release-list.html)                     | リリースの一覧                                                |
+| [services github tag create]({{ site.baseurl }}/ja/commands/services-github-tag-create.html)                         | レポジトリにタグを作成します                                  |
+| [util release install]({{ site.baseurl }}/ja/commands/util-release-install.html)                                     | watermint toolboxをダウンロードし、パスにインストールします。 |
 
 ## Google Calendar
 
@@ -247,12 +238,6 @@ lang: ja
 | [services google sheets sheet import]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-import.html)             | スプレッドシートにデータをインポート |
 | [services google sheets sheet list]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-list.html)                 | スプレッドシートのシート一覧         |
 | [services google sheets spreadsheet create]({{ site.baseurl }}/ja/commands/services-google-sheets-spreadsheet-create.html) | 新しいスプレッドシートの作成         |
-
-## Slack
-
-| コマンド                                                                                                 | 説明           |
-|----------------------------------------------------------------------------------------------------------|----------------|
-| [services slack conversation list]({{ site.baseurl }}/ja/commands/services-slack-conversation-list.html) | チャネルの一覧 |
 
 ## ユーティリティー
 

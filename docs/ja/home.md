@@ -6,8 +6,7 @@ Dropbox、Dropbox Business、Google、GitHubなどのWebサービスに対応し
 
 # watermint toolboxでもっとできること
 
-watermint toolboxには、日々の作業を解決するための249コマンドが用意されています. 例えば、あなたがDropbox Businessの管理者で、グループを管理する必要がある場合.
-グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
+watermint toolboxには、日々の作業を解決するための244コマンドが用意されています. 例えば、あなたがDropbox Businessの管理者で、グループを管理する必要がある場合. グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -24,7 +23,7 @@ watermint toolboxは、Windows、macOS（Darwin）、Linux上で、追加のラ�
 
 コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます. ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
 
-## macOSでHomebrewを使いインストール
+## macOS/LinuxでHomebrewを使ってインストールする。
 
 まずHomebrewをインストールします. 手順は [オフィシャルサイト](https://brew.sh/)を参照してください. 次のコマンドを実行してwatermint toolboxをインストールします.
 ```
