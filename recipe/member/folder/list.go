@@ -92,28 +92,28 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.MemberWithNoFolder.Open(rp_model.NoConsoleOutput()); err != nil {
 		return err
 	}
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
-	team, err := sv_team.New(z.Peer.Context()).Info()
+	team, err := sv_team.New(z.Peer.Client()).Info()
 	if err != nil {
 		return err
 	}
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
 	emailToMember := mo_member.MapByEmail(members)
 	memberInUse := make(map[string]bool)
 
-	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Context(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err
 	}
 
-	memberFolderScanner := uc_member_folder.New(c, z.Peer.Context())
+	memberFolderScanner := uc_member_folder.New(c, z.Peer.Client())
 	memberFolders, err := memberFolderScanner.Scan(z.Folder)
 	if err != nil {
 		l.Debug("Failed to scan member folders", esl.Error(err))
@@ -122,7 +122,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_folder_members", uc_folder_member.ScanFolderMember, z.Peer.Context(), z.FolderMember, z.FolderOrphaned)
+		s.Define("scan_folder_members", uc_folder_member.ScanFolderMember, z.Peer.Client(), z.FolderMember, z.FolderOrphaned)
 		q := s.Get("scan_folder_members")
 
 		for _, tf := range teamFolders {

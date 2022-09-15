@@ -29,7 +29,7 @@ func (z *Unsuspend) Preset() {
 
 func (z *Unsuspend) Exec(c app_control.Control) error {
 	l := c.Log().With(esl.String("email", z.Email))
-	svm := sv_member.New(z.Peer.Context())
+	svm := sv_member.New(z.Peer.Client())
 	member, err := svm.ResolveByEmail(z.Email)
 	if err != nil {
 		c.UI().Error(z.ErrorMemberNotFound.With("Error", err))

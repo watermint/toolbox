@@ -54,7 +54,7 @@ func (z *List) Test(c app_control.Control) error {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	members, err := sv_member.New(z.Peer.Context()).List(sv_member.IncludeDeleted(z.IncludeDeleted))
+	members, err := sv_member.New(z.Peer.Client()).List(sv_member.IncludeDeleted(z.IncludeDeleted))
 	if err != nil {
 		return err
 	}

@@ -42,7 +42,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	return sv_file_lock.New(z.Peer.Context()).List(z.Path, func(entry *mo_file.LockInfo) {
+	return sv_file_lock.New(z.Peer.Client()).List(z.Path, func(entry *mo_file.LockInfo) {
 		z.Lock.Row(entry)
 	})
 }

@@ -1,10 +1,10 @@
 package as_pagination
 
 import (
-	"github.com/watermint/toolbox/domain/asana/api/as_context"
+	"github.com/watermint/toolbox/domain/asana/api/as_client"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 const (
@@ -17,11 +17,11 @@ type Pagination interface {
 	OnData(handler func(entry es_json.Json) error) error
 }
 
-func New(ctx as_context.Context) Pagination {
+func New(ctx as_client.Client) Pagination {
 	return NewWithLimit(ctx, defaultLimit)
 }
 
-func NewWithLimit(ctx as_context.Context, limit int) Pagination {
+func NewWithLimit(ctx as_client.Client, limit int) Pagination {
 	return &pgImpl{
 		ctx:   ctx,
 		limit: limit,
@@ -29,7 +29,7 @@ func NewWithLimit(ctx as_context.Context, limit int) Pagination {
 }
 
 type pgImpl struct {
-	ctx      as_context.Context
+	ctx      as_client.Client
 	limit    int
 	data     []api_request.RequestDatum
 	endpoint string

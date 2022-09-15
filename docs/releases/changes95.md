@@ -27,7 +27,7 @@ lang: en
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -61,9 +61,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -94,9 +95,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -126,9 +128,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -158,6 +161,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -167,7 +171,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -201,6 +205,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -210,7 +215,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -246,6 +251,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -255,7 +261,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -283,6 +289,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -292,7 +299,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -322,6 +329,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -331,7 +339,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -366,6 +374,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -375,7 +384,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -410,6 +419,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -419,7 +429,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -454,6 +464,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -463,7 +474,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -498,9 +509,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -534,9 +546,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

@@ -55,7 +55,7 @@ func (z *Url) Exec(c app_control.Control) error {
 		return err
 	}
 
-	link, err := sv_sharedlink.New(z.Peer.Context()).Resolve(z.Url, z.Password.Value())
+	link, err := sv_sharedlink.New(z.Peer.Client()).Resolve(z.Url, z.Password.Value())
 	if err != nil {
 		l.Debug("Unable to retrieve shared link")
 		return err
@@ -66,7 +66,7 @@ func (z *Url) Exec(c app_control.Control) error {
 		return errors.New("the document is not in your dropbox")
 	}
 
-	export, path, err := sv_file_content.NewExport(z.Peer.Context()).Export(mo_path2.NewDropboxPath(link.PathLower()),
+	export, path, err := sv_file_content.NewExport(z.Peer.Client()).Export(mo_path2.NewDropboxPath(link.PathLower()),
 		sv_file_content.ExportFormat(z.Format.Value()))
 	if err != nil {
 		return err

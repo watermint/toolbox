@@ -39,7 +39,7 @@ func (z *Draft) Exec(c app_control.Control) error {
 	if err := z.Release.Open(); err != nil {
 		return err
 	}
-	svr := sv_release.New(z.Peer.Context(), z.Owner, z.Repository)
+	svr := sv_release.New(z.Peer.Client(), z.Owner, z.Repository)
 	rel, err := svr.CreateDraft(z.Tag, z.Name, string(body), z.Branch)
 	if err != nil {
 		return err

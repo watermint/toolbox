@@ -35,7 +35,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	entries, err := sv_sendas.New(z.Peer.Context(), z.UserId).List()
+	entries, err := sv_sendas.New(z.Peer.Client(), z.UserId).List()
 	if err != nil {
 		return err
 	}

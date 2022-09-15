@@ -1,7 +1,7 @@
 package sv_workspace
 
 import (
-	"github.com/watermint/toolbox/domain/asana/api/as_context"
+	"github.com/watermint/toolbox/domain/asana/api/as_client"
 	"github.com/watermint/toolbox/domain/asana/api/as_pagination"
 	"github.com/watermint/toolbox/domain/asana/model/mo_workspace"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -12,14 +12,14 @@ type Workspace interface {
 	List() (ws []*mo_workspace.Workspace, err error)
 }
 
-func New(ctx as_context.Context) Workspace {
+func New(ctx as_client.Client) Workspace {
 	return &workspaceImpl{
 		ctx: ctx,
 	}
 }
 
 type workspaceImpl struct {
-	ctx as_context.Context
+	ctx as_client.Client
 }
 
 func (z workspaceImpl) Resolve(gid string) (ws *mo_workspace.Workspace, err error) {

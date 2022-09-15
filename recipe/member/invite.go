@@ -107,7 +107,7 @@ func (z *Invite) inviteMember(m *InviteRow, c app_control.Control) error {
 		opts = append(opts, sv_member.AddWithoutSendWelcomeEmail())
 	}
 
-	r, err := sv_member.New(z.Peer.Context()).Add(m.Email, opts...)
+	r, err := sv_member.New(z.Peer.Client()).Add(m.Email, opts...)
 	switch {
 	case err != nil:
 		z.OperationLog.Failure(err, m)

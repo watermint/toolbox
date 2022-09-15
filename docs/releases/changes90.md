@@ -15,7 +15,7 @@ lang: en
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -51,6 +51,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	Name: "permdelete",
@@ -65,6 +66,6 @@ lang: en
 + 	Desc:    "Please see https://www.dropbox.com/help/40 for more detail about permanent deletion.",
   	Remarks: "(Experimental, and Irreversible operation)",
   	Path:    "member file permdelete",
-  	... // 18 identical fields
+  	... // 19 identical fields
   }
 ```

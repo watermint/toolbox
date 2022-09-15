@@ -15,7 +15,7 @@ lang: en
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -58,6 +58,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -72,6 +73,6 @@ lang: en
   	},
   	Services: {"dropbox_business"},
   	IsSecret: false,
-  	... // 11 identical fields
+  	... // 12 identical fields
   }
 ```

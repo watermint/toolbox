@@ -2,7 +2,7 @@ package uc_file_relocation
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
@@ -27,14 +27,14 @@ type Relocation interface {
 	Move(from, to mo_path.DropboxPath) (err error)
 }
 
-func New(ctx dbx_context.Context) Relocation {
+func New(ctx dbx_client.Client) Relocation {
 	return &relocationImpl{
 		ctx: ctx,
 	}
 }
 
 type relocationImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *relocationImpl) Copy(from, to mo_path.DropboxPath) (err error) {

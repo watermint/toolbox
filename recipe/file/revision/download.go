@@ -42,7 +42,7 @@ func (z *Download) Exec(c app_control.Control) error {
 	if err := z.Entry.Open(); err != nil {
 		return err
 	}
-	svd := sv_file_content.NewDownload(z.Peer.Context())
+	svd := sv_file_content.NewDownload(z.Peer.Client())
 	entry, path, err := svd.Download(mo_path2.NewDropboxPath("rev:" + z.Revision))
 	if err != nil {
 		return err

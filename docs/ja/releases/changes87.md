@@ -35,7 +35,7 @@ lang: ja
 + 	IsSecret:       true,
   	IsConsole:      false,
   	IsExperimental: false,
-  	... // 9 identical fields
+  	... // 10 identical fields
   }
 ```
 # コマンド仕様の変更: `file export doc`
@@ -44,9 +44,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -70,9 +71,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -101,6 +103,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	Name:            "expiry",
@@ -118,7 +121,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

@@ -5,16 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -48,7 +48,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 		l.Debug("Unable to create an arg", esl.Error(err))
 		return err
 	}
-	res := z.Peer.Context().ContentHead("files/download", q)
+	res := z.Peer.Client().ContentHead("files/download", q)
 	if err, fail := res.Failure(); fail {
 		return err
 	}
@@ -62,7 +62,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 		return errors.New("invalid content length")
 	}
 
-	contentResponse := dbx_context.ContentResponseData(res)
+	contentResponse := dbx_client.ContentResponseData(res)
 	contentFile := &mo_file.File{}
 	if err := contentResponse.Model(contentFile); err != nil {
 		l.Debug("Unable to parse the result", esl.Error(err))
@@ -92,7 +92,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 
 	downloader := func(chunk *DownloadChunk) error {
 		requestRange := fmt.Sprintf("bytes=%d-%d", chunk.Offset, es_number.Min(chunk.Offset+chunk.ChunkSize-1, contentLength).Int64())
-		res = z.Peer.Context().Download("files/download", q, api_request.Header("Range", requestRange))
+		res = z.Peer.Client().Download("files/download", q, api_request.Header("Range", requestRange))
 		if err, fail := res.Failure(); fail {
 			l.Debug("Error on download", esl.Error(err))
 			return err

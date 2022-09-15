@@ -1,7 +1,7 @@
 package sv_file_content
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -39,12 +39,12 @@ func ExportFormat(format string) ExportOpt {
 	}
 }
 
-func NewExport(ctx dbx_context.Context) Export {
+func NewExport(ctx dbx_client.Client) Export {
 	return &exportImpl{ctx: ctx}
 }
 
 type exportImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *exportImpl) Export(path mo_path.DropboxPath, opts ...ExportOpt) (export *mo_file.Export, localPath mo_path2.FileSystemPath, err error) {
@@ -67,7 +67,7 @@ func (z *exportImpl) Export(path mo_path.DropboxPath, opts ...ExportOpt) (export
 	if err != nil {
 		return nil, nil, err
 	}
-	resData := dbx_context.ContentResponseData(res)
+	resData := dbx_client.ContentResponseData(res)
 	export = &mo_file.Export{}
 	if err := resData.Model(export); err != nil {
 		// Try remove downloaded file

@@ -49,19 +49,19 @@ func (z *Isolate) Exec(c app_control.Control) error {
 		return err
 	}
 
-	teamInfo, err := sv_team.New(z.Peer.Context()).Info()
+	teamInfo, err := sv_team.New(z.Peer.Client()).Info()
 	if err != nil {
 		return err
 	}
 
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.MemberEmail)
 	if err != nil {
 		return err
 	}
 
 	l.Debug("Member found", esl.Any("member", member))
 
-	ctx := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	folders, err := sv_sharedfolder.New(ctx).List()
 	if err != nil {
 		return err

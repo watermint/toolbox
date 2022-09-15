@@ -52,7 +52,7 @@ func (z *Detach) Test(c app_control.Control) error {
 }
 
 func (z *Detach) Exec(c app_control.Control) error {
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	svm := sv_member.New(ctx)
 	err := z.OperationLog.Open()

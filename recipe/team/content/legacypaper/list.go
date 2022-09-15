@@ -48,7 +48,7 @@ func (z *List) Preset() {
 
 func (z *List) listMemberDoc(md *MemberDoc, c app_control.Control) error {
 	l := c.Log().With(esl.String("memberEmail", md.MemberEmail), esl.String("docId", md.PaperDocId))
-	mc := z.Peer.Context().AsMemberId(md.MemberId)
+	mc := z.Peer.Client().AsMemberId(md.MemberId)
 	meta, err := sv_paper.NewLegacy(mc).Metadata(md.PaperDocId, "markdown")
 	if err != nil {
 		l.Debug("Unable to export data", esl.Error(err))
@@ -68,7 +68,7 @@ func (z *List) listMemberDoc(md *MemberDoc, c app_control.Control) error {
 func (z *List) listMemberPaper(member *mo_member.Member, c app_control.Control, s eq_sequence.Stage) error {
 	l := c.Log().With(esl.String("memberEmail", member.Email))
 	q := s.Get("scan_paper")
-	mc := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	err := sv_paper.NewLegacy(mc).List(z.FilterBy.Value(), func(docId string) {
 		q.Enqueue(&MemberDoc{
 			MemberId:    member.TeamMemberId,
@@ -88,7 +88,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

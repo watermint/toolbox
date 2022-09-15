@@ -3,8 +3,8 @@ package mo_activity
 import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 	"time"
 )
 

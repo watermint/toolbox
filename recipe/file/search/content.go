@@ -44,7 +44,7 @@ func (z *Content) Exec(c app_control.Control) error {
 		return err
 	}
 
-	matches, err := sv_file.NewFiles(z.Peer.Context()).Search(z.Query, so...)
+	matches, err := sv_file.NewFiles(z.Peer.Client()).Search(z.Query, so...)
 	if err != nil {
 		return err
 	}

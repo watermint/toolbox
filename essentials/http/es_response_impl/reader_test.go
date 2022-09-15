@@ -2,7 +2,7 @@ package es_response_impl
 
 import (
 	"bytes"
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
 	"os"
@@ -13,7 +13,7 @@ func TestRead_InvalidBufferSize(t *testing.T) {
 	content := `{"contact":[{"name":"John"}, {"name":"David"}]}`
 	buf := ioutil.NopCloser(bytes.NewBufferString(content))
 
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	if _, err := read(ctx, buf, 1, 2); err != ErrorInvalidBufferState {
 		t.Error(err)
 	}
@@ -37,7 +37,7 @@ func TestRead_Failure(t *testing.T) {
 	}
 	bodyFile.Close() // close before read
 
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	body, err := Read(ctx, bodyFile)
 	if err == nil {
 		t.Error(err, body)
@@ -48,7 +48,7 @@ func TestRead_Success(t *testing.T) {
 	content := `{"contact":[{"name":"John"}, {"name":"David"}]}`
 	buf := ioutil.NopCloser(bytes.NewBufferString(content))
 
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	body, err := Read(ctx, buf)
 	if err != nil {
 		t.Error(err)
@@ -68,7 +68,7 @@ func TestRead_SuccessChunked(t *testing.T) {
 	content := `{"contact":[{"name":"John"}, {"name":"David"}]}`
 	buf := ioutil.NopCloser(bytes.NewBufferString(content))
 
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	body, err := read(ctx, buf, 24, 8)
 	if err != nil {
 		t.Error(err)

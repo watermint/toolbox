@@ -40,7 +40,7 @@ func (z *List) Preset() {
 
 func (z *List) scanMember(member *mo_member.Member, c app_control.Control) error {
 	l := c.Log().With(esl.Any("mmeber", member))
-	mc := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	reqs, err := sv_filerequest.New(mc).List()
 	if err != nil {
 		l.Debug("Unable to retrieve file requests for the member", esl.Error(err))
@@ -54,7 +54,7 @@ func (z *List) scanMember(member *mo_member.Member, c app_control.Control) error
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

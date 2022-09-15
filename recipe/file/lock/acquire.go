@@ -49,7 +49,7 @@ func (z *Acquire) Exec(c app_control.Control) error {
 		return err
 	}
 
-	entry, err := sv_file_lock.New(z.Peer.Context()).Lock(z.Path)
+	entry, err := sv_file_lock.New(z.Peer.Client()).Lock(z.Path)
 	if err != nil {
 		z.OperationLog.Failure(err, &PathLock{Path: z.Path.Path()})
 		return err

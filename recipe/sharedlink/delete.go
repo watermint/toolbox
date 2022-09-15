@@ -56,7 +56,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 func (z *Delete) removePathAt(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()
-	links, err := sv_sharedlink.New(z.Peer.Context()).ListByPath(z.Path)
+	links, err := sv_sharedlink.New(z.Peer.Client()).ListByPath(z.Path)
 	if err != nil {
 		return err
 	}
@@ -68,7 +68,7 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 	var lastErr error
 	for _, link := range links {
 		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
-		err = sv_sharedlink.New(z.Peer.Context()).Remove(link)
+		err = sv_sharedlink.New(z.Peer.Client()).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", esl.Error(err), esl.Any("link", link))
 			z.SharedLink.Failure(err, link)
@@ -83,7 +83,7 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 func (z *Delete) removeRecursive(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log().With(esl.String("path", z.Path.Path()))
-	links, err := sv_sharedlink.New(z.Peer.Context()).List()
+	links, err := sv_sharedlink.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -106,7 +106,7 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 		}
 
 		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
-		err = sv_sharedlink.New(z.Peer.Context()).Remove(link)
+		err = sv_sharedlink.New(z.Peer.Client()).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", esl.Error(err), esl.Any("link", link))
 			z.SharedLink.Failure(err, link)

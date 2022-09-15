@@ -33,7 +33,7 @@ func (z *Uploadlink) Preset() {
 func (z *Uploadlink) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	link, err := sv_file.NewFiles(z.Peer.Context()).UploadLink(z.Path)
+	link, err := sv_file.NewFiles(z.Peer.Client()).UploadLink(z.Path)
 	if err != nil || link == "" {
 		l.Error("Unable to create an upload link", esl.Error(err))
 		return err

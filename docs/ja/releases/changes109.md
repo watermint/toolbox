@@ -8,18 +8,24 @@ lang: ja
 
 # 追加されたコマンド
 
+
 | コマンド                            | タイトル                             |
 |-------------------------------------|--------------------------------------|
 | services google sheets sheet create | 新規シートの作成                     |
 | services google sheets sheet delete | スプレッドシートからシートを削除する |
 
+
+
 # コマンド仕様の変更: `util date today`
+
+
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -31,14 +37,16 @@ lang: ja
   	... // 2 identical fields
   }
 ```
-
 # コマンド仕様の変更: `util datetime now`
+
+
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

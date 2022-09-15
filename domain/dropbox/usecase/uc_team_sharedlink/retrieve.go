@@ -1,7 +1,7 @@
 package uc_team_sharedlink
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
@@ -11,7 +11,7 @@ import (
 
 type OnSharedLinkMember func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember)
 
-func RetrieveMemberLinks(member *mo_member.Member, c app_control.Control, ctx dbx_context.Context, handler OnSharedLinkMember) error {
+func RetrieveMemberLinks(member *mo_member.Member, c app_control.Control, ctx dbx_client.Client, handler OnSharedLinkMember) error {
 	l := c.Log().With(esl.String("member", member.Email))
 	mc := ctx.AsMemberId(member.TeamMemberId)
 	links, err := sv_sharedlink.New(mc).List()

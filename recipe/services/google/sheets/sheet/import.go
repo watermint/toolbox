@@ -41,7 +41,7 @@ func (z *Import) Exec(c app_control.Control) error {
 	if err := z.Updated.Open(); err != nil {
 		return err
 	}
-	uv, err := sv_sheet.New(z.Peer.Context()).Import(z.Id, z.Range, data, z.InputRaw)
+	uv, err := sv_sheet.New(z.Peer.Client()).Import(z.Id, z.Range, data, z.InputRaw)
 	if err != nil {
 		return err
 	}

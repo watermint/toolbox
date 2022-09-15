@@ -32,7 +32,7 @@ func (z *Devices) Exec(c app_control.Control) error {
 		return err
 	}
 
-	devices, err := sv_team.NewReport(z.Peer.Context()).Devices(sv_team.NewSpan(z.StartDate, z.EndDate))
+	devices, err := sv_team.NewReport(z.Peer.Client()).Devices(sv_team.NewSpan(z.StartDate, z.EndDate))
 	if err != nil {
 		return err
 	}

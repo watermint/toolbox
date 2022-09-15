@@ -9,6 +9,9 @@ const (
 	ExperimentDbxClientConditionerError40  = "dbx_client_conditioner_error40"  // 500 error for 40% traffic
 	ExperimentDbxClientConditionerError100 = "dbx_client_conditioner_error100" // 500 error for 100% traffic
 
+	ExperimentDbxAuthRedirect           = "dbx_auth_redirect"
+	ExperimentDbxAuthCourseGrainedScope = "dbx_auth_course_grained_scope"
+
 	// Execute batch sequentially in same batchId
 	ExperimentBatchSequential = "batch_sequential"
 	// Execute batch with random batchId order
@@ -53,6 +56,8 @@ var (
 		ExperimentBatchSequential,
 		ExperimentCongestionWindowAggressive,
 		ExperimentCongestionWindowNoLimit,
+		ExperimentDbxAuthCourseGrainedScope,
+		ExperimentDbxAuthRedirect,
 		ExperimentDbxClientConditionerError100,
 		ExperimentDbxClientConditionerError20,
 		ExperimentDbxClientConditionerError40,

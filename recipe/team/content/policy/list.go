@@ -56,7 +56,7 @@ func (z *List) Preset() {
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Context(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err
@@ -72,7 +72,7 @@ func (z *List) Exec(c app_control.Control) error {
 		}
 	}
 
-	memberFolderScanner := uc_member_folder.New(c, z.Peer.Context())
+	memberFolderScanner := uc_member_folder.New(c, z.Peer.Client())
 	memberFolders, err := memberFolderScanner.Scan(z.Folder)
 	if err != nil {
 		l.Debug("Failed to scan member folders", esl.Error(err))

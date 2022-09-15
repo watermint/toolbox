@@ -1,7 +1,7 @@
 package uc_compare_paths
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -13,7 +13,7 @@ import (
 
 func TestCompareImpl_Diff(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		ctx := dbx_context_impl.NewMock("mock", ctl)
+		ctx := dbx_client_impl.NewMock("mock", ctl)
 		sv := New(ctx, ctx, ctl.UI())
 		_, err := sv.Diff(qtr_endtoend.NewTestDropboxFolderPath(), qtr_endtoend.NewTestDropboxFolderPath(), func(diff mo_file_diff.Diff) error {
 			return nil

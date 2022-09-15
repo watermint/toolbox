@@ -3,12 +3,12 @@ package artifact
 import (
 	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -18,7 +18,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"os"
 	"time"
 )
@@ -40,22 +39,22 @@ func (z *Up) Preset() {
 func (z *Up) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
-		m := r.(*auth.Import)
-		m.PeerName = app.PeerDeploy
-		m.EnvName = app.EnvNameDeployToken
-	}); err != nil {
-		l.Info("No token imported. Skip operation")
+	sd := api_auth.OAuthSessionData{
+		AppData:  dbx_auth.DropboxIndividual,
+		PeerName: z.PeerName,
+		Scopes: []string{
+			dbx_auth.ScopeFilesContentRead,
+			dbx_auth.ScopeFilesContentWrite,
+		},
+	}
+	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
+	entity, err := session.Start(sd)
+	if err != nil {
+		l.Info("No token found. Skip operation")
 		return nil
 	}
 
-	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
-	ctx, err := a.Auth([]string{api_auth.DropboxTokenFull})
-	if err != nil {
-		l.Info("Skip operation")
-		return nil
-	}
-	dbxCtx := dbx_context_impl.New(ctx.PeerName(), c, ctx)
+	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
 		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
 			m := r.(*file.Upload)

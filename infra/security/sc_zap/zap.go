@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -22,7 +21,7 @@ func Unzap(ctl app_control.Control) (b []byte, err error) {
 	if err != nil {
 		return nil, err
 	}
-	return sc_obfuscate.Deobfuscate(ctl.Log(), []byte(app.BuildInfo.Zap), tas)
+	return sc_obfuscate.Deobfuscate(ctl.Log(), sc_obfuscate.ZapKey(), tas)
 }
 
 var (
@@ -69,7 +68,7 @@ func Zap(zap string, prjRoot string, data []byte) error {
 	if err != nil {
 		return ErrorObfuscateFailure
 	}
-	if err := ioutil.WriteFile(secretPath, b, 0600); err != nil {
+	if err := os.WriteFile(secretPath, b, 0600); err != nil {
 		return ErrorCantFileWrite
 	}
 	return nil

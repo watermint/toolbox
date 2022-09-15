@@ -103,7 +103,7 @@ func (z *Links) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLinkWithSel, c, z.Peer.Context(), onDeleteSuccess, onDeleteFailure, sel)
+		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLinkWithSel, c, z.Peer.Client(), onDeleteSuccess, onDeleteFailure, sel)
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			l := l.With(esl.Any("member", member), esl.Any("entry", entry))
 			if shouldProcess, selErr := sel.IsTarget(entry.Url); selErr != nil {
@@ -117,10 +117,10 @@ func (z *Links) Exec(c app_control.Control) error {
 				})
 			}
 		}
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Context(), onSharedLink)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink)
 		qsm := s.Get("scan_member")
 
-		dErr := sv_member.New(z.Peer.Context()).ListEach(func(member *mo_member.Member) bool {
+		dErr := sv_member.New(z.Peer.Client()).ListEach(func(member *mo_member.Member) bool {
 			qsm.Enqueue(member)
 			return true
 		})

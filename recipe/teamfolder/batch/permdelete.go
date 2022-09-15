@@ -2,7 +2,6 @@ package batch
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -30,7 +29,7 @@ type Permdelete struct {
 }
 
 func (z *Permdelete) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
@@ -40,7 +39,7 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	folders, err := sv_teamfolder.New(z.Peer.Context()).List()
+	folders, err := sv_teamfolder.New(z.Peer.Client()).List()
 	if err != nil {
 		ui.Error(z.ErrUnableToRetrieveCurrentTeamFolders.With("Error", err.Error()))
 		return err
@@ -63,7 +62,7 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 			return nil
 		}
 
-		err := sv_teamfolder.New(z.Peer.Context()).PermDelete(folder)
+		err := sv_teamfolder.New(z.Peer.Client()).PermDelete(folder)
 		if err != nil {
 			ui.Error(z.ErrUnableToDelete.With("Name", r.Name).With("Error", err.Error()))
 			z.OperationLog.Failure(err, r)
@@ -87,8 +86,8 @@ func (z *Permdelete) Test(c app_control.Control) error {
 
 func (z *Permdelete) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeTeamDataTeamSpace,
-		dbx_auth.ScopeTeamInfoRead,
+	//dbx_auth.ScopeTeamDataTeamSpace,
+	//dbx_auth.ScopeTeamInfoRead,
 	)
 	z.File.SetModel(&TeamFolderName{})
 	z.OperationLog.SetModel(&TeamFolderName{}, nil)

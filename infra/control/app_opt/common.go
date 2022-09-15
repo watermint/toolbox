@@ -83,6 +83,9 @@ type CommonOpts struct {
 	// Explicitly set proxy the hostname and the port number
 	Proxy mo_string.OptionalString
 
+	// Path to auth database
+	AuthDatabase mo_string.OptionalString
+
 	// Quiet mode
 	Quiet bool
 
@@ -158,6 +161,7 @@ func (z *CommonOpts) Preset() {
 	z.Lang.SetOptions(LangAuto, LangAuto, LangEnglish, LangJapanese)
 	z.Output.SetOptions(OutputText, OutputText, OutputMarkdown, OutputJson, OutputNone)
 	z.Proxy = mo_string.NewOptional("")
+	z.AuthDatabase = mo_string.NewOptional("")
 	z.Quiet = false
 	z.Secure = false
 	z.Workspace = mo_string.NewOptional("")

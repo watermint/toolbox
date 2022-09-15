@@ -45,7 +45,7 @@ func (z *Release) Exec(c app_control.Control) error {
 		return err
 	}
 
-	entry, err := sv_file_lock.New(z.Peer.Context()).Unlock(z.Path)
+	entry, err := sv_file_lock.New(z.Peer.Client()).Unlock(z.Path)
 	if err != nil {
 		z.OperationLog.Failure(err, &PathLock{Path: z.Path.Path()})
 		return err

@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
@@ -29,7 +29,7 @@ func readJitterWait() {
 	time.Sleep(time.Duration(wms) * time.Millisecond)
 }
 
-func Read(ctx es_context.Context, resBody io.ReadCloser) (es_response.Body, error) {
+func Read(ctx es_client.Client, resBody io.ReadCloser) (es_response.Body, error) {
 	if body, err := read(ctx, resBody, ReadBufferSize, ReadChunkSize); err != nil {
 		return nil, err
 	} else {
@@ -37,7 +37,7 @@ func Read(ctx es_context.Context, resBody io.ReadCloser) (es_response.Body, erro
 	}
 }
 
-func read(ctx es_context.Context, resBody io.ReadCloser, readBufSize, readChunkSize int) (body es_response.Body, err error) {
+func read(ctx es_client.Client, resBody io.ReadCloser, readBufSize, readChunkSize int) (body es_response.Body, err error) {
 	l := ctx.Log().With(
 		esl.Int("readBufSize", readBufSize),
 		esl.Int("readChunkSize", readChunkSize))

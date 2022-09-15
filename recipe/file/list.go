@@ -40,7 +40,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	opts := make([]sv_file.ListOpt, 0)
 	opts = append(opts, sv_file.IncludeDeleted(z.IncludeDeleted))

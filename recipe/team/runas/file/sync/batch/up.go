@@ -58,7 +58,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svm := sv_member.NewCached(z.Peer.Context())
+	svm := sv_member.NewCached(z.Peer.Client())
 
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
 		um := m.(*UpMapping)
@@ -89,7 +89,7 @@ func (z *Up) Exec(c app_control.Control) error {
 			ru.DropboxPath = mo_path2.NewDropboxPath(dbxPath)
 			ru.Overwrite = z.Overwrite
 			ru.Name = z.Name
-			ru.Context = z.Peer.Context().AsMemberId(member.TeamMemberId)
+			ru.Context = z.Peer.Client().AsMemberId(member.TeamMemberId)
 			ru.BatchSize = z.BatchSize.Value()
 			ru.Delete = z.Delete
 		})

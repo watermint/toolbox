@@ -1,7 +1,7 @@
 package es_response_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"io/ioutil"
 	"net/http"
@@ -12,7 +12,7 @@ import (
 
 func TestResImpl(t *testing.T) {
 	content := `{"message":"Hello"}`
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	res := &http.Response{
 		StatusCode: 200,
 		Header: http.Header{

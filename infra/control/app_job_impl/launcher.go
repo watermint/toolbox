@@ -1,11 +1,14 @@
 package app_job_impl
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth_repo"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_feature_impl"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_opt"
@@ -78,14 +81,29 @@ func (z launchImpl) recordResultLog(err error) error {
 	return rl.Write(z.wb.Workspace())
 }
 
+func (z launchImpl) prepAuthDatabase(fe app_feature.Feature) (repo api_auth.Repository, err error) {
+	// returns in memory database
+	if fe.IsSecure() {
+		return api_auth_repo.NewInMemory()
+	}
+	if fe.IsTransient() && fe.IsDefaultPathAuthRepository() {
+		return api_auth_repo.NewInMemory()
+	}
+
+	return api_auth_repo.NewPersistent(fe.PathAuthRepository())
+}
+
 func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	lg := z.wb.Logger().Logger()
 	sm := z.wb.Summary().Logger()
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
 
 	seq, er := app_queue.NewSequence(lg, fe, z.ui, z.wb)
-
-	ctl = app_control_impl.New(z.wb, z.ui, fe, seq, er)
+	ar, err := z.prepAuthDatabase(fe)
+	if err != nil {
+		return nil, err
+	}
+	ctl = app_control_impl.New(z.wb, z.ui, fe, seq, ar, er)
 
 	if err := er.Up(ctl); err != nil {
 		return nil, err

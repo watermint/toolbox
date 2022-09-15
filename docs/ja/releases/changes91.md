@@ -27,7 +27,7 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -50,6 +50,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -63,6 +64,6 @@ lang: ja
   	},
   	Services: {"dropbox", "dropbox_business", "github"},
   	IsSecret: true,
-  	... // 11 identical fields
+  	... // 12 identical fields
   }
 ```

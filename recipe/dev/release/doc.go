@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/strings/es_version"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
@@ -151,7 +151,7 @@ func (z *Doc) updateChanges(c app_control.Control, release *es_version.Version, 
 // Returns versionMajor -> release metadata
 func (z *Doc) listReleases(c app_control.Control) (releases map[uint64]*Metadata, err error) {
 	l := c.Log()
-	releasesData, err := sv_release.New(z.Peer.Context(), app.RepositoryOwner, app.RepositoryName).List()
+	releasesData, err := sv_release.New(z.Peer.Client(), app.RepositoryOwner, app.RepositoryName).List()
 	if err != nil {
 		l.Debug("Unable to retrieve release information", esl.Error(err))
 		return nil, err

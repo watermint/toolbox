@@ -1,7 +1,7 @@
 package uc_folder_member
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
@@ -39,7 +39,7 @@ func (z FolderNoMemberEntry) ToNoMember() *uc_team_content.NoMember {
 }
 
 // Load folder member into storage (key -> *FolderMemberEntry)
-func ScanFolderMember(entry *FolderEntry, ctx dbx_context.Context, storageFolderMember, storageNoMember kv_storage.Storage) error {
+func ScanFolderMember(entry *FolderEntry, ctx dbx_client.Client, storageFolderMember, storageNoMember kv_storage.Storage) error {
 	l := ctx.Log().With(
 		esl.String("NamespaceId", entry.Folder.SharedFolderId),
 		esl.String("Path", entry.Path),

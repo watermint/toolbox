@@ -11,13 +11,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/time/ut_format"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -148,7 +148,7 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 	offsets := make(map[string]int64)
 	sessionMutex := sync.Mutex{}
 	batchSize := z.BatchSize.Value()
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	pageContent := func(p Page) string {
 		switch len(p.Revision) {

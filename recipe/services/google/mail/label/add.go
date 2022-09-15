@@ -36,7 +36,7 @@ func (z *Add) Preset() {
 }
 
 func (z *Add) Exec(c app_control.Control) error {
-	svl := sv_label.New(z.Peer.Context(), z.UserId)
+	svl := sv_label.New(z.Peer.Client(), z.UserId)
 	label, err := svl.Add(z.Name,
 		sv_label.LabelListVisibility(z.LabelListVisibility.Value()),
 		sv_label.MessageListVisibility(z.MessageListVisibility.Value()),

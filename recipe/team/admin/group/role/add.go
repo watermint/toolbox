@@ -52,7 +52,7 @@ func (z *Add) addRoleMember(member *mo_member.Member, c app_control.Control) err
 
 	roleIds = append(roleIds, z.RoleId)
 
-	updated, err := sv_adminrole.New(z.Peer.Context()).UpdateRole(mo_user.NewUserSelectorByTeamMemberId(member.TeamMemberId), roleIds)
+	updated, err := sv_adminrole.New(z.Peer.Client()).UpdateRole(mo_user.NewUserSelectorByTeamMemberId(member.TeamMemberId), roleIds)
 	if err != nil {
 		return err
 	}
@@ -66,11 +66,11 @@ func (z *Add) Exec(c app_control.Control) error {
 		return err
 	}
 
-	group, err := sv_group.New(z.Peer.Context()).ResolveByName(z.Group)
+	group, err := sv_group.New(z.Peer.Client()).ResolveByName(z.Group)
 	if err != nil {
 		return err
 	}
-	members, err := sv_group_member.New(z.Peer.Context(), group).List()
+	members, err := sv_group_member.New(z.Peer.Client(), group).List()
 	if err != nil {
 		return err
 	}
@@ -81,7 +81,7 @@ func (z *Add) Exec(c app_control.Control) error {
 		q := s.Get("add_role")
 
 		for _, member := range members {
-			m, err := sv_member.New(z.Peer.Context()).Resolve(member.TeamMemberId)
+			m, err := sv_member.New(z.Peer.Client()).Resolve(member.TeamMemberId)
 			if err != nil {
 				lastErr = err
 				continue

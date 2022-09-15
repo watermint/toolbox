@@ -43,7 +43,7 @@ func (z *Count) countMember(member *mo_member.Member, c app_control.Control) err
 		Accessed:    0,
 	}
 
-	mc := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	err := sv_paper.NewLegacy(mc).ListCreated(func(docId string) {
 		pc.Created++
 	})
@@ -68,7 +68,7 @@ func (z *Count) Exec(c app_control.Control) error {
 		return err
 	}
 
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

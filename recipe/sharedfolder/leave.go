@@ -24,7 +24,7 @@ func (z *Leave) Preset() {
 }
 
 func (z *Leave) Exec(c app_control.Control) error {
-	err := sv_sharedfolder.New(z.Peer.Context()).Leave(&mo_sharedfolder.SharedFolder{
+	err := sv_sharedfolder.New(z.Peer.Client()).Leave(&mo_sharedfolder.SharedFolder{
 		SharedFolderId: z.SharedFolderId,
 	}, sv_sharedfolder.LeaveACopy(z.KeepCopy))
 	return err

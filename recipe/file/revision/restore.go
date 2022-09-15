@@ -38,7 +38,7 @@ func (z *Restore) Exec(c app_control.Control) error {
 	if err := z.Entry.Open(); err != nil {
 		return err
 	}
-	svr := sv_file_restore.New(z.Peer.Context())
+	svr := sv_file_restore.New(z.Peer.Client())
 	entry, err := svr.Restore(z.Path, z.Revision)
 
 	if err != nil {

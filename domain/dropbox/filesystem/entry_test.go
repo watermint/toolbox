@@ -2,10 +2,10 @@ package filesystem
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
@@ -48,7 +48,7 @@ func TestNewEntry(t *testing.T) {
 			return
 		}
 
-		dbxFs := NewFileSystem(dbx_context_impl.NewMock("mock", ctl))
+		dbxFs := NewFileSystem(dbx_client_impl.NewMock("mock", ctl))
 
 		dbxEntry1, fsErr := dbxFs.Entry(fsEntryData)
 		if fsErr != nil {

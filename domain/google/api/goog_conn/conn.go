@@ -1,14 +1,14 @@
 package goog_conn
 
 import (
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
-	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 )
 
 type ConnGoogleApi interface {
 	api_conn.ScopedConnection
 
-	Context() goog_context.Context
+	Client() goog_client.Client
 }
 
 type ConnGoogleMail interface {

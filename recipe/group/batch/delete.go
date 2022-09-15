@@ -34,7 +34,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svg := sv_group.New(z.Peer.Context())
+	svg := sv_group.New(z.Peer.Client())
 
 	groups, err := svg.List()
 	if err != nil {

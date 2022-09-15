@@ -2,14 +2,14 @@ package dbx_list_impl
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -27,7 +27,7 @@ var (
 	ErrorNoResult = errors.New("no result")
 )
 
-func New(ctx dbx_context.Context, endpoint string, reqData []api_request.RequestDatum) dbx_list.List {
+func New(ctx dbx_client.Client, endpoint string, reqData []api_request.RequestDatum) dbx_list.List {
 	return &listImpl{
 		ctx:         ctx,
 		reqData:     reqData,
@@ -36,7 +36,7 @@ func New(ctx dbx_context.Context, endpoint string, reqData []api_request.Request
 }
 
 type listImpl struct {
-	ctx         dbx_context.Context
+	ctx         dbx_client.Client
 	reqData     []api_request.RequestDatum
 	reqEndpoint string
 }

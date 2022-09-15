@@ -2,23 +2,22 @@ package goog_request
 
 import (
 	"github.com/google/go-querystring/query"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
 	url2 "net/url"
-	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
+func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 	return &builderImpl{
 		disablePretty: true,
 		ctl:           ctl,
-		token:         token,
+		entity:        entity,
 	}
 }
 
@@ -30,10 +29,15 @@ type Builder interface {
 type builderImpl struct {
 	disablePretty bool
 	ctl           app_control.Control
-	token         api_auth.Context
+	entity        api_auth.OAuthEntity
 	method        string
 	url           string
 	data          api_request.RequestData
+}
+
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
+	z.data = z.data.WithDatum(data)
+	return z
 }
 
 func (z builderImpl) With(method, url string, data api_request.RequestData) Builder {
@@ -51,27 +55,17 @@ func (z builderImpl) Log() esl.Logger {
 	if z.url != "" {
 		l = l.With(esl.String("url", z.url))
 	}
-	if z.token != nil {
-		l = l.With(esl.Strings("scopes", z.token.Scopes()))
+	if !z.entity.IsNoAuth() {
+		l = l.With(esl.Strings("scopes", z.entity.Scopes))
 	}
 	return l
 }
 
 func (z builderImpl) ClientHash() string {
-	var sr, st []string
-	sr = []string{
+	return nw_client.ClientHash(z.entity.HashSeed(), []string{
 		"m", z.method,
 		"u", z.url,
-	}
-	if z.token != nil {
-		st = []string{
-			"p", z.token.PeerName(),
-			"t", z.token.Token().AccessToken,
-			"y", strings.Join(z.token.Scopes(), ","),
-		}
-	}
-
-	return nw_client.ClientHash(sr, st)
+	})
 }
 
 func (z builderImpl) Endpoint() string {
@@ -85,8 +79,8 @@ func (z builderImpl) Param() string {
 func (z builderImpl) reqHeaders() map[string]string {
 	headers := make(map[string]string)
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
-	if z.token != nil && !z.token.IsNoAuth() {
-		headers[api_request.ReqHeaderAuthorization] = "token " + z.token.Token().AccessToken
+	if !z.entity.IsNoAuth() {
+		headers[api_request.ReqHeaderAuthorization] = "token " + z.entity.Token.AccessToken
 	}
 
 	// this will overwritten if a custom header provided thru request data

@@ -1,6 +1,7 @@
 package qt_control
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_auth_repo"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
@@ -37,7 +38,11 @@ func WithControl(f func(c app_control.Control) error) error {
 	seq := eq_sequence.New(
 		eq_queue.NumWorker(fe.Concurrency()),
 	)
-	ctl := app_control_impl.New(wb, ui, fe, seq, app_error.NewMock())
+	ar, err := api_auth_repo.NewInMemory()
+	if err != nil {
+		return err
+	}
+	ctl := app_control_impl.New(wb, ui, fe, seq, ar, app_error.NewMock())
 
 	return f(ctl)
 }

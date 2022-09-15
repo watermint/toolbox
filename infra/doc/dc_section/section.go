@@ -38,6 +38,7 @@ const (
 	LayoutPage LayoutType = iota
 	LayoutHome
 	LayoutCommand
+	LayoutContributor
 )
 
 func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.Container, doc Document) string {
@@ -74,6 +75,8 @@ func Generate(media dc_index.MediaType, layout LayoutType, mc app_msg_container.
 			layoutName = "home"
 		case LayoutCommand:
 			layoutName = "command"
+		case LayoutContributor:
+			layoutName = "contributor"
 		default:
 			layoutName = "page"
 		}

@@ -2,7 +2,6 @@ package teamfolder
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -27,21 +26,21 @@ type Archive struct {
 
 func (z *Archive) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeTeamDataContentRead,
-		dbx_auth.ScopeTeamDataContentWrite,
-		dbx_auth.ScopeTeamInfoRead,
+	//dbx_auth.ScopeTeamDataContentRead,
+	//dbx_auth.ScopeTeamDataContentWrite,
+	//dbx_auth.ScopeTeamInfoRead,
 	)
 }
 
 func (z *Archive) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
 
 	ui := c.UI()
 
-	teamfolders, err := sv_teamfolder.New(z.Peer.Context()).List()
+	teamfolders, err := sv_teamfolder.New(z.Peer.Client()).List()
 	if err != nil {
 		ui.Error(z.ErrorUnableToResolveTeamfolder.With("Error", err))
 		return err
@@ -60,7 +59,7 @@ func (z *Archive) Exec(c app_control.Control) error {
 
 	c.Log().Debug("Archiving team folder", esl.Any("teamfolder", teamfolder))
 
-	_, err = sv_teamfolder.New(z.Peer.Context()).Archive(teamfolder)
+	_, err = sv_teamfolder.New(z.Peer.Client()).Archive(teamfolder)
 	if err != nil {
 		ui.Error(z.ErrorUnableToArchiveTeamfolder.With("Error", err))
 		return err

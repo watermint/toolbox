@@ -2,13 +2,13 @@ package sv_sharedfolder
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type SharedFolder interface {
@@ -22,7 +22,7 @@ type SharedFolder interface {
 	UpdateInheritance(sharedFolderId string, setting string) (sf *mo_sharedfolder.SharedFolder, err error)
 }
 
-func New(ctx dbx_context.Context) SharedFolder {
+func New(ctx dbx_client.Client) SharedFolder {
 	return &sharedFolderImpl{
 		ctx: ctx,
 	}
@@ -97,7 +97,7 @@ func LeaveACopy(enabled bool) DeleteOpt {
 }
 
 type sharedFolderImpl struct {
-	ctx   dbx_context.Context
+	ctx   dbx_client.Client
 	limit int
 }
 

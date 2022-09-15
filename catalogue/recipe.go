@@ -6,6 +6,7 @@ import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfig "github.com/watermint/toolbox/recipe/config"
+	recipeconfigauth "github.com/watermint/toolbox/recipe/config/auth"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
@@ -81,6 +82,7 @@ import (
 	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
 	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
 	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
+	recipeserviceshellosignaccount "github.com/watermint/toolbox/recipe/services/hellosign/account"
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -136,6 +138,7 @@ import (
 	recipeutilmonitor "github.com/watermint/toolbox/recipe/util/monitor"
 	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
+	recipeutilrelease "github.com/watermint/toolbox/recipe/util/release"
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
@@ -151,6 +154,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeconfig.Disable{},
 		&recipeconfig.Enable{},
 		&recipeconfig.Features{},
+		&recipeconfigauth.Delete{},
+		&recipeconfigauth.List{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
 		&recipedevbenchmark.Uploadlink{},
@@ -164,8 +169,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevbuild.Readme{},
 		&recipedevbuild.Target{},
 		&recipedevciartifact.Up{},
-		&recipedevciauth.Connect{},
-		&recipedevciauth.Import{},
+		&recipedevciauth.Export{},
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Benchmark{},
@@ -330,6 +334,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglesheetssheet.Import{},
 		&recipeservicesgooglesheetssheet.List{},
 		&recipeservicesgooglesheetsspreadsheet.Create{},
+		&recipeserviceshellosignaccount.Info{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.Leave{},
 		&recipesharedfolder.List{},
@@ -439,6 +444,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilnet.Download{},
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
+		&recipeutilrelease.Install{},
 		&recipeutiltextcase.Down{},
 		&recipeutiltextcase.Up{},
 		&recipeutiltextencoding.From{},

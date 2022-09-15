@@ -1,15 +1,15 @@
 package sv_sharedlink
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"time"
 )
 
@@ -63,14 +63,14 @@ func RemoveExpiration() LinkOpt {
 	}
 }
 
-func New(ctx dbx_context.Context) SharedLink {
+func New(ctx dbx_client.Client) SharedLink {
 	return &sharedLinkImpl{
 		ctx: ctx,
 	}
 }
 
 type sharedLinkImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *sharedLinkImpl) Resolve(url mo_url.Url, password string) (entry mo_file.Entry, err error) {

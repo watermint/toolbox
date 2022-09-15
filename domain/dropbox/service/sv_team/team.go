@@ -3,12 +3,12 @@ package sv_team
 import (
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_parser"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
@@ -20,14 +20,14 @@ type Team interface {
 	Feature() (feature *mo_team.Feature, err error)
 }
 
-func New(ctx dbx_context.Context) Team {
+func New(ctx dbx_client.Client) Team {
 	return &teamImpl{
 		ctx: ctx,
 	}
 }
 
 type teamImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *teamImpl) Info() (info *mo_team.Info, err error) {

@@ -1,10 +1,10 @@
 package sv_event
 
 import (
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/calendar/model/mo_event"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Event interface {
@@ -48,14 +48,14 @@ func Query(v string) ListOpt {
 	}
 }
 
-func New(ctx goog_context.Context) Event {
+func New(ctx goog_client.Client) Event {
 	return &eventImpl{
 		ctx: ctx,
 	}
 }
 
 type eventImpl struct {
-	ctx goog_context.Context
+	ctx goog_client.Client
 }
 
 func (z eventImpl) ListEach(h func(event *mo_event.Event), calendarId string, opts ListOpts) error {

@@ -2,11 +2,11 @@ package sv_label
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/mail/model/mo_label"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
@@ -24,7 +24,7 @@ type Label interface {
 	List() (labels []*mo_label.Label, err error)
 }
 
-func New(ctx goog_context.Context, userId string) Label {
+func New(ctx goog_client.Client, userId string) Label {
 	return &labelImpl{
 		ctx:    ctx,
 		userId: userId,
@@ -39,7 +39,7 @@ type LabelParam struct {
 }
 
 type labelImpl struct {
-	ctx    goog_context.Context
+	ctx    goog_client.Client
 	userId string
 }
 

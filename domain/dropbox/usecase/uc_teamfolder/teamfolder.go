@@ -2,7 +2,7 @@ package uc_teamfolder
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -67,7 +67,7 @@ type TeamFolder interface {
 	UpdateInheritance(path mo_path.DropboxPath, inherit bool) (folder *mo_sharedfolder.SharedFolder, err error)
 }
 
-func New(ctx dbx_context.Context, adminGroupName string) (tc TeamContent, err error) {
+func New(ctx dbx_client.Client, adminGroupName string) (tc TeamContent, err error) {
 	admin, err := sv_profile.NewTeam(ctx).Admin()
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func New(ctx dbx_context.Context, adminGroupName string) (tc TeamContent, err er
 }
 
 type teamContentImpl struct {
-	ctx            dbx_context.Context
+	ctx            dbx_client.Client
 	stf            sv_teamfolder.TeamFolder
 	sg             sv_group.Group
 	adminGroupName string
@@ -143,7 +143,7 @@ func (z teamContentImpl) GetOrCreateTeamFolder(name string) (teamfolder TeamFold
 }
 
 type teamFolderImpl struct {
-	ctx              dbx_context.Context
+	ctx              dbx_client.Client
 	stf              sv_teamfolder.TeamFolder
 	sg               sv_group.Group
 	adminGroupName   string
@@ -157,12 +157,12 @@ func (z *teamFolderImpl) logger() esl.Logger {
 	return z.ctx.Log().With(esl.String("teamFolderId", z.tf.TeamFolderId), esl.String("teamFolderName", z.tf.Name))
 }
 
-func (z *teamFolderImpl) ctxAdmin() dbx_context.Context {
-	return z.ctx.AsAdminId(z.admin.TeamMemberId).WithPath(dbx_context.Namespace(z.tf.TeamFolderId))
+func (z *teamFolderImpl) ctxAdmin() dbx_client.Client {
+	return z.ctx.AsAdminId(z.admin.TeamMemberId).WithPath(dbx_client.Namespace(z.tf.TeamFolderId))
 }
 
-func (z *teamFolderImpl) ctxAdminTeamFolder() dbx_context.Context {
-	return z.ctxAdmin().WithPath(dbx_context.Namespace(z.tf.TeamFolderId))
+func (z *teamFolderImpl) ctxAdminTeamFolder() dbx_client.Client {
+	return z.ctxAdmin().WithPath(dbx_client.Namespace(z.tf.TeamFolderId))
 }
 
 func (z *teamFolderImpl) adminGroup() (group *mo_group.Group, err error) {

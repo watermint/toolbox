@@ -2,13 +2,13 @@ package sv_file_revision
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_revision"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
@@ -28,7 +28,7 @@ type RevisionOpts struct {
 	Limit int
 }
 
-func New(ctx dbx_context.Context, opt ...RevisionOpt) Revision {
+func New(ctx dbx_client.Client, opt ...RevisionOpt) Revision {
 	opts := &RevisionOpts{Limit: 10}
 	for _, o := range opt {
 		o(opts)
@@ -40,7 +40,7 @@ func New(ctx dbx_context.Context, opt ...RevisionOpt) Revision {
 }
 
 type revisionImpl struct {
-	ctx  dbx_context.Context
+	ctx  dbx_client.Client
 	opts *RevisionOpts
 }
 

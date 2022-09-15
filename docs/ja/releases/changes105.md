@@ -26,9 +26,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -56,7 +57,10 @@ lang: ja
 ```
 # コマンド仕様の変更: `team runas file list`
 
+
+
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -67,6 +71,6 @@ lang: ja
 + 	CliArgs:         "-member-email MEMBER@DOMAIN -path /DROPBOX/PATH/TO/LIST",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 15 identical fields
+  	... // 16 identical fields
   }
 ```

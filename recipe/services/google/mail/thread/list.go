@@ -30,7 +30,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	threads, err := sv_thread.New(z.Peer.Context(), z.UserId).List()
+	threads, err := sv_thread.New(z.Peer.Client(), z.UserId).List()
 	if err != nil {
 		return err
 	}

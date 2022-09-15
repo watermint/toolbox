@@ -4,9 +4,9 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/api/api_client"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/api/api_context"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"net/http"
 	"sort"
 	"strings"
@@ -22,7 +22,7 @@ type Req struct {
 	Peer           string            `json:"peer"`
 }
 
-func (z *Req) Apply(ctx api_context.Context, rb nw_client.RequestBuilder, req *http.Request) {
+func (z *Req) Apply(ctx api_client.Client, rb nw_client.RequestBuilder, req *http.Request) {
 	url := req.URL.String()
 	param := rb.Param()
 

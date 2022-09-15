@@ -1,10 +1,10 @@
 package sv_file_relocation
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 )
 
 type Relocation interface {
@@ -23,7 +23,7 @@ type RelocationOption interface {
 
 type Option func(option RelocationOption)
 
-func New(ctx dbx_context.Context, options ...Option) Relocation {
+func New(ctx dbx_client.Client, options ...Option) Relocation {
 	r := &implRelocation{
 		ctx: ctx,
 	}
@@ -52,7 +52,7 @@ func AutoRename(auto bool) Option {
 }
 
 type implRelocation struct {
-	ctx                    dbx_context.Context
+	ctx                    dbx_client.Client
 	allowSharedFolder      bool
 	allowOwnershipTransfer bool
 	autoRename             bool

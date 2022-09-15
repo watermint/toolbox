@@ -35,14 +35,14 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svg := sv_group.NewCached(z.Peer.Context())
+	svg := sv_group.NewCached(z.Peer.Client())
 
 	queueIdDelete := "delete"
 
 	var lastErr error
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define(queueIdDelete, memberDelete, svg, c, z.Peer.Context(), z.OperationLog)
+		s.Define(queueIdDelete, memberDelete, svg, c, z.Peer.Client(), z.OperationLog)
 		q := s.Get(queueIdDelete)
 
 		lastErr = z.File.EachRow(func(m interface{}, rowIndex int) error {

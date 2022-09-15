@@ -2,7 +2,6 @@ package batch
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
@@ -30,7 +29,7 @@ type Archive struct {
 }
 
 func (z *Archive) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
@@ -40,7 +39,7 @@ func (z *Archive) Exec(c app_control.Control) error {
 		return err
 	}
 
-	folders, err := sv_teamfolder.New(z.Peer.Context()).List()
+	folders, err := sv_teamfolder.New(z.Peer.Client()).List()
 	if err != nil {
 		ui.Error(z.ErrUnableToRetrieveCurrentTeamFolders.With("Error", err.Error()))
 		return err
@@ -63,7 +62,7 @@ func (z *Archive) Exec(c app_control.Control) error {
 			return nil
 		}
 
-		archived, err := sv_teamfolder.New(z.Peer.Context()).Archive(folder)
+		archived, err := sv_teamfolder.New(z.Peer.Client()).Archive(folder)
 		if err != nil {
 			ui.Error(z.ErrUnableToArchive.With("Name", r.Name).With("Error", err.Error()))
 			z.OperationLog.Failure(err, r)
@@ -87,8 +86,8 @@ func (z *Archive) Test(c app_control.Control) error {
 
 func (z *Archive) Preset() {
 	z.Peer.SetScopes(
-		dbx_auth.ScopeTeamDataTeamSpace,
-		dbx_auth.ScopeTeamInfoRead,
+	//dbx_auth.ScopeTeamDataTeamSpace,
+	//dbx_auth.ScopeTeamInfoRead,
 	)
 	z.File.SetModel(&TeamFolderName{})
 	z.OperationLog.SetModel(&TeamFolderName{}, &mo_teamfolder.TeamFolder{},

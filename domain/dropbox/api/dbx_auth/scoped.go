@@ -1,11 +1,6 @@
 package dbx_auth
 
-import (
-	"github.com/watermint/toolbox/infra/api/api_appkey"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"golang.org/x/oauth2"
-)
+import "github.com/watermint/toolbox/essentials/api/api_auth"
 
 // Individual Scopes
 const (
@@ -120,58 +115,49 @@ func IsTeamScope(scope string) bool {
 	return false
 }
 
+func IsTeamScopeSession(session api_auth.OAuthSessionData) bool {
+	for _, scope := range session.Scopes {
+		if IsTeamScope(scope) {
+			return true
+		}
+	}
+	return false
+}
+
+func HasAccountInfoRead(scopes []string) bool {
+	for _, scope := range scopes {
+		if scope == ScopeAccountInfoRead {
+			return true
+		}
+	}
+	return false
+}
+
+func HasTeamInfoRead(scopes []string) bool {
+	for _, scope := range scopes {
+		if scope == ScopeTeamInfoRead {
+			return true
+		}
+	}
+	return false
+}
+
 var (
 	ScopeTeam = []string{
-		ScopeTeamInfoRead,
-		ScopeMembersRead,
-		ScopeMembersWrite,
-		ScopeMembersDelete,
+		ScopeEventsRead,
 		ScopeGroupsRead,
 		ScopeGroupsWrite,
+		ScopeMembersDelete,
+		ScopeMembersRead,
+		ScopeMembersWrite,
 		ScopeSessionsList,
 		ScopeSessionsModify,
-		ScopeTeamDataMember,
-		ScopeTeamDataTeamSpace,
 		ScopeTeamDataContentRead,
 		ScopeTeamDataContentWrite,
 		ScopeTeamDataGovernanceRead,
 		ScopeTeamDataGovernanceWrite,
-		ScopeEventsRead,
+		ScopeTeamDataMember,
+		ScopeTeamDataTeamSpace,
+		ScopeTeamInfoRead,
 	}
 )
-
-type Scoped struct {
-	appType string
-	ctl     app_control.Control
-	res     api_appkey.Resource
-}
-
-func (z Scoped) UsePKCE() bool {
-	return true
-}
-
-func (z Scoped) Config(scopes []string) *oauth2.Config {
-	key, secret := z.res.Key(z.appType)
-	return &oauth2.Config{
-		ClientID:     key,
-		ClientSecret: secret,
-		Endpoint:     DropboxOAuthEndpoint(),
-		Scopes:       scopes,
-	}
-}
-
-func NewScopedIndividual(ctl app_control.Control) api_auth.App {
-	return &Scoped{
-		appType: api_auth.DropboxScopedIndividual,
-		ctl:     ctl,
-		res:     api_appkey.New(ctl),
-	}
-}
-
-func NewScopedTeam(ctl app_control.Control) api_auth.App {
-	return &Scoped{
-		appType: api_auth.DropboxScopedTeam,
-		ctl:     ctl,
-		res:     api_appkey.New(ctl),
-	}
-}

@@ -16,6 +16,8 @@ import (
 )
 
 type List struct {
+	rc_recipe.RemarkDeprecated
+	rc_recipe.RemarkSecret
 	Peer              as_conn.ConnAsanaApi
 	Workspace         mo_filter.Filter
 	Projects          rp_model.RowReport
@@ -32,7 +34,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) listProject(prjCompact *mo_project.Project, c app_control.Control) error {
-	svp := sv_project.New(z.Peer.Context())
+	svp := sv_project.New(z.Peer.Client())
 	prj, err := svp.Resolve(prjCompact.Gid)
 	if err != nil {
 		return err
@@ -43,7 +45,7 @@ func (z *List) listProject(prjCompact *mo_project.Project, c app_control.Control
 
 func (z *List) listProjects(ws *mo_workspace.Workspace, c app_control.Control) error {
 	c.UI().Progress(z.ProgressWorkspace.With("Name", ws.Name))
-	svp := sv_project.New(z.Peer.Context())
+	svp := sv_project.New(z.Peer.Client())
 	prjs, err := svp.List(sv_project.Workspace(ws))
 	if err != nil {
 		return err
@@ -59,7 +61,7 @@ func (z *List) listProjects(ws *mo_workspace.Workspace, c app_control.Control) e
 
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
-	workspaces, err := sv_workspace.New(z.Peer.Context()).List()
+	workspaces, err := sv_workspace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -69,7 +71,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	for _, wsCompact := range workspaces {
-		ws, err := sv_workspace.New(z.Peer.Context()).Resolve(wsCompact.Gid)
+		ws, err := sv_workspace.New(z.Peer.Client()).Resolve(wsCompact.Gid)
 		if err != nil {
 			return err
 		}

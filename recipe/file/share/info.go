@@ -31,7 +31,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		return err
 	}
 
-	info, err := sv_sharing.New(z.Peer.Context()).Resolve(z.Path.Path())
+	info, err := sv_sharing.New(z.Peer.Client()).Resolve(z.Path.Path())
 	if err != nil {
 		return err
 	}

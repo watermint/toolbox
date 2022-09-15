@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
-	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
@@ -26,10 +26,14 @@ import (
 )
 
 var (
-	valueTypes = []rc_recipe.Value{
+	ValueTypes = []rc_recipe.Value{
 		newValueAppMsgMessage("", app_msg.Raw("")),
 		newValueAsConnAsana(dbx_conn_impl.DefaultPeerName),
 		newValueBool(),
+		newValueDaGridDataInput(nil, ""),
+		newValueDaGridDataOutput(nil, ""),
+		newValueDaJsonInput(nil, ""),
+		newValueDaTextInput(nil, ""),
 		newValueDbxConnScopedIndividual(dbx_conn_impl.DefaultPeerName),
 		newValueDbxConnScopedTeam(dbx_conn_impl.DefaultPeerName),
 		newValueFdFileRowFeed(""),
@@ -38,10 +42,7 @@ var (
 		newValueGoogConnCalendar(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
 		newValueGoogConnSheets(dbx_conn_impl.DefaultPeerName),
-		newValueDaGridDataInput(nil, ""),
-		newValueDaGridDataOutput(nil, ""),
-		newValueDaTextInput(nil, ""),
-		newValueDaJsonInput(nil, ""),
+		newValueHsConn(dbx_conn_impl.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),
@@ -66,7 +67,7 @@ var (
 // Find value of type.
 // Returns nil when the value type is not supported
 func valueOfType(recipe interface{}, t reflect.Type, r interface{}, name string) rc_recipe.Value {
-	for _, vt := range valueTypes {
+	for _, vt := range ValueTypes {
 		if v := vt.Accept(recipe, t, r, name); v != nil {
 			return v
 		}

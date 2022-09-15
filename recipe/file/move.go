@@ -27,7 +27,7 @@ func (z *Move) Preset() {
 }
 
 func (z *Move) Exec(c app_control.Control) error {
-	uc := uc_file_relocation.New(z.Peer.Context())
+	uc := uc_file_relocation.New(z.Peer.Client())
 	return uc.Move(z.Src, z.Dst)
 }
 

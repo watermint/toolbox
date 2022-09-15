@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
@@ -11,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_request"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"io/ioutil"
 	"math/rand"
@@ -82,7 +82,7 @@ type hashReplay struct {
 	responses kv_storage.Storage
 }
 
-func (z hashReplay) Call(ctx api_context.Context, builder nw_client.RequestBuilder) (res es_response.Response) {
+func (z hashReplay) Call(ctx api_client.Client, builder nw_client.RequestBuilder) (res es_response.Response) {
 	l := ctx.Log()
 
 	hr, err := builder.Build()

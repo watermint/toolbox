@@ -4,17 +4,17 @@ import (
 	"context"
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	"github.com/watermint/toolbox/essentials/io/es_zip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_auth_impl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
@@ -23,7 +23,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
 	"github.com/watermint/toolbox/ingredient/file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"io/ioutil"
 	"path/filepath"
 	"strings"
@@ -44,27 +43,27 @@ func (z *Bundle) Preset() {
 	z.ResultsPath = mo_path.NewDropboxPath("/watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}}")
 }
 
-func (z *Bundle) deployDbxContext(c app_control.Control) (ctx dbx_context.Context, err error) {
+func (z *Bundle) deployDbxContext(c app_control.Control) (client dbx_client.Client, err error) {
 	l := c.Log()
-	if err := rc_exec.Exec(c, &auth.Import{}, func(r rc_recipe.Recipe) {
-		m := r.(*auth.Import)
-		m.PeerName = z.PeerName
-		m.EnvName = app.EnvNameDeployToken
-	}); err != nil {
-		l.Info("No token imported. Skip operation")
-		return nil, errors.New("no token found")
+	sd := api_auth.OAuthSessionData{
+		AppData:  dbx_auth.DropboxIndividual,
+		PeerName: z.PeerName,
+		Scopes: []string{
+			dbx_auth.ScopeFilesContentRead,
+			dbx_auth.ScopeFilesContentWrite,
+		},
 	}
-	a := api_auth_impl.NewConsoleCacheOnly(c, z.PeerName, dbx_auth.NewLegacyApp(c))
-	apiCtx, err := a.Auth([]string{api_auth.DropboxTokenFull})
+	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
+	entity, err := session.Start(sd)
 	if err != nil {
-		l.Info("Skip operation")
-		return nil, errors.New("token not found")
+		l.Info("No token found. Skip operation")
+		return nil, errors.New("skip")
 	}
-	ctx = dbx_context_impl.New(z.PeerName, c, apiCtx)
+	client = dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	return
 }
 
-func (z *Bundle) execReplay(l esl.Logger, entryName string, replay rc_replay.Replay, dbxCtx dbx_context.Context, c, forkCtl app_control.Control) (err error) {
+func (z *Bundle) execReplay(l esl.Logger, entryName string, replay rc_replay.Replay, dbxCtx dbx_client.Client, c, forkCtl app_control.Control) (err error) {
 	defer func() {
 		if rescue := recover(); rescue != nil {
 			var ok bool

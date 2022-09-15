@@ -41,7 +41,7 @@ func (z *Copy) copy(cm *CopyMapping, svm sv_member.Member, c app_control.Control
 		return err
 	}
 
-	ctm := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	ctm := z.Peer.Client().AsMemberId(member.TeamMemberId)
 
 	srcPath, err := es_filepath.FormatPathWithPredefinedVariables(cm.SrcPath)
 	if err != nil {
@@ -67,7 +67,7 @@ func (z *Copy) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svm := sv_member.NewCached(z.Peer.Context())
+	svm := sv_member.NewCached(z.Peer.Client())
 	var lastErr, listErr error
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {

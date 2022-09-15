@@ -1,10 +1,8 @@
 package work_auth
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_appkey"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"golang.org/x/oauth2"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/infra/app"
 )
 
 const (
@@ -18,31 +16,13 @@ const (
 	ScopeUsersRead = "users:read"
 )
 
-func New(ctl app_control.Control) api_auth.App {
-	return &App{
-		ctl: ctl,
-		res: api_appkey.New(ctl),
+var (
+	Slack = api_auth.OAuthAppData{
+		AppKeyName:       app.ServiceSlack,
+		EndpointAuthUrl:  "https://slack.com/oauth/v2/authorize",
+		EndpointTokenUrl: "https://slack.com/api/oauth.v2.access",
+		EndpointStyle:    api_auth.AuthStyleAutoDetect,
+		UsePKCE:          false,
+		RedirectUrl:      "",
 	}
-}
-
-type App struct {
-	ctl app_control.Control
-	res api_appkey.Resource
-}
-
-func (z App) Config(scope []string) *oauth2.Config {
-	key, secret := z.res.Key(api_auth.Slack)
-	return &oauth2.Config{
-		ClientID:     key,
-		ClientSecret: secret,
-		Endpoint: oauth2.Endpoint{
-			AuthURL:  "https://slack.com/oauth/v2/authorize",
-			TokenURL: "https://slack.com/api/oauth.v2.access",
-		},
-		Scopes: scope,
-	}
-}
-
-func (z App) UsePKCE() bool {
-	return false
-}
+)

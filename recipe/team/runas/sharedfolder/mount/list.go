@@ -42,14 +42,14 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.MemberEmail)
 	if err != nil {
 		return err
 	}
 
 	l.Debug("Member found", esl.Any("member", member))
 
-	ctx := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	mounts, err := sv_sharedfolder_mount.New(ctx).List()
 	if err != nil {
 		return err

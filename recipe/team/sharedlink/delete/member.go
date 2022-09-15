@@ -44,7 +44,7 @@ func (z *Member) Exec(c app_control.Control) error {
 		return err
 	}
 
-	member, err := sv_member.New(z.Peer.Context()).ResolveByEmail(z.MemberEmail)
+	member, err := sv_member.New(z.Peer.Client()).ResolveByEmail(z.MemberEmail)
 	if err != nil {
 		return err
 	}
@@ -57,7 +57,7 @@ func (z *Member) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Context(), onDeleteSuccess, onDeleteFailure)
+		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Client(), onDeleteSuccess, onDeleteFailure)
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			q := s.Get("delete_link")
 			q.Enqueue(&uc_team_sharedlink.Target{
@@ -65,7 +65,7 @@ func (z *Member) Exec(c app_control.Control) error {
 				Entry:  entry,
 			})
 		}
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Context(), onSharedLink)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink)
 		q := s.Get("scan_member")
 		q.Enqueue(member)
 	})

@@ -19,7 +19,7 @@ watermint toolboxはMITライセンスのもと配布されています.
 
 コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます. ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
 
-## macOSでHomebrewを使いインストール
+## macOS/LinuxでHomebrewを使ってインストールする。
 
 まずHomebrewをインストールします. 手順は [オフィシャルサイト](https://brew.sh/)を参照してください. 次のコマンドを実行してwatermint toolboxをインストールします.
 ```
@@ -259,30 +259,21 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                  |
 
-## Asana
-
-| コマンド                                                                                           | 説明                             |
-|----------------------------------------------------------------------------------------------------|----------------------------------|
-| [services asana team list](docs/ja/commands/services-asana-team-list.md)                           | チームのリスト                   |
-| [services asana team project list](docs/ja/commands/services-asana-team-project-list.md)           | チームのプロジェクト一覧         |
-| [services asana team task list](docs/ja/commands/services-asana-team-task-list.md)                 | チームのタスク一覧               |
-| [services asana workspace list](docs/ja/commands/services-asana-workspace-list.md)                 | ワークスペースの一覧             |
-| [services asana workspace project list](docs/ja/commands/services-asana-workspace-project-list.md) | ワークスペースのプロジェクト一覧 |
-
 ## GitHub
 
-| コマンド                                                                                             | 説明                                             |
-|------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| [services github content get](docs/ja/commands/services-github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.    |
-| [services github content put](docs/ja/commands/services-github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します |
-| [services github issue list](docs/ja/commands/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧     |
-| [services github profile](docs/ja/commands/services-github-profile.md)                               | 認証したユーザーの情報を取得                     |
-| [services github release asset download](docs/ja/commands/services-github-release-asset-download.md) | アセットをダウンロードします                     |
-| [services github release asset list](docs/ja/commands/services-github-release-asset-list.md)         | GitHubリリースの成果物一覧                       |
-| [services github release asset upload](docs/ja/commands/services-github-release-asset-upload.md)     | GitHub リリースへ成果物をアップロードします      |
-| [services github release draft](docs/ja/commands/services-github-release-draft.md)                   | リリースの下書きを作成                           |
-| [services github release list](docs/ja/commands/services-github-release-list.md)                     | リリースの一覧                                   |
-| [services github tag create](docs/ja/commands/services-github-tag-create.md)                         | レポジトリにタグを作成します                     |
+| コマンド                                                                                             | 説明                                                          |
+|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [services github content get](docs/ja/commands/services-github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.                 |
+| [services github content put](docs/ja/commands/services-github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します              |
+| [services github issue list](docs/ja/commands/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |
+| [services github profile](docs/ja/commands/services-github-profile.md)                               | 認証したユーザーの情報を取得                                  |
+| [services github release asset download](docs/ja/commands/services-github-release-asset-download.md) | アセットをダウンロードします                                  |
+| [services github release asset list](docs/ja/commands/services-github-release-asset-list.md)         | GitHubリリースの成果物一覧                                    |
+| [services github release asset upload](docs/ja/commands/services-github-release-asset-upload.md)     | GitHub リリースへ成果物をアップロードします                   |
+| [services github release draft](docs/ja/commands/services-github-release-draft.md)                   | リリースの下書きを作成                                        |
+| [services github release list](docs/ja/commands/services-github-release-list.md)                     | リリースの一覧                                                |
+| [services github tag create](docs/ja/commands/services-github-tag-create.md)                         | レポジトリにタグを作成します                                  |
+| [util release install](docs/ja/commands/util-release-install.md)                                     | watermint toolboxをダウンロードし、パスにインストールします。 |
 
 ## Google Calendar
 
@@ -324,16 +315,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [services google sheets sheet list](docs/ja/commands/services-google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |
 | [services google sheets spreadsheet create](docs/ja/commands/services-google-sheets-spreadsheet-create.md) | 新しいスプレッドシートの作成         |
 
-## Slack
-
-| コマンド                                                                                 | 説明           |
-|------------------------------------------------------------------------------------------|----------------|
-| [services slack conversation list](docs/ja/commands/services-slack-conversation-list.md) | チャネルの一覧 |
-
 ## ユーティリティー
 
 | コマンド                                                               | 説明                                                                   |
 |------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config auth delete](docs/ja/commands/config-auth-delete.md)           | 既存の認証クレデンシャルの削除                                         |
+| [config auth list](docs/ja/commands/config-auth-list.md)               | すべての認証情報を一覧表示                                             |
 | [config disable](docs/ja/commands/config-disable.md)                   | 機能を無効化します.                                                    |
 | [config enable](docs/ja/commands/config-enable.md)                     | 機能を有効化します.                                                    |
 | [config features](docs/ja/commands/config-features.md)                 | 利用可能なオプション機能一覧.                                          |

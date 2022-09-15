@@ -25,7 +25,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	roles, err := sv_adminrole.New(z.Peer.Context()).List()
+	roles, err := sv_adminrole.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -38,7 +38,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 	z.MemberRoles.Row(header)
 
-	return sv_member.New(z.Peer.Context()).ListEach(func(member *mo_member.Member) bool {
+	return sv_member.New(z.Peer.Client()).ListEach(func(member *mo_member.Member) bool {
 		row := make([]interface{}, len(roles)+2)
 		if !z.IncludeNonAdmin && len(member.RoleIds()) < 1 {
 			return true

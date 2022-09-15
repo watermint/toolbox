@@ -27,6 +27,6 @@ lang: ja
   	},
   	Services: {"dropbox_business"},
   	IsSecret: false,
-  	... // 11 identical fields
+  	... // 12 identical fields
   }
 ```

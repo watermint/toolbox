@@ -43,7 +43,7 @@ func (z *List) Test(c app_control.Control) error {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	groups, err := sv_group.New(z.Peer.Context()).List()
+	groups, err := sv_group.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}

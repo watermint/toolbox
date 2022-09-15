@@ -3,8 +3,8 @@ package member
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -34,7 +34,7 @@ type ListWorker struct {
 
 	// recipe's context
 	ctl  app_control.Control
-	conn dbx_context.Context
+	conn dbx_client.Client
 	rep  rp_model.RowReport
 }
 
@@ -79,7 +79,7 @@ func (z *List) Preset() {
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	gsv := sv_group.New(z.Peer.Context())
+	gsv := sv_group.New(z.Peer.Client())
 	groups, err := gsv.List()
 	if err != nil {
 		return err
@@ -93,7 +93,7 @@ func (z *List) Exec(c app_control.Control) error {
 		ll := l.With(esl.String("Routine", es_goroutine.GetGoRoutineName()), esl.Any("Group", group))
 		ll.Debug("Scan group")
 
-		msv := sv_group_member.New(z.Peer.Context(), group)
+		msv := sv_group_member.New(z.Peer.Client(), group)
 		members, err := msv.List()
 		if err != nil {
 			ll.Debug("Unable to list members", esl.Error(err))

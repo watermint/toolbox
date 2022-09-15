@@ -40,7 +40,7 @@ lang: en
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports:        nil,
   	Feeds:          nil,
 - 	Values:         []*dc_recipe.Value{},
@@ -55,6 +55,7 @@ lang: en
 
 
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -80,7 +81,7 @@ lang: en
   	},
   	IsSecret:  true,
   	IsConsole: false,
-  	... // 3 identical fields
+  	... // 4 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -127,6 +128,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 5 identical fields
@@ -152,7 +154,7 @@ lang: en
   	},
   	IsSecret:  true,
   	IsConsole: true,
-  	... // 10 identical fields
+  	... // 11 identical fields
   }
 ```
 # Command spec changed: `team sharedlink list`
@@ -160,6 +162,7 @@ lang: en
 
 
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -170,7 +173,7 @@ lang: en
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -195,7 +198,10 @@ lang: en
 ```
 # Command spec changed: `team sharedlink update expiry`
 
+
+
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -223,7 +229,7 @@ lang: en
   	}, ""),
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 9 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

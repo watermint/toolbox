@@ -1,6 +1,7 @@
 package app_control
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -8,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/infra/recipe/rc_worker"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 )
@@ -32,14 +32,14 @@ type Control interface {
 	// Feature
 	Feature() app_feature.Feature
 
-	// Create new worker queue
-	NewLegacyQueue() rc_worker.LegacyQueue
-
 	// Create new queue definition
 	NewQueue() eq_queue.Definition
 
 	// Async queue sequence
 	Sequence() eq_sequence.Sequence
+
+	// AuthRepository returns auth repository
+	AuthRepository() api_auth.Repository
 
 	// Get or create new cache
 	NewCache(namespace, name string) cache.Cache

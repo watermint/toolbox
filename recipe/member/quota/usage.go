@@ -3,8 +3,8 @@ package quota
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_usage"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -15,16 +15,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-)
-
-type MsgUsage struct {
-	ProgressScan app_msg.Message
-}
-
-var (
-	MUsage = app_msg.Apply(&MsgUsage{}).(*MsgUsage)
 )
 
 type Usage struct {
@@ -32,9 +23,7 @@ type Usage struct {
 	Usage rp_model.RowReport
 }
 
-func (z *Usage) scanMember(member *mo_member.Member, ctl app_control.Control, ctx dbx_context.Context) error {
-	ui := ctl.UI()
-	ui.Progress(MUsage.ProgressScan.With("MemberEmail", member.Email))
+func (z *Usage) scanMember(member *mo_member.Member, ctl app_control.Control, ctx dbx_client.Client) error {
 	l := ctl.Log().With(esl.Any("member", member))
 	l.Debug("Scanning")
 
@@ -59,7 +48,7 @@ func (z *Usage) Preset() {
 }
 
 func (z *Usage) Exec(c app_control.Control) error {
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -69,7 +58,7 @@ func (z *Usage) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_member", z.scanMember, c, z.Peer.Context())
+		s.Define("scan_member", z.scanMember, c, z.Peer.Client())
 		q := s.Get("scan_member")
 		for _, member := range members {
 			q.Enqueue(member)

@@ -2,7 +2,7 @@ package sc_token_test
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
+	"github.com/watermint/toolbox/infra/security/sc_storage"
 	"github.com/watermint/toolbox/infra/security/sc_token"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"golang.org/x/oauth2"
@@ -15,7 +15,7 @@ func TestObfuscatedStorage_PutGet(t *testing.T) {
 		s := sc_token.NewObfuscated(c, "TestObfuscatedStorage_PutGet")
 		s.Purge("test1")
 
-		if _, err := s.Get("test1"); err != sc_obfuscate.ErrorStorageNotFound {
+		if _, err := s.Get("test1"); err != sc_storage.ErrorStorageNotFound {
 			t.Error(err)
 		}
 		token0 := &oauth2.Token{

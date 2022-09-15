@@ -3,11 +3,12 @@ package dbx_response_impl
 import (
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_auth"
 	"github.com/watermint/toolbox/essentials/network/nw_retry"
 	"strings"
 )
@@ -15,7 +16,7 @@ import (
 var (
 	ErrorBadContentResponse  = errors.New("bad response from server: res_code 400 with html body")
 	ErrorInternalServerError = errors.New("internal server error")
-	ErrorInvalidAccessToken  = errors.New("invalid access token")
+	ErrorInvalidAccessToken  = nw_auth.ErrorInvalidOrExpiredRefreshToken
 )
 
 type ErrorBadOrExpiredToken struct {
@@ -31,7 +32,7 @@ func AssertResponse(res es_response.Response) es_response.Response {
 	l := esl.Default()
 
 	switch res.Code() {
-	case dbx_context.DropboxApiErrorBadInputParam:
+	case dbx_client.DropboxApiErrorBadInputParam:
 		// In case of the server returned unexpected HTML response;
 		// Response body should be plain text
 		if strings.HasPrefix(res.Alt().BodyString(), "<!DOCTYPE html>") {
@@ -39,7 +40,7 @@ func AssertResponse(res es_response.Response) es_response.Response {
 			return es_response_impl.NewTransportErrorResponse(ErrorBadContentResponse, res)
 		}
 
-	case dbx_context.DropboxApiErrorBadOrExpiredToken:
+	case dbx_client.DropboxApiErrorBadOrExpiredToken:
 		errBadOrExpired := ErrorBadOrExpiredToken{}
 		if err := res.Alt().Json().Model(&errBadOrExpired); err != nil {
 			l.Debug("The response is not a JSON form. fall back to transport error", esl.Error(err))
@@ -56,7 +57,7 @@ func AssertResponse(res es_response.Response) es_response.Response {
 			//			return es_response_impl.NewTransportErrorResponse(errBadOrExpired, res)
 		}
 
-	case dbx_context.DropboxApiErrorEndpointSpecific:
+	case dbx_client.DropboxApiErrorEndpointSpecific:
 		if j, err := res.Alt().AsJson(); err != nil {
 			dbxErr := &dbx_error.ErrorInfo{}
 			if err = j.Model(dbxErr); err != nil {
@@ -69,7 +70,7 @@ func AssertResponse(res es_response.Response) es_response.Response {
 			}
 		}
 
-	case dbx_context.DropboxApiErrorRateLimit:
+	case dbx_client.DropboxApiErrorRateLimit:
 		return es_response_impl.NewTransportErrorResponse(nw_retry.NewErrorRateLimitFromHeadersFallback(res.Headers()), res)
 	}
 

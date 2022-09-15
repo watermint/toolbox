@@ -23,6 +23,10 @@ type MockSpec struct {
 	path []string
 }
 
+func (z MockSpec) IsDeprecated() bool {
+	return false
+}
+
 func (z MockSpec) CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message {
 	panic("implement me")
 }

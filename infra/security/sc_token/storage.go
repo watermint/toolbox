@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
+	"github.com/watermint/toolbox/infra/security/sc_storage"
 	"golang.org/x/oauth2"
 	"os"
 	"path/filepath"
@@ -28,14 +28,14 @@ func NewObfuscated(c app_control.Control, peerName string) Storage {
 	return &ObfuscatedStorage{
 		peerName: peerName,
 		c:        c,
-		s:        sc_obfuscate.NewStorage(c),
+		s:        sc_storage.NewStorage(c),
 	}
 }
 
 type ObfuscatedStorage struct {
 	peerName string
 	c        app_control.Control
-	s        sc_obfuscate.Storage
+	s        sc_storage.Storage
 }
 
 func (z *ObfuscatedStorage) PeerName() string {

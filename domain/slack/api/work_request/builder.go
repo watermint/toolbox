@@ -3,22 +3,21 @@ package work_request
 import (
 	"encoding/json"
 	"github.com/google/go-querystring/query"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
 	"regexp"
-	"strings"
 )
 
-func New(ctl app_control.Control, token api_auth.Context) Builder {
+func New(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 	return &builderImpl{
-		ctl:   ctl,
-		token: token,
+		ctl:    ctl,
+		entity: entity,
 	}
 }
 
@@ -29,10 +28,15 @@ type Builder interface {
 
 type builderImpl struct {
 	ctl    app_control.Control
-	token  api_auth.Context
+	entity api_auth.OAuthEntity
 	method string
 	url    string
 	data   api_request.RequestData
+}
+
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
+	z.data = z.data.WithDatum(data)
+	return z
 }
 
 var (
@@ -55,27 +59,17 @@ func (z builderImpl) Log() esl.Logger {
 	if z.url != "" {
 		l = l.With(esl.String("url", z.url))
 	}
-	if z.token != nil {
-		l = l.With(esl.Strings("scopes", z.token.Scopes()))
+	if !z.entity.IsNoAuth() {
+		l = l.With(esl.Strings("scopes", z.entity.Scopes))
 	}
 	return l
 }
 
 func (z builderImpl) ClientHash() string {
-	var sr, st []string
-	sr = []string{
+	return nw_client.ClientHash(z.entity.HashSeed(), []string{
 		"m", z.method,
 		"u", z.url,
-	}
-	if z.token != nil {
-		st = []string{
-			"p", z.token.PeerName(),
-			"t", z.token.Token().AccessToken,
-			"y", strings.Join(z.token.Scopes(), ","),
-		}
-	}
-
-	return nw_client.ClientHash(sr, st)
+	})
 }
 
 func (z builderImpl) reqContent() es_rewinder.ReadRewinder {
@@ -109,8 +103,8 @@ func (z builderImpl) Build() (*http.Request, error) {
 		l.Debug("Unable to create query", esl.Error(err))
 		return nil, err
 	}
-	if z.method == http.MethodGet && z.token != nil {
-		qv.Add("token", z.token.Token().AccessToken)
+	if z.method == http.MethodGet && !z.entity.IsNoAuth() {
+		qv.Add("token", z.entity.Token.AccessToken)
 	}
 	encoded := qv.Encode()
 	url := z.url
@@ -147,7 +141,7 @@ func (z builderImpl) Param() string {
 		return string(z.data.ParamJson())
 	}
 
-	reqData["token"] = z.token.Token().AccessToken
+	reqData["token"] = z.entity.Token.AccessToken
 
 	pjd, err := json.Marshal(reqData)
 	if err != nil {

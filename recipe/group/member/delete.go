@@ -35,13 +35,13 @@ func (z *Delete) Exec(c app_control.Control) error {
 
 	c.UI().Info(z.ProgressDeleting.With("Group", z.GroupName).With("Email", z.MemberEmail))
 
-	group, err := sv_group.New(z.Peer.Context()).ResolveByName(z.GroupName)
+	group, err := sv_group.New(z.Peer.Client()).ResolveByName(z.GroupName)
 	if err != nil {
 		z.OperationLog.Failure(err, info)
 		return err
 	}
 
-	_, err = sv_group_member.New(z.Peer.Context(), group).Remove(sv_group_member.ByEmail(z.MemberEmail))
+	_, err = sv_group_member.New(z.Peer.Client(), group).Remove(sv_group_member.ByEmail(z.MemberEmail))
 	if err != nil {
 		z.OperationLog.Failure(err, info)
 		return err

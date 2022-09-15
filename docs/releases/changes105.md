@@ -26,9 +26,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -56,7 +57,10 @@ lang: en
 ```
 # Command spec changed: `team runas file list`
 
+
+
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -67,6 +71,6 @@ lang: en
 + 	CliArgs:         "-member-email MEMBER@DOMAIN -path /DROPBOX/PATH/TO/LIST",
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 15 identical fields
+  	... // 16 identical fields
   }
 ```

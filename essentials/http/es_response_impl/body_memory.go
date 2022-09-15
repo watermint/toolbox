@@ -3,7 +3,7 @@ package es_response_impl
 import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/esl_encode"
@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-func newMemoryBody(ctx es_context.Context, content []byte) es_response.Body {
+func newMemoryBody(ctx es_client.Client, content []byte) es_response.Body {
 	return &bodyMemoryImpl{
 		ctx:     ctx,
 		content: content,
@@ -19,7 +19,7 @@ func newMemoryBody(ctx es_context.Context, content []byte) es_response.Body {
 }
 
 type bodyMemoryImpl struct {
-	ctx     es_context.Context
+	ctx     es_client.Client
 	content []byte
 }
 
@@ -48,7 +48,7 @@ func (z bodyMemoryImpl) AsJson() (es_json.Json, error) {
 	return es_json.Parse(z.content)
 }
 
-func toFile(ctx es_context.Context, content []byte) (string, error) {
+func toFile(ctx es_client.Client, content []byte) (string, error) {
 	l := ctx.Log()
 	p, err := ioutil.TempFile("", ctx.ClientHash())
 	if err != nil {

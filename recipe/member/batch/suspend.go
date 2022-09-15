@@ -40,7 +40,7 @@ func (z *Suspend) Preset() {
 
 func (z *Suspend) suspend(user *User, c app_control.Control) error {
 	l := c.Log().With(esl.String("email", user.Email))
-	svm := sv_member.New(z.Peer.Context())
+	svm := sv_member.New(z.Peer.Client())
 	member, err := svm.ResolveByEmail(user.Email)
 	if err != nil {
 		l.Debug("Unable to resolve the user", esl.Error(err))

@@ -37,7 +37,7 @@ func (z *Url) Preset() {
 func (z *Url) Exec(c app_control.Control) error {
 	l := c.Log()
 	ui := c.UI()
-	reqs, err := sv_filerequest.New(z.Peer.Context()).List()
+	reqs, err := sv_filerequest.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -55,7 +55,7 @@ func (z *Url) Exec(c app_control.Control) error {
 			ll.Debug("File request is open and force option")
 			ui.Info(z.ProgressClose.With("Title", r.Title))
 			r.IsOpen = false
-			r, err = sv_filerequest.New(z.Peer.Context()).Update(r)
+			r, err = sv_filerequest.New(z.Peer.Client()).Update(r)
 			if err != nil {
 				ui.Error(z.ErrorUnableToClose.With("Error", err))
 				return err
@@ -68,7 +68,7 @@ func (z *Url) Exec(c app_control.Control) error {
 			return errors.New("the file request is open")
 		}
 
-		deleted, err := sv_filerequest.New(z.Peer.Context()).Delete(r.Id)
+		deleted, err := sv_filerequest.New(z.Peer.Client()).Delete(r.Id)
 		if err != nil {
 			return err
 		}

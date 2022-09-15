@@ -1,11 +1,11 @@
 package sv_member_quota
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Exceptions interface {
@@ -14,14 +14,14 @@ type Exceptions interface {
 	List() (members []*mo_profile.Profile, err error)
 }
 
-func NewExceptions(ctx dbx_context.Context) Exceptions {
+func NewExceptions(ctx dbx_client.Client) Exceptions {
 	return &exceptionsImpl{
 		ctx: ctx,
 	}
 }
 
 type exceptionsImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *exceptionsImpl) Add(teamMemberId string) (err error) {

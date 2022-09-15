@@ -1,26 +1,18 @@
 package update
 
 import (
-	"encoding/csv"
-	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_resource"
-	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
-	"path/filepath"
-	"time"
 )
 
 type ExternalIdRow struct {
@@ -58,7 +50,7 @@ func (z *Externalid) Preset() {
 }
 
 func (z *Externalid) Exec(c app_control.Control) error {
-	members, err := sv_member.New(z.Peer.Context()).List()
+	members, err := sv_member.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
@@ -78,7 +70,7 @@ func (z *Externalid) Exec(c app_control.Control) error {
 		}
 
 		mem.ExternalId = row.ExternalId
-		updated, err := sv_member.New(z.Peer.Context()).Update(mem)
+		updated, err := sv_member.New(z.Peer.Client()).Update(mem)
 		if err != nil {
 			z.OperationLog.Failure(err, row)
 			return err
@@ -89,66 +81,16 @@ func (z *Externalid) Exec(c app_control.Control) error {
 }
 
 func (z *Externalid) Test(c app_control.Control) error {
-	l := c.Log()
-	return qt_resource.WithResource(z, func(j es_json.Json) error {
-		type Data struct {
-			Email      string `path:"email"`
-			ExternalId string `path:"external_id"`
-		}
-		pair := make(map[string]string)
-		err := j.ArrayEach(func(e es_json.Json) error {
-			row := &Data{}
-			if err := e.Model(row); err != nil {
-				return err
-			}
+	f, err := qt_file.MakeTestFile("external_id", "john@example.com,EMAIL john@example.com\nemma@example.com EMAIL emma@example.com\n")
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.RemoveAll(f)
+	}()
 
-			if !dbx_util.RegexEmail.MatchString(row.Email) {
-				l.Error("invalid email address", esl.String("email", row.Email))
-				return errors.New("invalid input")
-			}
-			pair[row.Email] = row.ExternalId + " " + time.Now().Format("2006-01-02T15-04-05")
-			return nil
-		})
-		if err != nil {
-			return err
-		}
-
-		// prep csv
-		dataFile := filepath.Join(c.Workspace().Test(), "external_id.csv")
-		{
-			f, err := os.Create(dataFile)
-			if err != nil {
-				return err
-			}
-			cw := csv.NewWriter(f)
-			if err := cw.Write([]string{"email", "external_id"}); err != nil {
-				return err
-			}
-			for k, v := range pair {
-				if err := cw.Write([]string{k, v}); err != nil {
-					return err
-				}
-			}
-			cw.Flush()
-			f.Close()
-		}
-
-		// test
-		{
-			lastErr := rc_exec.Exec(c, &Externalid{}, func(r rc_recipe.Recipe) {
-				rc := r.(*Externalid)
-				rc.File.SetFilePath(dataFile)
-			})
-
-			qtr_endtoend.TestRows(c, "operation_log", func(cols map[string]string) error {
-				email := cols["email"]
-				extid := cols["external_id"]
-				if pair[email] != extid {
-					return errors.New("external id was not modified")
-				}
-				return nil
-			})
-			return lastErr
-		}
+	return rc_exec.ExecMock(c, &Externalid{}, func(r rc_recipe.Recipe) {
+		m := r.(*Externalid)
+		m.File.SetFilePath(f)
 	})
 }

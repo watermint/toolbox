@@ -1,12 +1,12 @@
 package nw_retry
 
 import (
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_congestion"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"net/http"
 	"time"
 )
@@ -27,7 +27,7 @@ const (
 	exitReasonRateLimit
 )
 
-func (z RateLimit) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
+func (z RateLimit) Call(ctx api_client.Client, req nw_client.RequestBuilder) (res es_response.Response) {
 	var errRateLimit *ErrorRateLimit
 	exitReason := exitReasonTransportError
 	l := esl.Default()

@@ -40,7 +40,7 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
 - 	Values:  []*dc_recipe.Value{},
@@ -57,6 +57,7 @@ lang: ja
 
 
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -82,7 +83,7 @@ lang: ja
   	},
   	IsSecret:  true,
   	IsConsole: false,
-  	... // 3 identical fields
+  	... // 4 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -129,6 +130,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 5 identical fields
@@ -154,7 +156,7 @@ lang: ja
   	},
   	IsSecret:  true,
   	IsConsole: true,
-  	... // 10 identical fields
+  	... // 11 identical fields
   }
 ```
 # コマンド仕様の変更: `team sharedlink list`
@@ -162,6 +164,7 @@ lang: ja
 
 
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -172,7 +175,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -197,7 +200,10 @@ lang: ja
 ```
 # コマンド仕様の変更: `team sharedlink update expiry`
 
+
+
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -225,7 +231,7 @@ lang: ja
   	}, ""),
   	CliNote:         "",
   	ConnUsePersonal: false,
-  	... // 8 identical fields
+  	... // 9 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

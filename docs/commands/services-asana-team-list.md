@@ -6,6 +6,8 @@ lang: en
 
 # services asana team list
 
+Deprecation warning: This command is no longer maintained. It has not been tested prior to release and no fix will be provided in the event of a problem.
+
 List team 
 
 # Security
@@ -32,7 +34,8 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Asana account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Asana (deprecated see [#647](https://github.com/watermint/toolbox/discussions/647)) account.
+Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
 ```
 
 watermint toolbox xx.x.xxx
@@ -41,13 +44,9 @@ watermint toolbox xx.x.xxx
 © 2016-2022 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
+Opening the authorization URL:
 https://app.asana.com/-/oauth_authorize?client_id=xxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=default&state=xxxxxxxx
 
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
 ```
 
 # Installation
@@ -80,17 +79,18 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                   | Description                                                       | Default                  |
-|--------------------------|-------------------------------------------------------------------|--------------------------|
-| `-peer`                  | Account alias                                                     | &{default <nil> default} |
-| `-workspace-name`        | Name or GID of the workspace. Filter by exact match to the name.  |                          |
-| `-workspace-name-prefix` | Name or GID of the workspace. Filter by name match to the prefix. |                          |
-| `-workspace-name-suffix` | Name or GID of the workspace. Filter by name match to the suffix. |                          |
+| Option                   | Description                                                       | Default |
+|--------------------------|-------------------------------------------------------------------|---------|
+| `-peer`                  | Account alias                                                     | default |
+| `-workspace-name`        | Name or GID of the workspace. Filter by exact match to the name.  |         |
+| `-workspace-name-prefix` | Name or GID of the workspace. Filter by name match to the prefix. |         |
+| `-workspace-name-suffix` | Name or GID of the workspace. Filter by name match to the suffix. |         |
 
 ## Common options:
 
 | Option             | Description                                                                               | Default              |
 |--------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
 | `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
 | `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
 | `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |

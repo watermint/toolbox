@@ -34,13 +34,13 @@ func (z *Rename) Exec(c app_control.Control) error {
 		return err
 	}
 
-	current, err := sv_group.New(z.Peer.Context()).ResolveByName(z.CurrentName)
+	current, err := sv_group.New(z.Peer.Client()).ResolveByName(z.CurrentName)
 	if err != nil {
 		z.OperationLog.Failure(err, row)
 		return err
 	}
 	current.GroupName = z.NewName
-	updated, err := sv_group.New(z.Peer.Context()).Update(current)
+	updated, err := sv_group.New(z.Peer.Client()).Update(current)
 	if err != nil {
 		z.OperationLog.Failure(err, row)
 		return err

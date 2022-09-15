@@ -2,10 +2,10 @@ package dbx_conn_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_conn"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"sort"
 )
@@ -21,11 +21,15 @@ func NewConnScopedTeam(name string) dbx_conn.ConnScopedTeam {
 type connScopedTeam struct {
 	name   string
 	scopes []string
-	ctx    dbx_context.Context
+	ctx    dbx_client.Client
 }
 
 func (z *connScopedTeam) Connect(ctl app_control.Control) (err error) {
-	z.ctx, err = connect(z.Scopes(), z.name, ctl, dbx_auth.NewScopedTeam(ctl))
+	currentScope := z.Scopes()
+	if ctl.Feature().Experiment(app.ExperimentDbxAuthCourseGrainedScope) {
+		currentScope = []string{}
+	}
+	z.ctx, err = connect(currentScope, z.name, ctl, dbx_auth.DropboxTeam)
 	return err
 }
 
@@ -38,20 +42,23 @@ func (z *connScopedTeam) SetPeerName(name string) {
 }
 
 func (z *connScopedTeam) ScopeLabel() string {
-	return api_auth.DropboxScopedTeam
+	return app.ServiceDropboxTeam
 }
 
 func (z *connScopedTeam) ServiceName() string {
 	return api_conn.ServiceDropboxBusiness
 }
 
-func (z *connScopedTeam) Context() dbx_context.Context {
+func (z *connScopedTeam) Client() dbx_client.Client {
 	return z.ctx
 }
 
 func (z *connScopedTeam) SetScopes(scopes ...string) {
 	ss := make([]string, len(scopes))
 	copy(ss[:], scopes[:])
+	if !dbx_auth.HasTeamInfoRead(scopes) {
+		ss = append(ss, dbx_auth.ScopeTeamInfoRead)
+	}
 	sort.Strings(ss)
 	z.scopes = ss
 }

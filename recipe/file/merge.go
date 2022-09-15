@@ -31,7 +31,7 @@ func (z *Merge) Preset() {
 }
 
 func (z *Merge) Exec(c app_control.Control) error {
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	ufm := uc_file_merge.New(ctx, c)
 	opts := make([]uc_file_merge.MergeOpt, 0)

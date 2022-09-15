@@ -2,17 +2,17 @@ package nw_simulator
 
 import (
 	"bytes"
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"net/http"
 )
 
 type PanicClient struct {
 }
 
-func (p PanicClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
+func (p PanicClient) Call(ctx api_client.Client, req nw_client.RequestBuilder) (res es_response.Response) {
 	panic("always panic!")
 }
 

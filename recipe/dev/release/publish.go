@@ -3,9 +3,9 @@ package release
 import (
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
+	"github.com/watermint/toolbox/domain/github/api/gh_client_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
-	"github.com/watermint/toolbox/domain/github/api/gh_context_impl"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
@@ -204,11 +204,11 @@ func (z *Publish) endToEndTest(c app_control.Control) error {
 	return err
 }
 
-func (z *Publish) ghCtx(c app_control.Control) gh_context.Context {
+func (z *Publish) ghCtx(c app_control.Control) gh_client.Client {
 	if c.Feature().IsTest() {
-		return gh_context_impl.NewMock("mock", c)
+		return gh_client_impl.NewMock("mock", c)
 	} else {
-		return z.ConnGithub.Context()
+		return z.ConnGithub.Client()
 	}
 }
 

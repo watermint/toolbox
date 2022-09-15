@@ -42,7 +42,7 @@ func (z *Feature) Exec(c app_control.Control) error {
 		return err
 	}
 
-	info, err := sv_team.New(z.Peer.Context()).Feature()
+	info, err := sv_team.New(z.Peer.Client()).Feature()
 	if err != nil {
 		return err
 	}

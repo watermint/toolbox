@@ -1,10 +1,10 @@
 package sv_sendas
 
 import (
-	"github.com/watermint/toolbox/domain/google/api/goog_context"
+	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/mail/model/mo_sendas"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type SendAs interface {
@@ -48,7 +48,7 @@ func DisplayName(displayName string) SendAsOpt {
 	}
 }
 
-func New(ctx goog_context.Context, userId string) SendAs {
+func New(ctx goog_client.Client, userId string) SendAs {
 	return &sendAsImpl{
 		ctx:    ctx,
 		userId: userId,
@@ -56,7 +56,7 @@ func New(ctx goog_context.Context, userId string) SendAs {
 }
 
 type sendAsImpl struct {
-	ctx    goog_context.Context
+	ctx    goog_client.Client
 	userId string
 }
 

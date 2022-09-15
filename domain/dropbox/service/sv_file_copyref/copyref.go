@@ -2,10 +2,10 @@ package sv_file_copyref
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 )
 
 var (
@@ -20,14 +20,14 @@ type CopyRef interface {
 	Save(path mo_path.DropboxPath, ref string) (entry mo_file.Entry, err error)
 }
 
-func New(ctx dbx_context.Context) CopyRef {
+func New(ctx dbx_client.Client) CopyRef {
 	return &copyRefImpl{
 		ctx: ctx,
 	}
 }
 
 type copyRefImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *copyRefImpl) Resolve(path mo_path.DropboxPath) (entry mo_file.Entry, ref, expires string, err error) {

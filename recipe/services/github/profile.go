@@ -29,7 +29,7 @@ func (z *Profile) Exec(c app_control.Control) error {
 	if err := z.User.Open(); err != nil {
 		return err
 	}
-	user, err := sv_profile.New(z.Peer.Context()).User()
+	user, err := sv_profile.New(z.Peer.Client()).User()
 	if err != nil {
 		return err
 	}

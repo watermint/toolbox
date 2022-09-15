@@ -7,6 +7,7 @@ type Event struct {
 }
 
 const (
+	EventMonitorInfo   = "monitor"
 	EventCpuInfo       = "cpuInfo"
 	EventCpuPercent    = "cpuPercent"
 	EventCpuTime       = "cpuTime"

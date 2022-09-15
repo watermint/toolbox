@@ -42,7 +42,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		return err
 	}
 
-	info, err := sv_team.New(z.Peer.Context()).Info()
+	info, err := sv_team.New(z.Peer.Client()).Info()
 	if err != nil {
 		return err
 	}

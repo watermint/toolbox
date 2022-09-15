@@ -52,6 +52,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option             | Description                                                                               | Default              |
 |--------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
 | `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
 | `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
 | `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |

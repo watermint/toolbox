@@ -83,12 +83,12 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
 
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
@@ -100,14 +100,14 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Context(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_folder_members", uc_folder_member.ScanFolderMember, z.Peer.Context(), z.FolderMember, z.FolderOrphaned)
+		s.Define("scan_folder_members", uc_folder_member.ScanFolderMember, z.Peer.Client(), z.FolderMember, z.FolderOrphaned)
 		q := s.Get("scan_folder_members")
 
 		for _, tf := range teamFolders {
@@ -128,7 +128,7 @@ func (z *List) Exec(c app_control.Control) error {
 	})
 
 	if z.memberTypeExternal.Enabled() || z.memberTypeInternal.Enabled() {
-		members, err := sv_member.New(z.Peer.Context()).List()
+		members, err := sv_member.New(z.Peer.Client()).List()
 		if err != nil {
 			return err
 		}

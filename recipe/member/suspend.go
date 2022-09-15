@@ -30,7 +30,7 @@ func (z *Suspend) Preset() {
 
 func (z *Suspend) Exec(c app_control.Control) error {
 	l := c.Log().With(esl.String("email", z.Email), esl.Bool("keepData", z.KeepData))
-	svm := sv_member.New(z.Peer.Context())
+	svm := sv_member.New(z.Peer.Client())
 	member, err := svm.ResolveByEmail(z.Email)
 	if err != nil {
 		l.Debug("Unable to resolve the member", esl.Error(err))

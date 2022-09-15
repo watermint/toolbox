@@ -1,7 +1,7 @@
 package es_response_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
@@ -18,7 +18,7 @@ func TestBodyFileImpl(t *testing.T) {
 	defer func() {
 		os.Remove(tf)
 	}()
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	bf := newFileBody(ctx, tf, int64(len(content)))
 	if bf.File() != tf {
 		t.Error(bf.File())
@@ -50,7 +50,7 @@ func TestBodyFileImplFailure(t *testing.T) {
 	defer func() {
 		os.Remove(tf)
 	}()
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 
 	// file too large
 	{

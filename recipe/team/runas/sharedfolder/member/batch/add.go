@@ -50,7 +50,7 @@ func (z *Add) addMember(m *AddMember, resolver uc_sharedfolder.Resolver, svm sv_
 		return err
 	}
 
-	cm := z.Peer.Context().AsMemberId(member.TeamMemberId)
+	cm := z.Peer.Client().AsMemberId(member.TeamMemberId)
 	sf, err := uc_sharedfolder.NewResolver(cm).Resolve(mo_path.NewDropboxPath(m.Path))
 	if err != nil {
 		z.OperationLog.Failure(err, m)
@@ -79,8 +79,8 @@ func (z *Add) Exec(c app_control.Control) error {
 	}
 
 	var lastErr, listErr error
-	sfr := uc_sharedfolder.NewResolver(z.Peer.Context())
-	svm := sv_member.NewCached(z.Peer.Context())
+	sfr := uc_sharedfolder.NewResolver(z.Peer.Client())
+	svm := sv_member.NewCached(z.Peer.Client())
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
 		s.Define("add_member", z.addMember, sfr, svm, c)

@@ -3,8 +3,8 @@ package lock
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
@@ -57,7 +57,7 @@ func (z *Release) Preset() {
 }
 
 func (z *Release) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
@@ -66,17 +66,17 @@ func (z *Release) Exec(c app_control.Control) error {
 		return err
 	}
 
-	teamFolder, err := sv_teamfolder.New(z.Peer.Context()).ResolveByName(z.TeamFolder)
+	teamFolder, err := sv_teamfolder.New(z.Peer.Client()).ResolveByName(z.TeamFolder)
 	if err != nil {
 		return err
 	}
 
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
 
-	ctx := z.Peer.Context().WithPath(dbx_context.Namespace(teamFolder.TeamFolderId)).AsAdminId(admin.TeamMemberId)
+	ctx := z.Peer.Client().WithPath(dbx_client.Namespace(teamFolder.TeamFolderId)).AsAdminId(admin.TeamMemberId)
 	entry, err := sv_file_lock.New(ctx).Unlock(z.Path)
 	if err != nil {
 		z.OperationLog.Failure(err, &PathLock{Path: z.Path.Path()})

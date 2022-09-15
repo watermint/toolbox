@@ -3,24 +3,24 @@ package sv_user
 import (
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_user"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type User interface {
 	Features() (feature *mo_user.Feature, err error)
 }
 
-func New(ctx dbx_context.Context) User {
+func New(ctx dbx_client.Client) User {
 	return &userImpl{
 		ctx: ctx,
 	}
 }
 
 type userImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z userImpl) Features() (feature *mo_user.Feature, err error) {

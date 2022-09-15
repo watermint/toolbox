@@ -3,8 +3,8 @@ package member
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
@@ -39,7 +39,7 @@ func (z *List) Preset() {
 	)
 }
 
-func (z *List) scanNamespace(namespace *mo_namespace.Namespace, c app_control.Control, ctx dbx_context.Context) error {
+func (z *List) scanNamespace(namespace *mo_namespace.Namespace, c app_control.Control, ctx dbx_client.Client) error {
 	l := c.Log().With(esl.Any("namespace", namespace))
 
 	members, err := sv_sharedfolder_member.NewBySharedFolderId(ctx, namespace.NamespaceId).List()
@@ -60,19 +60,19 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
 	l.Debug("Run as admin", esl.Any("admin", admin))
 
-	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
+	namespaces, err := sv_namespace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_namespace", z.scanNamespace, c, z.Peer.Context().AsAdminId(admin.TeamMemberId))
+		s.Define("scan_namespace", z.scanNamespace, c, z.Peer.Client().AsAdminId(admin.TeamMemberId))
 		q := s.Get("scan_namespace")
 		for _, namespace := range namespaces {
 			if namespace.NamespaceType != "team_folder" &&

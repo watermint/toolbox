@@ -27,7 +27,7 @@ lang: en
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -50,6 +50,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -63,7 +64,7 @@ lang: en
   	},
   	Services: {"dropbox", "dropbox_business", "github"},
   	IsSecret: true,
-  	... // 11 identical fields
+  	... // 12 identical fields
   }
 ```
 # Command spec changed: `team diag explorer`
@@ -71,6 +72,7 @@ lang: en
 
 
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -86,6 +88,6 @@ lang: en
   	},
   	Services: {"dropbox_business"},
   	IsSecret: true,
-  	... // 11 identical fields
+  	... // 12 identical fields
   }
 ```

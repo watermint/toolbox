@@ -1,12 +1,12 @@
 package sv_filerequest
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type FileRequest interface {
@@ -42,14 +42,14 @@ func OptAllowLateUploads(tag string) CreateOpt {
 	}
 }
 
-func New(ctx dbx_context.Context) FileRequest {
+func New(ctx dbx_client.Client) FileRequest {
 	return &fileRequestImpl{
 		ctx: ctx,
 	}
 }
 
 type fileRequestImpl struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z *fileRequestImpl) Update(fr *mo_filerequest.FileRequest) (req *mo_filerequest.FileRequest, err error) {

@@ -2,11 +2,11 @@ package nw_simulator
 
 import (
 	"bytes"
+	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_throttle"
-	"github.com/watermint/toolbox/infra/api/api_context"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -35,7 +35,7 @@ type serverErrorClient struct {
 	client nw_client.Rest
 }
 
-func (z serverErrorClient) Call(ctx api_context.Context, req nw_client.RequestBuilder) (res es_response.Response) {
+func (z serverErrorClient) Call(ctx api_client.Client, req nw_client.RequestBuilder) (res es_response.Response) {
 	if rand.Intn(100) >= z.rate {
 		return z.client.Call(ctx, req)
 	} else {

@@ -51,7 +51,7 @@ func (z *Release) Exec(c app_control.Control) error {
 	var lastErr error
 	_ = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*PathLock)
-		entry, err := sv_file_lock.New(z.Peer.Context()).Unlock(mo_path.NewDropboxPath(row.Path))
+		entry, err := sv_file_lock.New(z.Peer.Client()).Unlock(mo_path.NewDropboxPath(row.Path))
 		if err != nil {
 			z.OperationLog.Failure(err, &PathLock{Path: row.Path})
 			lastErr = err

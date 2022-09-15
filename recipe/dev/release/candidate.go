@@ -14,7 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/recipe/dev/build"
-	"github.com/watermint/toolbox/recipe/dev/ci/auth"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"path/filepath"
 )
@@ -22,7 +21,6 @@ import (
 type Candidate struct {
 	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
-	Auth      *auth.Connect
 	Recipe    *test.Recipe
 	Doc       *Doc
 	Preflight *build.Preflight

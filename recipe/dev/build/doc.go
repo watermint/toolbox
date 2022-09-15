@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_command"
+	"github.com/watermint/toolbox/infra/doc/dc_contributor"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_readme"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
@@ -138,6 +139,20 @@ func (z *Doc) genSupplemental(c app_control.Control) error {
 	return nil
 }
 
+func (z *Doc) genContributor(c app_control.Control) error {
+	l := c.Log()
+	for _, d := range dc_contributor.Docs(dc_index.MediaWeb) {
+		l.Info("Generating contributor doc", esl.Int("media", int(dc_index.MediaWeb)), esl.Int("docId", int(d.DocId())))
+		path := dc_index.DocName(dc_index.MediaWeb, d.DocId(), c.Messages().Lang())
+		doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutContributor, c.Messages(), d)
+
+		if err := z.genDoc(path, doc, c); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (z *Doc) Exec(ctl app_control.Control) error {
 	l := ctl.Log()
 
@@ -158,6 +173,10 @@ func (z *Doc) Exec(ctl app_control.Control) error {
 	}
 	if err := z.genSupplemental(ctl); err != nil {
 		l.Error("Failed to generate supplemental manuals", esl.Error(err))
+		return err
+	}
+	if err := z.genContributor(ctl); err != nil {
+		l.Error("Failed to generate contributor documents", esl.Error(err))
 		return err
 	}
 	if err := z.genWeb(ctl); err != nil {

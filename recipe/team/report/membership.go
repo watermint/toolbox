@@ -32,7 +32,7 @@ func (z *Membership) Exec(c app_control.Control) error {
 		return err
 	}
 
-	membership, err := sv_team.NewReport(z.Peer.Context()).Membership(sv_team.NewSpan(z.StartDate, z.EndDate))
+	membership, err := sv_team.NewReport(z.Peer.Client()).Membership(sv_team.NewSpan(z.StartDate, z.EndDate))
 	if err != nil {
 		return err
 	}

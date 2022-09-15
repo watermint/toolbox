@@ -1,7 +1,7 @@
 package uc_member_mirror
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -16,7 +16,7 @@ type Mirror interface {
 	Mirror(srcEmail, dstEmail string) error
 }
 
-func New(ctxFileSrc, ctxFileDst dbx_context.Context) Mirror {
+func New(ctxFileSrc, ctxFileDst dbx_client.Client) Mirror {
 	return &mirrorImpl{
 		ctxFileSrc: ctxFileSrc,
 		ctxFileDst: ctxFileDst,
@@ -24,8 +24,8 @@ func New(ctxFileSrc, ctxFileDst dbx_context.Context) Mirror {
 }
 
 type mirrorImpl struct {
-	ctxFileSrc dbx_context.Context
-	ctxFileDst dbx_context.Context
+	ctxFileSrc dbx_client.Client
+	ctxFileDst dbx_client.Client
 }
 
 func (z *mirrorImpl) log() esl.Logger {
@@ -48,8 +48,8 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 		return err
 	}
 
-	ctxFileSrcAsMember := z.ctxFileSrc.AsMemberId(srcProfile.TeamMemberId).WithPath(dbx_context.Namespace(srcProfile.MemberFolderId))
-	ctxFileDstAsMember := z.ctxFileDst.AsMemberId(dstProfile.TeamMemberId).WithPath(dbx_context.Namespace(dstProfile.MemberFolderId))
+	ctxFileSrcAsMember := z.ctxFileSrc.AsMemberId(srcProfile.TeamMemberId).WithPath(dbx_client.Namespace(srcProfile.MemberFolderId))
+	ctxFileDstAsMember := z.ctxFileDst.AsMemberId(dstProfile.TeamMemberId).WithPath(dbx_client.Namespace(dstProfile.MemberFolderId))
 	ucm := uc_file_mirror.New(ctxFileSrcAsMember, ctxFileDstAsMember)
 
 	// shared folder list of src member (for excluding mirror)

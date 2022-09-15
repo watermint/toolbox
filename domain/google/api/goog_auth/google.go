@@ -1,11 +1,8 @@
 package goog_auth
 
 import (
-	"github.com/watermint/toolbox/infra/api/api_appkey"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/infra/app"
 )
 
 // Gmail scopes
@@ -77,28 +74,31 @@ const (
 	ScopeCalendarAddonsExecute = "https://www.googleapis.com/auth/calendar.addons.execute"
 )
 
-func NewApp(ctl app_control.Control) api_auth.App {
-	return &App{
-		ctl: ctl,
-		res: api_appkey.New(ctl),
+var (
+	Mail = api_auth.OAuthAppData{
+		AppKeyName:       app.ServiceGoogleMail,
+		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
+		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
+		EndpointStyle:    api_auth.AuthStyleInParams,
+		UsePKCE:          false,
+		RedirectUrl:      "",
 	}
-}
 
-type App struct {
-	ctl app_control.Control
-	res api_appkey.Resource
-}
-
-func (z *App) UsePKCE() bool {
-	return false
-}
-
-func (z *App) Config(scopes []string) *oauth2.Config {
-	key, secret := z.res.Key(api_auth.GoogleMail)
-	return &oauth2.Config{
-		ClientID:     key,
-		ClientSecret: secret,
-		Endpoint:     google.Endpoint,
-		Scopes:       scopes,
+	Calendar = api_auth.OAuthAppData{
+		AppKeyName:       app.ServiceGoogleCalendar,
+		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
+		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
+		EndpointStyle:    api_auth.AuthStyleInParams,
+		UsePKCE:          false,
+		RedirectUrl:      "",
 	}
-}
+
+	Sheets = api_auth.OAuthAppData{
+		AppKeyName:       app.ServiceGoogleSheets,
+		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
+		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
+		EndpointStyle:    api_auth.AuthStyleInParams,
+		UsePKCE:          false,
+		RedirectUrl:      "",
+	}
+)

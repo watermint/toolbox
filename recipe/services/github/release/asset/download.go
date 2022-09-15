@@ -40,12 +40,12 @@ func (z *Download) Exec(c app_control.Control) error {
 	l := c.Log()
 	ui := c.UI()
 
-	rel, err := sv_release.New(z.Peer.Context(), z.Owner, z.Repository).Get(z.Release)
+	rel, err := sv_release.New(z.Peer.Client(), z.Owner, z.Repository).Get(z.Release)
 	if err != nil {
 		return err
 	}
 
-	sva := sv_release_asset.New(z.Peer.Context(), z.Owner, z.Repository, rel.Id)
+	sva := sv_release_asset.New(z.Peer.Client(), z.Owner, z.Repository, rel.Id)
 	assets, err := sva.List()
 	if err != nil {
 		return err

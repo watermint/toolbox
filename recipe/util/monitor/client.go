@@ -2,6 +2,7 @@ package monitor
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/host"
@@ -18,14 +19,15 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
+	"os/user"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -44,28 +46,32 @@ type Client struct {
 	MonitorEnd      mo_time.TimeOptional
 	Display         bool
 
-	sentErrors      map[string]bool
-	currentJournal  *os.File
-	currentPath     string
-	currentStart    time.Time
-	currentDeadline time.Time
+	sentErrors       map[string]int64 // eventType -> num error sent
+	sentCount        map[string]int64 // eventType -> num event sent
+	currentJournal   *os.File
+	currentPath      string
+	currentStart     time.Time
+	currentDeadline  time.Time
+	rotateInProgress bool
 }
 
 func (z *Client) Preset() {
 	z.MonitorInterval.SetRange(1, 86400, 10)
 	z.SyncInterval.SetRange(10, 86400, 3600)
-	z.sentErrors = make(map[string]bool)
+	z.sentErrors = make(map[string]int64)
+	z.sentCount = make(map[string]int64)
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentWrite,
 	)
 }
 func (z *Client) sendError(c app_control.Control, eventType string, err error) {
-	if _, ok := z.sentErrors[eventType]; ok {
+	if n, ok := z.sentErrors[eventType]; ok {
+		z.sentErrors[eventType] = n + 1
 		return
 	}
 	l := c.Log()
 	l.Warn("Unable to retrieve event data", esl.String("type", eventType), esl.Error(err))
-	z.sentErrors[eventType] = true
+	z.sentErrors[eventType] = 1
 }
 
 func (z *Client) openJournal(c app_control.Control) error {
@@ -73,7 +79,7 @@ func (z *Client) openJournal(c app_control.Control) error {
 	if z.currentJournal != nil {
 		return nil
 	}
-	name := monitorFilePrefix + es_filepath.Escape(z.Name) + "-" + strconv.FormatInt(time.Now().Unix(), 16) + ".log"
+	name := monitorFilePrefix + es_filepath.Escape(z.Name) + "-" + fmt.Sprintf("%08x", time.Now().Unix()) + ".log"
 	path := filepath.Join(z.DataPath.Path(), name)
 	l = l.With(esl.String("path", path))
 	f, err := os.Create(path)
@@ -107,7 +113,7 @@ func (z *Client) syncJournal(c app_control.Control) error {
 		return err
 	}
 
-	sv := sv_file_content.NewUpload(z.Peer.Context())
+	sv := sv_file_content.NewUpload(z.Peer.Client())
 	basePath := z.SyncPath.ChildPath(es_filepath.Escape(z.Name), z.currentStart.Format("2006-01"), z.currentStart.Format("2006-01-02"))
 	for _, f := range files {
 		if !strings.HasPrefix(f.Name(), monitorFilePrefix) {
@@ -144,63 +150,91 @@ func (z *Client) sendEvent(c app_control.Control, eventType string, data interfa
 	if z.currentJournal != nil {
 		_, err0 := z.currentJournal.Write(evs)
 		_, err1 := z.currentJournal.Write([]byte("\n"))
+
+		if z.rotateInProgress {
+			return
+		}
+
 		if err0 == nil && err1 == nil && z.currentDeadline.Before(time.Now()) {
+			z.rotateInProgress = true
 			if err := z.syncJournal(c); err != nil {
 				z.sendError(c, eventType, err)
 			}
 			if err := z.openJournal(c); err != nil {
 				z.sendError(c, eventType, err)
 			}
+			z.headEvents(c)
+			z.rotateInProgress = false
 		}
+	}
+
+	if ns, ok := z.sentCount[eventType]; ok {
+		z.sentCount[eventType] = ns + 1
+	} else {
+		z.sentCount[eventType] = 1
 	}
 }
 
-func (z *Client) eventCpuInfo(c app_control.Control) {
-	cpuInfo, err := cpu.Info()
-	if err != nil {
-		z.sendError(c, EventCpuInfo, err)
+func (z *Client) shouldAbort(eventType string) bool {
+	if ne, oke := z.sentErrors[eventType]; oke {
+		if ns, okc := z.sentCount[eventType]; okc {
+			// Abort when three more errors without success
+			if 2 < ne && ns < 1 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (z *Client) handleEvent(c app_control.Control, eventType string, f func() (data interface{}, err error)) {
+	if z.shouldAbort(eventType) {
 		return
 	}
-	z.sendEvent(c, EventCpuInfo, cpuInfo)
+
+	data, err := f()
+	if err != nil {
+		z.sendError(c, eventType, err)
+	} else {
+		z.sendEvent(c, eventType, data)
+	}
+}
+
+func (z *Client) headEventCpuInfo(c app_control.Control) {
+	z.handleEvent(c, EventCpuInfo, func() (data interface{}, err error) {
+		return cpu.Info()
+	})
 }
 
 func (z *Client) eventCpuTime(c app_control.Control) {
-	stat, err := cpu.Times(true)
-	if err != nil {
-		z.sendError(c, EventCpuTime, err)
-		return
-	}
-	z.sendEvent(c, EventCpuTime, stat)
+	z.handleEvent(c, EventCpuTime, func() (data interface{}, err error) {
+		return cpu.Times(true)
+	})
 }
 
 func (z *Client) eventCpuPercent(c app_control.Control) {
-	stat, err := cpu.Percent(0, true)
-	if err != nil {
-		z.sendError(c, EventCpuPercent, err)
-		return
-	}
-	z.sendEvent(c, EventCpuPercent, stat)
+	z.handleEvent(c, EventCpuPercent, func() (data interface{}, err error) {
+		return cpu.Percent(0, true)
+	})
 }
 
-func (z *Client) eventHostInfo(c app_control.Control) {
-	hostInfo, err := host.Info()
-	if err != nil {
-		z.sendError(c, EventHostInfo, err)
-		return
-	}
-	z.sendEvent(c, EventHostInfo, hostInfo)
+func (z *Client) headEventHostInfo(c app_control.Control) {
+	z.handleEvent(c, EventHostInfo, func() (data interface{}, err error) {
+		return host.Info()
+	})
 }
 
-func (z *Client) eventDiskPartition(c app_control.Control) {
-	info, err := disk.Partitions(true)
-	if err != nil {
-		z.sendError(c, EventDiskPartition, err)
-		return
-	}
-	z.sendEvent(c, EventDiskPartition, info)
+func (z *Client) headEventDiskPartition(c app_control.Control) {
+	z.handleEvent(c, EventDiskPartition, func() (data interface{}, err error) {
+		return disk.Partitions(true)
+	})
 }
 
 func (z *Client) eventDiskUsage(c app_control.Control) {
+	if z.shouldAbort(EventDiskUsage) {
+		return
+	}
+
 	partitions, err := disk.Partitions(true)
 	if err != nil {
 		z.sendError(c, EventDiskUsage, err)
@@ -217,39 +251,61 @@ func (z *Client) eventDiskUsage(c app_control.Control) {
 }
 
 func (z *Client) eventLoadAverage(c app_control.Control) {
-	la, err := load.Avg()
-	if err != nil {
-		z.sendError(c, EventLoadAverage, err)
-		return
-	}
-	z.sendEvent(c, EventLoadAverage, la)
+	z.handleEvent(c, EventLoadAverage, func() (data interface{}, err error) {
+		return load.Avg()
+	})
 }
 
 func (z *Client) eventMemoryStat(c app_control.Control) {
-	vm, err := mem.VirtualMemory()
-	if err != nil {
-		z.sendError(c, EventMemoryStat, err)
-		return
-	}
-	z.sendEvent(c, EventMemoryStat, vm)
+	z.handleEvent(c, EventMemoryStat, func() (data interface{}, err error) {
+		return mem.VirtualMemory()
+	})
 }
 
 func (z *Client) eventNetIO(c app_control.Control) {
-	stats, err := net.IOCounters(true)
-	if err != nil {
-		z.sendError(c, EventNetIO, err)
-		return
-	}
-	z.sendEvent(c, EventNetIO, stats)
+	z.handleEvent(c, EventNetIO, func() (data interface{}, err error) {
+		return net.IOCounters(true)
+	})
 }
 
 func (z *Client) eventNetProtocol(c app_control.Control) {
-	stats, err := net.ProtoCounters([]string{})
-	if err != nil {
-		z.sendError(c, EventNetProtocol, err)
-		return
+	z.handleEvent(c, EventNetProtocol, func() (data interface{}, err error) {
+		return net.ProtoCounters([]string{})
+	})
+}
+
+func (z *Client) headEventMonitorInfo(c app_control.Control) {
+	var userUserName, userDisplayName, userUid string
+	if usr, err := user.Current(); err == nil {
+		userUserName = usr.Username
+		userDisplayName = usr.Name
+		userUid = usr.Uid
 	}
-	z.sendEvent(c, EventNetProtocol, stats)
+
+	z.sendEvent(c, EventMonitorInfo, struct {
+		AppVersion      string `json:"app_version"`
+		MonitorName     string `json:"monitor_name"`
+		IntervalMonitor int    `json:"interval_monitor"`
+		IntervalSync    int    `json:"interval_sync"`
+		UserDisplayName string `json:"user_display_name"`
+		UserUid         string `json:"user_uid"`
+		UserName        string `json:"user_name"`
+	}{
+		AppVersion:      app.BuildId,
+		MonitorName:     z.Name,
+		IntervalMonitor: z.MonitorInterval.Value(),
+		IntervalSync:    z.SyncInterval.Value(),
+		UserDisplayName: userDisplayName,
+		UserUid:         userUid,
+		UserName:        userUserName,
+	})
+}
+
+func (z *Client) headEvents(c app_control.Control) {
+	z.headEventMonitorInfo(c)
+	z.headEventCpuInfo(c)
+	z.headEventHostInfo(c)
+	z.headEventDiskPartition(c)
 }
 
 func (z *Client) Exec(c app_control.Control) error {
@@ -261,9 +317,8 @@ func (z *Client) Exec(c app_control.Control) error {
 		return err
 	}
 
-	z.eventCpuInfo(c)
-	z.eventHostInfo(c)
-	z.eventDiskPartition(c)
+	// Head events
+	z.headEvents(c)
 
 	// Periodical events
 	for {

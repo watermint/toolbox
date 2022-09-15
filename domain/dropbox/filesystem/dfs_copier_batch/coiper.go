@@ -1,20 +1,20 @@
 package dfs_copier_batch
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/io/es_block"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"sync"
 )
 
-func NewLocalToDropboxBatch(ctl app_control.Control, ctx dbx_context.Context, batchSize int) es_filesystem.Connector {
+func NewLocalToDropboxBatch(ctl app_control.Control, ctx dbx_client.Client, batchSize int) es_filesystem.Connector {
 	l := ctl.Log()
 	if batchSize < 1 {
 		l.Debug("Batch size less than one, fallback to one")
@@ -43,7 +43,7 @@ type copierLocalToDropboxBatch struct {
 	block        BlockSession
 	fs           es_block.BlockReader
 	ctl          app_control.Control
-	ctx          dbx_context.Context
+	ctx          dbx_client.Client
 	backlogCount sync.WaitGroup
 }
 

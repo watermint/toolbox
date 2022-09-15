@@ -43,7 +43,7 @@ func (z *Add) Preset() {
 
 func (z *Add) Exec(c app_control.Control) error {
 	ui := c.UI()
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		ui.Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
@@ -60,7 +60,7 @@ func (z *Add) Exec(c app_control.Control) error {
 		opts = append(opts, sv_teamfolder.SyncNoSync())
 	}
 
-	folder, err := sv_teamfolder.New(z.Peer.Context()).Create(z.Name, opts...)
+	folder, err := sv_teamfolder.New(z.Peer.Client()).Create(z.Name, opts...)
 	if err != nil {
 		ui.Error(z.ErrorUnableToCreate.With("Name", z.Name).With("Error", err))
 		return err

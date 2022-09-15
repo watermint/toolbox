@@ -33,7 +33,7 @@ lang: en
 
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -48,9 +48,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -65,9 +66,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -82,9 +84,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -99,9 +102,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -116,9 +120,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -133,9 +138,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -150,9 +156,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -167,9 +174,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -184,9 +192,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -201,9 +210,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -218,9 +228,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -235,9 +246,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -252,9 +264,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -269,9 +282,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -286,9 +300,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -303,9 +318,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -320,9 +336,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -337,9 +354,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -354,9 +372,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -371,9 +390,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -388,9 +408,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -405,9 +426,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -422,9 +444,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -439,9 +462,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -456,9 +480,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -473,9 +498,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -490,9 +516,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -507,9 +534,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -524,9 +552,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -541,9 +570,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -582,9 +612,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -599,9 +630,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -616,9 +648,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -633,9 +666,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "In", Desc: "Test input grid data"}},
   	GridDataOutput: {&{Name: "Out", Desc: "Output grid data"}},
 - 	TextInput:      nil,
@@ -650,9 +684,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -667,9 +702,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -684,9 +720,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -701,9 +738,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -718,9 +756,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -735,9 +774,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -752,9 +792,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -769,9 +810,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -786,9 +828,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -803,9 +846,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -829,9 +873,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -846,9 +891,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -863,9 +909,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -880,9 +927,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -897,9 +945,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -914,9 +963,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -931,9 +981,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -948,9 +999,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -965,9 +1017,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -982,9 +1035,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -999,9 +1053,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1016,9 +1071,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1033,9 +1089,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1050,9 +1107,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1067,9 +1125,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1084,9 +1143,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1101,9 +1161,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1118,9 +1179,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1135,9 +1197,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1152,9 +1215,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1169,9 +1233,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1186,9 +1251,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1203,9 +1269,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1220,9 +1287,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1237,9 +1305,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1254,9 +1323,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1271,9 +1341,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1288,9 +1359,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1305,9 +1377,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1322,9 +1395,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1339,9 +1413,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1356,9 +1431,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1373,9 +1449,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1390,9 +1467,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1407,9 +1485,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1424,9 +1503,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1441,9 +1521,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1458,9 +1539,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1475,9 +1557,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1492,9 +1575,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1509,9 +1593,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1526,9 +1611,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1543,9 +1629,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1560,9 +1647,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1577,9 +1665,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1594,9 +1683,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1611,9 +1701,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1628,9 +1719,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1645,9 +1737,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1662,9 +1755,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1679,9 +1773,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1696,9 +1791,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1713,9 +1809,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1730,9 +1827,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1747,9 +1845,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1764,9 +1863,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1781,9 +1881,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1798,9 +1899,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1815,9 +1917,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1832,9 +1935,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1849,9 +1953,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1866,9 +1971,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1883,9 +1989,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1900,9 +2007,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1917,9 +2025,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1933,6 +2042,7 @@ lang: en
 
 
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -1949,7 +2059,7 @@ lang: en
 + 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
-  	... // 3 identical fields
+  	... // 4 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -1981,9 +2091,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1998,9 +2109,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2015,9 +2127,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2032,9 +2145,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2049,9 +2163,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2066,9 +2181,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2083,9 +2199,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2100,9 +2217,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2117,9 +2235,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2134,9 +2253,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2151,9 +2271,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2168,9 +2289,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2185,9 +2307,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2202,9 +2325,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2219,9 +2343,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2236,9 +2361,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2253,9 +2379,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2270,9 +2397,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2287,9 +2415,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2304,9 +2433,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2321,9 +2451,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2338,9 +2469,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2355,9 +2487,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2372,9 +2505,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2389,9 +2523,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2406,9 +2541,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2423,9 +2559,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2440,9 +2577,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2457,9 +2595,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2474,9 +2613,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2491,9 +2631,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2508,9 +2649,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2525,9 +2667,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2542,9 +2685,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2559,9 +2703,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2576,9 +2721,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2593,9 +2739,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2610,9 +2757,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2627,9 +2775,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2644,9 +2793,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2661,9 +2811,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2678,9 +2829,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2695,9 +2847,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2712,9 +2865,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2729,9 +2883,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {&{Name: "Data", Desc: "Exported sheet data"}},
 - 	TextInput:      nil,
@@ -2746,9 +2901,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2763,9 +2919,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2780,9 +2937,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2797,9 +2955,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2814,9 +2973,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2831,9 +2991,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2848,9 +3009,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2865,9 +3027,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2882,9 +3045,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2899,9 +3063,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2916,9 +3081,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2933,9 +3099,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2950,9 +3117,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2967,9 +3135,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2984,9 +3153,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3001,9 +3171,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3018,9 +3189,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3035,9 +3207,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3052,9 +3225,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3069,6 +3243,7 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
   	... // 9 identical fields
@@ -3078,7 +3253,7 @@ lang: en
 + 	IsSecret:       true,
   	IsConsole:      false,
   	IsExperimental: false,
-  	... // 5 identical fields
+  	... // 6 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3093,9 +3268,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3110,9 +3286,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3127,9 +3304,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3144,9 +3322,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3161,9 +3340,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3178,9 +3358,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3195,9 +3376,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3212,9 +3394,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3229,9 +3412,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3246,9 +3430,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3263,9 +3448,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3280,9 +3466,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3297,9 +3484,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3314,9 +3502,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3331,9 +3520,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3348,9 +3538,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3365,9 +3556,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3382,9 +3574,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3399,9 +3592,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3416,9 +3610,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3433,9 +3628,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3450,9 +3646,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3467,9 +3664,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3484,9 +3682,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3501,9 +3700,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3518,9 +3718,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3535,9 +3736,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3552,9 +3754,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3569,9 +3772,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3586,9 +3790,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3602,6 +3807,7 @@ lang: en
 
 
 ## Command configuration changed
+
 
 ```
   &dc_recipe.Recipe{
@@ -3644,7 +3850,7 @@ lang: en
   	),
   	Remarks: "(Irreversible operation)",
   	Path:    "teamfolder member add",
-  	... // 14 identical fields
+  	... // 15 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3659,9 +3865,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3676,9 +3883,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3693,9 +3901,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3710,9 +3919,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3727,9 +3937,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3744,9 +3955,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3761,9 +3973,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3778,9 +3991,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3795,9 +4009,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3812,9 +4027,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3829,9 +4045,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3846,9 +4063,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3863,9 +4081,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3880,9 +4099,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3897,9 +4117,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3914,9 +4135,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -3938,9 +4160,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3955,9 +4178,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3972,9 +4196,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {&{Name: "Data", Desc: "Export data"}},
 - 	TextInput:      nil,
@@ -3989,9 +4214,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "Data", Desc: "Input data file"}},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -4006,9 +4232,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -4023,9 +4250,10 @@ lang: en
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,

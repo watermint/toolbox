@@ -1,7 +1,7 @@
 package es_response_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
@@ -19,7 +19,7 @@ func TestBodyMemoryImpl_Success(t *testing.T) {
 	defer func() {
 		os.Remove(tf)
 	}()
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	bm := newMemoryBody(ctx, content)
 	if bm.IsFile() {
 		t.Error(bm.IsFile())
@@ -54,7 +54,7 @@ func TestBodyMemoryImpl_Failure(t *testing.T) {
 	defer func() {
 		os.Remove(tf)
 	}()
-	ctx := es_context.NewMock()
+	ctx := es_client.NewMock()
 	bm := newMemoryBody(ctx, content)
 	if _, err := bm.AsJson(); err != es_response.ErrorContentIsNotAJSON {
 		t.Error(err)

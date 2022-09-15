@@ -52,7 +52,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if z.Filter.IsValid() {
 		opts = append(opts, sv_issue.ListFilter(z.Filter.Value()))
 	}
-	issues, err := sv_issue.New(z.Peer.Context(), z.Owner, z.Repository).List(opts...)
+	issues, err := sv_issue.New(z.Peer.Client(), z.Owner, z.Repository).List(opts...)
 	if err != nil {
 		return err
 	}

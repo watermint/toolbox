@@ -1,16 +1,16 @@
 package sv_reference
 
 import (
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_reference"
-	"github.com/watermint/toolbox/infra/api/api_request"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 )
 
 type Reference interface {
 	Create(ref, sha string) (created *mo_reference.Reference, err error)
 }
 
-func New(ctx gh_context.Context, owner, repository string) Reference {
+func New(ctx gh_client.Client, owner, repository string) Reference {
 	return &referenceImpl{
 		ctx:        ctx,
 		owner:      owner,
@@ -19,7 +19,7 @@ func New(ctx gh_context.Context, owner, repository string) Reference {
 }
 
 type referenceImpl struct {
-	ctx        gh_context.Context
+	ctx        gh_client.Client
 	owner      string
 	repository string
 }

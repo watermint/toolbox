@@ -3,9 +3,9 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn_impl"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/infra/api/api_conn"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -82,7 +82,7 @@ func (z *ValueGoogConnSheets) Spec() (typeName string, typeAttr interface{}) {
 	return es_reflect.Key(app.Pkg, z.conn), z.conn.Scopes()
 }
 
-func (z *ValueGoogConnSheets) ValueTxt() string {
+func (z *ValueGoogConnSheets) ValueText() string {
 	return z.peerName
 }
 

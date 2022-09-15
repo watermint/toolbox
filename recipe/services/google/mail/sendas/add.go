@@ -49,7 +49,7 @@ func (z *Add) Exec(c app_control.Control) error {
 	if z.ReplyTo.IsExists() {
 		opts = append(opts, sv_sendas.ReplyTo(z.ReplyTo.Value()))
 	}
-	svs := sv_sendas.New(z.Peer.Context(), z.UserId)
+	svs := sv_sendas.New(z.Peer.Client(), z.UserId)
 	entry, err := svs.Add(z.Email, opts...)
 	if err != nil {
 		l.Debug("Unable to create send as", esl.Error(err))

@@ -2,14 +2,14 @@ package es_response_impl
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/http/es_context"
+	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-func New(ctx es_context.Context, res *http.Response) es_response.Response {
+func New(ctx es_client.Client, res *http.Response) es_response.Response {
 	l := ctx.Log()
 	l.Debug("Read response body")
 	body, err := Read(ctx, res.Body)

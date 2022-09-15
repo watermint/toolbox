@@ -47,7 +47,7 @@ func (z *Create) Exec(c app_control.Control) error {
 		return err
 	}
 
-	paper, err := sv_paper.New(z.Peer.Context()).Create(z.Path, z.Format.Value(), content)
+	paper, err := sv_paper.New(z.Peer.Client()).Create(z.Path, z.Format.Value(), content)
 	if err != nil {
 		return err
 	}

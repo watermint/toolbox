@@ -31,12 +31,12 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.Assets.Open(); err != nil {
 		return err
 	}
-	rel, err := sv_release.New(z.Peer.Context(), z.Owner, z.Repository).Get(z.Release)
+	rel, err := sv_release.New(z.Peer.Client(), z.Owner, z.Repository).Get(z.Release)
 	if err != nil {
 		return err
 	}
 
-	assets, err := sv_release_asset.New(z.Peer.Context(), z.Owner, z.Repository, rel.Id).List()
+	assets, err := sv_release_asset.New(z.Peer.Client(), z.Owner, z.Repository, rel.Id).List()
 	if err != nil {
 		return err
 	}

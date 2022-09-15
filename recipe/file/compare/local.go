@@ -34,7 +34,7 @@ func (z *Local) Preset() {
 
 func (z *Local) Exec(c app_control.Control) error {
 	ui := c.UI()
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	if err := z.Diff.Open(); err != nil {
 		return err

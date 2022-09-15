@@ -15,7 +15,7 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -51,6 +51,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	Name: "http_range",
@@ -61,7 +62,7 @@ lang: ja
   	}, ""),
   	Desc:    "",
   	Remarks: "",
-  	... // 12 identical fields
+  	... // 13 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -101,6 +102,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	Name: "permdelete",
@@ -114,7 +116,7 @@ lang: ja
 + 	Desc:    "完全に削除については、https://www.dropbox.com/help/40 をご覧ください.",
   	Remarks: "(試験的実装かつ非可逆な操作です)",
   	Path:    "member file permdelete",
-  	... // 18 identical fields
+  	... // 19 identical fields
   }
 ```
 # コマンド仕様の変更: `services google mail sendas add`
@@ -122,6 +124,7 @@ lang: ja
 
 
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -132,7 +135,7 @@ lang: ja
   	}, ""),
   	Desc:    "",
   	Remarks: "",
-  	... // 12 identical fields
+  	... // 13 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -309,6 +312,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	Name: "delete",
@@ -318,7 +322,7 @@ lang: ja
   	}, ""),
   	Desc:    "",
   	Remarks: "",
-  	... // 12 identical fields
+  	... // 13 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -364,6 +368,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	Name: "list",
@@ -374,7 +379,7 @@ lang: ja
   	}, ""),
   	Desc:    "",
   	Remarks: "",
-  	... // 12 identical fields
+  	... // 13 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

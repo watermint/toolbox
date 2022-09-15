@@ -90,7 +90,7 @@ func (z *Teamsharedlink) Preset() {
 
 func (z *Teamsharedlink) createForMember(member *mo_group_member.Member, c app_control.Control, r *rand.Rand) error {
 	l := c.Log().With(esl.String("member", member.Email))
-	files, err := sv_file.NewFiles(z.Peer.Context().AsMemberId(member.TeamMemberId)).Search(
+	files, err := sv_file.NewFiles(z.Peer.Client().AsMemberId(member.TeamMemberId)).Search(
 		z.Query,
 		sv_file.SearchMaxResults(z.NumLinksPerMember*2),
 	)
@@ -104,7 +104,7 @@ func (z *Teamsharedlink) createForMember(member *mo_group_member.Member, c app_c
 		if file.EntryPathDisplay == "" {
 			continue
 		}
-		link, err := sv_sharedlink.New(z.Peer.Context().AsMemberId(member.TeamMemberId)).Create(
+		link, err := sv_sharedlink.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).Create(
 			mo_path.NewDropboxPath(file.EntryPathDisplay),
 			SelectOpts(z.Visibility.Value(), r)...,
 		)
@@ -130,12 +130,12 @@ func (z *Teamsharedlink) Exec(c app_control.Control) (err error) {
 		return err
 	}
 
-	group, err := sv_group.New(z.Peer.Context()).ResolveByName(z.Group)
+	group, err := sv_group.New(z.Peer.Client()).ResolveByName(z.Group)
 	if err != nil {
 		return err
 	}
 
-	members, err := sv_group_member.New(z.Peer.Context(), group).List()
+	members, err := sv_group_member.New(z.Peer.Client(), group).List()
 	if err != nil {
 		return err
 	}

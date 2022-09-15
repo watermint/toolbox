@@ -2,7 +2,7 @@ package mo_group_member
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/infra/api/api_parser"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"testing"
 )
 

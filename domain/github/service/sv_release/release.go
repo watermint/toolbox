@@ -2,10 +2,10 @@ package sv_release
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
@@ -15,11 +15,12 @@ var (
 type Release interface {
 	Get(tagName string) (release *mo_release.Release, err error)
 	List() (releases []*mo_release.Release, err error)
+	Latest() (release *mo_release.Release, err error)
 	CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error)
 	Publish(releaseId string) (release *mo_release.Release, err error)
 }
 
-func New(ctx gh_context.Context, owner, repo string) Release {
+func New(ctx gh_client.Client, owner, repo string) Release {
 	return &releaseImpl{
 		ctx:   ctx,
 		owner: owner,
@@ -28,9 +29,20 @@ func New(ctx gh_context.Context, owner, repo string) Release {
 }
 
 type releaseImpl struct {
-	ctx   gh_context.Context
+	ctx   gh_client.Client
 	owner string
 	repo  string
+}
+
+func (z *releaseImpl) Latest() (release *mo_release.Release, err error) {
+	endpoint := "repos/" + z.owner + "/" + z.repo + "/releases/latest"
+	res := z.ctx.Get(endpoint)
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	release = &mo_release.Release{}
+	err = res.Success().Json().Model(release)
+	return
 }
 
 func (z *releaseImpl) Get(tagName string) (release *mo_release.Release, err error) {

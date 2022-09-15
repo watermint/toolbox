@@ -132,7 +132,7 @@ func (z *Visibility) Exec(c app_control.Control) error {
 		m := r.(*sharedlink.Update)
 		m.Opts = updateOpts
 		m.File = z.File
-		m.Ctx = z.Peer.Context()
+		m.Ctx = z.Peer.Client()
 	})
 }
 

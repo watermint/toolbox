@@ -3,8 +3,8 @@ package file
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
@@ -64,18 +64,18 @@ func (z *Size) Exec(c app_control.Control) error {
 		return err
 	}
 
-	admin, err := sv_profile.NewTeam(z.Peer.Context()).Admin()
+	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
 	if err != nil {
 		return err
 	}
 	l.Debug("Run as admin", esl.Any("admin", admin))
 
-	namespaces, err := sv_namespace.New(z.Peer.Context()).List()
+	namespaces, err := sv_namespace.New(z.Peer.Client()).List()
 	if err != nil {
 		return err
 	}
 
-	cta := z.Peer.Context().AsAdminId(admin.TeamMemberId)
+	cta := z.Peer.Client().AsAdminId(admin.TeamMemberId)
 
 	scanFolderQueueId := "scan_folder"
 	scanSessionQueueId := "scan_session"
@@ -112,7 +112,7 @@ func (z *Size) Exec(c app_control.Control) error {
 				continue
 			}
 
-			dbxCtx := cta.WithPath(dbx_context.Namespace(namespace.NamespaceId))
+			dbxCtx := cta.WithPath(dbx_client.Namespace(namespace.NamespaceId))
 			dbxFs := filesystem.NewFileSystem(dbxCtx)
 			sessionId := namespace.NamespaceId
 

@@ -55,7 +55,7 @@ func (z *Acquire) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-	sfl := sv_file_lock.New(z.Peer.Context())
+	sfl := sv_file_lock.New(z.Peer.Client())
 	var lastErr error
 
 	lockBucket := func(bucket []mo_path.DropboxPath) {

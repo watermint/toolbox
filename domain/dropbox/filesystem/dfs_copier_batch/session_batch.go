@@ -3,15 +3,15 @@ package dfs_copier_batch
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"sync"
 	"time"
 )
@@ -47,7 +47,7 @@ type BatchSessions interface {
 	FinishBatchEntry(count int)
 }
 
-func StartBatchSessions(qd eq_queue.Definition, ctx dbx_context.Context, batchSize int) (BatchSessions, BlockSession) {
+func StartBatchSessions(qd eq_queue.Definition, ctx dbx_client.Client, batchSize int) (BatchSessions, BlockSession) {
 	batchSessions := &copierBatchSessions{
 		ctx:                    ctx,
 		batchSize:              batchSize,
@@ -72,7 +72,7 @@ func StartBatchSessions(qd eq_queue.Definition, ctx dbx_context.Context, batchSi
 type copierBatchSessions struct {
 	queueBatchCommit       eq_queue.Queue
 	queueBatchEntry        eq_queue.Queue
-	ctx                    dbx_context.Context
+	ctx                    dbx_client.Client
 	batchSize              int
 	blockSession           BlockSession
 	sessionIdToMutex       sync.Mutex

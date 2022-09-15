@@ -21,7 +21,7 @@ Please carefully note:
 
 Pre-compiled binaries can be found in [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are building directly from the source, please refer [BUILD.md](BUILD.md).
 
-## Installing using Homebrew on macOS
+## Installing using Homebrew on macOS/Linux
 
 First, you need to install Homebrew. Please refer the instruction on [the official site](https://brew.sh/). Then run following commands to install watermint toolbox.
 ```
@@ -261,16 +261,6 @@ Available commands:
 | [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                                           | List policies of team folders                                                       |
 | [teamfolder replication](docs/commands/teamfolder-replication.md)                                           | Replicate a team folder to the other team                                           |
 
-## Asana
-
-| Command                                                                                         | Description                    |
-|-------------------------------------------------------------------------------------------------|--------------------------------|
-| [services asana team list](docs/commands/services-asana-team-list.md)                           | List team                      |
-| [services asana team project list](docs/commands/services-asana-team-project-list.md)           | List projects of the team      |
-| [services asana team task list](docs/commands/services-asana-team-task-list.md)                 | List task of the team          |
-| [services asana workspace list](docs/commands/services-asana-workspace-list.md)                 | List workspaces                |
-| [services asana workspace project list](docs/commands/services-asana-workspace-project-list.md) | List projects of the workspace |
-
 ## GitHub
 
 | Command                                                                                           | Description                                         |
@@ -285,6 +275,7 @@ Available commands:
 | [services github release draft](docs/commands/services-github-release-draft.md)                   | Create release draft                                |
 | [services github release list](docs/commands/services-github-release-list.md)                     | List releases                                       |
 | [services github tag create](docs/commands/services-github-tag-create.md)                         | Create a tag on the repository                      |
+| [util release install](docs/commands/util-release-install.md)                                     | Download & install watermint toolbox to the path    |
 
 ## Google Calendar
 
@@ -326,16 +317,12 @@ Available commands:
 | [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet      |
 | [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet            |
 
-## Slack
-
-| Command                                                                               | Description   |
-|---------------------------------------------------------------------------------------|---------------|
-| [services slack conversation list](docs/commands/services-slack-conversation-list.md) | List channels |
-
 ## Utilities
 
 | Command                                                             | Description                                                          |
 |---------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config auth delete](docs/commands/config-auth-delete.md)           | Delete existing auth credential                                      |
+| [config auth list](docs/commands/config-auth-list.md)               | List all auth credentials                                            |
 | [config disable](docs/commands/config-disable.md)                   | Disable a feature.                                                   |
 | [config enable](docs/commands/config-enable.md)                     | Enable a feature.                                                    |
 | [config features](docs/commands/config-features.md)                 | List available optional features.                                    |

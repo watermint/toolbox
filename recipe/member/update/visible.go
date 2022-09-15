@@ -50,7 +50,7 @@ func (z *Visible) Exec(c app_control.Control) error {
 		return err
 	}
 
-	svm := sv_member.NewCached(z.Peer.Context())
+	svm := sv_member.NewCached(z.Peer.Client())
 
 	var lastErr, feedErr error
 	queueId := "visible"

@@ -45,7 +45,7 @@ func (z *Replication) Exec(c app_control.Control) error {
 		row := m.(*ReplicationRow)
 
 		ui.Progress(z.ProgressReplication.With("SrcEmail", row.SrcEmail).With("DstEmail", row.DstEmail))
-		err := uc_member_mirror.New(z.Src.Context(), z.Dst.Context()).Mirror(row.SrcEmail, row.DstEmail)
+		err := uc_member_mirror.New(z.Src.Client(), z.Dst.Client()).Mirror(row.SrcEmail, row.DstEmail)
 		if err != nil {
 			z.OperationLog.Failure(err, row)
 			return err

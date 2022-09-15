@@ -33,7 +33,7 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -48,9 +48,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -65,9 +66,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -82,9 +84,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -99,9 +102,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -116,9 +120,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -133,9 +138,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -150,9 +156,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -167,9 +174,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -184,9 +192,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -201,9 +210,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -218,9 +228,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -235,9 +246,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -252,9 +264,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -269,9 +282,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -286,9 +300,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -303,9 +318,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -320,9 +336,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -337,9 +354,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -354,9 +372,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -371,9 +390,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -388,9 +408,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -405,9 +426,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -422,9 +444,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -439,9 +462,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -456,9 +480,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -473,9 +498,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -490,9 +516,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -507,9 +534,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -524,9 +552,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -541,9 +570,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -582,9 +612,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -599,9 +630,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -616,9 +648,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -633,9 +666,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "In", Desc: "テスト入力グリッドデータ"}},
   	GridDataOutput: {&{Name: "Out", Desc: "出力グリッドデータ"}},
 - 	TextInput:      nil,
@@ -650,9 +684,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -667,9 +702,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -684,9 +720,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -701,9 +738,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -718,9 +756,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -735,9 +774,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -752,9 +792,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -769,9 +810,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -786,9 +828,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -803,9 +846,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -834,9 +878,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -851,9 +896,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -868,9 +914,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -885,9 +932,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -902,9 +950,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -919,9 +968,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -936,9 +986,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -953,9 +1004,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -970,9 +1022,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -987,9 +1040,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1004,9 +1058,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1021,9 +1076,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1038,9 +1094,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1055,9 +1112,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1072,9 +1130,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1089,9 +1148,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1106,9 +1166,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1123,9 +1184,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1140,9 +1202,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1157,9 +1220,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1174,9 +1238,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1191,9 +1256,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1208,9 +1274,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1225,9 +1292,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1242,9 +1310,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1259,9 +1328,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1276,9 +1346,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1293,9 +1364,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1310,9 +1382,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1327,9 +1400,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1344,9 +1418,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1361,9 +1436,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1378,9 +1454,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1395,9 +1472,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1412,9 +1490,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1429,9 +1508,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1446,9 +1526,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1463,9 +1544,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1480,9 +1562,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1497,9 +1580,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1514,9 +1598,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1531,9 +1616,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1548,9 +1634,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1565,9 +1652,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1582,9 +1670,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1599,9 +1688,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1616,9 +1706,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1633,9 +1724,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1650,9 +1742,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1667,9 +1760,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1684,9 +1778,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1701,9 +1796,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1718,9 +1814,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1735,9 +1832,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1752,9 +1850,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1769,9 +1868,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1786,9 +1886,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1803,9 +1904,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1820,9 +1922,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1837,9 +1940,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1854,9 +1958,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1871,9 +1976,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1888,9 +1994,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1905,9 +2012,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1922,9 +2030,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -1938,6 +2047,7 @@ lang: ja
 
 
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -1954,7 +2064,7 @@ lang: ja
 + 	Services:        []string{"dropbox_business"},
   	IsSecret:        false,
   	IsConsole:       false,
-  	... // 3 identical fields
+  	... // 4 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -1986,9 +2096,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2003,9 +2114,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2020,9 +2132,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2037,9 +2150,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2054,9 +2168,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2071,9 +2186,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2088,9 +2204,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2105,9 +2222,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2122,9 +2240,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2139,9 +2258,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2156,9 +2276,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2173,9 +2294,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2190,9 +2312,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2207,9 +2330,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2224,9 +2348,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2241,9 +2366,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2258,9 +2384,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2275,9 +2402,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2292,9 +2420,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2309,9 +2438,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2326,9 +2456,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2343,9 +2474,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2360,9 +2492,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2377,9 +2510,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2394,9 +2528,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2411,9 +2546,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2428,9 +2564,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2445,9 +2582,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2462,9 +2600,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2479,9 +2618,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2496,9 +2636,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2513,9 +2654,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2530,9 +2672,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2547,9 +2690,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2564,9 +2708,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2581,9 +2726,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2598,9 +2744,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2615,9 +2762,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2632,9 +2780,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2649,9 +2798,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2666,9 +2816,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2683,9 +2834,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2700,9 +2852,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2717,9 +2870,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2734,9 +2888,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {&{Name: "Data", Desc: "書き出したシートデータ"}},
 - 	TextInput:      nil,
@@ -2751,9 +2906,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2768,9 +2924,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2785,9 +2942,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2802,9 +2960,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2819,9 +2978,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2836,9 +2996,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2853,9 +3014,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2870,9 +3032,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2887,9 +3050,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2904,9 +3068,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2921,9 +3086,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2938,9 +3104,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2955,9 +3122,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2972,9 +3140,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -2989,9 +3158,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3006,9 +3176,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3023,9 +3194,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3040,9 +3212,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3057,9 +3230,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3074,6 +3248,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 9 identical fields
@@ -3083,7 +3258,7 @@ lang: ja
 + 	IsSecret:       true,
   	IsConsole:      false,
   	IsExperimental: false,
-  	... // 5 identical fields
+  	... // 6 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3098,9 +3273,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3115,9 +3291,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3132,9 +3309,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3149,9 +3327,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3166,9 +3345,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3183,9 +3363,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3200,9 +3381,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3217,9 +3399,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3234,9 +3417,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3251,9 +3435,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3268,9 +3453,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3285,9 +3471,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3302,9 +3489,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3319,9 +3507,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3336,9 +3525,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3353,9 +3543,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3370,9 +3561,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3387,9 +3579,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3404,9 +3597,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3421,9 +3615,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3438,9 +3633,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3455,9 +3651,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3472,9 +3669,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3489,9 +3687,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3506,9 +3705,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3523,9 +3723,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3540,9 +3741,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3557,9 +3759,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3574,9 +3777,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3591,9 +3795,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3607,6 +3812,7 @@ lang: ja
 
 
 ## 設定が変更されたコマンド
+
 
 ```
   &dc_recipe.Recipe{
@@ -3641,7 +3847,7 @@ lang: ja
   	}, ""),
   	Remarks: "(非可逆な操作です)",
   	Path:    "teamfolder member add",
-  	... // 14 identical fields
+  	... // 15 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3656,9 +3862,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3673,9 +3880,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3690,9 +3898,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3707,9 +3916,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3724,9 +3934,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3741,9 +3952,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3758,9 +3970,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3775,9 +3988,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3792,9 +4006,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3809,9 +4024,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3826,9 +4042,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3843,9 +4060,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3860,9 +4078,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3877,9 +4096,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3894,9 +4114,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3911,9 +4132,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -3935,9 +4157,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3952,9 +4175,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -3969,9 +4193,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {&{Name: "Data", Desc: "データの書き出し"}},
 - 	TextInput:      nil,
@@ -3986,9 +4211,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {&{Name: "Data", Desc: "入力データファイル"}},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -4003,9 +4229,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,
@@ -4020,9 +4247,10 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 19 identical fields
+  	... // 20 identical fields
   	GridDataInput:  {},
   	GridDataOutput: {},
 - 	TextInput:      nil,

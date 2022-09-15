@@ -2,15 +2,15 @@ package filesystem
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_folder"
+	"github.com/watermint/toolbox/essentials/api/api_parser"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_parser"
 )
 
 const (
@@ -18,14 +18,14 @@ const (
 	ApiComplexityThreshold = 10_000
 )
 
-func NewFileSystem(ctx dbx_context.Context) es_filesystem.FileSystem {
+func NewFileSystem(ctx dbx_client.Client) es_filesystem.FileSystem {
 	return &dbxFs{
 		ctx: ctx,
 	}
 }
 
 type dbxFs struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z dbxFs) OperationalComplexity(entries []es_filesystem.Entry) (complexity int64) {

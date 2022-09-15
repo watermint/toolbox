@@ -1,7 +1,7 @@
 package dfs_copier_batch
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"go.uber.org/atomic"
 	"sync"
@@ -18,7 +18,7 @@ type BlockSession interface {
 	FinishFailure(sessionId string, err error)
 }
 
-func NewBlockSession(ctx dbx_context.Context, bs BatchSessions) BlockSession {
+func NewBlockSession(ctx dbx_client.Client, bs BatchSessions) BlockSession {
 	cbs := &copierBlockSession{
 		ctx:                ctx,
 		bs:                 bs,
@@ -30,7 +30,7 @@ func NewBlockSession(ctx dbx_context.Context, bs BatchSessions) BlockSession {
 }
 
 type copierBlockSession struct {
-	ctx                dbx_context.Context
+	ctx                dbx_client.Client
 	bs                 BatchSessions
 	backlog            atomic.Uint32
 	backlogOffsetMutex sync.Mutex

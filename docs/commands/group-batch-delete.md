@@ -29,10 +29,12 @@ Please see below help article for more detail:
 | Description                                                                                                     |
 |-----------------------------------------------------------------------------------------------------------------|
 | Dropbox Business: View and manage your team group membership, including removing and recovering member accounts |
+| Dropbox Business: View basic information about your team including names, user count, and team settings         |
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Dropbox account.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -89,6 +91,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option             | Description                                                                               | Default              |
 |--------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
 | `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
 | `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
 | `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |

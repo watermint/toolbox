@@ -44,7 +44,7 @@ func (z *Add) Preset() {
 }
 
 func (z *Add) addGroup(gn *GroupName, c app_control.Control) error {
-	group, err := sv_group.New(z.Peer.Context()).Create(
+	group, err := sv_group.New(z.Peer.Client()).Create(
 		gn.Name,
 		sv_group.ManagementType(z.ManagementType.Value()),
 	)

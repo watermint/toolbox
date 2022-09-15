@@ -1,7 +1,7 @@
 package uc_member_folder
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -25,7 +25,7 @@ type Scanner interface {
 	Scan(filter mo_filter.Filter) (namespaces []*MemberNamespace, err error)
 }
 
-func New(ctl app_control.Control, ctx dbx_context.Context) Scanner {
+func New(ctl app_control.Control, ctx dbx_client.Client) Scanner {
 	return &scanImpl{
 		ctl: ctl,
 		ctx: ctx,
@@ -39,7 +39,7 @@ const (
 
 type scanImpl struct {
 	ctl app_control.Control
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z scanImpl) scanMember(sessionId string, stage eq_sequence.Stage) error {

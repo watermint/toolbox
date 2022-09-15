@@ -32,7 +32,8 @@ Please see below help article for more detail:
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Google account. Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your Google account.
+Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
 ```
 
 watermint toolbox xx.x.xxx
@@ -41,13 +42,9 @@ watermint toolbox xx.x.xxx
 © 2016-2022 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
+Opening the authorization URL:
 https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
 
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
 ```
 
 # Installation
@@ -80,20 +77,21 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option              | Description                                                                                                                                                                                                                                                                                                                                                                          | Default                                                                  |
-|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
-| `-data`             | Path to export.                                                                                                                                                                                                                                                                                                                                                                      |                                                                          |
-| `-data-format`      | Output format                                                                                                                                                                                                                                                                                                                                                                        |                                                                          |
-| `-date-time-render` | How dates, times, and durations should be represented in the output.                                                                                                                                                                                                                                                                                                                 | serial                                                                   |
-| `-id`               | Spreadsheet ID                                                                                                                                                                                                                                                                                                                                                                       |                                                                          |
-| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                        | &{default [https://www.googleapis.com/auth/spreadsheets.readonly] <nil>} |
-| `-range`            | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |                                                                          |
-| `-value-render`     | How values should be represented in the output.                                                                                                                                                                                                                                                                                                                                      | formatted                                                                |
+| Option              | Description                                                                                                                                                                                                                                                                                                                                                                          | Default   |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `-data`             | Path to export.                                                                                                                                                                                                                                                                                                                                                                      |           |
+| `-data-format`      | Output format                                                                                                                                                                                                                                                                                                                                                                        |           |
+| `-date-time-render` | How dates, times, and durations should be represented in the output.                                                                                                                                                                                                                                                                                                                 | serial    |
+| `-id`               | Spreadsheet ID                                                                                                                                                                                                                                                                                                                                                                       |           |
+| `-peer`             | Account alias                                                                                                                                                                                                                                                                                                                                                                        | default   |
+| `-range`            | The range the values cover, in A1 notation. This is a string like Sheet1!A1:B2, that refers to a group of cells in the spreadsheet, and is typically used in formulas. `Sheet1!A1:B2` refers to the first two cells in the top two rows of Sheet1. `A1:B2` refers to the first two cells in the top two rows of the first visible sheet. `Sheet1` refers to all the cells in Sheet1. |           |
+| `-value-render`     | How values should be represented in the output.                                                                                                                                                                                                                                                                                                                                      | formatted |
 
 ## Common options:
 
 | Option             | Description                                                                               | Default              |
 |--------------------|-------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
 | `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
 | `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
 | `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |

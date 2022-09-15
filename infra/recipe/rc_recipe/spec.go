@@ -115,6 +115,9 @@ type Spec interface {
 	// True if the operation is transient.
 	IsTransient() bool
 
+	// IsDeprecated returns true if the operation is deprecated.
+	IsDeprecated() bool
+
 	// Print usage
 	PrintUsage(ui app_ui.UI)
 

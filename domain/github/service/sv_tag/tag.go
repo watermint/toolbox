@@ -2,11 +2,11 @@ package sv_tag
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/github/api/gh_context"
+	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/model/mo_tag"
 	"github.com/watermint/toolbox/domain/github/service/sv_reference"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 var (
@@ -18,7 +18,7 @@ type Tag interface {
 	Create(tagName, message, sha string) (tag *mo_tag.Tag, err error)
 }
 
-func New(ctx gh_context.Context, owner, repo string) Tag {
+func New(ctx gh_client.Client, owner, repo string) Tag {
 	return &tagImpl{
 		ctx:   ctx,
 		owner: owner,
@@ -27,7 +27,7 @@ func New(ctx gh_context.Context, owner, repo string) Tag {
 }
 
 type tagImpl struct {
-	ctx   gh_context.Context
+	ctx   gh_client.Client
 	owner string
 	repo  string
 }

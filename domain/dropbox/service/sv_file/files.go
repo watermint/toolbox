@@ -2,14 +2,14 @@ package sv_file
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 const (
@@ -136,13 +136,13 @@ func RemoveRevision(revision string) RemoveOpt {
 	}
 }
 
-func NewFiles(ctx dbx_context.Context) Files {
+func NewFiles(ctx dbx_client.Client) Files {
 	return &filesImpl{
 		ctx: ctx,
 	}
 }
 
-func newFilesTest(ctx dbx_context.Context) Files {
+func newFilesTest(ctx dbx_client.Client) Files {
 	return &filesImpl{
 		ctx: ctx,
 	}
@@ -203,7 +203,7 @@ func SearchIncludeHighlights() SearchOpt {
 }
 
 type filesImpl struct {
-	ctx   dbx_context.Context
+	ctx   dbx_client.Client
 	limit int
 }
 

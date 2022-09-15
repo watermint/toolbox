@@ -1,23 +1,22 @@
 package dbx_request
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/api/api_auth"
-	"github.com/watermint/toolbox/infra/api/api_request"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"net/http"
-	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, token api_auth.Context) Builder {
+func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
 	return &builderImpl{
-		ctl:   ctl,
-		token: token,
+		ctl:    ctl,
+		entity: entity,
 	}
 }
 
@@ -25,20 +24,25 @@ type Builder interface {
 	api_request.Builder
 	AsMemberId(teamMemberId string) Builder
 	AsAdminId(teamMemberId string) Builder
-	WithPath(pathRoot dbx_context.PathRoot) Builder
+	WithPath(pathRoot dbx_client.PathRoot) Builder
 	With(method, url string, data api_request.RequestData) Builder
 	NoAuth() Builder
 }
 
 type builderImpl struct {
 	ctl        app_control.Control
-	token      api_auth.Context
+	entity     api_auth.OAuthEntity
 	asMemberId string
 	asAdminId  string
-	basePath   dbx_context.PathRoot
+	basePath   dbx_client.PathRoot
 	method     string
 	data       api_request.RequestData
 	url        string
+}
+
+func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
+	z.data = z.data.WithDatum(data)
+	return z
 }
 
 func (z builderImpl) Endpoint() string {
@@ -46,7 +50,7 @@ func (z builderImpl) Endpoint() string {
 }
 
 func (z builderImpl) NoAuth() Builder {
-	z.token = nil
+	z.entity = api_auth.NewNoAuthOAuthEntity()
 	return z
 }
 func (z builderImpl) AsMemberId(teamMemberId string) Builder {
@@ -57,7 +61,7 @@ func (z builderImpl) AsAdminId(teamMemberId string) Builder {
 	z.asAdminId = teamMemberId
 	return z
 }
-func (z builderImpl) WithPath(pathRoot dbx_context.PathRoot) Builder {
+func (z builderImpl) WithPath(pathRoot dbx_client.PathRoot) Builder {
 	z.basePath = pathRoot
 	return z
 }
@@ -84,7 +88,7 @@ func (z builderImpl) Log() esl.Logger {
 }
 
 func (z builderImpl) ClientHash() string {
-	var ss, sr, st, sp []string
+	var ss, sr, sp []string
 	sr = []string{
 		"m", z.method,
 		"u", z.url,
@@ -93,17 +97,10 @@ func (z builderImpl) ClientHash() string {
 		"m", z.asMemberId,
 		"a", z.asAdminId,
 	}
-	if z.token != nil {
-		st = []string{
-			"p", z.token.PeerName(),
-			"t", z.token.Token().AccessToken,
-			"y", strings.Join(z.token.Scopes(), ","),
-		}
-	}
 	if z.basePath != nil {
 		sp = []string{"p", z.basePath.Header()}
 	}
-	return nw_client.ClientHash(ss, sr, st, sp)
+	return nw_client.ClientHash(ss, sr, z.entity.HashSeed(), sp)
 }
 
 func (z builderImpl) Build() (*http.Request, error) {
@@ -128,9 +125,9 @@ func (z builderImpl) reqHeaders() map[string]string {
 
 	headers := make(map[string]string)
 	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
-	if z.token != nil && !z.token.IsNoAuth() {
-		headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.token.Token().AccessToken
-	}
+	//if !z.entity.IsNoAuth() {
+	//	headers[api_request.ReqHeaderAuthorization] = "Bearer " + z.entity.Token.AccessToken
+	//}
 	if z.asAdminId != "" {
 		headers[api_request.ReqHeaderDropboxApiSelectAdmin] = z.asAdminId
 	}

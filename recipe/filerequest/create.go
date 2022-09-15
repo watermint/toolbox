@@ -45,7 +45,7 @@ func (z *Create) Exec(c app_control.Control) error {
 	if err := z.FileRequest.Open(); err != nil {
 		return err
 	}
-	fr, err := sv_filerequest.New(z.Peer.Context()).Create(z.Title, z.Path, opts...)
+	fr, err := sv_filerequest.New(z.Peer.Client()).Create(z.Title, z.Path, opts...)
 	if err != nil {
 		return err
 	}

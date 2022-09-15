@@ -1,3 +1,14 @@
-* fix #637 : `file sync down` didn't work
-* #613 : Create sheet command for Google Sheets
-* #638 : add offset option for `util date today` and `util datetime now`
+## Incompatible updates:
+
+#645 : Incompatible change: new token file format. re-authentication required
+#647 : Deprecation: Asana commands will no longer tested before release.
+#649 : Deprecation: Slack commands will no longer tested before release.
+
+## New features/fixes
+
+#623 : new authentication framework
+#639 : watermint toolbox Deployment command
+#643 : new contributor doc
+#644 : course-grained auth scope
+#650 : util monitor client enhancement
+#651 : credential util

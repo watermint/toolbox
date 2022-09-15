@@ -29,6 +29,9 @@ const (
 	DocSupplementalExperimentalFeature
 	DocSupplementalTroubleshooting
 	DocSupplementalDropboxBusiness
+
+	// Contributor documents
+	DocContributorRecipeValues
 )
 
 const (
@@ -42,6 +45,7 @@ const (
 	WebCategoryHome WebCategory = iota
 	WebCategoryCommand
 	WebCategoryGuide
+	WebCategoryContributor
 )
 
 type WebCategory int
@@ -69,6 +73,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
+		DocContributorRecipeValues,
 	}
 
 	WebDocs = []DocId{
@@ -83,6 +88,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
+		DocContributorRecipeValues,
 	}
 
 	AllMedia = []MediaType{
@@ -93,10 +99,6 @@ var (
 
 func GeneratedPath(l lang.Lang, name string) string {
 	return GeneratedDocPath + l.Suffix() + "/" + name
-}
-
-func SupplementalDocPath(l lang.Lang, name string) string {
-	return GeneratedPath(l, "supplemental_"+name)
 }
 
 type NameOpts struct {
@@ -157,6 +159,8 @@ func WebDocPath(refPath bool, cat WebCategory, name string, lg lang.Lang) string
 		return basePath + pathLang + "commands/" + name + suffix
 	case WebCategoryGuide:
 		return basePath + pathLang + "guides/" + name + suffix
+	case WebCategoryContributor:
+		return basePath + pathLang + "contributor/" + name + suffix
 	}
 
 	esl.Default().Warn("Invalid web category id", esl.Int("category", int(cat)))
@@ -194,6 +198,8 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
+		case DocContributorRecipeValues:
+			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
 		}
 
 	case MediaWeb:
@@ -222,6 +228,8 @@ func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
+		case DocContributorRecipeValues:
+			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
 		}
 	}
 

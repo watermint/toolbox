@@ -37,7 +37,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		return err
 	}
 
-	entry, err := sv_file.NewFiles(z.Peer.Context()).Resolve(z.Path)
+	entry, err := sv_file.NewFiles(z.Peer.Client()).Resolve(z.Path)
 	if err != nil {
 		return err
 	}

@@ -8,18 +8,24 @@ lang: en
 
 # Commands added
 
+
 | Command                             | Title                               |
 |-------------------------------------|-------------------------------------|
 | services google sheets sheet create | Create a new sheet                  |
 | services google sheets sheet delete | Delete a sheet from the spreadsheet |
 
+
+
 # Command spec changed: `util date today`
+
+
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -31,14 +37,16 @@ lang: en
   	... // 2 identical fields
   }
 ```
-
 # Command spec changed: `util datetime now`
+
+
 
 ## Command configuration changed
 
+
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

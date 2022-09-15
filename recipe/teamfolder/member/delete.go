@@ -64,7 +64,7 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) delete(r *DeleteRecord, c app_control.Control, tc uc_teamfolder.TeamContent, sg sv_group.Group) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Context()); ok {
+	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}
@@ -129,11 +129,11 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	tc, err := uc_teamfolder.New(z.Peer.Context(), z.AdminGroupName)
+	tc, err := uc_teamfolder.New(z.Peer.Client(), z.AdminGroupName)
 	if err != nil {
 		return err
 	}
-	sg := sv_group.NewCached(z.Peer.Context())
+	sg := sv_group.NewCached(z.Peer.Client())
 
 	var lastErr, fileErr error
 	queueId := "delete"

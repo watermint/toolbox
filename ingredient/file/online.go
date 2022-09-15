@@ -1,8 +1,8 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_dbx_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
@@ -21,7 +21,7 @@ import (
 )
 
 type Online struct {
-	Context   dbx_context.Context
+	Context   dbx_client.Client
 	Delete    bool
 	Overwrite bool
 	SrcPath   mo_path.DropboxPath
@@ -159,7 +159,7 @@ func (z *Online) Exec(c app_control.Control) error {
 func (z *Online) Test(c app_control.Control) error {
 	return rc_exec.ExecMock(c, &Online{}, func(r rc_recipe.Recipe) {
 		m := r.(*Online)
-		m.Context = dbx_context_impl.NewMock("mock", c)
+		m.Context = dbx_client_impl.NewMock("mock", c)
 		m.SrcPath = qtr_endtoend.NewTestDropboxFolderPath("src")
 		m.DstPath = qtr_endtoend.NewTestDropboxFolderPath("dst")
 	})

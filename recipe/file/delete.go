@@ -30,7 +30,7 @@ func (z *Delete) Preset() {
 
 func (z *Delete) Exec(c app_control.Control) error {
 	ui := c.UI()
-	ctx := z.Peer.Context()
+	ctx := z.Peer.Client()
 
 	var del func(path mo_path.DropboxPath) error
 	del = func(path mo_path.DropboxPath) error {

@@ -26,7 +26,7 @@ lang: ja
 
 ```
   &dc_recipe.Recipe{
-  	... // 16 identical fields
+  	... // 17 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -54,6 +54,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -63,7 +64,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -95,6 +96,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -104,7 +106,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -132,6 +134,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -141,7 +144,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -171,6 +174,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -180,7 +184,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -208,6 +212,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -217,7 +222,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -246,6 +251,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -255,7 +261,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -283,6 +289,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -292,7 +299,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -320,6 +327,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -329,7 +337,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -361,6 +369,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -370,7 +379,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -400,6 +409,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -409,7 +419,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -439,6 +449,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -448,7 +459,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_individual"},
   	Services:        {"dropbox"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -476,6 +487,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -485,7 +497,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -515,6 +527,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -524,7 +537,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -553,6 +566,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -562,7 +576,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -591,6 +605,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -600,7 +615,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -629,6 +644,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -638,7 +654,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -666,6 +682,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -675,7 +692,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -711,6 +728,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -720,7 +738,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{
@@ -749,6 +767,7 @@ lang: ja
 
 ## 設定が変更されたコマンド
 
+
 ```
   &dc_recipe.Recipe{
   	... // 7 identical fields
@@ -758,7 +777,7 @@ lang: ja
 + 	ConnScopes:      map[string]string{"Peer": "dropbox_scoped_team"},
   	Services:        {"dropbox_business"},
   	IsSecret:        false,
-  	... // 4 identical fields
+  	... // 5 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

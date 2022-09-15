@@ -1,11 +1,11 @@
 package sv_paper
 
 import (
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_context"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_paper"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
-	"github.com/watermint/toolbox/infra/api/api_request"
 )
 
 type Paper interface {
@@ -15,14 +15,14 @@ type Paper interface {
 	Prepend(path mo_path.DropboxPath, format string, content []byte) (paper mo_paper.PaperUpdate, err error)
 }
 
-func New(ctx dbx_context.Context) Paper {
+func New(ctx dbx_client.Client) Paper {
 	return &svPaper{
 		ctx: ctx,
 	}
 }
 
 type svPaper struct {
-	ctx dbx_context.Context
+	ctx dbx_client.Client
 }
 
 func (z svPaper) Create(path mo_path.DropboxPath, format string, content []byte) (paper mo_paper.PaperUpdate, err error) {
