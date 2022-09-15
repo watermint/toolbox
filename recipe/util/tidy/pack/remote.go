@@ -176,7 +176,7 @@ func (z *Remote) Test(c app_control.Control) error {
 
 	return rc_exec.ExecMock(c, &Remote{}, func(r rc_recipe.Recipe) {
 		m := r.(*Remote)
-		m.LocalPath = mo_path2.NewFileSystemPath(p)
+		m.LocalPath = mo_path2.NewFileSystemPath(filepath.Join(p, "test.zip"))
 		m.DropboxPath = qtr_endtoend.NewTestDropboxFolderPath("remote")
 	})
 }
