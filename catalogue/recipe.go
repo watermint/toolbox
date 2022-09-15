@@ -140,6 +140,7 @@ import (
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
+	recipeutiltidypack "github.com/watermint/toolbox/recipe/util/tidy/pack"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
@@ -448,6 +449,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltextencoding.To{},
 		&recipeutiltidymove.Dispatch{},
 		&recipeutiltidymove.Simple{},
+		&recipeutiltidypack.Remote{},
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},

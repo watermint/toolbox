@@ -68,6 +68,7 @@ lang: en
 | [sharedlink info]({{ site.baseurl }}/commands/sharedlink-info.html)                             | Get information about the shared link                         |
 | [sharedlink list]({{ site.baseurl }}/commands/sharedlink-list.html)                             | List of shared link(s)                                        |
 | [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                     | Start device monitor client                                   |
+| [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                 | Package remote folder into the zip file                       |
 
 ## Dropbox Business
 
