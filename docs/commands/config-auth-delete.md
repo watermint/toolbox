@@ -42,7 +42,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |--------------|----------------------|---------|
 | `-key-name`  | Application key name |         |
 | `-peer-name` | Peer name            |         |
-| `-scope`     | Auth scope           |         |
 
 ## Common options:
 
@@ -66,6 +65,33 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
+
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: deleted
+
+Auth credential data
+The command will generate a report in three different formats. `deleted.csv`, `deleted.json`, and `deleted.xlsx`.
+
+| Column      | Description      |
+|-------------|------------------|
+| key_name    | Application name |
+| scope       | Auth scope       |
+| peer_name   | Peer name        |
+| description | Description      |
+| timestamp   | Timestamp        |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 # Proxy configuration
 

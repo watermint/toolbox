@@ -1,4 +1,4 @@
-package archive
+package move
 
 import (
 	"errors"
@@ -16,7 +16,7 @@ import (
 	"path/filepath"
 )
 
-type Local struct {
+type Simple struct {
 	IncludeSystemFiles bool
 	ExcludeFolders     bool
 	Preview            bool
@@ -27,11 +27,11 @@ type Local struct {
 	ErrorUnableToMove  app_msg.Message
 }
 
-func (z *Local) Preset() {
+func (z *Simple) Preset() {
 
 }
 
-func (z *Local) move(c app_control.Control) (err error) {
+func (z *Simple) move(c app_control.Control) (err error) {
 	l := c.Log().With(esl.String("targetPath", z.Src.Path()))
 	ui := c.UI()
 
@@ -91,11 +91,11 @@ func (z *Local) move(c app_control.Control) (err error) {
 	return lastErr
 }
 
-func (z *Local) Exec(c app_control.Control) error {
+func (z *Simple) Exec(c app_control.Control) error {
 	return z.move(c)
 }
 
-func (z *Local) Test(c app_control.Control) error {
+func (z *Simple) Test(c app_control.Control) error {
 	src, err := qt_file.MakeTestFolder("source", true)
 	if err != nil {
 		return err
@@ -111,8 +111,8 @@ func (z *Local) Test(c app_control.Control) error {
 		_ = os.RemoveAll(dst)
 	}()
 
-	return rc_exec.ExecMock(c, &Local{}, func(r rc_recipe.Recipe) {
-		m := r.(*Local)
+	return rc_exec.ExecMock(c, &Simple{}, func(r rc_recipe.Recipe) {
+		m := r.(*Simple)
 		m.Src = mo_path.NewExistingFileSystemPath(src)
 		m.Dst = mo_path.NewFileSystemPath(dst)
 	})

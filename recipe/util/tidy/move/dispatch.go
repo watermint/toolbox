@@ -1,4 +1,4 @@
-package dispatch
+package move
 
 import (
 	"bytes"
@@ -79,7 +79,7 @@ func (z *namePattern) Compile(name, dstPattern string) (string, error) {
 	return buf.String(), nil
 }
 
-type LocalPattern struct {
+type DispatchPattern struct {
 	Suffix            string `json:"suffix"`
 	SourcePath        string `json:"source_path"`
 	SourceFilePattern string `json:"source_file_pattern"`
@@ -87,13 +87,13 @@ type LocalPattern struct {
 	DestFilePattern   string `json:"dest_file_pattern"`
 }
 
-func (z *LocalPattern) preview(src, dst string, c app_control.Control) error {
+func (z *DispatchPattern) preview(src, dst string, c app_control.Control) error {
 	ui := c.UI()
 	ui.Info(MLocal.ExecPreview.With("Src", src).With("Dest", dst))
 	return nil
 }
 
-func (z *LocalPattern) move(src, dst string, c app_control.Control) error {
+func (z *DispatchPattern) move(src, dst string, c app_control.Control) error {
 	l := c.Log().With(esl.String("src", src), esl.String("dst", dst))
 	ui := c.UI()
 
@@ -116,7 +116,7 @@ func (z *LocalPattern) move(src, dst string, c app_control.Control) error {
 	return nil
 }
 
-func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c app_control.Control) error) error {
+func (z *DispatchPattern) Exec(c app_control.Control, op func(src, dst string, c app_control.Control) error) error {
 	ui := c.UI()
 	l := c.Log()
 
@@ -193,19 +193,19 @@ func (z *LocalPattern) Exec(c app_control.Control, op func(src, dst string, c ap
 	return err
 }
 
-type Local struct {
+type Dispatch struct {
 	rc_recipe.RemarkIrreversible
 	File    fd_file.RowFeed
 	Preview bool
 }
 
-func (z *Local) Preset() {
-	z.File.SetModel(&LocalPattern{})
+func (z *Dispatch) Preset() {
+	z.File.SetModel(&DispatchPattern{})
 }
 
-func (z *Local) Exec(c app_control.Control) error {
+func (z *Dispatch) Exec(c app_control.Control) error {
 	return z.File.EachRow(func(m interface{}, rowIndex int) error {
-		p := m.(*LocalPattern)
+		p := m.(*DispatchPattern)
 		// ignore errors
 		if z.Preview {
 			p.Exec(c, p.preview)
@@ -216,7 +216,7 @@ func (z *Local) Exec(c app_control.Control) error {
 	})
 }
 
-func (z *Local) Test(c app_control.Control) error {
+func (z *Dispatch) Test(c app_control.Control) error {
 	src, err := qt_file.MakeTestFolder("src", false)
 	if err != nil {
 		return err
@@ -239,7 +239,7 @@ func (z *Local) Test(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	lp := &LocalPattern{
+	lp := &DispatchPattern{
 		Suffix:            "txt",
 		SourcePath:        src,
 		SourceFilePattern: `TBX-(\d{4})-(\d{2})-(\d{2})`,
@@ -247,7 +247,7 @@ func (z *Local) Test(c app_control.Control) error {
 		DestFilePattern:   "{{.M1}}-{{.M2}}-{{.M3}}",
 	}
 	cw := rp_writer_impl.NewCsvWriter("local", c)
-	if err = cw.Open(c, &LocalPattern{}); err != nil {
+	if err = cw.Open(c, &DispatchPattern{}); err != nil {
 		return err
 	}
 	cw.Row(lp)
@@ -255,8 +255,8 @@ func (z *Local) Test(c app_control.Control) error {
 	filePath := filepath.Join(c.Workspace().Report(), "local.csv")
 
 	// Preview
-	err = rc_exec.Exec(c, &Local{}, func(r rc_recipe.Recipe) {
-		m := r.(*Local)
+	err = rc_exec.Exec(c, &Dispatch{}, func(r rc_recipe.Recipe) {
+		m := r.(*Dispatch)
 		m.File.SetFilePath(filePath)
 		m.Preview = true
 	})
@@ -265,8 +265,8 @@ func (z *Local) Test(c app_control.Control) error {
 	}
 
 	// Move
-	err = rc_exec.Exec(c, &Local{}, func(r rc_recipe.Recipe) {
-		m := r.(*Local)
+	err = rc_exec.Exec(c, &Dispatch{}, func(r rc_recipe.Recipe) {
+		m := r.(*Dispatch)
 		m.File.SetFilePath(filePath)
 		m.Preview = false
 	})

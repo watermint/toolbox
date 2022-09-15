@@ -326,8 +326,6 @@ Available commands:
 | [config disable](docs/commands/config-disable.md)                   | Disable a feature.                                                   |
 | [config enable](docs/commands/config-enable.md)                     | Enable a feature.                                                    |
 | [config features](docs/commands/config-features.md)                 | List available optional features.                                    |
-| [file archive local](docs/commands/file-archive-local.md)           | Archive local files                                                  |
-| [file dispatch local](docs/commands/file-dispatch-local.md)         | Dispatch local files                                                 |
 | [job history archive](docs/commands/job-history-archive.md)         | Archive jobs                                                         |
 | [job history delete](docs/commands/job-history-delete.md)           | Delete old job history                                               |
 | [job history list](docs/commands/job-history-list.md)               | Show job history                                                     |
@@ -356,6 +354,8 @@ Available commands:
 | [util text case up](docs/commands/util-text-case-up.md)             | Print upper case text                                                |
 | [util text encoding from](docs/commands/util-text-encoding-from.md) | Convert text encoding to UTF-8 text file from specified encoding.    |
 | [util text encoding to](docs/commands/util-text-encoding-to.md)     | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md) | Dispatch files                                                       |
+| [util tidy move simple](docs/commands/util-tidy-move-simple.md)     | Archive local files                                                  |
 | [util time now](docs/commands/util-time-now.md)                     | Display current time                                                 |
 | [util unixtime format](docs/commands/util-unixtime-format.md)       | Time format to convert the unix time (epoch seconds from 1970-01-01) |
 | [util unixtime now](docs/commands/util-unixtime-now.md)             | Display current time in unixtime                                     |

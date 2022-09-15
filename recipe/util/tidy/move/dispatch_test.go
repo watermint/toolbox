@@ -1,4 +1,4 @@
-package dispatch
+package move
 
 import (
 	"github.com/watermint/toolbox/infra/app"
@@ -12,7 +12,7 @@ import (
 )
 
 func TestLocal_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Local{})
+	qtr_endtoend.TestRecipe(t, &Dispatch{})
 }
 
 func TestNamePattern_Match(t *testing.T) {
@@ -85,7 +85,7 @@ func TestLocalPattern_Preview(t *testing.T) {
 	}()
 
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		lp := &LocalPattern{}
+		lp := &DispatchPattern{}
 		lp.preview(src, dst, ctl)
 	})
 }
@@ -118,7 +118,7 @@ func TestLocalPattern_Move(t *testing.T) {
 	}
 
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		lp := &LocalPattern{}
+		lp := &DispatchPattern{}
 		if err := lp.move(srcPath, dstPath, ctl); err != nil {
 			t.Error(err)
 			return
@@ -157,7 +157,7 @@ func TestLocalPattern_Exec(t *testing.T) {
 	}
 
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		lp := &LocalPattern{
+		lp := &DispatchPattern{
 			Suffix:            "txt",
 			SourcePath:        src,
 			SourceFilePattern: `TBX-(\d{4})-(\d{2})-(\d{2})`,

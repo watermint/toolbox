@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# file dispatch local
+# util tidy move dispatch
 
-Dispatch local files (Irreversible operation)
+Dispatch files (Irreversible operation)
 
 # Installation
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file dispatch local -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe util tidy move dispatch -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file dispatch local -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx util tidy move dispatch -file /PATH/TO/DATA_FILE.csv
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

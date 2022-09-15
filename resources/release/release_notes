@@ -1,0 +1,7 @@
+## Incompatible changes
+
+* #653 : Renaming `file archive local` and `file dispatch local`
+
+## Changes
+
+* #652 : File tidy utility

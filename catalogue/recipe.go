@@ -25,9 +25,7 @@ import (
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipefile "github.com/watermint/toolbox/recipe/file"
-	recipefilearchive "github.com/watermint/toolbox/recipe/file/archive"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
-	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
@@ -141,6 +139,7 @@ import (
 	recipeutilrelease "github.com/watermint/toolbox/recipe/util/release"
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
+	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
@@ -213,10 +212,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.Replication{},
 		&recipefile.Size{},
 		&recipefile.Watch{},
-		&recipefilearchive.Local{},
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},
-		&recipefiledispatch.Local{},
 		&recipefileexport.Doc{},
 		&recipefileexport.Url{},
 		&recipefileimport.Url{},
@@ -449,6 +446,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltextcase.Up{},
 		&recipeutiltextencoding.From{},
 		&recipeutiltextencoding.To{},
+		&recipeutiltidymove.Dispatch{},
+		&recipeutiltidymove.Simple{},
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},

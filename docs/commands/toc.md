@@ -248,8 +248,6 @@ lang: en
 | [config disable]({{ site.baseurl }}/commands/config-disable.html)                   | Disable a feature.                                                   |
 | [config enable]({{ site.baseurl }}/commands/config-enable.html)                     | Enable a feature.                                                    |
 | [config features]({{ site.baseurl }}/commands/config-features.html)                 | List available optional features.                                    |
-| [file archive local]({{ site.baseurl }}/commands/file-archive-local.html)           | Archive local files                                                  |
-| [file dispatch local]({{ site.baseurl }}/commands/file-dispatch-local.html)         | Dispatch local files                                                 |
 | [job history archive]({{ site.baseurl }}/commands/job-history-archive.html)         | Archive jobs                                                         |
 | [job history delete]({{ site.baseurl }}/commands/job-history-delete.html)           | Delete old job history                                               |
 | [job history list]({{ site.baseurl }}/commands/job-history-list.html)               | Show job history                                                     |
@@ -278,6 +276,8 @@ lang: en
 | [util text case up]({{ site.baseurl }}/commands/util-text-case-up.html)             | Print upper case text                                                |
 | [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html) | Convert text encoding to UTF-8 text file from specified encoding.    |
 | [util text encoding to]({{ site.baseurl }}/commands/util-text-encoding-to.html)     | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util tidy move dispatch]({{ site.baseurl }}/commands/util-tidy-move-dispatch.html) | Dispatch files                                                       |
+| [util tidy move simple]({{ site.baseurl }}/commands/util-tidy-move-simple.html)     | Archive local files                                                  |
 | [util time now]({{ site.baseurl }}/commands/util-time-now.html)                     | Display current time                                                 |
 | [util unixtime format]({{ site.baseurl }}/commands/util-unixtime-format.html)       | Time format to convert the unix time (epoch seconds from 1970-01-01) |
 | [util unixtime now]({{ site.baseurl }}/commands/util-unixtime-now.html)             | Display current time in unixtime                                     |

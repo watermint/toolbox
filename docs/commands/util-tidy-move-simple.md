@@ -4,7 +4,7 @@ title: Command
 lang: en
 ---
 
-# file archive local
+# util tidy move simple
 
 Archive local files 
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
+.\tbx.exe util tidy move simple -dst /LOCAL/DEST -src /LOCAL/SRC
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
+$HOME/Desktop/tbx util tidy move simple -dst /LOCAL/DEST -src /LOCAL/SRC
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

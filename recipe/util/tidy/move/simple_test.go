@@ -1,4 +1,4 @@
-package archive
+package move
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestArchive_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Local{})
+	qtr_endtoend.TestRecipe(t, &Simple{})
 }
