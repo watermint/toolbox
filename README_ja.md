@@ -319,6 +319,8 @@ DropboxおよびDropbox Business向けのツールセット
 
 | コマンド                                                               | 説明                                                                   |
 |------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config auth delete](docs/ja/commands/config-auth-delete.md)           | 既存の認証クレデンシャルの削除                                         |
+| [config auth list](docs/ja/commands/config-auth-list.md)               | すべての認証情報を一覧表示                                             |
 | [config disable](docs/ja/commands/config-disable.md)                   | 機能を無効化します.                                                    |
 | [config enable](docs/ja/commands/config-enable.md)                     | 機能を有効化します.                                                    |
 | [config features](docs/ja/commands/config-features.md)                 | 利用可能なオプション機能一覧.                                          |

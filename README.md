@@ -321,6 +321,8 @@ Available commands:
 
 | Command                                                             | Description                                                          |
 |---------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config auth delete](docs/commands/config-auth-delete.md)           | Delete existing auth credential                                      |
+| [config auth list](docs/commands/config-auth-list.md)               | List all auth credentials                                            |
 | [config disable](docs/commands/config-disable.md)                   | Disable a feature.                                                   |
 | [config enable](docs/commands/config-enable.md)                     | Enable a feature.                                                    |
 | [config features](docs/commands/config-features.md)                 | List available optional features.                                    |

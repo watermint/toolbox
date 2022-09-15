@@ -11,3 +11,17 @@ const (
 	ServiceHelloSign         = "hellosign"
 	ServiceSlack             = "slack"
 )
+
+var (
+	AllServices = []string{
+		ServiceDropboxIndividual,
+		ServiceDropboxTeam,
+		ServiceGithub,
+		ServiceGoogleMail,
+		ServiceGoogleSheets,
+		ServiceGoogleCalendar,
+		ServiceAsana,
+		ServiceHelloSign,
+		ServiceSlack,
+	}
+)

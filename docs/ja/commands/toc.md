@@ -243,6 +243,8 @@ lang: ja
 
 | コマンド                                                                               | 説明                                                                   |
 |----------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config auth delete]({{ site.baseurl }}/ja/commands/config-auth-delete.html)           | 既存の認証クレデンシャルの削除                                         |
+| [config auth list]({{ site.baseurl }}/ja/commands/config-auth-list.html)               | すべての認証情報を一覧表示                                             |
 | [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                   | 機能を無効化します.                                                    |
 | [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                     | 機能を有効化します.                                                    |
 | [config features]({{ site.baseurl }}/ja/commands/config-features.html)                 | 利用可能なオプション機能一覧.                                          |

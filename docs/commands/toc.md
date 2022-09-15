@@ -243,6 +243,8 @@ lang: en
 
 | Command                                                                             | Description                                                          |
 |-------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config auth delete]({{ site.baseurl }}/commands/config-auth-delete.html)           | Delete existing auth credential                                      |
+| [config auth list]({{ site.baseurl }}/commands/config-auth-list.html)               | List all auth credentials                                            |
 | [config disable]({{ site.baseurl }}/commands/config-disable.html)                   | Disable a feature.                                                   |
 | [config enable]({{ site.baseurl }}/commands/config-enable.html)                     | Enable a feature.                                                    |
 | [config features]({{ site.baseurl }}/commands/config-features.html)                 | List available optional features.                                    |

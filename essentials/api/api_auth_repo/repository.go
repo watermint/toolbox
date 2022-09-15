@@ -106,11 +106,17 @@ func newWithDb(db *sql.DB) (r api_auth.Repository, err error) {
 		return nil, err
 	}
 
+	sa, err := db.Prepare(`SELECT key_name, scopes, peer_name, credential, description, entity_ts FROM repository WHERE build_stream = ? ORDER BY key_name, peer_name, scopes`)
+	if err != nil {
+		return nil, err
+	}
+
 	return &sqlRepo{
 		stmtPut:  sp,
 		stmtGet:  sg,
 		stmtDel:  sd,
 		stmtList: sl,
+		stmtAll:  sa,
 		db:       db,
 	}, nil
 }
@@ -120,6 +126,7 @@ type sqlRepo struct {
 	stmtGet  *sql.Stmt
 	stmtDel  *sql.Stmt
 	stmtList *sql.Stmt
+	stmtAll  *sql.Stmt
 	db       *sql.DB
 }
 
@@ -241,6 +248,43 @@ func (z sqlRepo) List(keyName, scope string) (entities []api_auth.Entity) {
 		entities = append(entities, api_auth.Entity{
 			KeyName:     keyName,
 			Scope:       scope,
+			PeerName:    peerName,
+			Credential:  credRaw,
+			Description: desc,
+			Timestamp:   entityTs,
+		})
+	}
+	if err := r.Close(); err != nil {
+		l.Debug("Unable to close the result", esl.Error(err))
+	}
+
+	return entities
+}
+
+func (z sqlRepo) All() (entities []api_auth.Entity) {
+	l := esl.Default()
+	entities = make([]api_auth.Entity, 0)
+
+	r, err := z.stmtAll.Query(sc_obfuscate.BuildStream())
+	if err != nil {
+		l.Debug("Query failure", esl.Error(err))
+		return entities
+	}
+
+	for r.Next() {
+		var keyName, scopes, peerName, credObf, desc, entityTs string
+		if err := r.Scan(&keyName, &scopes, &peerName, &credObf, &desc, &entityTs); err != nil {
+			l.Debug("Cannot retrieve, skip", esl.Error(err))
+			continue
+		}
+		credRaw, found := z.decodeCredential(credObf)
+		if !found {
+			continue
+		}
+
+		entities = append(entities, api_auth.Entity{
+			KeyName:     keyName,
+			Scope:       scopes,
 			PeerName:    peerName,
 			Credential:  credRaw,
 			Description: desc,

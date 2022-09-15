@@ -74,6 +74,31 @@ func repoTestScenario(t *testing.T, repo api_auth.Repository) {
 		t.Error(match2)
 	}
 
+	// Traversable test
+	{
+		traverse, ok := repo.(api_auth.RepositoryTraversable)
+		if !ok {
+			t.Error("does not traversable")
+		}
+
+		allEntities := traverse.All()
+		var am1, am2, am3 bool
+		for _, ae := range allEntities {
+			if reflect.DeepEqual(entity1, ae) {
+				am1 = true
+			}
+			if reflect.DeepEqual(entity2, ae) {
+				am2 = true
+			}
+			if reflect.DeepEqual(entity3, ae) {
+				am3 = true
+			}
+		}
+		if !am1 || !am2 || !am3 {
+			t.Error(am1, am2, am3)
+		}
+	}
+
 	repo.Delete(entity1.KeyName, entity1.Scope, entity1.PeerName)
 	_, found := repo.Get(entity1.KeyName, entity1.Scope, entity1.PeerName)
 	if found {

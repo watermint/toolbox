@@ -16,3 +16,7 @@ type Repository interface {
 	// Close the repository
 	Close()
 }
+
+type RepositoryTraversable interface {
+	All() (entities []Entity)
+}
