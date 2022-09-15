@@ -18,12 +18,14 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"os"
+	"os/user"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -44,11 +46,12 @@ type Client struct {
 	MonitorEnd      mo_time.TimeOptional
 	Display         bool
 
-	sentErrors      map[string]bool
-	currentJournal  *os.File
-	currentPath     string
-	currentStart    time.Time
-	currentDeadline time.Time
+	sentErrors       map[string]bool
+	currentJournal   *os.File
+	currentPath      string
+	currentStart     time.Time
+	currentDeadline  time.Time
+	rotateInProgress bool
 }
 
 func (z *Client) Preset() {
@@ -144,18 +147,26 @@ func (z *Client) sendEvent(c app_control.Control, eventType string, data interfa
 	if z.currentJournal != nil {
 		_, err0 := z.currentJournal.Write(evs)
 		_, err1 := z.currentJournal.Write([]byte("\n"))
+
+		if z.rotateInProgress {
+			return
+		}
+
 		if err0 == nil && err1 == nil && z.currentDeadline.Before(time.Now()) {
+			z.rotateInProgress = true
 			if err := z.syncJournal(c); err != nil {
 				z.sendError(c, eventType, err)
 			}
 			if err := z.openJournal(c); err != nil {
 				z.sendError(c, eventType, err)
 			}
+			z.headEvents(c)
+			z.rotateInProgress = false
 		}
 	}
 }
 
-func (z *Client) eventCpuInfo(c app_control.Control) {
+func (z *Client) headEventCpuInfo(c app_control.Control) {
 	cpuInfo, err := cpu.Info()
 	if err != nil {
 		z.sendError(c, EventCpuInfo, err)
@@ -182,7 +193,7 @@ func (z *Client) eventCpuPercent(c app_control.Control) {
 	z.sendEvent(c, EventCpuPercent, stat)
 }
 
-func (z *Client) eventHostInfo(c app_control.Control) {
+func (z *Client) headEventHostInfo(c app_control.Control) {
 	hostInfo, err := host.Info()
 	if err != nil {
 		z.sendError(c, EventHostInfo, err)
@@ -191,7 +202,7 @@ func (z *Client) eventHostInfo(c app_control.Control) {
 	z.sendEvent(c, EventHostInfo, hostInfo)
 }
 
-func (z *Client) eventDiskPartition(c app_control.Control) {
+func (z *Client) headEventDiskPartition(c app_control.Control) {
 	info, err := disk.Partitions(true)
 	if err != nil {
 		z.sendError(c, EventDiskPartition, err)
@@ -252,6 +263,40 @@ func (z *Client) eventNetProtocol(c app_control.Control) {
 	z.sendEvent(c, EventNetProtocol, stats)
 }
 
+func (z *Client) headEventMonitorInfo(c app_control.Control) {
+	var userUserName, userDisplayName, userUid string
+	if usr, err := user.Current(); err == nil {
+		userUserName = usr.Username
+		userDisplayName = usr.Name
+		userUid = usr.Uid
+	}
+
+	z.sendEvent(c, EventMonitorInfo, struct {
+		AppVersion      string `json:"app_version"`
+		MonitorName     string `json:"monitor_name"`
+		IntervalMonitor int    `json:"interval_monitor"`
+		IntervalSync    int    `json:"interval_sync"`
+		UserDisplayName string `json:"user_display_name"`
+		UserUid         string `json:"user_uid"`
+		UserName        string `json:"user_name"`
+	}{
+		AppVersion:      app.BuildId,
+		MonitorName:     z.Name,
+		IntervalMonitor: z.MonitorInterval.Value(),
+		IntervalSync:    z.SyncInterval.Value(),
+		UserDisplayName: userDisplayName,
+		UserUid:         userUid,
+		UserName:        userUserName,
+	})
+}
+
+func (z *Client) headEvents(c app_control.Control) {
+	z.headEventMonitorInfo(c)
+	z.headEventCpuInfo(c)
+	z.headEventHostInfo(c)
+	z.headEventDiskPartition(c)
+}
+
 func (z *Client) Exec(c app_control.Control) error {
 	l := c.Log()
 	if err := os.MkdirAll(z.DataPath.Path(), 0755); err != nil {
@@ -261,9 +306,8 @@ func (z *Client) Exec(c app_control.Control) error {
 		return err
 	}
 
-	z.eventCpuInfo(c)
-	z.eventHostInfo(c)
-	z.eventDiskPartition(c)
+	// Head events
+	z.headEvents(c)
 
 	// Periodical events
 	for {
