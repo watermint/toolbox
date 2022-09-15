@@ -2,6 +2,7 @@ package monitor
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/shirou/gopsutil/v3/cpu"
 	"github.com/shirou/gopsutil/v3/disk"
 	"github.com/shirou/gopsutil/v3/host"
@@ -27,7 +28,6 @@ import (
 	"os"
 	"os/user"
 	"path/filepath"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -46,7 +46,8 @@ type Client struct {
 	MonitorEnd      mo_time.TimeOptional
 	Display         bool
 
-	sentErrors       map[string]bool
+	sentErrors       map[string]int64 // eventType -> num error sent
+	sentCount        map[string]int64 // eventType -> num event sent
 	currentJournal   *os.File
 	currentPath      string
 	currentStart     time.Time
@@ -57,18 +58,20 @@ type Client struct {
 func (z *Client) Preset() {
 	z.MonitorInterval.SetRange(1, 86400, 10)
 	z.SyncInterval.SetRange(10, 86400, 3600)
-	z.sentErrors = make(map[string]bool)
+	z.sentErrors = make(map[string]int64)
+	z.sentCount = make(map[string]int64)
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentWrite,
 	)
 }
 func (z *Client) sendError(c app_control.Control, eventType string, err error) {
-	if _, ok := z.sentErrors[eventType]; ok {
+	if n, ok := z.sentErrors[eventType]; ok {
+		z.sentErrors[eventType] = n + 1
 		return
 	}
 	l := c.Log()
 	l.Warn("Unable to retrieve event data", esl.String("type", eventType), esl.Error(err))
-	z.sentErrors[eventType] = true
+	z.sentErrors[eventType] = 1
 }
 
 func (z *Client) openJournal(c app_control.Control) error {
@@ -76,7 +79,7 @@ func (z *Client) openJournal(c app_control.Control) error {
 	if z.currentJournal != nil {
 		return nil
 	}
-	name := monitorFilePrefix + es_filepath.Escape(z.Name) + "-" + strconv.FormatInt(time.Now().Unix(), 16) + ".log"
+	name := monitorFilePrefix + es_filepath.Escape(z.Name) + "-" + fmt.Sprintf("%08x", time.Now().Unix()) + ".log"
 	path := filepath.Join(z.DataPath.Path(), name)
 	l = l.With(esl.String("path", path))
 	f, err := os.Create(path)
@@ -164,54 +167,74 @@ func (z *Client) sendEvent(c app_control.Control, eventType string, data interfa
 			z.rotateInProgress = false
 		}
 	}
+
+	if ns, ok := z.sentCount[eventType]; ok {
+		z.sentCount[eventType] = ns + 1
+	} else {
+		z.sentCount[eventType] = 1
+	}
+}
+
+func (z *Client) shouldAbort(eventType string) bool {
+	if ne, oke := z.sentErrors[eventType]; oke {
+		if ns, okc := z.sentCount[eventType]; okc {
+			// Abort when three more errors without success
+			if 2 < ne && ns < 1 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
+func (z *Client) handleEvent(c app_control.Control, eventType string, f func() (data interface{}, err error)) {
+	if z.shouldAbort(eventType) {
+		return
+	}
+
+	data, err := f()
+	if err != nil {
+		z.sendError(c, eventType, err)
+	} else {
+		z.sendEvent(c, eventType, data)
+	}
 }
 
 func (z *Client) headEventCpuInfo(c app_control.Control) {
-	cpuInfo, err := cpu.Info()
-	if err != nil {
-		z.sendError(c, EventCpuInfo, err)
-		return
-	}
-	z.sendEvent(c, EventCpuInfo, cpuInfo)
+	z.handleEvent(c, EventCpuInfo, func() (data interface{}, err error) {
+		return cpu.Info()
+	})
 }
 
 func (z *Client) eventCpuTime(c app_control.Control) {
-	stat, err := cpu.Times(true)
-	if err != nil {
-		z.sendError(c, EventCpuTime, err)
-		return
-	}
-	z.sendEvent(c, EventCpuTime, stat)
+	z.handleEvent(c, EventCpuTime, func() (data interface{}, err error) {
+		return cpu.Times(true)
+	})
 }
 
 func (z *Client) eventCpuPercent(c app_control.Control) {
-	stat, err := cpu.Percent(0, true)
-	if err != nil {
-		z.sendError(c, EventCpuPercent, err)
-		return
-	}
-	z.sendEvent(c, EventCpuPercent, stat)
+	z.handleEvent(c, EventCpuPercent, func() (data interface{}, err error) {
+		return cpu.Percent(0, true)
+	})
 }
 
 func (z *Client) headEventHostInfo(c app_control.Control) {
-	hostInfo, err := host.Info()
-	if err != nil {
-		z.sendError(c, EventHostInfo, err)
-		return
-	}
-	z.sendEvent(c, EventHostInfo, hostInfo)
+	z.handleEvent(c, EventHostInfo, func() (data interface{}, err error) {
+		return host.Info()
+	})
 }
 
 func (z *Client) headEventDiskPartition(c app_control.Control) {
-	info, err := disk.Partitions(true)
-	if err != nil {
-		z.sendError(c, EventDiskPartition, err)
-		return
-	}
-	z.sendEvent(c, EventDiskPartition, info)
+	z.handleEvent(c, EventDiskPartition, func() (data interface{}, err error) {
+		return disk.Partitions(true)
+	})
 }
 
 func (z *Client) eventDiskUsage(c app_control.Control) {
+	if z.shouldAbort(EventDiskUsage) {
+		return
+	}
+
 	partitions, err := disk.Partitions(true)
 	if err != nil {
 		z.sendError(c, EventDiskUsage, err)
@@ -228,39 +251,27 @@ func (z *Client) eventDiskUsage(c app_control.Control) {
 }
 
 func (z *Client) eventLoadAverage(c app_control.Control) {
-	la, err := load.Avg()
-	if err != nil {
-		z.sendError(c, EventLoadAverage, err)
-		return
-	}
-	z.sendEvent(c, EventLoadAverage, la)
+	z.handleEvent(c, EventLoadAverage, func() (data interface{}, err error) {
+		return load.Avg()
+	})
 }
 
 func (z *Client) eventMemoryStat(c app_control.Control) {
-	vm, err := mem.VirtualMemory()
-	if err != nil {
-		z.sendError(c, EventMemoryStat, err)
-		return
-	}
-	z.sendEvent(c, EventMemoryStat, vm)
+	z.handleEvent(c, EventMemoryStat, func() (data interface{}, err error) {
+		return mem.VirtualMemory()
+	})
 }
 
 func (z *Client) eventNetIO(c app_control.Control) {
-	stats, err := net.IOCounters(true)
-	if err != nil {
-		z.sendError(c, EventNetIO, err)
-		return
-	}
-	z.sendEvent(c, EventNetIO, stats)
+	z.handleEvent(c, EventNetIO, func() (data interface{}, err error) {
+		return net.IOCounters(true)
+	})
 }
 
 func (z *Client) eventNetProtocol(c app_control.Control) {
-	stats, err := net.ProtoCounters([]string{})
-	if err != nil {
-		z.sendError(c, EventNetProtocol, err)
-		return
-	}
-	z.sendEvent(c, EventNetProtocol, stats)
+	z.handleEvent(c, EventNetProtocol, func() (data interface{}, err error) {
+		return net.ProtoCounters([]string{})
+	})
 }
 
 func (z *Client) headEventMonitorInfo(c app_control.Control) {
