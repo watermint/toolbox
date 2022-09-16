@@ -431,6 +431,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},
+		&recipeteamspaceasadminfolder.Permdelete{},
 		&recipeteamspacefile.List{},
 		&recipeutilarchive.Unzip{},
 		&recipeutilarchive.Zip{},

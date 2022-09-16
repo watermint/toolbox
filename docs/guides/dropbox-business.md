@@ -164,12 +164,13 @@ If you wanted to know who are actually uses specific folders, please consider us
 
 Command for team space.
 
-| Command                                                                                             | Description                                       |
-|-----------------------------------------------------------------------------------------------------|---------------------------------------------------|
-| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                         | List files and folders in team space              |
-| [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html)         | List files and folders in team space run as admin |
-| [teamspace asadmin folder add]({{ site.baseurl }}/commands/teamspace-asadmin-folder-add.html)       | Create top level folder in the team space         |
-| [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html) | Delete top level folder of the team space         |
+| Command                                                                                                     | Description                                           |
+|-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                                 | List files and folders in team space                  |
+| [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html)                 | List files and folders in team space run as admin     |
+| [teamspace asadmin folder add]({{ site.baseurl }}/commands/teamspace-asadmin-folder-add.html)               | Create top level folder in the team space             |
+| [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)         | Delete top level folder of the team space             |
+| [teamspace asadmin folder permdelete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-permdelete.html) | Permanently delete top level folder of the team space |
 
 ## Namespace commands
 

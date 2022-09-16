@@ -364,6 +364,7 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 		"teamspace asadmin file list",
 		"teamspace asadmin folder add",
 		"teamspace asadmin folder delete",
+		"teamspace asadmin folder permdelete",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)
