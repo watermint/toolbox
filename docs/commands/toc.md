@@ -51,6 +51,7 @@ lang: en
 | [filerequest list]({{ site.baseurl }}/commands/filerequest-list.html)                           | List file requests of the individual account                  |
 | [job history ship]({{ site.baseurl }}/commands/job-history-ship.html)                           | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature]({{ site.baseurl }}/commands/services-dropbox-user-feature.html) | List feature settings for current user                        |
+| [services dropbox user info]({{ site.baseurl }}/commands/services-dropbox-user-info.html)       | Retrieve current account info                                 |
 | [sharedfolder leave]({{ site.baseurl }}/commands/sharedfolder-leave.html)                       | Leave from the shared folder                                  |
 | [sharedfolder list]({{ site.baseurl }}/commands/sharedfolder-list.html)                         | List shared folder(s)                                         |
 | [sharedfolder member add]({{ site.baseurl }}/commands/sharedfolder-member-add.html)             | Add a member to the shared folder                             |

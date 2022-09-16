@@ -296,6 +296,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesasanaworkspace.List{},
 		&recipeservicesasanaworkspaceproject.List{},
 		&recipeservicesdropboxuser.Feature{},
+		&recipeservicesdropboxuser.Info{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},

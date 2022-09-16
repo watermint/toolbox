@@ -129,6 +129,7 @@ Available commands:
 | [filerequest list](docs/commands/filerequest-list.md)                           | List file requests of the individual account                  |
 | [job history ship](docs/commands/job-history-ship.md)                           | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature](docs/commands/services-dropbox-user-feature.md) | List feature settings for current user                        |
+| [services dropbox user info](docs/commands/services-dropbox-user-info.md)       | Retrieve current account info                                 |
 | [sharedfolder leave](docs/commands/sharedfolder-leave.md)                       | Leave from the shared folder                                  |
 | [sharedfolder list](docs/commands/sharedfolder-list.md)                         | List shared folder(s)                                         |
 | [sharedfolder member add](docs/commands/sharedfolder-member-add.md)             | Add a member to the shared folder                             |

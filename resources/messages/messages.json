@@ -2020,6 +2020,8 @@
   "recipe.services.dropbox.title": "Dropbox",
   "recipe.services.dropbox.user.feature.flag.peer": "Account alias",
   "recipe.services.dropbox.user.feature.title": "List feature settings for current user",
+  "recipe.services.dropbox.user.info.flag.peer": "Account alias",
+  "recipe.services.dropbox.user.info.title": "Retrieve current account info",
   "recipe.services.dropbox.user.title": "Commands for Dropbox individual user",
   "recipe.services.github.content.get.cli.args": "-owner OWNER -repository REPOSITORY -path PATH",
   "recipe.services.github.content.get.flag.owner": "Owner of the repository",
