@@ -146,6 +146,7 @@ Available commands:
 | [sharedlink file list](docs/commands/sharedlink-file-list.md)                   | List files for the shared link                                |
 | [sharedlink info](docs/commands/sharedlink-info.md)                             | Get information about the shared link                         |
 | [sharedlink list](docs/commands/sharedlink-list.md)                             | List of shared link(s)                                        |
+| [teamspace file list](docs/commands/teamspace-file-list.md)                     | List files and folders in team space                          |
 | [util monitor client](docs/commands/util-monitor-client.md)                     | Start device monitor client                                   |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                 | Package remote folder into the zip file                       |
 
@@ -262,6 +263,7 @@ Available commands:
 | [teamfolder permdelete](docs/commands/teamfolder-permdelete.md)                                             | Permanently delete team folder                                                      |
 | [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                                           | List policies of team folders                                                       |
 | [teamfolder replication](docs/commands/teamfolder-replication.md)                                           | Replicate a team folder to the other team                                           |
+| [teamspace asadmin file list](docs/commands/teamspace-asadmin-file-list.md)                                 | List files and folders in team space run as admin                                   |
 
 ## GitHub
 

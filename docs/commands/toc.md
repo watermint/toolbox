@@ -68,6 +68,7 @@ lang: en
 | [sharedlink file list]({{ site.baseurl }}/commands/sharedlink-file-list.html)                   | List files for the shared link                                |
 | [sharedlink info]({{ site.baseurl }}/commands/sharedlink-info.html)                             | Get information about the shared link                         |
 | [sharedlink list]({{ site.baseurl }}/commands/sharedlink-list.html)                             | List of shared link(s)                                        |
+| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                     | List files and folders in team space                          |
 | [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                     | Start device monitor client                                   |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                 | Package remote folder into the zip file                       |
 
@@ -184,6 +185,7 @@ lang: en
 | [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)                                             | Permanently delete team folder                                                      |
 | [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                                           | List policies of team folders                                                       |
 | [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                           | Replicate a team folder to the other team                                           |
+| [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html)                                 | List files and folders in team space run as admin                                   |
 
 ## GitHub
 

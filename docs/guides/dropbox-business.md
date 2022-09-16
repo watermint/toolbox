@@ -160,6 +160,15 @@ If you wanted to know who are actually uses specific folders, please consider us
 | [team content mount list]({{ site.baseurl }}/commands/team-content-mount-list.html)   | List all mounted/unmounted shared folders of team members.   |
 | [team content policy list]({{ site.baseurl }}/commands/team-content-policy-list.html) | List policies of team folders and shared folders in the team |
 
+## Team space commands
+
+Command for team space.
+
+| Command                                                                                     | Description                                       |
+|---------------------------------------------------------------------------------------------|---------------------------------------------------|
+| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                 | List files and folders in team space              |
+| [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html) | List files and folders in team space run as admin |
+
 ## Namespace commands
 
 | Command                                                                                   | Description                                                 |
