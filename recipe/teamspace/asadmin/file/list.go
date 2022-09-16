@@ -1,19 +1,16 @@
 package file
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/ingredient/teamspace"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
@@ -50,25 +47,9 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	admin, err := sv_profile.NewTeam(z.Peer.Client()).Admin()
+	client, err := teamspace.ClientForRootNamespaceAsAdmin(z.Peer.Client())
 	if err != nil {
 		return err
-	}
-
-	teamfolders, err := sv_teamfolder.New(z.Peer.Client()).List()
-	if err != nil {
-		return err
-	}
-
-	rootNamespaceId := ""
-	for _, teamfolder := range teamfolders {
-		if teamfolder.IsTeamSharedDropbox {
-			rootNamespaceId = teamfolder.TeamFolderId
-			break
-		}
-	}
-	if rootNamespaceId == "" {
-		return errors.New("team space is not supported by this command")
 	}
 
 	opts := make([]sv_file.ListOpt, 0)
@@ -80,7 +61,6 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.FileList.Open(); err != nil {
 		return err
 	}
-	client := z.Peer.Client().WithPath(dbx_client.Root(rootNamespaceId)).AsAdminId(admin.TeamMemberId)
 
 	return sv_file.NewFiles(client).ListEach(z.Path, func(entry mo_file.Entry) {
 		z.FileList.Row(entry.Concrete())

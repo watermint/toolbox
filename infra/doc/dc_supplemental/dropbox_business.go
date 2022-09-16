@@ -362,6 +362,8 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	z.cat.RecipeTable("team space operation", ui, []string{
 		"teamspace file list",
 		"teamspace asadmin file list",
+		"teamspace asadmin folder add",
+		"teamspace asadmin folder delete",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)

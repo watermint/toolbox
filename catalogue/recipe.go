@@ -125,6 +125,7 @@ import (
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
 	recipeteamspaceasadminfile "github.com/watermint/toolbox/recipe/teamspace/asadmin/file"
+	recipeteamspaceasadminfolder "github.com/watermint/toolbox/recipe/teamspace/asadmin/folder"
 	recipeteamspacefile "github.com/watermint/toolbox/recipe/teamspace/file"
 	recipeutilarchive "github.com/watermint/toolbox/recipe/util/archive"
 	recipeutildatabase "github.com/watermint/toolbox/recipe/util/database"
@@ -428,6 +429,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
 		&recipeteamspaceasadminfile.List{},
+		&recipeteamspaceasadminfolder.Add{},
+		&recipeteamspaceasadminfolder.Delete{},
 		&recipeteamspacefile.List{},
 		&recipeutilarchive.Unzip{},
 		&recipeutilarchive.Zip{},

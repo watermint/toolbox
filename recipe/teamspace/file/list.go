@@ -2,16 +2,15 @@ package file
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
-	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
+	"github.com/watermint/toolbox/ingredient/teamspace"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
@@ -44,7 +43,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	profile, err := sv_profile.NewProfile(z.Peer.Client()).Current()
+	client, err := teamspace.ClientForRootNamespaceAsMember(z.Peer.Client())
 	if err != nil {
 		return err
 	}
@@ -58,9 +57,6 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.FileList.Open(); err != nil {
 		return err
 	}
-	client := z.Peer.Client().WithPath(
-		dbx_client.Root(profile.RootNamespaceId),
-	)
 
 	return sv_file.NewFiles(client).ListEach(z.Path, func(entry mo_file.Entry) {
 		z.FileList.Row(entry.Concrete())
