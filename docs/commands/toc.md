@@ -44,6 +44,9 @@ lang: en
 | [file sync down]({{ site.baseurl }}/commands/file-sync-down.html)                               | Downstream sync with Dropbox                                  |
 | [file sync online]({{ site.baseurl }}/commands/file-sync-online.html)                           | Sync online files                                             |
 | [file sync up]({{ site.baseurl }}/commands/file-sync-up.html)                                   | Upstream sync with Dropbox                                    |
+| [file tag add]({{ site.baseurl }}/commands/file-tag-add.html)                                   | Add a tag to the file/folder                                  |
+| [file tag delete]({{ site.baseurl }}/commands/file-tag-delete.html)                             | Delete a tag from the file/folder                             |
+| [file tag list]({{ site.baseurl }}/commands/file-tag-list.html)                                 | List tags of the path                                         |
 | [file template capture remote]({{ site.baseurl }}/commands/file-template-capture-remote.html)   | Capture file/folder structure as template from Dropbox path   |
 | [file watch]({{ site.baseurl }}/commands/file-watch.html)                                       | Watch file activities                                         |
 | [filerequest create]({{ site.baseurl }}/commands/filerequest-create.html)                       | Create a file request                                         |

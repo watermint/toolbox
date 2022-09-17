@@ -122,6 +122,9 @@ Available commands:
 | [file sync down](docs/commands/file-sync-down.md)                               | Downstream sync with Dropbox                                  |
 | [file sync online](docs/commands/file-sync-online.md)                           | Sync online files                                             |
 | [file sync up](docs/commands/file-sync-up.md)                                   | Upstream sync with Dropbox                                    |
+| [file tag add](docs/commands/file-tag-add.md)                                   | Add a tag to the file/folder                                  |
+| [file tag delete](docs/commands/file-tag-delete.md)                             | Delete a tag from the file/folder                             |
+| [file tag list](docs/commands/file-tag-list.md)                                 | List tags of the path                                         |
 | [file template capture remote](docs/commands/file-template-capture-remote.md)   | Capture file/folder structure as template from Dropbox path   |
 | [file watch](docs/commands/file-watch.md)                                       | Watch file activities                                         |
 | [filerequest create](docs/commands/filerequest-create.md)                       | Create a file request                                         |
