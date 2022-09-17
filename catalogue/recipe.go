@@ -38,6 +38,7 @@ import (
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefileshare "github.com/watermint/toolbox/recipe/file/share"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
+	recipefiletemplatecapture "github.com/watermint/toolbox/recipe/file/template/capture"
 	recipefilerequest "github.com/watermint/toolbox/recipe/filerequest"
 	recipefilerequestdelete "github.com/watermint/toolbox/recipe/filerequest/delete"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
@@ -243,6 +244,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilesync.Down{},
 		&recipefilesync.Online{},
 		&recipefilesync.Up{},
+		&recipefiletemplatecapture.Local{},
+		&recipefiletemplatecapture.Remote{},
 		&recipefilerequest.Create{},
 		&recipefilerequest.List{},
 		&recipefilerequestdelete.Closed{},
