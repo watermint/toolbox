@@ -267,6 +267,7 @@ Available commands:
 | [teamspace asadmin folder add](docs/commands/teamspace-asadmin-folder-add.md)                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete](docs/commands/teamspace-asadmin-folder-permdelete.md)                 | Permanently delete top level folder of the team space                               |
+| [teamspace asadmin member list](docs/commands/teamspace-asadmin-member-list.md)                             | List top level folder members                                                       |
 
 ## GitHub
 

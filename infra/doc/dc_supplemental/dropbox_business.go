@@ -360,11 +360,12 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.ContentTeamSpaceOperationTitle)
 	ui.Info(MDropboxBusiness.ContentTeamSpaceOperationInfo)
 	z.cat.RecipeTable("team space operation", ui, []string{
-		"teamspace file list",
 		"teamspace asadmin file list",
 		"teamspace asadmin folder add",
 		"teamspace asadmin folder delete",
 		"teamspace asadmin folder permdelete",
+		"teamspace asadmin member list",
+		"teamspace file list",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)
