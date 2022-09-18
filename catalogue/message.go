@@ -43,13 +43,13 @@ import (
 	infrauiapp_ui "github.com/watermint/toolbox/infra/ui/app_ui"
 	ingredientfile "github.com/watermint/toolbox/ingredient/file"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
-	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
+	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
 )
 
 func AutoDetectedMessageObjects() []interface{} {
@@ -105,12 +105,12 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infrauiapp_ui.MsgProgress{},
 		&ingredientfile.MsgUpload{},
 		&recipedevdiag.MsgLoader{},
-		&recipefiledispatch.MsgLocal{},
 		&recipefileimportbatch.MsgUrl{},
 		&recipegroupmember.MsgList{},
 		&recipegroupmemberbatch.MsgOperation{},
 		&recipemember.MsgInvite{},
 		&recipememberupdate.MsgEmail{},
 		&recipeteamsharedlink.MsgList{},
+		&recipeutiltidymove.MsgLocal{},
 	}
 }

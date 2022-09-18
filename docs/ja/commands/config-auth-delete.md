@@ -42,7 +42,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |--------------|------------------------|------------|
 | `-key-name`  | アプリケーションキー名 |            |
 | `-peer-name` | ピア名                 |            |
-| `-scope`     | 認証スコープ           |            |
 
 ## 共通のオプション:
 
@@ -66,6 +65,33 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: deleted
+
+認証クレデンシャルデータ
+このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
+
+| 列          | 説明               |
+|-------------|--------------------|
+| key_name    | アプリケーション名 |
+| scope       | 認証スコープ       |
+| peer_name   | ピア名             |
+| description | 説明               |
+| timestamp   | タイムスタンプ     |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

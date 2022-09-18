@@ -25,9 +25,7 @@ import (
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipefile "github.com/watermint/toolbox/recipe/file"
-	recipefilearchive "github.com/watermint/toolbox/recipe/file/archive"
 	recipefilecompare "github.com/watermint/toolbox/recipe/file/compare"
-	recipefiledispatch "github.com/watermint/toolbox/recipe/file/dispatch"
 	recipefileexport "github.com/watermint/toolbox/recipe/file/export"
 	recipefileimport "github.com/watermint/toolbox/recipe/file/import"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
@@ -40,6 +38,9 @@ import (
 	recipefilesearch "github.com/watermint/toolbox/recipe/file/search"
 	recipefileshare "github.com/watermint/toolbox/recipe/file/share"
 	recipefilesync "github.com/watermint/toolbox/recipe/file/sync"
+	recipefiletag "github.com/watermint/toolbox/recipe/file/tag"
+	recipefiletemplateapply "github.com/watermint/toolbox/recipe/file/template/apply"
+	recipefiletemplatecapture "github.com/watermint/toolbox/recipe/file/template/capture"
 	recipefilerequest "github.com/watermint/toolbox/recipe/filerequest"
 	recipefilerequestdelete "github.com/watermint/toolbox/recipe/filerequest/delete"
 	recipegroup "github.com/watermint/toolbox/recipe/group"
@@ -126,6 +127,10 @@ import (
 	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
+	recipeteamspaceasadminfile "github.com/watermint/toolbox/recipe/teamspace/asadmin/file"
+	recipeteamspaceasadminfolder "github.com/watermint/toolbox/recipe/teamspace/asadmin/folder"
+	recipeteamspaceasadminmember "github.com/watermint/toolbox/recipe/teamspace/asadmin/member"
+	recipeteamspacefile "github.com/watermint/toolbox/recipe/teamspace/file"
 	recipeutilarchive "github.com/watermint/toolbox/recipe/util/archive"
 	recipeutildatabase "github.com/watermint/toolbox/recipe/util/database"
 	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
@@ -141,6 +146,8 @@ import (
 	recipeutilrelease "github.com/watermint/toolbox/recipe/util/release"
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
+	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
+	recipeutiltidypack "github.com/watermint/toolbox/recipe/util/tidy/pack"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
@@ -213,10 +220,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefile.Replication{},
 		&recipefile.Size{},
 		&recipefile.Watch{},
-		&recipefilearchive.Local{},
 		&recipefilecompare.Account{},
 		&recipefilecompare.Local{},
-		&recipefiledispatch.Local{},
 		&recipefileexport.Doc{},
 		&recipefileexport.Url{},
 		&recipefileimport.Url{},
@@ -241,6 +246,13 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipefilesync.Down{},
 		&recipefilesync.Online{},
 		&recipefilesync.Up{},
+		&recipefiletag.Add{},
+		&recipefiletag.Delete{},
+		&recipefiletag.List{},
+		&recipefiletemplateapply.Local{},
+		&recipefiletemplateapply.Remote{},
+		&recipefiletemplatecapture.Local{},
+		&recipefiletemplatecapture.Remote{},
 		&recipefilerequest.Create{},
 		&recipefilerequest.List{},
 		&recipefilerequestdelete.Closed{},
@@ -298,6 +310,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesasanaworkspace.List{},
 		&recipeservicesasanaworkspaceproject.List{},
 		&recipeservicesdropboxuser.Feature{},
+		&recipeservicesdropboxuser.Info{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},
@@ -426,6 +439,12 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfoldermember.List{},
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
+		&recipeteamspaceasadminfile.List{},
+		&recipeteamspaceasadminfolder.Add{},
+		&recipeteamspaceasadminfolder.Delete{},
+		&recipeteamspaceasadminfolder.Permdelete{},
+		&recipeteamspaceasadminmember.List{},
+		&recipeteamspacefile.List{},
 		&recipeutilarchive.Unzip{},
 		&recipeutilarchive.Zip{},
 		&recipeutildatabase.Exec{},
@@ -449,6 +468,9 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltextcase.Up{},
 		&recipeutiltextencoding.From{},
 		&recipeutiltextencoding.To{},
+		&recipeutiltidymove.Dispatch{},
+		&recipeutiltidymove.Simple{},
+		&recipeutiltidypack.Remote{},
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},

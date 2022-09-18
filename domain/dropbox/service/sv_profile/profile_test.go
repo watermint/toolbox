@@ -10,7 +10,7 @@ import (
 // Mock tests
 
 func TestProfileImpl_Current(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewProfile(ctx)
 		_, err := sv.Current()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -20,7 +20,7 @@ func TestProfileImpl_Current(t *testing.T) {
 }
 
 func TestTeamImpl_Admin(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewTeam(ctx)
 		_, err := sv.Admin()
 		if err != nil && err != qt_errors.ErrorMock {

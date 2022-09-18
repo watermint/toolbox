@@ -12,7 +12,7 @@ import (
 // Mock tests
 
 func TestSharedFolderImpl_Create(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Create(qtr_endtoend.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -22,7 +22,7 @@ func TestSharedFolderImpl_Create(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Leave(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.Leave(&mo_sharedfolder.SharedFolder{}, LeaveACopy(true))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -32,7 +32,7 @@ func TestSharedFolderImpl_Leave(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Remove(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.Remove(&mo_sharedfolder.SharedFolder{}, LeaveACopy(true))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -42,7 +42,7 @@ func TestSharedFolderImpl_Remove(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Resolve(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -52,7 +52,7 @@ func TestSharedFolderImpl_Resolve(t *testing.T) {
 }
 
 func TestSharedFolderImpl_Transfer(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.Transfer(&mo_sharedfolder.SharedFolder{}, ToProfile(&mo_profile.Profile{}))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -70,7 +70,7 @@ func TestSharedFolderImpl_Transfer(t *testing.T) {
 }
 
 func TestSharedFolderImpl_UpdatePolicy(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.UpdatePolicy("test", MemberPolicy("test"))
 		if err != nil && err != qt_errors.ErrorMock {

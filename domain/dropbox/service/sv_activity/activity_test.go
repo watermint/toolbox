@@ -9,7 +9,7 @@ import (
 )
 
 func TestActivityImpl_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.List(func(event *mo_activity.Event) error {
 			return nil
@@ -21,7 +21,7 @@ func TestActivityImpl_List(t *testing.T) {
 }
 
 func TestActivityImpl_All(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.All(func(event *mo_activity.Event) error {
 			return nil

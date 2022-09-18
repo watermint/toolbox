@@ -11,7 +11,7 @@ import (
 // Mock test
 
 func TestTeamFolderImpl_Activate(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Activate(&mo_teamfolder.TeamFolder{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -21,7 +21,7 @@ func TestTeamFolderImpl_Activate(t *testing.T) {
 }
 
 func TestTeamFolderImpl_Archive(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Archive(&mo_teamfolder.TeamFolder{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -31,7 +31,7 @@ func TestTeamFolderImpl_Archive(t *testing.T) {
 }
 
 func TestTeamFolderImpl_Create(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Create("test", SyncDefault())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -45,7 +45,7 @@ func TestTeamFolderImpl_Create(t *testing.T) {
 }
 
 func TestTeamFolderImpl_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -55,7 +55,7 @@ func TestTeamFolderImpl_List(t *testing.T) {
 }
 
 func TestTeamFolderImpl_PermDelete(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.PermDelete(&mo_teamfolder.TeamFolder{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -65,7 +65,7 @@ func TestTeamFolderImpl_PermDelete(t *testing.T) {
 }
 
 func TestTeamFolderImpl_Rename(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Rename(&mo_teamfolder.TeamFolder{}, "test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -75,7 +75,7 @@ func TestTeamFolderImpl_Rename(t *testing.T) {
 }
 
 func TestTeamFolderImpl_Resolve(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {

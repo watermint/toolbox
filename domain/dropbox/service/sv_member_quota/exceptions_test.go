@@ -10,7 +10,7 @@ import (
 // mock tests
 
 func TestExceptionsImpl_Add(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewExceptions(ctx)
 		err := sv.Add("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -20,7 +20,7 @@ func TestExceptionsImpl_Add(t *testing.T) {
 }
 
 func TestExceptionsImpl_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewExceptions(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -30,7 +30,7 @@ func TestExceptionsImpl_List(t *testing.T) {
 }
 
 func TestExceptionsImpl_Remove(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewExceptions(ctx)
 		err := sv.Remove("test")
 		if err != nil && err != qt_errors.ErrorMock {

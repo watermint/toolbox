@@ -21,6 +21,9 @@ type Profile struct {
 	DisplayName           string `path:"name.display_name" json:"display_name"`
 	AbbreviatedName       string `path:"name.abbreviated_name" json:"abbreviated_name"`
 	MemberFolderId        string `path:"member_folder_id" json:"member_folder_id"`
+	RootNamespaceId       string `path:"root_info.root_namespace_id" json:"root_namespace_id"`
+	HomeNamespaceId       string `path:"root_info.home_namespace_id" json:"home_namespace_id"`
+	HomePath              string `path:"root_info.home_path" json:"home_path"`
 	ExternalId            string `path:"external_id" json:"external_id"`
 	AccountId             string `path:"account_id" json:"account_id"`
 	AccountType           string `path:"account_type.\\.tag" json:"account_type"`

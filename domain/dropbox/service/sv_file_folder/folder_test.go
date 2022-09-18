@@ -8,7 +8,7 @@ import (
 )
 
 func TestFolderImpl_Create(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Create(qtr_endtoend.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {

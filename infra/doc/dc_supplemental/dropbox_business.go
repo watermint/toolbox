@@ -48,6 +48,8 @@ type MsgDropboxBusiness struct {
 	ContentNamespaceTitle            app_msg.Message
 	ContentTeamFolderOperationTitle  app_msg.Message
 	ContentTeamFolderOperationInfo   app_msg.Message
+	ContentTeamSpaceOperationTitle   app_msg.Message
+	ContentTeamSpaceOperationInfo    app_msg.Message
 	ContentTeamContentTitle          app_msg.Message
 	ContentTeamContentInfo           app_msg.Message
 	ContentTeamFolderPermissionTitle app_msg.Message
@@ -353,6 +355,17 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 		"team content member size",
 		"team content mount list",
 		"team content policy list",
+	})
+
+	ui.SubHeader(MDropboxBusiness.ContentTeamSpaceOperationTitle)
+	ui.Info(MDropboxBusiness.ContentTeamSpaceOperationInfo)
+	z.cat.RecipeTable("team space operation", ui, []string{
+		"teamspace asadmin file list",
+		"teamspace asadmin folder add",
+		"teamspace asadmin folder delete",
+		"teamspace asadmin folder permdelete",
+		"teamspace asadmin member list",
+		"teamspace file list",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)

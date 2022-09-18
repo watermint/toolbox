@@ -11,7 +11,7 @@ import (
 
 func TestScanImpl_Scan(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+		qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 			s := New(ctl, ctx, ScanTimeoutShort)
 			_, err := s.Scan(mo_filter.New("folder"))
 			if err != qt_errors.ErrorMock {

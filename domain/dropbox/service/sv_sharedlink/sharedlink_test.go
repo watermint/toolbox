@@ -13,7 +13,7 @@ import (
 // Mock tests
 
 func TestSharedLinkImpl_Create(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Create(qtr_endtoend.NewTestDropboxFolderPath(), Public())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -31,7 +31,7 @@ func TestSharedLinkImpl_Create(t *testing.T) {
 }
 
 func TestSharedLinkImpl_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -41,7 +41,7 @@ func TestSharedLinkImpl_List(t *testing.T) {
 }
 
 func TestSharedLinkImpl_ListByPath(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.ListByPath(qtr_endtoend.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -51,7 +51,7 @@ func TestSharedLinkImpl_ListByPath(t *testing.T) {
 }
 
 func TestSharedLinkImpl_Remove(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.Remove(&mo_sharedlink.Metadata{})
 		if err != nil && err != qt_errors.ErrorMock {
@@ -61,7 +61,7 @@ func TestSharedLinkImpl_Remove(t *testing.T) {
 }
 
 func TestSharedLinkImpl_Resolve(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Resolve(mo_url.NewEmptyUrl(), "test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -71,7 +71,7 @@ func TestSharedLinkImpl_Resolve(t *testing.T) {
 }
 
 func TestSharedLinkImpl_Update(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_sharedlink.Metadata{}, RemoveExpiration())
 		if err != nil && err != qt_errors.ErrorMock {

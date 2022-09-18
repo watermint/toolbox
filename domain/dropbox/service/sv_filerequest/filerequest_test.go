@@ -9,7 +9,7 @@ import (
 )
 
 func TestFileRequestImpl_Create(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Create("test", qtr_endtoend.NewTestDropboxFolderPath(),
 			OptDeadline("2020-03-02T17:40:00Z"),
@@ -21,7 +21,7 @@ func TestFileRequestImpl_Create(t *testing.T) {
 }
 
 func TestFileRequestImpl_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.List()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -31,7 +31,7 @@ func TestFileRequestImpl_List(t *testing.T) {
 }
 
 func TestFileRequestImpl_Delete(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Delete("1234")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -41,7 +41,7 @@ func TestFileRequestImpl_Delete(t *testing.T) {
 }
 
 func TestFileRequestImpl_DeleteAllClosed(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.DeleteAllClosed()
 		if err != nil && err != qt_errors.ErrorMock {
@@ -51,7 +51,7 @@ func TestFileRequestImpl_DeleteAllClosed(t *testing.T) {
 }
 
 func TestFileRequestImpl_Update(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Update(&mo_filerequest.FileRequest{})
 		if err != nil && err != qt_errors.ErrorMock {

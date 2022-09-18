@@ -1,14 +1,10 @@
-## Incompatible updates:
+## Incompatible changes
 
-#645 : Incompatible change: new token file format. re-authentication required
-#647 : Deprecation: Asana commands will no longer tested before release.
-#649 : Deprecation: Slack commands will no longer tested before release.
+* #653 : Renaming `file archive local` and `file dispatch local`
 
-## New features/fixes
+## Changes
 
-#623 : new authentication framework
-#639 : watermint toolbox Deployment command
-#643 : new contributor doc
-#644 : course-grained auth scope
-#650 : util monitor client enhancement
-#651 : credential util
+* #624 : Team space commands
+* #652 : File tidy utility
+* #655 : Template utility
+* #656 : File tags command

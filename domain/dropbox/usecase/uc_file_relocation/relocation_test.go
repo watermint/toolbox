@@ -8,7 +8,7 @@ import (
 )
 
 func TestRelocationImpl_Copy(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.Copy(qtr_endtoend.NewTestDropboxFolderPath("from"), qtr_endtoend.NewTestDropboxFolderPath("to"))
 		if err != nil && err != qt_errors.ErrorMock {
@@ -18,7 +18,7 @@ func TestRelocationImpl_Copy(t *testing.T) {
 }
 
 func TestRelocationImpl_Move(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.Move(qtr_endtoend.NewTestDropboxFolderPath("from"), qtr_endtoend.NewTestDropboxFolderPath("to"))
 		if err != nil && err != qt_errors.ErrorMock {
