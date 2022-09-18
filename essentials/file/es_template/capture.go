@@ -96,6 +96,9 @@ func (z capImpl) captureFolder(entry es_filesystem.Entry) (folders []Folder, fil
 
 func (z capImpl) capturePath(path es_filesystem.Path) (folders []Folder, files []File, err error) {
 	entry, err := z.fs.Info(path)
+	if err != nil {
+		return []Folder{}, []File{}, err
+	}
 	if entry.IsFile() {
 		fileEntry, err := z.captureFile(entry)
 		if err != nil {

@@ -6,6 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_tag"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_template"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
@@ -33,12 +35,48 @@ func (z *Remote) Preset() {
 	)
 }
 
+func (z *Remote) findSourceLink(path es_filesystem.Path) (link string, err error) {
+	svl := sv_sharedlink.New(z.Peer.Client())
+	links, err := svl.ListByPath(mo_path.NewDropboxPath(path.Path()))
+	if err != nil {
+		return "", err
+	}
+	if len(links) < 1 {
+		return "", nil
+	}
+	return links[0].LinkUrl(), nil
+}
+
+func (z *Remote) createSourceLink(path es_filesystem.Path) (link string, err error) {
+	svl := sv_sharedlink.New(z.Peer.Client())
+	sl, err := svl.Create(mo_path.NewDropboxPath(path.Path()))
+	if err != nil {
+		return "", err
+	}
+	return sl.LinkUrl(), nil
+}
+
 func (z *Remote) handlerSource(path es_filesystem.Path) (link string, err error) {
-	return "", nil
+	link, err = z.findSourceLink(path)
+	if err != nil {
+		return "", err
+	}
+	if link == "" {
+		link, err = z.createSourceLink(path)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	dlLink, err := sv_sharedlink.ToDownloadUrl(link)
+	if err != nil {
+		return "", err
+	}
+	return dlLink, nil
 }
 
 func (z *Remote) handlerTags(path es_filesystem.Path) (tags []string, err error) {
-	return []string{}, nil
+	return sv_file_tag.New(z.Peer.Client()).Resolve(mo_path.NewDropboxPath(path.Path()))
 }
 
 func (z *Remote) Exec(c app_control.Control) error {
