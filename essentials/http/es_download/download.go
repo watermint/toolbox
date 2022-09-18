@@ -9,6 +9,7 @@ import (
 	"os"
 )
 
+// Download downloads file from `url` to `path`.
 func Download(l esl.Logger, url string, path string) error {
 	l.Debug("Try download", esl.String("url", url))
 	resp, err := http.Get(url)

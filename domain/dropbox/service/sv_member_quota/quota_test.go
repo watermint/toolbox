@@ -11,7 +11,7 @@ import (
 // mock tests
 
 func TestQuotaImpl_Remove(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewQuota(ctx)
 		err := sv.Remove("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -21,7 +21,7 @@ func TestQuotaImpl_Remove(t *testing.T) {
 }
 
 func TestQuotaImpl_Resolve(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewQuota(ctx)
 		_, err := sv.Resolve("test")
 		if err != nil && err != qt_errors.ErrorMock {
@@ -31,7 +31,7 @@ func TestQuotaImpl_Resolve(t *testing.T) {
 }
 
 func TestQuotaImpl_Update(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewQuota(ctx)
 		_, err := sv.Update(&mo_member_quota.Quota{})
 		if err != nil && err != qt_errors.ErrorMock {

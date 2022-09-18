@@ -8,7 +8,7 @@ import (
 )
 
 func TestCopyRefImpl_Resolve(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, _, _, err := sv.Resolve(qtr_endtoend.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {
@@ -18,7 +18,7 @@ func TestCopyRefImpl_Resolve(t *testing.T) {
 }
 
 func TestCopyRefImpl_Save(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Save(qtr_endtoend.NewTestDropboxFolderPath(), "test")
 		if err != nil && err != qt_errors.ErrorMock {

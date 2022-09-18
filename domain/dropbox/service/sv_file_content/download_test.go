@@ -8,7 +8,7 @@ import (
 )
 
 func TestDownloadImpl_Download(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewDownload(ctx)
 		_, _, err := sv.Download(qtr_endtoend.NewTestDropboxFolderPath())
 		if err != nil && err != qt_errors.ErrorMock {

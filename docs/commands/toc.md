@@ -47,6 +47,7 @@ lang: en
 | [file tag add]({{ site.baseurl }}/commands/file-tag-add.html)                                   | Add a tag to the file/folder                                  |
 | [file tag delete]({{ site.baseurl }}/commands/file-tag-delete.html)                             | Delete a tag from the file/folder                             |
 | [file tag list]({{ site.baseurl }}/commands/file-tag-list.html)                                 | List tags of the path                                         |
+| [file template apply remote]({{ site.baseurl }}/commands/file-template-apply-remote.html)       | Apply file/folder structure template to the Dropbox path      |
 | [file template capture remote]({{ site.baseurl }}/commands/file-template-capture-remote.html)   | Capture file/folder structure as template from Dropbox path   |
 | [file watch]({{ site.baseurl }}/commands/file-watch.html)                                       | Watch file activities                                         |
 | [filerequest create]({{ site.baseurl }}/commands/filerequest-create.html)                       | Create a file request                                         |
@@ -259,6 +260,7 @@ lang: en
 | [config disable]({{ site.baseurl }}/commands/config-disable.html)                           | Disable a feature.                                                   |
 | [config enable]({{ site.baseurl }}/commands/config-enable.html)                             | Enable a feature.                                                    |
 | [config features]({{ site.baseurl }}/commands/config-features.html)                         | List available optional features.                                    |
+| [file template apply local]({{ site.baseurl }}/commands/file-template-apply-local.html)     | Apply file/folder structure template to the local path               |
 | [file template capture local]({{ site.baseurl }}/commands/file-template-capture-local.html) | Capture file/folder structure as template from local path            |
 | [job history archive]({{ site.baseurl }}/commands/job-history-archive.html)                 | Archive jobs                                                         |
 | [job history delete]({{ site.baseurl }}/commands/job-history-delete.html)                   | Delete old job history                                               |

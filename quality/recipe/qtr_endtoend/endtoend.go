@@ -94,7 +94,7 @@ func MustCreateControl() (ctl app_control.Control, jl app_job.Launcher) {
 	return ctl, jl
 }
 
-func TestWithDbxContext(t *testing.T, twc func(ctx dbx_client.Client)) {
+func TestWithDbxClient(t *testing.T, twc func(ctx dbx_client.Client)) {
 	TestWithControl(t, func(ctl app_control.Control) {
 		ctx := dbx_client_impl.NewMock("mock", ctl)
 		twc(ctx)

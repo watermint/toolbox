@@ -8,7 +8,7 @@ import (
 )
 
 func TestMirrorImpl_Mirror(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx, ctx)
 		err := sv.Mirror("src@example.com", "to@example.com")
 		if err != nil && err != qt_errors.ErrorMock {

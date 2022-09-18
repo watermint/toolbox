@@ -35,7 +35,7 @@ func TestPathWithName(t *testing.T) {
 }
 
 func TestUrlImpl_Save(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		_, err := sv.Save(qtr_endtoend.NewTestDropboxFolderPath(), "https://www.dropbox.com")
 		if err != nil && err != qt_errors.ErrorMock {

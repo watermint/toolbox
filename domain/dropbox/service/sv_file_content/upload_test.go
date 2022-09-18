@@ -14,7 +14,7 @@ func TestUploadImpl_Add(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewUpload(ctx)
 		_, err := sv.Add(qtr_endtoend.NewTestDropboxFolderPath(), f)
 		if err != nil && err != qt_errors.ErrorMock {
@@ -29,7 +29,7 @@ func TestUploadImpl_Overwrite(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewUpload(ctx)
 		_, err := sv.Overwrite(qtr_endtoend.NewTestDropboxFolderPath(), f)
 		if err != nil && err != qt_errors.ErrorMock {
@@ -44,7 +44,7 @@ func TestUploadImpl_Update(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := NewUpload(ctx)
 		_, err := sv.Update(qtr_endtoend.NewTestDropboxFolderPath(), f, "test")
 		if err != nil && err != qt_errors.ErrorMock {

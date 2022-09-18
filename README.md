@@ -125,6 +125,7 @@ Available commands:
 | [file tag add](docs/commands/file-tag-add.md)                                   | Add a tag to the file/folder                                  |
 | [file tag delete](docs/commands/file-tag-delete.md)                             | Delete a tag from the file/folder                             |
 | [file tag list](docs/commands/file-tag-list.md)                                 | List tags of the path                                         |
+| [file template apply remote](docs/commands/file-template-apply-remote.md)       | Apply file/folder structure template to the Dropbox path      |
 | [file template capture remote](docs/commands/file-template-capture-remote.md)   | Capture file/folder structure as template from Dropbox path   |
 | [file watch](docs/commands/file-watch.md)                                       | Watch file activities                                         |
 | [filerequest create](docs/commands/filerequest-create.md)                       | Create a file request                                         |
@@ -337,6 +338,7 @@ Available commands:
 | [config disable](docs/commands/config-disable.md)                           | Disable a feature.                                                   |
 | [config enable](docs/commands/config-enable.md)                             | Enable a feature.                                                    |
 | [config features](docs/commands/config-features.md)                         | List available optional features.                                    |
+| [file template apply local](docs/commands/file-template-apply-local.md)     | Apply file/folder structure template to the local path               |
 | [file template capture local](docs/commands/file-template-capture-local.md) | Capture file/folder structure as template from local path            |
 | [job history archive](docs/commands/job-history-archive.md)                 | Archive jobs                                                         |
 | [job history delete](docs/commands/job-history-delete.md)                   | Delete old job history                                               |

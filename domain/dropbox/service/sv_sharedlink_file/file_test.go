@@ -10,7 +10,7 @@ import (
 )
 
 func TestFileImpl_List(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.List(mo_url.NewEmptyUrl(), qtr_endtoend.NewTestDropboxFolderPath(), func(entry mo_file.Entry) {},
 			IncludeDeleted(),
@@ -24,7 +24,7 @@ func TestFileImpl_List(t *testing.T) {
 }
 
 func TestFileImpl_ListRecursive(t *testing.T) {
-	qtr_endtoend.TestWithDbxContext(t, func(ctx dbx_client.Client) {
+	qtr_endtoend.TestWithDbxClient(t, func(ctx dbx_client.Client) {
 		sv := New(ctx)
 		err := sv.ListRecursive(mo_url.NewEmptyUrl(), func(entry mo_file.Entry) {},
 			IncludeDeleted(),
