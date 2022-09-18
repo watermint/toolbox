@@ -22,6 +22,9 @@ func TestRel(t *testing.T) {
 		if p, err := Rel("/a/b/c", "/a/b/c/d"); p != "d" || err != nil {
 			t.Error(p, err)
 		}
+		if p, err := Rel("/a/b/c", "/A/b/c/d"); p != "d" || err != nil {
+			t.Error(p, err)
+		}
 		if p, err := Rel("/a/b/c/", "/a/b/c/d"); p != "d" || err != nil {
 			t.Error(p, err)
 		}

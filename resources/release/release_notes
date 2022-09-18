@@ -1,0 +1,3 @@
+## Bug fixes
+
+* #657 : invalid path in zip if remote path contains mixed cases
