@@ -73,7 +73,7 @@ func (z *Local) Test(c app_control.Control) error {
 	tmplPath := filepath.Join(f, "template.json")
 	err = os.WriteFile(tmplPath, []byte(`{"folders":[
                {"name":"test-001", "files":[
-                   {"name":"test.txt", "content":"`+app.BuildId+`"},
+                   {"name":"test.txt", "content":"`+app.BuildId+`"}
                  ]
                }
              ]}`), 0644)
