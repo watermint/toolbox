@@ -4,9 +4,60 @@ title: コマンド
 lang: ja
 ---
 
-# config auth delete
+# teamspace asadmin folder permdelete
 
-既存の認証クレデンシャルの削除 
+チームスペースのトップレベルフォルダを完全に削除します。 
+
+# セキュリティ
+
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+
+| OS      | パス                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+
+方法は次のヘルプセンター記事をご参照ください:
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+
+## 認可スコープ
+
+| 説明                                                                                              |
+|---------------------------------------------------------------------------------------------------|
+| Dropbox Business: プロフィール写真など、Dropboxアカウントの基本情報を表示・編集することができます |
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを表示                                   |
+| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを編集                                   |
+| Dropbox Business: メンバーのDropboxのファイルやフォルダの永久削除                                 |
+| Dropbox Business: チーム内のファイルやフォルダの内容を閲覧可能                                    |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集                          |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                                          |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集                          |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認                    |
+
+# 認可
+
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
+リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2022 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
 
 # インストール
 
@@ -22,12 +73,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe config auth delete -key-name KEY_NAME -peer-name PEER_NAME
+.\tbx.exe teamspace asadmin folder permdelete -name FOLDER_NAME
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx config auth delete -key-name KEY_NAME -peer-name PEER_NAME
+$HOME/Desktop/tbx teamspace asadmin folder permdelete -name FOLDER_NAME
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,10 +89,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                   | デフォルト |
-|--------------|------------------------|------------|
-| `-key-name`  | アプリケーションキー名 |            |
-| `-peer-name` | ピア名                 |            |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-name`    | フォルダ名       |            |
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -65,33 +116,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: deleted
-
-認証クレデンシャルデータ
-このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
-
-| 列          | 説明               |
-|-------------|--------------------|
-| key_name    | アプリケーション名 |
-| scope       | 認証スコープ       |
-| peer_name   | ピア名             |
-| description | 説明               |
-| timestamp   | タイムスタンプ     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

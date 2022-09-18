@@ -120,6 +120,11 @@ DropboxおよびDropbox Business向けのツールセット
 | [file sync down](docs/ja/commands/file-sync-down.md)                               | Dropboxと下り方向で同期します                                             |
 | [file sync online](docs/ja/commands/file-sync-online.md)                           | オンラインファイルを同期します                                            |
 | [file sync up](docs/ja/commands/file-sync-up.md)                                   | Dropboxと上り方向で同期します                                             |
+| [file tag add](docs/ja/commands/file-tag-add.md)                                   | ファイル/フォルダーにタグを追加する                                       |
+| [file tag delete](docs/ja/commands/file-tag-delete.md)                             | ファイル/フォルダーからタグを削除する                                     |
+| [file tag list](docs/ja/commands/file-tag-list.md)                                 | パスのタグを一覧                                                          |
+| [file template apply remote](docs/ja/commands/file-template-apply-remote.md)       | Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する            |
+| [file template capture remote](docs/ja/commands/file-template-capture-remote.md)   | Dropboxのパスからファイル/フォルダ構造をテンプレートとして取り込む。      |
 | [file watch](docs/ja/commands/file-watch.md)                                       | ファイルアクティビティを監視                                              |
 | [filerequest create](docs/ja/commands/filerequest-create.md)                       | ファイルリクエストを作成します                                            |
 | [filerequest delete closed](docs/ja/commands/filerequest-delete-closed.md)         | このアカウントの全ての閉じられているファイルリクエストを削除します        |
@@ -127,6 +132,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [filerequest list](docs/ja/commands/filerequest-list.md)                           | 個人アカウントのファイルリクエストを一覧.                                 |
 | [job history ship](docs/ja/commands/job-history-ship.md)                           | ログの転送先Dropboxパス                                                   |
 | [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md) | 現在のユーザーの機能設定の一覧                                            |
+| [services dropbox user info](docs/ja/commands/services-dropbox-user-info.md)       | 現在のアカウント情報を取得する                                            |
 | [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                       | 共有フォルダーから退出する.                                               |
 | [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                         | 共有フォルダの一覧                                                        |
 | [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)             | 共有フォルダへのメンバーの追加                                            |
@@ -143,7 +149,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                   | 共有リンクのファイルを一覧する                                            |
 | [sharedlink info](docs/ja/commands/sharedlink-info.md)                             | 共有リンクの情報取得                                                      |
 | [sharedlink list](docs/ja/commands/sharedlink-list.md)                             | 共有リンクの一覧                                                          |
+| [teamspace file list](docs/ja/commands/teamspace-file-list.md)                     | チームスペースにあるファイルやフォルダーを一覧表示                        |
 | [util monitor client](docs/ja/commands/util-monitor-client.md)                     | デバイスモニタークライアントを起動する                                    |
+| [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                 | リモートフォルダをZIPファイルにパッケージする                             |
 
 ## Dropbox Business
 
@@ -258,6 +266,10 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder permdelete](docs/ja/commands/teamfolder-permdelete.md)                                             | チームフォルダを完全に削除します                                                        |
 | [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                  |
+| [teamspace asadmin file list](docs/ja/commands/teamspace-asadmin-file-list.md)                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
+| [teamspace asadmin folder add](docs/ja/commands/teamspace-asadmin-folder-add.md)                               | チームスペースにトップレベルのフォルダーを作成                                          |
+| [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                         | チームスペースのトップレベルフォルダーを削除する                                        |
+| [teamspace asadmin folder permdelete](docs/ja/commands/teamspace-asadmin-folder-permdelete.md)                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
 ## GitHub
 
@@ -317,49 +329,51 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## ユーティリティー
 
-| コマンド                                                               | 説明                                                                   |
-|------------------------------------------------------------------------|------------------------------------------------------------------------|
-| [config auth delete](docs/ja/commands/config-auth-delete.md)           | 既存の認証クレデンシャルの削除                                         |
-| [config auth list](docs/ja/commands/config-auth-list.md)               | すべての認証情報を一覧表示                                             |
-| [config disable](docs/ja/commands/config-disable.md)                   | 機能を無効化します.                                                    |
-| [config enable](docs/ja/commands/config-enable.md)                     | 機能を有効化します.                                                    |
-| [config features](docs/ja/commands/config-features.md)                 | 利用可能なオプション機能一覧.                                          |
-| [file archive local](docs/ja/commands/file-archive-local.md)           | ローカルファイルをアーカイブします                                     |
-| [file dispatch local](docs/ja/commands/file-dispatch-local.md)         | ローカルファイルを整理します                                           |
-| [job history archive](docs/ja/commands/job-history-archive.md)         | ジョブのアーカイブ                                                     |
-| [job history delete](docs/ja/commands/job-history-delete.md)           | 古いジョブ履歴の削除                                                   |
-| [job history list](docs/ja/commands/job-history-list.md)               | ジョブ履歴の表示                                                       |
-| [job log jobid](docs/ja/commands/job-log-jobid.md)                     | 指定したジョブIDのログを取得する                                       |
-| [job log kind](docs/ja/commands/job-log-kind.md)                       | 指定種別のログを結合して出力します                                     |
-| [job log last](docs/ja/commands/job-log-last.md)                       | 最後のジョブのログファイルを出力.                                      |
-| [license](docs/ja/commands/license.md)                                 | ライセンス情報を表示します                                             |
-| [util archive unzip](docs/ja/commands/util-archive-unzip.md)           | ZIPアーカイブファイルを解凍する                                        |
-| [util archive zip](docs/ja/commands/util-archive-zip.md)               | 対象ファイルをZIPアーカイブに圧縮する                                  |
-| [util database exec](docs/ja/commands/util-database-exec.md)           | SQLite3データベースファイルへのクエリ実行                              |
-| [util database query](docs/ja/commands/util-database-query.md)         | SQLite3データベースへの問い合わせ                                      |
-| [util date today](docs/ja/commands/util-date-today.md)                 | 現在の日付を表示                                                       |
-| [util datetime now](docs/ja/commands/util-datetime-now.md)             | 現在の日時を表示                                                       |
-| [util decode base32](docs/ja/commands/util-decode-base32.md)           | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base64](docs/ja/commands/util-decode-base64.md)           | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util encode base32](docs/ja/commands/util-encode-base32.md)           | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base64](docs/ja/commands/util-encode-base64.md)           | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util file hash](docs/ja/commands/util-file-hash.md)                   | ファイルダイジェストの表示                                             |
-| [util git clone](docs/ja/commands/util-git-clone.md)                   | git リポジトリをクローン                                               |
-| [util image exif](docs/ja/commands/util-image-exif.md)                 | 画像ファイルのEXIFメタデータを表示                                     |
-| [util image placeholder](docs/ja/commands/util-image-placeholder.md)   | プレースホルダー画像の作成                                             |
-| [util net download](docs/ja/commands/util-net-download.md)             | ファイルをダウンロードする                                             |
-| [util qrcode create](docs/ja/commands/util-qrcode-create.md)           | QRコード画像ファイルの作成                                             |
-| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)               | WIFI設定用のQRコードを生成                                             |
-| [util text case down](docs/ja/commands/util-text-case-down.md)         | 小文字のテキストを表示する                                             |
-| [util text case up](docs/ja/commands/util-text-case-up.md)             | 大文字のテキストを表示する                                             |
-| [util text encoding from](docs/ja/commands/util-text-encoding-from.md) | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
-| [util text encoding to](docs/ja/commands/util-text-encoding-to.md)     | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
-| [util time now](docs/ja/commands/util-time-now.md)                     | 現在の時刻を表示                                                       |
-| [util unixtime format](docs/ja/commands/util-unixtime-format.md)       | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
-| [util unixtime now](docs/ja/commands/util-unixtime-now.md)             | UNIX時間で現在の時刻を表示する                                         |
-| [util xlsx create](docs/ja/commands/util-xlsx-create.md)               | 空のスプレッドシートを作成する                                         |
-| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)   | xlsxファイルからデータをエクスポート                                   |
-| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)   | データをxlsxファイルにインポート                                       |
-| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)       | xlsxファイルのシート一覧                                               |
-| [version](docs/ja/commands/version.md)                                 | バージョン情報                                                         |
+| コマンド                                                                       | 説明                                                                   |
+|--------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config auth delete](docs/ja/commands/config-auth-delete.md)                   | 既存の認証クレデンシャルの削除                                         |
+| [config auth list](docs/ja/commands/config-auth-list.md)                       | すべての認証情報を一覧表示                                             |
+| [config disable](docs/ja/commands/config-disable.md)                           | 機能を無効化します.                                                    |
+| [config enable](docs/ja/commands/config-enable.md)                             | 機能を有効化します.                                                    |
+| [config features](docs/ja/commands/config-features.md)                         | 利用可能なオプション機能一覧.                                          |
+| [file template apply local](docs/ja/commands/file-template-apply-local.md)     | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
+| [file template capture local](docs/ja/commands/file-template-capture-local.md) | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
+| [job history archive](docs/ja/commands/job-history-archive.md)                 | ジョブのアーカイブ                                                     |
+| [job history delete](docs/ja/commands/job-history-delete.md)                   | 古いジョブ履歴の削除                                                   |
+| [job history list](docs/ja/commands/job-history-list.md)                       | ジョブ履歴の表示                                                       |
+| [job log jobid](docs/ja/commands/job-log-jobid.md)                             | 指定したジョブIDのログを取得する                                       |
+| [job log kind](docs/ja/commands/job-log-kind.md)                               | 指定種別のログを結合して出力します                                     |
+| [job log last](docs/ja/commands/job-log-last.md)                               | 最後のジョブのログファイルを出力.                                      |
+| [license](docs/ja/commands/license.md)                                         | ライセンス情報を表示します                                             |
+| [util archive unzip](docs/ja/commands/util-archive-unzip.md)                   | ZIPアーカイブファイルを解凍する                                        |
+| [util archive zip](docs/ja/commands/util-archive-zip.md)                       | 対象ファイルをZIPアーカイブに圧縮する                                  |
+| [util database exec](docs/ja/commands/util-database-exec.md)                   | SQLite3データベースファイルへのクエリ実行                              |
+| [util database query](docs/ja/commands/util-database-query.md)                 | SQLite3データベースへの問い合わせ                                      |
+| [util date today](docs/ja/commands/util-date-today.md)                         | 現在の日付を表示                                                       |
+| [util datetime now](docs/ja/commands/util-datetime-now.md)                     | 現在の日時を表示                                                       |
+| [util decode base32](docs/ja/commands/util-decode-base32.md)                   | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64](docs/ja/commands/util-decode-base64.md)                   | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util encode base32](docs/ja/commands/util-encode-base32.md)                   | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64](docs/ja/commands/util-encode-base64.md)                   | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util file hash](docs/ja/commands/util-file-hash.md)                           | ファイルダイジェストの表示                                             |
+| [util git clone](docs/ja/commands/util-git-clone.md)                           | git リポジトリをクローン                                               |
+| [util image exif](docs/ja/commands/util-image-exif.md)                         | 画像ファイルのEXIFメタデータを表示                                     |
+| [util image placeholder](docs/ja/commands/util-image-placeholder.md)           | プレースホルダー画像の作成                                             |
+| [util net download](docs/ja/commands/util-net-download.md)                     | ファイルをダウンロードする                                             |
+| [util qrcode create](docs/ja/commands/util-qrcode-create.md)                   | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)                       | WIFI設定用のQRコードを生成                                             |
+| [util text case down](docs/ja/commands/util-text-case-down.md)                 | 小文字のテキストを表示する                                             |
+| [util text case up](docs/ja/commands/util-text-case-up.md)                     | 大文字のテキストを表示する                                             |
+| [util text encoding from](docs/ja/commands/util-text-encoding-from.md)         | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
+| [util text encoding to](docs/ja/commands/util-text-encoding-to.md)             | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
+| [util tidy move dispatch](docs/ja/commands/util-tidy-move-dispatch.md)         | ファイルを整理                                                         |
+| [util tidy move simple](docs/ja/commands/util-tidy-move-simple.md)             | ローカルファイルをアーカイブします                                     |
+| [util time now](docs/ja/commands/util-time-now.md)                             | 現在の時刻を表示                                                       |
+| [util unixtime format](docs/ja/commands/util-unixtime-format.md)               | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now](docs/ja/commands/util-unixtime-now.md)                     | UNIX時間で現在の時刻を表示する                                         |
+| [util xlsx create](docs/ja/commands/util-xlsx-create.md)                       | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)           | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)           | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)               | xlsxファイルのシート一覧                                               |
+| [version](docs/ja/commands/version.md)                                         | バージョン情報                                                         |
 

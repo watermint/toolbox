@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# file archive local
+# file template capture local
 
-ローカルファイルをアーカイブします 
+ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む 
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
+.\tbx.exe file template capture local -out /LOCAL/PATH/template.json -path /LOCAL/PATH/TO/CAPTURE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file archive local -dst /LOCAL/DEST -src /LOCAL/SRC
+$HOME/Desktop/tbx file template capture local -out /LOCAL/PATH/template.json -path /LOCAL/PATH/TO/CAPTURE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,13 +38,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション              | 説明                                                                              | デフォルト |
-|-------------------------|-----------------------------------------------------------------------------------|------------|
-| `-dst`                  | 宛先フォルダのパス. このコマンドは、パス上に存在しない場合、フォルダを作成します. |            |
-| `-exclude-folders`      | フォルダを除外する                                                                | false      |
-| `-include-system-files` | システムファイルを含める                                                          | false      |
-| `-preview`              | プレビューモード                                                                  | false      |
-| `-src`                  | 元フォルダのパス.                                                                 |            |
+| オプション | 説明                 | デフォルト |
+|------------|----------------------|------------|
+| `-out`     | テンプレート出力パス |            |
+| `-path`    | キャプチャ対象パス   |            |
 
 ## 共通のオプション:
 

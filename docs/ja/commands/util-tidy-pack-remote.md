@@ -4,9 +4,54 @@ title: コマンド
 lang: ja
 ---
 
-# config auth delete
+# util tidy pack remote
 
-既存の認証クレデンシャルの削除 
+リモートフォルダをZIPファイルにパッケージする 
+
+# セキュリティ
+
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+
+| OS      | パス                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+
+方法は次のヘルプセンター記事をご参照ください:
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+
+## 認可スコープ
+
+| 説明                                                                                   |
+|----------------------------------------------------------------------------------------|
+| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示                                 |
+| Dropbox: Dropboxのファイルやフォルダに関する情報を表示                                 |
+
+# 認可
+
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
+リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2022 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
 
 # インストール
 
@@ -22,12 +67,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe config auth delete -key-name KEY_NAME -peer-name PEER_NAME
+.\tbx.exe util tidy pack remote -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /LOCAL/PATH/TO/STORE.zip
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx config auth delete -key-name KEY_NAME -peer-name PEER_NAME
+$HOME/Desktop/tbx util tidy pack remote -dropbox-path /DROPBOX/PATH/TO/DOWNLOAD -local-path /LOCAL/PATH/TO/STORE.zip
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,10 +83,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                   | デフォルト |
-|--------------|------------------------|------------|
-| `-key-name`  | アプリケーションキー名 |            |
-| `-peer-name` | ピア名                 |            |
+| オプション      | 説明                              | デフォルト |
+|-----------------|-----------------------------------|------------|
+| `-dropbox-path` | ダウンロードするDropboxのパス     |            |
+| `-local-path`   | ZIPファイルを格納するローカルパス |            |
+| `-peer`         | アカウントの別名                  | default    |
 
 ## 共通のオプション:
 
@@ -76,22 +122,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: deleted
+## レポート: operation_log
 
-認証クレデンシャルデータ
-このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列          | 説明               |
-|-------------|--------------------|
-| key_name    | アプリケーション名 |
-| scope       | 認証スコープ       |
-| peer_name   | ピア名             |
-| description | 説明               |
-| timestamp   | タイムスタンプ     |
+| 列                    | 説明                                                         |
+|-----------------------|--------------------------------------------------------------|
+| status                | 処理の状態                                                   |
+| reason                | 失敗またはスキップの理由                                     |
+| input.name            | 名称                                                         |
+| input.path_display    | パス (表示目的で大文字小文字を区別する).                     |
+| input.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
+| input.size            | ファイルサイズ(バイト単位)                                   |
+| result.path           | パス                                                         |
+| result.name           | ファイル名                                                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

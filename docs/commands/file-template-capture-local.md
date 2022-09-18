@@ -41,7 +41,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option  | Description          | Default |
 |---------|----------------------|---------|
 | `-out`  | Template output path |         |
-| `-path` | Path to capture      |         |
+| `-path` | Capture target path  |         |
 
 ## Common options:
 

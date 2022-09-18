@@ -4,9 +4,56 @@ title: コマンド
 lang: ja
 ---
 
-# file dispatch local
+# file template apply remote
 
-ローカルファイルを整理します (非可逆な操作です)
+Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する 
+
+# セキュリティ
+
+`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
+
+| OS      | パス                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
+不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
+
+方法は次のヘルプセンター記事をご参照ください:
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+
+## 認可スコープ
+
+| 説明                                                                                   |
+|----------------------------------------------------------------------------------------|
+| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示                                 |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集                                 |
+| Dropbox: Dropboxのファイルやフォルダに関する情報を表示                                 |
+| Dropbox: Dropboxのファイルやフォルダの情報を表示、編集可能                             |
+
+# 認可
+
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
+リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2022 Takayuki Okazaki
+オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
+
+1. 次のURLを開き認証ダイアログを開いてください:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
+```
 
 # インストール
 
@@ -22,12 +69,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file dispatch local -file /PATH/TO/DATA_FILE.csv
+.\tbx.exe file template apply remote -path /DROPBOX/PATH/TO/APPLY -template /LOCAL/PATH/TO/template.json
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file dispatch local -file /PATH/TO/DATA_FILE.csv
+$HOME/Desktop/tbx file template apply remote -path /DROPBOX/PATH/TO/APPLY -template /LOCAL/PATH/TO/template.json
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,10 +85,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                   | デフォルト |
-|------------|------------------------|------------|
-| `-file`    | データファイルへのパス |            |
-| `-preview` | プレビューモード       | false      |
+| オプション  | 説明                             | デフォルト |
+|-------------|----------------------------------|------------|
+| `-path`     | テンプレートを適用するためのパス |            |
+| `-peer`     | アカウントの別名                 | default    |
+| `-template` | テンプレートファイルへのパス     |            |
 
 ## 共通のオプション:
 
@@ -65,26 +113,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# ファイル書式
-
-## 書式: File
-
-整理ルールのデータファイル.
-
-| 列                  | 説明                                  | 例                                            |
-|---------------------|---------------------------------------|-----------------------------------------------|
-| suffix              | ファイル名の拡張子                    | .pdf                                          |
-| source_path         | 元のパス                              | <no value>/ダウンロード                       |
-| source_file_pattern | 転送元ファイル名のパターン (正規表現) | toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2})      |
-| dest_path_pattern   | 転送先パスのパターン                  | <no value>/ドキュメント/<no value>-<no value> |
-| dest_file_pattern   | 転送先ファイル名のパターン            | TBX_<no value>-<no value>-<no value>          |
-
-最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
-```
-suffix,source_path,source_file_pattern,dest_path_pattern,dest_file_pattern
-.pdf,<no value>/ダウンロード,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/ドキュメント/<no value>-<no value>,TBX_<no value>-<no value>-<no value>
-```
 
 # ネットワークプロクシの設定
 

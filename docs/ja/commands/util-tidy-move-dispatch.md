@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# config auth delete
+# util tidy move dispatch
 
-既存の認証クレデンシャルの削除 
+ファイルを整理 (非可逆な操作です)
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe config auth delete -key-name KEY_NAME -peer-name PEER_NAME
+.\tbx.exe util tidy move dispatch -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx config auth delete -key-name KEY_NAME -peer-name PEER_NAME
+$HOME/Desktop/tbx util tidy move dispatch -file /PATH/TO/DATA_FILE.csv
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,10 +38,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                   | デフォルト |
-|--------------|------------------------|------------|
-| `-key-name`  | アプリケーションキー名 |            |
-| `-peer-name` | ピア名                 |            |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-preview` | プレビューモード       | false      |
 
 ## 共通のオプション:
 
@@ -66,32 +66,25 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 
-# 実行結果
+# ファイル書式
 
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+## 書式: File
 
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+整理ルールのデータファイル.
 
-## レポート: deleted
+| 列                  | 説明                                  | 例                                            |
+|---------------------|---------------------------------------|-----------------------------------------------|
+| suffix              | ファイル名の拡張子                    | .pdf                                          |
+| source_path         | 元のパス                              | <no value>/ダウンロード                       |
+| source_file_pattern | 転送元ファイル名のパターン (正規表現) | toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2})      |
+| dest_path_pattern   | 転送先パスのパターン                  | <no value>/ドキュメント/<no value>-<no value> |
+| dest_file_pattern   | 転送先ファイル名のパターン            | TBX_<no value>-<no value>-<no value>          |
 
-認証クレデンシャルデータ
-このコマンドはレポートを3種類の書式で出力します. `deleted.csv`, `deleted.json`, ならびに `deleted.xlsx`.
-
-| 列          | 説明               |
-|-------------|--------------------|
-| key_name    | アプリケーション名 |
-| scope       | 認証スコープ       |
-| peer_name   | ピア名             |
-| description | 説明               |
-| timestamp   | タイムスタンプ     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `deleted_0000.xlsx`, `deleted_0001.xlsx`, `deleted_0002.xlsx`, ...
+最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
+```
+suffix,source_path,source_file_pattern,dest_path_pattern,dest_file_pattern
+.pdf,<no value>/ダウンロード,toolbox-([0-9]{4})-([0-9]{2})-([0-9]{2}),<no value>/ドキュメント/<no value>-<no value>,TBX_<no value>-<no value>-<no value>
+```
 
 # ネットワークプロクシの設定
 
