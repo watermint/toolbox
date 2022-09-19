@@ -1,4 +1,4 @@
-package dfs_dbx_to_local_block
+package dbx_fs_dbx_to_local_block
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	"github.com/vbauerster/mpb/v5/decor"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/collections/es_number"
@@ -63,27 +63,27 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 	q, err := dbx_request.DropboxApiArg(p)
 	if err != nil {
 		l.Debug("Unable to create path arg", esl.Error(err))
-		onFailure(pair, filesystem.NewError(err))
+		onFailure(pair, dbx_fs.NewError(err))
 		return
 	}
 
 	res := z.ctx.ContentHead("files/download", q)
 	if err, fail := res.Failure(); fail {
 		l.Debug("Head request failure", esl.Error(err))
-		onFailure(pair, filesystem.NewError(err))
+		onFailure(pair, dbx_fs.NewError(err))
 		return
 	}
 
 	if h := res.Header("Accept-Ranges"); h != "bytes" {
 		l.Debug("The server does not support range request", esl.String("acceptRanges", h))
-		onFailure(pair, filesystem.NewError(ErrorRangeRequestNotSupported))
+		onFailure(pair, dbx_fs.NewError(ErrorRangeRequestNotSupported))
 		return
 	}
 
 	contentLength := es_number.New(res.Header("Content-Length"))
 	if !contentLength.IsInt() {
 		l.Debug("invalid content length", esl.String("contentLength", res.Header("Content-Length")))
-		onFailure(pair, filesystem.NewError(ErrorInvalidContentLength))
+		onFailure(pair, dbx_fs.NewError(ErrorInvalidContentLength))
 		return
 	}
 
@@ -93,7 +93,7 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 		f, err := os.Create(target.Path())
 		if err != nil {
 			l.Debug("Unable to create the file", esl.Error(err))
-			onFailure(pair, filesystem.NewError(err))
+			onFailure(pair, dbx_fs.NewError(err))
 		} else {
 			_ = f.Close()
 			if entry, fsErr := z.target.Info(target); fsErr != nil {
@@ -109,14 +109,14 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 	j, err := es_json.ParseString(resHeader)
 	if err != nil {
 		l.Debug("Unable to parse response header", esl.Error(err), esl.String("header", resHeader))
-		onFailure(pair, filesystem.NewError(err))
+		onFailure(pair, dbx_fs.NewError(err))
 		return
 	}
 
 	apiResult := &DownloadHeadResponse{}
 	if err := j.Model(apiResult); err != nil {
 		l.Debug("Unable to parse response header", esl.Error(err), esl.String("header", resHeader))
-		onFailure(pair, filesystem.NewError(err))
+		onFailure(pair, dbx_fs.NewError(err))
 		return
 	}
 
@@ -124,7 +124,7 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 	revQ, err := dbx_request.DropboxApiArg(revP)
 	if err != nil {
 		l.Debug("Unable to create path arg", esl.Error(err))
-		onFailure(pair, filesystem.NewError(err))
+		onFailure(pair, dbx_fs.NewError(err))
 		return
 	}
 
@@ -153,7 +153,7 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 			}
 
 		}, func(w es_block.BlockWriter, offset int64, err error) {
-			onFailure(pair, filesystem.NewError(err))
+			onFailure(pair, dbx_fs.NewError(err))
 		},
 	)
 }

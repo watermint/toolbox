@@ -1,8 +1,8 @@
-package dfs_copier_dbx_to_dbx
+package dbx_fs_copier_dbx_to_dbx
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_relocation"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -28,14 +28,14 @@ func (z copierDropboxToDropboxSingle) Copy(source es_filesystem.Entry, target es
 	l.Debug("Copy")
 	cp := es_filesystem.NewCopyPair(source, target)
 
-	sourceDbxPath, err := filesystem.ToDropboxPath(source.Path())
+	sourceDbxPath, err := dbx_fs.ToDropboxPath(source.Path())
 	if err != nil {
 		l.Debug("unable to convert to Dropbox path", esl.Error(err))
 		onFailure(cp, err)
 		return
 	}
 
-	targetDbxPath, err := filesystem.ToDropboxPath(target)
+	targetDbxPath, err := dbx_fs.ToDropboxPath(target)
 	if err != nil {
 		l.Debug("unable to convert to Dropbox path", esl.Error(err))
 		onFailure(cp, err)
@@ -50,7 +50,7 @@ func (z copierDropboxToDropboxSingle) Copy(source es_filesystem.Entry, target es
 	}
 
 	l.Debug("successfully copied", esl.Any("entry", dbxEntry.Concrete()))
-	onSuccess(cp, filesystem.NewEntry(dbxEntry))
+	onSuccess(cp, dbx_fs.NewEntry(dbxEntry))
 }
 
 func (z copierDropboxToDropboxSingle) Shutdown() (err es_filesystem.FileSystemError) {

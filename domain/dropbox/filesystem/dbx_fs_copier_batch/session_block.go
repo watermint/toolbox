@@ -1,4 +1,4 @@
-package dfs_copier_batch
+package dbx_fs_copier_batch
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"

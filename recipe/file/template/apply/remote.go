@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_tag"
@@ -81,7 +81,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 		return err
 	}
 
-	fs := filesystem.NewFileSystem(z.Peer.Client())
+	fs := dbx_fs.NewFileSystem(z.Peer.Client())
 	ap := es_template.NewApply(fs,
 		es_template.ApplyOpts{
 			HandlerTagAdd: func(path es_filesystem.Path, tags []string) error {
@@ -97,7 +97,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 			},
 		},
 	)
-	return ap.Apply(filesystem.NewPath("", z.Path), tmplData)
+	return ap.Apply(dbx_fs.NewPath("", z.Path), tmplData)
 }
 
 func (z *Remote) Test(c app_control.Control) error {

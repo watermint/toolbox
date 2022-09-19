@@ -26,7 +26,7 @@
   "domain.dropbox.api.dbx_error.msg_handler.error_bad_request": "Invalid request parameter: {{.Error}}",
   "domain.dropbox.api.dbx_error.msg_handler.error_summary": "Error from Dropbox server: {{.Error}}",
   "domain.dropbox.api.dbx_list_impl.msg_list.progress_retrieve": "{{.Time}}: Retrieving data from Dropbox...",
-  "domain.dropbox.filesystem.msg_file_system_cached.progress_pre_scan": "Pre-scanning: {{.Path}}",
+  "domain.dropbox.filesystem.dbx_fs.msg_file_system_cached.progress_pre_scan": "Pre-scanning: {{.Path}}",
   "domain.dropbox.model.mo_activity.compatible.access_method.desc": "The method that was used to perform the action.",
   "domain.dropbox.model.mo_activity.compatible.assets.desc": "Zero or more content assets involved in the action.",
   "domain.dropbox.model.mo_activity.compatible.category.desc": "Category of the events in event audit log.",

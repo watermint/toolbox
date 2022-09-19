@@ -1,4 +1,4 @@
-package dfs_copier_batch
+package dbx_fs_copier_batch
 
 const (
 	queueIdBlockCommit = "upload_commit"

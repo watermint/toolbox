@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_tag"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
@@ -80,13 +80,13 @@ func (z *Remote) handlerTags(path es_filesystem.Path) (tags []string, err error)
 }
 
 func (z *Remote) Exec(c app_control.Control) error {
-	dfs := filesystem.NewFileSystem(z.Peer.Client())
+	dfs := dbx_fs.NewFileSystem(z.Peer.Client())
 	cp := es_template.NewCapture(dfs, es_template.CaptureOpts{
 		HandlerSource: z.handlerSource,
 		HandlerTags:   z.handlerTags,
 	})
 
-	template, err := cp.Capture(filesystem.NewPath("", z.Path))
+	template, err := cp.Capture(dbx_fs.NewPath("", z.Path))
 	if err != nil {
 		return err
 	}

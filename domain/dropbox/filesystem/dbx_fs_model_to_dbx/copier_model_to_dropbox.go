@@ -1,8 +1,8 @@
-package dfs_model_to_dbx
+package dbx_fs_model_to_dbx
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_model"
@@ -56,7 +56,7 @@ func (z copierModelToDropbox) Copy(source es_filesystem.Entry, target es_filesys
 	tmpDir, ioErr := ioutil.TempDir("", "model_to_dropbox")
 	if ioErr != nil {
 		l.Debug("unable to create temp file", esl.Error(ioErr))
-		onFailure(cp, filesystem.NewError(ioErr))
+		onFailure(cp, dbx_fs.NewError(ioErr))
 		return
 	}
 

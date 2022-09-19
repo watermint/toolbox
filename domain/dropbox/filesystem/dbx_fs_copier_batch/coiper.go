@@ -1,9 +1,9 @@
-package dfs_copier_batch
+package dbx_fs_copier_batch
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/io/es_block"
@@ -71,7 +71,7 @@ func (z *copierLocalToDropboxBatch) Shutdown() (err es_filesystem.FileSystemErro
 	l.Debug("Shutdown sessions")
 	if sErr := z.sessions.Shutdown(); sErr != nil {
 		l.Debug("There was an error during shutdown", esl.Error(sErr))
-		return filesystem.NewError(sErr)
+		return dbx_fs.NewError(sErr)
 	}
 	return nil
 }
@@ -116,7 +116,7 @@ func (z *copierLocalToDropboxBatch) Copy(source es_filesystem.Entry, target es_f
 	cp := es_filesystem.NewCopyPair(source, target)
 
 	localPath := source.Path().Path()
-	targetDbxPath, dbxErr := filesystem.ToDropboxPath(target)
+	targetDbxPath, dbxErr := dbx_fs.ToDropboxPath(target)
 	if dbxErr != nil {
 		l.Debug("unable to convert to Dropbox path", esl.Error(dbxErr))
 		onFailure(cp, dbxErr)
@@ -147,7 +147,7 @@ func (z *copierLocalToDropboxBatch) Copy(source es_filesystem.Entry, target es_f
 	l = l.With(esl.String("sessionId", sessionId))
 	if sesErr != nil {
 		l.Debug("Unable to start an upload session", esl.Error(sesErr))
-		onFailure(cp, filesystem.NewError(sesErr))
+		onFailure(cp, dbx_fs.NewError(sesErr))
 		z.backlogCount.Done()
 		return
 	}
@@ -156,7 +156,7 @@ func (z *copierLocalToDropboxBatch) Copy(source es_filesystem.Entry, target es_f
 	offsets, fsErr := z.fs.FileBlocks(localPath)
 	if fsErr != nil {
 		l.Debug("Unable to retrieve file info", esl.Error(fsErr))
-		onFailure(cp, filesystem.NewError(fsErr))
+		onFailure(cp, dbx_fs.NewError(fsErr))
 		z.backlogCount.Done()
 		return
 	}

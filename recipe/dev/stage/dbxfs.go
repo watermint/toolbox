@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -118,13 +118,13 @@ func (z *Dbxfs) compare(l esl.Logger, base, cached es_filesystem.FileSystem, pat
 }
 
 func (z *Dbxfs) Exec(c app_control.Control) error {
-	base := filesystem.NewFileSystem(z.Peer.Client())
-	cached, err := filesystem.NewPreScanFileSystem(c, z.Peer.Client(), z.Path)
+	base := dbx_fs.NewFileSystem(z.Peer.Client())
+	cached, err := dbx_fs.NewPreScanFileSystem(c, z.Peer.Client(), z.Path)
 	if err != nil {
 		return err
 	}
 
-	return z.compare(c.Log(), base, cached, filesystem.NewPath("", z.Path))
+	return z.compare(c.Log(), base, cached, dbx_fs.NewPath("", z.Path))
 }
 
 func (z *Dbxfs) Test(c app_control.Control) error {

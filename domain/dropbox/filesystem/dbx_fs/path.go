@@ -1,4 +1,4 @@
-package filesystem
+package dbx_fs
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"

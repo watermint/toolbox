@@ -1,8 +1,8 @@
-package dfs_dbx_to_local
+package dbx_fs_dbx_to_local
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
@@ -32,7 +32,7 @@ func (z copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesys
 	l.Debug("Copy (download)")
 	cp := es_filesystem.NewCopyPair(source, target)
 
-	sourcePath, err := filesystem.ToDropboxPath(source.Path())
+	sourcePath, err := dbx_fs.ToDropboxPath(source.Path())
 	if err != nil {
 		l.Debug("Unable to convert path format", esl.Error(err))
 		onFailure(cp, err)
@@ -42,7 +42,7 @@ func (z copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesys
 	downloadUrl, dbxErr := sv_file_content.NewDownload(z.ctx).DownloadUrl(sourcePath)
 	if dbxErr != nil {
 		l.Debug("Unable to download", esl.Error(dbxErr))
-		onFailure(cp, filesystem.NewError(dbxErr))
+		onFailure(cp, dbx_fs.NewError(dbxErr))
 		return
 	}
 	l.Debug("Download url", esl.String("url", downloadUrl))
@@ -50,7 +50,7 @@ func (z copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesys
 	dlErr := es_download.Download(l, downloadUrl, target.Path())
 	if dlErr != nil {
 		l.Debug("Download failure", esl.Error(dlErr))
-		onFailure(cp, filesystem.NewError(dlErr))
+		onFailure(cp, dbx_fs.NewError(dlErr))
 		return
 	}
 

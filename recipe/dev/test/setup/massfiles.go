@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
@@ -201,18 +201,18 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 			return nil
 		}
 
-		commits := make([]dfs_copier_batch.UploadFinish, 0)
+		commits := make([]dbx_fs_copier_batch.UploadFinish, 0)
 		paths := make([]string, 0)
 		for sessionId, page := range sessions {
 			path := z.Base.ChildPath(pageToPath(page)...).Path()
 			offset := offsets[sessionId]
 			paths = append(paths, path)
-			commits = append(commits, dfs_copier_batch.UploadFinish{
-				Cursor: dfs_copier_batch.UploadCursor{
+			commits = append(commits, dbx_fs_copier_batch.UploadFinish{
+				Cursor: dbx_fs_copier_batch.UploadCursor{
 					SessionId: sessionId,
 					Offset:    offset,
 				},
-				Commit: dfs_copier_batch.CommitInfo{
+				Commit: dbx_fs_copier_batch.CommitInfo{
 					Path:           path,
 					Mode:           "add",
 					Autorename:     true,
@@ -223,7 +223,7 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 			})
 		}
 
-		finish := &dfs_copier_batch.UploadFinishBatch{
+		finish := &dbx_fs_copier_batch.UploadFinishBatch{
 			Entries: commits,
 		}
 		res := ctx.Async("files/upload_session/finish_batch", api_request.Param(finish)).Call(

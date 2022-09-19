@@ -3,9 +3,9 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_dbx_to_local"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_dbx_to_local_block"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_dbx_to_local"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_dbx_to_local_block"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
@@ -91,19 +91,19 @@ func (z *Download) Exec(c app_control.Control) error {
 	}
 	l.Debug("Start downloading")
 
-	srcFs := filesystem.NewFileSystem(z.Context)
+	srcFs := dbx_fs.NewFileSystem(z.Context)
 	tgtFs := es_filesystem_local.NewFileSystem()
 	var conn es_filesystem.Connector
 	if c.Feature().Experiment(app.ExperimentDbxDownloadBlock) {
 		l.Debug("Use block copier")
-		conn = dfs_dbx_to_local_block.NewDropboxToLocal(z.Context)
+		conn = dbx_fs_dbx_to_local_block.NewDropboxToLocal(z.Context)
 	} else {
 		l.Debug("Use standard copier")
-		conn = dfs_dbx_to_local.NewDropboxToLocal(z.Context)
+		conn = dbx_fs_dbx_to_local.NewDropboxToLocal(z.Context)
 	}
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
-		e, errConvert := filesystem.ToDropboxEntry(entry)
+		e, errConvert := dbx_fs.ToDropboxEntry(entry)
 		if errConvert != nil {
 			l.Debug("Unable ot convert", esl.Error(errConvert))
 			panic("internal error")
@@ -160,7 +160,7 @@ func (z *Download) Exec(c app_control.Control) error {
 		es_sync.WithNameFilter(z.Name),
 	)
 
-	syncErr := syncer.Sync(filesystem.NewPath("", z.DropboxPath), es_filesystem_local.NewPath(z.LocalPath.Path()))
+	syncErr := syncer.Sync(dbx_fs.NewPath("", z.DropboxPath), es_filesystem_local.NewPath(z.LocalPath.Path()))
 	if syncErr != nil {
 		l.Debug("Sync finished with an error", esl.Error(syncErr))
 	}

@@ -1,11 +1,11 @@
-package dfs_copier_batch
+package dbx_fs_copier_batch
 
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
@@ -127,7 +127,7 @@ func (z *copierBatchSessions) FinishBatchCommit(batch *FinishBatch) {
 			z.sessionIdToMutex.Lock()
 			for _, sid := range deadSessionId {
 				if cb, ok := z.sessionIdToCallback[sid]; ok {
-					cb.OnFailure(cb.CopyPair, filesystem.NewError(errors.New("unable to find upload session id")))
+					cb.OnFailure(cb.CopyPair, dbx_fs.NewError(errors.New("unable to find upload session id")))
 				} else {
 					l.Error("Unable to find upload session id", esl.String("sessionId", sid))
 				}
@@ -145,7 +145,7 @@ func (z *copierBatchSessions) FinishBatchCommit(batch *FinishBatch) {
 		z.sessionIdToMutex.Lock()
 		for _, e := range p.Entries {
 			if cb, ok := z.sessionIdToCallback[e.Cursor.SessionId]; ok {
-				cb.OnFailure(cb.CopyPair, filesystem.NewError(err))
+				cb.OnFailure(cb.CopyPair, dbx_fs.NewError(err))
 			} else {
 				l.Debug("Callback not found", esl.String("sessionId", e.Cursor.SessionId))
 			}
@@ -186,7 +186,7 @@ func (z *copierBatchSessions) FinishBatchCommit(batch *FinishBatch) {
 			reason := resEntryJson.RawString() // TODO: change it more better way to extract message
 			if cb, ok := z.sessionIdToCallback[sid]; ok {
 				ll.Debug("Error on finish batch")
-				cb.OnFailure(cb.CopyPair, filesystem.NewError(errors.New(reason)))
+				cb.OnFailure(cb.CopyPair, dbx_fs.NewError(errors.New(reason)))
 			} else {
 				ll.Debug("Callback not found")
 			}
@@ -196,14 +196,14 @@ func (z *copierBatchSessions) FinishBatchCommit(batch *FinishBatch) {
 				ll.Debug("Unable to unmarshal metadata", esl.Error(err))
 				if cb, ok := z.sessionIdToCallback[sid]; ok {
 					ll.Debug("Error on finish batch")
-					cb.OnFailure(cb.CopyPair, filesystem.NewError(err))
+					cb.OnFailure(cb.CopyPair, dbx_fs.NewError(err))
 				} else {
 					ll.Debug("Callback not found")
 				}
 			} else {
 				if cb, ok := z.sessionIdToCallback[sid]; ok {
 					ll.Debug("Success entry", esl.Any("entry", entryMeta))
-					cb.OnSuccess(cb.CopyPair, filesystem.NewEntry(entryMeta))
+					cb.OnSuccess(cb.CopyPair, dbx_fs.NewEntry(entryMeta))
 				} else {
 					ll.Debug("Callback not found")
 				}

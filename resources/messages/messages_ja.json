@@ -26,7 +26,6 @@
   "domain.dropbox.api.dbx_error.msg_handler.error_bad_request": "リクエスト パラメータに問題があります: {{.Error}}",
   "domain.dropbox.api.dbx_error.msg_handler.error_summary": "Dropboxサーバーからのエラー: {{.Error}}",
   "domain.dropbox.api.dbx_list_impl.msg_list.progress_retrieve": "{{.Time}}: Dropboxからデータを取得しています...",
-  "domain.dropbox.filesystem.msg_file_system_cached.progress_pre_scan": "予備スキャンを実行します: {{.Path}}",
   "domain.dropbox.model.mo_activity.compatible.access_method.desc": "アクションが実行された方法.",
   "domain.dropbox.model.mo_activity.compatible.assets.desc": "アクションに関連したコンテンツ資産.",
   "domain.dropbox.model.mo_activity.compatible.category.desc": "監査ログイベントのカテゴリー",

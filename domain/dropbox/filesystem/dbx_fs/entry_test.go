@@ -1,4 +1,4 @@
-package filesystem
+package dbx_fs
 
 import (
 	"encoding/json"
