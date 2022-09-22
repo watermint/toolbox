@@ -189,7 +189,7 @@ func (z mouldImpl) Pour(p interface{}) {
 	}
 
 	d := eq_bundle.NewBarrel(z.mouldId, z.batchId, msg)
-	l.Debug("Enqueue", esl.Any("Data", d))
+	l.Debug("Enqueue")
 	z.storage.Enqueue(d)
 }
 
