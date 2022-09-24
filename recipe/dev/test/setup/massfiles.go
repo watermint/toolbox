@@ -2,6 +2,7 @@ package setup
 
 import (
 	"compress/bzip2"
+	"context"
 	"encoding/xml"
 	"errors"
 	"fmt"
@@ -12,15 +13,16 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/api/api_request"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/time/ut_format"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"golang.org/x/sync/semaphore"
 	"io"
 	"os"
 	"strconv"
@@ -295,26 +297,36 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 		skip: z.Offset,
 	}
 	sourcePath := z.Source.Path()
-	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("upload", h)
-		q := s.Get("upload")
 
-		switch {
-		case strings.HasSuffix(sourcePath, ".xml.bz2"):
-			wl.LoadBz2(sourcePath, func(p Page) error {
-				q.Enqueue(p)
-				return nil
-			})
-		case strings.HasSuffix(sourcePath, ".xml"):
-			wl.LoadXml(sourcePath, func(p Page) error {
-				q.Enqueue(p)
-				return nil
-			})
-		default:
-			panic(fmt.Sprintf("Look like the file is not supported format %s", sourcePath))
+	sem := semaphore.NewWeighted(int64(c.Feature().Concurrency()))
+	uploader := func(p Page) error {
+		if err := sem.Acquire(context.TODO(), 1); err != nil {
+			l.Debug("Unable to acquire semaphore", esl.Error(err))
+			return err
 		}
-	})
-	return commit()
+		var lastUploadErr error
+		go func() {
+			lastUploadErr = h(p)
+			sem.Release(1)
+		}()
+		return lastUploadErr
+	}
+
+	var loadErr error
+	switch {
+	case strings.HasSuffix(sourcePath, ".xml.bz2"):
+		loadErr = wl.LoadBz2(sourcePath, func(p Page) error {
+			return uploader(p)
+		})
+	case strings.HasSuffix(sourcePath, ".xml"):
+		loadErr = wl.LoadXml(sourcePath, func(p Page) error {
+			return uploader(p)
+		})
+	default:
+		panic(fmt.Sprintf("Look like the file is not supported format %s", sourcePath))
+	}
+
+	return es_lang.NewMultiErrorOrNull(commit(), loadErr)
 }
 
 func (z *Massfiles) Test(c app_control.Control) error {
