@@ -56,8 +56,9 @@ type Page struct {
 }
 
 type WikimediaLoader struct {
-	l    esl.Logger
-	skip int
+	l         esl.Logger
+	skip      int
+	batchSize int
 }
 
 func (z WikimediaLoader) LoadBz2(path string, handler func(p Page) error) error {
@@ -90,6 +91,7 @@ func (z WikimediaLoader) LoadXml(path string, handler func(p Page) error) error 
 func (z WikimediaLoader) load(stream io.Reader, handler func(p Page) error) error {
 	d := xml.NewDecoder(stream)
 	index := 0
+	lastMark := time.Now()
 	for {
 		t, err := d.Token()
 		if err != nil {
@@ -117,6 +119,16 @@ func (z WikimediaLoader) load(stream io.Reader, handler func(p Page) error) erro
 						continue
 					}
 				}
+				if index%z.batchSize == 0 {
+					var estimatedThroughput float64
+
+					lastSpan := time.Now().Sub(lastMark).Seconds()
+					if 0 < lastSpan {
+						estimatedThroughput = float64(z.batchSize) / lastSpan
+					}
+					z.l.Info("Loaded", esl.Time("time", time.Now()), esl.String("pageId", page.Id), esl.Float64("estimatedThroughput", estimatedThroughput))
+					lastMark = time.Now()
+				}
 				if err := handler(page); err != nil {
 					z.l.Warn("Can't handle the page", esl.Error(err), esl.Any("page", page))
 					return err
@@ -128,11 +140,12 @@ func (z WikimediaLoader) load(stream io.Reader, handler func(p Page) error) erro
 
 type Massfiles struct {
 	rc_recipe.RemarkSecret
-	Peer      dbx_conn.ConnScopedIndividual
-	Source    mo_path.ExistingFileSystemPath
-	Base      mo_path2.DropboxPath
-	Offset    int
-	BatchSize mo_int.RangeInt
+	Peer       dbx_conn.ConnScopedIndividual
+	Source     mo_path.ExistingFileSystemPath
+	Base       mo_path2.DropboxPath
+	Offset     int
+	BucketSize mo_int.RangeInt
+	BatchSize  mo_int.RangeInt
 }
 
 func (z *Massfiles) Preset() {
@@ -141,6 +154,7 @@ func (z *Massfiles) Preset() {
 		dbx_auth.ScopeFilesContentWrite,
 	)
 	z.BatchSize.SetRange(0, 1000, 1000)
+	z.BucketSize.SetRange(1, 1000, 20)
 }
 
 func (z *Massfiles) Exec(c app_control.Control) error {
@@ -188,6 +202,7 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 		pt, valid := ut_format.ParseTimestamp(p.Revision[0].Timestamp)
 		if valid {
 			return []string{
+				fmt.Sprintf("%02d", pageId%z.BucketSize.Value64()),
 				fmt.Sprintf("%04d", pt.Year()),
 				fmt.Sprintf("%04d-%02d", pt.Year(), pt.Month()),
 				fmt.Sprintf("%04d-%02d-%02d", pt.Year(), pt.Month(), pt.Day()),
@@ -293,8 +308,9 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 	}
 
 	var wl = &WikimediaLoader{
-		l:    c.Log(),
-		skip: z.Offset,
+		l:         c.Log(),
+		skip:      z.Offset,
+		batchSize: z.BatchSize.Value(),
 	}
 	sourcePath := z.Source.Path()
 
