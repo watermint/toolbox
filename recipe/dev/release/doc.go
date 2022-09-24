@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/essentials/api/api_parser"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/go/es_project"
-	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/strings/es_version"
@@ -105,7 +105,7 @@ func (z *Doc) updateRelease(c app_control.Control, release *Notes, prjRoot strin
 
 func (z *Doc) updateSpec(c app_control.Control, prjRoot string) error {
 	l := c.Log()
-	for _, lg := range lang.Supported {
+	for _, lg := range es_lang.Supported {
 		l.Info("Generating Spec document")
 		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*spec.Doc)
@@ -123,7 +123,7 @@ func (z *Doc) updateSpec(c app_control.Control, prjRoot string) error {
 func (z *Doc) updateChanges(c app_control.Control, release *es_version.Version, prjRoot string) error {
 	l := c.Log().With(esl.Uint64("Release", release.Major))
 
-	for _, lg := range lang.Supported {
+	for _, lg := range es_lang.Supported {
 		ll := l.With(esl.String("lang", lg.CodeString()))
 
 		webLangPath := lg.CodeString() + "/"

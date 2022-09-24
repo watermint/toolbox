@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -15,7 +15,7 @@ import (
 )
 
 // Load single language container
-func NewSingle(la lang.Lang) (c app_msg_container.Container, err error) {
+func NewSingle(la es_lang.Lang) (c app_msg_container.Container, err error) {
 	return newFromBytes(la, func(name string) (i []byte, e error) {
 		return app_resource.Bundle().Messages().Bytes(name)
 	})
@@ -24,11 +24,11 @@ func NewSingle(la lang.Lang) (c app_msg_container.Container, err error) {
 func NewSingleWithMessagesForTest(msgs map[string]string) app_msg_container.Container {
 	return &sglContainer{
 		messages: msgs,
-		msgLang:  lang.Default,
+		msgLang:  es_lang.Default,
 	}
 }
 
-func newFromBytes(la lang.Lang, loader func(name string) ([]byte, error)) (c app_msg_container.Container, err error) {
+func newFromBytes(la es_lang.Lang, loader func(name string) ([]byte, error)) (c app_msg_container.Container, err error) {
 	l := esl.Default().With(esl.String("lang", la.String()))
 
 	resName := fmt.Sprintf("messages%s.json", la.Suffix())
@@ -52,10 +52,10 @@ func newFromBytes(la lang.Lang, loader func(name string) ([]byte, error)) (c app
 // Single language container.
 type sglContainer struct {
 	messages map[string]string
-	msgLang  lang.Lang
+	msgLang  es_lang.Lang
 }
 
-func (z sglContainer) Lang() lang.Lang {
+func (z sglContainer) Lang() es_lang.Lang {
 	return z.msgLang
 }
 

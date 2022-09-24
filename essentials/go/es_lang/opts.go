@@ -1,4 +1,4 @@
-package lang
+package es_lang
 
 func ApplyOpts[T any](v T, opts []func(v T) T) T {
 	switch len(opts) {

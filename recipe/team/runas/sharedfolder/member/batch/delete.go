@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_sharedfolder"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -88,7 +88,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		lastErr = err
 	}))
 
-	return lang.NewMultiErrorOrNull(lastErr, listErr)
+	return es_lang.NewMultiErrorOrNull(lastErr, listErr)
 }
 
 func (z *Delete) Test(c app_control.Control) error {

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/go/es_project"
-	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -41,7 +41,7 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 	}
 
 	l := c.Log()
-	for _, la := range lang.Supported {
+	for _, la := range es_lang.Supported {
 		if la.IsDefault() {
 			continue
 		}

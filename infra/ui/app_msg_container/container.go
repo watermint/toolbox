@@ -1,7 +1,7 @@
 package app_msg_container
 
 import (
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -20,5 +20,5 @@ type Container interface {
 	Text(key string) string
 
 	// Current language
-	Lang() lang.Lang
+	Lang() es_lang.Lang
 }

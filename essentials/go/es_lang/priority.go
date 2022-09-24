@@ -1,4 +1,4 @@
-package lang
+package es_lang
 
 // Returns language and priority.
 // Returns an array [TargetLanguage, DefaultLanguage] if a target language is default language.

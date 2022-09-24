@@ -1,7 +1,7 @@
 package es_number
 
 import (
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 )
 
 type invalid struct {
@@ -22,7 +22,7 @@ func (z invalid) String() string {
 	return "invalid"
 }
 
-func (z invalid) Pretty(l lang.Lang) string {
+func (z invalid) Pretty(l es_lang.Lang) string {
 	return "invalid"
 }
 

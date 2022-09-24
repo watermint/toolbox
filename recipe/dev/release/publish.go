@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release_asset"
 	"github.com/watermint/toolbox/essentials/file/es_filehash"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/app"
@@ -148,7 +148,7 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 
 		mui.Header(z.HeadingChanges)
 
-		for _, la := range lang.Supported {
+		for _, la := range es_lang.Supported {
 			mui.Info(z.ListSpecChange.
 				With("Link", baseUrl+fmt.Sprintf("/docs/releases/changes%s.md", app.Release)).
 				With("Lang", la.Self()),
@@ -158,7 +158,7 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 		mui.Break()
 		mui.Header(z.HeadingDocument)
 
-		for _, la := range lang.Supported {
+		for _, la := range es_lang.Supported {
 			name := "README" + la.Suffix() + ".md"
 			mui.Info(z.ListReadme.
 				With("Name", name).

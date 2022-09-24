@@ -1,7 +1,7 @@
 package dc_index
 
 import (
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
@@ -97,7 +97,7 @@ var (
 	}
 )
 
-func GeneratedPath(l lang.Lang, name string) string {
+func GeneratedPath(l es_lang.Lang, name string) string {
 	return GeneratedDocPath + l.Suffix() + "/" + name
 }
 
@@ -136,7 +136,7 @@ const (
 	WebDocPathRoot = "docs/"
 )
 
-func WebDocPath(refPath bool, cat WebCategory, name string, lg lang.Lang) string {
+func WebDocPath(refPath bool, cat WebCategory, name string, lg es_lang.Lang) string {
 	basePath := WebDocPathRoot
 	suffix := ".md"
 	if name == "" {
@@ -168,7 +168,7 @@ func WebDocPath(refPath bool, cat WebCategory, name string, lg lang.Lang) string
 }
 
 // DocName Document path and name (without extension)
-func DocName(media MediaType, id DocId, lg lang.Lang, opts ...NameOpt) string {
+func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string {
 	nameOpts := NameOpts{}.Apply(opts)
 
 	switch media {

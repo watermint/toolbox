@@ -1,4 +1,4 @@
-package lang
+package es_lang
 
 import "strings"
 

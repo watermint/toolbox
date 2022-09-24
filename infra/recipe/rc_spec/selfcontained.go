@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/collections/es_array"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -400,7 +400,7 @@ func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
 	}
 }
 
-func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message {
+func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, lg es_lang.Lang, relPath string) app_msg.Message {
 	switch media {
 	case dc_index.MediaRepository:
 		path := filepath.ToSlash(filepath.Join(relPath, z.SpecId()+".md"))

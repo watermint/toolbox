@@ -6,7 +6,7 @@ import (
 	"fmt"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -51,7 +51,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 	if err != nil {
 		return "", err
 	}
-	docCtl := c.WithLang(lang.Default.CodeString())
+	docCtl := c.WithLang(es_lang.Default.CodeString())
 	docMc := docCtl.Messages()
 	f, err := os.Create(path)
 	if err != nil {

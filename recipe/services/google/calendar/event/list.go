@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/domain/google/calendar/model/mo_event"
 	"github.com/watermint/toolbox/domain/google/calendar/service/sv_event"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/time/ut_compare"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -93,7 +93,7 @@ func (z *List) Exec(c app_control.Control) error {
 				z.Events.Row(event)
 			}
 		}
-	}, calendarId, lang.ApplyOpts(sv_event.ListOpts{}, opts))
+	}, calendarId, es_lang.ApplyOpts(sv_event.ListOpts{}, opts))
 }
 
 func (z *List) Test(c app_control.Control) error {

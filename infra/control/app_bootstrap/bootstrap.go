@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"github.com/watermint/toolbox/essentials/network/nw_congestion"
@@ -88,12 +88,12 @@ func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
 
 	switch opt.Lang.Value() {
 	case app_opt.LangEnglish:
-		mc, err = app_msg_container_impl.NewSingle(lang.English)
+		mc, err = app_msg_container_impl.NewSingle(es_lang.English)
 		if err != nil {
 			panic(err)
 		}
 	case app_opt.LangJapanese:
-		mc, err = app_msg_container_impl.NewSingle(lang.Japanese)
+		mc, err = app_msg_container_impl.NewSingle(es_lang.Japanese)
 		if err != nil {
 			panic(err)
 		}

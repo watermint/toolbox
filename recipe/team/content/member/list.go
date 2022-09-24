@@ -11,9 +11,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_member_folder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -173,7 +173,7 @@ func (z *List) Exec(c app_control.Control) error {
 			return nil
 		})
 	})
-	return lang.NewMultiErrorOrNull(err0, err1)
+	return es_lang.NewMultiErrorOrNull(err0, err1)
 }
 
 func (z *List) Test(c app_control.Control) error {

@@ -3,7 +3,7 @@ package rc_group_impl
 import (
 	"flag"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
@@ -27,7 +27,7 @@ func (z MockSpec) IsDeprecated() bool {
 	return false
 }
 
-func (z MockSpec) CliNameRef(media dc_index.MediaType, lg lang.Lang, relPath string) app_msg.Message {
+func (z MockSpec) CliNameRef(media dc_index.MediaType, lg es_lang.Lang, relPath string) app_msg.Message {
 	panic("implement me")
 }
 

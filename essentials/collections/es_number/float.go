@@ -1,7 +1,7 @@
 package es_number
 
 import (
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"golang.org/x/text/message"
 	"math"
 	"strconv"
@@ -82,7 +82,7 @@ func (z floatImpl) String() string {
 	return strconv.FormatFloat(z.v, 'f', -1, 64)
 }
 
-func (z floatImpl) Pretty(l lang.Lang) string {
+func (z floatImpl) Pretty(l es_lang.Lang) string {
 	p := message.NewPrinter(l.Tag())
 	return p.Sprintf("%f", z.v)
 }

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
-	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/time/ut_compare"
@@ -303,7 +303,7 @@ func (z *sessionImpl) ListEach(depth int, h func(size FolderSize)) error {
 		})
 	})
 	if lastErr != nil || viewErr != nil {
-		return lang.NewMultiErrorOrNull(lastErr, viewErr)
+		return es_lang.NewMultiErrorOrNull(lastErr, viewErr)
 	}
 	return nil
 }
@@ -465,5 +465,5 @@ func ScanSingleFileSystem(
 		h(size)
 	})
 
-	return lang.NewMultiErrorOrNull(lastErr, listErr)
+	return es_lang.NewMultiErrorOrNull(lastErr, listErr)
 }
