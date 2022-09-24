@@ -16,6 +16,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/time/ut_format"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -112,11 +113,6 @@ func (z WikimediaLoader) load(stream io.Reader, handler func(p Page) error) erro
 				if pageId, err := strconv.ParseInt(page.Id, 10, 64); err == nil {
 					if pageId < int64(z.skip) {
 						continue
-					}
-					if index%1000 == 0 {
-						z.l.Info("Loading page", esl.Int64("pageId", pageId))
-					} else {
-						z.l.Debug("Loading page", esl.Int64("pageId", pageId))
 					}
 				}
 				if err := handler(page); err != nil {
@@ -246,7 +242,7 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	handler := func(p Page) error {
+	h := func(p Page) error {
 		sessionMutex.Lock()
 		if batchSize <= len(sessions) {
 			if err := commit(); err != nil {
@@ -298,20 +294,26 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 		l:    c.Log(),
 		skip: z.Offset,
 	}
+	sourcePath := z.Source.Path()
+	c.Sequence().Do(func(s eq_sequence.Stage) {
+		s.Define("upload", h)
+		q := s.Get("upload")
 
-	switch {
-	case strings.HasSuffix(z.Source.Path(), ".xml.bz2"):
-		wl.LoadBz2(z.Source.Path(), func(p Page) error {
-			return handler(p)
-		})
-	case strings.HasSuffix(z.Source.Path(), ".xml"):
-		wl.LoadXml(z.Source.Path(), func(p Page) error {
-			return handler(p)
-		})
-	default:
-		panic(fmt.Sprintf("Look like the file is not supported format %s", z.Source.Path()))
-	}
-
+		switch {
+		case strings.HasSuffix(sourcePath, ".xml.bz2"):
+			wl.LoadBz2(sourcePath, func(p Page) error {
+				q.Enqueue(p)
+				return nil
+			})
+		case strings.HasSuffix(sourcePath, ".xml"):
+			wl.LoadXml(sourcePath, func(p Page) error {
+				q.Enqueue(p)
+				return nil
+			})
+		default:
+			panic(fmt.Sprintf("Look like the file is not supported format %s", sourcePath))
+		}
+	})
 	return commit()
 }
 
