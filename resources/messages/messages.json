@@ -1345,6 +1345,7 @@
   "recipe.dev.test.setup.massfiles.flag.batch_size": "Batch size",
   "recipe.dev.test.setup.massfiles.flag.offset": "Upload offset (skip # pages)",
   "recipe.dev.test.setup.massfiles.flag.peer": "Account alias",
+  "recipe.dev.test.setup.massfiles.flag.shard_size": "Number of shards (number of folder/namespaces to distribute). Need to setup namespaces separately.",
   "recipe.dev.test.setup.massfiles.flag.source": "Source file",
   "recipe.dev.test.setup.massfiles.title": "Upload Wikimedia dump file as test file",
   "recipe.dev.test.setup.teamsharedlink.cli.args": "-group GROUP_NAME -num-links-per-member NUM -query QUERY",
