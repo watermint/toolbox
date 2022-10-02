@@ -227,7 +227,6 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 
 	commitSemaphore := semaphore.NewWeighted(z.CommitConcurrency.Value64())
 	commit := func() error {
-		l.Info("Commit", esl.Int("size", len(sessions)))
 		if len(sessions) < 1 {
 			return nil
 		}
@@ -275,6 +274,7 @@ func (z *Massfiles) Exec(c app_control.Control) error {
 			}
 			l.Debug("Commit batch (completed)", esl.Strings("paths", paths))
 			commitSemaphore.Release(1)
+			l.Info("Commit", esl.Int("size", len(commits)))
 		}()
 
 		return nil
