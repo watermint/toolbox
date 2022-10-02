@@ -1,6 +1,7 @@
 ## Bug fixes
 
 * #657 : invalid path in zip if remote path contains mixed cases
+* #661 : Unable to use Google (Calendar, Mail, Sheets) and Asana services after the access token expire
 
 ## Refactoring
 
