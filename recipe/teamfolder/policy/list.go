@@ -28,6 +28,7 @@ type List struct {
 func (z *List) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesMetadataRead,
+		dbx_auth.ScopeGroupsRead,
 		dbx_auth.ScopeSharingRead,
 		dbx_auth.ScopeTeamDataMember,
 		dbx_auth.ScopeTeamDataTeamSpace,
