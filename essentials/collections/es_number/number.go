@@ -1,14 +1,14 @@
 package es_number
 
 import (
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"strconv"
 	"strings"
 )
 
 type Format interface {
 	String() string
-	Pretty(l lang.Lang) string
+	Pretty(l es_lang.Lang) string
 }
 
 type Precision interface {

@@ -4,9 +4,9 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/cache"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
-	"github.com/watermint/toolbox/essentials/lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
@@ -128,9 +128,9 @@ func (z ctlImpl) Sequence() eq_sequence.Sequence {
 
 func (z ctlImpl) WithLang(targetLang string) app_control.Control {
 	l := z.Log().With(esl.String("targetLang", targetLang))
-	usrLang := lang.Select(targetLang, lang.Supported)
-	priority := lang.Priority(usrLang)
-	containers := make(map[lang.Iso639One]app_msg_container.Container)
+	usrLang := es_lang.Select(targetLang, es_lang.Supported)
+	priority := es_lang.Priority(usrLang)
+	containers := make(map[es_lang.Iso639One]app_msg_container.Container)
 
 	for _, la := range priority {
 		mc, err := app_msg_container_impl.NewSingle(la)

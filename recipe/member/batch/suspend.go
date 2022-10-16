@@ -4,7 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -79,7 +79,7 @@ func (z *Suspend) Exec(c app_control.Control) error {
 		lastErr = err
 	}))
 
-	return lang.NewMultiErrorOrNull(lastErr, fileErr)
+	return es_lang.NewMultiErrorOrNull(lastErr, fileErr)
 }
 
 func (z *Suspend) Test(c app_control.Control) error {

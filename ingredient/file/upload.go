@@ -3,9 +3,9 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_local_to_dbx"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_local_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
@@ -110,9 +110,9 @@ func (z *Upload) Exec(c app_control.Control) error {
 
 	srcFs = es_filesystem_local.NewFileSystem()
 	if c.Feature().Experiment(app.ExperimentFileSyncNoCacheDropboxFileSystem) {
-		tgtFs = filesystem.NewFileSystem(z.Context)
+		tgtFs = dbx_fs.NewFileSystem(z.Context)
 	} else {
-		tgtFs, err = filesystem.NewPreScanFileSystem(c, z.Context, z.DropboxPath)
+		tgtFs, err = dbx_fs.NewPreScanFileSystem(c, z.Context, z.DropboxPath)
 		if err != nil {
 			l.Debug("Failed on the pre-scan", esl.Error(err))
 			return err
@@ -121,15 +121,15 @@ func (z *Upload) Exec(c app_control.Control) error {
 
 	if c.Feature().Experiment(app.ExperimentFileSyncLegacyLocalToDropboxConnector) {
 		chunkSizeKb = 64 * 1024
-		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Context,
+		conn = dbx_fs_local_to_dbx.NewLocalToDropbox(z.Context,
 			sv_file_content.ChunkSizeKb(chunkSizeKb))
 	} else {
 		chunkSizeKb = 4 * 1024
-		conn = dfs_copier_batch.NewLocalToDropboxBatch(c, z.Context, z.BatchSize)
+		conn = dbx_fs_copier_batch.NewLocalToDropboxBatch(c, z.Context, z.BatchSize)
 	}
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
-		e, errConvert := filesystem.ToDropboxEntry(entry)
+		e, errConvert := dbx_fs.ToDropboxEntry(entry)
 		if errConvert != nil {
 			l.Debug("Unable ot convert", esl.Error(errConvert))
 			panic("internal error")
@@ -187,7 +187,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
-	syncErr := syncer.Sync(es_filesystem_local.NewPath(z.LocalPath.Path()), filesystem.NewPath("", z.DropboxPath))
+	syncErr := syncer.Sync(es_filesystem_local.NewPath(z.LocalPath.Path()), dbx_fs.NewPath("", z.DropboxPath))
 
 	if syncErr != nil {
 		l.Debug("Sync finished with an error", esl.Error(syncErr))

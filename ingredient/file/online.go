@@ -3,8 +3,8 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_dbx_to_dbx"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_dbx_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
@@ -81,13 +81,13 @@ func (z *Online) Exec(c app_control.Control) error {
 	}
 	l.Debug("Start uploading")
 
-	srcFs := filesystem.NewFileSystem(z.Context)
-	tgtFs := filesystem.NewFileSystem(z.Context)
+	srcFs := dbx_fs.NewFileSystem(z.Context)
+	tgtFs := dbx_fs.NewFileSystem(z.Context)
 	var conn es_filesystem.Connector
-	conn = dfs_copier_dbx_to_dbx.NewDropboxToDropbox(z.Context)
+	conn = dbx_fs_copier_dbx_to_dbx.NewDropboxToDropbox(z.Context)
 
 	mustToDbxEntry := func(entry es_filesystem.Entry) mo_file.Entry {
-		e, errConvert := filesystem.ToDropboxEntry(entry)
+		e, errConvert := dbx_fs.ToDropboxEntry(entry)
 		if errConvert != nil {
 			l.Debug("Unable ot convert", esl.Error(errConvert))
 			panic("internal error")
@@ -145,7 +145,7 @@ func (z *Online) Exec(c app_control.Control) error {
 		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
-	syncErr := syncer.Sync(filesystem.NewPath("", z.SrcPath), filesystem.NewPath("", z.DstPath))
+	syncErr := syncer.Sync(dbx_fs.NewPath("", z.SrcPath), dbx_fs.NewPath("", z.DstPath))
 
 	if syncErr != nil {
 		l.Debug("Sync finished with an error", esl.Error(syncErr))

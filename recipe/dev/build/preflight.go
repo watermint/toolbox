@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/collections/es_array"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
@@ -102,11 +102,11 @@ func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) 
 func (z *Preflight) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	var targetLanguages = make([]lang.Lang, 0)
+	var targetLanguages = make([]es_lang.Lang, 0)
 	if z.Quick {
-		targetLanguages = append(targetLanguages, lang.Default)
+		targetLanguages = append(targetLanguages, es_lang.Default)
 	} else {
-		targetLanguages = lang.Supported
+		targetLanguages = es_lang.Supported
 	}
 
 	for _, la := range targetLanguages {
@@ -194,7 +194,7 @@ func (z *Preflight) Exec(c app_control.Control) error {
 		return verifyErr
 	}
 
-	for _, la := range lang.Supported {
+	for _, la := range es_lang.Supported {
 		suffix := la.Suffix()
 		l.Info("Sorting message resources", esl.String("suffix", suffix))
 		if err := z.sortMessages(c, fmt.Sprintf("messages%s.json", suffix)); err != nil {

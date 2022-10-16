@@ -3,7 +3,7 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/file/es_size"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
@@ -34,7 +34,7 @@ func (z *Size) Preset() {
 }
 
 func (z *Size) Exec(c app_control.Control) error {
-	fs := filesystem.NewFileSystem(z.Peer.Client())
+	fs := dbx_fs.NewFileSystem(z.Peer.Client())
 
 	factory := c.NewKvsFactory()
 	defer func() {
@@ -51,7 +51,7 @@ func (z *Size) Exec(c app_control.Control) error {
 		z.Folder,
 		z.Sum,
 		fs,
-		filesystem.NewPath("", z.Path),
+		dbx_fs.NewPath("", z.Path),
 		z.Depth.Value(),
 		func(s es_size.FolderSize) {
 			z.Size.Row(&s)

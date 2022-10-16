@@ -9,7 +9,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -92,7 +93,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 			return
 		}
 
-		relPath, rErr := filepath.Rel(z.DropboxPath.Path(), entry.PathDisplay())
+		relPath, rErr := es_filepath.Rel(z.DropboxPath.Path(), entry.PathDisplay())
 		if rErr != nil {
 			ll.Debug("Unable to calculate rel path", esl.Error(rErr))
 			z.OperationLog.Failure(rErr, entry.Concrete())
@@ -162,7 +163,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 		})
 	}, sv_file.Recursive(true))
 
-	return lang.NewMultiErrorOrNull(err, dlErr, zipErr)
+	return es_lang.NewMultiErrorOrNull(err, dlErr, zipErr)
 }
 
 func (z *Remote) Test(c app_control.Control) error {

@@ -3,10 +3,10 @@ package benchmark
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_copier_batch"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_local_to_dbx"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem/dfs_model_to_dbx"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_copier_batch"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_local_to_dbx"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs_model_to_dbx"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
 	"github.com/watermint/toolbox/essentials/file/es_filecompare"
@@ -56,9 +56,9 @@ func (z *Upload) Preset() {
 
 func (z *Upload) newDbxFileSystem(c app_control.Control) (fs es_filesystem.FileSystem, err error) {
 	if z.PreScan {
-		return filesystem.NewPreScanFileSystem(c, z.Peer.Client(), z.Path)
+		return dbx_fs.NewPreScanFileSystem(c, z.Peer.Client(), z.Path)
 	} else {
-		return filesystem.NewFileSystem(z.Peer.Client()), nil
+		return dbx_fs.NewFileSystem(z.Peer.Client()), nil
 	}
 }
 
@@ -74,12 +74,12 @@ func (z *Upload) Exec(c app_control.Control) error {
 	var conn es_filesystem.Connector
 	switch z.Method.Value() {
 	case "block":
-		conn = dfs_copier_batch.NewLocalToDropboxBatch(c, z.Peer.Client(), z.BlockBlockSize.Value())
+		conn = dbx_fs_copier_batch.NewLocalToDropboxBatch(c, z.Peer.Client(), z.BlockBlockSize.Value())
 
 	default:
-		conn = dfs_local_to_dbx.NewLocalToDropbox(z.Peer.Client(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
+		conn = dbx_fs_local_to_dbx.NewLocalToDropbox(z.Peer.Client(), sv_file_content.ChunkSizeKb(z.SeqChunkSizeKb.Value()))
 	}
-	copier := dfs_model_to_dbx.NewModelToDropbox(c.Log(), modelRoot, conn)
+	copier := dbx_fs_model_to_dbx.NewModelToDropbox(c.Log(), modelRoot, conn)
 	dbxFs, err := z.newDbxFileSystem(c)
 	if err != nil {
 		return err
@@ -93,7 +93,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
-	if syErr := syncer.Sync(es_filesystem_model.NewPath("/"), filesystem.NewPath("", z.Path)); syErr != nil {
+	if syErr := syncer.Sync(es_filesystem_model.NewPath("/"), dbx_fs.NewPath("", z.Path)); syErr != nil {
 		l.Debug("Error on sync process", esl.Error(syErr))
 		return syErr
 	}
@@ -120,7 +120,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 				l.Warn("type diff", esl.Any("base", base), esl.Any("source", source), esl.Any("target", target))
 			}),
 		)
-		if cmpErr := cmp.Compare(es_filesystem_model.NewPath("/"), filesystem.NewPath("", z.Path)); cmpErr != nil {
+		if cmpErr := cmp.Compare(es_filesystem_model.NewPath("/"), dbx_fs.NewPath("", z.Path)); cmpErr != nil {
 			return cmpErr
 		}
 		l.Info("No diff found")

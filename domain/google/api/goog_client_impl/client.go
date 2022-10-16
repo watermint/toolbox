@@ -2,10 +2,10 @@ package goog_client_impl
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response_impl"
+	"github.com/watermint/toolbox/domain/google/api/goog_auth"
 	"github.com/watermint/toolbox/domain/google/api/goog_client"
 	"github.com/watermint/toolbox/domain/google/api/goog_request"
 	"github.com/watermint/toolbox/domain/google/api/goog_response_impl"
-	"github.com/watermint/toolbox/domain/slack/api/work_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
@@ -14,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -54,8 +55,19 @@ func NewReplayMock(endpoint EndpointType, name string, ctl app_control.Control, 
 }
 
 func New(et EndpointType, name string, ctl app_control.Control, entity api_auth.OAuthEntity) goog_client.Client {
+	var appData api_auth.OAuthAppData
+	switch entity.KeyName {
+	case app.ServiceGoogleCalendar:
+		appData = goog_auth.Calendar
+	case app.ServiceGoogleMail:
+		appData = goog_auth.Mail
+	case app.ServiceGoogleSheets:
+		appData = goog_auth.Sheets
+	default:
+		panic("undefined app key type : " + entity.KeyName)
+	}
 	client := nw_rest_factory.New(
-		nw_rest_factory.OAuthEntity(work_auth.Slack, func(appKey string) (clientId, clientSecret string) {
+		nw_rest_factory.OAuthEntity(appData, func(appKey string) (clientId, clientSecret string) {
 			return app_apikey.Resolve(ctl, appKey)
 		}, entity),
 		nw_rest_factory.Auth(func(client nw_client.Rest) (rest nw_client.Rest) {

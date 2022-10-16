@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/domain/dropbox/filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -113,12 +113,12 @@ func (z *Size) Exec(c app_control.Control) error {
 			}
 
 			dbxCtx := cta.WithPath(dbx_client.Namespace(namespace.NamespaceId))
-			dbxFs := filesystem.NewFileSystem(dbxCtx)
+			dbxFs := dbx_fs.NewFileSystem(dbxCtx)
 			sessionId := namespace.NamespaceId
 
 			sizeCtx.New(
 				sessionId,
-				filesystem.NewPath(namespace.NamespaceId, mo_path.NewDropboxPath("/")),
+				dbx_fs.NewPath(namespace.NamespaceId, mo_path.NewDropboxPath("/")),
 				s,
 				dbxFs,
 				z.DataFolder,

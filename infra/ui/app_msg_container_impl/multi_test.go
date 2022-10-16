@@ -1,7 +1,7 @@
 package app_msg_container_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"testing"
 )
@@ -14,13 +14,13 @@ func TestNewMultilingual(t *testing.T) {
 	ja := NewSingleWithMessagesForTest(map[string]string{
 		"ping": "ピン",
 	})
-	containers := map[lang.Iso639One]app_msg_container.Container{
+	containers := map[es_lang.Iso639One]app_msg_container.Container{
 		"en": en,
 		"ja": ja,
 	}
 
 	enJa := NewMultilingual(
-		[]lang.Lang{lang.English, lang.Japanese},
+		[]es_lang.Lang{es_lang.English, es_lang.Japanese},
 		containers,
 	)
 
@@ -32,7 +32,7 @@ func TestNewMultilingual(t *testing.T) {
 	}
 
 	jaEn := NewMultilingual(
-		[]lang.Lang{lang.Japanese, lang.English},
+		[]es_lang.Lang{es_lang.Japanese, es_lang.English},
 		containers,
 	)
 

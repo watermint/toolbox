@@ -1,14 +1,14 @@
 package app_msg_container_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/lang"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 )
 
-func NewMultilingual(las []lang.Lang, containers map[lang.Iso639One]app_msg_container.Container) app_msg_container.Container {
+func NewMultilingual(las []es_lang.Lang, containers map[es_lang.Iso639One]app_msg_container.Container) app_msg_container.Container {
 	return &mlContainer{
 		priority:   las,
 		containers: containers,
@@ -16,11 +16,11 @@ func NewMultilingual(las []lang.Lang, containers map[lang.Iso639One]app_msg_cont
 }
 
 type mlContainer struct {
-	priority   []lang.Lang
-	containers map[lang.Iso639One]app_msg_container.Container
+	priority   []es_lang.Lang
+	containers map[es_lang.Iso639One]app_msg_container.Container
 }
 
-func (z mlContainer) Lang() lang.Lang {
+func (z mlContainer) Lang() es_lang.Lang {
 	return z.priority[0]
 }
 
