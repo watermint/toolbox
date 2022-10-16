@@ -29,6 +29,7 @@ lang: ja
 | 説明                                                                           |
 |--------------------------------------------------------------------------------|
 | Dropbox Business: Dropboxのファイルやフォルダに関する情報を表示                |
+| Dropbox Business: 自分のチームグループのメンバーを見る                         |
 | Dropbox Business: Dropboxの共有設定と共同作業者の表示                          |
 | Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
 | Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |

@@ -83,14 +83,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                                                                        | Default |
-|---------------|----------------------------------------------------------------------------------------------------|---------|
-| `-base`       | Dropbox base path                                                                                  |         |
-| `-batch-size` | Batch size                                                                                         | 1000    |
-| `-offset`     | Upload offset (skip # pages)                                                                       | 0       |
-| `-peer`       | Account alias                                                                                      | default |
-| `-shard-size` | Number of shards (number of folder/namespaces to distribute). Need to setup namespaces separately. | 20      |
-| `-source`     | Source file                                                                                        |         |
+| Option                | Description                                                                                        | Default |
+|-----------------------|----------------------------------------------------------------------------------------------------|---------|
+| `-base`               | Dropbox base path                                                                                  |         |
+| `-batch-size`         | Batch size                                                                                         | 1000    |
+| `-commit-concurrency` | Number of concurrency to commit                                                                    | 3       |
+| `-offset`             | Upload offset (skip # pages)                                                                       | 0       |
+| `-peer`               | Account alias                                                                                      | default |
+| `-shard-size`         | Number of shards (number of folder/namespaces to distribute). Need to setup namespaces separately. | 20      |
+| `-source`             | Source file                                                                                        |         |
 
 ## Common options:
 
