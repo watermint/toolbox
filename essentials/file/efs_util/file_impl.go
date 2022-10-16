@@ -3,6 +3,7 @@ package efs_util
 import (
 	"bytes"
 	"github.com/watermint/toolbox/essentials/file/efs_base"
+	"io"
 	"strings"
 )
 
@@ -11,11 +12,11 @@ type fileImpl struct {
 }
 
 func (z fileImpl) FilePutBin(path efs_base.Path, data []byte) efs_base.FsError {
-	return z.base.FilePut(path, bytes.NewReader(data))
+	return z.base.FilePut(path, io.NopCloser(bytes.NewReader(data)))
 }
 
 func (z fileImpl) FilePutText(path efs_base.Path, data string, opts ...FilePutTextOpt) efs_base.FsError {
-	return z.base.FilePut(path, strings.NewReader(data))
+	return z.base.FilePut(path, io.NopCloser(strings.NewReader(data)))
 }
 
 func (z fileImpl) FilePutJson(path efs_base.Path, data interface{}, opts ...FilePutJsonOpt) efs_base.FsError {
