@@ -11,7 +11,7 @@ type PathBaseOps interface {
 }
 
 type FileBaseOps interface {
-	FilePut(path Path, data io.ReadCloser) FsError
+	FilePut(path Path, data io.Reader) FsError
 	FileGet(path Path) (data io.ReadCloser, fsErr FsError)
 	FileSize(path Path) (size int64, fsError FsError)
 	FileCopy(src, dst Path) FsError
