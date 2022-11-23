@@ -56,7 +56,7 @@ type Path interface {
 }
 
 type PathError interface {
-	error
+	ErrorBase
 
 	// IsPathTooLong returns true when the path exceeds maximum length (entire path or name of entry)
 	IsPathTooLong() bool
@@ -93,4 +93,12 @@ type PathRoute interface {
 
 	// Name returns path entity name. Returns empty when the route is upward.
 	Name() string
+}
+
+type PathSpec interface {
+	// AssertName tests the element name of the path. Returns nil on no issue.
+	AssertName(name string) PathError
+
+	// AssertPath tests the path. Returns nil on no issue.
+	AssertPath(path string) PathError
 }

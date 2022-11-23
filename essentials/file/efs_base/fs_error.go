@@ -1,7 +1,15 @@
 package efs_base
 
-type FsError interface {
+type ErrorBase interface {
 	error
+
+	// Cause returns original error
+	Cause() error
+}
+
+type FsError interface {
+	ErrorBase
+	PathError
 
 	// IsNotAllowed returns true in case the caller does not allowed to execute the operation.
 	// POSIX file systems: true when a caller does not allowed to access local file system.
@@ -21,10 +29,3 @@ type FsError interface {
 	// For example, when a caller called PutFile to the folder and the caller does not have permission to write that folder.
 	IsPermission() bool
 }
-
-const (
-	ErrKindNotAllowed = iota
-	ErrKindTimeout
-	ErrKindConflict
-	ErrKindPermission
-)

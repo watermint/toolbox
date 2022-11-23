@@ -2,7 +2,6 @@ package efs_posix
 
 import (
 	"github.com/watermint/toolbox/essentials/file/efs_base"
-	"github.com/watermint/toolbox/essentials/file/efs_util"
 	"os"
 	"time"
 )
@@ -76,18 +75,11 @@ type TimeOps interface {
 	TimeCreatedSet(path efs_base.Path, t time.Time) efs_base.FsError
 }
 
-type PosixFileSystemBase interface {
+type PosixFileSystem interface {
 	efs_base.FileSystemBase
 	PermOps
 	SymlinkOps
 	HardLinkOps
 	TypeOps
 	TimeOps
-}
-
-type PosixFileSystem interface {
-	PosixFileSystemBase
-	efs_util.FileUtilOps
-	efs_util.FolderUtilOps
-	efs_util.StateUtilOps
 }

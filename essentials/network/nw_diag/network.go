@@ -50,8 +50,10 @@ func Network(ctl app_control.Control) error {
 			return err
 		}
 
-		if resp.StatusCode >= 400 {
-			ll.Debug("Bad server response", esl.Int("status_code", resp.StatusCode))
+		switch {
+		case resp.StatusCode == 429:
+			ll.Debug("Too many requests")
+		case resp.StatusCode >= 500:
 			return errors.New("bad server response")
 		}
 
