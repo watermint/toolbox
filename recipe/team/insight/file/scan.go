@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
 type Scan struct {
@@ -23,6 +24,5 @@ func (z *Scan) Exec(c app_control.Control) error {
 }
 
 func (z *Scan) Test(c app_control.Control) error {
-	//TODO implement me
-	panic("implement me")
+	return qt_errors.ErrorNoTestRequired
 }
