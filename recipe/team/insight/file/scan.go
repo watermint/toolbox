@@ -13,14 +13,10 @@ type Scan struct {
 }
 
 func (z *Scan) Preset() {
-	//TODO implement me
-	panic("implement me")
 }
 
 func (z *Scan) Exec(c app_control.Control) error {
-
-	//TODO implement me
-	panic("implement me")
+	return nil
 }
 
 func (z *Scan) Test(c app_control.Control) error {
