@@ -1,0 +1,30 @@
+
+name: Go
+
+on:
+  push:
+    branches: [ "current" ]
+  pull_request:
+    branches: [ "current" ]
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+          cache: true
+
+      - name: Prepare
+        run: go get golang.org/x/tools/cmd/cover
+
+      - name: Test
+        run: |
+          mkdir -p test/results
+      - run: bash ./test/test.sh
+      - run: bash <(curl -s https://codecov.io/bash)
