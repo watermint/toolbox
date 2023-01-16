@@ -113,7 +113,7 @@ func (z legacyImpl) Export(docId string, format string) (export *mo_paper.Legacy
 		return nil, nil, err
 	}
 
-	res := z.ctx.Download("paper/docs/download", q)
+	res := z.ctx.DownloadRPC("paper/docs/download", q)
 	if err, fail := res.Failure(); fail {
 		l.Debug("Got an error", esl.Error(err))
 		return nil, nil, err

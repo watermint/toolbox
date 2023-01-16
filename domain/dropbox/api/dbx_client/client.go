@@ -40,6 +40,7 @@ type Client interface {
 	Post(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	Upload(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	Download(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
+	DownloadRPC(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	Notify(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	ContentHead(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 

@@ -53,7 +53,7 @@ You can see available commands and options by running executable without argumen
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2022 Takayuki Okazaki
+© 2016-2023 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Tools for Dropbox and Dropbox Business

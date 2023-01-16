@@ -349,6 +349,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglesheetssheet.List{},
 		&recipeservicesgooglesheetsspreadsheet.Create{},
 		&recipeserviceshellosignaccount.Info{},
+		&recipeservicesslackconversation.History{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.Leave{},
 		&recipesharedfolder.List{},
