@@ -39,7 +39,7 @@ HelloSignにログインし、API IntegrationからアプリケーションのAP
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2022 Takayuki Okazaki
+© 2016-2023 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 クレデンシャルを入力してください.

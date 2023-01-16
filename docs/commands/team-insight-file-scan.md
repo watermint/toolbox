@@ -38,7 +38,7 @@ Please copy the link and paste it into your browser. Then proceed to authorizati
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2022 Takayuki Okazaki
+© 2016-2023 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
