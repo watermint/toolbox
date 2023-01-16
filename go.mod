@@ -18,7 +18,7 @@ require (
 	github.com/pkg/profile v1.7.0
 	github.com/rapid7/go-get-proxied v0.0.0-20220112221009-42bdac6386fc
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
-	github.com/shirou/gopsutil/v3 v3.22.10
+	github.com/shirou/gopsutil/v3 v3.22.12
 	github.com/tdewolff/minify v2.3.6+incompatible
 	github.com/tdewolff/parse v2.3.4+incompatible
 	github.com/tealeg/xlsx v1.0.5
@@ -37,7 +37,6 @@ require (
 )
 
 require (
-	cloud.google.com/go/compute v1.8.0 // indirect
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20221026131551-cf6655e29de4 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
@@ -87,7 +86,7 @@ require (
 	go.uber.org/multierr v1.8.0 // indirect
 	golang.org/x/mod v0.7.0 // indirect
 	golang.org/x/net v0.2.0 // indirect
-	golang.org/x/sys v0.2.0 // indirect
+	golang.org/x/sys v0.3.0 // indirect
 	golang.org/x/term v0.2.0 // indirect
 	golang.org/x/tools v0.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
