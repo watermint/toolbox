@@ -70,7 +70,7 @@ const (
 const (
 	// Project status badge
 	ProjectStatusBadge = `
-[![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
+[![Go](https://github.com/watermint/toolbox/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/watermint/toolbox/actions/workflows/go.yml)
 [![codecov](https://codecov.io/gh/watermint/toolbox/branch/main/graph/badge.svg?token=CrE8reSVvE)](https://codecov.io/gh/watermint/toolbox)
 `
 
