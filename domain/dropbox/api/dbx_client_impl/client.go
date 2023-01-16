@@ -199,6 +199,15 @@ func (z clientImpl) Download(endpoint string, d ...api_request.RequestDatum) dbx
 	return dbx_response_impl.New(z.client.Call(&z, b))
 }
 
+func (z clientImpl) DownloadRPC(endpoint string, d ...api_request.RequestDatum) dbx_response.Response {
+	b := z.builder.With(
+		http.MethodPost,
+		RpcRequestUrl(RpcEndpoint, endpoint),
+		api_request.Combine(d),
+	)
+	return dbx_response_impl.New(z.client.Call(&z, b))
+}
+
 func (z clientImpl) Notify(endpoint string, d ...api_request.RequestDatum) dbx_response.Response {
 	b := z.builder.With(
 		http.MethodPost,
