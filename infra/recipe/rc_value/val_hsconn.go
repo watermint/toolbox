@@ -1,8 +1,8 @@
 package rc_value
 
 import (
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_conn"
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_conn_impl"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"

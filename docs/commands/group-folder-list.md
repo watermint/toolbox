@@ -6,7 +6,7 @@ lang: en
 
 # group folder list
 
-Find folders of each group 
+List folders of each group 
 
 # Security
 

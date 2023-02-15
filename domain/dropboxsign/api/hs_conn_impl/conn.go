@@ -1,9 +1,9 @@
 package hs_conn_impl
 
 import (
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_client"
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_client_impl"
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_conn"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_client"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_client_impl"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
@@ -14,12 +14,12 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
-type MsgHelloSign struct {
+type MsgDropboxSign struct {
 	AskApiKey app_msg.Message
 }
 
 var (
-	MHelloSign = app_msg.Apply(&MsgHelloSign{}).(*MsgHelloSign)
+	MHelloSign = app_msg.Apply(&MsgDropboxSign{}).(*MsgDropboxSign)
 )
 
 func NewConnHelloSign(name string) hs_conn.ConnHelloSignApi {
@@ -41,7 +41,7 @@ func (z *connHelloSignApi) Connect(ctl app_control.Control) (err error) {
 	l := ctl.Log()
 	sessionData := api_auth.BasicSessionData{
 		AppData: api_auth.BasicAppData{
-			AppKeyName:      api_conn.ServiceHelloSign,
+			AppKeyName:      api_conn.ServiceDropboxSign,
 			DontUseUsername: false,
 			DontUsePassword: true,
 		},
@@ -73,11 +73,11 @@ func (z *connHelloSignApi) SetPeerName(name string) {
 }
 
 func (z *connHelloSignApi) ScopeLabel() string {
-	return app.ServiceHelloSign
+	return app.ServiceDropboxSign
 }
 
 func (z *connHelloSignApi) ServiceName() string {
-	return api_conn.ServiceHelloSign
+	return api_conn.ServiceDropboxSign
 }
 
 func (z *connHelloSignApi) Client() hs_client.Client {

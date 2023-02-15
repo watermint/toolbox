@@ -1,9 +1,9 @@
 package account
 
 import (
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_conn"
-	"github.com/watermint/toolbox/domain/hellosign/model/mo_account"
-	"github.com/watermint/toolbox/domain/hellosign/service/sv_account"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn"
+	"github.com/watermint/toolbox/domain/dropboxsign/model/mo_account"
+	"github.com/watermint/toolbox/domain/dropboxsign/service/sv_account"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"

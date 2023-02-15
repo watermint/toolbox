@@ -8,7 +8,7 @@ const (
 	ServiceGoogleSheets      = "google_sheets"
 	ServiceGoogleCalendar    = "google_calendar"
 	ServiceAsana             = "asana"
-	ServiceHelloSign         = "hellosign"
+	ServiceDropboxSign       = "dropbox_sign"
 	ServiceSlack             = "slack"
 )
 
@@ -21,7 +21,7 @@ var (
 		ServiceGoogleSheets,
 		ServiceGoogleCalendar,
 		ServiceAsana,
-		ServiceHelloSign,
+		ServiceDropboxSign,
 		ServiceSlack,
 	}
 )

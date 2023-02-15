@@ -4,7 +4,7 @@ title: Command
 lang: en
 ---
 
-# services hellosign account info
+# services dropboxsign account info
 
 Retrieve account information 
 
@@ -22,18 +22,18 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* HelloSign: https://faq.hellosign.com/hc/en-us/articles/360035403131-HelloSign-API-accounts-and-how-to-find-your-API-key
+* Dropbox Sign: https://faq.hellosign.com/hc/en-us/articles/360035403131-HelloSign-API-accounts-and-how-to-find-your-API-key
 
 ## Auth scopes
 
-| Description                                      |
-|--------------------------------------------------|
-| HelloSign: Process request as authenticated user |
+| Description                                         |
+|-----------------------------------------------------|
+| Dropbox Sign: Process request as authenticated user |
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your HelloSign account.
-Log in to HelloSign and copy the API key of your application from API Integration. Enter the copied API key into tbx.
+For the first run, `tbx` will ask you an authentication with your DropboxSign account.
+Log in to Dropbox Sign and copy the API key of your application from API Integration. Enter the copied API key into tbx.
 ```
 
 watermint toolbox xx.x.xxx
@@ -59,12 +59,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services hellosign account info 
+.\tbx.exe services dropboxsign account info 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services hellosign account info 
+$HOME/Desktop/tbx services dropboxsign account info 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -115,7 +115,7 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: account
 
-HelloSign Account
+dropboxsign Account
 The command will generate a report in three different formats. `account.csv`, `account.json`, and `account.xlsx`.
 
 | Column        | Description           |
