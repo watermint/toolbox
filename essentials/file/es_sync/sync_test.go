@@ -495,9 +495,9 @@ func TestSyncImpl_SyncRandom(t *testing.T) {
 	}
 }
 
-func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
+func BenchmarkSyncImpl_SyncRandomReduceCreateFolder(b *testing.B) {
 	if qt_endtoend.IsSkipEndToEndTest() {
-		t.Skipped()
+		b.Skipped()
 		return
 	}
 	ea_indicator.SuppressIndicatorForce()
@@ -512,7 +512,7 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 	em_file.DeleteEmptyFolders(tree1)
 	tree2 := em_file.NewFolder("root", []em_file.Node{})
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < b.N; i++ {
 		l.Info("Sync try", esl.Int("tries", i))
 		seq := eq_sequence.New()
 		conn := es_filesystem_copier.NewModelToModel(esl.Default(), tree1, tree2)
@@ -531,24 +531,24 @@ func TestSyncImpl_SyncRandomReduceCreateFolder(t *testing.T) {
 		)
 		err := syncer.Sync(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 		if err != nil {
-			t.Error(seed, i, err)
+			b.Error(seed, i, err)
 		}
 		folderCmp := es_filecompare.NewFolderComparator(fs1, fs2, seq)
 		missingSources, missingTargets, fileDiffs, typeDiffs, err := folderCmp.CompareAndSummarize(es_filesystem_model.NewPath("/"), es_filesystem_model.NewPath("/"))
 		if err != nil {
-			t.Error(seed, i, err)
+			b.Error(seed, i, err)
 		}
 		if len(missingSources) > 0 {
-			t.Error(seed, i, es_json.ToJsonString(missingSources))
+			b.Error(seed, i, es_json.ToJsonString(missingSources))
 		}
 		if len(missingTargets) > 0 {
-			t.Error(seed, i, es_json.ToJsonString(missingTargets))
+			b.Error(seed, i, es_json.ToJsonString(missingTargets))
 		}
 		if len(typeDiffs) > 0 {
-			t.Error(seed, i, es_json.ToJsonString(typeDiffs))
+			b.Error(seed, i, es_json.ToJsonString(typeDiffs))
 		}
 		if len(fileDiffs) > 0 {
-			t.Error(seed, i, es_json.ToJsonString(fileDiffs))
+			b.Error(seed, i, es_json.ToJsonString(fileDiffs))
 		}
 
 		for j := 0; j < 10; j++ {
