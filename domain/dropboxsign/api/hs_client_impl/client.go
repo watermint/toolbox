@@ -1,8 +1,8 @@
 package hs_client_impl
 
 import (
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_client"
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_request"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_client"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_request"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"

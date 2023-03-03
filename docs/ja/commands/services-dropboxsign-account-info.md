@@ -4,7 +4,7 @@ title: コマンド
 lang: ja
 ---
 
-# services hellosign account info
+# services dropboxsign account info
 
 アカウント情報を取得する 
 
@@ -22,18 +22,18 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* HelloSign: https://faq.hellosign.com/hc/en-us/articles/360035403131-HelloSign-API-accounts-and-how-to-find-your-API-key
+* Dropbox Sign: https://faq.hellosign.com/hc/en-us/articles/360035403131-HelloSign-API-accounts-and-how-to-find-your-API-key
 
 ## 認可スコープ
 
-| 説明                                                    |
-|---------------------------------------------------------|
-| HelloSign：認証されたユーザーとしてリクエストを処理する |
+| 説明                                                         |
+|--------------------------------------------------------------|
+| Dropbox Sign: 認証されたユーザーとしてリクエストを処理します |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのHelloSignアカウントへの認可を要求します.
-HelloSignにログインし、API IntegrationからアプリケーションのAPIキーをコピーしてください。コピーしたAPIキーをtbxに入力します。
+最初の実行では、`tbx`はあなたのDropboxSignアカウントへの認可を要求します.
+Dropbox Signにログインし、API IntegrationからアプリケーションのAPIキーをコピーします。コピーしたAPIキーをtbxに入力します。
 ```
 
 watermint toolbox xx.x.xxx
@@ -59,12 +59,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services hellosign account info 
+.\tbx.exe services dropboxsign account info 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services hellosign account info 
+$HOME/Desktop/tbx services dropboxsign account info 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -115,7 +115,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: account
 
-HelloSign アカウント
+Dropbox Sign アカウント
 このコマンドはレポートを3種類の書式で出力します. `account.csv`, `account.json`, ならびに `account.xlsx`.
 
 | 列            | 説明                       |

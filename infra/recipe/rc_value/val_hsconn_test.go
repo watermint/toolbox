@@ -3,7 +3,7 @@ package rc_value
 import (
 	"encoding/json"
 	"flag"
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_conn"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_control"

@@ -1,8 +1,8 @@
 package sv_account
 
 import (
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_client"
-	"github.com/watermint/toolbox/domain/hellosign/model/mo_account"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_client"
+	"github.com/watermint/toolbox/domain/dropboxsign/model/mo_account"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 )
 

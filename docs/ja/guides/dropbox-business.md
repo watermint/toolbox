@@ -14,7 +14,7 @@ lang: ja
 |------------------------------------------------------------------------------|------------------------------------------|
 | [member list]({{ site.baseurl }}/ja/commands/member-list.html)               | チームメンバーの一覧                     |
 | [member feature]({{ site.baseurl }}/ja/commands/member-feature.html)         | メンバーの機能設定一覧                   |
-| [member folder list]({{ site.baseurl }}/ja/commands/member-folder-list.html) | 各メンバーのフォルダを検索               |
+| [member folder list]({{ site.baseurl }}/ja/commands/member-folder-list.html) | 各メンバーのフォルダーを一覧表示         |
 | [member quota list]({{ site.baseurl }}/ja/commands/member-quota-list.html)   | メンバーの容量制限情報を一覧します       |
 | [member quota usage]({{ site.baseurl }}/ja/commands/member-quota-usage.html) | チームメンバーのストレージ利用状況を取得 |
 | [team activity user]({{ site.baseurl }}/ja/commands/team-activity-user.html) | ユーザーごとのアクティビティ             |
@@ -110,11 +110,11 @@ lang: ja
 どのフォルダが各グループを使用しているかを確認したい場合は、`group folder list`というコマンドを使います. `group folder list`では、グループとフォルダのマッピングを報告します. `group_with_no_folders`というレポートでは、フォルダがないグループが表示されます.
 グループの削除は、メンバー数とフォルダ数の両方を確認すれば、安全に行うことができます. 確認後、`group batch delete`コマンドでグループを一括削除することができます.
 
-| コマンド                                                                     | 説明                       |
-|------------------------------------------------------------------------------|----------------------------|
-| [group list]({{ site.baseurl }}/ja/commands/group-list.html)                 | グループを一覧             |
-| [group folder list]({{ site.baseurl }}/ja/commands/group-folder-list.html)   | 各グループのフォルダを探す |
-| [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html) | グループの削除             |
+| コマンド                                                                     | 説明                             |
+|------------------------------------------------------------------------------|----------------------------------|
+| [group list]({{ site.baseurl }}/ja/commands/group-list.html)                 | グループを一覧                   |
+| [group folder list]({{ site.baseurl }}/ja/commands/group-folder-list.html)   | 各グループのフォルダーを一覧表示 |
+| [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html) | グループの削除                   |
 
 # チームコンテンツのコマンド
 

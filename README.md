@@ -164,7 +164,7 @@ Available commands:
 | [group batch delete](docs/commands/group-batch-delete.md)                                                   | Delete groups                                                                       |
 | [group clear externalid](docs/commands/group-clear-externalid.md)                                           | Clear an external ID of a group                                                     |
 | [group delete](docs/commands/group-delete.md)                                                               | Delete group                                                                        |
-| [group folder list](docs/commands/group-folder-list.md)                                                     | Find folders of each group                                                          |
+| [group folder list](docs/commands/group-folder-list.md)                                                     | List folders of each group                                                          |
 | [group list](docs/commands/group-list.md)                                                                   | List group(s)                                                                       |
 | [group member add](docs/commands/group-member-add.md)                                                       | Add a member to the group                                                           |
 | [group member batch add](docs/commands/group-member-batch-add.md)                                           | Bulk add members into groups                                                        |
@@ -183,7 +183,7 @@ Available commands:
 | [member file lock list](docs/commands/member-file-lock-list.md)                                             | List locks of the member under the path                                             |
 | [member file lock release](docs/commands/member-file-lock-release.md)                                       | Release the lock of the path as the member                                          |
 | [member file permdelete](docs/commands/member-file-permdelete.md)                                           | Permanently delete the file or folder at a given path of the team member.           |
-| [member folder list](docs/commands/member-folder-list.md)                                                   | Find folders for each member                                                        |
+| [member folder list](docs/commands/member-folder-list.md)                                                   | List folders for each member                                                        |
 | [member folder replication](docs/commands/member-folder-replication.md)                                     | Replicate a folder to another member's personal folder                              |
 | [member invite](docs/commands/member-invite.md)                                                             | Invite member(s)                                                                    |
 | [member list](docs/commands/member-list.md)                                                                 | List team member(s)                                                                 |

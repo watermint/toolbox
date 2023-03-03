@@ -86,7 +86,7 @@ lang: en
 | [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html)                                                   | Delete groups                                                                       |
 | [group clear externalid]({{ site.baseurl }}/commands/group-clear-externalid.html)                                           | Clear an external ID of a group                                                     |
 | [group delete]({{ site.baseurl }}/commands/group-delete.html)                                                               | Delete group                                                                        |
-| [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)                                                     | Find folders of each group                                                          |
+| [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)                                                     | List folders of each group                                                          |
 | [group list]({{ site.baseurl }}/commands/group-list.html)                                                                   | List group(s)                                                                       |
 | [group member add]({{ site.baseurl }}/commands/group-member-add.html)                                                       | Add a member to the group                                                           |
 | [group member batch add]({{ site.baseurl }}/commands/group-member-batch-add.html)                                           | Bulk add members into groups                                                        |
@@ -105,7 +105,7 @@ lang: en
 | [member file lock list]({{ site.baseurl }}/commands/member-file-lock-list.html)                                             | List locks of the member under the path                                             |
 | [member file lock release]({{ site.baseurl }}/commands/member-file-lock-release.html)                                       | Release the lock of the path as the member                                          |
 | [member file permdelete]({{ site.baseurl }}/commands/member-file-permdelete.html)                                           | Permanently delete the file or folder at a given path of the team member.           |
-| [member folder list]({{ site.baseurl }}/commands/member-folder-list.html)                                                   | Find folders for each member                                                        |
+| [member folder list]({{ site.baseurl }}/commands/member-folder-list.html)                                                   | List folders for each member                                                        |
 | [member folder replication]({{ site.baseurl }}/commands/member-folder-replication.html)                                     | Replicate a folder to another member's personal folder                              |
 | [member invite]({{ site.baseurl }}/commands/member-invite.html)                                                             | Invite member(s)                                                                    |
 | [member list]({{ site.baseurl }}/commands/member-list.html)                                                                 | List team member(s)                                                                 |

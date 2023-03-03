@@ -162,7 +162,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group batch delete](docs/ja/commands/group-batch-delete.md)                                                   | グループの削除                                                                          |
 | [group clear externalid](docs/ja/commands/group-clear-externalid.md)                                           | グループの外部IDをクリアする                                                            |
 | [group delete](docs/ja/commands/group-delete.md)                                                               | グループを削除します                                                                    |
-| [group folder list](docs/ja/commands/group-folder-list.md)                                                     | 各グループのフォルダを探す                                                              |
+| [group folder list](docs/ja/commands/group-folder-list.md)                                                     | 各グループのフォルダーを一覧表示                                                        |
 | [group list](docs/ja/commands/group-list.md)                                                                   | グループを一覧                                                                          |
 | [group member add](docs/ja/commands/group-member-add.md)                                                       | メンバーをグループに追加                                                                |
 | [group member batch add](docs/ja/commands/group-member-batch-add.md)                                           | グループにメンバーを一括追加                                                            |
@@ -181,7 +181,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member file lock list](docs/ja/commands/member-file-lock-list.md)                                             | パスの下にあるメンバーのロックを一覧表示                                                |
 | [member file lock release](docs/ja/commands/member-file-lock-release.md)                                       | メンバーとしてパスのロックを解除します                                                  |
 | [member file permdelete](docs/ja/commands/member-file-permdelete.md)                                           | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                  |
-| [member folder list](docs/ja/commands/member-folder-list.md)                                                   | 各メンバーのフォルダを検索                                                              |
+| [member folder list](docs/ja/commands/member-folder-list.md)                                                   | 各メンバーのフォルダーを一覧表示                                                        |
 | [member folder replication](docs/ja/commands/member-folder-replication.md)                                     | フォルダを他のメンバーの個人フォルダに複製します                                        |
 | [member invite](docs/ja/commands/member-invite.md)                                                             | メンバーを招待します                                                                    |
 | [member list](docs/ja/commands/member-list.md)                                                                 | チームメンバーの一覧                                                                    |

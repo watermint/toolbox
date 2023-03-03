@@ -14,7 +14,7 @@ Below commands are to retrieve information about team members.
 |---------------------------------------------------------------------------|--------------------------------|
 | [member list]({{ site.baseurl }}/commands/member-list.html)               | List team member(s)            |
 | [member feature]({{ site.baseurl }}/commands/member-feature.html)         | List member feature settings   |
-| [member folder list]({{ site.baseurl }}/commands/member-folder-list.html) | Find folders for each member   |
+| [member folder list]({{ site.baseurl }}/commands/member-folder-list.html) | List folders for each member   |
 | [member quota list]({{ site.baseurl }}/commands/member-quota-list.html)   | List team member quota         |
 | [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html) | List team member storage usage |
 | [team activity user]({{ site.baseurl }}/commands/team-activity-user.html) | Activities log per user        |
@@ -113,7 +113,7 @@ You can safely remove groups once if you check both the number of members and fo
 | Command                                                                   | Description                |
 |---------------------------------------------------------------------------|----------------------------|
 | [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)              |
-| [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)   | Find folders of each group |
+| [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)   | List folders of each group |
 | [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups              |
 
 # Team content commands

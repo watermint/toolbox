@@ -1,7 +1,7 @@
 package api_doc
 
 import (
-	"github.com/watermint/toolbox/domain/hellosign/api/hs_conn_impl"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
 	"github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/api/api_callback"
@@ -11,17 +11,17 @@ import (
 )
 
 type MsgApiDoc struct {
-	AuthDescAsana     app_msg.Message
-	AuthDescDropbox   app_msg.Message
-	AuthDescGithub    app_msg.Message
-	AuthDescGoogle    app_msg.Message
-	AuthDescHelloSign app_msg.Message
-	AuthDescSlack     app_msg.Message
-	ServiceUrlAsana   app_msg.Message
-	ServiceUrlDropbox app_msg.Message
-	ServiceUrlGithub  app_msg.Message
-	ServiceUrlGoogle  app_msg.Message
-	ServiceUrlSlack   app_msg.Message
+	AuthDescAsana       app_msg.Message
+	AuthDescDropbox     app_msg.Message
+	AuthDescGithub      app_msg.Message
+	AuthDescGoogle      app_msg.Message
+	AuthDescDropboxSign app_msg.Message
+	AuthDescSlack       app_msg.Message
+	ServiceUrlAsana     app_msg.Message
+	ServiceUrlDropbox   app_msg.Message
+	ServiceUrlGithub    app_msg.Message
+	ServiceUrlGoogle    app_msg.Message
+	ServiceUrlSlack     app_msg.Message
 }
 
 var (
@@ -65,7 +65,7 @@ var (
 			cui.Code(cui.Text(MApiDoc.ServiceUrlGoogle))
 			cui.Break()
 		},
-		api_conn.ServiceHelloSign: func(cui app_ui.UI) {
+		api_conn.ServiceDropboxSign: func(cui app_ui.UI) {
 			cui.Info(api_auth_basic.MConsole.PromptEnterUsernameAndPassword)
 			cui.AskText(hs_conn_impl.MHelloSign.AskApiKey)
 		},
@@ -84,7 +84,7 @@ var (
 		api_conn.ServiceGoogleCalendar:  MApiDoc.AuthDescGoogle,
 		api_conn.ServiceGoogleMail:      MApiDoc.AuthDescGoogle,
 		api_conn.ServiceGoogleSheets:    MApiDoc.AuthDescGoogle,
-		api_conn.ServiceHelloSign:       MApiDoc.AuthDescHelloSign,
+		api_conn.ServiceDropboxSign:     MApiDoc.AuthDescDropboxSign,
 		api_conn.ServiceSlack:           MApiDoc.AuthDescSlack,
 	}
 )

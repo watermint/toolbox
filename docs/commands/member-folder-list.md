@@ -6,7 +6,7 @@ lang: en
 
 # member folder list
 
-Find folders for each member 
+List folders for each member 
 
 # Security
 

@@ -86,7 +86,7 @@ lang: ja
 | [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html)                                                   | グループの削除                                                                          |
 | [group clear externalid]({{ site.baseurl }}/ja/commands/group-clear-externalid.html)                                           | グループの外部IDをクリアする                                                            |
 | [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)                                                               | グループを削除します                                                                    |
-| [group folder list]({{ site.baseurl }}/ja/commands/group-folder-list.html)                                                     | 各グループのフォルダを探す                                                              |
+| [group folder list]({{ site.baseurl }}/ja/commands/group-folder-list.html)                                                     | 各グループのフォルダーを一覧表示                                                        |
 | [group list]({{ site.baseurl }}/ja/commands/group-list.html)                                                                   | グループを一覧                                                                          |
 | [group member add]({{ site.baseurl }}/ja/commands/group-member-add.html)                                                       | メンバーをグループに追加                                                                |
 | [group member batch add]({{ site.baseurl }}/ja/commands/group-member-batch-add.html)                                           | グループにメンバーを一括追加                                                            |
@@ -105,7 +105,7 @@ lang: ja
 | [member file lock list]({{ site.baseurl }}/ja/commands/member-file-lock-list.html)                                             | パスの下にあるメンバーのロックを一覧表示                                                |
 | [member file lock release]({{ site.baseurl }}/ja/commands/member-file-lock-release.html)                                       | メンバーとしてパスのロックを解除します                                                  |
 | [member file permdelete]({{ site.baseurl }}/ja/commands/member-file-permdelete.html)                                           | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                  |
-| [member folder list]({{ site.baseurl }}/ja/commands/member-folder-list.html)                                                   | 各メンバーのフォルダを検索                                                              |
+| [member folder list]({{ site.baseurl }}/ja/commands/member-folder-list.html)                                                   | 各メンバーのフォルダーを一覧表示                                                        |
 | [member folder replication]({{ site.baseurl }}/ja/commands/member-folder-replication.html)                                     | フォルダを他のメンバーの個人フォルダに複製します                                        |
 | [member invite]({{ site.baseurl }}/ja/commands/member-invite.html)                                                             | メンバーを招待します                                                                    |
 | [member list]({{ site.baseurl }}/ja/commands/member-list.html)                                                                 | チームメンバーの一覧                                                                    |

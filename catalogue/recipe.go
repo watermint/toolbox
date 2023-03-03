@@ -66,6 +66,7 @@ import (
 	recipeservicesasanaworkspace "github.com/watermint/toolbox/recipe/services/asana/workspace"
 	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
 	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
+	recipeservicesdropboxsignaccount "github.com/watermint/toolbox/recipe/services/dropboxsign/account"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
@@ -83,7 +84,6 @@ import (
 	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
 	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
 	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
-	recipeserviceshellosignaccount "github.com/watermint/toolbox/recipe/services/hellosign/account"
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -312,6 +312,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesasanaworkspaceproject.List{},
 		&recipeservicesdropboxuser.Feature{},
 		&recipeservicesdropboxuser.Info{},
+		&recipeservicesdropboxsignaccount.Info{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},
@@ -348,7 +349,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglesheetssheet.Import{},
 		&recipeservicesgooglesheetssheet.List{},
 		&recipeservicesgooglesheetsspreadsheet.Create{},
-		&recipeserviceshellosignaccount.Info{},
 		&recipeservicesslackconversation.History{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.Leave{},

@@ -195,9 +195,9 @@ func (z *Preflight) Exec(c app_control.Control) error {
 	}
 
 	for _, la := range es_lang.Supported {
-		suffix := la.Suffix()
-		l.Info("Sorting message resources", esl.String("suffix", suffix))
-		if err := z.sortMessages(c, fmt.Sprintf("messages%s.json", suffix)); err != nil {
+		lcode := la.CodeString()
+		l.Info("Sorting message resources", esl.String("code", lcode))
+		if err := z.sortMessages(c, fmt.Sprintf("%s/messages.json", lcode)); err != nil {
 			return err
 		}
 	}

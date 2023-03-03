@@ -31,7 +31,7 @@ func (z *Candidate) Preset() {
 }
 
 func (z *Candidate) verifyMessages(c app_control.Control) error {
-	enMessagesRaw, err := app_resource.Bundle().Messages().Bytes("messages.json")
+	enMessagesRaw, err := app_resource.Bundle().Messages().Bytes("en/messages.json")
 	if err != nil {
 		return err
 	}
@@ -46,12 +46,11 @@ func (z *Candidate) verifyMessages(c app_control.Control) error {
 			continue
 		}
 		code := la.CodeString()
-		suffix := la.Suffix()
 
 		ll := l.With(esl.String("Language", code))
 		ll.Info("Verify messages for language")
 
-		msgRaw, err := app_resource.Bundle().Messages().Bytes(fmt.Sprintf("messages%s.json", suffix))
+		msgRaw, err := app_resource.Bundle().Messages().Bytes(fmt.Sprintf("%s/messages.json", code))
 		if err != nil {
 			ll.Error("Unable to load message resource", esl.Error(err))
 			return err
