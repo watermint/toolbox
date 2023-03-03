@@ -26,23 +26,23 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "DestPath", Desc: "Dest path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-- 		&{
-- 			Name:     "SourcePath",
-- 			Desc:     "Path to licenses (go-licenses output folder)",
-- 			TypeName: "essentials.model.mo_path.file_system_path_impl",
-- 			TypeAttr: map[string]any{"shouldExist": bool(false)},
-- 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "DestPath", Desc: "Dest path", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
+- 		&{
+- 			Name:     "SourcePath",
+- 			Desc:     "Path to licenses (go-licenses output folder)",
+- 			TypeName: "essentials.model.mo_path.file_system_path_impl",
+- 			TypeAttr: map[string]any{"shouldExist": bool(false)},
+- 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev release candidate`
 
@@ -52,20 +52,20 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: true,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		... // 4 identical entries
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-+ 		"Peer": "github_public",
-  	},
-  	Services: {"dropbox", "dropbox_business", "github"},
-  	IsSecret: true,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: true,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		... // 4 identical entries
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
++ 		"Peer": "github_public",
+  	},
+  	Services: {"dropbox", "dropbox_business", "github"},
+  	IsSecret: true,
+  	... // 12 identical fields
+  }
 ```
 # Command spec changed: `team diag explorer`
 
@@ -75,19 +75,19 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: true,
-  	ConnScopes: map[string]string{
-  		"File": "business_file",
-  		"Info": "business_info",
-  		"Mgmt": "business_management",
-- 		"Peer": "business_file",
-+ 		"Peer": "business_info",
-  	},
-  	Services: {"dropbox_business"},
-  	IsSecret: true,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: true,
+  	ConnScopes: map[string]string{
+  		"File": "business_file",
+  		"Info": "business_info",
+  		"Mgmt": "business_management",
+- 		"Peer": "business_file",
++ 		"Peer": "business_info",
+  	},
+  	Services: {"dropbox_business"},
+  	IsSecret: true,
+  	... // 12 identical fields
+  }
 ```

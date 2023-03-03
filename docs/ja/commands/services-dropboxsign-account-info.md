@@ -6,7 +6,7 @@ lang: ja
 
 # services dropboxsign account info
 
-Retrieve account information 
+アカウント情報を取得する 
 
 # セキュリティ
 
@@ -26,14 +26,14 @@ Retrieve account information
 
 ## 認可スコープ
 
-| 説明                                                |
-|-----------------------------------------------------|
-| Dropbox Sign: Process request as authenticated user |
+| 説明                                                         |
+|--------------------------------------------------------------|
+| Dropbox Sign: 認証されたユーザーとしてリクエストを処理します |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのDropboxSignアカウントへの認可を要求します.
-Log in to Dropbox Sign and copy the API key of your application from API Integration. Enter the copied API key into tbx.
+Dropbox Signにログインし、API IntegrationからアプリケーションのAPIキーをコピーします。コピーしたAPIキーをtbxに入力します。
 ```
 
 watermint toolbox xx.x.xxx
@@ -75,10 +75,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明          | デフォルト |
-|---------------|---------------|------------|
-| `-account-id` | Account ID    |            |
-| `-peer`       | Account alias | default    |
+| オプション    | 説明             | デフォルト |
+|---------------|------------------|------------|
+| `-account-id` | アカウントID     |            |
+| `-peer`       | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -115,13 +115,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: account
 
-dropboxsign Account
+Dropbox Sign アカウント
 このコマンドはレポートを3種類の書式で出力します. `account.csv`, `account.json`, ならびに `account.xlsx`.
 
-| 列            | 説明                  |
-|---------------|-----------------------|
-| email_address | Email address         |
-| locale        | Locale of the account |
+| 列            | 説明                       |
+|---------------|----------------------------|
+| email_address | メールアドレス             |
+| locale        | アカウントのロケール(言語) |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

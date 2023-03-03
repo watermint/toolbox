@@ -115,7 +115,7 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: account
 
-dropboxsign Account
+Dropbox Sign Account
 The command will generate a report in three different formats. `account.csv`, `account.json`, and `account.xlsx`.
 
 | Column        | Description           |

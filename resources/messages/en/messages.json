@@ -444,7 +444,7 @@
   "domain.dropbox.usecase.uc_team_sharedlink.target_links.url.desc": "Shared link URL",
   "domain.dropbox.usecase.uc_team_sharedlink.target_links.url.example": "https://www.dropbox.com/scl/fo/fir9vjelf",
   "domain.dropboxsign.api.hs_conn_impl.msg_dropbox_sign.ask_api_key": "Enter your app API key, which can be retrieved from the API tab of your API Settings page.",
-  "domain.dropboxsign.model.mo_account.account.desc": "dropboxsign Account",
+  "domain.dropboxsign.model.mo_account.account.desc": "Dropbox Sign Account",
   "domain.dropboxsign.model.mo_account.account.email_address.desc": "Email address",
   "domain.dropboxsign.model.mo_account.account.locale.desc": "Locale of the account",
   "domain.github.model.mo_commit.commit.desc": "Commit information",
