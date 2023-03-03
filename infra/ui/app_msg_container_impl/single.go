@@ -31,7 +31,7 @@ func NewSingleWithMessagesForTest(msgs map[string]string) app_msg_container.Cont
 func newFromBytes(la es_lang.Lang, loader func(name string) ([]byte, error)) (c app_msg_container.Container, err error) {
 	l := esl.Default().With(esl.String("lang", la.String()))
 
-	resName := fmt.Sprintf("messages%s.json", la.Suffix())
+	resName := fmt.Sprintf("%s/messages.json", la.Code())
 	l = l.With(esl.String("name", resName))
 	resData, err := loader(resName)
 	if err != nil {

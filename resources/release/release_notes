@@ -1,0 +1,1 @@
+* #512 : apply HelloSign -> DropboxSign rebrand (change in command name `services hellosign account info` -> `services dropboxsign account info`)
