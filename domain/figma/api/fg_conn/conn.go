@@ -6,7 +6,7 @@ import (
 )
 
 type ConnFigmaApi interface {
-	api_conn.BasicConnection
+	api_conn.ScopedConnection
 
 	Client() fg_client.Client
 }

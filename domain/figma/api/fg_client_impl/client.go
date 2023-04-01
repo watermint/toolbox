@@ -1,13 +1,50 @@
 package fg_client_impl
 
 import (
+	"github.com/watermint/toolbox/domain/figma/api/fg_auth"
+	"github.com/watermint/toolbox/domain/figma/api/fg_client"
 	"github.com/watermint/toolbox/domain/figma/api/fg_request"
+	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/network/nw_auth"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
+	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
+	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"net/http"
 )
+
+const (
+	Endpoint = "https://api.figma.com/v1/"
+)
+
+func NewMock(name string, ctl app_control.Control) fg_client.Client {
+	return &clientImpl{
+		peerName: name,
+		client:   nw_rest_factory.New(nw_rest_factory.Mock()),
+		ctl:      ctl,
+		builder:  fg_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+	}
+}
+
+func New(name string, ctl app_control.Control, entity api_auth.OAuthEntity) fg_client.Client {
+	client := nw_rest_factory.New(
+		nw_rest_factory.OAuthEntity(fg_auth.Figma, func(appKey string) (clientId, clientSecret string) {
+			return app_apikey.Resolve(ctl, appKey)
+		}, entity),
+		nw_rest_factory.Auth(func(client nw_client.Rest) (rest nw_client.Rest) {
+			return nw_auth.NewOAuthRestClient(entity, ctl.AuthRepository(), client)
+		}),
+	)
+	return &clientImpl{
+		peerName: name,
+		client:   client,
+		ctl:      ctl,
+		builder:  fg_request.NewBuilder(ctl, entity),
+	}
+}
 
 type clientImpl struct {
 	peerName string
@@ -17,36 +54,32 @@ type clientImpl struct {
 }
 
 func (z clientImpl) Name() string {
-	//TODO implement me
-	panic("implement me")
+	return z.peerName
 }
 
 func (z clientImpl) ClientHash() string {
-	//TODO implement me
-	panic("implement me")
+	return z.builder.ClientHash()
 }
 
 func (z clientImpl) Log() esl.Logger {
-	//TODO implement me
-	panic("implement me")
+	return z.builder.Log()
 }
 
 func (z clientImpl) Capture() esl.Logger {
-	//TODO implement me
-	panic("implement me")
+	return z.ctl.Capture()
 }
 
 func (z clientImpl) Get(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
-	//TODO implement me
-	panic("implement me")
+	b := z.builder.With(http.MethodGet, Endpoint+endpoint, api_request.Combine(d))
+	return z.client.Call(&z, b)
 }
 
 func (z clientImpl) Post(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
-	//TODO implement me
-	panic("implement me")
+	b := z.builder.With(http.MethodPost, Endpoint+endpoint, api_request.Combine(d))
+	return z.client.Call(&z, b)
 }
 
 func (z clientImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
-	//TODO implement me
-	panic("implement me")
+	b := z.builder.With(http.MethodDelete, Endpoint+endpoint, api_request.Combine(d))
+	return z.client.Call(&z, b)
 }

@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/essentials/estring/ecase"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -28,21 +27,22 @@ import (
 var (
 	ValueTypes = []rc_recipe.Value{
 		newValueAppMsgMessage("", app_msg.Raw("")),
-		newValueAsConnAsana(dbx_conn_impl.DefaultPeerName),
+		newValueAsConnAsana(api_conn.DefaultPeerName),
 		newValueBool(),
 		newValueDaGridDataInput(nil, ""),
 		newValueDaGridDataOutput(nil, ""),
 		newValueDaJsonInput(nil, ""),
 		newValueDaTextInput(nil, ""),
-		newValueDbxConnScopedIndividual(dbx_conn_impl.DefaultPeerName),
-		newValueDbxConnScopedTeam(dbx_conn_impl.DefaultPeerName),
+		newValueDbxConnScopedIndividual(api_conn.DefaultPeerName),
+		newValueDbxConnScopedTeam(api_conn.DefaultPeerName),
 		newValueFdFileRowFeed(""),
+		newValueFgConnFigmaFileRead(api_conn.DefaultPeerName),
 		newValueGhConnGithubPublic(),
-		newValueGhConnGithubRepo(dbx_conn_impl.DefaultPeerName),
-		newValueGoogConnCalendar(dbx_conn_impl.DefaultPeerName),
-		newValueGoogConnMail(dbx_conn_impl.DefaultPeerName),
-		newValueGoogConnSheets(dbx_conn_impl.DefaultPeerName),
-		newValueHsConn(dbx_conn_impl.DefaultPeerName),
+		newValueGhConnGithubRepo(api_conn.DefaultPeerName),
+		newValueGoogConnCalendar(api_conn.DefaultPeerName),
+		newValueGoogConnMail(api_conn.DefaultPeerName),
+		newValueGoogConnSheets(api_conn.DefaultPeerName),
+		newValueHsConn(api_conn.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),
@@ -56,7 +56,7 @@ var (
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
 		newValueSelectString(),
-		newValueSlack(dbx_conn_impl.DefaultPeerName),
+		newValueSlack(api_conn.DefaultPeerName),
 		newValueString(),
 	}
 

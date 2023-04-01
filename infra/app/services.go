@@ -10,6 +10,7 @@ const (
 	ServiceAsana             = "asana"
 	ServiceDropboxSign       = "dropbox_sign"
 	ServiceSlack             = "slack"
+	ServiceFigma             = "figma"
 )
 
 var (

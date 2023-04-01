@@ -15,6 +15,7 @@ const (
 	ServiceGoogleSheets    = "google_sheets"
 	ServiceDropboxSign     = "dropbox_sign"
 	ServiceSlack           = "slack"
+	ServiceFigma           = "figma"
 )
 
 var (
@@ -30,6 +31,10 @@ var (
 		ServiceDropboxSign,
 		ServiceUtility,
 	}
+)
+
+const (
+	DefaultPeerName = "default"
 )
 
 type Connection interface {
