@@ -14,6 +14,8 @@ import (
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
 	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
 	domaindropboxsignapihs_conn_impl "github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
+	domainfigmaservicesv_file "github.com/watermint/toolbox/domain/figma/service/sv_file"
+	domainfigmaservicesv_project "github.com/watermint/toolbox/domain/figma/service/sv_project"
 	domaingooglemailservicesv_label "github.com/watermint/toolbox/domain/google/mail/service/sv_label"
 	domaingooglemailservicesv_message "github.com/watermint/toolbox/domain/google/mail/service/sv_message"
 	essentialsapiapi_auth_basic "github.com/watermint/toolbox/essentials/api/api_auth_basic"
@@ -66,6 +68,8 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
 		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
 		&domaindropboxsignapihs_conn_impl.MsgDropboxSign{},
+		&domainfigmaservicesv_file.MsgFile{},
+		&domainfigmaservicesv_project.MsgProject{},
 		&domaingooglemailservicesv_label.MsgFindLabel{},
 		&domaingooglemailservicesv_message.MsgProgress{},
 		&essentialsapiapi_auth_basic.MsgConsole{},

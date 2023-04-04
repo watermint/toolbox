@@ -67,6 +67,11 @@ import (
 	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
 	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
 	recipeservicesdropboxsignaccount "github.com/watermint/toolbox/recipe/services/dropboxsign/account"
+	recipeservicesfigmaaccount "github.com/watermint/toolbox/recipe/services/figma/account"
+	recipeservicesfigmafile "github.com/watermint/toolbox/recipe/services/figma/file"
+	recipeservicesfigmafileexport "github.com/watermint/toolbox/recipe/services/figma/file/export"
+	recipeservicesfigmafileexportall "github.com/watermint/toolbox/recipe/services/figma/file/export/all"
+	recipeservicesfigmaproject "github.com/watermint/toolbox/recipe/services/figma/project"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
 	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
@@ -313,6 +318,14 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesdropboxuser.Feature{},
 		&recipeservicesdropboxuser.Info{},
 		&recipeservicesdropboxsignaccount.Info{},
+		&recipeservicesfigmaaccount.Info{},
+		&recipeservicesfigmafile.Info{},
+		&recipeservicesfigmafile.List{},
+		&recipeservicesfigmafileexport.Frame{},
+		&recipeservicesfigmafileexport.Node{},
+		&recipeservicesfigmafileexport.Page{},
+		&recipeservicesfigmafileexportall.Page{},
+		&recipeservicesfigmaproject.List{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},
 		&recipeservicesgithubcontent.Put{},

@@ -15,21 +15,27 @@ const (
 	ServiceGoogleSheets    = "google_sheets"
 	ServiceDropboxSign     = "dropbox_sign"
 	ServiceSlack           = "slack"
+	ServiceFigma           = "figma"
 )
 
 var (
 	Services = []string{
+		ServiceAsana,
 		ServiceDropbox,
 		ServiceDropboxBusiness,
-		ServiceAsana,
+		ServiceDropboxSign,
+		ServiceFigma,
 		ServiceGithub,
 		ServiceGoogleCalendar,
 		ServiceGoogleMail,
 		ServiceGoogleSheets,
 		ServiceSlack,
-		ServiceDropboxSign,
 		ServiceUtility,
 	}
+)
+
+const (
+	DefaultPeerName = "default"
 )
 
 type Connection interface {

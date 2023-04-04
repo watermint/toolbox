@@ -18,6 +18,7 @@ lang: en
 | github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedIndividual | true  | false | true            | true         | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedTeam       | true  | false | true            | true         | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/infra/feed/fd_file_impl.RowFeed                       | false | false | true            | false        | true  | false         | false          | false     | false   | false    | false  | false   | false     |
+| github.com/watermint/toolbox/domain/figma/api/fg_conn_impl.connFigmaApi            | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubPublic       | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubRepo         | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleCalendar   | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
@@ -47,6 +48,7 @@ lang: en
 | github.com/watermint/toolbox/domain/asana/api/as_conn_impl.connAsanaApi            | true            | asana            | asana              |
 | github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedIndividual | true            | dropbox          | dropbox_individual |
 | github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedTeam       | true            | dropbox_business | dropbox_team       |
+| github.com/watermint/toolbox/domain/figma/api/fg_conn_impl.connFigmaApi            | true            | figma            | figma              |
 | github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubPublic       | true            | github           | github_public      |
 | github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubRepo         | true            | github           | github_repo        |
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleCalendar   | true            | google_calendar  | google_calendar    |

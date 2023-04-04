@@ -17,11 +17,13 @@ type MsgApiDoc struct {
 	AuthDescGoogle      app_msg.Message
 	AuthDescDropboxSign app_msg.Message
 	AuthDescSlack       app_msg.Message
+	AuthDescFigma       app_msg.Message
 	ServiceUrlAsana     app_msg.Message
 	ServiceUrlDropbox   app_msg.Message
 	ServiceUrlGithub    app_msg.Message
 	ServiceUrlGoogle    app_msg.Message
 	ServiceUrlSlack     app_msg.Message
+	ServiceUrlFigma     app_msg.Message
 }
 
 var (
@@ -74,6 +76,11 @@ var (
 			cui.Code(cui.Text(MApiDoc.ServiceUrlSlack))
 			cui.Break()
 		},
+		api_conn.ServiceFigma: func(cui app_ui.UI) {
+			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
+			cui.Code(cui.Text(MApiDoc.ServiceUrlFigma))
+			cui.Break()
+		},
 	}
 
 	ApiDocAuthDesc = map[string]app_msg.Message{
@@ -86,5 +93,6 @@ var (
 		api_conn.ServiceGoogleSheets:    MApiDoc.AuthDescGoogle,
 		api_conn.ServiceDropboxSign:     MApiDoc.AuthDescDropboxSign,
 		api_conn.ServiceSlack:           MApiDoc.AuthDescSlack,
+		api_conn.ServiceFigma:           MApiDoc.AuthDescFigma,
 	}
 )

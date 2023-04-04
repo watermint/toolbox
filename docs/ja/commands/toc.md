@@ -195,6 +195,19 @@ lang: ja
 | [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)                         | チームスペースのトップレベルフォルダーを削除する                                        |
 | [teamspace asadmin folder permdelete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-permdelete.html)                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
+## Figma
+
+| コマンド                                                                                                       | 説明                                                  |
+|----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| [services figma account info]({{ site.baseurl }}/ja/commands/services-figma-account-info.html)                 | 現在のユーザー情報を取得する                          |
+| [services figma file export all page]({{ site.baseurl }}/ja/commands/services-figma-file-export-all-page.html) | チーム配下のすべてのファイル/ページをエクスポートする |
+| [services figma file export frame]({{ site.baseurl }}/ja/commands/services-figma-file-export-frame.html)       | Figmaファイルの全フレームを書き出す                   |
+| [services figma file export node]({{ site.baseurl }}/ja/commands/services-figma-file-export-node.html)         | Figmaドキュメント・ノードの書き出し                   |
+| [services figma file export page]({{ site.baseurl }}/ja/commands/services-figma-file-export-page.html)         | Figmaファイルの全ページを書き出す                     |
+| [services figma file info]({{ site.baseurl }}/ja/commands/services-figma-file-info.html)                       | figmaファイルの情報を表示する                         |
+| [services figma file list]({{ site.baseurl }}/ja/commands/services-figma-file-list.html)                       | Figmaプロジェクト内のファイル一覧                     |
+| [services figma project list]({{ site.baseurl }}/ja/commands/services-figma-project-list.html)                 | チームのプロジェクト一覧                              |
+
 ## GitHub
 
 | コマンド                                                                                                             | 説明                                                          |

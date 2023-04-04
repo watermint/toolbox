@@ -11,10 +11,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
-const (
-	DefaultPeerName = "default"
-)
-
 func authSession(ctl app_control.Control) api_auth.OAuthSession {
 	if ctl.Feature().Experiment(app.ExperimentDbxAuthRedirect) {
 		return api_auth_oauth.NewSessionRedirect(ctl)

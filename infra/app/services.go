@@ -10,6 +10,7 @@ const (
 	ServiceAsana             = "asana"
 	ServiceDropboxSign       = "dropbox_sign"
 	ServiceSlack             = "slack"
+	ServiceFigma             = "figma"
 )
 
 var (
@@ -23,5 +24,6 @@ var (
 		ServiceAsana,
 		ServiceDropboxSign,
 		ServiceSlack,
+		ServiceFigma,
 	}
 )

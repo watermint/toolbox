@@ -271,6 +271,19 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                         | チームスペースのトップレベルフォルダーを削除する                                        |
 | [teamspace asadmin folder permdelete](docs/ja/commands/teamspace-asadmin-folder-permdelete.md)                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
+## Figma
+
+| コマンド                                                                                       | 説明                                                  |
+|------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| [services figma account info](docs/ja/commands/services-figma-account-info.md)                 | 現在のユーザー情報を取得する                          |
+| [services figma file export all page](docs/ja/commands/services-figma-file-export-all-page.md) | チーム配下のすべてのファイル/ページをエクスポートする |
+| [services figma file export frame](docs/ja/commands/services-figma-file-export-frame.md)       | Figmaファイルの全フレームを書き出す                   |
+| [services figma file export node](docs/ja/commands/services-figma-file-export-node.md)         | Figmaドキュメント・ノードの書き出し                   |
+| [services figma file export page](docs/ja/commands/services-figma-file-export-page.md)         | Figmaファイルの全ページを書き出す                     |
+| [services figma file info](docs/ja/commands/services-figma-file-info.md)                       | figmaファイルの情報を表示する                         |
+| [services figma file list](docs/ja/commands/services-figma-file-list.md)                       | Figmaプロジェクト内のファイル一覧                     |
+| [services figma project list](docs/ja/commands/services-figma-project-list.md)                 | チームのプロジェクト一覧                              |
+
 ## GitHub
 
 | コマンド                                                                                             | 説明                                                          |

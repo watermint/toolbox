@@ -195,6 +195,19 @@ lang: en
 | [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-permdelete.html)                 | Permanently delete top level folder of the team space                               |
 
+## Figma
+
+| Command                                                                                                     | Description                           |
+|-------------------------------------------------------------------------------------------------------------|---------------------------------------|
+| [services figma account info]({{ site.baseurl }}/commands/services-figma-account-info.html)                 | Retrieve current user information     |
+| [services figma file export all page]({{ site.baseurl }}/commands/services-figma-file-export-all-page.html) | Export all files/pages under the team |
+| [services figma file export frame]({{ site.baseurl }}/commands/services-figma-file-export-frame.html)       | Export all frames of the Figma file   |
+| [services figma file export node]({{ site.baseurl }}/commands/services-figma-file-export-node.html)         | Export Figma document Node            |
+| [services figma file export page]({{ site.baseurl }}/commands/services-figma-file-export-page.html)         | Export all pages of the Figma file    |
+| [services figma file info]({{ site.baseurl }}/commands/services-figma-file-info.html)                       | Show information of the figma file    |
+| [services figma file list]({{ site.baseurl }}/commands/services-figma-file-list.html)                       | List files in the Figma Project       |
+| [services figma project list]({{ site.baseurl }}/commands/services-figma-project-list.html)                 | List projects of the team             |
+
 ## GitHub
 
 | Command                                                                                                           | Description                                         |
