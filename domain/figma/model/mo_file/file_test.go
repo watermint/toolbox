@@ -49,7 +49,7 @@ func TestNodeWithPath_Path(t *testing.T) {
 		Node: Node{},
 	}
 
-	if p := n.Path("_"); p != "Document_0_0/Page 1_0_1" {
+	if p := n.Path(" ", "_"); p != "Document_0_0/Page 1_0_1" {
 		t.Error(p)
 	}
 }
