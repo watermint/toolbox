@@ -70,6 +70,7 @@ import (
 	recipeservicesfigmaaccount "github.com/watermint/toolbox/recipe/services/figma/account"
 	recipeservicesfigmafile "github.com/watermint/toolbox/recipe/services/figma/file"
 	recipeservicesfigmafileexport "github.com/watermint/toolbox/recipe/services/figma/file/export"
+	recipeservicesfigmafileexportall "github.com/watermint/toolbox/recipe/services/figma/file/export/all"
 	recipeservicesfigmaproject "github.com/watermint/toolbox/recipe/services/figma/project"
 	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
 	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
@@ -320,7 +321,10 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesfigmaaccount.Info{},
 		&recipeservicesfigmafile.Info{},
 		&recipeservicesfigmafile.List{},
+		&recipeservicesfigmafileexport.Frame{},
 		&recipeservicesfigmafileexport.Node{},
+		&recipeservicesfigmafileexport.Page{},
+		&recipeservicesfigmafileexportall.Page{},
 		&recipeservicesfigmaproject.List{},
 		&recipeservicesgithub.Profile{},
 		&recipeservicesgithubcontent.Get{},

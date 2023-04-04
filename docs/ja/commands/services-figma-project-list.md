@@ -6,7 +6,7 @@ lang: ja
 
 # services figma project list
 
-List projects of the team 
+チームのプロジェクト一覧 
 
 # セキュリティ
 
@@ -26,14 +26,14 @@ List projects of the team
 
 ## 認可スコープ
 
-| 説明                                                         |
-|--------------------------------------------------------------|
-| Figma: Permission to access your Figma files on your behalf. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
+Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
 watermint toolbox xx.x.xxx
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services figma project list -team-id TEAM_ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.
+.\tbx.exe services figma project list -team-id TEAM_ID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります.
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services figma project list -team-id TEAM_ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.
+$HOME/Desktop/tbx services figma project list -team-id TEAM_ID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります.
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,10 +77,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                                                                                                     | デフォルト |
-|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-peer`    | Account alias                                                                                                                                                            | default    |
-| `-team-id` | Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name. |            |
+| オプション | 説明                                                                                                                                                                   | デフォルト |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-peer`    | アカウントの別名                                                                                                                                                       | default    |
+| `-team-id` | チームID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります. |            |
 
 ## 共通のオプション:
 
@@ -117,13 +117,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: projects
 
-Figma project
+Figmaプロジェクト
 このコマンドはレポートを3種類の書式で出力します. `projects.csv`, `projects.json`, ならびに `projects.xlsx`.
 
 | 列   | 説明                |
 |------|---------------------|
-| id   | Figma Project ID    |
-| name | Name of the project |
+| id   | FigmaプロジェクトID |
+| name | プロジェクト名      |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

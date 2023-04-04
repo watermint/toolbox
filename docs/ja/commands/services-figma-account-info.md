@@ -6,7 +6,7 @@ lang: ja
 
 # services figma account info
 
-Retrieve current user information 
+現在のユーザー情報を取得する 
 
 # セキュリティ
 
@@ -26,14 +26,14 @@ Retrieve current user information
 
 ## 認可スコープ
 
-| 説明                                                         |
-|--------------------------------------------------------------|
-| Figma: Permission to access your Figma files on your behalf. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
+Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
 watermint toolbox xx.x.xxx
@@ -77,9 +77,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -116,15 +116,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: user
 
-User information
+ユーザー情報
 このコマンドはレポートを3種類の書式で出力します. `user.csv`, `user.json`, ならびに `user.xlsx`.
 
 | 列      | 説明                                     |
 |---------|------------------------------------------|
-| id      | Unique stable id of the user             |
-| handle  | Name of the user                         |
-| img_url | URL link to the user's profile image     |
-| email   | Email associated with the user's account |
+| id      | ユーザーの一意の安定したID               |
+| handle  | ユーザー名                               |
+| img_url | ユーザーのプロフィール画像へのURLリンク  |
+| email   | ユーザーのアカウントに関連する電子メール |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

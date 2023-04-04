@@ -6,7 +6,7 @@ lang: ja
 
 # services figma file export node
 
-Export Figma document Node 
+Figmaドキュメント・ノードの書き出し 
 
 # セキュリティ
 
@@ -26,14 +26,14 @@ Export Figma document Node
 
 ## 認可スコープ
 
-| 説明                                                         |
-|--------------------------------------------------------------|
-| Figma: Permission to access your Figma files on your behalf. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
+Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
 watermint toolbox xx.x.xxx
@@ -77,14 +77,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                      | デフォルト |
-|------------|-----------------------------------------------------------|------------|
-| `-format`  | Export format (png/jpg/svg/pdf)                           | pdf        |
-| `-id`      | Node ID                                                   |            |
-| `-key`     | File Key                                                  |            |
-| `-path`    | Output folder path                                        |            |
-| `-peer`    | Account alias                                             | default    |
-| `-scale`   | Export scale in percent range from 1 to 400 (default 100) | 100        |
+| オプション | 説明                                                                | デフォルト |
+|------------|---------------------------------------------------------------------|------------|
+| `-format`  | 書き出し形式（png/jpg/svg/pdf)                                      | pdf        |
+| `-id`      | ノードID                                                            |            |
+| `-key`     | ファイルキー                                                        |            |
+| `-path`    | 出力フォルダーパス                                                  |            |
+| `-peer`    | アカウントの別名                                                    | default    |
+| `-scale`   | エクスポートスケールを1～400の範囲でパーセント表示（デフォルト100） | 100        |
 
 ## 共通のオプション:
 

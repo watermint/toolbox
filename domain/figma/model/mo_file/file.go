@@ -2,9 +2,8 @@ package mo_file
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"path/filepath"
+	"strings"
 )
 
 type File struct {
@@ -48,6 +47,16 @@ func (z Document) Nodes() (nodes []Node) {
 	return nodes
 }
 
+func (z Document) NodesWithPathByType(nodeType string) (nodes []NodeWithPath) {
+	nodes = make([]NodeWithPath, 0)
+	for _, n := range z.NodesWithPath() {
+		if n.Node.Type == nodeType {
+			nodes = append(nodes, n)
+		}
+	}
+	return
+}
+
 func (z Document) NodesWithPath() (nodes []NodeWithPath) {
 	nodes = make([]NodeWithPath, 0)
 	var findNode func(name, id []string, node Node)
@@ -82,50 +91,31 @@ func (z Document) NodesWithPath() (nodes []NodeWithPath) {
 }
 
 type Rectangle struct {
-	X      float64 `path:"x" json:"x"`
-	Y      float64 `path:"y" json:"y"`
-	Width  float64 `path:"width" json:"width"`
-	Height float64 `path:"height" json:"height"`
+	X      float64 `json:"x"`
+	Y      float64 `json:"y"`
+	Width  float64 `json:"width"`
+	Height float64 `json:"height"`
 }
 
 type Node struct {
 	Raw                 json.RawMessage
-	Id                  string     `path:"id" json:"id"`
-	Type                string     `path:"type" json:"type"`
-	Name                string     `path:"name" json:"name"`
+	Id                  string     `json:"id"`
+	Type                string     `json:"type"`
+	Name                string     `json:"name"`
 	AbsoluteBoundingBox *Rectangle `json:"absoluteBoundingBox"`
 	Children            []*Node    `json:"children"`
 }
 
 type NodeWithPath struct {
-	Name []string
-	Id   []string
-	Node Node
+	Name []string `json:"name"`
+	Id   []string `json:"id"`
+	Node Node     `json:"node"`
 }
 
-func (z NodeWithPath) Path(nameIdSeparator string) string {
+func (z NodeWithPath) Path(nodeSeparator, nameIdSeparator string) string {
 	elements := make([]string, len(z.Name))
 	for i := range z.Name {
 		elements[i] = es_filepath.Escape(z.Name[i]) + nameIdSeparator + es_filepath.Escape(z.Id[i])
 	}
-	return filepath.Join(elements...)
-}
-
-func Pages(doc Document) (ids []string, pages []Node, err error) {
-	j, err := es_json.Parse(doc.Raw)
-	if err != nil {
-		return nil, nil, err
-	}
-	ids = make([]string, 0)
-	pages = make([]Node, 0)
-	err = j.FindArrayEach("document.children", func(e es_json.Json) error {
-		page := Node{}
-		if err := e.Model(&page); err != nil {
-			return err
-		}
-		pages = append(pages, page)
-		ids = append(ids, page.Id)
-		return nil
-	})
-	return
+	return strings.Join(elements, nodeSeparator)
 }

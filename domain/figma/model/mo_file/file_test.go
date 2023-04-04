@@ -3,7 +3,6 @@ package mo_file
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"reflect"
 	"testing"
 )
 
@@ -40,14 +39,6 @@ func TestPages(t *testing.T) {
 	if err = dj.Model(&doc); err != nil {
 		t.Error(err)
 		return
-	}
-	ids, _, err := Pages(doc)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	if reflect.DeepEqual(ids, []string{"0:1", "0:2"}) {
-		t.Error(ids)
 	}
 }
 

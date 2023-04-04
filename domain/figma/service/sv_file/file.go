@@ -97,7 +97,7 @@ func (z fileImpl) Image(key string, ids string, scale int, format string) (urls 
 		Ids: ids,
 	}
 	if scale != ImageScaleDefault {
-		scaleStr := fmt.Sprintf("%0.00f", float32(scale)/100.0)
+		scaleStr := fmt.Sprintf("%.2f", float32(scale)/100.0)
 		opts.Scale = &scaleStr
 	}
 	if format != "" {

@@ -6,7 +6,7 @@ lang: ja
 
 # services figma file info
 
-Show information of the figma file 
+figmaファイルの情報を表示する 
 
 # セキュリティ
 
@@ -26,14 +26,14 @@ Show information of the figma file
 
 ## 認可スコープ
 
-| 説明                                                         |
-|--------------------------------------------------------------|
-| Figma: Permission to access your Figma files on your behalf. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
+Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
 watermint toolbox xx.x.xxx
@@ -77,11 +77,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                         | デフォルト |
-|--------------|------------------------------|------------|
-| `-all-nodes` | Include all node information | false      |
-| `-key`       | File key                     |            |
-| `-peer`      | Account alias                | default    |
+| オプション   | 説明                     | デフォルト |
+|--------------|--------------------------|------------|
+| `-all-nodes` | すべてのノード情報を含む | false      |
+| `-key`       | ファイルキー             |            |
+| `-peer`      | アカウントの別名         | default    |
 
 ## 共通のオプション:
 
@@ -118,16 +118,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: document
 
-Figma Document
+Figmaドキュメント
 このコマンドはレポートを3種類の書式で出力します. `document.csv`, `document.json`, ならびに `document.xlsx`.
 
-| 列           | 説明                             |
-|--------------|----------------------------------|
-| name         | Name of the document             |
-| role         | Your role                        |
-| lastModified | Last modified timestamp          |
-| editorType   | Figma editor type (figma/figjam) |
-| version      | Version of the document          |
+| 列           | 説明                                  |
+|--------------|---------------------------------------|
+| name         | 文書名                                |
+| role         | あなたの役割                          |
+| lastModified | 最終更新タイムスタンプ                |
+| editorType   | Figmaエディタータイプ（figma/figjam） |
+| version      | ドキュメントのバージョン              |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
@@ -135,15 +135,15 @@ Figma Document
 
 ## レポート: node
 
-Node of the Figma document
+Figmaドキュメントのノード
 このコマンドはレポートを3種類の書式で出力します. `node.csv`, `node.json`, ならびに `node.xlsx`.
 
-| 列                  | 説明                                                   |
-|---------------------|--------------------------------------------------------|
-| id                  | Node ID                                                |
-| type                | Type of the node                                       |
-| name                | Name of the node                                       |
-| absoluteBoundingBox | Bounding box of the node in absolute space coordinates |
+| 列                  | 説明                                       |
+|---------------------|--------------------------------------------|
+| id                  | ノードID                                   |
+| type                | ノードの種類                               |
+| name                | ノードの名称                               |
+| absoluteBoundingBox | ノードのバウンディングボックス絶対空間座標 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

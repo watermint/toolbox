@@ -6,7 +6,7 @@ lang: ja
 
 # services figma file list
 
-List files in the Figma Project 
+Figmaプロジェクト内のファイル一覧 
 
 # セキュリティ
 
@@ -26,14 +26,14 @@ List files in the Figma Project
 
 ## 認可スコープ
 
-| 説明                                                         |
-|--------------------------------------------------------------|
-| Figma: Permission to access your Figma files on your behalf. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
+Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
 watermint toolbox xx.x.xxx
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services figma file list -project-id PROJECT_ID. Use `services figma project list` command to retrieve PROJECT_IDs on your team.
+.\tbx.exe services figma file list -project-id PROJECT_ID. チーム内のPROJECT_IDを取得するには、`services figma project list`コマンドを使用します。
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services figma file list -project-id PROJECT_ID. Use `services figma project list` command to retrieve PROJECT_IDs on your team.
+$HOME/Desktop/tbx services figma file list -project-id PROJECT_ID. チーム内のPROJECT_IDを取得するには、`services figma project list`コマンドを使用します。
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,10 +77,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明          | デフォルト |
-|---------------|---------------|------------|
-| `-peer`       | Account alias | default    |
-| `-project-id` | Project ID    |            |
+| オプション    | 説明             | デフォルト |
+|---------------|------------------|------------|
+| `-peer`       | アカウントの別名 | default    |
+| `-project-id` | プロジェクトID   |            |
 
 ## 共通のオプション:
 
@@ -117,15 +117,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: files
 
-Figma file
+Figmaファイル
 このコマンドはレポートを3種類の書式で出力します. `files.csv`, `files.json`, ならびに `files.xlsx`.
 
-| 列           | 説明                    |
-|--------------|-------------------------|
-| key          | Figma file key          |
-| name         | Name fo the document    |
-| thumbnailUrl | Thumbnail URL           |
-| lastModified | Last modified timestamp |
+| 列           | 説明                   |
+|--------------|------------------------|
+| key          | Figmaファイルキー      |
+| name         | 文書名                 |
+| thumbnailUrl | サムネイルURL          |
+| lastModified | 最終更新タイムスタンプ |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

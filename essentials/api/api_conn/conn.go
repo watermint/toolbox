@@ -20,15 +20,16 @@ const (
 
 var (
 	Services = []string{
+		ServiceAsana,
 		ServiceDropbox,
 		ServiceDropboxBusiness,
-		ServiceAsana,
+		ServiceDropboxSign,
+		ServiceFigma,
 		ServiceGithub,
 		ServiceGoogleCalendar,
 		ServiceGoogleMail,
 		ServiceGoogleSheets,
 		ServiceSlack,
-		ServiceDropboxSign,
 		ServiceUtility,
 	}
 )

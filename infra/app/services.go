@@ -24,5 +24,6 @@ var (
 		ServiceAsana,
 		ServiceDropboxSign,
 		ServiceSlack,
+		ServiceFigma,
 	}
 )
