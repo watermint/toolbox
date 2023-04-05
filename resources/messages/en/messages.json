@@ -2131,6 +2131,7 @@
   "recipe.services.figma.file.export.all.page.flag.scale": "Export scale in percent range from 1 to 400 (default 100)",
   "recipe.services.figma.file.export.all.page.flag.team_id": "Team ID. To obtain a team id, navigate to a team page of a team you are a part of. The team id will be present in the URL after the word team and before your team name.",
   "recipe.services.figma.file.export.all.page.title": "Export all files/pages under the team",
+  "recipe.services.figma.file.export.all.page.desc": "This command exports all pages for the files below the team. However, if the same file already exists in the export destination, the watermint toolbox compares the timestamps and downloads only if there are updates. Also, if the page does not contain any content, the process is skipped.",
   "recipe.services.figma.file.export.all.title": "Export all commands",
   "recipe.services.figma.file.export.frame.cli.args": "-key FILE_KEY -path /LOCAL/PATH/TO/EXPORT",
   "recipe.services.figma.file.export.frame.flag.format": "Export format (png/jpg/svg/pdf)",
