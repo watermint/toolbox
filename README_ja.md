@@ -220,6 +220,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [team feature](docs/ja/commands/team-feature.md)                                                               | チームの機能を出力します                                                                |
 | [team filerequest list](docs/ja/commands/team-filerequest-list.md)                                             | チームないのファイルリクエストを一覧します                                              |
 | [team info](docs/ja/commands/team-info.md)                                                                     | チームの情報                                                                            |
+| [team legalhold add](docs/ja/commands/team-legalhold-add.md)                                                   | Creates new legal hold policy.                                                          |
+| [team legalhold list](docs/ja/commands/team-legalhold-list.md)                                                 | Retrieve existing policies                                                              |
 | [team linkedapp list](docs/ja/commands/team-linkedapp-list.md)                                                 | リンク済みアプリを一覧                                                                  |
 | [team namespace file list](docs/ja/commands/team-namespace-file-list.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
 | [team namespace file size](docs/ja/commands/team-namespace-file-size.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |

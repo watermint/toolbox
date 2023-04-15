@@ -222,6 +222,8 @@ Available commands:
 | [team feature](docs/commands/team-feature.md)                                                               | Team feature                                                                        |
 | [team filerequest list](docs/commands/team-filerequest-list.md)                                             | List all file requests in the team                                                  |
 | [team info](docs/commands/team-info.md)                                                                     | Team information                                                                    |
+| [team legalhold add](docs/commands/team-legalhold-add.md)                                                   | Creates new legal hold policy.                                                      |
+| [team legalhold list](docs/commands/team-legalhold-list.md)                                                 | Retrieve existing policies                                                          |
 | [team linkedapp list](docs/commands/team-linkedapp-list.md)                                                 | List linked applications                                                            |
 | [team namespace file list](docs/commands/team-namespace-file-list.md)                                       | List all files and folders of the team namespaces                                   |
 | [team namespace file size](docs/commands/team-namespace-file-size.md)                                       | List all files and folders of the team namespaces                                   |

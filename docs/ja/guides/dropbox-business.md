@@ -380,6 +380,15 @@ tbx member list -experiment report_all_columns
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加                                              |
 | [team runas sharedfolder member batch delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-delete.html) | メンバーの共有フォルダからメンバーを一括削除                                            |
 
+# Legal hold
+
+With legal holds, admins can place a legal hold on members of their team and view and export all the content that’s been created or modified by those members.
+
+| コマンド                                                                       | 説明                           |
+|--------------------------------------------------------------------------------|--------------------------------|
+| [team legalhold add]({{ site.baseurl }}/ja/commands/team-legalhold-add.html)   | Creates new legal hold policy. |
+| [team legalhold list]({{ site.baseurl }}/ja/commands/team-legalhold-list.html) | Retrieve existing policies     |
+
 # 注意事項:
 
 Dropbox Businessのコマンドを実行するには、管理者権限が必要です. 認証トークンは、Dropboxのサポートを含め、誰とも共有してはいけません.

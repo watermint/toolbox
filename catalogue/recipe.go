@@ -109,6 +109,7 @@ import (
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
 	recipeteaminsightfile "github.com/watermint/toolbox/recipe/team/insight/file"
+	recipeteamlegalhold "github.com/watermint/toolbox/recipe/team/legalhold"
 	recipeteamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
 	recipeteamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
 	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
@@ -405,6 +406,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfilerequest.Clone{},
 		&recipeteamfilerequest.List{},
 		&recipeteaminsightfile.Scan{},
+		&recipeteamlegalhold.Add{},
+		&recipeteamlegalhold.List{},
 		&recipeteamlinkedapp.List{},
 		&recipeteamnamespace.List{},
 		&recipeteamnamespace.Summary{},

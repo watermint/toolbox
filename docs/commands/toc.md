@@ -144,6 +144,8 @@ lang: en
 | [team feature]({{ site.baseurl }}/commands/team-feature.html)                                                               | Team feature                                                                        |
 | [team filerequest list]({{ site.baseurl }}/commands/team-filerequest-list.html)                                             | List all file requests in the team                                                  |
 | [team info]({{ site.baseurl }}/commands/team-info.html)                                                                     | Team information                                                                    |
+| [team legalhold add]({{ site.baseurl }}/commands/team-legalhold-add.html)                                                   | Creates new legal hold policy.                                                      |
+| [team legalhold list]({{ site.baseurl }}/commands/team-legalhold-list.html)                                                 | Retrieve existing policies                                                          |
 | [team linkedapp list]({{ site.baseurl }}/commands/team-linkedapp-list.html)                                                 | List linked applications                                                            |
 | [team namespace file list]({{ site.baseurl }}/commands/team-namespace-file-list.html)                                       | List all files and folders of the team namespaces                                   |
 | [team namespace file size]({{ site.baseurl }}/commands/team-namespace-file-size.html)                                       | List all files and folders of the team namespaces                                   |

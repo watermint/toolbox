@@ -144,6 +144,8 @@ lang: ja
 | [team feature]({{ site.baseurl }}/ja/commands/team-feature.html)                                                               | チームの機能を出力します                                                                |
 | [team filerequest list]({{ site.baseurl }}/ja/commands/team-filerequest-list.html)                                             | チームないのファイルリクエストを一覧します                                              |
 | [team info]({{ site.baseurl }}/ja/commands/team-info.html)                                                                     | チームの情報                                                                            |
+| [team legalhold add]({{ site.baseurl }}/ja/commands/team-legalhold-add.html)                                                   | Creates new legal hold policy.                                                          |
+| [team legalhold list]({{ site.baseurl }}/ja/commands/team-legalhold-list.html)                                                 | Retrieve existing policies                                                              |
 | [team linkedapp list]({{ site.baseurl }}/ja/commands/team-linkedapp-list.html)                                                 | リンク済みアプリを一覧                                                                  |
 | [team namespace file list]({{ site.baseurl }}/ja/commands/team-namespace-file-list.html)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
 | [team namespace file size]({{ site.baseurl }}/ja/commands/team-namespace-file-size.html)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |

@@ -4,11 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# services figma file export all page
+# team legalhold list
 
-チーム配下のすべてのファイル/ページをエクスポートする 
-
-このコマンドは、チーム以下のファイルの全ページをエクスポートします。ただし、エクスポート先に同じファイルが既に存在する場合、watermint toolboxはタイムスタンプを比較し、更新があった場合のみダウンロードを行います。また、ページにコンテンツがない場合は、処理をスキップします。
+Retrieve existing policies 
 
 # セキュリティ
 
@@ -24,18 +22,19 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Figma: https://help.figma.com/hc/
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                        |
-|-------------------------------------------------------------|
-| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| View and edit content of your team's files and folders                         |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
-Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
+リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -44,9 +43,13 @@ watermint toolbox xx.x.xxx
 © 2016-2023 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-認可URLを開きます:
-https://www.figma.com/oauth?client_id=xxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=file_read&state=xxxxxxxx
+1. 次のURLを開き認証ダイアログを開いてください:
 
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
 ```
 
 # インストール
@@ -63,12 +66,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services figma file export all page -path /LOCAL/PATH/TO/EXPORT -team-id TEAM_ID
+.\tbx.exe team legalhold list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services figma file export all page -path /LOCAL/PATH/TO/EXPORT -team-id TEAM_ID
+$HOME/Desktop/tbx team legalhold list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -79,13 +82,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                                                                                                                                                   | デフォルト |
-|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-format`  | 書き出し形式（png/jpg/svg/pdf)                                                                                                                                         | pdf        |
-| `-path`    | 出力フォルダーパス                                                                                                                                                     |            |
-| `-peer`    | アカウントの別名                                                                                                                                                       | default    |
-| `-scale`   | エクスポートスケールを1～400の範囲でパーセント表示（デフォルト100）                                                                                                    | 100        |
-| `-team-id` | チームID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります. |            |
+| オプション          | 説明                                        | デフォルト |
+|---------------------|---------------------------------------------|------------|
+| `-include-released` | Whether to return holds that were released. | false      |
+| `-peer`             | Account alias                               | default    |
 
 ## 共通のオプション:
 
@@ -109,6 +109,35 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: policies
+
+Legal hold policy
+このコマンドはレポートを3種類の書式で出力します. `policies.csv`, `policies.json`, ならびに `policies.xlsx`.
+
+| 列              | 説明                                            |
+|-----------------|-------------------------------------------------|
+| id              | The legal hold id.                              |
+| name            | Policy name.                                    |
+| description     | A description of the legal hold policy.         |
+| status          | The current state of the hold.                  |
+| start_date      | Start date of the legal hold policy.            |
+| end_date        | End date of the legal hold policy.              |
+| activation_time | The time at which the legal hold was activated. |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

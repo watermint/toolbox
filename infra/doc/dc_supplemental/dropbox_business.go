@@ -96,6 +96,9 @@ type MsgDropboxBusiness struct {
 
 	RunAsTitle app_msg.Message
 	RunAsInfo  app_msg.Message
+
+	LegalHoldTitle app_msg.Message
+	LegalHoldInfo  app_msg.Message
 }
 
 var (
@@ -196,6 +199,7 @@ func (z DropboxBusiness) Sections() []dc_section.Section {
 		&DropboxBusinessPaper{cat: z.cat},
 		&DropboxBusinessTeamAdmin{cat: z.cat},
 		&DropboxBusinessRunAs{cat: z.cat},
+		&DropboxBusinessLegalHold{cat: z.cat},
 
 		// footnote section must be placed at the end of the doc
 		&DropboxBusinessFootnote{cat: z.cat},
@@ -594,5 +598,21 @@ func (z DropboxBusinessRunAs) Body(ui app_ui.UI) {
 		"team runas sharedfolder batch unshare",
 		"team runas sharedfolder member batch add",
 		"team runas sharedfolder member batch delete",
+	})
+}
+
+type DropboxBusinessLegalHold struct {
+	cat DropboxBusinessCatalogue
+}
+
+func (z DropboxBusinessLegalHold) Title() app_msg.Message {
+	return MDropboxBusiness.LegalHoldTitle
+}
+
+func (z DropboxBusinessLegalHold) Body(ui app_ui.UI) {
+	ui.Info(MDropboxBusiness.LegalHoldInfo)
+	z.cat.RecipeTable("team legalhold commands", ui, []string{
+		"team legalhold add",
+		"team legalhold list",
 	})
 }

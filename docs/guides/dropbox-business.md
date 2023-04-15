@@ -380,6 +380,15 @@ You can run a command as a team member. For example, you can upload a file into 
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-add.html)       | Batch add members to member's shared folders                                        |
 | [team runas sharedfolder member batch delete]({{ site.baseurl }}/commands/team-runas-sharedfolder-member-batch-delete.html) | Batch delete members from member's shared folders                                   |
 
+# Legal hold
+
+With legal holds, admins can place a legal hold on members of their team and view and export all the content that’s been created or modified by those members.
+
+| Command                                                                     | Description                    |
+|-----------------------------------------------------------------------------|--------------------------------|
+| [team legalhold add]({{ site.baseurl }}/commands/team-legalhold-add.html)   | Creates new legal hold policy. |
+| [team legalhold list]({{ site.baseurl }}/commands/team-legalhold-list.html) | Retrieve existing policies     |
+
 # Notes:
 
 Dropbox Business commands require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.
