@@ -408,6 +408,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteaminsightfile.Scan{},
 		&recipeteamlegalhold.Add{},
 		&recipeteamlegalhold.List{},
+		&recipeteamlegalhold.Release{},
 		&recipeteamlinkedapp.List{},
 		&recipeteamnamespace.List{},
 		&recipeteamnamespace.Summary{},

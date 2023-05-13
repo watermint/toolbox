@@ -7,7 +7,7 @@ type Policy struct {
 	Id             string `path:"id" json:"id"`
 	Name           string `path:"name" json:"name"`
 	Description    string `path:"description" json:"description"`
-	Status         string `path:"status" json:"status"`
+	Status         string `path:"status.\\.tag" json:"status"`
 	StartDate      string `path:"start_date" json:"start_date"`
 	EndDate        string `path:"end_date" json:"end_date"`
 	ActivationTime string `path:"activation_time" json:"activation_time"`
