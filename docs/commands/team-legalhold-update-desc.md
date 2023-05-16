@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# team legalhold add
+# team legalhold update desc
 
-Creates new legal hold policy. 
+Update description of the legal hold policy 
 
 # Security
 
@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NAME
+.\tbx.exe team legalhold update desc -desc NEW_DESCRIPTION -policy-id POLICY_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NAME
+$HOME/Desktop/tbx team legalhold update desc -desc NEW_DESCRIPTION -policy-id POLICY_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,14 +80,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                                                | Default |
-|----------------|------------------------------------------------------------|---------|
-| `-description` | A description of the legal hold policy.                    |         |
-| `-end-date`    | End date of the legal hold policy.                         |         |
-| `-member`      | email of the member or members you want to place a hold on |         |
-| `-name`        | Policy name.                                               |         |
-| `-peer`        | Account alias                                              | default |
-| `-start-date`  | Start date of the legal hold policy.                       |         |
+| Option       | Description          | Default |
+|--------------|----------------------|---------|
+| `-desc`      | New description      |         |
+| `-peer`      | Account alias        | default |
+| `-policy-id` | Legal hold policy ID |         |
 
 ## Common options:
 
@@ -111,22 +108,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
-
-# File formats
-
-## Format: Member
-
-Select members
-
-| Column | Description               | Example          |
-|--------|---------------------------|------------------|
-| email  | Team member email address | emma@example.com |
-
-The first line is a header line. The program will accept a file without the header.
-```
-email
-emma@example.com
-```
 
 # Results
 

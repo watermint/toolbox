@@ -26,10 +26,8 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| View and edit content of your team's files and folders                                                  |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description |
+|-------------|
 
 # Authorization
 
@@ -125,15 +123,16 @@ Report file path will be displayed last line of the command line output. If you 
 Legal hold policy
 The command will generate a report in three different formats. `policies.csv`, `policies.json`, and `policies.xlsx`.
 
-| Column          | Description                                     |
-|-----------------|-------------------------------------------------|
-| id              | The legal hold id.                              |
-| name            | Policy name.                                    |
-| description     | A description of the legal hold policy.         |
-| status          | The current state of the hold.                  |
-| start_date      | Start date of the legal hold policy.            |
-| end_date        | End date of the legal hold policy.              |
-| activation_time | The time at which the legal hold was activated. |
+| Column                    | Description                                     |
+|---------------------------|-------------------------------------------------|
+| id                        | The legal hold id.                              |
+| name                      | Policy name.                                    |
+| description               | A description of the legal hold policy.         |
+| status                    | The current state of the hold.                  |
+| start_date                | Start date of the legal hold policy.            |
+| end_date                  | End date of the legal hold policy.              |
+| activation_time           | The time at which the legal hold was activated. |
+| permanently_deleted_users | Number of users permanently removed.            |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

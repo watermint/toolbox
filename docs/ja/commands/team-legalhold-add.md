@@ -26,11 +26,8 @@ Creates new legal hold policy.
 
 ## 認可スコープ
 
-| 説明                                                                           |
-|--------------------------------------------------------------------------------|
-| Dropbox Business: チームメンバーの確認                                         |
-| View and edit content of your team's files and folders                         |
-| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
+| 説明 |
+|------|
 
 # 認可
 
@@ -146,15 +143,16 @@ emma@example.com
 Legal hold policy
 このコマンドはレポートを3種類の書式で出力します. `policy.csv`, `policy.json`, ならびに `policy.xlsx`.
 
-| 列              | 説明                                            |
-|-----------------|-------------------------------------------------|
-| id              | The legal hold id.                              |
-| name            | Policy name.                                    |
-| description     | A description of the legal hold policy.         |
-| status          | The current state of the hold.                  |
-| start_date      | Start date of the legal hold policy.            |
-| end_date        | End date of the legal hold policy.              |
-| activation_time | The time at which the legal hold was activated. |
+| 列                        | 説明                                            |
+|---------------------------|-------------------------------------------------|
+| id                        | The legal hold id.                              |
+| name                      | Policy name.                                    |
+| description               | A description of the legal hold policy.         |
+| status                    | The current state of the hold.                  |
+| start_date                | Start date of the legal hold policy.            |
+| end_date                  | End date of the legal hold policy.              |
+| activation_time           | The time at which the legal hold was activated. |
+| permanently_deleted_users | Number of users permanently removed.            |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

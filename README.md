@@ -224,6 +224,12 @@ Available commands:
 | [team info](docs/commands/team-info.md)                                                                     | Team information                                                                    |
 | [team legalhold add](docs/commands/team-legalhold-add.md)                                                   | Creates new legal hold policy.                                                      |
 | [team legalhold list](docs/commands/team-legalhold-list.md)                                                 | Retrieve existing policies                                                          |
+| [team legalhold member batch update](docs/commands/team-legalhold-member-batch-update.md)                   | Update member list of legal hold policy                                             |
+| [team legalhold member list](docs/commands/team-legalhold-member-list.md)                                   | List members of the legal hold                                                      |
+| [team legalhold release](docs/commands/team-legalhold-release.md)                                           | Releases a legal hold by Id                                                         |
+| [team legalhold revision list](docs/commands/team-legalhold-revision-list.md)                               | List revisions of the legal hold policy                                             |
+| [team legalhold update desc](docs/commands/team-legalhold-update-desc.md)                                   | Update description of the legal hold policy                                         |
+| [team legalhold update name](docs/commands/team-legalhold-update-name.md)                                   | Update name of the legal hold policy                                                |
 | [team linkedapp list](docs/commands/team-linkedapp-list.md)                                                 | List linked applications                                                            |
 | [team namespace file list](docs/commands/team-namespace-file-list.md)                                       | List all files and folders of the team namespaces                                   |
 | [team namespace file size](docs/commands/team-namespace-file-size.md)                                       | List all files and folders of the team namespaces                                   |

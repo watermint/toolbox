@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# team legalhold list
+# team legalhold release
 
-Retrieve existing policies 
+Releases a legal hold by Id 
 
 # セキュリティ
 
@@ -64,12 +64,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team legalhold list 
+.\tbx.exe team legalhold release -policy-id POLICY_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team legalhold list 
+$HOME/Desktop/tbx team legalhold release -policy-id POLICY_ID
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                                        | デフォルト |
-|---------------------|---------------------------------------------|------------|
-| `-include-released` | Whether to return holds that were released. | false      |
-| `-peer`             | Account alias                               | default    |
+| オプション   | 説明                 | デフォルト |
+|--------------|----------------------|------------|
+| `-peer`      | Account alias        | default    |
+| `-policy-id` | Legal hold policy ID |            |
 
 ## 共通のオプション:
 
@@ -107,36 +107,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: policies
-
-Legal hold policy
-このコマンドはレポートを3種類の書式で出力します. `policies.csv`, `policies.json`, ならびに `policies.xlsx`.
-
-| 列                        | 説明                                            |
-|---------------------------|-------------------------------------------------|
-| id                        | The legal hold id.                              |
-| name                      | Policy name.                                    |
-| description               | A description of the legal hold policy.         |
-| status                    | The current state of the hold.                  |
-| start_date                | Start date of the legal hold policy.            |
-| end_date                  | End date of the legal hold policy.              |
-| activation_time           | The time at which the legal hold was activated. |
-| permanently_deleted_users | Number of users permanently removed.            |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

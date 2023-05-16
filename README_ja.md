@@ -222,6 +222,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [team info](docs/ja/commands/team-info.md)                                                                     | チームの情報                                                                            |
 | [team legalhold add](docs/ja/commands/team-legalhold-add.md)                                                   | Creates new legal hold policy.                                                          |
 | [team legalhold list](docs/ja/commands/team-legalhold-list.md)                                                 | Retrieve existing policies                                                              |
+| [team legalhold member batch update](docs/ja/commands/team-legalhold-member-batch-update.md)                   | Update member list of legal hold policy                                                 |
+| [team legalhold member list](docs/ja/commands/team-legalhold-member-list.md)                                   | List members of the legal hold                                                          |
+| [team legalhold release](docs/ja/commands/team-legalhold-release.md)                                           | Releases a legal hold by Id                                                             |
+| [team legalhold revision list](docs/ja/commands/team-legalhold-revision-list.md)                               | List revisions of the legal hold policy                                                 |
+| [team legalhold update desc](docs/ja/commands/team-legalhold-update-desc.md)                                   | Update description of the legal hold policy                                             |
+| [team legalhold update name](docs/ja/commands/team-legalhold-update-name.md)                                   | Update name of the legal hold policy                                                    |
 | [team linkedapp list](docs/ja/commands/team-linkedapp-list.md)                                                 | リンク済みアプリを一覧                                                                  |
 | [team namespace file list](docs/ja/commands/team-namespace-file-list.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
 | [team namespace file size](docs/ja/commands/team-namespace-file-size.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |

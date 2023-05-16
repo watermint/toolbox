@@ -614,5 +614,11 @@ func (z DropboxBusinessLegalHold) Body(ui app_ui.UI) {
 	z.cat.RecipeTable("team legalhold commands", ui, []string{
 		"team legalhold add",
 		"team legalhold list",
+		"team legalhold member batch update",
+		"team legalhold member list",
+		"team legalhold release",
+		"team legalhold revision list",
+		"team legalhold update desc",
+		"team legalhold update name",
 	})
 }

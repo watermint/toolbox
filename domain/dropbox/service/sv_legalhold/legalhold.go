@@ -18,6 +18,9 @@ type LegalHold interface {
 	List(includeReleased bool) (policies []*mo_legalhold.Policy, err error)
 	Release(policyId string) error
 	Revisions(policyId string, dateAfter time.Time, onEntry func(rev *mo_legalhold.Revision)) error
+	UpdateName(policyId string, name string) (policy *mo_legalhold.Policy, err error)
+	UpdateDesc(policyId string, desc string) (policy *mo_legalhold.Policy, err error)
+	UpdateMember(policyId string, members []*mo_member.Member) (policy *mo_legalhold.Policy, err error)
 }
 
 func New(client dbx_client.Client) LegalHold {
@@ -31,7 +34,14 @@ type CreateParams struct {
 	StartDate   *string  `json:"start_date,omitempty"`
 	EndDate     *string  `json:"end_date,omitempty"`
 	Description *string  `json:"description,omitempty"`
-	Members     []string `json:"members"`
+	Members     []string `json:"members,omitempty"`
+}
+
+type UpdateParams struct {
+	Id          string   `json:"id"`
+	Name        string   `json:"name,omitempty"`
+	Description string   `json:"description,omitempty"`
+	Members     []string `json:"members,omitempty"`
 }
 
 type PolicyIdParam struct {
@@ -141,4 +151,50 @@ func (z legalHoldImpl) Revisions(policyId string, dateAfter time.Time, onEntry f
 		return err
 	}
 	return nil
+}
+
+func (z legalHoldImpl) UpdateName(policyId string, name string) (policy *mo_legalhold.Policy, err error) {
+	params := UpdateParams{
+		Id:   policyId,
+		Name: name,
+	}
+	res := z.client.Post("team/legal_holds/update_policy", api_request.Param(&params))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	policy = &mo_legalhold.Policy{}
+	err = res.Success().Json().Model(policy)
+	return
+}
+
+func (z legalHoldImpl) UpdateDesc(policyId string, desc string) (policy *mo_legalhold.Policy, err error) {
+	params := UpdateParams{
+		Id:          policyId,
+		Description: desc,
+	}
+	res := z.client.Post("team/legal_holds/update_policy", api_request.Param(&params))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	policy = &mo_legalhold.Policy{}
+	err = res.Success().Json().Model(policy)
+	return
+}
+
+func (z legalHoldImpl) UpdateMember(policyId string, members []*mo_member.Member) (policy *mo_legalhold.Policy, err error) {
+	params := UpdateParams{
+		Id:      policyId,
+		Members: make([]string, 0),
+	}
+	for _, member := range members {
+		params.Members = append(params.Members, member.TeamMemberId)
+	}
+
+	res := z.client.Post("team/legal_holds/update_policy", api_request.Param(&params))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	policy = &mo_legalhold.Policy{}
+	err = res.Success().Json().Model(policy)
+	return
 }

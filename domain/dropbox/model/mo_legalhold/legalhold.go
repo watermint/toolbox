@@ -1,16 +1,36 @@
 package mo_legalhold
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
+)
 
 type Policy struct {
-	Raw            json.RawMessage
-	Id             string `path:"id" json:"id"`
-	Name           string `path:"name" json:"name"`
-	Description    string `path:"description" json:"description"`
-	Status         string `path:"status.\\.tag" json:"status"`
-	StartDate      string `path:"start_date" json:"start_date"`
-	EndDate        string `path:"end_date" json:"end_date"`
-	ActivationTime string `path:"activation_time" json:"activation_time"`
+	Raw                     json.RawMessage
+	Id                      string `path:"id" json:"id"`
+	Name                    string `path:"name" json:"name"`
+	Description             string `path:"description" json:"description"`
+	Status                  string `path:"status.\\.tag" json:"status"`
+	StartDate               string `path:"start_date" json:"start_date"`
+	EndDate                 string `path:"end_date" json:"end_date"`
+	ActivationTime          string `path:"activation_time" json:"activation_time"`
+	PermanentlyDeletedUsers int    `path:"members.permanently_deleted_users" json:"permanently_deleted_users"`
+}
+
+func (z Policy) TeamMemberIds() (teamMemberIds []string) {
+	teamMemberIds = make([]string, 0)
+	j := es_json.MustParse(z.Raw)
+	members, found := j.FindArray("members.team_member_ids")
+	if !found {
+		return
+	}
+	for _, member := range members {
+		id, found := member.String()
+		if found {
+			teamMemberIds = append(teamMemberIds, id)
+		}
+	}
+	return
 }
 
 type Revision struct {

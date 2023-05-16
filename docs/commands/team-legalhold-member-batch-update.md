@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# team legalhold add
+# team legalhold member batch update
 
-Creates new legal hold policy. 
+Update member list of legal hold policy 
 
 # Security
 
@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NAME
+.\tbx.exe team legalhold member batch update -member /PATH/TO/MEMBER_LIST.csv -policy-id POLICY_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NAME
+$HOME/Desktop/tbx team legalhold member batch update -member /PATH/TO/MEMBER_LIST.csv -policy-id POLICY_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,14 +80,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                                                | Default |
-|----------------|------------------------------------------------------------|---------|
-| `-description` | A description of the legal hold policy.                    |         |
-| `-end-date`    | End date of the legal hold policy.                         |         |
-| `-member`      | email of the member or members you want to place a hold on |         |
-| `-name`        | Policy name.                                               |         |
-| `-peer`        | Account alias                                              | default |
-| `-start-date`  | Start date of the legal hold policy.                       |         |
+| Option       | Description              | Default |
+|--------------|--------------------------|---------|
+| `-member`    | Path to member list file |         |
+| `-peer`      | Account alias            | default |
+| `-policy-id` | Legal hold policy ID     |         |
 
 ## Common options:
 
@@ -116,11 +113,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: Member
 
-Select members
+Member email address
 
-| Column | Description               | Example          |
-|--------|---------------------------|------------------|
-| email  | Team member email address | emma@example.com |
+| Column | Description   | Example          |
+|--------|---------------|------------------|
+| email  | Email address | emma@example.com |
 
 The first line is a header line. The program will accept a file without the header.
 ```
@@ -140,19 +137,28 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: policy
 
-Legal hold policy
+This report shows a list of members.
 The command will generate a report in three different formats. `policy.csv`, `policy.json`, and `policy.xlsx`.
 
-| Column                    | Description                                     |
-|---------------------------|-------------------------------------------------|
-| id                        | The legal hold id.                              |
-| name                      | Policy name.                                    |
-| description               | A description of the legal hold policy.         |
-| status                    | The current state of the hold.                  |
-| start_date                | Start date of the legal hold policy.            |
-| end_date                  | End date of the legal hold policy.              |
-| activation_time           | The time at which the legal hold was activated. |
-| permanently_deleted_users | Number of users permanently removed.            |
+| Column           | Description                                                                                                          |
+|------------------|----------------------------------------------------------------------------------------------------------------------|
+| team_member_id   | ID of user as a member of a team.                                                                                    |
+| email            | Email address of user.                                                                                               |
+| email_verified   | Is true if the user's email is verified to be owned by the user.                                                     |
+| status           | The user's status as a member of a specific team. (active/invited/suspended/removed)                                 |
+| given_name       | Also known as a first name                                                                                           |
+| surname          | Also known as a last name or family name.                                                                            |
+| familiar_name    | Locale-dependent name                                                                                                |
+| display_name     | A name that can be used directly to represent the name of a user's Dropbox account.                                  |
+| abbreviated_name | An abbreviated form of the person's name.                                                                            |
+| member_folder_id | The namespace id of the user's root folder.                                                                          |
+| external_id      | External ID that a team can attach to the user.                                                                      |
+| account_id       | A user's account identifier.                                                                                         |
+| persistent_id    | Persistent ID that a team can attach to the user. The persistent ID is unique ID to be used for SAML authentication. |
+| joined_on        | The date and time the user joined as a member of a specific team.                                                    |
+| invited_on       | The date and time the user was invited to the team                                                                   |
+| role             | The user's role in the team (team_admin, user_management_admin, support_admin, or member_only)                       |
+| tag              | Operation tag                                                                                                        |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

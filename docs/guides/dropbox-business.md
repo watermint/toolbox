@@ -384,10 +384,16 @@ You can run a command as a team member. For example, you can upload a file into 
 
 With legal holds, admins can place a legal hold on members of their team and view and export all the content that’s been created or modified by those members.
 
-| Command                                                                     | Description                    |
-|-----------------------------------------------------------------------------|--------------------------------|
-| [team legalhold add]({{ site.baseurl }}/commands/team-legalhold-add.html)   | Creates new legal hold policy. |
-| [team legalhold list]({{ site.baseurl }}/commands/team-legalhold-list.html) | Retrieve existing policies     |
+| Command                                                                                                   | Description                                 |
+|-----------------------------------------------------------------------------------------------------------|---------------------------------------------|
+| [team legalhold add]({{ site.baseurl }}/commands/team-legalhold-add.html)                                 | Creates new legal hold policy.              |
+| [team legalhold list]({{ site.baseurl }}/commands/team-legalhold-list.html)                               | Retrieve existing policies                  |
+| [team legalhold member batch update]({{ site.baseurl }}/commands/team-legalhold-member-batch-update.html) | Update member list of legal hold policy     |
+| [team legalhold member list]({{ site.baseurl }}/commands/team-legalhold-member-list.html)                 | List members of the legal hold              |
+| [team legalhold release]({{ site.baseurl }}/commands/team-legalhold-release.html)                         | Releases a legal hold by Id                 |
+| [team legalhold revision list]({{ site.baseurl }}/commands/team-legalhold-revision-list.html)             | List revisions of the legal hold policy     |
+| [team legalhold update desc]({{ site.baseurl }}/commands/team-legalhold-update-desc.html)                 | Update description of the legal hold policy |
+| [team legalhold update name]({{ site.baseurl }}/commands/team-legalhold-update-name.html)                 | Update name of the legal hold policy        |
 
 # Notes:
 

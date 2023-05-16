@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# team legalhold list
+# team legalhold member list
 
-Retrieve existing policies 
+List members of the legal hold 
 
 # セキュリティ
 
@@ -64,12 +64,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team legalhold list 
+.\tbx.exe team legalhold member list -policy-id POLICY_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team legalhold list 
+$HOME/Desktop/tbx team legalhold member list -policy-id POLICY_ID
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション          | 説明                                        | デフォルト |
-|---------------------|---------------------------------------------|------------|
-| `-include-released` | Whether to return holds that were released. | false      |
-| `-peer`             | Account alias                               | default    |
+| オプション   | 説明                 | デフォルト |
+|--------------|----------------------|------------|
+| `-peer`      | Account alias        | default    |
+| `-policy-id` | Legal hold policy ID |            |
 
 ## 共通のオプション:
 
@@ -118,25 +118,34 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: policies
+## レポート: member
 
-Legal hold policy
-このコマンドはレポートを3種類の書式で出力します. `policies.csv`, `policies.json`, ならびに `policies.xlsx`.
+このレポートはメンバー一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `member.csv`, `member.json`, ならびに `member.xlsx`.
 
-| 列                        | 説明                                            |
-|---------------------------|-------------------------------------------------|
-| id                        | The legal hold id.                              |
-| name                      | Policy name.                                    |
-| description               | A description of the legal hold policy.         |
-| status                    | The current state of the hold.                  |
-| start_date                | Start date of the legal hold policy.            |
-| end_date                  | End date of the legal hold policy.              |
-| activation_time           | The time at which the legal hold was activated. |
-| permanently_deleted_users | Number of users permanently removed.            |
+| 列               | 説明                                                                                            |
+|------------------|-------------------------------------------------------------------------------------------------|
+| team_member_id   | チームにおけるメンバーのID                                                                      |
+| email            | ユーザーのメールアドレス                                                                        |
+| email_verified   | trueの場合、ユーザーのメールアドレスはユーザーによって所有されていることが確認されています.     |
+| status           | チームにおけるメンバーのステータス(active/invited/suspended/removed)                            |
+| given_name       | 名                                                                                              |
+| surname          | 名字                                                                                            |
+| familiar_name    | ロケール依存の名前                                                                              |
+| display_name     | ユーザーのDropboxアカウントの表示名称                                                           |
+| abbreviated_name | ユーザーの省略名称                                                                              |
+| member_folder_id | ユーザールートフォルダの名前空間ID.                                                             |
+| external_id      | このユーザーに関連づけられた外部ID                                                              |
+| account_id       | ユーザーのアカウントID                                                                          |
+| persistent_id    | ユーザーに付加できる永続ID. 永続IDはSAML認証で利用する一意なIDです.                             |
+| joined_on        | メンバーがチームに参加した日時.                                                                 |
+| invited_on       | ユーザーがチームに招待された日付と時間                                                          |
+| role             | ユーザーのチームでの役割 (team_admin, user_management_admin, support_admin, または member_only) |
+| tag              | 処理のタグ                                                                                      |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `member_0000.xlsx`, `member_0001.xlsx`, `member_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

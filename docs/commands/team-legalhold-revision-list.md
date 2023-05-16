@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# team legalhold add
+# team legalhold revision list
 
-Creates new legal hold policy. 
+List revisions of the legal hold policy 
 
 # Security
 
@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NAME
+.\tbx.exe team legalhold revision list -after DATE_TIME -policy-id POLICY_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team legalhold add -member /PATH/TO/member_email.csv -name POLICY_NAME
+$HOME/Desktop/tbx team legalhold revision list -after DATE_TIME -policy-id POLICY_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,14 +80,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                                                | Default |
-|----------------|------------------------------------------------------------|---------|
-| `-description` | A description of the legal hold policy.                    |         |
-| `-end-date`    | End date of the legal hold policy.                         |         |
-| `-member`      | email of the member or members you want to place a hold on |         |
-| `-name`        | Policy name.                                               |         |
-| `-peer`        | Account alias                                              | default |
-| `-start-date`  | Start date of the legal hold policy.                       |         |
+| Option       | Description                                      | Default |
+|--------------|--------------------------------------------------|---------|
+| `-after`     | Get revisions after this specified date and time |         |
+| `-peer`      | Account alias                                    | default |
+| `-policy-id` | Legal hold policy ID                             |         |
 
 ## Common options:
 
@@ -112,22 +109,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 
-# File formats
-
-## Format: Member
-
-Select members
-
-| Column | Description               | Example          |
-|--------|---------------------------|------------------|
-| email  | Team member email address | emma@example.com |
-
-The first line is a header line. The program will accept a file without the header.
-```
-email
-emma@example.com
-```
-
 # Results
 
 Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
@@ -138,25 +119,17 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: policy
+## Report: revision
 
-Legal hold policy
-The command will generate a report in three different formats. `policy.csv`, `policy.json`, and `policy.xlsx`.
+Revision
+The command will generate a report in three different formats. `revision.csv`, `revision.json`, and `revision.xlsx`.
 
-| Column                    | Description                                     |
-|---------------------------|-------------------------------------------------|
-| id                        | The legal hold id.                              |
-| name                      | Policy name.                                    |
-| description               | A description of the legal hold policy.         |
-| status                    | The current state of the hold.                  |
-| start_date                | Start date of the legal hold policy.            |
-| end_date                  | End date of the legal hold policy.              |
-| activation_time           | The time at which the legal hold was activated. |
-| permanently_deleted_users | Number of users permanently removed.            |
+| Column | Description |
+|--------|-------------|
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policy_0000.xlsx`, `policy_0001.xlsx`, `policy_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `revision_0000.xlsx`, `revision_0001.xlsx`, `revision_0002.xlsx`, ...
 
 # Proxy configuration
 
