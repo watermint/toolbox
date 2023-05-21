@@ -6,7 +6,7 @@ lang: ja
 
 # team legalhold update name
 
-Update name of the legal hold policy 
+リーガルホールドポリシーの名称を更新 
 
 # セキュリティ
 
@@ -80,11 +80,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                 | デフォルト |
-|--------------|----------------------|------------|
-| `-name`      | New name             |            |
-| `-peer`      | Account alias        | default    |
-| `-policy-id` | Legal hold policy ID |            |
+| オプション   | 説明                         | デフォルト |
+|--------------|------------------------------|------------|
+| `-name`      | 新しい名前                   |            |
+| `-peer`      | アカウントの別名             | default    |
+| `-policy-id` | リーガルホールド・ポリシーID |            |
 
 ## 共通のオプション:
 
@@ -121,19 +121,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: policy
 
-Legal hold policy
+リーガルホールドポリシー
 このコマンドはレポートを3種類の書式で出力します. `policy.csv`, `policy.json`, ならびに `policy.xlsx`.
 
-| 列                        | 説明                                            |
-|---------------------------|-------------------------------------------------|
-| id                        | The legal hold id.                              |
-| name                      | Policy name.                                    |
-| description               | A description of the legal hold policy.         |
-| status                    | The current state of the hold.                  |
-| start_date                | Start date of the legal hold policy.            |
-| end_date                  | End date of the legal hold policy.              |
-| activation_time           | The time at which the legal hold was activated. |
-| permanently_deleted_users | Number of users permanently removed.            |
+| 列                        | 説明                                      |
+|---------------------------|-------------------------------------------|
+| id                        | リーガルホールドのid.                     |
+| name                      | ポリシー名                                |
+| description               | リーガルホールドのポリシーについての説明. |
+| status                    | 現在のホールドの状態です.                 |
+| start_date                | リーガルホールド・ポリシーの開始日.       |
+| end_date                  | リーガルホールド・ポリシーの終了日.       |
+| activation_time           | リーガルホールドが作動した時刻.           |
+| permanently_deleted_users | 恒久的に削除されたユーザーの数.           |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

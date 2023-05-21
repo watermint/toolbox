@@ -6,7 +6,7 @@ lang: ja
 
 # team legalhold revision list
 
-List revisions of the legal hold policy 
+リーガル・ホールド・ポリシーのリビジョンをリストアップする 
 
 # セキュリティ
 
@@ -80,11 +80,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                                             | デフォルト |
-|--------------|--------------------------------------------------|------------|
-| `-after`     | Get revisions after this specified date and time |            |
-| `-peer`      | Account alias                                    | default    |
-| `-policy-id` | Legal hold policy ID                             |            |
+| オプション   | 説明                                       | デフォルト |
+|--------------|--------------------------------------------|------------|
+| `-after`     | この指定した日時以降のリビジョンを取得する |            |
+| `-peer`      | アカウントの別名                           | default    |
+| `-policy-id` | リーガルホールド・ポリシーID               |            |
 
 ## 共通のオプション:
 
@@ -121,7 +121,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: revision
 
-Revision
+リビジョン
 このコマンドはレポートを3種類の書式で出力します. `revision.csv`, `revision.json`, ならびに `revision.xlsx`.
 
 | 列 | 説明 |

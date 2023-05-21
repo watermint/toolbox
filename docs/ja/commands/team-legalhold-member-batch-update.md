@@ -6,7 +6,7 @@ lang: ja
 
 # team legalhold member batch update
 
-Update member list of legal hold policy 
+リーガル・ホールド・ポリシーのメンバーリスト更新 
 
 # セキュリティ
 
@@ -80,11 +80,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                     | デフォルト |
-|--------------|--------------------------|------------|
-| `-member`    | Path to member list file |            |
-| `-peer`      | Account alias            | default    |
-| `-policy-id` | Legal hold policy ID     |            |
+| オプション   | 説明                             | デフォルト |
+|--------------|----------------------------------|------------|
+| `-member`    | メンバーリスト・ファイルへのパス |            |
+| `-peer`      | アカウントの別名                 | default    |
+| `-policy-id` | リーガルホールド・ポリシーID     |            |
 
 ## 共通のオプション:
 
@@ -113,11 +113,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: Member
 
-Member email address
+メンバーのメールアドレス
 
-| 列    | 説明          | 例               |
-|-------|---------------|------------------|
-| email | Email address | emma@example.com |
+| 列    | 説明           | 例               |
+|-------|----------------|------------------|
+| email | メールアドレス | emma@example.com |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```

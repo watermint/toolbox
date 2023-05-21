@@ -6,7 +6,7 @@ lang: ja
 
 # team legalhold member list
 
-List members of the legal hold 
+リーガルホールドのメンバーをリストアップ 
 
 # セキュリティ
 
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                 | デフォルト |
-|--------------|----------------------|------------|
-| `-peer`      | Account alias        | default    |
-| `-policy-id` | Legal hold policy ID |            |
+| オプション   | 説明                         | デフォルト |
+|--------------|------------------------------|------------|
+| `-peer`      | アカウントの別名             | default    |
+| `-policy-id` | リーガルホールド・ポリシーID |            |
 
 ## 共通のオプション:
 

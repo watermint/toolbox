@@ -116,7 +116,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Format: Member
 
-Select members
+Member email address
 
 | Column | Description               | Example          |
 |--------|---------------------------|------------------|

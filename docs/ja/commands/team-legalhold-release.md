@@ -6,7 +6,7 @@ lang: ja
 
 # team legalhold release
 
-Releases a legal hold by Id 
+Idによるリーガルホールドを解除する 
 
 # セキュリティ
 
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション   | 説明                 | デフォルト |
-|--------------|----------------------|------------|
-| `-peer`      | Account alias        | default    |
-| `-policy-id` | Legal hold policy ID |            |
+| オプション   | 説明                         | デフォルト |
+|--------------|------------------------------|------------|
+| `-peer`      | アカウントの別名             | default    |
+| `-policy-id` | リーガルホールド・ポリシーID |            |
 
 ## 共通のオプション:
 
