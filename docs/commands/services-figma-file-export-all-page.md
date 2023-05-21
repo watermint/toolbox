@@ -8,6 +8,8 @@ lang: en
 
 Export all files/pages under the team 
 
+This command exports all pages for the files below the team. However, if the same file already exists in the export destination, the watermint toolbox compares the timestamps and downloads only if there are updates. Also, if the page does not contain any content, the process is skipped.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:

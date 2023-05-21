@@ -380,6 +380,21 @@ tbx member list -experiment report_all_columns
 | [team runas sharedfolder member batch add]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-add.html)       | メンバーの共有フォルダにメンバーを一括追加                                              |
 | [team runas sharedfolder member batch delete]({{ site.baseurl }}/ja/commands/team-runas-sharedfolder-member-batch-delete.html) | メンバーの共有フォルダからメンバーを一括削除                                            |
 
+# リーガルホールド
+
+リーガルホールドでは、管理者はチームのメンバーをリーガルホールドし、そのメンバーが作成または変更したすべてのコンテンツを表示およびエクスポートすることができます.
+
+| コマンド                                                                                                     | 説明                                                       |
+|--------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| [team legalhold add]({{ site.baseurl }}/ja/commands/team-legalhold-add.html)                                 | 新しいリーガル・ホールド・ポリシーを作成する.              |
+| [team legalhold list]({{ site.baseurl }}/ja/commands/team-legalhold-list.html)                               | 既存のポリシーを取得する                                   |
+| [team legalhold member batch update]({{ site.baseurl }}/ja/commands/team-legalhold-member-batch-update.html) | リーガル・ホールド・ポリシーのメンバーリスト更新           |
+| [team legalhold member list]({{ site.baseurl }}/ja/commands/team-legalhold-member-list.html)                 | リーガルホールドのメンバーをリストアップ                   |
+| [team legalhold release]({{ site.baseurl }}/ja/commands/team-legalhold-release.html)                         | Idによるリーガルホールドを解除する                         |
+| [team legalhold revision list]({{ site.baseurl }}/ja/commands/team-legalhold-revision-list.html)             | リーガル・ホールド・ポリシーのリビジョンをリストアップする |
+| [team legalhold update desc]({{ site.baseurl }}/ja/commands/team-legalhold-update-desc.html)                 | リーガルホールド・ポリシーの説明を更新                     |
+| [team legalhold update name]({{ site.baseurl }}/ja/commands/team-legalhold-update-name.html)                 | リーガルホールドポリシーの名称を更新                       |
+
 # 注意事項:
 
 Dropbox Businessのコマンドを実行するには、管理者権限が必要です. 認証トークンは、Dropboxのサポートを含め、誰とも共有してはいけません.

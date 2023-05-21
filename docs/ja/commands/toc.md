@@ -144,6 +144,14 @@ lang: ja
 | [team feature]({{ site.baseurl }}/ja/commands/team-feature.html)                                                               | チームの機能を出力します                                                                |
 | [team filerequest list]({{ site.baseurl }}/ja/commands/team-filerequest-list.html)                                             | チームないのファイルリクエストを一覧します                                              |
 | [team info]({{ site.baseurl }}/ja/commands/team-info.html)                                                                     | チームの情報                                                                            |
+| [team legalhold add]({{ site.baseurl }}/ja/commands/team-legalhold-add.html)                                                   | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
+| [team legalhold list]({{ site.baseurl }}/ja/commands/team-legalhold-list.html)                                                 | 既存のポリシーを取得する                                                                |
+| [team legalhold member batch update]({{ site.baseurl }}/ja/commands/team-legalhold-member-batch-update.html)                   | リーガル・ホールド・ポリシーのメンバーリスト更新                                        |
+| [team legalhold member list]({{ site.baseurl }}/ja/commands/team-legalhold-member-list.html)                                   | リーガルホールドのメンバーをリストアップ                                                |
+| [team legalhold release]({{ site.baseurl }}/ja/commands/team-legalhold-release.html)                                           | Idによるリーガルホールドを解除する                                                      |
+| [team legalhold revision list]({{ site.baseurl }}/ja/commands/team-legalhold-revision-list.html)                               | リーガル・ホールド・ポリシーのリビジョンをリストアップする                              |
+| [team legalhold update desc]({{ site.baseurl }}/ja/commands/team-legalhold-update-desc.html)                                   | リーガルホールド・ポリシーの説明を更新                                                  |
+| [team legalhold update name]({{ site.baseurl }}/ja/commands/team-legalhold-update-name.html)                                   | リーガルホールドポリシーの名称を更新                                                    |
 | [team linkedapp list]({{ site.baseurl }}/ja/commands/team-linkedapp-list.html)                                                 | リンク済みアプリを一覧                                                                  |
 | [team namespace file list]({{ site.baseurl }}/ja/commands/team-namespace-file-list.html)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
 | [team namespace file size]({{ site.baseurl }}/ja/commands/team-namespace-file-size.html)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |

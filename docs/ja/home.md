@@ -6,7 +6,7 @@ Dropbox、Dropbox Business、Google、GitHubなどのWebサービスに対応し
 
 # watermint toolboxでもっとできること
 
-watermint toolboxには、日々の作業を解決するための268コマンドが用意されています. 例えば、あなたがDropbox Businessの管理者で、グループを管理する必要がある場合. グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
+watermint toolboxには、日々の作業を解決するための276コマンドが用意されています. 例えば、あなたがDropbox Businessの管理者で、グループを管理する必要がある場合. グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
