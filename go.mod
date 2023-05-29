@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	git.mills.io/prologic/bitcask v1.0.2
-	github.com/asticode/go-astikit v0.39.0
+	github.com/asticode/go-astikit v0.40.0
 	github.com/asticode/go-astilectron v0.30.0
 	github.com/boombuler/barcode v1.0.1
 	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
@@ -37,7 +37,6 @@ require (
 )
 
 require (
-	cloud.google.com/go/compute v1.8.0 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230518184743-7afd39499903 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
@@ -69,7 +68,6 @@ require (
 	github.com/lufia/plan9stats v0.0.0-20230326075908-cb1d2100619a // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
-	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
@@ -82,6 +80,7 @@ require (
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/sirupsen/logrus v1.9.2 // indirect
 	github.com/skeema/knownhosts v1.1.1 // indirect
+	github.com/tdewolff/test v1.0.9 // indirect
 	github.com/tidwall/match v1.1.1 // indirect
 	github.com/tidwall/pretty v1.2.1 // indirect
 	github.com/tklauser/go-sysconf v0.3.11 // indirect
@@ -100,6 +99,5 @@ require (
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
-	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
