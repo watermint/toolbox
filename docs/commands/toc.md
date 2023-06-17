@@ -95,6 +95,7 @@ lang: en
 | [group member delete]({{ site.baseurl }}/commands/group-member-delete.html)                                                 | Delete a member from the group                                                      |
 | [group member list]({{ site.baseurl }}/commands/group-member-list.html)                                                     | List members of groups                                                              |
 | [group rename]({{ site.baseurl }}/commands/group-rename.html)                                                               | Rename the group                                                                    |
+| [group update type]({{ site.baseurl }}/commands/group-update-type.html)                                                     | Update group management type                                                        |
 | [member batch suspend]({{ site.baseurl }}/commands/member-batch-suspend.html)                                               | Bulk suspend members                                                                |
 | [member batch unsuspend]({{ site.baseurl }}/commands/member-batch-unsuspend.html)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)                                         | Clear external_id of members                                                        |
@@ -198,6 +199,7 @@ lang: en
 | [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)                                             | Permanently delete team folder                                                      |
 | [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                                           | List policies of team folders                                                       |
 | [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                           | Replicate a team folder to the other team                                           |
+| [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html)                               | List team folder sync settings                                                      |
 | [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html)                                 | List files and folders in team space run as admin                                   |
 | [teamspace asadmin folder add]({{ site.baseurl }}/commands/teamspace-asadmin-folder-add.html)                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)                         | Delete top level folder of the team space                                           |

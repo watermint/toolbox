@@ -173,6 +173,7 @@ Available commands:
 | [group member delete](docs/commands/group-member-delete.md)                                                 | Delete a member from the group                                                      |
 | [group member list](docs/commands/group-member-list.md)                                                     | List members of groups                                                              |
 | [group rename](docs/commands/group-rename.md)                                                               | Rename the group                                                                    |
+| [group update type](docs/commands/group-update-type.md)                                                     | Update group management type                                                        |
 | [member batch suspend](docs/commands/member-batch-suspend.md)                                               | Bulk suspend members                                                                |
 | [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid](docs/commands/member-clear-externalid.md)                                         | Clear external_id of members                                                        |
@@ -276,6 +277,7 @@ Available commands:
 | [teamfolder permdelete](docs/commands/teamfolder-permdelete.md)                                             | Permanently delete team folder                                                      |
 | [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                                           | List policies of team folders                                                       |
 | [teamfolder replication](docs/commands/teamfolder-replication.md)                                           | Replicate a team folder to the other team                                           |
+| [teamfolder sync setting list](docs/commands/teamfolder-sync-setting-list.md)                               | List team folder sync settings                                                      |
 | [teamspace asadmin file list](docs/commands/teamspace-asadmin-file-list.md)                                 | List files and folders in team space run as admin                                   |
 | [teamspace asadmin folder add](docs/commands/teamspace-asadmin-folder-add.md)                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                         | Delete top level folder of the team space                                           |

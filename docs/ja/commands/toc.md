@@ -95,6 +95,7 @@ lang: ja
 | [group member delete]({{ site.baseurl }}/ja/commands/group-member-delete.html)                                                 | メンバーをグループから削除                                                              |
 | [group member list]({{ site.baseurl }}/ja/commands/group-member-list.html)                                                     | グループに所属するメンバー一覧を取得します                                              |
 | [group rename]({{ site.baseurl }}/ja/commands/group-rename.html)                                                               | グループの改名                                                                          |
+| [group update type]({{ site.baseurl }}/ja/commands/group-update-type.html)                                                     | グループ管理タイプの更新                                                                |
 | [member batch suspend]({{ site.baseurl }}/ja/commands/member-batch-suspend.html)                                               | メンバーの一括一時停止                                                                  |
 | [member batch unsuspend]({{ site.baseurl }}/ja/commands/member-batch-unsuspend.html)                                           | メンバーの一括停止解除                                                                  |
 | [member clear externalid]({{ site.baseurl }}/ja/commands/member-clear-externalid.html)                                         | メンバーのexternal_idを初期化します                                                     |
@@ -198,6 +199,7 @@ lang: ja
 | [teamfolder permdelete]({{ site.baseurl }}/ja/commands/teamfolder-permdelete.html)                                             | チームフォルダを完全に削除します                                                        |
 | [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication]({{ site.baseurl }}/ja/commands/teamfolder-replication.html)                                           | チームフォルダを他のチームに複製します                                                  |
+| [teamfolder sync setting list]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-list.html)                               | チームフォルダーの同期設定を一覧表示                                                    |
 | [teamspace asadmin file list]({{ site.baseurl }}/ja/commands/teamspace-asadmin-file-list.html)                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
 | [teamspace asadmin folder add]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-add.html)                               | チームスペースにトップレベルのフォルダーを作成                                          |
 | [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)                         | チームスペースのトップレベルフォルダーを削除する                                        |

@@ -49,6 +49,7 @@ import (
 	recipegroupfolder "github.com/watermint/toolbox/recipe/group/folder"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
+	recipegroupupdate "github.com/watermint/toolbox/recipe/group/update"
 	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
 	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
 	recipemember "github.com/watermint/toolbox/recipe/member"
@@ -138,6 +139,7 @@ import (
 	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
 	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
 	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
+	recipeteamfoldersyncsetting "github.com/watermint/toolbox/recipe/teamfolder/sync/setting"
 	recipeteamspaceasadminfile "github.com/watermint/toolbox/recipe/teamspace/asadmin/file"
 	recipeteamspaceasadminfolder "github.com/watermint/toolbox/recipe/teamspace/asadmin/folder"
 	recipeteamspaceasadminmember "github.com/watermint/toolbox/recipe/teamspace/asadmin/member"
@@ -282,6 +284,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmemberbatch.Add{},
 		&recipegroupmemberbatch.Delete{},
 		&recipegroupmemberbatch.Update{},
+		&recipegroupupdate.Type{},
 		&recipejobhistory.Archive{},
 		&recipejobhistory.Delete{},
 		&recipejobhistory.List{},
@@ -468,6 +471,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfoldermember.List{},
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
+		&recipeteamfoldersyncsetting.List{},
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},

@@ -171,6 +171,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group member delete](docs/ja/commands/group-member-delete.md)                                                 | メンバーをグループから削除                                                              |
 | [group member list](docs/ja/commands/group-member-list.md)                                                     | グループに所属するメンバー一覧を取得します                                              |
 | [group rename](docs/ja/commands/group-rename.md)                                                               | グループの改名                                                                          |
+| [group update type](docs/ja/commands/group-update-type.md)                                                     | グループ管理タイプの更新                                                                |
 | [member batch suspend](docs/ja/commands/member-batch-suspend.md)                                               | メンバーの一括一時停止                                                                  |
 | [member batch unsuspend](docs/ja/commands/member-batch-unsuspend.md)                                           | メンバーの一括停止解除                                                                  |
 | [member clear externalid](docs/ja/commands/member-clear-externalid.md)                                         | メンバーのexternal_idを初期化します                                                     |
@@ -274,6 +275,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder permdelete](docs/ja/commands/teamfolder-permdelete.md)                                             | チームフォルダを完全に削除します                                                        |
 | [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                  |
+| [teamfolder sync setting list](docs/ja/commands/teamfolder-sync-setting-list.md)                               | チームフォルダーの同期設定を一覧表示                                                    |
 | [teamspace asadmin file list](docs/ja/commands/teamspace-asadmin-file-list.md)                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
 | [teamspace asadmin folder add](docs/ja/commands/teamspace-asadmin-folder-add.md)                               | チームスペースにトップレベルのフォルダーを作成                                          |
 | [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                         | チームスペースのトップレベルフォルダーを削除する                                        |

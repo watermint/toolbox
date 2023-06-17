@@ -82,14 +82,15 @@ Directory restriction is the Dropbox Business feature to hide a member from othe
 
 Below commands are for managing groups.
 
-| Command                                                                   | Description        |
-|---------------------------------------------------------------------------|--------------------|
-| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group   |
-| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group       |
-| [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)       | Bulk adding groups |
-| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups      |
-| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)      |
-| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group   |
+| Command                                                                   | Description                  |
+|---------------------------------------------------------------------------|------------------------------|
+| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group             |
+| [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)       | Bulk adding groups           |
+| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups                |
+| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group                 |
+| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)                |
+| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group             |
+| [group update type]({{ site.baseurl }}/commands/group-update-type.html)   | Update group management type |
 
 ## Group member management commands
 
@@ -128,15 +129,16 @@ You can create, archive or permanently delete team folders by using the below co
 
 | Command                                                                                       | Description                       |
 |-----------------------------------------------------------------------------------------------|-----------------------------------|
-| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                           | List team folder(s)               |
-| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)             | List policies of team folders     |
-| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                 | Calculate size of team folders    |
 | [teamfolder add]({{ site.baseurl }}/commands/teamfolder-add.html)                             | Add team folder to the team       |
 | [teamfolder archive]({{ site.baseurl }}/commands/teamfolder-archive.html)                     | Archive team folder               |
-| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)               | Permanently delete team folder    |
 | [teamfolder batch archive]({{ site.baseurl }}/commands/teamfolder-batch-archive.html)         | Archiving team folders            |
 | [teamfolder batch permdelete]({{ site.baseurl }}/commands/teamfolder-batch-permdelete.html)   | Permanently delete team folders   |
 | [teamfolder batch replication]({{ site.baseurl }}/commands/teamfolder-batch-replication.html) | Batch replication of team folders |
+| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                 | Calculate size of team folders    |
+| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                           | List team folder(s)               |
+| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)               | Permanently delete team folder    |
+| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)             | List policies of team folders     |
+| [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html) | List team folder sync settings    |
 
 ## Team folder permission commands
 
