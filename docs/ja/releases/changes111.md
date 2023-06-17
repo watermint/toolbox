@@ -49,23 +49,23 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "KeyName", Desc: "アプリケーションキー名", TypeName: "string"},
-  		&{Name: "PeerName", Desc: "ピア名", TypeName: "string"},
-- 		&{
-- 			Name:     "Scope",
-- 			Desc:     "認証スコープ",
-- 			TypeName: "essentials.model.mo_string.opt_string",
-- 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "KeyName", Desc: "アプリケーションキー名", TypeName: "string"},
+  		&{Name: "PeerName", Desc: "ピア名", TypeName: "string"},
+- 		&{
+- 			Name:     "Scope",
+- 			Desc:     "認証スコープ",
+- 			TypeName: "essentials.model.mo_string.opt_string",
+- 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 
 ## 追加されたレポート

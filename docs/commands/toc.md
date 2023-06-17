@@ -95,6 +95,7 @@ lang: en
 | [group member delete]({{ site.baseurl }}/commands/group-member-delete.html)                                                 | Delete a member from the group                                                      |
 | [group member list]({{ site.baseurl }}/commands/group-member-list.html)                                                     | List members of groups                                                              |
 | [group rename]({{ site.baseurl }}/commands/group-rename.html)                                                               | Rename the group                                                                    |
+| [group update type]({{ site.baseurl }}/commands/group-update-type.html)                                                     | Update group management type                                                        |
 | [member batch suspend]({{ site.baseurl }}/commands/member-batch-suspend.html)                                               | Bulk suspend members                                                                |
 | [member batch unsuspend]({{ site.baseurl }}/commands/member-batch-unsuspend.html)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)                                         | Clear external_id of members                                                        |

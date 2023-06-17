@@ -82,14 +82,15 @@ lang: ja
 
 以下のコマンドはグループを管理するためのものです.
 
-| コマンド                                                                     | 説明                 |
-|------------------------------------------------------------------------------|----------------------|
-| [group add]({{ site.baseurl }}/ja/commands/group-add.html)                   | グループを作成します |
-| [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)             | グループを削除します |
-| [group batch add]({{ site.baseurl }}/ja/commands/group-batch-add.html)       | グループの一括追加   |
-| [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html) | グループの削除       |
-| [group list]({{ site.baseurl }}/ja/commands/group-list.html)                 | グループを一覧       |
-| [group rename]({{ site.baseurl }}/ja/commands/group-rename.html)             | グループの改名       |
+| コマンド                                                                     | 説明                     |
+|------------------------------------------------------------------------------|--------------------------|
+| [group add]({{ site.baseurl }}/ja/commands/group-add.html)                   | グループを作成します     |
+| [group batch add]({{ site.baseurl }}/ja/commands/group-batch-add.html)       | グループの一括追加       |
+| [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html) | グループの削除           |
+| [group delete]({{ site.baseurl }}/ja/commands/group-delete.html)             | グループを削除します     |
+| [group list]({{ site.baseurl }}/ja/commands/group-list.html)                 | グループを一覧           |
+| [group rename]({{ site.baseurl }}/ja/commands/group-rename.html)             | グループの改名           |
+| [group update type]({{ site.baseurl }}/ja/commands/group-update-type.html)   | グループ管理タイプの更新 |
 
 ## グループメンバー管理コマンド
 

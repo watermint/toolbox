@@ -173,6 +173,7 @@ Available commands:
 | [group member delete](docs/commands/group-member-delete.md)                                                 | Delete a member from the group                                                      |
 | [group member list](docs/commands/group-member-list.md)                                                     | List members of groups                                                              |
 | [group rename](docs/commands/group-rename.md)                                                               | Rename the group                                                                    |
+| [group update type](docs/commands/group-update-type.md)                                                     | Update group management type                                                        |
 | [member batch suspend](docs/commands/member-batch-suspend.md)                                               | Bulk suspend members                                                                |
 | [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid](docs/commands/member-clear-externalid.md)                                         | Clear external_id of members                                                        |

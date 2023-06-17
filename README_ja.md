@@ -171,6 +171,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [group member delete](docs/ja/commands/group-member-delete.md)                                                 | メンバーをグループから削除                                                              |
 | [group member list](docs/ja/commands/group-member-list.md)                                                     | グループに所属するメンバー一覧を取得します                                              |
 | [group rename](docs/ja/commands/group-rename.md)                                                               | グループの改名                                                                          |
+| [group update type](docs/ja/commands/group-update-type.md)                                                     | グループ管理タイプの更新                                                                |
 | [member batch suspend](docs/ja/commands/member-batch-suspend.md)                                               | メンバーの一括一時停止                                                                  |
 | [member batch unsuspend](docs/ja/commands/member-batch-unsuspend.md)                                           | メンバーの一括停止解除                                                                  |
 | [member clear externalid](docs/ja/commands/member-clear-externalid.md)                                         | メンバーのexternal_idを初期化します                                                     |

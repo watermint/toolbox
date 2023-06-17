@@ -82,14 +82,15 @@ Directory restriction is the Dropbox Business feature to hide a member from othe
 
 Below commands are for managing groups.
 
-| Command                                                                   | Description        |
-|---------------------------------------------------------------------------|--------------------|
-| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group   |
-| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group       |
-| [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)       | Bulk adding groups |
-| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups      |
-| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)      |
-| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group   |
+| Command                                                                   | Description                  |
+|---------------------------------------------------------------------------|------------------------------|
+| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group             |
+| [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)       | Bulk adding groups           |
+| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups                |
+| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group                 |
+| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)                |
+| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group             |
+| [group update type]({{ site.baseurl }}/commands/group-update-type.html)   | Update group management type |
 
 ## Group member management commands
 

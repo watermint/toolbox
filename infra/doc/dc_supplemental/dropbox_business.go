@@ -289,11 +289,12 @@ func (z DropboxBusinessGroup) Body(ui app_ui.UI) {
 
 	z.cat.RecipeTable("group management", ui, []string{
 		"group add",
-		"group delete",
 		"group batch add",
 		"group batch delete",
+		"group delete",
 		"group list",
 		"group rename",
+		"group update type",
 	})
 
 	ui.SubHeader(MDropboxBusiness.GroupMemberTitle)

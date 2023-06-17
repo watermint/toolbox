@@ -95,6 +95,7 @@ lang: ja
 | [group member delete]({{ site.baseurl }}/ja/commands/group-member-delete.html)                                                 | メンバーをグループから削除                                                              |
 | [group member list]({{ site.baseurl }}/ja/commands/group-member-list.html)                                                     | グループに所属するメンバー一覧を取得します                                              |
 | [group rename]({{ site.baseurl }}/ja/commands/group-rename.html)                                                               | グループの改名                                                                          |
+| [group update type]({{ site.baseurl }}/ja/commands/group-update-type.html)                                                     | グループ管理タイプの更新                                                                |
 | [member batch suspend]({{ site.baseurl }}/ja/commands/member-batch-suspend.html)                                               | メンバーの一括一時停止                                                                  |
 | [member batch unsuspend]({{ site.baseurl }}/ja/commands/member-batch-unsuspend.html)                                           | メンバーの一括停止解除                                                                  |
 | [member clear externalid]({{ site.baseurl }}/ja/commands/member-clear-externalid.html)                                         | メンバーのexternal_idを初期化します                                                     |
