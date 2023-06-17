@@ -333,15 +333,16 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.ContentTeamFolderOperationTitle)
 	ui.Info(MDropboxBusiness.ContentTeamFolderOperationInfo)
 	z.cat.RecipeTable("team folder operation", ui, []string{
-		"teamfolder list",
-		"teamfolder policy list",
-		"teamfolder file size",
 		"teamfolder add",
 		"teamfolder archive",
-		"teamfolder permdelete",
 		"teamfolder batch archive",
 		"teamfolder batch permdelete",
 		"teamfolder batch replication",
+		"teamfolder file size",
+		"teamfolder list",
+		"teamfolder permdelete",
+		"teamfolder policy list",
+		"teamfolder sync setting list",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamFolderPermissionTitle)

@@ -128,15 +128,16 @@ You can create, archive or permanently delete team folders by using the below co
 
 | Command                                                                                       | Description                       |
 |-----------------------------------------------------------------------------------------------|-----------------------------------|
-| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                           | List team folder(s)               |
-| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)             | List policies of team folders     |
-| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                 | Calculate size of team folders    |
 | [teamfolder add]({{ site.baseurl }}/commands/teamfolder-add.html)                             | Add team folder to the team       |
 | [teamfolder archive]({{ site.baseurl }}/commands/teamfolder-archive.html)                     | Archive team folder               |
-| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)               | Permanently delete team folder    |
 | [teamfolder batch archive]({{ site.baseurl }}/commands/teamfolder-batch-archive.html)         | Archiving team folders            |
 | [teamfolder batch permdelete]({{ site.baseurl }}/commands/teamfolder-batch-permdelete.html)   | Permanently delete team folders   |
 | [teamfolder batch replication]({{ site.baseurl }}/commands/teamfolder-batch-replication.html) | Batch replication of team folders |
+| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                 | Calculate size of team folders    |
+| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                           | List team folder(s)               |
+| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)               | Permanently delete team folder    |
+| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)             | List policies of team folders     |
+| [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html) | List team folder sync settings    |
 
 ## Team folder permission commands
 

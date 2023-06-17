@@ -128,15 +128,16 @@ lang: ja
 
 | コマンド                                                                                         | 説明                                   |
 |--------------------------------------------------------------------------------------------------|----------------------------------------|
-| [teamfolder list]({{ site.baseurl }}/ja/commands/teamfolder-list.html)                           | チームフォルダの一覧                   |
-| [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)             | チームフォルダのポリシー一覧           |
-| [teamfolder file size]({{ site.baseurl }}/ja/commands/teamfolder-file-size.html)                 | チームフォルダのサイズを計算           |
 | [teamfolder add]({{ site.baseurl }}/ja/commands/teamfolder-add.html)                             | チームフォルダを追加します             |
 | [teamfolder archive]({{ site.baseurl }}/ja/commands/teamfolder-archive.html)                     | チームフォルダのアーカイブ             |
-| [teamfolder permdelete]({{ site.baseurl }}/ja/commands/teamfolder-permdelete.html)               | チームフォルダを完全に削除します       |
 | [teamfolder batch archive]({{ site.baseurl }}/ja/commands/teamfolder-batch-archive.html)         | 複数のチームフォルダをアーカイブします |
 | [teamfolder batch permdelete]({{ site.baseurl }}/ja/commands/teamfolder-batch-permdelete.html)   | 複数のチームフォルダを完全に削除します |
 | [teamfolder batch replication]({{ site.baseurl }}/ja/commands/teamfolder-batch-replication.html) | チームフォルダの一括レプリケーション   |
+| [teamfolder file size]({{ site.baseurl }}/ja/commands/teamfolder-file-size.html)                 | チームフォルダのサイズを計算           |
+| [teamfolder list]({{ site.baseurl }}/ja/commands/teamfolder-list.html)                           | チームフォルダの一覧                   |
+| [teamfolder permdelete]({{ site.baseurl }}/ja/commands/teamfolder-permdelete.html)               | チームフォルダを完全に削除します       |
+| [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)             | チームフォルダのポリシー一覧           |
+| [teamfolder sync setting list]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-list.html) | チームフォルダーの同期設定を一覧表示   |
 
 ## チームフォルダの権限コマンド
 

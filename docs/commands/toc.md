@@ -198,6 +198,7 @@ lang: en
 | [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)                                             | Permanently delete team folder                                                      |
 | [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                                           | List policies of team folders                                                       |
 | [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                           | Replicate a team folder to the other team                                           |
+| [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html)                               | List team folder sync settings                                                      |
 | [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html)                                 | List files and folders in team space run as admin                                   |
 | [teamspace asadmin folder add]({{ site.baseurl }}/commands/teamspace-asadmin-folder-add.html)                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)                         | Delete top level folder of the team space                                           |

@@ -34,4 +34,15 @@ func TestTeamFolder(t *testing.T) {
 		tf.Name != "Marketing" {
 		t.Error("invalid")
 	}
+
+	css := tf.ContentSyncSettings()
+	if lcss := len(css); lcss != 1 {
+		t.Error(lcss)
+	}
+	if css[0].Id != "id:a4ayc_80_OEAAAAAAAAAXw" {
+		t.Error(css[0].Id)
+	}
+	if css[0].SyncSetting != "default" {
+		t.Error(css[0].SyncSetting)
+	}
 }
