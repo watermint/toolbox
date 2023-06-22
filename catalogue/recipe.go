@@ -472,6 +472,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
 		&recipeteamfoldersyncsetting.List{},
+		&recipeteamfoldersyncsetting.Update{},
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},

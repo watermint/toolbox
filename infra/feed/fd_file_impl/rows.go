@@ -18,7 +18,8 @@ import (
 )
 
 type MsgRowFeed struct {
-	ErrorUnableToRead app_msg.Message
+	ErrorUnableToRead  app_msg.Message
+	ErrorRowValidation app_msg.Message
 }
 
 var (
@@ -247,6 +248,24 @@ func (z *RowFeed) row(cols []string) (m interface{}, err error) {
 		}
 	}
 	return rm.Interface(), nil
+}
+
+func (z *RowFeed) Validate(validator func(m interface{}, rowIndex int) (app_msg.Message, error)) error {
+	var lastErr error
+
+	_ = z.EachRow(func(m interface{}, rowIndex int) error {
+		message, err := validator(m, rowIndex)
+		if err != nil {
+			lastErr = err
+			z.ctl.UI().Error(MRowFeed.ErrorRowValidation.
+				With("Row", rowIndex).
+				With("Error", err).
+				With("Message", z.ctl.UI().Text(message)))
+		}
+		return nil
+	})
+
+	return lastErr
 }
 
 func (z *RowFeed) EachRow(exec func(m interface{}, rowIndex int) error) (err error) {

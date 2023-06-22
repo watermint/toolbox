@@ -200,6 +200,7 @@ lang: ja
 | [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication]({{ site.baseurl }}/ja/commands/teamfolder-replication.html)                                           | チームフォルダを他のチームに複製します                                                  |
 | [teamfolder sync setting list]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-list.html)                               | チームフォルダーの同期設定を一覧表示                                                    |
+| [teamfolder sync setting update]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-update.html)                           | Batch update team folder sync settings                                                  |
 | [teamspace asadmin file list]({{ site.baseurl }}/ja/commands/teamspace-asadmin-file-list.html)                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
 | [teamspace asadmin folder add]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-add.html)                               | チームスペースにトップレベルのフォルダーを作成                                          |
 | [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)                         | チームスペースのトップレベルフォルダーを削除する                                        |
