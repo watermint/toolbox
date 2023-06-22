@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-TEST_RESULTS=test/results
-TEST_DEBUG=test/debug
+TEST_RESULTS=./test/results
+TEST_DEBUG=./test/debug
 TEST_OUT=$TEST_DEBUG/all.out
 TEST_ERR=$TEST_DEBUG/err.out
 TEST_PROFILE=coverage.txt
