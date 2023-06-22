@@ -10,11 +10,7 @@ func TestUpdateSetting_Split(t *testing.T) {
 		u1 := UpdateSetting{
 			Path: "/Sales/Report",
 		}
-		teamFolder, path, err := u1.Split()
-		if err != nil {
-			t.Error(err)
-			return
-		}
+		teamFolder, path := u1.Split()
 		if teamFolder != "Sales" {
 			t.Error(teamFolder)
 		}
@@ -27,11 +23,7 @@ func TestUpdateSetting_Split(t *testing.T) {
 		u1 := UpdateSetting{
 			Path: "Sales/Report",
 		}
-		teamFolder, path, err := u1.Split()
-		if err != nil {
-			t.Error(err)
-			return
-		}
+		teamFolder, path := u1.Split()
 		if teamFolder != "Sales" {
 			t.Error(teamFolder)
 		}
@@ -44,11 +36,7 @@ func TestUpdateSetting_Split(t *testing.T) {
 		u1 := UpdateSetting{
 			Path: "/Sales",
 		}
-		teamFolder, path, err := u1.Split()
-		if err != nil {
-			t.Error(err)
-			return
-		}
+		teamFolder, path := u1.Split()
 		if teamFolder != "Sales" {
 			t.Error(teamFolder)
 		}
@@ -61,11 +49,7 @@ func TestUpdateSetting_Split(t *testing.T) {
 		u1 := UpdateSetting{
 			Path: "Sales",
 		}
-		teamFolder, path, err := u1.Split()
-		if err != nil {
-			t.Error(err)
-			return
-		}
+		teamFolder, path := u1.Split()
 		if teamFolder != "Sales" {
 			t.Error(teamFolder)
 		}
