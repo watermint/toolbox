@@ -46,7 +46,7 @@ func (z UpdateSetting) Split() (teamFolder, path string) {
 type Update struct {
 	Peer                               dbx_conn.ConnScopedTeam
 	File                               fd_file.RowFeed
-	Updated                            rp_model.RowReport
+	Updated                            rp_model.TransactionReport
 	ErrorInvalidLineTeamFolderNotFound app_msg.Message
 	ErrorInvalidLineSyncSetting        app_msg.Message
 	ErrorInvalidLinePathNotFound       app_msg.Message
@@ -54,7 +54,7 @@ type Update struct {
 
 func (z *Update) Preset() {
 	z.File.SetModel(&UpdateSetting{})
-	z.Updated.SetModel(&mo_teamfolder.TeamFolder{})
+	z.Updated.SetModel(&UpdateSetting{}, &mo_teamfolder.TeamFolder{})
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesMetadataRead,
 		dbx_auth.ScopeTeamDataContentRead,
@@ -147,9 +147,10 @@ func (z *Update) Exec(c app_control.Control) error {
 			updated, err = svt.UpdateSyncSetting(tf, sv_teamfolder.RootSyncSetting(strings.TrimSpace(setting.SyncSetting)))
 		}
 		if err != nil {
+			z.Updated.Failure(err, setting)
 			return err
 		}
-		z.Updated.Row(updated)
+		z.Updated.Success(setting, updated)
 		return nil
 	})
 }

@@ -26,8 +26,14 @@ Batch update team folder sync settings
 
 ## 認可スコープ
 
-| 説明 |
-|------|
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| Dropbox Business: Dropboxのファイルやフォルダに関する情報を表示                |
+| Dropbox Business: チーム内のファイルやフォルダの内容を閲覧可能                 |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
+| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                       |
+| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集       |
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
 
 # 認可
 
@@ -137,16 +143,20 @@ path,sync_setting
 
 ## レポート: updated
 
-このレポートはチーム内のチームフォルダを一覧します.
+このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `updated.csv`, `updated.json`, ならびに `updated.xlsx`.
 
-| 列                     | 説明                                                                                 |
-|------------------------|--------------------------------------------------------------------------------------|
-| team_folder_id         |                                                                                      |
-| name                   | チームフォルダの名称                                                                 |
-| status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
-| is_team_shared_dropbox |                                                                                      |
-| sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
+| 列                            | 説明                                                                                 |
+|-------------------------------|--------------------------------------------------------------------------------------|
+| status                        | 処理の状態                                                                           |
+| reason                        | 失敗またはスキップの理由                                                             |
+| input.path                    | Path to the target folder                                                            |
+| input.sync_setting            | Sync setting (default/not_synced)                                                    |
+| result.team_folder_id         |                                                                                      |
+| result.name                   | チームフォルダの名称                                                                 |
+| result.status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
+| result.is_team_shared_dropbox |                                                                                      |
+| result.sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

@@ -26,8 +26,14 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description |
-|-------------|
+| Description                                                                                             |
+|---------------------------------------------------------------------------------------------------------|
+| Dropbox Business: View information about your Dropbox files and folders                                 |
+| Dropbox Business: View content of your team's files and folders                                         |
+| Dropbox Business: View and edit content of your team's files and folders                                |
+| Dropbox Business: View structure of your team's and members' folders                                    |
+| Dropbox Business: View and edit content of your team's files and folders                                |
+| Dropbox Business: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 
@@ -137,16 +143,20 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: updated
 
-This report shows a list of team folders in the team.
+This report shows the transaction result.
 The command will generate a report in three different formats. `updated.csv`, `updated.json`, and `updated.xlsx`.
 
-| Column                 | Description                                                                                |
-|------------------------|--------------------------------------------------------------------------------------------|
-| team_folder_id         |                                                                                            |
-| name                   | The name of the team folder.                                                               |
-| status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
-| is_team_shared_dropbox |                                                                                            |
-| sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
+| Column                        | Description                                                                                |
+|-------------------------------|--------------------------------------------------------------------------------------------|
+| status                        | Status of the operation                                                                    |
+| reason                        | Reason of failure or skipped operation                                                     |
+| input.path                    | Path to the target folder                                                                  |
+| input.sync_setting            | Sync setting (default/not_synced)                                                          |
+| result.team_folder_id         |                                                                                            |
+| result.name                   | The name of the team folder.                                                               |
+| result.status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
+| result.is_team_shared_dropbox |                                                                                            |
+| result.sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
