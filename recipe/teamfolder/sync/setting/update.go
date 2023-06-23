@@ -10,7 +10,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -54,7 +56,14 @@ type Update struct {
 
 func (z *Update) Preset() {
 	z.File.SetModel(&UpdateSetting{})
-	z.Updated.SetModel(&UpdateSetting{}, &mo_teamfolder.TeamFolder{})
+	z.Updated.SetModel(
+		&UpdateSetting{},
+		&mo_teamfolder.TeamFolder{},
+		rp_model.HiddenColumns(
+			"result.is_team_shared_dropbox",
+			"result.sync_setting",
+		),
+	)
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesMetadataRead,
 		dbx_auth.ScopeTeamDataContentRead,
@@ -64,13 +73,36 @@ func (z *Update) Preset() {
 	)
 }
 
-func (z *Update) findPath(teamFolder, path string, svt sv_teamfolder.TeamFolder, client dbx_client.Client) (*mo_teamfolder.TeamFolder, *mo_file.Folder, error) {
-	tf, err := svt.ResolveByName(teamFolder)
-	if err != nil {
-		return nil, nil, err
-	}
-	if path == "" {
-		return tf, nil, nil
+func (z *Update) findPath(teamFolder, path string, svt sv_teamfolder.TeamFolder, client dbx_client.Client, hasSharedDropbox bool) (tf *mo_teamfolder.TeamFolder, folder *mo_file.Folder, err error) {
+	l := client.Log().With(
+		esl.String("teamFolder", teamFolder),
+		esl.String("path", path),
+		esl.Bool("hasSharedDropbox", hasSharedDropbox))
+	if hasSharedDropbox {
+		tfs, err := svt.List()
+		if err != nil {
+			l.Debug("Unable to list team folders", esl.Error(err))
+			return nil, nil, err
+		}
+		if len(tfs) != 1 && !tfs[0].IsTeamSharedDropbox {
+			l.Debug("Team space is not found", esl.Int("numTeamFolders", len(tfs)), esl.Any("teamFolders", tfs))
+			return nil, nil, errors.New("team space is not found")
+		}
+		tf = tfs[0]
+		if path != "" {
+			path = "/" + teamFolder + path
+		} else {
+			path = "/" + teamFolder
+		}
+		l.Debug("New search path", esl.String("newPath", path))
+	} else {
+		tf, err = svt.ResolveByName(teamFolder)
+		if err != nil {
+			return nil, nil, err
+		}
+		if path == "" {
+			return tf, nil, nil
+		}
 	}
 
 	client = client.WithPath(dbx_client.Namespace(tf.TeamFolderId))
@@ -103,21 +135,28 @@ func (z *Update) Exec(c app_control.Control) error {
 	svt := sv_teamfolder.NewCached(z.Peer.Client())
 	client := z.Peer.Client().AsAdminId(admin.TeamMemberId)
 
+	features, err := sv_team.New(z.Peer.Client()).Feature()
+	if err != nil {
+		return err
+	}
+
 	err = z.File.Validate(func(m interface{}, rowIndex int) (app_msg.Message, error) {
 		setting := m.(*UpdateSetting)
 		teamFolder, path := setting.Split()
-		found := false
-		for _, tf := range teamFolders {
-			if strings.ToLower(tf.Name) == strings.ToLower(teamFolder) {
-				found = true
-				break
+		if !features.HasTeamSharedDropbox {
+			found := false
+			for _, tf := range teamFolders {
+				if strings.ToLower(tf.Name) == strings.ToLower(teamFolder) {
+					found = true
+					break
+				}
+			}
+			if !found {
+				return z.ErrorInvalidLineTeamFolderNotFound.With("TeamFolder", teamFolder), errors.New("team folder not found")
 			}
 		}
-		if !found {
-			return z.ErrorInvalidLineTeamFolderNotFound.With("TeamFolder", teamFolder), errors.New("team folder not found")
-		}
 
-		_, _, err := z.findPath(teamFolder, path, svt, client)
+		_, _, err := z.findPath(teamFolder, path, svt, client, features.HasTeamSharedDropbox)
 		if err != nil {
 			return z.ErrorInvalidLinePathNotFound.With("Error", err).With("Path", path).With("TeamFolder", teamFolder), err
 		}
@@ -133,10 +172,11 @@ func (z *Update) Exec(c app_control.Control) error {
 		return err
 	}
 
-	return z.File.EachRow(func(m interface{}, rowIndex int) error {
+	var lastErr error
+	_ = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		setting := m.(*UpdateSetting)
 		teamFolder, path := setting.Split()
-		tf, folder, err := z.findPath(teamFolder, path, svt, client)
+		tf, folder, err := z.findPath(teamFolder, path, svt, client, features.HasTeamSharedDropbox)
 		if err != nil {
 			return err
 		}
@@ -148,11 +188,13 @@ func (z *Update) Exec(c app_control.Control) error {
 		}
 		if err != nil {
 			z.Updated.Failure(err, setting)
-			return err
+			lastErr = err
+			return nil
 		}
 		z.Updated.Success(setting, updated)
 		return nil
 	})
+	return lastErr
 }
 
 func (z *Update) Test(c app_control.Control) error {
