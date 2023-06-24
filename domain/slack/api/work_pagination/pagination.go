@@ -94,7 +94,7 @@ func (z pgImpl) OnData(path string, handler func(entry es_json.Json) error) erro
 		}
 
 		var found bool
-		if cursor, found = rj.FindString("response_metadata.next_cursor"); !found {
+		if cursor, found = rj.FindString("response_metadata.next_cursor"); !found || cursor == "" {
 			ll.Debug("Next page not found")
 			return nil
 		} else {
