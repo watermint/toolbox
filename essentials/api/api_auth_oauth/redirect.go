@@ -54,7 +54,7 @@ func (z *sessionRedirectImpl) Start(session api_auth.OAuthSessionData) (entity a
 		result:  nil,
 		token:   nil,
 	}
-	cb := api_callback.New(z.ctl, rs, app.DefaultWebPort)
+	cb := api_callback.New(z.ctl, rs, app.DefaultWebPort, session.UseSecureRedirect)
 
 	l.Debug("Starting sequence")
 	if err := cb.Flow(); err != nil {

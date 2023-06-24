@@ -27,9 +27,10 @@ type connSlackApi struct {
 
 func (z *connSlackApi) Connect(ctl app_control.Control) (err error) {
 	session := api_auth.OAuthSessionData{
-		AppData:  work_auth.Slack,
-		PeerName: z.peerName,
-		Scopes:   z.scopes,
+		AppData:           work_auth.Slack,
+		PeerName:          z.peerName,
+		Scopes:            z.scopes,
+		UseSecureRedirect: true,
 	}
 	entity, useMock, err := api_conn_impl.OAuthConnectByRedirect(session, ctl)
 	if useMock {
