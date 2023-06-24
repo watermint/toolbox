@@ -373,6 +373,7 @@ Available commands:
 | [license](docs/commands/license.md)                                         | Show license information                                             |
 | [util archive unzip](docs/commands/util-archive-unzip.md)                   | Extract the zip archive file                                         |
 | [util archive zip](docs/commands/util-archive-zip.md)                       | Compress target files into the zip archive                           |
+| [util cert selfsigned](docs/commands/util-cert-selfsigned.md)               | Generate self-signed certificate and key                             |
 | [util database exec](docs/commands/util-database-exec.md)                   | Execute query on SQLite3 database file                               |
 | [util database query](docs/commands/util-database-query.md)                 | Query SQLite3 database                                               |
 | [util date today](docs/commands/util-date-today.md)                         | Display current date                                                 |

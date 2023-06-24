@@ -139,7 +139,7 @@ lang: ja
 | [teamfolder permdelete]({{ site.baseurl }}/ja/commands/teamfolder-permdelete.html)                   | チームフォルダを完全に削除します       |
 | [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)                 | チームフォルダのポリシー一覧           |
 | [teamfolder sync setting list]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-list.html)     | チームフォルダーの同期設定を一覧表示   |
-| [teamfolder sync setting update]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-update.html) | Batch update team folder sync settings |
+| [teamfolder sync setting update]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-update.html) | チームフォルダ同期設定の一括更新       |
 
 ## チームフォルダの権限コマンド
 

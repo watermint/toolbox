@@ -6,7 +6,7 @@ lang: ja
 
 # teamfolder sync setting update
 
-Batch update team folder sync settings 
+チームフォルダ同期設定の一括更新 
 
 # セキュリティ
 
@@ -86,10 +86,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-file`    | Path to data file |            |
-| `-peer`    | Account alias     | default    |
+| オプション | 説明                   | デフォルト |
+|------------|------------------------|------------|
+| `-file`    | データファイルへのパス |            |
+| `-peer`    | アカウントの別名       | default    |
 
 ## 共通のオプション:
 
@@ -118,12 +118,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## 書式: File
 
-Sync settings for team folders
+チームフォルダの同期設定
 
-| 列           | 説明                              | 例              |
-|--------------|-----------------------------------|-----------------|
-| path         | Path to the target folder         | /Sales/Forecast |
-| sync_setting | Sync setting (default/not_synced) | not_synced      |
+| 列           | 説明                          | 例              |
+|--------------|-------------------------------|-----------------|
+| path         | ターゲットフォルダへのパス    | /Sales/Forecast |
+| sync_setting | 同期設定 (default/not_synced) | not_synced      |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
@@ -146,17 +146,15 @@ path,sync_setting
 このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `updated.csv`, `updated.json`, ならびに `updated.xlsx`.
 
-| 列                            | 説明                                                                                 |
-|-------------------------------|--------------------------------------------------------------------------------------|
-| status                        | 処理の状態                                                                           |
-| reason                        | 失敗またはスキップの理由                                                             |
-| input.path                    | Path to the target folder                                                            |
-| input.sync_setting            | Sync setting (default/not_synced)                                                    |
-| result.team_folder_id         |                                                                                      |
-| result.name                   | チームフォルダの名称                                                                 |
-| result.status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
-| result.is_team_shared_dropbox |                                                                                      |
-| result.sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
+| 列                    | 説明                                                                |
+|-----------------------|---------------------------------------------------------------------|
+| status                | 処理の状態                                                          |
+| reason                | 失敗またはスキップの理由                                            |
+| input.path            | ターゲットフォルダへのパス                                          |
+| input.sync_setting    | 同期設定 (default/not_synced)                                       |
+| result.team_folder_id |                                                                     |
+| result.name           | チームフォルダの名称                                                |
+| result.status         | チームフォルダの状態 (active, archived, または archive_in_progress) |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

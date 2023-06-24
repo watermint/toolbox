@@ -145,6 +145,7 @@ import (
 	recipeteamspaceasadminmember "github.com/watermint/toolbox/recipe/teamspace/asadmin/member"
 	recipeteamspacefile "github.com/watermint/toolbox/recipe/teamspace/file"
 	recipeutilarchive "github.com/watermint/toolbox/recipe/util/archive"
+	recipeutilcert "github.com/watermint/toolbox/recipe/util/cert"
 	recipeutildatabase "github.com/watermint/toolbox/recipe/util/database"
 	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
@@ -481,6 +482,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamspacefile.List{},
 		&recipeutilarchive.Unzip{},
 		&recipeutilarchive.Zip{},
+		&recipeutilcert.Selfsigned{},
 		&recipeutildatabase.Exec{},
 		&recipeutildatabase.Query{},
 		&recipeutildate.Today{},

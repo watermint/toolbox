@@ -200,7 +200,7 @@ lang: ja
 | [teamfolder policy list]({{ site.baseurl }}/ja/commands/teamfolder-policy-list.html)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication]({{ site.baseurl }}/ja/commands/teamfolder-replication.html)                                           | チームフォルダを他のチームに複製します                                                  |
 | [teamfolder sync setting list]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-list.html)                               | チームフォルダーの同期設定を一覧表示                                                    |
-| [teamfolder sync setting update]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-update.html)                           | Batch update team folder sync settings                                                  |
+| [teamfolder sync setting update]({{ site.baseurl }}/ja/commands/teamfolder-sync-setting-update.html)                           | チームフォルダ同期設定の一括更新                                                        |
 | [teamspace asadmin file list]({{ site.baseurl }}/ja/commands/teamspace-asadmin-file-list.html)                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
 | [teamspace asadmin folder add]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-add.html)                               | チームスペースにトップレベルのフォルダーを作成                                          |
 | [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)                         | チームスペースのトップレベルフォルダーを削除する                                        |
@@ -295,6 +295,7 @@ lang: ja
 | [license]({{ site.baseurl }}/ja/commands/license.html)                                         | ライセンス情報を表示します                                             |
 | [util archive unzip]({{ site.baseurl }}/ja/commands/util-archive-unzip.html)                   | ZIPアーカイブファイルを解凍する                                        |
 | [util archive zip]({{ site.baseurl }}/ja/commands/util-archive-zip.html)                       | 対象ファイルをZIPアーカイブに圧縮する                                  |
+| [util cert selfsigned]({{ site.baseurl }}/ja/commands/util-cert-selfsigned.html)               | Generate self-signed certificate and key                               |
 | [util database exec]({{ site.baseurl }}/ja/commands/util-database-exec.html)                   | SQLite3データベースファイルへのクエリ実行                              |
 | [util database query]({{ site.baseurl }}/ja/commands/util-database-query.html)                 | SQLite3データベースへの問い合わせ                                      |
 | [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)                         | 現在の日付を表示                                                       |
