@@ -51,8 +51,11 @@ func (z pgImpl) OnData(path string, handler func(entry es_json.Json) error) erro
 			Cursor: cursor,
 		}
 		data := make([]api_request.RequestDatum, 0)
-		data = append(data, z.data...)
-		data = append(data, api_request.Query(pp))
+		if cursor == "" {
+			data = append(data, z.data...)
+		} else {
+			data = append(data, api_request.Query(pp))
+		}
 		res := z.ctx.Get(z.endpoint, data...)
 		if err, fail := res.Failure(); fail {
 			ll.Debug("Failure response", esl.Error(err))
