@@ -158,6 +158,7 @@ import (
 	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
 	recipeutilrelease "github.com/watermint/toolbox/recipe/util/release"
+	recipeutiltableformat "github.com/watermint/toolbox/recipe/util/table/format"
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
@@ -500,6 +501,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
 		&recipeutilrelease.Install{},
+		&recipeutiltableformat.Xlsx{},
 		&recipeutiltextcase.Down{},
 		&recipeutiltextcase.Up{},
 		&recipeutiltextencoding.From{},

@@ -387,6 +387,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util net download](docs/ja/commands/util-net-download.md)                     | ファイルをダウンロードする                                             |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)                   | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)                       | WIFI設定用のQRコードを生成                                             |
+| [util table format xlsx](docs/ja/commands/util-table-format-xlsx.md)           | Formatting xlsx file into text                                         |
 | [util text case down](docs/ja/commands/util-text-case-down.md)                 | 小文字のテキストを表示する                                             |
 | [util text case up](docs/ja/commands/util-text-case-up.md)                     | 大文字のテキストを表示する                                             |
 | [util text encoding from](docs/ja/commands/util-text-encoding-from.md)         | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |

@@ -311,6 +311,7 @@ lang: en
 | [util net download]({{ site.baseurl }}/commands/util-net-download.html)                     | Download a file                                                      |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)                   | Create a QR code image file                                          |
 | [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)                       | Generate QR code for WIFI configuration                              |
+| [util table format xlsx]({{ site.baseurl }}/commands/util-table-format-xlsx.html)           | Formatting xlsx file into text                                       |
 | [util text case down]({{ site.baseurl }}/commands/util-text-case-down.html)                 | Print lower case text                                                |
 | [util text case up]({{ site.baseurl }}/commands/util-text-case-up.html)                     | Print upper case text                                                |
 | [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html)         | Convert text encoding to UTF-8 text file from specified encoding.    |

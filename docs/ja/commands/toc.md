@@ -311,6 +311,7 @@ lang: ja
 | [util net download]({{ site.baseurl }}/ja/commands/util-net-download.html)                     | ファイルをダウンロードする                                             |
 | [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)                   | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)                       | WIFI設定用のQRコードを生成                                             |
+| [util table format xlsx]({{ site.baseurl }}/ja/commands/util-table-format-xlsx.html)           | Formatting xlsx file into text                                         |
 | [util text case down]({{ site.baseurl }}/ja/commands/util-text-case-down.html)                 | 小文字のテキストを表示する                                             |
 | [util text case up]({{ site.baseurl }}/ja/commands/util-text-case-up.html)                     | 大文字のテキストを表示する                                             |
 | [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html)         | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
