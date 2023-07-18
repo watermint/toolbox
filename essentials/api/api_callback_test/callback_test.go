@@ -81,7 +81,7 @@ func (z *MockService) PingInvalid() error {
 func TestCallbackImpl_SuccessScenario(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
+		cb := api_callback.NewWithOpener(ctl, ms, 7800, false, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
 		wg.Add(1)
 		go func() {
@@ -108,7 +108,7 @@ func TestCallbackImpl_SuccessScenario(t *testing.T) {
 func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
+		cb := api_callback.NewWithOpener(ctl, ms, 7800, false, es_open.NewTestDummy())
 		wg := sync.WaitGroup{}
 		wg.Add(1)
 		go func() {
@@ -135,8 +135,8 @@ func TestCallbackImpl_FailureInvalidCode(t *testing.T) {
 func TestCallbackImpl_FailureCantStart(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		ms := NewMockService(ctl)
-		cb1 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
-		cb2 := api_callback.NewWithOpener(ctl, ms, 7800, es_open.NewTestDummy())
+		cb1 := api_callback.NewWithOpener(ctl, ms, 7800, false, es_open.NewTestDummy())
+		cb2 := api_callback.NewWithOpener(ctl, ms, 7800, false, es_open.NewTestDummy())
 		go func() {
 			if err := cb1.Flow(); err != nil {
 				t.Error(err)

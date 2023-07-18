@@ -125,7 +125,7 @@ func (z *Xlsx) Test(c app_control.Control) error {
 		m := r.(*Xlsx)
 		m.Source = mo_path.NewExistingFileSystemPath(srcPath)
 		m.Template = mo_path.NewExistingFileSystemPath(tmplPath)
-		m.Dest = mo_path.NewFileSystemPath(d)
+		m.Dest = mo_path.NewFileSystemPath(filepath.Join(d, "test.out"))
 		m.Sheet = "Sheet1"
 		m.Position = "A1"
 	})

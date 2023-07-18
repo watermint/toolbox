@@ -26,7 +26,7 @@ if [ $TEST_EXIT_CODE -ne 0 ]; then
   echo Test failed: $TEST_EXIT_CODE
   if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
     echo TEST: Uploading logs
-    TOOLBOX_DEBUG_VERBOSE=true go run tbx.go dev ci artifact up -budget-memory low -local-path $TEST_DEBUG -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM/$TEST_PACKAGES_SUM -peer-name deploy
+    go run tbx.go dev ci artifact up -budget-memory low -local-path $TEST_DEBUG -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM/$TEST_PACKAGES_SUM -peer-name deploy
     go run tbx.go dev ci artifact up -budget-memory low -local-path $HOME/.toolbox/jobs -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM/$TEST_PACKAGES_SUM -peer-name deploy
   fi
   exit 1

@@ -6,7 +6,7 @@ lang: ja
 
 # util table format xlsx
 
-Formatting xlsx file into text 
+xlsxファイルをテキストに整形する 
 
 # インストール
 
@@ -38,13 +38,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明                    | デフォルト |
-|-------------|-------------------------|------------|
-| `-dest`     | Destination file path   |            |
-| `-position` | Start position of table | A1         |
-| `-sheet`    | Sheet name              |            |
-| `-source`   | Data source xlsx file   |            |
-| `-template` | Template file           |            |
+| オプション  | 説明                     | デフォルト |
+|-------------|--------------------------|------------|
+| `-dest`     | 保存先ファイルパス       |            |
+| `-position` | テーブルの開始位置       | A1         |
+| `-sheet`    | シート名                 |            |
+| `-source`   | データソースxlsxファイル |            |
+| `-template` | テンプレートファイル     |            |
 
 ## 共通のオプション:
 

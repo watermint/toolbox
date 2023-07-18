@@ -6,7 +6,7 @@ lang: ja
 
 # util cert selfsigned
 
-Generate self-signed certificate and key 
+自己署名証明書と鍵の生成 
 
 # インストール
 
@@ -38,10 +38,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明                                       | デフォルト |
-|------------|--------------------------------------------|------------|
-| `-days`    | Number of validity days of the certificate | 365        |
-| `-out`     | Output folder path                         |            |
+| オプション | 説明               | デフォルト |
+|------------|--------------------|------------|
+| `-days`    | 証明書の有効日数   | 365        |
+| `-out`     | 出力フォルダーパス |            |
 
 ## 共通のオプション:
 
