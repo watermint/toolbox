@@ -1,9 +1,10 @@
 package api_auth
 
 type OAuthSessionData struct {
-	AppData  OAuthAppData `json:"app_data"`
-	PeerName string       `json:"peer_name"`
-	Scopes   []string     `json:"scopes"`
+	AppData           OAuthAppData `json:"app_data"`
+	PeerName          string       `json:"peer_name"`
+	Scopes            []string     `json:"scopes"`
+	UseSecureRedirect bool         `json:"use_secure_redirect"`
 }
 
 type OAuthSession interface {

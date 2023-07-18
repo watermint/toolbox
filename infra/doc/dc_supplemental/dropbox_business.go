@@ -344,6 +344,7 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 		"teamfolder permdelete",
 		"teamfolder policy list",
 		"teamfolder sync setting list",
+		"teamfolder sync setting update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamFolderPermissionTitle)

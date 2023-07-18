@@ -2,6 +2,7 @@ package api_callback
 
 import (
 	"context"
+	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
 	"errors"
@@ -11,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_gin"
 	"github.com/watermint/toolbox/essentials/runtime/es_open"
+	escert "github.com/watermint/toolbox/essentials/security/cert"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"
@@ -21,6 +23,8 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strconv"
 	"sync"
 	"time"
@@ -100,7 +104,7 @@ var (
 	instanceId = atomic.Int64{}
 )
 
-func New(ctl app_control.Control, s Service, port int) Callback {
+func New(ctl app_control.Control, s Service, port int, secure bool) Callback {
 	var opener es_open.Open
 	if ctl.Feature().IsTest() || ctl.Feature().IsQuiet() {
 		opener = es_open.NewTestDummy()
@@ -112,12 +116,13 @@ func New(ctl app_control.Control, s Service, port int) Callback {
 		ctl:      ctl,
 		service:  s,
 		port:     port,
+		secure:   secure,
 		opener:   opener,
 	}
 }
 
-func NewWithOpener(ctl app_control.Control, s Service, port int, opener es_open.Open) Callback {
-	c := New(ctl, s, port)
+func NewWithOpener(ctl app_control.Control, s Service, port int, secure bool, opener es_open.Open) Callback {
+	c := New(ctl, s, port, secure)
 	c.(*callbackImpl).opener = opener
 	return c
 }
@@ -127,6 +132,7 @@ type callbackImpl struct {
 	service         Service
 	ctl             app_control.Control
 	port            int
+	secure          bool
 	server          *http.Server
 	serverError     error
 	serverToken     string
@@ -153,7 +159,11 @@ func (z *callbackImpl) ping() error {
 	l := z.ctl.Log().With(esl.Int("port", z.port), esl.String("instance", z.instance))
 
 	l.Debug("waiting for the server ready")
-	hc := &http.Client{}
+	hc := &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+	}
 	pingUrl := z.urlForPath(PathPing)
 	for {
 		time.Sleep(100 * time.Millisecond)
@@ -245,7 +255,11 @@ func (z *callbackImpl) Flow() error {
 }
 
 func (z *callbackImpl) urlForPath(path string) string {
-	return fmt.Sprintf("http://localhost:%d%s", z.port, path)
+	if z.secure {
+		return fmt.Sprintf("https://localhost:%d%s", z.port, path)
+	} else {
+		return fmt.Sprintf("http://localhost:%d%s", z.port, path)
+	}
 }
 
 func (z *callbackImpl) Url() string {
@@ -302,13 +316,44 @@ func (z *callbackImpl) Start() error {
 	}
 	z.logoImageBase64 = template.URL(DataUriImagePng + base64.StdEncoding.EncodeToString(logoImage))
 
-	l.Debug("Starting server")
-	if err := z.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		l.Debug("Server finished with an error", esl.Error(err))
-		z.serverError = err
-		return err
+	if z.secure {
+		l.Debug("Starting server (https)")
+		certPath := filepath.Join(z.ctl.Workspace().Job(), "cert")
+		if err := os.MkdirAll(certPath, 0700); err != nil {
+			l.Debug("Unable to create cert directory", esl.Error(err))
+			return err
+		}
+		certFile := filepath.Join(certPath, "cert.pem")
+		keyFile := filepath.Join(certPath, "key.pem")
+		cert, key, err := escert.CreateSelfSigned(28)
+		if err != nil {
+			l.Debug("Unable to create self signed certificate", esl.Error(err))
+			return err
+		}
+		if err := os.WriteFile(certFile, cert, 0600); err != nil {
+			l.Debug("Unable to write cert file", esl.Error(err))
+			return err
+		}
+		if err := os.WriteFile(keyFile, key, 0600); err != nil {
+			l.Debug("Unable to write key file", esl.Error(err))
+			return err
+		}
+
+		if err := z.server.ListenAndServeTLS(certFile, keyFile); err != nil && err != http.ErrServerClosed {
+			l.Debug("Server finished with an error", esl.Error(err))
+			z.serverError = err
+			return err
+		}
+		l.Debug("Server finished normally")
+	} else {
+		l.Debug("Starting server (http)")
+		if err := z.server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			l.Debug("Server finished with an error", esl.Error(err))
+			z.serverError = err
+			return err
+		}
+		l.Debug("Server finished normally")
 	}
-	l.Debug("Server finished normally")
 
 	return nil
 }

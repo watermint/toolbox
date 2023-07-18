@@ -278,6 +278,7 @@ Available commands:
 | [teamfolder policy list](docs/commands/teamfolder-policy-list.md)                                           | List policies of team folders                                                       |
 | [teamfolder replication](docs/commands/teamfolder-replication.md)                                           | Replicate a team folder to the other team                                           |
 | [teamfolder sync setting list](docs/commands/teamfolder-sync-setting-list.md)                               | List team folder sync settings                                                      |
+| [teamfolder sync setting update](docs/commands/teamfolder-sync-setting-update.md)                           | Batch update team folder sync settings                                              |
 | [teamspace asadmin file list](docs/commands/teamspace-asadmin-file-list.md)                                 | List files and folders in team space run as admin                                   |
 | [teamspace asadmin folder add](docs/commands/teamspace-asadmin-folder-add.md)                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                         | Delete top level folder of the team space                                           |
@@ -372,6 +373,7 @@ Available commands:
 | [license](docs/commands/license.md)                                         | Show license information                                             |
 | [util archive unzip](docs/commands/util-archive-unzip.md)                   | Extract the zip archive file                                         |
 | [util archive zip](docs/commands/util-archive-zip.md)                       | Compress target files into the zip archive                           |
+| [util cert selfsigned](docs/commands/util-cert-selfsigned.md)               | Generate self-signed certificate and key                             |
 | [util database exec](docs/commands/util-database-exec.md)                   | Execute query on SQLite3 database file                               |
 | [util database query](docs/commands/util-database-query.md)                 | Query SQLite3 database                                               |
 | [util date today](docs/commands/util-date-today.md)                         | Display current date                                                 |
@@ -387,6 +389,7 @@ Available commands:
 | [util net download](docs/commands/util-net-download.md)                     | Download a file                                                      |
 | [util qrcode create](docs/commands/util-qrcode-create.md)                   | Create a QR code image file                                          |
 | [util qrcode wifi](docs/commands/util-qrcode-wifi.md)                       | Generate QR code for WIFI configuration                              |
+| [util table format xlsx](docs/commands/util-table-format-xlsx.md)           | Formatting xlsx file into text                                       |
 | [util text case down](docs/commands/util-text-case-down.md)                 | Print lower case text                                                |
 | [util text case up](docs/commands/util-text-case-up.md)                     | Print upper case text                                                |
 | [util text encoding from](docs/commands/util-text-encoding-from.md)         | Convert text encoding to UTF-8 text file from specified encoding.    |

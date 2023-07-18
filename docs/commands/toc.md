@@ -200,6 +200,7 @@ lang: en
 | [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                                           | List policies of team folders                                                       |
 | [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                           | Replicate a team folder to the other team                                           |
 | [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html)                               | List team folder sync settings                                                      |
+| [teamfolder sync setting update]({{ site.baseurl }}/commands/teamfolder-sync-setting-update.html)                           | Batch update team folder sync settings                                              |
 | [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html)                                 | List files and folders in team space run as admin                                   |
 | [teamspace asadmin folder add]({{ site.baseurl }}/commands/teamspace-asadmin-folder-add.html)                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)                         | Delete top level folder of the team space                                           |
@@ -294,6 +295,7 @@ lang: en
 | [license]({{ site.baseurl }}/commands/license.html)                                         | Show license information                                             |
 | [util archive unzip]({{ site.baseurl }}/commands/util-archive-unzip.html)                   | Extract the zip archive file                                         |
 | [util archive zip]({{ site.baseurl }}/commands/util-archive-zip.html)                       | Compress target files into the zip archive                           |
+| [util cert selfsigned]({{ site.baseurl }}/commands/util-cert-selfsigned.html)               | Generate self-signed certificate and key                             |
 | [util database exec]({{ site.baseurl }}/commands/util-database-exec.html)                   | Execute query on SQLite3 database file                               |
 | [util database query]({{ site.baseurl }}/commands/util-database-query.html)                 | Query SQLite3 database                                               |
 | [util date today]({{ site.baseurl }}/commands/util-date-today.html)                         | Display current date                                                 |
@@ -309,6 +311,7 @@ lang: en
 | [util net download]({{ site.baseurl }}/commands/util-net-download.html)                     | Download a file                                                      |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)                   | Create a QR code image file                                          |
 | [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)                       | Generate QR code for WIFI configuration                              |
+| [util table format xlsx]({{ site.baseurl }}/commands/util-table-format-xlsx.html)           | Formatting xlsx file into text                                       |
 | [util text case down]({{ site.baseurl }}/commands/util-text-case-down.html)                 | Print lower case text                                                |
 | [util text case up]({{ site.baseurl }}/commands/util-text-case-up.html)                     | Print upper case text                                                |
 | [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html)         | Convert text encoding to UTF-8 text file from specified encoding.    |

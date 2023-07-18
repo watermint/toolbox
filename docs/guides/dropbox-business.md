@@ -127,18 +127,19 @@ The namespace commands can handle all types of folders, including team folders a
 
 You can create, archive or permanently delete team folders by using the below commands. Please consider using `teamfolder batch` commands if you need to handle multiple team folders.
 
-| Command                                                                                       | Description                       |
-|-----------------------------------------------------------------------------------------------|-----------------------------------|
-| [teamfolder add]({{ site.baseurl }}/commands/teamfolder-add.html)                             | Add team folder to the team       |
-| [teamfolder archive]({{ site.baseurl }}/commands/teamfolder-archive.html)                     | Archive team folder               |
-| [teamfolder batch archive]({{ site.baseurl }}/commands/teamfolder-batch-archive.html)         | Archiving team folders            |
-| [teamfolder batch permdelete]({{ site.baseurl }}/commands/teamfolder-batch-permdelete.html)   | Permanently delete team folders   |
-| [teamfolder batch replication]({{ site.baseurl }}/commands/teamfolder-batch-replication.html) | Batch replication of team folders |
-| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                 | Calculate size of team folders    |
-| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                           | List team folder(s)               |
-| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)               | Permanently delete team folder    |
-| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)             | List policies of team folders     |
-| [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html) | List team folder sync settings    |
+| Command                                                                                           | Description                            |
+|---------------------------------------------------------------------------------------------------|----------------------------------------|
+| [teamfolder add]({{ site.baseurl }}/commands/teamfolder-add.html)                                 | Add team folder to the team            |
+| [teamfolder archive]({{ site.baseurl }}/commands/teamfolder-archive.html)                         | Archive team folder                    |
+| [teamfolder batch archive]({{ site.baseurl }}/commands/teamfolder-batch-archive.html)             | Archiving team folders                 |
+| [teamfolder batch permdelete]({{ site.baseurl }}/commands/teamfolder-batch-permdelete.html)       | Permanently delete team folders        |
+| [teamfolder batch replication]({{ site.baseurl }}/commands/teamfolder-batch-replication.html)     | Batch replication of team folders      |
+| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                     | Calculate size of team folders         |
+| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                               | List team folder(s)                    |
+| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)                   | Permanently delete team folder         |
+| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                 | List policies of team folders          |
+| [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html)     | List team folder sync settings         |
+| [teamfolder sync setting update]({{ site.baseurl }}/commands/teamfolder-sync-setting-update.html) | Batch update team folder sync settings |
 
 ## Team folder permission commands
 

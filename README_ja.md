@@ -276,6 +276,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                            |
 | [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                  |
 | [teamfolder sync setting list](docs/ja/commands/teamfolder-sync-setting-list.md)                               | チームフォルダーの同期設定を一覧表示                                                    |
+| [teamfolder sync setting update](docs/ja/commands/teamfolder-sync-setting-update.md)                           | チームフォルダ同期設定の一括更新                                                        |
 | [teamspace asadmin file list](docs/ja/commands/teamspace-asadmin-file-list.md)                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
 | [teamspace asadmin folder add](docs/ja/commands/teamspace-asadmin-folder-add.md)                               | チームスペースにトップレベルのフォルダーを作成                                          |
 | [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                         | チームスペースのトップレベルフォルダーを削除する                                        |
@@ -370,6 +371,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [license](docs/ja/commands/license.md)                                         | ライセンス情報を表示します                                             |
 | [util archive unzip](docs/ja/commands/util-archive-unzip.md)                   | ZIPアーカイブファイルを解凍する                                        |
 | [util archive zip](docs/ja/commands/util-archive-zip.md)                       | 対象ファイルをZIPアーカイブに圧縮する                                  |
+| [util cert selfsigned](docs/ja/commands/util-cert-selfsigned.md)               | 自己署名証明書と鍵の生成                                               |
 | [util database exec](docs/ja/commands/util-database-exec.md)                   | SQLite3データベースファイルへのクエリ実行                              |
 | [util database query](docs/ja/commands/util-database-query.md)                 | SQLite3データベースへの問い合わせ                                      |
 | [util date today](docs/ja/commands/util-date-today.md)                         | 現在の日付を表示                                                       |
@@ -385,6 +387,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util net download](docs/ja/commands/util-net-download.md)                     | ファイルをダウンロードする                                             |
 | [util qrcode create](docs/ja/commands/util-qrcode-create.md)                   | QRコード画像ファイルの作成                                             |
 | [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)                       | WIFI設定用のQRコードを生成                                             |
+| [util table format xlsx](docs/ja/commands/util-table-format-xlsx.md)           | xlsxファイルをテキストに整形する                                       |
 | [util text case down](docs/ja/commands/util-text-case-down.md)                 | 小文字のテキストを表示する                                             |
 | [util text case up](docs/ja/commands/util-text-case-up.md)                     | 大文字のテキストを表示する                                             |
 | [util text encoding from](docs/ja/commands/util-text-encoding-from.md)         | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |

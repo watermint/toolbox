@@ -11,9 +11,15 @@ type Rows interface {
 	EachRow(exec func(m interface{}, rowIndex int) error) error
 }
 
+type Validate interface {
+	Validate(validator func(m interface{}, rowIndex int) (app_msg.Message, error)) error
+}
+
 // Row feed interface for SelfContainedRecipe
 type RowFeed interface {
 	Rows
+	Validate
+
 	SetModel(m interface{})
 	SetFilePath(filePath string)
 	FilePath() string

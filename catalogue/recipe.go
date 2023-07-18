@@ -145,6 +145,7 @@ import (
 	recipeteamspaceasadminmember "github.com/watermint/toolbox/recipe/teamspace/asadmin/member"
 	recipeteamspacefile "github.com/watermint/toolbox/recipe/teamspace/file"
 	recipeutilarchive "github.com/watermint/toolbox/recipe/util/archive"
+	recipeutilcert "github.com/watermint/toolbox/recipe/util/cert"
 	recipeutildatabase "github.com/watermint/toolbox/recipe/util/database"
 	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
@@ -157,6 +158,7 @@ import (
 	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
 	recipeutilrelease "github.com/watermint/toolbox/recipe/util/release"
+	recipeutiltableformat "github.com/watermint/toolbox/recipe/util/table/format"
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
@@ -472,6 +474,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfolderpartial.Replication{},
 		&recipeteamfolderpolicy.List{},
 		&recipeteamfoldersyncsetting.List{},
+		&recipeteamfoldersyncsetting.Update{},
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},
@@ -480,6 +483,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamspacefile.List{},
 		&recipeutilarchive.Unzip{},
 		&recipeutilarchive.Zip{},
+		&recipeutilcert.Selfsigned{},
 		&recipeutildatabase.Exec{},
 		&recipeutildatabase.Query{},
 		&recipeutildate.Today{},
@@ -497,6 +501,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
 		&recipeutilrelease.Install{},
+		&recipeutiltableformat.Xlsx{},
 		&recipeutiltextcase.Down{},
 		&recipeutiltextcase.Up{},
 		&recipeutiltextencoding.From{},
