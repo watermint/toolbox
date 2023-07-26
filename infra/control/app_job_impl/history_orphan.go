@@ -59,6 +59,10 @@ func (z OrphanJob) Log() string {
 	return filepath.Join(z.jobPath, app_workspace.NameLogs)
 }
 
+func (z OrphanJob) Database() string {
+	return filepath.Join(z.jobPath, app_workspace.NameDatabase)
+}
+
 func (z OrphanJob) Test() string {
 	return filepath.Join(z.jobPath, app_workspace.NameTest)
 }

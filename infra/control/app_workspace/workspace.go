@@ -42,6 +42,9 @@ type Job interface {
 	// Path for KVS storage
 	KVS() string
 
+	// Database Path for database
+	Database() string
+
 	// Create or get child folder of job folder
 	Descendant(name string) (path string, err error)
 }
@@ -68,15 +71,16 @@ type Workspace interface {
 }
 
 const (
-	NameSecrets = "secrets"
-	NameCache   = "cache"
-	NameUser    = "user"
-	NameJobs    = "jobs"
-	NameLogs    = "logs"
-	NameReport  = "report"
-	NameTest    = "test"
-	NameKvs     = "kvs"
-	JobIdFormat = "20060102-150405"
+	NameSecrets  = "secrets"
+	NameCache    = "cache"
+	NameUser     = "user"
+	NameJobs     = "jobs"
+	NameLogs     = "logs"
+	NameReport   = "report"
+	NameTest     = "test"
+	NameKvs      = "kvs"
+	NameDatabase = "database"
+	JobIdFormat  = "20060102-150405"
 )
 
 var (

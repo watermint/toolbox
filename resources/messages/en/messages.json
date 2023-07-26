@@ -2727,6 +2727,8 @@
   "recipe.team.filerequest.title": "File requests for team",
   "recipe.team.info.flag.peer": "Account alias",
   "recipe.team.info.title": "Team information",
+  "recipe.team.insight.file.scan.cli.args": "-database /LOCAL/PATH/TO/database.db",
+  "recipe.team.insight.file.scan.flag.database": "Path to database file",
   "recipe.team.insight.file.scan.flag.peer": "Account alias",
   "recipe.team.insight.file.scan.title": "Scan Dropbox team file data",
   "recipe.team.insight.file.title": "Dropbox team file insight commands",

@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team insight file scan 
+.\tbx.exe team insight file scan -database /LOCAL/PATH/TO/database.db
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team insight file scan 
+$HOME/Desktop/tbx team insight file scan -database /LOCAL/PATH/TO/database.db
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,9 +80,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-peer` | Account alias | default |
+| Option      | Description           | Default |
+|-------------|-----------------------|---------|
+| `-database` | Path to database file |         |
+| `-peer`     | Account alias         | default |
 
 ## Common options:
 

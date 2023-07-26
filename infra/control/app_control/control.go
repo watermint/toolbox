@@ -1,6 +1,7 @@
 package app_control
 
 import (
+	"database/sql"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
@@ -11,58 +12,68 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"gorm.io/gorm"
 )
 
 type Control interface {
-	// UI
+	// UI returns UI instance
 	UI() app_ui.UI
 
-	// Logger
+	// Log returns logger instance
 	Log() esl.Logger
 
-	// HTTP Capture logger
+	// Capture HTTP Capture logger
 	Capture() esl.Logger
 
-	// Workspace
+	// Workspace returns workspace instance
 	Workspace() app_workspace.Workspace
 
-	// Message container
+	// Messages Message container
 	Messages() app_msg_container.Container
 
-	// Feature
+	// Feature returns feature flags
 	Feature() app_feature.Feature
 
-	// Create new queue definition
+	// NewQueue Create new queue definition
 	NewQueue() eq_queue.Definition
 
-	// Async queue sequence
+	// Sequence Async queue sequence
 	Sequence() eq_sequence.Sequence
 
 	// AuthRepository returns auth repository
 	AuthRepository() api_auth.Repository
 
-	// Get or create new cache
+	// NewCache Get or create new cache
 	NewCache(namespace, name string) cache.Cache
 
-	// Create new KVS. The caller must close the storage before exit.
+	// NewKvs Create new KVS. The caller must close the storage before exit.
 	NewKvs(name string) (kvs kv_storage.Storage, err error)
 
-	// Create new KVS factory. The caller must close the factory before exit.
+	// NewKvsFactory Create new KVS factory. The caller must close the factory before exit.
 	NewKvsFactory() (factory kv_storage.Factory)
 
-	// Workspace bundle
+	// NewDatabase Create new database. The caller must close the database before exit.
+	NewDatabase(name string) (db *sql.DB, path string, err error)
+
+	// NewOrm Create new ORM instance. The caller must close the ORM before exit.
+	NewOrm(path string) (db *gorm.DB, err error)
+
+	// NewOrmOnMemory Create new ORM instance on memory. The caller must close the ORM before exit.
+	NewOrmOnMemory() (db *gorm.DB, err error)
+
+	// WorkBundle Workspace bundle
 	WorkBundle() app_workspace.Bundle
 
-	// Fork control instance with feature
+	// WithFeature Fork control instance with feature
 	WithFeature(feature app_feature.Feature) Control
 
-	// Fork control instance with UI
+	// WithUI Fork control instance with UI
 	WithUI(ui app_ui.UI) Control
 
-	// Fork control with lang
+	// WithLang Fork control with lang
 	WithLang(targetLang string) Control
 
-	// Fork control with bundle
+	// WithBundle Fork control with bundle
 	WithBundle(wb app_workspace.Bundle) Control
 }
 

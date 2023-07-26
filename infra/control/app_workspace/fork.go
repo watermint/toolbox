@@ -30,6 +30,10 @@ type forkWorkspace struct {
 	parent Workspace
 }
 
+func (z *forkWorkspace) Database() string {
+	return z.parent.Database()
+}
+
 func (z *forkWorkspace) setup() (err error) {
 	_, err = getOrCreate(z.Job())
 	if err != nil {
