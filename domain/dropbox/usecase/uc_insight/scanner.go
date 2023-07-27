@@ -2,9 +2,12 @@ package uc_insight
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -51,6 +54,7 @@ func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
 		&Member{},
 		&Mount{},
 		&Namespace{},
+		&NamespaceEntry{},
 		&ReceivedFile{},
 		&SharedLink{},
 	}
@@ -79,14 +83,20 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 }
 
 const (
-	teamScanQueueMember       = "scan_member"
-	teamScanQueueGroup        = "scan_group"
-	teamScanQueueGroupMember  = "scan_group_member"
-	teamScanQueueMount        = "scan_mount"
-	teamScanQueueNamespace    = "scan_namespace"
-	teamScanQueueReceivedFile = "scan_received_file"
-	teamScanSharedLink        = "scan_shared_link"
+	teamScanQueueMember         = "scan_member"
+	teamScanQueueGroup          = "scan_group"
+	teamScanQueueGroupMember    = "scan_group_member"
+	teamScanQueueMount          = "scan_mount"
+	teamScanQueueNamespace      = "scan_namespace"
+	teamScanQueueNamespaceEntry = "scan_namespace_entry"
+	teamScanQueueReceivedFile   = "scan_received_file"
+	teamScanSharedLink          = "scan_shared_link"
 )
+
+type NamespaceEntryParam struct {
+	NamespaceId string `json:"namespaceId" path:"namespace_id"`
+	Path        string `json:"path" path:"path"`
+}
 
 type tsImpl struct {
 	ctl    app_control.Control
@@ -172,6 +182,8 @@ func (z tsImpl) scanGroupMember(groupId string, stage eq_sequence.Stage, admin *
 }
 
 func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	qne := stage.Get(teamScanQueueNamespaceEntry)
+
 	var lastErr error
 	opErr := sv_namespace.New(z.client).ListEach(func(namespace *mo_namespace.Namespace) bool {
 		ns, err := NewNamespaceFromJson(es_json.MustParse(namespace.Raw))
@@ -184,10 +196,42 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 			lastErr = z.db.Error
 			return false
 		}
+
+		qne.Enqueue(&NamespaceEntryParam{
+			NamespaceId: ns.NamespaceId,
+			Path:        "",
+		})
+
 		return true
 	})
 
 	return es_lang.NewMultiErrorOrNull(opErr, lastErr)
+}
+
+func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	qne := stage.Get(teamScanQueueNamespaceEntry)
+
+	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(param.NamespaceId))
+	return sv_file.NewFiles(client).ListEach(mo_path.NewDropboxPath(param.Path),
+		func(entry mo_file.Entry) {
+			ce := entry.Concrete()
+			f, err := NewNamespaceEntry(param.NamespaceId, param.Path, es_json.MustParse(ce.Raw))
+			if err != nil {
+				return
+			}
+			z.db.Create(f)
+
+			if ce.IsFolder() {
+				qne.Enqueue(&NamespaceEntryParam{
+					NamespaceId: param.NamespaceId,
+					Path:        f.PathDisplay,
+				})
+			}
+		},
+		sv_file.Recursive(false),
+		sv_file.IncludeDeleted(true),
+		sv_file.IncludeHasExplicitSharedMembers(true),
+	)
 }
 
 func (z tsImpl) scanReceivedFile(teamMemberId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
@@ -256,6 +300,7 @@ func (z tsImpl) ScanTeam() (err error) {
 		s.Define(teamScanQueueMember, z.scanMembers, s, admin)
 		s.Define(teamScanQueueMount, z.scanMount, s, admin)
 		s.Define(teamScanQueueNamespace, z.scanNamespaces, s, admin)
+		s.Define(teamScanQueueNamespaceEntry, z.scanNamespaceEntry, s, admin)
 		s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin)
 		s.Define(teamScanSharedLink, z.scanSharedLink, s, admin)
 

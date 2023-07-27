@@ -25,10 +25,10 @@ func TestNewGroupFromJson(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		if g.GroupId != "g:1234567890" {
+		if g.GroupId != "g:e2db7665347abcd600000000001a2b3c" {
 			t.Error(g.GroupId)
 		}
-		if g.GroupName != "Finance" {
+		if g.GroupName != "Test group" {
 			t.Error(g.GroupName)
 		}
 		if g.GroupManagementType != "user_managed" {

@@ -1,4 +1,4 @@
-package file
+package insight
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"

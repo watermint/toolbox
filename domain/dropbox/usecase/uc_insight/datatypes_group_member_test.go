@@ -54,14 +54,14 @@ var (
 
 func TestNewGroupMemberFromJson(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		g, err := NewGroupMemberFromJson(es_json.MustParseString(sampleGroupMember))
+		g, err := NewGroupMemberFromJson("g:1234567890", es_json.MustParseString(sampleGroupMember))
 		if err != nil {
 			t.Error(err)
 		}
 		if g.GroupId != "g:1234567890" {
 			t.Error(g.GroupId)
 		}
-		if g.TeamMemberId != "dbmid:abcd1234" {
+		if g.TeamMemberId != "dbmid:FDFSVF-DFSDF" {
 			t.Error(g.TeamMemberId)
 		}
 		if g.Email != "tami@seagull.com" {
@@ -90,5 +90,5 @@ func TestNewGroupMemberFromJson(t *testing.T) {
 		if !reflect.DeepEqual(g, g1) {
 			t.Error(g1)
 		}
-	}
+	})
 }

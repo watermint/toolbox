@@ -1,4 +1,4 @@
-package file
+package insight
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"

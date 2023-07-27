@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# team insight file scan
+# team insight scan
 
-Dropboxのチームファイルデータをスキャン 
+Scan the team entire information 
 
 # セキュリティ
 
@@ -64,12 +64,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team insight file scan -database /LOCAL/PATH/TO/database.db
+.\tbx.exe team insight scan -database /LOCAL/PATH/TO/database.db
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team insight file scan -database /LOCAL/PATH/TO/database.db
+$HOME/Desktop/tbx team insight scan -database /LOCAL/PATH/TO/database.db
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明                  | デフォルト |
-|-------------|-----------------------|------------|
-| `-database` | Path to database file |            |
-| `-peer`     | アカウントの別名      | default    |
+| オプション  | 説明                                                                 | デフォルト |
+|-------------|----------------------------------------------------------------------|------------|
+| `-database` | Path to the database containing the scanned information of the team. |            |
+| `-peer`     | Account alias                                                        | default    |
 
 ## 共通のオプション:
 
