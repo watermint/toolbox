@@ -16,7 +16,7 @@ func NewOrm(l esl.Logger, path string) (*gorm.DB, error) {
 }
 
 func NewOrmOnMemory(l esl.Logger) (*gorm.DB, error) {
-	return newOrmWithConfig(sqlite.Open("file::memory:?cache=shared"),
+	return newOrmWithConfig(sqlite.Open("file::memory:"),
 		&gorm.Config{
 			Logger: orm_logger.NewGormLogger(l),
 		},

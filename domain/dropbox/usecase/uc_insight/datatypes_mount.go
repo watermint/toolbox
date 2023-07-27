@@ -1,4 +1,4 @@
-package uc_file_insight
+package uc_insight
 
 import (
 	"encoding/json"
