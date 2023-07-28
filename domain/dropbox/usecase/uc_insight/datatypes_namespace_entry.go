@@ -22,7 +22,8 @@ type NamespaceEntry struct {
 	Path                     string `path:"path"`
 	PathLower                string `path:"path_lower"`
 	PathDisplay              string `path:"path_display"`
-	ParentSharedFolderId     string `path:"sharing_info.parent_shared_folder_id"`
+	EntryNamespaceId         string `path:"sharing_info.shared_folder_id"`
+	ParentNamespaceId        string `path:"sharing_info.parent_shared_folder_id"`
 
 	Updated uint64 `gorm:"autoUpdateTime"`
 

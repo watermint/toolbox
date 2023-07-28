@@ -13,9 +13,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharing"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -33,12 +36,6 @@ type IndividualScanner interface {
 type TeamScanner interface {
 	// ScanTeam scans all team information
 	ScanTeam() (err error)
-
-	// ScanMembers scans all team member files and sharing information
-	ScanMembers() (err error)
-
-	// ScanTeamContent scans team content
-	ScanTeamContent() (err error)
 }
 
 func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
@@ -53,10 +50,13 @@ func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
 		&Group{},
 		&Member{},
 		&Mount{},
-		&Namespace{},
+		&NamespaceDetail{},
 		&NamespaceEntry{},
+		&NamespaceMember{},
+		&Namespace{},
 		&ReceivedFile{},
 		&SharedLink{},
+		&TeamFolder{},
 	}
 
 	for _, t := range tables {
@@ -83,14 +83,17 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 }
 
 const (
-	teamScanQueueMember         = "scan_member"
-	teamScanQueueGroup          = "scan_group"
-	teamScanQueueGroupMember    = "scan_group_member"
-	teamScanQueueMount          = "scan_mount"
-	teamScanQueueNamespace      = "scan_namespace"
-	teamScanQueueNamespaceEntry = "scan_namespace_entry"
-	teamScanQueueReceivedFile   = "scan_received_file"
-	teamScanSharedLink          = "scan_shared_link"
+	teamScanQueueGroup           = "scan_group"
+	teamScanQueueGroupMember     = "scan_group_member"
+	teamScanQueueMember          = "scan_member"
+	teamScanQueueMount           = "scan_mount"
+	teamScanQueueNamespace       = "scan_namespace"
+	teamScanQueueNamespaceDetail = "scan_namespace_detail"
+	teamScanQueueNamespaceEntry  = "scan_namespace_entry"
+	teamScanQueueNamespaceMember = "scan_namespace_member"
+	teamScanQueueReceivedFile    = "scan_received_file"
+	teamScanQueueSharedLink      = "scan_shared_link"
+	teamScanQueueTeamFolder      = "scan_team_folder"
 )
 
 type NamespaceEntryParam struct {
@@ -112,7 +115,7 @@ func (z tsImpl) dispatchMember(member *mo_member.Member, stage eq_sequence.Stage
 	qMount.Enqueue(member.TeamMemberId)
 	qReceivedFile := stage.Get(teamScanQueueReceivedFile)
 	qReceivedFile.Enqueue(member.TeamMemberId)
-	qSharedLink := stage.Get(teamScanSharedLink)
+	qSharedLink := stage.Get(teamScanQueueSharedLink)
 	qSharedLink.Enqueue(member.TeamMemberId)
 
 	return nil
@@ -183,6 +186,8 @@ func (z tsImpl) scanGroupMember(groupId string, stage eq_sequence.Stage, admin *
 
 func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
 	qne := stage.Get(teamScanQueueNamespaceEntry)
+	qnd := stage.Get(teamScanQueueNamespaceDetail)
+	qnm := stage.Get(teamScanQueueNamespaceMember)
 
 	var lastErr error
 	opErr := sv_namespace.New(z.client).ListEach(func(namespace *mo_namespace.Namespace) bool {
@@ -201,11 +206,46 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 			NamespaceId: ns.NamespaceId,
 			Path:        "",
 		})
+		if ns.NamespaceType != "team_member_folder" && ns.NamespaceType != "app_folder" {
+			qnd.Enqueue(ns.NamespaceId)
+			qnm.Enqueue(ns.NamespaceId)
+		}
 
 		return true
 	})
 
 	return es_lang.NewMultiErrorOrNull(opErr, lastErr)
+}
+
+func (z tsImpl) scanNamespaceDetail(namespaceId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	ns, err := sv_sharedfolder.New(z.client.AsAdminId(admin.TeamMemberId)).Resolve(namespaceId)
+	if err != nil {
+		return err
+	}
+	n, err := NewNamespaceDetail(es_json.MustParse(ns.Raw))
+	if err != nil {
+		return err
+	}
+	z.db.Create(n)
+	if z.db.Error != nil {
+		return z.db.Error
+	}
+	return nil
+}
+
+func (z tsImpl) scanNamespaceMember(namespaceId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	members, err := sv_sharedfolder_member.NewBySharedFolderId(z.client.AsAdminId(admin.TeamMemberId), namespaceId).List()
+	if err != nil {
+		return err
+	}
+	for _, member := range members {
+		m := NewNamespaceMember(namespaceId, member)
+		z.db.Create(m)
+		if z.db.Error != nil {
+			return z.db.Error
+		}
+	}
+	return nil
 }
 
 func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
@@ -287,6 +327,22 @@ func (z tsImpl) scanSharedLink(teamMemberId string, stage eq_sequence.Stage, adm
 	return nil
 }
 
+func (z tsImpl) scanTeamFolder(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	folders, err := sv_teamfolder.New(z.client).List()
+	if err != nil {
+		return err
+	}
+
+	for _, folder := range folders {
+		f, err := NewTeamFolder(es_json.MustParse(folder.Raw))
+		if err != nil {
+			return err
+		}
+		z.db.Create(f)
+	}
+	return nil
+}
+
 func (z tsImpl) ScanTeam() (err error) {
 	admin, err := sv_profile.NewTeam(z.client).Admin()
 	if err != nil {
@@ -300,9 +356,12 @@ func (z tsImpl) ScanTeam() (err error) {
 		s.Define(teamScanQueueMember, z.scanMembers, s, admin)
 		s.Define(teamScanQueueMount, z.scanMount, s, admin)
 		s.Define(teamScanQueueNamespace, z.scanNamespaces, s, admin)
+		s.Define(teamScanQueueNamespaceDetail, z.scanNamespaceDetail, s, admin)
+		s.Define(teamScanQueueNamespaceMember, z.scanNamespaceMember, s, admin)
 		s.Define(teamScanQueueNamespaceEntry, z.scanNamespaceEntry, s, admin)
 		s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin)
-		s.Define(teamScanSharedLink, z.scanSharedLink, s, admin)
+		s.Define(teamScanQueueSharedLink, z.scanSharedLink, s, admin)
+		s.Define(teamScanQueueTeamFolder, z.scanTeamFolder, s, admin)
 
 		qMember := s.Get(teamScanQueueMember)
 		qMember.Enqueue("")
@@ -310,6 +369,8 @@ func (z tsImpl) ScanTeam() (err error) {
 		qNamespace.Enqueue("")
 		qGroup := s.Get(teamScanQueueGroup)
 		qGroup.Enqueue("")
+		qTeamFolder := s.Get(teamScanQueueTeamFolder)
+		qTeamFolder.Enqueue("")
 
 	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
 		lastErr = err
@@ -322,14 +383,4 @@ func (z tsImpl) ScanTeam() (err error) {
 	_ = db.Close()
 
 	return lastErr
-}
-
-func (z tsImpl) ScanTeamContent() (err error) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func (z tsImpl) ScanMembers() (err error) {
-	//TODO implement me
-	panic("implement me")
 }
