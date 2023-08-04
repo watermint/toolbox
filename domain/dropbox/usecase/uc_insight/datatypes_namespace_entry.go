@@ -11,7 +11,7 @@ type NamespaceEntry struct {
 	FileId      string `path:"id" gorm:"primaryKey"`
 
 	// attributes
-	EntryType                string `path:".tag"`
+	EntryType                string `path:"\\.tag"`
 	Name                     string `path:"name"`
 	Size                     uint64 `path:"size"`
 	Rev                      string `path:"rev"`
@@ -19,6 +19,7 @@ type NamespaceEntry struct {
 	HasExplicitSharedMembers bool   `path:"has_explicit_shared_members"`
 	ClientModified           string `path:"client_modified"`
 	ServerModified           string `path:"server_modified"`
+	ContentHash              string `path:"content_hash"`
 	Path                     string `path:"path"`
 	PathLower                string `path:"path_lower"`
 	PathDisplay              string `path:"path_display"`

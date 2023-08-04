@@ -1,7 +1,6 @@
 package uc_insight
 
 import (
-	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 )
 
@@ -34,8 +33,6 @@ type NamespaceMember struct {
 	UserAccountId    string `path:"user.account_id"`
 
 	Updated uint64 `gorm:"autoUpdateTime"`
-
-	Raw json.RawMessage
 }
 
 func NewNamespaceMember(namespaceId string, data mo_sharedfolder_member.Member) (ns *NamespaceMember) {

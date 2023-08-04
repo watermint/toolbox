@@ -36,6 +36,8 @@ type IndividualScanner interface {
 type TeamScanner interface {
 	// ScanTeam scans all team information
 	ScanTeam() (err error)
+
+	RetryErrors() (err error)
 }
 
 func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
@@ -51,6 +53,7 @@ func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
 		&Member{},
 		&Mount{},
 		&NamespaceDetail{},
+		&NamespaceEntryError{},
 		&NamespaceEntry{},
 		&NamespaceMember{},
 		&Namespace{},
@@ -87,9 +90,9 @@ const (
 	teamScanQueueGroupMember     = "scan_group_member"
 	teamScanQueueMember          = "scan_member"
 	teamScanQueueMount           = "scan_mount"
-	teamScanQueueNamespace       = "scan_namespace"
-	teamScanQueueNamespaceDetail = "scan_namespace_detail"
-	teamScanQueueNamespaceEntry  = "scan_namespace_entry"
+	teamScanQueueNamespace       = "scan_team_namespace"
+	teamScanQueueNamespaceDetail = "scan_namespace"
+	teamScanQueueNamespaceEntry  = "scan_folder"
 	teamScanQueueNamespaceMember = "scan_namespace_member"
 	teamScanQueueReceivedFile    = "scan_received_file"
 	teamScanQueueSharedLink      = "scan_shared_link"
@@ -99,6 +102,7 @@ const (
 type NamespaceEntryParam struct {
 	NamespaceId string `json:"namespaceId" path:"namespace_id"`
 	Path        string `json:"path" path:"path"`
+	IsRetry     bool   `json:"isRetry" path:"is_retry"`
 }
 
 type tsImpl struct {
@@ -252,7 +256,7 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 	qne := stage.Get(teamScanQueueNamespaceEntry)
 
 	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(param.NamespaceId))
-	return sv_file.NewFiles(client).ListEach(mo_path.NewDropboxPath(param.Path),
+	err = sv_file.NewFiles(client).ListEach(mo_path.NewDropboxPath(param.Path),
 		func(entry mo_file.Entry) {
 			ce := entry.Concrete()
 			f, err := NewNamespaceEntry(param.NamespaceId, param.Path, es_json.MustParse(ce.Raw))
@@ -264,7 +268,7 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 			if ce.IsFolder() {
 				qne.Enqueue(&NamespaceEntryParam{
 					NamespaceId: param.NamespaceId,
-					Path:        f.PathDisplay,
+					Path:        f.PathLower,
 				})
 			}
 		},
@@ -272,6 +276,24 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 		sv_file.IncludeDeleted(true),
 		sv_file.IncludeHasExplicitSharedMembers(true),
 	)
+
+	switch err {
+	case nil:
+		if param.IsRetry {
+			z.db.Delete(&NamespaceEntryError{
+				NamespaceId: param.NamespaceId,
+				Path:        param.Path,
+			})
+		}
+
+	default:
+		z.db.Create(&NamespaceEntryError{
+			NamespaceId: param.NamespaceId,
+			Path:        param.Path,
+			Error:       err.Error(),
+		})
+	}
+	return err
 }
 
 func (z tsImpl) scanReceivedFile(teamMemberId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
@@ -343,6 +365,20 @@ func (z tsImpl) scanTeamFolder(dummy string, stage eq_sequence.Stage, admin *mo_
 	return nil
 }
 
+func (z tsImpl) defineQueues(s eq_sequence.Stage, admin *mo_profile.Profile) {
+	s.Define(teamScanQueueGroup, z.scanGroup, s, admin)
+	s.Define(teamScanQueueGroupMember, z.scanGroupMember, s, admin)
+	s.Define(teamScanQueueMember, z.scanMembers, s, admin)
+	s.Define(teamScanQueueMount, z.scanMount, s, admin)
+	s.Define(teamScanQueueNamespace, z.scanNamespaces, s, admin)
+	s.Define(teamScanQueueNamespaceDetail, z.scanNamespaceDetail, s, admin)
+	s.Define(teamScanQueueNamespaceMember, z.scanNamespaceMember, s, admin)
+	s.Define(teamScanQueueNamespaceEntry, z.scanNamespaceEntry, s, admin)
+	s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin)
+	s.Define(teamScanQueueSharedLink, z.scanSharedLink, s, admin)
+	s.Define(teamScanQueueTeamFolder, z.scanTeamFolder, s, admin)
+}
+
 func (z tsImpl) ScanTeam() (err error) {
 	admin, err := sv_profile.NewTeam(z.client).Admin()
 	if err != nil {
@@ -351,17 +387,7 @@ func (z tsImpl) ScanTeam() (err error) {
 
 	var lastErr error
 	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define(teamScanQueueGroup, z.scanGroup, s, admin)
-		s.Define(teamScanQueueGroupMember, z.scanGroupMember, s, admin)
-		s.Define(teamScanQueueMember, z.scanMembers, s, admin)
-		s.Define(teamScanQueueMount, z.scanMount, s, admin)
-		s.Define(teamScanQueueNamespace, z.scanNamespaces, s, admin)
-		s.Define(teamScanQueueNamespaceDetail, z.scanNamespaceDetail, s, admin)
-		s.Define(teamScanQueueNamespaceMember, z.scanNamespaceMember, s, admin)
-		s.Define(teamScanQueueNamespaceEntry, z.scanNamespaceEntry, s, admin)
-		s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin)
-		s.Define(teamScanQueueSharedLink, z.scanSharedLink, s, admin)
-		s.Define(teamScanQueueTeamFolder, z.scanTeamFolder, s, admin)
+		z.defineQueues(s, admin)
 
 		qMember := s.Get(teamScanQueueMember)
 		qMember.Enqueue("")
@@ -371,6 +397,39 @@ func (z tsImpl) ScanTeam() (err error) {
 		qGroup.Enqueue("")
 		qTeamFolder := s.Get(teamScanQueueTeamFolder)
 		qTeamFolder.Enqueue("")
+
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
+
+	db, err := z.db.DB()
+	if err != nil {
+		return err
+	}
+	_ = db.Close()
+
+	return lastErr
+}
+
+func (z tsImpl) RetryErrors() error {
+	admin, err := sv_profile.NewTeam(z.client).Admin()
+	if err != nil {
+		return err
+	}
+
+	queueSize := z.ctl.Feature().Concurrency() * 2
+	offset := 0
+
+	var lastErr error
+	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
+		z.defineQueues(s, admin)
+
+		for {
+			namespaceEntryErrors := make([]NamespaceEntryError, 0)
+			tx := z.db.Limit(queueSize).Offset(offset).First(&namespaceEntryErrors)
+			offset += int(tx.RowsAffected)
+
+		}
 
 	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
 		lastErr = err

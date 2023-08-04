@@ -35,6 +35,6 @@ func (z gormLoggerWrapper) Error(ctx context.Context, s string, i ...interface{}
 }
 
 func (z gormLoggerWrapper) Trace(ctx context.Context, begin time.Time, fc func() (sql string, rowsAffected int64), err error) {
-	sql, affected := fc()
-	z.logger.Debug("GormTrace", esl.String("sql", sql), esl.Int64("affected", affected), esl.Error(err))
+	//sql, affected := fc()
+	//z.logger.Debug("GormTrace", esl.String("sql", sql), esl.Int64("affected", affected), esl.Error(err))
 }
