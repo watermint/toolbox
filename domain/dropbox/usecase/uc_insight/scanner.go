@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -48,6 +49,7 @@ func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
 	}
 
 	tables := []interface{}{
+		&FileMember{},
 		&GroupMember{},
 		&Group{},
 		&Member{},
@@ -86,6 +88,7 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 }
 
 const (
+	teamScanQueueFileMember      = "scan_file_member"
 	teamScanQueueGroup           = "scan_group"
 	teamScanQueueGroupMember     = "scan_group_member"
 	teamScanQueueMember          = "scan_member"
@@ -103,6 +106,11 @@ type NamespaceEntryParam struct {
 	NamespaceId string `json:"namespaceId" path:"namespace_id"`
 	Path        string `json:"path" path:"path"`
 	IsRetry     bool   `json:"isRetry" path:"is_retry"`
+}
+
+type FileMemberParam struct {
+	NamespaceId string `json:"namespaceId" path:"namespace_id"`
+	FileId      string `json:"fileId" path:"file_id"`
 }
 
 type tsImpl struct {
@@ -254,6 +262,7 @@ func (z tsImpl) scanNamespaceMember(namespaceId string, stage eq_sequence.Stage,
 
 func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
 	qne := stage.Get(teamScanQueueNamespaceEntry)
+	qfm := stage.Get(teamScanQueueFileMember)
 
 	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(param.NamespaceId))
 	err = sv_file.NewFiles(client).ListEach(mo_path.NewDropboxPath(param.Path),
@@ -269,6 +278,12 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 				qne.Enqueue(&NamespaceEntryParam{
 					NamespaceId: param.NamespaceId,
 					Path:        f.PathLower,
+				})
+			}
+			if ce.IsFile() && ce.HasExplicitSharedMembers {
+				qfm.Enqueue(&FileMemberParam{
+					NamespaceId: param.NamespaceId,
+					FileId:      ce.Id,
 				})
 			}
 		},
@@ -349,6 +364,22 @@ func (z tsImpl) scanSharedLink(teamMemberId string, stage eq_sequence.Stage, adm
 	return nil
 }
 
+func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	client := z.client.AsMemberId(admin.TeamMemberId)
+
+	members, err := sv_file_member.New(client).List(entry.FileId, false)
+	if err != nil {
+		return err
+	}
+
+	for _, member := range members {
+		m := NewFileMember(entry.NamespaceId, entry.FileId, member)
+		z.db.Create(m)
+	}
+
+	return nil
+}
+
 func (z tsImpl) scanTeamFolder(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
 	folders, err := sv_teamfolder.New(z.client).List()
 	if err != nil {
@@ -366,14 +397,15 @@ func (z tsImpl) scanTeamFolder(dummy string, stage eq_sequence.Stage, admin *mo_
 }
 
 func (z tsImpl) defineQueues(s eq_sequence.Stage, admin *mo_profile.Profile) {
+	s.Define(teamScanQueueFileMember, z.scanFileMember, s, admin)
 	s.Define(teamScanQueueGroup, z.scanGroup, s, admin)
 	s.Define(teamScanQueueGroupMember, z.scanGroupMember, s, admin)
 	s.Define(teamScanQueueMember, z.scanMembers, s, admin)
 	s.Define(teamScanQueueMount, z.scanMount, s, admin)
 	s.Define(teamScanQueueNamespace, z.scanNamespaces, s, admin)
 	s.Define(teamScanQueueNamespaceDetail, z.scanNamespaceDetail, s, admin)
-	s.Define(teamScanQueueNamespaceMember, z.scanNamespaceMember, s, admin)
 	s.Define(teamScanQueueNamespaceEntry, z.scanNamespaceEntry, s, admin)
+	s.Define(teamScanQueueNamespaceMember, z.scanNamespaceMember, s, admin)
 	s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin)
 	s.Define(teamScanQueueSharedLink, z.scanSharedLink, s, admin)
 	s.Define(teamScanQueueTeamFolder, z.scanTeamFolder, s, admin)
@@ -412,23 +444,37 @@ func (z tsImpl) ScanTeam() (err error) {
 }
 
 func (z tsImpl) RetryErrors() error {
+	l := z.ctl.Log()
 	admin, err := sv_profile.NewTeam(z.client).Admin()
 	if err != nil {
 		return err
 	}
 
-	queueSize := z.ctl.Feature().Concurrency() * 2
-	offset := 0
+	rows, err := z.db.Model(&NamespaceEntryError{}).Rows()
+	if err != nil {
+		l.Debug("cannot retrieve model", esl.Error(err))
+		return err
+	}
+	defer func() {
+		_ = rows.Close()
+	}()
 
 	var lastErr error
 	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
 		z.defineQueues(s, admin)
+		qNamespaceEntry := s.Get(teamScanQueueNamespaceEntry)
 
-		for {
-			namespaceEntryErrors := make([]NamespaceEntryError, 0)
-			tx := z.db.Limit(queueSize).Offset(offset).First(&namespaceEntryErrors)
-			offset += int(tx.RowsAffected)
-
+		for rows.Next() {
+			namespaceEntryError := &NamespaceEntryError{}
+			if err := z.db.ScanRows(rows, namespaceEntryError); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				return
+			}
+			qNamespaceEntry.Enqueue(&NamespaceEntryParam{
+				NamespaceId: namespaceEntryError.NamespaceId,
+				Path:        namespaceEntryError.Path,
+				IsRetry:     true,
+			})
 		}
 
 	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
