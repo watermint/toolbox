@@ -11,6 +11,7 @@ type NamespaceEntry struct {
 	FileId      string `path:"id" gorm:"primaryKey"`
 
 	// attributes
+	ParentFolderId           string
 	EntryType                string `path:"\\.tag"`
 	Name                     string `path:"name"`
 	Size                     uint64 `path:"size"`
@@ -20,7 +21,6 @@ type NamespaceEntry struct {
 	ClientModified           string `path:"client_modified"`
 	ServerModified           string `path:"server_modified"`
 	ContentHash              string `path:"content_hash"`
-	Path                     string `path:"path"`
 	PathLower                string `path:"path_lower"`
 	PathDisplay              string `path:"path_display"`
 	EntryNamespaceId         string `path:"sharing_info.shared_folder_id"`
@@ -31,12 +31,12 @@ type NamespaceEntry struct {
 	Raw json.RawMessage
 }
 
-func NewNamespaceEntry(namespaceId string, path string, data es_json.Json) (ne *NamespaceEntry, err error) {
+func NewNamespaceEntry(namespaceId string, parentFolderId string, data es_json.Json) (ne *NamespaceEntry, err error) {
 	ne = &NamespaceEntry{}
 	if err = data.Model(ne); err != nil {
 		return nil, err
 	}
 	ne.NamespaceId = namespaceId
-	ne.Path = path
+	ne.ParentFolderId = parentFolderId
 	return ne, nil
 }

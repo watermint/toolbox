@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
@@ -35,8 +36,10 @@ type IndividualScanner interface {
 }
 
 type TeamScanner interface {
-	// ScanTeam scans all team information
-	ScanTeam() (err error)
+	// Scan scans all team information
+	Scan() (err error)
+
+	Summarize() (err error)
 
 	RetryErrors() (err error)
 }
@@ -104,7 +107,7 @@ const (
 
 type NamespaceEntryParam struct {
 	NamespaceId string `json:"namespaceId" path:"namespace_id"`
-	Path        string `json:"path" path:"path"`
+	FolderId    string `json:"folderId" path:"folder_id"`
 	IsRetry     bool   `json:"isRetry" path:"is_retry"`
 }
 
@@ -117,6 +120,19 @@ type tsImpl struct {
 	ctl    app_control.Control
 	client dbx_client.Client
 	db     *gorm.DB
+}
+
+func (z tsImpl) saveIfExternalGroup(member mo_sharedfolder_member.Member) {
+	g, err := NewGroupFromMember(member)
+	if err != nil {
+		// not a group
+		return
+	}
+	if mo_sharedfolder_member.IsSameTeam(member.SameTeam()) {
+		// not an external group
+		return
+	}
+	z.db.Create(g)
 }
 
 func (z tsImpl) dispatchMember(member *mo_member.Member, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
@@ -216,7 +232,7 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 
 		qne.Enqueue(&NamespaceEntryParam{
 			NamespaceId: ns.NamespaceId,
-			Path:        "",
+			FolderId:    "",
 		})
 		if ns.NamespaceType != "team_member_folder" && ns.NamespaceType != "app_folder" {
 			qnd.Enqueue(ns.NamespaceId)
@@ -252,6 +268,7 @@ func (z tsImpl) scanNamespaceMember(namespaceId string, stage eq_sequence.Stage,
 	}
 	for _, member := range members {
 		m := NewNamespaceMember(namespaceId, member)
+		z.saveIfExternalGroup(member)
 		z.db.Create(m)
 		if z.db.Error != nil {
 			return z.db.Error
@@ -265,19 +282,19 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 	qfm := stage.Get(teamScanQueueFileMember)
 
 	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(param.NamespaceId))
-	err = sv_file.NewFiles(client).ListEach(mo_path.NewDropboxPath(param.Path),
+	err = sv_file.NewFiles(client).ListEach(mo_path.NewDropboxPath(param.FolderId),
 		func(entry mo_file.Entry) {
 			ce := entry.Concrete()
-			f, err := NewNamespaceEntry(param.NamespaceId, param.Path, es_json.MustParse(ce.Raw))
+			f, err := NewNamespaceEntry(param.NamespaceId, param.FolderId, es_json.MustParse(ce.Raw))
 			if err != nil {
 				return
 			}
 			z.db.Create(f)
 
-			if ce.IsFolder() {
+			if ce.IsFolder() && ce.SharedFolderId == "" {
 				qne.Enqueue(&NamespaceEntryParam{
 					NamespaceId: param.NamespaceId,
-					Path:        f.PathLower,
+					FolderId:    ce.Id,
 				})
 			}
 			if ce.IsFile() && ce.HasExplicitSharedMembers {
@@ -297,14 +314,14 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 		if param.IsRetry {
 			z.db.Delete(&NamespaceEntryError{
 				NamespaceId: param.NamespaceId,
-				Path:        param.Path,
+				FolderId:    param.FolderId,
 			})
 		}
 
 	default:
 		z.db.Create(&NamespaceEntryError{
 			NamespaceId: param.NamespaceId,
-			Path:        param.Path,
+			FolderId:    param.FolderId,
 			Error:       err.Error(),
 		})
 	}
@@ -365,7 +382,7 @@ func (z tsImpl) scanSharedLink(teamMemberId string, stage eq_sequence.Stage, adm
 }
 
 func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
-	client := z.client.AsMemberId(admin.TeamMemberId)
+	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(entry.NamespaceId))
 
 	members, err := sv_file_member.New(client).List(entry.FileId, false)
 	if err != nil {
@@ -374,6 +391,7 @@ func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, 
 
 	for _, member := range members {
 		m := NewFileMember(entry.NamespaceId, entry.FileId, member)
+		z.saveIfExternalGroup(member)
 		z.db.Create(m)
 	}
 
@@ -411,7 +429,7 @@ func (z tsImpl) defineQueues(s eq_sequence.Stage, admin *mo_profile.Profile) {
 	s.Define(teamScanQueueTeamFolder, z.scanTeamFolder, s, admin)
 }
 
-func (z tsImpl) ScanTeam() (err error) {
+func (z tsImpl) Scan() (err error) {
 	admin, err := sv_profile.NewTeam(z.client).Admin()
 	if err != nil {
 		return err
@@ -472,7 +490,7 @@ func (z tsImpl) RetryErrors() error {
 			}
 			qNamespaceEntry.Enqueue(&NamespaceEntryParam{
 				NamespaceId: namespaceEntryError.NamespaceId,
-				Path:        namespaceEntryError.Path,
+				FolderId:    namespaceEntryError.FolderId,
 				IsRetry:     true,
 			})
 		}
@@ -488,4 +506,8 @@ func (z tsImpl) RetryErrors() error {
 	_ = db.Close()
 
 	return lastErr
+}
+
+func (z tsImpl) Summarize() error {
+	return nil
 }

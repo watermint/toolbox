@@ -23,7 +23,7 @@ func (z *Scan) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	return ts.ScanTeam()
+	return ts.Scan()
 }
 
 func (z *Scan) Test(c app_control.Control) error {

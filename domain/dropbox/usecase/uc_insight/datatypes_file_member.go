@@ -19,7 +19,7 @@ type FileMember struct {
 	// group
 	GroupId          string `path:"group.group_id"`
 	GroupName        string `path:"group.group_name"`
-	GroupType        string `path:"group.group_type.\\.tag"`
+	GroupType        string `path:"group.group_management_type.\\.tag"`
 	GroupMemberCount uint64 `path:"group.member_count"`
 
 	// invitee
@@ -41,14 +41,7 @@ func NewFileMember(namespaceId string, fileId string, data mo_sharedfolder_membe
 	ns.AccessType = data.AccessType()
 	ns.IsInherited = data.IsInherited()
 	ns.MemberType = data.MemberType()
-	switch data.SameTeam() {
-	case "true":
-		ns.SameTeam = "yes"
-	case "false":
-		ns.SameTeam = "no"
-	default:
-		ns.SameTeam = "unknown"
-	}
+	ns.SameTeam = ConvertSameTeam(data.SameTeam())
 
 	if user, ok := data.User(); ok {
 		ns.UserTeamMemberId = user.TeamMemberId
