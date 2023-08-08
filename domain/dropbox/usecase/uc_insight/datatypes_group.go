@@ -3,8 +3,11 @@ package uc_insight
 import (
 	"encoding/json"
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 )
 
 type Group struct {
@@ -43,4 +46,25 @@ func NewGroupFromMember(member mo_sharedfolder_member.Member) (g *Group, err err
 	}
 
 	return nil, errors.New("not a group")
+}
+
+func (z tsImpl) scanGroup(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	gmq := stage.Get(teamScanQueueGroupMember)
+
+	groups, err := sv_group.New(z.client).List()
+	if err != nil {
+		return err
+	}
+	for _, group := range groups {
+		g, err := NewGroupFromJson(es_json.MustParse(group.Raw))
+		if err != nil {
+			return err
+		}
+		z.db.Save(g)
+		if z.db.Error != nil {
+			return z.db.Error
+		}
+		gmq.Enqueue(g.GroupId)
+	}
+	return nil
 }

@@ -148,17 +148,18 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows the transaction result.
 The command will generate a report in three different formats. `downloaded.csv`, `downloaded.json`, and `downloaded.xlsx`.
 
-| Column                | Description                                                                                            |
-|-----------------------|--------------------------------------------------------------------------------------------------------|
-| status                | Status of the operation                                                                                |
-| reason                | Reason of failure or skipped operation                                                                 |
-| input.name            | The last component of the path (including extension).                                                  |
-| input.path_display    | The cased path to be used for display purposes only.                                                   |
-| input.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| input.server_modified | The last time the file was modified on Dropbox.                                                        |
-| input.size            | The file size in bytes.                                                                                |
-| input.content_hash    | A hash of the file content.                                                                            |
-| result.path           | Path                                                                                                   |
+| Column                            | Description                                                                                                          |
+|-----------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                            | Status of the operation                                                                                              |
+| reason                            | Reason of failure or skipped operation                                                                               |
+| input.name                        | The last component of the path (including extension).                                                                |
+| input.path_display                | The cased path to be used for display purposes only.                                                                 |
+| input.client_modified             | For files, this is the modification time set by the desktop client when the file was added to Dropbox.               |
+| input.server_modified             | The last time the file was modified on Dropbox.                                                                      |
+| input.size                        | The file size in bytes.                                                                                              |
+| input.content_hash                | A hash of the file content.                                                                                          |
+| input.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+| result.path                       | Path                                                                                                                 |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

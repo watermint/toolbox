@@ -131,12 +131,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 このレポートはファイルとフォルダのメタデータを出力します.
 このコマンドはレポートを3種類の書式で出力します. `created.csv`, `created.json`, ならびに `created.xlsx`.
 
-| 列                      | 説明                                                                                       |
-|-------------------------|--------------------------------------------------------------------------------------------|
-| name                    | 名称                                                                                       |
-| path_display            | パス (表示目的で大文字小文字を区別する).                                                   |
-| shared_folder_id        | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。 |
-| parent_shared_folder_id | このファイルを含む共有フォルダのID.                                                        |
+| 列                          | 説明                                                                                                                 |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| name                        | 名称                                                                                                                 |
+| path_display                | パス (表示目的で大文字小文字を区別する).                                                                             |
+| has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+| shared_folder_id            | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。                           |
+| parent_shared_folder_id     | このファイルを含む共有フォルダのID.                                                                                  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

@@ -143,18 +143,19 @@ http://example.com/2019/12/26.zip,/backup/2019-12-16.zip
 このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                     | 説明                                                           |
-|------------------------|----------------------------------------------------------------|
-| status                 | 処理の状態                                                     |
-| reason                 | 失敗またはスキップの理由                                       |
-| input.url              | ダウンロードするURL                                            |
-| input.path             | 保存先パス (指定しないと`-path`オプションの指定が利用されます) |
-| result.tag             | エントリーの種別`file`, `folder`, または `deleted`             |
-| result.name            | 名称                                                           |
-| result.path_display    | パス (表示目的で大文字小文字を区別する).                       |
-| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ   |
-| result.server_modified | Dropbox上で最後に更新された日時                                |
-| result.size            | ファイルサイズ(バイト単位)                                     |
+| 列                                 | 説明                                                                                                                 |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                             | 処理の状態                                                                                                           |
+| reason                             | 失敗またはスキップの理由                                                                                             |
+| input.url                          | ダウンロードするURL                                                                                                  |
+| input.path                         | 保存先パス (指定しないと`-path`オプションの指定が利用されます)                                                       |
+| result.tag                         | エントリーの種別`file`, `folder`, または `deleted`                                                                   |
+| result.name                        | 名称                                                                                                                 |
+| result.path_display                | パス (表示目的で大文字小文字を区別する).                                                                             |
+| result.client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                                         |
+| result.server_modified             | Dropbox上で最後に更新された日時                                                                                      |
+| result.size                        | ファイルサイズ(バイト単位)                                                                                           |
+| result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

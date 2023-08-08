@@ -1,6 +1,12 @@
 package uc_insight
 
-import "github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
+import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_member"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+)
 
 type FileMember struct {
 	// primary keys
@@ -17,7 +23,7 @@ type FileMember struct {
 	SameTeam string
 
 	// group
-	GroupId          string `path:"group.group_id"`
+	GroupId          string `path:"group.group_id" gorm:"index"`
 	GroupName        string `path:"group.group_name"`
 	GroupType        string `path:"group.group_management_type.\\.tag"`
 	GroupMemberCount uint64 `path:"group.member_count"`
@@ -26,7 +32,7 @@ type FileMember struct {
 	InviteeEmail string `path:"invitee.email"`
 
 	// user
-	UserTeamMemberId string `path:"user.team_member_id"`
+	UserTeamMemberId string `path:"user.team_member_id" gorm:"index"`
 	UserEmail        string `path:"user.email"`
 	UserDisplayName  string `path:"user.display_name"`
 	UserAccountId    string `path:"user.account_id"`
@@ -59,4 +65,21 @@ func NewFileMember(namespaceId string, fileId string, data mo_sharedfolder_membe
 		ns.InviteeEmail = invitee.InviteeEmail
 	}
 	return ns
+}
+
+func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(entry.NamespaceId))
+
+	members, err := sv_file_member.New(client).List(entry.FileId, false)
+	if err != nil {
+		return err
+	}
+
+	for _, member := range members {
+		m := NewFileMember(entry.NamespaceId, entry.FileId, member)
+		z.saveIfExternalGroup(member)
+		z.db.Save(m)
+	}
+
+	return nil
 }

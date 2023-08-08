@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# file share info
+# team insight summarize
 
-ファイルの共有情報を取得する 
+Summarize scanned team information 
 
 # セキュリティ
 
@@ -22,15 +22,12 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                                                   |
-|----------------------------------------------------------------------------------------|
-| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示                                 |
-| Dropbox: Dropboxの共有設定と共同作業者の表示                                           |
+| 説明 |
+|------|
 
 # 認可
 
@@ -67,12 +64,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe file share info -path /DROPBOX/PATH/TO/GET_INFO
+.\tbx.exe team insight summarize -database /LOCAL/PATH/TO/database.db
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx file share info -path /DROPBOX/PATH/TO/GET_INFO
+$HOME/Desktop/tbx team insight summarize -database /LOCAL/PATH/TO/database.db
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -83,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-path`    | ファイル         |            |
-| `-peer`    | アカウントの別名 | default    |
+| オプション  | 説明             | デフォルト |
+|-------------|------------------|------------|
+| `-database` | Path to database |            |
+| `-peer`     | Account alias    | default    |
 
 ## 共通のオプション:
 
@@ -110,41 +107,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: metadata
-
-このレポートはファイルとフォルダのメタデータを出力します.
-このコマンドはレポートを3種類の書式で出力します. `metadata.csv`, `metadata.json`, ならびに `metadata.xlsx`.
-
-| 列                          | 説明                                                                                                                 |
-|-----------------------------|----------------------------------------------------------------------------------------------------------------------|
-| id                          | ファイルへの一意なID                                                                                                 |
-| tag                         | エントリーの種別`file`, `folder`, または `deleted`                                                                   |
-| name                        | 名称                                                                                                                 |
-| path_lower                  | パス (すべて小文字に変換). これは常にスラッシュで始まります.                                                         |
-| path_display                | パス (表示目的で大文字小文字を区別する).                                                                             |
-| client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                                         |
-| server_modified             | Dropbox上で最後に更新された日時                                                                                      |
-| revision                    | ファイルの現在バージョンの一意な識別子                                                                               |
-| size                        | ファイルサイズ(バイト単位)                                                                                           |
-| content_hash                | ファイルコンテンツのハッシュ                                                                                         |
-| has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
-| shared_folder_id            | これが共有フォルダのマウントポイントである場合、ここにマウントされている共有フォルダのID。                           |
-| parent_shared_folder_id     | このファイルを含む共有フォルダのID.                                                                                  |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

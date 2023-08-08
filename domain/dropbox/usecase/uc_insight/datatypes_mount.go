@@ -2,7 +2,10 @@ package uc_insight
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 )
 
 type Mount struct {
@@ -38,4 +41,23 @@ func NewMountFromJsonWithTeamMemberId(teamMemberId string, data es_json.Json) (m
 	}
 	m.TeamMemberId = teamMemberId
 	return m, nil
+}
+
+func (z tsImpl) scanMount(teamMemberId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	client := z.client.AsMemberId(teamMemberId)
+
+	mountables, err := sv_sharedfolder_mount.New(client).Mountables()
+	if err != nil {
+		return err
+	}
+
+	for _, mount := range mountables {
+		m, err := NewMountFromJsonWithTeamMemberId(teamMemberId, es_json.MustParse(mount.Raw))
+		if err != nil {
+			return err
+		}
+		z.db.Save(m)
+	}
+
+	return nil
 }

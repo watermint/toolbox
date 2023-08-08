@@ -148,17 +148,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `downloaded.csv`, `downloaded.json`, ならびに `downloaded.xlsx`.
 
-| 列                    | 説明                                                         |
-|-----------------------|--------------------------------------------------------------|
-| status                | 処理の状態                                                   |
-| reason                | 失敗またはスキップの理由                                     |
-| input.name            | 名称                                                         |
-| input.path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| input.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| input.server_modified | Dropbox上で最後に更新された日時                              |
-| input.size            | ファイルサイズ(バイト単位)                                   |
-| input.content_hash    | ファイルコンテンツのハッシュ                                 |
-| result.path           | パス                                                         |
+| 列                                | 説明                                                                                                                 |
+|-----------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                            | 処理の状態                                                                                                           |
+| reason                            | 失敗またはスキップの理由                                                                                             |
+| input.name                        | 名称                                                                                                                 |
+| input.path_display                | パス (表示目的で大文字小文字を区別する).                                                                             |
+| input.client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                                         |
+| input.server_modified             | Dropbox上で最後に更新された日時                                                                                      |
+| input.size                        | ファイルサイズ(バイト単位)                                                                                           |
+| input.content_hash                | ファイルコンテンツのハッシュ                                                                                         |
+| input.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+| result.path                       | パス                                                                                                                 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

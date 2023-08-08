@@ -415,6 +415,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamfilerequest.Clone{},
 		&recipeteamfilerequest.List{},
 		&recipeteaminsight.Scan{},
+		&recipeteaminsight.Summarize{},
 		&recipeteamlegalhold.Add{},
 		&recipeteamlegalhold.List{},
 		&recipeteamlegalhold.Release{},

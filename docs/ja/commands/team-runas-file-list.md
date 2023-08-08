@@ -132,14 +132,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 このレポートはファイルとフォルダのメタデータを出力します.
 このコマンドはレポートを3種類の書式で出力します. `file_list.csv`, `file_list.json`, ならびに `file_list.xlsx`.
 
-| 列              | 説明                                                         |
-|-----------------|--------------------------------------------------------------|
-| tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| name            | 名称                                                         |
-| path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| server_modified | Dropbox上で最後に更新された日時                              |
-| size            | ファイルサイズ(バイト単位)                                   |
+| 列                          | 説明                                                                                                                 |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| tag                         | エントリーの種別`file`, `folder`, または `deleted`                                                                   |
+| name                        | 名称                                                                                                                 |
+| path_display                | パス (表示目的で大文字小文字を区別する).                                                                             |
+| client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                                         |
+| server_modified             | Dropbox上で最後に更新された日時                                                                                      |
+| size                        | ファイルサイズ(バイト単位)                                                                                           |
+| has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

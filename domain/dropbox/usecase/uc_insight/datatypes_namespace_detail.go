@@ -2,7 +2,10 @@ package uc_insight
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 )
 
 type NamespaceDetail struct {
@@ -30,4 +33,20 @@ func NewNamespaceDetail(data es_json.Json) (ns *NamespaceDetail, err error) {
 		return nil, err
 	}
 	return ns, nil
+}
+
+func (z tsImpl) scanNamespaceDetail(namespaceId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	ns, err := sv_sharedfolder.New(z.client.AsAdminId(admin.TeamMemberId)).Resolve(namespaceId)
+	if err != nil {
+		return err
+	}
+	n, err := NewNamespaceDetail(es_json.MustParse(ns.Raw))
+	if err != nil {
+		return err
+	}
+	z.db.Save(n)
+	if z.db.Error != nil {
+		return z.db.Error
+	}
+	return nil
 }

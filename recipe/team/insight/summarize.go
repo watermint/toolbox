@@ -12,25 +12,25 @@ import (
 	"path/filepath"
 )
 
-type Scan struct {
+type Summarize struct {
 	rc_recipe.RemarkSecret
 	Peer     dbx_conn.ConnScopedTeam
 	Database mo_path.FileSystemPath
 }
 
-func (z *Scan) Preset() {
+func (z *Summarize) Preset() {
 }
 
-func (z *Scan) Exec(c app_control.Control) error {
+func (z *Summarize) Exec(c app_control.Control) error {
 	ts, err := uc_insight.NewTeamScanner(c, z.Peer.Client(), z.Database.Path())
 	if err != nil {
 		return err
 	}
-	return ts.Scan()
+	return ts.Summarize()
 }
 
-func (z *Scan) Test(c app_control.Control) error {
-	f, err := qt_file.MakeTestFolder("scan", false)
+func (z *Summarize) Test(c app_control.Control) error {
+	f, err := qt_file.MakeTestFolder("summarize", false)
 	if err != nil {
 		return err
 	}
@@ -40,6 +40,6 @@ func (z *Scan) Test(c app_control.Control) error {
 
 	return rc_exec.ExecMock(c, &Scan{}, func(r rc_recipe.Recipe) {
 		m := r.(*Scan)
-		m.Database = mo_path.NewFileSystemPath(filepath.Join(f, "scan.db"))
+		m.Database = mo_path.NewFileSystemPath(filepath.Join(f, "summarize.db"))
 	})
 }
