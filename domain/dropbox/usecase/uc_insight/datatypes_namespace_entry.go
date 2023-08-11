@@ -17,7 +17,7 @@ type NamespaceEntry struct {
 	FileId      string `path:"id" gorm:"primaryKey"`
 
 	// attributes
-	ParentFolderId           string
+	ParentFolderId           string `gorm:"index"`
 	EntryType                string `path:"\\.tag"`
 	Name                     string `path:"name"`
 	Size                     uint64 `path:"size"`

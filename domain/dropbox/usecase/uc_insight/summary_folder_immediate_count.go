@@ -1,72 +1,71 @@
 package uc_insight
 
-import (
-	"github.com/watermint/toolbox/essentials/encoding/es_json"
-)
+import "github.com/watermint/toolbox/essentials/log/esl"
 
 // SummaryFolderImmediateCount is a summary of the folder.
 // This summary is a summary of immediate entries of under the folder, which does not include
 // sub folders or those entries.
 type SummaryFolderImmediateCount struct {
 	// primary keys
-	NamespaceId string `path:"namespace_id" gorm:"primaryKey"`
-	FolderId    string `path:"folder_id" gorm:"primaryKey"`
+	FolderId string `path:"folder_id" gorm:"primaryKey"`
 
-	// counts
-	CountFile            uint64 `path:"count_file"`
-	CountFolder          uint64 `path:"count_folder"`
-	CountDeleted         uint64 `path:"count_deleted"`
-	CountEntries         uint64 `path:"count_entries"`
-	CountNonDownloadable uint64 `path:"count_non_downloadable"`
-	CountSymlink         uint64 `path:"count_symlink"`
-	CountNamespace       uint64 `path:"count_namespace"`
+	SummaryCount
 
-	// size
-	SizeFile uint64 `path:"size_file"`
+	Updated uint64 `gorm:"autoUpdateTime"`
 }
 
-func (z tsImpl) summarizeFolderImmediateCount(folder *NamespaceEntry) error {
-	rows, err := z.db.Select(&NamespaceEntry{}).Distinct("file_id").Where("parent_folder_id = ?", folder.FileId).Rows()
+type SummaryFolderAndNamespace struct {
+	// primary keys
+	FolderId string `path:"folder_id" gorm:"primaryKey"`
+
+	SummaryCount
+}
+
+func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
+	l := z.ctl.Log().With(esl.String("folderId", folderId))
+	if folderId == "" {
+		l.Debug("skip. no folder id")
+		return nil
+	}
+	ne := &NamespaceEntry{}
+	rows, err := z.db.Model(ne).Where("parent_folder_id = ?", folderId).Rows()
 	if err != nil {
+		l.Debug("cannot find entries", esl.Error(err))
 		return err
 	}
 	defer func() {
 		_ = rows.Close()
 	}()
 
-	fic := &SummaryFolderImmediateCount{
-		NamespaceId: folder.NamespaceId,
-		FolderId:    folder.FileId,
-	}
+	sc := SummaryCount{}
+	sn := SummaryCount{}
 
 	for rows.Next() {
 		entry := &NamespaceEntry{}
 		if err := z.db.ScanRows(rows, entry); err != nil {
 			return err
 		}
-		e := es_json.MustParse(entry.Raw)
+		sc = sc.AddEntry(entry)
 
-		fic.CountEntries++
-		if t, ok := e.FindString("\\.tag"); ok {
-			switch t {
-			case "file":
-				fic.CountFile++
-				fic.SizeFile += entry.Size
-			case "folder":
-				fic.CountFolder++
-				if entry.EntryNamespaceId != "" {
-					fic.CountNamespace++
-				}
-			case "deleted":
-				fic.CountDeleted++
+		if entry.EntryType == "folder" && entry.EntryNamespaceId != "" {
+			ns := &SummaryNamespace{}
+			if err := z.db.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
+				l.Debug("cannot find namespace", esl.Error(err), esl.String("namespaceId", entry.EntryNamespaceId))
+				return err
 			}
-		}
-		if t, ok := e.FindBool("is_downloadable"); ok && !t {
-			fic.CountNonDownloadable++
+			sn = sn.AddSummary(ns.SummaryCount)
 		}
 	}
 
-	z.db.Save(fic)
+	sfn := sn.AddSummary(sc)
+	z.db.Save(&SummaryFolderImmediateCount{
+		FolderId:     folderId,
+		SummaryCount: sc,
+	})
+	z.db.Save(&SummaryFolderAndNamespace{
+		FolderId:     folderId,
+		SummaryCount: sfn,
+	})
 
 	return nil
 }
