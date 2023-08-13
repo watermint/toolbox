@@ -277,6 +277,7 @@ func (z tsImpl) Summarize() error {
 			for folderRows.Next() {
 				if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
 					l.Debug("cannot scan row", esl.Error(err))
+					lastErr = err
 					return
 				}
 				qFolderPath.Enqueue(folderEntry.FileId)
@@ -312,6 +313,7 @@ func (z tsImpl) Summarize() error {
 			for folderRows.Next() {
 				if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
 					l.Debug("cannot scan row", esl.Error(err))
+					lastErr = err
 					return
 				}
 				qFolderRecursive.Enqueue(folderEntry.FileId)

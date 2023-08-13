@@ -18,6 +18,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 	parents := make([]string, 0)
 	entry := &NamespaceEntry{}
 	if err := z.db.First(entry, "file_id = ?", folderId).Error; err != nil {
+		l.Debug("cannot retrieve entry", esl.Error(err), esl.String("folderId", folderId))
 		return err
 	}
 	current := entry.ParentFolderId
@@ -25,6 +26,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 	for current != "" {
 		f := &NamespaceEntry{}
 		if err := z.db.First(f, "file_id = ?", current).Error; err != nil {
+			l.Debug("cannot retrieve entry", esl.Error(err), esl.String("folderId", current))
 			return err
 		}
 		if f.ParentFolderId != "" {
