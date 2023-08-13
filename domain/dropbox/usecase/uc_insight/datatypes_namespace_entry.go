@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 )
 
@@ -48,24 +49,40 @@ func NewNamespaceEntry(namespaceId string, parentFolderId string, data es_json.J
 }
 
 func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	l := z.ctl.Log().With(esl.String("namespaceId", param.NamespaceId), esl.String("folderId", param.FolderId))
 	qne := stage.Get(teamScanQueueNamespaceEntry)
 	qfm := stage.Get(teamScanQueueFileMember)
 
+	targetPath := mo_path.NewDropboxPath(param.FolderId)
+	if param.FolderId == "" {
+		f, err := sv_file.NewFiles(z.client.AsAdminId(admin.TeamMemberId)).Resolve(mo_path.NewDropboxPath("ns:" + param.NamespaceId))
+		if err != nil {
+			l.Debug("Unable to resolve namespace folder", esl.Error(err))
+			return err
+		}
+		param.FolderId = f.Concrete().Id
+	}
+
 	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(param.NamespaceId))
-	err = sv_file.NewFiles(client).ListEach(mo_path.NewDropboxPath(param.FolderId),
+	err = sv_file.NewFiles(client).ListEach(targetPath,
 		func(entry mo_file.Entry) {
 			ce := entry.Concrete()
 			f, err := NewNamespaceEntry(param.NamespaceId, param.FolderId, es_json.MustParse(ce.Raw))
 			if err != nil {
 				return
 			}
+			f.ParentFolderId = param.FolderId
 			z.db.Save(f)
 
-			if ce.IsFolder() && ce.SharedFolderId == "" {
-				qne.Enqueue(&NamespaceEntryParam{
-					NamespaceId: param.NamespaceId,
-					FolderId:    ce.Id,
-				})
+			if ce.IsFolder() {
+				if ce.SharedFolderId == "" {
+					qne.Enqueue(&NamespaceEntryParam{
+						NamespaceId: param.NamespaceId,
+						FolderId:    ce.Id,
+					})
+				} else {
+					l.Debug("Skip nested", esl.String("folderId", ce.Id), esl.String("sharedFolderId", ce.SharedFolderId))
+				}
 			}
 			if ce.IsFile() && ce.HasExplicitSharedMembers {
 				qfm.Enqueue(&FileMemberParam{

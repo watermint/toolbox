@@ -5,7 +5,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -47,6 +49,7 @@ func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
 		&Namespace{},
 		&ReceivedFile{},
 		&SharedLink{},
+		&SummaryEntry{},
 		&SummaryFolderAndNamespace{},
 		&SummaryFolderImmediateCount{},
 		&SummaryFolderPath{},
@@ -91,6 +94,7 @@ const (
 	teamScanQueueReceivedFile    = "scan_received_file"
 	teamScanQueueSharedLink      = "scan_shared_link"
 	teamScanQueueTeamFolder      = "scan_team_folder"
+	teamSummarizeEntry           = "resolve_entry"
 	teamSummarizeFolderImmediate = "resolve_folder_immediate"
 	teamSummarizeFolderPath      = "resolve_folder_path"
 	teamSummarizeFolderRecursive = "resolve_folder_recursive"
@@ -141,14 +145,14 @@ func (z tsImpl) dispatchMember(member *mo_member.Member, stage eq_sequence.Stage
 	return nil
 }
 
-func (z tsImpl) defineScanQueues(s eq_sequence.Stage, admin *mo_profile.Profile) {
+func (z tsImpl) defineScanQueues(s eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) {
 	s.Define(teamScanQueueFileMember, z.scanFileMember, s, admin)
 	s.Define(teamScanQueueGroup, z.scanGroup, s, admin)
 	s.Define(teamScanQueueGroupMember, z.scanGroupMember, s, admin)
 	s.Define(teamScanQueueMember, z.scanMembers, s, admin)
-	s.Define(teamScanQueueMount, z.scanMount, s, admin)
+	s.Define(teamScanQueueMount, z.scanMount, s, admin, team)
 	s.Define(teamScanQueueNamespace, z.scanNamespaces, s, admin)
-	s.Define(teamScanQueueNamespaceDetail, z.scanNamespaceDetail, s, admin)
+	s.Define(teamScanQueueNamespaceDetail, z.scanNamespaceDetail, s, admin, team)
 	s.Define(teamScanQueueNamespaceEntry, z.scanNamespaceEntry, s, admin)
 	s.Define(teamScanQueueNamespaceMember, z.scanNamespaceMember, s, admin)
 	s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin)
@@ -157,14 +161,21 @@ func (z tsImpl) defineScanQueues(s eq_sequence.Stage, admin *mo_profile.Profile)
 }
 
 func (z tsImpl) Scan() (err error) {
+	l := z.ctl.Log()
 	admin, err := sv_profile.NewTeam(z.client).Admin()
 	if err != nil {
+		l.Debug("Unable to retrieve admin profile", esl.Error(err))
+		return err
+	}
+	team, err := sv_team.New(z.client).Info()
+	if err != nil {
+		l.Debug("Unable to retrieve team info", esl.Error(err))
 		return err
 	}
 
 	var lastErr error
 	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
-		z.defineScanQueues(s, admin)
+		z.defineScanQueues(s, admin, team)
 
 		qMember := s.Get(teamScanQueueMember)
 		qMember.Enqueue("")
@@ -193,6 +204,7 @@ func (z tsImpl) defineSummarizeQueues(s eq_sequence.Stage) {
 	s.Define(teamSummarizeFolderPath, z.summarizeFolderPaths)
 	s.Define(teamSummarizeFolderRecursive, z.summarizeFolderRecursive)
 	s.Define(teamSummarizeNamespace, z.summarizeNamespace)
+	s.Define(teamSummarizeEntry, z.summarizeEntry)
 }
 
 func (z tsImpl) Summarize() error {
@@ -200,6 +212,7 @@ func (z tsImpl) Summarize() error {
 	var lastErr error
 
 	summaryTables := []interface{}{
+		&SummaryEntry{},
 		&SummaryFolderAndNamespace{},
 		&SummaryFolderImmediateCount{},
 		&SummaryFolderPath{},

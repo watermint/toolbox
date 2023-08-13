@@ -16,6 +16,7 @@ type SharedFolder struct {
 	IsTeamFolder         bool   `path:"is_team_folder" json:"is_team_folder"`
 	PolicyManageAccess   string `path:"policy.acl_update_policy.\\.tag" json:"policy_manage_access"`
 	PolicySharedLink     string `path:"policy.shared_link_policy.\\.tag" json:"policy_shared_link"`
+	PolicyMemberFolder   string `path:"policy.member_policy.\\.tag" json:"policy_member_folder"`
 	PolicyMember         string `path:"policy.resolved_member_policy.\\.tag" json:"policy_member"`
 	PolicyViewerInfo     string `path:"policy.viewer_info_policy.\\.tag" json:"policy_viewer_info"`
 	OwnerTeamId          string `path:"owner_team.id" json:"owner_team_id"`
