@@ -37,6 +37,8 @@ func (z tsImpl) summarizeFolderRecursive(folderId string) error {
 			return err
 		}
 		sc = sc.AddSummary(sn.SummaryCount)
+		sc.CountFolder++
+		sc.CountEntries++
 	}
 
 	z.db.Save(&SummaryFolderRecursive{
