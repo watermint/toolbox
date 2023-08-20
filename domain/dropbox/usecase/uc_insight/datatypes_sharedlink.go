@@ -14,6 +14,7 @@ type SharedLink struct {
 	Url          string `path:"url" gorm:"primaryKey"`
 
 	// attributes
+	FileId    string `path:"id" gorm:"index"`
 	Name      string `path:"name"`
 	PathLower string `path:"path_lower"`
 

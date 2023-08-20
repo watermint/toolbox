@@ -207,9 +207,160 @@ func (z tsImpl) defineSummarizeQueues(s eq_sequence.Stage) {
 	s.Define(teamSummarizeEntry, z.summarizeEntry)
 }
 
-func (z tsImpl) Summarize() error {
+// Stage1: summarize namespaces
+func (z tsImpl) summarizeStage1() error {
 	l := z.ctl.Log()
 	var lastErr error
+
+	namespaceModel := &Namespace{}
+	namespaceRows, err := z.db.Model(namespaceModel).Distinct("namespace_id").Select("namespace_id").Rows()
+	if err != nil {
+		l.Debug("Unable to get namespace rows", esl.Error(err))
+		return err
+	}
+
+	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
+		z.defineSummarizeQueues(s)
+
+		qNamespace := s.Get(teamSummarizeNamespace)
+		for namespaceRows.Next() {
+			if err := z.db.ScanRows(namespaceRows, namespaceModel); err != nil {
+				l.Debug("Unable to scan namespace row", esl.Error(err))
+				lastErr = err
+				return
+			}
+			qNamespace.Enqueue(namespaceModel.NamespaceId)
+		}
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
+	_ = namespaceRows.Close()
+
+	if lastErr != nil {
+		l.Debug("Failure on processing namespace rows", esl.Error(lastErr))
+		return lastErr
+	}
+
+	return nil
+}
+
+// Stage2: summarize folders
+func (z tsImpl) summarizeStage2() error {
+	l := z.ctl.Log()
+	var lastErr error
+
+	folderEntry := &NamespaceEntry{}
+	folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
+	if err != nil {
+		l.Debug("Unable to get folder rows", esl.Error(err))
+		return err
+	}
+
+	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
+		z.defineSummarizeQueues(s)
+
+		qFolderPath := s.Get(teamSummarizeFolderPath)
+		qFolderImmediate := s.Get(teamSummarizeFolderImmediate)
+		for folderRows.Next() {
+			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				lastErr = err
+				return
+			}
+			qFolderPath.Enqueue(folderEntry.FileId)
+			qFolderImmediate.Enqueue(folderEntry.FileId)
+		}
+
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
+	_ = folderRows.Close()
+
+	if lastErr != nil {
+		l.Debug("Failure on processing folder rows", esl.Error(lastErr))
+		return lastErr
+	}
+
+	return nil
+}
+
+// Stage3: summarize files
+func (z tsImpl) summarizeStage3() error {
+	l := z.ctl.Log()
+	var lastErr error
+
+	folderEntry := &NamespaceEntry{}
+	folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
+	if err != nil {
+		l.Debug("Unable to get folder rows", esl.Error(err))
+		return err
+	}
+
+	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
+		z.defineSummarizeQueues(s)
+
+		qFolderRecursive := s.Get(teamSummarizeFolderRecursive)
+		for folderRows.Next() {
+			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				lastErr = err
+				return
+			}
+			qFolderRecursive.Enqueue(folderEntry.FileId)
+		}
+
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
+	_ = folderRows.Close()
+
+	if lastErr != nil {
+		l.Debug("Failure on processing folder rows", esl.Error(lastErr))
+		return lastErr
+	}
+	return nil
+}
+
+// Stage4: summarize entries
+func (z tsImpl) summarizeStage4() error {
+	l := z.ctl.Log()
+	var lastErr error
+
+	folderEntry := &NamespaceEntry{}
+	folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
+	if err != nil {
+		l.Debug("Unable to get folder rows", esl.Error(err))
+		return err
+	}
+
+	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
+		z.defineSummarizeQueues(s)
+
+		qEntry := s.Get(teamSummarizeEntry)
+		for folderRows.Next() {
+			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				lastErr = err
+				return
+			}
+			qEntry.Enqueue(folderEntry.FileId)
+		}
+
+	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+		lastErr = err
+	}))
+
+	_ = folderRows.Close()
+
+	if lastErr != nil {
+		l.Debug("Failure on processing folder rows", esl.Error(lastErr))
+		return lastErr
+	}
+	return nil
+}
+
+func (z tsImpl) Summarize() error {
+	l := z.ctl.Log()
 
 	summaryTables := []interface{}{
 		&SummaryEntry{},
@@ -223,110 +374,21 @@ func (z tsImpl) Summarize() error {
 		z.db.Delete(st)
 	}
 
-	l.Debug("Stage 1")
-	{
-		namespaceModel := &Namespace{}
-		namespaceRows, err := z.db.Model(namespaceModel).Distinct("namespace_id").Select("namespace_id").Rows()
-		if err != nil {
-			l.Debug("Unable to get namespace rows", esl.Error(err))
-			return err
-		}
-		defer func() {
-			_ = namespaceRows.Close()
-		}()
-
-		z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
-			z.defineSummarizeQueues(s)
-
-			qNamespace := s.Get(teamSummarizeNamespace)
-			for namespaceRows.Next() {
-				if err := z.db.ScanRows(namespaceRows, namespaceModel); err != nil {
-					l.Debug("Unable to scan namespace row", esl.Error(err))
-					lastErr = err
-					return
-				}
-				qNamespace.Enqueue(namespaceModel.NamespaceId)
-			}
-		}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-			lastErr = err
-		}))
-
-		if lastErr != nil {
-			l.Debug("Failure on processing namespace rows", esl.Error(lastErr))
-			return lastErr
-		}
+	if err := z.summarizeStage1(); err != nil {
+		l.Debug("Stage 1 failed", esl.Error(err))
+		return err
 	}
-
-	l.Debug("Stage 2")
-	{
-		folderEntry := &NamespaceEntry{}
-		folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
-		if err != nil {
-			l.Debug("Unable to get folder rows", esl.Error(err))
-			return err
-		}
-		defer func() {
-			_ = folderRows.Close()
-		}()
-
-		z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
-			z.defineSummarizeQueues(s)
-
-			qFolderPath := s.Get(teamSummarizeFolderPath)
-			qFolderImmediate := s.Get(teamSummarizeFolderImmediate)
-			for folderRows.Next() {
-				if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
-					l.Debug("cannot scan row", esl.Error(err))
-					lastErr = err
-					return
-				}
-				qFolderPath.Enqueue(folderEntry.FileId)
-				qFolderImmediate.Enqueue(folderEntry.FileId)
-			}
-
-		}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-			lastErr = err
-		}))
-
-		if lastErr != nil {
-			l.Debug("Failure on processing folder rows", esl.Error(lastErr))
-			return lastErr
-		}
+	if err := z.summarizeStage2(); err != nil {
+		l.Debug("Stage 2 failed", esl.Error(err))
+		return err
 	}
-
-	l.Debug("Stage 3")
-	{
-		folderEntry := &NamespaceEntry{}
-		folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
-		if err != nil {
-			l.Debug("Unable to get folder rows", esl.Error(err))
-			return err
-		}
-		defer func() {
-			_ = folderRows.Close()
-		}()
-
-		z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
-			z.defineSummarizeQueues(s)
-
-			qFolderRecursive := s.Get(teamSummarizeFolderRecursive)
-			for folderRows.Next() {
-				if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
-					l.Debug("cannot scan row", esl.Error(err))
-					lastErr = err
-					return
-				}
-				qFolderRecursive.Enqueue(folderEntry.FileId)
-			}
-
-		}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-			lastErr = err
-		}))
-
-		if lastErr != nil {
-			l.Debug("Failure on processing folder rows", esl.Error(lastErr))
-			return lastErr
-		}
+	if err := z.summarizeStage3(); err != nil {
+		l.Debug("Stage 3 failed", esl.Error(err))
+		return err
+	}
+	if err := z.summarizeStage4(); err != nil {
+		l.Debug("Stage 4 failed", esl.Error(err))
+		return err
 	}
 
 	db, err := z.db.DB()

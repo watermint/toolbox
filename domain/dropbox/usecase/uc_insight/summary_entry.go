@@ -55,5 +55,33 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 	entry.ParentFolderId = ne.ParentFolderId
 	entry.EntryNamespaceId = ne.EntryNamespaceId
 
+	var linkCount int64
+	z.db.Model(&SharedLink{}).Where("file_id = ?", fileId).Count(&linkCount)
+	entry.CountLinks = uint64(linkCount)
+
+	switch ne.EntryType {
+	case "file":
+		fm := &FileMember{}
+		row, err := z.db.Model(fm).Where("file_id = ?", fileId).Rows()
+		if err != nil {
+			l.Debug("cannot find file members", esl.Error(err))
+			return err
+		}
+		defer func() {
+			_ = row.Close()
+		}()
+
+		for row.Next() {
+			if err := z.db.ScanRows(row, fm); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				return err
+			}
+			entry.InheritType = "inherit_plus"
+
+		}
+	}
+
+	z.db.Save(entry)
+
 	return nil
 }

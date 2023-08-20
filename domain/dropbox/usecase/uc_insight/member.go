@@ -11,7 +11,7 @@ func ConvertSameTeam(sameTeam string) string {
 	case "false":
 		return "no"
 	default:
-		return ""
+		return "unknown"
 	}
 }
 
