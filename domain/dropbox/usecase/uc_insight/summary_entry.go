@@ -17,7 +17,7 @@ type SummaryEntry struct {
 	// "inherit" means the entry is inherited from the parent folder.
 	// "inherit_plus" means the entry is inherited from the parent folder and have additional permissions.
 	InheritType        string `path:"inherit_type"`
-	CountAccess        uint64 `path:"count_access"`
+	CountUnique        uint64 `path:"count_unique"`
 	CountMember        uint64 `path:"count_member"`
 	CountInvitee       uint64 `path:"count_invitee"`
 	CountGroup         uint64 `path:"count_group"`
@@ -37,6 +37,22 @@ type SummaryEntry struct {
 
 	// Updated is the timestamp when the entry is updated.
 	Updated uint64 `gorm:"autoUpdateTime"`
+}
+
+func (z SummaryEntry) AddAccess(am AccessMember) SummaryEntry {
+	switch am.MemberType {
+	case "user":
+		z.CountMember++
+	case "group":
+		z.CountGroup++
+		if am.SameTeam == "no" {
+			z.CountGroupExternal++
+		}
+	case "invitee":
+		z.CountInvitee++
+	}
+
+	return z
 }
 
 func (z tsImpl) summarizeEntry(fileId string) error {
