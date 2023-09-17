@@ -81,7 +81,7 @@ func (z *Compile) compileLinux() []string {
 	case "arm64":
 		return []string{
 			z.goBuildCgoEnabled(map[string]string{
-				//"CC":     "aarch64-linux-gnu-gcc-6",
+				"CC": "aarch64-linux-musl-gcc",
 				//"CXX":    "aarch64-linux-gnu-g++-6",
 				"GOOS":   "linux",
 				"GOARCH": "arm64",
