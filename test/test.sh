@@ -27,7 +27,10 @@ if [ $TEST_EXIT_CODE -ne 0 ]; then
   if [ "$CIRCLE_BUILD_NUM"x != ""x ]; then
     echo TEST: Packing logs: $TEST_RESULTS/$TEST_PACKAGES_SUM.zip
     zip -r $TEST_RESULTS/$CIRCLE_BUILD_NUM-$TEST_PACKAGES_SUM.zip $TEST_DEBUG $HOME/.toolbox/jobs
+
     echo TEST: Uploading logs
+    echo go run tbx.go dev ci artifact up -local-path $TEST_RESULTS/$TEST_PACKAGES_SUM.zip -dropbox-path /watermint-toolbox-build/test-logs -peer-name deploy
+
     go run tbx.go dev ci artifact up -local-path $TEST_RESULTS/$TEST_PACKAGES_SUM.zip -dropbox-path /watermint-toolbox-build/test-logs -peer-name deploy
   fi
   exit 1
