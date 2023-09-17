@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -53,6 +54,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		l.Info("No token found. Skip operation")
 		return nil
 	}
+	l.Info("Uploading", esl.String("localPath", z.LocalPath.Path()), esl.String("dropboxPath", z.DropboxPath.Path()))
 
 	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
