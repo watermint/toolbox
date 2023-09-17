@@ -48,13 +48,13 @@ func (z *Up) Exec(c app_control.Control) error {
 			dbx_auth.ScopeFilesContentWrite,
 		},
 	}
+	l.Info("Uploading", esl.String("localPath", z.LocalPath.Path()), esl.String("dropboxPath", z.DropboxPath.Path()))
 	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
 	entity, err := session.Start(sd)
 	if err != nil {
-		l.Info("No token found. Skip operation")
+		l.Error("No token found. Skip operation")
 		return nil
 	}
-	l.Info("Uploading", esl.String("localPath", z.LocalPath.Path()), esl.String("dropboxPath", z.DropboxPath.Path()))
 
 	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
@@ -67,7 +67,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		})
 	})
 	if to {
-		l.Warn("Operation timeout")
+		l.Error("Operation timeout")
 		return nil
 	}
 	return err
