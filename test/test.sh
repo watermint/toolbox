@@ -28,7 +28,7 @@ if [ $TEST_EXIT_CODE -ne 0 ]; then
     echo TEST: Packing logs
     zip -r $TEST_RESULTS/$TEST_PACKAGES_SUM.zip $TEST_DEBUG $HOME/.toolbox/jobs
     echo TEST: Uploading logs
-    go run tbx.go dev ci artifact up -budget-memory low -local-path $TEST_RESULTS/$TEST_PACKAGES_SUM.zip -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM/$TEST_PACKAGES_SUM.zip -peer-name deploy
+    go run tbx.go dev ci artifact up -local-path $TEST_RESULTS/ -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM/ -peer-name deploy
   fi
   exit 1
 fi
