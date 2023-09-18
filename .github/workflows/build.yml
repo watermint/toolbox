@@ -7,18 +7,21 @@ jobs:
   xgo:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: checkout
         uses: actions/checkout@v4
-      -
-        name: Build
+      - uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+          check-latest: true
+
+      - name: build
         uses: crazy-max/ghaction-xgo@v3
         with:
           xgo_version: latest
           go_version: 1.21
           dest: build
           prefix: myapp
-          targets: windows/amd64,linux/amd64,linux/arm64,darwin/arm64
+          targets: windows/amd64,linux/amd64,linux/arm64,darwin/amd64,darwin/arm64
           v: true
           x: false
           race: false
