@@ -30,7 +30,7 @@ if [ $TEST_EXIT_CODE -ne 0 ]; then
 
     echo TEST: Uploading logs
 
-    go run tbx.go dev ci artifact up -local-path $TEST_RESULTS/ -dropbox-path /watermint-toolbox-build/test-logs
+    go run tbx.go dev ci artifact up -local-path $TEST_RESULTS/ -dropbox-path /watermint-toolbox-build/test-logs/$CIRCLE_BUILD_NUM
   fi
   exit 1
 fi

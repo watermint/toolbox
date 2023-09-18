@@ -52,7 +52,7 @@ func (z *Up) Exec(c app_control.Control) error {
 	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
 	entity, err := session.Start(sd)
 	if err != nil {
-		l.Error("No token found. Skip operation")
+		l.Warn("No token found. Skip operation")
 		return nil
 	}
 
