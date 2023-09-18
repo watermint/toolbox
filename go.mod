@@ -1,6 +1,6 @@
 module github.com/watermint/toolbox
 
-go 1.20
+go 1.21
 
 require (
 	git.mills.io/prologic/bitcask v1.0.2
