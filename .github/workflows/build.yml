@@ -40,10 +40,6 @@ jobs:
           ldflags: -s -w
           buildmode: default
           trimpath: true
-        env:
-          TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
-          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDERKEY }}'
-          TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
 
       - name: Test binary
         if: matrix.target == 'linux/amd64'
