@@ -18,9 +18,6 @@
   "domain.asana.model.mo_team.team.name.desc": "The name of the team.",
   "domain.asana.model.mo_team.team.resource_type.desc": "The base type of this resource.",
   "domain.asana.model.mo_workspace.workspace.desc": "Workspace",
-
-  "recipe.dev.build.info.flag.fail_fast":"Fail immediately if any error occurs",
-
   "domain.asana.model.mo_workspace.workspace.gid.desc": "Globally unique identifier of the resource, as a string.",
   "domain.asana.model.mo_workspace.workspace.is_organization.desc": "Whether the workspace is an organization.",
   "domain.asana.model.mo_workspace.workspace.name.desc": "The name of the workspace.",
@@ -1202,6 +1199,7 @@
   "recipe.dev.build.doc.flag.doc_lang": "Language",
   "recipe.dev.build.doc.title": "Document generator",
   "recipe.dev.build.info.cli.args": "-file-path /LOCAL/PATH/TO/SAVE/info.json",
+  "recipe.dev.build.info.flag.fail_fast": "Fail immediately if any error occurs",
   "recipe.dev.build.info.title": "Generate build information file",
   "recipe.dev.build.license.cli.args": "-dest-path /LOCAL/PATH/TO/PROCESS -source-path /LOCAL/PATH/TO/PROCESS",
   "recipe.dev.build.license.flag.dest_path": "Dest path",

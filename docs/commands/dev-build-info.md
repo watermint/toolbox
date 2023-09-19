@@ -38,9 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option       | Description                                                | Default |
-|--------------|------------------------------------------------------------|---------|
-| `-fail-fast` | {"key":"recipe.dev.build.info.flag.fail_fast","params":{}} | false   |
+| Option       | Description                          | Default |
+|--------------|--------------------------------------|---------|
+| `-fail-fast` | Fail immediately if any error occurs | false   |
 
 ## Common options:
 
