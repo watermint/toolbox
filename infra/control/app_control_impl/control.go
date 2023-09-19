@@ -1,9 +1,12 @@
 package app_control_impl
 
 import (
+	"database/sql"
 	"errors"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/cache"
+	"github.com/watermint/toolbox/essentials/database/orm"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
@@ -18,6 +21,8 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"gorm.io/gorm"
+	"path/filepath"
 )
 
 func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq eq_sequence.Sequence, authRepo api_auth.Repository, er app_error.ErrorReport) app_control.Control {
@@ -81,6 +86,25 @@ type ctlImpl struct {
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
 	authRepo    api_auth.Repository
+}
+
+func (z ctlImpl) NewOrm(path string) (db *gorm.DB, err error) {
+	return orm.NewOrm(z.Log(), path)
+}
+
+func (z ctlImpl) NewOrmOnMemory() (db *gorm.DB, err error) {
+	return orm.NewOrmOnMemory(z.Log())
+}
+
+func (z ctlImpl) NewDatabase(name string) (db *sql.DB, path string, err error) {
+	l := z.Log().With(esl.String("name", name))
+	dbPath := filepath.Join(z.Workspace().Database(), es_filepath.Escape(name))
+	db, err = sql.Open("sqlite3", dbPath)
+	if err != nil {
+		l.Debug("Unable to open the database", esl.Error(err), esl.String("path", dbPath))
+		return nil, "", err
+	}
+	return db, dbPath, nil
 }
 
 func (z ctlImpl) AuthRepository() api_auth.Repository {

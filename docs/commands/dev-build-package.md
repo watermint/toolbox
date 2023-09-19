@@ -43,7 +43,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-build-path`  | Full path to the binary                 |         |
 | `-deploy-path` | Deploy destination folder path (remote) |         |
 | `-dist-path`   | Package destination folder path (local) |         |
-| `-platform`    | Platform name like win/linux/mac        |         |
 
 ## Common options:
 
@@ -138,17 +137,18 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 This report shows the transaction result.
 The command will generate a report in three different formats. `uploaded.csv`, `uploaded.json`, and `uploaded.xlsx`.
 
-| Column                 | Description                                                                                            |
-|------------------------|--------------------------------------------------------------------------------------------------------|
-| status                 | Status of the operation                                                                                |
-| reason                 | Reason of failure or skipped operation                                                                 |
-| input.path             | Path                                                                                                   |
-| result.name            | The last component of the path (including extension).                                                  |
-| result.path_display    | The cased path to be used for display purposes only.                                                   |
-| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified | The last time the file was modified on Dropbox.                                                        |
-| result.size            | The file size in bytes.                                                                                |
-| result.content_hash    | A hash of the file content.                                                                            |
+| Column                             | Description                                                                                                          |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                             | Status of the operation                                                                                              |
+| reason                             | Reason of failure or skipped operation                                                                               |
+| input.path                         | Path                                                                                                                 |
+| result.name                        | The last component of the path (including extension).                                                                |
+| result.path_display                | The cased path to be used for display purposes only.                                                                 |
+| result.client_modified             | For files, this is the modification time set by the desktop client when the file was added to Dropbox.               |
+| result.server_modified             | The last time the file was modified on Dropbox.                                                                      |
+| result.size                        | The file size in bytes.                                                                                              |
+| result.content_hash                | A hash of the file content.                                                                                          |
+| result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

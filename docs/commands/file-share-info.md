@@ -126,20 +126,21 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows a list of metadata of files or folders in the path.
 The command will generate a report in three different formats. `metadata.csv`, `metadata.json`, and `metadata.xlsx`.
 
-| Column                  | Description                                                                                            |
-|-------------------------|--------------------------------------------------------------------------------------------------------|
-| id                      | A unique identifier for the file.                                                                      |
-| tag                     | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| name                    | The last component of the path (including extension).                                                  |
-| path_lower              | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| path_display            | The cased path to be used for display purposes only.                                                   |
-| client_modified         | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| server_modified         | The last time the file was modified on Dropbox.                                                        |
-| revision                | A unique identifier for the current revision of a file.                                                |
-| size                    | The file size in bytes.                                                                                |
-| content_hash            | A hash of the file content.                                                                            |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.   |
-| parent_shared_folder_id | ID of shared folder that holds this file.                                                              |
+| Column                      | Description                                                                                                          |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| id                          | A unique identifier for the file.                                                                                    |
+| tag                         | Type of entry. `file`, `folder`, or `deleted`                                                                        |
+| name                        | The last component of the path (including extension).                                                                |
+| path_lower                  | The lowercased full path in the user's Dropbox. This always starts with a slash.                                     |
+| path_display                | The cased path to be used for display purposes only.                                                                 |
+| client_modified             | For files, this is the modification time set by the desktop client when the file was added to Dropbox.               |
+| server_modified             | The last time the file was modified on Dropbox.                                                                      |
+| revision                    | A unique identifier for the current revision of a file.                                                              |
+| size                        | The file size in bytes.                                                                                              |
+| content_hash                | A hash of the file content.                                                                                          |
+| has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+| shared_folder_id            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.                 |
+| parent_shared_folder_id     | ID of shared folder that holds this file.                                                                            |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

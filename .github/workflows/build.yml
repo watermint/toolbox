@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  push:
+
+jobs:
+  xgo:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [ windows/amd64, linux/amd64, linux/arm64, darwin/amd64, darwin/arm64 ]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+          check-latest: true
+
+      - name: build-info
+        run: go run tbx.go dev build info
+        env:
+          TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
+          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
+          TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
+
+      - name: build
+        uses: crazy-max/ghaction-xgo@v3
+        with:
+          xgo_version: latest
+          go_version: 1.21
+          dest: build
+          prefix: tbx
+          targets: ${{ matrix.target }}
+          v: false
+          x: false
+          race: false
+          ldflags: -s -w
+          buildmode: default
+          trimpath: true
+
+      - name: Package & Ship
+        run: |
+          mkdir -p dist
+          go run tbx.go dev build package -build-path build -dist-path dist -deploy-path /watermint-toolbox-build
+        env:
+          TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
+          TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'

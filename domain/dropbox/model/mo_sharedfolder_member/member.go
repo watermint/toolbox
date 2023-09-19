@@ -34,6 +34,10 @@ type Member interface {
 	Metadata() *Metadata
 }
 
+func IsSameTeam(sameTeam string) bool {
+	return sameTeam == "true"
+}
+
 type Metadata struct {
 	Raw              json.RawMessage
 	EntryAccessType  string `path:"access_type.\\.tag" json:"access_type"`

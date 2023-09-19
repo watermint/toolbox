@@ -126,21 +126,22 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows the transaction result.
 The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
 
-| Column                 | Description                                                                                            |
-|------------------------|--------------------------------------------------------------------------------------------------------|
-| status                 | Status of the operation                                                                                |
-| reason                 | Reason of failure or skipped operation                                                                 |
-| input.job_id           | Job ID                                                                                                 |
-| input.recipe_name      | Command                                                                                                |
-| result.id              | A unique identifier for the file.                                                                      |
-| result.tag             | Type of entry. `file`, `folder`, or `deleted`                                                          |
-| result.name            | The last component of the path (including extension).                                                  |
-| result.path_lower      | The lowercased full path in the user's Dropbox. This always starts with a slash.                       |
-| result.path_display    | The cased path to be used for display purposes only.                                                   |
-| result.client_modified | For files, this is the modification time set by the desktop client when the file was added to Dropbox. |
-| result.server_modified | The last time the file was modified on Dropbox.                                                        |
-| result.revision        | A unique identifier for the current revision of a file.                                                |
-| result.size            | The file size in bytes.                                                                                |
+| Column                             | Description                                                                                                          |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                             | Status of the operation                                                                                              |
+| reason                             | Reason of failure or skipped operation                                                                               |
+| input.job_id                       | Job ID                                                                                                               |
+| input.recipe_name                  | Command                                                                                                              |
+| result.id                          | A unique identifier for the file.                                                                                    |
+| result.tag                         | Type of entry. `file`, `folder`, or `deleted`                                                                        |
+| result.name                        | The last component of the path (including extension).                                                                |
+| result.path_lower                  | The lowercased full path in the user's Dropbox. This always starts with a slash.                                     |
+| result.path_display                | The cased path to be used for display purposes only.                                                                 |
+| result.client_modified             | For files, this is the modification time set by the desktop client when the file was added to Dropbox.               |
+| result.server_modified             | The last time the file was modified on Dropbox.                                                                      |
+| result.revision                    | A unique identifier for the current revision of a file.                                                              |
+| result.size                        | The file size in bytes.                                                                                              |
+| result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

@@ -25,7 +25,7 @@ Place JSON file named `toolbox.appkeys` under `resources` folder, then run or co
 }
 ```
 
-## On CI environment (CircleCI)
+## On CI environment (GitHub Actions)
 
 1. `TOOLBOX_APPKEYS`:
 
@@ -47,6 +47,11 @@ Please run `tbx dev ci artifact connect` command to create token data.
 4. `TOOLBOX_REPLAY_URL`:
 
 TOOLBOX_REPLAY_URL is for retrieve replay data from the shared link.
+
+5. `TOOLBOX_BUILD_TARGET`:
+
+TOOLBOX_BUILD_TARGET is for specify build target.
+The build target is the combination of os/arch like windows/amd64, darwin/amd64, linux/amd64, etc.
 
 ## Docker build
 

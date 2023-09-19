@@ -109,7 +109,7 @@ import (
 	recipeteamcontentpolicy "github.com/watermint/toolbox/recipe/team/content/policy"
 	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
 	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
-	recipeteaminsightfile "github.com/watermint/toolbox/recipe/team/insight/file"
+	recipeteaminsight "github.com/watermint/toolbox/recipe/team/insight"
 	recipeteamlegalhold "github.com/watermint/toolbox/recipe/team/legalhold"
 	recipeteamlegalholdmember "github.com/watermint/toolbox/recipe/team/legalhold/member"
 	recipeteamlegalholdmemberbatch "github.com/watermint/toolbox/recipe/team/legalhold/member/batch"
@@ -182,14 +182,12 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevbenchmark.Upload{},
 		&recipedevbenchmark.Uploadlink{},
 		&recipedevbuild.Catalogue{},
-		&recipedevbuild.Compile{},
 		&recipedevbuild.Doc{},
 		&recipedevbuild.Info{},
 		&recipedevbuild.License{},
 		&recipedevbuild.Package{},
 		&recipedevbuild.Preflight{},
 		&recipedevbuild.Readme{},
-		&recipedevbuild.Target{},
 		&recipedevciartifact.Up{},
 		&recipedevciauth.Export{},
 		&recipedevdiag.Endpoint{},
@@ -414,7 +412,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamdevice.Unlink{},
 		&recipeteamfilerequest.Clone{},
 		&recipeteamfilerequest.List{},
-		&recipeteaminsightfile.Scan{},
+		&recipeteaminsight.Scan{},
+		&recipeteaminsight.Summarize{},
 		&recipeteamlegalhold.Add{},
 		&recipeteamlegalhold.List{},
 		&recipeteamlegalhold.Release{},

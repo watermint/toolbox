@@ -3,14 +3,16 @@ services:
   build:
     build:
       context: .
-    command: bash /source/build.sh linux
+    command: |
+      go run tbx.go dev build info
+      go build -o build/tbx .
     volumes:
       - /tmp/dist:/dist
 
   test:
     build:
       context: .
-    command: ./test/test.sh
+    command: go test -v -short -timeout 30s ./...
 
   docs:
     build:

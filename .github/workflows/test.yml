@@ -1,0 +1,41 @@
+
+name: Test
+
+on:
+  push:
+    branches: [ "main", "current" ]
+  pull_request:
+    branches: [ "current" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: setup
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21
+          check-latest: true
+
+      - name: test
+        run: go test -v -short -timeout 30s -covermode=atomic -coverprofile=coverage.txt ./... > test/out.txt 2> test/err.txt
+        env:
+          TOOLBOX_REPLAY_URL: '${{ secrets.TOOLBOX_REPLAY_URL }}'
+          GOPATH: '${{ github.workspace }}/go'
+
+      - name: upload logs
+        if: always()
+        run: |
+          mkdir -p test/logs
+          zip -9 -r test/logs/logs-${{ github.run_number }}.zip test/out.txt test/err.txt
+          go run tbx.go dev ci artifact up -local-path test/logs -dropbox-path "/watermint-toolbox-build/test-logs/${{ github.run_number }}"
+        env:
+          TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
+
+      - name: upload coverage
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: '${{ secrets.CODECOV_TOKEN }}'
+

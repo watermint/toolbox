@@ -131,12 +131,13 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows a list of metadata of files or folders in the path.
 The command will generate a report in three different formats. `created.csv`, `created.json`, and `created.xlsx`.
 
-| Column                  | Description                                                                                          |
-|-------------------------|------------------------------------------------------------------------------------------------------|
-| name                    | The last component of the path (including extension).                                                |
-| path_display            | The cased path to be used for display purposes only.                                                 |
-| shared_folder_id        | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location. |
-| parent_shared_folder_id | ID of shared folder that holds this file.                                                            |
+| Column                      | Description                                                                                                          |
+|-----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| name                        | The last component of the path (including extension).                                                                |
+| path_display                | The cased path to be used for display purposes only.                                                                 |
+| has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+| shared_folder_id            | If this folder is a shared folder mount point, the ID of the shared folder mounted at this location.                 |
+| parent_shared_folder_id     | ID of shared folder that holds this file.                                                                            |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

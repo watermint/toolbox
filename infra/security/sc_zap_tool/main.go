@@ -17,6 +17,8 @@ var (
 		"HOSTNAME",
 		"CI_BUILD_REF",
 		"CI_JOB_ID",
+		"GITHUB_SHA",
+		"GITHUB_RUN_NUMBER",
 	}
 )
 

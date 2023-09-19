@@ -44,19 +44,20 @@ type Entry interface {
 }
 
 type ConcreteEntry struct {
-	Raw                  json.RawMessage
-	Id                   string `path:"id" json:"id"`
-	Tag                  string `path:"\\.tag" json:"tag"`
-	Name                 string `path:"name" json:"name"`
-	PathLower            string `path:"path_lower" json:"path_lower"`
-	PathDisplay          string `path:"path_display" json:"path_display"`
-	ClientModified       string `path:"client_modified" json:"client_modified"`
-	ServerModified       string `path:"server_modified" json:"server_modified"`
-	Revision             string `path:"rev" json:"revision"`
-	Size                 int64  `path:"size" json:"size"`
-	ContentHash          string `path:"content_hash" json:"content_hash"`
-	SharedFolderId       string `path:"sharing_info.shared_folder_id" json:"shared_folder_id"`
-	ParentSharedFolderId string `path:"sharing_info.parent_shared_folder_id" json:"parent_shared_folder_id"`
+	Raw                      json.RawMessage
+	Id                       string `path:"id" json:"id"`
+	Tag                      string `path:"\\.tag" json:"tag"`
+	Name                     string `path:"name" json:"name"`
+	PathLower                string `path:"path_lower" json:"path_lower"`
+	PathDisplay              string `path:"path_display" json:"path_display"`
+	ClientModified           string `path:"client_modified" json:"client_modified"`
+	ServerModified           string `path:"server_modified" json:"server_modified"`
+	Revision                 string `path:"rev" json:"revision"`
+	Size                     int64  `path:"size" json:"size"`
+	ContentHash              string `path:"content_hash" json:"content_hash"`
+	HasExplicitSharedMembers bool   `path:"has_explicit_shared_members" json:"has_explicit_shared_members"`
+	SharedFolderId           string `path:"sharing_info.shared_folder_id" json:"shared_folder_id"`
+	ParentSharedFolderId     string `path:"sharing_info.parent_shared_folder_id" json:"parent_shared_folder_id"`
 }
 
 func (z ConcreteEntry) IsFile() bool {

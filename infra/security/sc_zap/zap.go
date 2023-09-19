@@ -32,6 +32,8 @@ var (
 		"CI_JOB_ID",
 		"CIRCLE_WORKFLOW_ID",
 		"CIRCLE_NODE_INDEX",
+		"GITHUB_SHA",
+		"GITHUB_RUN_NUMBER",
 	}
 )
 

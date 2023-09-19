@@ -126,17 +126,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 このレポートは処理結果を出力します.
 このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
 
-| 列                     | 説明                                                         |
-|------------------------|--------------------------------------------------------------|
-| status                 | 処理の状態                                                   |
-| reason                 | 失敗またはスキップの理由                                     |
-| input.path             | パス                                                         |
-| result.tag             | エントリーの種別`file`, `folder`, または `deleted`           |
-| result.name            | 名称                                                         |
-| result.path_display    | パス (表示目的で大文字小文字を区別する).                     |
-| result.client_modified | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ |
-| result.server_modified | Dropbox上で最後に更新された日時                              |
-| result.size            | ファイルサイズ(バイト単位)                                   |
+| 列                                 | 説明                                                                                      |
+|------------------------------------|-------------------------------------------------------------------------------------------|
+| status                             | 処理の状態                                                                                |
+| reason                             | 失敗またはスキップの理由                                                                  |
+| input.path                         | パス                                                                                      |
+| result.tag                         | エントリーの種別`file`, `folder`, または `deleted`                                        |
+| result.name                        | 名称                                                                                      |
+| result.path_display                | パス (表示目的で大文字小文字を区別する).                                                  |
+| result.client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                              |
+| result.server_modified             | Dropbox上で最後に更新された日時                                                           |
+| result.size                        | ファイルサイズ(バイト単位)                                                                |
+| result.has_explicit_shared_members | trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
