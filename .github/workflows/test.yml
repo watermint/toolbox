@@ -3,7 +3,7 @@ name: Test
 
 on:
   push:
-    branches: [ "main" "current" ]
+    branches: [ "main", "current" ]
   pull_request:
     branches: [ "current" ]
 
