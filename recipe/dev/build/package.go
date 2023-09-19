@@ -226,17 +226,15 @@ func (z *Package) Test(c app_control.Control) error {
 		_ = os.RemoveAll(dest)
 	}()
 
-	bin, err := qt_file.MakeDummyFile("bin")
+	binPath := filepath.Join(dest, "tbx")
+	err = os.WriteFile(binPath, []byte("This is test content"), 0644)
 	if err != nil {
 		return err
 	}
-	defer func() {
-		_ = os.Remove(bin)
-	}()
 
 	return rc_exec.Exec(c, &Package{}, func(r rc_recipe.Recipe) {
 		m := r.(*Package)
 		m.DistPath = mo_path.NewFileSystemPath(dest)
-		m.BuildPath = mo_path.NewExistingFileSystemPath(bin)
+		m.BuildPath = mo_path.NewExistingFileSystemPath(dest)
 	})
 }
