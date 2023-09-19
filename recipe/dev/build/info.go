@@ -34,32 +34,32 @@ func (z *Info) Exec(c app_control.Control) error {
 
 	prjBase, err := es_project.DetectRepositoryRoot()
 	if err != nil {
-		l.Debug("Unable to detect the repository root", esl.Error(err))
+		l.Warn("Unable to detect the repository root", esl.Error(err))
 		return err
 	}
 
 	prjGit := filepath.Join(prjBase, ".git")
 	repo, err := git.PlainOpen(prjGit)
 	if err != nil {
-		l.Debug("Unable to open the .git", esl.Error(err))
+		l.Warn("Unable to open the .git", esl.Error(err))
 		return err
 	}
 
 	hash, err := repo.ResolveRevision("HEAD")
 	if err != nil {
-		l.Debug("Unable to detect the hash", esl.Error(err))
+		l.Warn("Unable to detect the hash", esl.Error(err))
 		return err
 	}
 
 	head, err := repo.Head()
 	if err != nil {
-		l.Debug("Unable to detect the head", esl.Error(err))
+		l.Warn("Unable to detect the head", esl.Error(err))
 		return err
 	}
 
 	headName := string(head.Name())
 	if !strings.HasPrefix(headName, "refs/heads") {
-		l.Debug("Unexpected ref format", esl.String("head", headName))
+		l.Warn("Unexpected ref format", esl.String("head", headName))
 		return errors.New("unexpected git refs")
 	}
 
