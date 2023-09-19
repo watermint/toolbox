@@ -1,12 +1,12 @@
 ---
 layout: release
-title: リリースの変更点 119
+title: リリースの変更点 120
 lang: ja
 ---
 
-# `リリース 119` から `リリース 120` までの変更点
+# `リリース 120` から `リリース 121` までの変更点
 
-# 削除されたコマンド
+# 追加されたコマンド
 
 
 | コマンド                                    | タイトル                                                                                  |
@@ -20,14 +20,12 @@ lang: ja
 | dev benchmark upload                        | アップロードのベンチマーク                                                                |
 | dev benchmark uploadlink                    | アップロードテンポラリリンクAPIを使ったシングルファイルのアップロードをベンチマーク.      |
 | dev build catalogue                         | カタログを生成します                                                                      |
-| dev build compile                           | ビルドスクリプトの作成                                                                    |
 | dev build doc                               | ドキュメントを生成                                                                        |
 | dev build info                              | ビルド情報ファイルを生成                                                                  |
 | dev build license                           | LICENSE.txtの生成                                                                         |
 | dev build package                           | ビルドのパッケージ化                                                                      |
 | dev build preflight                         | リリースに向けて必要な事前準備を実施                                                      |
 | dev build readme                            | README.txtの生成                                                                          |
-| dev build target                            | ターゲットビルドスクリプトの生成                                                          |
 | dev ci artifact up                          | CI成果物をアップロードします                                                              |
 | dev ci auth export                          | CIビルドのためのデプロイトークンデータの書き出し                                          |
 | dev diag endpoint                           | エンドポイントを一覧                                                                      |
@@ -253,7 +251,8 @@ lang: ja
 | team filerequest clone                      | ファイルリクエストを入力データに従い複製します                                            |
 | team filerequest list                       | チームないのファイルリクエストを一覧します                                                |
 | team info                                   | チームの情報                                                                              |
-| team insight file scan                      | Dropboxのチームファイルデータをスキャン                                                   |
+| team insight scan                           | チーム全体の情報をスキャンする                                                            |
+| team insight summarize                      | スキャンしたチーム情報をまとめる                                                          |
 | team legalhold add                          | 新しいリーガル・ホールド・ポリシーを作成する.                                             |
 | team legalhold list                         | 既存のポリシーを取得する                                                                  |
 | team legalhold member batch update          | リーガル・ホールド・ポリシーのメンバーリスト更新                                          |
@@ -313,6 +312,7 @@ lang: ja
 | teamfolder policy list                      | チームフォルダのポリシー一覧                                                              |
 | teamfolder replication                      | チームフォルダを他のチームに複製します                                                    |
 | teamfolder sync setting list                | チームフォルダーの同期設定を一覧表示                                                      |
+| teamfolder sync setting update              | チームフォルダ同期設定の一括更新                                                          |
 | teamspace asadmin file list                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                      |
 | teamspace asadmin folder add                | チームスペースにトップレベルのフォルダーを作成                                            |
 | teamspace asadmin folder delete             | チームスペースのトップレベルフォルダーを削除する                                          |
@@ -321,6 +321,7 @@ lang: ja
 | teamspace file list                         | チームスペースにあるファイルやフォルダーを一覧表示                                        |
 | util archive unzip                          | ZIPアーカイブファイルを解凍する                                                           |
 | util archive zip                            | 対象ファイルをZIPアーカイブに圧縮する                                                     |
+| util cert selfsigned                        | 自己署名証明書と鍵の生成                                                                  |
 | util database exec                          | SQLite3データベースファイルへのクエリ実行                                                 |
 | util database query                         | SQLite3データベースへの問い合わせ                                                         |
 | util date today                             | 現在の日付を表示                                                                          |
@@ -338,6 +339,7 @@ lang: ja
 | util qrcode create                          | QRコード画像ファイルの作成                                                                |
 | util qrcode wifi                            | WIFI設定用のQRコードを生成                                                                |
 | util release install                        | watermint toolboxをダウンロードし、パスにインストールします。                             |
+| util table format xlsx                      | xlsxファイルをテキストに整形する                                                          |
 | util text case down                         | 小文字のテキストを表示する                                                                |
 | util text case up                           | 大文字のテキストを表示する                                                                |
 | util text encoding from                     | 指定されたエンコーディングからUTF-8テキストファイルに変換します.                          |

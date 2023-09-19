@@ -139,6 +139,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
 | policy_manage_access    | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
 | policy_shared_link      | このフォルダの共有リンクを誰が利用できるか                                                           |
+| policy_member_folder    | フォルダ自体に設定されている、この共有フォルダのメンバーになれる人.                                  |
 | policy_member           | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
 | policy_viewer_info      | だれが閲覧社情報を有効化・無効化できるか                                                             |
 | owner_team_id           | フォルダ所有チームのチームID                                                                         |

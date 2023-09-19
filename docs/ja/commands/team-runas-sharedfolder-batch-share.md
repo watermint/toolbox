@@ -164,6 +164,7 @@ john@example.com,/projects/my_project
 | result.is_team_folder          | このフォルダがチームフォルダであるかどうか                                                           |
 | result.policy_manage_access    | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
 | result.policy_shared_link      | このフォルダの共有リンクを誰が利用できるか                                                           |
+| result.policy_member_folder    | フォルダ自体に設定されている、この共有フォルダのメンバーになれる人.                                  |
 | result.policy_member           | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
 | result.policy_viewer_info      | だれが閲覧社情報を有効化・無効化できるか                                                             |
 | result.owner_team_id           | フォルダ所有チームのチームID                                                                         |

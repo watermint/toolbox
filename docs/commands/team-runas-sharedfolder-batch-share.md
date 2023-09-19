@@ -164,6 +164,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | result.is_team_folder          | Whether this folder is a team folder.                                                                                   |
 | result.policy_manage_access    | Who can add and remove members from this shared folder.                                                                 |
 | result.policy_shared_link      | Who links can be shared with.                                                                                           |
+| result.policy_member_folder    | Who can be a member of this shared folder, as set on the folder itself.                                                 |
 | result.policy_member           | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                                |
 | result.policy_viewer_info      | Who can enable/disable viewer info for this shared folder.                                                              |
 | result.owner_team_id           | Team ID of the folder owner team                                                                                        |

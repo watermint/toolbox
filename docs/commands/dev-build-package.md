@@ -43,7 +43,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-build-path`  | Full path to the binary                 |         |
 | `-deploy-path` | Deploy destination folder path (remote) |         |
 | `-dist-path`   | Package destination folder path (local) |         |
-| `-platform`    | Platform name like win/linux/mac        |         |
 
 ## Common options:
 

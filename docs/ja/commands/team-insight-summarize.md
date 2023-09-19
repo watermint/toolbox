@@ -6,7 +6,7 @@ lang: ja
 
 # team insight summarize
 
-Summarize scanned team information 
+スキャンしたチーム情報をまとめる 
 
 # セキュリティ
 
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明             | デフォルト |
-|-------------|------------------|------------|
-| `-database` | Path to database |            |
-| `-peer`     | Account alias    | default    |
+| オプション  | 説明                 | デフォルト |
+|-------------|----------------------|------------|
+| `-database` | データベースへのパス |            |
+| `-peer`     | アカウントの別名     | default    |
 
 ## 共通のオプション:
 

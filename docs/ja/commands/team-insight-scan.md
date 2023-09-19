@@ -6,7 +6,7 @@ lang: ja
 
 # team insight scan
 
-Scan the team entire information 
+チーム全体の情報をスキャンする 
 
 # セキュリティ
 
@@ -80,10 +80,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明                                                                 | デフォルト |
-|-------------|----------------------------------------------------------------------|------------|
-| `-database` | Path to the database containing the scanned information of the team. |            |
-| `-peer`     | Account alias                                                        | default    |
+| オプション  | 説明                                            | デフォルト |
+|-------------|-------------------------------------------------|------------|
+| `-database` | チームのスキャン情報を含むデータベースへのパス. |            |
+| `-peer`     | アカウントの別名                                | default    |
 
 ## 共通のオプション:
 

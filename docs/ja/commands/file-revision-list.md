@@ -126,17 +126,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 このレポートはファイルとフォルダのメタデータを出力します.
 このコマンドはレポートを3種類の書式で出力します. `revisions.csv`, `revisions.json`, ならびに `revisions.xlsx`.
 
-| 列                          | 説明                                                                                                                 |
-|-----------------------------|----------------------------------------------------------------------------------------------------------------------|
-| id                          | ファイルへの一意なID                                                                                                 |
-| name                        | 名称                                                                                                                 |
-| path_display                | パス (表示目的で大文字小文字を区別する).                                                                             |
-| client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                                                         |
-| server_modified             | Dropbox上で最後に更新された日時                                                                                      |
-| revision                    | ファイルの現在バージョンの一意な識別子                                                                               |
-| size                        | ファイルサイズ(バイト単位)                                                                                           |
-| content_hash                | ファイルコンテンツのハッシュ                                                                                         |
-| has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+| 列                          | 説明                                                                                      |
+|-----------------------------|-------------------------------------------------------------------------------------------|
+| id                          | ファイルへの一意なID                                                                      |
+| name                        | 名称                                                                                      |
+| path_display                | パス (表示目的で大文字小文字を区別する).                                                  |
+| client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                              |
+| server_modified             | Dropbox上で最後に更新された日時                                                           |
+| revision                    | ファイルの現在バージョンの一意な識別子                                                    |
+| size                        | ファイルサイズ(バイト単位)                                                                |
+| content_hash                | ファイルコンテンツのハッシュ                                                              |
+| has_explicit_shared_members | trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

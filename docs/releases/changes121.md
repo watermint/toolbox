@@ -1,12 +1,12 @@
 ---
 layout: release
-title: Changes of Release 119
+title: Changes of Release 120
 lang: en
 ---
 
-# Changes between `Release 119` to `Release 120`
+# Changes between `Release 120` to `Release 121`
 
-# Commands deleted
+# Commands added
 
 
 | Command                                     | Title                                                                               |
@@ -20,14 +20,12 @@ lang: en
 | dev benchmark upload                        | Upload benchmark                                                                    |
 | dev benchmark uploadlink                    | Benchmark single file upload with upload temporary link API.                        |
 | dev build catalogue                         | Generate catalogue                                                                  |
-| dev build compile                           | Create build script                                                                 |
 | dev build doc                               | Document generator                                                                  |
 | dev build info                              | Generate build information file                                                     |
 | dev build license                           | Generate LICENSE.txt                                                                |
 | dev build package                           | Package a build                                                                     |
 | dev build preflight                         | Process prerequisites for the release                                               |
 | dev build readme                            | Generate README.txt                                                                 |
-| dev build target                            | Generate target build script                                                        |
 | dev ci artifact up                          | Upload CI artifact                                                                  |
 | dev ci auth export                          | Export deploy token data for CI build                                               |
 | dev diag endpoint                           | List endpoints                                                                      |
@@ -253,7 +251,8 @@ lang: en
 | team filerequest clone                      | Clone file requests by given data                                                   |
 | team filerequest list                       | List all file requests in the team                                                  |
 | team info                                   | Team information                                                                    |
-| team insight file scan                      | Scan Dropbox team file data                                                         |
+| team insight scan                           | Scan the team entire information                                                    |
+| team insight summarize                      | Summarize scanned team information                                                  |
 | team legalhold add                          | Creates new legal hold policy.                                                      |
 | team legalhold list                         | Retrieve existing policies                                                          |
 | team legalhold member batch update          | Update member list of legal hold policy                                             |
@@ -313,6 +312,7 @@ lang: en
 | teamfolder policy list                      | List policies of team folders                                                       |
 | teamfolder replication                      | Replicate a team folder to the other team                                           |
 | teamfolder sync setting list                | List team folder sync settings                                                      |
+| teamfolder sync setting update              | Batch update team folder sync settings                                              |
 | teamspace asadmin file list                 | List files and folders in team space run as admin                                   |
 | teamspace asadmin folder add                | Create top level folder in the team space                                           |
 | teamspace asadmin folder delete             | Delete top level folder of the team space                                           |
@@ -321,6 +321,7 @@ lang: en
 | teamspace file list                         | List files and folders in team space                                                |
 | util archive unzip                          | Extract the zip archive file                                                        |
 | util archive zip                            | Compress target files into the zip archive                                          |
+| util cert selfsigned                        | Generate self-signed certificate and key                                            |
 | util database exec                          | Execute query on SQLite3 database file                                              |
 | util database query                         | Query SQLite3 database                                                              |
 | util date today                             | Display current date                                                                |
@@ -338,6 +339,7 @@ lang: en
 | util qrcode create                          | Create a QR code image file                                                         |
 | util qrcode wifi                            | Generate QR code for WIFI configuration                                             |
 | util release install                        | Download & install watermint toolbox to the path                                    |
+| util table format xlsx                      | Formatting xlsx file into text                                                      |
 | util text case down                         | Print lower case text                                                               |
 | util text case up                           | Print upper case text                                                               |
 | util text encoding from                     | Convert text encoding to UTF-8 text file from specified encoding.                   |

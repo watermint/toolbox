@@ -138,6 +138,7 @@ The command will generate a report in three different formats. `mounts.csv`, `mo
 | is_team_folder        | Whether this folder is a team folder.                                                                     |
 | policy_manage_access  | Who can add and remove members from this shared folder.                                                   |
 | policy_shared_link    | Who links can be shared with.                                                                             |
+| policy_member_folder  | Who can be a member of this shared folder, as set on the folder itself.                                   |
 | policy_member         | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
 | policy_viewer_info    | Who can enable/disable viewer info for this shared folder.                                                |
 | owner_team_name       | Team name of the team that owns the folder                                                                |
