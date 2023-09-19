@@ -21,6 +21,7 @@ import (
 
 type Info struct {
 	rc_recipe.RemarkSecret
+	FailFast bool
 }
 
 func (z *Info) Preset() {
@@ -66,9 +67,12 @@ func (z *Info) Exec(c app_control.Control) error {
 
 	xap, found := os.LookupEnv(app.EnvNameToolboxBuilderKey)
 	if !found || len(xap) < 10 {
-		l.Info("Builder key not found or too short. Please set the build key for production release", esl.String("key", app.EnvNameToolboxBuilderKey), esl.Int("length", len(xap)))
+		l.Warn("Builder key not found or too short. Please set the build key for production release", esl.String("key", app.EnvNameToolboxBuilderKey), esl.Int("length", len(xap)))
 		xap = ""
 		productionReady = false
+		if z.FailFast {
+			return errors.New("builder key not found")
+		}
 	}
 
 	var zap string
@@ -78,6 +82,9 @@ func (z *Info) Exec(c app_control.Control) error {
 		l.Warn("App key data not found. Please set the build key for production release", esl.String("key", app.EnvNameToolboxAppKeys))
 		zap = ""
 		productionReady = false
+		if z.FailFast {
+			return errors.New("app key data not found")
+		}
 	} else {
 		if !gjson.Valid(appKeyData) {
 			l.Warn("App key data is not look like a JSON data", esl.Int("length", len(appKeyData)))

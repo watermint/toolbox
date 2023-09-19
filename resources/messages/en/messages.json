@@ -18,6 +18,9 @@
   "domain.asana.model.mo_team.team.name.desc": "The name of the team.",
   "domain.asana.model.mo_team.team.resource_type.desc": "The base type of this resource.",
   "domain.asana.model.mo_workspace.workspace.desc": "Workspace",
+
+  "recipe.dev.build.info.flag.fail_fast":"Fail immediately if any error occurs",
+
   "domain.asana.model.mo_workspace.workspace.gid.desc": "Globally unique identifier of the resource, as a string.",
   "domain.asana.model.mo_workspace.workspace.is_organization.desc": "Whether the workspace is an organization.",
   "domain.asana.model.mo_workspace.workspace.name.desc": "The name of the workspace.",
