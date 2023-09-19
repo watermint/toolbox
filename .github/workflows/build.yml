@@ -19,6 +19,9 @@ jobs:
 
       - name: build-info
         run: go run tbx.go dev build info
+        env:
+          TOOLBOX_APPKEYS: ${{ secrets.TOOLBOX_APPKEYS }}
+          TOOLBOX_BUILDER_KEY: ${{ secrets.TOOLBOX_BUILDER_KEY }}
 
       - name: build
         uses: crazy-max/ghaction-xgo@v3
@@ -39,3 +42,5 @@ jobs:
         run: |
           mkdir -p dist
           go run tbx.go dev build package -build-path build -dist-path dist -deploy-path /watermint-toolbox-build
+        env:
+          TOOLBOX_DEPLOY_TOKEN: ${{ secrets.TOOLBOX_DEPLOY_TOKEN }}
