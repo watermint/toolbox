@@ -23,7 +23,7 @@ jobs:
           ls -al resources/build
         env:
           TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
-          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
+          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDERKEY }}'
           TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
 
       - name: build
