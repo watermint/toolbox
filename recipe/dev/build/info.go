@@ -65,8 +65,8 @@ func (z *Info) Exec(c app_control.Control) error {
 	branch := strings.ReplaceAll(headName, "refs/heads/", "")
 
 	xap, found := os.LookupEnv(app.EnvNameToolboxBuilderKey)
-	if !found {
-		l.Info("Builder key not found. Please set the build key for production release", esl.String("key", app.EnvNameToolboxBuilderKey))
+	if !found || len(xap) < 10 {
+		l.Info("Builder key not found or too short. Please set the build key for production release", esl.String("key", app.EnvNameToolboxBuilderKey), esl.Int("length", len(xap)))
 		xap = ""
 		productionReady = false
 	}
