@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p test/logs
           zip -9 -r test/logs/logs-${{ github.run_number }}.zip test/out.txt test/err.txt
-          go run tbx.go dev ci artifact up -local-path test/logs -dropbox-path "/watermint-toolbox-build/test-logs/${{ github.run_number }}"
+          go run tbx.go dev ci artifact up -local-path test/logs/logs-${{ github.run_number }}.zip -dropbox-path "/watermint-toolbox-build/test-logs/${{ github.run_number }}"
         env:
           TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
 

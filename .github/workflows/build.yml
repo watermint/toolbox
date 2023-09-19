@@ -18,9 +18,7 @@ jobs:
           check-latest: true
 
       - name: build-info
-        run: |
-          go run tbx.go dev build info -fail-fast
-          ls -al resources/build
+        run: go run tbx.go dev build info -fail-fast
         env:
           TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
           TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDERKEY }}'
@@ -41,12 +39,12 @@ jobs:
           buildmode: default
           trimpath: true
 
-      - name: Test binary
+      - name: test binary
         if: matrix.target == 'linux/amd64'
         run: |
           ./build/tbx-linux-amd64 dev test resources
 
-      - name: Package & Ship
+      - name: package & ship
         run: |
           mkdir -p dist
           go run tbx.go dev build package -build-path build -dist-path dist -deploy-path /watermint-toolbox-build
