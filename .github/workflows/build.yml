@@ -39,7 +39,7 @@ jobs:
           buildmode: default
           trimpath: true
 
-      - name: Package
+      - name: Package & Ship
         run: |
           mkdir -p dist
           go run tbx.go dev build package -build-path build -dist-path dist -deploy-path /watermint-toolbox-build

@@ -1,13 +1,11 @@
 package artifact
 
 import (
-	"context"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
-	"github.com/watermint/toolbox/essentials/concurrency/es_timeout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/app"
@@ -26,7 +24,6 @@ import (
 type Up struct {
 	rc_recipe.RemarkSecret
 	PeerName    string
-	Timeout     int
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
 	Upload      *file.Upload
@@ -34,7 +31,6 @@ type Up struct {
 
 func (z *Up) Preset() {
 	z.PeerName = app.PeerDeploy
-	z.Timeout = 60
 }
 
 func (z *Up) Exec(c app_control.Control) error {
@@ -57,19 +53,14 @@ func (z *Up) Exec(c app_control.Control) error {
 	}
 
 	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
-	to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
-		err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
-			m := r.(*file.Upload)
-			m.Context = dbxCtx
-			m.LocalPath = z.LocalPath
-			m.DropboxPath = z.DropboxPath
-			m.Overwrite = true
-		})
+
+	err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
+		m := r.(*file.Upload)
+		m.Context = dbxCtx
+		m.LocalPath = z.LocalPath
+		m.DropboxPath = z.DropboxPath
+		m.Overwrite = true
 	})
-	if to {
-		l.Error("Operation timeout")
-		return nil
-	}
 	return err
 }
 

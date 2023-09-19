@@ -10,17 +10,40 @@ on:
     branches: [ "current" ]
 
 jobs:
-
-  build:
+  test:
+    strategy:
+      matrix:
+        parallel: [2]
+        index: [0, 1]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Go
+      - name: setup
         uses: actions/setup-go@v4
         with:
-          go-version: '1.21'
+          go-version: 1.21
           check-latest: true
 
-      - name: Test
-        run: go test -v ./...
+      - name: create test slice
+        id: test_split
+        uses: hashicorp-forge/go-test-split-action@v1
+        with:
+          total: ${{ matrix.parallel }}
+          index: ${{ matrix.index }}
+
+      - name: test
+        run: go test -v -short -timeout 30s -covermode=atomic -coverprofile=coverage.txt ./... -run "${{ steps.test_split.outputs.run}}" > test/out.txt 2> test/err.txt
+
+      - name: upload coverage
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: '${{ secrets.CODECOV_TOKEN }}'
+
+      - name: upload logs
+        run: |
+          mkdir -p test/logs
+          zip -9 -r test/logs/logs-${{ env.GITHUB_BUILD_RUN_NUMBER }}-${{ matrix.parallel }}-${{ matrix.index }}.zip test/out.txt test/err.txt
+          go run tbx.go dev ci artifact up -local-path test/logs -dropbox-path /watermint-toolbox-build/test-logs/${{ env.GITHUB_BUILD_RUN_NUMBER }}
+        env:
+          TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
