@@ -45,6 +45,11 @@ jobs:
           TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
           TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
 
+      - name: Test binary
+        if: matrix.target == 'linux/amd64'
+        run: |
+          ./build/tbx-linux-amd64 dev test resources
+
       - name: Package & Ship
         run: |
           mkdir -p dist
