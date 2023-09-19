@@ -18,7 +18,9 @@ jobs:
           check-latest: true
 
       - name: build-info
-        run: go run tbx.go dev build info
+        run: |
+          mkdir -p build
+          go run tbx.go dev build info
         env:
           TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
           TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
