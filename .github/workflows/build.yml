@@ -19,9 +19,8 @@ jobs:
 
       - name: build-info
         run: |
-          mkdir -p build
           go run tbx.go dev build info
-          ls -al build
+          ls -al resources/build
         env:
           TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
           TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
