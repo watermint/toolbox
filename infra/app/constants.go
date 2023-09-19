@@ -64,13 +64,16 @@ const (
 
 	// Env variable name for build app keys data
 	EnvNameToolboxAppKeys = "TOOLBOX_APPKEYS"
+
+	// EnvNameToolboxBuildTarget Env variable name for build target
+	EnvNameToolboxBuildTarget = "TOOLBOX_BUILD_TARGET"
 )
 
 // Document
 const (
 	// Project status badge
 	ProjectStatusBadge = `
-[![CircleCI](https://circleci.com/gh/watermint/toolbox.svg?style=shield)](https://circleci.com/gh/watermint/toolbox)
+[![GitHub Actions](https://github.com/watermint/toolbox/.github/workflows/test.yml/badge.svg)](https://github.com/watermint/toolbox)
 [![codecov](https://codecov.io/gh/watermint/toolbox/branch/main/graph/badge.svg?token=CrE8reSVvE)](https://codecov.io/gh/watermint/toolbox)
 `
 

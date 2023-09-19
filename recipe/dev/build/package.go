@@ -32,15 +32,34 @@ type Package struct {
 	BuildPath  mo_path.ExistingFileSystemPath
 	DistPath   mo_path.FileSystemPath
 	DeployPath mo_string.OptionalString
-	Platform   string
 	Up         *artifact.Up
 }
 
 func (z *Package) Preset() {
 }
 
+func (z *Package) platformName() string {
+	target, ok := os.LookupEnv(app.EnvNameToolboxBuildTarget)
+	if ok {
+		switch target {
+		case "windows/amd64":
+			return "win"
+		case "linux/amd64":
+			return "linux-intel"
+		case "linux/arm64":
+			return "linux-arm"
+		case "darwin/amd64":
+			return "mac-intel"
+		case "darwin/arm64":
+			return "mac-applesilicon"
+		}
+	}
+	return "unknown"
+}
+
 func (z *Package) createPackage(c app_control.Control) (path string, err error) {
-	name := fmt.Sprintf("tbx-%s-%s.zip", app.Version, z.Platform)
+	platform := z.platformName()
+	name := fmt.Sprintf("tbx-%s-%s.zip", app.Version, platform)
 	l := c.Log().With(esl.String("name", name))
 	if err := os.MkdirAll(z.DistPath.Path(), 0755); err != nil {
 		return "", err
@@ -109,7 +128,34 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 
 	// binary
 	{
-		info, err := os.Lstat(z.BuildPath.Path())
+		binaryName := "tbx"
+		binarySuffix := ""
+		target, ok := os.LookupEnv(app.EnvNameToolboxBuildTarget)
+		if ok {
+			switch target {
+			case "windows/amd64":
+				binarySuffix = ".exe"
+				binaryName = "tbx-windows-amd64.exe"
+			case "linux/amd64":
+				binaryName = "tbx-linux-amd64"
+			case "linux/arm64":
+				binaryName = "tbx-linux-arm64"
+			case "darwin/amd64":
+				binaryName = "tbx-darwin-amd64"
+			case "darwin/arm64":
+				binaryName = "tbx-darwin-arm64"
+			}
+		}
+		binaryPath := filepath.Join(z.BuildPath.Path(), binaryName)
+		newBinaryPath := filepath.Join(z.BuildPath.Path(), "tbx"+binarySuffix)
+		l.Debug("Renaming binary", esl.String("old", binaryName), esl.String("new", newBinaryPath))
+		err := os.Rename(binaryPath, newBinaryPath)
+		if err != nil {
+			l.Debug("Unable to rename binary", esl.Error(err))
+			return "", err
+		}
+
+		info, err := os.Lstat(newBinaryPath)
 		if err != nil {
 			return "", err
 		}
@@ -188,6 +234,5 @@ func (z *Package) Test(c app_control.Control) error {
 		m := r.(*Package)
 		m.DistPath = mo_path.NewFileSystemPath(dest)
 		m.BuildPath = mo_path.NewExistingFileSystemPath(bin)
-		m.Platform = "test"
 	})
 }
