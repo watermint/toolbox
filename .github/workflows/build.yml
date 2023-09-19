@@ -19,7 +19,7 @@ jobs:
 
       - name: build-info
         run: |
-          go run tbx.go dev build info
+          go run tbx.go dev build info -fail-fast
           ls -al resources/build
         env:
           TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
