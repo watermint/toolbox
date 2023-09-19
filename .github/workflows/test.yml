@@ -25,6 +25,7 @@ jobs:
           TOOLBOX_REPLAY_URL: '${{ secrets.TOOLBOX_REPLAY_URL }}'
           TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
           GOPATH: '${{ github.workspace }}/go'
+          RUN_NUMBER: '${{ github.run_number }}'
 
       - name: upload coverage
         uses: codecov/codecov-action@v3
