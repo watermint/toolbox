@@ -20,7 +20,7 @@ jobs:
           xgo_version: latest
           go_version: 1.21
           dest: build
-          prefix: myapp
+          prefix: tbx
           targets: windows/amd64,linux/amd64,linux/arm64,darwin/amd64,darwin/arm64
           v: true
           x: false
