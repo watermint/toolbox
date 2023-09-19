@@ -171,7 +171,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 		header.Method = zip.Deflate
 		header.Modified = buildTimestamp
 
-		bin, err := os.Open(z.BuildPath.Path())
+		bin, err := os.Open(newBinaryPath)
 		if err != nil {
 			return "", err
 		}
