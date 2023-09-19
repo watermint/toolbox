@@ -73,7 +73,7 @@ const (
 const (
 	// Project status badge
 	ProjectStatusBadge = `
-[![GitHub Actions](https://github.com/watermint/toolbox/.github/workflows/test.yml/badge.svg)](https://github.com/watermint/toolbox)
+[![Test](https://github.com/watermint/toolbox/actions/workflows/test.yml/badge.svg)](https://github.com/watermint/toolbox/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/watermint/toolbox/branch/main/graph/badge.svg?token=CrE8reSVvE)](https://codecov.io/gh/watermint/toolbox)
 `
 

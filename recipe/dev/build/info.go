@@ -80,7 +80,7 @@ func (z *Info) Exec(c app_control.Control) error {
 		productionReady = false
 	} else {
 		if !gjson.Valid(appKeyData) {
-			l.Warn("App key data is not look like a JSON data")
+			l.Warn("App key data is not look like a JSON data", esl.Int("length", len(appKeyData)))
 			return errors.New("invalid app key data format")
 		}
 		if err := sc_zap.Zap(zap, prjBase, []byte(appKeyData)); err != nil {
