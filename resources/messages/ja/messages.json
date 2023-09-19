@@ -1199,6 +1199,7 @@
   "recipe.dev.build.doc.flag.doc_lang": "言語",
   "recipe.dev.build.doc.title": "ドキュメントを生成",
   "recipe.dev.build.info.cli.args": "-file-path /LOCAL/PATH/TO/SAVE/info.json",
+  "recipe.dev.build.info.flag.fail_fast": "エラーが発生したら即座に失敗",
   "recipe.dev.build.info.title": "ビルド情報ファイルを生成",
   "recipe.dev.build.license.cli.args": "-dest-path /LOCAL/PATH/TO/PROCESS -source-path /LOCAL/PATH/TO/PROCESS",
   "recipe.dev.build.license.flag.dest_path": "出力先パス",

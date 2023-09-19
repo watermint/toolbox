@@ -19,11 +19,11 @@ jobs:
 
       - name: build-info
         run: |
-          mkdir -p build
-          go run tbx.go dev build info
+          go run tbx.go dev build info -fail-fast
+          ls -al resources/build
         env:
           TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
-          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
+          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDERKEY }}'
           TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
 
       - name: build
@@ -40,10 +40,11 @@ jobs:
           ldflags: -s -w
           buildmode: default
           trimpath: true
-        env:
-          TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
-          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
-          TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
+
+      - name: Test binary
+        if: matrix.target == 'linux/amd64'
+        run: |
+          ./build/tbx-linux-amd64 dev test resources
 
       - name: Package & Ship
         run: |
