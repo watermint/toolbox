@@ -149,10 +149,14 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 		binaryPath := filepath.Join(z.BuildPath.Path(), binaryName)
 		newBinaryPath := filepath.Join(z.BuildPath.Path(), "tbx"+binarySuffix)
 		l.Debug("Renaming binary", esl.String("old", binaryName), esl.String("new", newBinaryPath))
-		err := os.Rename(binaryPath, newBinaryPath)
-		if err != nil {
-			l.Debug("Unable to rename binary", esl.Error(err))
-			return "", err
+		if newBinaryPath == binaryPath {
+			l.Debug("Skip renaming")
+		} else {
+			err := os.Rename(binaryPath, newBinaryPath)
+			if err != nil {
+				l.Debug("Unable to rename binary", esl.Error(err))
+				return "", err
+			}
 		}
 
 		info, err := os.Lstat(newBinaryPath)
