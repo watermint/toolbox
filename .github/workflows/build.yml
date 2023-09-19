@@ -6,6 +6,9 @@ on:
 jobs:
   xgo:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [ windows/amd64, linux/amd64, linux/arm64, darwin/amd64, darwin/arm64 ]
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -21,10 +24,13 @@ jobs:
           go_version: 1.21
           dest: build
           prefix: tbx
-          targets: windows/amd64,linux/amd64,linux/arm64,darwin/amd64,darwin/arm64
+          targets: ${{ matrix.target }}
           v: true
           x: false
           race: false
           ldflags: -s -w
           buildmode: default
           trimpath: true
+
+      - name: Check build dir
+        run: ls -lR build
