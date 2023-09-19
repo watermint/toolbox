@@ -1,9 +1,9 @@
 package recipe
 
 import (
-	"errors"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/doc/dc_license"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
@@ -15,8 +15,7 @@ func (z *License) Preset() {
 }
 
 func (z *License) Test(c app_control.Control) error {
-	return errors.New("not implemented")
-	// return rc_exec.Exec(c, z, rc_recipe.NoCustomValues)
+	return rc_exec.Exec(c, z, rc_recipe.NoCustomValues)
 }
 
 func (z *License) Exec(c app_control.Control) error {
