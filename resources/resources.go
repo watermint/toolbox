@@ -4,6 +4,7 @@ import (
 	"embed"
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/go/es_resource"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"strings"
 	"time"
 )
@@ -83,11 +84,13 @@ func Build() BuildInfo {
 
 	infoJson, err := resBuildInfo.ReadFile("build/info.json")
 	if err != nil {
+		esl.Default().Error("no build info found, fallback", esl.Error(err))
 		return fallback()
 	}
 
 	info := BuildInfo{}
 	if err := json.Unmarshal(infoJson, &info); err != nil {
+		esl.Default().Error("no build info found, fallback", esl.Error(err))
 		return fallback()
 	}
 
