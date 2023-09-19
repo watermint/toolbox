@@ -38,6 +38,10 @@ jobs:
           ldflags: -s -w
           buildmode: default
           trimpath: true
+        env:
+          TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
+          TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDER_KEY }}'
+          TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
 
       - name: Package & Ship
         run: |
