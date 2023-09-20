@@ -14,6 +14,17 @@ if [ ! -e build/tbx ]; then
   exit 1
 fi
 
+echo "Determine GOPATH"
+if [ -z "$GOPATH" ]; then
+  if [ -z "$GOROOT" ]; then
+    echo "Use home as GOPATH($HOME/go)"
+    GOPATH=$HOME/go
+  else
+    echo "Use GOROOT($GOROOT) as GOPATH($GOPATH)"
+    GOPATH=$GOROOT
+  fi
+fi
+
 echo "Run test"
 go test -v -short -timeout 30s -covermode=atomic -coverprofile=coverage.txt ./... > test/out.txt 2> test/err.txt
 
