@@ -6,8 +6,12 @@ if [ -z "$RUN_NUMBER" ]; then
 fi
 
 echo "Prepare toolbox"
-curl -sL -o build/tbx.zip https://github.com/watermint/toolbox/releases/download/121.8.41/tbx-121.8.41-linux-intel.zip
+curl -L -o build/tbx.zip https://github.com/watermint/toolbox/releases/download/121.8.41/tbx-121.8.41-linux-intel.zip
 unzip build/tbx.zip -d build
+if [ ! -e build/tbx ]; then
+  echo "Failed to download toolbox"
+  exit 1
+fi
 
 echo "Run test"
 go test -v -short -timeout 30s -covermode=atomic -coverprofile=coverage.txt ./... > test/out.txt 2> test/err.txt
