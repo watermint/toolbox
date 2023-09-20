@@ -82,17 +82,17 @@ func (z *Install) compatibleSuffix() (suffixes []string) {
 	ra := z.currentArch()
 	switch {
 	case ro == "darwin" && ra == "arm64":
-		return []string{"mac-arm", "mac"}
+		return []string{"mac-arm", "mac", "mac-applesilicon"}
 	case ro == "darwin" && ra == "amd64":
-		return []string{"mac"}
+		return []string{"mac", "mac-intel"}
 	case ro == "windows" && ra == "arm64":
 		return []string{"win-arm", "win"}
 	case ro == "windows" && ra == "amd64":
-		return []string{"win"}
+		return []string{"win", "win-intel", "win-amd64", "win-x64"}
 	case ro == "linux" && ra == "arm64":
-		return []string{"linux-arm"}
+		return []string{"linux-arm", "linux-arm64"}
 	case ro == "linux" && ra == "amd64":
-		return []string{"linux"}
+		return []string{"linux", "linux-amd64", "linux-x64"}
 	default:
 		return []string{}
 	}

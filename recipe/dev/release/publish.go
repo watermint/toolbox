@@ -389,13 +389,21 @@ func (z *Publish) Exec(c app_control.Control) error {
 	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel *mo_release_asset.Asset
 	for _, a := range assets {
 		switch {
-		case strings.HasSuffix(a.Name, "mac.zip"):
+		case strings.HasSuffix(a.Name, "mac-intel.zip"),
+			strings.HasSuffix(a.Name, "mac-amd64.zip"),
+			strings.HasSuffix(a.Name, "mac-x86_64.zip"):
 			assetMacIntel = a
-		case strings.HasSuffix(a.Name, "mac-arm.zip"):
+		case strings.HasSuffix(a.Name, "mac-applesilicon.zip"),
+			strings.HasSuffix(a.Name, "mac-arm64.zip"),
+			strings.HasSuffix(a.Name, "mac-arm.zip"):
 			assetMacArm = a
-		case strings.HasSuffix(a.Name, "linux.zip"):
+		case strings.HasSuffix(a.Name, "linux-intel.zip"),
+			strings.HasSuffix(a.Name, "linux-amd64.zip"),
+			strings.HasSuffix(a.Name, "linux-x86_64.zip"):
 			assetLinuxIntel = a
-		case strings.HasSuffix(a.Name, "linux-arm.zip"):
+		case strings.HasSuffix(a.Name, "linux-arm.zip"),
+			strings.HasSuffix(a.Name, "linux-arm64.zip"),
+			strings.HasSuffix(a.Name, "linux-arm.zip"):
 			assetLinuxArm = a
 		}
 	}
