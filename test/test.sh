@@ -6,6 +6,7 @@ if [ -z "$RUN_NUMBER" ]; then
 fi
 
 echo "Prepare toolbox"
+mkdir -p build
 curl -L -o build/tbx.zip https://github.com/watermint/toolbox/releases/download/121.8.41/tbx-121.8.41-linux-intel.zip
 unzip build/tbx.zip -d build
 if [ ! -e build/tbx ]; then
