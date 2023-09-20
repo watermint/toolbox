@@ -23,7 +23,7 @@ jobs:
         run: ./test/test.sh
         env:
           TOOLBOX_REPLAY_URL: '${{ secrets.TOOLBOX_REPLAY_URL }}'
-          TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
+          TOOLBOX_DEPLOY_DB: '${{ secrets.TOOLBOX_DEPLOY_DB }}'
           GOPATH: '${{ github.workspace }}/go'
           RUN_NUMBER: '${{ github.run_number }}'
 
