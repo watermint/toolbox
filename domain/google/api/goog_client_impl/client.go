@@ -22,9 +22,10 @@ import (
 )
 
 const (
-	EndpointGoogleApis     EndpointType = "https://www.googleapis.com/"
-	EndpointGoogleSheets   EndpointType = "https://sheets.googleapis.com/v4/"
-	EndpointGoogleCalendar EndpointType = "https://www.googleapis.com/calendar/v3/"
+	EndpointGoogleApis      EndpointType = "https://www.googleapis.com/"
+	EndpointGoogleSheets    EndpointType = "https://sheets.googleapis.com/v4/"
+	EndpointGoogleCalendar  EndpointType = "https://www.googleapis.com/calendar/v3/"
+	EndpointGoogleTranslate EndpointType = "https://translate.googleapis.com/v3/"
 )
 
 type EndpointType string
@@ -63,6 +64,8 @@ func New(et EndpointType, name string, ctl app_control.Control, entity api_auth.
 		appData = goog_auth.Mail
 	case app.ServiceGoogleSheets:
 		appData = goog_auth.Sheets
+	case app.ServiceGoogleTranslate:
+		appData = goog_auth.Translate
 	default:
 		panic("undefined app key type : " + entity.KeyName)
 	}

@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# services google calendar event list
+# services google translate text
 
-List Google Calendar events 
+Translate text 
 
 # Security
 
@@ -26,9 +26,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description                                   |
-|-----------------------------------------------|
-| Google Calendar: Read events on all calendars |
+| Description                                                                                  |
+|----------------------------------------------------------------------------------------------|
+| Google Cloud Translation: Translate text from one language to another using Google Translate |
 
 # Authorization
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services google calendar event list 
+.\tbx.exe services google translate text -project-id PROJECT_ID -target TARGET_LANG -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services google calendar event list 
+$HOME/Desktop/tbx services google translate text -project-id PROJECT_ID -target TARGET_LANG -text /LOCAL/PATH/TO/INPUT.txt
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,14 +77,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option           | Description                                                                                                                                                     | Default |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `-calendar-id`   | Calendar identifier (email address of the account).                                                                                                             |         |
-| `-do-not-filter` | Report all events returned from Google Calendar                                                                                                                 | false   |
-| `-end`           | Upper bound (exclusive) for an event's start time to filter by.                                                                                                 |         |
-| `-peer`          | Account alias                                                                                                                                                   | default |
-| `-query`         | Free text search terms to find events that match these terms in the following fields: summary, description, location, attendee's displayName, attendee's email. |         |
-| `-start`         | Lower bound (exclusive) for an event's end time to filter by. Optional. The default is not to filter by end time.                                               |         |
+| Option        | Description                                                                                                                                           | Default |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-peer`       | Account alias                                                                                                                                         | default |
+| `-project-id` | Project ID of your Google Cloud Platform project                                                                                                      |         |
+| `-source`     | Source language code (ISO 639). If not specified, the API will attempt to detect the source language automatically and return it within the response. |         |
+| `-target`     | Target language code (ISO 639)                                                                                                                        |         |
+| `-text`       | Text to translate                                                                                                                                     |         |
 
 ## Common options:
 
@@ -109,34 +108,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 
-# Results
+# Text inputs
 
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+## Text input: Text
 
-| OS      | Path pattern                                | Example                                                |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## Report: events
-
-Calendar event
-The command will generate a report in three different formats. `events.csv`, `events.json`, and `events.xlsx`.
-
-| Column          | Description                                                        |
-|-----------------|--------------------------------------------------------------------|
-| status          | Status of the event.                                               |
-| location        | Geographic location of the event as free-form text.                |
-| start_date      | The date, in the format "yyyy-mm-dd", if this is an all-day event. |
-| end_date        | The date, in the format "yyyy-mm-dd", if this is an all-day event. |
-| start_date_time | The (inclusive) start time of the event.                           |
-| end_date_time   | The (exclusive) end time of the event.                             |
-| summary         | Title of the event.                                                |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `events_0000.xlsx`, `events_0001.xlsx`, `events_0002.xlsx`, ...
+Text to translate
 
 # Proxy configuration
 

@@ -25,3 +25,8 @@ type ConnGoogleCalendar interface {
 	ConnGoogleApi
 	IsCalendar() bool
 }
+
+type ConnGoogleTranslate interface {
+	ConnGoogleApi
+	IsTranslate() bool
+}

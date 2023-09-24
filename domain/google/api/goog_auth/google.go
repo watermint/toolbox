@@ -74,6 +74,11 @@ const (
 	ScopeCalendarAddonsExecute = "https://www.googleapis.com/auth/calendar.addons.execute"
 )
 
+// Google Translate API scopes
+const (
+	ScopeTranslateCloudTranslate = "https://www.googleapis.com/auth/cloud-translation"
+)
+
 var (
 	Mail = api_auth.OAuthAppData{
 		AppKeyName:       app.ServiceGoogleMail,
@@ -95,6 +100,15 @@ var (
 
 	Sheets = api_auth.OAuthAppData{
 		AppKeyName:       app.ServiceGoogleSheets,
+		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
+		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
+		EndpointStyle:    api_auth.AuthStyleInParams,
+		UsePKCE:          false,
+		RedirectUrl:      "",
+	}
+
+	Translate = api_auth.OAuthAppData{
+		AppKeyName:       app.ServiceGoogleTranslate,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
 		EndpointStyle:    api_auth.AuthStyleInParams,

@@ -7,6 +7,7 @@ const (
 	ServiceGoogleMail        = "google_mail"
 	ServiceGoogleSheets      = "google_sheets"
 	ServiceGoogleCalendar    = "google_calendar"
+	ServiceGoogleTranslate   = "google_translate"
 	ServiceAsana             = "asana"
 	ServiceDropboxSign       = "dropbox_sign"
 	ServiceSlack             = "slack"

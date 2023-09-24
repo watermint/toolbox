@@ -24,6 +24,7 @@ lang: en
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleCalendar   | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleMail       | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connSheets           | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
+| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connTranslateImpl    | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl.connHelloSignApi  | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | int64                                                                              | false | false | false           | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/essentials/kvs/kv_storage_impl.proxyImpl              | false | false | false           | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
@@ -54,6 +55,7 @@ lang: en
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleCalendar   | true            | google_calendar  | google_calendar    |
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleMail       | true            | google_mail      | google_mail        |
 | github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connSheets           | true            | google_sheets    | google_sheets      |
+| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connTranslateImpl    | true            | google_translate | google_translate   |
 | github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl.connHelloSignApi  | true            | dropbox_sign     | dropbox_sign       |
 | github.com/watermint/toolbox/domain/slack/api/work_conn_impl.connSlackApi          | true            | slack            | slack              |
 
