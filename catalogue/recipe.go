@@ -90,7 +90,7 @@ import (
 	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
 	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
 	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
-	recipeservicesgoogletranslateadvanced "github.com/watermint/toolbox/recipe/services/google/translate"
+	recipeservicesgoogletranslate "github.com/watermint/toolbox/recipe/services/google/translate"
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -162,10 +162,12 @@ import (
 	recipeutiltableformat "github.com/watermint/toolbox/recipe/util/table/format"
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
+	recipeutiltextnlpenglish "github.com/watermint/toolbox/recipe/util/text/nlp/english"
 	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
 	recipeutiltidypack "github.com/watermint/toolbox/recipe/util/tidy/pack"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
+	recipeutilvideosubtitles "github.com/watermint/toolbox/recipe/util/video/subtitles"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
 	recipeutilxlsxsheet "github.com/watermint/toolbox/recipe/util/xlsx/sheet"
 )
@@ -371,7 +373,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesgooglesheetssheet.Import{},
 		&recipeservicesgooglesheetssheet.List{},
 		&recipeservicesgooglesheetsspreadsheet.Create{},
-		&recipeservicesgoogletranslateadvanced.Text{},
+		&recipeservicesgoogletranslate.Text{},
 		&recipeservicesslackconversation.History{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.Leave{},
@@ -507,12 +509,14 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltextcase.Up{},
 		&recipeutiltextencoding.From{},
 		&recipeutiltextencoding.To{},
+		&recipeutiltextnlpenglish.Sentence{},
 		&recipeutiltidymove.Dispatch{},
 		&recipeutiltidymove.Simple{},
 		&recipeutiltidypack.Remote{},
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},
+		&recipeutilvideosubtitles.Optimize{},
 		&recipeutilxlsx.Create{},
 		&recipeutilxlsxsheet.Export{},
 		&recipeutilxlsxsheet.Import{},
