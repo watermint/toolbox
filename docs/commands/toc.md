@@ -316,7 +316,9 @@ lang: en
 | [util text case up]({{ site.baseurl }}/commands/util-text-case-up.html)                           | Print upper case text                                                |
 | [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html)               | Convert text encoding to UTF-8 text file from specified encoding.    |
 | [util text encoding to]({{ site.baseurl }}/commands/util-text-encoding-to.html)                   | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util text nlp english entity]({{ site.baseurl }}/commands/util-text-nlp-english-entity.html)     | Split English text into entities                                     |
 | [util text nlp english sentence]({{ site.baseurl }}/commands/util-text-nlp-english-sentence.html) | Split English text into sentences                                    |
+| [util text nlp english token]({{ site.baseurl }}/commands/util-text-nlp-english-token.html)       | Split English text into tokens                                       |
 | [util tidy move dispatch]({{ site.baseurl }}/commands/util-tidy-move-dispatch.html)               | Dispatch files                                                       |
 | [util tidy move simple]({{ site.baseurl }}/commands/util-tidy-move-simple.html)                   | Archive local files                                                  |
 | [util time now]({{ site.baseurl }}/commands/util-time-now.html)                                   | Display current time                                                 |

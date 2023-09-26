@@ -394,7 +394,9 @@ DropboxおよびDropbox Business向けのツールセット
 | [util text case up](docs/ja/commands/util-text-case-up.md)                           | 大文字のテキストを表示する                                             |
 | [util text encoding from](docs/ja/commands/util-text-encoding-from.md)               | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
 | [util text encoding to](docs/ja/commands/util-text-encoding-to.md)                   | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
+| [util text nlp english entity](docs/ja/commands/util-text-nlp-english-entity.md)     | Split English text into entities                                       |
 | [util text nlp english sentence](docs/ja/commands/util-text-nlp-english-sentence.md) | Split English text into sentences                                      |
+| [util text nlp english token](docs/ja/commands/util-text-nlp-english-token.md)       | Split English text into tokens                                         |
 | [util tidy move dispatch](docs/ja/commands/util-tidy-move-dispatch.md)               | ファイルを整理                                                         |
 | [util tidy move simple](docs/ja/commands/util-tidy-move-simple.md)                   | ローカルファイルをアーカイブします                                     |
 | [util time now](docs/ja/commands/util-time-now.md)                                   | 現在の時刻を表示                                                       |

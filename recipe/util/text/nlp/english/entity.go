@@ -12,15 +12,20 @@ import (
 	"os"
 )
 
-type Sentence struct {
+type EntityBlock struct {
+	Text  string `json:"text"`  // The entity's actual content.
+	Label string `json:"label"` // The entity's label.
+}
+
+type Entity struct {
 	In              da_text.TextInput
 	IgnoreLineBreak bool
 }
 
-func (z *Sentence) Preset() {
+func (z *Entity) Preset() {
 }
 
-func (z *Sentence) Exec(c app_control.Control) error {
+func (z *Entity) Exec(c app_control.Control) error {
 	content, err := z.In.Content()
 	if err != nil {
 		return err
@@ -33,9 +38,12 @@ func (z *Sentence) Exec(c app_control.Control) error {
 		return err
 	}
 
-	sentences := make([]string, 0)
-	for _, s := range doc.Sentences() {
-		sentences = append(sentences, s.Text)
+	sentences := make([]EntityBlock, 0)
+	for _, e := range doc.Entities() {
+		sentences = append(sentences, EntityBlock{
+			Text:  e.Text,
+			Label: e.Label,
+		})
 	}
 	out, err := json.Marshal(sentences)
 	if err != nil {
@@ -45,7 +53,7 @@ func (z *Sentence) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *Sentence) Test(c app_control.Control) error {
+func (z *Entity) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFile("english", "watermint toolbox is the best tool. I love watermint toolbox.")
 	if err != nil {
 		return err
@@ -54,8 +62,8 @@ func (z *Sentence) Test(c app_control.Control) error {
 		_ = os.Remove(f)
 	}()
 
-	return rc_exec.Exec(c, &Sentence{}, func(r rc_recipe.Recipe) {
-		m := r.(*Sentence)
+	return rc_exec.Exec(c, &Entity{}, func(r rc_recipe.Recipe) {
+		m := r.(*Entity)
 		m.In.SetFilePath(f)
 	})
 }
