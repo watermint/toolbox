@@ -400,6 +400,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util time now](docs/ja/commands/util-time-now.md)                                   | 現在の時刻を表示                                                       |
 | [util unixtime format](docs/ja/commands/util-unixtime-format.md)                     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
 | [util unixtime now](docs/ja/commands/util-unixtime-now.md)                           | UNIX時間で現在の時刻を表示する                                         |
+| [util uuid v4](docs/ja/commands/util-uuid-v4.md)                                     | Generate UUID v4 (random UUID)                                         |
 | [util video subtitles optimize](docs/ja/commands/util-video-subtitles-optimize.md)   | Optimize subtitles file                                                |
 | [util xlsx create](docs/ja/commands/util-xlsx-create.md)                             | 空のスプレッドシートを作成する                                         |
 | [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)                 | xlsxファイルからデータをエクスポート                                   |

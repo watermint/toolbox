@@ -167,6 +167,7 @@ import (
 	recipeutiltidypack "github.com/watermint/toolbox/recipe/util/tidy/pack"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
+	recipeutiluuid "github.com/watermint/toolbox/recipe/util/uuid"
 	recipeutilvideosubtitles "github.com/watermint/toolbox/recipe/util/video/subtitles"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
 	recipeutilxlsxsheet "github.com/watermint/toolbox/recipe/util/xlsx/sheet"
@@ -516,6 +517,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},
+		&recipeutiluuid.V4{},
 		&recipeutilvideosubtitles.Optimize{},
 		&recipeutilxlsx.Create{},
 		&recipeutilxlsxsheet.Export{},

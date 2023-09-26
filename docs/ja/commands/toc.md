@@ -322,6 +322,7 @@ lang: ja
 | [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                                   | 現在の時刻を表示                                                       |
 | [util unixtime format]({{ site.baseurl }}/ja/commands/util-unixtime-format.html)                     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
 | [util unixtime now]({{ site.baseurl }}/ja/commands/util-unixtime-now.html)                           | UNIX時間で現在の時刻を表示する                                         |
+| [util uuid v4]({{ site.baseurl }}/ja/commands/util-uuid-v4.html)                                     | Generate UUID v4 (random UUID)                                         |
 | [util video subtitles optimize]({{ site.baseurl }}/ja/commands/util-video-subtitles-optimize.html)   | Optimize subtitles file                                                |
 | [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)                             | 空のスプレッドシートを作成する                                         |
 | [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html)                 | xlsxファイルからデータをエクスポート                                   |

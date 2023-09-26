@@ -322,6 +322,7 @@ lang: en
 | [util time now]({{ site.baseurl }}/commands/util-time-now.html)                                   | Display current time                                                 |
 | [util unixtime format]({{ site.baseurl }}/commands/util-unixtime-format.html)                     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
 | [util unixtime now]({{ site.baseurl }}/commands/util-unixtime-now.html)                           | Display current time in unixtime                                     |
+| [util uuid v4]({{ site.baseurl }}/commands/util-uuid-v4.html)                                     | Generate UUID v4 (random UUID)                                       |
 | [util video subtitles optimize]({{ site.baseurl }}/commands/util-video-subtitles-optimize.html)   | Optimize subtitles file                                              |
 | [util xlsx create]({{ site.baseurl }}/commands/util-xlsx-create.html)                             | Create an empty spreadsheet                                          |
 | [util xlsx sheet export]({{ site.baseurl }}/commands/util-xlsx-sheet-export.html)                 | Export data from the xlsx file                                       |

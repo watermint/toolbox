@@ -402,6 +402,7 @@ Available commands:
 | [util time now](docs/commands/util-time-now.md)                                   | Display current time                                                 |
 | [util unixtime format](docs/commands/util-unixtime-format.md)                     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
 | [util unixtime now](docs/commands/util-unixtime-now.md)                           | Display current time in unixtime                                     |
+| [util uuid v4](docs/commands/util-uuid-v4.md)                                     | Generate UUID v4 (random UUID)                                       |
 | [util video subtitles optimize](docs/commands/util-video-subtitles-optimize.md)   | Optimize subtitles file                                              |
 | [util xlsx create](docs/commands/util-xlsx-create.md)                             | Create an empty spreadsheet                                          |
 | [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)                 | Export data from the xlsx file                                       |
