@@ -10,10 +10,12 @@ import (
 	"github.com/watermint/toolbox/infra/ui/ui_out"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
+	"strings"
 )
 
 type Sentence struct {
-	In da_text.TextInput
+	In              da_text.TextInput
+	IgnoreLineBreak bool
 }
 
 func (z *Sentence) Preset() {
@@ -25,7 +27,12 @@ func (z *Sentence) Exec(c app_control.Control) error {
 		return err
 	}
 
-	doc, err := prose.NewDocument(string(content))
+	inContent := string(content)
+	if z.IgnoreLineBreak {
+		inContent = strings.ReplaceAll(inContent, "\r\n", " ")
+		inContent = strings.ReplaceAll(inContent, "\n", " ")
+	}
+	doc, err := prose.NewDocument(inContent)
 	if err != nil {
 		return err
 	}

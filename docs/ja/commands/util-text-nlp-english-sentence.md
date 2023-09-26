@@ -38,9 +38,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明            | デフォルト |
-|------------|-----------------|------------|
-| `-in`      | Input file path |            |
+| オプション           | 説明                                                        | デフォルト |
+|----------------------|-------------------------------------------------------------|------------|
+| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false      |
+| `-in`                | Input file path                                             |            |
 
 ## 共通のオプション:
 

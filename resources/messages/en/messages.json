@@ -3444,6 +3444,7 @@
   "recipe.util.text.encoding.to.text_input.in.desc": "Text to change encoding",
   "recipe.util.text.encoding.to.title": "Convert text encoding to specified encoding from UTF-8 text file.",
   "recipe.util.text.nlp.english.sentence.cli.args": "-in /LOCAL/PATH/TO/INPUT.txt",
+  "recipe.util.text.nlp.english.sentence.flag.ignore_line_break": "Consider line break as regular white space while tokenizing",
   "recipe.util.text.nlp.english.sentence.flag.in": "Input file path",
   "recipe.util.text.nlp.english.sentence.text_input.in.desc": "English text file to split",
   "recipe.util.text.nlp.english.sentence.title": "Split English text into sentences",

@@ -38,9 +38,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option | Description     | Default |
-|--------|-----------------|---------|
-| `-in`  | Input file path |         |
+| Option               | Description                                                 | Default |
+|----------------------|-------------------------------------------------------------|---------|
+| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false   |
+| `-in`                | Input file path                                             |         |
 
 ## Common options:
 
