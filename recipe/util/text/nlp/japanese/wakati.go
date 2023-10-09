@@ -23,7 +23,7 @@ type Wakati struct {
 }
 
 func (z *Wakati) Preset() {
-	z.Dictionary.SetOptions("ipa", "ipa", "uni")
+	z.Dictionary.SetOptions(el_ja.DictionaryIpa, el_ja.DictionaryIpa, el_ja.DictionaryUni)
 	z.Separator = " "
 }
 

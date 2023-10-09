@@ -18,7 +18,7 @@ func TestFileImpl_Get(t *testing.T) {
 	}()
 
 	fc := New(cachePath, esl.Default())
-	cacheFilePath, err := fc.Get("test", "test.txt", "https://raw.githubusercontent.com/watermint/toolbox/master/README.md")
+	cacheFilePath, err := fc.Get("test", "read/me.txt", "https://raw.githubusercontent.com/watermint/toolbox/master/README.md")
 	if err != nil {
 		t.Error(err)
 		return

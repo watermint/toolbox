@@ -2,7 +2,8 @@ package english
 
 import (
 	"encoding/json"
-	"github.com/jdkato/prose/v2"
+	"github.com/watermint/toolbox/essentials/cache/ec_file"
+	"github.com/watermint/toolbox/essentials/nlp/el_en"
 	"github.com/watermint/toolbox/essentials/nlp/el_text"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_text"
@@ -35,7 +36,10 @@ func (z *Token) Exec(c app_control.Control) error {
 
 	inContent := el_text.IgnoreLineBreak(content, z.IgnoreLineBreak)
 
-	doc, err := prose.NewDocument(inContent)
+	cache := ec_file.New(c.Workspace().Cache(), c.Log())
+	dc := el_en.NewContainer(cache, c.Log())
+	doc, err := dc.NewDocument(inContent)
+
 	if err != nil {
 		return err
 	}

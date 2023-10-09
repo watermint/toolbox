@@ -25,8 +25,8 @@ type Token struct {
 }
 
 func (z *Token) Preset() {
-	z.Dictionary.SetOptions("ipa", "ipa", "uni")
-	z.Mode.SetOptions("normal", "normal", "search", "extended")
+	z.Dictionary.SetOptions(el_ja.DictionaryIpa, el_ja.DictionaryIpa, el_ja.DictionaryUni)
+	z.Mode.SetOptions(el_ja.ModeNormal, el_ja.ModeNormal, el_ja.ModeSearch, el_ja.ModeExtend)
 }
 
 func (z *Token) Exec(c app_control.Control) error {
@@ -47,11 +47,11 @@ func (z *Token) Exec(c app_control.Control) error {
 
 	var mode tokenizer.TokenizeMode
 	switch z.Mode.Value() {
-	case "normal":
+	case el_ja.ModeNormal:
 		mode = tokenizer.Normal
-	case "search":
+	case el_ja.ModeSearch:
 		mode = tokenizer.Search
-	case "extended":
+	case el_ja.ModeExtend:
 		mode = tokenizer.Extended
 	default:
 		mode = tokenizer.Normal

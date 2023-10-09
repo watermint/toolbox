@@ -11,7 +11,18 @@ import (
 	"os"
 )
 
-type DictionaryContainer interface {
+const (
+	DictionaryIpa = "ipa"
+	DictionaryUni = "uni"
+
+	ModeNormal = "normal"
+	ModeSearch = "search"
+	ModeExtend = "extend"
+
+	CacheNamespace = "nlp-ja-kagome"
+)
+
+type Container interface {
 	// Load loads dictionary by name.
 	Load(name string) (d *dict.Dict, err error)
 
@@ -31,19 +42,19 @@ type DictionaryContainer interface {
 	NewUniTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error)
 }
 
-func NewContainer(cache ec_file.File, logger esl.Logger) DictionaryContainer {
-	return &dictionaryContainerImpl{
+func NewContainer(cache ec_file.File, logger esl.Logger) Container {
+	return &containerImpl{
 		cache:  cache,
 		logger: logger,
 	}
 }
 
-type dictionaryContainerImpl struct {
+type containerImpl struct {
 	cache  ec_file.File
 	logger esl.Logger
 }
 
-func (z dictionaryContainerImpl) NewTokenizer(name string, omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
+func (z containerImpl) NewTokenizer(name string, omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
 	dic, err := z.Load(name)
 	if err != nil {
 		return nil, err
@@ -55,34 +66,34 @@ func (z dictionaryContainerImpl) NewTokenizer(name string, omitBosEos bool) (t *
 	return tokenizer.New(dic, options...)
 }
 
-func (z dictionaryContainerImpl) NewIpaTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
-	return z.NewTokenizer("ipa", omitBosEos)
+func (z containerImpl) NewIpaTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
+	return z.NewTokenizer(DictionaryIpa, omitBosEos)
 }
 
-func (z dictionaryContainerImpl) NewUniTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
-	return z.NewTokenizer("uni", omitBosEos)
+func (z containerImpl) NewUniTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
+	return z.NewTokenizer(DictionaryUni, omitBosEos)
 }
 
-func (z dictionaryContainerImpl) LoadIpa() (d *dict.Dict, err error) {
-	return z.Load("ipa")
+func (z containerImpl) LoadIpa() (d *dict.Dict, err error) {
+	return z.Load(DictionaryIpa)
 }
 
-func (z dictionaryContainerImpl) LoadUni() (d *dict.Dict, err error) {
-	return z.Load("uni")
+func (z containerImpl) LoadUni() (d *dict.Dict, err error) {
+	return z.Load(DictionaryUni)
 }
 
-func (z dictionaryContainerImpl) Load(name string) (d *dict.Dict, err error) {
+func (z containerImpl) Load(name string) (d *dict.Dict, err error) {
 	l := z.logger.With(esl.String("name", name))
 	var url string
 	switch name {
-	case "ipa":
+	case DictionaryIpa:
 		url = "https://raw.githubusercontent.com/watermint/kagome-dict/main/ipa/ipa.dict"
-	case "uni":
+	case DictionaryUni:
 		url = "https://raw.githubusercontent.com/watermint/kagome-dict/main/uni/uni.dict"
 	default:
 		return nil, fmt.Errorf("unknown dictionary: %s", name)
 	}
-	path, err := z.cache.Get("nlp-ja-kagome", name, url)
+	path, err := z.cache.Get(CacheNamespace, name, url)
 	if err != nil {
 		return nil, err
 	}
