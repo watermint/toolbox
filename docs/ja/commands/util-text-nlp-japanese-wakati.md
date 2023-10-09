@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# util text nlp japanese token
+# util text nlp japanese wakati
 
-Tokenize Japanese text 
+Wakati gaki (tokenize Japanese text) 
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util text nlp japanese token -in /LOCAL/PATH/TO/INPUT.txt
+.\tbx.exe util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util text nlp japanese token -in /LOCAL/PATH/TO/INPUT.txt
+$HOME/Desktop/tbx util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,13 +38,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                                   | デフォルト |
-|----------------------|----------------------------------------|------------|
-| `-dictionary`        | Dictionary name of the token           | ipa        |
-| `-ignore-line-break` | Ignore line break                      | false      |
-| `-in`                | Input file path                        |            |
-| `-mode`              | Tokenize mode (normal/search/extended) | normal     |
-| `-omit-bos-eos`      | Omit BOS/EOS tokens                    | false      |
+| オプション           | 説明                      | デフォルト |
+|----------------------|---------------------------|------------|
+| `-dictionary`        | Dictionary name (ipa/uni) | ipa        |
+| `-ignore-line-break` | Ignore line break         | false      |
+| `-in`                | Input file path           |            |
+| `-omit-bos-eos`      | Omit BOS/EOS tokens       | false      |
+| `-separator`         | Text separator            |            |
 
 ## 共通のオプション:
 
@@ -73,7 +73,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## テキスト入力: In
 
-Input file path
+Input text file path
 
 # ネットワークプロクシの設定
 

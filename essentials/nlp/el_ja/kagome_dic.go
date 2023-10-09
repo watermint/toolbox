@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/ikawaha/kagome-dict/dict"
+	"github.com/ikawaha/kagome/v2/tokenizer"
 	"github.com/watermint/toolbox/essentials/cache/ec_file"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"os"
@@ -19,6 +20,15 @@ type DictionaryContainer interface {
 
 	// LoadUni loads UniDic dictionary.
 	LoadUni() (d *dict.Dict, err error)
+
+	// NewTokenizer creates a tokenizer.
+	NewTokenizer(name string, omitBosEos bool) (t *tokenizer.Tokenizer, err error)
+
+	// NewIpaTokenizer creates a tokenizer with IPA dictionary.
+	NewIpaTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error)
+
+	// NewUniTokenizer creates a tokenizer with UniDic dictionary.
+	NewUniTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error)
 }
 
 func NewContainer(cache ec_file.File, logger esl.Logger) DictionaryContainer {
@@ -31,6 +41,26 @@ func NewContainer(cache ec_file.File, logger esl.Logger) DictionaryContainer {
 type dictionaryContainerImpl struct {
 	cache  ec_file.File
 	logger esl.Logger
+}
+
+func (z dictionaryContainerImpl) NewTokenizer(name string, omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
+	dic, err := z.Load(name)
+	if err != nil {
+		return nil, err
+	}
+	options := make([]tokenizer.Option, 0)
+	if omitBosEos {
+		options = append(options, tokenizer.OmitBosEos())
+	}
+	return tokenizer.New(dic, options...)
+}
+
+func (z dictionaryContainerImpl) NewIpaTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
+	return z.NewTokenizer("ipa", omitBosEos)
+}
+
+func (z dictionaryContainerImpl) NewUniTokenizer(omitBosEos bool) (t *tokenizer.Tokenizer, err error) {
+	return z.NewTokenizer("uni", omitBosEos)
 }
 
 func (z dictionaryContainerImpl) LoadIpa() (d *dict.Dict, err error) {

@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# util text nlp japanese token
+# util text nlp japanese wakati
 
-Tokenize Japanese text 
+Wakati gaki (tokenize Japanese text) 
 
 # Installation
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util text nlp japanese token -in /LOCAL/PATH/TO/INPUT.txt
+.\tbx.exe util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util text nlp japanese token -in /LOCAL/PATH/TO/INPUT.txt
+$HOME/Desktop/tbx util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -38,13 +38,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option               | Description                            | Default |
-|----------------------|----------------------------------------|---------|
-| `-dictionary`        | Dictionary name of the token           | ipa     |
-| `-ignore-line-break` | Ignore line break                      | false   |
-| `-in`                | Input file path                        |         |
-| `-mode`              | Tokenize mode (normal/search/extended) | normal  |
-| `-omit-bos-eos`      | Omit BOS/EOS tokens                    | false   |
+| Option               | Description               | Default |
+|----------------------|---------------------------|---------|
+| `-dictionary`        | Dictionary name (ipa/uni) | ipa     |
+| `-ignore-line-break` | Ignore line break         | false   |
+| `-in`                | Input file path           |         |
+| `-omit-bos-eos`      | Omit BOS/EOS tokens       | false   |
+| `-separator`         | Text separator            |         |
 
 ## Common options:
 
@@ -73,7 +73,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Text input: In
 
-Input file path
+Input text file path
 
 # Proxy configuration
 

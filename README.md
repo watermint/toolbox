@@ -400,6 +400,7 @@ Available commands:
 | [util text nlp english sentence](docs/commands/util-text-nlp-english-sentence.md) | Split English text into sentences                                    |
 | [util text nlp english token](docs/commands/util-text-nlp-english-token.md)       | Split English text into tokens                                       |
 | [util text nlp japanese token](docs/commands/util-text-nlp-japanese-token.md)     | Tokenize Japanese text                                               |
+| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)   | Wakati gaki (tokenize Japanese text)                                 |
 | [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md)               | Dispatch files                                                       |
 | [util tidy move simple](docs/commands/util-tidy-move-simple.md)                   | Archive local files                                                  |
 | [util time now](docs/commands/util-time-now.md)                                   | Display current time                                                 |

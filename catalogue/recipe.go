@@ -515,6 +515,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltextnlpenglish.Sentence{},
 		&recipeutiltextnlpenglish.Token{},
 		&recipeutiltextnlpjapanese.Token{},
+		&recipeutiltextnlpjapanese.Wakati{},
 		&recipeutiltidymove.Dispatch{},
 		&recipeutiltidymove.Simple{},
 		&recipeutiltidypack.Remote{},

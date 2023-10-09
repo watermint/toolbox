@@ -320,6 +320,7 @@ lang: en
 | [util text nlp english sentence]({{ site.baseurl }}/commands/util-text-nlp-english-sentence.html) | Split English text into sentences                                    |
 | [util text nlp english token]({{ site.baseurl }}/commands/util-text-nlp-english-token.html)       | Split English text into tokens                                       |
 | [util text nlp japanese token]({{ site.baseurl }}/commands/util-text-nlp-japanese-token.html)     | Tokenize Japanese text                                               |
+| [util text nlp japanese wakati]({{ site.baseurl }}/commands/util-text-nlp-japanese-wakati.html)   | Wakati gaki (tokenize Japanese text)                                 |
 | [util tidy move dispatch]({{ site.baseurl }}/commands/util-tidy-move-dispatch.html)               | Dispatch files                                                       |
 | [util tidy move simple]({{ site.baseurl }}/commands/util-tidy-move-simple.html)                   | Archive local files                                                  |
 | [util time now]({{ site.baseurl }}/commands/util-time-now.html)                                   | Display current time                                                 |

@@ -1,7 +1,6 @@
 package el_ja
 
 import (
-	tokenizer2 "github.com/ikawaha/kagome/v2/tokenizer"
 	"github.com/watermint/toolbox/essentials/cache/ec_file"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
@@ -26,16 +25,8 @@ func TestDictionaryContainerImpl_Load(t *testing.T) {
 	}()
 	l := esl.Default()
 	dc := NewContainer(ec_file.New(cacheRoot, l), l)
-	d, err := dc.Load("ipa")
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	tokenizer, err := tokenizer2.New(d)
-	if err != nil {
-		t.Error(err)
-		return
-	}
+	tokenizer, err := dc.NewIpaTokenizer(false)
+
 	segments := tokenizer.Wakati("すもももももももものうち")
 	if !reflect.DeepEqual(segments, []string{"すもも", "も", "もも", "も", "もも", "の", "うち"}) {
 		t.Error("invalid wakati gaki result", segments)
