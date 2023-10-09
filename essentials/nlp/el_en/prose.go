@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/prose/v3"
 	"github.com/watermint/toolbox/essentials/cache/ec_file"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"sync"
 )
 
 const (
@@ -22,11 +23,13 @@ func NewContainer(cache ec_file.File, logger esl.Logger) Container {
 }
 
 type containerImpl struct {
-	cache  ec_file.File
-	logger esl.Logger
+	cache      ec_file.File
+	logger     esl.Logger
+	model      *prose.Model
+	modelMutex sync.Mutex
 }
 
-func (z containerImpl) loadModel(path string) (model *prose.Model, err error) {
+func (z *containerImpl) loadModel(path string) (model *prose.Model, err error) {
 	l := z.logger
 	l.Debug("Load model", esl.String("path", path))
 	//defer func() {
@@ -39,7 +42,13 @@ func (z containerImpl) loadModel(path string) (model *prose.Model, err error) {
 	return
 }
 
-func (z containerImpl) loadData() (model *prose.Model, err error) {
+func (z *containerImpl) loadData() (model *prose.Model, err error) {
+	z.modelMutex.Lock()
+	defer z.modelMutex.Unlock()
+	if z.model != nil {
+		return z.model, nil
+	}
+
 	l := z.logger
 	resources := []string{
 		"AveragedPerceptron/tags.gob",
@@ -59,11 +68,11 @@ func (z containerImpl) loadData() (model *prose.Model, err error) {
 			return nil, err
 		}
 	}
-	model, err = z.loadModel(z.cache.Path(CacheNamespace))
-	return
+	z.model, err = z.loadModel(z.cache.Path(CacheNamespace))
+	return z.model, err
 }
 
-func (z containerImpl) NewDocument(text string) (doc *prose.Document, err error) {
+func (z *containerImpl) NewDocument(text string) (doc *prose.Document, err error) {
 	model, err := z.loadData()
 	if err != nil {
 		return nil, err
