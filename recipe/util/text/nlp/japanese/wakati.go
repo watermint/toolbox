@@ -19,7 +19,6 @@ type Wakati struct {
 	In              da_text.TextInput
 	Dictionary      mo_string.SelectString
 	IgnoreLineBreak bool
-	OmitBosEos      bool
 	Separator       string
 }
 
@@ -39,7 +38,7 @@ func (z *Wakati) Exec(c app_control.Control) error {
 	cache := ec_file.New(c.Workspace().Cache(), c.Log())
 	dc := el_ja.NewContainer(cache, c.Log())
 
-	tok, err := dc.NewTokenizer(z.Dictionary.Value(), z.OmitBosEos)
+	tok, err := dc.NewTokenizer(z.Dictionary.Value(), true)
 	if err != nil {
 		return err
 	}

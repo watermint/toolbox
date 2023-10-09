@@ -43,7 +43,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-dictionary`        | Dictionary name (ipa/uni) | ipa        |
 | `-ignore-line-break` | Ignore line break         | false      |
 | `-in`                | Input file path           |            |
-| `-omit-bos-eos`      | Omit BOS/EOS tokens       | false      |
 | `-separator`         | Text separator            |            |
 
 ## 共通のオプション:

@@ -3472,7 +3472,6 @@
   "recipe.util.text.nlp.japanese.wakati.flag.dictionary": "Dictionary name (ipa/uni)",
   "recipe.util.text.nlp.japanese.wakati.flag.ignore_line_break": "Ignore line break",
   "recipe.util.text.nlp.japanese.wakati.flag.in": "Input file path",
-  "recipe.util.text.nlp.japanese.wakati.flag.omit_bos_eos": "Omit BOS/EOS tokens",
   "recipe.util.text.nlp.japanese.wakati.flag.separator": "Text separator",
   "recipe.util.text.nlp.japanese.wakati.text_input.in.desc": "Input text file path",
   "recipe.util.text.nlp.japanese.wakati.title": "Wakati gaki (tokenize Japanese text)",

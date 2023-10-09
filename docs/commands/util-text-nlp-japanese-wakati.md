@@ -43,7 +43,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-dictionary`        | Dictionary name (ipa/uni) | ipa     |
 | `-ignore-line-break` | Ignore line break         | false   |
 | `-in`                | Input file path           |         |
-| `-omit-bos-eos`      | Omit BOS/EOS tokens       | false   |
 | `-separator`         | Text separator            |         |
 
 ## Common options:
