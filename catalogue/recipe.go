@@ -163,6 +163,7 @@ import (
 	recipeutiltextcase "github.com/watermint/toolbox/recipe/util/text/case"
 	recipeutiltextencoding "github.com/watermint/toolbox/recipe/util/text/encoding"
 	recipeutiltextnlpenglish "github.com/watermint/toolbox/recipe/util/text/nlp/english"
+	recipeutiltextnlpjapanese "github.com/watermint/toolbox/recipe/util/text/nlp/japanese"
 	recipeutiltidymove "github.com/watermint/toolbox/recipe/util/tidy/move"
 	recipeutiltidypack "github.com/watermint/toolbox/recipe/util/tidy/pack"
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
@@ -513,6 +514,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltextnlpenglish.Entity{},
 		&recipeutiltextnlpenglish.Sentence{},
 		&recipeutiltextnlpenglish.Token{},
+		&recipeutiltextnlpjapanese.Token{},
 		&recipeutiltidymove.Dispatch{},
 		&recipeutiltidymove.Simple{},
 		&recipeutiltidypack.Remote{},

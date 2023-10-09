@@ -3,6 +3,7 @@ package english
 import (
 	"encoding/json"
 	"github.com/jdkato/prose/v2"
+	"github.com/watermint/toolbox/essentials/nlp/el_text"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_text"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -31,7 +32,7 @@ func (z *Entity) Exec(c app_control.Control) error {
 		return err
 	}
 
-	inContent := PreProcess(content, z.IgnoreLineBreak)
+	inContent := el_text.IgnoreLineBreak(content, z.IgnoreLineBreak)
 
 	doc, err := prose.NewDocument(inContent)
 	if err != nil {

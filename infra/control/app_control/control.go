@@ -3,7 +3,6 @@ package app_control
 import (
 	"database/sql"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
@@ -42,9 +41,6 @@ type Control interface {
 
 	// AuthRepository returns auth repository
 	AuthRepository() api_auth.Repository
-
-	// NewCache Get or create new cache
-	NewCache(namespace, name string) cache.Cache
 
 	// NewKvs Create new KVS. The caller must close the storage before exit.
 	NewKvs(name string) (kvs kv_storage.Storage, err error)

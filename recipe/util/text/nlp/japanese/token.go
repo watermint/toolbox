@@ -1,8 +1,10 @@
-package english
+package japanese
 
 import (
 	"encoding/json"
-	"github.com/jdkato/prose/v2"
+	"github.com/ikawaha/kagome/v2/tokenizer"
+	"github.com/watermint/toolbox/essentials/cache/ec_file"
+	"github.com/watermint/toolbox/essentials/nlp/el_ja"
 	"github.com/watermint/toolbox/essentials/nlp/el_text"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_text"
@@ -12,12 +14,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 )
-
-type TokenBlock struct {
-	Tag   string `json:"tag"`   // The token's part-of-speech tag.
-	Text  string `json:"text"`  // The token's actual content.
-	Label string `json:"label"` // The token's IOB label.
-}
 
 type Token struct {
 	In              da_text.TextInput
@@ -35,19 +31,18 @@ func (z *Token) Exec(c app_control.Control) error {
 
 	inContent := el_text.IgnoreLineBreak(content, z.IgnoreLineBreak)
 
-	doc, err := prose.NewDocument(inContent)
+	cache := ec_file.New(c.Workspace().Cache(), c.Log())
+	dc := el_ja.NewContainer(cache, c.Log())
+	dic, err := dc.Load("ipa")
 	if err != nil {
 		return err
 	}
-
-	sentences := make([]TokenBlock, 0)
-	for _, t := range doc.Tokens() {
-		sentences = append(sentences, TokenBlock{
-			Text:  t.Text,
-			Label: t.Label,
-		})
+	tok, err := tokenizer.New(dic)
+	if err != nil {
+		return err
 	}
-	out, err := json.Marshal(sentences)
+	tokens := el_ja.NewTokenArray(tok.Tokenize(inContent))
+	out, err := json.Marshal(tokens)
 	if err != nil {
 		return err
 	}
@@ -56,7 +51,7 @@ func (z *Token) Exec(c app_control.Control) error {
 }
 
 func (z *Token) Test(c app_control.Control) error {
-	f, err := qt_file.MakeTestFile("english", "watermint toolbox is the best tool. I love watermint toolbox.")
+	f, err := qt_file.MakeTestFile("ja", "すもももももももものうち")
 	if err != nil {
 		return err
 	}

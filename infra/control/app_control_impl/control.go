@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/database/orm"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
@@ -32,7 +31,6 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq
 		ui:          ui,
 		feature:     feature,
 		errorReport: er,
-		cacheCtl:    cache.New(wb.Workspace().Cache(), wb.Logger().Logger()),
 		authRepo:    authRepo,
 	}
 }
@@ -82,7 +80,6 @@ type ctlImpl struct {
 	feature     app_feature.Feature
 	ui          app_ui.UI
 	wb          app_workspace.Bundle
-	cacheCtl    cache.Controller
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
 	authRepo    api_auth.Repository
@@ -125,10 +122,6 @@ func (z ctlImpl) WithErrorReport(er app_error.ErrorReport) ForkableControl {
 	return z
 }
 
-func (z ctlImpl) NewCache(namespace, name string) cache.Cache {
-	return z.cacheCtl.Cache(namespace, name)
-}
-
 func (z ctlImpl) NewKvsFactory() (factory kv_storage.Factory) {
 	factory = kv_storage_impl.NewFactory(z.wb.Workspace().KVS(), z.wb.Logger().Logger())
 	return
@@ -143,7 +136,6 @@ func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
 
 func (z ctlImpl) Close() {
 	z.errorReport.Down()
-	z.cacheCtl.Shutdown()
 }
 
 func (z ctlImpl) Sequence() eq_sequence.Sequence {

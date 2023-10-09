@@ -397,6 +397,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util text nlp english entity](docs/ja/commands/util-text-nlp-english-entity.md)     | Split English text into entities                                       |
 | [util text nlp english sentence](docs/ja/commands/util-text-nlp-english-sentence.md) | Split English text into sentences                                      |
 | [util text nlp english token](docs/ja/commands/util-text-nlp-english-token.md)       | Split English text into tokens                                         |
+| [util text nlp japanese token](docs/ja/commands/util-text-nlp-japanese-token.md)     | Tokenize Japanese text                                                 |
 | [util tidy move dispatch](docs/ja/commands/util-tidy-move-dispatch.md)               | ファイルを整理                                                         |
 | [util tidy move simple](docs/ja/commands/util-tidy-move-simple.md)                   | ローカルファイルをアーカイブします                                     |
 | [util time now](docs/ja/commands/util-time-now.md)                                   | 現在の時刻を表示                                                       |
