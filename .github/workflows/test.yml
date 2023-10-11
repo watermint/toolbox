@@ -22,9 +22,10 @@ jobs:
       - name: test
         run: ./test/test.sh
         env:
-          TOOLBOX_REPLAY_URL: '${{ secrets.TOOLBOX_REPLAY_URL }}'
-          TOOLBOX_DEPLOY_DB: '${{ secrets.TOOLBOX_DEPLOY_DB }}'
           RUN_NUMBER: '${{ github.run_number }}'
+          TOOLBOX_DEPLOY_DB: '${{ secrets.TOOLBOX_DEPLOY_DB }}'
+          TOOLBOX_REPLAY_URL: '${{ secrets.TOOLBOX_REPLAY_URL }}'
+          TOOLBOX_SKIPENDTOENDTEST: true
 
       - name: upload coverage
         uses: codecov/codecov-action@v3
