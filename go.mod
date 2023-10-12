@@ -12,7 +12,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-git/go-git/v5 v5.9.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
-	github.com/google/go-cmp v0.5.9
+	github.com/google/go-cmp v0.6.0
 	github.com/google/go-querystring v1.1.0
 	github.com/ikawaha/kagome-dict v1.0.9
 	github.com/ikawaha/kagome/v2 v2.9.4
@@ -40,7 +40,7 @@ require (
 	golang.org/x/sync v0.4.0
 	golang.org/x/text v0.13.0
 	gorm.io/driver/sqlite v1.5.4
-	gorm.io/gorm v1.25.4
+	gorm.io/gorm v1.25.5
 )
 
 require (
@@ -108,7 +108,7 @@ require (
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.5.0 // indirect
 	golang.org/x/mod v0.13.0 // indirect
-	golang.org/x/net v0.16.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/term v0.13.0 // indirect
 	golang.org/x/tools v0.14.0 // indirect
