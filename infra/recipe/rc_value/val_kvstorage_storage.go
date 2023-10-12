@@ -67,9 +67,18 @@ func (z *ValueKvStorageStorage) Restore(v es_json.Json, ctl app_control.Control)
 
 func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 	storage := z.storage.(kv_storage.Lifecycle)
-	if ctl.Feature().Experiment(app.ExperimentKvsSqlite) {
+	switch {
+	case ctl.Feature().Experiment(app.ExperimentKvsSqlite):
 		if p, ok := storage.(kv_storage.Proxy); ok {
 			p.SetEngine(kv_storage.KvsEngineSqlite)
+		}
+	case ctl.Feature().Experiment(app.ExperimentKvsSqliteTurnstile):
+		if p, ok := storage.(kv_storage.Proxy); ok {
+			p.SetEngine(kv_storage.KvsEngineSqliteTurnstile)
+		}
+	case ctl.Feature().Experiment(app.ExperimentKvsBitcaskTurnstile):
+		if p, ok := storage.(kv_storage.Proxy); ok {
+			p.SetEngine(kv_storage.KvsEngineBitcaskTurnstile)
 		}
 	}
 	storage.SetLogger(ctl.Log())

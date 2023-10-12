@@ -44,6 +44,12 @@ const (
 	// ExperimentKvsSqlite Use SQLite as KVS engine
 	ExperimentKvsSqlite = "kvs_sqlite"
 
+	// ExperimentKvsSqliteTurnstile Use SQLite as KVS engine with turnstile
+	ExperimentKvsSqliteTurnstile = "kvs_sqlite_turnstile"
+
+	// ExperimentKvsBitcaskTurnstile Use Bitcask as KVS engine with turnstile
+	ExperimentKvsBitcaskTurnstile = "kvs_bitcask_turnstile"
+
 	// ExperimentDbxDownloadBlock download by block
 	ExperimentDbxDownloadBlock = "dbx_download_block"
 )
@@ -68,7 +74,9 @@ var (
 		ExperimentFileSyncDisableReduceCreateFolder,
 		ExperimentFileSyncLegacyLocalToDropboxConnector,
 		ExperimentFileSyncNoCacheDropboxFileSystem,
+		ExperimentKvsBitcaskTurnstile,
 		ExperimentKvsSqlite,
+		ExperimentKvsSqliteTurnstile,
 		ExperimentProfileCpu,
 		ExperimentProfileMemory,
 		ExperimentReportAllColumns,
