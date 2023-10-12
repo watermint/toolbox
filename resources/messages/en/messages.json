@@ -172,6 +172,8 @@
   "domain.dropbox.model.mo_file_size.namespace_size.size.desc": "Size of the folder",
   "domain.dropbox.model.mo_filerequest.file_request.created.desc": "Date/time of the file request was created.",
   "domain.dropbox.model.mo_filerequest.file_request.deadline.desc": "The deadline for this file request.",
+  "recipe.dev.kvs.concurrency.flag.count": "Number of testes",
+  "recipe.dev.kvs.concurrency.title": "Concurrency test for KVS engine",
   "domain.dropbox.model.mo_filerequest.file_request.deadline_allow_late_uploads.desc": "If set, allow uploads after the deadline has passed.",
   "domain.dropbox.model.mo_filerequest.file_request.desc": "This report shows a list of file requests.",
   "domain.dropbox.model.mo_filerequest.file_request.destination.desc": "The path for the folder in the Dropbox where uploaded files will be sent.",

@@ -198,6 +198,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdiag.Endpoint{},
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Benchmark{},
+		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
 		&recipedevmodule.List{},
 		&recipedevrelease.Candidate{},
