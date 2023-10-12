@@ -6,7 +6,7 @@ lang: en
 
 # dev kvs concurrency
 
-{"key":"complex","params":{"Messages":[{"K":"recipe.dev.kvs.concurrency.title","P":null},{"K":"raw","P":[{"Raw":""}]}]}}
+Concurrency test for KVS engine 
 
 # Installation
 
@@ -38,9 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option   | Description                                                 | Default |
-|----------|-------------------------------------------------------------|---------|
-| `-count` | {"key":"recipe.dev.kvs.concurrency.flag.count","params":{}} | 10000   |
+| Option   | Description      | Default |
+|----------|------------------|---------|
+| `-count` | Number of testes | 10000   |
 
 ## Common options:
 
