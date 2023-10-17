@@ -178,20 +178,26 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	z.verifyMessages(ui, wb.Logger().Logger())
 	esl.AddDefaultSubscriber(wb.Logger().Core())
 
-	// Notification
-	if com.Quiet || com.Output.Value() == app_opt.OutputJson || es_env.IsEnabled(app.EnvNameDebugVerbose) {
-		wb.Logger().Logger().Debug("Set indicators as silent mode")
-		ea_indicator.SuppressIndicator()
-	} else {
-		wb.Logger().Logger().Debug("Start indicators")
-		ea_indicator.StartIndicator()
-	}
-
 	jl := app_job_impl.NewLauncher(ui, wb, com, rcp)
 	ctl, err := jl.Up()
 	if err != nil {
 		ui.Failure(MRun.ErrorInitialization.With("Error", err))
 		app_exit.Abort(app_exit.FatalStartup)
+	}
+
+	// Notification
+	switch {
+	case com.Quiet,
+		com.Output.Value() == app_opt.OutputJson,
+		com.Output.Value() == app_opt.OutputNone,
+		es_env.IsEnabled(app.EnvNameDebugVerbose),
+		ctl.Feature().Experiment(app.ExperimentSuppressProgress):
+
+		wb.Logger().Logger().Debug("Set indicators as silent mode")
+		ea_indicator.SuppressIndicatorForce()
+	default:
+		wb.Logger().Logger().Debug("Start indicators")
+		ea_indicator.StartIndicator()
 	}
 
 	// Recover

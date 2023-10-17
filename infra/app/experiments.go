@@ -52,6 +52,9 @@ const (
 
 	// ExperimentDbxDownloadBlock download by block
 	ExperimentDbxDownloadBlock = "dbx_download_block"
+
+	// ExperimentSuppressProgress suppress progress
+	ExperimentSuppressProgress = "suppress_progress"
 )
 
 var (
@@ -80,5 +83,6 @@ var (
 		ExperimentProfileCpu,
 		ExperimentProfileMemory,
 		ExperimentReportAllColumns,
+		ExperimentSuppressProgress,
 	}
 )

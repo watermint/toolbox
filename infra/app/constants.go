@@ -16,9 +16,6 @@ const (
 const (
 	// Peer name for deployment
 	PeerDeploy = "deploy"
-
-	// Peer name for end to end test.
-	PeerEndToEndTest = "end_to_end_test"
 )
 
 // Auth database
@@ -46,9 +43,6 @@ const (
 
 	// Env variable name for skip end to end tests. Expected format is bool.
 	EnvNameEndToEndSkipTest = "TOOLBOX_SKIPENDTOENDTEST"
-
-	// Env variable name for end to end token. Expected format is JSON encoded tokens
-	EnvNameEndToEndToken = "TOOLBOX_ENDTOEND_TOKEN"
 
 	// Env variable name for replay store path.
 	EnvNameReplayPath = "TOOLBOX_REPLAY_PATH"
