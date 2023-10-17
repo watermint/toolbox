@@ -34,5 +34,6 @@ lang: ja
 | profile_cpu                            | CPUプロファイラの有効化                                                                                                                                                               |
 | profile_memory                         | メモリプロファイラの有効化                                                                                                                                                            |
 | report_all_columns                     | データ構造として定義されているすべての列を表示します.                                                                                                                                 |
+| suppress_progress                      | Suppress progress indicators                                                                                                                                                          |
 
 

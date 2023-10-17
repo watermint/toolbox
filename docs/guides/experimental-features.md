@@ -34,5 +34,6 @@ The experimental feature switch is for testing or accessing early access feature
 | profile_cpu                            | Enable CPU profiler                                                                                                                                                                                     |
 | profile_memory                         | Enable memory profiler                                                                                                                                                                                  |
 | report_all_columns                     | Show all columns defined as data structure.                                                                                                                                                             |
+| suppress_progress                      | Suppress progress indicators                                                                                                                                                                            |
 
 
