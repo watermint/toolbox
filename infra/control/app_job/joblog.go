@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"os"
 	"path/filepath"
@@ -37,10 +38,10 @@ func parseTime(ts string) (t time.Time, ok bool) {
 }
 
 type StartLog struct {
-	TimingLog
+	TimingLog    `json:"-"`
 	Name         string                 `json:"name"`
 	ValueObject  map[string]interface{} `json:"value_object"`
-	CommonOpts   map[string]interface{} `json:"common_opts"`
+	CommonOpts   app_opt.CommonOpts     `json:"common_opts"`
 	TimeStart    string                 `json:"time_start,omitempty"`
 	JobId        string                 `json:"job_id"`
 	AppName      string                 `json:"app_name"`

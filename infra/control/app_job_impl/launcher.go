@@ -58,8 +58,9 @@ func (z launchImpl) recordStartLog(ctl app_control.Control) error {
 	sl := app_job.StartLog{
 		Name:         z.rcp.CliPath(),
 		ValueObject:  z.rcp.Debug(),
-		JobId:        ctl.Workspace().JobId(),
+		CommonOpts:   z.com,
 		TimeStart:    time.Now().Format(time.RFC3339),
+		JobId:        ctl.Workspace().JobId(),
 		AppName:      app.Name,
 		AppHash:      app.BuildInfo.Hash,
 		AppVersion:   app.BuildId,
