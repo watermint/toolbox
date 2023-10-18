@@ -95,22 +95,10 @@ func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 
 func (z *ValueKvStorageStorage) SpinDown(ctl app_control.Control) error {
 	l := ctl.Log()
-	if lc, ok := z.storage.(kv_storage.Lifecycle); ok {
-		l.Debug("Delete storage", esl.String("path", lc.Path()))
-		if err := lc.Delete(); err != nil {
-			l.Debug("Unable to delete storage", esl.Error(err))
-			return err
-		}
-	} else {
-		l.Debug("Skip deleting")
-	}
+	l.Debug("Close storage")
 	z.storage.Close()
+
 	if lc, ok := z.storage.(kv_storage.Lifecycle); ok {
-		l.Debug("Delete storage", esl.String("path", lc.Path()))
-		if err := lc.Delete(); err != nil {
-			l.Debug("Unable to delete storage", esl.Error(err))
-			return err
-		}
 		l.Debug("Remove storage", esl.String("path", lc.Path()))
 		if err := os.RemoveAll(lc.Path()); err != nil {
 			l.Debug("Unable to remove storage", esl.Error(err))
