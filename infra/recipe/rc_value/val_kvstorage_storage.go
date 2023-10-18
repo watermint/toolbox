@@ -85,6 +85,8 @@ func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 	}
 	if p, ok := storage.(kv_storage.Proxy); ok {
 		p.SetEngine(engine)
+	} else {
+		ctl.Log().Error("Unable to set engine", esl.Any("engine", engine))
 	}
 	storage.SetLogger(ctl.Log())
 	return storage.Open(ctl.Workspace().KVS())
