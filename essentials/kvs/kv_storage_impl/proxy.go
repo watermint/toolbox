@@ -9,7 +9,7 @@ import (
 
 func NewProxy(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &proxyImpl{
-		engine: kv_storage.KvsEngineBitcask,
+		engine: kv_storage.KvsEngineBadger,
 		name:   name,
 		logger: logger,
 	}
