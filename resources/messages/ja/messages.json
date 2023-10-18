@@ -1258,7 +1258,6 @@
   "recipe.dev.diag.throughput_row.success_sent.desc": "成功したリクエストのバケットあたりの送信バイト数",
   "recipe.dev.diag.throughput_row.time.desc": "タイムスタンプ",
   "recipe.dev.diag.title": "診断ツール",
-  "recipe.dev.kvs.benchmark.title": "KVSエンジンのベンチマーク",
   "recipe.dev.kvs.concurrency.flag.count": "テスト数",
   "recipe.dev.kvs.concurrency.title": "KVSエンジンの同時実行テスト",
   "recipe.dev.kvs.dump.cli.args": "-path /LOCAL/PATH/TO/kvs.data",

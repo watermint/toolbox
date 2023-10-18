@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_badger"
 )
 
-func InternalNewBadger(name string, logger esl.Logger) kv_storage.Lifecycle {
+func newBadger(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &badgerWrapper{
 		name:   name,
 		logger: logger,

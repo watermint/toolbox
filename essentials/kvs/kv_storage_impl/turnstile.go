@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
-func NewTurnstileStorage(storage kv_storage.Lifecycle) kv_storage.Lifecycle {
+func newTurnstileStorage(storage kv_storage.Lifecycle) kv_storage.Lifecycle {
 	return &turnstileImpl{
 		storage: storage,
 	}

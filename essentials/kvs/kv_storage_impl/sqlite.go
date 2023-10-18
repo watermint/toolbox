@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 )
 
-func InternalNewSqlite(name string, logger esl.Logger) kv_storage.Lifecycle {
+func newSqlite(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &sqWrapper{
 		name:   name,
 		logger: logger,

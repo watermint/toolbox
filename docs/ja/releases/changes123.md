@@ -30,7 +30,6 @@ lang: ja
 | dev ci auth export                          | CIビルドのためのデプロイトークンデータの書き出し                                          |
 | dev diag endpoint                           | エンドポイントを一覧                                                                      |
 | dev diag throughput                         | キャプチャログからスループットを評価                                                      |
-| dev kvs benchmark                           | KVSエンジンのベンチマーク                                                                 |
 | dev kvs concurrency                         | KVSエンジンの同時実行テスト                                                               |
 | dev kvs dump                                | KVSデータのダンプ                                                                         |
 | dev module list                             | 依存モジュール一覧                                                                        |

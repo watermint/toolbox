@@ -30,7 +30,6 @@ lang: en
 | dev ci auth export                          | Export deploy token data for CI build                                               |
 | dev diag endpoint                           | List endpoints                                                                      |
 | dev diag throughput                         | Evaluate throughput from capture logs                                               |
-| dev kvs benchmark                           | KVS engine benchmark                                                                |
 | dev kvs concurrency                         | Concurrency test for KVS engine                                                     |
 | dev kvs dump                                | Dump KVS data                                                                       |
 | dev module list                             | Dependent module list                                                               |

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -31,7 +32,11 @@ func (z *Dump) Preset() {
 
 func (z *Dump) Exec(c app_control.Control) error {
 	l := c.Log()
-	kv, err := kv_storage_impl.NewBitCaskWithPath(z.Path.Path(), c.Log())
+	proxy := kv_storage_impl.NewProxy("dump", l)
+	if ls, ok := proxy.(kv_storage.Proxy); ok {
+		ls.SetEngine(c.Feature().KvsEngine())
+	}
+	err := proxy.Open(z.Path.Path())
 	if err != nil {
 		l.Debug("unable to open", esl.Error(err))
 		return err
@@ -41,7 +46,7 @@ func (z *Dump) Exec(c app_control.Control) error {
 		return err
 	}
 
-	return kv.View(func(kvs kv_kvs.Kvs) error {
+	return proxy.View(func(kvs kv_kvs.Kvs) error {
 		return kvs.ForEach(func(key string, value []byte) error {
 			if gjson.ValidBytes(value) {
 				z.Result.Row(&DumpResult{

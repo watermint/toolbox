@@ -44,27 +44,27 @@ func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
 	switch z.engine {
 	case kv_storage.KvsEngineBitcask:
 		l.Debug("Use Bitcask")
-		return InternalNewBitcask(z.name, z.logger)
+		return newBitcask(z.name, z.logger)
 	case kv_storage.KvsEngineBitcaskTurnstile:
 		l.Debug("Use Bitcask Turnstile")
-		return NewTurnstileStorage(InternalNewBitcask(z.name, z.logger))
+		return newTurnstileStorage(newBitcask(z.name, z.logger))
 	case kv_storage.KvsEngineSqlite:
 		l.Debug("Use Sqlite")
-		return InternalNewSqlite(z.name, z.logger)
+		return newSqlite(z.name, z.logger)
 	case kv_storage.KvsEngineSqliteTurnstile:
 		l.Debug("Use Sqlite Turnstile")
-		return NewTurnstileStorage(InternalNewSqlite(z.name, z.logger))
+		return newTurnstileStorage(newSqlite(z.name, z.logger))
 	case kv_storage.KvsEngineBadger:
 		l.Debug("Use Badger")
-		return InternalNewBadger(z.name, z.logger)
+		return newBadger(z.name, z.logger)
 	case kv_storage.KvsEngineBadgerTurnstile:
 		l.Debug("Use Badger Turnstile")
-		return NewTurnstileStorage(InternalNewBadger(z.name, z.logger))
+		return newTurnstileStorage(newBadger(z.name, z.logger))
 
 	default:
 		l.Debug("Use default engine: Badger")
 		// fallback
-		return InternalNewBadger(z.name, z.logger)
+		return newBadger(z.name, z.logger)
 	}
 }
 
