@@ -6,7 +6,7 @@ lang: ja
 
 # util text nlp japanese token
 
-Tokenize Japanese text 
+日本語テキストのトークン化 
 
 # インストール
 
@@ -38,13 +38,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                                   | デフォルト |
-|----------------------|----------------------------------------|------------|
-| `-dictionary`        | Dictionary name of the token           | ipa        |
-| `-ignore-line-break` | Ignore line break                      | false      |
-| `-in`                | Input file path                        |            |
-| `-mode`              | Tokenize mode (normal/search/extended) | normal     |
-| `-omit-bos-eos`      | Omit BOS/EOS tokens                    | false      |
+| オプション           | 説明                                     | デフォルト |
+|----------------------|------------------------------------------|------------|
+| `-dictionary`        | トークンの辞書名                         | ipa        |
+| `-ignore-line-break` | 改行を無視する                           | false      |
+| `-in`                | 入力ファイルのパス                       |            |
+| `-mode`              | トークン化モード(normal/search/extended) | normal     |
+| `-omit-bos-eos`      | BOS/EOSトークンの省略                    | false      |
 
 ## 共通のオプション:
 
@@ -73,7 +73,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## テキスト入力: In
 
-Input file path
+入力ファイルのパス
 
 # ネットワークプロクシの設定
 

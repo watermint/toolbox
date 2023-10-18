@@ -1,12 +1,12 @@
 ---
 layout: release
-title: リリースの変更点 121
+title: リリースの変更点 122
 lang: ja
 ---
 
-# `リリース 121` から `リリース 122` までの変更点
+# `リリース 122` から `リリース 123` までの変更点
 
-# 削除されたコマンド
+# 追加されたコマンド
 
 
 | コマンド                                    | タイトル                                                                                  |
@@ -31,6 +31,7 @@ lang: ja
 | dev diag endpoint                           | エンドポイントを一覧                                                                      |
 | dev diag throughput                         | キャプチャログからスループットを評価                                                      |
 | dev kvs benchmark                           | KVSエンジンのベンチマーク                                                                 |
+| dev kvs concurrency                         | KVSエンジンの同時実行テスト                                                               |
 | dev kvs dump                                | KVSデータのダンプ                                                                         |
 | dev module list                             | 依存モジュール一覧                                                                        |
 | dev release candidate                       | リリース候補を検査します                                                                  |
@@ -209,6 +210,7 @@ lang: ja
 | services google sheets sheet import         | スプレッドシートにデータをインポート                                                      |
 | services google sheets sheet list           | スプレッドシートのシート一覧                                                              |
 | services google sheets spreadsheet create   | 新しいスプレッドシートの作成                                                              |
+| services google translate text              | テキストを翻訳する                                                                        |
 | services slack conversation history         | 会話履歴                                                                                  |
 | services slack conversation list            | チャネルの一覧                                                                            |
 | sharedfolder leave                          | 共有フォルダーから退出する.                                                               |
@@ -344,12 +346,19 @@ lang: ja
 | util text case up                           | 大文字のテキストを表示する                                                                |
 | util text encoding from                     | 指定されたエンコーディングからUTF-8テキストファイルに変換します.                          |
 | util text encoding to                       | UTF-8テキストファイルから指定されたエンコーディングに変換する.                            |
+| util text nlp english entity                | 英文をエンティティに分割する                                                              |
+| util text nlp english sentence              | 英文を文章に分割する                                                                      |
+| util text nlp english token                 | 英文をトークンに分割する                                                                  |
+| util text nlp japanese token                | 日本語テキストのトークン化                                                                |
+| util text nlp japanese wakati               | 分かち書き(日本語テキストのトークン化)                                                    |
 | util tidy move dispatch                     | ファイルを整理                                                                            |
 | util tidy move simple                       | ローカルファイルをアーカイブします                                                        |
 | util tidy pack remote                       | リモートフォルダをZIPファイルにパッケージする                                             |
 | util time now                               | 現在の時刻を表示                                                                          |
 | util unixtime format                        | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット                    |
 | util unixtime now                           | UNIX時間で現在の時刻を表示する                                                            |
+| util uuid v4                                | UUID v4（ランダムUUID）の生成                                                             |
+| util video subtitles optimize               | 字幕ファイルの最適化                                                                      |
 | util xlsx create                            | 空のスプレッドシートを作成する                                                            |
 | util xlsx sheet export                      | xlsxファイルからデータをエクスポート                                                      |
 | util xlsx sheet import                      | データをxlsxファイルにインポート                                                          |

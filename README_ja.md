@@ -394,18 +394,18 @@ DropboxおよびDropbox Business向けのツールセット
 | [util text case up](docs/ja/commands/util-text-case-up.md)                           | 大文字のテキストを表示する                                             |
 | [util text encoding from](docs/ja/commands/util-text-encoding-from.md)               | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
 | [util text encoding to](docs/ja/commands/util-text-encoding-to.md)                   | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
-| [util text nlp english entity](docs/ja/commands/util-text-nlp-english-entity.md)     | Split English text into entities                                       |
-| [util text nlp english sentence](docs/ja/commands/util-text-nlp-english-sentence.md) | Split English text into sentences                                      |
-| [util text nlp english token](docs/ja/commands/util-text-nlp-english-token.md)       | Split English text into tokens                                         |
-| [util text nlp japanese token](docs/ja/commands/util-text-nlp-japanese-token.md)     | Tokenize Japanese text                                                 |
-| [util text nlp japanese wakati](docs/ja/commands/util-text-nlp-japanese-wakati.md)   | Wakati gaki (tokenize Japanese text)                                   |
+| [util text nlp english entity](docs/ja/commands/util-text-nlp-english-entity.md)     | 英文をエンティティに分割する                                           |
+| [util text nlp english sentence](docs/ja/commands/util-text-nlp-english-sentence.md) | 英文を文章に分割する                                                   |
+| [util text nlp english token](docs/ja/commands/util-text-nlp-english-token.md)       | 英文をトークンに分割する                                               |
+| [util text nlp japanese token](docs/ja/commands/util-text-nlp-japanese-token.md)     | 日本語テキストのトークン化                                             |
+| [util text nlp japanese wakati](docs/ja/commands/util-text-nlp-japanese-wakati.md)   | 分かち書き(日本語テキストのトークン化)                                 |
 | [util tidy move dispatch](docs/ja/commands/util-tidy-move-dispatch.md)               | ファイルを整理                                                         |
 | [util tidy move simple](docs/ja/commands/util-tidy-move-simple.md)                   | ローカルファイルをアーカイブします                                     |
 | [util time now](docs/ja/commands/util-time-now.md)                                   | 現在の時刻を表示                                                       |
 | [util unixtime format](docs/ja/commands/util-unixtime-format.md)                     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
 | [util unixtime now](docs/ja/commands/util-unixtime-now.md)                           | UNIX時間で現在の時刻を表示する                                         |
-| [util uuid v4](docs/ja/commands/util-uuid-v4.md)                                     | Generate UUID v4 (random UUID)                                         |
-| [util video subtitles optimize](docs/ja/commands/util-video-subtitles-optimize.md)   | Optimize subtitles file                                                |
+| [util uuid v4](docs/ja/commands/util-uuid-v4.md)                                     | UUID v4（ランダムUUID）の生成                                          |
+| [util video subtitles optimize](docs/ja/commands/util-video-subtitles-optimize.md)   | 字幕ファイルの最適化                                                   |
 | [util xlsx create](docs/ja/commands/util-xlsx-create.md)                             | 空のスプレッドシートを作成する                                         |
 | [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)                 | xlsxファイルからデータをエクスポート                                   |
 | [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)                 | データをxlsxファイルにインポート                                       |

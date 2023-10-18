@@ -1,12 +1,12 @@
 ---
 layout: release
-title: Changes of Release 121
+title: Changes of Release 122
 lang: en
 ---
 
-# Changes between `Release 121` to `Release 122`
+# Changes between `Release 122` to `Release 123`
 
-# Commands deleted
+# Commands added
 
 
 | Command                                     | Title                                                                               |
@@ -31,6 +31,7 @@ lang: en
 | dev diag endpoint                           | List endpoints                                                                      |
 | dev diag throughput                         | Evaluate throughput from capture logs                                               |
 | dev kvs benchmark                           | KVS engine benchmark                                                                |
+| dev kvs concurrency                         | Concurrency test for KVS engine                                                     |
 | dev kvs dump                                | Dump KVS data                                                                       |
 | dev module list                             | Dependent module list                                                               |
 | dev release candidate                       | Validate release candidate                                                          |
@@ -209,6 +210,7 @@ lang: en
 | services google sheets sheet import         | Import data into the spreadsheet                                                    |
 | services google sheets sheet list           | List sheets of the spreadsheet                                                      |
 | services google sheets spreadsheet create   | Create a new spreadsheet                                                            |
+| services google translate text              | Translate text                                                                      |
 | services slack conversation history         | Conversation history                                                                |
 | services slack conversation list            | List channels                                                                       |
 | sharedfolder leave                          | Leave from the shared folder                                                        |
@@ -344,12 +346,19 @@ lang: en
 | util text case up                           | Print upper case text                                                               |
 | util text encoding from                     | Convert text encoding to UTF-8 text file from specified encoding.                   |
 | util text encoding to                       | Convert text encoding to specified encoding from UTF-8 text file.                   |
+| util text nlp english entity                | Split English text into entities                                                    |
+| util text nlp english sentence              | Split English text into sentences                                                   |
+| util text nlp english token                 | Split English text into tokens                                                      |
+| util text nlp japanese token                | Tokenize Japanese text                                                              |
+| util text nlp japanese wakati               | Wakati gaki (tokenize Japanese text)                                                |
 | util tidy move dispatch                     | Dispatch files                                                                      |
 | util tidy move simple                       | Archive local files                                                                 |
 | util tidy pack remote                       | Package remote folder into the zip file                                             |
 | util time now                               | Display current time                                                                |
 | util unixtime format                        | Time format to convert the unix time (epoch seconds from 1970-01-01)                |
 | util unixtime now                           | Display current time in unixtime                                                    |
+| util uuid v4                                | Generate UUID v4 (random UUID)                                                      |
+| util video subtitles optimize               | Optimize subtitles file                                                             |
 | util xlsx create                            | Create an empty spreadsheet                                                         |
 | util xlsx sheet export                      | Export data from the xlsx file                                                      |
 | util xlsx sheet import                      | Import data into xlsx file                                                          |

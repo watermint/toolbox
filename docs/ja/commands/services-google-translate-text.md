@@ -6,7 +6,7 @@ lang: ja
 
 # services google translate text
 
-Translate text 
+テキストを翻訳する 
 
 # セキュリティ
 
@@ -28,7 +28,7 @@ Translate text
 
 | 説明                                                                                         |
 |----------------------------------------------------------------------------------------------|
-| Google Cloud Translation: Translate text from one language to another using Google Translate |
+| Google Cloud Translation：Google翻訳を使用して、テキストをある言語から別の言語に翻訳します。 |
 
 # 認可
 
@@ -77,13 +77,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                                                                                                                                                  | デフォルト |
-|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
-| `-peer`       | Account alias                                                                                                                                         | default    |
-| `-project-id` | Project ID of your Google Cloud Platform project                                                                                                      |            |
-| `-source`     | Source language code (ISO 639). If not specified, the API will attempt to detect the source language automatically and return it within the response. |            |
-| `-target`     | Target language code (ISO 639)                                                                                                                        |            |
-| `-text`       | Text to translate                                                                                                                                     |            |
+| オプション    | 説明                                                                                                             | デフォルト |
+|---------------|------------------------------------------------------------------------------------------------------------------|------------|
+| `-peer`       | アカウントの別名                                                                                                 | default    |
+| `-project-id` | Google Cloud PlatformプロジェクトのプロジェクトID                                                                |            |
+| `-source`     | ソース言語コード (ISO 639)。指定されない場合、APIはソース言語を自動的に検出し、レスポンス内でそれを返そうとする. |            |
+| `-target`     | ターゲット言語コード（ISO 639）                                                                                  |            |
+| `-text`       | 翻訳するテキスト                                                                                                 |            |
 
 ## 共通のオプション:
 
@@ -112,7 +112,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## テキスト入力: Text
 
-Text to translate
+翻訳するテキスト
 
 # ネットワークプロクシの設定
 

@@ -6,7 +6,7 @@ lang: ja
 
 # util video subtitles optimize
 
-Optimize subtitles file 
+字幕ファイルの最適化 
 
 # インストール
 
@@ -38,11 +38,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション       | 説明                                    | デフォルト |
-|------------------|-----------------------------------------|------------|
-| `-in`            | Input file path                         |            |
-| `-offset-millis` | Time offset adjustment in milli seconds | 0          |
-| `-out`           | Output file path                        |            |
+| オプション       | 説明                           | デフォルト |
+|------------------|--------------------------------|------------|
+| `-in`            | 入力ファイルのパス             |            |
+| `-offset-millis` | ミリ秒単位の時間オフセット調整 | 0          |
+| `-out`           | 出力ファイルのパス             |            |
 
 ## 共通のオプション:
 

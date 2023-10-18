@@ -38,9 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option   | Description      | Default |
-|----------|------------------|---------|
-| `-count` | Number of testes | 10000   |
+| Option   | Description     | Default |
+|----------|-----------------|---------|
+| `-count` | Number of tests | 10000   |
 
 ## Common options:
 

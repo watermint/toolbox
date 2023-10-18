@@ -6,7 +6,7 @@ lang: ja
 
 # util text nlp japanese wakati
 
-Wakati gaki (tokenize Japanese text) 
+分かち書き(日本語テキストのトークン化)  
 
 # インストール
 
@@ -38,12 +38,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                      | デフォルト |
-|----------------------|---------------------------|------------|
-| `-dictionary`        | Dictionary name (ipa/uni) | ipa        |
-| `-ignore-line-break` | Ignore line break         | false      |
-| `-in`                | Input file path           |            |
-| `-separator`         | Text separator            |            |
+| オプション           | 説明               | デフォルト |
+|----------------------|--------------------|------------|
+| `-dictionary`        | 辞書名（ipa/uni）  | ipa        |
+| `-ignore-line-break` | 改行を無視する     | false      |
+| `-in`                | 入力ファイルのパス |            |
+| `-separator`         | テキストセパレータ |            |
 
 ## 共通のオプション:
 
@@ -72,7 +72,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## テキスト入力: In
 
-Input text file path
+入力テキストファイルのパス
 
 # ネットワークプロクシの設定
 

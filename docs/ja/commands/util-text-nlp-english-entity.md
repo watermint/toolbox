@@ -6,7 +6,7 @@ lang: ja
 
 # util text nlp english entity
 
-Split English text into entities 
+英文をエンティティに分割する 
 
 # インストール
 
@@ -38,10 +38,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                                                        | デフォルト |
-|----------------------|-------------------------------------------------------------|------------|
-| `-ignore-line-break` | Consider line break as regular white space while tokenizing | false      |
-| `-in`                | Input file path                                             |            |
+| オプション           | 説明                                   | デフォルト |
+|----------------------|----------------------------------------|------------|
+| `-ignore-line-break` | トークン化時に改行を通常の空白とみなす | false      |
+| `-in`                | 入力ファイルのパス                     |            |
 
 ## 共通のオプション:
 
@@ -70,7 +70,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## テキスト入力: In
 
-English text file to split
+分割する英文テキストファイル
 
 # ネットワークプロクシの設定
 

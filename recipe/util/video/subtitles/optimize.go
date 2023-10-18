@@ -42,14 +42,19 @@ func (z *Optimize) Test(c app_control.Control) error {
 	defer func() {
 		_ = os.RemoveAll(p)
 	}()
-	f, err := qt_file.MakeTestFile("subtitles", "1\\n00:01:00.000 --> 00:02:00.000\\n watermint toolbox")
-	if err != nil {
+	srt := filepath.Join(p, "subtitles.srt")
+	srtContent := `1
+00:01:00.000 --> 00:02:00.000
+watermint toolbox
+
+`
+	if err = os.WriteFile(srt, []byte(srtContent), 0644); err != nil {
 		return err
 	}
 
 	return rc_exec.Exec(c, &Optimize{}, func(r rc_recipe.Recipe) {
 		m := r.(*Optimize)
-		m.In = mo_path.NewExistingFileSystemPath(f)
+		m.In = mo_path.NewExistingFileSystemPath(srt)
 		m.Out = mo_path.NewFileSystemPath(filepath.Join(p, "optimized.srt"))
 	})
 }

@@ -6,7 +6,7 @@ lang: ja
 
 # util uuid v4
 
-Generate UUID v4 (random UUID) 
+UUID v4（ランダムUUID）の生成 
 
 # インストール
 
@@ -38,9 +38,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                      | デフォルト |
-|---------------|---------------------------|------------|
-| `-upper-case` | Use upper case characters | false      |
+| オプション    | 説明             | デフォルト |
+|---------------|------------------|------------|
+| `-upper-case` | 大文字を使用する | false      |
 
 ## 共通のオプション:
 
