@@ -57,7 +57,7 @@ jobs:
       - name: package & ship
         run: |
           mkdir -p dist
-          go run tbx.go dev build package -build-path build -dist-path dist -deploy-path /watermint-toolbox-build
+          go run tbx.go dev build package -build-path build -dist-path dist -deploy-path /watermint-toolbox-build -experiment suppress_progress
         env:
           TOOLBOX_DEPLOY_TOKEN: '${{ secrets.TOOLBOX_DEPLOY_TOKEN }}'
           TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
