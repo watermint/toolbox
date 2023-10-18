@@ -5,14 +5,14 @@ if [ -z "$RUN_NUMBER" ]; then
   RUN_NUMBER=0
 fi
 
-echo "Prepare toolbox"
-mkdir -p build
-curl -L -o build/tbx.zip https://github.com/watermint/toolbox/releases/download/121.8.41/tbx-121.8.41-linux-intel.zip
-unzip build/tbx.zip -d build
-if [ ! -e build/tbx ]; then
-  echo "Failed to download toolbox"
-  exit 1
-fi
+#echo "Prepare toolbox"
+#mkdir -p build
+#curl -L -o build/tbx.zip https://github.com/watermint/toolbox/releases/download/121.8.41/tbx-121.8.41-linux-intel.zip
+#unzip build/tbx.zip -d build
+#if [ ! -e build/tbx ]; then
+#  echo "Failed to download toolbox"
+#  exit 1
+#fi
 
 echo "Determine GOPATH"
 if [ -z "$GOPATH" ]; then
@@ -39,7 +39,7 @@ if [ x"$TOOLBOX_DEPLOY_DB" != x"" ]; then
   echo "$TOOLBOX_DEPLOY_DB" | base64 -d > build/db/deploy.db.gz
   gzip -d build/db/deploy.db.gz
 
-  build/tbx file sync up -auth-database build/db/deploy.db -local-path test/logs/logs-$RUN_NUMBER.zip -dropbox-path "/watermint-toolbox-build/test-logs/$RUN_NUMBER" -experiment suppress_progress
+  go run tbx.go file sync up -auth-database build/db/deploy.db -local-path test/logs/logs-$RUN_NUMBER.zip -dropbox-path "/watermint-toolbox-build/test-logs/$RUN_NUMBER" -experiment suppress_progress
 
   if [ $? -ne 0 ]; then
     echo "Failed to upload logs: $?"
