@@ -14,7 +14,7 @@ import (
 
 func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
 	engines := []kv_storage.KvsEngine{
-		kv_storage.KvsEngineBitCask,
+		kv_storage.KvsEngineBitcask,
 		kv_storage.KvsEngineBitcaskTurnstile,
 		kv_storage.KvsEngineSqlite,
 		kv_storage.KvsEngineSqliteTurnstile,

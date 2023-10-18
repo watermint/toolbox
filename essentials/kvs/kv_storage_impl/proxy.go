@@ -9,7 +9,7 @@ import (
 
 func NewProxy(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &proxyImpl{
-		engine: kv_storage.KvsEngineBitCask,
+		engine: kv_storage.KvsEngineBitcask,
 		name:   name,
 		logger: logger,
 	}
@@ -41,7 +41,7 @@ func (z *proxyImpl) SetLogger(logger esl.Logger) {
 
 func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
 	switch z.engine {
-	case kv_storage.KvsEngineBitCask:
+	case kv_storage.KvsEngineBitcask:
 		return InternalNewBitcask(z.name, z.logger)
 	case kv_storage.KvsEngineBitcaskTurnstile:
 		return NewTurnstileStorage(InternalNewBitcask(z.name, z.logger))
@@ -51,6 +51,9 @@ func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
 		return NewTurnstileStorage(InternalNewSqlite(z.name, z.logger))
 	case kv_storage.KvsEngineBadger:
 		return InternalNewBadger(z.name, z.logger)
+	case kv_storage.KvsEngineBadgerTurnstile:
+		return NewTurnstileStorage(InternalNewBadger(z.name, z.logger))
+
 	default:
 		// fallback
 		return InternalNewBitcask(z.name, z.logger)

@@ -168,11 +168,8 @@ func (z *simpleImpl) Close() {
 }
 
 func (z *simpleImpl) Enqueue(d []byte) {
-	l := z.lg
-
 	z.m.Lock()
 	defer z.m.Unlock()
-	l.Debug("Enqueue")
 	z.l.PushBack(d)
 }
 
@@ -187,7 +184,6 @@ func (z *simpleImpl) Dequeue() (d []byte) {
 		return nil
 	}
 
-	l.Debug("Dequeue")
 	e := z.l.Front()
 	d = e.Value.([]byte)
 	z.l.Remove(e)

@@ -44,14 +44,20 @@ const (
 	// ExperimentKvsBadger Use Badger as KVS engine
 	ExperimentKvsBadger = "kvs_badger"
 
+	// ExperimentKvsBadgerTurnstile Use Bitcask as KVS engine with turnstile
+	ExperimentKvsBadgerTurnstile = "kvs_badger_turnstile"
+
+	// ExperimentKvsBitcask Use Bitcask as KVS engine
+	ExperimentKvsBitcask = "kvs_bitcask"
+
+	// ExperimentKvsBitcaskTurnstile Use Bitcask as KVS engine with turnstile
+	ExperimentKvsBitcaskTurnstile = "kvs_bitcask_turnstile"
+
 	// ExperimentKvsSqlite Use SQLite as KVS engine
 	ExperimentKvsSqlite = "kvs_sqlite"
 
 	// ExperimentKvsSqliteTurnstile Use SQLite as KVS engine with turnstile
 	ExperimentKvsSqliteTurnstile = "kvs_sqlite_turnstile"
-
-	// ExperimentKvsBitcaskTurnstile Use Bitcask as KVS engine with turnstile
-	ExperimentKvsBitcaskTurnstile = "kvs_bitcask_turnstile"
 
 	// ExperimentDbxDownloadBlock download by block
 	ExperimentDbxDownloadBlock = "dbx_download_block"
@@ -81,6 +87,8 @@ var (
 		ExperimentFileSyncLegacyLocalToDropboxConnector,
 		ExperimentFileSyncNoCacheDropboxFileSystem,
 		ExperimentKvsBadger,
+		ExperimentKvsBadgerTurnstile,
+		ExperimentKvsBitcask,
 		ExperimentKvsBitcaskTurnstile,
 		ExperimentKvsSqlite,
 		ExperimentKvsSqliteTurnstile,

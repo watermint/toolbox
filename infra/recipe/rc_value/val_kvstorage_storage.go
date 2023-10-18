@@ -67,19 +67,24 @@ func (z *ValueKvStorageStorage) Restore(v es_json.Json, ctl app_control.Control)
 
 func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 	storage := z.storage.(kv_storage.Lifecycle)
+	engine := kv_storage.KvsEngineBitcask
+
 	switch {
-	case ctl.Feature().Experiment(app.ExperimentKvsSqlite):
-		if p, ok := storage.(kv_storage.Proxy); ok {
-			p.SetEngine(kv_storage.KvsEngineSqlite)
-		}
-	case ctl.Feature().Experiment(app.ExperimentKvsSqliteTurnstile):
-		if p, ok := storage.(kv_storage.Proxy); ok {
-			p.SetEngine(kv_storage.KvsEngineSqliteTurnstile)
-		}
+	case ctl.Feature().Experiment(app.ExperimentKvsBadger):
+		engine = kv_storage.KvsEngineBadger
+	case ctl.Feature().Experiment(app.ExperimentKvsBadgerTurnstile):
+		engine = kv_storage.KvsEngineBadgerTurnstile
+	case ctl.Feature().Experiment(app.ExperimentKvsBitcask):
+		engine = kv_storage.KvsEngineBitcask
 	case ctl.Feature().Experiment(app.ExperimentKvsBitcaskTurnstile):
-		if p, ok := storage.(kv_storage.Proxy); ok {
-			p.SetEngine(kv_storage.KvsEngineBitcaskTurnstile)
-		}
+		engine = kv_storage.KvsEngineBitcaskTurnstile
+	case ctl.Feature().Experiment(app.ExperimentKvsSqlite):
+		engine = kv_storage.KvsEngineSqlite
+	case ctl.Feature().Experiment(app.ExperimentKvsSqliteTurnstile):
+		engine = kv_storage.KvsEngineSqliteTurnstile
+	}
+	if p, ok := storage.(kv_storage.Proxy); ok {
+		p.SetEngine(engine)
 	}
 	storage.SetLogger(ctl.Log())
 	return storage.Open(ctl.Workspace().KVS())

@@ -31,11 +31,12 @@ type Factory interface {
 }
 
 const (
-	KvsEngineBitCask KvsEngine = iota
+	KvsEngineBitcask KvsEngine = iota
 	KvsEngineBitcaskTurnstile
 	KvsEngineSqlite
 	KvsEngineSqliteTurnstile
 	KvsEngineBadger
+	KvsEngineBadgerTurnstile
 )
 
 type KvsEngine int
