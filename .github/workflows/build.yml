@@ -18,6 +18,15 @@ jobs:
           go-version: 1.21
           check-latest: true
 
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/go-build
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+
       - name: build-info
         run: go run tbx.go dev build info -fail-fast
         env:
