@@ -2,6 +2,7 @@ package kv_storage_impl
 
 import (
 	"github.com/dgraph-io/badger/v4"
+	"github.com/dgraph-io/badger/v4/options"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs_impl"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
@@ -26,8 +27,11 @@ type badgerWrapper struct {
 func (z *badgerWrapper) openWithPath(path string) error {
 	z.path = path
 	z.logger = z.logger.With(esl.String("path", path), esl.String("name", z.name))
-	opts := badger.DefaultOptions(path)
-	opts.Logger = lgw_badger.NewLogWrapper(z.logger)
+	opts := badger.DefaultOptions(path).
+		WithLogger(lgw_badger.NewLogWrapper(z.logger)).
+		WithBlockCacheSize(32 << 20). // 32MiB	(default: 256MiB)
+		WithCompression(options.ZSTD).
+		WithValueLogFileSize(64 << 20) // 128MiB (default: 1GiB)
 
 	db, err := badger.Open(opts)
 	if err != nil {
