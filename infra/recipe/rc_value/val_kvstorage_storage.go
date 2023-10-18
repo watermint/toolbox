@@ -9,8 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"os"
-	"path/filepath"
 	"reflect"
 )
 
@@ -91,27 +89,12 @@ func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 		ctl.Log().Error("Unable to set engine", esl.Any("engine", engine))
 	}
 	storage.SetLogger(ctl.Log())
-	storagePath := filepath.Join(ctl.Workspace().KVS(), z.name)
-	if err := os.MkdirAll(storagePath, 0755); err != nil {
-		return err
-	}
-	return storage.Open(storagePath)
+	return storage.Open(ctl.Workspace().KVS())
 }
 
 func (z *ValueKvStorageStorage) SpinDown(ctl app_control.Control) error {
 	l := ctl.Log()
 	l.Debug("Close storage")
 	z.storage.Close()
-
-	if lc, ok := z.storage.(kv_storage.Lifecycle); ok {
-		l.Debug("Remove storage", esl.String("path", lc.Path()))
-		if err := os.RemoveAll(lc.Path()); err != nil {
-			l.Debug("Unable to remove storage", esl.Error(err))
-			// fall through, just ignore the error
-		}
-		return nil
-	} else {
-		l.Debug("Skip deleting")
-	}
 	return nil
 }
