@@ -3,6 +3,7 @@ package kv_storage_impl_test
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
@@ -12,15 +13,33 @@ import (
 )
 
 func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
-	qt_file.TestWithTestFolder(t, "kvs_bc_"+name, false, func(path string) {
-		db := kv_storage_impl.InternalNewBitcask(name, esl.Default())
-		if err := db.Open(path); err != nil {
-			t.Error(err)
-			return
-		}
-		f(t, db)
-		db.Close()
-	})
+	engines := []kv_storage.KvsEngine{
+		kv_storage.KvsEngineBitCask,
+		kv_storage.KvsEngineBitcaskTurnstile,
+		kv_storage.KvsEngineSqlite,
+		kv_storage.KvsEngineSqliteTurnstile,
+		kv_storage.KvsEngineBadger,
+	}
+
+	for _, engine := range engines {
+		name := fmt.Sprintf("kvs_%s_%d", name, engine)
+		t.Log("Engine", engine)
+		qt_file.TestWithTestFolder(t, name, false, func(path string) {
+			db := kv_storage_impl.NewProxy(name, esl.Default())
+			if dbp, ok := db.(kv_storage.Proxy); ok {
+				dbp.SetEngine(engine)
+			} else {
+				t.Error("Unable to set engine")
+				return
+			}
+			if err := db.Open(path); err != nil {
+				t.Error(err)
+				return
+			}
+			f(t, db)
+			db.Close()
+		})
+	}
 }
 
 func TestPutGetString(t *testing.T) {

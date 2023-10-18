@@ -1,6 +1,7 @@
 package kv_storage_impl
 
 import (
+	"errors"
 	"git.mills.io/prologic/bitcask"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
@@ -49,10 +50,6 @@ func (z *bcWrapper) SetLogger(logger esl.Logger) {
 	z.logger = logger
 }
 
-func (z *bcWrapper) Kvs() kv_kvs.Kvs {
-	return z.kvs
-}
-
 func (z *bcWrapper) OpenWithPath(path string) error {
 	z.name = filepath.Base(path)
 	return z.openWithPath(path)
@@ -76,11 +73,11 @@ func (z *bcWrapper) openWithPath(path string) (err error) {
 		bitcask.WithMaxValueSize(2<<18),
 	)
 
-	switch err {
-	case nil:
+	switch {
+	case err == nil:
 		l.Debug("Database open")
 
-	case bitcask.ErrDatabaseLocked:
+	case errors.Is(err, bitcask.ErrDatabaseLocked):
 		l.Debug("Database locked", esl.Error(err))
 		return kv_storage.ErrorStorageLocked
 

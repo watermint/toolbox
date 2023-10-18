@@ -2,6 +2,7 @@ package kv_kvs_impl
 
 import (
 	"encoding/json"
+	"errors"
 	"git.mills.io/prologic/bitcask"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -84,7 +85,7 @@ func (z *bcImpl) PutRaw(key, value []byte) error {
 func (z *bcImpl) getOp(opName string, key string, unmarshal func(v []byte) error) (err error) {
 	l := z.log().With(esl.String("opName", opName), esl.String("key", key))
 	v, err := z.db.Get([]byte(key))
-	if err == bitcask.ErrKeyNotFound {
+	if errors.Is(err, bitcask.ErrKeyNotFound) {
 		l.Debug("Key not found", esl.Error(err))
 		return kv_kvs.ErrorNotFound
 	}

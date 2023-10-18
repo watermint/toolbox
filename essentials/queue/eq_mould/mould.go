@@ -109,19 +109,20 @@ func New(mouldId string, s eq_bundle.Bundle, ehs []ErrorListener, f interface{},
 	}
 
 	return &mouldImpl{
-		mouldId:       mouldId,
 		ctx:           ctx,
-		storage:       s,
+		errorHandlers: ehs,
 		handler:       f,
 		handlerType:   handlerType,
 		handlerValue:  handlerValue,
-		paramType:     paramType,
+		hasErrorOut:   hasErrorOut,
+		mouldId:       mouldId,
 		paramIsPtr:    paramIsPtr,
+		paramType:     paramType,
 		paramTypeKind: paramTypeKind,
 		paramTypeOrig: paramTypeOrig,
-		hasErrorOut:   hasErrorOut,
-		errorHandlers: ehs,
 		statusBar:     statusBar,
+		storage:       s,
+		verbose:       opts.Verbose,
 	}
 }
 
@@ -141,6 +142,7 @@ type mouldImpl struct {
 	paramIsPtr    bool
 	hasErrorOut   bool
 	errorHandlers []ErrorListener
+	verbose       bool
 
 	statusBar ea_indicator.StatusBar
 }
@@ -189,7 +191,9 @@ func (z mouldImpl) Pour(p interface{}) {
 	}
 
 	d := eq_bundle.NewBarrel(z.mouldId, z.batchId, msg)
-	l.Debug("Enqueue", esl.Any("Data", d))
+	if z.verbose {
+		l.Debug("Enqueue", esl.Any("Data", d))
+	}
 	z.storage.Enqueue(d)
 }
 
@@ -211,7 +215,9 @@ func (z mouldImpl) Process(b eq_bundle.Barrel) {
 		panic(err)
 	}
 
-	l.Debug("param after unmarshal", esl.Any("p", p), esl.String("batchId", b.BatchId))
+	if z.verbose {
+		l.Debug("param after unmarshal", esl.Any("p", p), esl.String("batchId", b.BatchId))
+	}
 
 	v := reflect.ValueOf(p)
 	if !z.paramIsPtr {
@@ -227,7 +233,9 @@ func (z mouldImpl) Process(b eq_bundle.Barrel) {
 	z.statusBar.UpdateTitle("Batch")
 	z.statusBar.UpdateStatus(fmt.Sprintf("%s", b.D))
 
-	l.Debug("Call processor", esl.Int("NumParams", len(params)))
+	if z.verbose {
+		l.Debug("Call processor", esl.Int("NumParams", len(params)))
+	}
 	out := z.handlerValue.Call(params)
 	if z.hasErrorOut {
 		// Do not verify len(out), and type of the value. That is verified on creation.
@@ -242,7 +250,11 @@ func (z mouldImpl) Process(b eq_bundle.Barrel) {
 		}
 	}
 
-	l.Debug("Mark as completed", esl.Any("Data", b))
+	if z.verbose {
+		l.Debug("Mark as completed", esl.Any("Data", b))
+	}
 	z.storage.Complete(b)
-	l.Debug("Completed", esl.Any("Data", b))
+	if z.verbose {
+		l.Debug("Completed", esl.Any("Data", b))
+	}
 }

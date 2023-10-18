@@ -41,6 +41,9 @@ const (
 	// ExperimentProfileCpu Enable CPU profiler
 	ExperimentProfileCpu = "profile_cpu"
 
+	// ExperimentKvsBadger Use Badger as KVS engine
+	ExperimentKvsBadger = "kvs_badger"
+
 	// ExperimentKvsSqlite Use SQLite as KVS engine
 	ExperimentKvsSqlite = "kvs_sqlite"
 
@@ -77,6 +80,7 @@ var (
 		ExperimentFileSyncDisableReduceCreateFolder,
 		ExperimentFileSyncLegacyLocalToDropboxConnector,
 		ExperimentFileSyncNoCacheDropboxFileSystem,
+		ExperimentKvsBadger,
 		ExperimentKvsBitcaskTurnstile,
 		ExperimentKvsSqlite,
 		ExperimentKvsSqliteTurnstile,

@@ -53,10 +53,6 @@ func (z *sqWrapper) Update(f func(kvs kv_kvs.Kvs) error) error {
 	return f(z.kvs)
 }
 
-func (z *sqWrapper) Kvs() kv_kvs.Kvs {
-	return z.kvs
-}
-
 func (z *sqWrapper) Open(path string) (err error) {
 	l := z.log()
 	z.dbPath = filepath.Join(path, es_filepath.Escape(z.name))

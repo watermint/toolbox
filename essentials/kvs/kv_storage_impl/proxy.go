@@ -39,10 +39,6 @@ func (z *proxyImpl) SetLogger(logger esl.Logger) {
 	z.logger = logger
 }
 
-func (z *proxyImpl) Kvs() kv_kvs.Kvs {
-	return z.storage.Kvs()
-}
-
 func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
 	switch z.engine {
 	case kv_storage.KvsEngineBitCask:
@@ -53,6 +49,8 @@ func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
 		return InternalNewSqlite(z.name, z.logger)
 	case kv_storage.KvsEngineSqliteTurnstile:
 		return NewTurnstileStorage(InternalNewSqlite(z.name, z.logger))
+	case kv_storage.KvsEngineBadger:
+		return InternalNewBadger(z.name, z.logger)
 	default:
 		// fallback
 		return InternalNewBitcask(z.name, z.logger)
@@ -69,10 +67,6 @@ func (z *proxyImpl) View(f func(kvs kv_kvs.Kvs) error) error {
 
 func (z *proxyImpl) Update(f func(kvs kv_kvs.Kvs) error) error {
 	return z.storage.Update(f)
-}
-
-func (z *proxyImpl) kvsFactory() kv_kvs.Kvs {
-	return z.storage.Kvs()
 }
 
 func (z *proxyImpl) Open(path string) error {

@@ -20,16 +20,17 @@ func (z *Concurrency) Preset() {
 	z.Count = 10000
 }
 
-func (z *Concurrency) process(key string, kvs kv_kvs.Kvs) error {
+func (z *Concurrency) process(key string) error {
 	value := euuid.NewV4().String()
-	return kvs.PutString(key, value)
+	return z.Data.Update(func(kvs kv_kvs.Kvs) error {
+		return kvs.PutString(key, value)
+	})
 }
-func (z *Concurrency) Exec(c app_control.Control) error {
-	storage := z.Data.Kvs()
 
+func (z *Concurrency) Exec(c app_control.Control) error {
 	queueId := "process"
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define(queueId, z.process, storage)
+		s.Define(queueId, z.process)
 		q := s.Get(queueId)
 		var i int64
 		for i = 0; i < z.Count; i++ {
