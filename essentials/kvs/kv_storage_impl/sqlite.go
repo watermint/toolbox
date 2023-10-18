@@ -41,8 +41,6 @@ func (z *sqWrapper) Close() {
 	if err := z.db.Close(); err != nil {
 		z.log().Debug("Unable to close the database", esl.Error(err))
 	}
-	z.db = nil
-	z.dbPath = ""
 }
 
 func (z *sqWrapper) View(f func(kvs kv_kvs.Kvs) error) error {

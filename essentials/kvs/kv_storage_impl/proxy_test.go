@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"os"
 	"testing"
 )
 
@@ -37,7 +38,19 @@ func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Stora
 				return
 			}
 			f(t, db)
+			if lc, ok := db.(kv_storage.Lifecycle); ok {
+				if err := lc.Delete(); err != nil {
+					t.Error(err)
+					return
+				}
+			}
 			db.Close()
+			if lc, ok := db.(kv_storage.Lifecycle); ok {
+				if err := os.RemoveAll(lc.Path()); err != nil {
+					t.Error(err)
+					return
+				}
+			}
 		})
 	}
 }

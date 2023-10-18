@@ -99,8 +99,10 @@ func (z *bcWrapper) Open(path string) error {
 func (z *bcWrapper) Close() {
 	l := z.log()
 	l.Debug("Close database")
+	if err := z.db.Sync(); err != nil {
+		l.Debug("Unable to sync the database", esl.Error(err))
+	}
 	err := z.db.Close()
-
 	if err != nil {
 		l.Debug("There is an error on close", esl.Error(err))
 	}
