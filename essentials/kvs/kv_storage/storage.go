@@ -20,9 +20,6 @@ type Storage interface {
 
 	// Read-write transaction
 	Update(f func(kvs kv_kvs.Kvs) error) error
-
-	// Use direct operation
-	Kvs() kv_kvs.Kvs
 }
 
 type Factory interface {
@@ -34,8 +31,12 @@ type Factory interface {
 }
 
 const (
-	KvsEngineBitCask KvsEngine = iota
+	KvsEngineBitcask KvsEngine = iota
+	KvsEngineBitcaskTurnstile
 	KvsEngineSqlite
+	KvsEngineSqliteTurnstile
+	KvsEngineBadger
+	KvsEngineBadgerTurnstile
 )
 
 type KvsEngine int

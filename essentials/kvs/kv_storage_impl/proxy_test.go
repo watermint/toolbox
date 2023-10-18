@@ -1,29 +1,62 @@
-package kv_storage_impl
+package kv_storage_impl_test
 
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
+	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
+	"os"
 	"testing"
 )
 
-func kvsSqliteTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
-	qt_file.TestWithTestFolder(t, "kvs_bc_"+name, false, func(path string) {
-		db := InternalNewSqlite(name, esl.Default())
-		if err := db.Open(path); err != nil {
-			t.Error(err)
-			return
-		}
-		f(t, db)
-		db.Close()
-	})
+func kvsTest(t *testing.T, name string, f func(t *testing.T, db kv_storage.Storage)) {
+	engines := []kv_storage.KvsEngine{
+		kv_storage.KvsEngineBitcask,
+		kv_storage.KvsEngineBitcaskTurnstile,
+		kv_storage.KvsEngineSqlite,
+		kv_storage.KvsEngineSqliteTurnstile,
+		kv_storage.KvsEngineBadger,
+	}
+
+	for _, engine := range engines {
+		name := fmt.Sprintf("kvs_%s_%d", name, engine)
+		t.Log("Engine", engine)
+		qt_file.TestWithTestFolder(t, name, false, func(path string) {
+			db := kv_storage_impl.NewProxy(name, esl.Default())
+			if dbp, ok := db.(kv_storage.Proxy); ok {
+				dbp.SetEngine(engine)
+			} else {
+				t.Error("Unable to set engine")
+				return
+			}
+			if err := db.Open(path); err != nil {
+				t.Error(err)
+				return
+			}
+			f(t, db)
+			if lc, ok := db.(kv_storage.Lifecycle); ok {
+				if err := lc.Delete(); err != nil {
+					t.Error(err)
+					return
+				}
+			}
+			db.Close()
+			if lc, ok := db.(kv_storage.Lifecycle); ok {
+				if err := os.RemoveAll(lc.Path()); err != nil {
+					t.Error(err)
+					return
+				}
+			}
+		})
+	}
 }
 
-func TestSqlitePutGetString(t *testing.T) {
-	kvsSqliteTest(t, "coffee_put-get-string", func(t *testing.T, db kv_storage.Storage) {
+func TestPutGetString(t *testing.T) {
+	kvsTest(t, "coffee_put-get-string", func(t *testing.T, db kv_storage.Storage) {
 		var err error
 
 		// put/get string
@@ -60,8 +93,8 @@ func TestSqlitePutGetString(t *testing.T) {
 	})
 }
 
-func TestSqlitePutGetJSON(t *testing.T) {
-	kvsSqliteTest(t, "coffee_put-get-json", func(t *testing.T, db kv_storage.Storage) {
+func TestPutGetJSON(t *testing.T) {
+	kvsTest(t, "coffee_put-get-json", func(t *testing.T, db kv_storage.Storage) {
 		var err error
 
 		// put/get json
@@ -110,8 +143,8 @@ func TestSqlitePutGetJSON(t *testing.T) {
 	})
 }
 
-func TestSqlitePutGetJSONModel(t *testing.T) {
-	kvsSqliteTest(t, "coffee_put-get-json-model", func(t *testing.T, db kv_storage.Storage) {
+func TestPutGetJSONModel(t *testing.T) {
+	kvsTest(t, "coffee_put-get-json-model", func(t *testing.T, db kv_storage.Storage) {
 		// put/get json model
 		upErr := db.Update(func(coffee kv_kvs.Kvs) error {
 			type SKU struct {
@@ -198,8 +231,8 @@ func TestSqlitePutGetJSONModel(t *testing.T) {
 	})
 }
 
-func TestSqlitePutGetJSONModel2(t *testing.T) {
-	kvsSqliteTest(t, "coffee_put-get-json-model2", func(t *testing.T, db kv_storage.Storage) {
+func TestPutGetJSONModel2(t *testing.T) {
+	kvsTest(t, "coffee_put-get-json-model2", func(t *testing.T, db kv_storage.Storage) {
 		var err error
 
 		// foreach model

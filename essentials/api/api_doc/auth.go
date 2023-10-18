@@ -67,6 +67,11 @@ var (
 			cui.Code(cui.Text(MApiDoc.ServiceUrlGoogle))
 			cui.Break()
 		},
+		api_conn.ServiceGoogleTranslate: func(cui app_ui.UI) {
+			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
+			cui.Code(cui.Text(MApiDoc.ServiceUrlGoogle))
+			cui.Break()
+		},
 		api_conn.ServiceDropboxSign: func(cui app_ui.UI) {
 			cui.Info(api_auth_basic.MConsole.PromptEnterUsernameAndPassword)
 			cui.AskText(hs_conn_impl.MHelloSign.AskApiKey)
@@ -91,6 +96,7 @@ var (
 		api_conn.ServiceGoogleCalendar:  MApiDoc.AuthDescGoogle,
 		api_conn.ServiceGoogleMail:      MApiDoc.AuthDescGoogle,
 		api_conn.ServiceGoogleSheets:    MApiDoc.AuthDescGoogle,
+		api_conn.ServiceGoogleTranslate: MApiDoc.AuthDescGoogle,
 		api_conn.ServiceDropboxSign:     MApiDoc.AuthDescDropboxSign,
 		api_conn.ServiceSlack:           MApiDoc.AuthDescSlack,
 		api_conn.ServiceFigma:           MApiDoc.AuthDescFigma,

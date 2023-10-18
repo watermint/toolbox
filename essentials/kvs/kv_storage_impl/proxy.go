@@ -4,17 +4,19 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"sync"
 )
 
 func NewProxy(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &proxyImpl{
-		engine: kv_storage.KvsEngineBitCask,
+		engine: kv_storage.KvsEngineBadger,
 		name:   name,
 		logger: logger,
 	}
 }
 
 type proxyImpl struct {
+	mutex   sync.Mutex
 	engine  kv_storage.KvsEngine
 	name    string
 	storage kv_storage.Lifecycle
@@ -37,19 +39,32 @@ func (z *proxyImpl) SetLogger(logger esl.Logger) {
 	z.logger = logger
 }
 
-func (z *proxyImpl) Kvs() kv_kvs.Kvs {
-	return z.storage.Kvs()
-}
-
 func (z *proxyImpl) newStorage() kv_storage.Lifecycle {
+	l := z.logger
 	switch z.engine {
-	case kv_storage.KvsEngineBitCask:
-		return InternalNewBitcask(z.name, z.logger)
+	case kv_storage.KvsEngineBitcask:
+		l.Debug("Use Bitcask")
+		return newBitcask(z.name, z.logger)
+	case kv_storage.KvsEngineBitcaskTurnstile:
+		l.Debug("Use Bitcask Turnstile")
+		return newTurnstileStorage(newBitcask(z.name, z.logger))
 	case kv_storage.KvsEngineSqlite:
-		return InternalNewSqlite(z.name, z.logger)
+		l.Debug("Use Sqlite")
+		return newSqlite(z.name, z.logger)
+	case kv_storage.KvsEngineSqliteTurnstile:
+		l.Debug("Use Sqlite Turnstile")
+		return newTurnstileStorage(newSqlite(z.name, z.logger))
+	case kv_storage.KvsEngineBadger:
+		l.Debug("Use Badger")
+		return newBadger(z.name, z.logger)
+	case kv_storage.KvsEngineBadgerTurnstile:
+		l.Debug("Use Badger Turnstile")
+		return newTurnstileStorage(newBadger(z.name, z.logger))
+
 	default:
+		l.Debug("Use default engine: Badger")
 		// fallback
-		return InternalNewBitcask(z.name, z.logger)
+		return newBadger(z.name, z.logger)
 	}
 }
 
@@ -67,5 +82,6 @@ func (z *proxyImpl) Update(f func(kvs kv_kvs.Kvs) error) error {
 
 func (z *proxyImpl) Open(path string) error {
 	z.storage = z.newStorage()
+
 	return z.storage.Open(path)
 }

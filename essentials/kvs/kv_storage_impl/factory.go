@@ -1,8 +1,11 @@
 package kv_storage_impl
 
 import (
+	"github.com/watermint/essentials/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"os"
+	"path/filepath"
 	"sync"
 )
 
@@ -31,9 +34,14 @@ func (z *factoryImpl) New(name string) (kv_storage.Lifecycle, error) {
 
 	l := z.log().With(esl.String("name", name))
 	l.Debug("Create new storage")
+	kvPath := filepath.Join(z.basePath, euuid.NewV4().String())
+	if err := os.MkdirAll(kvPath, 0755); err != nil {
+		l.Debug("Unable to create a directory", esl.Error(err))
+		return nil, err
+	}
 
 	sto := NewProxy(name, z.logger)
-	err := sto.Open(z.basePath)
+	err := sto.Open(kvPath)
 	if err != nil {
 		l.Debug("Unable to open the storage", esl.Error(err))
 		return nil, err

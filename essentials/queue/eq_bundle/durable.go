@@ -182,8 +182,6 @@ func (z *durableImpl) Enqueue(b Barrel) {
 	z.pipesMutex.Lock()
 	defer z.pipesMutex.Unlock()
 
-	l.Debug("Enqueue bundle")
-
 	z.stat.IncrEnqueue(b.MouldId, b.BatchId)
 
 	// Call OnCompletedHandler
@@ -198,7 +196,6 @@ func (z *durableImpl) Enqueue(b Barrel) {
 		z.pipes[bb] = pipe
 	}
 	pipe.Enqueue(b.ToBytes())
-	l.Debug("Enqueue bundle: Done")
 }
 
 func (z *durableImpl) fetchSequential() (b Barrel, found bool) {
@@ -308,7 +305,7 @@ func (z *durableImpl) fetchBalance() (b Barrel, found bool) {
 			}
 		}
 
-		l.Debug("Pipe selected", esl.String("maxPipe", maxPipe), esl.Int("pipeLen", maxPipeLen))
+		// l.Debug("Pipe selected", esl.String("maxPipe", maxPipe), esl.Int("pipeLen", maxPipeLen))
 
 		if p, ok := z.pipes[maxPipe]; ok {
 			if d0 := p.Dequeue(); d0 != nil {

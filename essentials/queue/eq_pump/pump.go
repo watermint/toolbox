@@ -101,7 +101,7 @@ func (z *pumpImpl) loop() {
 			return
 		}
 		barrel, found := z.bundle.Fetch()
-		l.Debug("Fetch", esl.Bool("found", found))
+		//l.Debug("Fetch", esl.Bool("found", found))
 		if found {
 			if channelClosed := z.send(barrel); channelClosed {
 				l.Debug("Channel closed, exit loop")
@@ -131,7 +131,7 @@ func (z *pumpImpl) send(barrel eq_bundle.Barrel) (channelClosed bool) {
 	}()
 
 	channelClosed = false
-	l.Debug("Push to the channel")
+	//l.Debug("Push to the channel")
 	z.c <- barrel
 	return channelClosed
 }

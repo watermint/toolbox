@@ -2,6 +2,7 @@ package rc_value
 
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
@@ -9,6 +10,8 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"os"
+	"path/filepath"
 	"reflect"
 )
 
@@ -67,16 +70,31 @@ func (z *ValueKvStorageStorage) Restore(v es_json.Json, ctl app_control.Control)
 
 func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 	storage := z.storage.(kv_storage.Lifecycle)
-	if ctl.Feature().Experiment(app.ExperimentKvsSqlite) {
-		if p, ok := storage.(kv_storage.Proxy); ok {
-			p.SetEngine(kv_storage.KvsEngineSqlite)
-		}
+	engine := ctl.Feature().KvsEngine()
+	if p, ok := storage.(kv_storage.Proxy); ok {
+		p.SetEngine(engine)
+	} else {
+		ctl.Log().Error("Unable to set engine", esl.Any("engine", engine))
 	}
 	storage.SetLogger(ctl.Log())
-	return storage.Open(ctl.Workspace().KVS())
+	storagePath := filepath.Join(ctl.Workspace().KVS(), es_filepath.Escape(z.name))
+	return storage.Open(storagePath)
 }
 
 func (z *ValueKvStorageStorage) SpinDown(ctl app_control.Control) error {
+	l := ctl.Log()
+	l.Debug("Close storage")
 	z.storage.Close()
+
+	if lc, ok := z.storage.(kv_storage.Lifecycle); ok {
+		l.Debug("Remove storage", esl.String("path", lc.Path()))
+		if err := os.RemoveAll(lc.Path()); err != nil {
+			l.Debug("Unable to remove storage", esl.Error(err))
+			// fall through, just ignore the error
+		}
+		return nil
+	} else {
+		l.Debug("Skip deleting")
+	}
 	return nil
 }

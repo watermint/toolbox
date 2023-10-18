@@ -26,9 +26,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description |
-|-------------|
-|             |
+| Description                                   |
+|-----------------------------------------------|
+| Google Calendar: Read events on all calendars |
 
 # Authorization
 

@@ -13,6 +13,7 @@ const (
 	ServiceGoogleCalendar  = "google_calendar"
 	ServiceGoogleMail      = "google_mail"
 	ServiceGoogleSheets    = "google_sheets"
+	ServiceGoogleTranslate = "google_translate"
 	ServiceDropboxSign     = "dropbox_sign"
 	ServiceSlack           = "slack"
 	ServiceFigma           = "figma"

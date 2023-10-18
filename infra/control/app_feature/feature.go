@@ -46,6 +46,9 @@ type Feature interface {
 	// BudgetStorage Budget for storage usage
 	BudgetStorage() app_budget.Budget
 
+	// KvsEngine Key-value storage engine type
+	KvsEngine() kv_storage.KvsEngine
+
 	// OptInGet Retrieve feature
 	OptInGet(oi OptIn) (f OptIn, found bool)
 

@@ -28,9 +28,15 @@ lang: ja
 | file_sync_disable_reduce_create_folder | ファイルシステムを同期する際に reduce create_folder を無効にします. これでフォルダの同期中に空のフォルダが作成されます.                                                               |
 | legacy_local_to_dbx_connector          | 古いローカルとDropboxの同期コネクタを使用                                                                                                                                             |
 | use_no_cache_dbxfs                     | ノンキャッシュのDropboxファイルシステムの使用                                                                                                                                         |
-| kvs_sqlite                             | KVSエンジンとしてSqlite3を使用する（SQLite3が必要）                                                                                                                                   |
+| kvs_badger                             | BadgerをKVSエンジンに使用                                                                                                                                                             |
+| kvs_badger_turnstile                   | Badger+TurnstileをKVSエンジンとして使用                                                                                                                                               |
+| kvs_bitcask                            | KVSエンジンとしてBitcaskを使用                                                                                                                                                        |
+| kvs_bitcask_turnstile                  | Bitcask+turnstileのキー・バリュー・ストアとして使う                                                                                                                                   |
+| kvs_sqlite                             | KVSエンジンとしてSqlite3を使用                                                                                                                                                        |
+| kvs_sqlite_turnstile                   | SQLite+turnstileをキー・バリュー・ストアとして使う                                                                                                                                    |
 | profile_cpu                            | CPUプロファイラの有効化                                                                                                                                                               |
 | profile_memory                         | メモリプロファイラの有効化                                                                                                                                                            |
 | report_all_columns                     | データ構造として定義されているすべての列を表示します.                                                                                                                                 |
+| suppress_progress                      | 進捗表示の抑制                                                                                                                                                                        |
 
 

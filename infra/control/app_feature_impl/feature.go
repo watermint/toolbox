@@ -44,6 +44,25 @@ type featureImpl struct {
 	hashReplay   kv_storage.Storage
 }
 
+func (z featureImpl) KvsEngine() kv_storage.KvsEngine {
+	switch {
+	case z.Experiment(app.ExperimentKvsBadger):
+		return kv_storage.KvsEngineBadger
+	case z.Experiment(app.ExperimentKvsBadgerTurnstile):
+		return kv_storage.KvsEngineBadgerTurnstile
+	case z.Experiment(app.ExperimentKvsBitcask):
+		return kv_storage.KvsEngineBitcask
+	case z.Experiment(app.ExperimentKvsBitcaskTurnstile):
+		return kv_storage.KvsEngineBitcaskTurnstile
+	case z.Experiment(app.ExperimentKvsSqlite):
+		return kv_storage.KvsEngineSqlite
+	case z.Experiment(app.ExperimentKvsSqliteTurnstile):
+		return kv_storage.KvsEngineSqliteTurnstile
+	default:
+		return kv_storage.KvsEngineBadger
+	}
+}
+
 func (z featureImpl) IsDefaultPathAuthRepository() bool {
 	return !z.com.AuthDatabase.IsExists()
 }

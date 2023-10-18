@@ -42,6 +42,7 @@ var (
 		newValueGoogConnCalendar(api_conn.DefaultPeerName),
 		newValueGoogConnMail(api_conn.DefaultPeerName),
 		newValueGoogConnSheets(api_conn.DefaultPeerName),
+		newValueGoogConnTranslate(api_conn.DefaultPeerName),
 		newValueHsConn(api_conn.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),

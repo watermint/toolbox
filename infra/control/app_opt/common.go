@@ -48,61 +48,61 @@ func (z ExtraOpts) HasExperiment(key string) bool {
 
 type CommonOpts struct {
 	// Automatically open the artifact folder, after successful execution
-	AutoOpen bool
+	AutoOpen bool `json:"auto_open,omitempty"`
 
 	// Limit bandwidth to downloading/uploading contents
-	BandwidthKb int
+	BandwidthKb int `json:"bandwidth_kb,omitempty"`
 
 	// Set concurrency of worker execution
-	Concurrency int
+	Concurrency int `json:"concurrency,omitempty"`
 
 	// Enable debug mode
-	Debug bool
+	Debug bool `json:"debug,omitempty"`
 
 	// Enable verbose mode
-	Verbose bool
+	Verbose bool `json:"verbose,omitempty"`
 
 	// Enable experiments
-	Experiment string
+	Experiment string `json:"experiment,omitempty"`
 
 	// Language
-	Lang mo_string.SelectString
+	Lang mo_string.SelectString `json:"lang,omitempty"`
 
 	// Memory budget
-	BudgetMemory mo_string.SelectString
+	BudgetMemory mo_string.SelectString `json:"budget_memory,omitempty"`
 
 	// Storage budget
-	BudgetStorage mo_string.SelectString
+	BudgetStorage mo_string.SelectString `json:"budget_storage,omitempty"`
 
 	// Job data
-	RetainJobData mo_string.SelectString
+	RetainJobData mo_string.SelectString `json:"retain_job_data,omitempty"`
 
 	// Set output format
-	Output mo_string.SelectString
+	Output mo_string.SelectString `json:"output,omitempty"`
 
 	// Explicitly set proxy the hostname and the port number
-	Proxy mo_string.OptionalString
+	Proxy mo_string.OptionalString `json:"proxy,omitempty"`
 
 	// Path to auth database
-	AuthDatabase mo_string.OptionalString
+	AuthDatabase mo_string.OptionalString `json:"auth_database,omitempty"`
 
 	// Quiet mode
-	Quiet bool
+	Quiet bool `json:"quiet,omitempty"`
 
 	// Do not store token in the file
-	Secure bool
+	Secure bool `json:"secure,omitempty"`
 
 	// Skip logging
-	SkipLogging bool
+	SkipLogging bool `json:"skip_logging,omitempty"`
 
 	// Extra parameters
-	Extra mo_string.OptionalString
+	Extra mo_string.OptionalString `json:"extra,omitempty"`
 
 	// loaded extra options value
-	extraCache *ExtraOpts
+	extraCache *ExtraOpts `json:"extra_cache,omitempty"`
 
 	// Specify workspace path
-	Workspace mo_string.OptionalString
+	Workspace mo_string.OptionalString `json:"workspace,omitempty"`
 }
 
 // ExtraLoad Load extra opts

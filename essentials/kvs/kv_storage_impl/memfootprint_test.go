@@ -70,7 +70,7 @@ func BenchmarkMemoryFootprintBitcask(b *testing.B) {
 		_ = os.RemoveAll(path)
 	}()
 
-	db := InternalNewBitcask("benchmark-memory-bitcask", esl.Default())
+	db := newBitcask("benchmark-memory-bitcask", esl.Default())
 	if err := db.Open(path); err != nil {
 		b.Error(err)
 		return

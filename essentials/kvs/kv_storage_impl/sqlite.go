@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 )
 
-func InternalNewSqlite(name string, logger esl.Logger) kv_storage.Lifecycle {
+func newSqlite(name string, logger esl.Logger) kv_storage.Lifecycle {
 	return &sqWrapper{
 		name:   name,
 		logger: logger,
@@ -41,8 +41,6 @@ func (z *sqWrapper) Close() {
 	if err := z.db.Close(); err != nil {
 		z.log().Debug("Unable to close the database", esl.Error(err))
 	}
-	z.db = nil
-	z.dbPath = ""
 }
 
 func (z *sqWrapper) View(f func(kvs kv_kvs.Kvs) error) error {
@@ -51,10 +49,6 @@ func (z *sqWrapper) View(f func(kvs kv_kvs.Kvs) error) error {
 
 func (z *sqWrapper) Update(f func(kvs kv_kvs.Kvs) error) error {
 	return f(z.kvs)
-}
-
-func (z *sqWrapper) Kvs() kv_kvs.Kvs {
-	return z.kvs
 }
 
 func (z *sqWrapper) Open(path string) (err error) {

@@ -3,8 +3,8 @@ package app_control_impl
 import (
 	"database/sql"
 	"errors"
+	"github.com/watermint/essentials/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/cache"
 	"github.com/watermint/toolbox/essentials/database/orm"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
@@ -22,6 +22,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"gorm.io/gorm"
+	"os"
 	"path/filepath"
 )
 
@@ -32,7 +33,6 @@ func New(wb app_workspace.Bundle, ui app_ui.UI, feature app_feature.Feature, seq
 		ui:          ui,
 		feature:     feature,
 		errorReport: er,
-		cacheCtl:    cache.New(wb.Workspace().Cache(), wb.Logger().Logger()),
 		authRepo:    authRepo,
 	}
 }
@@ -82,7 +82,6 @@ type ctlImpl struct {
 	feature     app_feature.Feature
 	ui          app_ui.UI
 	wb          app_workspace.Bundle
-	cacheCtl    cache.Controller
 	seq         eq_sequence.Sequence
 	errorReport app_error.ErrorReport
 	authRepo    api_auth.Repository
@@ -125,25 +124,29 @@ func (z ctlImpl) WithErrorReport(er app_error.ErrorReport) ForkableControl {
 	return z
 }
 
-func (z ctlImpl) NewCache(namespace, name string) cache.Cache {
-	return z.cacheCtl.Cache(namespace, name)
-}
-
 func (z ctlImpl) NewKvsFactory() (factory kv_storage.Factory) {
 	factory = kv_storage_impl.NewFactory(z.wb.Workspace().KVS(), z.wb.Logger().Logger())
 	return
 }
 
 func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
-	kvs0 := kv_storage_impl.NewBitCask(name, z.wb.Logger().Logger())
+	kvs0 := kv_storage_impl.NewProxy(name, z.Log())
+	if lc, ok := kvs0.(kv_storage.Proxy); ok {
+		lc.SetEngine(z.Feature().KvsEngine())
+	} else {
+		z.Log().Error("Unable to set engine", esl.Any("engine", z.Feature().KvsEngine()))
+	}
+	kvsPath := filepath.Join(z.wb.Workspace().KVS(), es_filepath.Escape(name), euuid.NewV4().String())
+	if err := os.MkdirAll(kvsPath, 0755); err != nil {
+		z.Log().Error("Unable to create kvs path", esl.String("path", kvsPath), esl.Error(err))
+	}
 	kvs = kvs0
-	err = kvs0.Open(z.wb.Workspace().KVS())
+	err = kvs0.Open(kvsPath)
 	return
 }
 
 func (z ctlImpl) Close() {
 	z.errorReport.Down()
-	z.cacheCtl.Shutdown()
 }
 
 func (z ctlImpl) Sequence() eq_sequence.Sequence {

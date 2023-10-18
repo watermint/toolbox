@@ -1,6 +1,7 @@
 package app_queue
 
 import (
+	"github.com/watermint/essentials/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
@@ -14,6 +15,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"os"
+	"path/filepath"
 )
 
 func selectBatchFetchPolicy(fe app_feature.Feature) eq_bundle.FetchPolicy {
@@ -38,7 +41,11 @@ func selectDurableSetting(fe app_feature.Feature) (durable bool, cacheSize int) 
 }
 
 func NewSequence(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_workspace.Bundle) (seq eq_sequence.Sequence, er app_error.ErrorReport) {
-	preservePath := wb.Workspace().KVS()
+	seqPathSeed := euuid.NewV4().String()
+	preservePath := filepath.Join(wb.Workspace().KVS(), "seq", seqPathSeed)
+	if err := os.MkdirAll(preservePath, 0755); err != nil {
+		lg.Warn("Unable to create preserve path", esl.Error(err))
+	}
 	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
 	factory := eq_pipe.NewSimple(lg, preserve)
 	progress := eq_progress.NewProgress(ea_indicator.Global())
@@ -61,7 +68,11 @@ func NewSequence(lg esl.Logger, fe app_feature.Feature, ui app_ui.UI, wb app_wor
 }
 
 func NewQueue(lg esl.Logger, fe app_feature.Feature, wb app_workspace.Bundle) (q eq_queue.Definition) {
-	preservePath := wb.Workspace().KVS()
+	seqPathSeed := euuid.NewV4().String()
+	preservePath := filepath.Join(wb.Workspace().KVS(), "queue", seqPathSeed)
+	if err := os.MkdirAll(preservePath, 0755); err != nil {
+		lg.Warn("Unable to create preserve path", esl.Error(err))
+	}
 	preserve := eq_pipe_preserve.NewFactory(lg, preservePath)
 	factory := eq_pipe.NewSimple(lg, preserve)
 	progress := eq_progress.NewProgress(ea_indicator.Global())

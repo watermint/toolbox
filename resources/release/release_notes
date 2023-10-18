@@ -1,1 +1,4 @@
-Release process update
+* #761 : Use Badger as new KVS, to avoid conflict on Windows
+* #762 : UUID v4 generator command
+* #766 : Explicit option to hide progress indicator
+* #767 : Missing common opt in recipe.log

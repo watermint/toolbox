@@ -277,54 +277,61 @@ lang: en
 
 ## Utilities
 
-| Command                                                                                     | Description                                                          |
-|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
-| [config auth delete]({{ site.baseurl }}/commands/config-auth-delete.html)                   | Delete existing auth credential                                      |
-| [config auth list]({{ site.baseurl }}/commands/config-auth-list.html)                       | List all auth credentials                                            |
-| [config disable]({{ site.baseurl }}/commands/config-disable.html)                           | Disable a feature.                                                   |
-| [config enable]({{ site.baseurl }}/commands/config-enable.html)                             | Enable a feature.                                                    |
-| [config features]({{ site.baseurl }}/commands/config-features.html)                         | List available optional features.                                    |
-| [file template apply local]({{ site.baseurl }}/commands/file-template-apply-local.html)     | Apply file/folder structure template to the local path               |
-| [file template capture local]({{ site.baseurl }}/commands/file-template-capture-local.html) | Capture file/folder structure as template from local path            |
-| [job history archive]({{ site.baseurl }}/commands/job-history-archive.html)                 | Archive jobs                                                         |
-| [job history delete]({{ site.baseurl }}/commands/job-history-delete.html)                   | Delete old job history                                               |
-| [job history list]({{ site.baseurl }}/commands/job-history-list.html)                       | Show job history                                                     |
-| [job log jobid]({{ site.baseurl }}/commands/job-log-jobid.html)                             | Retrieve logs of specified Job ID                                    |
-| [job log kind]({{ site.baseurl }}/commands/job-log-kind.html)                               | Concatenate and print logs of specified log kind                     |
-| [job log last]({{ site.baseurl }}/commands/job-log-last.html)                               | Print the last job log files                                         |
-| [license]({{ site.baseurl }}/commands/license.html)                                         | Show license information                                             |
-| [util archive unzip]({{ site.baseurl }}/commands/util-archive-unzip.html)                   | Extract the zip archive file                                         |
-| [util archive zip]({{ site.baseurl }}/commands/util-archive-zip.html)                       | Compress target files into the zip archive                           |
-| [util cert selfsigned]({{ site.baseurl }}/commands/util-cert-selfsigned.html)               | Generate self-signed certificate and key                             |
-| [util database exec]({{ site.baseurl }}/commands/util-database-exec.html)                   | Execute query on SQLite3 database file                               |
-| [util database query]({{ site.baseurl }}/commands/util-database-query.html)                 | Query SQLite3 database                                               |
-| [util date today]({{ site.baseurl }}/commands/util-date-today.html)                         | Display current date                                                 |
-| [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)                     | Display current date/time                                            |
-| [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)                   | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)                   | Decode text from Base64 (RFC 4648) format                            |
-| [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)                   | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)                   | Encode text into Base64 (RFC 4648) format                            |
-| [util file hash]({{ site.baseurl }}/commands/util-file-hash.html)                           | Print file digest                                                    |
-| [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                           | Clone git repository                                                 |
-| [util image exif]({{ site.baseurl }}/commands/util-image-exif.html)                         | Print EXIF metadata of image file                                    |
-| [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html)           | Create placeholder image                                             |
-| [util net download]({{ site.baseurl }}/commands/util-net-download.html)                     | Download a file                                                      |
-| [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)                   | Create a QR code image file                                          |
-| [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)                       | Generate QR code for WIFI configuration                              |
-| [util table format xlsx]({{ site.baseurl }}/commands/util-table-format-xlsx.html)           | Formatting xlsx file into text                                       |
-| [util text case down]({{ site.baseurl }}/commands/util-text-case-down.html)                 | Print lower case text                                                |
-| [util text case up]({{ site.baseurl }}/commands/util-text-case-up.html)                     | Print upper case text                                                |
-| [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html)         | Convert text encoding to UTF-8 text file from specified encoding.    |
-| [util text encoding to]({{ site.baseurl }}/commands/util-text-encoding-to.html)             | Convert text encoding to specified encoding from UTF-8 text file.    |
-| [util tidy move dispatch]({{ site.baseurl }}/commands/util-tidy-move-dispatch.html)         | Dispatch files                                                       |
-| [util tidy move simple]({{ site.baseurl }}/commands/util-tidy-move-simple.html)             | Archive local files                                                  |
-| [util time now]({{ site.baseurl }}/commands/util-time-now.html)                             | Display current time                                                 |
-| [util unixtime format]({{ site.baseurl }}/commands/util-unixtime-format.html)               | Time format to convert the unix time (epoch seconds from 1970-01-01) |
-| [util unixtime now]({{ site.baseurl }}/commands/util-unixtime-now.html)                     | Display current time in unixtime                                     |
-| [util xlsx create]({{ site.baseurl }}/commands/util-xlsx-create.html)                       | Create an empty spreadsheet                                          |
-| [util xlsx sheet export]({{ site.baseurl }}/commands/util-xlsx-sheet-export.html)           | Export data from the xlsx file                                       |
-| [util xlsx sheet import]({{ site.baseurl }}/commands/util-xlsx-sheet-import.html)           | Import data into xlsx file                                           |
-| [util xlsx sheet list]({{ site.baseurl }}/commands/util-xlsx-sheet-list.html)               | List sheets of the xlsx file                                         |
-| [version]({{ site.baseurl }}/commands/version.html)                                         | Show version                                                         |
+| Command                                                                                           | Description                                                          |
+|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
+| [config auth delete]({{ site.baseurl }}/commands/config-auth-delete.html)                         | Delete existing auth credential                                      |
+| [config auth list]({{ site.baseurl }}/commands/config-auth-list.html)                             | List all auth credentials                                            |
+| [config disable]({{ site.baseurl }}/commands/config-disable.html)                                 | Disable a feature.                                                   |
+| [config enable]({{ site.baseurl }}/commands/config-enable.html)                                   | Enable a feature.                                                    |
+| [config features]({{ site.baseurl }}/commands/config-features.html)                               | List available optional features.                                    |
+| [file template apply local]({{ site.baseurl }}/commands/file-template-apply-local.html)           | Apply file/folder structure template to the local path               |
+| [file template capture local]({{ site.baseurl }}/commands/file-template-capture-local.html)       | Capture file/folder structure as template from local path            |
+| [job history archive]({{ site.baseurl }}/commands/job-history-archive.html)                       | Archive jobs                                                         |
+| [job history delete]({{ site.baseurl }}/commands/job-history-delete.html)                         | Delete old job history                                               |
+| [job history list]({{ site.baseurl }}/commands/job-history-list.html)                             | Show job history                                                     |
+| [job log jobid]({{ site.baseurl }}/commands/job-log-jobid.html)                                   | Retrieve logs of specified Job ID                                    |
+| [job log kind]({{ site.baseurl }}/commands/job-log-kind.html)                                     | Concatenate and print logs of specified log kind                     |
+| [job log last]({{ site.baseurl }}/commands/job-log-last.html)                                     | Print the last job log files                                         |
+| [license]({{ site.baseurl }}/commands/license.html)                                               | Show license information                                             |
+| [util archive unzip]({{ site.baseurl }}/commands/util-archive-unzip.html)                         | Extract the zip archive file                                         |
+| [util archive zip]({{ site.baseurl }}/commands/util-archive-zip.html)                             | Compress target files into the zip archive                           |
+| [util cert selfsigned]({{ site.baseurl }}/commands/util-cert-selfsigned.html)                     | Generate self-signed certificate and key                             |
+| [util database exec]({{ site.baseurl }}/commands/util-database-exec.html)                         | Execute query on SQLite3 database file                               |
+| [util database query]({{ site.baseurl }}/commands/util-database-query.html)                       | Query SQLite3 database                                               |
+| [util date today]({{ site.baseurl }}/commands/util-date-today.html)                               | Display current date                                                 |
+| [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)                           | Display current date/time                                            |
+| [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)                         | Decode text from Base32 (RFC 4648) format                            |
+| [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)                         | Decode text from Base64 (RFC 4648) format                            |
+| [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)                         | Encode text into Base32 (RFC 4648) format                            |
+| [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)                         | Encode text into Base64 (RFC 4648) format                            |
+| [util file hash]({{ site.baseurl }}/commands/util-file-hash.html)                                 | Print file digest                                                    |
+| [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                                 | Clone git repository                                                 |
+| [util image exif]({{ site.baseurl }}/commands/util-image-exif.html)                               | Print EXIF metadata of image file                                    |
+| [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html)                 | Create placeholder image                                             |
+| [util net download]({{ site.baseurl }}/commands/util-net-download.html)                           | Download a file                                                      |
+| [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)                         | Create a QR code image file                                          |
+| [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)                             | Generate QR code for WIFI configuration                              |
+| [util table format xlsx]({{ site.baseurl }}/commands/util-table-format-xlsx.html)                 | Formatting xlsx file into text                                       |
+| [util text case down]({{ site.baseurl }}/commands/util-text-case-down.html)                       | Print lower case text                                                |
+| [util text case up]({{ site.baseurl }}/commands/util-text-case-up.html)                           | Print upper case text                                                |
+| [util text encoding from]({{ site.baseurl }}/commands/util-text-encoding-from.html)               | Convert text encoding to UTF-8 text file from specified encoding.    |
+| [util text encoding to]({{ site.baseurl }}/commands/util-text-encoding-to.html)                   | Convert text encoding to specified encoding from UTF-8 text file.    |
+| [util text nlp english entity]({{ site.baseurl }}/commands/util-text-nlp-english-entity.html)     | Split English text into entities                                     |
+| [util text nlp english sentence]({{ site.baseurl }}/commands/util-text-nlp-english-sentence.html) | Split English text into sentences                                    |
+| [util text nlp english token]({{ site.baseurl }}/commands/util-text-nlp-english-token.html)       | Split English text into tokens                                       |
+| [util text nlp japanese token]({{ site.baseurl }}/commands/util-text-nlp-japanese-token.html)     | Tokenize Japanese text                                               |
+| [util text nlp japanese wakati]({{ site.baseurl }}/commands/util-text-nlp-japanese-wakati.html)   | Wakati gaki (tokenize Japanese text)                                 |
+| [util tidy move dispatch]({{ site.baseurl }}/commands/util-tidy-move-dispatch.html)               | Dispatch files                                                       |
+| [util tidy move simple]({{ site.baseurl }}/commands/util-tidy-move-simple.html)                   | Archive local files                                                  |
+| [util time now]({{ site.baseurl }}/commands/util-time-now.html)                                   | Display current time                                                 |
+| [util unixtime format]({{ site.baseurl }}/commands/util-unixtime-format.html)                     | Time format to convert the unix time (epoch seconds from 1970-01-01) |
+| [util unixtime now]({{ site.baseurl }}/commands/util-unixtime-now.html)                           | Display current time in unixtime                                     |
+| [util uuid v4]({{ site.baseurl }}/commands/util-uuid-v4.html)                                     | Generate UUID v4 (random UUID)                                       |
+| [util video subtitles optimize]({{ site.baseurl }}/commands/util-video-subtitles-optimize.html)   | Optimize subtitles file                                              |
+| [util xlsx create]({{ site.baseurl }}/commands/util-xlsx-create.html)                             | Create an empty spreadsheet                                          |
+| [util xlsx sheet export]({{ site.baseurl }}/commands/util-xlsx-sheet-export.html)                 | Export data from the xlsx file                                       |
+| [util xlsx sheet import]({{ site.baseurl }}/commands/util-xlsx-sheet-import.html)                 | Import data into xlsx file                                           |
+| [util xlsx sheet list]({{ site.baseurl }}/commands/util-xlsx-sheet-list.html)                     | List sheets of the xlsx file                                         |
+| [version]({{ site.baseurl }}/commands/version.html)                                               | Show version                                                         |
 
 

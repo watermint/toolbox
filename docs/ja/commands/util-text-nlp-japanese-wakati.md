@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev kvs benchmark
+# util text nlp japanese wakati
 
-KVSエンジンのベンチマーク 
+分かち書き(日本語テキストのトークン化)  
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev kvs benchmark 
+.\tbx.exe util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev kvs benchmark 
+$HOME/Desktop/tbx util text nlp japanese wakati -in /LOCAL/PATH/TO/INPUT.txt
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -35,6 +35,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 > "tbx"は開発元を確認できないため、使用がブロックされました。
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
+
+## オプション:
+
+| オプション           | 説明               | デフォルト |
+|----------------------|--------------------|------------|
+| `-dictionary`        | 辞書名（ipa/uni）  | ipa        |
+| `-ignore-line-break` | 改行を無視する     | false      |
+| `-in`                | 入力ファイルのパス |            |
+| `-separator`         | テキストセパレータ |            |
 
 ## 共通のオプション:
 
@@ -58,6 +67,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# テキスト入力
+
+## テキスト入力: In
+
+入力テキストファイルのパス
 
 # ネットワークプロクシの設定
 

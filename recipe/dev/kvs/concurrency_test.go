@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestBenchmark_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Benchmark{})
+func TestConcurrency_Exec(t *testing.T) {
+	qtr_endtoend.TestRecipe(t, &Concurrency{})
 }
