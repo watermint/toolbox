@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"os"
+	"path/filepath"
 	"reflect"
 )
 
@@ -90,7 +91,11 @@ func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 		ctl.Log().Error("Unable to set engine", esl.Any("engine", engine))
 	}
 	storage.SetLogger(ctl.Log())
-	return storage.Open(ctl.Workspace().KVS())
+	storagePath := filepath.Join(ctl.Workspace().KVS(), z.name)
+	if err := os.MkdirAll(storagePath, 0755); err != nil {
+		return err
+	}
+	return storage.Open(storagePath)
 }
 
 func (z *ValueKvStorageStorage) SpinDown(ctl app_control.Control) error {
