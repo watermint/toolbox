@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"os"
 	"reflect"
 )
 
@@ -93,6 +94,20 @@ func (z *ValueKvStorageStorage) SpinUp(ctl app_control.Control) error {
 }
 
 func (z *ValueKvStorageStorage) SpinDown(ctl app_control.Control) error {
+	l := ctl.Log()
 	z.storage.Close()
+	if lc, ok := z.storage.(kv_storage.Lifecycle); ok {
+		l.Debug("Delete storage", esl.String("path", lc.Path()))
+		if err := lc.Delete(); err != nil {
+			l.Debug("Unable to delete storage", esl.Error(err))
+			return err
+		}
+		l.Debug("Remove storage", esl.String("path", lc.Path()))
+		if err := os.RemoveAll(lc.Path()); err != nil {
+			l.Debug("Unable to remove storage", esl.Error(err))
+			// fall through, just ignore the error
+		}
+		return nil
+	}
 	return nil
 }

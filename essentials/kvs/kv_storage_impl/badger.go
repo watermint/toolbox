@@ -29,9 +29,10 @@ func (z *badgerWrapper) openWithPath(path string) error {
 	z.logger = z.logger.With(esl.String("path", path), esl.String("name", z.name))
 	opts := badger.DefaultOptions(path).
 		WithLogger(lgw_badger.NewLogWrapper(z.logger)).
-		WithBlockCacheSize(32 << 20). // 32MiB	(default: 256MiB)
-		WithCompression(options.ZSTD).
-		WithValueLogFileSize(64 << 20) // 128MiB (default: 1GiB)
+		WithBlockCacheSize(32 << 20).   // 32MiB (default: 256MiB)
+		WithValueLogFileSize(32 << 20). // 32MiB (default: 1GiB)
+		WithIndexCacheSize(8 << 20).    // 8MiB
+		WithCompression(options.ZSTD)
 
 	db, err := badger.Open(opts)
 	if err != nil {
