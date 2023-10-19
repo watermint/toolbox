@@ -53,6 +53,7 @@ type Publish struct {
 	SkipTests    bool
 	Recipe       *test.Recipe
 	Formula      *homebrew.Formula
+	Asset        *Asset
 
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
@@ -386,7 +387,7 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel *mo_release_asset.Asset
+	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel, assetWinIntel *mo_release_asset.Asset
 	for _, a := range assets {
 		switch {
 		case strings.HasSuffix(a.Name, "mac-intel.zip"),
@@ -405,6 +406,10 @@ func (z *Publish) Exec(c app_control.Control) error {
 			strings.HasSuffix(a.Name, "linux-arm64.zip"),
 			strings.HasSuffix(a.Name, "linux-arm.zip"):
 			assetLinuxArm = a
+		case strings.HasSuffix(a.Name, "win-intel.zip"),
+			strings.HasSuffix(a.Name, "win-amd64.zip"),
+			strings.HasSuffix(a.Name, "win-x86_64.zip"):
+			assetWinIntel = a
 		}
 	}
 
@@ -417,6 +422,31 @@ func (z *Publish) Exec(c app_control.Control) error {
 
 	if err := z.updateHomebrewFormula(c, assetMacIntel, assetMacArm, assetLinuxIntel, assetLinuxArm); err != nil {
 		return err
+	}
+
+	assetUrls := map[string]string{
+		"mac-intel":   assetMacIntel.DownloadUrl,
+		"mac-arm":     assetMacArm.DownloadUrl,
+		"linux-intel": assetLinuxIntel.DownloadUrl,
+		"linux-arm":   assetLinuxArm.DownloadUrl,
+		"win-intel":   assetWinIntel.DownloadUrl,
+	}
+	l.Info("Update latest the asset URLs", esl.Any("urls", assetUrls))
+	for platform, url := range assetUrls {
+		l.Info("Update latest the asset URL", esl.String("platform", platform), esl.String("url", url))
+		err := rc_exec.Exec(c, z.Asset, func(r rc_recipe.Recipe) {
+			m := r.(*Asset)
+			m.Owner = homebrewRepoOwner
+			m.Repo = homebrewRepoName
+			m.Branch = homebrewRepoBranch
+			m.Path = "/latest/" + platform + ".url"
+			m.Text = url
+			m.Message = app.BuildId + " " + platform + " latest binary URL"
+		})
+		if err != nil {
+			l.Debug("Unable to update the asset URL", esl.Error(err))
+			return err
+		}
 	}
 
 	l.Info("The build is ready to publish")

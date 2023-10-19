@@ -40,7 +40,7 @@ if [ x"$TOOLBOX_DEPLOY_DB" != x"" ]; then
   echo "$TOOLBOX_DEPLOY_DB" | base64 -d > build/db/deploy.db.gz
   gzip -d build/db/deploy.db.gz
 
-  ./tbx file sync up -auth-database build/db/deploy.db -local-path test/logs/logs-$RUN_NUMBER.zip -dropbox-path "/watermint-toolbox-build/test-logs/$RUN_NUMBER" -experiment suppress_progress
+  build/tbx file sync up -auth-database build/db/deploy.db -local-path test/logs/logs-$RUN_NUMBER.zip -dropbox-path "/watermint-toolbox-build/test-logs/$RUN_NUMBER" -experiment suppress_progress
 
   if [ $? -ne 0 ]; then
     echo "Failed to upload logs: $?"
