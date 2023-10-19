@@ -444,7 +444,7 @@ func (z *Publish) Test(c app_control.Control) error {
 		m := r.(*Publish)
 		m.ArtifactPath = mo_path2.NewFileSystemPath(d)
 	})
-	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != ErrorBuildIsNotReadyForRelease && err != nil {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); !errors.Is(err, ErrorBuildIsNotReadyForRelease) && err != nil {
 		return err
 	}
 	return nil
