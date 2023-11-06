@@ -22,7 +22,7 @@ require (
 	github.com/pkg/profile v1.7.0
 	github.com/rapid7/go-get-proxied v0.0.0-20231004143307-7280e84105fa
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
-	github.com/shirou/gopsutil/v3 v3.23.9
+	github.com/shirou/gopsutil/v3 v3.23.10
 	github.com/tdewolff/minify v2.3.6+incompatible
 	github.com/tdewolff/parse v2.3.4+incompatible
 	github.com/tealeg/xlsx v1.0.5
