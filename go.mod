@@ -18,7 +18,7 @@ require (
 	github.com/ikawaha/kagome-dict v1.0.9
 	github.com/ikawaha/kagome/v2 v2.9.4
 	github.com/mattn/go-colorable v0.1.13
-	github.com/mattn/go-sqlite3 v1.14.17
+	github.com/mattn/go-sqlite3 v1.14.18
 	github.com/pkg/profile v1.7.0
 	github.com/rapid7/go-get-proxied v0.0.0-20231004143307-7280e84105fa
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
