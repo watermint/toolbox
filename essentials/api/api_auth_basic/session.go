@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth_repo"
 )
 
-func NewRepository(session api_auth.BasicSession, repository api_auth.Repository) api_auth.BasicSession {
+func NewSession(session api_auth.BasicSession, repository api_auth.Repository) api_auth.BasicSession {
 	return &repoImpl{
 		session:    session,
 		repository: api_auth_repo.NewBasic(repository),

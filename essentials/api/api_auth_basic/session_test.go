@@ -27,7 +27,7 @@ func TestRepoImpl_Start(t *testing.T) {
 		return
 	}
 
-	session := NewRepository(
+	session := NewSession(
 		NewEmbedded(entity1),
 		baseRepo,
 	)

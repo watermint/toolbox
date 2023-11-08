@@ -12,6 +12,10 @@ import (
 	"net/http"
 )
 
+const (
+	DefaultHeaderKey = "Authorization"
+)
+
 var (
 	ErrorInvalidUsernameOrPassword = errors.New("invalid username or password")
 )
@@ -21,19 +25,31 @@ func NewBasicRestClient(entity api_auth.BasicEntity, repository api_auth.Reposit
 		entity:     entity,
 		repository: api_auth_repo.NewBasic(repository),
 		rest:       client,
+		headerKey:  DefaultHeaderKey,
 	}
 }
 
-func NewBasicRequestBuilder(entity api_auth.BasicEntity, builder nw_client.RequestBuilder) nw_client.RequestBuilder {
+func NewBasicRestClientWithHeaderKey(entity api_auth.BasicEntity, repository api_auth.Repository, client nw_client.Rest, headerKey string) nw_client.Rest {
+	return &basicClient{
+		entity:     entity,
+		repository: api_auth_repo.NewBasic(repository),
+		rest:       client,
+		headerKey:  headerKey,
+	}
+}
+
+func NewBasicRequestBuilder(entity api_auth.BasicEntity, builder nw_client.RequestBuilder, headerKey string) nw_client.RequestBuilder {
 	return &basicRequestBuilder{
-		builder: builder,
-		entity:  entity,
+		builder:   builder,
+		entity:    entity,
+		headerKey: headerKey,
 	}
 }
 
 type basicRequestBuilder struct {
-	builder nw_client.RequestBuilder
-	entity  api_auth.BasicEntity
+	builder   nw_client.RequestBuilder
+	entity    api_auth.BasicEntity
+	headerKey string
 }
 
 func (z basicRequestBuilder) Build() (*http.Request, error) {
@@ -41,7 +57,7 @@ func (z basicRequestBuilder) Build() (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Add("Authorization", z.entity.Credential.HeaderValue())
+	req.Header.Add(z.headerKey, z.entity.Credential.HeaderValue())
 	return req, nil
 }
 
@@ -57,6 +73,7 @@ type basicClient struct {
 	entity     api_auth.BasicEntity
 	repository api_auth.BasicRepository
 	rest       nw_client.Rest
+	headerKey  string
 }
 
 func (z basicClient) Call(client api_client.Client, req nw_client.RequestBuilder) (res es_response.Response) {
@@ -65,7 +82,7 @@ func (z basicClient) Call(client api_client.Client, req nw_client.RequestBuilder
 		z.repository.Delete(z.entity.KeyName, z.entity.PeerName)
 	}
 
-	brq := NewBasicRequestBuilder(z.entity, req)
+	brq := NewBasicRequestBuilder(z.entity, req, z.headerKey)
 	res = z.rest.Call(client, brq)
 
 	// abandon existing credential on auth error

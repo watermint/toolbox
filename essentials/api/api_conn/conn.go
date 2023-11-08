@@ -8,23 +8,25 @@ const (
 	ServiceUtility         = ""
 	ServiceDropbox         = "dropbox"
 	ServiceDropboxBusiness = "dropbox_business"
+	ServiceDropboxSign     = "dropbox_sign"
 	ServiceAsana           = "asana"
+	ServiceDeepl           = "deepl"
+	ServiceFigma           = "figma"
 	ServiceGithub          = "github"
 	ServiceGoogleCalendar  = "google_calendar"
 	ServiceGoogleMail      = "google_mail"
 	ServiceGoogleSheets    = "google_sheets"
 	ServiceGoogleTranslate = "google_translate"
-	ServiceDropboxSign     = "dropbox_sign"
 	ServiceSlack           = "slack"
-	ServiceFigma           = "figma"
 )
 
 var (
 	Services = []string{
-		ServiceAsana,
 		ServiceDropbox,
 		ServiceDropboxBusiness,
 		ServiceDropboxSign,
+		ServiceAsana,
+		ServiceDeepl,
 		ServiceFigma,
 		ServiceGithub,
 		ServiceGoogleCalendar,
@@ -61,6 +63,13 @@ type BasicConnection interface {
 	Connection
 
 	IsBasic() bool
+}
+
+// KeyConnection Key auth connection
+type KeyConnection interface {
+	Connection
+
+	IsKeyAuth() bool
 }
 
 // ScopedConnection OAuth2 Scoped connection

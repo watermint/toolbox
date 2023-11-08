@@ -10,7 +10,7 @@ func BasicConnect(session api_auth.BasicSessionData, ctl app_control.Control, op
 	if isTest, mock, err := IsTestMode(ctl); isTest {
 		return api_auth.NewNoAuthBasicEntity(), mock, err
 	}
-	s := api_auth_basic.NewRepository(
+	s := api_auth_basic.NewSession(
 		api_auth_basic.NewConsole(ctl, opts...),
 		ctl.AuthRepository(),
 	)
