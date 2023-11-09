@@ -70,7 +70,6 @@ func (z v2BuilderImpl) Build() (*http.Request, error) {
 	headers := make(map[string]string)
 	headers[api_request.ReqHeaderContentType] = "application/json"
 	headers[api_request.ReqHeaderAccept] = "application/json"
-	headers[api_request.ReqHeaderAuthorization] = "DeepL-Auth-Key " + z.entity.Credential.Key
 	for k, v := range headers {
 		req.Header.Add(k, v)
 	}
