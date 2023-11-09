@@ -50,8 +50,10 @@ func (z userImpl) Features() (feature *mo_user.Feature, err error) {
 	}
 	rj := res.Success().Json()
 	feature = &mo_user.Feature{
-		PaperAsFiles: false,
-		FileLocking:  false,
+		PaperAsFiles:       false,
+		FileLocking:        false,
+		TeamSharedDropbox:  false,
+		DistinctMemberHome: false,
 	}
 	if values, ok := rj.FindArray("values"); !ok {
 		l.Debug("No feature response found", esl.String("response", rj.RawString()))
@@ -59,11 +61,11 @@ func (z userImpl) Features() (feature *mo_user.Feature, err error) {
 	} else {
 		valMap := make(map[string]bool)
 		for _, v := range values {
-			if name, ok := v.FindString(".tag"); !ok {
+			if name, ok := v.FindString("\\.tag"); !ok {
 				l.Debug("Skip: tag not found", esl.String("value", v.RawString()))
 				continue
 			} else {
-				if enabled, ok := v.FindBool("enabled"); !ok {
+				if enabled, ok := v.FindBool(name + ".enabled"); !ok {
 					l.Debug("Skip: enabled tag not found", esl.String("value", v.RawString()))
 					continue
 				} else {
