@@ -131,6 +131,24 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
 
+## レポート: content
+
+コンテンツのメタデータ
+このコマンドはレポートを3種類の書式で出力します. `content.csv`, `content.json`, ならびに `content.xlsx`.
+
+| 列     | 説明                     |
+|--------|--------------------------|
+| type   | コンテンツ種別           |
+| name   | 名称                     |
+| path   | パス                     |
+| sha    | SHA1                     |
+| size   | サイズ                   |
+| target | シンボリックリンクの宛先 |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
+
 ## レポート: result
 
 レシピテスト結果

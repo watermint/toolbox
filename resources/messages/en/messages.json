@@ -361,6 +361,7 @@
   "domain.dropbox.model.mo_team.activity.desc": "Activity report",
   "domain.dropbox.model.mo_team.devices.desc": "Devices report",
   "domain.dropbox.model.mo_team.feature.desc": "This report shows a list of team features and their settings.",
+  "domain.dropbox.model.mo_team.feature.has_distinct_member_homes.desc": "Does this team have team member folder.",
   "domain.dropbox.model.mo_team.feature.has_team_file_events.desc": "Does this team have file events.",
   "domain.dropbox.model.mo_team.feature.has_team_selective_sync.desc": "Does this team have team selective sync enabled.",
   "domain.dropbox.model.mo_team.feature.has_team_shared_dropbox.desc": "Does this team have a shared team root.",

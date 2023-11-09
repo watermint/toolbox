@@ -130,6 +130,7 @@ The command will generate a report in three different formats. `feature.csv`, `f
 | has_team_shared_dropbox     | Does this team have a shared team root.           |
 | has_team_file_events        | Does this team have file events.                  |
 | has_team_selective_sync     | Does this team have team selective sync enabled.  |
+| has_distinct_member_homes   | Does this team have team member folder.           |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

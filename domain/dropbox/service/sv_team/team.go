@@ -46,6 +46,7 @@ func (z *teamImpl) Feature() (feature *mo_team.Feature, err error) {
 		"has_team_shared_dropbox",
 		"has_team_file_events",
 		"has_team_selective_sync",
+		"has_distinct_member_homes",
 	}
 	type FT struct {
 		Tag string `json:".tag"`

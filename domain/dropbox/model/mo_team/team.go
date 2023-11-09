@@ -22,4 +22,5 @@ type Feature struct {
 	HasTeamSharedDropbox    bool   `path:"has_team_shared_dropbox.has_team_shared_dropbox" json:"has_team_shared_dropbox"`
 	HasTeamFileEvents       bool   `path:"has_team_file_events.enabled" json:"has_team_file_events"`
 	HasTeamSelectiveSync    bool   `path:"has_team_selective_sync.has_team_selective_sync" json:"has_team_selective_sync"`
+	HasDistinctMemberHomes  bool   `path:"has_distinct_member_homes.has_distinct_member_homes" json:"has_distinct_member_homes"`
 }

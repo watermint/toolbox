@@ -131,6 +131,24 @@ If you run with `-budget-memory low` option, the command will generate only JSON
 
 In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
 
+## Report: content
+
+Content metadata
+The command will generate a report in three different formats. `content.csv`, `content.json`, and `content.xlsx`.
+
+| Column | Description     |
+|--------|-----------------|
+| type   | Type of content |
+| name   | Name            |
+| path   | Path            |
+| sha    | SHA1            |
+| size   | Size            |
+| target | Symlink target  |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
+
 ## Report: result
 
 Recipe test result
