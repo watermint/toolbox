@@ -1,8 +1,10 @@
 package mo_user
 
 type Feature struct {
-	PaperAsFiles bool `json:"paper_as_files"`
-	FileLocking  bool `json:"file_locking"`
+	PaperAsFiles       bool `json:"paper_as_files"`
+	FileLocking        bool `json:"file_locking"`
+	TeamSharedDropbox  bool `json:"team_shared_dropbox"`
+	DistinctMemberHome bool `json:"distinct_member_home"`
 }
 
 type MemberFeature struct {

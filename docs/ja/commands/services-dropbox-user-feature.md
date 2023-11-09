@@ -123,10 +123,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ユーザーのための機能設定
 このコマンドはレポートを3種類の書式で出力します. `report.csv`, `report.json`, ならびに `report.xlsx`.
 
-| 列             | 説明                                                                                                                                                  |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| paper_as_files | この値がtrueの場合、ユーザーのPaperドキュメントは、Dropboxで.paperという拡張子でアクセスでき、/filesエンドポイントを介してアクセスする必要があります. |
-| file_locking   | この値がTrueの場合、ユーザーは共有フォルダ内のファイルをロックすることができます.                                                                     |
+| 列                   | 説明                                                                                                                                                  |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| paper_as_files       | この値がtrueの場合、ユーザーのPaperドキュメントは、Dropboxで.paperという拡張子でアクセスでき、/filesエンドポイントを介してアクセスする必要があります. |
+| file_locking         | この値がTrueの場合、ユーザーは共有フォルダ内のファイルをロックすることができます.                                                                     |
+| team_shared_dropbox  | This feature contains information about whether or not the user is part of a team with a shared team root.                                            |
+| distinct_member_home | his feature contains information about whether or not the user's home namespace is distinct from their root namespace.                                |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

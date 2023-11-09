@@ -123,10 +123,12 @@ Report file path will be displayed last line of the command line output. If you 
 Feature setting for the user
 The command will generate a report in three different formats. `report.csv`, `report.json`, and `report.xlsx`.
 
-| Column         | Description                                                                                                                                       |
-|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| paper_as_files | When this value is true, the user's Paper docs are accessible in Dropbox with the .paper extension and must be accessed via the /files endpoints. |
-| file_locking   | When this value is True, the user can lock files in shared folders.                                                                               |
+| Column               | Description                                                                                                                                       |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| paper_as_files       | When this value is true, the user's Paper docs are accessible in Dropbox with the .paper extension and must be accessed via the /files endpoints. |
+| file_locking         | When this value is True, the user can lock files in shared folders.                                                                               |
+| team_shared_dropbox  | This feature contains information about whether or not the user is part of a team with a shared team root.                                        |
+| distinct_member_home | his feature contains information about whether or not the user's home namespace is distinct from their root namespace.                            |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

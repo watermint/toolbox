@@ -28,6 +28,8 @@ func (z userImpl) Features() (feature *mo_user.Feature, err error) {
 	featureTags := []string{
 		"paper_as_files",
 		"file_locking",
+		"team_shared_dropbox",
+		"distinct_member_home",
 	}
 	type FT struct {
 		Tag string `json:".tag"`
