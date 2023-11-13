@@ -2,7 +2,8 @@ package deepl_conn_impl
 
 import (
 	"github.com/watermint/toolbox/domain/deepl/api/deepl_client"
-	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_client_impl"
+	"github.com/watermint/toolbox/domain/deepl/api/deepl_client_impl"
+	"github.com/watermint/toolbox/domain/deepl/api/deepl_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
@@ -20,7 +21,7 @@ var (
 	MDeeplApi = app_msg.Apply(&MsgDeeplApi{}).(*MsgDeeplApi)
 )
 
-func NewConnDeeplApi(name string) api_conn.Connection {
+func NewConnDeeplApi(name string) deepl_conn.ConnDeeplApi {
 	return &connDeeplApiImpl{
 		peerName: name,
 	}
@@ -45,14 +46,14 @@ func (z *connDeeplApiImpl) Connect(ctl app_control.Control) (err error) {
 		MDeeplApi.AskApiKey,
 	)
 	if mock {
-		z.client = hs_client_impl.NewMock(z.peerName, ctl)
+		z.client = deepl_client_impl.NewMock(z.peerName, ctl)
 		return nil
 	}
 	if err != nil {
 		l.Debug("Unable to acquire", esl.Error(err))
 		return err
 	}
-	z.client = deepl_client_impl
+	z.client = deepl_client_impl.NewV2(z.peerName, ctl, entity)
 	return nil
 }
 

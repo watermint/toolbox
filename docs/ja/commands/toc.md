@@ -206,6 +206,12 @@ lang: ja
 | [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)                         | チームスペースのトップレベルフォルダーを削除する                                        |
 | [teamspace asadmin folder permdelete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-permdelete.html)                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
+## DeepL
+
+| コマンド                                                                                           | 説明           |
+|----------------------------------------------------------------------------------------------------|----------------|
+| [services deepl translate text]({{ site.baseurl }}/ja/commands/services-deepl-translate-text.html) | Translate text |
+
 ## Figma
 
 | コマンド                                                                                                       | 説明                                                  |

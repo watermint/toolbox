@@ -66,6 +66,7 @@ import (
 	recipeservicesasanateamtask "github.com/watermint/toolbox/recipe/services/asana/team/task"
 	recipeservicesasanaworkspace "github.com/watermint/toolbox/recipe/services/asana/workspace"
 	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
+	recipeservicesdeepltranslate "github.com/watermint/toolbox/recipe/services/deepl/translate"
 	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
 	recipeservicesdropboxsignaccount "github.com/watermint/toolbox/recipe/services/dropboxsign/account"
 	recipeservicesfigmaaccount "github.com/watermint/toolbox/recipe/services/figma/account"
@@ -329,6 +330,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesasanateamtask.List{},
 		&recipeservicesasanaworkspace.List{},
 		&recipeservicesasanaworkspaceproject.List{},
+		&recipeservicesdeepltranslate.Text{},
 		&recipeservicesdropboxuser.Feature{},
 		&recipeservicesdropboxuser.Info{},
 		&recipeservicesdropboxsignaccount.Info{},

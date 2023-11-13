@@ -21,6 +21,15 @@ var (
 	V2FreePeerPrefix = "free-"
 )
 
+func NewMock(name string, ctl app_control.Control) deepl_client.Client {
+	return &v2ClientImpl{
+		builder:  deepl_request.NewV2Builder(),
+		client:   nw_rest_factory.New(nw_rest_factory.Mock()),
+		ctl:      ctl,
+		peerName: name,
+	}
+}
+
 func NewV2(name string, ctl app_control.Control, entity api_auth.KeyEntity) deepl_client.Client {
 	client := nw_rest_factory.New(
 		nw_rest_factory.Auth(func(client nw_client.Rest) (rest nw_client.Rest) {
@@ -32,6 +41,7 @@ func NewV2(name string, ctl app_control.Control, entity api_auth.KeyEntity) deep
 	return &v2ClientImpl{
 		peerName: name,
 		client:   client,
+		ctl:      ctl,
 		builder:  deepl_request.NewV2Builder(),
 	}
 }

@@ -286,6 +286,12 @@ Available commands:
 | [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete](docs/commands/teamspace-asadmin-folder-permdelete.md)                 | Permanently delete top level folder of the team space                               |
 
+## DeepL
+
+| Command                                                                         | Description    |
+|---------------------------------------------------------------------------------|----------------|
+| [services deepl translate text](docs/commands/services-deepl-translate-text.md) | Translate text |
+
 ## Figma
 
 | Command                                                                                     | Description                           |

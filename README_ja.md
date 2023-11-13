@@ -284,6 +284,12 @@ DropboxおよびDropbox Business向けのツールセット
 | [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                         | チームスペースのトップレベルフォルダーを削除する                                        |
 | [teamspace asadmin folder permdelete](docs/ja/commands/teamspace-asadmin-folder-permdelete.md)                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
+## DeepL
+
+| コマンド                                                                           | 説明           |
+|------------------------------------------------------------------------------------|----------------|
+| [services deepl translate text](docs/ja/commands/services-deepl-translate-text.md) | Translate text |
+
 ## Figma
 
 | コマンド                                                                                       | 説明                                                  |

@@ -35,6 +35,7 @@ var (
 		newValueDaTextInput(nil, ""),
 		newValueDbxConnScopedIndividual(api_conn.DefaultPeerName),
 		newValueDbxConnScopedTeam(api_conn.DefaultPeerName),
+		newValueDeeplConn(api_conn.DefaultPeerName),
 		newValueFdFileRowFeed(""),
 		newValueFgConnFigmaFileRead(api_conn.DefaultPeerName),
 		newValueGhConnGithubPublic(),

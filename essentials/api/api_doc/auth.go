@@ -1,8 +1,10 @@
 package api_doc
 
 import (
+	"github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl"
 	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
 	"github.com/watermint/toolbox/essentials/api/api_auth_basic"
+	"github.com/watermint/toolbox/essentials/api/api_auth_key"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/api/api_callback"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
@@ -12,6 +14,7 @@ import (
 
 type MsgApiDoc struct {
 	AuthDescAsana       app_msg.Message
+	AuthDescDeepl       app_msg.Message
 	AuthDescDropbox     app_msg.Message
 	AuthDescGithub      app_msg.Message
 	AuthDescGoogle      app_msg.Message
@@ -38,6 +41,10 @@ var (
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlAsana))
 			cui.Break()
+		},
+		api_conn.ServiceDeepl: func(cui app_ui.UI) {
+			cui.Info(api_auth_key.MConsole.PromptEnterKey)
+			cui.AskText(deepl_conn_impl.MDeeplApi.AskApiKey)
 		},
 		api_conn.ServiceDropbox: func(cui app_ui.UI) {
 			cui.Info(api_auth_oauth.MApiAuth.OauthSeq1.With("Url", cui.Text(MApiDoc.ServiceUrlDropbox)))
@@ -90,6 +97,7 @@ var (
 
 	ApiDocAuthDesc = map[string]app_msg.Message{
 		api_conn.ServiceAsana:           MApiDoc.AuthDescAsana,
+		api_conn.ServiceDeepl:           MApiDoc.AuthDescDeepl,
 		api_conn.ServiceDropbox:         MApiDoc.AuthDescDropbox,
 		api_conn.ServiceDropboxBusiness: MApiDoc.AuthDescDropbox,
 		api_conn.ServiceGithub:          MApiDoc.AuthDescGithub,
