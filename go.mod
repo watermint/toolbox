@@ -34,7 +34,7 @@ require (
 	go.uber.org/atomic v1.11.0
 	go.uber.org/zap v1.26.0
 	golang.org/x/crypto v0.15.0
-	golang.org/x/exp v0.0.0-20231006140011-7918f672742d
+	golang.org/x/exp v0.0.0-20231110203233-9a3e6036ecaa
 	golang.org/x/image v0.14.0
 	golang.org/x/oauth2 v0.14.0
 	golang.org/x/sync v0.5.0
@@ -84,7 +84,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kevinburke/ssh_config v1.2.0 // indirect
-	github.com/klauspost/compress v1.17.2 // indirect
+	github.com/klauspost/compress v1.17.3 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
 	github.com/lufia/plan9stats v0.0.0-20231016141302-07b5767bb0ed // indirect
@@ -118,7 +118,7 @@ require (
 	golang.org/x/net v0.18.0 // indirect
 	golang.org/x/sys v0.14.0 // indirect
 	golang.org/x/term v0.14.0 // indirect
-	golang.org/x/tools v0.14.0 // indirect
+	golang.org/x/tools v0.15.0 // indirect
 	gonum.org/v1/gonum v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
