@@ -386,6 +386,8 @@ DropboxおよびDropbox Business向けのツールセット
 | [util datetime now](docs/ja/commands/util-datetime-now.md)                           | 現在の日時を表示                                                       |
 | [util decode base32](docs/ja/commands/util-decode-base32.md)                         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
 | [util decode base64](docs/ja/commands/util-decode-base64.md)                         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util desktop display list](docs/ja/commands/util-desktop-display-list.md)           | List displays of the current machine                                   |
+| [util desktop screenshot snap](docs/ja/commands/util-desktop-screenshot-snap.md)     | Take a screenshot                                                      |
 | [util encode base32](docs/ja/commands/util-encode-base32.md)                         | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base64](docs/ja/commands/util-encode-base64.md)                         | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util file hash](docs/ja/commands/util-file-hash.md)                                 | ファイルダイジェストの表示                                             |

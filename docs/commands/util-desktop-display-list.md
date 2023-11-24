@@ -4,53 +4,9 @@ title: Command
 lang: en
 ---
 
-# dev benchmark upload
+# util desktop display list
 
-Upload benchmark 
-
-# Security
-
-`watermint toolbox` stores credentials into the file system. That is located at below path:
-
-| OS      | Path                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
-
-Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-
-## Auth scopes
-
-| Description                                                                                          |
-|------------------------------------------------------------------------------------------------------|
-| Dropbox: View basic information about your Dropbox account such as your username, email, and country |
-| Dropbox: Edit content of your Dropbox files and folders                                              |
-
-# Authorization
-
-For the first run, `tbx` will ask you an authentication with your Dropbox account.
-Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2023 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
-```
+List displays of the current machine 
 
 # Installation
 
@@ -66,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -num-files NUM -path /DROPBOX/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM
+.\tbx.exe util desktop display list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload -num-files NUM -path /DROPBOX/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM
+$HOME/Desktop/tbx util desktop display list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -79,21 +35,6 @@ You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
-
-## Options:
-
-| Option               | Description                 | Default |
-|----------------------|-----------------------------|---------|
-| `-block-block-size`  | Block size for batch upload | 40      |
-| `-method`            | Upload method               | block   |
-| `-num-files`         | Number of files.            | 1000    |
-| `-path`              | Path to Dropbox             |         |
-| `-peer`              | Account alias               | default |
-| `-pre-scan`          | Pre-scan destination path   | false   |
-| `-seq-chunk-size-kb` | Upload chunk size in KiB    | 65536   |
-| `-size-max-kb`       | Maximum file size (KiB).    | 2048    |
-| `-size-min-kb`       | Minimum file size (KiB).    | 0       |
-| `-verify`            | Verify after upload         | false   |
 
 ## Common options:
 
@@ -117,6 +58,33 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
+
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: displays
+
+Display information
+The command will generate a report in three different formats. `displays.csv`, `displays.json`, and `displays.xlsx`.
+
+| Column | Description        |
+|--------|--------------------|
+| id     | Display ID         |
+| x      | Display X position |
+| y      | Display Y position |
+| width  | Display width      |
+| height | Display height     |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `displays_0000.xlsx`, `displays_0001.xlsx`, `displays_0002.xlsx`, ...
 
 # Proxy configuration
 

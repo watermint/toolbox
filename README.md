@@ -388,6 +388,8 @@ Available commands:
 | [util datetime now](docs/commands/util-datetime-now.md)                           | Display current date/time                                            |
 | [util decode base32](docs/commands/util-decode-base32.md)                         | Decode text from Base32 (RFC 4648) format                            |
 | [util decode base64](docs/commands/util-decode-base64.md)                         | Decode text from Base64 (RFC 4648) format                            |
+| [util desktop display list](docs/commands/util-desktop-display-list.md)           | List displays of the current machine                                 |
+| [util desktop screenshot snap](docs/commands/util-desktop-screenshot-snap.md)     | Take a screenshot                                                    |
 | [util encode base32](docs/commands/util-encode-base32.md)                         | Encode text into Base32 (RFC 4648) format                            |
 | [util encode base64](docs/commands/util-encode-base64.md)                         | Encode text into Base64 (RFC 4648) format                            |
 | [util file hash](docs/commands/util-file-hash.md)                                 | Print file digest                                                    |

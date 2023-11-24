@@ -308,6 +308,8 @@ lang: ja
 | [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)                           | 現在の日時を表示                                                       |
 | [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)                         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
 | [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)                         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util desktop display list]({{ site.baseurl }}/ja/commands/util-desktop-display-list.html)           | List displays of the current machine                                   |
+| [util desktop screenshot snap]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-snap.html)     | Take a screenshot                                                      |
 | [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)                         | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)                         | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util file hash]({{ site.baseurl }}/ja/commands/util-file-hash.html)                                 | ファイルダイジェストの表示                                             |

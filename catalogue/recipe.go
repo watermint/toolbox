@@ -152,6 +152,8 @@ import (
 	recipeutildate "github.com/watermint/toolbox/recipe/util/date"
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
+	recipeutildesktopdisplay "github.com/watermint/toolbox/recipe/util/desktop/display"
+	recipeutildesktopscreenshot "github.com/watermint/toolbox/recipe/util/desktop/screenshot"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
 	recipeutilfile "github.com/watermint/toolbox/recipe/util/file"
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
@@ -498,6 +500,8 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutildatetime.Now{},
 		&recipeutildecode.Base32{},
 		&recipeutildecode.Base64{},
+		&recipeutildesktopdisplay.List{},
+		&recipeutildesktopscreenshot.Snap{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
 		&recipeutilfile.Hash{},
