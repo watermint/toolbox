@@ -501,6 +501,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeutildecode.Base32{},
 		&recipeutildecode.Base64{},
 		&recipeutildesktopdisplay.List{},
+		&recipeutildesktopscreenshot.Interval{},
 		&recipeutildesktopscreenshot.Snap{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},

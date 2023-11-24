@@ -16,10 +16,6 @@ import (
 	"path/filepath"
 )
 
-var (
-	ErrorNoDisplay = errors.New("no display")
-)
-
 type Snap struct {
 	DisplayId    mo_int.RangeInt
 	Path         mo_path.FileSystemPath
@@ -32,17 +28,11 @@ func (z *Snap) Preset() {
 
 func (z *Snap) Exec(c app_control.Control) error {
 	l := c.Log()
-	numDisplays := screenshot.NumActiveDisplays()
-	if numDisplays < 0 {
+	if err := checkDisplayAvailability(z.DisplayId.Value()); err != nil {
 		c.UI().Error(z.ErrNoDisplay)
-		return ErrorNoDisplay
+		return err
 	}
 	displayId := z.DisplayId.Value()
-	if displayId < 0 || displayId >= numDisplays {
-		// This should not happen because displayId bound by RangeInt
-		l.Error("Invalid display id", esl.Int("displayId", displayId), esl.Int("numDisplays", numDisplays))
-		return ErrorNoDisplay
-	}
 	bounds := screenshot.GetDisplayBounds(displayId)
 	img, err := screenshot.CaptureRect(bounds)
 	if err != nil {
