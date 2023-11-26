@@ -6,7 +6,7 @@ package es_locale
 import (
 	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"
 	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
-	"github.com/watermint/toolbox/essentials/islet/native/es_native_windows"
+	"github.com/watermint/toolbox/essentials/native/es_native_windows"
 )
 
 func currentLocaleWithSysCall(apiName string) (string, es_idiom_deprecated.Outcome) {
