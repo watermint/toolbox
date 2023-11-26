@@ -2,11 +2,11 @@ package image
 
 import (
 	"errors"
-	"github.com/watermint/essentials/egraphic/ecolor"
-	"github.com/watermint/essentials/egraphic/edraw"
-	"github.com/watermint/essentials/egraphic/egeom"
-	"github.com/watermint/essentials/egraphic/eimage"
-	"github.com/watermint/essentials/egraphic/etext"
+	"github.com/watermint/toolbox/essentials/islet/egraphic/ecolor"
+	"github.com/watermint/toolbox/essentials/islet/egraphic/edraw"
+	"github.com/watermint/toolbox/essentials/islet/egraphic/egeom"
+	"github.com/watermint/toolbox/essentials/islet/egraphic/eimage"
+	"github.com/watermint/toolbox/essentials/islet/egraphic/etext"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"

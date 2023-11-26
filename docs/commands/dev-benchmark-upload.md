@@ -84,7 +84,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option               | Description                 | Default |
 |----------------------|-----------------------------|---------|
-| `-block-block-size`  | Block size for batch upload | 24      |
+| `-block-block-size`  | Block size for batch upload | 16      |
 | `-method`            | Upload method               | block   |
 | `-num-files`         | Number of files.            | 1000    |
 | `-path`              | Path to Dropbox             |         |

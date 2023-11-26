@@ -1,7 +1,7 @@
 package kvs
 
 import (
-	"github.com/watermint/essentials/eformat/euuid"
+	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"

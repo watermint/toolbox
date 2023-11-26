@@ -1,7 +1,7 @@
 package es_reflect
 
 import (
-	"github.com/watermint/essentials/estring/ecase"
+	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"reflect"
 	"strings"
 )

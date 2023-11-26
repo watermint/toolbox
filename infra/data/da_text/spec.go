@@ -1,8 +1,8 @@
 package da_text
 
 import (
-	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"

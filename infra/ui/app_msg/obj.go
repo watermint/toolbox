@@ -1,8 +1,8 @@
 package app_msg
 
 import (
-	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
+	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/infra/app"
 	"reflect"
 	"strings"

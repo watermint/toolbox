@@ -1,8 +1,8 @@
 package app_queue
 
 import (
-	"github.com/watermint/essentials/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
+	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_bundle"
 	"github.com/watermint/toolbox/essentials/queue/eq_pipe"
