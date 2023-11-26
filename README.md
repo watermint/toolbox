@@ -389,6 +389,7 @@ Available commands:
 | [util decode base32](docs/commands/util-decode-base32.md)                             | Decode text from Base32 (RFC 4648) format                            |
 | [util decode base64](docs/commands/util-decode-base64.md)                             | Decode text from Base64 (RFC 4648) format                            |
 | [util desktop display list](docs/commands/util-desktop-display-list.md)               | List displays of the current machine                                 |
+| [util desktop open](docs/commands/util-desktop-open.md)                               | Open a file or folder with the default application                   |
 | [util desktop screenshot interval](docs/commands/util-desktop-screenshot-interval.md) | Take screenshots at regular intervals                                |
 | [util desktop screenshot snap](docs/commands/util-desktop-screenshot-snap.md)         | Take a screenshot                                                    |
 | [util encode base32](docs/commands/util-encode-base32.md)                             | Encode text into Base32 (RFC 4648) format                            |
