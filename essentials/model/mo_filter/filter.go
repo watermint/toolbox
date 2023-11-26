@@ -3,8 +3,8 @@ package mo_filter
 import (
 	"flag"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -131,7 +131,7 @@ func (z *filterImpl) Accept(v interface{}) bool {
 
 func (z *filterImpl) ApplyFlags(fl *flag.FlagSet, fieldDesc app_msg.Message, ui app_ui.UI) {
 	for _, f := range z.filters {
-		name := ecase.ToLowerKebabCase(z.Name() + f.NameSuffix())
+		name := es_case.ToLowerKebabCase(z.Name() + f.NameSuffix())
 		desc := ui.Text(app_ui.Join(ui, fieldDesc, f.Desc()))
 		bind := f.Bind()
 		switch bv := bind.(type) {

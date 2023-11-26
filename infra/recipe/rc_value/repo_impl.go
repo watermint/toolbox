@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
+	es_case2 "github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
@@ -96,7 +96,7 @@ func NewRepository(scr interface{}) rc_recipe.Repository {
 
 	vals := make(map[string]rc_recipe.Value)
 	fieldValue := make(map[string]reflect.Value)
-	rcpName := rt.PkgPath() + "." + ecase.ToLowerSnakeCase(rt.Name())
+	rcpName := rt.PkgPath() + "." + es_case2.ToLowerSnakeCase(rt.Name())
 
 	numField := rt.NumField()
 	for i := 0; i < numField; i++ {
@@ -185,7 +185,7 @@ func (z *RepositoryImpl) Messages() []app_msg.Message {
 		}
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				msgs = append(msgs, app_msg.ObjMessage(z.rcp, "conn."+ecase.ToLowerSnakeCase(k)))
+				msgs = append(msgs, app_msg.ObjMessage(z.rcp, "conn."+es_case2.ToLowerSnakeCase(k)))
 			}
 		}
 	}
@@ -420,7 +420,7 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 		prompt := false
 		if _, ok := v.(rc_recipe.ValueConn); ok {
 			if k != "Peer" {
-				ui.Header(app_msg.ObjMessage(z.rcp, "conn."+ecase.ToLowerSnakeCase(k)))
+				ui.Header(app_msg.ObjMessage(z.rcp, "conn."+es_case2.ToLowerSnakeCase(k)))
 				prompt = true
 			}
 		}
@@ -435,11 +435,11 @@ func (z *RepositoryImpl) SpinUp(ctl app_control.Control) (rc_recipe.Recipe, erro
 			continue
 
 		case ErrorInvalidValue:
-			ui.Error(MRepository.ErrorInvalidValue.With("Key", ecase.ToLowerKebabCase(k)))
+			ui.Error(MRepository.ErrorInvalidValue.With("Key", es_case2.ToLowerKebabCase(k)))
 			lastErr = err
 
 		case ErrorMissingRequiredOption:
-			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", ecase.ToLowerKebabCase(k)))
+			ui.Error(MRepository.ErrorMissingRequiredOption.With("Key", es_case2.ToLowerKebabCase(k)))
 			lastErr = err
 
 		default:
@@ -479,7 +479,7 @@ func (z *RepositoryImpl) SpinDown(ctl app_control.Control) error {
 
 func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 	for k, v := range z.values {
-		flagName := ecase.ToLowerKebabCase(k)
+		flagName := es_case2.ToLowerKebabCase(k)
 		flagDesc := z.FieldDesc(k)
 
 		b := v.Bind()
@@ -506,7 +506,7 @@ func (z *RepositoryImpl) fieldMessageKeyBase() string {
 }
 
 func (z *RepositoryImpl) fieldMessageKey(name string) string {
-	return z.fieldMessageKeyBase() + ecase.ToLowerSnakeCase(name)
+	return z.fieldMessageKeyBase() + es_case2.ToLowerSnakeCase(name)
 }
 
 func (z *RepositoryImpl) FieldCustomDefault(name string) app_msg.MessageOptional {
@@ -522,7 +522,7 @@ func (z *RepositoryImpl) FieldDesc(name string) app_msg.Message {
 		switch v0 := v.Bind().(type) {
 		case mo_multi.MultiValue:
 			if strings.HasPrefix(name, v0.Name()) {
-				base := app_msg.CreateMessage(z.fieldMessageKeyBase() + ecase.ToLowerSnakeCase(v0.Name()))
+				base := app_msg.CreateMessage(z.fieldMessageKeyBase() + es_case2.ToLowerSnakeCase(v0.Name()))
 				return v0.FieldDesc(base, name)
 			}
 		}

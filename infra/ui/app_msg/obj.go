@@ -2,14 +2,14 @@ package app_msg
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"reflect"
 	"strings"
 )
 
 func applyReflect(mot reflect.Type, mov reflect.Value) {
-	base := mot.PkgPath() + "." + ecase.ToLowerSnakeCase(mot.Name())
+	base := mot.PkgPath() + "." + es_case.ToLowerSnakeCase(mot.Name())
 	base = strings.ReplaceAll(base, app.Pkg+"/", "")
 	base = strings.ReplaceAll(base, "/", ".")
 
@@ -22,7 +22,7 @@ func applyReflect(mot reflect.Type, mov reflect.Value) {
 		switch {
 		case mof.Type.Implements(reflect.TypeOf((*Message)(nil)).Elem()):
 			mvf.Set(reflect.ValueOf(&messageImpl{
-				K: base + "." + ecase.ToLowerSnakeCase(kn),
+				K: base + "." + es_case.ToLowerSnakeCase(kn),
 			}))
 		}
 	}

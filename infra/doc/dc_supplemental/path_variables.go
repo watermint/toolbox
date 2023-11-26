@@ -2,7 +2,7 @@ package dc_supplemental
 
 import (
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -53,7 +53,7 @@ func (z PathVariableDefinitions) Body(ui app_ui.UI) {
 	for _, v := range es_filepath.PathVariables {
 		vt.Row(
 			app_msg.Raw("{{."+v+"}}"),
-			app_msg.ObjMessage(&z, ecase.ToLowerSnakeCase(v)+".desc"),
+			app_msg.ObjMessage(&z, es_case.ToLowerSnakeCase(v)+".desc"),
 		)
 	}
 	vt.Flush()

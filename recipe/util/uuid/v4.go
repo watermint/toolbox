@@ -1,7 +1,7 @@
 package uuid
 
 import (
-	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
+	"github.com/watermint/toolbox/essentials/strings/es_uuid"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -17,7 +17,7 @@ func (z *V4) Preset() {
 }
 
 func (z *V4) Exec(c app_control.Control) error {
-	v4 := euuid.NewV4()
+	v4 := es_uuid.NewV4()
 	if z.UpperCase {
 		ui_out.TextOut(c, strings.ToUpper(v4.String()))
 	} else {

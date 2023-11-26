@@ -3,7 +3,7 @@ package rc_value
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -13,7 +13,7 @@ import (
 )
 
 func newValueRpModelTransactionReport(name string) rc_recipe.Value {
-	n := ecase.ToLowerSnakeCase(name)
+	n := es_case.ToLowerSnakeCase(name)
 	v := &ValueRpModelTransactionReport{name: n}
 	v.rep = rp_model_impl.NewTransactionReport(n)
 	return v

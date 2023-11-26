@@ -2,7 +2,7 @@ package dc_command
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -97,7 +97,7 @@ func (z Usage) bodyOptionsTable(ui app_ui.UI, subHeader app_msg.Message, sv rc_r
 	ui.WithTable("Options", func(t app_ui.Table) {
 		t.Header(z.TableOptionsOption, z.TableOptionsDesc, z.TableOptionsDefault)
 		for _, k := range names {
-			opt := fmt.Sprintf("`-%s`", ecase.ToLowerKebabCase(k))
+			opt := fmt.Sprintf("`-%s`", es_case.ToLowerKebabCase(k))
 			vd := sv.ValueDefault(k)
 			vkd := sv.ValueCustomDefault(k)
 			if ui.Exists(vkd) {

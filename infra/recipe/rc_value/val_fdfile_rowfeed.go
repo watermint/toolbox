@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -153,7 +153,7 @@ func (z *ValueFdFileRowFeed) SpinUp(ctl app_control.Control) (err error) {
 	if err != nil {
 		ui := ctl.UI()
 		ui.Break()
-		ui.Header(MValFdFileRowFeed.HeadFeed.With("Name", ecase.ToLowerSnakeCase(z.rf.Spec().Name())))
+		ui.Header(MValFdFileRowFeed.HeadFeed.With("Name", es_case.ToLowerSnakeCase(z.rf.Spec().Name())))
 		ui.Info(MValFdFileRowFeed.FeedDesc)
 
 		FeedSpec(z.rf.Spec(), ctl.UI())

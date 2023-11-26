@@ -1,7 +1,7 @@
 package dc_options
 
 import (
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -39,7 +39,7 @@ func PrintOptionsTable(ui app_ui.UI, spec rc_recipe.SpecValue) {
 		}
 
 		mt.Row(
-			MDoc.BodyOption.With("Option", ecase.ToLowerKebabCase(k)),
+			MDoc.BodyOption.With("Option", es_case.ToLowerKebabCase(k)),
 			spec.ValueDesc(k),
 			app_msg.Raw(vd),
 		)

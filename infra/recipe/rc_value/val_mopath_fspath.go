@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -107,7 +107,7 @@ func (z *ValueMoPathFileSystemPath) SpinUp(ctl app_control.Control) error {
 		l.Debug("verify the given file")
 		ls, err := os.Lstat(z.filePath)
 		if err != nil {
-			ui.Error(MRepository.ErrorMoPathFsPathNotFound.With("Path", z.filePath).With("Key", ecase.ToLowerKebabCase(z.name)))
+			ui.Error(MRepository.ErrorMoPathFsPathNotFound.With("Path", z.filePath).With("Key", es_case.ToLowerKebabCase(z.name)))
 			l.Debug("The file is not found", esl.Error(err))
 			return ErrorPathNotFound
 		}

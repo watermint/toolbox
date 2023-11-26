@@ -2,7 +2,7 @@ package da_text
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -32,7 +32,7 @@ func (z inSpec) Name() string {
 }
 
 func (z inSpec) Desc() app_msg.Message {
-	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".text_input." + ecase.ToLowerSnakeCase(z.name) + ".desc")
+	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".text_input." + es_case.ToLowerSnakeCase(z.name) + ".desc")
 }
 
 func (z inSpec) Doc(ui app_ui.UI) *dc_recipe.DocTextInput {

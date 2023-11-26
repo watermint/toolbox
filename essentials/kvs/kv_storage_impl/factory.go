@@ -1,9 +1,9 @@
 package kv_storage_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/strings/es_uuid"
 	"os"
 	"path/filepath"
 	"sync"
@@ -34,7 +34,7 @@ func (z *factoryImpl) New(name string) (kv_storage.Lifecycle, error) {
 
 	l := z.log().With(esl.String("name", name))
 	l.Debug("Create new storage")
-	kvPath := filepath.Join(z.basePath, euuid.NewV4().String())
+	kvPath := filepath.Join(z.basePath, es_uuid.NewV4().String())
 	if err := os.MkdirAll(kvPath, 0755); err != nil {
 		l.Debug("Unable to create a directory", esl.Error(err))
 		return nil, err

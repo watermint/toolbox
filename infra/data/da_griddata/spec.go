@@ -2,7 +2,7 @@ package da_griddata
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -38,7 +38,7 @@ func (z rdSpec) Name() string {
 }
 
 func (z rdSpec) Desc() app_msg.Message {
-	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".grid_data_input." + ecase.ToLowerSnakeCase(z.name) + ".desc")
+	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".grid_data_input." + es_case.ToLowerSnakeCase(z.name) + ".desc")
 }
 
 func (z rdSpec) Doc(ui app_ui.UI) *dc_recipe.DocGridDataInput {
@@ -65,7 +65,7 @@ func (z wrSpec) Name() string {
 }
 
 func (z wrSpec) Desc() app_msg.Message {
-	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".grid_data_output." + ecase.ToLowerSnakeCase(z.name) + ".desc")
+	return app_msg.CreateMessage(es_reflect.Key(app.Pkg, z.recipe) + ".grid_data_output." + es_case.ToLowerSnakeCase(z.name) + ".desc")
 }
 
 func (z wrSpec) Doc(ui app_ui.UI) *dc_recipe.DocGridDataOutput {

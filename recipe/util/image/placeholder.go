@@ -2,11 +2,11 @@ package image
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/islet/egraphic/ecolor"
-	"github.com/watermint/toolbox/essentials/islet/egraphic/edraw"
-	"github.com/watermint/toolbox/essentials/islet/egraphic/egeom"
-	"github.com/watermint/toolbox/essentials/islet/egraphic/eimage"
-	"github.com/watermint/toolbox/essentials/islet/egraphic/etext"
+	"github.com/watermint/toolbox/essentials/graphic/eg_color"
+	"github.com/watermint/toolbox/essentials/graphic/eg_draw"
+	eg_geom2 "github.com/watermint/toolbox/essentials/graphic/eg_geom"
+	eg_image2 "github.com/watermint/toolbox/essentials/graphic/eg_image"
+	eg_text2 "github.com/watermint/toolbox/essentials/graphic/eg_text"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -49,13 +49,13 @@ func (z *Placeholder) Preset() {
 
 func (z *Placeholder) Exec(c app_control.Control) error {
 	ui := c.UI()
-	bgColor, oc := ecolor.ParseColor(z.Color)
+	bgColor, oc := eg_color.ParseColor(z.Color)
 	if oc.IsError() {
 		return oc.Cause()
 	}
 
-	img := eimage.NewRgba(z.Width, z.Height)
-	imgDraw := edraw.NewImageDrawer(img)
+	img := eg_image2.NewRgba(z.Width, z.Height)
+	imgDraw := eg_draw.NewImageDrawer(img)
 	imgDraw.FillRectangle(img.Bounds(), bgColor)
 
 	if z.Text.IsExists() {
@@ -68,27 +68,27 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", err))
 			return err
 		}
-		ttf, oc := etext.NewTrueTypeParse(fontData)
+		ttf, oc := eg_text2.NewTrueTypeParse(fontData)
 		if oc.IsError() {
 			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", oc.Cause()))
 			return oc.Cause()
 		}
 
-		txtColor, oc := ecolor.ParseColor(z.TextColor)
+		txtColor, oc := eg_color.ParseColor(z.TextColor)
 		if oc.IsError() {
 			return oc.Cause()
 		}
-		var txtAlign etext.Alignment
+		var txtAlign eg_text2.Alignment
 		switch z.TextAlign.Value() {
 		case "center":
-			txtAlign = etext.AlignCenter
+			txtAlign = eg_text2.AlignCenter
 		case "right":
-			txtAlign = etext.AlignRight
+			txtAlign = eg_text2.AlignRight
 		default:
-			txtAlign = etext.AlignLeft
+			txtAlign = eg_text2.AlignLeft
 		}
-		txtStyle := etext.NewStyle(ttf.WithSize(z.FontSize), txtColor).WithAlignment(txtAlign)
-		txtPos, oc := egeom.ParsePosition(z.TextPosition)
+		txtStyle := eg_text2.NewStyle(ttf.WithSize(z.FontSize), txtColor).WithAlignment(txtAlign)
+		txtPos, oc := eg_geom2.ParsePosition(z.TextPosition)
 		if oc.IsError() {
 			return oc.Cause()
 		}
@@ -97,14 +97,14 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 			txtPos.Locate(
 				img.Bounds(),
 				txtStyle.Bound(z.Text.Value()),
-				egeom.NewPaddingFixed(z.FontSize, z.FontSize),
+				eg_geom2.NewPaddingFixed(z.FontSize, z.FontSize),
 			),
 			z.Text.Value(),
 			txtStyle,
 		)
 	}
 
-	if oc := img.ExportTo(eimage.FormatPng, z.Path.Path()); oc.IsError() {
+	if oc := img.ExportTo(eg_image2.FormatPng, z.Path.Path()); oc.IsError() {
 		return oc.Cause()
 	}
 	return nil

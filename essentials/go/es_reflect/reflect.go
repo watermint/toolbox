@@ -1,7 +1,7 @@
 package es_reflect
 
 import (
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"reflect"
 	"strings"
 )
@@ -19,7 +19,7 @@ func Path(base string, r interface{}) (path []string, name string) {
 		path = append(path, strings.Split(pkg, "/")...)
 	}
 	//	return path, strings.ToLower(rt.Name())
-	return path, ecase.ToLowerSnakeCase(rt.Name())
+	return path, es_case.ToLowerSnakeCase(rt.Name())
 }
 
 func Key(base string, r interface{}) string {

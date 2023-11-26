@@ -5,8 +5,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -42,7 +42,7 @@ func SuggestCliArgs(ctl app_control.Control, r rc_recipe.Recipe) error {
 	for _, valName := range spec.ValueNames() {
 		v := spec.Value(valName)
 		vd := spec.ValueDefault(valName)
-		valArg := "-" + ecase.ToLowerKebabCase(valName) + " "
+		valArg := "-" + es_case.ToLowerKebabCase(valName) + " "
 		found := strings.Contains(existingCliArgs, valArg)
 
 		switch vt := v.(type) {

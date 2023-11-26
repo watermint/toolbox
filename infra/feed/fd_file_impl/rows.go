@@ -5,8 +5,8 @@ import (
 	"encoding/csv"
 	"errors"
 	"github.com/watermint/toolbox/essentials/encoding/es_unicode"
-	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	es_case2 "github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -102,10 +102,10 @@ func (z *RowFeed) applyModel() {
 	ord := 0
 
 	appendField := func(f reflect.StructField) {
-		z.fields = append(z.fields, ecase.ToLowerSnakeCase(f.Name))
+		z.fields = append(z.fields, es_case2.ToLowerSnakeCase(f.Name))
 		z.fieldNameToOrder[f.Name] = ord
-		z.fieldNameToOrder[ecase.ToLowerSnakeCase(f.Name)] = ord
-		z.fieldNameToOrder[ecase.ToUpperCamelCase(f.Name)] = ord
+		z.fieldNameToOrder[es_case2.ToLowerSnakeCase(f.Name)] = ord
+		z.fieldNameToOrder[es_case2.ToUpperCamelCase(f.Name)] = ord
 		z.orderToFieldName[ord] = f.Name
 		ord++
 	}
@@ -161,7 +161,7 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 
 	z.headers = make([]string, len(cols))
 	for i, col := range cols {
-		z.headers[i] = ecase.ToLowerSnakeCase(col)
+		z.headers[i] = es_case2.ToLowerSnakeCase(col)
 	}
 	z.mode = "fieldName"
 	for _, col := range cols {
@@ -204,7 +204,7 @@ func (z *RowFeed) header(cols []string) (consumeLine bool, err error) {
 				return nil // ignore error
 			}
 			fieldName := z.headers[ci]
-			f := v.Elem().FieldByName(ecase.ToUpperCamelCase(fieldName))
+			f := v.Elem().FieldByName(es_case2.ToUpperCamelCase(fieldName))
 			if !f.IsValid() || !f.CanSet() {
 				l.Debug("Invalid column",
 					esl.Bool("isValid", f.IsValid()),

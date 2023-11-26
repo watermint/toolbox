@@ -2,12 +2,12 @@ package release
 
 import (
 	"crypto/sha256"
-	"github.com/watermint/essentials/eformat/ehex"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/model/mo_commit"
 	"github.com/watermint/toolbox/domain/github/model/mo_content"
 	"github.com/watermint/toolbox/domain/github/service/sv_content"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/strings/es_hex"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -44,7 +44,7 @@ func (z *Asset) Exec(c app_control.Control) error {
 	}
 
 	shaBytes := sha256.Sum256([]byte(z.Text))
-	sha := ehex.ToHexString(shaBytes[:])
+	sha := es_hex.ToHexString(shaBytes[:])
 	svc := sv_content.New(z.Peer.Client(), z.Owner, z.Repo)
 	opts := make([]sv_content.ContentOpt, 0)
 	opts = append(opts, sv_content.Branch(z.Branch))

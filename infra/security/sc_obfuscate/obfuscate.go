@@ -5,8 +5,8 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"crypto/sha256"
-	"github.com/watermint/toolbox/essentials/islet/eformat/ehex"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/strings/es_hex"
 	"github.com/watermint/toolbox/infra/app"
 	"io"
 )
@@ -23,7 +23,7 @@ func BuildStream() string {
 	key0 := sha256.Sum256(XapKey())
 	key1 := make([]byte, 32)
 	copy(key1[:], key0[:])
-	return ehex.ToHexString(key1)
+	return es_hex.ToHexString(key1)
 }
 
 func Deobfuscate(l esl.Logger, key, b []byte) (d []byte, err error) {

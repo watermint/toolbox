@@ -1,14 +1,14 @@
 package catalogue
 
 import (
-	"github.com/watermint/toolbox/essentials/go/go_module"
+	"github.com/watermint/toolbox/essentials/go/es_module"
 	"testing"
 )
 
 func TestScan(t *testing.T) {
 	_ = NewCatalogue()
 
-	_, err := go_module.ScanBuild()
+	_, err := es_module.ScanBuild()
 	if err != nil {
 		t.Error(err)
 	}

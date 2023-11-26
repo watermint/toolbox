@@ -1,7 +1,7 @@
 package module
 
 import (
-	"github.com/watermint/toolbox/essentials/go/go_module"
+	"github.com/watermint/toolbox/essentials/go/es_module"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -16,24 +16,24 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	b, err := go_module.ScanBuild()
+	b, err := es_module.ScanBuild()
 	if err != nil {
 		return err
 	}
 	l := c.Log()
 	l.Info("Go Version", esl.String("version", b.GoVersion()))
 	for _, m := range b.Modules() {
-		lic, err := go_module.SelectLicenses(m,
-			[]go_module.LicenseType{
-				go_module.LicenseTypeApache20,
-				go_module.LicenseTypeBSD2Clause,
-				go_module.LicenseTypeBSD3Clause,
-				go_module.LicenseTypeMIT,
+		lic, err := es_module.SelectLicenses(m,
+			[]es_module.LicenseType{
+				es_module.LicenseTypeApache20,
+				es_module.LicenseTypeBSD2Clause,
+				es_module.LicenseTypeBSD3Clause,
+				es_module.LicenseTypeMIT,
 			},
-			[]go_module.LicenseType{
-				go_module.LicenseTypeAGPL,
-				go_module.LicenseTypeGPL,
-				go_module.LicenseTypeLGPL,
+			[]es_module.LicenseType{
+				es_module.LicenseTypeAGPL,
+				es_module.LicenseTypeGPL,
+				es_module.LicenseTypeLGPL,
 			},
 		)
 		if err != nil {

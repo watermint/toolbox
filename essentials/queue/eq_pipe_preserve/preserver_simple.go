@@ -4,8 +4,8 @@ import (
 	"archive/zip"
 	"errors"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/strings/es_uuid"
 	"os"
 	"path/filepath"
 	"time"
@@ -24,7 +24,7 @@ func NewPreserver(l esl.Logger, basePath string) Preserver {
 	l = l.With(esl.String("basePath", basePath))
 	l.Debug("Create preserver")
 
-	sessionId := euuid.NewV4().String()
+	sessionId := es_uuid.NewV4().String()
 	l = l.With(esl.String("sessionId", sessionId))
 	l.Debug("SessionID generated")
 

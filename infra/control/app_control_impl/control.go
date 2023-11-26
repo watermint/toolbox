@@ -7,12 +7,12 @@ import (
 	"github.com/watermint/toolbox/essentials/database/orm"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
-	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"github.com/watermint/toolbox/essentials/strings/es_uuid"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
@@ -136,7 +136,7 @@ func (z ctlImpl) NewKvs(name string) (kvs kv_storage.Storage, err error) {
 	} else {
 		z.Log().Error("Unable to set engine", esl.Any("engine", z.Feature().KvsEngine()))
 	}
-	kvsPath := filepath.Join(z.wb.Workspace().KVS(), es_filepath.Escape(name), euuid.NewV4().String())
+	kvsPath := filepath.Join(z.wb.Workspace().KVS(), es_filepath.Escape(name), es_uuid.NewV4().String())
 	if err := os.MkdirAll(kvsPath, 0755); err != nil {
 		z.Log().Error("Unable to create kvs path", esl.String("path", kvsPath), esl.Error(err))
 	}
