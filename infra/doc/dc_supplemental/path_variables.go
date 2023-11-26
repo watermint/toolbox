@@ -1,8 +1,8 @@
 package dc_supplemental
 
 import (
-	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
+	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"

@@ -4,7 +4,7 @@ import (
 	"archive/zip"
 	"errors"
 	"fmt"
-	"github.com/watermint/essentials/eformat/euuid"
+	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"os"
 	"path/filepath"

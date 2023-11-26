@@ -2,7 +2,7 @@ package es_open
 
 import (
 	"errors"
-	"github.com/watermint/essentials/edesktop"
+	"github.com/watermint/toolbox/essentials/islet/edesktop"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
 

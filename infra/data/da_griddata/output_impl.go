@@ -3,8 +3,8 @@ package da_griddata
 import (
 	"errors"
 	"flag"
-	"github.com/watermint/essentials/estring/ecase"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"

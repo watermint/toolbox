@@ -1,7 +1,7 @@
 package uuid
 
 import (
-	"github.com/watermint/essentials/eformat/euuid"
+	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"

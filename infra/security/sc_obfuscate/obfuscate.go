@@ -5,7 +5,7 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"crypto/sha256"
-	"github.com/watermint/essentials/eformat/ehex"
+	"github.com/watermint/toolbox/essentials/islet/eformat/ehex"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
 	"io"

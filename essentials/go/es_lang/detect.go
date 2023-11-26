@@ -1,7 +1,7 @@
 package es_lang
 
 import (
-	"github.com/watermint/essentials/ei18n/elocale"
+	"github.com/watermint/toolbox/essentials/islet/ei18n/elocale"
 )
 
 // Detect & select language in select

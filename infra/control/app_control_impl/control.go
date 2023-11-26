@@ -3,11 +3,11 @@ package app_control_impl
 import (
 	"database/sql"
 	"errors"
-	"github.com/watermint/essentials/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/database/orm"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/islet/eformat/euuid"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"

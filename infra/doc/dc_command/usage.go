@@ -2,7 +2,7 @@ package dc_command
 
 import (
 	"fmt"
-	"github.com/watermint/essentials/estring/ecase"
+	"github.com/watermint/toolbox/essentials/islet/estring/ecase"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
