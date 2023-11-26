@@ -3,7 +3,7 @@ package esl_rotate
 import (
 	"crypto/rand"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array"
+	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
 	"path/filepath"
@@ -61,9 +61,9 @@ func TestRotateOpts_PurgeTargets_ByCount(t *testing.T) {
 			t.Error(err)
 		}
 
-		pa := es_array.NewByString(preserveFiles...)
-		ea := es_array.NewByString(expectedFiles...)
-		ta := es_array.NewByString(targetFiles...)
+		pa := es_array_deprecated.NewByString(preserveFiles...)
+		ea := es_array_deprecated.NewByString(expectedFiles...)
+		ta := es_array_deprecated.NewByString(targetFiles...)
 
 		// Preserve/Target
 		if cf := pa.Intersection(ta); cf.Size() != 0 {
@@ -124,9 +124,9 @@ func TestRotateOpts_PurgeTargets_ByQuota(t *testing.T) {
 			t.Error(err)
 		}
 
-		pa := es_array.NewByString(preserveFiles...)
-		ea := es_array.NewByString(expectedFiles...)
-		ta := es_array.NewByString(targetFiles...)
+		pa := es_array_deprecated.NewByString(preserveFiles...)
+		ea := es_array_deprecated.NewByString(expectedFiles...)
+		ta := es_array_deprecated.NewByString(targetFiles...)
 
 		// Preserve/Target
 		if cf := pa.Intersection(ta); cf.Size() != 0 {

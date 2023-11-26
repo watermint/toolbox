@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/api/api_request"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
@@ -56,7 +56,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 		l.Debug("The server does not support range request", esl.String("acceptRanges", h))
 		return errors.New("the server does not support range request")
 	}
-	contentLength := es_number.New(res.Header("Content-Length"))
+	contentLength := es_number_deprecated.New(res.Header("Content-Length"))
 	if !contentLength.IsInt() {
 		l.Debug("invalid content length", esl.String("contentLength", res.Header("Content-Length")))
 		return errors.New("invalid content length")
@@ -91,7 +91,7 @@ func (z *HttpRange) Exec(c app_control.Control) error {
 	}
 
 	downloader := func(chunk *DownloadChunk) error {
-		requestRange := fmt.Sprintf("bytes=%d-%d", chunk.Offset, es_number.Min(chunk.Offset+chunk.ChunkSize-1, contentLength).Int64())
+		requestRange := fmt.Sprintf("bytes=%d-%d", chunk.Offset, min(chunk.Offset+chunk.ChunkSize-1, contentLength.Int64()))
 		res = z.Peer.Client().Download("files/download", q, api_request.Header("Range", requestRange))
 		if err, fail := res.Failure(); fail {
 			l.Debug("Error on download", esl.Error(err))

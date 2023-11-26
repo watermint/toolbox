@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"io"
 	"math"
 )
@@ -54,7 +53,7 @@ func NewReadRewinderWithLimit(r io.ReadSeeker, offset, limit int64) (rr ReadRewi
 	if err != nil {
 		return nil, err
 	}
-	rrwl.length = es_number.Max(es_number.Min(e-offset, limit), 0).Int64()
+	rrwl.length = max(min(e-offset, limit), 0)
 	if err = rrwl.Rewind(); err != nil {
 		return nil, err
 	}

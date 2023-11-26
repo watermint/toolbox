@@ -2,7 +2,6 @@ package nw_congestion
 
 import (
 	"container/list"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/app"
@@ -52,7 +51,7 @@ func SetMaxCongestionWindow(w int, ignoreHardLimit bool) {
 	if ignoreHardLimit {
 		maxCongestionWindow = w
 	} else {
-		maxCongestionWindow = es_number.Min(w, hardLimitCongestionWindow).Int()
+		maxCongestionWindow = min(w, hardLimitCongestionWindow)
 	}
 }
 func SetInitCongestionWindow(w int) {
@@ -206,7 +205,7 @@ func (z *ccImpl) EndSuccess(hash, endpoint string) {
 
 	if z.noLockCanIncreaseWindow(key) {
 		if wnd, ok := z.window[key]; ok {
-			newWindow := es_number.Min(wnd+1, CurrentMaxCongestionWindow()).Int()
+			newWindow := min(wnd+1, CurrentMaxCongestionWindow())
 			z.lastIncrement[key] = time.Now()
 			z.window[key] = newWindow
 			l.Debug("Increase window", esl.Int("newWindow", newWindow))
@@ -254,13 +253,11 @@ func (z *ccImpl) EndRateLimit(hash, endpoint string, reset time.Time) {
 		}
 
 		if wnd, ok := z.window[key]; ok {
-			nw := es_number.Max(wnd-1,
-				CurrentMinCongestionWindow()).Int()
+			nw := max(wnd-1, CurrentMinCongestionWindow())
 			l.Debug("Slow start. New window", esl.Int("newWindow", nw), esl.Int("prevWindow", wnd))
 			return nw
 		} else {
-			nw := es_number.Max(CurrentMaxCongestionWindow()/2,
-				CurrentMinCongestionWindow()).Int()
+			nw := max(CurrentMaxCongestionWindow()/2, CurrentMinCongestionWindow())
 			l.Debug("Current window not found (strange). But assume max window as current window", esl.Int("newWindow", nw))
 			return nw
 		}
@@ -408,7 +405,7 @@ func (z *ccImpl) noLockNotifyWaiters(key string) {
 	l.Debug("NotifyToWaiters",
 		esl.Int("concurrency", curConcurrency),
 		esl.Int("waiters", curWaiters))
-	numRelease := es_number.Max(0, window-curConcurrency).Int()
+	numRelease := max(0, window-curConcurrency)
 	numReleased := 0
 
 	for current := z.waiters.Front(); current != nil; {

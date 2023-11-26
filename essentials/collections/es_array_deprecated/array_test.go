@@ -1,7 +1,7 @@
-package es_array
+package es_array_deprecated
 
 import (
-	"github.com/watermint/toolbox/essentials/collections/es_value"
+	"github.com/watermint/toolbox/essentials/collections/es_value_deprecated"
 	"testing"
 )
 
@@ -56,7 +56,7 @@ func TestArrayImpl_Left(t *testing.T) {
 
 func TestArrayImpl_LeftWhile(t *testing.T) {
 	a := NewByInterface(1, 2, 3)
-	b := a.LeftWhile(func(v es_value.Value) bool {
+	b := a.LeftWhile(func(v es_value_deprecated.Value) bool {
 		return v.AsNumber().Int() < 3
 	})
 
@@ -88,7 +88,7 @@ func TestArrayImpl_Right(t *testing.T) {
 
 func TestArrayImpl_RightWhile(t *testing.T) {
 	a := NewByInterface(1, 2, 3)
-	b := a.RightWhile(func(v es_value.Value) bool {
+	b := a.RightWhile(func(v es_value_deprecated.Value) bool {
 		return v.AsNumber().Int() > 1
 	})
 
@@ -105,7 +105,7 @@ func TestArrayImpl_RightWhile(t *testing.T) {
 
 func TestArrayImpl_Count(t *testing.T) {
 	a := NewByInterface(1, 2, 3)
-	c := a.Count(func(v es_value.Value) bool {
+	c := a.Count(func(v es_value_deprecated.Value) bool {
 		return v.AsNumber().Int() > 1
 	})
 	if c != 2 {
@@ -326,8 +326,8 @@ func TestArrayImpl_HashMap(t *testing.T) {
 
 func TestArrayImpl_Map(t *testing.T) {
 	a := NewByInterface("3", "1", "2")
-	b := a.Map(func(v es_value.Value) es_value.Value {
-		return es_value.New(v.String() + "E")
+	b := a.Map(func(v es_value_deprecated.Value) es_value_deprecated.Value {
+		return es_value_deprecated.New(v.String() + "E")
 	})
 	c := b.AsStringArray()
 	if x := c[0]; x != "3E" {
@@ -343,6 +343,6 @@ func TestArrayImpl_Map(t *testing.T) {
 
 func TestArrayImpl_Each(t *testing.T) {
 	a := NewByInterface("3", "1", "2")
-	a.Each(func(v es_value.Value) {
+	a.Each(func(v es_value_deprecated.Value) {
 	})
 }

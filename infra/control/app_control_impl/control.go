@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/database/orm"
+	"github.com/watermint/toolbox/essentials/database/es_orm"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
@@ -88,11 +88,11 @@ type ctlImpl struct {
 }
 
 func (z ctlImpl) NewOrm(path string) (db *gorm.DB, err error) {
-	return orm.NewOrm(z.Log(), path)
+	return es_orm.NewOrm(z.Log(), path)
 }
 
 func (z ctlImpl) NewOrmOnMemory() (db *gorm.DB, err error) {
-	return orm.NewOrmOnMemory(z.Log())
+	return es_orm.NewOrmOnMemory(z.Log())
 }
 
 func (z ctlImpl) NewDatabase(name string) (db *sql.DB, path string, err error) {

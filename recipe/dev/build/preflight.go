@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array"
+	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
@@ -55,7 +55,7 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	for k := range messages {
 		definedKeys = append(definedKeys, k)
 	}
-	unusedKeys := es_array.NewByString(definedKeys...).Diff(es_array.NewByString(touchedKeys...)).AsStringArray()
+	unusedKeys := es_array_deprecated.NewByString(definedKeys...).Diff(es_array_deprecated.NewByString(touchedKeys...)).AsStringArray()
 	sort.Strings(unusedKeys)
 	for _, k := range unusedKeys {
 		l.Warn("Unused key found, removing it", esl.String("key", k))

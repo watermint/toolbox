@@ -1,7 +1,7 @@
-package es_value
+package es_value_deprecated
 
 import (
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 )
 
 func Null() Value {
@@ -26,8 +26,8 @@ func (z valueNull) String() string {
 	return ""
 }
 
-func (z valueNull) AsNumber() es_number.Number {
-	return es_number.Zero()
+func (z valueNull) AsNumber() es_number_deprecated.Number {
+	return es_number_deprecated.Zero()
 }
 
 func (z valueNull) AsInterface() interface{} {

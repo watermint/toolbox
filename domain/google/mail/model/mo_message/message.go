@@ -3,7 +3,7 @@ package mo_message
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/google/mail/model/mo_label"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"net/mail"
@@ -68,7 +68,7 @@ func (z Message) Processed() (p Processed, err error) {
 	if v, found := j.FindNumber("internalDate"); found {
 		p.DateInternal = v.Int64() / 1000
 	} else if v, found := j.FindString("internalDate"); found {
-		n := es_number.New(v)
+		n := es_number_deprecated.New(v)
 		p.DateInternal = n.Int64() / 1000
 	}
 

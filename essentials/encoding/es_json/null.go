@@ -2,7 +2,7 @@ package es_json
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 )
 
 func Null() Json {
@@ -44,7 +44,7 @@ func (z nullImpl) Bool() (v bool, t bool) {
 	return false, false
 }
 
-func (z nullImpl) Number() (v es_number.Number, t bool) {
+func (z nullImpl) Number() (v es_number_deprecated.Number, t bool) {
 	return nil, false
 }
 
@@ -76,7 +76,7 @@ func (z nullImpl) FindBool(path string) (v bool, t bool) {
 	return false, false
 }
 
-func (z nullImpl) FindNumber(path string) (v es_number.Number, t bool) {
+func (z nullImpl) FindNumber(path string) (v es_number_deprecated.Number, t bool) {
 	return nil, false
 }
 

@@ -1,4 +1,4 @@
-package cert
+package es_cert
 
 import "testing"
 

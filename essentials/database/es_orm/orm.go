@@ -1,7 +1,7 @@
-package orm
+package es_orm
 
 import (
-	"github.com/watermint/toolbox/essentials/database/orm_logger"
+	"github.com/watermint/toolbox/essentials/database/es_orm_logger"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
@@ -10,7 +10,7 @@ import (
 func NewOrm(l esl.Logger, path string) (*gorm.DB, error) {
 	return newOrmWithConfig(sqlite.Open(path),
 		&gorm.Config{
-			Logger: orm_logger.NewGormLogger(l),
+			Logger: es_orm_logger.NewGormLogger(l),
 		},
 	)
 }
@@ -18,7 +18,7 @@ func NewOrm(l esl.Logger, path string) (*gorm.DB, error) {
 func NewOrmOnMemory(l esl.Logger) (*gorm.DB, error) {
 	return newOrmWithConfig(sqlite.Open("file::memory:"),
 		&gorm.Config{
-			Logger: orm_logger.NewGormLogger(l),
+			Logger: es_orm_logger.NewGormLogger(l),
 		},
 	)
 }

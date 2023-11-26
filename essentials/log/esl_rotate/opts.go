@@ -2,8 +2,8 @@ package esl_rotate
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_array"
-	"github.com/watermint/toolbox/essentials/collections/es_value"
+	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
+	"github.com/watermint/toolbox/essentials/collections/es_value_deprecated"
 	"github.com/watermint/toolbox/essentials/file/es_gzip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"io/ioutil"
@@ -109,31 +109,31 @@ func (z RotateOpts) CurrentLogs() (entries []os.FileInfo, err error) {
 	return entries, nil
 }
 
-func (z RotateOpts) targetsByCount(entries []os.FileInfo) (purge es_array.Array) {
+func (z RotateOpts) targetsByCount(entries []os.FileInfo) (purge es_array_deprecated.Array) {
 	if z.numBackups == UnlimitedBackups || len(entries) < z.numBackups {
-		return es_array.Empty()
+		return es_array_deprecated.Empty()
 	}
 
 	numLogs := len(entries)
 	numPurge := numLogs - z.numBackups
 	if numPurge < 1 {
-		return es_array.Empty()
+		return es_array_deprecated.Empty()
 	}
 
-	return es_array.NewByFileInfo(entries...).
+	return es_array_deprecated.NewByFileInfo(entries...).
 		Sort().
 		Left(numPurge)
 }
 
-func (z RotateOpts) targetsByQuota(entries []os.FileInfo) (purge es_array.Array) {
+func (z RotateOpts) targetsByQuota(entries []os.FileInfo) (purge es_array_deprecated.Array) {
 	if z.quota == UnlimitedQuota {
-		return es_array.Empty()
+		return es_array_deprecated.Empty()
 	}
 
 	var used int64
-	all := es_array.NewByFileInfo(entries...)
+	all := es_array_deprecated.NewByFileInfo(entries...)
 	preserve := all.Sort().RightWhile(
-		func(v es_value.Value) bool {
+		func(v es_value_deprecated.Value) bool {
 			fi := v.AsInterface().(os.FileInfo)
 			used += fi.Size()
 			return used <= z.quota
@@ -151,9 +151,9 @@ func (z RotateOpts) PurgeTargets() (purge []string, err error) {
 	byCount := z.targetsByCount(logs)
 	byQuota := z.targetsByQuota(logs)
 
-	purge = byCount.Union(byQuota).Map(func(v es_value.Value) es_value.Value {
+	purge = byCount.Union(byQuota).Map(func(v es_value_deprecated.Value) es_value_deprecated.Value {
 		fi := v.AsInterface().(os.FileInfo)
-		return es_value.New(filepath.Join(z.BasePath(), fi.Name()))
+		return es_value_deprecated.New(filepath.Join(z.BasePath(), fi.Name()))
 	}).AsStringArray()
 	return
 }

@@ -1,7 +1,7 @@
 package app_ui
 
 import (
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -42,7 +42,7 @@ func TestMdImpl(t *testing.T) {
 	c.WithTable("s", func(t Table) {
 		t.HeaderRaw("command", "index")
 		for i := 0; i < consoleNumRowsThreshold+1; i++ {
-			t.RowRaw("hello", es_number.New(i).String())
+			t.RowRaw("hello", es_number_deprecated.New(i).String())
 		}
 	})
 }

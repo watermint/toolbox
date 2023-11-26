@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
-	"github.com/watermint/toolbox/essentials/collections/es_array"
+	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
@@ -462,7 +462,7 @@ func (z *specValueSelfContained) Services() []string {
 	for _, c := range conns {
 		services = append(services, c.ServiceName())
 	}
-	return es_array.NewByString(services...).Unique().Sort().AsStringArray()
+	return es_array_deprecated.NewByString(services...).Unique().Sort().AsStringArray()
 }
 
 func (z *specValueSelfContained) ConnUsePersonal() bool {

@@ -1,4 +1,4 @@
-package es_number
+package es_number_deprecated
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_lang"

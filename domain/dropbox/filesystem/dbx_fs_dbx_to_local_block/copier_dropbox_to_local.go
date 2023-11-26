@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/api/api_request"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
@@ -80,7 +80,7 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 		return
 	}
 
-	contentLength := es_number.New(res.Header("Content-Length"))
+	contentLength := es_number_deprecated.New(res.Header("Content-Length"))
 	if !contentLength.IsInt() {
 		l.Debug("invalid content length", esl.String("contentLength", res.Header("Content-Length")))
 		onFailure(pair, dbx_fs.NewError(ErrorInvalidContentLength))
@@ -134,7 +134,7 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 		target.Path(),
 		contentLength.Int64(),
 		func(w es_block.BlockWriter, offset, blockSize int64) {
-			requestRange := fmt.Sprintf("bytes=%d-%d", offset, es_number.Min(offset+blockSize-1, contentLength).Int64())
+			requestRange := fmt.Sprintf("bytes=%d-%d", offset, min(offset+blockSize-1, contentLength.Int64()))
 			res = z.ctx.Download("files/download", revQ, api_request.Header("Range", requestRange))
 			if err, fail := res.Failure(); fail {
 				l.Debug("Error on download", esl.Error(err))

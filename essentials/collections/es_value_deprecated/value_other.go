@@ -1,8 +1,8 @@
-package es_value
+package es_value_deprecated
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 	"strings"
 )
 
@@ -22,8 +22,8 @@ func (z valueOther) String() string {
 	return fmt.Sprintf("%v", z.v)
 }
 
-func (z valueOther) AsNumber() es_number.Number {
-	return es_number.New(z.v)
+func (z valueOther) AsNumber() es_number_deprecated.Number {
+	return es_number_deprecated.New(z.v)
 }
 
 func (z valueOther) AsInterface() interface{} {

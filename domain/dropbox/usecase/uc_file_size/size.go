@@ -4,8 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_size"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
-	"github.com/watermint/toolbox/essentials/collections/es_array"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
 	"strings"
 	"sync"
 )
@@ -45,11 +44,11 @@ func (z *sumImpl) pathsOfEntry(path string) (paths []string) {
 		}
 	}
 	paths = make([]string, 0)
-	x := es_number.Min(z.depth, len(components)+1).Int()
+	x := min(z.depth, len(components)+1)
 	for i := 0; i < x; i++ {
 		paths = append(paths, "/"+strings.Join(components[:i], "/"))
 	}
-	paths = es_array.NewByString(paths...).Unique().AsStringArray()
+	paths = es_array_deprecated.NewByString(paths...).Unique().AsStringArray()
 	return paths
 }
 

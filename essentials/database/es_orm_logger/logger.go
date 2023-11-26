@@ -1,4 +1,4 @@
-package orm_logger
+package es_orm_logger
 
 import (
 	"context"

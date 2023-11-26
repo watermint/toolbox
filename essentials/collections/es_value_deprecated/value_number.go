@@ -1,9 +1,9 @@
-package es_value
+package es_value_deprecated
 
-import "github.com/watermint/toolbox/essentials/collections/es_number"
+import "github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 
 type valueNumber struct {
-	v es_number.Number
+	v es_number_deprecated.Number
 }
 
 func (z valueNumber) IsNumber() bool {
@@ -19,7 +19,7 @@ func (z valueNumber) String() string {
 	return z.v.String()
 }
 
-func (z valueNumber) AsNumber() es_number.Number {
+func (z valueNumber) AsNumber() es_number_deprecated.Number {
 	return z.v
 }
 

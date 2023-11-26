@@ -2,7 +2,6 @@ package es_block
 
 import (
 	"errors"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"os"
 	"sync"
@@ -180,7 +179,7 @@ func (z *bwImpl) noLockReportFinish() {
 func (z *bwImpl) noLockRequestBlocks() {
 	l := z.l.With(esl.String("path", z.path), esl.Int64("fileSize", z.fileSize))
 
-	reqBlocks := es_number.Max(0, z.batchSize-len(z.blockCache)).Int()
+	reqBlocks := max(0, z.batchSize-len(z.blockCache))
 	l.Debug("Request blocks", esl.Int("reqBlocks", reqBlocks))
 
 	for i := 0; i < reqBlocks; i++ {

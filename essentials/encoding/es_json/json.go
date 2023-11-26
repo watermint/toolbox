@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/tidwall/gjson"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
+	"github.com/watermint/toolbox/essentials/collections/es_number_deprecated"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"reflect"
 	"strings"
@@ -63,7 +63,7 @@ type Json interface {
 	Bool() (v bool, t bool)
 
 	// Returns a number value and true if this instance is a number.
-	Number() (v es_number.Number, t bool)
+	Number() (v es_number_deprecated.Number, t bool)
 
 	// Returns a string value and true if this instance is a string.
 	String() (v string, t bool)
@@ -90,7 +90,7 @@ type Json interface {
 	FindBool(path string) (v bool, t bool)
 
 	// Returns a number value and true if this instance is a number.
-	FindNumber(path string) (v es_number.Number, t bool)
+	FindNumber(path string) (v es_number_deprecated.Number, t bool)
 
 	// Returns a string value and true if this instance is a string.
 	FindString(path string) (v string, t bool)
@@ -200,11 +200,11 @@ func (z wrapperImpl) Bool() (v bool, t bool) {
 	return z.r.Bool(), true
 }
 
-func (z wrapperImpl) Number() (v es_number.Number, t bool) {
+func (z wrapperImpl) Number() (v es_number_deprecated.Number, t bool) {
 	if z.r.Type != gjson.Number {
 		return nil, false
 	}
-	return es_number.New(z.r.Raw), true
+	return es_number_deprecated.New(z.r.Raw), true
 }
 
 func (z wrapperImpl) String() (v string, t bool) {
@@ -313,7 +313,7 @@ func (z wrapperImpl) FindBool(path string) (v bool, t bool) {
 	}
 }
 
-func (z wrapperImpl) FindNumber(path string) (v es_number.Number, t bool) {
+func (z wrapperImpl) FindNumber(path string) (v es_number_deprecated.Number, t bool) {
 	if x, found := z.Find(path); !found {
 		return nil, false
 	} else {

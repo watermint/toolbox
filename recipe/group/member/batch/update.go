@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
-	"github.com/watermint/toolbox/essentials/collections/es_array"
+	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -112,8 +112,8 @@ func (z *Update) Exec(c app_control.Control) error {
 
 		for groupName, expectedMembers := range expectedGroupAndMembers {
 			currentMembers := currentGroupAndMembers[groupName]
-			em := es_array.NewByString(expectedMembers...)
-			cm := es_array.NewByString(currentMembers...)
+			em := es_array_deprecated.NewByString(expectedMembers...)
+			cm := es_array_deprecated.NewByString(currentMembers...)
 
 			// add : expected members - current members
 			am := em.Diff(cm)

@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_gin"
 	"github.com/watermint/toolbox/essentials/runtime/es_open"
-	escert "github.com/watermint/toolbox/essentials/security/cert"
+	escert "github.com/watermint/toolbox/essentials/security/es_cert"
 	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_resource"

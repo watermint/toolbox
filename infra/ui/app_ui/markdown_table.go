@@ -2,7 +2,6 @@ package app_ui
 
 import (
 	"fmt"
-	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_width"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -69,9 +68,9 @@ func (z *mdTableImpl) Flush() {
 	}
 
 	for _, row := range z.rows {
-		rowNumCols := es_number.Min(len(row), numCols).Int()
+		rowNumCols := min(len(row), numCols)
 		for i := 0; i < rowNumCols; i++ {
-			cols[i] = es_number.Max(cols[i], es_width.Width(row[i])).Int()
+			cols[i] = max(cols[i], es_width.Width(row[i]))
 		}
 	}
 
@@ -80,7 +79,7 @@ func (z *mdTableImpl) Flush() {
 		for i, c := range row {
 			padding := 0
 			if i < len(cols) {
-				padding = es_number.Max(cols[i]-es_width.Width(c), 0).Int()
+				padding = max(cols[i]-es_width.Width(c), 0)
 			} else {
 				l.Debug("Number of columns exceeds header columns",
 					esl.Int("i", i),

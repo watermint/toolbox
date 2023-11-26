@@ -3,7 +3,7 @@ package cert
 import (
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/essentials/security/cert"
+	"github.com/watermint/toolbox/essentials/security/es_cert"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -22,7 +22,7 @@ func (z *Selfsigned) Preset() {
 }
 
 func (z *Selfsigned) Exec(c app_control.Control) error {
-	crt, key, err := cert.CreateSelfSigned(z.Days.Value())
+	crt, key, err := es_cert.CreateSelfSigned(z.Days.Value())
 	if err != nil {
 		return err
 	}

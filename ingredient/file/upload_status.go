@@ -1,7 +1,6 @@
 package file
 
 import (
-	"github.com/watermint/toolbox/essentials/collections/es_number"
 	"math"
 	"sync/atomic"
 	"time"
@@ -31,7 +30,7 @@ func (z *Status) upload(size int64, chunkSize int) {
 	atomic.AddInt64(&z.summary.NumBytes, size)
 	atomic.AddInt64(&z.summary.NumFilesTransferred, 1)
 
-	apiCalls := es_number.Max(math.Ceil(float64(size)/float64(chunkSize)), 0).Int64()
+	apiCalls := int64(max(math.Ceil(float64(size)/float64(chunkSize)), 0))
 	// Zero size file also consume API
 	if size == 0 || apiCalls < 1 {
 		apiCalls = 1
