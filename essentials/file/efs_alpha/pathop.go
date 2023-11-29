@@ -1,4 +1,4 @@
-package efs_deprecated
+package efs_alpha
 
 type PathOps interface {
 	Exist() (bool, FileSystemOutcome)

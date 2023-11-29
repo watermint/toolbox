@@ -1,7 +1,7 @@
 package efscommon
 
 import (
-	"github.com/watermint/toolbox/essentials/file/efs_deprecated"
+	"github.com/watermint/toolbox/essentials/file/efs_alpha"
 	"strings"
 )
 
@@ -25,7 +25,7 @@ func (z nameOpts) Apply(opts []NameOpt) nameOpts {
 	}
 }
 
-func (z nameOpts) Accept(name string) efs_deprecated.NameOutcome {
+func (z nameOpts) Accept(name string) efs_alpha.NameOutcome {
 	if l := len(name); 0 < z.maxLength && z.maxLength < l {
 		return NewNameOutcomeNameTooLong(l, z.maxLength)
 	}
@@ -79,7 +79,7 @@ func DefineMaxNameLength(max int) NameOpt {
 	}
 }
 
-func NewName(opts ...NameOpt) efs_deprecated.Name {
+func NewName(opts ...NameOpt) efs_alpha.Name {
 	return &nameImpl{
 		opts: nameOpts{}.Apply(opts),
 	}
@@ -89,6 +89,6 @@ type nameImpl struct {
 	opts nameOpts
 }
 
-func (z nameImpl) Accept(name string) efs_deprecated.NameOutcome {
+func (z nameImpl) Accept(name string) efs_alpha.NameOutcome {
 	return z.opts.Accept(name)
 }

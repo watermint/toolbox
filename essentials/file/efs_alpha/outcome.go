@@ -1,4 +1,4 @@
-package efs_deprecated
+package efs_alpha
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated"

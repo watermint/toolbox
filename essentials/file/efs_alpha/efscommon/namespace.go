@@ -1,7 +1,7 @@
 package efscommon
 
 import (
-	efs_deprecated2 "github.com/watermint/toolbox/essentials/file/efs_deprecated"
+	efs_deprecated2 "github.com/watermint/toolbox/essentials/file/efs_alpha"
 )
 
 const (

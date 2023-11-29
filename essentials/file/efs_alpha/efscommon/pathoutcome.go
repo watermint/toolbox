@@ -3,7 +3,7 @@ package efscommon
 import (
 	"errors"
 	"fmt"
-	efs_deprecated2 "github.com/watermint/toolbox/essentials/file/efs_deprecated"
+	efs_deprecated2 "github.com/watermint/toolbox/essentials/file/efs_alpha"
 	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
 )
 

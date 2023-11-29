@@ -1,11 +1,11 @@
 package efswin
 
 import (
-	"github.com/watermint/toolbox/essentials/file/efs_deprecated"
+	"github.com/watermint/toolbox/essentials/file/efs_alpha"
 )
 
 type Namespace interface {
-	efs_deprecated.Namespace
+	efs_alpha.Namespace
 
 	// Server returns name of the server. Returns empty if no server associated with the namespace.
 	Server() string

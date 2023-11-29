@@ -1,4 +1,4 @@
-package efs_deprecated
+package efs_alpha
 
 // FileOps defines operation set for a file.
 type FileOps interface {

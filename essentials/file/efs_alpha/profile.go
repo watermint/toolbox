@@ -1,4 +1,4 @@
-package efs_deprecated
+package efs_alpha
 
 // Profile collection of information about file system with current principle.
 // All profiles are knowledge based on the file system implementation.

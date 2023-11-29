@@ -1,8 +1,8 @@
 package efsunix
 
 import (
-	efs_deprecated2 "github.com/watermint/toolbox/essentials/file/efs_deprecated"
-	"github.com/watermint/toolbox/essentials/file/efs_deprecated/efscommon"
+	efs_deprecated2 "github.com/watermint/toolbox/essentials/file/efs_alpha"
+	"github.com/watermint/toolbox/essentials/file/efs_alpha/efscommon"
 )
 
 const (
