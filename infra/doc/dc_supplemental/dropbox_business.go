@@ -518,6 +518,7 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.UsecaseTeamInfoTitle)
 	z.cat.RecipeTable("information commands", ui, []string{
 		"team feature",
+		"team filesystem",
 		"team info",
 	})
 }

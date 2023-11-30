@@ -401,6 +401,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipesharedlink.List{},
 		&recipesharedlinkfile.List{},
 		&recipeteam.Feature{},
+		&recipeteam.Filesystem{},
 		&recipeteam.Info{},
 		&recipeteamactivity.Event{},
 		&recipeteamactivity.User{},

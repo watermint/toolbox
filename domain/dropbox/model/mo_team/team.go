@@ -24,3 +24,7 @@ type Feature struct {
 	HasTeamSelectiveSync    bool   `path:"has_team_selective_sync.has_team_selective_sync" json:"has_team_selective_sync"`
 	HasDistinctMemberHomes  bool   `path:"has_distinct_member_homes.has_distinct_member_homes" json:"has_distinct_member_homes"`
 }
+
+func (z Feature) FileSystemType() TeamFileSystemType {
+	return IdentifyFileSystemType(&z)
+}

@@ -144,6 +144,7 @@ lang: ja
 | [team device unlink]({{ site.baseurl }}/ja/commands/team-device-unlink.html)                                                   | デバイスのセッションを解除します                                                        |
 | [team feature]({{ site.baseurl }}/ja/commands/team-feature.html)                                                               | チームの機能を出力します                                                                |
 | [team filerequest list]({{ site.baseurl }}/ja/commands/team-filerequest-list.html)                                             | チームないのファイルリクエストを一覧します                                              |
+| [team filesystem]({{ site.baseurl }}/ja/commands/team-filesystem.html)                                                         | Identify team's file system version                                                     |
 | [team info]({{ site.baseurl }}/ja/commands/team-info.html)                                                                     | チームの情報                                                                            |
 | [team legalhold add]({{ site.baseurl }}/ja/commands/team-legalhold-add.html)                                                   | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
 | [team legalhold list]({{ site.baseurl }}/ja/commands/team-legalhold-list.html)                                                 | 既存のポリシーを取得する                                                                |
@@ -283,63 +284,65 @@ lang: ja
 
 ## ユーティリティー
 
-| コマンド                                                                                             | 説明                                                                   |
-|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| [config auth delete]({{ site.baseurl }}/ja/commands/config-auth-delete.html)                         | 既存の認証クレデンシャルの削除                                         |
-| [config auth list]({{ site.baseurl }}/ja/commands/config-auth-list.html)                             | すべての認証情報を一覧表示                                             |
-| [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                                 | 機能を無効化します.                                                    |
-| [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                                   | 機能を有効化します.                                                    |
-| [config features]({{ site.baseurl }}/ja/commands/config-features.html)                               | 利用可能なオプション機能一覧.                                          |
-| [file template apply local]({{ site.baseurl }}/ja/commands/file-template-apply-local.html)           | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
-| [file template capture local]({{ site.baseurl }}/ja/commands/file-template-capture-local.html)       | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
-| [job history archive]({{ site.baseurl }}/ja/commands/job-history-archive.html)                       | ジョブのアーカイブ                                                     |
-| [job history delete]({{ site.baseurl }}/ja/commands/job-history-delete.html)                         | 古いジョブ履歴の削除                                                   |
-| [job history list]({{ site.baseurl }}/ja/commands/job-history-list.html)                             | ジョブ履歴の表示                                                       |
-| [job log jobid]({{ site.baseurl }}/ja/commands/job-log-jobid.html)                                   | 指定したジョブIDのログを取得する                                       |
-| [job log kind]({{ site.baseurl }}/ja/commands/job-log-kind.html)                                     | 指定種別のログを結合して出力します                                     |
-| [job log last]({{ site.baseurl }}/ja/commands/job-log-last.html)                                     | 最後のジョブのログファイルを出力.                                      |
-| [license]({{ site.baseurl }}/ja/commands/license.html)                                               | ライセンス情報を表示します                                             |
-| [util archive unzip]({{ site.baseurl }}/ja/commands/util-archive-unzip.html)                         | ZIPアーカイブファイルを解凍する                                        |
-| [util archive zip]({{ site.baseurl }}/ja/commands/util-archive-zip.html)                             | 対象ファイルをZIPアーカイブに圧縮する                                  |
-| [util cert selfsigned]({{ site.baseurl }}/ja/commands/util-cert-selfsigned.html)                     | 自己署名証明書と鍵の生成                                               |
-| [util database exec]({{ site.baseurl }}/ja/commands/util-database-exec.html)                         | SQLite3データベースファイルへのクエリ実行                              |
-| [util database query]({{ site.baseurl }}/ja/commands/util-database-query.html)                       | SQLite3データベースへの問い合わせ                                      |
-| [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)                               | 現在の日付を表示                                                       |
-| [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)                           | 現在の日時を表示                                                       |
-| [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)                         | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)                         | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util desktop display list]({{ site.baseurl }}/ja/commands/util-desktop-display-list.html)           | List displays of the current machine                                   |
-| [util desktop screenshot snap]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-snap.html)     | Take a screenshot                                                      |
-| [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)                         | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)                         | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util file hash]({{ site.baseurl }}/ja/commands/util-file-hash.html)                                 | ファイルダイジェストの表示                                             |
-| [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                                 | git リポジトリをクローン                                               |
-| [util image exif]({{ site.baseurl }}/ja/commands/util-image-exif.html)                               | 画像ファイルのEXIFメタデータを表示                                     |
-| [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html)                 | プレースホルダー画像の作成                                             |
-| [util net download]({{ site.baseurl }}/ja/commands/util-net-download.html)                           | ファイルをダウンロードする                                             |
-| [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)                         | QRコード画像ファイルの作成                                             |
-| [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)                             | WIFI設定用のQRコードを生成                                             |
-| [util table format xlsx]({{ site.baseurl }}/ja/commands/util-table-format-xlsx.html)                 | xlsxファイルをテキストに整形する                                       |
-| [util text case down]({{ site.baseurl }}/ja/commands/util-text-case-down.html)                       | 小文字のテキストを表示する                                             |
-| [util text case up]({{ site.baseurl }}/ja/commands/util-text-case-up.html)                           | 大文字のテキストを表示する                                             |
-| [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html)               | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
-| [util text encoding to]({{ site.baseurl }}/ja/commands/util-text-encoding-to.html)                   | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
-| [util text nlp english entity]({{ site.baseurl }}/ja/commands/util-text-nlp-english-entity.html)     | 英文をエンティティに分割する                                           |
-| [util text nlp english sentence]({{ site.baseurl }}/ja/commands/util-text-nlp-english-sentence.html) | 英文を文章に分割する                                                   |
-| [util text nlp english token]({{ site.baseurl }}/ja/commands/util-text-nlp-english-token.html)       | 英文をトークンに分割する                                               |
-| [util text nlp japanese token]({{ site.baseurl }}/ja/commands/util-text-nlp-japanese-token.html)     | 日本語テキストのトークン化                                             |
-| [util text nlp japanese wakati]({{ site.baseurl }}/ja/commands/util-text-nlp-japanese-wakati.html)   | 分かち書き(日本語テキストのトークン化)                                 |
-| [util tidy move dispatch]({{ site.baseurl }}/ja/commands/util-tidy-move-dispatch.html)               | ファイルを整理                                                         |
-| [util tidy move simple]({{ site.baseurl }}/ja/commands/util-tidy-move-simple.html)                   | ローカルファイルをアーカイブします                                     |
-| [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                                   | 現在の時刻を表示                                                       |
-| [util unixtime format]({{ site.baseurl }}/ja/commands/util-unixtime-format.html)                     | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
-| [util unixtime now]({{ site.baseurl }}/ja/commands/util-unixtime-now.html)                           | UNIX時間で現在の時刻を表示する                                         |
-| [util uuid v4]({{ site.baseurl }}/ja/commands/util-uuid-v4.html)                                     | UUID v4（ランダムUUID）の生成                                          |
-| [util video subtitles optimize]({{ site.baseurl }}/ja/commands/util-video-subtitles-optimize.html)   | 字幕ファイルの最適化                                                   |
-| [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)                             | 空のスプレッドシートを作成する                                         |
-| [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html)                 | xlsxファイルからデータをエクスポート                                   |
-| [util xlsx sheet import]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-import.html)                 | データをxlsxファイルにインポート                                       |
-| [util xlsx sheet list]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-list.html)                     | xlsxファイルのシート一覧                                               |
-| [version]({{ site.baseurl }}/ja/commands/version.html)                                               | バージョン情報                                                         |
+| コマンド                                                                                                 | 説明                                                                   |
+|----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config auth delete]({{ site.baseurl }}/ja/commands/config-auth-delete.html)                             | 既存の認証クレデンシャルの削除                                         |
+| [config auth list]({{ site.baseurl }}/ja/commands/config-auth-list.html)                                 | すべての認証情報を一覧表示                                             |
+| [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                                     | 機能を無効化します.                                                    |
+| [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                                       | 機能を有効化します.                                                    |
+| [config features]({{ site.baseurl }}/ja/commands/config-features.html)                                   | 利用可能なオプション機能一覧.                                          |
+| [file template apply local]({{ site.baseurl }}/ja/commands/file-template-apply-local.html)               | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
+| [file template capture local]({{ site.baseurl }}/ja/commands/file-template-capture-local.html)           | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
+| [job history archive]({{ site.baseurl }}/ja/commands/job-history-archive.html)                           | ジョブのアーカイブ                                                     |
+| [job history delete]({{ site.baseurl }}/ja/commands/job-history-delete.html)                             | 古いジョブ履歴の削除                                                   |
+| [job history list]({{ site.baseurl }}/ja/commands/job-history-list.html)                                 | ジョブ履歴の表示                                                       |
+| [job log jobid]({{ site.baseurl }}/ja/commands/job-log-jobid.html)                                       | 指定したジョブIDのログを取得する                                       |
+| [job log kind]({{ site.baseurl }}/ja/commands/job-log-kind.html)                                         | 指定種別のログを結合して出力します                                     |
+| [job log last]({{ site.baseurl }}/ja/commands/job-log-last.html)                                         | 最後のジョブのログファイルを出力.                                      |
+| [license]({{ site.baseurl }}/ja/commands/license.html)                                                   | ライセンス情報を表示します                                             |
+| [util archive unzip]({{ site.baseurl }}/ja/commands/util-archive-unzip.html)                             | ZIPアーカイブファイルを解凍する                                        |
+| [util archive zip]({{ site.baseurl }}/ja/commands/util-archive-zip.html)                                 | 対象ファイルをZIPアーカイブに圧縮する                                  |
+| [util cert selfsigned]({{ site.baseurl }}/ja/commands/util-cert-selfsigned.html)                         | 自己署名証明書と鍵の生成                                               |
+| [util database exec]({{ site.baseurl }}/ja/commands/util-database-exec.html)                             | SQLite3データベースファイルへのクエリ実行                              |
+| [util database query]({{ site.baseurl }}/ja/commands/util-database-query.html)                           | SQLite3データベースへの問い合わせ                                      |
+| [util date today]({{ site.baseurl }}/ja/commands/util-date-today.html)                                   | 現在の日付を表示                                                       |
+| [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)                               | 現在の日時を表示                                                       |
+| [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)                             | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)                             | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util desktop display list]({{ site.baseurl }}/ja/commands/util-desktop-display-list.html)               | List displays of the current machine                                   |
+| [util desktop open]({{ site.baseurl }}/ja/commands/util-desktop-open.html)                               | Open a file or folder with the default application                     |
+| [util desktop screenshot interval]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-interval.html) | Take screenshots at regular intervals                                  |
+| [util desktop screenshot snap]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-snap.html)         | Take a screenshot                                                      |
+| [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)                             | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)                             | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util file hash]({{ site.baseurl }}/ja/commands/util-file-hash.html)                                     | ファイルダイジェストの表示                                             |
+| [util git clone]({{ site.baseurl }}/ja/commands/util-git-clone.html)                                     | git リポジトリをクローン                                               |
+| [util image exif]({{ site.baseurl }}/ja/commands/util-image-exif.html)                                   | 画像ファイルのEXIFメタデータを表示                                     |
+| [util image placeholder]({{ site.baseurl }}/ja/commands/util-image-placeholder.html)                     | プレースホルダー画像の作成                                             |
+| [util net download]({{ site.baseurl }}/ja/commands/util-net-download.html)                               | ファイルをダウンロードする                                             |
+| [util qrcode create]({{ site.baseurl }}/ja/commands/util-qrcode-create.html)                             | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi]({{ site.baseurl }}/ja/commands/util-qrcode-wifi.html)                                 | WIFI設定用のQRコードを生成                                             |
+| [util table format xlsx]({{ site.baseurl }}/ja/commands/util-table-format-xlsx.html)                     | xlsxファイルをテキストに整形する                                       |
+| [util text case down]({{ site.baseurl }}/ja/commands/util-text-case-down.html)                           | 小文字のテキストを表示する                                             |
+| [util text case up]({{ site.baseurl }}/ja/commands/util-text-case-up.html)                               | 大文字のテキストを表示する                                             |
+| [util text encoding from]({{ site.baseurl }}/ja/commands/util-text-encoding-from.html)                   | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
+| [util text encoding to]({{ site.baseurl }}/ja/commands/util-text-encoding-to.html)                       | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
+| [util text nlp english entity]({{ site.baseurl }}/ja/commands/util-text-nlp-english-entity.html)         | 英文をエンティティに分割する                                           |
+| [util text nlp english sentence]({{ site.baseurl }}/ja/commands/util-text-nlp-english-sentence.html)     | 英文を文章に分割する                                                   |
+| [util text nlp english token]({{ site.baseurl }}/ja/commands/util-text-nlp-english-token.html)           | 英文をトークンに分割する                                               |
+| [util text nlp japanese token]({{ site.baseurl }}/ja/commands/util-text-nlp-japanese-token.html)         | 日本語テキストのトークン化                                             |
+| [util text nlp japanese wakati]({{ site.baseurl }}/ja/commands/util-text-nlp-japanese-wakati.html)       | 分かち書き(日本語テキストのトークン化)                                 |
+| [util tidy move dispatch]({{ site.baseurl }}/ja/commands/util-tidy-move-dispatch.html)                   | ファイルを整理                                                         |
+| [util tidy move simple]({{ site.baseurl }}/ja/commands/util-tidy-move-simple.html)                       | ローカルファイルをアーカイブします                                     |
+| [util time now]({{ site.baseurl }}/ja/commands/util-time-now.html)                                       | 現在の時刻を表示                                                       |
+| [util unixtime format]({{ site.baseurl }}/ja/commands/util-unixtime-format.html)                         | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now]({{ site.baseurl }}/ja/commands/util-unixtime-now.html)                               | UNIX時間で現在の時刻を表示する                                         |
+| [util uuid v4]({{ site.baseurl }}/ja/commands/util-uuid-v4.html)                                         | UUID v4（ランダムUUID）の生成                                          |
+| [util video subtitles optimize]({{ site.baseurl }}/ja/commands/util-video-subtitles-optimize.html)       | 字幕ファイルの最適化                                                   |
+| [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)                                 | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html)                     | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-import.html)                     | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-list.html)                         | xlsxファイルのシート一覧                                               |
+| [version]({{ site.baseurl }}/ja/commands/version.html)                                                   | バージョン情報                                                         |
 
 

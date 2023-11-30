@@ -331,10 +331,11 @@ tbx member list -experiment report_all_columns
 
 ## チーム情報コマンド
 
-| コマンド                                                         | 説明                     |
-|------------------------------------------------------------------|--------------------------|
-| [team feature]({{ site.baseurl }}/ja/commands/team-feature.html) | チームの機能を出力します |
-| [team info]({{ site.baseurl }}/ja/commands/team-info.html)       | チームの情報             |
+| コマンド                                                               | 説明                                |
+|------------------------------------------------------------------------|-------------------------------------|
+| [team feature]({{ site.baseurl }}/ja/commands/team-feature.html)       | チームの機能を出力します            |
+| [team filesystem]({{ site.baseurl }}/ja/commands/team-filesystem.html) | Identify team's file system version |
+| [team info]({{ site.baseurl }}/ja/commands/team-info.html)             | チームの情報                        |
 
 # Paperコマンド
 

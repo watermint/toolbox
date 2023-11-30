@@ -4,9 +4,9 @@ title: コマンド
 lang: ja
 ---
 
-# dev benchmark upload
+# team filesystem
 
-アップロードのベンチマーク 
+Identify team's file system version 
 
 # セキュリティ
 
@@ -22,14 +22,13 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                                                   |
-|----------------------------------------------------------------------------------------|
-| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集                                 |
+| 説明                                                                           |
+|--------------------------------------------------------------------------------|
+| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
 
 # 認可
 
@@ -66,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark upload -num-files NUM -path /DROPBOX/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM
+.\tbx.exe team filesystem 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark upload -num-files NUM -path /DROPBOX/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM
+$HOME/Desktop/tbx team filesystem 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -82,18 +81,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション           | 説明                                  | デフォルト |
-|----------------------|---------------------------------------|------------|
-| `-block-block-size`  | 一括アップロード時のブロックサイズ    | 24         |
-| `-method`            | アップロード方法                      | block      |
-| `-num-files`         | ファイル数.                           | 1000       |
-| `-path`              | Dropboxパス                           |            |
-| `-peer`              | アカウントの別名                      | default    |
-| `-pre-scan`          | プリスキャンのデスティネーションパス  | false      |
-| `-seq-chunk-size-kb` | チャンクサイズをKiB単位でアップロード | 65536      |
-| `-size-max-kb`       | 最大ファイルサイズ (KiB).             | 2048       |
-| `-size-min-kb`       | 最小ファイルサイズ (KiB).             | 0          |
-| `-verify`            | アップロード後の検証                  | false      |
+| オプション | 説明          | デフォルト |
+|------------|---------------|------------|
+| `-peer`    | Account alias | default    |
 
 ## 共通のオプション:
 
@@ -117,6 +107,34 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: file_system
+
+File system version information
+このコマンドはレポートを3種類の書式で出力します. `file_system.csv`, `file_system.json`, ならびに `file_system.xlsx`.
+
+| 列                                          | 説明                                                            |
+|---------------------------------------------|-----------------------------------------------------------------|
+| version                                     | Version of the file system                                      |
+| release_year                                | Year of the file system release                                 |
+| has_distinct_member_homes                   | True if the team has distinct member home folder                |
+| has_team_shared_dropbox                     | True if the team has team shared Dropbox                        |
+| is_team_folder_api_supported                | True if team folder API is supported                            |
+| is_path_root_required_to_access_team_folder | True if Dropbox-API-Path-Root is required to access team folder |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

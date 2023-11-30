@@ -224,6 +224,7 @@ Available commands:
 | [team device unlink](docs/commands/team-device-unlink.md)                                                   | Unlink device sessions                                                              |
 | [team feature](docs/commands/team-feature.md)                                                               | Team feature                                                                        |
 | [team filerequest list](docs/commands/team-filerequest-list.md)                                             | List all file requests in the team                                                  |
+| [team filesystem](docs/commands/team-filesystem.md)                                                         | Identify team's file system version                                                 |
 | [team info](docs/commands/team-info.md)                                                                     | Team information                                                                    |
 | [team legalhold add](docs/commands/team-legalhold-add.md)                                                   | Creates new legal hold policy.                                                      |
 | [team legalhold list](docs/commands/team-legalhold-list.md)                                                 | Retrieve existing policies                                                          |

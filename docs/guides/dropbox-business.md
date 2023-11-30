@@ -331,10 +331,11 @@ Data migration helper commands copies member folders or team folders to another 
 
 ## Team info commands
 
-| Command                                                       | Description      |
-|---------------------------------------------------------------|------------------|
-| [team feature]({{ site.baseurl }}/commands/team-feature.html) | Team feature     |
-| [team info]({{ site.baseurl }}/commands/team-info.html)       | Team information |
+| Command                                                             | Description                         |
+|---------------------------------------------------------------------|-------------------------------------|
+| [team feature]({{ site.baseurl }}/commands/team-feature.html)       | Team feature                        |
+| [team filesystem]({{ site.baseurl }}/commands/team-filesystem.html) | Identify team's file system version |
+| [team info]({{ site.baseurl }}/commands/team-info.html)             | Team information                    |
 
 # Paper commands
 

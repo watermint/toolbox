@@ -144,6 +144,7 @@ lang: en
 | [team device unlink]({{ site.baseurl }}/commands/team-device-unlink.html)                                                   | Unlink device sessions                                                              |
 | [team feature]({{ site.baseurl }}/commands/team-feature.html)                                                               | Team feature                                                                        |
 | [team filerequest list]({{ site.baseurl }}/commands/team-filerequest-list.html)                                             | List all file requests in the team                                                  |
+| [team filesystem]({{ site.baseurl }}/commands/team-filesystem.html)                                                         | Identify team's file system version                                                 |
 | [team info]({{ site.baseurl }}/commands/team-info.html)                                                                     | Team information                                                                    |
 | [team legalhold add]({{ site.baseurl }}/commands/team-legalhold-add.html)                                                   | Creates new legal hold policy.                                                      |
 | [team legalhold list]({{ site.baseurl }}/commands/team-legalhold-list.html)                                                 | Retrieve existing policies                                                          |
