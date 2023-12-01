@@ -335,6 +335,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesasanaworkspaceproject.List{},
 		&recipeservicesdeepltranslate.Text{},
 		&recipeservicesdropboxuser.Feature{},
+		&recipeservicesdropboxuser.Filesystem{},
 		&recipeservicesdropboxuser.Info{},
 		&recipeservicesdropboxsignaccount.Info{},
 		&recipeservicesfigmaaccount.Info{},

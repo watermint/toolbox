@@ -4,6 +4,15 @@ type TeamFileSystemType string
 
 func (z TeamFileSystemType) Version() FileSystemVersion {
 	switch z {
+	case TeamFileSystemIndividual:
+		return FileSystemVersion{
+			Version:                              string(z),
+			ReleaseYear:                          2007,
+			HasDistinctMemberHomes:               false,
+			HasTeamSharedDropbox:                 false,
+			IsTeamFolderApiSupported:             false,
+			IsPathRootRequiredToAccessTeamFolder: false,
+		}
 	case TeamFileSystem2016TeamFolder:
 		return FileSystemVersion{
 			Version:                              string(z),
@@ -44,6 +53,9 @@ func (z TeamFileSystemType) Version() FileSystemVersion {
 }
 
 const (
+	// TeamFileSystemIndividual Individual account file system
+	TeamFileSystemIndividual TeamFileSystemType = "2007_individual"
+
 	// TeamFileSystem2016TeamFolder Team folder
 	// Release year: 2016, https://blog.dropbox.com/topics/company/announcing-adminx
 	TeamFileSystem2016TeamFolder TeamFileSystemType = "2016_team_folder"
@@ -60,12 +72,16 @@ const (
 )
 
 func IdentifyFileSystemType(f *Feature) TeamFileSystemType {
+	return IdentifyFileSystemTypeByParam(f.HasDistinctMemberHomes, f.HasTeamSharedDropbox)
+}
+
+func IdentifyFileSystemTypeByParam(hasDistinctMemberHomes, hasTeamSharedDropbox bool) TeamFileSystemType {
 	switch {
-	case f.HasDistinctMemberHomes && !f.HasTeamSharedDropbox:
+	case hasDistinctMemberHomes && !hasTeamSharedDropbox:
 		return TeamFileSystem2023TeamSpace
-	case f.HasDistinctMemberHomes && f.HasTeamSharedDropbox:
+	case hasDistinctMemberHomes && hasTeamSharedDropbox:
 		return TeamFileSystem2017TeamSpace
-	case !f.HasDistinctMemberHomes && !f.HasTeamSharedDropbox:
+	case !hasDistinctMemberHomes && !hasTeamSharedDropbox:
 		return TeamFileSystem2016TeamFolder
 	default:
 		return TeamFileSystemUnknown
