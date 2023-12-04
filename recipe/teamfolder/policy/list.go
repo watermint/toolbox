@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -14,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/teamfolder"
 )
 
 type List struct {
@@ -54,7 +54,7 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
+	if ok, _ := sv_team.UnlessTeamFolderApiSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}

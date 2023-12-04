@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -14,7 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/teamfolder"
 )
 
 type Replication struct {
@@ -52,11 +52,11 @@ func (z *Replication) Preset() {
 }
 
 func (z *Replication) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Src.Client()); ok {
+	if ok, _ := sv_team.UnlessTeamFolderApiSupported(z.Src.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupportedSrc)
 		return errors.New("team space is not supported by this command")
 	}
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Dst.Client()); ok {
+	if ok, _ := sv_team.UnlessTeamFolderApiSupported(z.Dst.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupportedDst)
 		return errors.New("team space is not supported by this command")
 	}

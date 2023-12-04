@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -16,7 +17,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/teamfolder"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
@@ -60,7 +60,7 @@ func (z *Release) Preset() {
 }
 
 func (z *Release) Exec(c app_control.Control) error {
-	if ok, _ := teamfolder.IsTeamSpaceSupported(z.Peer.Client()); ok {
+	if ok, _ := sv_team.UnlessTeamFolderApiSupported(z.Peer.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupported)
 		return errors.New("team space is not supported by this command")
 	}

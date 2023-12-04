@@ -190,11 +190,11 @@ type Replication struct {
 }
 
 func (z *Replication) Exec(c app_control.Control) (err error) {
-	if ok, _ := IsTeamSpaceSupported(z.Src.Client()); ok {
+	if ok, _ := sv_team.UnlessTeamFolderApiSupported(z.Src.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupportedSrcIsTeamSpace)
 		return errors.New("team space is not supported by this command")
 	}
-	if ok, _ := IsTeamSpaceSupported(z.Dst.Client()); ok {
+	if ok, _ := sv_team.UnlessTeamFolderApiSupported(z.Dst.Client()); ok {
 		c.UI().Error(z.ErrorTeamSpaceNotSupportedDstIsTeamSpace)
 		return errors.New("team space is not supported by this command")
 	}

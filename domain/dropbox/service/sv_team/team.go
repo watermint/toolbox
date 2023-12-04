@@ -20,6 +20,30 @@ type Team interface {
 	Feature() (feature *mo_team.Feature, err error)
 }
 
+func IsTeamFolderApiSupported(ctx dbx_client.Client) (bool, error) {
+	f, err := New(ctx).Feature()
+	if err != nil {
+		return false, err
+	}
+	return f.FileSystemType().Version().IsTeamFolderApiSupported, nil
+}
+
+func UnlessTeamFolderApiSupported(ctx dbx_client.Client) (bool, error) {
+	supported, err := IsTeamFolderApiSupported(ctx)
+	if err != nil {
+		return false, err
+	}
+	return !supported, nil
+}
+
+func IsPathRootRequiredToAccessTeamFolder(ctx dbx_client.Client) (bool, error) {
+	f, err := New(ctx).Feature()
+	if err != nil {
+		return false, err
+	}
+	return f.FileSystemType().Version().IsPathRootRequiredToAccessTeamFolder, nil
+}
+
 func New(ctx dbx_client.Client) Team {
 	return &teamImpl{
 		ctx: ctx,
