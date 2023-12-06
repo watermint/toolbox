@@ -406,7 +406,8 @@ func (z *Publish) Exec(c app_control.Control) error {
 			strings.HasSuffix(a.Name, "linux-arm64.zip"),
 			strings.HasSuffix(a.Name, "linux-arm.zip"):
 			assetLinuxArm = a
-		case strings.HasSuffix(a.Name, "win-intel.zip"),
+		case strings.HasSuffix(a.Name, "win.zip"),
+			strings.HasSuffix(a.Name, "win-intel.zip"),
 			strings.HasSuffix(a.Name, "win-amd64.zip"),
 			strings.HasSuffix(a.Name, "win-x86_64.zip"):
 			assetWinIntel = a
