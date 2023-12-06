@@ -6,7 +6,7 @@ lang: ja
 
 # util desktop screenshot snap
 
-Take a screenshot 
+スクリーンショットを撮る 
 
 # インストール
 
@@ -38,10 +38,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                                                                                         | デフォルト |
-|---------------|----------------------------------------------------------------------------------------------|------------|
-| `-display-id` | Display ID. Please refer to the output of command `util desktop display list` to get the ID. | 0          |
-| `-path`       | Path to save the screenshot                                                                  |            |
+| オプション    | 説明                                                                                             | デフォルト |
+|---------------|--------------------------------------------------------------------------------------------------|------------|
+| `-display-id` | ディスプレイ ID. IDを取得するには、`util desktop display list`コマンドの出力を参照してください。 | 0          |
+| `-path`       | スクリーンショットを保存するパス                                                                 |            |
 
 ## 共通のオプション:
 

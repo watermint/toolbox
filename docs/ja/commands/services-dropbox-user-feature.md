@@ -127,8 +127,8 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
 | paper_as_files       | この値がtrueの場合、ユーザーのPaperドキュメントは、Dropboxで.paperという拡張子でアクセスでき、/filesエンドポイントを介してアクセスする必要があります. |
 | file_locking         | この値がTrueの場合、ユーザーは共有フォルダ内のファイルをロックすることができます.                                                                     |
-| team_shared_dropbox  | This feature contains information about whether or not the user is part of a team with a shared team root.                                            |
-| distinct_member_home | his feature contains information about whether or not the user's home namespace is distinct from their root namespace.                                |
+| team_shared_dropbox  | この機能には、ユーザーがチームルートを共有するチームに所属しているかどうかの情報が含まれています。                                                    |
+| distinct_member_home | この機能には、ユーザーのホーム・ネームスペースがルート・ネームスペースと区別されているかどうかの情報が含まれています.                                 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

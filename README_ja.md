@@ -134,7 +134,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [filerequest list](docs/ja/commands/filerequest-list.md)                                 | 個人アカウントのファイルリクエストを一覧.                                 |
 | [job history ship](docs/ja/commands/job-history-ship.md)                                 | ログの転送先Dropboxパス                                                   |
 | [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md)       | 現在のユーザーの機能設定の一覧                                            |
-| [services dropbox user filesystem](docs/ja/commands/services-dropbox-user-filesystem.md) | Identify user's team file system version                                  |
+| [services dropbox user filesystem](docs/ja/commands/services-dropbox-user-filesystem.md) | ユーザーのチームのファイルシステムのバージョンを特定する                  |
 | [services dropbox user info](docs/ja/commands/services-dropbox-user-info.md)             | 現在のアカウント情報を取得する                                            |
 | [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                             | 共有フォルダーから退出する.                                               |
 | [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                               | 共有フォルダの一覧                                                        |
@@ -223,7 +223,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [team device unlink](docs/ja/commands/team-device-unlink.md)                                                   | デバイスのセッションを解除します                                                        |
 | [team feature](docs/ja/commands/team-feature.md)                                                               | チームの機能を出力します                                                                |
 | [team filerequest list](docs/ja/commands/team-filerequest-list.md)                                             | チームないのファイルリクエストを一覧します                                              |
-| [team filesystem](docs/ja/commands/team-filesystem.md)                                                         | Identify team's file system version                                                     |
+| [team filesystem](docs/ja/commands/team-filesystem.md)                                                         | チームのファイルシステムのバージョンを特定する                                          |
 | [team info](docs/ja/commands/team-info.md)                                                                     | チームの情報                                                                            |
 | [team legalhold add](docs/ja/commands/team-legalhold-add.md)                                                   | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
 | [team legalhold list](docs/ja/commands/team-legalhold-list.md)                                                 | 既存のポリシーを取得する                                                                |
@@ -288,9 +288,9 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## DeepL
 
-| コマンド                                                                           | 説明           |
-|------------------------------------------------------------------------------------|----------------|
-| [services deepl translate text](docs/ja/commands/services-deepl-translate-text.md) | Translate text |
+| コマンド                                                                           | 説明               |
+|------------------------------------------------------------------------------------|--------------------|
+| [services deepl translate text](docs/ja/commands/services-deepl-translate-text.md) | テキストを翻訳する |
 
 ## Figma
 
@@ -388,10 +388,10 @@ DropboxおよびDropbox Business向けのツールセット
 | [util datetime now](docs/ja/commands/util-datetime-now.md)                               | 現在の日時を表示                                                       |
 | [util decode base32](docs/ja/commands/util-decode-base32.md)                             | Base32 (RFC 4648) 形式からテキストをデコードします                     |
 | [util decode base64](docs/ja/commands/util-decode-base64.md)                             | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util desktop display list](docs/ja/commands/util-desktop-display-list.md)               | List displays of the current machine                                   |
-| [util desktop open](docs/ja/commands/util-desktop-open.md)                               | Open a file or folder with the default application                     |
-| [util desktop screenshot interval](docs/ja/commands/util-desktop-screenshot-interval.md) | Take screenshots at regular intervals                                  |
-| [util desktop screenshot snap](docs/ja/commands/util-desktop-screenshot-snap.md)         | Take a screenshot                                                      |
+| [util desktop display list](docs/ja/commands/util-desktop-display-list.md)               | このマシンのディスプレイを一覧表示                                     |
+| [util desktop open](docs/ja/commands/util-desktop-open.md)                               | デフォルトのアプリケーションでファイルやフォルダを開く                 |
+| [util desktop screenshot interval](docs/ja/commands/util-desktop-screenshot-interval.md) | 定期的にスクリーンショットを撮る                                       |
+| [util desktop screenshot snap](docs/ja/commands/util-desktop-screenshot-snap.md)         | スクリーンショットを撮る                                               |
 | [util encode base32](docs/ja/commands/util-encode-base32.md)                             | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base64](docs/ja/commands/util-encode-base64.md)                             | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util file hash](docs/ja/commands/util-file-hash.md)                                     | ファイルダイジェストの表示                                             |

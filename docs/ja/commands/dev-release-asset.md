@@ -6,7 +6,7 @@ lang: ja
 
 # dev release asset
 
-Commit a file to a repository 
+ファイルをリポジトリにコミットする 
 
 # セキュリティ
 
@@ -77,15 +77,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-branch`  | Branch name      |            |
-| `-message` | Commit message   |            |
-| `-owner`   | Repository owner |            |
-| `-path`    | Content path     |            |
-| `-peer`    | Account alias    | default    |
-| `-repo`    | Repository name  |            |
-| `-text`    | Text content     |            |
+| オプション | 説明               | デフォルト |
+|------------|--------------------|------------|
+| `-branch`  | ブランチ名         |            |
+| `-message` | コミットメッセージ |            |
+| `-owner`   | レポジトリの所有者 |            |
+| `-path`    | コンテンツパス     |            |
+| `-peer`    | アカウントの別名   | default    |
+| `-repo`    | レポジトリ名       |            |
+| `-text`    | テキストコンテンツ |            |
 
 ## 共通のオプション:
 

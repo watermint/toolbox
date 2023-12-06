@@ -56,7 +56,7 @@ lang: ja
 | [filerequest list]({{ site.baseurl }}/ja/commands/filerequest-list.html)                                 | 個人アカウントのファイルリクエストを一覧.                                 |
 | [job history ship]({{ site.baseurl }}/ja/commands/job-history-ship.html)                                 | ログの転送先Dropboxパス                                                   |
 | [services dropbox user feature]({{ site.baseurl }}/ja/commands/services-dropbox-user-feature.html)       | 現在のユーザーの機能設定の一覧                                            |
-| [services dropbox user filesystem]({{ site.baseurl }}/ja/commands/services-dropbox-user-filesystem.html) | Identify user's team file system version                                  |
+| [services dropbox user filesystem]({{ site.baseurl }}/ja/commands/services-dropbox-user-filesystem.html) | ユーザーのチームのファイルシステムのバージョンを特定する                  |
 | [services dropbox user info]({{ site.baseurl }}/ja/commands/services-dropbox-user-info.html)             | 現在のアカウント情報を取得する                                            |
 | [sharedfolder leave]({{ site.baseurl }}/ja/commands/sharedfolder-leave.html)                             | 共有フォルダーから退出する.                                               |
 | [sharedfolder list]({{ site.baseurl }}/ja/commands/sharedfolder-list.html)                               | 共有フォルダの一覧                                                        |
@@ -145,7 +145,7 @@ lang: ja
 | [team device unlink]({{ site.baseurl }}/ja/commands/team-device-unlink.html)                                                   | デバイスのセッションを解除します                                                        |
 | [team feature]({{ site.baseurl }}/ja/commands/team-feature.html)                                                               | チームの機能を出力します                                                                |
 | [team filerequest list]({{ site.baseurl }}/ja/commands/team-filerequest-list.html)                                             | チームないのファイルリクエストを一覧します                                              |
-| [team filesystem]({{ site.baseurl }}/ja/commands/team-filesystem.html)                                                         | Identify team's file system version                                                     |
+| [team filesystem]({{ site.baseurl }}/ja/commands/team-filesystem.html)                                                         | チームのファイルシステムのバージョンを特定する                                          |
 | [team info]({{ site.baseurl }}/ja/commands/team-info.html)                                                                     | チームの情報                                                                            |
 | [team legalhold add]({{ site.baseurl }}/ja/commands/team-legalhold-add.html)                                                   | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
 | [team legalhold list]({{ site.baseurl }}/ja/commands/team-legalhold-list.html)                                                 | 既存のポリシーを取得する                                                                |
@@ -210,9 +210,9 @@ lang: ja
 
 ## DeepL
 
-| コマンド                                                                                           | 説明           |
-|----------------------------------------------------------------------------------------------------|----------------|
-| [services deepl translate text]({{ site.baseurl }}/ja/commands/services-deepl-translate-text.html) | Translate text |
+| コマンド                                                                                           | 説明               |
+|----------------------------------------------------------------------------------------------------|--------------------|
+| [services deepl translate text]({{ site.baseurl }}/ja/commands/services-deepl-translate-text.html) | テキストを翻訳する |
 
 ## Figma
 
@@ -310,10 +310,10 @@ lang: ja
 | [util datetime now]({{ site.baseurl }}/ja/commands/util-datetime-now.html)                               | 現在の日時を表示                                                       |
 | [util decode base32]({{ site.baseurl }}/ja/commands/util-decode-base32.html)                             | Base32 (RFC 4648) 形式からテキストをデコードします                     |
 | [util decode base64]({{ site.baseurl }}/ja/commands/util-decode-base64.html)                             | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util desktop display list]({{ site.baseurl }}/ja/commands/util-desktop-display-list.html)               | List displays of the current machine                                   |
-| [util desktop open]({{ site.baseurl }}/ja/commands/util-desktop-open.html)                               | Open a file or folder with the default application                     |
-| [util desktop screenshot interval]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-interval.html) | Take screenshots at regular intervals                                  |
-| [util desktop screenshot snap]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-snap.html)         | Take a screenshot                                                      |
+| [util desktop display list]({{ site.baseurl }}/ja/commands/util-desktop-display-list.html)               | このマシンのディスプレイを一覧表示                                     |
+| [util desktop open]({{ site.baseurl }}/ja/commands/util-desktop-open.html)                               | デフォルトのアプリケーションでファイルやフォルダを開く                 |
+| [util desktop screenshot interval]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-interval.html) | 定期的にスクリーンショットを撮る                                       |
+| [util desktop screenshot snap]({{ site.baseurl }}/ja/commands/util-desktop-screenshot-snap.html)         | スクリーンショットを撮る                                               |
 | [util encode base32]({{ site.baseurl }}/ja/commands/util-encode-base32.html)                             | テキストをBase32(RFC 4648)形式にエンコード                             |
 | [util encode base64]({{ site.baseurl }}/ja/commands/util-encode-base64.html)                             | テキストをBase64(RFC 4648)形式にエンコード                             |
 | [util file hash]({{ site.baseurl }}/ja/commands/util-file-hash.html)                                     | ファイルダイジェストの表示                                             |

@@ -6,7 +6,7 @@ lang: ja
 
 # services dropbox user filesystem
 
-Identify user's team file system version 
+ユーザーのチームのファイルシステムのバージョンを特定する 
 
 # セキュリティ
 
@@ -81,9 +81,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明          | デフォルト |
-|------------|---------------|------------|
-| `-peer`    | Account alias | default    |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -120,17 +120,17 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: file_system
 
-File system version information
+ファイルシステムのバージョン情報
 このコマンドはレポートを3種類の書式で出力します. `file_system.csv`, `file_system.json`, ならびに `file_system.xlsx`.
 
-| 列                                          | 説明                                                            |
-|---------------------------------------------|-----------------------------------------------------------------|
-| version                                     | Version of the file system                                      |
-| release_year                                | Year of the file system release                                 |
-| has_distinct_member_homes                   | True if the team has distinct member home folder                |
-| has_team_shared_dropbox                     | True if the team has team shared Dropbox                        |
-| is_team_folder_api_supported                | True if team folder API is supported                            |
-| is_path_root_required_to_access_team_folder | True if Dropbox-API-Path-Root is required to access team folder |
+| 列                                          | 説明                                                              |
+|---------------------------------------------|-------------------------------------------------------------------|
+| version                                     | ファイルシステムのバージョン                                      |
+| release_year                                | ファイルシステムのリリース年                                      |
+| has_distinct_member_homes                   | チームに個別のメンバーホームフォルダがある場合は真                |
+| has_team_shared_dropbox                     | チームがDropboxを共有している場合は真                             |
+| is_team_folder_api_supported                | チームフォルダAPIがサポートされていれば真                         |
+| is_path_root_required_to_access_team_folder | チームフォルダへのアクセスにDropbox-API-Path-Rootが必要な場合は真 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

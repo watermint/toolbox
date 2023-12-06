@@ -6,7 +6,7 @@ lang: ja
 
 # services deepl translate text
 
-Translate text 
+テキストを翻訳する 
 
 # セキュリティ
 
@@ -26,14 +26,14 @@ Translate text
 
 ## 認可スコープ
 
-| 説明                    |
-|-------------------------|
-| DeepL: DeepL API access |
+| 説明                         |
+|------------------------------|
+| DeepL: DeepL APIへのアクセス |
 
 # 認可
 
 最初の実行では、`tbx`はあなたのDeepLアカウントへの認可を要求します.
-Log in to DeepL and copy the API. Then, enter the copied API key into tbx.
+DeepL にログインし、API をコピーします。次に、コピーしたAPIキーをtbxに入力する。
 ```
 
 watermint toolbox xx.x.xxx
@@ -42,7 +42,7 @@ watermint toolbox xx.x.xxx
 © 2016-2023 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-Please enter your API key(s).
+APIキーを入力してください。
 ```
 
 # インストール
@@ -75,12 +75,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション     | 説明                                            | デフォルト |
-|----------------|-------------------------------------------------|------------|
-| `-peer`        | Account alias                                   | default    |
-| `-source-lang` | Source language code (auto detect when omitted) |            |
-| `-target-lang` | Target language code                            |            |
-| `-text`        | Text to translate                               |            |
+| オプション     | 説明                                 | デフォルト |
+|----------------|--------------------------------------|------------|
+| `-peer`        | アカウントの別名                     | default    |
+| `-source-lang` | ソース言語コード（省略時は自動検出） |            |
+| `-target-lang` | 対象言語コード                       |            |
+| `-text`        | 翻訳するテキスト                     |            |
 
 ## 共通のオプション:
 

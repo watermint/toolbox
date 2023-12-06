@@ -38,9 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description              | Default |
-|---------|--------------------------|---------|
-| `-path` | Path to the open command |         |
+| Option  | Description                        | Default |
+|---------|------------------------------------|---------|
+| `-path` | Path to the file or folder to open |         |
 
 ## Common options:
 

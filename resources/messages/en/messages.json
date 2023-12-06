@@ -3374,7 +3374,7 @@
   "recipe.util.desktop.display.list.title": "List displays of the current machine",
   "recipe.util.desktop.display.title": "Commands for display",
   "recipe.util.desktop.open.cli.args": "-path /LOCAL/PATH/TO/open",
-  "recipe.util.desktop.open.flag.path": "Path to the open command",
+  "recipe.util.desktop.open.flag.path": "Path to the file or folder to open",
   "recipe.util.desktop.open.title": "Open a file or folder with the default application",
   "recipe.util.desktop.screenshot.interval.cli.args": "-path /LOCAL/PATH/TO/SCREENSHOT/DIR -interval INTERVAL_SECONDS",
   "recipe.util.desktop.screenshot.interval.err_no_display": "No display found. Please check the display ID.",

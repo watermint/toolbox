@@ -6,7 +6,7 @@ lang: ja
 
 # util desktop display list
 
-List displays of the current machine 
+このマシンのディスプレイを一覧表示 
 
 # インストール
 
@@ -71,16 +71,16 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: displays
 
-Display information
+ディスプレイの情報
 このコマンドはレポートを3種類の書式で出力します. `displays.csv`, `displays.json`, ならびに `displays.xlsx`.
 
-| 列     | 説明               |
-|--------|--------------------|
-| id     | Display ID         |
-| x      | Display X position |
-| y      | Display Y position |
-| width  | Display width      |
-| height | Display height     |
+| 列     | 説明                |
+|--------|---------------------|
+| id     | ディスプレイID      |
+| x      | ディスプレイのX位置 |
+| y      | ディスプレイのY位置 |
+| width  | ディスプレイの幅    |
+| height | ディスプレイの高さ  |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

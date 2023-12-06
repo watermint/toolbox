@@ -130,7 +130,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | has_team_shared_dropbox     | このチームが共有されたチームルートを持っているかどうか |
 | has_team_file_events        | このチームがファイルイベント機能を持っているかどうか   |
 | has_team_selective_sync     | このチームがチーム選択型同期を有効化しているかどうか   |
-| has_distinct_member_homes   | Does this team have team member folder.                |
+| has_distinct_member_homes   | このチームにはメンバーフォルダーがありますか。         |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
