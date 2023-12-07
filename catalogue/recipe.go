@@ -205,6 +205,7 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevkvs.Dump{},
 		&recipedevmodule.List{},
 		&recipedevrelease.Asset{},
+		&recipedevrelease.Asseturl{},
 		&recipedevrelease.Candidate{},
 		&recipedevrelease.Doc{},
 		&recipedevrelease.Publish{},

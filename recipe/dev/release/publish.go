@@ -54,6 +54,7 @@ type Publish struct {
 	Recipe       *test.Recipe
 	Formula      *homebrew.Formula
 	Asset        *Asset
+	Asseturl     *Asseturl
 
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
@@ -387,30 +388,17 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel, assetWinIntel *mo_release_asset.Asset
+	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel *mo_release_asset.Asset
 	for _, a := range assets {
-		switch {
-		case strings.HasSuffix(a.Name, "mac-intel.zip"),
-			strings.HasSuffix(a.Name, "mac-amd64.zip"),
-			strings.HasSuffix(a.Name, "mac-x86_64.zip"):
+		switch IdentifyPlatform(a) {
+		case AssetPlatformMacIntel:
 			assetMacIntel = a
-		case strings.HasSuffix(a.Name, "mac-applesilicon.zip"),
-			strings.HasSuffix(a.Name, "mac-arm64.zip"),
-			strings.HasSuffix(a.Name, "mac-arm.zip"):
+		case AssetPlatformMacArm:
 			assetMacArm = a
-		case strings.HasSuffix(a.Name, "linux-intel.zip"),
-			strings.HasSuffix(a.Name, "linux-amd64.zip"),
-			strings.HasSuffix(a.Name, "linux-x86_64.zip"):
+		case AssetPlatformLinuxIntel:
 			assetLinuxIntel = a
-		case strings.HasSuffix(a.Name, "linux-arm.zip"),
-			strings.HasSuffix(a.Name, "linux-arm64.zip"),
-			strings.HasSuffix(a.Name, "linux-arm.zip"):
+		case AssetPlatformLinuxArm:
 			assetLinuxArm = a
-		case strings.HasSuffix(a.Name, "win.zip"),
-			strings.HasSuffix(a.Name, "win-intel.zip"),
-			strings.HasSuffix(a.Name, "win-amd64.zip"),
-			strings.HasSuffix(a.Name, "win-x86_64.zip"):
-			assetWinIntel = a
 		}
 	}
 
@@ -425,29 +413,17 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	assetUrls := map[string]string{
-		"mac-intel":   assetMacIntel.DownloadUrl,
-		"mac-arm":     assetMacArm.DownloadUrl,
-		"linux-intel": assetLinuxIntel.DownloadUrl,
-		"linux-arm":   assetLinuxArm.DownloadUrl,
-		"win-intel":   assetWinIntel.DownloadUrl,
-	}
-	l.Info("Update latest the asset URLs", esl.Any("urls", assetUrls))
-	for platform, url := range assetUrls {
-		l.Info("Update latest the asset URL", esl.String("platform", platform), esl.String("url", url))
-		err := rc_exec.Exec(c, z.Asset, func(r rc_recipe.Recipe) {
-			m := r.(*Asset)
-			m.Owner = homebrewRepoOwner
-			m.Repo = homebrewRepoName
-			m.Branch = homebrewRepoBranch
-			m.Path = "/latest/" + platform + ".url"
-			m.Text = url
-			m.Message = app.BuildId + " " + platform + " latest binary URL"
-		})
-		if err != nil {
-			l.Debug("Unable to update the asset URL", esl.Error(err))
-			return err
-		}
+	err = rc_exec.Exec(c, z.Asseturl, func(r rc_recipe.Recipe) {
+		m := r.(*Asseturl)
+		m.SourceOwner = app.RepositoryOwner
+		m.SourceRepo = app.RepositoryName
+		m.TargetOwner = homebrewRepoOwner
+		m.TargetRepo = homebrewRepoName
+		m.TargetBranch = homebrewRepoBranch
+	})
+	if err != nil {
+		l.Error("Unable to update asset URL", esl.Error(err))
+		return err
 	}
 
 	l.Info("The build is ready to publish")
