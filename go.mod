@@ -11,7 +11,7 @@ require (
 	github.com/dgraph-io/badger/v4 v4.2.0
 	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
 	github.com/gin-gonic/gin v1.9.1
-	github.com/go-git/go-git/v5 v5.10.1
+	github.com/go-git/go-git/v5 v5.11.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
 	github.com/google/go-cmp v0.6.0
 	github.com/google/go-querystring v1.1.0
@@ -50,7 +50,6 @@ require (
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/abcum/lcp v0.0.0-20201209214815-7a3f3840be81 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
-	github.com/acomagu/bufpipe v1.0.4 // indirect
 	github.com/asticode/go-astits v1.13.0 // indirect
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
