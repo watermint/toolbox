@@ -3,32 +3,34 @@ package rc_value
 import (
 	"encoding/json"
 	"flag"
-	"github.com/watermint/toolbox/domain/github/api/gh_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/quality/infra/qt_control"
 	"testing"
 )
 
-type ValueGhConnGithubPrivateRecipe struct {
-	Peer gh_conn.ConnGithubRepo
+type ValueConnBaseRecipe struct {
+	Peer dbx_conn.ConnScopedIndividual
 }
 
-func (z *ValueGhConnGithubPrivateRecipe) Preset() {
+func (z *ValueConnBaseRecipe) Preset() {
 	z.Peer.SetPeerName("value_test")
 }
 
-func (z *ValueGhConnGithubPrivateRecipe) Exec(c app_control.Control) error {
+func (z *ValueConnBaseRecipe) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *ValueGhConnGithubPrivateRecipe) Test(c app_control.Control) error {
+func (z *ValueConnBaseRecipe) Test(c app_control.Control) error {
 	return nil
 }
 
-func TestValueGhConnGithubPrivate(t *testing.T) {
+func TestValueConnBaseRecipe(t *testing.T) {
 	err := qt_control.WithControl(func(c app_control.Control) error {
-		rcp0 := &ValueGhConnGithubPrivateRecipe{}
+		rcp0 := &ValueConnBaseRecipe{}
 		repo := NewRepository(rcp0)
 
 		// Parse flags
@@ -41,7 +43,7 @@ func TestValueGhConnGithubPrivate(t *testing.T) {
 
 		// Apply parsed values
 		rcp1 := repo.Apply()
-		mod1 := rcp1.(*ValueGhConnGithubPrivateRecipe)
+		mod1 := rcp1.(*ValueConnBaseRecipe)
 		if mod1.Peer.PeerName() != "by_argument" {
 			t.Error(mod1)
 		}
@@ -53,7 +55,7 @@ func TestValueGhConnGithubPrivate(t *testing.T) {
 			t.Error(err)
 			return err
 		}
-		mod2 := rcp2.(*ValueGhConnGithubPrivateRecipe)
+		mod2 := rcp2.(*ValueConnBaseRecipe)
 		if mod1.Peer.PeerName() != "by_argument" {
 			t.Error(mod2)
 		}
@@ -70,9 +72,13 @@ func TestValueGhConnGithubPrivate(t *testing.T) {
 	}
 }
 
-func TestValueGhConnGithubRepo_Capture(t *testing.T) {
+func TestValueConnBase_Restore(t *testing.T) {
 	err := qt_control.WithControl(func(ctl app_control.Control) error {
-		v := newValueGhConnGithubRepo("123")
+		v := newValueConn((*dbx_conn.ConnScopedIndividual)(nil), func(peerName string) api_conn.Connection {
+			return dbx_conn_impl.NewConnScopedIndividual(peerName)
+		})
+		v.ApplyPreset(dbx_conn_impl.NewConnScopedIndividual("123"))
+
 		vc, err := v.Capture(ctl)
 		if err != nil {
 			t.Error(err)
@@ -88,7 +94,9 @@ func TestValueGhConnGithubRepo_Capture(t *testing.T) {
 			t.Error(err)
 		}
 
-		v2 := newValueGhConnGithubRepo("123")
+		v2 := newValueConn((*dbx_conn.ConnScopedIndividual)(nil), func(peerName string) api_conn.Connection {
+			return dbx_conn_impl.NewConnScopedIndividual(peerName)
+		})
 
 		err = v2.Restore(capJson, ctl)
 		if err != nil {

@@ -81,7 +81,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |------------|--------------------------------|---------|
 | `-after`   | Retrieve messages after this.  |         |
 | `-channel` | Channel ID (like C1234567890). |         |
-| `-peer`    | Account alias                  | Peer    |
+| `-peer`    | Account alias                  | default |
 
 ## Common options:
 

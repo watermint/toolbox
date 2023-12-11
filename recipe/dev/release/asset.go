@@ -72,5 +72,6 @@ func (z *Asset) Test(c app_control.Control) error {
 		m.Branch = "master"
 		m.Path = "release/asset.go"
 		m.Text = "https://github.com/watermint/toolbox/blob/main/BUILD.md"
+		m.Message = "Test commit"
 	})
 }

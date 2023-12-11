@@ -4,6 +4,22 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/watermint/toolbox/domain/asana/api/as_conn"
+	"github.com/watermint/toolbox/domain/asana/api/as_conn_impl"
+	"github.com/watermint/toolbox/domain/deepl/api/deepl_conn"
+	"github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn"
+	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
+	"github.com/watermint/toolbox/domain/figma/api/fg_conn"
+	"github.com/watermint/toolbox/domain/figma/api/fg_conn_impl"
+	"github.com/watermint/toolbox/domain/github/api/gh_conn"
+	"github.com/watermint/toolbox/domain/github/api/gh_conn_impl"
+	"github.com/watermint/toolbox/domain/google/api/goog_conn"
+	"github.com/watermint/toolbox/domain/google/api/goog_conn_impl"
+	"github.com/watermint/toolbox/domain/slack/api/work_conn"
+	"github.com/watermint/toolbox/domain/slack/api/work_conn_impl"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -27,24 +43,12 @@ import (
 var (
 	ValueTypes = []rc_recipe.Value{
 		newValueAppMsgMessage("", app_msg.Raw("")),
-		newValueAsConnAsana(api_conn.DefaultPeerName),
 		newValueBool(),
 		newValueDaGridDataInput(nil, ""),
 		newValueDaGridDataOutput(nil, ""),
 		newValueDaJsonInput(nil, ""),
 		newValueDaTextInput(nil, ""),
-		newValueDbxConnScopedIndividual(api_conn.DefaultPeerName),
-		newValueDbxConnScopedTeam(api_conn.DefaultPeerName),
-		newValueDeeplConn(api_conn.DefaultPeerName),
 		newValueFdFileRowFeed(""),
-		newValueFgConnFigmaFileRead(api_conn.DefaultPeerName),
-		newValueGhConnGithubPublic(),
-		newValueGhConnGithubRepo(api_conn.DefaultPeerName),
-		newValueGoogConnCalendar(api_conn.DefaultPeerName),
-		newValueGoogConnMail(api_conn.DefaultPeerName),
-		newValueGoogConnSheets(api_conn.DefaultPeerName),
-		newValueGoogConnTranslate(api_conn.DefaultPeerName),
-		newValueHsConn(api_conn.DefaultPeerName),
 		newValueInt(),
 		newValueKvStorageStorage(""),
 		newValueMoFilter(""),
@@ -58,8 +62,46 @@ var (
 		newValueRpModelRowReport(""),
 		newValueRpModelTransactionReport(""),
 		newValueSelectString(),
-		newValueSlack(api_conn.DefaultPeerName),
 		newValueString(),
+		newValueConn((*as_conn.ConnAsanaApi)(nil), func(peerName string) api_conn.Connection {
+			return as_conn_impl.NewConnAsana(peerName)
+		}),
+		newValueConn((*dbx_conn.ConnScopedIndividual)(nil), func(peerName string) api_conn.Connection {
+			return dbx_conn_impl.NewConnScopedIndividual(peerName)
+		}),
+		newValueConn((*dbx_conn.ConnScopedTeam)(nil), func(peerName string) api_conn.Connection {
+			return dbx_conn_impl.NewConnScopedTeam(peerName)
+		}),
+		newValueConn((*deepl_conn.ConnDeeplApi)(nil), func(peerName string) api_conn.Connection {
+			return deepl_conn_impl.NewConnDeeplApi(peerName)
+		}),
+		newValueConn((*fg_conn.ConnFigmaApi)(nil), func(peerName string) api_conn.Connection {
+			return fg_conn_impl.NewConnFigma(peerName)
+		}),
+		newValueConn((*gh_conn.ConnGithubPublic)(nil), func(peerName string) api_conn.Connection {
+			return gh_conn_impl.NewConnGithubPublic(peerName)
+		}),
+		newValueConn((*gh_conn.ConnGithubRepo)(nil), func(peerName string) api_conn.Connection {
+			return gh_conn_impl.NewConnGithubRepo(peerName)
+		}),
+		newValueConn((*goog_conn.ConnGoogleCalendar)(nil), func(peerName string) api_conn.Connection {
+			return goog_conn_impl.NewConnGoogleCalendar(peerName)
+		}),
+		newValueConn((*goog_conn.ConnGoogleMail)(nil), func(peerName string) api_conn.Connection {
+			return goog_conn_impl.NewConnGoogleMail(peerName)
+		}),
+		newValueConn((*goog_conn.ConnGoogleSheets)(nil), func(peerName string) api_conn.Connection {
+			return goog_conn_impl.NewConnGoogleSheets(peerName)
+		}),
+		newValueConn((*goog_conn.ConnGoogleTranslate)(nil), func(peerName string) api_conn.Connection {
+			return goog_conn_impl.NewConnGoogleTranslate(peerName)
+		}),
+		newValueConn((*hs_conn.ConnHelloSignApi)(nil), func(peerName string) api_conn.Connection {
+			return hs_conn_impl.NewConnHelloSign(peerName)
+		}),
+		newValueConn((*work_conn.ConnSlackApi)(nil), func(peerName string) api_conn.Connection {
+			return work_conn_impl.NewSlackApi(peerName)
+		}),
 	}
 
 	ErrorMissingRequiredOption = errors.New("missing required option")

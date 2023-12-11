@@ -26,8 +26,9 @@ watermint toolboxをダウンロードし、パスにインストールします
 
 ## 認可スコープ
 
-| 説明 |
-|------|
+| 説明                                                                 |
+|----------------------------------------------------------------------|
+| GitHub: Grants read access to public repositories and organizations. |
 
 # 認可
 
@@ -80,6 +81,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |-----------------------------|--------------------------------------|------------|
 | `-accept-license-agreement` | 対象リリースの使用許諾契約に同意する | false      |
 | `-path`                     | インストールするパス                 |            |
+| `-peer`                     | Account alias                        | default    |
 | `-release`                  | リリースタグ名                       | latest     |
 
 ## 共通のオプション:
