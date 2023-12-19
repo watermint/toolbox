@@ -3,7 +3,6 @@ package es_project
 import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -18,10 +17,10 @@ func DetectRepositoryRoot() (string, error) {
 	isRoot := func(p string) bool {
 		ll := l.With(esl.String("path", p))
 		rootFiles := map[string]bool{
-			"tbx.go":    false,
-			"README.md": false,
+			"LICENSE.md": false,
+			"README.md":  false,
 		}
-		entries, err := ioutil.ReadDir(p)
+		entries, err := os.ReadDir(p)
 		if err != nil {
 			ll.Debug("unable to read directory", esl.Error(err))
 			return false
