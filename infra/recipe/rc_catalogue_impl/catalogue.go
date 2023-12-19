@@ -65,6 +65,16 @@ func NewEmptyCatalogue() rc_catalogue.Catalogue {
 	}
 }
 
+// RecipeAliasMap maps cli path to another cli path.
+type RecipeAliasMap struct {
+	From string `json:"from,omitempty"`
+	To   string `json:"to,omitempty"`
+}
+
+type CatalogueOpts struct {
+	Aliases []RecipeAliasMap
+}
+
 func NewCatalogue(recipes, ingredients []rc_recipe.Recipe, messages []interface{}, features []app_feature.OptIn) rc_catalogue.Catalogue {
 	root := rc_group_impl.NewGroup()
 	for _, r := range recipes {

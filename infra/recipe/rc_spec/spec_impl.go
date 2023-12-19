@@ -45,7 +45,7 @@ var (
 	MSelfContained = app_msg.Apply(&MsgSelfContained{}).(*MsgSelfContained)
 )
 
-func NewSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
+func newSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 	var ann rc_recipe.Annotation
 	var repo rc_recipe.Repository
 
@@ -270,7 +270,7 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 }
 
 func (z *specValueSelfContained) New() rc_recipe.Spec {
-	return NewSelfContained(z.scr)
+	return newSelfContained(z.scr)
 }
 
 func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
