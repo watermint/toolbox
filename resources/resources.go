@@ -68,27 +68,31 @@ func ReleaseNotes() string {
 }
 
 func Build() BuildInfo {
-	fallback := func() BuildInfo {
-		return BuildInfo{
-			Version:    "",
-			Hash:       "",
-			Branch:     "",
-			Timestamp:  time.Now().UTC().Format(time.RFC3339),
-			Year:       time.Now().UTC().Year(),
-			Zap:        "",
-			Xap:        "",
-			Production: false,
-		}
-	}
+	return BuildFromResource(resBuildInfo)
+}
 
-	infoJson, err := resBuildInfo.ReadFile("build/info.json")
+func buildInfoFallback() BuildInfo {
+	return BuildInfo{
+		Version:    "",
+		Hash:       "",
+		Branch:     "",
+		Timestamp:  time.Now().UTC().Format(time.RFC3339),
+		Year:       time.Now().UTC().Year(),
+		Zap:        "",
+		Xap:        "",
+		Production: false,
+	}
+}
+
+func BuildFromResource(res embed.FS) BuildInfo {
+	infoJson, err := res.ReadFile("build/info.json")
 	if err != nil {
-		return fallback()
+		return buildInfoFallback()
 	}
 
 	info := BuildInfo{}
 	if err := json.Unmarshal(infoJson, &info); err != nil {
-		return fallback()
+		return buildInfoFallback()
 	}
 
 	return info
