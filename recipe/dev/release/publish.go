@@ -27,7 +27,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"github.com/watermint/toolbox/resources"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -86,20 +85,25 @@ func (z *Publish) Preset() {
 func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes map[string]int64, err error) {
 	l := c.Log()
 
-	entries, err := ioutil.ReadDir(z.ArtifactPath.Path())
+	entries, err := os.ReadDir(z.ArtifactPath.Path())
 	if err != nil {
 		return nil, nil, err
 	}
 	paths = make([]string, 0)
 	sizes = make(map[string]int64)
 	for _, e := range entries {
-		if !strings.HasPrefix(e.Name(), "tbx-"+app.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
+		if !strings.HasPrefix(e.Name(), app.ExecutableName+"-"+app.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
 			l.Debug("Ignore non artifact file", esl.Any("file", e))
 			continue
 		}
 		path := filepath.Join(z.ArtifactPath.Path(), e.Name())
 		paths = append(paths, path)
-		sizes[path] = e.Size()
+		info, err := e.Info()
+		if err != nil {
+			l.Debug("Unable to read file info", esl.Error(err))
+			return nil, nil, err
+		}
+		sizes[path] = info.Size()
 	}
 	return paths, sizes, nil
 }
@@ -181,7 +185,7 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 	})
 
 	relNotesPath := filepath.Join(c.Workspace().Report(), "release_notes.md")
-	err = ioutil.WriteFile(relNotesPath, []byte(md), 0644)
+	err = os.WriteFile(relNotesPath, []byte(md), 0644)
 	if err != nil {
 		l.Debug("Unable to write release notes", esl.Error(err), esl.String("path", relNotesPath))
 		return "", err
@@ -439,7 +443,7 @@ func (z *Publish) Test(c app_control.Control) error {
 	platforms := []string{"linux", "mac", "win"}
 	for _, platform := range platforms {
 		app.BuildId = "dev-test"
-		err = ioutil.WriteFile(filepath.Join(d, "tbx-"+app.BuildId+"-"+platform+".zip"), []byte("Test artifact"), 0644)
+		err = os.WriteFile(filepath.Join(d, app.ExecutableName+"-"+app.BuildId+"-"+platform+".zip"), []byte("Test artifact"), 0644)
 		if err != nil {
 			c.Log().Warn("Unable to create test artifact", esl.Error(err))
 			return err

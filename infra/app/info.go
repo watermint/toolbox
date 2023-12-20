@@ -10,6 +10,7 @@ import (
 
 var (
 	Name           = "watermint toolbox"
+	ExecutableName = "tbx"
 	Version        = app_build.SelectVersion(BuildInfo.Version)
 	BuildInfo      = resources.Build()
 	BuildId        = Version.String()
