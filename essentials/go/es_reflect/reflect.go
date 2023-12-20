@@ -2,7 +2,7 @@ package es_reflect
 
 import (
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"math"
 	"reflect"
 	"strings"
@@ -39,7 +39,7 @@ func Path(base string, r interface{}) (path []string, name string) {
 
 var (
 	KeyBasePackages = []string{
-		app.Pkg,
+		app_definitions.Pkg,
 	}
 )
 

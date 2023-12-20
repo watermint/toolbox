@@ -896,7 +896,7 @@
   "infra.doc.dc_readme.command.command_header": "Commands",
   "infra.doc.dc_readme.command.services.deepl": "DeepL",
   "infra.doc.dc_readme.command.services.dropbox": "Dropbox (Individual account)",
-  "infra.doc.dc_readme.command.services.dropbox_business": "Dropbox Business",
+  "infra.doc.dc_readme.command.services.dropbox_business": "Dropbox for teams",
   "infra.doc.dc_readme.command.services.figma": "Figma",
   "infra.doc.dc_readme.command.services.github": "GitHub",
   "infra.doc.dc_readme.command.services.google_calendar": "Google Calendar",

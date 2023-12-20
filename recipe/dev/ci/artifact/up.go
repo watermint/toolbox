@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/ingredient/file"
@@ -30,7 +30,7 @@ type Up struct {
 }
 
 func (z *Up) Preset() {
-	z.PeerName = app.PeerDeploy
+	z.PeerName = app_definitions.PeerDeploy
 }
 
 func (z *Up) Exec(c app_control.Control) error {
@@ -45,7 +45,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		},
 	}
 	l.Info("Uploading", esl.String("localPath", z.LocalPath.Path()), esl.String("dropboxPath", z.DropboxPath.Path()))
-	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
+	session := api_auth_oauth.NewSessionDeployEnv(app_definitions.EnvNameDeployToken)
 	entity, err := session.Start(sd)
 	if err != nil {
 		l.Warn("No token found. Skip operation")

@@ -2,7 +2,7 @@ package dc_supplemental
 
 import (
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -50,7 +50,7 @@ func (z ExperimentalFeatureDefinitions) Body(ui app_ui.UI) {
 	vt := ui.InfoTable("Experimental features")
 	vt.Header(MExperimentalFeature.FeatureName, MExperimentalFeature.FeatureDesc)
 
-	for _, v := range app.ExperimentalFeatures {
+	for _, v := range app_definitions.ExperimentalFeatures {
 		vt.Row(
 			app_msg.Raw(v),
 			app_msg.ObjMessage(&z, es_case.ToLowerSnakeCase(v)+".desc"),

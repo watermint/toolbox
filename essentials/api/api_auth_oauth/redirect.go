@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_callback"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -54,7 +54,7 @@ func (z *sessionRedirectImpl) Start(session api_auth.OAuthSessionData) (entity a
 		result:  nil,
 		token:   nil,
 	}
-	cb := api_callback.New(z.ctl, rs, app.DefaultWebPort, session.UseSecureRedirect)
+	cb := api_callback.New(z.ctl, rs, app_definitions.DefaultWebPort, session.UseSecureRedirect)
 
 	l.Debug("Starting sequence")
 	if err := cb.Flow(); err != nil {

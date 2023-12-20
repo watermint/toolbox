@@ -9,8 +9,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_gin"
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_print"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/security/sc_random"
@@ -35,7 +35,7 @@ func (z *Launch) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	a, _ := astilectron.New(lgw_print.New(l), astilectron.Options{
-		AppName: app.Name,
+		AppName: app_definitions.Name,
 	})
 	defer a.Close()
 
@@ -51,7 +51,7 @@ func (z *Launch) Exec(c app_control.Control) error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	sessionAgent := fmt.Sprintf("%s/%s (Session%s)", app.Name, app.BuildId, sc_random.MustGetSecureRandomString(8))
+	sessionAgent := fmt.Sprintf("%s/%s (Session%s)", app_definitions.Name, app_definitions.BuildId, sc_random.MustGetSecureRandomString(8))
 
 	backend := &Server{
 		ctl:               c,

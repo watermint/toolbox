@@ -16,10 +16,10 @@ import (
 	"github.com/watermint/toolbox/essentials/runtime/es_env"
 	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
@@ -131,7 +131,7 @@ func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
 
 func (z *bsImpl) verifyMessages(ui app_ui.UI, l esl.Logger) {
 	// Test MRun message, due to unable to test because of package dependency
-	if !app.IsProduction() {
+	if !app_definitions2.IsProduction() {
 		for _, msg := range app_msg.Messages(MRun) {
 			ui.Text(msg)
 		}
@@ -190,8 +190,8 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	case com.Quiet,
 		com.Output.Value() == app_opt.OutputJson,
 		com.Output.Value() == app_opt.OutputNone,
-		es_env.IsEnabled(app.EnvNameDebugVerbose),
-		ctl.Feature().Experiment(app.ExperimentSuppressProgress):
+		es_env.IsEnabled(app_definitions2.EnvNameDebugVerbose),
+		ctl.Feature().Experiment(app_definitions2.ExperimentSuppressProgress):
 
 		wb.Logger().Logger().Debug("Set indicators as silent mode")
 		ea_indicator.SuppressIndicatorForce()
@@ -211,14 +211,14 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	go trapSignal(sig, ctl)
 
 	// App Header
-	rc_group.AppHeader(ui, app.BuildId)
+	rc_group.AppHeader(ui, app_definitions2.BuildId)
 
 	// Global settings
 	nw_proxy.Setup("https://api.dropboxapi.com", com.Proxy.Value(), ctl.Log())
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
 	nw_congestion.SetMaxCongestionWindow(com.Concurrency,
-		ctl.Feature().Experiment(app.ExperimentCongestionWindowNoLimit))
-	if ctl.Feature().Experiment(app.ExperimentCongestionWindowAggressive) {
+		ctl.Feature().Experiment(app_definitions2.ExperimentCongestionWindowNoLimit))
+	if ctl.Feature().Experiment(app_definitions2.ExperimentCongestionWindowAggressive) {
 		ctl.Log().Debug("Enable aggressive initial window")
 		nw_congestion.SetInitCongestionWindow(com.Concurrency)
 	}
@@ -245,12 +245,12 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Apply profiler
 	var prof interface{ Stop() }
-	if ctl.Feature().IsDebug() || ctl.Feature().Experiment(app.ExperimentProfileMemory) {
+	if ctl.Feature().IsDebug() || ctl.Feature().Experiment(app_definitions2.ExperimentProfileMemory) {
 		prof = profile.Start(
 			profile.ProfilePath(ctl.Workspace().Log()),
 			profile.MemProfile,
 		)
-	} else if ctl.Feature().Experiment(app.ExperimentProfileCpu) {
+	} else if ctl.Feature().Experiment(app_definitions2.ExperimentProfileCpu) {
 		prof = profile.Start(
 			profile.ProfilePath(ctl.Workspace().Log()),
 			profile.CPUProfile,
@@ -299,7 +299,7 @@ func (z bsImpl) bootUI() app_ui.UI {
 
 func (z *bsImpl) ParseCommon(args []string, ignoreErrors bool) (rem []string, com *rc_spec.CommonValues) {
 	comSpec := rc_spec.NewCommonValue()
-	f := flag.NewFlagSet(app.Name, flag.ContinueOnError)
+	f := flag.NewFlagSet(app_definitions2.Name, flag.ContinueOnError)
 	ui := z.bootUI()
 	comSpec.SetFlags(f, ui)
 	err := f.Parse(rem)
@@ -327,14 +327,14 @@ func (z *bsImpl) Parse(args ...string) (rcp rc_recipe.Spec, com *rc_spec.CommonV
 	case err != nil:
 		ui.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
 		if grp != nil {
-			grp.PrintUsage(ui, os.Args[0], app.BuildId)
+			grp.PrintUsage(ui, os.Args[0], app_definitions2.BuildId)
 		} else {
-			rg.PrintUsage(ui, os.Args[0], app.BuildId)
+			rg.PrintUsage(ui, os.Args[0], app_definitions2.BuildId)
 		}
 		app_exit.Abort(app_exit.FailureInvalidCommand)
 
 	case rcp == nil:
-		grp.PrintUsage(ui, os.Args[0], app.BuildId)
+		grp.PrintUsage(ui, os.Args[0], app_definitions2.BuildId)
 		app_exit.ExitSuccess()
 	}
 

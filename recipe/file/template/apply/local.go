@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_template"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
@@ -73,7 +73,7 @@ func (z *Local) Test(c app_control.Control) error {
 	tmplPath := filepath.Join(f, "template.json")
 	err = os.WriteFile(tmplPath, []byte(`{"folders":[
                {"name":"test-001", "files":[
-                   {"name":"test.txt", "content":"`+app.BuildId+`"}
+                   {"name":"test.txt", "content":"`+app_definitions.BuildId+`"}
                  ]
                }
              ]}`), 0644)
@@ -94,8 +94,8 @@ func (z *Local) Test(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	if string(testData) != app.BuildId {
-		c.Log().Warn("Invalid data", esl.ByteString("data", testData), esl.String("expected", app.BuildId))
+	if string(testData) != app_definitions.BuildId {
+		c.Log().Warn("Invalid data", esl.ByteString("data", testData), esl.String("expected", app_definitions.BuildId))
 		return errors.New("invalid data")
 	}
 	return nil

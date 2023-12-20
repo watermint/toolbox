@@ -14,9 +14,9 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"net/http"
 )
@@ -58,13 +58,13 @@ func NewReplayMock(endpoint EndpointType, name string, ctl app_control.Control, 
 func New(et EndpointType, name string, ctl app_control.Control, entity api_auth.OAuthEntity) goog_client.Client {
 	var appData api_auth.OAuthAppData
 	switch entity.KeyName {
-	case app.ServiceGoogleCalendar:
+	case app_definitions.ServiceGoogleCalendar:
 		appData = goog_auth.Calendar
-	case app.ServiceGoogleMail:
+	case app_definitions.ServiceGoogleMail:
 		appData = goog_auth.Mail
-	case app.ServiceGoogleSheets:
+	case app_definitions.ServiceGoogleSheets:
 		appData = goog_auth.Sheets
-	case app.ServiceGoogleTranslate:
+	case app_definitions.ServiceGoogleTranslate:
 		appData = goog_auth.Translate
 	default:
 		panic("undefined app key type : " + entity.KeyName)

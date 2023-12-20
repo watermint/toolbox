@@ -10,8 +10,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/strings/es_version"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -110,7 +110,7 @@ func (z *Doc) updateSpec(c app_control.Control, prjRoot string) error {
 		err := rc_exec.Exec(c, &spec.Doc{}, func(r rc_recipe.Recipe) {
 			rr := r.(*spec.Doc)
 			rr.Lang = mo_string.NewOptional(lg.CodeString())
-			rr.FilePath = mo_string.NewOptional(filepath.Join(prjRoot, lg.CodeString(), fmt.Sprintf("spec_%s.json.gz", app.Release)))
+			rr.FilePath = mo_string.NewOptional(filepath.Join(prjRoot, lg.CodeString(), fmt.Sprintf("spec_%s.json.gz", app_definitions2.Release)))
 		})
 		if err != nil {
 			l.Error("Failed to generate documents", esl.Error(err))
@@ -151,7 +151,7 @@ func (z *Doc) updateChanges(c app_control.Control, release *es_version.Version, 
 // Returns versionMajor -> release metadata
 func (z *Doc) listReleases(c app_control.Control) (releases map[uint64]*Metadata, err error) {
 	l := c.Log()
-	releasesData, err := sv_release.New(z.Peer.Client(), app.RepositoryOwner, app.RepositoryName).List()
+	releasesData, err := sv_release.New(z.Peer.Client(), app_definitions2.RepositoryOwner, app_definitions2.RepositoryName).List()
 	if err != nil {
 		l.Debug("Unable to retrieve release information", esl.Error(err))
 		return nil, err
@@ -224,13 +224,13 @@ func (z *Doc) Exec(c app_control.Control) error {
 		return err
 	}
 
-	l.Info("Update spec", esl.Uint64("Release", app.Version.Major))
+	l.Info("Update spec", esl.Uint64("Release", app_definitions2.Version.Major))
 	if err := z.updateSpec(c, filepath.Join(prjBase, "resources/release")); err != nil {
 		l.Debug("Unable to update spec", esl.Error(err))
 		return err
 	}
-	l.Info("Update changes", esl.Uint64("Release", app.Version.Major))
-	if err := z.updateChanges(c, &app.Version, prjBase); err != nil {
+	l.Info("Update changes", esl.Uint64("Release", app_definitions2.Version.Major))
+	if err := z.updateChanges(c, &app_definitions2.Version, prjBase); err != nil {
 		l.Debug("Unable to update changes", esl.Error(err))
 		return err
 	}
@@ -241,9 +241,9 @@ func (z *Doc) Exec(c app_control.Control) error {
 		return err
 	}
 
-	l.Info("Update release notes", esl.Uint64("Release", app.Version.Major))
+	l.Info("Update release notes", esl.Uint64("Release", app_definitions2.Version.Major))
 	notes := &Notes{
-		Version: &app.Version,
+		Version: &app_definitions2.Version,
 		Date:    time.Now(),
 		Notes:   resources.ReleaseNotes(),
 		Url:     "https://github.com/watermint/toolbox/releases/latest",

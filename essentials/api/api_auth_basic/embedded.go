@@ -2,7 +2,7 @@ package api_auth_basic
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewEmbedded(entity api_auth.BasicEntity) api_auth.BasicSession {
@@ -20,5 +20,5 @@ func (z embeddedImpl) Start(session api_auth.BasicSessionData) (entity api_auth.
 		z.entity.PeerName == session.PeerName {
 		return z.entity, nil
 	}
-	return api_auth.BasicEntity{}, app.ErrorUserCancelled
+	return api_auth.BasicEntity{}, app_definitions.ErrorUserCancelled
 }

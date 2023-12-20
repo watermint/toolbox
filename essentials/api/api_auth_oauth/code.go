@@ -6,9 +6,9 @@ import (
 	"encoding/base64"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"golang.org/x/oauth2"
@@ -137,7 +137,7 @@ func (z *sessionCodeAuthImpl) oauthAskCode(session api_auth.OAuthSessionData, st
 
 	code := z.oauthCode()
 	if code == "" {
-		return nil, app.ErrorUserCancelled
+		return nil, app_definitions.ErrorUserCancelled
 	}
 
 	return z.oauthExchange(session, cfg, code, challenge)

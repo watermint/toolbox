@@ -10,8 +10,8 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -86,7 +86,7 @@ func (z *Formula) makeFormula(c app_control.Control) (formula string, err error)
 
 	var buf bytes.Buffer
 	err = formulaTmpl.Execute(&buf, map[string]string{
-		"Version":               app.BuildId,
+		"Version":               app_definitions.BuildId,
 		"DownloadUrlLinuxArm":   z.DownloadUrlLinuxArm,
 		"DownloadUrlLinuxIntel": z.DownloadUrlLinuxIntel,
 		"DownloadUrlMacArm":     z.DownloadUrlMacArm,

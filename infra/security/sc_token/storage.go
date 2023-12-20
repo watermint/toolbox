@@ -4,8 +4,8 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_storage"
 	"golang.org/x/oauth2"
 	"os"
@@ -20,7 +20,7 @@ type Storage interface {
 }
 
 func storagePath(c app_control.Control, peerName, scope, suffix string) string {
-	s := sha256.Sum224([]byte(peerName + scope + app.BuildInfo.Xap))
+	s := sha256.Sum224([]byte(peerName + scope + app_definitions.BuildInfo.Xap))
 	return filepath.Join(c.Workspace().Secrets(), fmt.Sprintf("%x.%s", s, suffix))
 }
 

@@ -15,8 +15,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -109,7 +109,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 	var chunkSizeKb int
 
 	srcFs = es_filesystem_local.NewFileSystem()
-	if c.Feature().Experiment(app.ExperimentFileSyncNoCacheDropboxFileSystem) {
+	if c.Feature().Experiment(app_definitions.ExperimentFileSyncNoCacheDropboxFileSystem) {
 		tgtFs = dbx_fs.NewFileSystem(z.Context)
 	} else {
 		tgtFs, err = dbx_fs.NewPreScanFileSystem(c, z.Context, z.DropboxPath)
@@ -119,7 +119,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		}
 	}
 
-	if c.Feature().Experiment(app.ExperimentFileSyncLegacyLocalToDropboxConnector) {
+	if c.Feature().Experiment(app_definitions.ExperimentFileSyncLegacyLocalToDropboxConnector) {
 		chunkSizeKb = 64 * 1024
 		conn = dbx_fs_local_to_dbx.NewLocalToDropbox(z.Context,
 			sv_file_content.ChunkSizeKb(chunkSizeKb))
@@ -184,7 +184,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 			status.skip()
 		}),
 		es_sync.WithNameFilter(z.Name),
-		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
+		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app_definitions.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
 	syncErr := syncer.Sync(es_filesystem_local.NewPath(z.LocalPath.Path()), dbx_fs.NewPath("", z.DropboxPath))

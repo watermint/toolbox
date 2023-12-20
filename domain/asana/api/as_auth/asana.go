@@ -2,7 +2,7 @@ package as_auth
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 // https://developers.asana.com/docs/oauth
@@ -22,7 +22,7 @@ const (
 
 var (
 	Asana = api_auth.OAuthAppData{
-		AppKeyName:       app.ServiceAsana,
+		AppKeyName:       app_definitions.ServiceAsana,
 		EndpointAuthUrl:  "https://app.asana.com/-/oauth_authorize",
 		EndpointTokenUrl: "https://app.asana.com/-/oauth_token",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

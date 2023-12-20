@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/essentials/strings/es_uuid"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_error"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -20,20 +20,20 @@ import (
 )
 
 func selectBatchFetchPolicy(fe app_feature.Feature) eq_bundle.FetchPolicy {
-	if fe.Experiment(app.ExperimentBatchRandom) {
+	if fe.Experiment(app_definitions.ExperimentBatchRandom) {
 		return eq_bundle.FetchRandom
 	}
-	if fe.Experiment(app.ExperimentBatchSequential) {
+	if fe.Experiment(app_definitions.ExperimentBatchSequential) {
 		return eq_bundle.FetchSequential
 	}
-	if fe.Experiment(app.ExperimentBatchBalance) {
+	if fe.Experiment(app_definitions.ExperimentBatchBalance) {
 		return eq_bundle.FetchBalance
 	}
 	return eq_bundle.FetchBalance
 }
 
 func selectDurableSetting(fe app_feature.Feature) (durable bool, cacheSize int) {
-	if fe.Experiment(app.ExperimentBatchNonDurable) {
+	if fe.Experiment(app_definitions.ExperimentBatchNonDurable) {
 		return false, 100 * fe.Concurrency()
 	} else {
 		return true, 100

@@ -1,4 +1,4 @@
-package app
+package app_definitions
 
 import "errors"
 

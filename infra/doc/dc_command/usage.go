@@ -3,7 +3,7 @@ package dc_command
 import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -49,13 +49,13 @@ func (z Usage) Body(ui app_ui.UI) {
 
 func (z Usage) bodyRun(ui app_ui.UI) {
 	cmdWin := strings.Join([]string{
-		".\\" + app.ExecutableName + ".exe",
+		".\\" + app_definitions.ExecutableName + ".exe",
 		z.spec.CliPath(),
 		ui.TextOrEmpty(z.spec.CliArgs()),
 	}, " ")
 
 	cmdOther := strings.Join([]string{
-		"$HOME/Desktop/" + app.ExecutableName,
+		"$HOME/Desktop/" + app_definitions.ExecutableName,
 		z.spec.CliPath(),
 		ui.TextOrEmpty(z.spec.CliArgs()),
 	}, " ")

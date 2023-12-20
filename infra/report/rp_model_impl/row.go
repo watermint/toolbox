@@ -2,8 +2,8 @@ package rp_model_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/report/rp_writer"
 	"github.com/watermint/toolbox/infra/report/rp_writer_impl"
@@ -69,7 +69,7 @@ func (z *RowReport) Open(opts ...rp_model.ReportOpt) error {
 	allOpts := make([]rp_model.ReportOpt, 0)
 	allOpts = append(allOpts, z.opts...)
 	allOpts = append(allOpts, opts...)
-	if z.ctl.Feature().Experiment(app.ExperimentReportAllColumns) {
+	if z.ctl.Feature().Experiment(app_definitions.ExperimentReportAllColumns) {
 		allOpts = append(allOpts, rp_model.ShowAllColumns(true))
 	}
 	return z.w.Open(z.ctl, z.model, allOpts...)

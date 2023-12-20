@@ -1,7 +1,7 @@
 package rc_group
 
 import (
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -17,8 +17,8 @@ var (
 )
 
 func AppHeader(ui app_ui.UI, version string) {
-	ui.Header(MHeader.Header.With("AppVersion", version).With("AppName", app.Name))
-	ui.Info(app_msg.Raw(app.Copyright))
+	ui.Header(MHeader.Header.With("AppVersion", version).With("AppName", app_definitions.Name))
+	ui.Info(app_msg.Raw(app_definitions.Copyright))
 	ui.Info(MHeader.License)
 	ui.Break()
 }

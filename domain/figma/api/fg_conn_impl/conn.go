@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewConnFigma(name string) fg_conn.ConnFigmaApi {
@@ -60,7 +60,7 @@ func (z *connFigmaApi) SetPeerName(name string) {
 }
 
 func (z *connFigmaApi) ScopeLabel() string {
-	return app.ServiceFigma
+	return app_definitions.ServiceFigma
 }
 
 func (z *connFigmaApi) ServiceName() string {

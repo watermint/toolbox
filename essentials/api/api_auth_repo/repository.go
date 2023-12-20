@@ -6,7 +6,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"os"
 	"path/filepath"
@@ -19,7 +19,7 @@ func NewPersistent(path string) (r api_auth.Repository, err error) {
 	info, err := os.Lstat(path)
 	if err == nil && info.IsDir() {
 		l.Debug("Create auth database with default database name")
-		return NewPersistent(filepath.Join(path, app.AuthDatabaseDefaultName))
+		return NewPersistent(filepath.Join(path, app_definitions2.AuthDatabaseDefaultName))
 	}
 
 	if os.IsNotExist(err) {
@@ -33,7 +33,7 @@ func NewPersistent(path string) (r api_auth.Repository, err error) {
 			l.Debug("Unable to create app version table", esl.Error(err))
 			return nil, err
 		}
-		if _, err = tmpDb.Exec("INSERT INTO app (version, timestamp) VALUES(?, ?)", app.Version.String(), time.Now()); err != nil {
+		if _, err = tmpDb.Exec("INSERT INTO app (version, timestamp) VALUES(?, ?)", app_definitions2.Version.String(), time.Now()); err != nil {
 			l.Debug("Unable to record app version data", esl.Error(err))
 			return nil, err
 		}

@@ -14,8 +14,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -94,7 +94,7 @@ func (z *Download) Exec(c app_control.Control) error {
 	srcFs := dbx_fs.NewFileSystem(z.Context)
 	tgtFs := es_filesystem_local.NewFileSystem()
 	var conn es_filesystem.Connector
-	if c.Feature().Experiment(app.ExperimentDbxDownloadBlock) {
+	if c.Feature().Experiment(app_definitions.ExperimentDbxDownloadBlock) {
 		l.Debug("Use block copier")
 		conn = dbx_fs_dbx_to_local_block.NewDropboxToLocal(z.Context)
 	} else {

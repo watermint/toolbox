@@ -78,7 +78,7 @@ lang: en
 | [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                           | Start device monitor client                                   |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                       | Package remote folder into the zip file                       |
 
-## Dropbox Business
+## Dropbox for teams
 
 | Command                                                                                                                     | Description                                                                         |
 |-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|

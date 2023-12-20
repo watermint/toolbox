@@ -9,8 +9,8 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
@@ -290,7 +290,7 @@ func (z *specValueSelfContained) New() rc_recipe.Spec {
 }
 
 func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
-	rc_group.UsageHeader(ui, z.Title(), app.BuildId)
+	rc_group.UsageHeader(ui, z.Title(), app_definitions.BuildId)
 
 	ui.Header(MSelfContained.RecipeHeaderUsage)
 	ui.Info(MSelfContained.RecipeUsage.

@@ -3,7 +3,7 @@ package app_job
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"os"
@@ -51,7 +51,7 @@ type StartLog struct {
 }
 
 func (z StartLog) Write(ws app_workspace.Workspace) error {
-	return write(filepath.Join(ws.Log(), app.LogNameStart), z)
+	return write(filepath.Join(ws.Log(), app_definitions.LogNameStart), z)
 }
 
 func (z StartLog) Time() (t time.Time, ok bool) {
@@ -65,7 +65,7 @@ type ResultLog struct {
 }
 
 func (z ResultLog) Write(ws app_workspace.Workspace) error {
-	return write(filepath.Join(ws.Log(), app.LogNameFinish), z)
+	return write(filepath.Join(ws.Log(), app_definitions.LogNameFinish), z)
 }
 
 func (z ResultLog) Time() (t time.Time, ok bool) {

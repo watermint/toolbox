@@ -15,9 +15,9 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
@@ -39,7 +39,7 @@ type Bundle struct {
 
 func (z *Bundle) Preset() {
 	z.Timeout = 60
-	z.PeerName = app.PeerDeploy
+	z.PeerName = app_definitions.PeerDeploy
 	z.ResultsPath = mo_path.NewDropboxPath("/watermint-toolbox-logs/{{.Date}}-{{.Time}}/{{.Random}}")
 }
 
@@ -53,7 +53,7 @@ func (z *Bundle) deployDbxContext(c app_control.Control) (client dbx_client.Clie
 			dbx_auth.ScopeFilesContentWrite,
 		},
 	}
-	session := api_auth_oauth.NewSessionDeployEnv(app.EnvNameDeployToken)
+	session := api_auth_oauth.NewSessionDeployEnv(app_definitions.EnvNameDeployToken)
 	entity, err := session.Start(sd)
 	if err != nil {
 		l.Info("No token found. Skip operation")

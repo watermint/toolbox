@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewConnGoogleMail(name string) goog_conn.ConnGoogleMail {
@@ -41,7 +41,7 @@ func (z *connGoogleMail) SetPeerName(name string) {
 }
 
 func (z *connGoogleMail) ScopeLabel() string {
-	return app.ServiceGoogleMail
+	return app_definitions.ServiceGoogleMail
 }
 
 func (z *connGoogleMail) ServiceName() string {

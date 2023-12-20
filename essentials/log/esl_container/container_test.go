@@ -2,8 +2,8 @@ package esl_container
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"io/ioutil"
 	"path/filepath"
@@ -27,7 +27,7 @@ func TestNewToolboxCaller(t *testing.T) {
 				return ""
 			}
 			for _, entry := range entries {
-				if strings.HasPrefix(entry.Name(), app.LogToolbox) {
+				if strings.HasPrefix(entry.Name(), app_definitions.LogToolbox) {
 					logPath := filepath.Join(path, entry.Name())
 					content, err := ioutil.ReadFile(logPath)
 					if err != nil {

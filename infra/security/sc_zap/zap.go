@@ -5,8 +5,8 @@ import (
 	"encoding/base32"
 	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 	"os"
@@ -45,7 +45,7 @@ var (
 func NewZap(extraSeed string) string {
 	seeds := make([]byte, 0)
 	seeds = strconv.AppendInt(seeds, time.Now().Unix(), 16)
-	seeds = append(seeds, app.BuildId...)
+	seeds = append(seeds, app_definitions.BuildId...)
 	seeds = append(seeds, extraSeed...)
 
 	for _, k := range keyEnvNames {

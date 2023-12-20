@@ -18,9 +18,9 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
 	"github.com/watermint/toolbox/essentials/network/nw_rest_factory"
 	"github.com/watermint/toolbox/essentials/network/nw_simulator"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_apikey"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"net/http"
@@ -65,25 +65,25 @@ func newClientOpts(feature app_feature.Feature, l esl.Logger) (opts []nw_rest_fa
 	opts = append(opts, nw_rest_factory.Assert(dbx_response_impl.AssertResponse))
 
 	// too many requests error simulator
-	if feature.Experiment(app.ExperimentDbxClientConditionerNarrow20) {
+	if feature.Experiment(app_definitions.ExperimentDbxClientConditionerNarrow20) {
 		l.Debug("Experiment: Network conditioner enabled: 20%")
 		opts = append(opts, nw_rest_factory.RateLimitSimulator(20, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
-	} else if feature.Experiment(app.ExperimentDbxClientConditionerNarrow40) {
+	} else if feature.Experiment(app_definitions.ExperimentDbxClientConditionerNarrow40) {
 		l.Debug("Experiment: Network conditioner enabled: 40%")
 		opts = append(opts, nw_rest_factory.RateLimitSimulator(40, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
-	} else if feature.Experiment(app.ExperimentDbxClientConditionerNarrow100) {
+	} else if feature.Experiment(app_definitions.ExperimentDbxClientConditionerNarrow100) {
 		l.Debug("Experiment: Network conditioner enabled: 100%")
 		opts = append(opts, nw_rest_factory.RateLimitSimulator(100, nw_simulator.RetryAfterHeaderRetryAfter, decorateRateLimit))
 	}
 
 	// server error simulator
-	if feature.Experiment(app.ExperimentDbxClientConditionerError20) {
+	if feature.Experiment(app_definitions.ExperimentDbxClientConditionerError20) {
 		l.Debug("Experiment: Network conditioner enabled: 20%")
 		opts = append(opts, nw_rest_factory.ServerErrorSimulator(20, http.StatusInternalServerError, decorateServerError))
-	} else if feature.Experiment(app.ExperimentDbxClientConditionerError40) {
+	} else if feature.Experiment(app_definitions.ExperimentDbxClientConditionerError40) {
 		l.Debug("Experiment: Network conditioner enabled: 40%")
 		opts = append(opts, nw_rest_factory.ServerErrorSimulator(40, http.StatusInternalServerError, decorateServerError))
-	} else if feature.Experiment(app.ExperimentDbxClientConditionerError100) {
+	} else if feature.Experiment(app_definitions.ExperimentDbxClientConditionerError100) {
 		l.Debug("Experiment: Network conditioner enabled: 100%")
 		opts = append(opts, nw_rest_factory.ServerErrorSimulator(100, http.StatusInternalServerError, decorateServerError))
 	}

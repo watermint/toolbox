@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_desktop"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"math/rand"
 	"os"
@@ -57,7 +57,7 @@ var (
 		VarDateUTC,
 		VarTimeUTC,
 	}
-	isWindows = app.IsWindows()
+	isWindows = app_definitions.IsWindows()
 )
 
 func Rel(basePath, targetPath string) (rel string, err error) {

@@ -2,7 +2,7 @@ package gh_auth
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 const (
@@ -29,7 +29,7 @@ const (
 
 var (
 	Github = api_auth.OAuthAppData{
-		AppKeyName:       app.ServiceGithub,
+		AppKeyName:       app_definitions.ServiceGithub,
 		EndpointAuthUrl:  "https://github.com/login/oauth/authorize",
 		EndpointTokenUrl: "https://github.com/login/oauth/access_token",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

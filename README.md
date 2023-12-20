@@ -158,7 +158,7 @@ Available commands:
 | [util monitor client](docs/commands/util-monitor-client.md)                           | Start device monitor client                                   |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                       | Package remote folder into the zip file                       |
 
-## Dropbox Business
+## Dropbox for teams
 
 | Command                                                                                                     | Description                                                                         |
 |-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|

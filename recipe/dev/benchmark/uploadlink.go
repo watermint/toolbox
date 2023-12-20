@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 )
@@ -51,7 +51,7 @@ func (z *Uploadlink) Exec(c app_control.Control) error {
 		return err
 	}
 
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		l.Warn("Unable to read a body", esl.Error(err))
 	}

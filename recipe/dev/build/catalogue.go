@@ -9,6 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"reflect"
 )
@@ -22,7 +23,7 @@ func (z *Catalogue) Preset() {
 
 func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_control.Control) error {
 	l := c.Log()
-	rcs := []string{"recipe", "ingredient"}
+	rcs := []string{"recipe", "recipe_citron", "recipe_lime", "ingredient"}
 	for _, rc := range rcs {
 		scr := sc.PathFilterPrefix(rc).ExcludeTest()
 		sts, err := scr.FindStructImplements(reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem())
@@ -39,7 +40,7 @@ func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_cont
 			l.Debug("Unable to generate", esl.Error(err))
 			return err
 		}
-		return ioutil.WriteFile(op, src, 0644)
+		return os.WriteFile(op, src, 0644)
 	}
 	return nil
 }
@@ -61,7 +62,7 @@ func (z *Catalogue) generateMessages(rr string, sc es_generate.Scanner, c app_co
 		l.Debug("Unable to generate", esl.Error(err))
 		return err
 	}
-	return ioutil.WriteFile(op, src, 0644)
+	return os.WriteFile(op, src, 0644)
 }
 
 func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_control.Control) error {

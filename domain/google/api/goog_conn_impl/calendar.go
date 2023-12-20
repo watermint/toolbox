@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewConnGoogleCalendar(name string) goog_conn.ConnGoogleCalendar {
@@ -37,7 +37,7 @@ func (z *connGoogleCalendar) SetPeerName(name string) {
 }
 
 func (z *connGoogleCalendar) ScopeLabel() string {
-	return app.ServiceGoogleCalendar
+	return app_definitions.ServiceGoogleCalendar
 }
 
 func (z *connGoogleCalendar) ServiceName() string {

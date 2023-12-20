@@ -1,4 +1,4 @@
-package app
+package app_definitions
 
 const (
 	ExperimentDbxClientConditionerNarrow20  = "dbx_client_conditioner_narrow20"  // 429 error for 20% traffic

@@ -3,12 +3,12 @@ package qt_endtoend
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/runtime/es_env"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"testing"
 )
 
 func IsSkipEndToEndTest() bool {
-	if es_env.IsEnabled(app.EnvNameEndToEndSkipTest) {
+	if es_env.IsEnabled(app_definitions.EnvNameEndToEndSkipTest) {
 		return true
 	}
 

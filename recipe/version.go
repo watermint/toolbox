@@ -1,8 +1,8 @@
 package recipe
 
 import (
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -40,37 +40,37 @@ func (z *Version) Exec(c app_control.Control) error {
 	z.Versions.Row(&VersionInfo{
 		Key:       "app.name",
 		Component: "app.name",
-		Version:   app.Name,
+		Version:   app_definitions2.Name,
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "app.version",
-		Component: app.Name,
-		Version:   app.BuildId,
+		Component: app_definitions2.Name,
+		Version:   app_definitions2.BuildId,
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "app.hash",
 		Component: ui.Text(z.HeaderAppHash),
-		Version:   app.BuildInfo.Hash,
+		Version:   app_definitions2.BuildInfo.Hash,
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "app.branch",
 		Component: ui.Text(z.HeaderBranch),
-		Version:   app.BuildInfo.Branch,
+		Version:   app_definitions2.BuildInfo.Branch,
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "app.production",
 		Component: ui.Text(z.HeaderProduction),
-		Version:   strconv.FormatBool(app.BuildInfo.Production),
+		Version:   strconv.FormatBool(app_definitions2.BuildInfo.Production),
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "core.release",
-		Component: app.Pkg,
+		Component: app_definitions2.Pkg,
 		Version:   resources.CoreRelease(),
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "build.time",
 		Component: ui.Text(z.HeaderBuildTime),
-		Version:   app.BuildInfo.Timestamp,
+		Version:   app_definitions2.BuildInfo.Timestamp,
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "go.version",

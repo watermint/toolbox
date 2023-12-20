@@ -2,7 +2,7 @@ package work_auth
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 const (
@@ -18,7 +18,7 @@ const (
 
 var (
 	Slack = api_auth.OAuthAppData{
-		AppKeyName:       app.ServiceSlack,
+		AppKeyName:       app_definitions.ServiceSlack,
 		EndpointAuthUrl:  "https://slack.com/oauth/v2/authorize",
 		EndpointTokenUrl: "https://slack.com/api/oauth.v2.access",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

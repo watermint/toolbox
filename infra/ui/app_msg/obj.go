@@ -3,14 +3,14 @@ package app_msg
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"reflect"
 	"strings"
 )
 
 func applyReflect(mot reflect.Type, mov reflect.Value) {
 	base := mot.PkgPath() + "." + es_case.ToLowerSnakeCase(mot.Name())
-	base = strings.ReplaceAll(base, app.Pkg+"/", "")
+	base = strings.ReplaceAll(base, app_definitions.Pkg+"/", "")
 	base = strings.ReplaceAll(base, "/", ".")
 
 	nf := mot.NumField()

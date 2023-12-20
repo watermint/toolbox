@@ -5,8 +5,8 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_zip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -26,7 +26,7 @@ func (z *Remote) Preset() {
 }
 
 func (z *Remote) Exec(c app_control.Control) error {
-	url := os.Getenv(app.EnvNameReplayUrl)
+	url := os.Getenv(app_definitions.EnvNameReplayUrl)
 	if z.ReplayUrl.IsExists() {
 		url = z.ReplayUrl.Value()
 	}

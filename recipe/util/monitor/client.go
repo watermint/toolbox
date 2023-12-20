@@ -19,8 +19,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
@@ -291,7 +291,7 @@ func (z *Client) headEventMonitorInfo(c app_control.Control) {
 		UserUid         string `json:"user_uid"`
 		UserName        string `json:"user_name"`
 	}{
-		AppVersion:      app.BuildId,
+		AppVersion:      app_definitions.BuildId,
 		MonitorName:     z.Name,
 		IntervalMonitor: z.MonitorInterval.Value(),
 		IntervalSync:    z.SyncInterval.Value(),

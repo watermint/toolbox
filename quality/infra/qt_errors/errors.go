@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 var (
@@ -79,7 +79,7 @@ func ErrorsForTest(l esl.Logger, err error) (resolvedErr error, cont bool) {
 		l.Debug("Mock test")
 		return nil, false
 
-	case app.ErrorUserCancelled:
+	case app_definitions.ErrorUserCancelled:
 		l.Debug("User cancelled")
 		return nil, false
 

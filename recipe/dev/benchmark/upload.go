@@ -18,8 +18,8 @@ import (
 	"github.com/watermint/toolbox/essentials/model/em_file_random"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -90,7 +90,7 @@ func (z *Upload) Exec(c app_control.Control) error {
 		es_filesystem_model.NewFileSystem(modelRoot),
 		dbxFs,
 		copier,
-		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app.ExperimentFileSyncDisableReduceCreateFolder)),
+		es_sync.OptimizePreventCreateFolder(!c.Feature().Experiment(app_definitions.ExperimentFileSyncDisableReduceCreateFolder)),
 	)
 
 	if syErr := syncer.Sync(es_filesystem_model.NewPath("/"), dbx_fs.NewPath("", z.Path)); syErr != nil {
