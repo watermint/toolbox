@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
+	"github.com/watermint/toolbox/resources"
 	"runtime"
 	"strconv"
 )
@@ -60,6 +61,11 @@ func (z *Version) Exec(c app_control.Control) error {
 		Key:       "app.production",
 		Component: ui.Text(z.HeaderProduction),
 		Version:   strconv.FormatBool(app.BuildInfo.Production),
+	})
+	z.Versions.Row(&VersionInfo{
+		Key:       "core.release",
+		Component: app.Pkg,
+		Version:   resources.CoreRelease(),
 	})
 	z.Versions.Row(&VersionInfo{
 		Key:       "build.time",
