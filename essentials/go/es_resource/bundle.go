@@ -26,7 +26,7 @@ func New(tpl, msg, web, key, img, dat, bld, rel Resource) Bundle {
 
 // NewChainBundle creates a new bundle by merging multiple bundles.
 // The order of bundles is important. The first bundle has the highest priority.
-func NewChainBundle(bundles ...Bundle) Bundle {
+func NewChainBundle(langCodes []string, bundles ...Bundle) Bundle {
 	resTmp := make([]Resource, 0)
 	resWeb := make([]Resource, 0)
 	resKey := make([]Resource, 0)
@@ -43,7 +43,7 @@ func NewChainBundle(bundles ...Bundle) Bundle {
 		resBld = append(resBld, b.Build())
 		resRel = append(resRel, b.Release())
 	}
-	resMsg := MergedMessageResource(bundles)
+	resMsg := MergedMessageResource(bundles, langCodes)
 	return &bundleImpl{
 		tpl: NewMergedResource(resTmp...),
 		msg: NewMergedResource(resMsg),
