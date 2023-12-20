@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	HupOnNoBusinessCommandFound = true
+	SkipDropboxBusinessCommandDoc = false
 )
 
 type MsgDropboxBusiness struct {
@@ -191,6 +191,9 @@ func (z DropboxBusiness) DocId() dc_index.DocId {
 }
 
 func (z DropboxBusiness) Sections() []dc_section.Section {
+	if SkipDropboxBusinessCommandDoc {
+		return []dc_section.Section{}
+	}
 	return []dc_section.Section{
 		&DropboxBusinessMember{cat: z.cat},
 		&DropboxBusinessGroup{cat: z.cat},
@@ -576,7 +579,7 @@ func (z DropboxBusinessFootnote) Title() app_msg.Message {
 
 func (z DropboxBusinessFootnote) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.FootnoteInfo)
-	if HupOnNoBusinessCommandFound && z.cat.WarnUnmentioned() {
+	if z.cat.WarnUnmentioned() {
 		panic("Unmentioned Dropbox Business command found")
 	}
 }
