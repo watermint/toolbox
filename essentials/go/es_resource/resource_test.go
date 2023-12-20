@@ -20,7 +20,7 @@ func TestNewResource(t *testing.T) {
 }
 
 func TestNewSecureResource(t *testing.T) {
-	r := NewSecureResource("test", resTest)
+	r := NewNonTraversableResource("test", resTest)
 	if _, err := r.Bytes("no existent"); err == nil {
 		t.Error(err)
 	}
@@ -60,6 +60,45 @@ func TestEmptyBundle(t *testing.T) {
 		t.Error(x, err)
 	}
 	if x, err := b.Data().Bytes("no existent"); err == nil {
+		t.Error(x, err)
+	}
+}
+
+func TestEmbedResource_Bytes(t *testing.T) {
+	r := NewEmbedResource(map[string][]byte{
+		"message.txt": []byte("hello"),
+	})
+	if x, err := r.Bytes("message.txt"); err != nil {
+		t.Error(x, err)
+	} else if string(x) != "hello" {
+		t.Error(x, err)
+	}
+	if x, err := r.Bytes("no existent"); err == nil {
+		t.Error(x, err)
+	}
+}
+
+func TestMergedResource_Bytes(t *testing.T) {
+	r := NewMergedResource(
+		NewEmbedResource(map[string][]byte{
+			"message.txt": []byte("hello"),
+		}),
+		NewEmbedResource(map[string][]byte{
+			"message.txt": []byte("world"),
+			"hello.txt":   []byte("hello"),
+		}),
+	)
+	if x, err := r.Bytes("message.txt"); err != nil {
+		t.Error(x, err)
+	} else if string(x) != "hello" {
+		t.Error(x, err)
+	}
+	if x, err := r.Bytes("no existent"); err == nil {
+		t.Error(x, err)
+	}
+	if x, err := r.Bytes("hello.txt"); err != nil {
+		t.Error(x, err)
+	} else if string(x) != "hello" {
 		t.Error(x, err)
 	}
 }
