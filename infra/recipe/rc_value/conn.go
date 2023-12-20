@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -98,7 +97,7 @@ func (z *ValueConnBase) SpinDown(ctl app_control.Control) error {
 }
 
 func (z *ValueConnBase) Spec() (typeName string, typeAttr interface{}) {
-	typeName = es_reflect.Key(app.Pkg, z.conn)
+	typeName = es_reflect.Key(z.conn)
 	if s, ok := z.conn.(api_conn.ScopedConnection); ok {
 		typeAttr = s.Scopes()
 	} else {

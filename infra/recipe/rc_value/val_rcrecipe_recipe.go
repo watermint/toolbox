@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -36,7 +35,7 @@ func (z *ValueRcRecipeRecipe) Conns() map[string]api_conn.Connection {
 }
 
 func (z *ValueRcRecipeRecipe) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.recipe), map[string]interface{}{
+	return es_reflect.Key(z.recipe), map[string]interface{}{
 		"recipeType": z.recipeType,
 	}
 }

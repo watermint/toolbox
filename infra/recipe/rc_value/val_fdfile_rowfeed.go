@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/feed/fd_file_impl"
@@ -39,7 +38,7 @@ type ValueFdFileRowFeed struct {
 }
 
 func (z *ValueFdFileRowFeed) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.rf), nil
+	return es_reflect.Key(z.rf), nil
 }
 
 func (z *ValueFdFileRowFeed) ValueText() string {

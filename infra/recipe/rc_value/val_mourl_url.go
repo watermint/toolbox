@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -28,7 +27,7 @@ func (z *ValueMoUrlUrl) ValueText() string {
 }
 
 func (z *ValueMoUrlUrl) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.url), nil
+	return es_reflect.Key(z.url), nil
 }
 
 func (z *ValueMoUrlUrl) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

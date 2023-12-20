@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -90,10 +89,10 @@ func (z *ValueMoIntRange) SpinDown(ctl app_control.Control) error {
 }
 
 func (z *ValueMoIntRange) Spec() (typeName string, typeAttr interface{}) {
-	min, max := z.rangeInt.Range()
-	return es_reflect.Key(app.Pkg, z.rangeInt), map[string]interface{}{
-		"min":   min,
-		"max":   max,
+	rangeMin, rangeMax := z.rangeInt.Range()
+	return es_reflect.Key(z.rangeInt), map[string]interface{}{
+		"min":   rangeMin,
+		"max":   rangeMax,
 		"value": z.rangeInt.Value(),
 	}
 }

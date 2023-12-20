@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"os"
@@ -28,7 +27,7 @@ type ValueKvStorageStorage struct {
 }
 
 func (z *ValueKvStorageStorage) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.storage), nil
+	return es_reflect.Key(z.storage), nil
 }
 
 func (z *ValueKvStorageStorage) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

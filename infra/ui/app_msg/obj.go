@@ -64,5 +64,5 @@ func Messages(mo interface{}) []Message {
 }
 
 func ObjMessage(r interface{}, suffix string) Message {
-	return CreateMessage(es_reflect.Key(app.Pkg, r) + "." + suffix)
+	return CreateMessage(es_reflect.Key(r) + "." + suffix)
 }

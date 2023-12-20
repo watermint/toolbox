@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -142,7 +141,7 @@ func (z OptInStatus) OptInIsEnabled() bool {
 }
 
 func OptInName(v OptIn) string {
-	return es_reflect.Key(app.Pkg, v)
+	return es_reflect.Key(v)
 }
 
 func OptInAgreement(v OptIn) app_msg.Message {

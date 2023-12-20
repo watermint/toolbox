@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"os"
@@ -36,7 +35,7 @@ func (z *ValueMoPathFileSystemPath) Spec() (typeName string, typeAttr interface{
 	if efs, ok := z.path.(mo_path2.ExistingFileSystemPath); ok {
 		se = efs.ShouldExist()
 	}
-	return es_reflect.Key(app.Pkg, z.path), map[string]bool{
+	return es_reflect.Key(z.path), map[string]bool{
 		"shouldExist": se,
 	}
 }
