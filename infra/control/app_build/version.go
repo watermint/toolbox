@@ -34,9 +34,13 @@ const (
 	BuildMinorGitHubActionsMain = 8
 )
 
+var (
+	CurrentRelease = resources.Release()
+)
+
 // Release number
 func Release() uint64 {
-	if r, err := strconv.ParseUint(resources.Release(), 10, 64); err != nil {
+	if r, err := strconv.ParseUint(CurrentRelease, 10, 64); err != nil {
 		panic(err)
 	} else {
 		return r

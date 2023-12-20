@@ -1,6 +1,7 @@
 package rc_group_impl
 
 import (
+	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"strings"
@@ -34,7 +35,7 @@ func TestGroupImpl_AddNoRecipeGroup(t *testing.T) {
 
 	msgs := app_msg_container_impl.NewSingleWithMessagesForTest(map[string]string{})
 	usage := app_ui.MakeMarkdown(msgs, func(ui app_ui.UI) {
-		gContent.PrintUsage(ui, "tbx", "x.y.z")
+		gContent.PrintUsage(ui, app.ExecutableName, "x.y.z")
 	})
 	if strings.Contains(usage, "recipe.content.member.member.title") {
 		t.Error(usage)

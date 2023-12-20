@@ -9,6 +9,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 )
 
+func NewConnGithubPublic(name string) api_conn.Connection {
+	return &ConnGithubPublic{
+		name: name,
+	}
+}
+
 type ConnGithubPublic struct {
 	name string
 	ctl  app_control.Control

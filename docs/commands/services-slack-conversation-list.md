@@ -79,7 +79,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option  | Description   | Default |
 |---------|---------------|---------|
-| `-peer` | Account alias | Peer    |
+| `-peer` | Account alias | default |
 
 ## Common options:
 

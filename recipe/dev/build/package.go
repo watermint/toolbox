@@ -29,13 +29,15 @@ import (
 
 type Package struct {
 	rc_recipe.RemarkSecret
-	BuildPath  mo_path.ExistingFileSystemPath
-	DistPath   mo_path.FileSystemPath
-	DeployPath mo_string.OptionalString
-	Up         *artifact.Up
+	BuildPath      mo_path.ExistingFileSystemPath
+	DistPath       mo_path.FileSystemPath
+	DeployPath     mo_string.OptionalString
+	Up             *artifact.Up
+	ExecutableName string
 }
 
 func (z *Package) Preset() {
+	z.ExecutableName = app.ExecutableName
 }
 
 func (z *Package) platformName() string {
@@ -59,7 +61,7 @@ func (z *Package) platformName() string {
 
 func (z *Package) createPackage(c app_control.Control) (path string, err error) {
 	platform := z.platformName()
-	name := fmt.Sprintf("tbx-%s-%s.zip", app.Version, platform)
+	name := fmt.Sprintf("%s-%s-%s.zip", z.ExecutableName, app.Version, platform)
 	l := c.Log().With(esl.String("name", name))
 	if err := os.MkdirAll(z.DistPath.Path(), 0755); err != nil {
 		return "", err
@@ -128,26 +130,26 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 
 	// binary
 	{
-		binaryName := "tbx"
+		binaryName := z.ExecutableName
 		binarySuffix := ""
 		target, ok := os.LookupEnv(app.EnvNameToolboxBuildTarget)
 		if ok {
 			switch target {
 			case "windows/amd64":
 				binarySuffix = ".exe"
-				binaryName = "tbx-windows-amd64.exe"
+				binaryName = z.ExecutableName + "-windows-amd64.exe"
 			case "linux/amd64":
-				binaryName = "tbx-linux-amd64"
+				binaryName = z.ExecutableName + "-linux-amd64"
 			case "linux/arm64":
-				binaryName = "tbx-linux-arm64"
+				binaryName = z.ExecutableName + "-linux-arm64"
 			case "darwin/amd64":
-				binaryName = "tbx-darwin-amd64"
+				binaryName = z.ExecutableName + "-darwin-amd64"
 			case "darwin/arm64":
-				binaryName = "tbx-darwin-arm64"
+				binaryName = z.ExecutableName + "-darwin-arm64"
 			}
 		}
 		binaryPath := filepath.Join(z.BuildPath.Path(), binaryName)
-		newBinaryPath := filepath.Join(z.BuildPath.Path(), "tbx"+binarySuffix)
+		newBinaryPath := filepath.Join(z.BuildPath.Path(), z.ExecutableName+binarySuffix)
 		l.Debug("Renaming binary", esl.String("old", binaryName), esl.String("new", newBinaryPath))
 		if newBinaryPath == binaryPath {
 			l.Debug("Skip renaming")
@@ -209,7 +211,7 @@ func (z *Package) Exec(c app_control.Control) error {
 		return rc_exec.Exec(c, z.Up, func(r rc_recipe.Recipe) {
 			m := r.(*artifact.Up)
 			m.LocalPath = mo_path.NewFileSystemPath(pkgPath)
-			m.DropboxPath = mo_path2.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app.BuildInfo.Branch, "tbx-"+app.BuildId)))
+			m.DropboxPath = mo_path2.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app.BuildInfo.Branch, z.ExecutableName+"-"+app.BuildId)))
 			m.PeerName = "deploy"
 		})
 	}
@@ -226,7 +228,7 @@ func (z *Package) Test(c app_control.Control) error {
 		_ = os.RemoveAll(dest)
 	}()
 
-	binPath := filepath.Join(dest, "tbx")
+	binPath := filepath.Join(dest, app.ExecutableName)
 	err = os.WriteFile(binPath, []byte("This is test content"), 0644)
 	if err != nil {
 		return err

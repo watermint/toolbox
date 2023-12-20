@@ -1,6 +1,8 @@
 package mo_string
 
-import "github.com/watermint/toolbox/essentials/log/esl"
+import (
+	"github.com/watermint/toolbox/essentials/log/esl"
+)
 
 type SelectString interface {
 	String
@@ -11,31 +13,31 @@ type SelectString interface {
 }
 
 func NewSelect() SelectString {
-	return &selectString{
+	return &selectStringInternal{
 		opts:     []string{},
 		selected: "",
 	}
 }
 
-type selectString struct {
+type selectStringInternal struct {
 	opts     []string
 	selected string
 }
 
-func (z *selectString) Value() string {
+func (z *selectStringInternal) Value() string {
 	return z.selected
 }
 
-func (z *selectString) Options() []string {
+func (z *selectStringInternal) Options() []string {
 	return z.opts
 }
 
-func (z *selectString) SetOptions(selected string, opts ...string) {
+func (z *selectStringInternal) SetOptions(selected string, opts ...string) {
 	z.opts = opts
 	z.SetSelect(selected)
 }
 
-func (z *selectString) SetSelect(selected string) {
+func (z *selectStringInternal) SetSelect(selected string) {
 	z.selected = selected
 	if !z.IsValid() {
 		l := esl.Default()
@@ -45,7 +47,7 @@ func (z *selectString) SetSelect(selected string) {
 	}
 }
 
-func (z *selectString) IsValid() bool {
+func (z *selectStringInternal) IsValid() bool {
 	for _, s := range z.opts {
 		if s == z.selected {
 			return true

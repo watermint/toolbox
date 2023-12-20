@@ -16,7 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
 )
@@ -109,15 +109,15 @@ func (z *SelfContainedTestRecipe) Preset() {
 func TestSpecSelfContained_ApplyValues(t *testing.T) {
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
 		scr := &SelfContainedTestRecipe{}
-		spec := rc_spec.NewSelfContained(scr)
+		spec := rc_spec.New(scr)
 
-		feedDir, err := ioutil.TempDir("", "feed")
+		feedDir, err := os.MkdirTemp("", "feed")
 		if err != nil {
 			t.Error(err)
 			return
 		}
 		feedPath := filepath.Join(feedDir, "fd_feed.csv")
-		err = ioutil.WriteFile(feedPath, []byte("orange@example.com,10"), 0600)
+		err = os.WriteFile(feedPath, []byte("orange@example.com,10"), 0600)
 		if err != nil {
 			t.Error(err)
 			return

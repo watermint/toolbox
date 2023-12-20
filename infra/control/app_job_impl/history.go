@@ -2,6 +2,7 @@ package app_job_impl
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/file/es_zip"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	app2 "github.com/watermint/toolbox/infra/app"
@@ -22,7 +23,7 @@ type HistoryMetadata struct {
 }
 
 func parse(path string, model interface{}) error {
-	content, err := ioutil.ReadFile(path)
+	content, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
@@ -30,6 +31,18 @@ func parse(path string, model interface{}) error {
 		return err
 	}
 	return nil
+}
+
+func parseByModel(path string, model interface{}) error {
+	content, err := os.ReadFile(path)
+	if err != nil {
+		return err
+	}
+	if j, err := es_json.Parse(content); err != nil {
+		return err
+	} else {
+		return j.Model(model)
+	}
 }
 
 func newHistory(app app_workspace.Application, jobId []string) (h app_job.History, found bool) {
@@ -46,7 +59,7 @@ func newHistory(app app_workspace.Application, jobId []string) (h app_job.Histor
 
 	startLogPath := filepath.Join(ws.Log(), app2.LogNameStart)
 	finishLogPath := filepath.Join(ws.Log(), app2.LogNameFinish)
-	if err := parse(startLogPath, start); err != nil {
+	if err := parseByModel(startLogPath, start); err != nil {
 		l.Debug("Unable to load start log", esl.Error(err))
 		//return nil, false
 	}

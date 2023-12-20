@@ -21,7 +21,7 @@ type Header struct {
 }
 
 func (z Header) Title() app_msg.Message {
-	return z.HeaderTitle
+	return z.HeaderTitle.With("AppName", app.Name)
 }
 
 func (z Header) Body(ui app_ui.UI) {

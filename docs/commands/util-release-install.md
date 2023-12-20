@@ -26,8 +26,9 @@ Please see below help article for more detail:
 
 ## Auth scopes
 
-| Description |
-|-------------|
+| Description                                                          |
+|----------------------------------------------------------------------|
+| GitHub: Grants read access to public repositories and organizations. |
 
 # Authorization
 
@@ -80,6 +81,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 |-----------------------------|--------------------------------------------------|---------|
 | `-accept-license-agreement` | Accept to the target release's license agreement | false   |
 | `-path`                     | Path to install                                  |         |
+| `-peer`                     | Account alias                                    | default |
 | `-release`                  | Release tag name                                 | latest  |
 
 ## Common options:

@@ -27,7 +27,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"github.com/watermint/toolbox/resources"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -54,6 +53,7 @@ type Publish struct {
 	Recipe       *test.Recipe
 	Formula      *homebrew.Formula
 	Asset        *Asset
+	Asseturl     *Asseturl
 
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
@@ -85,20 +85,25 @@ func (z *Publish) Preset() {
 func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes map[string]int64, err error) {
 	l := c.Log()
 
-	entries, err := ioutil.ReadDir(z.ArtifactPath.Path())
+	entries, err := os.ReadDir(z.ArtifactPath.Path())
 	if err != nil {
 		return nil, nil, err
 	}
 	paths = make([]string, 0)
 	sizes = make(map[string]int64)
 	for _, e := range entries {
-		if !strings.HasPrefix(e.Name(), "tbx-"+app.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
+		if !strings.HasPrefix(e.Name(), app.ExecutableName+"-"+app.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
 			l.Debug("Ignore non artifact file", esl.Any("file", e))
 			continue
 		}
 		path := filepath.Join(z.ArtifactPath.Path(), e.Name())
 		paths = append(paths, path)
-		sizes[path] = e.Size()
+		info, err := e.Info()
+		if err != nil {
+			l.Debug("Unable to read file info", esl.Error(err))
+			return nil, nil, err
+		}
+		sizes[path] = info.Size()
 	}
 	return paths, sizes, nil
 }
@@ -180,7 +185,7 @@ func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNo
 	})
 
 	relNotesPath := filepath.Join(c.Workspace().Report(), "release_notes.md")
-	err = ioutil.WriteFile(relNotesPath, []byte(md), 0644)
+	err = os.WriteFile(relNotesPath, []byte(md), 0644)
 	if err != nil {
 		l.Debug("Unable to write release notes", esl.Error(err), esl.String("path", relNotesPath))
 		return "", err
@@ -387,30 +392,17 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel, assetWinIntel *mo_release_asset.Asset
+	var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel *mo_release_asset.Asset
 	for _, a := range assets {
-		switch {
-		case strings.HasSuffix(a.Name, "mac-intel.zip"),
-			strings.HasSuffix(a.Name, "mac-amd64.zip"),
-			strings.HasSuffix(a.Name, "mac-x86_64.zip"):
+		switch IdentifyPlatform(a) {
+		case AssetPlatformMacIntel:
 			assetMacIntel = a
-		case strings.HasSuffix(a.Name, "mac-applesilicon.zip"),
-			strings.HasSuffix(a.Name, "mac-arm64.zip"),
-			strings.HasSuffix(a.Name, "mac-arm.zip"):
+		case AssetPlatformMacArm:
 			assetMacArm = a
-		case strings.HasSuffix(a.Name, "linux-intel.zip"),
-			strings.HasSuffix(a.Name, "linux-amd64.zip"),
-			strings.HasSuffix(a.Name, "linux-x86_64.zip"):
+		case AssetPlatformLinuxIntel:
 			assetLinuxIntel = a
-		case strings.HasSuffix(a.Name, "linux-arm.zip"),
-			strings.HasSuffix(a.Name, "linux-arm64.zip"),
-			strings.HasSuffix(a.Name, "linux-arm.zip"):
+		case AssetPlatformLinuxArm:
 			assetLinuxArm = a
-		case strings.HasSuffix(a.Name, "win.zip"),
-			strings.HasSuffix(a.Name, "win-intel.zip"),
-			strings.HasSuffix(a.Name, "win-amd64.zip"),
-			strings.HasSuffix(a.Name, "win-x86_64.zip"):
-			assetWinIntel = a
 		}
 	}
 
@@ -425,29 +417,17 @@ func (z *Publish) Exec(c app_control.Control) error {
 		return err
 	}
 
-	assetUrls := map[string]string{
-		"mac-intel":   assetMacIntel.DownloadUrl,
-		"mac-arm":     assetMacArm.DownloadUrl,
-		"linux-intel": assetLinuxIntel.DownloadUrl,
-		"linux-arm":   assetLinuxArm.DownloadUrl,
-		"win-intel":   assetWinIntel.DownloadUrl,
-	}
-	l.Info("Update latest the asset URLs", esl.Any("urls", assetUrls))
-	for platform, url := range assetUrls {
-		l.Info("Update latest the asset URL", esl.String("platform", platform), esl.String("url", url))
-		err := rc_exec.Exec(c, z.Asset, func(r rc_recipe.Recipe) {
-			m := r.(*Asset)
-			m.Owner = homebrewRepoOwner
-			m.Repo = homebrewRepoName
-			m.Branch = homebrewRepoBranch
-			m.Path = "/latest/" + platform + ".url"
-			m.Text = url
-			m.Message = app.BuildId + " " + platform + " latest binary URL"
-		})
-		if err != nil {
-			l.Debug("Unable to update the asset URL", esl.Error(err))
-			return err
-		}
+	err = rc_exec.Exec(c, z.Asseturl, func(r rc_recipe.Recipe) {
+		m := r.(*Asseturl)
+		m.SourceOwner = app.RepositoryOwner
+		m.SourceRepo = app.RepositoryName
+		m.TargetOwner = homebrewRepoOwner
+		m.TargetRepo = homebrewRepoName
+		m.TargetBranch = homebrewRepoBranch
+	})
+	if err != nil {
+		l.Error("Unable to update asset URL", esl.Error(err))
+		return err
 	}
 
 	l.Info("The build is ready to publish")
@@ -463,7 +443,7 @@ func (z *Publish) Test(c app_control.Control) error {
 	platforms := []string{"linux", "mac", "win"}
 	for _, platform := range platforms {
 		app.BuildId = "dev-test"
-		err = ioutil.WriteFile(filepath.Join(d, "tbx-"+app.BuildId+"-"+platform+".zip"), []byte("Test artifact"), 0644)
+		err = os.WriteFile(filepath.Join(d, app.ExecutableName+"-"+app.BuildId+"-"+platform+".zip"), []byte("Test artifact"), 0644)
 		if err != nil {
 			c.Log().Warn("Unable to create test artifact", esl.Error(err))
 			return err

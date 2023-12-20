@@ -37,6 +37,11 @@ func (z *Version) Exec(c app_control.Control) error {
 		return err
 	}
 	z.Versions.Row(&VersionInfo{
+		Key:       "app.name",
+		Component: "app.name",
+		Version:   app.Name,
+	})
+	z.Versions.Row(&VersionInfo{
 		Key:       "app.version",
 		Component: app.Name,
 		Version:   app.BuildId,

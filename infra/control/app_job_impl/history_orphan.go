@@ -24,7 +24,7 @@ func NewOrphanHistory(path string) (h app_job.History, found bool) {
 	finish := &app_job.ResultLog{}
 	finishLogPath := filepath.Join(path, app2.LogNameFinish)
 
-	if err := parse(startLogPath, start); err != nil {
+	if err := parseByModel(startLogPath, start); err != nil {
 		l.Debug("Unable to load start log", esl.Error(err))
 		return nil, false
 	}

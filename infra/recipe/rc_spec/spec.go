@@ -5,5 +5,5 @@ import (
 )
 
 func New(rcp rc_recipe.Recipe) rc_recipe.Spec {
-	return NewSelfContained(rcp)
+	return newSelfContained(rcp)
 }
