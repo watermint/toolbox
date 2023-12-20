@@ -16,7 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/ingredient/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 )
@@ -25,7 +25,7 @@ type Up struct {
 	rc_recipe.RemarkIrreversible
 	Peer          dbx_conn.ConnScopedTeam
 	File          fd_file.RowFeed
-	Upload        *file.Upload
+	Upload        *ig_file.Upload
 	OperationLog  rp_model.TransactionReport
 	Overwrite     bool
 	Delete        bool
@@ -84,7 +84,7 @@ func (z *Up) Exec(c app_control.Control) error {
 		}
 
 		err = rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
-			ru := r.(*file.Upload)
+			ru := r.(*ig_file.Upload)
 			ru.LocalPath = mo_path.NewFileSystemPath(localPath)
 			ru.DropboxPath = mo_path2.NewDropboxPath(dbxPath)
 			ru.Overwrite = z.Overwrite

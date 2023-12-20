@@ -21,7 +21,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/ingredient/release/homebrew"
+	"github.com/watermint/toolbox/ingredient/ig_release/ig_homebrew"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
@@ -51,7 +51,7 @@ type Publish struct {
 	ConnGithub   gh_conn.ConnGithubRepo
 	SkipTests    bool
 	Recipe       *test.Recipe
-	Formula      *homebrew.Formula
+	Formula      *ig_homebrew.Formula
 	Asset        *Asset
 	Asseturl     *Asseturl
 
@@ -319,7 +319,7 @@ func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Rele
 func (z *Publish) updateHomebrewFormula(c app_control.Control, macIntel, macArm, linuxIntel, linuxArm *mo_release_asset.Asset) error {
 	baseUrl := "https://github.com/watermint/toolbox/releases/download/" + app_definitions2.BuildId + "/"
 	return rc_exec.Exec(c, z.Formula, func(r rc_recipe.Recipe) {
-		m := r.(*homebrew.Formula)
+		m := r.(*ig_homebrew.Formula)
 		m.Owner = homebrewRepoOwner
 		m.Repository = homebrewRepoName
 		m.Branch = homebrewRepoBranch

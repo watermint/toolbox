@@ -16,7 +16,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/security/sc_random"
-	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/ingredient/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -30,7 +30,7 @@ type Up struct {
 	Peer        dbx_conn.ConnScopedIndividual
 	LocalPath   mo_path2.ExistingFileSystemPath
 	DropboxPath mo_path.DropboxPath
-	Upload      *file.Upload
+	Upload      *ig_file.Upload
 	Overwrite   bool
 	Delete      bool
 	BatchSize   mo_int.RangeInt
@@ -53,7 +53,7 @@ func (z *Up) Preset() {
 
 func (z *Up) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.Upload, func(r rc_recipe.Recipe) {
-		ru := r.(*file.Upload)
+		ru := r.(*ig_file.Upload)
 		ru.LocalPath = z.LocalPath
 		ru.DropboxPath = z.DropboxPath
 		ru.Overwrite = z.Overwrite
@@ -126,7 +126,7 @@ func (z *Up) Test(c app_control.Control) error {
 			return err
 		}
 
-		summary := file.Summary{}
+		summary := ig_file.Summary{}
 		if err := json.Unmarshal(targetReportFile, &summary); err != nil {
 			l.Debug("Unable to unmarshal report", esl.Error(err))
 			return err

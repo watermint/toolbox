@@ -6,7 +6,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/job"
+	"github.com/watermint/toolbox/ingredient/ig_job"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 )
@@ -15,12 +15,12 @@ type Delete struct {
 	rc_recipe.RemarkConsole
 	Days   mo_int.RangeInt
 	Path   mo_string.OptionalString
-	Delete *job.Delete
+	Delete *ig_job.Delete
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.Delete, func(r rc_recipe.Recipe) {
-		m := r.(*job.Delete)
+		m := r.(*ig_job.Delete)
 		m.Days = z.Days.Value()
 		m.Path = z.Path
 	})

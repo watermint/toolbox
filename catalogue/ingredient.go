@@ -4,11 +4,11 @@ package catalogue
 
 import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	ingredientbootstrap "github.com/watermint/toolbox/ingredient/bootstrap"
-	ingredientfile "github.com/watermint/toolbox/ingredient/file"
-	ingredientjob "github.com/watermint/toolbox/ingredient/job"
-	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
-	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
+	ingredientbootstrap "github.com/watermint/toolbox/ingredient/ig_bootstrap"
+	ingredientfile "github.com/watermint/toolbox/ingredient/ig_file"
+	ingredientjob "github.com/watermint/toolbox/ingredient/ig_job"
+	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/ig_team/ig_namespace/ig_file"
+	ingredientteamfolder "github.com/watermint/toolbox/ingredient/ig_teamfolder"
 )
 
 func AutoDetectedIngredients() []infra_recipe_rc_recipe.Recipe {

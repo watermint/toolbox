@@ -10,7 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/ingredient/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
@@ -22,7 +22,7 @@ type Down struct {
 	LocalPath    mo_path2.FileSystemPath
 	DropboxPath  mo_path.DropboxPath
 	Name         mo_filter.Filter
-	Download     *file.Download
+	Download     *ig_file.Download
 }
 
 func (z *Down) Preset() {
@@ -39,7 +39,7 @@ func (z *Down) Preset() {
 
 func (z *Down) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.Download, func(r rc_recipe.Recipe) {
-		ru := r.(*file.Download)
+		ru := r.(*ig_file.Download)
 		ru.LocalPath = z.LocalPath
 		ru.DropboxPath = z.DropboxPath
 		ru.Overwrite = !z.SkipExisting

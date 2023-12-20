@@ -21,7 +21,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
-	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/ingredient/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"io/ioutil"
 	"path/filepath"
@@ -85,8 +85,8 @@ func (z *Bundle) execReplay(l esl.Logger, entryName string, replay rc_replay.Rep
 		l.Warn("Error on replay", esl.Error(err))
 		l.Info("Uploading logs")
 		to := es_timeout.DoWithTimeout(time.Duration(z.Timeout)*time.Second, func(ctx context.Context) {
-			err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
-				m := r.(*file.Upload)
+			err = rc_exec.Exec(c, &ig_file.Upload{}, func(r rc_recipe.Recipe) {
+				m := r.(*ig_file.Upload)
 				m.Context = dbxCtx
 				m.LocalPath = mo_path2.NewFileSystemPath(forkCtl.Workspace().Job())
 				m.DropboxPath = z.ResultsPath

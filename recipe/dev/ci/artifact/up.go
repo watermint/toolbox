@@ -12,7 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/ingredient/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
@@ -26,7 +26,7 @@ type Up struct {
 	PeerName    string
 	LocalPath   mo_path2.FileSystemPath
 	DropboxPath mo_path.DropboxPath
-	Upload      *file.Upload
+	Upload      *ig_file.Upload
 }
 
 func (z *Up) Preset() {
@@ -54,8 +54,8 @@ func (z *Up) Exec(c app_control.Control) error {
 
 	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
 
-	err = rc_exec.Exec(c, &file.Upload{}, func(r rc_recipe.Recipe) {
-		m := r.(*file.Upload)
+	err = rc_exec.Exec(c, &ig_file.Upload{}, func(r rc_recipe.Recipe) {
+		m := r.(*ig_file.Upload)
 		m.Context = dbxCtx
 		m.LocalPath = z.LocalPath
 		m.DropboxPath = z.DropboxPath

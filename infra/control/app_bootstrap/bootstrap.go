@@ -34,7 +34,7 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/ingredient/bootstrap"
+	"github.com/watermint/toolbox/ingredient/ig_bootstrap"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 	"os"
 	"os/signal"
@@ -236,7 +236,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	// Bootstrap recipe
-	if err := rc_exec.Exec(ctl, &bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {
+	if err := rc_exec.Exec(ctl, &ig_bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {
 		ctl.Log().Error("Bootstrap failed with an error", esl.Error(err))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", err))
 		jl.Down(err, ctl)
