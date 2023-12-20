@@ -17,7 +17,7 @@ var (
 )
 
 func AppHeader(ui app_ui.UI, version string) {
-	ui.Header(MHeader.Header.With("AppVersion", version))
+	ui.Header(MHeader.Header.With("AppVersion", version).With("AppName", app.Name))
 	ui.Info(app_msg.Raw(app.Copyright))
 	ui.Info(MHeader.License)
 	ui.Break()
