@@ -1236,6 +1236,7 @@
   "recipe.dev.build.package.flag.build_path": "Full path to the binary",
   "recipe.dev.build.package.flag.deploy_path": "Deploy destination folder path (remote)",
   "recipe.dev.build.package.flag.dist_path": "Package destination folder path (local)",
+  "recipe.dev.build.package.flag.executable_name": "Executable file name base",
   "recipe.dev.build.package.title": "Package a build",
   "recipe.dev.build.preflight.flag.quick": "Quick mode",
   "recipe.dev.build.preflight.title": "Process prerequisites for the release",

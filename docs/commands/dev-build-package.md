@@ -38,11 +38,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                             | Default |
-|----------------|-----------------------------------------|---------|
-| `-build-path`  | Full path to the binary                 |         |
-| `-deploy-path` | Deploy destination folder path (remote) |         |
-| `-dist-path`   | Package destination folder path (local) |         |
+| Option             | Description                             | Default |
+|--------------------|-----------------------------------------|---------|
+| `-build-path`      | Full path to the binary                 |         |
+| `-deploy-path`     | Deploy destination folder path (remote) |         |
+| `-dist-path`       | Package destination folder path (local) |         |
+| `-executable-name` | Executable file name base               | tbx     |
 
 ## Common options:
 
