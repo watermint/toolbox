@@ -22,11 +22,8 @@ var resImages embed.FS
 //go:embed data/*
 var resData embed.FS
 
-//go:embed release/release
-var resRelease string
-
-//go:embed release/release_notes
-var resReleaseNotes string
+//go:embed release/*
+var resRelease embed.FS
 
 //go:embed build/*
 var resBuildInfo embed.FS

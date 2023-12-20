@@ -6,11 +6,12 @@ type Bundle interface {
 	Images() Resource
 	Keys() Resource
 	Messages() Resource
+	Release() Resource
 	Templates() Resource
 	Web() Resource
 }
 
-func New(tpl, msg, web, key, img, dat, bld Resource) Bundle {
+func New(tpl, msg, web, key, img, dat, bld, rel Resource) Bundle {
 	return &bundleImpl{
 		tpl: tpl,
 		msg: msg,
@@ -19,6 +20,7 @@ func New(tpl, msg, web, key, img, dat, bld Resource) Bundle {
 		img: img,
 		dat: dat,
 		bld: bld,
+		rel: rel,
 	}
 }
 
@@ -32,6 +34,7 @@ func NewChainBundle(bundles ...Bundle) Bundle {
 	resImg := make([]Resource, 0)
 	resDat := make([]Resource, 0)
 	resBld := make([]Resource, 0)
+	resRel := make([]Resource, 0)
 	for _, b := range bundles {
 		resTmp = append(resTmp, b.Templates())
 		resMsg = append(resMsg, b.Messages())
@@ -40,6 +43,7 @@ func NewChainBundle(bundles ...Bundle) Bundle {
 		resImg = append(resImg, b.Images())
 		resDat = append(resDat, b.Data())
 		resBld = append(resBld, b.Build())
+		resRel = append(resRel, b.Release())
 	}
 	return &bundleImpl{
 		tpl: NewMergedResource(resTmp...),
@@ -49,6 +53,7 @@ func NewChainBundle(bundles ...Bundle) Bundle {
 		img: NewMergedResource(resImg...),
 		dat: NewMergedResource(resDat...),
 		bld: NewMergedResource(resBld...),
+		rel: NewMergedResource(resRel...),
 	}
 }
 
@@ -61,17 +66,23 @@ func EmptyBundle() Bundle {
 		img: EmptyResource(),
 		dat: EmptyResource(),
 		bld: EmptyResource(),
+		rel: EmptyResource(),
 	}
 }
 
 type bundleImpl struct {
-	tpl Resource
-	msg Resource
-	web Resource
-	key Resource
-	img Resource
-	dat Resource
 	bld Resource
+	dat Resource
+	img Resource
+	key Resource
+	msg Resource
+	rel Resource
+	tpl Resource
+	web Resource
+}
+
+func (z bundleImpl) Release() Resource {
+	return z.rel
 }
 
 func (z bundleImpl) Build() Resource {
