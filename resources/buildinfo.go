@@ -27,6 +27,7 @@ func NewBundle() es_resource.Bundle {
 		es_resource.NewNonTraversableResource("keys", resKeys),
 		es_resource.NewResource("images", resImages),
 		es_resource.NewNonTraversableResource("data", resData),
+		es_resource.NewNonTraversableResource("build", resBuildInfo),
 	)
 }
 
