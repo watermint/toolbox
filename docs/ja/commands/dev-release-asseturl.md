@@ -6,7 +6,7 @@ lang: ja
 
 # dev release asseturl
 
-Update asset URL of the release 
+リリースのアセットURLを更新 
 
 # セキュリティ
 
@@ -79,12 +79,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 | オプション       | 説明                     | デフォルト |
 |------------------|--------------------------|------------|
-| `-peer`          | Account alias            | default    |
-| `-source-owner`  | Source repository owner  |            |
-| `-source-repo`   | Source repository name   |            |
-| `-target-branch` | Target repository branch |            |
-| `-target-owner`  | Target repository owner  |            |
-| `-target-repo`   | Target repository name   |            |
+| `-peer`          | アカウントの別名         | default    |
+| `-source-owner`  | ソースリポジトリの所有者 |            |
+| `-source-repo`   | ソースリポジトリ名       |            |
+| `-target-branch` | 対象リポジトリのブランチ |            |
+| `-target-owner`  | 対象のリポジトリ所有者   |            |
+| `-target-repo`   | ターゲットリポジトリ名   |            |
 
 ## 共通のオプション:
 

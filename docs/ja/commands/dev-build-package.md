@@ -43,7 +43,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-build-path`      | バイナリへのフルパス                       |            |
 | `-deploy-path`     | デプロイ先フォルダパス(リモート)           |            |
 | `-dist-path`       | パッケージの保存先フォルダのパス(ローカル) |            |
-| `-executable-name` | Executable file name base                  | tbx        |
+| `-executable-name` | 実行ファイル名ベース                       | tbx        |
 
 ## 共通のオプション:
 
