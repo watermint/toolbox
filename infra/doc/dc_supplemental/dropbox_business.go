@@ -12,6 +12,10 @@ import (
 	"sort"
 )
 
+var (
+	HupOnNoBusinessCommandFound = true
+)
+
 type MsgDropboxBusiness struct {
 	DocDesc  app_msg.Message
 	Title    app_msg.Message
@@ -572,7 +576,7 @@ func (z DropboxBusinessFootnote) Title() app_msg.Message {
 
 func (z DropboxBusinessFootnote) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.FootnoteInfo)
-	if z.cat.WarnUnmentioned() {
+	if HupOnNoBusinessCommandFound && z.cat.WarnUnmentioned() {
 		panic("Unmentioned Dropbox Business command found")
 	}
 }

@@ -25,6 +25,7 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
+	"math"
 	"os"
 	"path/filepath"
 	"sort"
@@ -45,6 +46,12 @@ var (
 	MSelfContained = app_msg.Apply(&MsgSelfContained{}).(*MsgSelfContained)
 )
 
+var (
+	BasePackages = []string{
+		rc_recipe.BasePackage,
+	}
+)
+
 func newSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 	var ann rc_recipe.Annotation
 	var repo rc_recipe.Repository
@@ -60,7 +67,16 @@ func newSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 		repo = rc_value.NewRepository(scr)
 	}
 
-	path, name := es_reflect.Path(rc_recipe.BasePackage, scr)
+	var path []string
+	var pathMin = math.MaxInt
+	var name string
+	for _, bp := range BasePackages {
+		if p, n := es_reflect.Path(bp, scr); len(p) < pathMin {
+			path = p
+			name = n
+			pathMin = len(p)
+		}
+	}
 	cliPath := strings.Join(append(path, name), " ")
 
 	return &specValueSelfContained{

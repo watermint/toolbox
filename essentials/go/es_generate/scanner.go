@@ -9,7 +9,7 @@ import (
 	"go/parser"
 	"go/token"
 	"go/types"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -99,7 +99,7 @@ func (z *scannerImpl) load() error {
 		for _, pkg := range pkgs {
 			z.allPkg = append(z.allPkg, pkg)
 		}
-		entries, err := ioutil.ReadDir(path0)
+		entries, err := os.ReadDir(path0)
 		for _, entry := range entries {
 			if entry.IsDir() && !strings.HasPrefix(entry.Name(), ".") {
 				if err := parseDir(filepath.Join(relPath, entry.Name())); err != nil {
@@ -128,7 +128,7 @@ func (z *scannerImpl) findAstInterface(refType reflect.Type) (astType *types.Int
 	l.Debug("Recipe type", esl.String("name", refType.Name()), esl.String("pkg", refType.PkgPath()))
 	for _, pkg := range z.allPkg {
 		for f0, f := range pkg.Files {
-			l.Debug("scan files", esl.String("f0", f0))
+			l.Debug("scan file", esl.String("f0", f0))
 			if r := f.Scope.Lookup(refType.Name()); r != nil {
 				l.Debug("finding recipe", esl.String("r", r.Name))
 				info := types.Info{
