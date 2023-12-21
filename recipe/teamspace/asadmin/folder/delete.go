@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/ig_file"
-	"github.com/watermint/toolbox/ingredient/ig_teamspace"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamspace"
 )
 
 type Delete struct {

@@ -12,6 +12,16 @@ const (
 	Pkg = "github.com/" + RepositoryOwner + "/" + RepositoryName
 )
 
+// Project structure definitions
+var (
+	RecipePackageNames = []string{
+		"ingredient",
+		"recipe",
+		"recipe_citron",
+		"recipe_lime",
+	}
+)
+
 // Peer names
 const (
 	// Peer name for deployment
@@ -64,7 +74,7 @@ const (
 )
 
 // Document
-const (
+var (
 	// Project status badge
 	ProjectStatusBadge = `
 [![Build](https://github.com/watermint/toolbox/actions/workflows/build.yml/badge.svg)](https://github.com/watermint/toolbox/actions/workflows/build.yml)

@@ -21,7 +21,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_replay"
-	"github.com/watermint/toolbox/ingredient/ig_file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"io/ioutil"
 	"path/filepath"

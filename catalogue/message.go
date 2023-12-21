@@ -46,7 +46,7 @@ import (
 	infrareportrp_model_impl "github.com/watermint/toolbox/infra/report/rp_model_impl"
 	infrareportrp_writer_impl "github.com/watermint/toolbox/infra/report/rp_writer_impl"
 	infrauiapp_ui "github.com/watermint/toolbox/infra/ui/app_ui"
-	ingredientig_file "github.com/watermint/toolbox/ingredient/ig_file"
+	ingredientig_file "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipefileimportbatch "github.com/watermint/toolbox/recipe/file/import/batch"
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"

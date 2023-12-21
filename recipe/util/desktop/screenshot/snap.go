@@ -3,6 +3,7 @@ package screenshot
 import (
 	"errors"
 	"github.com/kbinani/screenshot"
+	screenshot2 "github.com/watermint/toolbox/domain/desktop/dd_screenshot"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -28,7 +29,7 @@ func (z *Snap) Preset() {
 
 func (z *Snap) Exec(c app_control.Control) error {
 	l := c.Log()
-	if err := checkDisplayAvailability(z.DisplayId.Value()); err != nil {
+	if err := screenshot2.CheckDisplayAvailability(z.DisplayId.Value()); err != nil {
 		c.UI().Error(z.ErrNoDisplay)
 		return err
 	}
@@ -70,7 +71,7 @@ func (z *Snap) Test(c app_control.Control) error {
 		m.Path = mo_path.NewFileSystemPath(filepath.Join(f, "screenshot.png"))
 	})
 	switch {
-	case errors.Is(err, ErrorNoDisplay), err == nil:
+	case errors.Is(err, screenshot2.ErrorNoDisplay), err == nil:
 		return nil
 	default:
 		return err

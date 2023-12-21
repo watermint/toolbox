@@ -5,7 +5,7 @@ import (
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/ig_teamfolder"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamfolder"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 )

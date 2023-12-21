@@ -2,26 +2,19 @@ package display
 
 import (
 	"github.com/kbinani/screenshot"
+	"github.com/watermint/toolbox/domain/desktop/dd_display"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
-type Display struct {
-	Id     int `json:"id"`
-	X      int `json:"x"`
-	Y      int `json:"y"`
-	Width  int `json:"width"`
-	Height int `json:"height"`
-}
-
 type List struct {
 	Displays rp_model.RowReport
 }
 
 func (z *List) Preset() {
-	z.Displays.SetModel(&Display{})
+	z.Displays.SetModel(&dd_display.Display{})
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -30,7 +23,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 	for i := 0; i < screenshot.NumActiveDisplays(); i++ {
 		d := screenshot.GetDisplayBounds(i).Bounds()
-		z.Displays.Row(&Display{
+		z.Displays.Row(&dd_display.Display{
 			Id:     i,
 			X:      d.Min.X,
 			Y:      d.Min.Y,

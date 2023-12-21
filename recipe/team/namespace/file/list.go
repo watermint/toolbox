@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/ig_team/ig_namespace/ig_file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_namespace/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"io/ioutil"
@@ -23,7 +24,7 @@ func (z *Catalogue) Preset() {
 
 func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_control.Control) error {
 	l := c.Log()
-	rcs := []string{"recipe", "recipe_citron", "recipe_lime", "ingredient"}
+	rcs := app_definitions.RecipePackageNames
 	for _, rc := range rcs {
 		scr := sc.PathFilterPrefix(rc).ExcludeTest()
 		sts, err := scr.FindStructImplements(reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem())

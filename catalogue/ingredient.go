@@ -5,10 +5,10 @@ package catalogue
 import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	ingredientbootstrap "github.com/watermint/toolbox/ingredient/ig_bootstrap"
-	ingredientfile "github.com/watermint/toolbox/ingredient/ig_file"
+	ingredientfile "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_namespace/ig_file"
+	ingredientteamfolder "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamfolder"
 	ingredientjob "github.com/watermint/toolbox/ingredient/ig_job"
-	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/ig_team/ig_namespace/ig_file"
-	ingredientteamfolder "github.com/watermint/toolbox/ingredient/ig_teamfolder"
 )
 
 func AutoDetectedIngredients() []infra_recipe_rc_recipe.Recipe {
@@ -17,8 +17,8 @@ func AutoDetectedIngredients() []infra_recipe_rc_recipe.Recipe {
 		&ingredientbootstrap.Bootstrap{},
 		&ingredientfile.Upload{},
 		&ingredientjob.Delete{},
-		&ingredientteamnamespacefile.List{},
-		&ingredientteamnamespacefile.Size{},
+		&ig_file.List{},
+		&ig_file.Size{},
 		&ingredientteamfolder.Replication{},
 	}
 }

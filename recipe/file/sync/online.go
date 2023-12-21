@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/ig_file"
+	ig_file2 "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
@@ -19,11 +19,11 @@ type Online struct {
 	Peer         dbx_conn.ConnScopedIndividual
 	Src          mo_path.DropboxPath
 	Dst          mo_path.DropboxPath
-	Upload       *ig_file.Upload
+	Upload       *ig_file2.Upload
 	SkipExisting bool
 	Delete       bool
 	Name         mo_filter.Filter
-	Online       *ig_file.Online
+	Online       *ig_file2.Online
 }
 
 func (z *Online) Preset() {
@@ -41,7 +41,7 @@ func (z *Online) Preset() {
 
 func (z *Online) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.Online, func(r rc_recipe.Recipe) {
-		ru := r.(*ig_file.Online)
+		ru := r.(*ig_file2.Online)
 		ru.SrcPath = z.Src
 		ru.DstPath = z.Dst
 		ru.Overwrite = !z.SkipExisting

@@ -1,4 +1,4 @@
-package screenshot
+package dd_screenshot
 
 import (
 	"errors"
@@ -10,7 +10,7 @@ var (
 	ErrorNoDisplay = errors.New("no display")
 )
 
-func checkDisplayAvailability(displayId int) error {
+func CheckDisplayAvailability(displayId int) error {
 	l := esl.Default()
 	numDisplays := screenshot.NumActiveDisplays()
 	if numDisplays < 0 {
