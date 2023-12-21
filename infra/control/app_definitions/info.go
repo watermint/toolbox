@@ -6,18 +6,30 @@ import (
 	"github.com/watermint/toolbox/resources"
 	"runtime"
 	"strings"
+	"time"
+)
+
+type LifecycleExpirationType string
+
+const (
+	LifecycleExpirationWarningOnly LifecycleExpirationType = "warning"
+	LifecycleExpirationShutdown    LifecycleExpirationType = "shutdown"
 )
 
 var (
-	Name           = "watermint toolbox"
-	ExecutableName = "tbx"
-	Version        = app_build.SelectVersion(BuildInfo.Version)
-	BuildInfo      = resources.Build()
-	BuildId        = Version.String()
-	Release        = resources.Release()
-	Copyright      = fmt.Sprintf("© 2016-%4d Takayuki Okazaki", BuildInfo.Year)
-	LandingPage    = "https://toolbox.watermint.org"
-	DefaultWebPort = 7800
+	Name                        = "watermint toolbox"
+	ExecutableName              = "tbx"
+	Version                     = app_build.SelectVersion(BuildInfo.Version)
+	BuildInfo                   = resources.Build()
+	BuildId                     = Version.String()
+	Release                     = resources.Release()
+	Copyright                   = fmt.Sprintf("© 2016-%4d Takayuki Okazaki", BuildInfo.Year)
+	LandingPage                 = "https://toolbox.watermint.org"
+	DefaultWebPort              = 7800
+	LifecycleExpirationWarning  = 180 * 24 * time.Hour // 180 days
+	LifecycleExpirationCritical = 365 * 24 * time.Hour // 365 days
+	LifecycleExpirationMode     = LifecycleExpirationWarningOnly
+	LifecycleUpgradeUrl         = "https://github.com/watermint/toolbox/releases/latest"
 )
 
 func UserAgent() string {

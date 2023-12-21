@@ -3,6 +3,7 @@ package recipe
 import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
+	"github.com/watermint/toolbox/infra/control/app_lifecycle"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -10,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/resources"
 	"runtime"
 	"strconv"
+	"time"
 )
 
 type VersionInfo struct {
@@ -76,6 +78,21 @@ func (z *Version) Exec(c app_control.Control) error {
 		Key:       "go.version",
 		Component: ui.Text(z.HeaderGoVersion),
 		Version:   runtime.Version(),
+	})
+	z.Versions.Row(&VersionInfo{
+		Key:       "lifecycle.bestbefore",
+		Component: "lifecycle",
+		Version:   app_lifecycle.LifecycleControl().TimeBestBefore().Format(time.RFC3339),
+	})
+	z.Versions.Row(&VersionInfo{
+		Key:       "lifecycle.expiration",
+		Component: "lifecycle",
+		Version:   app_lifecycle.LifecycleControl().TimeExpiration().Format(time.RFC3339),
+	})
+	z.Versions.Row(&VersionInfo{
+		Key:       "lifecycle.expiration_mode",
+		Component: "lifecycle",
+		Version:   string(app_definitions2.LifecycleExpirationMode),
 	})
 	return nil
 }

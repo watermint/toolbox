@@ -20,6 +20,7 @@ const (
 	FailureInvalidCommand
 	FailureInvalidCommandFlags
 	FailureAuthenticationFailedOrCancelled
+	FailureBinaryExpired
 )
 
 type AbortCode int
