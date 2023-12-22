@@ -1,4 +1,4 @@
-package config
+package feature
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestFeatures_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Features{})
+	qtr_endtoend.TestRecipe(t, &List{})
 }

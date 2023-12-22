@@ -70,7 +70,6 @@ Available commands:
 
 | Command      | Description                     | Notes |
 |--------------|---------------------------------|-------|
-| config       | watermint toolbox configuration |       |
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
 | group        | Group management                |       |
@@ -369,9 +368,9 @@ Available commands:
 |---------------------------------------------------------------------------------------|----------------------------------------------------------------------|
 | [config auth delete](docs/commands/config-auth-delete.md)                             | Delete existing auth credential                                      |
 | [config auth list](docs/commands/config-auth-list.md)                                 | List all auth credentials                                            |
-| [config disable](docs/commands/config-disable.md)                                     | Disable a feature.                                                   |
-| [config enable](docs/commands/config-enable.md)                                       | Enable a feature.                                                    |
-| [config features](docs/commands/config-features.md)                                   | List available optional features.                                    |
+| [config feature disable](docs/commands/config-feature-disable.md)                     | Disable a feature.                                                   |
+| [config feature enable](docs/commands/config-feature-enable.md)                       | Enable a feature.                                                    |
+| [config feature list](docs/commands/config-feature-list.md)                           | List available optional features.                                    |
 | [file template apply local](docs/commands/file-template-apply-local.md)               | Apply file/folder structure template to the local path               |
 | [file template capture local](docs/commands/file-template-capture-local.md)           | Capture file/folder structure as template from local path            |
 | [license](docs/commands/license.md)                                                   | Show license information                                             |

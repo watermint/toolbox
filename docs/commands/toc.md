@@ -289,9 +289,9 @@ lang: en
 |-------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
 | [config auth delete]({{ site.baseurl }}/commands/config-auth-delete.html)                             | Delete existing auth credential                                      |
 | [config auth list]({{ site.baseurl }}/commands/config-auth-list.html)                                 | List all auth credentials                                            |
-| [config disable]({{ site.baseurl }}/commands/config-disable.html)                                     | Disable a feature.                                                   |
-| [config enable]({{ site.baseurl }}/commands/config-enable.html)                                       | Enable a feature.                                                    |
-| [config features]({{ site.baseurl }}/commands/config-features.html)                                   | List available optional features.                                    |
+| [config feature disable]({{ site.baseurl }}/commands/config-feature-disable.html)                     | Disable a feature.                                                   |
+| [config feature enable]({{ site.baseurl }}/commands/config-feature-enable.html)                       | Enable a feature.                                                    |
+| [config feature list]({{ site.baseurl }}/commands/config-feature-list.html)                           | List available optional features.                                    |
 | [file template apply local]({{ site.baseurl }}/commands/file-template-apply-local.html)               | Apply file/folder structure template to the local path               |
 | [file template capture local]({{ site.baseurl }}/commands/file-template-capture-local.html)           | Capture file/folder structure as template from local path            |
 | [license]({{ site.baseurl }}/commands/license.html)                                                   | Show license information                                             |

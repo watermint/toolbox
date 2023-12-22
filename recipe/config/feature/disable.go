@@ -1,4 +1,4 @@
-package config
+package feature
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_catalogue"

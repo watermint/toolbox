@@ -1,4 +1,4 @@
-package config
+package feature
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
@@ -11,7 +11,7 @@ import (
 	"strconv"
 )
 
-type Features struct {
+type List struct {
 	SectionDescription   app_msg.Message
 	SectionSettings      app_msg.Message
 	HeaderKey            app_msg.Message
@@ -21,10 +21,10 @@ type Features struct {
 	HeaderOptInTimestamp app_msg.Message
 }
 
-func (z *Features) Preset() {
+func (z *List) Preset() {
 }
 
-func (z *Features) Exec(c app_control.Control) error {
+func (z *List) Exec(c app_control.Control) error {
 	ui := c.UI()
 	cat := app_catalogue.Current()
 
@@ -57,6 +57,6 @@ func (z *Features) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *Features) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Features{}, rc_recipe.NoCustomValues)
+func (z *List) Test(c app_control.Control) error {
+	return rc_exec.Exec(c, &List{}, rc_recipe.NoCustomValues)
 }

@@ -1,4 +1,4 @@
-package config
+package feature
 
 import (
 	"errors"

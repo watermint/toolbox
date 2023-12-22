@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe log cat kind 
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx log cat kind 
 ```

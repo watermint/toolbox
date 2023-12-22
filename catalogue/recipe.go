@@ -5,8 +5,8 @@ package catalogue
 import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	recipe "github.com/watermint/toolbox/recipe"
-	recipeconfig "github.com/watermint/toolbox/recipe/config"
 	recipeconfigauth "github.com/watermint/toolbox/recipe/config/auth"
+	"github.com/watermint/toolbox/recipe/config/feature"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
@@ -182,9 +182,9 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 	return []infra_recipe_rc_recipe.Recipe{
 		&recipe.License{},
 		&recipe.Version{},
-		&recipeconfig.Disable{},
-		&recipeconfig.Enable{},
-		&recipeconfig.Features{},
+		&feature.Disable{},
+		&feature.Enable{},
+		&feature.List{},
 		&recipeconfigauth.Delete{},
 		&recipeconfigauth.List{},
 		&recipedevbenchmark.Local{},
