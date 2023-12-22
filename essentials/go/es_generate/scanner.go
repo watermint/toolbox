@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"go/ast"
-	"go/importer"
 	"go/parser"
 	"go/token"
 	"go/types"
@@ -53,6 +52,7 @@ type scannerImpl struct {
 	fst         *token.FileSet
 	allPkg      []*ast.Package
 	pathPrefix  string
+	importer    types.Importer
 }
 
 func (z *scannerImpl) PathFilterPrefix(prefix string) Scanner {
@@ -63,6 +63,7 @@ func (z *scannerImpl) PathFilterPrefix(prefix string) Scanner {
 		fst:         z.fst,
 		allPkg:      z.allPkg,
 		pathPrefix:  prefix,
+		importer:    NewImporter(),
 	}
 }
 
@@ -74,6 +75,7 @@ func (z *scannerImpl) ExcludeTest() Scanner {
 		fst:         z.fst,
 		allPkg:      z.allPkg,
 		pathPrefix:  z.pathPrefix,
+		importer:    NewImporter(),
 	}
 }
 
@@ -90,7 +92,7 @@ func (z *scannerImpl) load() error {
 	var parseDir func(relPath string) error
 	parseDir = func(relPath string) error {
 		path0 := filepath.Join(z.path, relPath)
-		l.Debug("Scanning", esl.String("path", path0))
+		l.Debug("Scanning", esl.String("path", path0), esl.String("relPath", relPath))
 		pkgs, err := parser.ParseDir(z.fst, path0, nil, 0)
 		if err != nil {
 			l.Error("Parse error", esl.Error(err))
@@ -117,7 +119,7 @@ func (z *scannerImpl) typesConfig() *types.Config {
 		Error: func(err error) {
 			z.log().Debug("error", esl.Error(err))
 		},
-		Importer: importer.Default(),
+		Importer: z.importer,
 	}
 }
 

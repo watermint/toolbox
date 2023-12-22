@@ -9,7 +9,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -82,7 +81,7 @@ func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_co
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(op, src, 0644)
+	return os.WriteFile(op, src, 0644)
 }
 
 func (z *Catalogue) Exec(c app_control.Control) error {

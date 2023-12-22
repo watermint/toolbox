@@ -26,8 +26,8 @@ var (
 	Copyright                   = fmt.Sprintf("© 2016-%4d Takayuki Okazaki", BuildInfo.Year)
 	LandingPage                 = "https://toolbox.watermint.org"
 	DefaultWebPort              = 7800
-	LifecycleExpirationWarning  = 180 * 24 * time.Hour // 180 days
-	LifecycleExpirationCritical = 365 * 24 * time.Hour // 365 days
+	LifecycleExpirationWarning  = LifecycleExpirationCritical - 30*24*time.Hour // T-30 days
+	LifecycleExpirationCritical = 365 * 24 * time.Hour                          // 365 days
 	LifecycleExpirationMode     = LifecycleExpirationWarningOnly
 	LifecycleUpgradeUrl         = "https://github.com/watermint/toolbox/releases/latest"
 )
