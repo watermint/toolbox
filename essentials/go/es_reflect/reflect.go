@@ -37,14 +37,8 @@ func Path(base string, r interface{}) (path []string, name string) {
 	return path, es_case.ToLowerSnakeCase(rt.Name())
 }
 
-var (
-	KeyBasePackages = []string{
-		app_definitions.Pkg,
-	}
-)
-
 func Key(r interface{}) string {
-	path, name := PathFromMultiBase(KeyBasePackages, r)
+	path, name := PathFromMultiBase(app_definitions.PackagesBaseKey, r)
 	return strings.Join(append(path, name), ".")
 }
 

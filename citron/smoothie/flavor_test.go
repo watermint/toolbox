@@ -1,4 +1,4 @@
-package citron
+package smoothie
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestVersion_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Version{})
+	qtr_endtoend.TestRecipe(t, &Flavor{})
 }

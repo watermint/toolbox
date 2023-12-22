@@ -1,4 +1,4 @@
-package citron
+package smoothie
 
 import (
 	"github.com/watermint/toolbox/domain/core/dc_version"
@@ -8,16 +8,18 @@ import (
 	"github.com/watermint/toolbox/infra/report/rp_model"
 )
 
-type Version struct {
+type Flavor struct {
 	rc_recipe.RemarkTransient
 	Versions rp_model.RowReport
+	Topping  string
 }
 
-func (z *Version) Preset() {
+func (z *Flavor) Preset() {
 	z.Versions.SetModel(&dc_version.VersionInfo{})
+	z.Topping = "Flavor"
 }
 
-func (z *Version) Exec(c app_control.Control) error {
+func (z *Flavor) Exec(c app_control.Control) error {
 	if err := z.Versions.Open(); err != nil {
 		return err
 	}
@@ -29,6 +31,6 @@ func (z *Version) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *Version) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Version{}, rc_recipe.NoCustomValues)
+func (z *Flavor) Test(c app_control.Control) error {
+	return rc_exec.Exec(c, &Flavor{}, rc_recipe.NoCustomValues)
 }

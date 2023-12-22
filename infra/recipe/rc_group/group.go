@@ -32,7 +32,6 @@ func UsageHeader(ui app_ui.UI, desc app_msg.Message, version string) {
 
 type Group interface {
 	Name() string
-	BasePkg() string
 	Path() []string
 	Recipes() map[string]rc_recipe.Spec
 	SubGroups() map[string]Group

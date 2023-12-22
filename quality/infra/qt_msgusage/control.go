@@ -64,5 +64,10 @@ func (z *misImpl) NotFound(key string) {
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 
+	// ignore complex type
+	if key == "complex" {
+		return
+	}
+
 	z.missing[key] = true
 }

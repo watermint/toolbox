@@ -140,6 +140,10 @@ func (z *bsImpl) verifyMessages(ui app_ui.UI, l esl.Logger) {
 		if len(missing) > 0 {
 			w := es_stdout.NewDirectOut()
 			for _, k := range missing {
+				// ignore complex message
+				if k == "complex" {
+					continue
+				}
 				l.Error("Key missing", esl.String("key", k))
 				_, _ = fmt.Fprintf(w, `"%s":"",\n`, k)
 			}

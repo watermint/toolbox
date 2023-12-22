@@ -5,21 +5,16 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"os"
+	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 )
 
 func NewCatalogue() rc_catalogue.Catalogue {
-	var recipes []rc_recipe.Recipe
-	flavor, found := os.LookupEnv(app_definitions.EnvNameToolboxRecipeFlavor)
-	if found {
-		switch flavor {
-		case app_definitions.RecipeFlavorCitron:
-			recipes = AutoDetectedRecipesCitron()
-		default:
-			recipes = AutoDetectedRecipesClassic()
-		}
-	} else {
-		recipes = AutoDetectedRecipesClassic()
+	var recipes = make([]rc_recipe.Recipe, 0)
+	recipes = append(recipes, AutoDetectedRecipesClassic()...)
+	for _, r := range AutoDetectedRecipesCitron() {
+		recipes = append(recipes, r)
+		rs := rc_spec.New(r)
+		app_definitions.SecretRecipeCliPaths = append(app_definitions.SecretRecipeCliPaths, rs.CliPath())
 	}
 
 	return rc_catalogue_impl.NewCatalogue(

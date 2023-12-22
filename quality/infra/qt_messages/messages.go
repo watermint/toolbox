@@ -137,12 +137,19 @@ func VerifyMessages(ctl app_control.Control) error {
 	if len(missing) > 0 {
 		sort.Strings(missing)
 		for _, k := range missing {
+			// ignore complex type
+			if k == "complex" {
+				continue
+			}
 			ctl.Log().Error("Key missing", esl.String(k, ""))
 		}
 
 		SuggestMessages(ctl, func(out io.Writer) {
 			for _, m := range missing {
 				switch {
+				case "complex" == m:
+					// ignore
+					continue
 				case strings.HasSuffix(m, ".flag.peer"):
 					fmt.Fprintf(out, `"%s":"Account alias",`, m)
 				case strings.HasSuffix(m, ".flag.file"):

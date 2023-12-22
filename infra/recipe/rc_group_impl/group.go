@@ -38,7 +38,6 @@ func newGroupWithPath(path []string, name string) rc_group.Group {
 
 type groupImpl struct {
 	name      string
-	basePkg   string
 	path      []string
 	recipes   map[string]rc_recipe.Spec
 	subGroups map[string]rc_group.Group
@@ -46,10 +45,6 @@ type groupImpl struct {
 
 func (z *groupImpl) Name() string {
 	return z.name
-}
-
-func (z *groupImpl) BasePkg() string {
-	return z.basePkg
 }
 
 func (z *groupImpl) Path() []string {
@@ -108,10 +103,15 @@ func (z *groupImpl) PrintUsage(ui app_ui.UI, exec, version string) {
 	ui.Header(MGroup.GroupAvailableCommands)
 	cmdTable := ui.InfoTable("usage")
 	cmdTable.Header(MGroup.HeaderAvailCommandCommand, MGroup.HeaderAvailCommandDesc, MGroup.HeaderAvailCommandNote)
-	cmds, ca := z.commandAnnotations(ui)
+	cmds, ca, specs := z.commandAnnotations(ui)
 	for _, cmd := range cmds {
 		ann := ca[cmd]
-		cmdTable.Row(app_msg.Raw(cmd), z.CommandTitle(cmd), app_msg.Raw(ann))
+		spec := specs[cmd]
+		if spec == nil {
+			cmdTable.Row(app_msg.Raw(cmd), z.CommandTitle(cmd), app_msg.Raw(ann))
+		} else {
+			cmdTable.Row(app_msg.Raw(cmd), spec.Title(), app_msg.Raw(ann))
+		}
 	}
 	cmdTable.Flush()
 }
@@ -136,9 +136,10 @@ func (z *groupImpl) IsSecret() bool {
 	return true
 }
 
-func (z *groupImpl) commandAnnotations(ui app_ui.UI) (cmds []string, annotation map[string]string) {
+func (z *groupImpl) commandAnnotations(ui app_ui.UI) (cmds []string, annotation map[string]string, spec map[string]rc_recipe.Spec) {
 	cmds = make([]string, 0)
 	annotation = make(map[string]string)
+	spec = make(map[string]rc_recipe.Spec)
 	for _, g := range z.subGroups {
 		if !g.IsSecret() {
 			cmds = append(cmds, g.Name())
@@ -150,6 +151,7 @@ func (z *groupImpl) commandAnnotations(ui app_ui.UI) (cmds []string, annotation 
 			cmds = append(cmds, n)
 		}
 		annotation[n] = ui.TextOrEmpty(r.Remarks())
+		spec[n] = r
 	}
 	sort.Strings(cmds)
 	return

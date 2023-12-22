@@ -54,3 +54,15 @@ func IsProduction() bool {
 func IsWindows() bool {
 	return runtime.GOOS == "windows"
 }
+
+var (
+	PackagesBaseKey = []string{
+		Pkg,
+	}
+
+	// Base packages for recipes
+	PackagesBaseRecipe = []string{
+		Pkg + "/citron",
+		Pkg + "/recipe",
+	}
+)

@@ -46,12 +46,6 @@ var (
 	MSelfContained = app_msg.Apply(&MsgSelfContained{}).(*MsgSelfContained)
 )
 
-var (
-	BasePackages = []string{
-		rc_recipe.BasePackage,
-	}
-)
-
 func newSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 	var ann rc_recipe.Annotation
 	var repo rc_recipe.Repository
@@ -70,7 +64,7 @@ func newSelfContained(scr rc_recipe.Recipe) rc_recipe.Spec {
 	var path []string
 	var pathMin = math.MaxInt
 	var name string
-	for _, bp := range BasePackages {
+	for _, bp := range app_definitions.PackagesBaseRecipe {
 		if p, n := es_reflect.Path(bp, scr); len(p) < pathMin {
 			path = p
 			name = n
@@ -314,8 +308,13 @@ func (z *specValueSelfContained) Path() (path []string, name string) {
 }
 
 func (z *specValueSelfContained) IsSecret() bool {
-	if z.annotation != nil {
-		return z.annotation.IsSecret()
+	if z.annotation != nil && z.annotation.IsSecret() {
+		return true
+	}
+	for _, s := range app_definitions.SecretRecipeCliPaths {
+		if s == z.CliPath() {
+			return true
+		}
 	}
 	return false
 }
