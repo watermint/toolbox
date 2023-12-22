@@ -32,6 +32,7 @@ func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_cont
 	l := c.Log()
 	rcs := app_definitions.RecipePackageNames
 	for _, rc := range rcs {
+		l.Info("Scanning recipe", esl.String("path", rc))
 		scr := sc.PathFilterPrefix(rc).ExcludeTest()
 		sts, err := scr.FindStructImplements(reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem())
 		if err != nil {
@@ -47,7 +48,11 @@ func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_cont
 			l.Debug("Unable to generate", esl.Error(err))
 			return err
 		}
-		return os.WriteFile(op, src, 0644)
+		err = os.WriteFile(op, src, 0644)
+		if err != nil {
+			l.Debug("Unable to write", esl.Error(err))
+			return err
+		}
 	}
 	return nil
 }

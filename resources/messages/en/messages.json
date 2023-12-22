@@ -1232,6 +1232,7 @@
   "recipe.dev.benchmark.uploadlink.flag.peer": "Account alias",
   "recipe.dev.benchmark.uploadlink.flag.size_kb": "Size in KB",
   "recipe.dev.benchmark.uploadlink.title": "Benchmark single file upload with upload temporary link API.",
+  "recipe.dev.build.catalogue.flag.importer": "Importer type",
   "recipe.dev.build.catalogue.title": "Generate catalogue",
   "recipe.dev.build.doc.flag.badge": "Include badges of build status",
   "recipe.dev.build.doc.flag.doc_lang": "Language",

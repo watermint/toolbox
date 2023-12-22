@@ -36,6 +36,12 @@ You may find the message like:
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
 
+## Options:
+
+| Option      | Description   | Default |
+|-------------|---------------|---------|
+| `-importer` | Importer type | default |
+
 ## Common options:
 
 | Option             | Description                                                                               | Default              |
