@@ -12,7 +12,7 @@ var (
 	ErrorNoPackageFound = errors.New("no package found")
 )
 
-func NewImporter() types.Importer {
+func NewEnhancedImporter() types.Importer {
 	return &importerWithModDependency{
 		packages: make(map[string]*types.Package),
 		primary:  importer.Default(),
@@ -38,6 +38,7 @@ func (z *importerWithModDependency) Import(path string) (*types.Package, error) 
 		z.packages[path] = p
 		return p, nil
 	}
+	l.Debug("Package not found by primary", esl.Error(err))
 
 	cfg := &packages.Config{
 		Mode: packages.NeedName | packages.NeedTypes | packages.NeedSyntax | packages.NeedTypesInfo,
@@ -48,12 +49,17 @@ func (z *importerWithModDependency) Import(path string) (*types.Package, error) 
 		l.Debug("Unable to load package", esl.Error(err))
 		return nil, err
 	}
+	l.Debug("Package loaded", esl.Int("numPkgs", len(pkgs)))
 	if len(pkgs) == 0 {
 		l.Debug("No package found")
 		return nil, ErrorNoPackageFound
 	}
 
 	z.packages[path] = pkgs[0].Types
-	l.Debug("Package found", esl.String("name", pkgs[0].Types.Name()))
+	l.Debug("Package found",
+		esl.String("name", pkgs[0].Types.Name()),
+		esl.String("path", pkgs[0].Types.Path()),
+		esl.String("pkgPath", pkgs[0].PkgPath),
+		esl.Strings("scopeNames", pkgs[0].Types.Scope().Names()))
 	return pkgs[0].Types, nil
 }

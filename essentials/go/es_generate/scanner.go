@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"go/ast"
+	"go/importer"
 	"go/parser"
 	"go/token"
 	"go/types"
@@ -33,11 +34,27 @@ type Scanner interface {
 	PathFilterPrefix(prefix string) Scanner
 }
 
-func NewScanner(c app_control.Control, path string) (Scanner, error) {
+type ImporterType string
+
+const (
+	ImporterTypeDefault  ImporterType = "default"
+	ImporterTypeEnhanced ImporterType = "enhanced"
+)
+
+func NewScanner(c app_control.Control, path string, importerType ImporterType) (Scanner, error) {
+	var importerImpl types.Importer
+	switch importerType {
+	case ImporterTypeDefault:
+		importerImpl = importer.Default()
+	case ImporterTypeEnhanced:
+		importerImpl = NewEnhancedImporter()
+	}
+
 	s := &scannerImpl{
 		c:           c,
 		path:        path,
 		excludeTest: false,
+		importer:    importerImpl,
 	}
 	if err := s.load(); err != nil {
 		return nil, err
@@ -63,7 +80,7 @@ func (z *scannerImpl) PathFilterPrefix(prefix string) Scanner {
 		fst:         z.fst,
 		allPkg:      z.allPkg,
 		pathPrefix:  prefix,
-		importer:    NewImporter(),
+		importer:    z.importer,
 	}
 }
 
@@ -75,7 +92,7 @@ func (z *scannerImpl) ExcludeTest() Scanner {
 		fst:         z.fst,
 		allPkg:      z.allPkg,
 		pathPrefix:  z.pathPrefix,
-		importer:    NewImporter(),
+		importer:    z.importer,
 	}
 }
 

@@ -5,6 +5,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_generate"
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -16,9 +17,15 @@ import (
 
 type Catalogue struct {
 	rc_recipe.RemarkSecret
+	Importer mo_string.SelectString
 }
 
 func (z *Catalogue) Preset() {
+	z.Importer.SetOptions(
+		string(es_generate.ImporterTypeDefault),
+		string(es_generate.ImporterTypeDefault),
+		string(es_generate.ImporterTypeEnhanced),
+	)
 }
 
 func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_control.Control) error {
@@ -85,11 +92,13 @@ func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_co
 }
 
 func (z *Catalogue) Exec(c app_control.Control) error {
+	l := c.Log()
 	rr, err := es_project.DetectRepositoryRoot()
 	if err != nil {
 		return err
 	}
-	sc, err := es_generate.NewScanner(c, rr)
+	l.Info("Scanning repository root", esl.String("path", rr))
+	sc, err := es_generate.NewScanner(c, rr, es_generate.ImporterType(z.Importer.Value()))
 	if err != nil {
 		return err
 	}
