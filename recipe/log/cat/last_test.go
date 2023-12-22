@@ -1,10 +1,10 @@
-package log
+package cat
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
-func TestJobid_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Jobid{})
+func TestLast_Exec(t *testing.T) {
+	qtr_endtoend.TestRecipe(t, &Last{})
 }

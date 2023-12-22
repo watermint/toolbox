@@ -1,4 +1,4 @@
-package history
+package job
 
 import (
 	"github.com/watermint/toolbox/quality/infra/qt_endtoend"

@@ -4,9 +4,9 @@ title: Command
 lang: en
 ---
 
-# smoothie flavor
+# log cat kind
 
-{"key":"complex","params":{"Messages":[{"K":"citron.smoothie.flavor.title","P":null},{"K":"raw","P":[{"Raw":""}]}]}}
+Concatenate and print logs of specified log kind
 
 # Installation
 
@@ -26,13 +26,13 @@ Windows:
 
 ```
 cd $HOME\Desktop
-.\tbx.exe smoothie flavor 
+.\tbx.exe log cat kind 
 ```
 
 macOS, Linux:
 
 ```
-$HOME/Desktop/tbx smoothie flavor 
+$HOME/Desktop/tbx log cat kind 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
@@ -46,9 +46,10 @@ Open" on the dialogue.
 
 ## Options:
 
-| Option     | Description                                               | Default |
-|------------|-----------------------------------------------------------|---------|
-| `-topping` | {"key":"citron.smoothie.flavor.flag.topping","params":{}} | Flavor  |
+| Option  | Description        | Default |
+|---------|--------------------|---------|
+| `-kind` | Log kind.          | toolbox |
+| `-path` | Path to workspace. |         |
 
 ## Common options:
 
@@ -72,33 +73,6 @@ Open" on the dialogue.
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
-
-# Results
-
-Report file path will be displayed last line of the command line output. If you missed command line output, please see
-path below. [job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path pattern                                | Example                                                |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## Report: versions
-
-Components and version information.
-The command will generate a report in three different formats. `versions.csv`, `versions.json`, and `versions.xlsx`.
-
-| Column    | Description |
-|-----------|-------------|
-| key       | Key         |
-| component | Component   |
-| version   | Version     |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like
-follows; `versions_0000.xlsx`, `versions_0001.xlsx`, `versions_0002.xlsx`, ...
 
 # Proxy configuration
 

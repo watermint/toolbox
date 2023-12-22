@@ -4,14 +4,17 @@ title: Command
 lang: en
 ---
 
-# job log last
+# log cat jobid
 
-Print the last job log files 
+Retrieve logs of specified Job ID
 
 # Installation
 
-Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 
-The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
+Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If
+you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and
+place `tbx.exe` on the Desktop folder.
+The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are
+using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
 
 # Usage
 
@@ -20,28 +23,34 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe job log last 
+.\tbx.exe log cat jobid -id JOB_ID
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx job log last 
+$HOME/Desktop/tbx log cat jobid -id JOB_ID
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
+select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "
+General" tab.
 You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "
+Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description        | Default |
-|---------|--------------------|---------|
-| `-kind` | Log kind           | toolbox |
-| `-path` | Path to workspace. |         |
+| Option  | Description           | Default |
+|---------|-----------------------|---------|
+| `-id`   | Job ID                |         |
+| `-kind` | Kind of log           | toolbox |
+| `-path` | Path to the workspace |         |
 
 ## Common options:
 
@@ -68,6 +77,8 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you
+want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't
+support proxies which require authentication.
 
 

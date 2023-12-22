@@ -54,7 +54,7 @@ lang: en
 | [filerequest delete closed]({{ site.baseurl }}/commands/filerequest-delete-closed.html)               | Delete all closed file requests on this account.              |
 | [filerequest delete url]({{ site.baseurl }}/commands/filerequest-delete-url.html)                     | Delete a file request by the file request URL                 |
 | [filerequest list]({{ site.baseurl }}/commands/filerequest-list.html)                                 | List file requests of the individual account                  |
-| [job history ship]({{ site.baseurl }}/commands/job-history-ship.html)                                 | Ship Job logs to Dropbox path                                 |
+| [log job ship]({{ site.baseurl }}/commands/log-job-ship.html)                                         | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature]({{ site.baseurl }}/commands/services-dropbox-user-feature.html)       | List feature settings for current user                        |
 | [services dropbox user filesystem]({{ site.baseurl }}/commands/services-dropbox-user-filesystem.html) | Identify user's team file system version                      |
 | [services dropbox user info]({{ site.baseurl }}/commands/services-dropbox-user-info.html)             | Retrieve current account info                                 |
@@ -294,13 +294,13 @@ lang: en
 | [config features]({{ site.baseurl }}/commands/config-features.html)                                   | List available optional features.                                    |
 | [file template apply local]({{ site.baseurl }}/commands/file-template-apply-local.html)               | Apply file/folder structure template to the local path               |
 | [file template capture local]({{ site.baseurl }}/commands/file-template-capture-local.html)           | Capture file/folder structure as template from local path            |
-| [job history archive]({{ site.baseurl }}/commands/job-history-archive.html)                           | Archive jobs                                                         |
-| [job history delete]({{ site.baseurl }}/commands/job-history-delete.html)                             | Delete old job history                                               |
-| [job history list]({{ site.baseurl }}/commands/job-history-list.html)                                 | Show job history                                                     |
-| [job log jobid]({{ site.baseurl }}/commands/job-log-jobid.html)                                       | Retrieve logs of specified Job ID                                    |
-| [job log kind]({{ site.baseurl }}/commands/job-log-kind.html)                                         | Concatenate and print logs of specified log kind                     |
-| [job log last]({{ site.baseurl }}/commands/job-log-last.html)                                         | Print the last job log files                                         |
 | [license]({{ site.baseurl }}/commands/license.html)                                                   | Show license information                                             |
+| [log cat jobid]({{ site.baseurl }}/commands/log-cat-jobid.html)                                       | Retrieve logs of specified Job ID                                    |
+| [log cat kind]({{ site.baseurl }}/commands/log-cat-kind.html)                                         | Concatenate and print logs of specified log kind                     |
+| [log cat last]({{ site.baseurl }}/commands/log-cat-last.html)                                         | Print the last job log files                                         |
+| [log job archive]({{ site.baseurl }}/commands/log-job-archive.html)                                   | Archive jobs                                                         |
+| [log job delete]({{ site.baseurl }}/commands/log-job-delete.html)                                     | Delete old job history                                               |
+| [log job list]({{ site.baseurl }}/commands/log-job-list.html)                                         | Show job history                                                     |
 | [util archive unzip]({{ site.baseurl }}/commands/util-archive-unzip.html)                             | Extract the zip archive file                                         |
 | [util archive zip]({{ site.baseurl }}/commands/util-archive-zip.html)                                 | Compress target files into the zip archive                           |
 | [util cert selfsigned]({{ site.baseurl }}/commands/util-cert-selfsigned.html)                         | Generate self-signed certificate and key                             |

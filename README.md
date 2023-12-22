@@ -134,7 +134,7 @@ Available commands:
 | [filerequest delete closed](docs/commands/filerequest-delete-closed.md)               | Delete all closed file requests on this account.              |
 | [filerequest delete url](docs/commands/filerequest-delete-url.md)                     | Delete a file request by the file request URL                 |
 | [filerequest list](docs/commands/filerequest-list.md)                                 | List file requests of the individual account                  |
-| [job history ship](docs/commands/job-history-ship.md)                                 | Ship Job logs to Dropbox path                                 |
+| [log job ship](docs/commands/log-job-ship.md)                                         | Ship Job logs to Dropbox path                                 |
 | [services dropbox user feature](docs/commands/services-dropbox-user-feature.md)       | List feature settings for current user                        |
 | [services dropbox user filesystem](docs/commands/services-dropbox-user-filesystem.md) | Identify user's team file system version                      |
 | [services dropbox user info](docs/commands/services-dropbox-user-info.md)             | Retrieve current account info                                 |
@@ -374,13 +374,13 @@ Available commands:
 | [config features](docs/commands/config-features.md)                                   | List available optional features.                                    |
 | [file template apply local](docs/commands/file-template-apply-local.md)               | Apply file/folder structure template to the local path               |
 | [file template capture local](docs/commands/file-template-capture-local.md)           | Capture file/folder structure as template from local path            |
-| [job history archive](docs/commands/job-history-archive.md)                           | Archive jobs                                                         |
-| [job history delete](docs/commands/job-history-delete.md)                             | Delete old job history                                               |
-| [job history list](docs/commands/job-history-list.md)                                 | Show job history                                                     |
-| [job log jobid](docs/commands/job-log-jobid.md)                                       | Retrieve logs of specified Job ID                                    |
-| [job log kind](docs/commands/job-log-kind.md)                                         | Concatenate and print logs of specified log kind                     |
-| [job log last](docs/commands/job-log-last.md)                                         | Print the last job log files                                         |
 | [license](docs/commands/license.md)                                                   | Show license information                                             |
+| [log cat jobid](docs/commands/log-cat-jobid.md)                                       | Retrieve logs of specified Job ID                                    |
+| [log cat kind](docs/commands/log-cat-kind.md)                                         | Concatenate and print logs of specified log kind                     |
+| [log cat last](docs/commands/log-cat-last.md)                                         | Print the last job log files                                         |
+| [log job archive](docs/commands/log-job-archive.md)                                   | Archive jobs                                                         |
+| [log job delete](docs/commands/log-job-delete.md)                                     | Delete old job history                                               |
+| [log job list](docs/commands/log-job-list.md)                                         | Show job history                                                     |
 | [util archive unzip](docs/commands/util-archive-unzip.md)                             | Extract the zip archive file                                         |
 | [util archive zip](docs/commands/util-archive-zip.md)                                 | Compress target files into the zip archive                           |
 | [util cert selfsigned](docs/commands/util-cert-selfsigned.md)                         | Generate self-signed certificate and key                             |

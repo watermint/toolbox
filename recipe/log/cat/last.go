@@ -1,4 +1,4 @@
-package log
+package cat
 
 import (
 	"github.com/watermint/toolbox/essentials/io/es_stdout"

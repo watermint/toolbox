@@ -4,14 +4,17 @@ title: Command
 lang: en
 ---
 
-# job history archive
+# log job list
 
-Archive jobs 
+Show job history
 
 # Installation
 
-Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and place `tbx.exe` on the Desktop folder. 
-The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
+Please download the pre-compiled binary from [Latest Release](https://github.com/watermint/toolbox/releases/latest). If
+you are using Windows, please download the zip file like `tbx-xx.x.xxx-win.zip`. Then, extract the archive and
+place `tbx.exe` on the Desktop folder.
+The watermint toolbox can run from any path in the system if allowed by the system. But the instruction samples are
+using the Desktop folder. Please replace the path if you placed the binary other than the Desktop folder.
 
 # Usage
 
@@ -20,28 +23,32 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
+
 ```
 cd $HOME\Desktop
-.\tbx.exe job history archive 
+.\tbx.exe log job list 
 ```
 
 macOS, Linux:
+
 ```
-$HOME/Desktop/tbx job history archive 
+$HOME/Desktop/tbx log job list 
 ```
 
-Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
+Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please
+select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "
+General" tab.
 You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
-And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "
+Open" on the dialogue.
 
 ## Options:
 
-| Option  | Description           | Default |
-|---------|-----------------------|---------|
-| `-days` | Target days old       | 7       |
-| `-path` | Path to the workspace |         |
+| Option  | Description       | Default |
+|---------|-------------------|---------|
+| `-path` | Path to workspace |         |
 
 ## Common options:
 
@@ -66,8 +73,39 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see
+path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: log
+
+This report shows a list of job histories.
+The command will generate a report in three different formats. `log.csv`, `log.json`, and `log.xlsx`.
+
+| Column      | Description   |
+|-------------|---------------|
+| job_id      | Job ID        |
+| app_version | App version   |
+| recipe_name | Command       |
+| time_start  | Time Started  |
+| time_finish | Time Finished |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like
+follows; `log_0000.xlsx`, `log_0001.xlsx`, `log_0002.xlsx`, ...
+
 # Proxy configuration
 
-The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.
+The executable automatically detects your proxy configuration from the environment. However, if you got an error or you
+want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't
+support proxies which require authentication.
 
 
