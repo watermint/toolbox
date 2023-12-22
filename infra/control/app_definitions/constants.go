@@ -17,9 +17,18 @@ var (
 	RecipePackageNames = []string{
 		"ingredient",
 		"recipe",
-		"recipe_citron",
-		"recipe_lime",
+		"citron",
 	}
+
+	RecipeFlavors = []string{
+		RecipeFlavorCitron,
+		RecipeFlavorLime,
+	}
+)
+
+const (
+	RecipeFlavorCitron = "citron"
+	RecipeFlavorLime   = "lime"
 )
 
 // Peer names
@@ -71,6 +80,9 @@ const (
 
 	// EnvNameToolboxBuildTarget Env variable name for build target
 	EnvNameToolboxBuildTarget = "TOOLBOX_BUILD_TARGET"
+
+	// EnvNameToolboxRecipeFlavor Env variable name for enable additional flavor
+	EnvNameToolboxRecipeFlavor = "TOOLBOX_RECIPE_FLAVOR"
 )
 
 // Document

@@ -32,7 +32,7 @@ func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_cont
 	l := c.Log()
 	rcs := app_definitions.RecipePackageNames
 	for _, rc := range rcs {
-		l.Info("Scanning recipe", esl.String("path", rc))
+		l.Debug("Scanning recipe", esl.String("path", rc))
 		scr := sc.PathFilterPrefix(rc).ExcludeTest()
 		sts, err := scr.FindStructImplements(reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem())
 		if err != nil {

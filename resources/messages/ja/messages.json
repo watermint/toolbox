@@ -3632,14 +3632,5 @@
   "recipe.util.xlsx.sheet.sheet.rows.desc": "行数",
   "recipe.util.xlsx.sheet.title": "Xlsx ファイルシートコマンド",
   "recipe.util.xlsx.title": "Xlsx コマンド",
-  "recipe.version.header_app_hash": "Gitコミット",
-  "recipe.version.header_branch": "ブランチ",
-  "recipe.version.header_build_time": "ビルド時刻",
-  "recipe.version.header_go_version": "Goバージョン",
-  "recipe.version.header_production": "リリース ビルド",
-  "recipe.version.title": "バージョン情報",
-  "recipe.version_info.component.desc": "コンポーネント",
-  "recipe.version_info.desc": "コンポーネントとバージョン情報.",
-  "recipe.version_info.key.desc": "キー",
-  "recipe.version_info.version.desc": "バージョン"
+  "recipe.version.title": "バージョン情報"
 }

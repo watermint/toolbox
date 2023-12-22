@@ -1,4 +1,4 @@
-package recipe
+package citron
 
 import (
 	"github.com/watermint/toolbox/domain/core/dc_version"

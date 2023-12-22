@@ -178,7 +178,7 @@ import (
 	recipeutilxlsxsheet "github.com/watermint/toolbox/recipe/util/xlsx/sheet"
 )
 
-func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
+func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 	return []infra_recipe_rc_recipe.Recipe{
 		&recipe.License{},
 		&recipe.Version{},
