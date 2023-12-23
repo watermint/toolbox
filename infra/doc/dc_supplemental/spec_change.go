@@ -53,7 +53,7 @@ func (z SecSpecChange) Title() app_msg.Message {
 func (z SecSpecChange) Body(ui app_ui.UI) {
 	scheduledPrune := make([]rc_recipe.Spec, 0)
 	scheduledPruneDefinition := make(map[string]rc_compatibility.PruneDefinition, 0)
-	for _, p := range rc_compatibility.Definitions.ListAlivePrune() {
+	for _, p := range rc_compatibility.Definitions.ListPlannedPrune() {
 		spec := app_catalogue.Current().RecipeSpec(strings.Join(append(p.Current.Path, p.Current.Name), " "))
 		if !spec.IsSecret() {
 			scheduledPrune = append(scheduledPrune, spec)

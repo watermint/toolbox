@@ -26,8 +26,13 @@ If you continue to use your current version, this will not affect you, but chang
 
 Below commands will be removed in the future release. If you continue to use your current version, this will not affect you, but changes will be applied in future versions. If a date is specified, the change is applied to versions released after that date.
 
-| Path         | Command description           | Date                 |
-|--------------|-------------------------------|----------------------|
-| log job ship | Ship Job logs to Dropbox path | 2024-01-01T00:00:00Z |
+| Path                                | Command description                                   | Date                 |
+|-------------------------------------|-------------------------------------------------------|----------------------|
+| log job ship                        | Ship Job logs to Dropbox path                         | 2024-02-01T00:00:00Z |
+| teamspace file list                 | List files and folders in team space                  | 2024-07-01T00:00:00Z |
+| teamspace asadmin file list         | List files and folders in team space run as admin     | 2024-07-01T00:00:00Z |
+| teamspace asadmin folder add        | Create top level folder in the team space             | 2024-07-01T00:00:00Z |
+| teamspace asadmin folder delete     | Delete top level folder of the team space             | 2024-07-01T00:00:00Z |
+| teamspace asadmin folder permdelete | Permanently delete top level folder of the team space | 2024-07-01T00:00:00Z |
 
 

@@ -95,7 +95,7 @@ type specValueSelfContained struct {
 }
 
 func (z specValueSelfContained) IsPruned() bool {
-	if _, found := rc_compatibility.Definitions.FindAlivePrune(z.path, z.name); found {
+	if _, found := rc_compatibility.Definitions.FindPrunedPrune(z.path, z.name); found {
 		return true
 	}
 	return false

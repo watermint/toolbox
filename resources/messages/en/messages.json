@@ -1337,6 +1337,7 @@
   "recipe.dev.module.list.title": "Dependent module list",
   "recipe.dev.module.title": "Module commands",
   "recipe.dev.placeholder.pathchange.title": "Placeholder command for path change document generation",
+  "recipe.dev.placeholder.prune.title": "Prune placeholder",
   "recipe.dev.placeholder.title": "Placeholder sentry commands",
   "recipe.dev.release.asset.cli.args": "-owner REPOSITORY_OWNER -repo REPOSITORY_NAME -branch BRANCH -path URL_FILE_PATH -text TEXT_CONTENT -message COMMIT_MESSAGE",
   "recipe.dev.release.asset.flag.branch": "Branch name",

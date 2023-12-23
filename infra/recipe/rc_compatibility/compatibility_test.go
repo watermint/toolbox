@@ -91,14 +91,14 @@ func TestCompatibilityDefinitions_FindPruned(t *testing.T) {
 	}
 	{
 		// expired
-		cd, found := cds.FindAlivePrune([]string{"chemical"}, "lead")
+		cd, found := cds.FindPlannedPrune([]string{"chemical"}, "lead")
 		if found && cd.Current.Name != "lead" {
 			t.Error(cd)
 		}
 	}
 	{
 		// alive
-		cd, found := cds.FindAlivePrune([]string{"weapon"}, "nuclear")
+		cd, found := cds.FindPlannedPrune([]string{"weapon"}, "nuclear")
 		if !found || cd.Current.Name != "nuclear" {
 			t.Error(cd)
 		}

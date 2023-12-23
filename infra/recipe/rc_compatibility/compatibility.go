@@ -126,7 +126,7 @@ func (z CompatibilityDefinitions) FindPrune(path []string, name string) (cd Prun
 	return cd, false
 }
 
-func (z CompatibilityDefinitions) FindAlivePrune(path []string, name string) (cd PruneDefinition, found bool) {
+func (z CompatibilityDefinitions) FindPlannedPrune(path []string, name string) (cd PruneDefinition, found bool) {
 	l := esl.Default()
 	cd, found = z.FindPrune(path, name)
 	if !found {
@@ -140,7 +140,20 @@ func (z CompatibilityDefinitions) FindAlivePrune(path []string, name string) (cd
 	}
 }
 
-func (z CompatibilityDefinitions) ListAlivePrune() (cds []PruneDefinition) {
+func (z CompatibilityDefinitions) FindPrunedPrune(path []string, name string) (cd PruneDefinition, found bool) {
+	l := esl.Default()
+	cd, found = z.FindPrune(path, name)
+	if !found {
+		return cd, false
+	}
+	if IsAlive(cd.PruneAfterBuildDate) {
+		return cd, false
+	} else {
+		l.Debug("Prune after date", esl.String("pruneAfter", cd.PruneAfterBuildDate))
+		return cd, true
+	}
+}
+func (z CompatibilityDefinitions) ListPlannedPrune() (cds []PruneDefinition) {
 	cds = make([]PruneDefinition, 0)
 	for _, cd := range z.Prune {
 		if IsAlive(cd.PruneAfterBuildDate) {

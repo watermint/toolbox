@@ -117,7 +117,7 @@ func (z *Doc) genCommands(c app_control.Control) error {
 				}
 			}
 		}
-		prune, found := rc_compatibility.Definitions.FindAlivePrune(spec.Path())
+		prune, found := rc_compatibility.Definitions.FindPlannedPrune(spec.Path())
 		if found {
 			l.Info("Generating prune command manual", esl.String("command", spec.CliPath()))
 			comDoc := dc_command.NewCompatibilityPrune(dc_index.MediaWeb, spec, prune)
