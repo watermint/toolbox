@@ -13,7 +13,7 @@ import (
 	"io"
 )
 
-type Jobid struct {
+type Job struct {
 	rc_recipe.RemarkTransient
 	Path              mo_string.OptionalString
 	Id                string
@@ -21,11 +21,11 @@ type Jobid struct {
 	ErrorUnableToRead app_msg.Message
 }
 
-func (z *Jobid) Preset() {
+func (z *Job) Preset() {
 	z.Kind.SetOptions(string(app_job.LogFileTypeToolbox), app_job.LogFileTypes...)
 }
 
-func (z *Jobid) Exec(c app_control.Control) error {
+func (z *Job) Exec(c app_control.Control) error {
 	l := c.Log()
 
 	histories, err := app_job_impl.GetHistories(z.Path)
@@ -69,9 +69,9 @@ func (z *Jobid) Exec(c app_control.Control) error {
 	return nil
 }
 
-func (z *Jobid) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Jobid{}, func(r rc_recipe.Recipe) {
-		m := r.(*Jobid)
+func (z *Job) Test(c app_control.Control) error {
+	return rc_exec.Exec(c, &Job{}, func(r rc_recipe.Recipe) {
+		m := r.(*Job)
 		m.Id = "20200512-011129.010"
 	})
 }

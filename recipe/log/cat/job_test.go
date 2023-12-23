@@ -6,5 +6,5 @@ import (
 )
 
 func TestJobid_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Jobid{})
+	qtr_endtoend.TestRecipe(t, &Job{})
 }

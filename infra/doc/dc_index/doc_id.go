@@ -29,6 +29,7 @@ const (
 	DocSupplementalExperimentalFeature
 	DocSupplementalTroubleshooting
 	DocSupplementalDropboxBusiness
+	DocSupplementalSpecChange
 
 	// Contributor documents
 	DocContributorRecipeValues
@@ -73,6 +74,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
+		DocSupplementalSpecChange,
 		DocContributorRecipeValues,
 	}
 
@@ -88,6 +90,7 @@ var (
 		DocSupplementalExperimentalFeature,
 		DocSupplementalTroubleshooting,
 		DocSupplementalDropboxBusiness,
+		DocSupplementalSpecChange,
 		DocContributorRecipeValues,
 	}
 
@@ -198,6 +201,8 @@ func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
+		case DocSupplementalSpecChange:
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "spec-change", lg)
 		case DocContributorRecipeValues:
 			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
 		}
@@ -228,6 +233,8 @@ func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
+		case DocSupplementalSpecChange:
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "spec-change", lg)
 		case DocContributorRecipeValues:
 			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
 		}

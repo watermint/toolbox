@@ -301,7 +301,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmemberbatch.Delete{},
 		&recipegroupmemberbatch.Update{},
 		&recipegroupupdate.Type{},
-		&recipelogcat.Jobid{},
+		&recipelogcat.Job{},
 		&recipelogcat.Kind{},
 		&recipelogcat.Last{},
 		&recipelogjob.Archive{},
