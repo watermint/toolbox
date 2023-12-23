@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team legalhold update name`
 lang: en
 ---
 

@@ -50,7 +50,9 @@ func (z Command) specListTable(ui app_ui.UI, header app_msg.Message, specs []rc_
 	ui.WithTable("Commands", func(t app_ui.Table) {
 		t.Header(z.TableHeaderCommand, z.TableHeaderDesc)
 		for _, spec := range specs {
-			t.Row(z.commandName(spec), spec.Title())
+			if !spec.IsSpecChange() {
+				t.Row(z.commandName(spec), spec.Title())
+			}
 		}
 	})
 }

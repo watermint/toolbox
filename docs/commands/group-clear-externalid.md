@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `group clear externalid`
 lang: en
 ---
 

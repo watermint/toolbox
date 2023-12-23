@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `file template capture remote`
 lang: en
 ---
 

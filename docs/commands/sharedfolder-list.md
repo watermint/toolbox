@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `sharedfolder list`
 lang: en
 ---
 

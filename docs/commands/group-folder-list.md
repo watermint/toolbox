@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `group folder list`
 lang: en
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util uuid v4`
 lang: en
 ---
 

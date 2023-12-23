@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `log job delete`
 lang: en
 ---
 

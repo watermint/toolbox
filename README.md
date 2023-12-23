@@ -70,6 +70,7 @@ Available commands:
 
 | Command      | Description                     | Notes |
 |--------------|---------------------------------|-------|
+| config       | CLI configuration               |       |
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
 | group        | Group management                |       |

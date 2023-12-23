@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `log job ship`
 lang: en
 ---
 

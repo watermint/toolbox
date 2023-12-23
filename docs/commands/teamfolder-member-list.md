@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `teamfolder member list`
 lang: en
 ---
 

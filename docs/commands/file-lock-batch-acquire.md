@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `file lock batch acquire`
 lang: en
 ---
 

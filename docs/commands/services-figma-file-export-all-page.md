@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `services figma file export all page`
 lang: en
 ---
 

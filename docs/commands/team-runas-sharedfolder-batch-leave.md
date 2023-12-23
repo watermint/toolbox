@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team runas sharedfolder batch leave`
 lang: en
 ---
 

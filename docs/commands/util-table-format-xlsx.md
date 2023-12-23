@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util table format xlsx`
 lang: en
 ---
 

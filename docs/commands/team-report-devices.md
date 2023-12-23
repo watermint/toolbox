@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team report devices`
 lang: en
 ---
 

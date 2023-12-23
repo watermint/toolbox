@@ -1,12 +1,10 @@
 ---
 layout: command
-title: Command
+title: Command `services asana team task list`
 lang: en
 ---
 
 # services asana team task list
-
-Deprecation warning: This command is no longer maintained. It has not been tested prior to release and no fix will be provided in the event of a problem.
 
 List task of the team 
 

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team admin group role add`
 lang: en
 ---
 

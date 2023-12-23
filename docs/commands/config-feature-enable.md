@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `config feature enable`
 lang: en
 ---
 
@@ -23,14 +23,12 @@ This document uses the Desktop folder for command example.
 ## Run
 
 Windows:
-
 ```
 cd $HOME\Desktop
 .\tbx.exe config feature enable -key FEATURE
 ```
 
 macOS, Linux:
-
 ```
 $HOME/Desktop/tbx config feature enable -key FEATURE
 ```

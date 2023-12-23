@@ -25,7 +25,7 @@ func (z DocCommand) DocId() dc_index.DocId {
 }
 
 func (z DocCommand) DocDesc() app_msg.Message {
-	return z.Desc
+	return z.Desc.With("CliPath", z.spec.CliPath())
 }
 
 func (z DocCommand) Sections() []dc_section.Section {

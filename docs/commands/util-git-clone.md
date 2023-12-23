@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util git clone`
 lang: en
 ---
 

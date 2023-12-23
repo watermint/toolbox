@@ -10,6 +10,7 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_compatibility"
 	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -33,6 +34,9 @@ type Spec interface {
 
 	// Path signature of the recipe
 	Path() (path []string, name string)
+
+	// FormerPaths returns former paths of the recipe. Returns empty array if the recipe has no former paths.
+	FormerPaths() (paths []rc_compatibility.PathPair)
 
 	// Id of the recipe spec. Id format is path + name of Path() connected with `-` (dash).
 	SpecId() string
@@ -115,8 +119,8 @@ type Spec interface {
 	// True if the operation is transient.
 	IsTransient() bool
 
-	// IsDeprecated returns true if the operation is deprecated.
-	IsDeprecated() bool
+	// IsSpecChange returns true if the recipe has spec change.
+	IsSpecChange() bool
 
 	// Print usage
 	PrintUsage(ui app_ui.UI)
@@ -129,4 +133,7 @@ type Spec interface {
 
 	// Error handlers for the recipe.
 	ErrorHandlers() []rc_error_handler.ErrorHandler
+
+	// MarkSpecChange marks the recipe as deprecated
+	MarkSpecChange() Spec
 }

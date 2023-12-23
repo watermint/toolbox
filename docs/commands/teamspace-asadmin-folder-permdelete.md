@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `teamspace asadmin folder permdelete`
 lang: en
 ---
 

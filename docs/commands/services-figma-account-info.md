@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `services figma account info`
 lang: en
 ---
 

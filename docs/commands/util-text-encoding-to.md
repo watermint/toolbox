@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util text encoding to`
 lang: en
 ---
 

@@ -1,0 +1,201 @@
+{
+  "path_changes": [
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "log",
+          "job"
+        ],
+        "name": "archive"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "job",
+            "history"
+          ],
+          "name": "archive"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "log",
+          "job"
+        ],
+        "name": "delete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "job",
+            "history"
+          ],
+          "name": "delete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "log",
+          "job"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "job",
+            "history"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "log",
+          "job"
+        ],
+        "name": "ship"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "job",
+            "history"
+          ],
+          "name": "ship"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "log",
+          "cat"
+        ],
+        "name": "job"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "job",
+            "log"
+          ],
+          "name": "jobid"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "log",
+          "cat"
+        ],
+        "name": "kind"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "job",
+            "log"
+          ],
+          "name": "kind"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "log",
+          "cat"
+        ],
+        "name": "last"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "job",
+            "log"
+          ],
+          "name": "last"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "config",
+          "feature"
+        ],
+        "name": "disable"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "config"
+          ],
+          "name": "disable"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "config",
+          "feature"
+        ],
+        "name": "enable"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "config"
+          ],
+          "name": "enable"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "config",
+          "feature"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "config"
+          ],
+          "name": "features"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team runas file sync batch up`
 lang: en
 ---
 

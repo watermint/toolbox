@@ -87,8 +87,11 @@ func (z *groupImpl) AddToPath(fullPath []string, relPath []string, name string, 
 
 func (z *groupImpl) Add(r rc_recipe.Spec) {
 	path, name := r.Path()
-
 	z.AddToPath(path, path, name, r)
+
+	for _, fp := range r.FormerPaths() {
+		z.AddToPath(fp.Path, fp.Path, fp.Name, r.MarkSpecChange())
+	}
 }
 
 func (z *groupImpl) PrintUsage(ui app_ui.UI, exec, version string) {

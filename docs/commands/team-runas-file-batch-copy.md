@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team runas file batch copy`
 lang: en
 ---
 

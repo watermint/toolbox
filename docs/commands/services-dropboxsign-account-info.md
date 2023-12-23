@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `services dropboxsign account info`
 lang: en
 ---
 

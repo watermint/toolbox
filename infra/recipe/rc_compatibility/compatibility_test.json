@@ -1,0 +1,69 @@
+{
+  "path_changes": [
+    {
+      "prune_after_build_date": "2023-12-22T23:30:00+09:00",
+      "current": {
+        "path": [
+          "fruit",
+          "citrus"
+        ],
+        "name": "lemon"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "citrus"
+          ],
+          "name": "lemon"
+        },
+        {
+          "path": [],
+          "name": "lemon"
+        }
+      ]
+    },
+    {
+      "prune_after_build_date": "2123-12-22T23:30:00+09:00",
+      "current": {
+        "path": [
+          "fruit",
+          "citrus"
+        ],
+        "name": "lime"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "citrus"
+          ],
+          "name": "lime"
+        },
+        {
+          "path": [],
+          "name": "lime"
+        }
+      ]
+    },
+    {
+      "current": {
+        "path": [
+          "fruit",
+          "citrus"
+        ],
+        "name": "tangerine"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "citrus"
+          ],
+          "name": "tangerine"
+        },
+        {
+          "path": [],
+          "name": "tangerine"
+        }
+      ]
+    }
+  ]
+}

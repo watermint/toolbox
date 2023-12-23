@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util text nlp japanese wakati`
 lang: en
 ---
 

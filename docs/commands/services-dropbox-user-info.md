@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `services dropbox user info`
 lang: en
 ---
 

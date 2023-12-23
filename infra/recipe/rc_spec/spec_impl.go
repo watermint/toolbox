@@ -18,6 +18,7 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_options"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_compatibility"
 	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -90,9 +91,22 @@ type specValueSelfContained struct {
 	annotation rc_recipe.Annotation
 	scr        rc_recipe.Recipe
 	repo       rc_recipe.Repository
+	specChange bool
 }
 
-func (z *specValueSelfContained) ErrorHandlers() []rc_error_handler.ErrorHandler {
+func (z specValueSelfContained) MarkSpecChange() rc_recipe.Spec {
+	z.specChange = true
+	return z
+}
+
+func (z specValueSelfContained) FormerPaths() (paths []rc_compatibility.PathPair) {
+	if cd, found := rc_compatibility.Definitions.PathChangeFindAlive(z.path, z.name); found {
+		return cd.FormerPaths
+	}
+	return []rc_compatibility.PathPair{}
+}
+
+func (z specValueSelfContained) ErrorHandlers() []rc_error_handler.ErrorHandler {
 	handlers := make([]rc_error_handler.ErrorHandler, 0)
 	for _, vn := range z.repo.FieldNames() {
 		if v, ok := z.repo.FieldValue(vn).(rc_recipe.ValueErrorHandler); ok {
@@ -102,11 +116,11 @@ func (z *specValueSelfContained) ErrorHandlers() []rc_error_handler.ErrorHandler
 	return handlers
 }
 
-func (z *specValueSelfContained) Capture(ctl app_control.Control) (v interface{}, err error) {
+func (z specValueSelfContained) Capture(ctl app_control.Control) (v interface{}, err error) {
 	return z.repo.Capture(ctl)
 }
 
-func (z *specValueSelfContained) Restore(j es_json.Json, ctl app_control.Control) (rcp rc_recipe.Recipe, err error) {
+func (z specValueSelfContained) Restore(j es_json.Json, ctl app_control.Control) (rcp rc_recipe.Recipe, err error) {
 	l := ctl.Log()
 
 	l.Debug("Restore")
@@ -128,11 +142,11 @@ func (z *specValueSelfContained) Restore(j es_json.Json, ctl app_control.Control
 	return rcp, nil
 }
 
-func (z *specValueSelfContained) SpecId() string {
+func (z specValueSelfContained) SpecId() string {
 	return strings.Join(append(z.path, z.name), "-")
 }
 
-func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
+func (z specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 	// feed ----
 	feeds := make([]*dc_recipe.Feed, 0)
 	feedNames := make([]string, 0)
@@ -252,38 +266,44 @@ func (z *specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		}
 	}
 
+	// spec changes
+	var specChangesShort string
+	var specChangesDesc string
+
 	return &dc_recipe.Recipe{
-		Name:            z.Name(),
-		Title:           ui.Text(z.Title()),
-		Desc:            ui.TextOrEmpty(z.Desc()),
-		Remarks:         ui.TextOrEmpty(z.Remarks()),
-		Path:            z.CliPath(),
-		CliArgs:         ui.TextOrEmpty(z.CliArgs()),
-		CliNote:         ui.TextOrEmpty(z.CliNote()),
-		ConnUsePersonal: z.ConnUsePersonal(),
-		ConnUseBusiness: z.ConnUseBusiness(),
-		ConnScopes:      z.ConnScopeMap(),
-		Services:        z.Services(),
-		IsSecret:        z.IsSecret(),
-		IsConsole:       z.IsConsole(),
-		IsExperimental:  z.IsExperimental(),
-		IsIrreversible:  z.IsIrreversible(),
-		IsTransient:     z.IsTransient(),
-		Reports:         reports,
-		Feeds:           feeds,
-		Values:          values,
-		GridDataInput:   gridDataInputs,
-		GridDataOutput:  gridDataOutputs,
-		TextInput:       textInputs,
-		JsonInput:       jsonInputs,
+		Name:             z.Name(),
+		Title:            ui.Text(z.Title()),
+		Desc:             ui.TextOrEmpty(z.Desc()),
+		SpecChangesShort: specChangesShort,
+		SpecChangesDesc:  specChangesDesc,
+		Remarks:          ui.TextOrEmpty(z.Remarks()),
+		Path:             z.CliPath(),
+		CliArgs:          ui.TextOrEmpty(z.CliArgs()),
+		CliNote:          ui.TextOrEmpty(z.CliNote()),
+		ConnUsePersonal:  z.ConnUsePersonal(),
+		ConnUseBusiness:  z.ConnUseBusiness(),
+		ConnScopes:       z.ConnScopeMap(),
+		Services:         z.Services(),
+		IsSecret:         z.IsSecret(),
+		IsConsole:        z.IsConsole(),
+		IsExperimental:   z.IsExperimental(),
+		IsIrreversible:   z.IsIrreversible(),
+		IsTransient:      z.IsTransient(),
+		Reports:          reports,
+		Feeds:            feeds,
+		Values:           values,
+		GridDataInput:    gridDataInputs,
+		GridDataOutput:   gridDataOutputs,
+		TextInput:        textInputs,
+		JsonInput:        jsonInputs,
 	}
 }
 
-func (z *specValueSelfContained) New() rc_recipe.Spec {
+func (z specValueSelfContained) New() rc_recipe.Spec {
 	return newSelfContained(z.scr)
 }
 
-func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
+func (z specValueSelfContained) PrintUsage(ui app_ui.UI) {
 	rc_group.UsageHeader(ui, z.Title(), app_definitions.BuildId)
 
 	ui.Header(MSelfContained.RecipeHeaderUsage)
@@ -303,11 +323,11 @@ func (z *specValueSelfContained) PrintUsage(ui app_ui.UI) {
 	ui.Break()
 }
 
-func (z *specValueSelfContained) Path() (path []string, name string) {
+func (z specValueSelfContained) Path() (path []string, name string) {
 	return z.path, z.name
 }
 
-func (z *specValueSelfContained) IsSecret() bool {
+func (z specValueSelfContained) IsSecret() bool {
 	if z.annotation != nil && z.annotation.IsSecret() {
 		return true
 	}
@@ -319,46 +339,43 @@ func (z *specValueSelfContained) IsSecret() bool {
 	return false
 }
 
-func (z *specValueSelfContained) IsConsole() bool {
+func (z specValueSelfContained) IsConsole() bool {
 	if z.annotation != nil {
 		return z.annotation.IsConsole()
 	}
 	return false
 }
 
-func (z *specValueSelfContained) IsExperimental() bool {
+func (z specValueSelfContained) IsExperimental() bool {
 	if z.annotation != nil {
 		return z.annotation.IsExperimental()
 	}
 	return false
 }
 
-func (z *specValueSelfContained) IsIrreversible() bool {
+func (z specValueSelfContained) IsIrreversible() bool {
 	if z.annotation != nil {
 		return z.annotation.IsIrreversible()
 	}
 	return false
 }
 
-func (z *specValueSelfContained) IsTransient() bool {
+func (z specValueSelfContained) IsTransient() bool {
 	if z.annotation != nil {
 		return z.annotation.IsTransient()
 	}
 	return false
 }
 
-func (z *specValueSelfContained) IsDeprecated() bool {
-	if z.annotation != nil {
-		return z.annotation.IsDeprecated()
-	}
-	return false
+func (z specValueSelfContained) IsSpecChange() bool {
+	return z.specChange
 }
 
-func (z *specValueSelfContained) Value(name string) rc_recipe.Value {
+func (z specValueSelfContained) Value(name string) rc_recipe.Value {
 	return z.repo.FieldValue(name)
 }
 
-func (z *specValueSelfContained) ConnScopeMap() map[string]string {
+func (z specValueSelfContained) ConnScopeMap() map[string]string {
 	scopes := make(map[string]string)
 	for k, v := range z.repo.Conns() {
 		scopes[k] = v.ScopeLabel()
@@ -366,43 +383,43 @@ func (z *specValueSelfContained) ConnScopeMap() map[string]string {
 	return scopes
 }
 
-func (z *specValueSelfContained) SpinDown(ctl app_control.Control) error {
+func (z specValueSelfContained) SpinDown(ctl app_control.Control) error {
 	return z.repo.SpinDown(ctl)
 }
 
-func (z *specValueSelfContained) ValueNames() []string {
+func (z specValueSelfContained) ValueNames() []string {
 	return z.repo.FieldNames()
 }
 
-func (z *specValueSelfContained) ValueDesc(name string) app_msg.Message {
+func (z specValueSelfContained) ValueDesc(name string) app_msg.Message {
 	return z.repo.FieldDesc(name)
 }
 
-func (z *specValueSelfContained) ValueDefault(name string) interface{} {
+func (z specValueSelfContained) ValueDefault(name string) interface{} {
 	return z.repo.FieldValueText(name)
 }
 
-func (z *specValueSelfContained) ValueCustomDefault(name string) app_msg.MessageOptional {
+func (z specValueSelfContained) ValueCustomDefault(name string) app_msg.MessageOptional {
 	return z.repo.FieldCustomDefault(name)
 }
 
-func (z *specValueSelfContained) SetFlags(f *flag.FlagSet, ui app_ui.UI) {
+func (z specValueSelfContained) SetFlags(f *flag.FlagSet, ui app_ui.UI) {
 	z.repo.ApplyFlags(f, ui)
 }
 
-func (z *specValueSelfContained) Name() string {
+func (z specValueSelfContained) Name() string {
 	return z.name
 }
 
-func (z *specValueSelfContained) Title() app_msg.Message {
+func (z specValueSelfContained) Title() app_msg.Message {
 	return app_msg.ObjMessage(z.scr, "title")
 }
 
-func (z *specValueSelfContained) Desc() app_msg.MessageOptional {
+func (z specValueSelfContained) Desc() app_msg.MessageOptional {
 	return app_msg.ObjMessage(z.scr, "desc").AsOptional()
 }
 
-func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
+func (z specValueSelfContained) Remarks() app_msg.MessageOptional {
 	switch {
 	case z.IsExperimental() && z.IsIrreversible():
 		return MSelfContained.IsExperimentalAndIrreversible.AsOptional()
@@ -415,7 +432,7 @@ func (z *specValueSelfContained) Remarks() app_msg.MessageOptional {
 	}
 }
 
-func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, lg es_lang.Lang, relPath string) app_msg.Message {
+func (z specValueSelfContained) CliNameRef(media dc_index.MediaType, lg es_lang.Lang, relPath string) app_msg.Message {
 	switch media {
 	case dc_index.MediaRepository:
 		path := filepath.ToSlash(filepath.Join(relPath, z.SpecId()+".md"))
@@ -427,23 +444,23 @@ func (z *specValueSelfContained) CliNameRef(media dc_index.MediaType, lg es_lang
 	panic("invalid media type")
 }
 
-func (z *specValueSelfContained) CliPath() string {
+func (z specValueSelfContained) CliPath() string {
 	return z.cliPath
 }
 
-func (z *specValueSelfContained) CliArgs() app_msg.MessageOptional {
+func (z specValueSelfContained) CliArgs() app_msg.MessageOptional {
 	return app_msg.ObjMessage(z.scr, "cli.args").AsOptional()
 }
 
-func (z *specValueSelfContained) CliNote() app_msg.MessageOptional {
+func (z specValueSelfContained) CliNote() app_msg.MessageOptional {
 	return app_msg.ObjMessage(z.scr, "cli.note").AsOptional()
 }
 
-func (z *specValueSelfContained) Messages() []app_msg.Message {
+func (z specValueSelfContained) Messages() []app_msg.Message {
 	return z.repo.Messages()
 }
 
-func (z *specValueSelfContained) Reports() []rp_model.Spec {
+func (z specValueSelfContained) Reports() []rp_model.Spec {
 	reps := make([]rp_model.Spec, 0)
 	for _, s := range z.repo.ReportSpecs() {
 		reps = append(reps, s)
@@ -451,27 +468,27 @@ func (z *specValueSelfContained) Reports() []rp_model.Spec {
 	return reps
 }
 
-func (z *specValueSelfContained) GridDataInput() map[string]da_griddata.GridDataInputSpec {
+func (z specValueSelfContained) GridDataInput() map[string]da_griddata.GridDataInputSpec {
 	return z.repo.GridDataInputSpecs()
 }
 
-func (z *specValueSelfContained) GridDataOutput() map[string]da_griddata.GridDataOutputSpec {
+func (z specValueSelfContained) GridDataOutput() map[string]da_griddata.GridDataOutputSpec {
 	return z.repo.GridDataOutputSpecs()
 }
 
-func (z *specValueSelfContained) TextInput() map[string]da_text.TextInputSpec {
+func (z specValueSelfContained) TextInput() map[string]da_text.TextInputSpec {
 	return z.repo.TextInputSpecs()
 }
 
-func (z *specValueSelfContained) JsonInput() map[string]da_json.JsonInputSpec {
+func (z specValueSelfContained) JsonInput() map[string]da_json.JsonInputSpec {
 	return z.repo.JsonInputSpecs()
 }
 
-func (z *specValueSelfContained) Feeds() map[string]fd_file.Spec {
+func (z specValueSelfContained) Feeds() map[string]fd_file.Spec {
 	return z.repo.FeedSpecs()
 }
 
-func (z *specValueSelfContained) Services() []string {
+func (z specValueSelfContained) Services() []string {
 	services := make([]string, 0)
 	conns := z.repo.Conns()
 	for _, c := range conns {
@@ -480,7 +497,7 @@ func (z *specValueSelfContained) Services() []string {
 	return es_array_deprecated.NewByString(services...).Unique().Sort().AsStringArray()
 }
 
-func (z *specValueSelfContained) ConnUsePersonal() bool {
+func (z specValueSelfContained) ConnUsePersonal() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
 		if c.ServiceName() == api_conn.ServiceDropbox {
@@ -490,7 +507,7 @@ func (z *specValueSelfContained) ConnUsePersonal() bool {
 	return use
 }
 
-func (z *specValueSelfContained) ConnUseBusiness() bool {
+func (z specValueSelfContained) ConnUseBusiness() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
 		if c.ServiceName() == api_conn.ServiceDropboxBusiness {
@@ -500,7 +517,7 @@ func (z *specValueSelfContained) ConnUseBusiness() bool {
 	return use
 }
 
-func (z *specValueSelfContained) ConnScopes() []string {
+func (z specValueSelfContained) ConnScopes() []string {
 	scopes := make([]string, 0)
 	scopeLabels := make(map[string]bool)
 	for _, c := range z.repo.Conns() {
@@ -513,7 +530,7 @@ func (z *specValueSelfContained) ConnScopes() []string {
 	return scopes
 }
 
-func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, err error) {
+func (z specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r rc_recipe.Recipe)) (rcp rc_recipe.Recipe, err error) {
 	l := ctl.Log().With(esl.String("name", z.name))
 	rcp = z.repo.Apply()
 	custom(rcp)
@@ -526,6 +543,6 @@ func (z *specValueSelfContained) SpinUp(ctl app_control.Control, custom func(r r
 	return rcp, nil
 }
 
-func (z *specValueSelfContained) Debug() map[string]interface{} {
+func (z specValueSelfContained) Debug() map[string]interface{} {
 	return z.repo.Debug()
 }

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `services google sheets sheet create`
 lang: en
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `services figma file list`
 lang: en
 ---
 

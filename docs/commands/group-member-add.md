@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `group member add`
 lang: en
 ---
 
