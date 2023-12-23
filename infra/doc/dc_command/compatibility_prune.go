@@ -55,7 +55,7 @@ func (z SectionCompatibilityPrune) Title() app_msg.Message {
 }
 
 func (z SectionCompatibilityPrune) Body(ui app_ui.UI) {
-	ui.Info(z.DescPrune.With("Path", z.spec.CliPath()).With("Title", ui.TextOrEmpty(z.spec.Title())))
+	ui.Info(z.DescPrune.With("CliPath", z.spec.CliPath()).With("Title", ui.TextOrEmpty(z.spec.Title())))
 
 	if z.prune.PruneAfterBuildDate != "" {
 		ui.Info(z.DescTransitionPeriod.With("PruneAfterBuildDate", z.prune.PruneAfterBuildDate))

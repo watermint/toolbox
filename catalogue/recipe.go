@@ -15,6 +15,7 @@ import (
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
 	recipedevmodule "github.com/watermint/toolbox/recipe/dev/module"
+	recipedevplaceholder "github.com/watermint/toolbox/recipe/dev/placeholder"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
@@ -206,6 +207,8 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
 		&recipedevmodule.List{},
+		&recipedevplaceholder.Pathchange{},
+		&recipedevplaceholder.Prune{},
 		&recipedevrelease.Asset{},
 		&recipedevrelease.Asseturl{},
 		&recipedevrelease.Candidate{},

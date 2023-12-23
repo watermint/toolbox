@@ -16,6 +16,10 @@ type PathPair struct {
 	Name string   `json:"name"`
 }
 
+func (z PathPair) IsValid() bool {
+	return z.Name != ""
+}
+
 func IsAlive(pruneAfterBuildDate string) bool {
 	if pruneAfterBuildDate == "" {
 		return true
@@ -33,6 +37,28 @@ func LoadCompatibilityDefinition(data []byte) (cd CompatibilityDefinitions, err 
 	err = json.Unmarshal(data, &cd)
 	if err != nil {
 		return cd, err
+	}
+
+	for _, pc := range cd.PathChanges {
+		if !pc.Current.IsValid() {
+			l := esl.Default()
+			l.Error("Invalid path change", esl.Any("pathChange", pc))
+			panic("invalid path change")
+		}
+		for _, fp := range pc.FormerPaths {
+			if !fp.IsValid() {
+				l := esl.Default()
+				l.Error("Invalid former path", esl.Any("pathChange", pc))
+				panic("invalid former path")
+			}
+		}
+	}
+	for _, p := range cd.Prune {
+		if !p.Current.IsValid() {
+			l := esl.Default()
+			l.Error("Invalid prune", esl.Any("prune", p))
+			panic("invalid prune")
+		}
 	}
 	return
 }

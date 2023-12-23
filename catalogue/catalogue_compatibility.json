@@ -1,6 +1,26 @@
 {
   "path_change": [
     {
+      "current": {
+        "path": [
+          "dev",
+          "placeholder"
+        ],
+        "name": "pathchange"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "dev",
+            "placeholder"
+          ],
+          "name": "pathchangeformer"
+        }
+      ],
+      "prune_after_build_date": "2124-01-01T00:00:00Z",
+      "announcement": "https://github.com/watermint/toolbox/issues/781"
+    },
+    {
       "announcement": "https://github.com/watermint/toolbox/discussions/794",
       "prune_after_build_date": "2024-04-01T00:00:00Z",
       "current": {
@@ -57,26 +77,6 @@
             "history"
           ],
           "name": "list"
-        }
-      ]
-    },
-    {
-      "announcement": "https://github.com/watermint/toolbox/discussions/794",
-      "prune_after_build_date": "2024-04-01T00:00:00Z",
-      "current": {
-        "path": [
-          "log",
-          "job"
-        ],
-        "name": "ship"
-      },
-      "former_paths": [
-        {
-          "path": [
-            "job",
-            "history"
-          ],
-          "name": "ship"
         }
       ]
     },
@@ -200,11 +200,24 @@
   ],
   "prune": [
     {
-      "path": [
-        "log",
-        "job"
-      ],
-      "name": "ship",
+      "current": {
+        "path": [
+          "dev",
+          "placeholder"
+        ],
+        "name": "prune"
+      },
+      "prune_after_build_date": "2124-01-01T00:00:00Z",
+      "announcement": "https://github.com/watermint/toolbox/issues/781"
+    },
+    {
+      "current": {
+        "path": [
+          "log",
+          "job"
+        ],
+        "name": "ship"
+      },
       "prune_after_build_date": "2024-01-01T00:00:00Z"
     }
   ]
