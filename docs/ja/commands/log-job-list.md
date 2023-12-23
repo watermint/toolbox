@@ -1,57 +1,12 @@
 ---
 layout: command
-title: コマンド
+title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# job history ship
+# log job list
 
-ログの転送先Dropboxパス 
-
-# セキュリティ
-
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
-
-| OS      | パス                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
-
-方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-
-## 認可スコープ
-
-| 説明                                                                                   |
-|----------------------------------------------------------------------------------------|
-| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示                                 |
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集                                 |
-
-# 認可
-
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
-リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2023 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-```
+ジョブ履歴の表示 
 
 # インストール
 
@@ -67,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe job history ship -dropbox-path /DROPBOX/PATH/TO/UPLOAD
+.\tbx.exe log job list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx job history ship -dropbox-path /DROPBOX/PATH/TO/UPLOAD
+$HOME/Desktop/tbx log job list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -83,10 +38,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                      | デフォルト |
-|-----------------|---------------------------|------------|
-| `-dropbox-path` | アップロード先Dropboxパス |            |
-| `-peer`         | アカウントの別名          | default    |
+| オプション | 説明                    | デフォルト |
+|------------|-------------------------|------------|
+| `-path`    | ワークスペースへのパス. |            |
 
 ## 共通のオプション:
 
@@ -121,31 +75,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: operation_log
+## レポート: log
 
-このレポートは処理結果を出力します.
-このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+ジョブ履歴を一覧するレポートです.
+このコマンドはレポートを3種類の書式で出力します. `log.csv`, `log.json`, ならびに `log.xlsx`.
 
-| 列                                 | 説明                                                                                      |
-|------------------------------------|-------------------------------------------------------------------------------------------|
-| status                             | 処理の状態                                                                                |
-| reason                             | 失敗またはスキップの理由                                                                  |
-| input.job_id                       | ジョブID                                                                                  |
-| input.recipe_name                  | コマンド                                                                                  |
-| result.id                          | ファイルへの一意なID                                                                      |
-| result.tag                         | エントリーの種別`file`, `folder`, または `deleted`                                        |
-| result.name                        | 名称                                                                                      |
-| result.path_lower                  | パス (すべて小文字に変換). これは常にスラッシュで始まります.                              |
-| result.path_display                | パス (表示目的で大文字小文字を区別する).                                                  |
-| result.client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                              |
-| result.server_modified             | Dropbox上で最後に更新された日時                                                           |
-| result.revision                    | ファイルの現在バージョンの一意な識別子                                                    |
-| result.size                        | ファイルサイズ(バイト単位)                                                                |
-| result.has_explicit_shared_members | trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます. |
+| 列          | 説明                       |
+|-------------|----------------------------|
+| job_id      | ジョブID                   |
+| app_version | アプリケーションバージョン |
+| recipe_name | コマンド                   |
+| time_start  | 開始時刻                   |
+| time_finish | 完了時刻                   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `log_0000.xlsx`, `log_0001.xlsx`, `log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

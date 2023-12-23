@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `config feature list` is moved
+title: Command `config feature list` was moved
 lang: en
 ---
 
-# Command `config features` is moved
+# Command `config features` was moved
 
-The command `config features` is moved to `config feature list`. Please use the new path.
+The command `config features` was moved to `config feature list`. Please use the new path.
 
 This command is available at both path(s) during the transition period until the build released before 2024-04-01T00:00:00Z. If you are using this version of the program, this command will continue to be available after this date.
 

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド
+title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev benchmark local -num-files NUM -path /LOCAL/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM"
+.\tbx.exe dev benchmark local -num-files NUM -path /LOCAL/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev benchmark local -num-files NUM -path /LOCAL/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM"
+$HOME/Desktop/tbx dev benchmark local -num-files NUM -path /LOCAL/PATH/TO/PROCESS -size-max-kb NUM -size-min-kb NUM
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.

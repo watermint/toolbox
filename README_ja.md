@@ -66,19 +66,24 @@ DropboxおよびDropbox Business向けのツールセット
 利用可能なコマンド:
 ===================
 
-| コマンド     | 説明                       | 備考 |
-|--------------|----------------------------|------|
-| config       | watermint toolbox の設定   |      |
-| file         | ファイル操作               |      |
-| filerequest  | ファイルリクエストの操作   |      |
-| group        | グループ管理               |      |
-| license      | ライセンス情報を表示します |      |
-| member       | チームメンバーの管理       |      |
-| sharedfolder | 共有フォルダ               |      |
-| sharedlink   | 個人アカウントの共有リンク |      |
-| team         | Dropbox Business チーム    |      |
-| teamfolder   | チームフォルダの管理       |      |
-| version      | バージョン情報             |      |
+| コマンド     | 説明                         | 備考 |
+|--------------|------------------------------|------|
+| config       | CLI設定                      |      |
+| file         | ファイル操作                 |      |
+| filerequest  | ファイルリクエストの操作     |      |
+| group        | グループ管理                 |      |
+| job          | ログユーティリティ（非推奨） |      |
+| license      | ライセンス情報を表示します   |      |
+| log          | ログユーティリティ           |      |
+| member       | チームメンバーの管理         |      |
+| services     | 各種サービス向けコマンド     |      |
+| sharedfolder | 共有フォルダ                 |      |
+| sharedlink   | 個人アカウントの共有リンク   |      |
+| team         | Dropbox Business チーム      |      |
+| teamfolder   | チームフォルダの管理         |      |
+| teamspace    | チームスペースコマンド       |      |
+| util         | ユーティリティー             |      |
+| version      | バージョン情報               |      |
 
 ```
 
@@ -132,7 +137,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [filerequest delete closed](docs/ja/commands/filerequest-delete-closed.md)               | このアカウントの全ての閉じられているファイルリクエストを削除します        |
 | [filerequest delete url](docs/ja/commands/filerequest-delete-url.md)                     | ファイルリクエストのURLを指定して削除                                     |
 | [filerequest list](docs/ja/commands/filerequest-list.md)                                 | 個人アカウントのファイルリクエストを一覧.                                 |
-| [job history ship](docs/ja/commands/job-history-ship.md)                                 | ログの転送先Dropboxパス                                                   |
+| [log job ship](docs/ja/commands/log-job-ship.md)                                         | ログの転送先Dropboxパス                                                   |
 | [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md)       | 現在のユーザーの機能設定の一覧                                            |
 | [services dropbox user filesystem](docs/ja/commands/services-dropbox-user-filesystem.md) | ユーザーのチームのファイルシステムのバージョンを特定する                  |
 | [services dropbox user info](docs/ja/commands/services-dropbox-user-info.md)             | 現在のアカウント情報を取得する                                            |
@@ -156,7 +161,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [util monitor client](docs/ja/commands/util-monitor-client.md)                           | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                       | リモートフォルダをZIPファイルにパッケージする                             |
 
-## Dropbox Business
+## チーム向けDropbox
 
 | コマンド                                                                                                       | 説明                                                                                    |
 |----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
@@ -367,18 +372,18 @@ DropboxおよびDropbox Business向けのツールセット
 |------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
 | [config auth delete](docs/ja/commands/config-auth-delete.md)                             | 既存の認証クレデンシャルの削除                                         |
 | [config auth list](docs/ja/commands/config-auth-list.md)                                 | すべての認証情報を一覧表示                                             |
-| [config disable](docs/ja/commands/config-disable.md)                                     | 機能を無効化します.                                                    |
-| [config enable](docs/ja/commands/config-enable.md)                                       | 機能を有効化します.                                                    |
-| [config features](docs/ja/commands/config-features.md)                                   | 利用可能なオプション機能一覧.                                          |
+| [config feature disable](docs/ja/commands/config-feature-disable.md)                     | 機能を無効化します.                                                    |
+| [config feature enable](docs/ja/commands/config-feature-enable.md)                       | 機能を有効化します.                                                    |
+| [config feature list](docs/ja/commands/config-feature-list.md)                           | 利用可能なオプション機能一覧.                                          |
 | [file template apply local](docs/ja/commands/file-template-apply-local.md)               | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
 | [file template capture local](docs/ja/commands/file-template-capture-local.md)           | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
-| [job history archive](docs/ja/commands/job-history-archive.md)                           | ジョブのアーカイブ                                                     |
-| [job history delete](docs/ja/commands/job-history-delete.md)                             | 古いジョブ履歴の削除                                                   |
-| [job history list](docs/ja/commands/job-history-list.md)                                 | ジョブ履歴の表示                                                       |
-| [job log jobid](docs/ja/commands/job-log-jobid.md)                                       | 指定したジョブIDのログを取得する                                       |
-| [job log kind](docs/ja/commands/job-log-kind.md)                                         | 指定種別のログを結合して出力します                                     |
-| [job log last](docs/ja/commands/job-log-last.md)                                         | 最後のジョブのログファイルを出力.                                      |
 | [license](docs/ja/commands/license.md)                                                   | ライセンス情報を表示します                                             |
+| [log cat job](docs/ja/commands/log-cat-job.md)                                           | 指定したジョブIDのログを取得する                                       |
+| [log cat kind](docs/ja/commands/log-cat-kind.md)                                         | 指定種別のログを結合して出力します                                     |
+| [log cat last](docs/ja/commands/log-cat-last.md)                                         | 最後のジョブのログファイルを出力.                                      |
+| [log job archive](docs/ja/commands/log-job-archive.md)                                   | ジョブのアーカイブ                                                     |
+| [log job delete](docs/ja/commands/log-job-delete.md)                                     | 古いジョブ履歴の削除                                                   |
+| [log job list](docs/ja/commands/log-job-list.md)                                         | ジョブ履歴の表示                                                       |
 | [util archive unzip](docs/ja/commands/util-archive-unzip.md)                             | ZIPアーカイブファイルを解凍する                                        |
 | [util archive zip](docs/ja/commands/util-archive-zip.md)                                 | 対象ファイルをZIPアーカイブに圧縮する                                  |
 | [util cert selfsigned](docs/ja/commands/util-cert-selfsigned.md)                         | 自己署名証明書と鍵の生成                                               |

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド
+title: コマンド `{.CliPath}}`
 lang: ja
 ---
 

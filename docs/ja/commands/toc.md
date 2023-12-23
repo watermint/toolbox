@@ -54,7 +54,7 @@ lang: ja
 | [filerequest delete closed]({{ site.baseurl }}/ja/commands/filerequest-delete-closed.html)               | このアカウントの全ての閉じられているファイルリクエストを削除します        |
 | [filerequest delete url]({{ site.baseurl }}/ja/commands/filerequest-delete-url.html)                     | ファイルリクエストのURLを指定して削除                                     |
 | [filerequest list]({{ site.baseurl }}/ja/commands/filerequest-list.html)                                 | 個人アカウントのファイルリクエストを一覧.                                 |
-| [job history ship]({{ site.baseurl }}/ja/commands/job-history-ship.html)                                 | ログの転送先Dropboxパス                                                   |
+| [log job ship]({{ site.baseurl }}/ja/commands/log-job-ship.html)                                         | ログの転送先Dropboxパス                                                   |
 | [services dropbox user feature]({{ site.baseurl }}/ja/commands/services-dropbox-user-feature.html)       | 現在のユーザーの機能設定の一覧                                            |
 | [services dropbox user filesystem]({{ site.baseurl }}/ja/commands/services-dropbox-user-filesystem.html) | ユーザーのチームのファイルシステムのバージョンを特定する                  |
 | [services dropbox user info]({{ site.baseurl }}/ja/commands/services-dropbox-user-info.html)             | 現在のアカウント情報を取得する                                            |
@@ -78,7 +78,7 @@ lang: ja
 | [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                           | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote]({{ site.baseurl }}/ja/commands/util-tidy-pack-remote.html)                       | リモートフォルダをZIPファイルにパッケージする                             |
 
-## Dropbox Business
+## チーム向けDropbox
 
 | コマンド                                                                                                                       | 説明                                                                                    |
 |--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
@@ -289,18 +289,18 @@ lang: ja
 |----------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
 | [config auth delete]({{ site.baseurl }}/ja/commands/config-auth-delete.html)                             | 既存の認証クレデンシャルの削除                                         |
 | [config auth list]({{ site.baseurl }}/ja/commands/config-auth-list.html)                                 | すべての認証情報を一覧表示                                             |
-| [config disable]({{ site.baseurl }}/ja/commands/config-disable.html)                                     | 機能を無効化します.                                                    |
-| [config enable]({{ site.baseurl }}/ja/commands/config-enable.html)                                       | 機能を有効化します.                                                    |
-| [config features]({{ site.baseurl }}/ja/commands/config-features.html)                                   | 利用可能なオプション機能一覧.                                          |
+| [config feature disable]({{ site.baseurl }}/ja/commands/config-feature-disable.html)                     | 機能を無効化します.                                                    |
+| [config feature enable]({{ site.baseurl }}/ja/commands/config-feature-enable.html)                       | 機能を有効化します.                                                    |
+| [config feature list]({{ site.baseurl }}/ja/commands/config-feature-list.html)                           | 利用可能なオプション機能一覧.                                          |
 | [file template apply local]({{ site.baseurl }}/ja/commands/file-template-apply-local.html)               | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
 | [file template capture local]({{ site.baseurl }}/ja/commands/file-template-capture-local.html)           | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
-| [job history archive]({{ site.baseurl }}/ja/commands/job-history-archive.html)                           | ジョブのアーカイブ                                                     |
-| [job history delete]({{ site.baseurl }}/ja/commands/job-history-delete.html)                             | 古いジョブ履歴の削除                                                   |
-| [job history list]({{ site.baseurl }}/ja/commands/job-history-list.html)                                 | ジョブ履歴の表示                                                       |
-| [job log jobid]({{ site.baseurl }}/ja/commands/job-log-jobid.html)                                       | 指定したジョブIDのログを取得する                                       |
-| [job log kind]({{ site.baseurl }}/ja/commands/job-log-kind.html)                                         | 指定種別のログを結合して出力します                                     |
-| [job log last]({{ site.baseurl }}/ja/commands/job-log-last.html)                                         | 最後のジョブのログファイルを出力.                                      |
 | [license]({{ site.baseurl }}/ja/commands/license.html)                                                   | ライセンス情報を表示します                                             |
+| [log cat job]({{ site.baseurl }}/ja/commands/log-cat-job.html)                                           | 指定したジョブIDのログを取得する                                       |
+| [log cat kind]({{ site.baseurl }}/ja/commands/log-cat-kind.html)                                         | 指定種別のログを結合して出力します                                     |
+| [log cat last]({{ site.baseurl }}/ja/commands/log-cat-last.html)                                         | 最後のジョブのログファイルを出力.                                      |
+| [log job archive]({{ site.baseurl }}/ja/commands/log-job-archive.html)                                   | ジョブのアーカイブ                                                     |
+| [log job delete]({{ site.baseurl }}/ja/commands/log-job-delete.html)                                     | 古いジョブ履歴の削除                                                   |
+| [log job list]({{ site.baseurl }}/ja/commands/log-job-list.html)                                         | ジョブ履歴の表示                                                       |
 | [util archive unzip]({{ site.baseurl }}/ja/commands/util-archive-unzip.html)                             | ZIPアーカイブファイルを解凍する                                        |
 | [util archive zip]({{ site.baseurl }}/ja/commands/util-archive-zip.html)                                 | 対象ファイルをZIPアーカイブに圧縮する                                  |
 | [util cert selfsigned]({{ site.baseurl }}/ja/commands/util-cert-selfsigned.html)                         | 自己署名証明書と鍵の生成                                               |

@@ -1,12 +1,10 @@
 ---
 layout: command
-title: コマンド
+title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
 # services asana workspace list
-
-非推奨の警告。このコマンドはもう保守されていません。リリース前のテストは行われておらず、問題が発生した場合の修正プログラムも提供されません。
 
 ワークスペースの一覧 
 
