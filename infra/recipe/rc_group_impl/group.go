@@ -86,6 +86,9 @@ func (z *groupImpl) AddToPath(fullPath []string, relPath []string, name string, 
 }
 
 func (z *groupImpl) Add(r rc_recipe.Spec) {
+	if r.IsPruned() {
+		return
+	}
 	path, name := r.Path()
 	z.AddToPath(path, path, name, r)
 
@@ -135,6 +138,9 @@ func (z *groupImpl) IsSecret() bool {
 		if !r.IsSecret() {
 			return false
 		}
+	}
+	if len(z.recipes) < 1 {
+		return false
 	}
 	return true
 }

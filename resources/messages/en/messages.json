@@ -1305,6 +1305,7 @@
   "recipe.dev.diag.throughput_row.success_sent.desc": "Sum of sent bytes of success requests in the bucket in bytes",
   "recipe.dev.diag.throughput_row.time.desc": "Timestamp",
   "recipe.dev.diag.title": "Diagnosis tools",
+  "recipe.dev.info.title": "Dev information",
   "recipe.dev.kvs.concurrency.flag.count": "Number of tests",
   "recipe.dev.kvs.concurrency.title": "Concurrency test for KVS engine",
   "recipe.dev.kvs.dump.cli.args": "-path /LOCAL/PATH/TO/kvs.data",

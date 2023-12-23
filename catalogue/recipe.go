@@ -6,7 +6,8 @@ import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfigauth "github.com/watermint/toolbox/recipe/config/auth"
-	"github.com/watermint/toolbox/recipe/config/feature"
+	recipeconfigfeature "github.com/watermint/toolbox/recipe/config/feature"
+	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
@@ -50,8 +51,8 @@ import (
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipegroupupdate "github.com/watermint/toolbox/recipe/group/update"
-	recipejoblog "github.com/watermint/toolbox/recipe/log/cat"
-	recipejobhistory "github.com/watermint/toolbox/recipe/log/job"
+	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
+	recipelogjob "github.com/watermint/toolbox/recipe/log/job"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberbatch "github.com/watermint/toolbox/recipe/member/batch"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
@@ -182,11 +183,12 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 	return []infra_recipe_rc_recipe.Recipe{
 		&recipe.License{},
 		&recipe.Version{},
-		&feature.Disable{},
-		&feature.Enable{},
-		&feature.List{},
 		&recipeconfigauth.Delete{},
 		&recipeconfigauth.List{},
+		&recipeconfigfeature.Disable{},
+		&recipeconfigfeature.Enable{},
+		&recipeconfigfeature.List{},
+		&recipedev.Info{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
 		&recipedevbenchmark.Uploadlink{},
@@ -296,13 +298,13 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmemberbatch.Delete{},
 		&recipegroupmemberbatch.Update{},
 		&recipegroupupdate.Type{},
-		&recipejobhistory.Archive{},
-		&recipejobhistory.Delete{},
-		&recipejobhistory.List{},
-		&recipejobhistory.Ship{},
-		&recipejoblog.Jobid{},
-		&recipejoblog.Kind{},
-		&recipejoblog.Last{},
+		&recipelogcat.Jobid{},
+		&recipelogcat.Kind{},
+		&recipelogcat.Last{},
+		&recipelogjob.Archive{},
+		&recipelogjob.Delete{},
+		&recipelogjob.List{},
+		&recipelogjob.Ship{},
 		&recipemember.Delete{},
 		&recipemember.Detach{},
 		&recipemember.Feature{},

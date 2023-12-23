@@ -122,6 +122,9 @@ type Spec interface {
 	// IsSpecChange returns true if the recipe has spec change.
 	IsSpecChange() bool
 
+	// IsPruned returns true if the recipe has removed
+	IsPruned() bool
+
 	// Print usage
 	PrintUsage(ui app_ui.UI)
 

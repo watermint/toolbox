@@ -104,17 +104,27 @@ func (z *Doc) genCommands(c app_control.Control) error {
 		}
 
 		// Compatibility documentation
-		dc, found := rc_compatibility.Definitions.PathChangeFind(spec.Path())
+		pc, found := rc_compatibility.Definitions.FindAlivePathChange(spec.Path())
 		if found {
-			for _, fp := range dc.FormerPaths {
+			for _, fp := range pc.FormerPaths {
 				formedSpecId := strings.Join(append(fp.Path, fp.Name), "-")
 				l.Info("Generating former command manual", esl.String("command", formedSpecId))
-				comDoc := dc_command.NewCompatibilityNewPath(dc_index.MediaWeb, spec, fp, dc)
+				comDoc := dc_command.NewCompatibilityNewPath(dc_index.MediaWeb, spec, fp, pc)
 				path := dc_index.DocName(dc_index.MediaWeb, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(formedSpecId))
 				doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutCommand, c.Messages(), comDoc)
 				if err := z.genDoc(path, doc, c); err != nil {
 					return err
 				}
+			}
+		}
+		prune, found := rc_compatibility.Definitions.FindAlivePrune(spec.Path())
+		if found {
+			l.Info("Generating prune command manual", esl.String("command", spec.CliPath()))
+			comDoc := dc_command.NewCompatibilityPrune(dc_index.MediaWeb, spec, prune)
+			path := dc_index.DocName(dc_index.MediaWeb, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(spec.SpecId()))
+			doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutCommand, c.Messages(), comDoc)
+			if err := z.genDoc(path, doc, c); err != nil {
+				return err
 			}
 		}
 

@@ -94,13 +94,20 @@ type specValueSelfContained struct {
 	specChange bool
 }
 
+func (z specValueSelfContained) IsPruned() bool {
+	if _, found := rc_compatibility.Definitions.FindAlivePrune(z.path, z.name); found {
+		return true
+	}
+	return false
+}
+
 func (z specValueSelfContained) MarkSpecChange() rc_recipe.Spec {
 	z.specChange = true
 	return z
 }
 
 func (z specValueSelfContained) FormerPaths() (paths []rc_compatibility.PathPair) {
-	if cd, found := rc_compatibility.Definitions.PathChangeFindAlive(z.path, z.name); found {
+	if cd, found := rc_compatibility.Definitions.FindAlivePathChange(z.path, z.name); found {
 		return cd.FormerPaths
 	}
 	return []rc_compatibility.PathPair{}
@@ -266,36 +273,30 @@ func (z specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		}
 	}
 
-	// spec changes
-	var specChangesShort string
-	var specChangesDesc string
-
 	return &dc_recipe.Recipe{
-		Name:             z.Name(),
-		Title:            ui.Text(z.Title()),
-		Desc:             ui.TextOrEmpty(z.Desc()),
-		SpecChangesShort: specChangesShort,
-		SpecChangesDesc:  specChangesDesc,
-		Remarks:          ui.TextOrEmpty(z.Remarks()),
-		Path:             z.CliPath(),
-		CliArgs:          ui.TextOrEmpty(z.CliArgs()),
-		CliNote:          ui.TextOrEmpty(z.CliNote()),
-		ConnUsePersonal:  z.ConnUsePersonal(),
-		ConnUseBusiness:  z.ConnUseBusiness(),
-		ConnScopes:       z.ConnScopeMap(),
-		Services:         z.Services(),
-		IsSecret:         z.IsSecret(),
-		IsConsole:        z.IsConsole(),
-		IsExperimental:   z.IsExperimental(),
-		IsIrreversible:   z.IsIrreversible(),
-		IsTransient:      z.IsTransient(),
-		Reports:          reports,
-		Feeds:            feeds,
-		Values:           values,
-		GridDataInput:    gridDataInputs,
-		GridDataOutput:   gridDataOutputs,
-		TextInput:        textInputs,
-		JsonInput:        jsonInputs,
+		Name:            z.Name(),
+		Title:           ui.Text(z.Title()),
+		Desc:            ui.TextOrEmpty(z.Desc()),
+		Remarks:         ui.TextOrEmpty(z.Remarks()),
+		Path:            z.CliPath(),
+		CliArgs:         ui.TextOrEmpty(z.CliArgs()),
+		CliNote:         ui.TextOrEmpty(z.CliNote()),
+		ConnUsePersonal: z.ConnUsePersonal(),
+		ConnUseBusiness: z.ConnUseBusiness(),
+		ConnScopes:      z.ConnScopeMap(),
+		Services:        z.Services(),
+		IsSecret:        z.IsSecret(),
+		IsConsole:       z.IsConsole(),
+		IsExperimental:  z.IsExperimental(),
+		IsIrreversible:  z.IsIrreversible(),
+		IsTransient:     z.IsTransient(),
+		Reports:         reports,
+		Feeds:           feeds,
+		Values:          values,
+		GridDataInput:   gridDataInputs,
+		GridDataOutput:  gridDataOutputs,
+		TextInput:       textInputs,
+		JsonInput:       jsonInputs,
 	}
 }
 

@@ -74,12 +74,17 @@ Available commands:
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
 | group        | Group management                |       |
+| job          | Log utilities (deprecated)      |       |
 | license      | Show license information        |       |
+| log          | Log utilities                   |       |
 | member       | Team member management          |       |
+| services     | Commands for services           |       |
 | sharedfolder | Shared folder                   |       |
 | sharedlink   | Shared Link of Personal account |       |
 | team         | Dropbox Business Team           |       |
 | teamfolder   | Team folder management          |       |
+| teamspace    | Team space commands             |       |
+| util         | Utilities                       |       |
 | version      | Show version                    |       |
 
 ```

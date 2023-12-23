@@ -29,19 +29,19 @@ func TestCompatibilityDefinitions_Find(t *testing.T) {
 		t.Error(err)
 	}
 	{
-		cd, found := cds.PathChangeFind([]string{"fruit", "citrus"}, "lemon")
+		cd, found := cds.FindPathChange([]string{"fruit", "citrus"}, "lemon")
 		if !found || cd.Current.Name != "lemon" {
 			t.Error(cd)
 		}
 	}
 	{
-		cd, found := cds.PathChangeFind([]string{"fruit", "citrus"}, "lime")
+		cd, found := cds.FindPathChange([]string{"fruit", "citrus"}, "lime")
 		if !found || cd.Current.Name != "lime" {
 			t.Error(cd)
 		}
 	}
 	{
-		cd, found := cds.PathChangeFind([]string{"fruit", "citrus"}, "orange")
+		cd, found := cds.FindPathChange([]string{"fruit", "citrus"}, "orange")
 		if found {
 			t.Error(cd)
 		}
@@ -59,21 +59,21 @@ func TestCompatibilityDefinitions_FindAlive(t *testing.T) {
 	}
 	{
 		// expired
-		cd, found := cds.PathChangeFindAlive([]string{"fruit", "citrus"}, "lemon")
+		cd, found := cds.FindAlivePathChange([]string{"fruit", "citrus"}, "lemon")
 		if found {
 			t.Error(cd)
 		}
 	}
 	{
 		// alive
-		cd, found := cds.PathChangeFindAlive([]string{"fruit", "citrus"}, "lime")
+		cd, found := cds.FindAlivePathChange([]string{"fruit", "citrus"}, "lime")
 		if !found || cd.Current.Name != "lime" {
 			t.Error(cd)
 		}
 	}
 	{
 		// alive
-		cd, found := cds.PathChangeFindAlive([]string{"fruit", "citrus"}, "tangerine")
+		cd, found := cds.FindAlivePathChange([]string{"fruit", "citrus"}, "tangerine")
 		if !found || cd.Current.Name != "tangerine" {
 			t.Error(cd)
 		}
@@ -91,22 +91,15 @@ func TestCompatibilityDefinitions_FindPruned(t *testing.T) {
 	}
 	{
 		// expired
-		cd, found := cds.PathChangeFindAlive([]string{"fruit", "citrus"}, "lemon")
-		if !found || cd.Current.Name != "lime" {
+		cd, found := cds.FindAlivePrune([]string{"chemical"}, "lead")
+		if found && cd.Current.Name != "lead" {
 			t.Error(cd)
 		}
 	}
 	{
 		// alive
-		cd, found := cds.PathChangeFindAlive([]string{"fruit", "citrus"}, "lime")
-		if !found || cd.Current.Name != "lime" {
-			t.Error(cd)
-		}
-	}
-	{
-		// alive
-		cd, found := cds.PathChangeFindAlive([]string{"fruit", "citrus"}, "tangerine")
-		if !found || cd.Current.Name != "tangerine" {
+		cd, found := cds.FindAlivePrune([]string{"weapon"}, "nuclear")
+		if !found || cd.Current.Name != "nuclear" {
 			t.Error(cd)
 		}
 	}

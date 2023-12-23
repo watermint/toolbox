@@ -1,5 +1,5 @@
 {
-  "path_changes": [
+  "path_change": [
     {
       "prune_after_build_date": "2023-12-22T23:30:00+09:00",
       "current": {
@@ -64,6 +64,27 @@
           "name": "tangerine"
         }
       ]
+    }
+  ],
+  "prune": [
+    {
+      "prune_after_build_date": "2003-08-13T00:00:00Z",
+      "current": {
+        "path": [
+          "chemical"
+        ],
+        "name": "lead"
+      },
+      "announcement": "https://en.wikipedia.org/wiki/Restriction_of_Hazardous_Substances_Directive"
+    },
+    {
+      "current": {
+        "path": [
+          "weapon"
+        ],
+        "name": "nuclear"
+      },
+      "announcement": "https://en.wikipedia.org/wiki/Treaty_on_the_Prohibition_of_Nuclear_Weapons"
     }
   ]
 }

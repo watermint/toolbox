@@ -62,7 +62,7 @@ func (z SectionCompatibilityNewPath) Title() app_msg.Message {
 func (z SectionCompatibilityNewPath) Body(ui app_ui.UI) {
 	ui.Info(z.DescMoved.With("CurrentPath", z.spec.CliPath()).
 		With("FormerPath", strings.Join(append(z.pathPair.Path, z.pathPair.Name), " ")).
-		With("Title", z.spec.Title()))
+		With("Title", ui.TextOrEmpty(z.spec.Title())))
 
 	if z.newPathSpec.PruneAfterBuildDate != "" {
 		ui.Break()
