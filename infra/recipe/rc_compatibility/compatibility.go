@@ -3,6 +3,7 @@ package rc_compatibility
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"os"
 	"reflect"
 	"time"
 )
@@ -33,7 +34,45 @@ func IsAlive(pruneAfterBuildDate string) bool {
 	return pruneAfter.After(time.Now())
 }
 
-func LoadCompatibilityDefinition(data []byte) (cd CompatibilityDefinitions, err error) {
+func LoadOrNewCompatibilityDefinition(path string) (cds CompatibilityDefinitions, err error) {
+	if _, err := os.Lstat(path); os.IsNotExist(err) {
+		cds = CompatibilityDefinitions{
+			Prune:       make([]PruneDefinition, 0),
+			PathChanges: make([]PathChangeDefinition, 0),
+		}
+	} else {
+		cdsBody, err := os.ReadFile(path)
+		if err != nil {
+			return cds, err
+		}
+		cds, err = ParseCompatibilityDefinition(cdsBody)
+		if err != nil {
+			return cds, err
+		}
+	}
+	return cds, nil
+}
+
+func SaveCompatibilityDefinition(path string, cds CompatibilityDefinitions, compact bool) (err error) {
+	var cdsNewBody []byte
+	if compact {
+		cdsNewBody, err = json.Marshal(cds)
+		if err != nil {
+			return err
+		}
+	} else {
+		cdsNewBody, err = json.MarshalIndent(cds, "", "  ")
+		if err != nil {
+			return err
+		}
+	}
+	if err := os.WriteFile(path, cdsNewBody, 0644); err != nil {
+		return err
+	}
+	return nil
+}
+
+func ParseCompatibilityDefinition(data []byte) (cd CompatibilityDefinitions, err error) {
 	err = json.Unmarshal(data, &cd)
 	if err != nil {
 		return cd, err

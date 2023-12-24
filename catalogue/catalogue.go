@@ -17,7 +17,7 @@ func NewCatalogue() rc_catalogue.Catalogue {
 	var recipes = make([]rc_recipe.Recipe, 0)
 
 	// Load compatibility definitions
-	cds, err := rc_compatibility.LoadCompatibilityDefinition(compatibilityDefinitionsData)
+	cds, err := rc_compatibility.ParseCompatibilityDefinition(compatibilityDefinitionsData)
 	if err != nil {
 		panic(err)
 	}

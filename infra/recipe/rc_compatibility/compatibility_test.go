@@ -10,7 +10,7 @@ func TestLoadCompatibilityDefinition(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	cds, err := LoadCompatibilityDefinition(content)
+	cds, err := ParseCompatibilityDefinition(content)
 	if err != nil {
 		t.Error(err)
 	}
@@ -24,7 +24,7 @@ func TestCompatibilityDefinitions_Find(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	cds, err := LoadCompatibilityDefinition(content)
+	cds, err := ParseCompatibilityDefinition(content)
 	if err != nil {
 		t.Error(err)
 	}
@@ -53,7 +53,7 @@ func TestCompatibilityDefinitions_FindAlive(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	cds, err := LoadCompatibilityDefinition(content)
+	cds, err := ParseCompatibilityDefinition(content)
 	if err != nil {
 		t.Error(err)
 	}
@@ -85,7 +85,7 @@ func TestCompatibilityDefinitions_FindPruned(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	cds, err := LoadCompatibilityDefinition(content)
+	cds, err := ParseCompatibilityDefinition(content)
 	if err != nil {
 		t.Error(err)
 	}
