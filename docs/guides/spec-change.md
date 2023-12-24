@@ -12,15 +12,15 @@ If you continue to use your current version, this will not affect you, but chang
 
 | Former path         | Current path           | Command description                              | Date                 |
 |---------------------|------------------------|--------------------------------------------------|----------------------|
-| job history archive | log job archive        | Archive jobs                                     | 2024-04-01T00:00:00Z |
-| job history delete  | log job delete         | Delete old job history                           | 2024-04-01T00:00:00Z |
-| job history list    | log job list           | Show job history                                 | 2024-04-01T00:00:00Z |
-| job log jobid       | log cat job            | Retrieve logs of specified Job ID                | 2024-04-01T00:00:00Z |
-| job log kind        | log cat kind           | Concatenate and print logs of specified log kind | 2024-04-01T00:00:00Z |
-| job log last        | log cat last           | Print the last job log files                     | 2024-04-01T00:00:00Z |
 | config disable      | config feature disable | Disable a feature.                               | 2024-04-01T00:00:00Z |
 | config enable       | config feature enable  | Enable a feature.                                | 2024-04-01T00:00:00Z |
 | config features     | config feature list    | List available optional features.                | 2024-04-01T00:00:00Z |
+| job log jobid       | log cat job            | Retrieve logs of specified Job ID                | 2024-04-01T00:00:00Z |
+| job log kind        | log cat kind           | Concatenate and print logs of specified log kind | 2024-04-01T00:00:00Z |
+| job log last        | log cat last           | Print the last job log files                     | 2024-04-01T00:00:00Z |
+| job history archive | log job archive        | Archive jobs                                     | 2024-04-01T00:00:00Z |
+| job history delete  | log job delete         | Delete old job history                           | 2024-04-01T00:00:00Z |
+| job history list    | log job list           | Show job history                                 | 2024-04-01T00:00:00Z |
 
 # Deprecation
 
@@ -29,10 +29,10 @@ Below commands will be removed in the future release. If you continue to use you
 | Path                                | Command description                                   | Date                 |
 |-------------------------------------|-------------------------------------------------------|----------------------|
 | log job ship                        | Ship Job logs to Dropbox path                         | 2024-02-01T00:00:00Z |
-| teamspace file list                 | List files and folders in team space                  | 2024-07-01T00:00:00Z |
 | teamspace asadmin file list         | List files and folders in team space run as admin     | 2024-07-01T00:00:00Z |
 | teamspace asadmin folder add        | Create top level folder in the team space             | 2024-07-01T00:00:00Z |
 | teamspace asadmin folder delete     | Delete top level folder of the team space             | 2024-07-01T00:00:00Z |
 | teamspace asadmin folder permdelete | Permanently delete top level folder of the team space | 2024-07-01T00:00:00Z |
+| teamspace file list                 | List files and folders in team space                  | 2024-07-01T00:00:00Z |
 
 

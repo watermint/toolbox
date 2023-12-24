@@ -1,6 +1,155 @@
 {
   "path_change": [
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "asana",
+          "team",
+          "project"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "asana",
+            "team",
+            "project"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "asana",
+          "team",
+          "task"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "asana",
+            "team",
+            "task"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "asana",
+          "workspace"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "asana",
+            "workspace"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "asana",
+          "workspace",
+          "project"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "asana",
+            "workspace",
+            "project"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "config",
+          "feature"
+        ],
+        "name": "disable"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "config"
+          ],
+          "name": "disable"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "config",
+          "feature"
+        ],
+        "name": "enable"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "config"
+          ],
+          "name": "enable"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "prune_after_build_date": "2024-04-01T00:00:00Z",
+      "current": {
+        "path": [
+          "config",
+          "feature"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "config"
+          ],
+          "name": "features"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/issues/781",
+      "prune_after_build_date": "2124-01-01T00:00:00Z",
       "current": {
         "path": [
           "dev",
@@ -15,68 +164,6 @@
             "placeholder"
           ],
           "name": "pathchangeformer"
-        }
-      ],
-      "prune_after_build_date": "2124-01-01T00:00:00Z",
-      "announcement": "https://github.com/watermint/toolbox/issues/781"
-    },
-    {
-      "announcement": "https://github.com/watermint/toolbox/discussions/794",
-      "prune_after_build_date": "2024-04-01T00:00:00Z",
-      "current": {
-        "path": [
-          "log",
-          "job"
-        ],
-        "name": "archive"
-      },
-      "former_paths": [
-        {
-          "path": [
-            "job",
-            "history"
-          ],
-          "name": "archive"
-        }
-      ]
-    },
-    {
-      "announcement": "https://github.com/watermint/toolbox/discussions/794",
-      "prune_after_build_date": "2024-04-01T00:00:00Z",
-      "current": {
-        "path": [
-          "log",
-          "job"
-        ],
-        "name": "delete"
-      },
-      "former_paths": [
-        {
-          "path": [
-            "job",
-            "history"
-          ],
-          "name": "delete"
-        }
-      ]
-    },
-    {
-      "announcement": "https://github.com/watermint/toolbox/discussions/794",
-      "prune_after_build_date": "2024-04-01T00:00:00Z",
-      "current": {
-        "path": [
-          "log",
-          "job"
-        ],
-        "name": "list"
-      },
-      "former_paths": [
-        {
-          "path": [
-            "job",
-            "history"
-          ],
-          "name": "list"
         }
       ]
     },
@@ -141,97 +228,91 @@
       ]
     },
     {
-      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
       "prune_after_build_date": "2024-04-01T00:00:00Z",
       "current": {
         "path": [
-          "config",
-          "feature"
+          "log",
+          "job"
         ],
-        "name": "disable"
+        "name": "archive"
       },
       "former_paths": [
         {
           "path": [
-            "config"
+            "job",
+            "history"
           ],
-          "name": "disable"
+          "name": "archive"
         }
       ]
     },
     {
-      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
       "prune_after_build_date": "2024-04-01T00:00:00Z",
       "current": {
         "path": [
-          "config",
-          "feature"
+          "log",
+          "job"
         ],
-        "name": "enable"
+        "name": "delete"
       },
       "former_paths": [
         {
           "path": [
-            "config"
+            "job",
+            "history"
           ],
-          "name": "enable"
+          "name": "delete"
         }
       ]
     },
     {
-      "announcement": "https://github.com/watermint/toolbox/discussions/795",
+      "announcement": "https://github.com/watermint/toolbox/discussions/794",
       "prune_after_build_date": "2024-04-01T00:00:00Z",
       "current": {
         "path": [
-          "config",
-          "feature"
+          "log",
+          "job"
         ],
         "name": "list"
       },
       "former_paths": [
         {
           "path": [
-            "config"
+            "job",
+            "history"
           ],
-          "name": "features"
+          "name": "list"
         }
       ]
     }
   ],
   "prune": [
     {
+      "announcement": "https://github.com/watermint/toolbox/issues/781",
+      "prune_after_build_date": "2124-01-01T00:00:00Z",
       "current": {
         "path": [
           "dev",
           "placeholder"
         ],
         "name": "prune"
-      },
-      "prune_after_build_date": "2124-01-01T00:00:00Z",
-      "announcement": "https://github.com/watermint/toolbox/issues/781"
+      }
     },
     {
+      "prune_after_build_date": "2024-02-01T00:00:00Z",
       "current": {
         "path": [
           "log",
           "job"
         ],
         "name": "ship"
-      },
-      "prune_after_build_date": "2024-02-01T00:00:00Z"
+      }
     },
     {
-      "current": {
-        "path": [
-          "teamspace",
-          "file"
-        ],
-        "name": "list"
-      },
+      "announcement": "https://github.com/watermint/toolbox/discussions/796",
       "prune_after_build_date": "2024-07-01T00:00:00Z",
-      "announcement": "https://github.com/watermint/toolbox/discussions/796"
-    },
-    {
       "current": {
         "path": [
           "teamspace",
@@ -239,11 +320,11 @@
           "file"
         ],
         "name": "list"
-      },
-      "prune_after_build_date": "2024-07-01T00:00:00Z",
-      "announcement": "https://github.com/watermint/toolbox/discussions/796"
+      }
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/796",
+      "prune_after_build_date": "2024-07-01T00:00:00Z",
       "current": {
         "path": [
           "teamspace",
@@ -251,11 +332,11 @@
           "folder"
         ],
         "name": "add"
-      },
-      "prune_after_build_date": "2024-07-01T00:00:00Z",
-      "announcement": "https://github.com/watermint/toolbox/discussions/796"
+      }
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/796",
+      "prune_after_build_date": "2024-07-01T00:00:00Z",
       "current": {
         "path": [
           "teamspace",
@@ -263,11 +344,11 @@
           "folder"
         ],
         "name": "delete"
-      },
-      "prune_after_build_date": "2024-07-01T00:00:00Z",
-      "announcement": "https://github.com/watermint/toolbox/discussions/796"
+      }
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/796",
+      "prune_after_build_date": "2024-07-01T00:00:00Z",
       "current": {
         "path": [
           "teamspace",
@@ -275,9 +356,18 @@
           "folder"
         ],
         "name": "permdelete"
-      },
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/796",
       "prune_after_build_date": "2024-07-01T00:00:00Z",
-      "announcement": "https://github.com/watermint/toolbox/discussions/796"
+      "current": {
+        "path": [
+          "teamspace",
+          "file"
+        ],
+        "name": "list"
+      }
     }
   ]
 }

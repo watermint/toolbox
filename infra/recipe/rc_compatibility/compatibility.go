@@ -3,8 +3,10 @@ package rc_compatibility
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"golang.org/x/exp/slices"
 	"os"
 	"reflect"
+	"strings"
 	"time"
 )
 
@@ -15,6 +17,10 @@ var (
 type PathPair struct {
 	Path []string `json:"path"`
 	Name string   `json:"name"`
+}
+
+func (z PathPair) CliPath() string {
+	return strings.Join(append(z.Path, z.Name), " ")
 }
 
 func (z PathPair) IsValid() bool {
@@ -55,6 +61,12 @@ func LoadOrNewCompatibilityDefinition(path string) (cds CompatibilityDefinitions
 
 func SaveCompatibilityDefinition(path string, cds CompatibilityDefinitions, compact bool) (err error) {
 	var cdsNewBody []byte
+	slices.SortFunc(cds.Prune, func(a, b PruneDefinition) int {
+		return strings.Compare(a.Current.CliPath(), b.Current.CliPath())
+	})
+	slices.SortFunc(cds.PathChanges, func(a, b PathChangeDefinition) int {
+		return strings.Compare(a.Current.CliPath(), b.Current.CliPath())
+	})
 	if compact {
 		cdsNewBody, err = json.Marshal(cds)
 		if err != nil {

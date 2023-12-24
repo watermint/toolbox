@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services asana team list`
+title: Command `asana workspace list`
 lang: en
 ---
 
-# services asana team list
+# asana workspace list
 
-List team 
+List workspaces 
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services asana team list 
+.\tbx.exe asana workspace list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services asana team list 
+$HOME/Desktop/tbx asana workspace list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,12 +77,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                   | Description                                                       | Default |
-|--------------------------|-------------------------------------------------------------------|---------|
-| `-peer`                  | Account alias                                                     | default |
-| `-workspace-name`        | Name or GID of the workspace. Filter by exact match to the name.  |         |
-| `-workspace-name-prefix` | Name or GID of the workspace. Filter by name match to the prefix. |         |
-| `-workspace-name-suffix` | Name or GID of the workspace. Filter by name match to the suffix. |         |
+| Option  | Description   | Default |
+|---------|---------------|---------|
+| `-peer` | Account alias | default |
 
 ## Common options:
 
@@ -117,20 +114,21 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: teams
+## Report: workspaces
 
-A team is used to group related projects and people together within an organization.
-The command will generate a report in three different formats. `teams.csv`, `teams.json`, and `teams.xlsx`.
+Workspace
+The command will generate a report in three different formats. `workspaces.csv`, `workspaces.json`, and `workspaces.xlsx`.
 
-| Column        | Description                                              |
-|---------------|----------------------------------------------------------|
-| gid           | Globally unique identifier of the resource, as a string. |
-| name          | The name of the team.                                    |
-| resource_type | The base type of this resource.                          |
+| Column          | Description                                              |
+|-----------------|----------------------------------------------------------|
+| gid             | Globally unique identifier of the resource, as a string. |
+| resource_type   | The base type of this resource.                          |
+| name            | The name of the workspace.                               |
+| is_organization | Whether the workspace is an organization.                |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `teams_0000.xlsx`, `teams_0001.xlsx`, `teams_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `workspaces_0000.xlsx`, `workspaces_0001.xlsx`, `workspaces_0002.xlsx`, ...
 
 # Proxy configuration
 
