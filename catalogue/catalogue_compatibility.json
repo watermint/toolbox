@@ -189,6 +189,184 @@
       ]
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "account"
+        ],
+        "name": "info"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "account"
+          ],
+          "name": "info"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "file",
+          "export",
+          "all"
+        ],
+        "name": "page"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "file",
+            "export",
+            "all"
+          ],
+          "name": "page"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "file",
+          "export"
+        ],
+        "name": "frame"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "file",
+            "export"
+          ],
+          "name": "frame"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "file",
+          "export"
+        ],
+        "name": "node"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "file",
+            "export"
+          ],
+          "name": "node"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "file",
+          "export"
+        ],
+        "name": "page"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "file",
+            "export"
+          ],
+          "name": "page"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "file"
+        ],
+        "name": "info"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "file"
+          ],
+          "name": "info"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "file"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "file"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "figma",
+          "project"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "figma",
+            "project"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
       "announcement": "https://github.com/watermint/toolbox/discussions/794",
       "prune_after_build_date": "2024-04-01T00:00:00Z",
       "current": {

@@ -73,6 +73,7 @@ Available commands:
 | asana        | Asana commands                  |       |
 | config       | CLI configuration               |       |
 | deepl        | DeepL commands                  |       |
+| figma        | Figma commands                  |       |
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
 | group        | Group management                |       |
@@ -294,25 +295,6 @@ Available commands:
 | [teamspace asadmin folder add](docs/commands/teamspace-asadmin-folder-add.md)                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete](docs/commands/teamspace-asadmin-folder-permdelete.md)                 | Permanently delete top level folder of the team space                               |
-
-## DeepL
-
-| Command                                                       | Description    |
-|---------------------------------------------------------------|----------------|
-| [deepl translate text](docs/commands/deepl-translate-text.md) | Translate text |
-
-## Figma
-
-| Command                                                                                     | Description                           |
-|---------------------------------------------------------------------------------------------|---------------------------------------|
-| [services figma account info](docs/commands/services-figma-account-info.md)                 | Retrieve current user information     |
-| [services figma file export all page](docs/commands/services-figma-file-export-all-page.md) | Export all files/pages under the team |
-| [services figma file export frame](docs/commands/services-figma-file-export-frame.md)       | Export all frames of the Figma file   |
-| [services figma file export node](docs/commands/services-figma-file-export-node.md)         | Export Figma document Node            |
-| [services figma file export page](docs/commands/services-figma-file-export-page.md)         | Export all pages of the Figma file    |
-| [services figma file info](docs/commands/services-figma-file-info.md)                       | Show information of the figma file    |
-| [services figma file list](docs/commands/services-figma-file-list.md)                       | List files in the Figma Project       |
-| [services figma project list](docs/commands/services-figma-project-list.md)                 | List projects of the team             |
 
 ## GitHub
 
