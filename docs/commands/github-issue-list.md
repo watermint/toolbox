@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github release asset download`
+title: Command `github issue list`
 lang: en
 ---
 
-# services github release asset download
+# github issue list
 
-Download assets (Experimental)
+List issues of the public/private GitHub repository (Experimental)
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release asset download -owner OWNER -repository REPO -path /LOCAL/PATH/TO/DOWNLOAD -release RELEASE
+.\tbx.exe github issue list -owner OWNER -repository REPO
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release asset download -owner OWNER -repository REPO -path /LOCAL/PATH/TO/DOWNLOAD -release RELEASE
+$HOME/Desktop/tbx github issue list -owner OWNER -repository REPO
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,13 +77,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-path`       | Path to download        |         |
-| `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
-| `-repository` | Name of the repository  |         |
+| Option        | Description                                           | Default  |
+|---------------|-------------------------------------------------------|----------|
+| `-filter`     | Indicates which sorts of issues to return.            | assigned |
+| `-labels`     | A list of comma separated label names.                |          |
+| `-owner`      | Owner of the repository                               |          |
+| `-peer`       | Account alias                                         | default  |
+| `-repository` | Repository name                                       |          |
+| `-since`      | Only show notifications updated after the given time. |          |
+| `-state`      | Indicates the state of the issues to return.          | open     |
 
 ## Common options:
 
@@ -118,20 +120,21 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: downloads
+## Report: issues
 
-This report shows the transaction result.
-The command will generate a report in three different formats. `downloads.csv`, `downloads.json`, and `downloads.xlsx`.
+GitHub Issue
+The command will generate a report in three different formats. `issues.csv`, `issues.json`, and `issues.xlsx`.
 
-| Column     | Description                            |
-|------------|----------------------------------------|
-| status     | Status of the operation                |
-| reason     | Reason of failure or skipped operation |
-| input.file | File path                              |
+| Column | Description      |
+|--------|------------------|
+| number | Issue number     |
+| url    | URL of the issue |
+| title  | Title            |
+| state  | Issue state      |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `downloads_0000.xlsx`, `downloads_0001.xlsx`, `downloads_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `issues_0000.xlsx`, `issues_0001.xlsx`, `issues_0002.xlsx`, ...
 
 # Proxy configuration
 

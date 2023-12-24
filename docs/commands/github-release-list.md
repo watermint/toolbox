@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github tag create`
+title: Command `github release list`
 lang: en
 ---
 
-# services github tag create
+# github release list
 
-Create a tag on the repository (Experimental, and Irreversible operation)
+List releases (Experimental)
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
+.\tbx.exe github release list -owner OWNER -repository REPO
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
+$HOME/Desktop/tbx github release list -owner OWNER -repository REPO
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,13 +77,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description             | Default |
-|---------------|-------------------------|---------|
-| `-owner`      | Owner of the repository |         |
-| `-peer`       | Account alias           | default |
-| `-repository` | Name of the repository  |         |
-| `-sha1`       | SHA1 hash of the commit |         |
-| `-tag`        | Tag name                |         |
+| Option        | Description      | Default |
+|---------------|------------------|---------|
+| `-owner`      | Repository owner |         |
+| `-peer`       | Account alias    | default |
+| `-repository` | Repository name  |         |
 
 ## Common options:
 
@@ -118,27 +116,21 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: created
+## Report: releases
 
-This report shows the transaction result.
-The command will generate a report in three different formats. `created.csv`, `created.json`, and `created.xlsx`.
+Release on GitHub
+The command will generate a report in three different formats. `releases.csv`, `releases.json`, and `releases.xlsx`.
 
-| Column           | Description                            |
-|------------------|----------------------------------------|
-| status           | Status of the operation                |
-| reason           | Reason of failure or skipped operation |
-| input.owner      | Owner of the repository                |
-| input.repository | Name of the repository                 |
-| input.tag        | Tag name                               |
-| input.sha_1      | SHA1 hash of the commit                |
-| result.tag       | Tag name                               |
-| result.sha       | SHA1 sum of the commit                 |
-| result.message   | Message of the commit                  |
-| result.url       | URL of the tag                         |
+| Column   | Description                     |
+|----------|---------------------------------|
+| tag_name | Tag name                        |
+| name     | Name of the release             |
+| draft    | True when the release is draft. |
+| url      | URL of the release              |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `releases_0000.xlsx`, `releases_0001.xlsx`, `releases_0002.xlsx`, ...
 
 # Proxy configuration
 

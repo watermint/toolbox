@@ -210,19 +210,9 @@ lang: en
 
 ## GitHub
 
-| Command                                                                                                           | Description                                         |
-|-------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [services github content get]({{ site.baseurl }}/commands/services-github-content-get.html)                       | Get content metadata of the repository              |
-| [services github content put]({{ site.baseurl }}/commands/services-github-content-put.html)                       | Put small text content into the repository          |
-| [services github issue list]({{ site.baseurl }}/commands/services-github-issue-list.html)                         | List issues of the public/private GitHub repository |
-| [services github profile]({{ site.baseurl }}/commands/services-github-profile.html)                               | Get the authenticated user                          |
-| [services github release asset download]({{ site.baseurl }}/commands/services-github-release-asset-download.html) | Download assets                                     |
-| [services github release asset list]({{ site.baseurl }}/commands/services-github-release-asset-list.html)         | List assets of GitHub Release                       |
-| [services github release asset upload]({{ site.baseurl }}/commands/services-github-release-asset-upload.html)     | Upload assets file into the GitHub Release          |
-| [services github release draft]({{ site.baseurl }}/commands/services-github-release-draft.html)                   | Create release draft                                |
-| [services github release list]({{ site.baseurl }}/commands/services-github-release-list.html)                     | List releases                                       |
-| [services github tag create]({{ site.baseurl }}/commands/services-github-tag-create.html)                         | Create a tag on the repository                      |
-| [util release install]({{ site.baseurl }}/commands/util-release-install.html)                                     | Download & install watermint toolbox to the path    |
+| Command                                                                       | Description                                      |
+|-------------------------------------------------------------------------------|--------------------------------------------------|
+| [util release install]({{ site.baseurl }}/commands/util-release-install.html) | Download & install watermint toolbox to the path |
 
 ## Google Calendar
 

@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github release list`
+title: Command `github release draft`
 lang: en
 ---
 
-# services github release list
+# github release draft
 
-List releases (Experimental)
+Create release draft (Experimental, and Irreversible operation)
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release list -owner OWNER -repository REPO
+.\tbx.exe github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt -branch BRANCH -name NAME -tag TAG
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release list -owner OWNER -repository REPO
+$HOME/Desktop/tbx github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt -branch BRANCH -name NAME -tag TAG
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,11 +77,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description      | Default |
-|---------------|------------------|---------|
-| `-owner`      | Repository owner |         |
-| `-peer`       | Account alias    | default |
-| `-repository` | Repository name  |         |
+| Option        | Description                                                         | Default |
+|---------------|---------------------------------------------------------------------|---------|
+| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |         |
+| `-branch`     | Name of the target branch                                           |         |
+| `-name`       | Name of the release                                                 |         |
+| `-owner`      | Owner of the repository                                             |         |
+| `-peer`       | Account alias                                                       | default |
+| `-repository` | Name of the repository                                              |         |
+| `-tag`        | Name of the tag                                                     |         |
 
 ## Common options:
 
@@ -116,13 +120,14 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: releases
+## Report: release
 
 Release on GitHub
-The command will generate a report in three different formats. `releases.csv`, `releases.json`, and `releases.xlsx`.
+The command will generate a report in three different formats. `release.csv`, `release.json`, and `release.xlsx`.
 
 | Column   | Description                     |
 |----------|---------------------------------|
+| id       | Id of the release               |
 | tag_name | Tag name                        |
 | name     | Name of the release             |
 | draft    | True when the release is draft. |
@@ -130,7 +135,7 @@ The command will generate a report in three different formats. `releases.csv`, `
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `releases_0000.xlsx`, `releases_0001.xlsx`, `releases_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `release_0000.xlsx`, `release_0001.xlsx`, `release_0002.xlsx`, ...
 
 # Proxy configuration
 

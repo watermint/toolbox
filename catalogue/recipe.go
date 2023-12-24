@@ -66,12 +66,6 @@ import (
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
 	recipeservicesdropboxsignaccount "github.com/watermint/toolbox/recipe/services/dropboxsign/account"
-	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
-	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
-	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
-	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
-	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
-	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
 	recipeservicesgooglecalendarevent "github.com/watermint/toolbox/recipe/services/google/calendar/event"
 	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
 	recipeservicesgooglemailfilterbatch "github.com/watermint/toolbox/recipe/services/google/mail/filter/batch"
@@ -330,16 +324,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesdropboxuser.Filesystem{},
 		&recipeservicesdropboxuser.Info{},
 		&recipeservicesdropboxsignaccount.Info{},
-		&recipeservicesgithub.Profile{},
-		&recipeservicesgithubcontent.Get{},
-		&recipeservicesgithubcontent.Put{},
-		&recipeservicesgithubissue.List{},
-		&recipeservicesgithubrelease.Draft{},
-		&recipeservicesgithubrelease.List{},
-		&recipeservicesgithubreleaseasset.Download{},
-		&recipeservicesgithubreleaseasset.List{},
-		&recipeservicesgithubreleaseasset.Upload{},
-		&recipeservicesgithubtag.Create{},
 		&recipeservicesgooglecalendarevent.List{},
 		&recipeservicesgooglemailfilter.Add{},
 		&recipeservicesgooglemailfilter.Delete{},

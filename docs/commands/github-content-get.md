@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github release asset list`
+title: Command `github content get`
 lang: en
 ---
 
-# services github release asset list
+# github content get
 
-List assets of GitHub Release (Experimental)
+Get content metadata of the repository 
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release asset list -owner OWNER -repository REPO -release RELEASE
+.\tbx.exe github content get -owner OWNER -repository REPOSITORY -path PATH
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release asset list -owner OWNER -repository REPO -release RELEASE
+$HOME/Desktop/tbx github content get -owner OWNER -repository REPOSITORY -path PATH
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,8 +80,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | Option        | Description             | Default |
 |---------------|-------------------------|---------|
 | `-owner`      | Owner of the repository |         |
+| `-path`       | Path to the content     |         |
 | `-peer`       | Account alias           | default |
-| `-release`    | Release tag name        |         |
+| `-ref`        | Name of reference       |         |
 | `-repository` | Name of the repository  |         |
 
 ## Common options:
@@ -117,22 +118,23 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: assets
+## Report: content
 
-GitHub Release assets
-The command will generate a report in three different formats. `assets.csv`, `assets.json`, and `assets.xlsx`.
+Content metadata
+The command will generate a report in three different formats. `content.csv`, `content.json`, and `content.xlsx`.
 
-| Column         | Description         |
-|----------------|---------------------|
-| name           | Name of the asset   |
-| size           | Size of the asset   |
-| state          | State of the asset  |
-| download_count | Number of downloads |
-| download_url   | Download URL        |
+| Column | Description     |
+|--------|-----------------|
+| type   | Type of content |
+| name   | Name            |
+| path   | Path            |
+| sha    | SHA1            |
+| size   | Size            |
+| target | Symlink target  |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
 
 # Proxy configuration
 

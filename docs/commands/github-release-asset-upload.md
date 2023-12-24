@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github content put`
+title: Command `github release asset upload`
 lang: en
 ---
 
-# services github content put
+# github release asset upload
 
-Put small text content into the repository 
+Upload assets file into the GitHub Release (Experimental, and Irreversible operation)
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
+.\tbx.exe github release asset upload -owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
+$HOME/Desktop/tbx github release asset upload -owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -79,12 +79,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option        | Description             | Default |
 |---------------|-------------------------|---------|
-| `-branch`     | Name of the branch      |         |
-| `-content`    | Path to a content file  |         |
-| `-message`    | Commit message          |         |
+| `-asset`      | Path to assets          |         |
 | `-owner`      | Owner of the repository |         |
-| `-path`       | Path to the content     |         |
 | `-peer`       | Account alias           | default |
+| `-release`    | Release tag name        |         |
 | `-repository` | Name of the repository  |         |
 
 ## Common options:
@@ -120,19 +118,25 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: commit
+## Report: uploads
 
-Commit information
-The command will generate a report in three different formats. `commit.csv`, `commit.json`, and `commit.xlsx`.
+This report shows the transaction result.
+The command will generate a report in three different formats. `uploads.csv`, `uploads.json`, and `uploads.xlsx`.
 
-| Column | Description        |
-|--------|--------------------|
-| sha    | SHA1 of the commit |
-| url    | URL of the commit  |
+| Column                | Description                            |
+|-----------------------|----------------------------------------|
+| status                | Status of the operation                |
+| reason                | Reason of failure or skipped operation |
+| input.file            | File path                              |
+| result.name           | Name of the asset                      |
+| result.size           | Size of the asset                      |
+| result.state          | State of the asset                     |
+| result.download_count | Number of downloads                    |
+| result.download_url   | Download URL                           |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`, ...
 
 # Proxy configuration
 

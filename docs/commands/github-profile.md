@@ -1,10 +1,10 @@
 ---
 layout: command
-title: Command `services github profile`
+title: Command `github profile`
 lang: en
 ---
 
-# services github profile
+# github profile
 
 Get the authenticated user (Experimental)
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github profile 
+.\tbx.exe github profile 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github profile 
+$HOME/Desktop/tbx github profile 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.

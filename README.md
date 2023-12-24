@@ -298,19 +298,9 @@ Available commands:
 
 ## GitHub
 
-| Command                                                                                           | Description                                         |
-|---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [services github content get](docs/commands/services-github-content-get.md)                       | Get content metadata of the repository              |
-| [services github content put](docs/commands/services-github-content-put.md)                       | Put small text content into the repository          |
-| [services github issue list](docs/commands/services-github-issue-list.md)                         | List issues of the public/private GitHub repository |
-| [services github profile](docs/commands/services-github-profile.md)                               | Get the authenticated user                          |
-| [services github release asset download](docs/commands/services-github-release-asset-download.md) | Download assets                                     |
-| [services github release asset list](docs/commands/services-github-release-asset-list.md)         | List assets of GitHub Release                       |
-| [services github release asset upload](docs/commands/services-github-release-asset-upload.md)     | Upload assets file into the GitHub Release          |
-| [services github release draft](docs/commands/services-github-release-draft.md)                   | Create release draft                                |
-| [services github release list](docs/commands/services-github-release-list.md)                     | List releases                                       |
-| [services github tag create](docs/commands/services-github-tag-create.md)                         | Create a tag on the repository                      |
-| [util release install](docs/commands/util-release-install.md)                                     | Download & install watermint toolbox to the path    |
+| Command                                                       | Description                                      |
+|---------------------------------------------------------------|--------------------------------------------------|
+| [util release install](docs/commands/util-release-install.md) | Download & install watermint toolbox to the path |
 
 ## Google Calendar
 

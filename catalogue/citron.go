@@ -14,6 +14,12 @@ import (
 	citronfigmafileexport "github.com/watermint/toolbox/citron/figma/file/export"
 	citronfigmafileexportall "github.com/watermint/toolbox/citron/figma/file/export/all"
 	citronfigmaproject "github.com/watermint/toolbox/citron/figma/project"
+	citrongithub "github.com/watermint/toolbox/citron/github"
+	citrongithubcontent "github.com/watermint/toolbox/citron/github/content"
+	citrongithubissue "github.com/watermint/toolbox/citron/github/issue"
+	citrongithubrelease "github.com/watermint/toolbox/citron/github/release"
+	citrongithubreleaseasset "github.com/watermint/toolbox/citron/github/release/asset"
+	citrongithubtag "github.com/watermint/toolbox/citron/github/tag"
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
@@ -33,5 +39,15 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citronfigmafileexport.Page{},
 		&citronfigmafileexportall.Page{},
 		&citronfigmaproject.List{},
+		&citrongithub.Profile{},
+		&citrongithubcontent.Get{},
+		&citrongithubcontent.Put{},
+		&citrongithubissue.List{},
+		&citrongithubrelease.Draft{},
+		&citrongithubrelease.List{},
+		&citrongithubreleaseasset.Download{},
+		&citrongithubreleaseasset.List{},
+		&citrongithubreleaseasset.Upload{},
+		&citrongithubtag.Create{},
 	}
 }

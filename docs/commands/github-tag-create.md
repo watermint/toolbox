@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github issue list`
+title: Command `github tag create`
 lang: en
 ---
 
-# services github issue list
+# github tag create
 
-List issues of the public/private GitHub repository (Experimental)
+Create a tag on the repository (Experimental, and Irreversible operation)
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github issue list -owner OWNER -repository REPO
+.\tbx.exe github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github issue list -owner OWNER -repository REPO
+$HOME/Desktop/tbx github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,15 +77,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                           | Default  |
-|---------------|-------------------------------------------------------|----------|
-| `-filter`     | Indicates which sorts of issues to return.            | assigned |
-| `-labels`     | A list of comma separated label names.                |          |
-| `-owner`      | Owner of the repository                               |          |
-| `-peer`       | Account alias                                         | default  |
-| `-repository` | Repository name                                       |          |
-| `-since`      | Only show notifications updated after the given time. |          |
-| `-state`      | Indicates the state of the issues to return.          | open     |
+| Option        | Description             | Default |
+|---------------|-------------------------|---------|
+| `-owner`      | Owner of the repository |         |
+| `-peer`       | Account alias           | default |
+| `-repository` | Name of the repository  |         |
+| `-sha1`       | SHA1 hash of the commit |         |
+| `-tag`        | Tag name                |         |
 
 ## Common options:
 
@@ -120,21 +118,27 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: issues
+## Report: created
 
-GitHub Issue
-The command will generate a report in three different formats. `issues.csv`, `issues.json`, and `issues.xlsx`.
+This report shows the transaction result.
+The command will generate a report in three different formats. `created.csv`, `created.json`, and `created.xlsx`.
 
-| Column | Description      |
-|--------|------------------|
-| number | Issue number     |
-| url    | URL of the issue |
-| title  | Title            |
-| state  | Issue state      |
+| Column           | Description                            |
+|------------------|----------------------------------------|
+| status           | Status of the operation                |
+| reason           | Reason of failure or skipped operation |
+| input.owner      | Owner of the repository                |
+| input.repository | Name of the repository                 |
+| input.tag        | Tag name                               |
+| input.sha_1      | SHA1 hash of the commit                |
+| result.tag       | Tag name                               |
+| result.sha       | SHA1 sum of the commit                 |
+| result.message   | Message of the commit                  |
+| result.url       | URL of the tag                         |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `issues_0000.xlsx`, `issues_0001.xlsx`, `issues_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # Proxy configuration
 

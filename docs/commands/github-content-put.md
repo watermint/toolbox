@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github content get`
+title: Command `github content put`
 lang: en
 ---
 
-# services github content get
+# github content put
 
-Get content metadata of the repository 
+Put small text content into the repository 
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github content get -owner OWNER -repository REPOSITORY -path PATH
+.\tbx.exe github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github content get -owner OWNER -repository REPOSITORY -path PATH
+$HOME/Desktop/tbx github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -79,10 +79,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option        | Description             | Default |
 |---------------|-------------------------|---------|
+| `-branch`     | Name of the branch      |         |
+| `-content`    | Path to a content file  |         |
+| `-message`    | Commit message          |         |
 | `-owner`      | Owner of the repository |         |
 | `-path`       | Path to the content     |         |
 | `-peer`       | Account alias           | default |
-| `-ref`        | Name of reference       |         |
 | `-repository` | Name of the repository  |         |
 
 ## Common options:
@@ -118,23 +120,19 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: content
+## Report: commit
 
-Content metadata
-The command will generate a report in three different formats. `content.csv`, `content.json`, and `content.xlsx`.
+Commit information
+The command will generate a report in three different formats. `commit.csv`, `commit.json`, and `commit.xlsx`.
 
-| Column | Description     |
-|--------|-----------------|
-| type   | Type of content |
-| name   | Name            |
-| path   | Path            |
-| sha    | SHA1            |
-| size   | Size            |
-| target | Symlink target  |
+| Column | Description        |
+|--------|--------------------|
+| sha    | SHA1 of the commit |
+| url    | URL of the commit  |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
 
 # Proxy configuration
 

@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github release draft`
+title: Command `github release asset download`
 lang: en
 ---
 
-# services github release draft
+# github release asset download
 
-Create release draft (Experimental, and Irreversible operation)
+Download assets (Experimental)
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt -branch BRANCH -name NAME -tag TAG
+.\tbx.exe github release asset download -owner OWNER -repository REPO -path /LOCAL/PATH/TO/DOWNLOAD -release RELEASE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt -branch BRANCH -name NAME -tag TAG
+$HOME/Desktop/tbx github release asset download -owner OWNER -repository REPO -path /LOCAL/PATH/TO/DOWNLOAD -release RELEASE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,15 +77,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option        | Description                                                         | Default |
-|---------------|---------------------------------------------------------------------|---------|
-| `-body-file`  | File path to body text. THe file must encoded in UTF-8 without BOM. |         |
-| `-branch`     | Name of the target branch                                           |         |
-| `-name`       | Name of the release                                                 |         |
-| `-owner`      | Owner of the repository                                             |         |
-| `-peer`       | Account alias                                                       | default |
-| `-repository` | Name of the repository                                              |         |
-| `-tag`        | Name of the tag                                                     |         |
+| Option        | Description             | Default |
+|---------------|-------------------------|---------|
+| `-owner`      | Owner of the repository |         |
+| `-path`       | Path to download        |         |
+| `-peer`       | Account alias           | default |
+| `-release`    | Release tag name        |         |
+| `-repository` | Name of the repository  |         |
 
 ## Common options:
 
@@ -120,22 +118,20 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: release
+## Report: downloads
 
-Release on GitHub
-The command will generate a report in three different formats. `release.csv`, `release.json`, and `release.xlsx`.
+This report shows the transaction result.
+The command will generate a report in three different formats. `downloads.csv`, `downloads.json`, and `downloads.xlsx`.
 
-| Column   | Description                     |
-|----------|---------------------------------|
-| id       | Id of the release               |
-| tag_name | Tag name                        |
-| name     | Name of the release             |
-| draft    | True when the release is draft. |
-| url      | URL of the release              |
+| Column     | Description                            |
+|------------|----------------------------------------|
+| status     | Status of the operation                |
+| reason     | Reason of failure or skipped operation |
+| input.file | File path                              |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `release_0000.xlsx`, `release_0001.xlsx`, `release_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `downloads_0000.xlsx`, `downloads_0001.xlsx`, `downloads_0002.xlsx`, ...
 
 # Proxy configuration
 

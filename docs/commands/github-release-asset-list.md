@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `services github release asset upload`
+title: Command `github release asset list`
 lang: en
 ---
 
-# services github release asset upload
+# github release asset list
 
-Upload assets file into the GitHub Release (Experimental, and Irreversible operation)
+List assets of GitHub Release (Experimental)
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release asset upload -owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets
+.\tbx.exe github release asset list -owner OWNER -repository REPO -release RELEASE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release asset upload -owner OWNER -repository REPO -release RELEASE -asset /LOCAL/PATH/TO/assets
+$HOME/Desktop/tbx github release asset list -owner OWNER -repository REPO -release RELEASE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -79,7 +79,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 | Option        | Description             | Default |
 |---------------|-------------------------|---------|
-| `-asset`      | Path to assets          |         |
 | `-owner`      | Owner of the repository |         |
 | `-peer`       | Account alias           | default |
 | `-release`    | Release tag name        |         |
@@ -118,25 +117,22 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: uploads
+## Report: assets
 
-This report shows the transaction result.
-The command will generate a report in three different formats. `uploads.csv`, `uploads.json`, and `uploads.xlsx`.
+GitHub Release assets
+The command will generate a report in three different formats. `assets.csv`, `assets.json`, and `assets.xlsx`.
 
-| Column                | Description                            |
-|-----------------------|----------------------------------------|
-| status                | Status of the operation                |
-| reason                | Reason of failure or skipped operation |
-| input.file            | File path                              |
-| result.name           | Name of the asset                      |
-| result.size           | Size of the asset                      |
-| result.state          | State of the asset                     |
-| result.download_count | Number of downloads                    |
-| result.download_url   | Download URL                           |
+| Column         | Description         |
+|----------------|---------------------|
+| name           | Name of the asset   |
+| size           | Size of the asset   |
+| state          | State of the asset  |
+| download_count | Number of downloads |
+| download_url   | Download URL        |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `uploads_0000.xlsx`, `uploads_0001.xlsx`, `uploads_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`, ...
 
 # Proxy configuration
 
