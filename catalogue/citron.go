@@ -20,6 +20,18 @@ import (
 	citrongithubrelease "github.com/watermint/toolbox/citron/github/release"
 	citrongithubreleaseasset "github.com/watermint/toolbox/citron/github/release/asset"
 	citrongithubtag "github.com/watermint/toolbox/citron/github/tag"
+	citrongooglecalendarevent "github.com/watermint/toolbox/citron/google/calendar/event"
+	citrongooglemailfilter "github.com/watermint/toolbox/citron/google/mail/filter"
+	citrongooglemailfilterbatch "github.com/watermint/toolbox/citron/google/mail/filter/batch"
+	citrongooglemaillabel "github.com/watermint/toolbox/citron/google/mail/label"
+	citrongooglemailmessage "github.com/watermint/toolbox/citron/google/mail/message"
+	citrongooglemailmessagelabel "github.com/watermint/toolbox/citron/google/mail/message/label"
+	citrongooglemailmessageprocessed "github.com/watermint/toolbox/citron/google/mail/message/processed"
+	citrongooglemailsendas "github.com/watermint/toolbox/citron/google/mail/sendas"
+	citrongooglemailthread "github.com/watermint/toolbox/citron/google/mail/thread"
+	citrongooglesheetssheet "github.com/watermint/toolbox/citron/google/sheets/sheet"
+	citrongooglesheetsspreadsheet "github.com/watermint/toolbox/citron/google/sheets/spreadsheet"
+	citrongoogletranslate "github.com/watermint/toolbox/citron/google/translate"
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
@@ -49,5 +61,32 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrongithubreleaseasset.List{},
 		&citrongithubreleaseasset.Upload{},
 		&citrongithubtag.Create{},
+		&citrongooglecalendarevent.List{},
+		&citrongooglemailfilter.Add{},
+		&citrongooglemailfilter.Delete{},
+		&citrongooglemailfilter.List{},
+		&citrongooglemailfilterbatch.Add{},
+		&citrongooglemaillabel.Add{},
+		&citrongooglemaillabel.Delete{},
+		&citrongooglemaillabel.List{},
+		&citrongooglemaillabel.Rename{},
+		&citrongooglemailmessage.List{},
+		&citrongooglemailmessage.Send{},
+		&citrongooglemailmessagelabel.Add{},
+		&citrongooglemailmessagelabel.Delete{},
+		&citrongooglemailmessageprocessed.List{},
+		&citrongooglemailsendas.Add{},
+		&citrongooglemailsendas.Delete{},
+		&citrongooglemailsendas.List{},
+		&citrongooglemailthread.List{},
+		&citrongooglesheetssheet.Append{},
+		&citrongooglesheetssheet.Clear{},
+		&citrongooglesheetssheet.Create{},
+		&citrongooglesheetssheet.Delete{},
+		&citrongooglesheetssheet.Export{},
+		&citrongooglesheetssheet.Import{},
+		&citrongooglesheetssheet.List{},
+		&citrongooglesheetsspreadsheet.Create{},
+		&citrongoogletranslate.Text{},
 	}
 }

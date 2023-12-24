@@ -66,18 +66,6 @@ import (
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
 	recipeservicesdropboxsignaccount "github.com/watermint/toolbox/recipe/services/dropboxsign/account"
-	recipeservicesgooglecalendarevent "github.com/watermint/toolbox/recipe/services/google/calendar/event"
-	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
-	recipeservicesgooglemailfilterbatch "github.com/watermint/toolbox/recipe/services/google/mail/filter/batch"
-	recipeservicesgooglemaillabel "github.com/watermint/toolbox/recipe/services/google/mail/label"
-	recipeservicesgooglemailmessage "github.com/watermint/toolbox/recipe/services/google/mail/message"
-	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
-	recipeservicesgooglemailmessageprocessed "github.com/watermint/toolbox/recipe/services/google/mail/message/processed"
-	recipeservicesgooglemailsendas "github.com/watermint/toolbox/recipe/services/google/mail/sendas"
-	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
-	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
-	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
-	recipeservicesgoogletranslate "github.com/watermint/toolbox/recipe/services/google/translate"
 	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
@@ -324,33 +312,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeservicesdropboxuser.Filesystem{},
 		&recipeservicesdropboxuser.Info{},
 		&recipeservicesdropboxsignaccount.Info{},
-		&recipeservicesgooglecalendarevent.List{},
-		&recipeservicesgooglemailfilter.Add{},
-		&recipeservicesgooglemailfilter.Delete{},
-		&recipeservicesgooglemailfilter.List{},
-		&recipeservicesgooglemailfilterbatch.Add{},
-		&recipeservicesgooglemaillabel.Add{},
-		&recipeservicesgooglemaillabel.Delete{},
-		&recipeservicesgooglemaillabel.List{},
-		&recipeservicesgooglemaillabel.Rename{},
-		&recipeservicesgooglemailmessage.List{},
-		&recipeservicesgooglemailmessage.Send{},
-		&recipeservicesgooglemailmessagelabel.Add{},
-		&recipeservicesgooglemailmessagelabel.Delete{},
-		&recipeservicesgooglemailmessageprocessed.List{},
-		&recipeservicesgooglemailsendas.Add{},
-		&recipeservicesgooglemailsendas.Delete{},
-		&recipeservicesgooglemailsendas.List{},
-		&recipeservicesgooglemailthread.List{},
-		&recipeservicesgooglesheetssheet.Append{},
-		&recipeservicesgooglesheetssheet.Clear{},
-		&recipeservicesgooglesheetssheet.Create{},
-		&recipeservicesgooglesheetssheet.Delete{},
-		&recipeservicesgooglesheetssheet.Export{},
-		&recipeservicesgooglesheetssheet.Import{},
-		&recipeservicesgooglesheetssheet.List{},
-		&recipeservicesgooglesheetsspreadsheet.Create{},
-		&recipeservicesgoogletranslate.Text{},
 		&recipeservicesslackconversation.History{},
 		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.Leave{},

@@ -214,46 +214,6 @@ lang: en
 |-------------------------------------------------------------------------------|--------------------------------------------------|
 | [util release install]({{ site.baseurl }}/commands/util-release-install.html) | Download & install watermint toolbox to the path |
 
-## Google Calendar
-
-| Command                                                                                                     | Description                 |
-|-------------------------------------------------------------------------------------------------------------|-----------------------------|
-| [services google calendar event list]({{ site.baseurl }}/commands/services-google-calendar-event-list.html) | List Google Calendar events |
-
-## Google Gmail
-
-| Command                                                                                                                     | Description                                         |
-|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [services google mail filter add]({{ site.baseurl }}/commands/services-google-mail-filter-add.html)                         | Add a filter.                                       |
-| [services google mail filter batch add]({{ site.baseurl }}/commands/services-google-mail-filter-batch-add.html)             | Batch adding/deleting labels with query             |
-| [services google mail filter delete]({{ site.baseurl }}/commands/services-google-mail-filter-delete.html)                   | Delete a filter                                     |
-| [services google mail filter list]({{ site.baseurl }}/commands/services-google-mail-filter-list.html)                       | List filters                                        |
-| [services google mail label add]({{ site.baseurl }}/commands/services-google-mail-label-add.html)                           | Add a label                                         |
-| [services google mail label delete]({{ site.baseurl }}/commands/services-google-mail-label-delete.html)                     | Delete a label                                      |
-| [services google mail label list]({{ site.baseurl }}/commands/services-google-mail-label-list.html)                         | List email labels                                   |
-| [services google mail label rename]({{ site.baseurl }}/commands/services-google-mail-label-rename.html)                     | Rename a label                                      |
-| [services google mail message label add]({{ site.baseurl }}/commands/services-google-mail-message-label-add.html)           | Add labels to the message                           |
-| [services google mail message label delete]({{ site.baseurl }}/commands/services-google-mail-message-label-delete.html)     | Remove labels from the message                      |
-| [services google mail message list]({{ site.baseurl }}/commands/services-google-mail-message-list.html)                     | List messages                                       |
-| [services google mail message processed list]({{ site.baseurl }}/commands/services-google-mail-message-processed-list.html) | List messages in processed format.                  |
-| [services google mail sendas add]({{ site.baseurl }}/commands/services-google-mail-sendas-add.html)                         | Creates a custom "from" send-as alias               |
-| [services google mail sendas delete]({{ site.baseurl }}/commands/services-google-mail-sendas-delete.html)                   | Deletes the specified send-as alias                 |
-| [services google mail sendas list]({{ site.baseurl }}/commands/services-google-mail-sendas-list.html)                       | Lists the send-as aliases for the specified account |
-| [services google mail thread list]({{ site.baseurl }}/commands/services-google-mail-thread-list.html)                       | List threads                                        |
-
-## Google Sheets
-
-| Command                                                                                                                 | Description                         |
-|-------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-| [services google sheets sheet append]({{ site.baseurl }}/commands/services-google-sheets-sheet-append.html)             | Append data to a spreadsheet        |
-| [services google sheets sheet clear]({{ site.baseurl }}/commands/services-google-sheets-sheet-clear.html)               | Clears values from a spreadsheet    |
-| [services google sheets sheet create]({{ site.baseurl }}/commands/services-google-sheets-sheet-create.html)             | Create a new sheet                  |
-| [services google sheets sheet delete]({{ site.baseurl }}/commands/services-google-sheets-sheet-delete.html)             | Delete a sheet from the spreadsheet |
-| [services google sheets sheet export]({{ site.baseurl }}/commands/services-google-sheets-sheet-export.html)             | Export sheet data                   |
-| [services google sheets sheet import]({{ site.baseurl }}/commands/services-google-sheets-sheet-import.html)             | Import data into the spreadsheet    |
-| [services google sheets sheet list]({{ site.baseurl }}/commands/services-google-sheets-sheet-list.html)                 | List sheets of the spreadsheet      |
-| [services google sheets spreadsheet create]({{ site.baseurl }}/commands/services-google-sheets-spreadsheet-create.html) | Create a new spreadsheet            |
-
 ## Utilities
 
 | Command                                                                                               | Description                                                          |

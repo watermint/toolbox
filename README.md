@@ -76,6 +76,7 @@ Available commands:
 | figma        | Figma commands                  |       |
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
+| google       | Google commands                 |       |
 | group        | Group management                |       |
 | job          | Log utilities (deprecated)      |       |
 | license      | Show license information        |       |
@@ -301,46 +302,6 @@ Available commands:
 | Command                                                       | Description                                      |
 |---------------------------------------------------------------|--------------------------------------------------|
 | [util release install](docs/commands/util-release-install.md) | Download & install watermint toolbox to the path |
-
-## Google Calendar
-
-| Command                                                                                     | Description                 |
-|---------------------------------------------------------------------------------------------|-----------------------------|
-| [services google calendar event list](docs/commands/services-google-calendar-event-list.md) | List Google Calendar events |
-
-## Google Gmail
-
-| Command                                                                                                     | Description                                         |
-|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [services google mail filter add](docs/commands/services-google-mail-filter-add.md)                         | Add a filter.                                       |
-| [services google mail filter batch add](docs/commands/services-google-mail-filter-batch-add.md)             | Batch adding/deleting labels with query             |
-| [services google mail filter delete](docs/commands/services-google-mail-filter-delete.md)                   | Delete a filter                                     |
-| [services google mail filter list](docs/commands/services-google-mail-filter-list.md)                       | List filters                                        |
-| [services google mail label add](docs/commands/services-google-mail-label-add.md)                           | Add a label                                         |
-| [services google mail label delete](docs/commands/services-google-mail-label-delete.md)                     | Delete a label                                      |
-| [services google mail label list](docs/commands/services-google-mail-label-list.md)                         | List email labels                                   |
-| [services google mail label rename](docs/commands/services-google-mail-label-rename.md)                     | Rename a label                                      |
-| [services google mail message label add](docs/commands/services-google-mail-message-label-add.md)           | Add labels to the message                           |
-| [services google mail message label delete](docs/commands/services-google-mail-message-label-delete.md)     | Remove labels from the message                      |
-| [services google mail message list](docs/commands/services-google-mail-message-list.md)                     | List messages                                       |
-| [services google mail message processed list](docs/commands/services-google-mail-message-processed-list.md) | List messages in processed format.                  |
-| [services google mail sendas add](docs/commands/services-google-mail-sendas-add.md)                         | Creates a custom "from" send-as alias               |
-| [services google mail sendas delete](docs/commands/services-google-mail-sendas-delete.md)                   | Deletes the specified send-as alias                 |
-| [services google mail sendas list](docs/commands/services-google-mail-sendas-list.md)                       | Lists the send-as aliases for the specified account |
-| [services google mail thread list](docs/commands/services-google-mail-thread-list.md)                       | List threads                                        |
-
-## Google Sheets
-
-| Command                                                                                                 | Description                         |
-|---------------------------------------------------------------------------------------------------------|-------------------------------------|
-| [services google sheets sheet append](docs/commands/services-google-sheets-sheet-append.md)             | Append data to a spreadsheet        |
-| [services google sheets sheet clear](docs/commands/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet    |
-| [services google sheets sheet create](docs/commands/services-google-sheets-sheet-create.md)             | Create a new sheet                  |
-| [services google sheets sheet delete](docs/commands/services-google-sheets-sheet-delete.md)             | Delete a sheet from the spreadsheet |
-| [services google sheets sheet export](docs/commands/services-google-sheets-sheet-export.md)             | Export sheet data                   |
-| [services google sheets sheet import](docs/commands/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet    |
-| [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet      |
-| [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet            |
 
 ## Utilities
 

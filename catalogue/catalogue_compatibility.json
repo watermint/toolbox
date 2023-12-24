@@ -367,6 +367,633 @@
       ]
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "calendar",
+          "event"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "calendar",
+            "event"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter"
+        ],
+        "name": "add"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "filter"
+          ],
+          "name": "add"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter",
+          "batch"
+        ],
+        "name": "add"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "filter",
+            "batch"
+          ],
+          "name": "add"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter"
+        ],
+        "name": "delete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "filter"
+          ],
+          "name": "delete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "filter"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "add"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "label"
+          ],
+          "name": "add"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "delete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "label"
+          ],
+          "name": "delete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "label"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "rename"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "label"
+          ],
+          "name": "rename"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message",
+          "label"
+        ],
+        "name": "add"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "message",
+            "label"
+          ],
+          "name": "add"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message",
+          "label"
+        ],
+        "name": "delete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "message",
+            "label"
+          ],
+          "name": "delete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "message"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message",
+          "processed"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "message",
+            "processed"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message"
+        ],
+        "name": "send"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "message"
+          ],
+          "name": "send"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "sendas"
+        ],
+        "name": "add"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "sendas"
+          ],
+          "name": "add"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "sendas"
+        ],
+        "name": "delete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "sendas"
+          ],
+          "name": "delete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "sendas"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "sendas"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "thread"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "mail",
+            "thread"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "append"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "sheet"
+          ],
+          "name": "append"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "clear"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "sheet"
+          ],
+          "name": "clear"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "create"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "sheet"
+          ],
+          "name": "create"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "delete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "sheet"
+          ],
+          "name": "delete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "export"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "sheet"
+          ],
+          "name": "export"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "import"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "sheet"
+          ],
+          "name": "import"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "sheet"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "spreadsheet"
+        ],
+        "name": "create"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "sheets",
+            "spreadsheet"
+          ],
+          "name": "create"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "translate"
+        ],
+        "name": "text"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "google",
+            "translate"
+          ],
+          "name": "text"
+        }
+      ]
+    },
+    {
       "announcement": "https://github.com/watermint/toolbox/discussions/794",
       "prune_after_build_date": "2024-04-01T00:00:00Z",
       "current": {
