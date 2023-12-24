@@ -72,6 +72,7 @@ Available commands:
 |--------------|---------------------------------|-------|
 | asana        | Asana commands                  |       |
 | config       | CLI configuration               |       |
+| deepl        | DeepL commands                  |       |
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
 | group        | Group management                |       |
@@ -296,9 +297,9 @@ Available commands:
 
 ## DeepL
 
-| Command                                                                         | Description    |
-|---------------------------------------------------------------------------------|----------------|
-| [services deepl translate text](docs/commands/services-deepl-translate-text.md) | Translate text |
+| Command                                                       | Description    |
+|---------------------------------------------------------------|----------------|
+| [deepl translate text](docs/commands/deepl-translate-text.md) | Translate text |
 
 ## Figma
 

@@ -210,9 +210,9 @@ lang: en
 
 ## DeepL
 
-| Command                                                                                         | Description    |
-|-------------------------------------------------------------------------------------------------|----------------|
-| [services deepl translate text]({{ site.baseurl }}/commands/services-deepl-translate-text.html) | Translate text |
+| Command                                                                       | Description    |
+|-------------------------------------------------------------------------------|----------------|
+| [deepl translate text]({{ site.baseurl }}/commands/deepl-translate-text.html) | Translate text |
 
 ## Figma
 
