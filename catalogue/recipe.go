@@ -64,8 +64,6 @@ import (
 	recipememberfolder "github.com/watermint/toolbox/recipe/member/folder"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
-	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
-	recipeservicesdropboxsignaccount "github.com/watermint/toolbox/recipe/services/dropboxsign/account"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipesharedfoldermount "github.com/watermint/toolbox/recipe/sharedfolder/mount"
@@ -307,10 +305,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipememberupdate.Invisible{},
 		&recipememberupdate.Profile{},
 		&recipememberupdate.Visible{},
-		&recipeservicesdropboxuser.Feature{},
-		&recipeservicesdropboxuser.Filesystem{},
-		&recipeservicesdropboxuser.Info{},
-		&recipeservicesdropboxsignaccount.Info{},
 		&recipesharedfolder.Leave{},
 		&recipesharedfolder.List{},
 		&recipesharedfolder.Share{},

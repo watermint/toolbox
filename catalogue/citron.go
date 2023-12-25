@@ -9,6 +9,8 @@ import (
 	citronasanaworkspace "github.com/watermint/toolbox/citron/asana/workspace"
 	citronasanaworkspaceproject "github.com/watermint/toolbox/citron/asana/workspace/project"
 	citrondeepltranslate "github.com/watermint/toolbox/citron/deepl/translate"
+	citrondropboxfileaccount "github.com/watermint/toolbox/citron/dropbox/file/account"
+	citrondropboxsignaccount "github.com/watermint/toolbox/citron/dropbox/sign/account"
 	citronfigmaaccount "github.com/watermint/toolbox/citron/figma/account"
 	citronfigmafile "github.com/watermint/toolbox/citron/figma/file"
 	citronfigmafileexport "github.com/watermint/toolbox/citron/figma/file/export"
@@ -44,6 +46,10 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citronasanaworkspace.List{},
 		&citronasanaworkspaceproject.List{},
 		&citrondeepltranslate.Text{},
+		&citrondropboxfileaccount.Feature{},
+		&citrondropboxfileaccount.Filesystem{},
+		&citrondropboxfileaccount.Info{},
+		&citrondropboxsignaccount.Info{},
 		&citronfigmaaccount.Info{},
 		&citronfigmafile.Info{},
 		&citronfigmafile.List{},

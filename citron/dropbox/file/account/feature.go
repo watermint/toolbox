@@ -1,4 +1,4 @@
-package user
+package account
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"

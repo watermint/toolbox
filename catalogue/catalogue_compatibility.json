@@ -193,6 +193,94 @@
       "prune_after_build_date": "2024-06-30T15:00:00Z",
       "current": {
         "path": [
+          "dropbox",
+          "file",
+          "account"
+        ],
+        "name": "feature"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "dropbox",
+            "user"
+          ],
+          "name": "feature"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "file",
+          "account"
+        ],
+        "name": "filesystem"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "dropbox",
+            "user"
+          ],
+          "name": "filesystem"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "file",
+          "account"
+        ],
+        "name": "info"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "dropbox",
+            "user"
+          ],
+          "name": "info"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "sign",
+          "account"
+        ],
+        "name": "info"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "services",
+            "dropboxsign",
+            "account"
+          ],
+          "name": "info"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/797",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
           "figma",
           "account"
         ],

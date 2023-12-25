@@ -8,75 +8,72 @@ lang: en
 
 ## Dropbox (Individual account)
 
-| Command                                                                                               | Description                                                   |
-|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [file compare account]({{ site.baseurl }}/commands/file-compare-account.html)                         | Compare files of two accounts                                 |
-| [file compare local]({{ site.baseurl }}/commands/file-compare-local.html)                             | Compare local folders and Dropbox folders                     |
-| [file copy]({{ site.baseurl }}/commands/file-copy.html)                                               | Copy files                                                    |
-| [file delete]({{ site.baseurl }}/commands/file-delete.html)                                           | Delete file or folder                                         |
-| [file export doc]({{ site.baseurl }}/commands/file-export-doc.html)                                   | Export document                                               |
-| [file export url]({{ site.baseurl }}/commands/file-export-url.html)                                   | Export a document from the URL                                |
-| [file import batch url]({{ site.baseurl }}/commands/file-import-batch-url.html)                       | Batch import files from URL                                   |
-| [file import url]({{ site.baseurl }}/commands/file-import-url.html)                                   | Import file from the URL                                      |
-| [file info]({{ site.baseurl }}/commands/file-info.html)                                               | Resolve metadata of the path                                  |
-| [file list]({{ site.baseurl }}/commands/file-list.html)                                               | List files and folders                                        |
-| [file lock acquire]({{ site.baseurl }}/commands/file-lock-acquire.html)                               | Lock a file                                                   |
-| [file lock all release]({{ site.baseurl }}/commands/file-lock-all-release.html)                       | Release all locks under the specified path                    |
-| [file lock batch acquire]({{ site.baseurl }}/commands/file-lock-batch-acquire.html)                   | Lock multiple files                                           |
-| [file lock batch release]({{ site.baseurl }}/commands/file-lock-batch-release.html)                   | Release multiple locks                                        |
-| [file lock list]({{ site.baseurl }}/commands/file-lock-list.html)                                     | List locks under the specified path                           |
-| [file lock release]({{ site.baseurl }}/commands/file-lock-release.html)                               | Release a lock                                                |
-| [file merge]({{ site.baseurl }}/commands/file-merge.html)                                             | Merge paths                                                   |
-| [file move]({{ site.baseurl }}/commands/file-move.html)                                               | Move files                                                    |
-| [file paper append]({{ site.baseurl }}/commands/file-paper-append.html)                               | Append the content to the end of the existing Paper doc       |
-| [file paper create]({{ site.baseurl }}/commands/file-paper-create.html)                               | Create new Paper in the path                                  |
-| [file paper overwrite]({{ site.baseurl }}/commands/file-paper-overwrite.html)                         | Overwrite existing Paper document                             |
-| [file paper prepend]({{ site.baseurl }}/commands/file-paper-prepend.html)                             | Append the content to the beginning of the existing Paper doc |
-| [file replication]({{ site.baseurl }}/commands/file-replication.html)                                 | Replicate file content to the other account                   |
-| [file restore all]({{ site.baseurl }}/commands/file-restore-all.html)                                 | Restore files under given path                                |
-| [file revision download]({{ site.baseurl }}/commands/file-revision-download.html)                     | Download the file revision                                    |
-| [file revision list]({{ site.baseurl }}/commands/file-revision-list.html)                             | List file revisions                                           |
-| [file revision restore]({{ site.baseurl }}/commands/file-revision-restore.html)                       | Restore the file revision                                     |
-| [file search content]({{ site.baseurl }}/commands/file-search-content.html)                           | Search file content                                           |
-| [file search name]({{ site.baseurl }}/commands/file-search-name.html)                                 | Search file name                                              |
-| [file share info]({{ site.baseurl }}/commands/file-share-info.html)                                   | Retrieve sharing information of the file                      |
-| [file size]({{ site.baseurl }}/commands/file-size.html)                                               | Storage usage                                                 |
-| [file sync down]({{ site.baseurl }}/commands/file-sync-down.html)                                     | Downstream sync with Dropbox                                  |
-| [file sync online]({{ site.baseurl }}/commands/file-sync-online.html)                                 | Sync online files                                             |
-| [file sync up]({{ site.baseurl }}/commands/file-sync-up.html)                                         | Upstream sync with Dropbox                                    |
-| [file tag add]({{ site.baseurl }}/commands/file-tag-add.html)                                         | Add a tag to the file/folder                                  |
-| [file tag delete]({{ site.baseurl }}/commands/file-tag-delete.html)                                   | Delete a tag from the file/folder                             |
-| [file tag list]({{ site.baseurl }}/commands/file-tag-list.html)                                       | List tags of the path                                         |
-| [file template apply remote]({{ site.baseurl }}/commands/file-template-apply-remote.html)             | Apply file/folder structure template to the Dropbox path      |
-| [file template capture remote]({{ site.baseurl }}/commands/file-template-capture-remote.html)         | Capture file/folder structure as template from Dropbox path   |
-| [file watch]({{ site.baseurl }}/commands/file-watch.html)                                             | Watch file activities                                         |
-| [filerequest create]({{ site.baseurl }}/commands/filerequest-create.html)                             | Create a file request                                         |
-| [filerequest delete closed]({{ site.baseurl }}/commands/filerequest-delete-closed.html)               | Delete all closed file requests on this account.              |
-| [filerequest delete url]({{ site.baseurl }}/commands/filerequest-delete-url.html)                     | Delete a file request by the file request URL                 |
-| [filerequest list]({{ site.baseurl }}/commands/filerequest-list.html)                                 | List file requests of the individual account                  |
-| [log job ship]({{ site.baseurl }}/commands/log-job-ship.html)                                         | Ship Job logs to Dropbox path                                 |
-| [services dropbox user feature]({{ site.baseurl }}/commands/services-dropbox-user-feature.html)       | List feature settings for current user                        |
-| [services dropbox user filesystem]({{ site.baseurl }}/commands/services-dropbox-user-filesystem.html) | Identify user's team file system version                      |
-| [services dropbox user info]({{ site.baseurl }}/commands/services-dropbox-user-info.html)             | Retrieve current account info                                 |
-| [sharedfolder leave]({{ site.baseurl }}/commands/sharedfolder-leave.html)                             | Leave from the shared folder                                  |
-| [sharedfolder list]({{ site.baseurl }}/commands/sharedfolder-list.html)                               | List shared folder(s)                                         |
-| [sharedfolder member add]({{ site.baseurl }}/commands/sharedfolder-member-add.html)                   | Add a member to the shared folder                             |
-| [sharedfolder member delete]({{ site.baseurl }}/commands/sharedfolder-member-delete.html)             | Delete a member from the shared folder                        |
-| [sharedfolder member list]({{ site.baseurl }}/commands/sharedfolder-member-list.html)                 | List shared folder member(s)                                  |
-| [sharedfolder mount add]({{ site.baseurl }}/commands/sharedfolder-mount-add.html)                     | Add the shared folder to the current user's Dropbox           |
-| [sharedfolder mount delete]({{ site.baseurl }}/commands/sharedfolder-mount-delete.html)               | The current user unmounts the designated folder.              |
-| [sharedfolder mount list]({{ site.baseurl }}/commands/sharedfolder-mount-list.html)                   | List all shared folders the current user mounted              |
-| [sharedfolder mount mountable]({{ site.baseurl }}/commands/sharedfolder-mount-mountable.html)         | List all shared folders the current user can mount            |
-| [sharedfolder share]({{ site.baseurl }}/commands/sharedfolder-share.html)                             | Share a folder                                                |
-| [sharedfolder unshare]({{ site.baseurl }}/commands/sharedfolder-unshare.html)                         | Unshare a folder                                              |
-| [sharedlink create]({{ site.baseurl }}/commands/sharedlink-create.html)                               | Create shared link                                            |
-| [sharedlink delete]({{ site.baseurl }}/commands/sharedlink-delete.html)                               | Remove shared links                                           |
-| [sharedlink file list]({{ site.baseurl }}/commands/sharedlink-file-list.html)                         | List files for the shared link                                |
-| [sharedlink info]({{ site.baseurl }}/commands/sharedlink-info.html)                                   | Get information about the shared link                         |
-| [sharedlink list]({{ site.baseurl }}/commands/sharedlink-list.html)                                   | List of shared link(s)                                        |
-| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                           | List files and folders in team space                          |
-| [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                           | Start device monitor client                                   |
-| [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                       | Package remote folder into the zip file                       |
+| Command                                                                                       | Description                                                   |
+|-----------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [file compare account]({{ site.baseurl }}/commands/file-compare-account.html)                 | Compare files of two accounts                                 |
+| [file compare local]({{ site.baseurl }}/commands/file-compare-local.html)                     | Compare local folders and Dropbox folders                     |
+| [file copy]({{ site.baseurl }}/commands/file-copy.html)                                       | Copy files                                                    |
+| [file delete]({{ site.baseurl }}/commands/file-delete.html)                                   | Delete file or folder                                         |
+| [file export doc]({{ site.baseurl }}/commands/file-export-doc.html)                           | Export document                                               |
+| [file export url]({{ site.baseurl }}/commands/file-export-url.html)                           | Export a document from the URL                                |
+| [file import batch url]({{ site.baseurl }}/commands/file-import-batch-url.html)               | Batch import files from URL                                   |
+| [file import url]({{ site.baseurl }}/commands/file-import-url.html)                           | Import file from the URL                                      |
+| [file info]({{ site.baseurl }}/commands/file-info.html)                                       | Resolve metadata of the path                                  |
+| [file list]({{ site.baseurl }}/commands/file-list.html)                                       | List files and folders                                        |
+| [file lock acquire]({{ site.baseurl }}/commands/file-lock-acquire.html)                       | Lock a file                                                   |
+| [file lock all release]({{ site.baseurl }}/commands/file-lock-all-release.html)               | Release all locks under the specified path                    |
+| [file lock batch acquire]({{ site.baseurl }}/commands/file-lock-batch-acquire.html)           | Lock multiple files                                           |
+| [file lock batch release]({{ site.baseurl }}/commands/file-lock-batch-release.html)           | Release multiple locks                                        |
+| [file lock list]({{ site.baseurl }}/commands/file-lock-list.html)                             | List locks under the specified path                           |
+| [file lock release]({{ site.baseurl }}/commands/file-lock-release.html)                       | Release a lock                                                |
+| [file merge]({{ site.baseurl }}/commands/file-merge.html)                                     | Merge paths                                                   |
+| [file move]({{ site.baseurl }}/commands/file-move.html)                                       | Move files                                                    |
+| [file paper append]({{ site.baseurl }}/commands/file-paper-append.html)                       | Append the content to the end of the existing Paper doc       |
+| [file paper create]({{ site.baseurl }}/commands/file-paper-create.html)                       | Create new Paper in the path                                  |
+| [file paper overwrite]({{ site.baseurl }}/commands/file-paper-overwrite.html)                 | Overwrite existing Paper document                             |
+| [file paper prepend]({{ site.baseurl }}/commands/file-paper-prepend.html)                     | Append the content to the beginning of the existing Paper doc |
+| [file replication]({{ site.baseurl }}/commands/file-replication.html)                         | Replicate file content to the other account                   |
+| [file restore all]({{ site.baseurl }}/commands/file-restore-all.html)                         | Restore files under given path                                |
+| [file revision download]({{ site.baseurl }}/commands/file-revision-download.html)             | Download the file revision                                    |
+| [file revision list]({{ site.baseurl }}/commands/file-revision-list.html)                     | List file revisions                                           |
+| [file revision restore]({{ site.baseurl }}/commands/file-revision-restore.html)               | Restore the file revision                                     |
+| [file search content]({{ site.baseurl }}/commands/file-search-content.html)                   | Search file content                                           |
+| [file search name]({{ site.baseurl }}/commands/file-search-name.html)                         | Search file name                                              |
+| [file share info]({{ site.baseurl }}/commands/file-share-info.html)                           | Retrieve sharing information of the file                      |
+| [file size]({{ site.baseurl }}/commands/file-size.html)                                       | Storage usage                                                 |
+| [file sync down]({{ site.baseurl }}/commands/file-sync-down.html)                             | Downstream sync with Dropbox                                  |
+| [file sync online]({{ site.baseurl }}/commands/file-sync-online.html)                         | Sync online files                                             |
+| [file sync up]({{ site.baseurl }}/commands/file-sync-up.html)                                 | Upstream sync with Dropbox                                    |
+| [file tag add]({{ site.baseurl }}/commands/file-tag-add.html)                                 | Add a tag to the file/folder                                  |
+| [file tag delete]({{ site.baseurl }}/commands/file-tag-delete.html)                           | Delete a tag from the file/folder                             |
+| [file tag list]({{ site.baseurl }}/commands/file-tag-list.html)                               | List tags of the path                                         |
+| [file template apply remote]({{ site.baseurl }}/commands/file-template-apply-remote.html)     | Apply file/folder structure template to the Dropbox path      |
+| [file template capture remote]({{ site.baseurl }}/commands/file-template-capture-remote.html) | Capture file/folder structure as template from Dropbox path   |
+| [file watch]({{ site.baseurl }}/commands/file-watch.html)                                     | Watch file activities                                         |
+| [filerequest create]({{ site.baseurl }}/commands/filerequest-create.html)                     | Create a file request                                         |
+| [filerequest delete closed]({{ site.baseurl }}/commands/filerequest-delete-closed.html)       | Delete all closed file requests on this account.              |
+| [filerequest delete url]({{ site.baseurl }}/commands/filerequest-delete-url.html)             | Delete a file request by the file request URL                 |
+| [filerequest list]({{ site.baseurl }}/commands/filerequest-list.html)                         | List file requests of the individual account                  |
+| [log job ship]({{ site.baseurl }}/commands/log-job-ship.html)                                 | Ship Job logs to Dropbox path                                 |
+| [sharedfolder leave]({{ site.baseurl }}/commands/sharedfolder-leave.html)                     | Leave from the shared folder                                  |
+| [sharedfolder list]({{ site.baseurl }}/commands/sharedfolder-list.html)                       | List shared folder(s)                                         |
+| [sharedfolder member add]({{ site.baseurl }}/commands/sharedfolder-member-add.html)           | Add a member to the shared folder                             |
+| [sharedfolder member delete]({{ site.baseurl }}/commands/sharedfolder-member-delete.html)     | Delete a member from the shared folder                        |
+| [sharedfolder member list]({{ site.baseurl }}/commands/sharedfolder-member-list.html)         | List shared folder member(s)                                  |
+| [sharedfolder mount add]({{ site.baseurl }}/commands/sharedfolder-mount-add.html)             | Add the shared folder to the current user's Dropbox           |
+| [sharedfolder mount delete]({{ site.baseurl }}/commands/sharedfolder-mount-delete.html)       | The current user unmounts the designated folder.              |
+| [sharedfolder mount list]({{ site.baseurl }}/commands/sharedfolder-mount-list.html)           | List all shared folders the current user mounted              |
+| [sharedfolder mount mountable]({{ site.baseurl }}/commands/sharedfolder-mount-mountable.html) | List all shared folders the current user can mount            |
+| [sharedfolder share]({{ site.baseurl }}/commands/sharedfolder-share.html)                     | Share a folder                                                |
+| [sharedfolder unshare]({{ site.baseurl }}/commands/sharedfolder-unshare.html)                 | Unshare a folder                                              |
+| [sharedlink create]({{ site.baseurl }}/commands/sharedlink-create.html)                       | Create shared link                                            |
+| [sharedlink delete]({{ site.baseurl }}/commands/sharedlink-delete.html)                       | Remove shared links                                           |
+| [sharedlink file list]({{ site.baseurl }}/commands/sharedlink-file-list.html)                 | List files for the shared link                                |
+| [sharedlink info]({{ site.baseurl }}/commands/sharedlink-info.html)                           | Get information about the shared link                         |
+| [sharedlink list]({{ site.baseurl }}/commands/sharedlink-list.html)                           | List of shared link(s)                                        |
+| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                   | List files and folders in team space                          |
+| [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                   | Start device monitor client                                   |
+| [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)               | Package remote folder into the zip file                       |
 
 ## Dropbox for teams
 
