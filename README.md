@@ -85,6 +85,7 @@ Available commands:
 | services     | Commands for services           |       |
 | sharedfolder | Shared folder                   |       |
 | sharedlink   | Shared Link of Personal account |       |
+| slack        | Slack commands                  |       |
 | team         | Dropbox Business Team           |       |
 | teamfolder   | Team folder management          |       |
 | teamspace    | Team space commands             |       |

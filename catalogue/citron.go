@@ -32,6 +32,7 @@ import (
 	citrongooglesheetssheet "github.com/watermint/toolbox/citron/google/sheets/sheet"
 	citrongooglesheetsspreadsheet "github.com/watermint/toolbox/citron/google/sheets/spreadsheet"
 	citrongoogletranslate "github.com/watermint/toolbox/citron/google/translate"
+	citronslackconversation "github.com/watermint/toolbox/citron/slack/conversation"
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
 
@@ -88,5 +89,7 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrongooglesheetssheet.List{},
 		&citrongooglesheetsspreadsheet.Create{},
 		&citrongoogletranslate.Text{},
+		&citronslackconversation.History{},
+		&citronslackconversation.List{},
 	}
 }
