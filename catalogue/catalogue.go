@@ -2,12 +2,10 @@ package catalogue
 
 import (
 	_ "embed"
-	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_compatibility"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 )
 
 //go:embed catalogue_compatibility.json
@@ -27,8 +25,9 @@ func NewCatalogue() rc_catalogue.Catalogue {
 	recipes = append(recipes, AutoDetectedRecipesClassic()...)
 	for _, r := range AutoDetectedRecipesCitron() {
 		recipes = append(recipes, r)
-		rs := rc_spec.New(r)
-		app_definitions.SecretRecipeCliPaths = append(app_definitions.SecretRecipeCliPaths, rs.CliPath())
+		//
+		//rs := rc_spec.New(r)
+		//app_definitions.SecretRecipeCliPaths = append(app_definitions.SecretRecipeCliPaths, rs.CliPath())
 	}
 
 	return rc_catalogue_impl.NewCatalogue(

@@ -50,9 +50,7 @@ func (z Command) specListTable(ui app_ui.UI, header app_msg.Message, specs []rc_
 	ui.WithTable("Commands", func(t app_ui.Table) {
 		t.Header(z.TableHeaderCommand, z.TableHeaderDesc)
 		for _, spec := range specs {
-			if !spec.IsSpecChange() {
-				t.Row(z.commandName(spec), spec.Title())
-			}
+			t.Row(z.commandName(spec), spec.Title())
 		}
 	})
 }
@@ -84,7 +82,8 @@ func (z Command) services() []string {
 	services := make([]string, 0)
 	for _, recipe := range recipes {
 		spec := rc_spec.New(recipe)
-		availSvc[z.serviceKey(spec)] = true
+		svcKey := z.serviceKey(spec)
+		availSvc[svcKey] = true
 	}
 	for _, svc := range api_conn.Services {
 		if availSvc[svc] {

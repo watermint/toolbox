@@ -36,6 +36,7 @@ func (z Readme) Sections() []dc_section.Section {
 	sections = append(sections, NewLicense())
 	if z.forPublish {
 		sections = append(sections, NewRelease())
+		sections = append(sections, NewLifecycle())
 	}
 	sections = append(sections, NewSecuritySection())
 	sections = append(sections, NewUsage())
