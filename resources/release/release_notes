@@ -1,4 +1,0 @@
-* #781 : Refactoring
-* #794 : Command path change (job package)
-* #795 : Command path change (feature commands under config package)
-* #796 : Deprecation of team space commands
