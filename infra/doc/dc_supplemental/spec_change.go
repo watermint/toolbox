@@ -78,12 +78,21 @@ func (z SecSpecChange) Body(ui app_ui.UI) {
 		for _, spec := range scheduledPathChange {
 			p := scheduledPathChangeDefinition[spec.CliPath()]
 			for _, fp := range p.FormerPaths {
-				t.Row(
-					app_msg.Raw(strings.Join(append(fp.Path, fp.Name), " ")),
-					app_msg.Raw(spec.CliPath()),
-					spec.Title(),
-					app_msg.Raw(p.PruneAfterBuildDate),
-				)
+				if p.Announcement == "" {
+					t.Row(
+						app_msg.Raw(strings.Join(append(fp.Path, fp.Name), " ")),
+						app_msg.Raw(spec.CliPath()),
+						spec.Title(),
+						app_msg.Raw(p.PruneAfterBuildDate),
+					)
+				} else {
+					t.Row(
+						app_msg.Raw("["+strings.Join(append(fp.Path, fp.Name), " ")+"]("+p.Announcement+")"),
+						app_msg.Raw(spec.CliPath()),
+						spec.Title(),
+						app_msg.Raw(p.PruneAfterBuildDate),
+					)
+				}
 			}
 		}
 	})
@@ -96,11 +105,19 @@ func (z SecSpecChange) Body(ui app_ui.UI) {
 		t.Header(z.TableHeaderPruneCliPath, z.TableHeaderPruneDesc, z.TableHeaderPrunePruneAfterBuildDate)
 		for _, spec := range scheduledPrune {
 			p := scheduledPruneDefinition[spec.CliPath()]
-			t.Row(
-				app_msg.Raw(spec.CliPath()),
-				spec.Title(),
-				app_msg.Raw(p.PruneAfterBuildDate),
-			)
+			if p.Announcement == "" {
+				t.Row(
+					app_msg.Raw(spec.CliPath()),
+					spec.Title(),
+					app_msg.Raw(p.PruneAfterBuildDate),
+				)
+			} else {
+				t.Row(
+					app_msg.Raw("["+spec.CliPath()+"]("+p.Announcement+")"),
+					spec.Title(),
+					app_msg.Raw(p.PruneAfterBuildDate),
+				)
+			}
 		}
 	})
 }

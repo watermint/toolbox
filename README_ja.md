@@ -50,7 +50,7 @@ brew install toolbox
 * 使用頻度が低いと思われるコマンドは、予告なく廃止または移動されます。
 * その他のコマンドの変更は、30～180日以上前に発表されます。
 
-仕様の変更は[お知らせ](https://github.com/watermint/toolbox/discussions/categories/announcements)で発表されます。予定されている仕様変更の一覧は、[仕様変更](/guide/spec-changes.html)を参照ください。
+仕様の変更は[お知らせ](https://github.com/watermint/toolbox/discussions/categories/announcements)で発表されます。仕様変更予定一覧は[仕様変更](https://toolbox.watermint.org/ja/guide/spec-changes.html)をご参照ください。
 
 # セキュリティとプライバシー
 
