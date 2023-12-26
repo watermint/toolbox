@@ -2,11 +2,11 @@
 
 ![watermint toolbox]({{ site.baseurl }}/images/logo.png){: width="160" }
 
-The multi-purpose utility command-line tool for web services including Dropbox, Dropbox Business, Google, GitHub, etc.
+The multi-purpose utility command-line tool for web services including Dropbox, Figma, Google, GitHub, etc.
 
 # Do more with the watermint toolbox
 
-The watermint toolbox has 295 commands to solve your daily tasks. For example, if you are an admin of Dropbox Business and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
+The watermint toolbox has 295 commands to solve your daily tasks. For example, if you are an admin of Dropbox for teams and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -14,10 +14,10 @@ The watermint toolbox runs on Windows, macOS (Darwin), and Linux without any add
 
 Please see command references for more detail.
 
-| Reference                                                                    |
-|------------------------------------------------------------------------------|
-| [Commands]({{ site.baseurl }}/commands/toc.html)                             |
-| [Dropbox Business commands]({{ site.baseurl }}/guides/dropbox-business.html) |
+| Reference                                                                        |
+|----------------------------------------------------------------------------------|
+| [Commands]({{ site.baseurl }}/commands/toc.html)                                 |
+| [Commands of Dropbox for teams]({{ site.baseurl }}/guides/dropbox-business.html) |
 
 # Built executable
 

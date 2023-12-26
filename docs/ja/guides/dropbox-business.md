@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Dropbox Business コマンド
+title: チーム向けDropboxのコマンド
 lang: ja
 ---
 
@@ -23,17 +23,17 @@ lang: ja
 
 以下のコマンドは、チームメンバーのアカウントを管理するためのものです. これらのコマンドは、CSVファイルによる一括処理を行うためのものです.
 
-| コマンド                                                                               | 説明                                                |
-|----------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [member invite]({{ site.baseurl }}/ja/commands/member-invite.html)                     | メンバーを招待します                                |
-| [member delete]({{ site.baseurl }}/ja/commands/member-delete.html)                     | メンバーを削除します                                |
-| [member detach]({{ site.baseurl }}/ja/commands/member-detach.html)                     | Dropbox BusinessユーザーをBasicユーザーに変更します |
-| [member reinvite]({{ site.baseurl }}/ja/commands/member-reinvite.html)                 | 招待済み状態メンバーをチームに再招待します          |
-| [member update email]({{ site.baseurl }}/ja/commands/member-update-email.html)         | メンバーのメールアドレス処理                        |
-| [member update profile]({{ site.baseurl }}/ja/commands/member-update-profile.html)     | メンバーのプロフィール変更                          |
-| [member update visible]({{ site.baseurl }}/ja/commands/member-update-visible.html)     | メンバーへのディレクトリ制限を無効にします          |
-| [member update invisible]({{ site.baseurl }}/ja/commands/member-update-invisible.html) | メンバーへのディレクトリ制限を有効にします          |
-| [member quota update]({{ site.baseurl }}/ja/commands/member-quota-update.html)         | チームメンバーの容量制限を変更                      |
+| コマンド                                                                               | 説明                                                     |
+|----------------------------------------------------------------------------------------|----------------------------------------------------------|
+| [member invite]({{ site.baseurl }}/ja/commands/member-invite.html)                     | メンバーを招待します                                     |
+| [member delete]({{ site.baseurl }}/ja/commands/member-delete.html)                     | メンバーを削除します                                     |
+| [member detach]({{ site.baseurl }}/ja/commands/member-detach.html)                     | Dropbox for teamsのアカウントをBasicアカウントに変更する |
+| [member reinvite]({{ site.baseurl }}/ja/commands/member-reinvite.html)                 | 招待済み状態メンバーをチームに再招待します               |
+| [member update email]({{ site.baseurl }}/ja/commands/member-update-email.html)         | メンバーのメールアドレス処理                             |
+| [member update profile]({{ site.baseurl }}/ja/commands/member-update-profile.html)     | メンバーのプロフィール変更                               |
+| [member update visible]({{ site.baseurl }}/ja/commands/member-update-visible.html)     | メンバーへのディレクトリ制限を無効にします               |
+| [member update invisible]({{ site.baseurl }}/ja/commands/member-update-invisible.html) | メンバーへのディレクトリ制限を有効にします               |
+| [member quota update]({{ site.baseurl }}/ja/commands/member-quota-update.html)         | チームメンバーの容量制限を変更                           |
 
 ## メンバープロファイル設定コマンド
 
@@ -69,7 +69,7 @@ lang: ja
 
 ## ディレクトリ制限コマンド
 
-ディレクトリ制限は、Dropbox Businessの機能で、メンバーを他の人から隠すことができます. 以下のコマンドは、この設定を更新して、他の人からメンバーを隠したり、設定を解除したりします.
+ディレクトリ制限は、Dropbox for teamsの機能で、メンバーを他のメンバーから隠すことができます。以下のコマンドは、この設定を更新して、他の人からメンバーを隠したり、設定を解除したりします.
 
 | コマンド                                                                               | 説明                                       |
 |----------------------------------------------------------------------------------------|--------------------------------------------|
@@ -119,7 +119,7 @@ lang: ja
 
 # チームコンテンツのコマンド
 
-管理者はDropbox Business APIを使って、チームフォルダ、共有フォルダ、メンバーのフォルダのコンテンツを扱うことができます. これらのコマンドの使用には注意が必要です.
+管理者はDropbox Business APIを通じて、チームフォルダ、共有フォルダ、メンバーフォルダのコンテンツを扱うことができます。これらのコマンドの使用には注意が必要です.
 名前空間とは、Dropbox APIの中で、フォルダの権限や設定を管理するための用語です. 共有フォルダ、チームフォルダ、チームフォルダ内のネストしたフォルダ、メンバーのルートフォルダ、メンバーのアプリフォルダなどのフォルダタイプは、すべて名前空間として管理されます.
 名前空間コマンドでは、チームフォルダやメンバーズフォルダなど、あらゆる種類のフォルダを扱うことができます. しかし、特定のフォルダタイプのコマンドは、より多くの機能や詳細な情報がレポートに含まれています.
 
@@ -401,6 +401,6 @@ tbx member list -experiment report_all_columns
 
 # 注意事項:
 
-Dropbox Businessのコマンドを実行するには、管理者権限が必要です. 認証トークンは、Dropboxのサポートを含め、誰とも共有してはいけません.
+Dropbox for teamsのコマンドを実行するには、管理者権限が必要です。認証トークンは、Dropboxのサポートを含め、誰とも共有してはいけません.
 
 

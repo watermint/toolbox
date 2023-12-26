@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github content put
+# figma project list
 
-レポジトリに小さなテキストコンテンツを格納します 
+チームのプロジェクト一覧 
 
 # セキュリティ
 
@@ -22,17 +22,17 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Figma: https://help.figma.com/hc/
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
 Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
@@ -43,7 +43,7 @@ watermint toolbox xx.x.xxx
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://www.figma.com/oauth?client_id=xxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=file_read&state=xxxxxxxx
 
 ```
 
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
+.\tbx.exe figma project list -team-id TEAM_ID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります.
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github content put  -owner OWNER -repository REPO -path PATH -content /LOCAL/PATH/TO/content -message MSG
+$HOME/Desktop/tbx figma project list -team-id TEAM_ID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります.
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,15 +77,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                       | デフォルト |
-|---------------|----------------------------|------------|
-| `-branch`     | ブランチ名                 |            |
-| `-content`    | コンテンツファイルへのパス |            |
-| `-message`    | コミットメッセージ         |            |
-| `-owner`      | レポジトリの所有者         |            |
-| `-path`       | コンテンツへのパス.        |            |
-| `-peer`       | アカウントの別名           | default    |
-| `-repository` | レポジトリ名               |            |
+| オプション | 説明                                                                                                                                                                   | デフォルト |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-peer`    | アカウントの別名                                                                                                                                                       | default    |
+| `-team-id` | チームID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります. |            |
 
 ## 共通のオプション:
 
@@ -120,19 +115,19 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: commit
+## レポート: projects
 
-コミット情報
-このコマンドはレポートを3種類の書式で出力します. `commit.csv`, `commit.json`, ならびに `commit.xlsx`.
+Figmaプロジェクト
+このコマンドはレポートを3種類の書式で出力します. `projects.csv`, `projects.json`, ならびに `projects.xlsx`.
 
-| 列  | 説明           |
-|-----|----------------|
-| sha | コミットのSHA1 |
-| url | コミットのURL  |
+| 列   | 説明                |
+|------|---------------------|
+| id   | FigmaプロジェクトID |
+| name | プロジェクト名      |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `commit_0000.xlsx`, `commit_0001.xlsx`, `commit_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `projects_0000.xlsx`, `projects_0001.xlsx`, `projects_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

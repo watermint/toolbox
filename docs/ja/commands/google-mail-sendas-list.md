@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github release asset list
+# google mail sendas list
 
-GitHubリリースの成果物一覧 (試験的実装です)
+指定されたアカウントの送信エイリアスを一覧表示する 
 
 # セキュリティ
 
@@ -22,17 +22,17 @@ GitHubリリースの成果物一覧 (試験的実装です)
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Google: https://support.google.com/accounts/answer/3466521
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                  |
+|---------------------------------------|
+| Gmail: メールのメッセージや設定を確認 |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+最初の実行では、`tbx`はあなたのGoogleアカウントへの認可を要求します.
 Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
@@ -43,7 +43,7 @@ watermint toolbox xx.x.xxx
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
 
 ```
 
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release asset list -owner OWNER -repository REPO -release RELEASE
+.\tbx.exe google mail sendas list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release asset list -owner OWNER -repository REPO -release RELEASE
+$HOME/Desktop/tbx google mail sendas list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,12 +77,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明               | デフォルト |
-|---------------|--------------------|------------|
-| `-owner`      | レポジトリの所有者 |            |
-| `-peer`       | アカウントの別名   | default    |
-| `-release`    | リリースタグ名     |            |
-| `-repository` | レポジトリ名       |            |
+| オプション | 説明                                                                                        | デフォルト |
+|------------|---------------------------------------------------------------------------------------------|------------|
+| `-peer`    | アカウントの別名                                                                            | default    |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |
 
 ## 共通のオプション:
 
@@ -117,22 +115,24 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: assets
+## レポート: send_as
 
-GitHub リリースの成果物
-このコマンドはレポートを3種類の書式で出力します. `assets.csv`, `assets.json`, ならびに `assets.xlsx`.
+送信先のエイリアスに関連する設定で、アカウントに関連付けられたプライマリログインアドレスまたはカスタム"from"アドレスのいずれかを指定できます
+このコマンドはレポートを3種類の書式で出力します. `send_as.csv`, `send_as.json`, ならびに `send_as.xlsx`.
 
-| 列             | 説明             |
-|----------------|------------------|
-| name           | アセット数       |
-| size           | アセットのサイズ |
-| state          | アセットの状態   |
-| download_count | ダウンロード数   |
-| download_url   | ダウンロードURL  |
+| 列                  | 説明                                                                                                                      |
+|---------------------|---------------------------------------------------------------------------------------------------------------------------|
+| send_as_email       | send-asエイリアス メールアドレス                                                                                          |
+| display_name        | このエイリアスを使って送信されるメールの "From: "ヘッダーに表示される名前.                                                |
+| reply_to_address    | このエイリアスを使って送信されたメールの "Reply-To: "ヘッダーに含まれる任意のメールアドレス.                              |
+| is_primary          | このアドレスが、アカウントへのログインに使用されるプライマリアドレスであるかどうか.                                       |
+| is_default          | 新規メッセージの作成やバケーションの自動返信などの際に、このアドレスをデフォルトの"From:"アドレスとして選択するかどうか。 |
+| treat_as_alias      | Gmailがこのアドレスをユーザーのプライマリメールアドレスのエイリアスとして扱うかどうかを指定します.                        |
+| verification_status | このアドレスがsend-as aliasとして使用するために検証されているかどうかを示す.                                              |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `assets_0000.xlsx`, `assets_0001.xlsx`, `assets_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `send_as_0000.xlsx`, `send_as_0001.xlsx`, `send_as_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

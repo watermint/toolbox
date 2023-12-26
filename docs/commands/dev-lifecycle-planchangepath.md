@@ -6,7 +6,7 @@ lang: en
 
 # dev lifecycle planchangepath
 
-Add plan change path to commands 
+Add plan of changing path to commands 
 
 # Installation
 

@@ -2,11 +2,11 @@
 
 ![watermint toolbox]({{ site.baseurl }}/images/logo.png){: width="160" }
 
-Dropbox、Dropbox Business、Google、GitHubなどのWebサービスに対応した多目的ユーティリティ・コマンドラインツール.
+Dropbox、Figma、Google、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツールです。
 
 # watermint toolboxでもっとできること
 
-watermint toolboxには、日々の作業を解決するための295コマンドが用意されています. 例えば、あなたがDropbox Businessの管理者で、グループを管理する必要がある場合. グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
+watermint toolboxには、日々の作業を解決するための295コマンドが用意されています. 例えば、あなたがDropbox for teamsの管理者で、グループを管理する必要がある場合。グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -14,10 +14,10 @@ watermint toolboxは、Windows、macOS（Darwin）、Linux上で、追加のラ�
 
 詳細はコマンド リファレンスをご参照ください.
 
-| 参照                                                                            |
-|---------------------------------------------------------------------------------|
-| [コマンド]({{ site.baseurl }}/ja/commands/toc.html)                             |
-| [Dropbox Business コマンド]({{ site.baseurl }}/ja/guides/dropbox-business.html) |
+| 参照                                                                              |
+|-----------------------------------------------------------------------------------|
+| [コマンド]({{ site.baseurl }}/ja/commands/toc.html)                               |
+| [チーム向けDropboxのコマンド]({{ site.baseurl }}/ja/guides/dropbox-business.html) |
 
 # ビルド済み実行ファイル
 

@@ -22,16 +22,16 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                                           |
-|--------------------------------------------------------------------------------|
-| Dropbox Business: 自分のチームグループのメンバーを見る                         |
-| Dropbox Business: チームメンバーの確認                                         |
-| Dropbox Business: チームメンバーの表示と管理                                   |
-| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
+| 説明                                                                                |
+|-------------------------------------------------------------------------------------|
+| Dropbox for teams：チームのグループ メンバーシップを表示                            |
+| Dropbox for teams：チームメンバーの確認                                             |
+| Dropbox for teams：チームメンバーの確認と管理                                       |
+| Dropbox for teams：名前、ユーザー数、チーム設定など、チームの基本情報を表示します。 |
 
 # 認可
 

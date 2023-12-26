@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github issue list
+# github profile
 
-公開・プライベートGitHubレポジトリの課題一覧 (試験的実装です)
+認証したユーザーの情報を取得 (試験的実装です)
 
 # セキュリティ
 
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github issue list -owner OWNER -repository REPO
+.\tbx.exe github profile 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github issue list -owner OWNER -repository REPO
+$HOME/Desktop/tbx github profile 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,15 +77,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                                              | デフォルト |
-|---------------|---------------------------------------------------|------------|
-| `-filter`     | どのような種類の課題を返すかを示します.           | assigned   |
-| `-labels`     | カンマで区切られたラベル名のリスト.               |            |
-| `-owner`      | レポジトリの所有者                                |            |
-| `-peer`       | アカウントの別名                                  | default    |
-| `-repository` | レポジトリ名                                      |            |
-| `-since`      | 指定した時間以降に更新された通知のみを表示します. |            |
-| `-state`      | 返すべき課題の状態を示す.                         | open       |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -120,21 +114,20 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: issues
+## レポート: user
 
-GitHub 課題
-このコマンドはレポートを3種類の書式で出力します. `issues.csv`, `issues.json`, ならびに `issues.xlsx`.
+GitHubユーザープロフィール
+このコマンドはレポートを3種類の書式で出力します. `user.csv`, `user.json`, ならびに `user.xlsx`.
 
-| 列     | 説明       |
-|--------|------------|
-| number | 課題番号   |
-| url    | 課題のURL  |
-| title  | タイトル   |
-| state  | 課題の状態 |
+| 列    | 説明               |
+|-------|--------------------|
+| login | ログインユーザー名 |
+| name  | ユーザー名         |
+| url   | ユーザーのURL      |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `issues_0000.xlsx`, `issues_0001.xlsx`, `issues_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

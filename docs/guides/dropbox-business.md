@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Dropbox Business commands
+title: Commands of Dropbox for teams
 lang: en
 ---
 
@@ -23,17 +23,17 @@ Below commands are to retrieve information about team members.
 
 Below commands are for managing team member accounts. Those commands are for a bulk operation by a CSV file.
 
-| Command                                                                             | Description                                          |
-|-------------------------------------------------------------------------------------|------------------------------------------------------|
-| [member invite]({{ site.baseurl }}/commands/member-invite.html)                     | Invite member(s)                                     |
-| [member delete]({{ site.baseurl }}/commands/member-delete.html)                     | Delete members                                       |
-| [member detach]({{ site.baseurl }}/commands/member-detach.html)                     | Convert Dropbox Business accounts to a Basic account |
-| [member reinvite]({{ site.baseurl }}/commands/member-reinvite.html)                 | Reinvite invited status members to the team          |
-| [member update email]({{ site.baseurl }}/commands/member-update-email.html)         | Member email operation                               |
-| [member update profile]({{ site.baseurl }}/commands/member-update-profile.html)     | Update member profile                                |
-| [member update visible]({{ site.baseurl }}/commands/member-update-visible.html)     | Disable directory restriction to members             |
-| [member update invisible]({{ site.baseurl }}/commands/member-update-invisible.html) | Enable directory restriction to members              |
-| [member quota update]({{ site.baseurl }}/commands/member-quota-update.html)         | Update team member quota                             |
+| Command                                                                             | Description                                           |
+|-------------------------------------------------------------------------------------|-------------------------------------------------------|
+| [member invite]({{ site.baseurl }}/commands/member-invite.html)                     | Invite member(s)                                      |
+| [member delete]({{ site.baseurl }}/commands/member-delete.html)                     | Delete members                                        |
+| [member detach]({{ site.baseurl }}/commands/member-detach.html)                     | Convert Dropbox for teams accounts to a Basic account |
+| [member reinvite]({{ site.baseurl }}/commands/member-reinvite.html)                 | Reinvite invited status members to the team           |
+| [member update email]({{ site.baseurl }}/commands/member-update-email.html)         | Member email operation                                |
+| [member update profile]({{ site.baseurl }}/commands/member-update-profile.html)     | Update member profile                                 |
+| [member update visible]({{ site.baseurl }}/commands/member-update-visible.html)     | Disable directory restriction to members              |
+| [member update invisible]({{ site.baseurl }}/commands/member-update-invisible.html) | Enable directory restriction to members               |
+| [member quota update]({{ site.baseurl }}/commands/member-quota-update.html)         | Update team member quota                              |
 
 ## Member profile setting commands
 
@@ -69,7 +69,7 @@ Suspend/unsuspend a member
 
 ## Directory restriction commands
 
-Directory restriction is the Dropbox Business feature to hide a member from others. Below commands update this setting to hide or unhide members from others.
+Directory restriction is the Dropbox for teams feature to hide a member from others. Below commands update this setting to hide or unhide members from others.
 
 | Command                                                                             | Description                              |
 |-------------------------------------------------------------------------------------|------------------------------------------|
@@ -401,6 +401,6 @@ With legal holds, admins can place a legal hold on members of their team and vie
 
 # Notes:
 
-Dropbox Business commands require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.
+Commands of Dropbox for teams require admin permissions to execute them. Auth tokens must not share with anyone, including Dropbox support.
 
 

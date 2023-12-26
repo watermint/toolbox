@@ -101,7 +101,7 @@ lang: en
 | [member batch unsuspend]({{ site.baseurl }}/commands/member-batch-unsuspend.html)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)                                         | Clear external_id of members                                                        |
 | [member delete]({{ site.baseurl }}/commands/member-delete.html)                                                             | Delete members                                                                      |
-| [member detach]({{ site.baseurl }}/commands/member-detach.html)                                                             | Convert Dropbox Business accounts to a Basic account                                |
+| [member detach]({{ site.baseurl }}/commands/member-detach.html)                                                             | Convert Dropbox for teams accounts to a Basic account                               |
 | [member feature]({{ site.baseurl }}/commands/member-feature.html)                                                           | List member feature settings                                                        |
 | [member file lock all release]({{ site.baseurl }}/commands/member-file-lock-all-release.html)                               | Release all locks under the path of the member                                      |
 | [member file lock list]({{ site.baseurl }}/commands/member-file-lock-list.html)                                             | List locks of the member under the path                                             |

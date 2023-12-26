@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github release draft
+# slack conversation history
 
-リリースの下書きを作成 (試験的実装かつ非可逆な操作です)
+会話履歴 
 
 # セキュリティ
 
@@ -22,17 +22,17 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Slack: https://slack.com/intl/ja-jp/help/articles/218891278
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                                                                       |
+|--------------------------------------------------------------------------------------------|
+| 自分のslackアプリが追加されたパブリックチャンネルにあるメッセージなどを見ることができます. |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+最初の実行では、`tbx`はあなたのSlackアカウントへの認可を要求します.
 Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
@@ -43,7 +43,7 @@ watermint toolbox xx.x.xxx
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://slack.com/oauth/v2/authorize?client_id=&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=channels%3Aread&state=xxxxxxxx
 
 ```
 
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt -branch BRANCH -name NAME -tag TAG
+.\tbx.exe slack conversation history -channel CHANNEL_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release draft -owner OWNER -repository REPO -body-file /LOCAL/PATH/TO/BODY.txt -branch BRANCH -name NAME -tag TAG
+$HOME/Desktop/tbx slack conversation history -channel CHANNEL_ID
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,15 +77,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                                                                                    | デフォルト |
-|---------------|-----------------------------------------------------------------------------------------|------------|
-| `-body-file`  | 本文テキストファイルへのパスファイルはBOMなしUTF-8でエンコードされている必要があります. |            |
-| `-branch`     | 対象ブランチ名                                                                          |            |
-| `-name`       | リリース名称                                                                            |            |
-| `-owner`      | レポジトリの所有者                                                                      |            |
-| `-peer`       | アカウントの別名                                                                        | default    |
-| `-repository` | レポジトリ名                                                                            |            |
-| `-tag`        | タグ名                                                                                  |            |
+| オプション | 説明                                     | デフォルト |
+|------------|------------------------------------------|------------|
+| `-after`   | これ以降のメッセージを取得する.          |            |
+| `-channel` | チャンネルID（C1234567890のようなもの）. |            |
+| `-peer`    | アカウントの別名                         | default    |
 
 ## 共通のオプション:
 
@@ -120,22 +116,21 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: release
+## レポート: messages
 
-GitHub上のリリース
-このコマンドはレポートを3種類の書式で出力します. `release.csv`, `release.json`, ならびに `release.xlsx`.
+Message
+このコマンドはレポートを3種類の書式で出力します. `messages.csv`, `messages.json`, ならびに `messages.xlsx`.
 
-| 列       | 説明                                |
-|----------|-------------------------------------|
-| id       | リリースID                          |
-| tag_name | タグ名                              |
-| name     | リリース名称                        |
-| draft    | リリースが下書き中である場合はTrue. |
-| url      | リリースのURL                       |
+| 列   | 説明             |
+|------|------------------|
+| type | メッセージの種類 |
+| user | ユーザーID       |
+| text | テキスト         |
+| ts   | タイムスタンプ   |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `release_0000.xlsx`, `release_0001.xlsx`, `release_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `messages_0000.xlsx`, `messages_0001.xlsx`, `messages_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

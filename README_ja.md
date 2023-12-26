@@ -7,7 +7,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-Dropbox、Dropbox Business、Google、GitHubなどのWebサービスに対応した多目的ユーティリティ・コマンドラインツール.
+Dropbox、Dropbox for teams、Google、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツール。
 
 # ライセンスと免責条項
 
@@ -28,6 +28,29 @@ watermint toolboxはMITライセンスのもと配布されています.
 brew tap watermint/toolbox
 brew install toolbox
 ```
+
+# 製品ライフサイクル
+
+## メンテナンス ポリシー
+
+この製品自体は実験的なものであり、サービスの品質を維持するためのメンテナンスの対象ではありません。プロジェクトは、重大なバグやセキュリティ上の問題を最善の努力で修正するよう努めます。しかし、それは保証されているわけではありません。
+
+この製品は、特定のメジャーリリースのパッチリリースをリリースしません。本製品は、修正が認められた場合、次のリリースとして修正を適用します。
+
+## 仕様変更
+
+このプロジェクトの成果物は、スタンドアロンの実行可能プログラムです。プログラムのバージョンを明示的にアップグレードしない限り、仕様変更は適用されません。
+
+新バージョンのリリースにおける変更は、以下の方針で行われます。
+
+コマンドパス、引数、戻り値などは、可能な限り互換性を保つようにアップグレードされますが、廃止または変更される可能性があります。
+一般的な方針は以下の通り。
+
+* 引数の追加やメッセージの変更など、既存の動作を壊さない変更は予告なく実施されます。
+* 使用頻度が低いと思われるコマンドは、予告なく廃止または移動されます。
+* その他のコマンドの変更は、30～180日以上前に発表されます。
+
+仕様の変更は[お知らせ](https://github.com/watermint/toolbox/discussions/categories/announcements)で発表されます。予定されている仕様変更の一覧は、[仕様変更](/guide/spec-changes.html)を参照ください。
 
 # セキュリティとプライバシー
 
@@ -56,7 +79,7 @@ watermint toolbox xx.x.xxx
 © 2016-2023 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-DropboxおよびDropbox Business向けのツールセット
+Dropbox用ツールとDropbox for teams
 
 使い方:
 =======
@@ -68,9 +91,15 @@ DropboxおよびDropbox Business向けのツールセット
 
 | コマンド     | 説明                         | 備考 |
 |--------------|------------------------------|------|
+| asana        | Asanaのコマンド              |      |
 | config       | CLI設定                      |      |
+| deepl        | DeepLコマンド                |      |
+| dropbox      | Dropboxコマンド              |      |
+| figma        | フィグマコマンド             |      |
 | file         | ファイル操作                 |      |
 | filerequest  | ファイルリクエストの操作     |      |
+| github       | GitHubコマンド               |      |
+| google       | Google コマンド              |      |
 | group        | グループ管理                 |      |
 | job          | ログユーティリティ（非推奨） |      |
 | license      | ライセンス情報を表示します   |      |
@@ -79,7 +108,8 @@ DropboxおよびDropbox Business向けのツールセット
 | services     | 各種サービス向けコマンド     |      |
 | sharedfolder | 共有フォルダ                 |      |
 | sharedlink   | 個人アカウントの共有リンク   |      |
-| team         | Dropbox Business チーム      |      |
+| slack        | Slack コマンド               |      |
+| team         | チーム向けDropboxのコマンド  |      |
 | teamfolder   | チームフォルダの管理         |      |
 | teamspace    | チームスペースコマンド       |      |
 | util         | ユーティリティー             |      |
@@ -91,75 +121,75 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## Dropbox (個人アカウント)
 
-| コマンド                                                                                 | 説明                                                                      |
-|------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [file compare account](docs/ja/commands/file-compare-account.md)                         | 二つのアカウントのファイルを比較します                                    |
-| [file compare local](docs/ja/commands/file-compare-local.md)                             | ローカルフォルダとDropboxフォルダの内容を比較します                       |
-| [file copy](docs/ja/commands/file-copy.md)                                               | ファイルをコピーします                                                    |
-| [file delete](docs/ja/commands/file-delete.md)                                           | ファイルまたはフォルダは削除します.                                       |
-| [file export doc](docs/ja/commands/file-export-doc.md)                                   | ドキュメントのエクスポート                                                |
-| [file export url](docs/ja/commands/file-export-url.md)                                   | URLからドキュメントをエクスポート                                         |
-| [file import batch url](docs/ja/commands/file-import-batch-url.md)                       | URLからファイルを一括インポートします                                     |
-| [file import url](docs/ja/commands/file-import-url.md)                                   | URLからファイルをインポートします                                         |
-| [file info](docs/ja/commands/file-info.md)                                               | パスのメタデータを解決                                                    |
-| [file list](docs/ja/commands/file-list.md)                                               | ファイルとフォルダを一覧します                                            |
-| [file lock acquire](docs/ja/commands/file-lock-acquire.md)                               | ファイルをロック                                                          |
-| [file lock all release](docs/ja/commands/file-lock-all-release.md)                       | 指定したパスでのすべてのロックを解除する                                  |
-| [file lock batch acquire](docs/ja/commands/file-lock-batch-acquire.md)                   | 複数のファイルをロックする                                                |
-| [file lock batch release](docs/ja/commands/file-lock-batch-release.md)                   | 複数のロックを解除                                                        |
-| [file lock list](docs/ja/commands/file-lock-list.md)                                     | 指定したパスの下にあるロックを一覧表示します                              |
-| [file lock release](docs/ja/commands/file-lock-release.md)                               | ロックを解除します                                                        |
-| [file merge](docs/ja/commands/file-merge.md)                                             | フォルダを統合します                                                      |
-| [file move](docs/ja/commands/file-move.md)                                               | ファイルを移動します                                                      |
-| [file paper append](docs/ja/commands/file-paper-append.md)                               | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
-| [file paper create](docs/ja/commands/file-paper-create.md)                               | パスに新しいPaperを作成                                                   |
-| [file paper overwrite](docs/ja/commands/file-paper-overwrite.md)                         | 既存のPaperドキュメントを上書きする                                       |
-| [file paper prepend](docs/ja/commands/file-paper-prepend.md)                             | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [file replication](docs/ja/commands/file-replication.md)                                 | ファイルコンテンツを他のアカウントに複製します                            |
-| [file restore all](docs/ja/commands/file-restore-all.md)                                 | 指定されたパス以下をリストアします                                        |
-| [file revision download](docs/ja/commands/file-revision-download.md)                     | ファイルリビジョンをダウンロードする                                      |
-| [file revision list](docs/ja/commands/file-revision-list.md)                             | ファイルリビジョン一覧                                                    |
-| [file revision restore](docs/ja/commands/file-revision-restore.md)                       | ファイルリビジョンを復元する                                              |
-| [file search content](docs/ja/commands/file-search-content.md)                           | ファイルコンテンツを検索                                                  |
-| [file search name](docs/ja/commands/file-search-name.md)                                 | ファイル名を検索                                                          |
-| [file share info](docs/ja/commands/file-share-info.md)                                   | ファイルの共有情報を取得する                                              |
-| [file size](docs/ja/commands/file-size.md)                                               | ストレージの利用量                                                        |
-| [file sync down](docs/ja/commands/file-sync-down.md)                                     | Dropboxと下り方向で同期します                                             |
-| [file sync online](docs/ja/commands/file-sync-online.md)                                 | オンラインファイルを同期します                                            |
-| [file sync up](docs/ja/commands/file-sync-up.md)                                         | Dropboxと上り方向で同期します                                             |
-| [file tag add](docs/ja/commands/file-tag-add.md)                                         | ファイル/フォルダーにタグを追加する                                       |
-| [file tag delete](docs/ja/commands/file-tag-delete.md)                                   | ファイル/フォルダーからタグを削除する                                     |
-| [file tag list](docs/ja/commands/file-tag-list.md)                                       | パスのタグを一覧                                                          |
-| [file template apply remote](docs/ja/commands/file-template-apply-remote.md)             | Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する            |
-| [file template capture remote](docs/ja/commands/file-template-capture-remote.md)         | Dropboxのパスからファイル/フォルダ構造をテンプレートとして取り込む。      |
-| [file watch](docs/ja/commands/file-watch.md)                                             | ファイルアクティビティを監視                                              |
-| [filerequest create](docs/ja/commands/filerequest-create.md)                             | ファイルリクエストを作成します                                            |
-| [filerequest delete closed](docs/ja/commands/filerequest-delete-closed.md)               | このアカウントの全ての閉じられているファイルリクエストを削除します        |
-| [filerequest delete url](docs/ja/commands/filerequest-delete-url.md)                     | ファイルリクエストのURLを指定して削除                                     |
-| [filerequest list](docs/ja/commands/filerequest-list.md)                                 | 個人アカウントのファイルリクエストを一覧.                                 |
-| [log job ship](docs/ja/commands/log-job-ship.md)                                         | ログの転送先Dropboxパス                                                   |
-| [services dropbox user feature](docs/ja/commands/services-dropbox-user-feature.md)       | 現在のユーザーの機能設定の一覧                                            |
-| [services dropbox user filesystem](docs/ja/commands/services-dropbox-user-filesystem.md) | ユーザーのチームのファイルシステムのバージョンを特定する                  |
-| [services dropbox user info](docs/ja/commands/services-dropbox-user-info.md)             | 現在のアカウント情報を取得する                                            |
-| [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                             | 共有フォルダーから退出する.                                               |
-| [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                               | 共有フォルダの一覧                                                        |
-| [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)                   | 共有フォルダへのメンバーの追加                                            |
-| [sharedfolder member delete](docs/ja/commands/sharedfolder-member-delete.md)             | 共有フォルダからメンバーを削除する                                        |
-| [sharedfolder member list](docs/ja/commands/sharedfolder-member-list.md)                 | 共有フォルダのメンバーを一覧します                                        |
-| [sharedfolder mount add](docs/ja/commands/sharedfolder-mount-add.md)                     | 共有フォルダを現在のユーザーのDropboxに追加する                           |
-| [sharedfolder mount delete](docs/ja/commands/sharedfolder-mount-delete.md)               | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
-| [sharedfolder mount list](docs/ja/commands/sharedfolder-mount-list.md)                   | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
-| [sharedfolder mount mountable](docs/ja/commands/sharedfolder-mount-mountable.md)         | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
-| [sharedfolder share](docs/ja/commands/sharedfolder-share.md)                             | フォルダの共有                                                            |
-| [sharedfolder unshare](docs/ja/commands/sharedfolder-unshare.md)                         | フォルダの共有解除                                                        |
-| [sharedlink create](docs/ja/commands/sharedlink-create.md)                               | 共有リンクの作成                                                          |
-| [sharedlink delete](docs/ja/commands/sharedlink-delete.md)                               | 共有リンクを削除します                                                    |
-| [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                         | 共有リンクのファイルを一覧する                                            |
-| [sharedlink info](docs/ja/commands/sharedlink-info.md)                                   | 共有リンクの情報取得                                                      |
-| [sharedlink list](docs/ja/commands/sharedlink-list.md)                                   | 共有リンクの一覧                                                          |
-| [teamspace file list](docs/ja/commands/teamspace-file-list.md)                           | チームスペースにあるファイルやフォルダーを一覧表示                        |
-| [util monitor client](docs/ja/commands/util-monitor-client.md)                           | デバイスモニタークライアントを起動する                                    |
-| [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                       | リモートフォルダをZIPファイルにパッケージする                             |
+| コマンド                                                                               | 説明                                                                      |
+|----------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [dropbox file account feature](docs/ja/commands/dropbox-file-account-feature.md)       | Dropboxアカウントの機能一覧                                               |
+| [dropbox file account filesystem](docs/ja/commands/dropbox-file-account-filesystem.md) | Dropboxのファイルシステムのバージョンを表示する                           |
+| [dropbox file account info](docs/ja/commands/dropbox-file-account-info.md)             | Dropboxアカウント情報                                                     |
+| [file compare account](docs/ja/commands/file-compare-account.md)                       | 二つのアカウントのファイルを比較します                                    |
+| [file compare local](docs/ja/commands/file-compare-local.md)                           | ローカルフォルダとDropboxフォルダの内容を比較します                       |
+| [file copy](docs/ja/commands/file-copy.md)                                             | ファイルをコピーします                                                    |
+| [file delete](docs/ja/commands/file-delete.md)                                         | ファイルまたはフォルダは削除します.                                       |
+| [file export doc](docs/ja/commands/file-export-doc.md)                                 | ドキュメントのエクスポート                                                |
+| [file export url](docs/ja/commands/file-export-url.md)                                 | URLからドキュメントをエクスポート                                         |
+| [file import batch url](docs/ja/commands/file-import-batch-url.md)                     | URLからファイルを一括インポートします                                     |
+| [file import url](docs/ja/commands/file-import-url.md)                                 | URLからファイルをインポートします                                         |
+| [file info](docs/ja/commands/file-info.md)                                             | パスのメタデータを解決                                                    |
+| [file list](docs/ja/commands/file-list.md)                                             | ファイルとフォルダを一覧します                                            |
+| [file lock acquire](docs/ja/commands/file-lock-acquire.md)                             | ファイルをロック                                                          |
+| [file lock all release](docs/ja/commands/file-lock-all-release.md)                     | 指定したパスでのすべてのロックを解除する                                  |
+| [file lock batch acquire](docs/ja/commands/file-lock-batch-acquire.md)                 | 複数のファイルをロックする                                                |
+| [file lock batch release](docs/ja/commands/file-lock-batch-release.md)                 | 複数のロックを解除                                                        |
+| [file lock list](docs/ja/commands/file-lock-list.md)                                   | 指定したパスの下にあるロックを一覧表示します                              |
+| [file lock release](docs/ja/commands/file-lock-release.md)                             | ロックを解除します                                                        |
+| [file merge](docs/ja/commands/file-merge.md)                                           | フォルダを統合します                                                      |
+| [file move](docs/ja/commands/file-move.md)                                             | ファイルを移動します                                                      |
+| [file paper append](docs/ja/commands/file-paper-append.md)                             | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
+| [file paper create](docs/ja/commands/file-paper-create.md)                             | パスに新しいPaperを作成                                                   |
+| [file paper overwrite](docs/ja/commands/file-paper-overwrite.md)                       | 既存のPaperドキュメントを上書きする                                       |
+| [file paper prepend](docs/ja/commands/file-paper-prepend.md)                           | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
+| [file replication](docs/ja/commands/file-replication.md)                               | ファイルコンテンツを他のアカウントに複製します                            |
+| [file restore all](docs/ja/commands/file-restore-all.md)                               | 指定されたパス以下をリストアします                                        |
+| [file revision download](docs/ja/commands/file-revision-download.md)                   | ファイルリビジョンをダウンロードする                                      |
+| [file revision list](docs/ja/commands/file-revision-list.md)                           | ファイルリビジョン一覧                                                    |
+| [file revision restore](docs/ja/commands/file-revision-restore.md)                     | ファイルリビジョンを復元する                                              |
+| [file search content](docs/ja/commands/file-search-content.md)                         | ファイルコンテンツを検索                                                  |
+| [file search name](docs/ja/commands/file-search-name.md)                               | ファイル名を検索                                                          |
+| [file share info](docs/ja/commands/file-share-info.md)                                 | ファイルの共有情報を取得する                                              |
+| [file size](docs/ja/commands/file-size.md)                                             | ストレージの利用量                                                        |
+| [file sync down](docs/ja/commands/file-sync-down.md)                                   | Dropboxと下り方向で同期します                                             |
+| [file sync online](docs/ja/commands/file-sync-online.md)                               | オンラインファイルを同期します                                            |
+| [file sync up](docs/ja/commands/file-sync-up.md)                                       | Dropboxと上り方向で同期します                                             |
+| [file tag add](docs/ja/commands/file-tag-add.md)                                       | ファイル/フォルダーにタグを追加する                                       |
+| [file tag delete](docs/ja/commands/file-tag-delete.md)                                 | ファイル/フォルダーからタグを削除する                                     |
+| [file tag list](docs/ja/commands/file-tag-list.md)                                     | パスのタグを一覧                                                          |
+| [file template apply remote](docs/ja/commands/file-template-apply-remote.md)           | Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する            |
+| [file template capture remote](docs/ja/commands/file-template-capture-remote.md)       | Dropboxのパスからファイル/フォルダ構造をテンプレートとして取り込む。      |
+| [file watch](docs/ja/commands/file-watch.md)                                           | ファイルアクティビティを監視                                              |
+| [filerequest create](docs/ja/commands/filerequest-create.md)                           | ファイルリクエストを作成します                                            |
+| [filerequest delete closed](docs/ja/commands/filerequest-delete-closed.md)             | このアカウントの全ての閉じられているファイルリクエストを削除します        |
+| [filerequest delete url](docs/ja/commands/filerequest-delete-url.md)                   | ファイルリクエストのURLを指定して削除                                     |
+| [filerequest list](docs/ja/commands/filerequest-list.md)                               | 個人アカウントのファイルリクエストを一覧.                                 |
+| [log job ship](docs/ja/commands/log-job-ship.md)                                       | ログの転送先Dropboxパス                                                   |
+| [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                           | 共有フォルダーから退出する.                                               |
+| [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                             | 共有フォルダの一覧                                                        |
+| [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)                 | 共有フォルダへのメンバーの追加                                            |
+| [sharedfolder member delete](docs/ja/commands/sharedfolder-member-delete.md)           | 共有フォルダからメンバーを削除する                                        |
+| [sharedfolder member list](docs/ja/commands/sharedfolder-member-list.md)               | 共有フォルダのメンバーを一覧します                                        |
+| [sharedfolder mount add](docs/ja/commands/sharedfolder-mount-add.md)                   | 共有フォルダを現在のユーザーのDropboxに追加する                           |
+| [sharedfolder mount delete](docs/ja/commands/sharedfolder-mount-delete.md)             | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
+| [sharedfolder mount list](docs/ja/commands/sharedfolder-mount-list.md)                 | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
+| [sharedfolder mount mountable](docs/ja/commands/sharedfolder-mount-mountable.md)       | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
+| [sharedfolder share](docs/ja/commands/sharedfolder-share.md)                           | フォルダの共有                                                            |
+| [sharedfolder unshare](docs/ja/commands/sharedfolder-unshare.md)                       | フォルダの共有解除                                                        |
+| [sharedlink create](docs/ja/commands/sharedlink-create.md)                             | 共有リンクの作成                                                          |
+| [sharedlink delete](docs/ja/commands/sharedlink-delete.md)                             | 共有リンクを削除します                                                    |
+| [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                       | 共有リンクのファイルを一覧する                                            |
+| [sharedlink info](docs/ja/commands/sharedlink-info.md)                                 | 共有リンクの情報取得                                                      |
+| [sharedlink list](docs/ja/commands/sharedlink-list.md)                                 | 共有リンクの一覧                                                          |
+| [teamspace file list](docs/ja/commands/teamspace-file-list.md)                         | チームスペースにあるファイルやフォルダーを一覧表示                        |
+| [util monitor client](docs/ja/commands/util-monitor-client.md)                         | デバイスモニタークライアントを起動する                                    |
+| [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                     | リモートフォルダをZIPファイルにパッケージする                             |
 
 ## チーム向けDropbox
 
@@ -184,7 +214,7 @@ DropboxおよびDropbox Business向けのツールセット
 | [member batch unsuspend](docs/ja/commands/member-batch-unsuspend.md)                                           | メンバーの一括停止解除                                                                  |
 | [member clear externalid](docs/ja/commands/member-clear-externalid.md)                                         | メンバーのexternal_idを初期化します                                                     |
 | [member delete](docs/ja/commands/member-delete.md)                                                             | メンバーを削除します                                                                    |
-| [member detach](docs/ja/commands/member-detach.md)                                                             | Dropbox BusinessユーザーをBasicユーザーに変更します                                     |
+| [member detach](docs/ja/commands/member-detach.md)                                                             | Dropbox for teamsのアカウントをBasicアカウントに変更する                                |
 | [member feature](docs/ja/commands/member-feature.md)                                                           | メンバーの機能設定一覧                                                                  |
 | [member file lock all release](docs/ja/commands/member-file-lock-all-release.md)                               | メンバーのパスの下にあるすべてのロックを解除します                                      |
 | [member file lock list](docs/ja/commands/member-file-lock-list.md)                                             | パスの下にあるメンバーのロックを一覧表示                                                |
@@ -293,78 +323,78 @@ DropboxおよびDropbox Business向けのツールセット
 
 ## DeepL
 
-| コマンド                                                                           | 説明               |
-|------------------------------------------------------------------------------------|--------------------|
-| [services deepl translate text](docs/ja/commands/services-deepl-translate-text.md) | テキストを翻訳する |
+| コマンド                                                         | 説明               |
+|------------------------------------------------------------------|--------------------|
+| [deepl translate text](docs/ja/commands/deepl-translate-text.md) | テキストを翻訳する |
 
 ## Figma
 
-| コマンド                                                                                       | 説明                                                  |
-|------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| [services figma account info](docs/ja/commands/services-figma-account-info.md)                 | 現在のユーザー情報を取得する                          |
-| [services figma file export all page](docs/ja/commands/services-figma-file-export-all-page.md) | チーム配下のすべてのファイル/ページをエクスポートする |
-| [services figma file export frame](docs/ja/commands/services-figma-file-export-frame.md)       | Figmaファイルの全フレームを書き出す                   |
-| [services figma file export node](docs/ja/commands/services-figma-file-export-node.md)         | Figmaドキュメント・ノードの書き出し                   |
-| [services figma file export page](docs/ja/commands/services-figma-file-export-page.md)         | Figmaファイルの全ページを書き出す                     |
-| [services figma file info](docs/ja/commands/services-figma-file-info.md)                       | figmaファイルの情報を表示する                         |
-| [services figma file list](docs/ja/commands/services-figma-file-list.md)                       | Figmaプロジェクト内のファイル一覧                     |
-| [services figma project list](docs/ja/commands/services-figma-project-list.md)                 | チームのプロジェクト一覧                              |
+| コマンド                                                                     | 説明                                                  |
+|------------------------------------------------------------------------------|-------------------------------------------------------|
+| [figma account info](docs/ja/commands/figma-account-info.md)                 | 現在のユーザー情報を取得する                          |
+| [figma file export all page](docs/ja/commands/figma-file-export-all-page.md) | チーム配下のすべてのファイル/ページをエクスポートする |
+| [figma file export frame](docs/ja/commands/figma-file-export-frame.md)       | Figmaファイルの全フレームを書き出す                   |
+| [figma file export node](docs/ja/commands/figma-file-export-node.md)         | Figmaドキュメント・ノードの書き出し                   |
+| [figma file export page](docs/ja/commands/figma-file-export-page.md)         | Figmaファイルの全ページを書き出す                     |
+| [figma file info](docs/ja/commands/figma-file-info.md)                       | figmaファイルの情報を表示する                         |
+| [figma file list](docs/ja/commands/figma-file-list.md)                       | Figmaプロジェクト内のファイル一覧                     |
+| [figma project list](docs/ja/commands/figma-project-list.md)                 | チームのプロジェクト一覧                              |
 
 ## GitHub
 
-| コマンド                                                                                             | 説明                                                          |
-|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [services github content get](docs/ja/commands/services-github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.                 |
-| [services github content put](docs/ja/commands/services-github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します              |
-| [services github issue list](docs/ja/commands/services-github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |
-| [services github profile](docs/ja/commands/services-github-profile.md)                               | 認証したユーザーの情報を取得                                  |
-| [services github release asset download](docs/ja/commands/services-github-release-asset-download.md) | アセットをダウンロードします                                  |
-| [services github release asset list](docs/ja/commands/services-github-release-asset-list.md)         | GitHubリリースの成果物一覧                                    |
-| [services github release asset upload](docs/ja/commands/services-github-release-asset-upload.md)     | GitHub リリースへ成果物をアップロードします                   |
-| [services github release draft](docs/ja/commands/services-github-release-draft.md)                   | リリースの下書きを作成                                        |
-| [services github release list](docs/ja/commands/services-github-release-list.md)                     | リリースの一覧                                                |
-| [services github tag create](docs/ja/commands/services-github-tag-create.md)                         | レポジトリにタグを作成します                                  |
-| [util release install](docs/ja/commands/util-release-install.md)                                     | watermint toolboxをダウンロードし、パスにインストールします。 |
+| コマンド                                                                           | 説明                                                          |
+|------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [github content get](docs/ja/commands/github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.                 |
+| [github content put](docs/ja/commands/github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します              |
+| [github issue list](docs/ja/commands/github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |
+| [github profile](docs/ja/commands/github-profile.md)                               | 認証したユーザーの情報を取得                                  |
+| [github release asset download](docs/ja/commands/github-release-asset-download.md) | アセットをダウンロードします                                  |
+| [github release asset list](docs/ja/commands/github-release-asset-list.md)         | GitHubリリースの成果物一覧                                    |
+| [github release asset upload](docs/ja/commands/github-release-asset-upload.md)     | GitHub リリースへ成果物をアップロードします                   |
+| [github release draft](docs/ja/commands/github-release-draft.md)                   | リリースの下書きを作成                                        |
+| [github release list](docs/ja/commands/github-release-list.md)                     | リリースの一覧                                                |
+| [github tag create](docs/ja/commands/github-tag-create.md)                         | レポジトリにタグを作成します                                  |
+| [util release install](docs/ja/commands/util-release-install.md)                   | watermint toolboxをダウンロードし、パスにインストールします。 |
 
 ## Google Calendar
 
-| コマンド                                                                                       | 説明                                 |
-|------------------------------------------------------------------------------------------------|--------------------------------------|
-| [services google calendar event list](docs/ja/commands/services-google-calendar-event-list.md) | Googleカレンダーのイベントを一覧表示 |
+| コマンド                                                                     | 説明                                 |
+|------------------------------------------------------------------------------|--------------------------------------|
+| [google calendar event list](docs/ja/commands/google-calendar-event-list.md) | Googleカレンダーのイベントを一覧表示 |
 
 ## Google Gmail
 
-| コマンド                                                                                                       | 説明                                               |
-|----------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| [services google mail filter add](docs/ja/commands/services-google-mail-filter-add.md)                         | フィルターを追加します.                            |
-| [services google mail filter batch add](docs/ja/commands/services-google-mail-filter-batch-add.md)             | クエリによるラベルの一括追加・削除                 |
-| [services google mail filter delete](docs/ja/commands/services-google-mail-filter-delete.md)                   | フィルタの削除                                     |
-| [services google mail filter list](docs/ja/commands/services-google-mail-filter-list.md)                       | フィルターの一覧                                   |
-| [services google mail label add](docs/ja/commands/services-google-mail-label-add.md)                           | ラベルの追加                                       |
-| [services google mail label delete](docs/ja/commands/services-google-mail-label-delete.md)                     | ラベルの削除.                                      |
-| [services google mail label list](docs/ja/commands/services-google-mail-label-list.md)                         | ラベルのリスト                                     |
-| [services google mail label rename](docs/ja/commands/services-google-mail-label-rename.md)                     | ラベルの名前を変更する                             |
-| [services google mail message label add](docs/ja/commands/services-google-mail-message-label-add.md)           | メッセージにラベルを追加                           |
-| [services google mail message label delete](docs/ja/commands/services-google-mail-message-label-delete.md)     | メッセージからラベルを削除する                     |
-| [services google mail message list](docs/ja/commands/services-google-mail-message-list.md)                     | メッセージの一覧                                   |
-| [services google mail message processed list](docs/ja/commands/services-google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します.        |
-| [services google mail sendas add](docs/ja/commands/services-google-mail-sendas-add.md)                         | カスタムの "from" send-asエイリアスの作成          |
-| [services google mail sendas delete](docs/ja/commands/services-google-mail-sendas-delete.md)                   | 指定したsend-asエイリアスを削除する                |
-| [services google mail sendas list](docs/ja/commands/services-google-mail-sendas-list.md)                       | 指定されたアカウントの送信エイリアスを一覧表示する |
-| [services google mail thread list](docs/ja/commands/services-google-mail-thread-list.md)                       | スレッド一覧                                       |
+| コマンド                                                                                     | 説明                                               |
+|----------------------------------------------------------------------------------------------|----------------------------------------------------|
+| [google mail filter add](docs/ja/commands/google-mail-filter-add.md)                         | フィルターを追加します.                            |
+| [google mail filter batch add](docs/ja/commands/google-mail-filter-batch-add.md)             | クエリによるラベルの一括追加・削除                 |
+| [google mail filter delete](docs/ja/commands/google-mail-filter-delete.md)                   | フィルタの削除                                     |
+| [google mail filter list](docs/ja/commands/google-mail-filter-list.md)                       | フィルターの一覧                                   |
+| [google mail label add](docs/ja/commands/google-mail-label-add.md)                           | ラベルの追加                                       |
+| [google mail label delete](docs/ja/commands/google-mail-label-delete.md)                     | ラベルの削除.                                      |
+| [google mail label list](docs/ja/commands/google-mail-label-list.md)                         | ラベルのリスト                                     |
+| [google mail label rename](docs/ja/commands/google-mail-label-rename.md)                     | ラベルの名前を変更する                             |
+| [google mail message label add](docs/ja/commands/google-mail-message-label-add.md)           | メッセージにラベルを追加                           |
+| [google mail message label delete](docs/ja/commands/google-mail-message-label-delete.md)     | メッセージからラベルを削除する                     |
+| [google mail message list](docs/ja/commands/google-mail-message-list.md)                     | メッセージの一覧                                   |
+| [google mail message processed list](docs/ja/commands/google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します.        |
+| [google mail sendas add](docs/ja/commands/google-mail-sendas-add.md)                         | カスタムの "from" send-asエイリアスの作成          |
+| [google mail sendas delete](docs/ja/commands/google-mail-sendas-delete.md)                   | 指定したsend-asエイリアスを削除する                |
+| [google mail sendas list](docs/ja/commands/google-mail-sendas-list.md)                       | 指定されたアカウントの送信エイリアスを一覧表示する |
+| [google mail thread list](docs/ja/commands/google-mail-thread-list.md)                       | スレッド一覧                                       |
 
 ## Google Sheets
 
-| コマンド                                                                                                   | 説明                                 |
-|------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [services google sheets sheet append](docs/ja/commands/services-google-sheets-sheet-append.md)             | スプレッドシートにデータを追加する   |
-| [services google sheets sheet clear](docs/ja/commands/services-google-sheets-sheet-clear.md)               | スプレッドシートから値をクリアする   |
-| [services google sheets sheet create](docs/ja/commands/services-google-sheets-sheet-create.md)             | 新規シートの作成                     |
-| [services google sheets sheet delete](docs/ja/commands/services-google-sheets-sheet-delete.md)             | スプレッドシートからシートを削除する |
-| [services google sheets sheet export](docs/ja/commands/services-google-sheets-sheet-export.md)             | シートデータのエクスポート           |
-| [services google sheets sheet import](docs/ja/commands/services-google-sheets-sheet-import.md)             | スプレッドシートにデータをインポート |
-| [services google sheets sheet list](docs/ja/commands/services-google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |
-| [services google sheets spreadsheet create](docs/ja/commands/services-google-sheets-spreadsheet-create.md) | 新しいスプレッドシートの作成         |
+| コマンド                                                                                 | 説明                                 |
+|------------------------------------------------------------------------------------------|--------------------------------------|
+| [google sheets sheet append](docs/ja/commands/google-sheets-sheet-append.md)             | スプレッドシートにデータを追加する   |
+| [google sheets sheet clear](docs/ja/commands/google-sheets-sheet-clear.md)               | スプレッドシートから値をクリアする   |
+| [google sheets sheet create](docs/ja/commands/google-sheets-sheet-create.md)             | 新規シートの作成                     |
+| [google sheets sheet delete](docs/ja/commands/google-sheets-sheet-delete.md)             | スプレッドシートからシートを削除する |
+| [google sheets sheet export](docs/ja/commands/google-sheets-sheet-export.md)             | シートデータのエクスポート           |
+| [google sheets sheet import](docs/ja/commands/google-sheets-sheet-import.md)             | スプレッドシートにデータをインポート |
+| [google sheets sheet list](docs/ja/commands/google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |
+| [google sheets spreadsheet create](docs/ja/commands/google-sheets-spreadsheet-create.md) | 新しいスプレッドシートの作成         |
 
 ## ユーティリティー
 

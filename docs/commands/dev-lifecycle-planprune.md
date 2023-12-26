@@ -6,7 +6,7 @@ lang: en
 
 # dev lifecycle planprune
 
-Add plan deprecated commands 
+Add plan of the command discontinuation 
 
 # Installation
 

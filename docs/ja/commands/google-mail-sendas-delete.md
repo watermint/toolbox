@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github profile
+# google mail sendas delete
 
-認証したユーザーの情報を取得 (試験的実装です)
+指定したsend-asエイリアスを削除する 
 
 # セキュリティ
 
@@ -22,17 +22,17 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Google: https://support.google.com/accounts/answer/3466521
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                                                          |
+|-------------------------------------------------------------------------------|
+| Gmail: 誰がメールを管理できるかなど、機密メールの設定を管理することができます |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+最初の実行では、`tbx`はあなたのGoogleアカウントへの認可を要求します.
 Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
@@ -43,7 +43,7 @@ watermint toolbox xx.x.xxx
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
 
 ```
 
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github profile 
+.\tbx.exe google mail sendas delete -email EMAIL
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github profile 
+$HOME/Desktop/tbx google mail sendas delete -email EMAIL
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,9 +77,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明             | デフォルト |
-|------------|------------------|------------|
-| `-peer`    | アカウントの別名 | default    |
+| オプション | 説明                                                                                        | デフォルト |
+|------------|---------------------------------------------------------------------------------------------|------------|
+| `-email`   | send-asエイリアス メールアドレス                                                            |            |
+| `-peer`    | アカウントの別名                                                                            | default    |
+| `-user-id` | ユーザーのメールアドレス. 特別な値meは、認証されたユーザを示すために使用することができます. | me         |
 
 ## 共通のオプション:
 
@@ -103,31 +105,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: user
-
-GitHubユーザープロフィール
-このコマンドはレポートを3種類の書式で出力します. `user.csv`, `user.json`, ならびに `user.xlsx`.
-
-| 列    | 説明               |
-|-------|--------------------|
-| login | ログインユーザー名 |
-| name  | ユーザー名         |
-| url   | ユーザーのURL      |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `user_0000.xlsx`, `user_0001.xlsx`, `user_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

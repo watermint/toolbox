@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github content get
+# google sheets sheet export
 
-レポジトリのコンテンツメタデータを取得します. 
+シートデータのエクスポート 
 
 # セキュリティ
 
@@ -22,17 +22,17 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Google: https://support.google.com/accounts/answer/3466521
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                         |
+|----------------------------------------------|
+| Google Sheets: Google スプレッドシートの表示 |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+最初の実行では、`tbx`はあなたのGoogleアカウントへの認可を要求します.
 Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
@@ -43,7 +43,7 @@ watermint toolbox xx.x.xxx
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
 
 ```
 
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github content get -owner OWNER -repository REPOSITORY -path PATH
+.\tbx.exe google sheets sheet export -id GOOGLE_SPREADSHEET_ID -range RANGE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github content get -owner OWNER -repository REPOSITORY -path PATH
+$HOME/Desktop/tbx google sheets sheet export -id GOOGLE_SPREADSHEET_ID -range RANGE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,13 +77,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                | デフォルト |
-|---------------|---------------------|------------|
-| `-owner`      | レポジトリの所有者  |            |
-| `-path`       | コンテンツへのパス. |            |
-| `-peer`       | アカウントの別名    | default    |
-| `-ref`        | リファレンス名      |            |
-| `-repository` | レポジトリ名        |            |
+| オプション          | 説明                                                                                                                                                                                                                                                                                                                                            | デフォルト |
+|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-data`             | エクスポート先のパス.                                                                                                                                                                                                                                                                                                                           |            |
+| `-data-format`      | 出力フォーマット                                                                                                                                                                                                                                                                                                                                |            |
+| `-date-time-render` | 日付、時間、および期間を出力でどのように表現すべきか.                                                                                                                                                                                                                                                                                           | serial     |
+| `-id`               | スプレッドシートID                                                                                                                                                                                                                                                                                                                              |            |
+| `-peer`             | アカウントの別名                                                                                                                                                                                                                                                                                                                                | default    |
+| `-range`            | 値がカバーする範囲をA1表記で表します. これは、Sheet1!A1:B2のような文字列で、スプレッドシート内のセルのグループを参照するもので、一般的には数式の中で使用されます. `Sheet1!A1:B2` は、Sheet1の上2行の最初の2つのセルを指します. `A1:B2` は、最初に見えるシートの上2行の最初の2つのセルを指します. `Sheet1` は Sheet1 のすべてのセルを参照します. |            |
+| `-value-render`     | 値を出力でどのように表現すべきか.                                                                                                                                                                                                                                                                                                               | formatted  |
 
 ## 共通のオプション:
 
@@ -108,33 +110,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
 
-# 実行結果
+# コマンドのグリッドデータ出力
 
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+## グリッドデータの出力: Data
 
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: content
-
-コンテンツのメタデータ
-このコマンドはレポートを3種類の書式で出力します. `content.csv`, `content.json`, ならびに `content.xlsx`.
-
-| 列     | 説明                     |
-|--------|--------------------------|
-| type   | コンテンツ種別           |
-| name   | 名称                     |
-| path   | パス                     |
-| sha    | SHA1                     |
-| size   | サイズ                   |
-| target | シンボリックリンクの宛先 |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `content_0000.xlsx`, `content_0001.xlsx`, `content_0002.xlsx`, ...
+書き出したシートデータ
 
 # ネットワークプロクシの設定
 

@@ -23,16 +23,16 @@ You can delete those files after use if you want to remove it. If you want to ma
 
 Please see below help article for more detail:
 * Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| Dropbox: View basic information about your Dropbox account such as your username, email, and country    |
-| Dropbox: View content of your Dropbox files and folders                                                 |
-| Dropbox Business: View your team membership                                                             |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description                                                                                              |
+|----------------------------------------------------------------------------------------------------------|
+| Dropbox: View basic information about your Dropbox account such as your username, email, and country     |
+| Dropbox: View content of your Dropbox files and folders                                                  |
+| Dropbox for teams: View your team membership                                                             |
+| Dropbox for teams: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

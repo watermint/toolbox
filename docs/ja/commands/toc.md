@@ -8,75 +8,75 @@ lang: ja
 
 ## Dropbox (個人アカウント)
 
-| コマンド                                                                                                 | 説明                                                                      |
-|----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [file compare account]({{ site.baseurl }}/ja/commands/file-compare-account.html)                         | 二つのアカウントのファイルを比較します                                    |
-| [file compare local]({{ site.baseurl }}/ja/commands/file-compare-local.html)                             | ローカルフォルダとDropboxフォルダの内容を比較します                       |
-| [file copy]({{ site.baseurl }}/ja/commands/file-copy.html)                                               | ファイルをコピーします                                                    |
-| [file delete]({{ site.baseurl }}/ja/commands/file-delete.html)                                           | ファイルまたはフォルダは削除します.                                       |
-| [file export doc]({{ site.baseurl }}/ja/commands/file-export-doc.html)                                   | ドキュメントのエクスポート                                                |
-| [file export url]({{ site.baseurl }}/ja/commands/file-export-url.html)                                   | URLからドキュメントをエクスポート                                         |
-| [file import batch url]({{ site.baseurl }}/ja/commands/file-import-batch-url.html)                       | URLからファイルを一括インポートします                                     |
-| [file import url]({{ site.baseurl }}/ja/commands/file-import-url.html)                                   | URLからファイルをインポートします                                         |
-| [file info]({{ site.baseurl }}/ja/commands/file-info.html)                                               | パスのメタデータを解決                                                    |
-| [file list]({{ site.baseurl }}/ja/commands/file-list.html)                                               | ファイルとフォルダを一覧します                                            |
-| [file lock acquire]({{ site.baseurl }}/ja/commands/file-lock-acquire.html)                               | ファイルをロック                                                          |
-| [file lock all release]({{ site.baseurl }}/ja/commands/file-lock-all-release.html)                       | 指定したパスでのすべてのロックを解除する                                  |
-| [file lock batch acquire]({{ site.baseurl }}/ja/commands/file-lock-batch-acquire.html)                   | 複数のファイルをロックする                                                |
-| [file lock batch release]({{ site.baseurl }}/ja/commands/file-lock-batch-release.html)                   | 複数のロックを解除                                                        |
-| [file lock list]({{ site.baseurl }}/ja/commands/file-lock-list.html)                                     | 指定したパスの下にあるロックを一覧表示します                              |
-| [file lock release]({{ site.baseurl }}/ja/commands/file-lock-release.html)                               | ロックを解除します                                                        |
-| [file merge]({{ site.baseurl }}/ja/commands/file-merge.html)                                             | フォルダを統合します                                                      |
-| [file move]({{ site.baseurl }}/ja/commands/file-move.html)                                               | ファイルを移動します                                                      |
-| [file paper append]({{ site.baseurl }}/ja/commands/file-paper-append.html)                               | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
-| [file paper create]({{ site.baseurl }}/ja/commands/file-paper-create.html)                               | パスに新しいPaperを作成                                                   |
-| [file paper overwrite]({{ site.baseurl }}/ja/commands/file-paper-overwrite.html)                         | 既存のPaperドキュメントを上書きする                                       |
-| [file paper prepend]({{ site.baseurl }}/ja/commands/file-paper-prepend.html)                             | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [file replication]({{ site.baseurl }}/ja/commands/file-replication.html)                                 | ファイルコンテンツを他のアカウントに複製します                            |
-| [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                                 | 指定されたパス以下をリストアします                                        |
-| [file revision download]({{ site.baseurl }}/ja/commands/file-revision-download.html)                     | ファイルリビジョンをダウンロードする                                      |
-| [file revision list]({{ site.baseurl }}/ja/commands/file-revision-list.html)                             | ファイルリビジョン一覧                                                    |
-| [file revision restore]({{ site.baseurl }}/ja/commands/file-revision-restore.html)                       | ファイルリビジョンを復元する                                              |
-| [file search content]({{ site.baseurl }}/ja/commands/file-search-content.html)                           | ファイルコンテンツを検索                                                  |
-| [file search name]({{ site.baseurl }}/ja/commands/file-search-name.html)                                 | ファイル名を検索                                                          |
-| [file share info]({{ site.baseurl }}/ja/commands/file-share-info.html)                                   | ファイルの共有情報を取得する                                              |
-| [file size]({{ site.baseurl }}/ja/commands/file-size.html)                                               | ストレージの利用量                                                        |
-| [file sync down]({{ site.baseurl }}/ja/commands/file-sync-down.html)                                     | Dropboxと下り方向で同期します                                             |
-| [file sync online]({{ site.baseurl }}/ja/commands/file-sync-online.html)                                 | オンラインファイルを同期します                                            |
-| [file sync up]({{ site.baseurl }}/ja/commands/file-sync-up.html)                                         | Dropboxと上り方向で同期します                                             |
-| [file tag add]({{ site.baseurl }}/ja/commands/file-tag-add.html)                                         | ファイル/フォルダーにタグを追加する                                       |
-| [file tag delete]({{ site.baseurl }}/ja/commands/file-tag-delete.html)                                   | ファイル/フォルダーからタグを削除する                                     |
-| [file tag list]({{ site.baseurl }}/ja/commands/file-tag-list.html)                                       | パスのタグを一覧                                                          |
-| [file template apply remote]({{ site.baseurl }}/ja/commands/file-template-apply-remote.html)             | Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する            |
-| [file template capture remote]({{ site.baseurl }}/ja/commands/file-template-capture-remote.html)         | Dropboxのパスからファイル/フォルダ構造をテンプレートとして取り込む。      |
-| [file watch]({{ site.baseurl }}/ja/commands/file-watch.html)                                             | ファイルアクティビティを監視                                              |
-| [filerequest create]({{ site.baseurl }}/ja/commands/filerequest-create.html)                             | ファイルリクエストを作成します                                            |
-| [filerequest delete closed]({{ site.baseurl }}/ja/commands/filerequest-delete-closed.html)               | このアカウントの全ての閉じられているファイルリクエストを削除します        |
-| [filerequest delete url]({{ site.baseurl }}/ja/commands/filerequest-delete-url.html)                     | ファイルリクエストのURLを指定して削除                                     |
-| [filerequest list]({{ site.baseurl }}/ja/commands/filerequest-list.html)                                 | 個人アカウントのファイルリクエストを一覧.                                 |
-| [log job ship]({{ site.baseurl }}/ja/commands/log-job-ship.html)                                         | ログの転送先Dropboxパス                                                   |
-| [services dropbox user feature]({{ site.baseurl }}/ja/commands/services-dropbox-user-feature.html)       | 現在のユーザーの機能設定の一覧                                            |
-| [services dropbox user filesystem]({{ site.baseurl }}/ja/commands/services-dropbox-user-filesystem.html) | ユーザーのチームのファイルシステムのバージョンを特定する                  |
-| [services dropbox user info]({{ site.baseurl }}/ja/commands/services-dropbox-user-info.html)             | 現在のアカウント情報を取得する                                            |
-| [sharedfolder leave]({{ site.baseurl }}/ja/commands/sharedfolder-leave.html)                             | 共有フォルダーから退出する.                                               |
-| [sharedfolder list]({{ site.baseurl }}/ja/commands/sharedfolder-list.html)                               | 共有フォルダの一覧                                                        |
-| [sharedfolder member add]({{ site.baseurl }}/ja/commands/sharedfolder-member-add.html)                   | 共有フォルダへのメンバーの追加                                            |
-| [sharedfolder member delete]({{ site.baseurl }}/ja/commands/sharedfolder-member-delete.html)             | 共有フォルダからメンバーを削除する                                        |
-| [sharedfolder member list]({{ site.baseurl }}/ja/commands/sharedfolder-member-list.html)                 | 共有フォルダのメンバーを一覧します                                        |
-| [sharedfolder mount add]({{ site.baseurl }}/ja/commands/sharedfolder-mount-add.html)                     | 共有フォルダを現在のユーザーのDropboxに追加する                           |
-| [sharedfolder mount delete]({{ site.baseurl }}/ja/commands/sharedfolder-mount-delete.html)               | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
-| [sharedfolder mount list]({{ site.baseurl }}/ja/commands/sharedfolder-mount-list.html)                   | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
-| [sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/sharedfolder-mount-mountable.html)         | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
-| [sharedfolder share]({{ site.baseurl }}/ja/commands/sharedfolder-share.html)                             | フォルダの共有                                                            |
-| [sharedfolder unshare]({{ site.baseurl }}/ja/commands/sharedfolder-unshare.html)                         | フォルダの共有解除                                                        |
-| [sharedlink create]({{ site.baseurl }}/ja/commands/sharedlink-create.html)                               | 共有リンクの作成                                                          |
-| [sharedlink delete]({{ site.baseurl }}/ja/commands/sharedlink-delete.html)                               | 共有リンクを削除します                                                    |
-| [sharedlink file list]({{ site.baseurl }}/ja/commands/sharedlink-file-list.html)                         | 共有リンクのファイルを一覧する                                            |
-| [sharedlink info]({{ site.baseurl }}/ja/commands/sharedlink-info.html)                                   | 共有リンクの情報取得                                                      |
-| [sharedlink list]({{ site.baseurl }}/ja/commands/sharedlink-list.html)                                   | 共有リンクの一覧                                                          |
-| [teamspace file list]({{ site.baseurl }}/ja/commands/teamspace-file-list.html)                           | チームスペースにあるファイルやフォルダーを一覧表示                        |
-| [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                           | デバイスモニタークライアントを起動する                                    |
-| [util tidy pack remote]({{ site.baseurl }}/ja/commands/util-tidy-pack-remote.html)                       | リモートフォルダをZIPファイルにパッケージする                             |
+| コマンド                                                                                               | 説明                                                                      |
+|--------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [dropbox file account feature]({{ site.baseurl }}/ja/commands/dropbox-file-account-feature.html)       | Dropboxアカウントの機能一覧                                               |
+| [dropbox file account filesystem]({{ site.baseurl }}/ja/commands/dropbox-file-account-filesystem.html) | Dropboxのファイルシステムのバージョンを表示する                           |
+| [dropbox file account info]({{ site.baseurl }}/ja/commands/dropbox-file-account-info.html)             | Dropboxアカウント情報                                                     |
+| [file compare account]({{ site.baseurl }}/ja/commands/file-compare-account.html)                       | 二つのアカウントのファイルを比較します                                    |
+| [file compare local]({{ site.baseurl }}/ja/commands/file-compare-local.html)                           | ローカルフォルダとDropboxフォルダの内容を比較します                       |
+| [file copy]({{ site.baseurl }}/ja/commands/file-copy.html)                                             | ファイルをコピーします                                                    |
+| [file delete]({{ site.baseurl }}/ja/commands/file-delete.html)                                         | ファイルまたはフォルダは削除します.                                       |
+| [file export doc]({{ site.baseurl }}/ja/commands/file-export-doc.html)                                 | ドキュメントのエクスポート                                                |
+| [file export url]({{ site.baseurl }}/ja/commands/file-export-url.html)                                 | URLからドキュメントをエクスポート                                         |
+| [file import batch url]({{ site.baseurl }}/ja/commands/file-import-batch-url.html)                     | URLからファイルを一括インポートします                                     |
+| [file import url]({{ site.baseurl }}/ja/commands/file-import-url.html)                                 | URLからファイルをインポートします                                         |
+| [file info]({{ site.baseurl }}/ja/commands/file-info.html)                                             | パスのメタデータを解決                                                    |
+| [file list]({{ site.baseurl }}/ja/commands/file-list.html)                                             | ファイルとフォルダを一覧します                                            |
+| [file lock acquire]({{ site.baseurl }}/ja/commands/file-lock-acquire.html)                             | ファイルをロック                                                          |
+| [file lock all release]({{ site.baseurl }}/ja/commands/file-lock-all-release.html)                     | 指定したパスでのすべてのロックを解除する                                  |
+| [file lock batch acquire]({{ site.baseurl }}/ja/commands/file-lock-batch-acquire.html)                 | 複数のファイルをロックする                                                |
+| [file lock batch release]({{ site.baseurl }}/ja/commands/file-lock-batch-release.html)                 | 複数のロックを解除                                                        |
+| [file lock list]({{ site.baseurl }}/ja/commands/file-lock-list.html)                                   | 指定したパスの下にあるロックを一覧表示します                              |
+| [file lock release]({{ site.baseurl }}/ja/commands/file-lock-release.html)                             | ロックを解除します                                                        |
+| [file merge]({{ site.baseurl }}/ja/commands/file-merge.html)                                           | フォルダを統合します                                                      |
+| [file move]({{ site.baseurl }}/ja/commands/file-move.html)                                             | ファイルを移動します                                                      |
+| [file paper append]({{ site.baseurl }}/ja/commands/file-paper-append.html)                             | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
+| [file paper create]({{ site.baseurl }}/ja/commands/file-paper-create.html)                             | パスに新しいPaperを作成                                                   |
+| [file paper overwrite]({{ site.baseurl }}/ja/commands/file-paper-overwrite.html)                       | 既存のPaperドキュメントを上書きする                                       |
+| [file paper prepend]({{ site.baseurl }}/ja/commands/file-paper-prepend.html)                           | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
+| [file replication]({{ site.baseurl }}/ja/commands/file-replication.html)                               | ファイルコンテンツを他のアカウントに複製します                            |
+| [file restore all]({{ site.baseurl }}/ja/commands/file-restore-all.html)                               | 指定されたパス以下をリストアします                                        |
+| [file revision download]({{ site.baseurl }}/ja/commands/file-revision-download.html)                   | ファイルリビジョンをダウンロードする                                      |
+| [file revision list]({{ site.baseurl }}/ja/commands/file-revision-list.html)                           | ファイルリビジョン一覧                                                    |
+| [file revision restore]({{ site.baseurl }}/ja/commands/file-revision-restore.html)                     | ファイルリビジョンを復元する                                              |
+| [file search content]({{ site.baseurl }}/ja/commands/file-search-content.html)                         | ファイルコンテンツを検索                                                  |
+| [file search name]({{ site.baseurl }}/ja/commands/file-search-name.html)                               | ファイル名を検索                                                          |
+| [file share info]({{ site.baseurl }}/ja/commands/file-share-info.html)                                 | ファイルの共有情報を取得する                                              |
+| [file size]({{ site.baseurl }}/ja/commands/file-size.html)                                             | ストレージの利用量                                                        |
+| [file sync down]({{ site.baseurl }}/ja/commands/file-sync-down.html)                                   | Dropboxと下り方向で同期します                                             |
+| [file sync online]({{ site.baseurl }}/ja/commands/file-sync-online.html)                               | オンラインファイルを同期します                                            |
+| [file sync up]({{ site.baseurl }}/ja/commands/file-sync-up.html)                                       | Dropboxと上り方向で同期します                                             |
+| [file tag add]({{ site.baseurl }}/ja/commands/file-tag-add.html)                                       | ファイル/フォルダーにタグを追加する                                       |
+| [file tag delete]({{ site.baseurl }}/ja/commands/file-tag-delete.html)                                 | ファイル/フォルダーからタグを削除する                                     |
+| [file tag list]({{ site.baseurl }}/ja/commands/file-tag-list.html)                                     | パスのタグを一覧                                                          |
+| [file template apply remote]({{ site.baseurl }}/ja/commands/file-template-apply-remote.html)           | Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する            |
+| [file template capture remote]({{ site.baseurl }}/ja/commands/file-template-capture-remote.html)       | Dropboxのパスからファイル/フォルダ構造をテンプレートとして取り込む。      |
+| [file watch]({{ site.baseurl }}/ja/commands/file-watch.html)                                           | ファイルアクティビティを監視                                              |
+| [filerequest create]({{ site.baseurl }}/ja/commands/filerequest-create.html)                           | ファイルリクエストを作成します                                            |
+| [filerequest delete closed]({{ site.baseurl }}/ja/commands/filerequest-delete-closed.html)             | このアカウントの全ての閉じられているファイルリクエストを削除します        |
+| [filerequest delete url]({{ site.baseurl }}/ja/commands/filerequest-delete-url.html)                   | ファイルリクエストのURLを指定して削除                                     |
+| [filerequest list]({{ site.baseurl }}/ja/commands/filerequest-list.html)                               | 個人アカウントのファイルリクエストを一覧.                                 |
+| [log job ship]({{ site.baseurl }}/ja/commands/log-job-ship.html)                                       | ログの転送先Dropboxパス                                                   |
+| [sharedfolder leave]({{ site.baseurl }}/ja/commands/sharedfolder-leave.html)                           | 共有フォルダーから退出する.                                               |
+| [sharedfolder list]({{ site.baseurl }}/ja/commands/sharedfolder-list.html)                             | 共有フォルダの一覧                                                        |
+| [sharedfolder member add]({{ site.baseurl }}/ja/commands/sharedfolder-member-add.html)                 | 共有フォルダへのメンバーの追加                                            |
+| [sharedfolder member delete]({{ site.baseurl }}/ja/commands/sharedfolder-member-delete.html)           | 共有フォルダからメンバーを削除する                                        |
+| [sharedfolder member list]({{ site.baseurl }}/ja/commands/sharedfolder-member-list.html)               | 共有フォルダのメンバーを一覧します                                        |
+| [sharedfolder mount add]({{ site.baseurl }}/ja/commands/sharedfolder-mount-add.html)                   | 共有フォルダを現在のユーザーのDropboxに追加する                           |
+| [sharedfolder mount delete]({{ site.baseurl }}/ja/commands/sharedfolder-mount-delete.html)             | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
+| [sharedfolder mount list]({{ site.baseurl }}/ja/commands/sharedfolder-mount-list.html)                 | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
+| [sharedfolder mount mountable]({{ site.baseurl }}/ja/commands/sharedfolder-mount-mountable.html)       | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
+| [sharedfolder share]({{ site.baseurl }}/ja/commands/sharedfolder-share.html)                           | フォルダの共有                                                            |
+| [sharedfolder unshare]({{ site.baseurl }}/ja/commands/sharedfolder-unshare.html)                       | フォルダの共有解除                                                        |
+| [sharedlink create]({{ site.baseurl }}/ja/commands/sharedlink-create.html)                             | 共有リンクの作成                                                          |
+| [sharedlink delete]({{ site.baseurl }}/ja/commands/sharedlink-delete.html)                             | 共有リンクを削除します                                                    |
+| [sharedlink file list]({{ site.baseurl }}/ja/commands/sharedlink-file-list.html)                       | 共有リンクのファイルを一覧する                                            |
+| [sharedlink info]({{ site.baseurl }}/ja/commands/sharedlink-info.html)                                 | 共有リンクの情報取得                                                      |
+| [sharedlink list]({{ site.baseurl }}/ja/commands/sharedlink-list.html)                                 | 共有リンクの一覧                                                          |
+| [teamspace file list]({{ site.baseurl }}/ja/commands/teamspace-file-list.html)                         | チームスペースにあるファイルやフォルダーを一覧表示                        |
+| [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                         | デバイスモニタークライアントを起動する                                    |
+| [util tidy pack remote]({{ site.baseurl }}/ja/commands/util-tidy-pack-remote.html)                     | リモートフォルダをZIPファイルにパッケージする                             |
 
 ## チーム向けDropbox
 
@@ -101,7 +101,7 @@ lang: ja
 | [member batch unsuspend]({{ site.baseurl }}/ja/commands/member-batch-unsuspend.html)                                           | メンバーの一括停止解除                                                                  |
 | [member clear externalid]({{ site.baseurl }}/ja/commands/member-clear-externalid.html)                                         | メンバーのexternal_idを初期化します                                                     |
 | [member delete]({{ site.baseurl }}/ja/commands/member-delete.html)                                                             | メンバーを削除します                                                                    |
-| [member detach]({{ site.baseurl }}/ja/commands/member-detach.html)                                                             | Dropbox BusinessユーザーをBasicユーザーに変更します                                     |
+| [member detach]({{ site.baseurl }}/ja/commands/member-detach.html)                                                             | Dropbox for teamsのアカウントをBasicアカウントに変更する                                |
 | [member feature]({{ site.baseurl }}/ja/commands/member-feature.html)                                                           | メンバーの機能設定一覧                                                                  |
 | [member file lock all release]({{ site.baseurl }}/ja/commands/member-file-lock-all-release.html)                               | メンバーのパスの下にあるすべてのロックを解除します                                      |
 | [member file lock list]({{ site.baseurl }}/ja/commands/member-file-lock-list.html)                                             | パスの下にあるメンバーのロックを一覧表示                                                |
@@ -210,78 +210,78 @@ lang: ja
 
 ## DeepL
 
-| コマンド                                                                                           | 説明               |
-|----------------------------------------------------------------------------------------------------|--------------------|
-| [services deepl translate text]({{ site.baseurl }}/ja/commands/services-deepl-translate-text.html) | テキストを翻訳する |
+| コマンド                                                                         | 説明               |
+|----------------------------------------------------------------------------------|--------------------|
+| [deepl translate text]({{ site.baseurl }}/ja/commands/deepl-translate-text.html) | テキストを翻訳する |
 
 ## Figma
 
-| コマンド                                                                                                       | 説明                                                  |
-|----------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| [services figma account info]({{ site.baseurl }}/ja/commands/services-figma-account-info.html)                 | 現在のユーザー情報を取得する                          |
-| [services figma file export all page]({{ site.baseurl }}/ja/commands/services-figma-file-export-all-page.html) | チーム配下のすべてのファイル/ページをエクスポートする |
-| [services figma file export frame]({{ site.baseurl }}/ja/commands/services-figma-file-export-frame.html)       | Figmaファイルの全フレームを書き出す                   |
-| [services figma file export node]({{ site.baseurl }}/ja/commands/services-figma-file-export-node.html)         | Figmaドキュメント・ノードの書き出し                   |
-| [services figma file export page]({{ site.baseurl }}/ja/commands/services-figma-file-export-page.html)         | Figmaファイルの全ページを書き出す                     |
-| [services figma file info]({{ site.baseurl }}/ja/commands/services-figma-file-info.html)                       | figmaファイルの情報を表示する                         |
-| [services figma file list]({{ site.baseurl }}/ja/commands/services-figma-file-list.html)                       | Figmaプロジェクト内のファイル一覧                     |
-| [services figma project list]({{ site.baseurl }}/ja/commands/services-figma-project-list.html)                 | チームのプロジェクト一覧                              |
+| コマンド                                                                                     | 説明                                                  |
+|----------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| [figma account info]({{ site.baseurl }}/ja/commands/figma-account-info.html)                 | 現在のユーザー情報を取得する                          |
+| [figma file export all page]({{ site.baseurl }}/ja/commands/figma-file-export-all-page.html) | チーム配下のすべてのファイル/ページをエクスポートする |
+| [figma file export frame]({{ site.baseurl }}/ja/commands/figma-file-export-frame.html)       | Figmaファイルの全フレームを書き出す                   |
+| [figma file export node]({{ site.baseurl }}/ja/commands/figma-file-export-node.html)         | Figmaドキュメント・ノードの書き出し                   |
+| [figma file export page]({{ site.baseurl }}/ja/commands/figma-file-export-page.html)         | Figmaファイルの全ページを書き出す                     |
+| [figma file info]({{ site.baseurl }}/ja/commands/figma-file-info.html)                       | figmaファイルの情報を表示する                         |
+| [figma file list]({{ site.baseurl }}/ja/commands/figma-file-list.html)                       | Figmaプロジェクト内のファイル一覧                     |
+| [figma project list]({{ site.baseurl }}/ja/commands/figma-project-list.html)                 | チームのプロジェクト一覧                              |
 
 ## GitHub
 
-| コマンド                                                                                                             | 説明                                                          |
-|----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [services github content get]({{ site.baseurl }}/ja/commands/services-github-content-get.html)                       | レポジトリのコンテンツメタデータを取得します.                 |
-| [services github content put]({{ site.baseurl }}/ja/commands/services-github-content-put.html)                       | レポジトリに小さなテキストコンテンツを格納します              |
-| [services github issue list]({{ site.baseurl }}/ja/commands/services-github-issue-list.html)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |
-| [services github profile]({{ site.baseurl }}/ja/commands/services-github-profile.html)                               | 認証したユーザーの情報を取得                                  |
-| [services github release asset download]({{ site.baseurl }}/ja/commands/services-github-release-asset-download.html) | アセットをダウンロードします                                  |
-| [services github release asset list]({{ site.baseurl }}/ja/commands/services-github-release-asset-list.html)         | GitHubリリースの成果物一覧                                    |
-| [services github release asset upload]({{ site.baseurl }}/ja/commands/services-github-release-asset-upload.html)     | GitHub リリースへ成果物をアップロードします                   |
-| [services github release draft]({{ site.baseurl }}/ja/commands/services-github-release-draft.html)                   | リリースの下書きを作成                                        |
-| [services github release list]({{ site.baseurl }}/ja/commands/services-github-release-list.html)                     | リリースの一覧                                                |
-| [services github tag create]({{ site.baseurl }}/ja/commands/services-github-tag-create.html)                         | レポジトリにタグを作成します                                  |
-| [util release install]({{ site.baseurl }}/ja/commands/util-release-install.html)                                     | watermint toolboxをダウンロードし、パスにインストールします。 |
+| コマンド                                                                                           | 説明                                                          |
+|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [github content get]({{ site.baseurl }}/ja/commands/github-content-get.html)                       | レポジトリのコンテンツメタデータを取得します.                 |
+| [github content put]({{ site.baseurl }}/ja/commands/github-content-put.html)                       | レポジトリに小さなテキストコンテンツを格納します              |
+| [github issue list]({{ site.baseurl }}/ja/commands/github-issue-list.html)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |
+| [github profile]({{ site.baseurl }}/ja/commands/github-profile.html)                               | 認証したユーザーの情報を取得                                  |
+| [github release asset download]({{ site.baseurl }}/ja/commands/github-release-asset-download.html) | アセットをダウンロードします                                  |
+| [github release asset list]({{ site.baseurl }}/ja/commands/github-release-asset-list.html)         | GitHubリリースの成果物一覧                                    |
+| [github release asset upload]({{ site.baseurl }}/ja/commands/github-release-asset-upload.html)     | GitHub リリースへ成果物をアップロードします                   |
+| [github release draft]({{ site.baseurl }}/ja/commands/github-release-draft.html)                   | リリースの下書きを作成                                        |
+| [github release list]({{ site.baseurl }}/ja/commands/github-release-list.html)                     | リリースの一覧                                                |
+| [github tag create]({{ site.baseurl }}/ja/commands/github-tag-create.html)                         | レポジトリにタグを作成します                                  |
+| [util release install]({{ site.baseurl }}/ja/commands/util-release-install.html)                   | watermint toolboxをダウンロードし、パスにインストールします。 |
 
 ## Google Calendar
 
-| コマンド                                                                                                       | 説明                                 |
-|----------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [services google calendar event list]({{ site.baseurl }}/ja/commands/services-google-calendar-event-list.html) | Googleカレンダーのイベントを一覧表示 |
+| コマンド                                                                                     | 説明                                 |
+|----------------------------------------------------------------------------------------------|--------------------------------------|
+| [google calendar event list]({{ site.baseurl }}/ja/commands/google-calendar-event-list.html) | Googleカレンダーのイベントを一覧表示 |
 
 ## Google Gmail
 
-| コマンド                                                                                                                       | 説明                                               |
-|--------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| [services google mail filter add]({{ site.baseurl }}/ja/commands/services-google-mail-filter-add.html)                         | フィルターを追加します.                            |
-| [services google mail filter batch add]({{ site.baseurl }}/ja/commands/services-google-mail-filter-batch-add.html)             | クエリによるラベルの一括追加・削除                 |
-| [services google mail filter delete]({{ site.baseurl }}/ja/commands/services-google-mail-filter-delete.html)                   | フィルタの削除                                     |
-| [services google mail filter list]({{ site.baseurl }}/ja/commands/services-google-mail-filter-list.html)                       | フィルターの一覧                                   |
-| [services google mail label add]({{ site.baseurl }}/ja/commands/services-google-mail-label-add.html)                           | ラベルの追加                                       |
-| [services google mail label delete]({{ site.baseurl }}/ja/commands/services-google-mail-label-delete.html)                     | ラベルの削除.                                      |
-| [services google mail label list]({{ site.baseurl }}/ja/commands/services-google-mail-label-list.html)                         | ラベルのリスト                                     |
-| [services google mail label rename]({{ site.baseurl }}/ja/commands/services-google-mail-label-rename.html)                     | ラベルの名前を変更する                             |
-| [services google mail message label add]({{ site.baseurl }}/ja/commands/services-google-mail-message-label-add.html)           | メッセージにラベルを追加                           |
-| [services google mail message label delete]({{ site.baseurl }}/ja/commands/services-google-mail-message-label-delete.html)     | メッセージからラベルを削除する                     |
-| [services google mail message list]({{ site.baseurl }}/ja/commands/services-google-mail-message-list.html)                     | メッセージの一覧                                   |
-| [services google mail message processed list]({{ site.baseurl }}/ja/commands/services-google-mail-message-processed-list.html) | 処理された形式でメッセージを一覧表示します.        |
-| [services google mail sendas add]({{ site.baseurl }}/ja/commands/services-google-mail-sendas-add.html)                         | カスタムの "from" send-asエイリアスの作成          |
-| [services google mail sendas delete]({{ site.baseurl }}/ja/commands/services-google-mail-sendas-delete.html)                   | 指定したsend-asエイリアスを削除する                |
-| [services google mail sendas list]({{ site.baseurl }}/ja/commands/services-google-mail-sendas-list.html)                       | 指定されたアカウントの送信エイリアスを一覧表示する |
-| [services google mail thread list]({{ site.baseurl }}/ja/commands/services-google-mail-thread-list.html)                       | スレッド一覧                                       |
+| コマンド                                                                                                     | 説明                                               |
+|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
+| [google mail filter add]({{ site.baseurl }}/ja/commands/google-mail-filter-add.html)                         | フィルターを追加します.                            |
+| [google mail filter batch add]({{ site.baseurl }}/ja/commands/google-mail-filter-batch-add.html)             | クエリによるラベルの一括追加・削除                 |
+| [google mail filter delete]({{ site.baseurl }}/ja/commands/google-mail-filter-delete.html)                   | フィルタの削除                                     |
+| [google mail filter list]({{ site.baseurl }}/ja/commands/google-mail-filter-list.html)                       | フィルターの一覧                                   |
+| [google mail label add]({{ site.baseurl }}/ja/commands/google-mail-label-add.html)                           | ラベルの追加                                       |
+| [google mail label delete]({{ site.baseurl }}/ja/commands/google-mail-label-delete.html)                     | ラベルの削除.                                      |
+| [google mail label list]({{ site.baseurl }}/ja/commands/google-mail-label-list.html)                         | ラベルのリスト                                     |
+| [google mail label rename]({{ site.baseurl }}/ja/commands/google-mail-label-rename.html)                     | ラベルの名前を変更する                             |
+| [google mail message label add]({{ site.baseurl }}/ja/commands/google-mail-message-label-add.html)           | メッセージにラベルを追加                           |
+| [google mail message label delete]({{ site.baseurl }}/ja/commands/google-mail-message-label-delete.html)     | メッセージからラベルを削除する                     |
+| [google mail message list]({{ site.baseurl }}/ja/commands/google-mail-message-list.html)                     | メッセージの一覧                                   |
+| [google mail message processed list]({{ site.baseurl }}/ja/commands/google-mail-message-processed-list.html) | 処理された形式でメッセージを一覧表示します.        |
+| [google mail sendas add]({{ site.baseurl }}/ja/commands/google-mail-sendas-add.html)                         | カスタムの "from" send-asエイリアスの作成          |
+| [google mail sendas delete]({{ site.baseurl }}/ja/commands/google-mail-sendas-delete.html)                   | 指定したsend-asエイリアスを削除する                |
+| [google mail sendas list]({{ site.baseurl }}/ja/commands/google-mail-sendas-list.html)                       | 指定されたアカウントの送信エイリアスを一覧表示する |
+| [google mail thread list]({{ site.baseurl }}/ja/commands/google-mail-thread-list.html)                       | スレッド一覧                                       |
 
 ## Google Sheets
 
-| コマンド                                                                                                                   | 説明                                 |
-|----------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [services google sheets sheet append]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-append.html)             | スプレッドシートにデータを追加する   |
-| [services google sheets sheet clear]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-clear.html)               | スプレッドシートから値をクリアする   |
-| [services google sheets sheet create]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-create.html)             | 新規シートの作成                     |
-| [services google sheets sheet delete]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-delete.html)             | スプレッドシートからシートを削除する |
-| [services google sheets sheet export]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-export.html)             | シートデータのエクスポート           |
-| [services google sheets sheet import]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-import.html)             | スプレッドシートにデータをインポート |
-| [services google sheets sheet list]({{ site.baseurl }}/ja/commands/services-google-sheets-sheet-list.html)                 | スプレッドシートのシート一覧         |
-| [services google sheets spreadsheet create]({{ site.baseurl }}/ja/commands/services-google-sheets-spreadsheet-create.html) | 新しいスプレッドシートの作成         |
+| コマンド                                                                                                 | 説明                                 |
+|----------------------------------------------------------------------------------------------------------|--------------------------------------|
+| [google sheets sheet append]({{ site.baseurl }}/ja/commands/google-sheets-sheet-append.html)             | スプレッドシートにデータを追加する   |
+| [google sheets sheet clear]({{ site.baseurl }}/ja/commands/google-sheets-sheet-clear.html)               | スプレッドシートから値をクリアする   |
+| [google sheets sheet create]({{ site.baseurl }}/ja/commands/google-sheets-sheet-create.html)             | 新規シートの作成                     |
+| [google sheets sheet delete]({{ site.baseurl }}/ja/commands/google-sheets-sheet-delete.html)             | スプレッドシートからシートを削除する |
+| [google sheets sheet export]({{ site.baseurl }}/ja/commands/google-sheets-sheet-export.html)             | シートデータのエクスポート           |
+| [google sheets sheet import]({{ site.baseurl }}/ja/commands/google-sheets-sheet-import.html)             | スプレッドシートにデータをインポート |
+| [google sheets sheet list]({{ site.baseurl }}/ja/commands/google-sheets-sheet-list.html)                 | スプレッドシートのシート一覧         |
+| [google sheets spreadsheet create]({{ site.baseurl }}/ja/commands/google-sheets-spreadsheet-create.html) | 新しいスプレッドシートの作成         |
 
 ## ユーティリティー
 

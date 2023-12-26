@@ -6,7 +6,7 @@ lang: en
 
 # member detach
 
-Convert Dropbox Business accounts to a Basic account (Irreversible operation)
+Convert Dropbox for teams accounts to a Basic account (Irreversible operation)
 
 # Security
 
@@ -22,15 +22,15 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| Dropbox Business: Remove and recover your team members' accounts                                        |
-| Dropbox Business: View and manage your team membership                                                  |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description                                                                                              |
+|----------------------------------------------------------------------------------------------------------|
+| Dropbox for teams: Remove and recover your team members' accounts                                        |
+| Dropbox for teams: View and manage your team membership                                                  |
+| Dropbox for teams: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

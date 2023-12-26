@@ -4,9 +4,11 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github tag create
+# figma file export all page
 
-レポジトリにタグを作成します (試験的実装かつ非可逆な操作です)
+チーム配下のすべてのファイル/ページをエクスポートする 
+
+このコマンドは、チーム以下のファイルの全ページをエクスポートします。ただし、エクスポート先に同じファイルが既に存在する場合、watermint toolboxはタイムスタンプを比較し、更新があった場合のみダウンロードを行います。また、ページにコンテンツがない場合は、処理をスキップします。
 
 # セキュリティ
 
@@ -22,17 +24,17 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Figma: https://help.figma.com/hc/
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                                        |
+|-------------------------------------------------------------|
+| Figma: Figmaのファイルに代理でアクセスすることを許可します. |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+最初の実行では、`tbx`はあなたのFigmaアカウントへの認可を要求します.
 Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
@@ -43,7 +45,7 @@ watermint toolbox xx.x.xxx
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://www.figma.com/oauth?client_id=xxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=file_read&state=xxxxxxxx
 
 ```
 
@@ -61,12 +63,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
+.\tbx.exe figma file export all page -path /LOCAL/PATH/TO/EXPORT -team-id TEAM_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github tag create -owner OWNER -repository REPO -sha1 SHA -tag TAG
+$HOME/Desktop/tbx figma file export all page -path /LOCAL/PATH/TO/EXPORT -team-id TEAM_ID
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,13 +79,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                   | デフォルト |
-|---------------|------------------------|------------|
-| `-owner`      | レポジトリの所有者     |            |
-| `-peer`       | アカウントの別名       | default    |
-| `-repository` | レポジトリ名           |            |
-| `-sha1`       | コミットのSHA1ハッシュ |            |
-| `-tag`        | タグ名                 |            |
+| オプション | 説明                                                                                                                                                                   | デフォルト |
+|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-format`  | 書き出し形式（png/jpg/svg/pdf)                                                                                                                                         | pdf        |
+| `-path`    | 出力フォルダーパス                                                                                                                                                     |            |
+| `-peer`    | アカウントの別名                                                                                                                                                       | default    |
+| `-scale`   | エクスポートスケールを1～400の範囲でパーセント表示（デフォルト100）                                                                                                    | 100        |
+| `-team-id` | チームID. チームIDを取得するには、自分が所属しているチームのチームページに移動してください. チームIDは、URLのteamという単語の後、チーム名の前に存在することになります. |            |
 
 ## 共通のオプション:
 
@@ -107,38 +109,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: created
-
-このレポートは処理結果を出力します.
-このコマンドはレポートを3種類の書式で出力します. `created.csv`, `created.json`, ならびに `created.xlsx`.
-
-| 列               | 説明                     |
-|------------------|--------------------------|
-| status           | 処理の状態               |
-| reason           | 失敗またはスキップの理由 |
-| input.owner      | レポジトリの所有者       |
-| input.repository | レポジトリ名             |
-| input.tag        | タグ名                   |
-| input.sha_1      | コミットのSHA1ハッシュ   |
-| result.tag       | タグ名                   |
-| result.sha       | コミットのSHA1ハッシュ   |
-| result.message   | コミットメッセージ       |
-| result.url       | タグのURL                |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

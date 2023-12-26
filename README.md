@@ -7,7 +7,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-The multi-purpose utility command-line tool for web services including Dropbox, Dropbox Business, Google, GitHub, etc.
+The multi-purpose utility command-line tool for web services including Dropbox, Dropbox for teams, Google, GitHub, etc.
 
 # Licensing & Disclaimers
 
@@ -37,7 +37,7 @@ brew install toolbox
 
 This product itself is experimental and is not subject to the maintained to keep quality of service. The project will try to fix critical bugs and security issues with the best effort. But that is also not guaranteed.
 
-The product will not release any patch release of a certain major releases. The product will apply fixes as next release.
+The product will not release any patch release of a certain major releases. The product will apply fixes as next release when those fixes accepted to do.
 
 ## Specification changes
 
@@ -50,7 +50,7 @@ The general policy is as follows.
 
 * Changes that do not break existing behavior, such as the addition of arguments or changes to messages, will be implemented without notice.
 * Commands that are considered infrequently used will be discontinued or moved without notice.
-* Other commands will be announced 30-180 days or more in advance.
+* Changes to other commands will be announced 30-180 days or more in advance.
 
 Changes in specifications will be announced at [Announcements](https://github.com/watermint/toolbox/discussions/categories/announcements). Please refer to [Specification Change](/guide/spec-changes.html) for a list of planned specification changes.
 
@@ -81,7 +81,7 @@ watermint toolbox xx.x.xxx
 © 2016-2023 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-Tools for Dropbox and Dropbox Business
+Tools for Dropbox and Dropbox for teams
 
 Usage:
 ======
@@ -111,7 +111,7 @@ Available commands:
 | sharedfolder | Shared folder                   |       |
 | sharedlink   | Shared Link of Personal account |       |
 | slack        | Slack commands                  |       |
-| team         | Dropbox Business Team           |       |
+| team         | Commands of Dropbox for teams   |       |
 | teamfolder   | Team folder management          |       |
 | teamspace    | Team space commands             |       |
 | util         | Utilities                       |       |
@@ -216,7 +216,7 @@ Available commands:
 | [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid](docs/commands/member-clear-externalid.md)                                         | Clear external_id of members                                                        |
 | [member delete](docs/commands/member-delete.md)                                                             | Delete members                                                                      |
-| [member detach](docs/commands/member-detach.md)                                                             | Convert Dropbox Business accounts to a Basic account                                |
+| [member detach](docs/commands/member-detach.md)                                                             | Convert Dropbox for teams accounts to a Basic account                               |
 | [member feature](docs/commands/member-feature.md)                                                           | List member feature settings                                                        |
 | [member file lock all release](docs/commands/member-file-lock-all-release.md)                               | Release all locks under the path of the member                                      |
 | [member file lock list](docs/commands/member-file-lock-list.md)                                             | List locks of the member under the path                                             |

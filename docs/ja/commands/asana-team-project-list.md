@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services github release list
+# asana team project list
 
-リリースの一覧 (試験的実装です)
+チームのプロジェクト一覧 
 
 # セキュリティ
 
@@ -22,17 +22,17 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Asana: https://asana.com/guide/help/fundamentals/settings#gl-apps
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                                                                                                                                                                              |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Asana: (1)名前とメールアドレスにアクセスします. (2) 自分のタスク、プロジェクト、ワークスペースにアクセスします. (3) あなたに代わってタスク、プロジェクト、コメントを作成、修正することができます. |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
+最初の実行では、`tbx`はあなたのAsana (非推奨[#647](https://github.com/watermint/toolbox/discussions/647)参照)アカウントへの認可を要求します.
 Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
 ```
 
@@ -43,7 +43,7 @@ watermint toolbox xx.x.xxx
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+https://app.asana.com/-/oauth_authorize?client_id=xxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=default&state=xxxxxxxx
 
 ```
 
@@ -61,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services github release list -owner OWNER -repository REPO
+.\tbx.exe asana team project list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services github release list -owner OWNER -repository REPO
+$HOME/Desktop/tbx asana team project list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,11 +77,15 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明               | デフォルト |
-|---------------|--------------------|------------|
-| `-owner`      | レポジトリの所有者 |            |
-| `-peer`       | アカウントの別名   | default    |
-| `-repository` | レポジトリ名       |            |
+| オプション               | 説明                                                             | デフォルト |
+|--------------------------|------------------------------------------------------------------|------------|
+| `-peer`                  | アカウントの別名                                                 | default    |
+| `-team-name`             | チーム名またはGID 名前による完全一致でフィルター.                |            |
+| `-team-name-prefix`      | チーム名またはGID 名前の前方一致によるフィルター.                |            |
+| `-team-name-suffix`      | チーム名またはGID 名前の後方一致によるフィルター.                |            |
+| `-workspace-name`        | ワークスペースの名前または GID。 名前による完全一致でフィルター. |            |
+| `-workspace-name-prefix` | ワークスペースの名前または GID。 名前の前方一致によるフィルター. |            |
+| `-workspace-name-suffix` | ワークスペースの名前または GID。 名前の後方一致によるフィルター. |            |
 
 ## 共通のオプション:
 
@@ -116,21 +120,20 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: releases
+## レポート: projects
 
-GitHub上のリリース
-このコマンドはレポートを3種類の書式で出力します. `releases.csv`, `releases.json`, ならびに `releases.xlsx`.
+プロジェクトは、Asanaで優先順位をつけたタスクのリストや、タスクの列をカードで表したボードを表します。
+このコマンドはレポートを3種類の書式で出力します. `projects.csv`, `projects.json`, ならびに `projects.xlsx`.
 
-| 列       | 説明                                |
-|----------|-------------------------------------|
-| tag_name | タグ名                              |
-| name     | リリース名称                        |
-| draft    | リリースが下書き中である場合はTrue. |
-| url      | リリースのURL                       |
+| 列            | 説明                                                     |
+|---------------|----------------------------------------------------------|
+| gid           | リソースのグローバルに一意な識別子を文字列で指定します。 |
+| resource_type | このリソースのベースタイプ。                             |
+| name          | プロジェクトの名前。                                     |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `releases_0000.xlsx`, `releases_0001.xlsx`, `releases_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `projects_0000.xlsx`, `projects_0001.xlsx`, `projects_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

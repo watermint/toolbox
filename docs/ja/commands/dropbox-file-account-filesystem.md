@@ -4,9 +4,9 @@ title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
-# services asana team list
+# dropbox file account filesystem
 
-チームのリスト 
+Dropboxのファイルシステムのバージョンを表示する 
 
 # セキュリティ
 
@@ -22,18 +22,18 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Asana: https://asana.com/guide/help/fundamentals/settings#gl-apps
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                              |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Asana: (1)名前とメールアドレスにアクセスします. (2) 自分のタスク、プロジェクト、ワークスペースにアクセスします. (3) あなたに代わってタスク、プロジェクト、コメントを作成、修正することができます. |
+| 説明                                                                                   |
+|----------------------------------------------------------------------------------------|
+| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのAsana (非推奨[#647](https://github.com/watermint/toolbox/discussions/647)参照)アカウントへの認可を要求します.
-Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
+リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -42,9 +42,13 @@ watermint toolbox xx.x.xxx
 © 2016-2023 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-認可URLを開きます:
-https://app.asana.com/-/oauth_authorize?client_id=xxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=default&state=xxxxxxxx
+1. 次のURLを開き認証ダイアログを開いてください:
 
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
 ```
 
 # インストール
@@ -61,12 +65,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe services asana team list 
+.\tbx.exe dropbox file account filesystem 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx services asana team list 
+$HOME/Desktop/tbx dropbox file account filesystem 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,12 +81,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション               | 説明                                                             | デフォルト |
-|--------------------------|------------------------------------------------------------------|------------|
-| `-peer`                  | アカウントの別名                                                 | default    |
-| `-workspace-name`        | ワークスペースの名前または GID。 名前による完全一致でフィルター. |            |
-| `-workspace-name-prefix` | ワークスペースの名前または GID。 名前の前方一致によるフィルター. |            |
-| `-workspace-name-suffix` | ワークスペースの名前または GID。 名前の後方一致によるフィルター. |            |
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-peer`    | アカウントの別名 | default    |
 
 ## 共通のオプション:
 
@@ -117,20 +118,23 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: teams
+## レポート: file_system
 
-チームは、組織内で関連するプロジェクトや人をまとめてグループ化するために使用されます。
-このコマンドはレポートを3種類の書式で出力します. `teams.csv`, `teams.json`, ならびに `teams.xlsx`.
+ファイルシステムのバージョン情報
+このコマンドはレポートを3種類の書式で出力します. `file_system.csv`, `file_system.json`, ならびに `file_system.xlsx`.
 
-| 列            | 説明                                                     |
-|---------------|----------------------------------------------------------|
-| gid           | リソースのグローバルに一意な識別子を文字列で指定します。 |
-| name          | チーム名です。                                           |
-| resource_type | このリソースのベースタイプ。                             |
+| 列                                          | 説明                                                              |
+|---------------------------------------------|-------------------------------------------------------------------|
+| version                                     | ファイルシステムのバージョン                                      |
+| release_year                                | ファイルシステムのリリース年                                      |
+| has_distinct_member_homes                   | チームに個別のメンバーホームフォルダがある場合は真                |
+| has_team_shared_dropbox                     | チームがDropboxを共有している場合は真                             |
+| is_team_folder_api_supported                | チームフォルダAPIがサポートされていれば真                         |
+| is_path_root_required_to_access_team_folder | チームフォルダへのアクセスにDropbox-API-Path-Rootが必要な場合は真 |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `teams_0000.xlsx`, `teams_0001.xlsx`, `teams_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `file_system_0000.xlsx`, `file_system_0001.xlsx`, `file_system_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

@@ -22,15 +22,15 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                                           |
-|--------------------------------------------------------------------------------|
-| Dropbox Business: チームのアクティビティログの閲覧                             |
-| Dropbox Business: チームメンバーの確認                                         |
-| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認 |
+| 説明                                                                                |
+|-------------------------------------------------------------------------------------|
+| Dropbox for teams：チームのアクティビティログを表示                                 |
+| Dropbox for teams：チームメンバーの確認                                             |
+| Dropbox for teams：名前、ユーザー数、チーム設定など、チームの基本情報を表示します。 |
 
 # 認可
 
@@ -125,7 +125,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## レポート: user
 
-このレポートはDropbox Businessのアクティビティログとほぼ互換性のあるアクティビティレポートを出力します.
+このレポートは、主にDropbox for teamsのアクティビティログと互換性のあるアクティビティログを表示します。
 このコマンドはレポートを3種類の書式で出力します. `user.csv`, `user.json`, ならびに `user.xlsx`.
 
 | 列                       | 説明                                                            |
