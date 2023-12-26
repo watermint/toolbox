@@ -82,7 +82,8 @@ func (z Command) services() []string {
 	services := make([]string, 0)
 	for _, recipe := range recipes {
 		spec := rc_spec.New(recipe)
-		availSvc[z.serviceKey(spec)] = true
+		svcKey := z.serviceKey(spec)
+		availSvc[svcKey] = true
 	}
 	for _, svc := range api_conn.Services {
 		if availSvc[svc] {

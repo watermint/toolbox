@@ -7,7 +7,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-The multi-purpose utility command-line tool for web services including Dropbox, Dropbox Business, Google, GitHub, etc.
+The multi-purpose utility command-line tool for web services including Dropbox, Dropbox for teams, Google, GitHub, etc.
 
 # Licensing & Disclaimers
 
@@ -30,6 +30,29 @@ First, you need to install Homebrew. Please refer the instruction on [the offici
 brew tap watermint/toolbox
 brew install toolbox
 ```
+
+# Product lifecycle
+
+## Maintenance policy
+
+This product itself is experimental and is not subject to the maintained to keep quality of service. The project will try to fix critical bugs and security issues with the best effort. But that is also not guaranteed.
+
+The product will not release any patch release of a certain major releases. The product will apply fixes as next release when those fixes accepted to do.
+
+## Specification changes
+
+The deliverables of this project are stand-alone executable programs. The specification changes will not be applied unless you explicitly upgrade your version of the program.
+
+The following policy will be used to make changes in new version releases.
+
+Command paths, arguments, return values, etc. will be upgraded to be as compatible as possible, but may be discontinued or changed.Addition of arguments, etc.
+The general policy is as follows.
+
+* Changes that do not break existing behavior, such as the addition of arguments or changes to messages, will be implemented without notice.
+* Commands that are considered infrequently used will be discontinued or moved without notice.
+* Changes to other commands will be announced 30-180 days or more in advance.
+
+Changes in specifications will be announced at [Announcements](https://github.com/watermint/toolbox/discussions/categories/announcements). Please refer to [Specification Change](https://toolbox.watermint.org/guide/spec-changes.html) for a list of planned specification changes.
 
 # Security and privacy
 
@@ -58,7 +81,7 @@ watermint toolbox xx.x.xxx
 © 2016-2023 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-Tools for Dropbox and Dropbox Business
+Tools for Dropbox and Dropbox for teams
 
 Usage:
 ======
@@ -70,16 +93,28 @@ Available commands:
 
 | Command      | Description                     | Notes |
 |--------------|---------------------------------|-------|
-| config       | watermint toolbox configuration |       |
+| asana        | Asana commands                  |       |
+| config       | CLI configuration               |       |
+| deepl        | DeepL commands                  |       |
+| dropbox      | Dropbox commands                |       |
+| figma        | Figma commands                  |       |
 | file         | File operation                  |       |
 | filerequest  | File request operation          |       |
+| github       | GitHub commands                 |       |
+| google       | Google commands                 |       |
 | group        | Group management                |       |
+| job          | Log utilities (deprecated)      |       |
 | license      | Show license information        |       |
+| log          | Log utilities                   |       |
 | member       | Team member management          |       |
+| services     | Commands for services           |       |
 | sharedfolder | Shared folder                   |       |
 | sharedlink   | Shared Link of Personal account |       |
-| team         | Dropbox Business Team           |       |
+| slack        | Slack commands                  |       |
+| team         | Commands of Dropbox for teams   |       |
 | teamfolder   | Team folder management          |       |
+| teamspace    | Team space commands             |       |
+| util         | Utilities                       |       |
 | version      | Show version                    |       |
 
 ```
@@ -88,77 +123,77 @@ Available commands:
 
 ## Dropbox (Individual account)
 
-| Command                                                                               | Description                                                   |
-|---------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [file compare account](docs/commands/file-compare-account.md)                         | Compare files of two accounts                                 |
-| [file compare local](docs/commands/file-compare-local.md)                             | Compare local folders and Dropbox folders                     |
-| [file copy](docs/commands/file-copy.md)                                               | Copy files                                                    |
-| [file delete](docs/commands/file-delete.md)                                           | Delete file or folder                                         |
-| [file export doc](docs/commands/file-export-doc.md)                                   | Export document                                               |
-| [file export url](docs/commands/file-export-url.md)                                   | Export a document from the URL                                |
-| [file import batch url](docs/commands/file-import-batch-url.md)                       | Batch import files from URL                                   |
-| [file import url](docs/commands/file-import-url.md)                                   | Import file from the URL                                      |
-| [file info](docs/commands/file-info.md)                                               | Resolve metadata of the path                                  |
-| [file list](docs/commands/file-list.md)                                               | List files and folders                                        |
-| [file lock acquire](docs/commands/file-lock-acquire.md)                               | Lock a file                                                   |
-| [file lock all release](docs/commands/file-lock-all-release.md)                       | Release all locks under the specified path                    |
-| [file lock batch acquire](docs/commands/file-lock-batch-acquire.md)                   | Lock multiple files                                           |
-| [file lock batch release](docs/commands/file-lock-batch-release.md)                   | Release multiple locks                                        |
-| [file lock list](docs/commands/file-lock-list.md)                                     | List locks under the specified path                           |
-| [file lock release](docs/commands/file-lock-release.md)                               | Release a lock                                                |
-| [file merge](docs/commands/file-merge.md)                                             | Merge paths                                                   |
-| [file move](docs/commands/file-move.md)                                               | Move files                                                    |
-| [file paper append](docs/commands/file-paper-append.md)                               | Append the content to the end of the existing Paper doc       |
-| [file paper create](docs/commands/file-paper-create.md)                               | Create new Paper in the path                                  |
-| [file paper overwrite](docs/commands/file-paper-overwrite.md)                         | Overwrite existing Paper document                             |
-| [file paper prepend](docs/commands/file-paper-prepend.md)                             | Append the content to the beginning of the existing Paper doc |
-| [file replication](docs/commands/file-replication.md)                                 | Replicate file content to the other account                   |
-| [file restore all](docs/commands/file-restore-all.md)                                 | Restore files under given path                                |
-| [file revision download](docs/commands/file-revision-download.md)                     | Download the file revision                                    |
-| [file revision list](docs/commands/file-revision-list.md)                             | List file revisions                                           |
-| [file revision restore](docs/commands/file-revision-restore.md)                       | Restore the file revision                                     |
-| [file search content](docs/commands/file-search-content.md)                           | Search file content                                           |
-| [file search name](docs/commands/file-search-name.md)                                 | Search file name                                              |
-| [file share info](docs/commands/file-share-info.md)                                   | Retrieve sharing information of the file                      |
-| [file size](docs/commands/file-size.md)                                               | Storage usage                                                 |
-| [file sync down](docs/commands/file-sync-down.md)                                     | Downstream sync with Dropbox                                  |
-| [file sync online](docs/commands/file-sync-online.md)                                 | Sync online files                                             |
-| [file sync up](docs/commands/file-sync-up.md)                                         | Upstream sync with Dropbox                                    |
-| [file tag add](docs/commands/file-tag-add.md)                                         | Add a tag to the file/folder                                  |
-| [file tag delete](docs/commands/file-tag-delete.md)                                   | Delete a tag from the file/folder                             |
-| [file tag list](docs/commands/file-tag-list.md)                                       | List tags of the path                                         |
-| [file template apply remote](docs/commands/file-template-apply-remote.md)             | Apply file/folder structure template to the Dropbox path      |
-| [file template capture remote](docs/commands/file-template-capture-remote.md)         | Capture file/folder structure as template from Dropbox path   |
-| [file watch](docs/commands/file-watch.md)                                             | Watch file activities                                         |
-| [filerequest create](docs/commands/filerequest-create.md)                             | Create a file request                                         |
-| [filerequest delete closed](docs/commands/filerequest-delete-closed.md)               | Delete all closed file requests on this account.              |
-| [filerequest delete url](docs/commands/filerequest-delete-url.md)                     | Delete a file request by the file request URL                 |
-| [filerequest list](docs/commands/filerequest-list.md)                                 | List file requests of the individual account                  |
-| [job history ship](docs/commands/job-history-ship.md)                                 | Ship Job logs to Dropbox path                                 |
-| [services dropbox user feature](docs/commands/services-dropbox-user-feature.md)       | List feature settings for current user                        |
-| [services dropbox user filesystem](docs/commands/services-dropbox-user-filesystem.md) | Identify user's team file system version                      |
-| [services dropbox user info](docs/commands/services-dropbox-user-info.md)             | Retrieve current account info                                 |
-| [sharedfolder leave](docs/commands/sharedfolder-leave.md)                             | Leave from the shared folder                                  |
-| [sharedfolder list](docs/commands/sharedfolder-list.md)                               | List shared folder(s)                                         |
-| [sharedfolder member add](docs/commands/sharedfolder-member-add.md)                   | Add a member to the shared folder                             |
-| [sharedfolder member delete](docs/commands/sharedfolder-member-delete.md)             | Delete a member from the shared folder                        |
-| [sharedfolder member list](docs/commands/sharedfolder-member-list.md)                 | List shared folder member(s)                                  |
-| [sharedfolder mount add](docs/commands/sharedfolder-mount-add.md)                     | Add the shared folder to the current user's Dropbox           |
-| [sharedfolder mount delete](docs/commands/sharedfolder-mount-delete.md)               | The current user unmounts the designated folder.              |
-| [sharedfolder mount list](docs/commands/sharedfolder-mount-list.md)                   | List all shared folders the current user mounted              |
-| [sharedfolder mount mountable](docs/commands/sharedfolder-mount-mountable.md)         | List all shared folders the current user can mount            |
-| [sharedfolder share](docs/commands/sharedfolder-share.md)                             | Share a folder                                                |
-| [sharedfolder unshare](docs/commands/sharedfolder-unshare.md)                         | Unshare a folder                                              |
-| [sharedlink create](docs/commands/sharedlink-create.md)                               | Create shared link                                            |
-| [sharedlink delete](docs/commands/sharedlink-delete.md)                               | Remove shared links                                           |
-| [sharedlink file list](docs/commands/sharedlink-file-list.md)                         | List files for the shared link                                |
-| [sharedlink info](docs/commands/sharedlink-info.md)                                   | Get information about the shared link                         |
-| [sharedlink list](docs/commands/sharedlink-list.md)                                   | List of shared link(s)                                        |
-| [teamspace file list](docs/commands/teamspace-file-list.md)                           | List files and folders in team space                          |
-| [util monitor client](docs/commands/util-monitor-client.md)                           | Start device monitor client                                   |
-| [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                       | Package remote folder into the zip file                       |
+| Command                                                                             | Description                                                   |
+|-------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [dropbox file account feature](docs/commands/dropbox-file-account-feature.md)       | List Dropbox account features                                 |
+| [dropbox file account filesystem](docs/commands/dropbox-file-account-filesystem.md) | Show Dropbox file system version                              |
+| [dropbox file account info](docs/commands/dropbox-file-account-info.md)             | Dropbox account info                                          |
+| [file compare account](docs/commands/file-compare-account.md)                       | Compare files of two accounts                                 |
+| [file compare local](docs/commands/file-compare-local.md)                           | Compare local folders and Dropbox folders                     |
+| [file copy](docs/commands/file-copy.md)                                             | Copy files                                                    |
+| [file delete](docs/commands/file-delete.md)                                         | Delete file or folder                                         |
+| [file export doc](docs/commands/file-export-doc.md)                                 | Export document                                               |
+| [file export url](docs/commands/file-export-url.md)                                 | Export a document from the URL                                |
+| [file import batch url](docs/commands/file-import-batch-url.md)                     | Batch import files from URL                                   |
+| [file import url](docs/commands/file-import-url.md)                                 | Import file from the URL                                      |
+| [file info](docs/commands/file-info.md)                                             | Resolve metadata of the path                                  |
+| [file list](docs/commands/file-list.md)                                             | List files and folders                                        |
+| [file lock acquire](docs/commands/file-lock-acquire.md)                             | Lock a file                                                   |
+| [file lock all release](docs/commands/file-lock-all-release.md)                     | Release all locks under the specified path                    |
+| [file lock batch acquire](docs/commands/file-lock-batch-acquire.md)                 | Lock multiple files                                           |
+| [file lock batch release](docs/commands/file-lock-batch-release.md)                 | Release multiple locks                                        |
+| [file lock list](docs/commands/file-lock-list.md)                                   | List locks under the specified path                           |
+| [file lock release](docs/commands/file-lock-release.md)                             | Release a lock                                                |
+| [file merge](docs/commands/file-merge.md)                                           | Merge paths                                                   |
+| [file move](docs/commands/file-move.md)                                             | Move files                                                    |
+| [file paper append](docs/commands/file-paper-append.md)                             | Append the content to the end of the existing Paper doc       |
+| [file paper create](docs/commands/file-paper-create.md)                             | Create new Paper in the path                                  |
+| [file paper overwrite](docs/commands/file-paper-overwrite.md)                       | Overwrite existing Paper document                             |
+| [file paper prepend](docs/commands/file-paper-prepend.md)                           | Append the content to the beginning of the existing Paper doc |
+| [file replication](docs/commands/file-replication.md)                               | Replicate file content to the other account                   |
+| [file restore all](docs/commands/file-restore-all.md)                               | Restore files under given path                                |
+| [file revision download](docs/commands/file-revision-download.md)                   | Download the file revision                                    |
+| [file revision list](docs/commands/file-revision-list.md)                           | List file revisions                                           |
+| [file revision restore](docs/commands/file-revision-restore.md)                     | Restore the file revision                                     |
+| [file search content](docs/commands/file-search-content.md)                         | Search file content                                           |
+| [file search name](docs/commands/file-search-name.md)                               | Search file name                                              |
+| [file share info](docs/commands/file-share-info.md)                                 | Retrieve sharing information of the file                      |
+| [file size](docs/commands/file-size.md)                                             | Storage usage                                                 |
+| [file sync down](docs/commands/file-sync-down.md)                                   | Downstream sync with Dropbox                                  |
+| [file sync online](docs/commands/file-sync-online.md)                               | Sync online files                                             |
+| [file sync up](docs/commands/file-sync-up.md)                                       | Upstream sync with Dropbox                                    |
+| [file tag add](docs/commands/file-tag-add.md)                                       | Add a tag to the file/folder                                  |
+| [file tag delete](docs/commands/file-tag-delete.md)                                 | Delete a tag from the file/folder                             |
+| [file tag list](docs/commands/file-tag-list.md)                                     | List tags of the path                                         |
+| [file template apply remote](docs/commands/file-template-apply-remote.md)           | Apply file/folder structure template to the Dropbox path      |
+| [file template capture remote](docs/commands/file-template-capture-remote.md)       | Capture file/folder structure as template from Dropbox path   |
+| [file watch](docs/commands/file-watch.md)                                           | Watch file activities                                         |
+| [filerequest create](docs/commands/filerequest-create.md)                           | Create a file request                                         |
+| [filerequest delete closed](docs/commands/filerequest-delete-closed.md)             | Delete all closed file requests on this account.              |
+| [filerequest delete url](docs/commands/filerequest-delete-url.md)                   | Delete a file request by the file request URL                 |
+| [filerequest list](docs/commands/filerequest-list.md)                               | List file requests of the individual account                  |
+| [log job ship](docs/commands/log-job-ship.md)                                       | Ship Job logs to Dropbox path                                 |
+| [sharedfolder leave](docs/commands/sharedfolder-leave.md)                           | Leave from the shared folder                                  |
+| [sharedfolder list](docs/commands/sharedfolder-list.md)                             | List shared folder(s)                                         |
+| [sharedfolder member add](docs/commands/sharedfolder-member-add.md)                 | Add a member to the shared folder                             |
+| [sharedfolder member delete](docs/commands/sharedfolder-member-delete.md)           | Delete a member from the shared folder                        |
+| [sharedfolder member list](docs/commands/sharedfolder-member-list.md)               | List shared folder member(s)                                  |
+| [sharedfolder mount add](docs/commands/sharedfolder-mount-add.md)                   | Add the shared folder to the current user's Dropbox           |
+| [sharedfolder mount delete](docs/commands/sharedfolder-mount-delete.md)             | The current user unmounts the designated folder.              |
+| [sharedfolder mount list](docs/commands/sharedfolder-mount-list.md)                 | List all shared folders the current user mounted              |
+| [sharedfolder mount mountable](docs/commands/sharedfolder-mount-mountable.md)       | List all shared folders the current user can mount            |
+| [sharedfolder share](docs/commands/sharedfolder-share.md)                           | Share a folder                                                |
+| [sharedfolder unshare](docs/commands/sharedfolder-unshare.md)                       | Unshare a folder                                              |
+| [sharedlink create](docs/commands/sharedlink-create.md)                             | Create shared link                                            |
+| [sharedlink delete](docs/commands/sharedlink-delete.md)                             | Remove shared links                                           |
+| [sharedlink file list](docs/commands/sharedlink-file-list.md)                       | List files for the shared link                                |
+| [sharedlink info](docs/commands/sharedlink-info.md)                                 | Get information about the shared link                         |
+| [sharedlink list](docs/commands/sharedlink-list.md)                                 | List of shared link(s)                                        |
+| [teamspace file list](docs/commands/teamspace-file-list.md)                         | List files and folders in team space                          |
+| [util monitor client](docs/commands/util-monitor-client.md)                         | Start device monitor client                                   |
+| [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                     | Package remote folder into the zip file                       |
 
-## Dropbox Business
+## Dropbox for teams
 
 | Command                                                                                                     | Description                                                                         |
 |-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
@@ -181,7 +216,7 @@ Available commands:
 | [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid](docs/commands/member-clear-externalid.md)                                         | Clear external_id of members                                                        |
 | [member delete](docs/commands/member-delete.md)                                                             | Delete members                                                                      |
-| [member detach](docs/commands/member-detach.md)                                                             | Convert Dropbox Business accounts to a Basic account                                |
+| [member detach](docs/commands/member-detach.md)                                                             | Convert Dropbox for teams accounts to a Basic account                               |
 | [member feature](docs/commands/member-feature.md)                                                           | List member feature settings                                                        |
 | [member file lock all release](docs/commands/member-file-lock-all-release.md)                               | Release all locks under the path of the member                                      |
 | [member file lock list](docs/commands/member-file-lock-list.md)                                             | List locks of the member under the path                                             |
@@ -290,78 +325,78 @@ Available commands:
 
 ## DeepL
 
-| Command                                                                         | Description    |
-|---------------------------------------------------------------------------------|----------------|
-| [services deepl translate text](docs/commands/services-deepl-translate-text.md) | Translate text |
+| Command                                                       | Description    |
+|---------------------------------------------------------------|----------------|
+| [deepl translate text](docs/commands/deepl-translate-text.md) | Translate text |
 
 ## Figma
 
-| Command                                                                                     | Description                           |
-|---------------------------------------------------------------------------------------------|---------------------------------------|
-| [services figma account info](docs/commands/services-figma-account-info.md)                 | Retrieve current user information     |
-| [services figma file export all page](docs/commands/services-figma-file-export-all-page.md) | Export all files/pages under the team |
-| [services figma file export frame](docs/commands/services-figma-file-export-frame.md)       | Export all frames of the Figma file   |
-| [services figma file export node](docs/commands/services-figma-file-export-node.md)         | Export Figma document Node            |
-| [services figma file export page](docs/commands/services-figma-file-export-page.md)         | Export all pages of the Figma file    |
-| [services figma file info](docs/commands/services-figma-file-info.md)                       | Show information of the figma file    |
-| [services figma file list](docs/commands/services-figma-file-list.md)                       | List files in the Figma Project       |
-| [services figma project list](docs/commands/services-figma-project-list.md)                 | List projects of the team             |
+| Command                                                                   | Description                           |
+|---------------------------------------------------------------------------|---------------------------------------|
+| [figma account info](docs/commands/figma-account-info.md)                 | Retrieve current user information     |
+| [figma file export all page](docs/commands/figma-file-export-all-page.md) | Export all files/pages under the team |
+| [figma file export frame](docs/commands/figma-file-export-frame.md)       | Export all frames of the Figma file   |
+| [figma file export node](docs/commands/figma-file-export-node.md)         | Export Figma document Node            |
+| [figma file export page](docs/commands/figma-file-export-page.md)         | Export all pages of the Figma file    |
+| [figma file info](docs/commands/figma-file-info.md)                       | Show information of the figma file    |
+| [figma file list](docs/commands/figma-file-list.md)                       | List files in the Figma Project       |
+| [figma project list](docs/commands/figma-project-list.md)                 | List projects of the team             |
 
 ## GitHub
 
-| Command                                                                                           | Description                                         |
-|---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [services github content get](docs/commands/services-github-content-get.md)                       | Get content metadata of the repository              |
-| [services github content put](docs/commands/services-github-content-put.md)                       | Put small text content into the repository          |
-| [services github issue list](docs/commands/services-github-issue-list.md)                         | List issues of the public/private GitHub repository |
-| [services github profile](docs/commands/services-github-profile.md)                               | Get the authenticated user                          |
-| [services github release asset download](docs/commands/services-github-release-asset-download.md) | Download assets                                     |
-| [services github release asset list](docs/commands/services-github-release-asset-list.md)         | List assets of GitHub Release                       |
-| [services github release asset upload](docs/commands/services-github-release-asset-upload.md)     | Upload assets file into the GitHub Release          |
-| [services github release draft](docs/commands/services-github-release-draft.md)                   | Create release draft                                |
-| [services github release list](docs/commands/services-github-release-list.md)                     | List releases                                       |
-| [services github tag create](docs/commands/services-github-tag-create.md)                         | Create a tag on the repository                      |
-| [util release install](docs/commands/util-release-install.md)                                     | Download & install watermint toolbox to the path    |
+| Command                                                                         | Description                                         |
+|---------------------------------------------------------------------------------|-----------------------------------------------------|
+| [github content get](docs/commands/github-content-get.md)                       | Get content metadata of the repository              |
+| [github content put](docs/commands/github-content-put.md)                       | Put small text content into the repository          |
+| [github issue list](docs/commands/github-issue-list.md)                         | List issues of the public/private GitHub repository |
+| [github profile](docs/commands/github-profile.md)                               | Get the authenticated user                          |
+| [github release asset download](docs/commands/github-release-asset-download.md) | Download assets                                     |
+| [github release asset list](docs/commands/github-release-asset-list.md)         | List assets of GitHub Release                       |
+| [github release asset upload](docs/commands/github-release-asset-upload.md)     | Upload assets file into the GitHub Release          |
+| [github release draft](docs/commands/github-release-draft.md)                   | Create release draft                                |
+| [github release list](docs/commands/github-release-list.md)                     | List releases                                       |
+| [github tag create](docs/commands/github-tag-create.md)                         | Create a tag on the repository                      |
+| [util release install](docs/commands/util-release-install.md)                   | Download & install watermint toolbox to the path    |
 
 ## Google Calendar
 
-| Command                                                                                     | Description                 |
-|---------------------------------------------------------------------------------------------|-----------------------------|
-| [services google calendar event list](docs/commands/services-google-calendar-event-list.md) | List Google Calendar events |
+| Command                                                                   | Description                 |
+|---------------------------------------------------------------------------|-----------------------------|
+| [google calendar event list](docs/commands/google-calendar-event-list.md) | List Google Calendar events |
 
-## Google Gmail
+## Google GMail
 
-| Command                                                                                                     | Description                                         |
-|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [services google mail filter add](docs/commands/services-google-mail-filter-add.md)                         | Add a filter.                                       |
-| [services google mail filter batch add](docs/commands/services-google-mail-filter-batch-add.md)             | Batch adding/deleting labels with query             |
-| [services google mail filter delete](docs/commands/services-google-mail-filter-delete.md)                   | Delete a filter                                     |
-| [services google mail filter list](docs/commands/services-google-mail-filter-list.md)                       | List filters                                        |
-| [services google mail label add](docs/commands/services-google-mail-label-add.md)                           | Add a label                                         |
-| [services google mail label delete](docs/commands/services-google-mail-label-delete.md)                     | Delete a label                                      |
-| [services google mail label list](docs/commands/services-google-mail-label-list.md)                         | List email labels                                   |
-| [services google mail label rename](docs/commands/services-google-mail-label-rename.md)                     | Rename a label                                      |
-| [services google mail message label add](docs/commands/services-google-mail-message-label-add.md)           | Add labels to the message                           |
-| [services google mail message label delete](docs/commands/services-google-mail-message-label-delete.md)     | Remove labels from the message                      |
-| [services google mail message list](docs/commands/services-google-mail-message-list.md)                     | List messages                                       |
-| [services google mail message processed list](docs/commands/services-google-mail-message-processed-list.md) | List messages in processed format.                  |
-| [services google mail sendas add](docs/commands/services-google-mail-sendas-add.md)                         | Creates a custom "from" send-as alias               |
-| [services google mail sendas delete](docs/commands/services-google-mail-sendas-delete.md)                   | Deletes the specified send-as alias                 |
-| [services google mail sendas list](docs/commands/services-google-mail-sendas-list.md)                       | Lists the send-as aliases for the specified account |
-| [services google mail thread list](docs/commands/services-google-mail-thread-list.md)                       | List threads                                        |
+| Command                                                                                   | Description                                         |
+|-------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| [google mail filter add](docs/commands/google-mail-filter-add.md)                         | Add a filter.                                       |
+| [google mail filter batch add](docs/commands/google-mail-filter-batch-add.md)             | Batch adding/deleting labels with query             |
+| [google mail filter delete](docs/commands/google-mail-filter-delete.md)                   | Delete a filter                                     |
+| [google mail filter list](docs/commands/google-mail-filter-list.md)                       | List filters                                        |
+| [google mail label add](docs/commands/google-mail-label-add.md)                           | Add a label                                         |
+| [google mail label delete](docs/commands/google-mail-label-delete.md)                     | Delete a label                                      |
+| [google mail label list](docs/commands/google-mail-label-list.md)                         | List email labels                                   |
+| [google mail label rename](docs/commands/google-mail-label-rename.md)                     | Rename a label                                      |
+| [google mail message label add](docs/commands/google-mail-message-label-add.md)           | Add labels to the message                           |
+| [google mail message label delete](docs/commands/google-mail-message-label-delete.md)     | Remove labels from the message                      |
+| [google mail message list](docs/commands/google-mail-message-list.md)                     | List messages                                       |
+| [google mail message processed list](docs/commands/google-mail-message-processed-list.md) | List messages in processed format.                  |
+| [google mail sendas add](docs/commands/google-mail-sendas-add.md)                         | Creates a custom "from" send-as alias               |
+| [google mail sendas delete](docs/commands/google-mail-sendas-delete.md)                   | Deletes the specified send-as alias                 |
+| [google mail sendas list](docs/commands/google-mail-sendas-list.md)                       | Lists the send-as aliases for the specified account |
+| [google mail thread list](docs/commands/google-mail-thread-list.md)                       | List threads                                        |
 
 ## Google Sheets
 
-| Command                                                                                                 | Description                         |
-|---------------------------------------------------------------------------------------------------------|-------------------------------------|
-| [services google sheets sheet append](docs/commands/services-google-sheets-sheet-append.md)             | Append data to a spreadsheet        |
-| [services google sheets sheet clear](docs/commands/services-google-sheets-sheet-clear.md)               | Clears values from a spreadsheet    |
-| [services google sheets sheet create](docs/commands/services-google-sheets-sheet-create.md)             | Create a new sheet                  |
-| [services google sheets sheet delete](docs/commands/services-google-sheets-sheet-delete.md)             | Delete a sheet from the spreadsheet |
-| [services google sheets sheet export](docs/commands/services-google-sheets-sheet-export.md)             | Export sheet data                   |
-| [services google sheets sheet import](docs/commands/services-google-sheets-sheet-import.md)             | Import data into the spreadsheet    |
-| [services google sheets sheet list](docs/commands/services-google-sheets-sheet-list.md)                 | List sheets of the spreadsheet      |
-| [services google sheets spreadsheet create](docs/commands/services-google-sheets-spreadsheet-create.md) | Create a new spreadsheet            |
+| Command                                                                               | Description                         |
+|---------------------------------------------------------------------------------------|-------------------------------------|
+| [google sheets sheet append](docs/commands/google-sheets-sheet-append.md)             | Append data to a spreadsheet        |
+| [google sheets sheet clear](docs/commands/google-sheets-sheet-clear.md)               | Clears values from a spreadsheet    |
+| [google sheets sheet create](docs/commands/google-sheets-sheet-create.md)             | Create a new sheet                  |
+| [google sheets sheet delete](docs/commands/google-sheets-sheet-delete.md)             | Delete a sheet from the spreadsheet |
+| [google sheets sheet export](docs/commands/google-sheets-sheet-export.md)             | Export sheet data                   |
+| [google sheets sheet import](docs/commands/google-sheets-sheet-import.md)             | Import data into the spreadsheet    |
+| [google sheets sheet list](docs/commands/google-sheets-sheet-list.md)                 | List sheets of the spreadsheet      |
+| [google sheets spreadsheet create](docs/commands/google-sheets-spreadsheet-create.md) | Create a new spreadsheet            |
 
 ## Utilities
 
@@ -369,18 +404,18 @@ Available commands:
 |---------------------------------------------------------------------------------------|----------------------------------------------------------------------|
 | [config auth delete](docs/commands/config-auth-delete.md)                             | Delete existing auth credential                                      |
 | [config auth list](docs/commands/config-auth-list.md)                                 | List all auth credentials                                            |
-| [config disable](docs/commands/config-disable.md)                                     | Disable a feature.                                                   |
-| [config enable](docs/commands/config-enable.md)                                       | Enable a feature.                                                    |
-| [config features](docs/commands/config-features.md)                                   | List available optional features.                                    |
+| [config feature disable](docs/commands/config-feature-disable.md)                     | Disable a feature.                                                   |
+| [config feature enable](docs/commands/config-feature-enable.md)                       | Enable a feature.                                                    |
+| [config feature list](docs/commands/config-feature-list.md)                           | List available optional features.                                    |
 | [file template apply local](docs/commands/file-template-apply-local.md)               | Apply file/folder structure template to the local path               |
 | [file template capture local](docs/commands/file-template-capture-local.md)           | Capture file/folder structure as template from local path            |
-| [job history archive](docs/commands/job-history-archive.md)                           | Archive jobs                                                         |
-| [job history delete](docs/commands/job-history-delete.md)                             | Delete old job history                                               |
-| [job history list](docs/commands/job-history-list.md)                                 | Show job history                                                     |
-| [job log jobid](docs/commands/job-log-jobid.md)                                       | Retrieve logs of specified Job ID                                    |
-| [job log kind](docs/commands/job-log-kind.md)                                         | Concatenate and print logs of specified log kind                     |
-| [job log last](docs/commands/job-log-last.md)                                         | Print the last job log files                                         |
 | [license](docs/commands/license.md)                                                   | Show license information                                             |
+| [log cat job](docs/commands/log-cat-job.md)                                           | Retrieve logs of specified Job ID                                    |
+| [log cat kind](docs/commands/log-cat-kind.md)                                         | Concatenate and print logs of specified log kind                     |
+| [log cat last](docs/commands/log-cat-last.md)                                         | Print the last job log files                                         |
+| [log job archive](docs/commands/log-job-archive.md)                                   | Archive jobs                                                         |
+| [log job delete](docs/commands/log-job-delete.md)                                     | Delete old job history                                               |
+| [log job list](docs/commands/log-job-list.md)                                         | Show job history                                                     |
 | [util archive unzip](docs/commands/util-archive-unzip.md)                             | Extract the zip archive file                                         |
 | [util archive zip](docs/commands/util-archive-zip.md)                                 | Compress target files into the zip archive                           |
 | [util cert selfsigned](docs/commands/util-cert-selfsigned.md)                         | Generate self-signed certificate and key                             |

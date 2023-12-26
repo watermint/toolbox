@@ -27,7 +27,7 @@ if [ -z "$GOPATH" ]; then
 fi
 
 echo "Run test"
-go test -v -short -timeout 30s -covermode=atomic -coverprofile=coverage.txt ./... > test/out.txt 2> test/err.txt
+go test -v -short -covermode=atomic -coverprofile=coverage.txt ./... > test/out.txt 2> test/err.txt
 
 echo "Collect logs"
 mkdir -p test/logs

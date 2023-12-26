@@ -13,8 +13,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/wrapper/lgw_gin"
 	"github.com/watermint/toolbox/essentials/runtime/es_open"
 	escert "github.com/watermint/toolbox/essentials/security/es_cert"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -385,8 +385,8 @@ func (z *callbackImpl) Ping(g *gin.Context) {
 	g.JSON(
 		http.StatusOK,
 		&ServerStatus{
-			Name:    app.Name,
-			Version: app.BuildId,
+			Name:    app_definitions.Name,
+			Version: app_definitions.BuildId,
 			Token:   z.serverToken,
 		},
 	)
@@ -413,7 +413,7 @@ func (z *callbackImpl) Success(g *gin.Context) {
 		http.StatusOK,
 		"result",
 		gin.H{
-			"Copyright": app.Copyright,
+			"Copyright": app_definitions.Copyright,
 			"LogoData":  z.logoImageBase64,
 			"Header":    ui.Text(MCallback.MsgResultSuccessHeader),
 			"Detail":    ui.Text(MCallback.MsgResultSuccessBody),
@@ -430,7 +430,7 @@ func (z *callbackImpl) Failure(g *gin.Context) {
 		http.StatusForbidden,
 		"result",
 		gin.H{
-			"Copyright": app.Copyright,
+			"Copyright": app_definitions.Copyright,
 			"LogoData":  z.logoImageBase64,
 			"Header":    ui.Text(MCallback.MsgResultFailureHeader),
 			"Detail":    ui.Text(MCallback.MsgResultFailureBody),
@@ -447,7 +447,7 @@ func (z *callbackImpl) Hello(g *gin.Context) {
 		http.StatusOK,
 		"result",
 		gin.H{
-			"Copyright": app.Copyright,
+			"Copyright": app_definitions.Copyright,
 			"LogoData":  z.logoImageBase64,
 			"Header":    ui.Text(MCallback.MsgHelloHeader),
 			"Detail":    ui.Text(MCallback.MsgHelloBody),

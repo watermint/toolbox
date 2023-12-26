@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/file"
-	"github.com/watermint/toolbox/ingredient/teamspace"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamspace"
 )
 
 type Delete struct {
@@ -32,12 +32,12 @@ func (z *Delete) Preset() {
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
-	client, err := teamspace.ClientForRootNamespaceAsAdmin(z.Peer.Client())
+	client, err := ig_teamspace.ClientForRootNamespaceAsAdmin(z.Peer.Client())
 	if err != nil {
 		return err
 	}
 
-	return file.DeleteRecursively(client, mo_path.NewDropboxPath("/"+z.Name), func(path mo_path.DropboxPath) {
+	return ig_file.DeleteRecursively(client, mo_path.NewDropboxPath("/"+z.Name), func(path mo_path.DropboxPath) {
 		c.UI().Progress(z.ProgressDelete.With("Path", path.Path()))
 	})
 }

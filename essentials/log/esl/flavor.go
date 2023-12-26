@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/runtime/es_env"
 	"github.com/watermint/toolbox/essentials/terminal/es_terminfo"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	zapcoreuber "go.uber.org/zap/zapcore"
 )
 
@@ -19,7 +19,7 @@ type Flavor int
 func newFlavor(f Flavor) zapcoreuber.Encoder {
 	switch f {
 	case FlavorConsole:
-		if es_env.IsEnabled(app.EnvNameDebugVerbose) {
+		if es_env.IsEnabled(app_definitions.EnvNameDebugVerbose) {
 			return zapcoreuber.NewConsoleEncoder(zapcoreuber.EncoderConfig{
 				LevelKey:       "level",
 				MessageKey:     "msg",
@@ -74,7 +74,7 @@ func zapTerminalEncodeLevel() zapcoreuber.LevelEncoder {
 
 func ConsoleDefaultLevel() Level {
 	switch {
-	case es_env.IsEnabled(app.EnvNameDebugVerbose):
+	case es_env.IsEnabled(app_definitions.EnvNameDebugVerbose):
 		return LevelDebug
 
 	default:

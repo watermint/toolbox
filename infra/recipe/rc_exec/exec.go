@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_auth"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -129,7 +129,7 @@ func doSpecInternal(spec rc_recipe.Spec, scr rc_recipe.Recipe, ctl app_control.C
 
 			ui.Error(MPanic.ErrorRecipePanic)
 			ui.Error(MPanic.ErrorCrashReport.
-				With("Version", app.Version.String()).
+				With("Version", app_definitions.Version.String()).
 				With("OS", runtime.GOOS).
 				With("Recipe", spec.CliPath()).
 				With("Reason", rErr).

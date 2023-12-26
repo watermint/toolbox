@@ -14,7 +14,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/team/sharedlink"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_sharedlink"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 )
@@ -27,7 +27,7 @@ type Visibility struct {
 	OperationLog  rp_model.TransactionReport
 	LinkNotFound  app_msg.Message
 	NoChange      app_msg.Message
-	Updater       *sharedlink.Update
+	Updater       *ig_sharedlink.Update
 }
 
 func (z *Visibility) Preset() {
@@ -129,7 +129,7 @@ func (z *Visibility) Exec(c app_control.Control) error {
 	}
 
 	return rc_exec.Exec(c, z.Updater, func(r rc_recipe.Recipe) {
-		m := r.(*sharedlink.Update)
+		m := r.(*ig_sharedlink.Update)
 		m.Opts = updateOpts
 		m.File = z.File
 		m.Ctx = z.Peer.Client()

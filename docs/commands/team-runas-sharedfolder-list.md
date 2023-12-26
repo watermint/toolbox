@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team runas sharedfolder list`
 lang: en
 ---
 
@@ -22,17 +22,17 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| Dropbox Business: View your team membership                                                             |
-| Dropbox Business: View your Dropbox sharing settings and collaborators                                  |
-| Dropbox Business: View structure of your team's and members' folders                                    |
-| Dropbox Business: View and edit content of your team's files and folders                                |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description                                                                                              |
+|----------------------------------------------------------------------------------------------------------|
+| Dropbox for teams: View your team membership                                                             |
+| Dropbox for teams: View your Dropbox sharing settings and collaborators                                  |
+| Dropbox for teams: View structure of your team's and members' folders                                    |
+| Dropbox for teams: View and edit content of your team's files and folders                                |
+| Dropbox for teams: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 

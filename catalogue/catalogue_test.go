@@ -2,7 +2,7 @@ package catalogue
 
 import (
 	"flag"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
@@ -25,7 +25,7 @@ func TestCatalogue(t *testing.T) {
 }
 
 func testGroup(g rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.BuildId)
+	g.PrintUsage(ui, os.Args[0], app_definitions.BuildId)
 	for _, sg := range g.SubGroups() {
 		testGroup(sg, ui)
 	}

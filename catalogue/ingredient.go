@@ -4,21 +4,27 @@ package catalogue
 
 import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	ingredientbootstrap "github.com/watermint/toolbox/ingredient/bootstrap"
-	ingredientfile "github.com/watermint/toolbox/ingredient/file"
-	ingredientjob "github.com/watermint/toolbox/ingredient/job"
-	ingredientteamnamespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
-	ingredientteamfolder "github.com/watermint/toolbox/ingredient/teamfolder"
+	ingredientig_bootstrap "github.com/watermint/toolbox/ingredient/ig_bootstrap"
+	ingredientig_dropboxig_file "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
+	ingredientig_dropboxig_teamig_namespaceig_file "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_namespace/ig_file"
+	ingredientig_dropboxig_teamig_sharedlink "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_sharedlink"
+	ingredientig_dropboxig_teamfolder "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamfolder"
+	ingredientig_job "github.com/watermint/toolbox/ingredient/ig_job"
+	ingredientig_releaseig_homebrew "github.com/watermint/toolbox/ingredient/ig_release/ig_homebrew"
 )
 
 func AutoDetectedIngredients() []infra_recipe_rc_recipe.Recipe {
 	return []infra_recipe_rc_recipe.Recipe{
-		&ingredientbootstrap.Autodelete{},
-		&ingredientbootstrap.Bootstrap{},
-		&ingredientfile.Upload{},
-		&ingredientjob.Delete{},
-		&ingredientteamnamespacefile.List{},
-		&ingredientteamnamespacefile.Size{},
-		&ingredientteamfolder.Replication{},
+		&ingredientig_bootstrap.Autodelete{},
+		&ingredientig_bootstrap.Bootstrap{},
+		&ingredientig_dropboxig_file.Download{},
+		&ingredientig_dropboxig_file.Online{},
+		&ingredientig_dropboxig_file.Upload{},
+		&ingredientig_dropboxig_teamig_namespaceig_file.List{},
+		&ingredientig_dropboxig_teamig_namespaceig_file.Size{},
+		&ingredientig_dropboxig_teamig_sharedlink.Update{},
+		&ingredientig_dropboxig_teamfolder.Replication{},
+		&ingredientig_job.Delete{},
+		&ingredientig_releaseig_homebrew.Formula{},
 	}
 }

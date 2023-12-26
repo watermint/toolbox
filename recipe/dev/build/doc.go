@@ -15,12 +15,14 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_supplemental"
 	"github.com/watermint/toolbox/infra/doc/dc_web"
 	"github.com/watermint/toolbox/infra/recipe/rc_catalogue"
+	"github.com/watermint/toolbox/infra/recipe/rc_compatibility"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
 	"io/ioutil"
+	"strings"
 )
 
 type Doc struct {
@@ -99,6 +101,31 @@ func (z *Doc) genCommands(c app_control.Control) error {
 		doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutCommand, c.Messages(), comDoc)
 		if err := z.genDoc(path, doc, c); err != nil {
 			return err
+		}
+
+		// Compatibility documentation
+		pc, found := rc_compatibility.Definitions.FindAlivePathChange(spec.Path())
+		if found {
+			for _, fp := range pc.FormerPaths {
+				formedSpecId := strings.Join(append(fp.Path, fp.Name), "-")
+				l.Info("Generating former command manual", esl.String("command", formedSpecId))
+				comDoc := dc_command.NewCompatibilityNewPath(dc_index.MediaWeb, spec, fp, pc)
+				path := dc_index.DocName(dc_index.MediaWeb, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(formedSpecId))
+				doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutCommand, c.Messages(), comDoc)
+				if err := z.genDoc(path, doc, c); err != nil {
+					return err
+				}
+			}
+		}
+		prune, found := rc_compatibility.Definitions.FindPlannedPrune(spec.Path())
+		if found {
+			l.Info("Generating prune command manual", esl.String("command", spec.CliPath()))
+			comDoc := dc_command.NewCompatibilityPrune(dc_index.MediaWeb, spec, prune)
+			path := dc_index.DocName(dc_index.MediaWeb, dc_index.DocManualCommand, c.Messages().Lang(), dc_index.CommandName(spec.SpecId()))
+			doc := dc_section.Generate(dc_index.MediaWeb, dc_section.LayoutCommand, c.Messages(), comDoc)
+			if err := z.genDoc(path, doc, c); err != nil {
+				return err
+			}
 		}
 
 		if err := qt_messages.SuggestCliArgs(c, r); err != nil {

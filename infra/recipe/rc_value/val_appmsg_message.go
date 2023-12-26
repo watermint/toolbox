@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -21,7 +20,7 @@ type ValueAppMsgMessage struct {
 }
 
 func (z *ValueAppMsgMessage) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.msg), nil
+	return es_reflect.Key(z.msg), nil
 }
 
 func (z *ValueAppMsgMessage) Accept(recipe interface{}, t reflect.Type, v0 interface{}, name string) rc_recipe.Value {

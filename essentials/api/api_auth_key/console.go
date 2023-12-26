@@ -2,8 +2,8 @@ package api_auth_key
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"time"
 )
@@ -45,7 +45,7 @@ func (z consoleImpl) Start(session api_auth.KeySessionData) (entity api_auth.Key
 	credential.Key, cancel = ui.AskSecure(ask)
 
 	if cancel {
-		return api_auth.KeyEntity{}, app.ErrorUserCancelled
+		return api_auth.KeyEntity{}, app_definitions.ErrorUserCancelled
 	}
 	return api_auth.KeyEntity{
 		KeyName:     session.AppData.AppKeyName,

@@ -1,8 +1,8 @@
 package move
 
 import (
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"io/ioutil"
@@ -112,7 +112,7 @@ func TestLocalPattern_Move(t *testing.T) {
 	srcPath := filepath.Join(src, name)
 	dstPath := filepath.Join(dst, name)
 
-	err = ioutil.WriteFile(srcPath, []byte(app.BuildId), 0644)
+	err = ioutil.WriteFile(srcPath, []byte(app_definitions.BuildId), 0644)
 	if err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func TestLocalPattern_Exec(t *testing.T) {
 	name := "TBX-2020-04-01.txt"
 	srcFile := filepath.Join(src, name)
 
-	err = ioutil.WriteFile(srcFile, []byte(app.BuildId), 0644)
+	err = ioutil.WriteFile(srcFile, []byte(app_definitions.BuildId), 0644)
 	if err != nil {
 		return
 	}

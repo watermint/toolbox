@@ -2,7 +2,7 @@ package app_job_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
-	app2 "github.com/watermint/toolbox/infra/app"
+	app2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"

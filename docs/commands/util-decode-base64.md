@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util decode base64`
 lang: en
 ---
 

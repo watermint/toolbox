@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util text nlp english entity`
 lang: en
 ---
 

@@ -7,8 +7,8 @@ import (
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/security/sc_zap"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
@@ -65,9 +65,9 @@ func (z *Info) Exec(c app_control.Control) error {
 
 	branch := strings.ReplaceAll(headName, "refs/heads/", "")
 
-	xap, found := os.LookupEnv(app.EnvNameToolboxBuilderKey)
+	xap, found := os.LookupEnv(app_definitions2.EnvNameToolboxBuilderKey)
 	if !found || len(xap) < 10 {
-		l.Warn("Builder key not found or too short. Please set the build key for production release", esl.String("key", app.EnvNameToolboxBuilderKey), esl.Int("length", len(xap)))
+		l.Warn("Builder key not found or too short. Please set the build key for production release", esl.String("key", app_definitions2.EnvNameToolboxBuilderKey), esl.Int("length", len(xap)))
 		xap = ""
 		productionReady = false
 		if z.FailFast {
@@ -77,9 +77,9 @@ func (z *Info) Exec(c app_control.Control) error {
 
 	var zap string
 	zap = sc_zap.NewZap(hash.String())
-	appKeyData, found := os.LookupEnv(app.EnvNameToolboxAppKeys)
+	appKeyData, found := os.LookupEnv(app_definitions2.EnvNameToolboxAppKeys)
 	if !found {
-		l.Warn("App key data not found. Please set the build key for production release", esl.String("key", app.EnvNameToolboxAppKeys))
+		l.Warn("App key data not found. Please set the build key for production release", esl.String("key", app_definitions2.EnvNameToolboxAppKeys))
 		zap = ""
 		productionReady = false
 		if z.FailFast {
@@ -98,7 +98,7 @@ func (z *Info) Exec(c app_control.Control) error {
 
 	buildTimestamp := time.Now().UTC()
 	info := resources.BuildInfo{
-		Version:    app.BuildId,
+		Version:    app_definitions2.BuildId,
 		Hash:       hash.String(),
 		Branch:     branch,
 		Timestamp:  buildTimestamp.Format(time.RFC3339),
@@ -109,7 +109,7 @@ func (z *Info) Exec(c app_control.Control) error {
 	}
 
 	infoPath := filepath.Join(prjBase, "resources/build", "info.json")
-	l.Info("Build info", esl.Any("branch", branch), esl.Any("hash", info.Hash), esl.String("version", app.BuildId), esl.Bool("releaseReady", productionReady))
+	l.Info("Build info", esl.Any("branch", branch), esl.Any("hash", info.Hash), esl.String("version", app_definitions2.BuildId), esl.Bool("releaseReady", productionReady))
 	infoData, err := json.Marshal(info)
 	if err != nil {
 		l.Debug("Unable to marshal the data", esl.Error(err))

@@ -9,8 +9,8 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -73,7 +73,7 @@ func (z *connHelloSignApi) SetPeerName(name string) {
 }
 
 func (z *connHelloSignApi) ScopeLabel() string {
-	return app.ServiceDropboxSign
+	return app_definitions.ServiceDropboxSign
 }
 
 func (z *connHelloSignApi) ServiceName() string {

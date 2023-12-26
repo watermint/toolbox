@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -235,7 +235,7 @@ func (z *Dispatch) Test(c app_control.Control) error {
 	name := "TBX-2020-04-01.txt"
 	srcFile := filepath.Join(src, name)
 
-	err = ioutil.WriteFile(srcFile, []byte(app.BuildId), 0644)
+	err = ioutil.WriteFile(srcFile, []byte(app_definitions.BuildId), 0644)
 	if err != nil {
 		return err
 	}

@@ -10,8 +10,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_license"
 	"github.com/watermint/toolbox/infra/doc/dc_readme"
@@ -37,11 +37,11 @@ type Package struct {
 }
 
 func (z *Package) Preset() {
-	z.ExecutableName = app.ExecutableName
+	z.ExecutableName = app_definitions2.ExecutableName
 }
 
 func (z *Package) platformName() string {
-	target, ok := os.LookupEnv(app.EnvNameToolboxBuildTarget)
+	target, ok := os.LookupEnv(app_definitions2.EnvNameToolboxBuildTarget)
 	if ok {
 		switch target {
 		case "windows/amd64":
@@ -61,14 +61,14 @@ func (z *Package) platformName() string {
 
 func (z *Package) createPackage(c app_control.Control) (path string, err error) {
 	platform := z.platformName()
-	name := fmt.Sprintf("%s-%s-%s.zip", z.ExecutableName, app.Version, platform)
+	name := fmt.Sprintf("%s-%s-%s.zip", z.ExecutableName, app_definitions2.Version, platform)
 	l := c.Log().With(esl.String("name", name))
 	if err := os.MkdirAll(z.DistPath.Path(), 0755); err != nil {
 		return "", err
 	}
 
 	path = filepath.Join(z.DistPath.Path(), name)
-	buildTimestamp, err := time.Parse(time.RFC3339, app.BuildInfo.Timestamp)
+	buildTimestamp, err := time.Parse(time.RFC3339, app_definitions2.BuildInfo.Timestamp)
 	if err != nil {
 		return "", err
 	}
@@ -83,7 +83,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 	}()
 
 	pkg := zip.NewWriter(f)
-	if err = pkg.SetComment(fmt.Sprintf("%s %s, %s, %s", app.Name, app.Version, app.Copyright, app.LandingPage)); err != nil {
+	if err = pkg.SetComment(fmt.Sprintf("%s %s, %s, %s", app_definitions2.Name, app_definitions2.Version, app_definitions2.Copyright, app_definitions2.LandingPage)); err != nil {
 		return path, err
 	}
 	pkg.RegisterCompressor(zip.Deflate, func(out io.Writer) (io.WriteCloser, error) {
@@ -132,7 +132,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 	{
 		binaryName := z.ExecutableName
 		binarySuffix := ""
-		target, ok := os.LookupEnv(app.EnvNameToolboxBuildTarget)
+		target, ok := os.LookupEnv(app_definitions2.EnvNameToolboxBuildTarget)
 		if ok {
 			switch target {
 			case "windows/amd64":
@@ -211,7 +211,7 @@ func (z *Package) Exec(c app_control.Control) error {
 		return rc_exec.Exec(c, z.Up, func(r rc_recipe.Recipe) {
 			m := r.(*artifact.Up)
 			m.LocalPath = mo_path.NewFileSystemPath(pkgPath)
-			m.DropboxPath = mo_path2.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app.BuildInfo.Branch, z.ExecutableName+"-"+app.BuildId)))
+			m.DropboxPath = mo_path2.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app_definitions2.BuildInfo.Branch, z.ExecutableName+"-"+app_definitions2.BuildId)))
 			m.PeerName = "deploy"
 		})
 	}
@@ -228,7 +228,7 @@ func (z *Package) Test(c app_control.Control) error {
 		_ = os.RemoveAll(dest)
 	}()
 
-	binPath := filepath.Join(dest, app.ExecutableName)
+	binPath := filepath.Join(dest, app_definitions2.ExecutableName)
 	err = os.WriteFile(binPath, []byte("This is test content"), 0644)
 	if err != nil {
 		return err

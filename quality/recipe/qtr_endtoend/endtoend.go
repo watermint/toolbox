@@ -13,9 +13,9 @@ import (
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/network/nw_ratelimit"
 	"github.com/watermint/toolbox/essentials/terminal/es_dialogue"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
@@ -71,7 +71,7 @@ func Resources() (ui app_ui.UI) {
 	app_resource.SetBundle(bundle)
 
 	mc := app_msg_container_impl.NewContainer()
-	if qt_secure.IsSecureEndToEndTest() || app.IsProduction() {
+	if qt_secure.IsSecureEndToEndTest() || app_definitions.IsProduction() {
 		return app_ui.NewDiscard(mc, lg)
 	} else {
 		return app_ui.NewConsole(mc, lg, es_stdout.NewTestOut(), es_dialogue.DenyAll())

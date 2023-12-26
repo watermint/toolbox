@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `file tag list`
 lang: en
 ---
 

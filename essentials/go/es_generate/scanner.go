@@ -9,7 +9,7 @@ import (
 	"go/parser"
 	"go/token"
 	"go/types"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -34,11 +34,27 @@ type Scanner interface {
 	PathFilterPrefix(prefix string) Scanner
 }
 
-func NewScanner(c app_control.Control, path string) (Scanner, error) {
+type ImporterType string
+
+const (
+	ImporterTypeDefault  ImporterType = "default"
+	ImporterTypeEnhanced ImporterType = "enhanced"
+)
+
+func NewScanner(c app_control.Control, path string, importerType ImporterType) (Scanner, error) {
+	var importerImpl types.Importer
+	switch importerType {
+	case ImporterTypeDefault:
+		importerImpl = importer.Default()
+	case ImporterTypeEnhanced:
+		importerImpl = NewEnhancedImporter()
+	}
+
 	s := &scannerImpl{
 		c:           c,
 		path:        path,
 		excludeTest: false,
+		importer:    importerImpl,
 	}
 	if err := s.load(); err != nil {
 		return nil, err
@@ -53,6 +69,7 @@ type scannerImpl struct {
 	fst         *token.FileSet
 	allPkg      []*ast.Package
 	pathPrefix  string
+	importer    types.Importer
 }
 
 func (z *scannerImpl) PathFilterPrefix(prefix string) Scanner {
@@ -63,6 +80,7 @@ func (z *scannerImpl) PathFilterPrefix(prefix string) Scanner {
 		fst:         z.fst,
 		allPkg:      z.allPkg,
 		pathPrefix:  prefix,
+		importer:    z.importer,
 	}
 }
 
@@ -74,6 +92,7 @@ func (z *scannerImpl) ExcludeTest() Scanner {
 		fst:         z.fst,
 		allPkg:      z.allPkg,
 		pathPrefix:  z.pathPrefix,
+		importer:    z.importer,
 	}
 }
 
@@ -90,7 +109,7 @@ func (z *scannerImpl) load() error {
 	var parseDir func(relPath string) error
 	parseDir = func(relPath string) error {
 		path0 := filepath.Join(z.path, relPath)
-		l.Debug("Scanning", esl.String("path", path0))
+		l.Debug("Scanning", esl.String("path", path0), esl.String("relPath", relPath))
 		pkgs, err := parser.ParseDir(z.fst, path0, nil, 0)
 		if err != nil {
 			l.Error("Parse error", esl.Error(err))
@@ -99,7 +118,7 @@ func (z *scannerImpl) load() error {
 		for _, pkg := range pkgs {
 			z.allPkg = append(z.allPkg, pkg)
 		}
-		entries, err := ioutil.ReadDir(path0)
+		entries, err := os.ReadDir(path0)
 		for _, entry := range entries {
 			if entry.IsDir() && !strings.HasPrefix(entry.Name(), ".") {
 				if err := parseDir(filepath.Join(relPath, entry.Name())); err != nil {
@@ -117,7 +136,7 @@ func (z *scannerImpl) typesConfig() *types.Config {
 		Error: func(err error) {
 			z.log().Debug("error", esl.Error(err))
 		},
-		Importer: importer.Default(),
+		Importer: z.importer,
 	}
 }
 
@@ -128,7 +147,7 @@ func (z *scannerImpl) findAstInterface(refType reflect.Type) (astType *types.Int
 	l.Debug("Recipe type", esl.String("name", refType.Name()), esl.String("pkg", refType.PkgPath()))
 	for _, pkg := range z.allPkg {
 		for f0, f := range pkg.Files {
-			l.Debug("scan files", esl.String("f0", f0))
+			l.Debug("scan file", esl.String("f0", f0))
 			if r := f.Scope.Lookup(refType.Name()); r != nil {
 				l.Debug("finding recipe", esl.String("r", r.Name))
 				info := types.Info{

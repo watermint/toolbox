@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `sharedfolder mount list`
 lang: en
 ---
 

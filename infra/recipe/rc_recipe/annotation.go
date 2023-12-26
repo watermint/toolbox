@@ -54,9 +54,7 @@ func (z AnnotatedRecipe) Seed() Recipe {
 }
 
 func (z AnnotatedRecipe) IsDeprecated() bool {
-	if r, ok := z.seed.(RemarkRecipeDeprecated); ok {
-		return r.IsDeprecated()
-	}
+
 	return false
 }
 

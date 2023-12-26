@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/domain/google/api/goog_client_impl"
 	"github.com/watermint/toolbox/domain/google/api/goog_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewConnGoogleSheets(name string) goog_conn.ConnGoogleSheets {
@@ -37,7 +37,7 @@ func (z *connSheets) SetPeerName(name string) {
 }
 
 func (z *connSheets) ScopeLabel() string {
-	return app.ServiceGoogleSheets
+	return app_definitions.ServiceGoogleSheets
 }
 
 func (z *connSheets) ServiceName() string {

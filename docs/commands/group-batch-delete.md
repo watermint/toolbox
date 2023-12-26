@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `group batch delete`
 lang: en
 ---
 
@@ -22,14 +22,14 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                                                                                     |
-|-----------------------------------------------------------------------------------------------------------------|
-| Dropbox Business: View and manage your team group membership, including removing and recovering member accounts |
-| Dropbox Business: View basic information about your team including names, user count, and team settings         |
+| Description                                                                                                      |
+|------------------------------------------------------------------------------------------------------------------|
+| Dropbox for teams: View and manage your team group membership, including removing and recovering member accounts |
+| Dropbox for teams: View basic information about your team including names, user count, and team settings         |
 
 # Authorization
 

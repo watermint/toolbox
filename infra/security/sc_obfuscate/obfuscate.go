@@ -7,16 +7,16 @@ import (
 	"crypto/sha256"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_hex"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"io"
 )
 
 func XapKey() []byte {
-	return []byte(app.BuildInfo.Xap + app.Name)
+	return []byte(app_definitions.BuildInfo.Xap + app_definitions.Name)
 }
 
 func ZapKey() []byte {
-	return []byte(app.BuildInfo.Zap)
+	return []byte(app_definitions.BuildInfo.Zap)
 }
 
 func BuildStream() string {

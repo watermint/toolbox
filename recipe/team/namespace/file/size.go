@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/team/namespace/file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_namespace/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
@@ -19,7 +19,7 @@ type Size struct {
 	IncludeAppFolder    bool
 	Folder              mo_filter.Filter
 	Depth               mo_int.RangeInt
-	NamespaceSize       *file.Size
+	NamespaceSize       *ig_file.Size
 	Peer                dbx_conn.ConnScopedTeam
 }
 
@@ -43,7 +43,7 @@ func (z *Size) Preset() {
 
 func (z *Size) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.NamespaceSize, func(r rc_recipe.Recipe) {
-		rc := r.(*file.Size)
+		rc := r.(*ig_file.Size)
 		rc.IncludeSharedFolder = z.IncludeSharedFolder
 		rc.IncludeTeamFolder = z.IncludeTeamFolder
 		rc.IncludeMemberFolder = z.IncludeMemberFolder

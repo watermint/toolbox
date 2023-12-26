@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `util xlsx create`
 lang: en
 ---
 

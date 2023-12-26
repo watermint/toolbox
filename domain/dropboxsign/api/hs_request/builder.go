@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"net/http"
 )
 
@@ -69,7 +69,7 @@ func (z builderImpl) Build() (*http.Request, error) {
 	}
 
 	headers := make(map[string]string)
-	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
+	headers[api_request.ReqHeaderUserAgent] = app_definitions.UserAgent()
 	headers[api_request.ReqHeaderContentType] = "application/json"
 	headers[api_request.ReqHeaderAccept] = "application/json"
 	for k, v := range headers {

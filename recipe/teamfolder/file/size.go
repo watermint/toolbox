@@ -11,7 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	namespacefile "github.com/watermint/toolbox/ingredient/team/namespace/file"
+	namespacefile "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_namespace/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"math"
 )

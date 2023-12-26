@@ -1,76 +1,31 @@
 package recipe
 
 import (
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/domain/core/dc_version"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"runtime"
-	"strconv"
 )
-
-type VersionInfo struct {
-	Key       string `json:"key"`
-	Component string `json:"component"`
-	Version   string `json:"version"`
-}
 
 type Version struct {
 	rc_recipe.RemarkTransient
-	Versions         rp_model.RowReport
-	HeaderAppHash    app_msg.Message
-	HeaderBuildTime  app_msg.Message
-	HeaderBranch     app_msg.Message
-	HeaderProduction app_msg.Message
-	HeaderGoVersion  app_msg.Message
+	Versions rp_model.RowReport
 }
 
 func (z *Version) Preset() {
-	z.Versions.SetModel(&VersionInfo{})
+	z.Versions.SetModel(&dc_version.VersionInfo{})
 }
 
 func (z *Version) Exec(c app_control.Control) error {
-	ui := c.UI()
 	if err := z.Versions.Open(); err != nil {
 		return err
 	}
-	z.Versions.Row(&VersionInfo{
-		Key:       "app.name",
-		Component: "app.name",
-		Version:   app.Name,
-	})
-	z.Versions.Row(&VersionInfo{
-		Key:       "app.version",
-		Component: app.Name,
-		Version:   app.BuildId,
-	})
-	z.Versions.Row(&VersionInfo{
-		Key:       "app.hash",
-		Component: ui.Text(z.HeaderAppHash),
-		Version:   app.BuildInfo.Hash,
-	})
-	z.Versions.Row(&VersionInfo{
-		Key:       "app.branch",
-		Component: ui.Text(z.HeaderBranch),
-		Version:   app.BuildInfo.Branch,
-	})
-	z.Versions.Row(&VersionInfo{
-		Key:       "app.production",
-		Component: ui.Text(z.HeaderProduction),
-		Version:   strconv.FormatBool(app.BuildInfo.Production),
-	})
-	z.Versions.Row(&VersionInfo{
-		Key:       "build.time",
-		Component: ui.Text(z.HeaderBuildTime),
-		Version:   app.BuildInfo.Timestamp,
-	})
-	z.Versions.Row(&VersionInfo{
-		Key:       "go.version",
-		Component: ui.Text(z.HeaderGoVersion),
-		Version:   runtime.Version(),
-	})
+
+	components := dc_version.VersionComponents(c.UI())
+	for _, component := range components {
+		z.Versions.Row(&component)
+	}
 	return nil
 }
 

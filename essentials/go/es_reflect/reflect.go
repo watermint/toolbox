@@ -2,9 +2,24 @@ package es_reflect
 
 import (
 	"github.com/watermint/toolbox/essentials/strings/es_case"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
+	"math"
 	"reflect"
 	"strings"
 )
+
+func PathFromMultiBase(bases []string, r interface{}) (path []string, name string) {
+	minDepth := math.MaxInt
+	for _, base := range bases {
+		p, n := Path(base, r)
+		if len(p) < minDepth {
+			minDepth = len(p)
+			path = p
+			name = n
+		}
+	}
+	return
+}
 
 func Path(base string, r interface{}) (path []string, name string) {
 	path = make([]string, 0)
@@ -22,7 +37,12 @@ func Path(base string, r interface{}) (path []string, name string) {
 	return path, es_case.ToLowerSnakeCase(rt.Name())
 }
 
-func Key(base string, r interface{}) string {
+func Key(r interface{}) string {
+	path, name := PathFromMultiBase(app_definitions.PackagesBaseKey, r)
+	return strings.Join(append(path, name), ".")
+}
+
+func KeyWithBase(base string, r interface{}) string {
 	path, name := Path(base, r)
 	return strings.Join(append(path, name), ".")
 }

@@ -2,7 +2,6 @@ package fd_file_impl
 
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -14,7 +13,7 @@ func newSpec(rf *RowFeed) fd_file.Spec {
 	if rf.Model() == nil {
 		panic("Feed model is not defined")
 	}
-	s.base = es_reflect.Key(app.Pkg, rf.Model())
+	s.base = es_reflect.Key(rf.Model())
 	s.colDesc = make(map[string]app_msg.Message)
 	s.colExample = make(map[string]app_msg.Message)
 

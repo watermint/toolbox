@@ -14,8 +14,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_capture"
 	"github.com/watermint/toolbox/essentials/network/nw_request"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_job"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -89,8 +89,8 @@ type rpImpl struct {
 var (
 	PreserveLogFilePrefixes = []string{
 		rc_value.FeedBackupFilePrefix,
-		app.LogCapture,
-		app.LogNameStart,
+		app_definitions.LogCapture,
+		app_definitions.LogNameStart,
 	}
 )
 

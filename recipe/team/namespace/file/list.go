@@ -7,7 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"github.com/watermint/toolbox/ingredient/team/namespace/file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_team/ig_namespace/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 )
 
@@ -18,7 +18,7 @@ type List struct {
 	IncludeSharedFolder bool
 	IncludeTeamFolder   bool
 	Folder              mo_filter.Filter
-	NamespaceFileList   *file.List
+	NamespaceFileList   *ig_file.List
 }
 
 func (z *List) Preset() {
@@ -41,7 +41,7 @@ func (z *List) Preset() {
 
 func (z *List) Exec(c app_control.Control) error {
 	return rc_exec.Exec(c, z.NamespaceFileList, func(r rc_recipe.Recipe) {
-		rc := r.(*file.List)
+		rc := r.(*ig_file.List)
 		rc.IncludeDeleted = z.IncludeDeleted
 		rc.IncludeMemberFolder = z.IncludeMemberFolder
 		rc.IncludeSharedFolder = z.IncludeSharedFolder

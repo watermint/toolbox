@@ -3,8 +3,8 @@ package app_apikey
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/security/sc_zap"
 	"os"
@@ -27,11 +27,11 @@ func Resolve(ctl app_control.Control, appKey string) (clientId, clientSecret str
 		}
 	}
 
-	appKeyData, found := os.LookupEnv(app.EnvNameToolboxAppKeys)
+	appKeyData, found := os.LookupEnv(app_definitions.EnvNameToolboxAppKeys)
 	if found {
 		keys := make(map[string]string)
 		if err := json.Unmarshal([]byte(appKeyData), &keys); err != nil {
-			l.Error("Unable to unmarshal app key data from the environment", esl.Error(err), esl.String("environmentValueName", app.EnvNameToolboxAppKeys))
+			l.Error("Unable to unmarshal app key data from the environment", esl.Error(err), esl.String("environmentValueName", app_definitions.EnvNameToolboxAppKeys))
 			return "", ""
 		}
 		if clientId, e = keys[appKey+suffixKey]; e {

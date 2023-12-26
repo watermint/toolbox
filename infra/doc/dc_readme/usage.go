@@ -1,8 +1,8 @@
 package dc_readme
 
 import (
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -28,7 +28,7 @@ func (z Usage) Body(ui app_ui.UI) {
 	bodyUsage := app_ui.MakeConsoleDemo(ui.Messages(), func(cui app_ui.UI) {
 		cat := app_catalogue.Current()
 		rg := cat.RootGroup()
-		rg.PrintUsage(cui, "./"+app.ExecutableName, "xx.x.xxx")
+		rg.PrintUsage(cui, "./"+app_definitions.ExecutableName, "xx.x.xxx")
 	})
-	ui.Code("% ./" + app.ExecutableName + "\n" + bodyUsage)
+	ui.Code("% ./" + app_definitions.ExecutableName + "\n" + bodyUsage)
 }

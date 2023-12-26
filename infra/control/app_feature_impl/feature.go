@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -46,17 +46,17 @@ type featureImpl struct {
 
 func (z featureImpl) KvsEngine() kv_storage.KvsEngine {
 	switch {
-	case z.Experiment(app.ExperimentKvsBadger):
+	case z.Experiment(app_definitions2.ExperimentKvsBadger):
 		return kv_storage.KvsEngineBadger
-	case z.Experiment(app.ExperimentKvsBadgerTurnstile):
+	case z.Experiment(app_definitions2.ExperimentKvsBadgerTurnstile):
 		return kv_storage.KvsEngineBadgerTurnstile
-	case z.Experiment(app.ExperimentKvsBitcask):
+	case z.Experiment(app_definitions2.ExperimentKvsBitcask):
 		return kv_storage.KvsEngineBitcask
-	case z.Experiment(app.ExperimentKvsBitcaskTurnstile):
+	case z.Experiment(app_definitions2.ExperimentKvsBitcaskTurnstile):
 		return kv_storage.KvsEngineBitcaskTurnstile
-	case z.Experiment(app.ExperimentKvsSqlite):
+	case z.Experiment(app_definitions2.ExperimentKvsSqlite):
 		return kv_storage.KvsEngineSqlite
-	case z.Experiment(app.ExperimentKvsSqliteTurnstile):
+	case z.Experiment(app_definitions2.ExperimentKvsSqliteTurnstile):
 		return kv_storage.KvsEngineSqliteTurnstile
 	default:
 		return kv_storage.KvsEngineBadger
@@ -71,7 +71,7 @@ func (z featureImpl) PathAuthRepository() string {
 	if z.com.AuthDatabase.IsExists() {
 		return z.com.AuthDatabase.Value()
 	} else {
-		return filepath.Join(z.ws.Secrets(), app.AuthDatabaseDefaultName)
+		return filepath.Join(z.ws.Secrets(), app_definitions2.AuthDatabaseDefaultName)
 	}
 }
 
@@ -278,7 +278,7 @@ func (z featureImpl) Concurrency() int {
 }
 
 func (z featureImpl) IsProduction() bool {
-	return app.IsProduction()
+	return app_definitions2.IsProduction()
 }
 
 func (z featureImpl) IsDebug() bool {

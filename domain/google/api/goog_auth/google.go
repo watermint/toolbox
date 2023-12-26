@@ -2,7 +2,7 @@ package goog_auth
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 // Gmail scopes
@@ -81,7 +81,7 @@ const (
 
 var (
 	Mail = api_auth.OAuthAppData{
-		AppKeyName:       app.ServiceGoogleMail,
+		AppKeyName:       app_definitions.ServiceGoogleMail,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
 		EndpointStyle:    api_auth.AuthStyleInParams,
@@ -90,7 +90,7 @@ var (
 	}
 
 	Calendar = api_auth.OAuthAppData{
-		AppKeyName:       app.ServiceGoogleCalendar,
+		AppKeyName:       app_definitions.ServiceGoogleCalendar,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
 		EndpointStyle:    api_auth.AuthStyleInParams,
@@ -99,7 +99,7 @@ var (
 	}
 
 	Sheets = api_auth.OAuthAppData{
-		AppKeyName:       app.ServiceGoogleSheets,
+		AppKeyName:       app_definitions.ServiceGoogleSheets,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
 		EndpointStyle:    api_auth.AuthStyleInParams,
@@ -108,7 +108,7 @@ var (
 	}
 
 	Translate = api_auth.OAuthAppData{
-		AppKeyName:       app.ServiceGoogleTranslate,
+		AppKeyName:       app_definitions.ServiceGoogleTranslate,
 		EndpointAuthUrl:  "https://accounts.google.com/o/oauth2/auth",
 		EndpointTokenUrl: "https://oauth2.googleapis.com/token",
 		EndpointStyle:    api_auth.AuthStyleInParams,

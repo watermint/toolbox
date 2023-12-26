@@ -3,7 +3,6 @@ package rp_model_impl
 import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_column_impl"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -41,7 +40,7 @@ func newSpec(name string, model interface{}, opts []rp_model.ReportOpt) rp_model
 			}
 		}
 
-		keyBase := es_reflect.Key(app.Pkg, m)
+		keyBase := es_reflect.Key(m)
 		for _, col := range visibleHeaders {
 			colDesc[base+col] = app_msg.CreateMessage(keyBase + "." + col + ".desc")
 		}
@@ -111,7 +110,7 @@ func (z *ColumnSpec) Desc() app_msg.Message {
 	if z.model == nil {
 		panic("Report model is not defined")
 	}
-	key := es_reflect.Key(app.Pkg, z.model) + ".desc"
+	key := es_reflect.Key(z.model) + ".desc"
 	return app_msg.CreateMessage(key)
 }
 

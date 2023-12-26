@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewConnAsana(name string) as_conn.ConnAsanaApi {
@@ -56,7 +56,7 @@ func (z *connAsanaApi) SetPeerName(name string) {
 }
 
 func (z *connAsanaApi) ScopeLabel() string {
-	return app.ServiceAsana
+	return app_definitions.ServiceAsana
 }
 
 func (z *connAsanaApi) ServiceName() string {

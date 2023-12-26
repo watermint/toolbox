@@ -3,7 +3,6 @@ package dc_command
 import (
 	"github.com/watermint/toolbox/essentials/api/api_doc"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -29,7 +28,7 @@ func (z Auth) Title() app_msg.Message {
 
 func (z Auth) Body(ui app_ui.UI) {
 	services := z.spec.Services()
-	msgBase := es_reflect.Key(app.Pkg, &z)
+	msgBase := es_reflect.Key(&z)
 	for _, service := range services {
 		serviceName := ui.Text(app_msg.CreateMessage(msgBase + ".service_name." + service))
 		serviceCuiPreview, ok := api_doc.ApiDocCuiPreview[service]

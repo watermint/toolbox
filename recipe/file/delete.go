@@ -8,7 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/ingredient/file"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
@@ -30,7 +30,7 @@ func (z *Delete) Preset() {
 func (z *Delete) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	return file.DeleteRecursively(z.Peer.Client(), z.Path, func(path mo_path.DropboxPath) {
+	return ig_file.DeleteRecursively(z.Peer.Client(), z.Path, func(path mo_path.DropboxPath) {
 		ui.Progress(z.ProgressDelete.With("Path", path.Path()))
 	})
 }

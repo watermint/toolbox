@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `config auth delete`
 lang: en
 ---
 

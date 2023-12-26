@@ -5,8 +5,8 @@ import (
 	"testing"
 )
 
-func TestAutoDetectedRecipes(t *testing.T) {
-	ad := AutoDetectedRecipes()
+func TestAutoDetectedRecipesClassic(t *testing.T) {
+	ad := AutoDetectedRecipesClassic()
 	for _, a := range ad {
 		s := rc_spec.New(a)
 		s.Name()

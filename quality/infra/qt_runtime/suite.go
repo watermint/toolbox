@@ -3,8 +3,8 @@ package qt_runtime
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/control/app_resource"
 	"github.com/watermint/toolbox/infra/doc/dc_license"
@@ -19,22 +19,22 @@ func Suite(ctl app_control.Control) {
 
 func checkResource(ctl app_control.Control) {
 	l := ctl.Log()
-	if app.BuildInfo.Hash == "" {
+	if app_definitions.BuildInfo.Hash == "" {
 		l.Error("Hash is empty")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}
-	if app.BuildInfo.Xap == "" {
+	if app_definitions.BuildInfo.Xap == "" {
 		l.Error("BuilderKey is empty")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}
-	if app.BuildInfo.Zap == "" {
+	if app_definitions.BuildInfo.Zap == "" {
 		l.Error("Zap is empty")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 		return
 	}
-	if !app.BuildInfo.Production {
+	if !app_definitions.BuildInfo.Production {
 		l.Error("The build is not for the production")
 		app_exit.Abort(app_exit.FatalResourceUnavailable)
 	}

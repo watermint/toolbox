@@ -24,7 +24,7 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
-	"github.com/watermint/toolbox/ingredient/teamspace"
+	"github.com/watermint/toolbox/ingredient/ig_dropbox/ig_teamspace"
 )
 
 type List struct {
@@ -93,7 +93,7 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	client, err := teamspace.ClientForRootNamespaceAsAdmin(z.Peer.Client())
+	client, err := ig_teamspace.ClientForRootNamespaceAsAdmin(z.Peer.Client())
 	if err != nil {
 		return err
 	}

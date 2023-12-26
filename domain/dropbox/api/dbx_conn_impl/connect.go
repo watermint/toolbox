@@ -7,12 +7,12 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func authSession(ctl app_control.Control) api_auth.OAuthSession {
-	if ctl.Feature().Experiment(app.ExperimentDbxAuthRedirect) {
+	if ctl.Feature().Experiment(app_definitions.ExperimentDbxAuthRedirect) {
 		return api_auth_oauth.NewSessionRedirect(ctl)
 	} else if f, found := ctl.Feature().OptInGet(&api_auth_oauth.OptInFeatureRedirect{}); found && f.OptInIsEnabled() {
 		return api_auth_oauth.NewSessionRedirect(ctl)

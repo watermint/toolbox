@@ -12,6 +12,10 @@ import (
 	"sort"
 )
 
+var (
+	SkipDropboxBusinessCommandDoc = false
+)
+
 type MsgDropboxBusiness struct {
 	DocDesc  app_msg.Message
 	Title    app_msg.Message
@@ -187,6 +191,9 @@ func (z DropboxBusiness) DocId() dc_index.DocId {
 }
 
 func (z DropboxBusiness) Sections() []dc_section.Section {
+	if SkipDropboxBusinessCommandDoc {
+		return []dc_section.Section{}
+	}
 	return []dc_section.Section{
 		&DropboxBusinessMember{cat: z.cat},
 		&DropboxBusinessGroup{cat: z.cat},

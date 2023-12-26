@@ -7,9 +7,9 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_group"
 	"github.com/watermint/toolbox/infra/recipe/rc_group_impl"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -137,12 +137,19 @@ func VerifyMessages(ctl app_control.Control) error {
 	if len(missing) > 0 {
 		sort.Strings(missing)
 		for _, k := range missing {
+			// ignore complex type
+			if k == "complex" {
+				continue
+			}
 			ctl.Log().Error("Key missing", esl.String(k, ""))
 		}
 
 		SuggestMessages(ctl, func(out io.Writer) {
 			for _, m := range missing {
 				switch {
+				case "complex" == m:
+					// ignore
+					continue
 				case strings.HasSuffix(m, ".flag.peer"):
 					fmt.Fprintf(out, `"%s":"Account alias",`, m)
 				case strings.HasSuffix(m, ".flag.file"):
@@ -168,7 +175,7 @@ func VerifyMessages(ctl app_control.Control) error {
 }
 
 func verifyGroup(g rc_group.Group, ui app_ui.UI) {
-	g.PrintUsage(ui, os.Args[0], app.BuildId)
+	g.PrintUsage(ui, os.Args[0], app_definitions.BuildId)
 	for _, sg := range g.SubGroups() {
 		verifyGroup(sg, ui)
 	}

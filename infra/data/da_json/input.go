@@ -8,7 +8,6 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/io/es_file_read"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"io"
@@ -69,7 +68,7 @@ func (z *jsInput) Debug() interface{} {
 		return map[string]interface{}{
 			"Name":     z.name,
 			"FilePath": z.filePath,
-			"Model":    es_reflect.Key(app.Pkg, z.model),
+			"Model":    es_reflect.Key(z.model),
 		}
 	} else {
 		return map[string]interface{}{

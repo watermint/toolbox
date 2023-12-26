@@ -2,14 +2,14 @@ package api_auth_basic
 
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"time"
 )
 
 var (
-	ErrorUserCancelled = app.ErrorUserCancelled
+	ErrorUserCancelled = app_definitions.ErrorUserCancelled
 )
 
 type MsgConsole struct {

@@ -3,8 +3,8 @@ package api_auth_oauth_test
 import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
@@ -27,7 +27,7 @@ func TestCode(t *testing.T) {
 			},
 		})
 		// should fail with user cancellation
-		if err != app.ErrorUserCancelled {
+		if err != app_definitions.ErrorUserCancelled {
 			t.Error(entity)
 		}
 	})

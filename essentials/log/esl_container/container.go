@@ -4,8 +4,8 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/esl_rotate"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_budget"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 type Logger interface {
@@ -49,15 +49,15 @@ func NewAll(basePath string, budget app_budget.Budget, consoleLevel esl.Level) (
 }
 
 func NewToolbox(basePath string, budget app_budget.Budget, consoleLevel esl.Level) (c Logger, err error) {
-	return New(basePath, app.LogToolbox, budget, esl.LevelDebug, consoleLevel, esl.FlavorFileStandard, true, true)
+	return New(basePath, app_definitions.LogToolbox, budget, esl.LevelDebug, consoleLevel, esl.FlavorFileStandard, true, true)
 }
 
 func NewCapture(basePath string, budget app_budget.Budget) (c Logger, err error) {
-	return New(basePath, app.LogCapture, budget, esl.LevelDebug, esl.LevelInfo, esl.FlavorFileCapture, false, true)
+	return New(basePath, app_definitions.LogCapture, budget, esl.LevelDebug, esl.LevelInfo, esl.FlavorFileCapture, false, true)
 }
 
 func LogSummary(basePath string) (c Logger, err error) {
-	return New(basePath, app.LogSummary, app_budget.BudgetUnlimited, esl.LevelDebug, esl.LevelInfo, esl.FlavorFileStandard, false, false)
+	return New(basePath, app_definitions.LogSummary, app_budget.BudgetUnlimited, esl.LevelDebug, esl.LevelInfo, esl.FlavorFileStandard, false, false)
 }
 
 func New(basePath, name string, budget app_budget.Budget, fileLevel, consoleLevel esl.Level, flavor esl.Flavor, teeConsole, compress bool) (c Logger, err error) {

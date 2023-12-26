@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"os"
 )
 
@@ -16,7 +16,7 @@ func ReplayPath(path mo_string.OptionalString) (string, error) {
 	replayPath := ""
 	if path.IsExists() {
 		replayPath = path.Value()
-	} else if rp := os.Getenv(app.EnvNameReplayPath); rp != "" {
+	} else if rp := os.Getenv(app_definitions.EnvNameReplayPath); rp != "" {
 		replayPath = rp
 	}
 	if replayPath == "" {

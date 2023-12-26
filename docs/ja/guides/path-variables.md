@@ -11,8 +11,8 @@ lang: ja
 | パス変数                       | 説明                                                                                                                |
 |--------------------------------|---------------------------------------------------------------------------------------------------------------------|
 | {% raw %}{{.{% endraw %}DropboxPersonal}}           | Dropbox 個人アカウントのルート フォルダへのパス.                                                                    |
-| {% raw %}{{.{% endraw %}DropboxBusiness}}           | Dropbox Business アカウントのルート フォルダへのパス.                                                               |
-| {% raw %}{{.{% endraw %}DropboxBusinessOrPersonal}} | Dropbox Business アカウントのルート フォルダへのパス、または見つからない場合は Personal Dropbox アカウントへのパス. |
+| {% raw %}{{.{% endraw %}DropboxBusiness}}           | Dropbox for teamsアカウントのルートフォルダへのパス。                                                               |
+| {% raw %}{{.{% endraw %}DropboxBusinessOrPersonal}} | Dropbox for teamsアカウントのルートフォルダへのパス、または見つからない場合はPersonal Dropboxアカウントへのパス。   |
 | {% raw %}{{.{% endraw %}DropboxPersonalOrBusiness}} | Dropbox Personal アカウントのルート フォルダへのパス、または見つからない場合は Business Dropbox アカウントへのパス. |
 | {% raw %}{{.{% endraw %}Home}}                      | 現在のユーザーのホームフォルダ.                                                                                     |
 | {% raw %}{{.{% endraw %}Username}}                  | 現在のユーザーの名前.                                                                                               |

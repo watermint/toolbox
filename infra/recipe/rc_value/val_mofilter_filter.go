@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -64,5 +63,5 @@ func (z *ValueMoFilterFilter) SpinDown(ctl app_control.Control) error {
 }
 
 func (z *ValueMoFilterFilter) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.filter), nil /// TODO: type attr
+	return es_reflect.Key(z.filter), nil /// TODO: type attr
 }

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `team activity batch user`
 lang: en
 ---
 
@@ -22,15 +22,15 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## Auth scopes
 
-| Description                                                                                             |
-|---------------------------------------------------------------------------------------------------------|
-| Dropbox Business: View your team's activity log                                                         |
-| Dropbox Business: View your team membership                                                             |
-| Dropbox Business: View basic information about your team including names, user count, and team settings |
+| Description                                                                                              |
+|----------------------------------------------------------------------------------------------------------|
+| Dropbox for teams: View your team's activity log                                                         |
+| Dropbox for teams: View your team membership                                                             |
+| Dropbox for teams: View basic information about your team including names, user count, and team settings |
 
 # Authorization
 
@@ -142,7 +142,7 @@ Report file path will be displayed last line of the command line output. If you 
 
 ## Report: combined
 
-This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
+This report shows an activity logs with mostly compatible with Dropbox for teams's activity logs.
 The command will generate a report in three different formats. `combined.csv`, `combined.json`, and `combined.xlsx`.
 
 | Column                   | Description                                                                                        |
@@ -168,7 +168,7 @@ In case of a report become large, a report in `.xlsx` format will be split into 
 
 ## Report: user
 
-This report shows an activity logs with mostly compatible with Dropbox Business's activity logs.
+This report shows an activity logs with mostly compatible with Dropbox for teams's activity logs.
 The command will generate a report in three different formats. `user.csv`, `user.json`, and `user.xlsx`.
 
 | Column                   | Description                                                                                        |

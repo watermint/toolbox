@@ -20,7 +20,7 @@ func TestStructTypeGenerator_Generate(t *testing.T) {
 		return
 	}
 	qtr_endtoend.TestWithControl(t, func(ctl app_control.Control) {
-		sc, err := NewScanner(ctl, rr)
+		sc, err := NewScanner(ctl, rr, ImporterTypeDefault)
 		if err != nil {
 			t.Error(err)
 			return

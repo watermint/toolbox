@@ -2,7 +2,7 @@ package release
 
 import (
 	"github.com/watermint/toolbox/domain/github/model/mo_release_asset"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"strings"
 )
 
@@ -17,7 +17,7 @@ const (
 
 func IdentifyPlatform(asset *mo_release_asset.Asset) string {
 	name := strings.ToLower(asset.Name)
-	if !strings.HasPrefix(name, app.ExecutableName) {
+	if !strings.HasPrefix(name, app_definitions.ExecutableName) {
 		return AssetPlatformUnknown
 	}
 

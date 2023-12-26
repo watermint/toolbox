@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド
+title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
@@ -23,7 +23,7 @@ Dropboxのスコープ付きOAuthアプリテスト
 
 方法は次のヘルプセンター記事をご参照ください:
 * Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
@@ -31,8 +31,8 @@ Dropboxのスコープ付きOAuthアプリテスト
 |----------------------------------------------------------------------------------------|
 | Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
 | Dropbox: Dropboxのファイルやフォルダのコンテンツを表示                                 |
-| Dropbox Business: チームメンバーの確認                                                 |
-| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認         |
+| Dropbox for teams：チームメンバーの確認                                                |
+| Dropbox for teams：名前、ユーザー数、チーム設定など、チームの基本情報を表示します。    |
 
 # 認可
 

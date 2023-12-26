@@ -5,25 +5,34 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_generate"
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"reflect"
 )
 
 type Catalogue struct {
 	rc_recipe.RemarkSecret
+	Importer mo_string.SelectString
 }
 
 func (z *Catalogue) Preset() {
+	z.Importer.SetOptions(
+		string(es_generate.ImporterTypeDefault),
+		string(es_generate.ImporterTypeDefault),
+		string(es_generate.ImporterTypeEnhanced),
+	)
 }
 
 func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_control.Control) error {
 	l := c.Log()
-	rcs := []string{"recipe", "ingredient"}
+	rcs := app_definitions.RecipePackageNames
 	for _, rc := range rcs {
+		l.Debug("Scanning recipe", esl.String("path", rc))
 		scr := sc.PathFilterPrefix(rc).ExcludeTest()
 		sts, err := scr.FindStructImplements(reflect.TypeOf((*rc_recipe.Recipe)(nil)).Elem())
 		if err != nil {
@@ -39,7 +48,11 @@ func (z *Catalogue) generateRecipe(rr string, sc es_generate.Scanner, c app_cont
 			l.Debug("Unable to generate", esl.Error(err))
 			return err
 		}
-		return ioutil.WriteFile(op, src, 0644)
+		err = os.WriteFile(op, src, 0644)
+		if err != nil {
+			l.Debug("Unable to write", esl.Error(err))
+			return err
+		}
 	}
 	return nil
 }
@@ -61,7 +74,7 @@ func (z *Catalogue) generateMessages(rr string, sc es_generate.Scanner, c app_co
 		l.Debug("Unable to generate", esl.Error(err))
 		return err
 	}
-	return ioutil.WriteFile(op, src, 0644)
+	return os.WriteFile(op, src, 0644)
 }
 
 func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_control.Control) error {
@@ -80,15 +93,17 @@ func (z *Catalogue) generateFeatures(rr string, sc es_generate.Scanner, c app_co
 	if err != nil {
 		return err
 	}
-	return ioutil.WriteFile(op, src, 0644)
+	return os.WriteFile(op, src, 0644)
 }
 
 func (z *Catalogue) Exec(c app_control.Control) error {
+	l := c.Log()
 	rr, err := es_project.DetectRepositoryRoot()
 	if err != nil {
 		return err
 	}
-	sc, err := es_generate.NewScanner(c, rr)
+	l.Info("Scanning repository root", esl.String("path", rr))
+	sc, err := es_generate.NewScanner(c, rr, es_generate.ImporterType(z.Importer.Value()))
 	if err != nil {
 		return err
 	}

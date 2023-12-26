@@ -1,7 +1,7 @@
 package dc_readme
 
 import (
-	"github.com/watermint/toolbox/infra/app"
+	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
@@ -21,13 +21,13 @@ type Header struct {
 }
 
 func (z Header) Title() app_msg.Message {
-	return z.HeaderTitle.With("AppName", app.Name)
+	return z.HeaderTitle.With("AppName", app_definitions2.Name)
 }
 
 func (z Header) Body(ui app_ui.UI) {
 	if z.publish {
-		ui.Info(app_msg.Raw(app.ProjectStatusBadge))
-		ui.Info(app_msg.Raw(app.ProjectLogo))
+		ui.Info(app_msg.Raw(app_definitions2.ProjectStatusBadge))
+		ui.Info(app_msg.Raw(app_definitions2.ProjectLogo))
 		ui.Break()
 	}
 	ui.Info(z.HeaderBody)

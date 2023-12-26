@@ -6,8 +6,8 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_client"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"net/http"
 )
 
@@ -73,7 +73,7 @@ func (z builderImpl) With(method, url string, data api_request.RequestData) Buil
 
 func (z builderImpl) reqHeaders() map[string]string {
 	headers := make(map[string]string)
-	headers[api_request.ReqHeaderUserAgent] = app.UserAgent()
+	headers[api_request.ReqHeaderUserAgent] = app_definitions.UserAgent()
 	if !z.entity.IsNoAuth() {
 		headers[api_request.ReqHeaderAuthorization] = "token " + z.entity.Token.AccessToken
 	}

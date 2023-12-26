@@ -4,7 +4,6 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -28,7 +27,7 @@ func (z *ValueMoStringSelect) ValueText() string {
 }
 
 func (z *ValueMoStringSelect) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.selStr), map[string]interface{}{
+	return es_reflect.Key(z.selStr), map[string]interface{}{
 		"options": z.selStr.Options(),
 	}
 }

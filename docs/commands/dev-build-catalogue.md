@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `dev build catalogue`
 lang: en
 ---
 
@@ -35,6 +35,12 @@ You may find the message like:
 > "tbx" was blocked from use because it is not from an identified developer.
 
 And you may find the button "Allow Anyway". Please hit the button with your risk. At second run, please hit button "Open" on the dialogue.
+
+## Options:
+
+| Option      | Description   | Default |
+|-------------|---------------|---------|
+| `-importer` | Importer type | default |
 
 ## Common options:
 

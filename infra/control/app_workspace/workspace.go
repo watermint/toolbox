@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"go.uber.org/atomic"
 	"io/ioutil"
@@ -100,7 +100,7 @@ func UserHomePath() (path string, err error) {
 }
 
 func DefaultAppPath() (path string, err error) {
-	if eh := os.Getenv(app.EnvNameToolboxHome); eh != "" {
+	if eh := os.Getenv(app_definitions.EnvNameToolboxHome); eh != "" {
 		return eh, nil
 	}
 

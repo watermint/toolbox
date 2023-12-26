@@ -5,15 +5,18 @@ package catalogue
 import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	recipe "github.com/watermint/toolbox/recipe"
-	recipeconfig "github.com/watermint/toolbox/recipe/config"
 	recipeconfigauth "github.com/watermint/toolbox/recipe/config/auth"
+	recipeconfigfeature "github.com/watermint/toolbox/recipe/config/feature"
+	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
 	recipedevciartifact "github.com/watermint/toolbox/recipe/dev/ci/artifact"
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
+	recipedevlifecycle "github.com/watermint/toolbox/recipe/dev/lifecycle"
 	recipedevmodule "github.com/watermint/toolbox/recipe/dev/module"
+	recipedevplaceholder "github.com/watermint/toolbox/recipe/dev/placeholder"
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
@@ -50,8 +53,8 @@ import (
 	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
 	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipegroupupdate "github.com/watermint/toolbox/recipe/group/update"
-	recipejobhistory "github.com/watermint/toolbox/recipe/job/history"
-	recipejoblog "github.com/watermint/toolbox/recipe/job/log"
+	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
+	recipelogjob "github.com/watermint/toolbox/recipe/log/job"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberbatch "github.com/watermint/toolbox/recipe/member/batch"
 	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
@@ -61,38 +64,6 @@ import (
 	recipememberfolder "github.com/watermint/toolbox/recipe/member/folder"
 	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
-	recipeservicesasanateam "github.com/watermint/toolbox/recipe/services/asana/team"
-	recipeservicesasanateamproject "github.com/watermint/toolbox/recipe/services/asana/team/project"
-	recipeservicesasanateamtask "github.com/watermint/toolbox/recipe/services/asana/team/task"
-	recipeservicesasanaworkspace "github.com/watermint/toolbox/recipe/services/asana/workspace"
-	recipeservicesasanaworkspaceproject "github.com/watermint/toolbox/recipe/services/asana/workspace/project"
-	recipeservicesdeepltranslate "github.com/watermint/toolbox/recipe/services/deepl/translate"
-	recipeservicesdropboxuser "github.com/watermint/toolbox/recipe/services/dropbox/user"
-	recipeservicesdropboxsignaccount "github.com/watermint/toolbox/recipe/services/dropboxsign/account"
-	recipeservicesfigmaaccount "github.com/watermint/toolbox/recipe/services/figma/account"
-	recipeservicesfigmafile "github.com/watermint/toolbox/recipe/services/figma/file"
-	recipeservicesfigmafileexport "github.com/watermint/toolbox/recipe/services/figma/file/export"
-	recipeservicesfigmafileexportall "github.com/watermint/toolbox/recipe/services/figma/file/export/all"
-	recipeservicesfigmaproject "github.com/watermint/toolbox/recipe/services/figma/project"
-	recipeservicesgithub "github.com/watermint/toolbox/recipe/services/github"
-	recipeservicesgithubcontent "github.com/watermint/toolbox/recipe/services/github/content"
-	recipeservicesgithubissue "github.com/watermint/toolbox/recipe/services/github/issue"
-	recipeservicesgithubrelease "github.com/watermint/toolbox/recipe/services/github/release"
-	recipeservicesgithubreleaseasset "github.com/watermint/toolbox/recipe/services/github/release/asset"
-	recipeservicesgithubtag "github.com/watermint/toolbox/recipe/services/github/tag"
-	recipeservicesgooglecalendarevent "github.com/watermint/toolbox/recipe/services/google/calendar/event"
-	recipeservicesgooglemailfilter "github.com/watermint/toolbox/recipe/services/google/mail/filter"
-	recipeservicesgooglemailfilterbatch "github.com/watermint/toolbox/recipe/services/google/mail/filter/batch"
-	recipeservicesgooglemaillabel "github.com/watermint/toolbox/recipe/services/google/mail/label"
-	recipeservicesgooglemailmessage "github.com/watermint/toolbox/recipe/services/google/mail/message"
-	recipeservicesgooglemailmessagelabel "github.com/watermint/toolbox/recipe/services/google/mail/message/label"
-	recipeservicesgooglemailmessageprocessed "github.com/watermint/toolbox/recipe/services/google/mail/message/processed"
-	recipeservicesgooglemailsendas "github.com/watermint/toolbox/recipe/services/google/mail/sendas"
-	recipeservicesgooglemailthread "github.com/watermint/toolbox/recipe/services/google/mail/thread"
-	recipeservicesgooglesheetssheet "github.com/watermint/toolbox/recipe/services/google/sheets/sheet"
-	recipeservicesgooglesheetsspreadsheet "github.com/watermint/toolbox/recipe/services/google/sheets/spreadsheet"
-	recipeservicesgoogletranslate "github.com/watermint/toolbox/recipe/services/google/translate"
-	recipeservicesslackconversation "github.com/watermint/toolbox/recipe/services/slack/conversation"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipesharedfoldermount "github.com/watermint/toolbox/recipe/sharedfolder/mount"
@@ -178,15 +149,16 @@ import (
 	recipeutilxlsxsheet "github.com/watermint/toolbox/recipe/util/xlsx/sheet"
 )
 
-func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
+func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 	return []infra_recipe_rc_recipe.Recipe{
 		&recipe.License{},
 		&recipe.Version{},
-		&recipeconfig.Disable{},
-		&recipeconfig.Enable{},
-		&recipeconfig.Features{},
 		&recipeconfigauth.Delete{},
 		&recipeconfigauth.List{},
+		&recipeconfigfeature.Disable{},
+		&recipeconfigfeature.Enable{},
+		&recipeconfigfeature.List{},
+		&recipedev.Info{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
 		&recipedevbenchmark.Uploadlink{},
@@ -203,7 +175,11 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
+		&recipedevlifecycle.Planchangepath{},
+		&recipedevlifecycle.Planprune{},
 		&recipedevmodule.List{},
+		&recipedevplaceholder.Pathchange{},
+		&recipedevplaceholder.Prune{},
 		&recipedevrelease.Asset{},
 		&recipedevrelease.Asseturl{},
 		&recipedevrelease.Candidate{},
@@ -296,13 +272,13 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmemberbatch.Delete{},
 		&recipegroupmemberbatch.Update{},
 		&recipegroupupdate.Type{},
-		&recipejobhistory.Archive{},
-		&recipejobhistory.Delete{},
-		&recipejobhistory.List{},
-		&recipejobhistory.Ship{},
-		&recipejoblog.Jobid{},
-		&recipejoblog.Kind{},
-		&recipejoblog.Last{},
+		&recipelogcat.Job{},
+		&recipelogcat.Kind{},
+		&recipelogcat.Last{},
+		&recipelogjob.Archive{},
+		&recipelogjob.Delete{},
+		&recipelogjob.List{},
+		&recipelogjob.Ship{},
 		&recipemember.Delete{},
 		&recipemember.Detach{},
 		&recipemember.Feature{},
@@ -329,63 +305,6 @@ func AutoDetectedRecipes() []infra_recipe_rc_recipe.Recipe {
 		&recipememberupdate.Invisible{},
 		&recipememberupdate.Profile{},
 		&recipememberupdate.Visible{},
-		&recipeservicesasanateam.List{},
-		&recipeservicesasanateamproject.List{},
-		&recipeservicesasanateamtask.List{},
-		&recipeservicesasanaworkspace.List{},
-		&recipeservicesasanaworkspaceproject.List{},
-		&recipeservicesdeepltranslate.Text{},
-		&recipeservicesdropboxuser.Feature{},
-		&recipeservicesdropboxuser.Filesystem{},
-		&recipeservicesdropboxuser.Info{},
-		&recipeservicesdropboxsignaccount.Info{},
-		&recipeservicesfigmaaccount.Info{},
-		&recipeservicesfigmafile.Info{},
-		&recipeservicesfigmafile.List{},
-		&recipeservicesfigmafileexport.Frame{},
-		&recipeservicesfigmafileexport.Node{},
-		&recipeservicesfigmafileexport.Page{},
-		&recipeservicesfigmafileexportall.Page{},
-		&recipeservicesfigmaproject.List{},
-		&recipeservicesgithub.Profile{},
-		&recipeservicesgithubcontent.Get{},
-		&recipeservicesgithubcontent.Put{},
-		&recipeservicesgithubissue.List{},
-		&recipeservicesgithubrelease.Draft{},
-		&recipeservicesgithubrelease.List{},
-		&recipeservicesgithubreleaseasset.Download{},
-		&recipeservicesgithubreleaseasset.List{},
-		&recipeservicesgithubreleaseasset.Upload{},
-		&recipeservicesgithubtag.Create{},
-		&recipeservicesgooglecalendarevent.List{},
-		&recipeservicesgooglemailfilter.Add{},
-		&recipeservicesgooglemailfilter.Delete{},
-		&recipeservicesgooglemailfilter.List{},
-		&recipeservicesgooglemailfilterbatch.Add{},
-		&recipeservicesgooglemaillabel.Add{},
-		&recipeservicesgooglemaillabel.Delete{},
-		&recipeservicesgooglemaillabel.List{},
-		&recipeservicesgooglemaillabel.Rename{},
-		&recipeservicesgooglemailmessage.List{},
-		&recipeservicesgooglemailmessage.Send{},
-		&recipeservicesgooglemailmessagelabel.Add{},
-		&recipeservicesgooglemailmessagelabel.Delete{},
-		&recipeservicesgooglemailmessageprocessed.List{},
-		&recipeservicesgooglemailsendas.Add{},
-		&recipeservicesgooglemailsendas.Delete{},
-		&recipeservicesgooglemailsendas.List{},
-		&recipeservicesgooglemailthread.List{},
-		&recipeservicesgooglesheetssheet.Append{},
-		&recipeservicesgooglesheetssheet.Clear{},
-		&recipeservicesgooglesheetssheet.Create{},
-		&recipeservicesgooglesheetssheet.Delete{},
-		&recipeservicesgooglesheetssheet.Export{},
-		&recipeservicesgooglesheetssheet.Import{},
-		&recipeservicesgooglesheetssheet.List{},
-		&recipeservicesgooglesheetsspreadsheet.Create{},
-		&recipeservicesgoogletranslate.Text{},
-		&recipeservicesslackconversation.History{},
-		&recipeservicesslackconversation.List{},
 		&recipesharedfolder.Leave{},
 		&recipesharedfolder.List{},
 		&recipesharedfolder.Share{},

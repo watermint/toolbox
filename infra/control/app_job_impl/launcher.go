@@ -5,9 +5,9 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth_repo"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/stats/es_memory"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_control_impl"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_feature_impl"
 	"github.com/watermint/toolbox/infra/control/app_job"
@@ -61,9 +61,9 @@ func (z launchImpl) recordStartLog(ctl app_control.Control) error {
 		CommonOpts:   z.com,
 		TimeStart:    time.Now().Format(time.RFC3339),
 		JobId:        ctl.Workspace().JobId(),
-		AppName:      app.Name,
-		AppHash:      app.BuildInfo.Hash,
-		AppVersion:   app.BuildId,
+		AppName:      app_definitions.Name,
+		AppHash:      app_definitions.BuildInfo.Hash,
+		AppVersion:   app_definitions.BuildId,
 		RecipeValues: rv,
 	}
 	return sl.Write(z.wb.Workspace())
@@ -123,9 +123,9 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	es_memory.LaunchReporting(lg)
 
 	sm.Debug("Up completed",
-		esl.String("name", app.Name),
-		esl.String("ver", app.BuildId),
-		esl.String("hash", app.BuildInfo.Hash),
+		esl.String("name", app_definitions.Name),
+		esl.String("ver", app_definitions.BuildId),
+		esl.String("hash", app_definitions.BuildInfo.Hash),
 		esl.String("recipe", z.rcp.CliPath()),
 	)
 

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド
+title: コマンド `{.CliPath}}`
 lang: ja
 ---
 
@@ -22,18 +22,18 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox Business: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
 
 ## 認可スコープ
 
-| 説明                                                                                              |
-|---------------------------------------------------------------------------------------------------|
-| Dropbox Business: プロフィール写真など、Dropboxアカウントの基本情報を表示・編集することができます |
-| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを表示                                   |
-| Dropbox Business: Dropboxのファイルやフォルダのコンテンツを編集                                   |
-| Dropbox Business: チームやメンバーのフォルダの構造を閲覧                                          |
-| Dropbox Business: チーム内のファイルやフォルダーのコンテンツを閲覧・編集                          |
-| Dropbox Business: 名前、ユーザー数、チーム設定など、チームの基本的な情報を確認                    |
+| 説明                                                                                |
+|-------------------------------------------------------------------------------------|
+| Dropbox for teams：プロフィール写真など、Dropboxアカウントの基本情報の表示と編集    |
+| Dropbox for teams：Dropboxのファイルやフォルダの内容を表示                          |
+| Dropbox for teams：Dropboxのファイルやフォルダの内容を編集する                      |
+| Dropbox for teams：チームやメンバーのフォルダ構造を表示                             |
+| Dropbox for teams：チーム内のファイルやフォルダのコンテンツを閲覧・編集できます。   |
+| Dropbox for teams：名前、ユーザー数、チーム設定など、チームの基本情報を表示します。 |
 
 # 認可
 

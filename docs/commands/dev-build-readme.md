@@ -1,6 +1,6 @@
 ---
 layout: command
-title: Command
+title: Command `dev build readme`
 lang: en
 ---
 

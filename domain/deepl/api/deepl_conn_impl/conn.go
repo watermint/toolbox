@@ -8,8 +8,8 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 )
 
@@ -66,7 +66,7 @@ func (z *connDeeplApiImpl) SetPeerName(name string) {
 }
 
 func (z *connDeeplApiImpl) ScopeLabel() string {
-	return app.ServiceDeepl
+	return app_definitions.ServiceDeepl
 }
 
 func (z *connDeeplApiImpl) ServiceName() string {

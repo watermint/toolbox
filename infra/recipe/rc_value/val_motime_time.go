@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -34,7 +33,7 @@ type ValueMoTimeTime struct {
 }
 
 func (z *ValueMoTimeTime) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.time), map[string]interface{}{
+	return es_reflect.Key(z.time), map[string]interface{}{
 		"optional": z.isOptional,
 	}
 }

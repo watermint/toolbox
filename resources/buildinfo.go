@@ -35,6 +35,14 @@ func NewBundle() es_resource.Bundle {
 	)
 }
 
+func CoreRelease() string {
+	rel, err := NewBundle().Release().Bytes("release")
+	if err != nil {
+		panic("`release` resource not found: " + err.Error())
+	}
+	return strings.TrimSpace(string(rel))
+}
+
 // Release release number (major version only) from the resource
 func Release() string {
 	rel, err := CurrentBundle.Release().Bytes("release")

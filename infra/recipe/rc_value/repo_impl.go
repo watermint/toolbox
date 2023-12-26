@@ -25,8 +25,8 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_multi"
 	es_case2 "github.com/watermint/toolbox/essentials/strings/es_case"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/data/da_griddata"
 	"github.com/watermint/toolbox/infra/data/da_json"
 	"github.com/watermint/toolbox/infra/data/da_text"
@@ -542,7 +542,7 @@ func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 
 func (z *RepositoryImpl) fieldMessageKeyBase() string {
 	key := z.rcpName
-	key = strings.ReplaceAll(key, app.Pkg+"/", "")
+	key = strings.ReplaceAll(key, app_definitions.Pkg+"/", "")
 	key = strings.ReplaceAll(key, "/", ".")
 	return key + ".flag."
 }

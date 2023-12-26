@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"reflect"
@@ -25,7 +24,7 @@ type ValueMoPathDropboxPath struct {
 }
 
 func (z *ValueMoPathDropboxPath) Spec() (typeName string, typeAttr interface{}) {
-	return es_reflect.Key(app.Pkg, z.path), nil
+	return es_reflect.Key(z.path), nil
 }
 
 func (z *ValueMoPathDropboxPath) ValueText() string {

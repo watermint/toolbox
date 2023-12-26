@@ -4,7 +4,7 @@ import (
 	"container/list"
 	"github.com/watermint/toolbox/essentials/go/es_goroutine"
 	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/app"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"runtime"
 	"sync"
 	"time"
@@ -24,7 +24,7 @@ var (
 )
 
 func getReportInterval() time.Duration {
-	if app.IsProduction() {
+	if app_definitions.IsProduction() {
 		return 1 * time.Minute
 	} else {
 		return 10 * time.Second
