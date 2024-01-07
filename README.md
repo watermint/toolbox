@@ -52,7 +52,7 @@ The general policy is as follows.
 * Commands that are considered infrequently used will be discontinued or moved without notice.
 * Changes to other commands will be announced 30-180 days or more in advance.
 
-Changes in specifications will be announced at [Announcements](https://github.com/watermint/toolbox/discussions/categories/announcements). Please refer to [Specification Change](https://toolbox.watermint.org/guide/spec-changes.html) for a list of planned specification changes.
+Changes in specifications will be announced at [Announcements](https://github.com/watermint/toolbox/discussions/categories/announcements). Please refer to [Specification Change](https://toolbox.watermint.org/guides/spec-change.html) for a list of planned specification changes.
 
 # Security and privacy
 
@@ -78,7 +78,7 @@ You can see available commands and options by running executable without argumen
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2023 Takayuki Okazaki
+© 2016-2024 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Tools for Dropbox and Dropbox for teams

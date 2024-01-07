@@ -4,8 +4,6 @@ go 1.21
 
 require (
 	git.mills.io/prologic/bitcask v1.0.2
-	github.com/asticode/go-astikit v0.42.0
-	github.com/asticode/go-astilectron v0.30.0
 	github.com/asticode/go-astisub v0.26.1
 	github.com/boombuler/barcode v1.0.1
 	github.com/dgraph-io/badger/v4 v4.2.0
@@ -39,6 +37,7 @@ require (
 	golang.org/x/oauth2 v0.15.0
 	golang.org/x/sync v0.5.0
 	golang.org/x/text v0.14.0
+	golang.org/x/tools v0.16.1
 	gorm.io/driver/sqlite v1.5.4
 	gorm.io/gorm v1.25.5
 )
@@ -50,6 +49,7 @@ require (
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/abcum/lcp v0.0.0-20201209214815-7a3f3840be81 // indirect
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
+	github.com/asticode/go-astikit v0.42.0 // indirect
 	github.com/asticode/go-astits v1.13.0 // indirect
 	github.com/bytedance/sonic v1.10.2 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -120,7 +120,6 @@ require (
 	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/sys v0.15.0 // indirect
 	golang.org/x/term v0.15.0 // indirect
-	golang.org/x/tools v0.16.1 // indirect
 	gonum.org/v1/gonum v0.14.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/protobuf v1.31.0 // indirect
