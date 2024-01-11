@@ -24,7 +24,7 @@ func (z *Version) Exec(c app_control.Control) error {
 
 	components := dc_version.VersionComponents(c.UI())
 	for _, component := range components {
-		z.Versions.Row(&component)
+		z.Versions.Row(component)
 	}
 	return nil
 }
