@@ -32,12 +32,12 @@ require (
 	go.uber.org/atomic v1.11.0
 	go.uber.org/zap v1.26.0
 	golang.org/x/crypto v0.18.0
-	golang.org/x/exp v0.0.0-20240110193028-0dcbfd608b1e
+	golang.org/x/exp v0.0.0-20240112132812-db7319d0e0e3
 	golang.org/x/image v0.15.0
 	golang.org/x/oauth2 v0.16.0
 	golang.org/x/sync v0.6.0
 	golang.org/x/text v0.14.0
-	golang.org/x/tools v0.16.1
+	golang.org/x/tools v0.17.0
 	gorm.io/driver/sqlite v1.5.4
 	gorm.io/gorm v1.25.5
 )
@@ -69,7 +69,7 @@ require (
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.16.0 // indirect
+	github.com/go-playground/validator/v10 v10.17.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
