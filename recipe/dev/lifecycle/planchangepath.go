@@ -121,7 +121,7 @@ func (z *Planchangepath) Test(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	expected := `{"path_change":[],"prune":[{"announcement":"https://github.com/watermint/toolbox/issues/781","prune_after_build_date":"2123-12-24T10:30:00Z","current":{"path":["dev","lifecycle"],"name":"planprune"}}]}`
+	expected := `{"path_change":[{"announcement":"https://github.com/watermint/toolbox/issues/781","prune_after_build_date":"2123-12-24T10:30:00Z","current":{"path":["dev","lifecycle"],"name":"planchangepath"},"former_paths":[{"path":["dev","lifecycle"],"name":"planpathchange"}]}],"prune":[]}`
 	if string(content) != expected {
 		c.Log().Warn("Unexpected content", esl.String("expected", expected), esl.String("actual", string(content)))
 		return errors.New("unexpected content")

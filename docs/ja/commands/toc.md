@@ -295,6 +295,7 @@ lang: ja
 | [file template apply local]({{ site.baseurl }}/ja/commands/file-template-apply-local.html)               | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
 | [file template capture local]({{ site.baseurl }}/ja/commands/file-template-capture-local.html)           | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
 | [license]({{ site.baseurl }}/ja/commands/license.html)                                                   | ライセンス情報を表示します                                             |
+| [log cat curl]({{ site.baseurl }}/ja/commands/log-cat-curl.html)                                         | キャプチャログを `curl` サンプルとしてフォーマットする                 |
 | [log cat job]({{ site.baseurl }}/ja/commands/log-cat-job.html)                                           | 指定したジョブIDのログを取得する                                       |
 | [log cat kind]({{ site.baseurl }}/ja/commands/log-cat-kind.html)                                         | 指定種別のログを結合して出力します                                     |
 | [log cat last]({{ site.baseurl }}/ja/commands/log-cat-last.html)                                         | 最後のジョブのログファイルを出力.                                      |

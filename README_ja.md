@@ -50,7 +50,7 @@ brew install toolbox
 * 使用頻度が低いと思われるコマンドは、予告なく廃止または移動されます。
 * その他のコマンドの変更は、30～180日以上前に発表されます。
 
-仕様の変更は[お知らせ](https://github.com/watermint/toolbox/discussions/categories/announcements)で発表されます。仕様変更予定一覧は[仕様変更](https://toolbox.watermint.org/ja/guide/spec-changes.html)をご参照ください。
+仕様の変更は[お知らせ](https://github.com/watermint/toolbox/discussions/categories/announcements)で発表されます。仕様変更予定一覧は[仕様変更](https://toolbox.watermint.org/ja/guides/spec-change.html)をご参照ください。
 
 # セキュリティとプライバシー
 
@@ -76,7 +76,7 @@ APIトークンなどの機密データのほとんどは、難読化されて�
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2023 Takayuki Okazaki
+© 2016-2024 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 Dropbox用ツールとDropbox for teams
@@ -408,6 +408,7 @@ Dropbox用ツールとDropbox for teams
 | [file template apply local](docs/ja/commands/file-template-apply-local.md)               | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
 | [file template capture local](docs/ja/commands/file-template-capture-local.md)           | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
 | [license](docs/ja/commands/license.md)                                                   | ライセンス情報を表示します                                             |
+| [log cat curl](docs/ja/commands/log-cat-curl.md)                                         | キャプチャログを `curl` サンプルとしてフォーマットする                 |
 | [log cat job](docs/ja/commands/log-cat-job.md)                                           | 指定したジョブIDのログを取得する                                       |
 | [log cat kind](docs/ja/commands/log-cat-kind.md)                                         | 指定種別のログを結合して出力します                                     |
 | [log cat last](docs/ja/commands/log-cat-last.md)                                         | 最後のジョブのログファイルを出力.                                      |

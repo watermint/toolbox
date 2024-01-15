@@ -20,8 +20,6 @@ import (
 	recipedevrelease "github.com/watermint/toolbox/recipe/dev/release"
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
-	recipedevstage "github.com/watermint/toolbox/recipe/dev/stage"
-	recipedevstagegui "github.com/watermint/toolbox/recipe/dev/stage/gui"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevtestauth "github.com/watermint/toolbox/recipe/dev/test/auth"
 	recipedevtestsetup "github.com/watermint/toolbox/recipe/dev/test/setup"
@@ -191,15 +189,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevreplay.Remote{},
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
-		&recipedevstage.Dbxfs{},
-		&recipedevstage.Encoding{},
-		&recipedevstage.Gmail{},
-		&recipedevstage.Griddata{},
-		&recipedevstage.HttpRange{},
-		&recipedevstage.Scoped{},
-		&recipedevstage.Teamfolder{},
-		&recipedevstage.UploadAppend{},
-		&recipedevstagegui.Launch{},
 		&recipedevtest.Echo{},
 		&recipedevtest.Panic{},
 		&recipedevtest.Recipe{},
@@ -208,7 +197,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtestsetup.Massfiles{},
 		&recipedevtestsetup.Teamsharedlink{},
 		&recipedevutil.Anonymise{},
-		&recipedevutil.Curl{},
 		&recipedevutil.Wait{},
 		&recipedevutilimage.Jpeg{},
 		&recipefile.Copy{},
@@ -272,6 +260,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipegroupmemberbatch.Delete{},
 		&recipegroupmemberbatch.Update{},
 		&recipegroupupdate.Type{},
+		&recipelogcat.Curl{},
 		&recipelogcat.Job{},
 		&recipelogcat.Kind{},
 		&recipelogcat.Last{},

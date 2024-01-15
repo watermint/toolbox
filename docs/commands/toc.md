@@ -295,6 +295,7 @@ lang: en
 | [file template apply local]({{ site.baseurl }}/commands/file-template-apply-local.html)               | Apply file/folder structure template to the local path               |
 | [file template capture local]({{ site.baseurl }}/commands/file-template-capture-local.html)           | Capture file/folder structure as template from local path            |
 | [license]({{ site.baseurl }}/commands/license.html)                                                   | Show license information                                             |
+| [log cat curl]({{ site.baseurl }}/commands/log-cat-curl.html)                                         | Format capture logs as `curl` sample                                 |
 | [log cat job]({{ site.baseurl }}/commands/log-cat-job.html)                                           | Retrieve logs of specified Job ID                                    |
 | [log cat kind]({{ site.baseurl }}/commands/log-cat-kind.html)                                         | Concatenate and print logs of specified log kind                     |
 | [log cat last]({{ site.baseurl }}/commands/log-cat-last.html)                                         | Print the last job log files                                         |

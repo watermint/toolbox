@@ -30,59 +30,59 @@ type VersionInfo struct {
 	Version   string `json:"version"`
 }
 
-func VersionComponents(ui app_ui.UI) []VersionInfo {
-	components := make([]VersionInfo, 0)
-	components = append(components, VersionInfo{
+func VersionComponents(ui app_ui.UI) []*VersionInfo {
+	components := make([]*VersionInfo, 0)
+	components = append(components, &VersionInfo{
 		Key:       "app.name",
 		Component: "app.name",
 		Version:   app_definitions2.Name,
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "app.version",
 		Component: app_definitions2.Name,
 		Version:   app_definitions2.BuildId,
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "app.hash",
 		Component: ui.Text(MVersionInfo.HeaderAppHash),
 		Version:   app_definitions2.BuildInfo.Hash,
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "app.branch",
 		Component: ui.Text(MVersionInfo.HeaderBranch),
 		Version:   app_definitions2.BuildInfo.Branch,
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "app.production",
 		Component: ui.Text(MVersionInfo.HeaderProduction),
 		Version:   strconv.FormatBool(app_definitions2.BuildInfo.Production),
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "core.release",
 		Component: app_definitions2.Pkg,
 		Version:   resources.CoreRelease(),
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "build.time",
 		Component: ui.Text(MVersionInfo.HeaderBuildTime),
 		Version:   app_definitions2.BuildInfo.Timestamp,
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "go.version",
 		Component: ui.Text(MVersionInfo.HeaderGoVersion),
 		Version:   runtime.Version(),
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "lifecycle.bestbefore",
 		Component: ui.Text(MVersionInfo.HeaderLifecycle),
 		Version:   app_lifecycle.LifecycleControl().TimeBestBefore().Format(time.RFC3339),
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "lifecycle.expiration",
 		Component: ui.Text(MVersionInfo.HeaderLifecycle),
 		Version:   app_lifecycle.LifecycleControl().TimeExpiration().Format(time.RFC3339),
 	})
-	components = append(components, VersionInfo{
+	components = append(components, &VersionInfo{
 		Key:       "lifecycle.mode",
 		Component: ui.Text(MVersionInfo.HeaderLifecycle),
 		Version:   string(app_definitions2.LifecycleExpirationMode),

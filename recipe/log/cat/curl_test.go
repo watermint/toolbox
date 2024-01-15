@@ -1,10 +1,10 @@
-package gui
+package cat
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 	"testing"
 )
 
-func TestGui_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Launch{})
+func TestCurl_Exec(t *testing.T) {
+	qtr_endtoend.TestRecipe(t, &Curl{})
 }

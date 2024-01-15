@@ -1,4 +1,4 @@
-package util
+package cat
 
 import (
 	"bufio"
@@ -21,7 +21,6 @@ import (
 
 type Curl struct {
 	rc_recipe.RemarkConsole
-	rc_recipe.RemarkSecret
 	rc_recipe.RemarkTransient
 	Record     mo_string.OptionalString
 	BufferSize mo_int.RangeInt

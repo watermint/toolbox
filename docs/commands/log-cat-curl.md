@@ -1,51 +1,12 @@
 ---
 layout: command
-title: Command `dev stage gmail`
+title: Command `log cat curl`
 lang: en
 ---
 
-# dev stage gmail
+# log cat curl
 
-Gmail command 
-
-# Security
-
-`watermint toolbox` stores credentials into the file system. That is located at below path:
-
-| OS      | Path                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-Please do not share those files to anyone including Dropbox support.
-You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
-
-Please see below help article for more detail:
-* Google: https://support.google.com/accounts/answer/3466521
-
-## Auth scopes
-
-| Description                                  |
-|----------------------------------------------|
-| Gmail: View your email messages and settings |
-
-# Authorization
-
-For the first run, `tbx` will ask you an authentication with your Google account.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2023 Takayuki Okazaki
-Licensed under open source licenses. Use the `license` command for more detail.
-
-Opening the authorization URL:
-https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
-
-```
+Format capture logs as `curl` sample 
 
 # Installation
 
@@ -61,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev stage gmail 
+.\tbx.exe log cat curl 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev stage gmail 
+$HOME/Desktop/tbx log cat curl 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,10 +38,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                                    | Default |
-|------------|--------------------------------------------------------------------------------|---------|
-| `-peer`    | Account alias                                                                  | default |
-| `-user-id` | User id. The special value 'me' can be used to indicate the authenticated user | me      |
+| Option         | Description                                               | Default |
+|----------------|-----------------------------------------------------------|---------|
+| `-buffer-size` | Buffer size for each request                              | 65536   |
+| `-record`      | Give a record of capture log file via command line option |         |
 
 ## Common options:
 
@@ -104,30 +65,6 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
-
-# Results
-
-Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
-
-| OS      | Path pattern                                | Example                                                |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## Report: labels
-
-Label
-The command will generate a report in three different formats. `labels.csv`, `labels.json`, and `labels.xlsx`.
-
-| Column | Description       |
-|--------|-------------------|
-| name   | Name of the label |
-| type   | Type of the label |
-
-If you run with `-budget-memory low` option, the command will generate only JSON format report.
-
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `labels_0000.xlsx`, `labels_0001.xlsx`, `labels_0002.xlsx`, ...
 
 # Proxy configuration
 

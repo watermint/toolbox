@@ -49,23 +49,23 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "KeyName", Desc: "Application key name", TypeName: "string"},
-  		&{Name: "PeerName", Desc: "Peer name", TypeName: "string"},
-- 		&{
-- 			Name:     "Scope",
-- 			Desc:     "Auth scope",
-- 			TypeName: "essentials.model.mo_string.opt_string",
-- 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "KeyName", Desc: "Application key name", TypeName: "string"},
+  		&{Name: "PeerName", Desc: "Peer name", TypeName: "string"},
+- 		&{
+- 			Name:     "Scope",
+- 			Desc:     "Auth scope",
+- 			TypeName: "essentials.model.mo_string.opt_string",
+- 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 
 ## Added report(s)
