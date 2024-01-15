@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_recipe"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
+	"github.com/watermint/toolbox/infra/recipe/rc_compatibility"
 	"github.com/watermint/toolbox/infra/recipe/rc_error_handler"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -19,8 +20,26 @@ import (
 )
 
 type MockSpec struct {
-	name string
-	path []string
+	name      string
+	path      []string
+	hasChange bool
+}
+
+func (z MockSpec) FormerPaths() (paths []rc_compatibility.PathPair) {
+	return []rc_compatibility.PathPair{}
+}
+
+func (z MockSpec) IsSpecChange() bool {
+	return z.hasChange
+}
+
+func (z MockSpec) IsPruned() bool {
+	return false
+}
+
+func (z MockSpec) MarkSpecChange() rc_recipe.Spec {
+	z.hasChange = true
+	return z
 }
 
 func (z MockSpec) IsDeprecated() bool {
