@@ -410,6 +410,7 @@ Available commands:
 | [file template apply local](docs/commands/file-template-apply-local.md)               | Apply file/folder structure template to the local path               |
 | [file template capture local](docs/commands/file-template-capture-local.md)           | Capture file/folder structure as template from local path            |
 | [license](docs/commands/license.md)                                                   | Show license information                                             |
+| [log cat curl](docs/commands/log-cat-curl.md)                                         | Format capture logs as `curl` sample                                 |
 | [log cat job](docs/commands/log-cat-job.md)                                           | Retrieve logs of specified Job ID                                    |
 | [log cat kind](docs/commands/log-cat-kind.md)                                         | Concatenate and print logs of specified log kind                     |
 | [log cat last](docs/commands/log-cat-last.md)                                         | Print the last job log files                                         |

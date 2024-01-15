@@ -1,4 +1,4 @@
-package util
+package cat
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"

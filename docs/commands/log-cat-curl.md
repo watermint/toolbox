@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `dev util curl`
+title: Command `log cat curl`
 lang: en
 ---
 
-# dev util curl
+# log cat curl
 
-Generate cURL preview from capture log 
+Format capture logs as `curl` sample 
 
 # Installation
 
@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev util curl 
+.\tbx.exe log cat curl 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev util curl 
+$HOME/Desktop/tbx log cat curl 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -38,10 +38,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option         | Description                    | Default |
-|----------------|--------------------------------|---------|
-| `-buffer-size` | Size of buffer                 | 65536   |
-| `-record`      | Capture record(s) for the test |         |
+| Option         | Description                                               | Default |
+|----------------|-----------------------------------------------------------|---------|
+| `-buffer-size` | Buffer size for each request                              | 65536   |
+| `-record`      | Give a record of capture log file via command line option |         |
 
 ## Common options:
 
