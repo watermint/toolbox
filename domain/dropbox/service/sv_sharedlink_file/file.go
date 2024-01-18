@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
@@ -74,7 +75,13 @@ func (z *fileImpl) Download(url mo_url.Url, remotePath mo_path.DropboxPath, loca
 		Path:         remotePath.Path(),
 		LinkPassword: lo.Password,
 	}
-	res := z.ctx.Download("sharing/get_shared_link_file", api_request.Param(p))
+	q, err := dbx_request.DropboxApiArg(p)
+	if err != nil {
+		l.Debug("unable to marshal parameter", esl.Error(err))
+		return nil, nil, err
+	}
+
+	res := z.ctx.Download("sharing/get_shared_link_file", q)
 
 	if err, f := res.Failure(); f {
 		return nil, nil, err
