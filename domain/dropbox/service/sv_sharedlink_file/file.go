@@ -11,12 +11,18 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	fs_path "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/time/ut_format"
+	"os"
 	"strings"
+	"time"
 )
 
 type File interface {
 	List(url mo_url.Url, path mo_path.DropboxPath, nEntry func(entry mo_file.Entry), opt ...ListOpt) error
 	ListRecursive(url mo_url.Url, nEntry func(entry mo_file.Entry), opt ...ListOpt) error
+	Resolve(url mo_url.Url, path mo_path.DropboxPath, opts ...ListOpt) (entry mo_file.Entry, err error)
+	Download(url mo_url.Url, remotePath mo_path.DropboxPath, localPath fs_path.FileSystemPath, opts ...ListOpt) (entry mo_file.Entry, localDownloadPath fs_path.FileSystemPath, err error)
 }
 
 type ListOpt func(opt *ListOpts) *ListOpts
@@ -51,6 +57,80 @@ func New(ctx dbx_client.Client) File {
 
 type fileImpl struct {
 	ctx dbx_client.Client
+}
+
+func (z *fileImpl) Download(url mo_url.Url, remotePath mo_path.DropboxPath, localPath fs_path.FileSystemPath, opts ...ListOpt) (entry mo_file.Entry, localDownloadPath fs_path.FileSystemPath, err error) {
+	l := z.ctx.Log().With(esl.String("url", url.Value()), esl.String("remotePath", remotePath.Path()), esl.String("localPath", localPath.Path()))
+	lo := &ListOpts{}
+	for _, o := range opts {
+		o(lo)
+	}
+	p := struct {
+		Url          string `json:"url"`
+		Path         string `json:"path"`
+		LinkPassword string `json:"link_password,omitempty"`
+	}{
+		Url:          url.Value(),
+		Path:         remotePath.Path(),
+		LinkPassword: lo.Password,
+	}
+	res := z.ctx.Download("sharing/get_shared_link_file", api_request.Param(p))
+
+	if err, f := res.Failure(); f {
+		return nil, nil, err
+	}
+	contentFilePath, err := res.Success().AsFile()
+	if err != nil {
+		return nil, nil, err
+	}
+	resData := dbx_client.ContentResponseData(res)
+
+	entry = &mo_file.Metadata{}
+	if err := resData.Model(entry); err != nil {
+		// Try remove downloaded file
+		if removeErr := os.Remove(contentFilePath); removeErr != nil {
+			l.Debug("Unable to remove downloaded file",
+				esl.Error(err),
+				esl.String("path", contentFilePath))
+			// fall through
+		}
+
+		return nil, nil, err
+	}
+
+	// update file timestamp
+	clientModified := entry.Concrete().ClientModified
+	ftm, ok := ut_format.ParseTimestamp(clientModified)
+	if !ok {
+		l.Debug("Unable to parse client modified", esl.String("client_modified", clientModified))
+	} else if err := os.Chtimes(contentFilePath, time.Now(), ftm); err != nil {
+		l.Debug("Unable to change time", esl.Error(err))
+	}
+	return entry, fs_path.NewFileSystemPath(contentFilePath), nil
+}
+
+func (z *fileImpl) Resolve(url mo_url.Url, path mo_path.DropboxPath, opts ...ListOpt) (entry mo_file.Entry, err error) {
+	lo := &ListOpts{}
+	for _, o := range opts {
+		o(lo)
+	}
+	p := struct {
+		Url          string `json:"url"`
+		Path         string `json:"path"`
+		LinkPassword string `json:"link_password,omitempty"`
+	}{
+		Url:          url.Value(),
+		Path:         path.Path(),
+		LinkPassword: lo.Password,
+	}
+	res := z.ctx.Post("sharing/get_shared_link_metadata", api_request.Param(p))
+	if err, fail := res.Failure(); fail {
+		return nil, err
+	}
+	j := res.Success().Json()
+	e := &mo_file.Metadata{}
+	err = j.Model(e)
+	return e, err
 }
 
 func (z *fileImpl) ListRecursive(url mo_url.Url, nEntry func(entry mo_file.Entry), opts ...ListOpt) error {
