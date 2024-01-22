@@ -10,6 +10,7 @@ type SummaryFolderPath struct {
 	// primary keys
 	NamespaceId string `path:"namespace_id" gorm:"primaryKey"`
 	FolderId    string `path:"folder_id" gorm:"primaryKey"`
+	Name        string
 
 	// parent folder ids joined by slash ('/')
 	Path string `path:"path"`
@@ -30,9 +31,9 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 	current := entry.ParentFolderId
 
 	ns := &Namespace{}
-	if err := z.db.First(ns, "namespace_id = ?", entry.NamespaceId).Error; err != nil {
-		l.Debug("cannot retrieve namespace", esl.Error(err), esl.String("namespaceId", entry.NamespaceId))
-		return err
+	if err := z.db.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
+		l.Debug("cannot retrieve namespace", esl.Error(err), esl.String("namespaceId", entry.EntryNamespaceId))
+		// fall through
 	}
 
 	names := make([]string, 0)
@@ -59,7 +60,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 	}
 	slices.Reverse(names)
 	if ns.NamespaceType != "team_member_folder" {
-		names = append(names, ns.Name)
+		names = append(names, entry.Name)
 	}
 	path := ""
 	for i := len(parents) - 1; i >= 0; i-- {

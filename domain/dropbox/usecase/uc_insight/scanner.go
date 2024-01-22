@@ -369,6 +369,7 @@ func (z tsImpl) Summarize() error {
 		&SummaryFolderPath{},
 		&SummaryFolderRecursive{},
 		&SummaryNamespace{},
+		&SummaryTeamFolderEntry{},
 	}
 	for _, st := range summaryTables {
 		z.db.Delete(st)
