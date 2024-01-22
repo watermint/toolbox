@@ -1,6 +1,7 @@
 package uc_insight
 
 import (
+	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -32,6 +33,8 @@ type NamespaceDetail struct {
 	IsSameTeam           bool   `gorm:"index"`
 
 	Updated uint64 `gorm:"autoUpdateTime"`
+
+	Raw json.RawMessage
 }
 
 func NewNamespaceDetail(s *mo_sharedfolder.SharedFolder) (ns *NamespaceDetail, err error) {
@@ -49,6 +52,7 @@ func NewNamespaceDetail(s *mo_sharedfolder.SharedFolder) (ns *NamespaceDetail, e
 		ParentNamespaceId:    s.ParentSharedFolderId,
 		OwnerTeamId:          s.OwnerTeamId,
 		OwnerTeamName:        s.OwnerTeamName,
+		Raw:                  s.Raw,
 	}
 
 	return ns, nil

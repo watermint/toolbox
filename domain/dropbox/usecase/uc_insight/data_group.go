@@ -18,6 +18,7 @@ type Group struct {
 	GroupName           string `path:"group_name"`
 	GroupManagementType string `path:"group_management_type.\\.tag"`
 	GroupExternalId     string `path:"group_external_id"`
+	MemberCount         uint64 `path:"member_count"`
 
 	SameTeam string `path:"same_team"`
 

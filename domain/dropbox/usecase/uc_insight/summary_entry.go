@@ -2,6 +2,45 @@ package uc_insight
 
 import "github.com/watermint/toolbox/essentials/log/esl"
 
+type SummaryMemberCount struct {
+	// CountUniqueLower is the lower bounds of number of unique members including users,
+	// internal groups, and invitees.
+	// But this count will not include number of members in external groups.
+	// This count will not count difference between membership type like viewer or editor.
+	CountUniqueLower uint64 `path:"count_unique_lower"`
+
+	// CountUniqueUpper is the upper bounds of number of unique members including users,
+	// is the lower bounds of number of unique members including users,
+	// internal groups, and invitees.
+	// But this count will not include number of members in external groups.
+	// This count will not count difference between membership type like viewer or editor.
+	CountUniqueUpper uint64 `path:"count_unique_upper"`
+
+	// CountAccess is the number of unique direct access excluding groups (direct + invitees).
+	// This count will not count difference between membership type like viewer or editor.
+	CountMember uint64 `path:"count_member"`
+
+	// CountMemberInternal is the number of unique internal members, this will not include invitees.
+	// This count will not count difference between membership type like viewer or editor.
+	CountMemberInternal uint64 `path:"count_member_internal"`
+
+	// CountMemberExternal is the number of unique external members.
+	// This count will not count difference between membership type like viewer or editor.
+	CountMemberExternal uint64 `path:"count_member_external"`
+
+	// CountInvitee is the number of unique invitees.
+	// This count will not count difference between membership type like viewer or editor.
+	CountInvitee uint64 `path:"count_invitee"`
+
+	// CountGroup is the number of unique groups that includes both internal and external groups.
+	// This count will not count difference between membership type like viewer or editor.
+	CountGroup uint64 `path:"count_group"`
+
+	// CountGroupExternal is the number of unique external groups.
+	// This count will not count difference between membership type like viewer or editor.
+	CountGroupExternal uint64 `path:"count_group_external"`
+}
+
 type SummaryEntry struct {
 	// primary keys
 	FileId string `path:"file_id" gorm:"primaryKey"`
@@ -16,12 +55,8 @@ type SummaryEntry struct {
 	// "no_inherit" means the entry is not inherited from the parent folder.
 	// "inherit" means the entry is inherited from the parent folder.
 	// "inherit_plus" means the entry is inherited from the parent folder and have additional permissions.
-	InheritType        string `path:"inherit_type"`
-	CountUnique        uint64 `path:"count_unique"`
-	CountMember        uint64 `path:"count_member"`
-	CountInvitee       uint64 `path:"count_invitee"`
-	CountGroup         uint64 `path:"count_group"`
-	CountGroupExternal uint64 `path:"count_group_external"`
+	InheritType string `path:"inherit_type"`
+	SummaryMemberCount
 
 	// Links
 	CountLinks uint64 `path:"count_links"`
@@ -53,6 +88,86 @@ func (z SummaryEntry) AddAccess(am AccessMember) SummaryEntry {
 	}
 
 	return z
+}
+
+func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMemberCount, err error) {
+	l := z.ctl.Log().With(esl.Int("records", len(accessMembers)))
+	directInternals := make(map[string]bool)
+	directExternals := make(map[string]bool)
+	invitees := make(map[string]bool)
+	groupInternals := make(map[string]bool)
+	groupExternals := make(map[string]bool)
+	groupMemberExternals := make(map[string]int64)
+
+	var summarizeInternalGroup func(am *AccessMember) error
+	summarizeInternalGroup = func(am *AccessMember) error {
+		groupInternals[am.GroupId] = true
+		gm := &GroupMember{}
+		rows, err := z.db.Model(&GroupMember{}).Where("group_id = ?", am.GroupId).Rows()
+		if err != nil {
+			l.Debug("cannot find group members", esl.Error(err))
+			return err
+		}
+		defer func() {
+			_ = rows.Close()
+		}()
+		for rows.Next() {
+			if err := z.db.ScanRows(rows, gm); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				return err
+			}
+			directInternals[am.UserAccountId] = true
+		}
+		return nil
+	}
+
+	for _, am := range accessMembers {
+		switch am.MemberType {
+		case "user":
+			if am.SameTeam == "yes" {
+				directInternals[am.UserAccountId] = true
+			} else {
+				directExternals[am.UserAccountId] = true
+			}
+		case "group":
+			if am.SameTeam == "yes" {
+				if err := summarizeInternalGroup(am); err != nil {
+					l.Debug("cannot summarize internal group", esl.Error(err))
+					return smc, err
+				}
+
+			} else {
+				groupExternals[am.GroupId] = true
+				ge := &Group{}
+				if err := z.db.First(ge, "group_id = ?", am.GroupId).Error; err != nil {
+					l.Debug("cannot find group", esl.Error(err))
+					return smc, err
+				}
+				groupMemberExternals[am.GroupId] = int64(ge.MemberCount)
+			}
+		case "invitee":
+			invitees[am.InviteeEmail] = true
+		}
+	}
+
+	memberCountExternalLargestGroup := int64(0)
+	memberCountExternalSum := int64(0)
+	for _, count := range groupMemberExternals {
+		memberCountExternalSum += count
+		if count > memberCountExternalLargestGroup {
+			memberCountExternalLargestGroup = count
+		}
+	}
+
+	smc.CountMember = uint64(len(directInternals) + len(directExternals) + len(invitees))
+	smc.CountMemberInternal = uint64(len(directInternals))
+	smc.CountMemberExternal = uint64(len(directExternals))
+	smc.CountUniqueLower = smc.CountMember + uint64(memberCountExternalLargestGroup)
+	smc.CountUniqueUpper = smc.CountMember + uint64(memberCountExternalSum)
+	smc.CountInvitee = uint64(len(invitees))
+	smc.CountGroup = uint64(len(groupInternals) + len(groupExternals))
+	smc.CountGroupExternal = uint64(len(groupExternals))
+	return
 }
 
 func (z tsImpl) summarizeEntry(fileId string) error {
@@ -87,13 +202,49 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 			_ = row.Close()
 		}()
 
+		entry.InheritType = "inherit"
+		acs := make([]*AccessMember, 0)
 		for row.Next() {
 			if err := z.db.ScanRows(row, fm); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				return err
 			}
-			entry.InheritType = "inherit_plus"
+			entry.InheritType = "inherit_plus" // Change to "inherit_plus" if there is at least one member
+			acs = append(acs, &fm.AccessMember)
+		}
+		entry.SummaryMemberCount, err = z.reduceMemberCount(acs)
 
+	case "folder":
+		nm := &NamespaceMember{}
+		row, err := z.db.Model(nm).Where("namespace_id = ?", ne.NamespaceId).Rows()
+		if err != nil {
+			l.Debug("cannot find namespace members", esl.Error(err))
+			return err
+		}
+		defer func() {
+			_ = row.Close()
+		}()
+
+		acs := make([]*AccessMember, 0)
+		for row.Next() {
+			if err := z.db.ScanRows(row, nm); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				return err
+			}
+			acs = append(acs, &nm.AccessMember)
+		}
+		entry.SummaryMemberCount, err = z.reduceMemberCount(acs)
+
+		// Determine inherit type
+		if ne.EntryNamespaceId == "" {
+			entry.InheritType = "inherit"
+		} else {
+			nd := &NamespaceDetail{}
+			if err := z.db.First(nd, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
+				entry.InheritType = ""
+			} else {
+				entry.InheritType = nd.AccessInheritance
+			}
 		}
 	}
 

@@ -6,6 +6,9 @@ type SummaryNamespace struct {
 	// primary keys
 	NamespaceId string `path:"namespace_id" gorm:"primaryKey"`
 
+	RootNamespaceType string
+	RootNamespaceId   string
+
 	// counts
 	SummaryCount
 
@@ -14,6 +17,39 @@ type SummaryNamespace struct {
 
 func (z tsImpl) summarizeNamespace(namespaceId string) error {
 	l := z.ctl.Log().With(esl.String("namespaceId", namespaceId))
+
+	sn := &SummaryNamespace{
+		NamespaceId: namespaceId,
+	}
+	rootNamespaceId := ""
+	currentNamespaceId := namespaceId
+	for {
+		nd := &NamespaceDetail{}
+		if err := z.db.First(nd, "namespace_id = ?", currentNamespaceId).Error; err != nil {
+			ns := &Namespace{}
+			if err := z.db.First(ns, "namespace_id = ?", currentNamespaceId).Error; err != nil {
+				l.Debug("cannot find namespace", esl.Error(err))
+				return err
+			}
+			rootNamespaceId = ns.NamespaceId
+			break
+		}
+		currentNamespaceId = nd.ParentNamespaceId
+		if currentNamespaceId == "" {
+			rootNamespaceId = nd.NamespaceId
+			break
+		}
+	}
+
+	rootNamespace := &Namespace{}
+	if err := z.db.First(rootNamespace, "namespace_id = ?", rootNamespaceId).Error; err != nil {
+		l.Debug("cannot find namespace", esl.Error(err))
+		return err
+	}
+
+	sn.RootNamespaceId = rootNamespaceId
+	sn.RootNamespaceType = rootNamespace.NamespaceType
+
 	rows, err := z.db.Model(&NamespaceEntry{}).Where("namespace_id = ?", namespaceId).Rows()
 	if err != nil {
 		l.Debug("cannot find entries", esl.Error(err))
@@ -32,9 +68,8 @@ func (z tsImpl) summarizeNamespace(namespaceId string) error {
 		}
 		sc = sc.AddEntry(entry)
 	}
-	z.db.Save(&SummaryNamespace{
-		NamespaceId:  namespaceId,
-		SummaryCount: sc,
-	})
+
+	sn.SummaryCount = sc
+	z.db.Save(&sn)
 	return nil
 }
