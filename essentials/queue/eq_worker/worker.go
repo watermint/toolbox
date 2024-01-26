@@ -95,7 +95,7 @@ func (z *workerImpl) monitor() {
 
 		case <-z.statusControl:
 			ticker.Stop()
-			l.Debug("Monitor shutdown")
+			//l.Debug("Monitor shutdown")
 		}
 	}
 }

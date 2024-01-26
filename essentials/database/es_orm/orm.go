@@ -24,5 +24,14 @@ func NewOrmOnMemory(l esl.Logger) (*gorm.DB, error) {
 }
 
 func newOrmWithConfig(db gorm.Dialector, config *gorm.Config) (*gorm.DB, error) {
-	return gorm.Open(db, config)
+	d, err := gorm.Open(db, config)
+	if err != nil {
+		return nil, err
+	}
+	//ddb, err := d.DB()
+	//if err != nil {
+	//	return nil, err
+	//}
+	//ddb.SetMaxOpenConns(1)
+	return d, nil
 }

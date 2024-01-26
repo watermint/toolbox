@@ -1,6 +1,9 @@
 package uc_insight
 
-import "github.com/watermint/toolbox/essentials/log/esl"
+import (
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"gorm.io/gorm"
+)
 
 type SummaryMemberCount struct {
 	// CountUniqueLower is the lower bounds of number of unique members including users,
@@ -41,6 +44,18 @@ type SummaryMemberCount struct {
 	CountGroupExternal uint64 `path:"count_group_external"`
 }
 
+type SummaryEntryCount struct {
+
+	// Links
+	CountLinks uint64 `path:"count_links"`
+
+	// Items
+	CountEntries   uint64 `path:"count_entries"`
+	CountFiles     uint64 `path:"count_files"`
+	CountFolders   uint64 `path:"count_folders"`
+	CountNamespace uint64 `path:"count_namespace"`
+}
+
 type SummaryEntry struct {
 	// primary keys
 	FileId string `path:"file_id" gorm:"primaryKey"`
@@ -57,15 +72,7 @@ type SummaryEntry struct {
 	// "inherit_plus" means the entry is inherited from the parent folder and have additional permissions.
 	InheritType string `path:"inherit_type"`
 	SummaryMemberCount
-
-	// Links
-	CountLinks uint64 `path:"count_links"`
-
-	// Items
-	CountEntries   uint64 `path:"count_entries"`
-	CountFiles     uint64 `path:"count_files"`
-	CountFolders   uint64 `path:"count_folders"`
-	CountNamespace uint64 `path:"count_namespace"`
+	SummaryEntryCount
 
 	// Size
 	Size uint64 `path:"size"`
@@ -90,7 +97,7 @@ func (z SummaryEntry) AddAccess(am AccessMember) SummaryEntry {
 	return z
 }
 
-func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMemberCount, err error) {
+func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember, tx *gorm.DB) (smc SummaryMemberCount, err error) {
 	l := z.ctl.Log().With(esl.Int("records", len(accessMembers)))
 	directInternals := make(map[string]bool)
 	directExternals := make(map[string]bool)
@@ -103,7 +110,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 	summarizeInternalGroup = func(am *AccessMember) error {
 		groupInternals[am.GroupId] = true
 		gm := &GroupMember{}
-		rows, err := z.db.Model(&GroupMember{}).Where("group_id = ?", am.GroupId).Rows()
+		rows, err := tx.Model(&GroupMember{}).Where("group_id = ?", am.GroupId).Rows()
 		if err != nil {
 			l.Debug("cannot find group members", esl.Error(err))
 			return err
@@ -112,7 +119,8 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 			_ = rows.Close()
 		}()
 		for rows.Next() {
-			if err := z.db.ScanRows(rows, gm); err != nil {
+			gm = &GroupMember{}
+			if err := tx.ScanRows(rows, gm); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				return err
 			}
@@ -139,7 +147,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 			} else {
 				groupExternals[am.GroupId] = true
 				ge := &Group{}
-				if err := z.db.First(ge, "group_id = ?", am.GroupId).Error; err != nil {
+				if err := tx.First(ge, "group_id = ?", am.GroupId).Error; err != nil {
 					l.Debug("cannot find group", esl.Error(err))
 					return smc, err
 				}
@@ -172,83 +180,87 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 
 func (z tsImpl) summarizeEntry(fileId string) error {
 	l := z.ctl.Log().With(esl.String("fileId", fileId))
-	entry := &SummaryEntry{}
+	return func(tx *gorm.DB) error {
+		entry := &SummaryEntry{}
 
-	ne := &NamespaceEntry{}
-	if err := z.db.First(ne, "file_id = ?", fileId).Error; err != nil {
-		l.Debug("cannot find entry", esl.Error(err))
-		return err
-	}
-
-	entry.FileId = fileId
-	entry.Name = ne.Name
-	entry.EntryType = ne.EntryType
-	entry.ParentFolderId = ne.ParentFolderId
-	entry.EntryNamespaceId = ne.EntryNamespaceId
-
-	var linkCount int64
-	z.db.Model(&SharedLink{}).Where("file_id = ?", fileId).Count(&linkCount)
-	entry.CountLinks = uint64(linkCount)
-
-	switch ne.EntryType {
-	case "file":
-		fm := &FileMember{}
-		row, err := z.db.Model(fm).Where("file_id = ?", fileId).Rows()
-		if err != nil {
-			l.Debug("cannot find file members", esl.Error(err))
+		ne := &NamespaceEntry{}
+		if err := tx.First(ne, "file_id = ?", fileId).Error; err != nil {
+			l.Debug("cannot find entry", esl.Error(err))
 			return err
 		}
-		defer func() {
-			_ = row.Close()
-		}()
 
-		entry.InheritType = "inherit"
-		acs := make([]*AccessMember, 0)
-		for row.Next() {
-			if err := z.db.ScanRows(row, fm); err != nil {
-				l.Debug("cannot scan row", esl.Error(err))
+		entry.FileId = fileId
+		entry.Name = ne.Name
+		entry.EntryType = ne.EntryType
+		entry.ParentFolderId = ne.ParentFolderId
+		entry.EntryNamespaceId = ne.EntryNamespaceId
+
+		var linkCount int64
+		tx.Model(&SharedLink{}).Where("file_id = ?", fileId).Count(&linkCount)
+		entry.CountLinks = uint64(linkCount)
+
+		switch ne.EntryType {
+		case "file":
+			fm := &FileMember{}
+			row, err := tx.Model(fm).Where("file_id = ?", fileId).Rows()
+			if err != nil {
+				l.Debug("cannot find file members", esl.Error(err))
 				return err
 			}
-			entry.InheritType = "inherit_plus" // Change to "inherit_plus" if there is at least one member
-			acs = append(acs, &fm.AccessMember)
-		}
-		entry.SummaryMemberCount, err = z.reduceMemberCount(acs)
+			defer func() {
+				_ = row.Close()
+			}()
 
-	case "folder":
-		nm := &NamespaceMember{}
-		row, err := z.db.Model(nm).Where("namespace_id = ?", ne.NamespaceId).Rows()
-		if err != nil {
-			l.Debug("cannot find namespace members", esl.Error(err))
-			return err
-		}
-		defer func() {
-			_ = row.Close()
-		}()
-
-		acs := make([]*AccessMember, 0)
-		for row.Next() {
-			if err := z.db.ScanRows(row, nm); err != nil {
-				l.Debug("cannot scan row", esl.Error(err))
-				return err
-			}
-			acs = append(acs, &nm.AccessMember)
-		}
-		entry.SummaryMemberCount, err = z.reduceMemberCount(acs)
-
-		// Determine inherit type
-		if ne.EntryNamespaceId == "" {
 			entry.InheritType = "inherit"
-		} else {
-			nd := &NamespaceDetail{}
-			if err := z.db.First(nd, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
-				entry.InheritType = ""
+			acs := make([]*AccessMember, 0)
+			for row.Next() {
+				fm = &FileMember{}
+				if err := tx.ScanRows(row, fm); err != nil {
+					l.Debug("cannot scan row", esl.Error(err))
+					return err
+				}
+				entry.InheritType = "inherit_plus" // Change to "inherit_plus" if there is at least one member
+				acs = append(acs, &fm.AccessMember)
+			}
+			entry.SummaryMemberCount, err = z.reduceMemberCount(acs, tx)
+
+		case "folder":
+			nm := &NamespaceMember{}
+			row, err := tx.Model(nm).Where("namespace_id = ?", ne.NamespaceId).Rows()
+			if err != nil {
+				l.Debug("cannot find namespace members", esl.Error(err))
+				return err
+			}
+			defer func() {
+				_ = row.Close()
+			}()
+
+			acs := make([]*AccessMember, 0)
+			for row.Next() {
+				nm = &NamespaceMember{}
+				if err := tx.ScanRows(row, nm); err != nil {
+					l.Debug("cannot scan row", esl.Error(err))
+					return err
+				}
+				acs = append(acs, &nm.AccessMember)
+			}
+			entry.SummaryMemberCount, err = z.reduceMemberCount(acs, tx)
+
+			// Determine inherit type
+			if ne.EntryNamespaceId == "" {
+				entry.InheritType = "inherit"
 			} else {
-				entry.InheritType = nd.AccessInheritance
+				nd := &NamespaceDetail{}
+				if err := tx.First(nd, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
+					entry.InheritType = ""
+				} else {
+					entry.InheritType = nd.AccessInheritance
+				}
 			}
 		}
-	}
 
-	z.db.Save(entry)
+		tx.Save(entry)
 
-	return nil
+		return nil
+	}(z.db)
 }

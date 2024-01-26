@@ -1,6 +1,10 @@
 package uc_insight
 
-import "github.com/watermint/toolbox/essentials/log/esl"
+import (
+	"database/sql"
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"gorm.io/gorm"
+)
 
 // SummaryFolderImmediateCount is a summary of the folder.
 // This summary is a summary of immediate entries of under the folder, which does not include
@@ -27,44 +31,53 @@ func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
 		l.Debug("skip. no folder id")
 		return nil
 	}
-	ne := &NamespaceEntry{}
-	rows, err := z.db.Model(ne).Where("parent_folder_id = ?", folderId).Rows()
-	if err != nil {
-		l.Debug("cannot find entries", esl.Error(err))
-		return err
-	}
-	defer func() {
-		_ = rows.Close()
-	}()
+	summaryImmediate := SummaryCount{}
+	summaryFolderAndNamespace := SummaryCount{}
 
-	sc := SummaryCount{}
-	sn := SummaryCount{}
-
-	for rows.Next() {
-		entry := &NamespaceEntry{}
-		if err := z.db.ScanRows(rows, entry); err != nil {
+	err := z.db.Transaction(func(tx *gorm.DB) error {
+		ne := &NamespaceEntry{}
+		rows, err := tx.Model(ne).Where("parent_folder_id = ?", folderId).Rows()
+		if err != nil {
+			l.Debug("cannot find entries", esl.Error(err))
 			return err
 		}
-		sc = sc.AddEntry(entry)
+		defer func() {
+			_ = rows.Close()
+		}()
 
-		if entry.EntryType == "folder" && entry.EntryNamespaceId != "" {
-			ns := &SummaryNamespace{}
-			if err := z.db.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
-				l.Debug("cannot find namespace", esl.Error(err), esl.String("namespaceId", entry.EntryNamespaceId))
+		for rows.Next() {
+			entry := &NamespaceEntry{}
+			if err := tx.ScanRows(rows, entry); err != nil {
 				return err
 			}
-			sn = sn.AddSummary(ns.SummaryCount)
+			summaryImmediate = summaryImmediate.AddEntry(entry)
+
+			if entry.EntryType == "folder" && entry.EntryNamespaceId != "" {
+				ns := &SummaryNamespace{}
+				if err := tx.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
+					l.Debug("cannot find namespace", esl.Error(err), esl.String("namespaceId", entry.EntryNamespaceId))
+					return err
+				}
+				summaryFolderAndNamespace = summaryFolderAndNamespace.AddSummary(ns.SummaryCount)
+			}
 		}
+
+		return nil
+	}, &sql.TxOptions{
+		ReadOnly: true,
+	})
+	if err != nil {
+		l.Debug("cannot summarize", esl.Error(err))
+		return err
 	}
 
-	sfn := sn.AddSummary(sc)
 	z.db.Save(&SummaryFolderImmediateCount{
 		FolderId:     folderId,
-		SummaryCount: sc,
+		SummaryCount: summaryImmediate,
 	})
 	z.db.Save(&SummaryFolderAndNamespace{
 		FolderId:     folderId,
-		SummaryCount: sfn,
+		SummaryCount: summaryFolderAndNamespace.AddSummary(summaryImmediate),
 	})
 
 	return nil
