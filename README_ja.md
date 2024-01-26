@@ -195,6 +195,7 @@ Dropbox用ツールとDropbox for teams
 
 | コマンド                                                                                                       | 説明                                                                                    |
 |----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| [dropbox team backup device status](docs/ja/commands/dropbox-team-backup-device-status.md)                     | Dropbox バックアップ デバイスのステータスが指定期間内に変更された場合                   |
 | [group add](docs/ja/commands/group-add.md)                                                                     | グループを作成します                                                                    |
 | [group batch add](docs/ja/commands/group-batch-add.md)                                                         | グループの一括追加                                                                      |
 | [group batch delete](docs/ja/commands/group-batch-delete.md)                                                   | グループの削除                                                                          |

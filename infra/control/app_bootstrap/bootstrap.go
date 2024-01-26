@@ -58,6 +58,7 @@ type msgRun struct {
 	ErrorInitialization                   app_msg.Message
 	ErrorUnableToLoadExtra                app_msg.Message
 	ProgressInterruptedShutdown           app_msg.Message
+	InfoRecipeFailedLogLocation           app_msg.Message
 }
 
 var (
@@ -282,6 +283,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	if lastErr != nil {
 		ctl.Log().Debug("Recipe failed with an error", esl.Error(lastErr))
 		ui.Failure(MRun.ErrorRecipeFailed.With("Error", lastErr))
+		ui.Failure(MRun.InfoRecipeFailedLogLocation.With("LogPath", ctl.Workspace().Log()))
 		app_exit.Abort(app_exit.FailureGeneral)
 	}
 

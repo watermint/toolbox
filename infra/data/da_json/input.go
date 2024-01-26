@@ -3,6 +3,7 @@ package da_json
 import (
 	"bufio"
 	"bytes"
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_reflect"
@@ -11,7 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"io"
-	"io/ioutil"
 	"os"
 	"strings"
 )
@@ -31,6 +31,9 @@ type JsonInput interface {
 	Debug() interface{}
 	Open(ctl app_control.Control) error
 
+	// Unmarshal the file content to the model
+	Unmarshal() (interface{}, error)
+
 	SetModel(model interface{})
 
 	EachModel(f func(m interface{}) error) error
@@ -49,6 +52,16 @@ type jsInput struct {
 	name     string
 	filePath string
 	ctl      app_control.Control
+}
+
+func (z *jsInput) Unmarshal() (v interface{}, err error) {
+	fileContent, err := os.ReadFile(z.filePath)
+	if err != nil {
+		return nil, err
+	}
+	v = es_reflect.NewInstance(z.model)
+	err = json.Unmarshal(fileContent, v)
+	return
 }
 
 func (z *jsInput) SetFilePath(filePath string) {
@@ -104,7 +117,7 @@ func (z *jsInput) EachModel(f func(m interface{}) error) error {
 	l := z.ctl.Log().With(esl.String("filePath", z.filePath))
 	l.Debug("Load file")
 	rErr := es_file_read.ReadFileOrArchived(z.filePath, func(r io.Reader) error {
-		data, err := ioutil.ReadAll(r)
+		data, err := io.ReadAll(r)
 		if err != nil {
 			l.Debug("Unable to read", esl.Error(err))
 			return err
@@ -123,7 +136,7 @@ func (z *jsInput) EachModel(f func(m interface{}) error) error {
 				return f(v)
 			})
 
-			if err == es_json.ErrorNotAnArray {
+			if errors.Is(err, es_json.ErrorNotAnArray) {
 				// try parse as single object
 				v := es_reflect.NewInstance(z.model)
 				if err := j.Model(v); err != nil {

@@ -197,6 +197,7 @@ Available commands:
 
 | Command                                                                                                     | Description                                                                         |
 |-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| [dropbox team backup device status](docs/commands/dropbox-team-backup-device-status.md)                     | Dropbox Backup device status change in the specified period                         |
 | [group add](docs/commands/group-add.md)                                                                     | Create new group                                                                    |
 | [group batch add](docs/commands/group-batch-add.md)                                                         | Bulk adding groups                                                                  |
 | [group batch delete](docs/commands/group-batch-delete.md)                                                   | Delete groups                                                                       |

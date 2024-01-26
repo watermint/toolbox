@@ -82,6 +82,7 @@ lang: ja
 
 | コマンド                                                                                                                       | 説明                                                                                    |
 |--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| [dropbox team backup device status]({{ site.baseurl }}/ja/commands/dropbox-team-backup-device-status.html)                     | Dropbox バックアップ デバイスのステータスが指定期間内に変更された場合                   |
 | [group add]({{ site.baseurl }}/ja/commands/group-add.html)                                                                     | グループを作成します                                                                    |
 | [group batch add]({{ site.baseurl }}/ja/commands/group-batch-add.html)                                                         | グループの一括追加                                                                      |
 | [group batch delete]({{ site.baseurl }}/ja/commands/group-batch-delete.html)                                                   | グループの削除                                                                          |

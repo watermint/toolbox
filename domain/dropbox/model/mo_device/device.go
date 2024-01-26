@@ -203,9 +203,9 @@ type Desktop struct {
 
 	// Pseudo field for identify member.
 	// This field should appear parent of session data.
-	TeamMemberId string `path:"-" json:"team_member_id"`
+	TeamMemberId string `path:"-" json:"team_member_id" gorm:"index"`
 
-	Id                        string `path:"session_id" json:"id"`
+	Id                        string `path:"session_id" json:"id" gorm:"primaryKey"`
 	HostName                  string `path:"host_name" json:"host_name"`
 	ClientType                string `path:"client_type.\\.tag" json:"client_type"`
 	ClientVersion             string `path:"client_version" json:"client_version"`
