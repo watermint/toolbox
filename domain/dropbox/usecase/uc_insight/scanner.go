@@ -12,6 +12,8 @@ import (
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"gorm.io/gorm"
+	"os"
+	"path/filepath"
 	"reflect"
 )
 
@@ -29,14 +31,27 @@ type TeamScanner interface {
 	RetryErrors() (err error)
 }
 
-func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
+func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err error) {
 	l := ctl.Log().With(esl.String("path", path))
-	db, err := ctl.NewOrm(path)
-	if err != nil {
-		return nil, err
+	if err := os.MkdirAll(path, 0700); err != nil {
+		l.Debug("Unable to create directory", esl.Error(err))
+		return nil, nil, err
 	}
 
-	tables := []interface{}{
+	adbPath := filepath.Join(path, "api.db")
+	adb, err = ctl.NewOrm(adbPath)
+	if err != nil {
+		l.Debug("Unable to open database", esl.Error(err), esl.String("path", adbPath))
+		return nil, nil, err
+	}
+	sdbPath := filepath.Join(path, "summary.db")
+	sdb, err = ctl.NewOrm(sdbPath)
+	if err != nil {
+		l.Debug("Unable to open database", esl.Error(err), esl.String("path", sdbPath))
+		return nil, nil, err
+	}
+
+	adbTables := []interface{}{
 		&FileMember{},
 		&GroupMember{},
 		&Group{},
@@ -49,6 +64,9 @@ func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
 		&Namespace{},
 		&ReceivedFile{},
 		&SharedLink{},
+		&TeamFolder{},
+	}
+	sdbTables := []interface{}{
 		&SummaryEntry{},
 		&SummaryFolderAndNamespace{},
 		&SummaryFolderImmediateCount{},
@@ -56,23 +74,30 @@ func newDatabase(ctl app_control.Control, path string) (*gorm.DB, error) {
 		&SummaryFolderRecursive{},
 		&SummaryNamespace{},
 		&SummaryTeamFolderEntry{},
-		&TeamFolder{},
 	}
 
-	for _, t := range tables {
+	for _, t := range adbTables {
 		tableName := reflect.ValueOf(t).Elem().Type().Name()
 		l.Debug("Migrating", esl.String("table", tableName))
-		if err = db.AutoMigrate(t); err != nil {
+		if err = adb.AutoMigrate(t); err != nil {
 			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
-			return nil, err
+			return nil, nil, err
+		}
+	}
+	for _, t := range sdbTables {
+		tableName := reflect.ValueOf(t).Elem().Type().Name()
+		l.Debug("Migrating", esl.String("table", tableName))
+		if err = sdb.AutoMigrate(t); err != nil {
+			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
+			return nil, nil, err
 		}
 	}
 
-	return db, nil
+	return adb, sdb, nil
 }
 func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path string) (TeamScanner, error) {
 	l := ctl.Log().With(esl.String("path", path))
-	db, err := newDatabase(ctl, path)
+	adb, sdb, err := newDatabase(ctl, path)
 	if err != nil {
 		l.Debug("Unable to open database", esl.Error(err))
 		return nil, err
@@ -80,7 +105,8 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 	return &tsImpl{
 		ctl:    ctl,
 		client: client,
-		db:     db,
+		adb:    adb,
+		sdb:    sdb,
 	}, nil
 }
 
@@ -120,7 +146,10 @@ type FileMemberParam struct {
 type tsImpl struct {
 	ctl    app_control.Control
 	client dbx_client.Client
-	db     *gorm.DB
+	// adb: API results database
+	adb *gorm.DB
+	// sdb: summary database
+	sdb *gorm.DB
 }
 
 func (z tsImpl) saveIfExternalGroup(member mo_sharedfolder_member.Member) {
@@ -133,7 +162,7 @@ func (z tsImpl) saveIfExternalGroup(member mo_sharedfolder_member.Member) {
 		// not an external group
 		return
 	}
-	z.db.Create(g)
+	z.adb.Create(g)
 }
 
 func (z tsImpl) dispatchMember(member *mo_member.Member, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
@@ -195,7 +224,7 @@ func (z tsImpl) Scan() (err error) {
 		lastErr = err
 	}))
 
-	db, err := z.db.DB()
+	db, err := z.adb.DB()
 	if err != nil {
 		return err
 	}
@@ -220,7 +249,7 @@ func (z tsImpl) summarizeStage1() error {
 	var lastErr error
 
 	namespaceModel := &Namespace{}
-	namespaceRows, err := z.db.Model(namespaceModel).Distinct("namespace_id").Select("namespace_id").Rows()
+	namespaceRows, err := z.adb.Model(namespaceModel).Distinct("namespace_id").Select("namespace_id").Rows()
 	if err != nil {
 		l.Debug("Unable to get namespace rows", esl.Error(err))
 		return err
@@ -235,7 +264,7 @@ func (z tsImpl) summarizeStage1() error {
 		qNamespace := s.Get(teamSummarizeNamespace)
 		for namespaceRows.Next() {
 			namespaceModel = &Namespace{}
-			if err := z.db.ScanRows(namespaceRows, namespaceModel); err != nil {
+			if err := z.adb.ScanRows(namespaceRows, namespaceModel); err != nil {
 				l.Debug("Unable to scan namespace row", esl.Error(err))
 				lastErr = err
 				return
@@ -261,7 +290,7 @@ func (z tsImpl) summarizeStage2() error {
 	var lastErr error
 
 	folderEntry := &NamespaceEntry{}
-	folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
+	folderRows, err := z.adb.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
 	if err != nil {
 		l.Debug("Unable to get folder rows", esl.Error(err))
 		return err
@@ -277,7 +306,7 @@ func (z tsImpl) summarizeStage2() error {
 		qFolderImmediate := s.Get(teamSummarizeFolderImmediate)
 		for folderRows.Next() {
 			folderEntry = &NamespaceEntry{}
-			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
+			if err := z.adb.ScanRows(folderRows, folderEntry); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				lastErr = err
 				return
@@ -303,38 +332,27 @@ func (z tsImpl) summarizeStage3() error {
 	l := z.ctl.Log()
 	var lastErr error
 
-	listNamespaceEntries := func() (namespaceEntries []*NamespaceEntry, err error) {
-		namespaceEntries = make([]*NamespaceEntry, 0)
-		folderEntry := &NamespaceEntry{}
-		folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
-		if err != nil {
-			l.Debug("Unable to get folder rows", esl.Error(err))
-			return nil, err
-		}
-		defer func() {
-			_ = folderRows.Close()
-		}()
-		for folderRows.Next() {
-			folderEntry = &NamespaceEntry{}
-			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
-				l.Debug("cannot scan row", esl.Error(err))
-				return nil, err
-			}
-			namespaceEntries = append(namespaceEntries, folderEntry)
-		}
-		return namespaceEntries, nil
-	}
-	namespaceEntries, err := listNamespaceEntries()
+	folderEntry := &NamespaceEntry{}
+	folderRows, err := z.adb.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
 	if err != nil {
-		l.Debug("Unable to get namespace entries", esl.Error(err))
+		l.Debug("Unable to get folder rows", esl.Error(err))
 		return err
 	}
+	defer func() {
+		_ = folderRows.Close()
+	}()
 
 	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
 		z.defineSummarizeQueues(s)
 
 		qFolderRecursive := s.Get(teamSummarizeFolderRecursive)
-		for _, folderEntry := range namespaceEntries {
+		for folderRows.Next() {
+			folderEntry = &NamespaceEntry{}
+			if err := z.adb.ScanRows(folderRows, folderEntry); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				lastErr = err
+				return
+			}
 			qFolderRecursive.Enqueue(folderEntry.FileId)
 		}
 
@@ -354,35 +372,27 @@ func (z tsImpl) summarizeStage4() error {
 	l := z.ctl.Log()
 	var lastErr error
 
-	listFolderEntries := func() (folderEntries []*NamespaceEntry, err error) {
-		folderEntries = make([]*NamespaceEntry, 0)
-		folderEntry := &NamespaceEntry{}
-		folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
-		if err != nil {
-			l.Debug("Unable to get folder rows", esl.Error(err))
-			return nil, err
-		}
-		for folderRows.Next() {
-			folderEntry = &NamespaceEntry{}
-			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
-				l.Debug("cannot scan row", esl.Error(err))
-				return nil, err
-			}
-			folderEntries = append(folderEntries, folderEntry)
-		}
-		return folderEntries, nil
-	}
-	folderEntries, err := listFolderEntries()
+	folderEntry := &NamespaceEntry{}
+	folderRows, err := z.adb.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
 	if err != nil {
-		l.Debug("Unable to get folder entries", esl.Error(err))
+		l.Debug("Unable to get folder rows", esl.Error(err))
 		return err
 	}
+	defer func() {
+		_ = folderRows.Close()
+	}()
 
 	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
 		z.defineSummarizeQueues(s)
 
 		qEntry := s.Get(teamSummarizeEntry)
-		for _, folderEntry := range folderEntries {
+		for folderRows.Next() {
+			folderEntry = &NamespaceEntry{}
+			if err := z.adb.ScanRows(folderRows, folderEntry); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				lastErr = err
+				return
+			}
 			qEntry.Enqueue(folderEntry.FileId)
 		}
 
@@ -402,38 +412,27 @@ func (z tsImpl) summarizeStage5() error {
 	l := z.ctl.Log()
 	var lastErr error
 
-	listTeamFolders := func() (teamFolders []*TeamFolder, err error) {
-		teamFolders = make([]*TeamFolder, 0)
-		teamFolder := &TeamFolder{}
-		teamFolderRows, err := z.db.Model(teamFolder).Rows()
-		if err != nil {
-			l.Debug("Unable to get team folder rows", esl.Error(err))
-			return nil, err
-		}
-		defer func() {
-			_ = teamFolderRows.Close()
-		}()
-		for teamFolderRows.Next() {
-			teamFolder = &TeamFolder{}
-			if err := z.db.ScanRows(teamFolderRows, teamFolder); err != nil {
-				l.Debug("cannot scan row", esl.Error(err))
-				return nil, err
-			}
-			teamFolders = append(teamFolders, teamFolder)
-		}
-		return teamFolders, nil
-	}
-	teamFolders, err := listTeamFolders()
+	teamFolder := &TeamFolder{}
+	teamFolderRows, err := z.adb.Model(teamFolder).Rows()
 	if err != nil {
-		l.Debug("Unable to get team folders", esl.Error(err))
+		l.Debug("Unable to get team folder rows", esl.Error(err))
 		return err
 	}
+	defer func() {
+		_ = teamFolderRows.Close()
+	}()
 
 	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
 		z.defineSummarizeQueues(s)
 
 		qEntry := s.Get(teamSummarizeTeamFolder)
-		for _, teamFolder := range teamFolders {
+		for teamFolderRows.Next() {
+			teamFolder := &TeamFolder{}
+			if err := z.adb.ScanRows(teamFolderRows, teamFolder); err != nil {
+				l.Debug("cannot scan row", esl.Error(err))
+				lastErr = err
+				return
+			}
 			qEntry.Enqueue(teamFolder)
 		}
 	})
@@ -458,7 +457,7 @@ func (z tsImpl) Summarize() error {
 		&SummaryTeamFolderEntry{},
 	}
 	for _, st := range summaryTables {
-		z.db.Delete(st)
+		z.adb.Delete(st)
 	}
 
 	if err := z.summarizeStage1(); err != nil {
@@ -482,7 +481,7 @@ func (z tsImpl) Summarize() error {
 		return err
 	}
 
-	db, err := z.db.DB()
+	db, err := z.adb.DB()
 	if err != nil {
 		l.Debug("Unable to get DB", esl.Error(err))
 		return err

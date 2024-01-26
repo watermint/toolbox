@@ -29,7 +29,7 @@ func (z tsImpl) RetryErrors() error {
 		return err
 	}
 
-	rows, err := z.db.Model(&NamespaceEntryError{}).Rows()
+	rows, err := z.adb.Model(&NamespaceEntryError{}).Rows()
 	if err != nil {
 		l.Debug("cannot retrieve model", esl.Error(err))
 		return err
@@ -45,7 +45,7 @@ func (z tsImpl) RetryErrors() error {
 
 		for rows.Next() {
 			namespaceEntryError := &NamespaceEntryError{}
-			if err := z.db.ScanRows(rows, namespaceEntryError); err != nil {
+			if err := z.adb.ScanRows(rows, namespaceEntryError); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				return
 			}
@@ -60,7 +60,7 @@ func (z tsImpl) RetryErrors() error {
 		lastErr = err
 	}))
 
-	db, err := z.db.DB()
+	db, err := z.adb.DB()
 	if err != nil {
 		return err
 	}

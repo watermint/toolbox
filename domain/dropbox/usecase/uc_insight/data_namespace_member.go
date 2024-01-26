@@ -32,9 +32,9 @@ func (z tsImpl) scanNamespaceMember(namespaceId string, stage eq_sequence.Stage,
 	for _, member := range members {
 		m := NewNamespaceMember(namespaceId, member)
 		z.saveIfExternalGroup(member)
-		z.db.Save(m)
-		if z.db.Error != nil {
-			return z.db.Error
+		z.adb.Save(m)
+		if z.adb.Error != nil {
+			return z.adb.Error
 		}
 	}
 	return nil

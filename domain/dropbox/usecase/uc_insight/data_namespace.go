@@ -50,10 +50,10 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 			ll.Debug("unable to parse namespace", esl.Error(err))
 			return false
 		}
-		z.db.Save(ns)
-		if z.db.Error != nil {
-			lastErr = z.db.Error
-			ll.Debug("unable to save namespace", esl.Error(z.db.Error))
+		z.adb.Save(ns)
+		if z.adb.Error != nil {
+			lastErr = z.adb.Error
+			ll.Debug("unable to save namespace", esl.Error(z.adb.Error))
 			return false
 		}
 
@@ -73,7 +73,7 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 				return false
 			}
 			ce := meta.Concrete()
-			z.db.Save(&NamespaceEntry{
+			z.adb.Save(&NamespaceEntry{
 				NamespaceId:              namespace.NamespaceId,
 				FileId:                   ce.Id,
 				ParentFolderId:           "",

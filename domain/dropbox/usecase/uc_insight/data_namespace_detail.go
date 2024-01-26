@@ -80,15 +80,15 @@ func (z tsImpl) scanNamespaceDetail(namespaceId string, stage eq_sequence.Stage,
 
 	n.FileId = ce.Id
 	n.IsSameTeam = team.TeamId == n.OwnerTeamId
-	z.db.Save(n)
-	if z.db.Error != nil {
-		l.Debug("Unable to save namespace detail", esl.Error(z.db.Error))
-		return z.db.Error
+	z.adb.Save(n)
+	if z.adb.Error != nil {
+		l.Debug("Unable to save namespace detail", esl.Error(z.adb.Error))
+		return z.adb.Error
 	}
 
 	if n.ParentNamespaceId == "" {
 
-		z.db.Save(&NamespaceEntry{
+		z.adb.Save(&NamespaceEntry{
 			NamespaceId:              namespaceId,
 			FileId:                   ce.Id,
 			ParentFolderId:           "",

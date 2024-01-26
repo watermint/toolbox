@@ -41,9 +41,9 @@ func (z tsImpl) scanMembers(dummy string, stage eq_sequence.Stage, admin *mo_pro
 			lastErr = err
 			return false
 		}
-		z.db.Save(m)
-		if z.db.Error != nil {
-			lastErr = z.db.Error
+		z.adb.Save(m)
+		if z.adb.Error != nil {
+			lastErr = z.adb.Error
 			return false
 		}
 		if err = z.dispatchMember(member, stage, admin); err != nil {

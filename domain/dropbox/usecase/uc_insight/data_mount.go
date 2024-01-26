@@ -58,7 +58,7 @@ func (z tsImpl) scanMount(teamMemberId string, stage eq_sequence.Stage, admin *m
 		if err != nil {
 			return err
 		}
-		z.db.Save(m)
+		z.adb.Save(m)
 
 		if team.TeamId != mount.OwnerTeamId {
 			qnd.Enqueue(mount.SharedFolderId)

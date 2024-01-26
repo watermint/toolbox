@@ -55,7 +55,7 @@ func (z tsImpl) scanReceivedFile(teamMemberId string, stage eq_sequence.Stage, a
 		if err != nil {
 			return err
 		}
-		z.db.Save(r)
+		z.adb.Save(r)
 	}
 	return nil
 }

@@ -61,9 +61,9 @@ func (z tsImpl) scanGroup(dummy string, stage eq_sequence.Stage, admin *mo_profi
 		if err != nil {
 			return err
 		}
-		z.db.Save(g)
-		if z.db.Error != nil {
-			return z.db.Error
+		z.adb.Save(g)
+		if z.adb.Error != nil {
+			return z.adb.Error
 		}
 		gmq.Enqueue(g.GroupId)
 	}

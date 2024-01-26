@@ -53,7 +53,7 @@ func (z tsImpl) scanSharedLink(teamMemberId string, stage eq_sequence.Stage, adm
 		if err != nil {
 			return err
 		}
-		z.db.Save(l)
+		z.adb.Save(l)
 	}
 	return nil
 }

@@ -72,7 +72,7 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 				return
 			}
 			f.ParentFolderId = param.FolderId
-			z.db.Save(f)
+			z.adb.Save(f)
 
 			if ce.IsFolder() {
 				if ce.SharedFolderId == "" {
@@ -99,14 +99,14 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 	switch err {
 	case nil:
 		if param.IsRetry {
-			z.db.Delete(&NamespaceEntryError{
+			z.adb.Delete(&NamespaceEntryError{
 				NamespaceId: param.NamespaceId,
 				FolderId:    param.FolderId,
 			})
 		}
 
 	default:
-		z.db.Create(&NamespaceEntryError{
+		z.adb.Create(&NamespaceEntryError{
 			NamespaceId: param.NamespaceId,
 			FolderId:    param.FolderId,
 			Error:       err.Error(),

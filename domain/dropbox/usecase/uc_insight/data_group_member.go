@@ -42,9 +42,9 @@ func (z tsImpl) scanGroupMember(groupId string, stage eq_sequence.Stage, admin *
 		if err != nil {
 			return err
 		}
-		z.db.Save(m)
-		if z.db.Error != nil {
-			return z.db.Error
+		z.adb.Save(m)
+		if z.adb.Error != nil {
+			return z.adb.Error
 		}
 	}
 	return nil

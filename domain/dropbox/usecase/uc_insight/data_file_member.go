@@ -37,7 +37,7 @@ func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, 
 	for _, member := range members {
 		m := NewFileMember(entry.NamespaceId, entry.FileId, member)
 		z.saveIfExternalGroup(member)
-		z.db.Save(m)
+		z.adb.Save(m)
 	}
 
 	return nil

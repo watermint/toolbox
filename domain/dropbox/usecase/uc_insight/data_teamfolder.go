@@ -41,7 +41,7 @@ func (z tsImpl) scanTeamFolder(dummy string, stage eq_sequence.Stage, admin *mo_
 		if err != nil {
 			return err
 		}
-		z.db.Save(f)
+		z.adb.Save(f)
 	}
 	return nil
 }
