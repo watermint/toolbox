@@ -82,6 +82,7 @@ lang: en
 
 | Command                                                                                                                     | Description                                                                         |
 |-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| [dropbox team backup device status]({{ site.baseurl }}/commands/dropbox-team-backup-device-status.html)                     | Dropbox Backup device status change in the specified period                         |
 | [group add]({{ site.baseurl }}/commands/group-add.html)                                                                     | Create new group                                                                    |
 | [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)                                                         | Bulk adding groups                                                                  |
 | [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html)                                                   | Delete groups                                                                       |

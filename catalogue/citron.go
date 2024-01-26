@@ -11,6 +11,7 @@ import (
 	citrondeepltranslate "github.com/watermint/toolbox/citron/deepl/translate"
 	citrondropboxfileaccount "github.com/watermint/toolbox/citron/dropbox/file/account"
 	citrondropboxsignaccount "github.com/watermint/toolbox/citron/dropbox/sign/account"
+	citrondropboxteambackupdevice "github.com/watermint/toolbox/citron/dropbox/team/backup/device"
 	citronfigmaaccount "github.com/watermint/toolbox/citron/figma/account"
 	citronfigmafile "github.com/watermint/toolbox/citron/figma/file"
 	citronfigmafileexport "github.com/watermint/toolbox/citron/figma/file/export"
@@ -50,6 +51,7 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxfileaccount.Filesystem{},
 		&citrondropboxfileaccount.Info{},
 		&citrondropboxsignaccount.Info{},
+		&citrondropboxteambackupdevice.Status{},
 		&citronfigmaaccount.Info{},
 		&citronfigmafile.Info{},
 		&citronfigmafile.List{},

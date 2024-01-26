@@ -292,11 +292,12 @@ The team activities log commands can export activities log by a certain filter o
 
 The below commands can retrieve information about connected devices or applications in the team.
 
-| Command                                                                     | Description                           |
-|-----------------------------------------------------------------------------|---------------------------------------|
-| [team device list]({{ site.baseurl }}/commands/team-device-list.html)       | List all devices/sessions in the team |
-| [team device unlink]({{ site.baseurl }}/commands/team-device-unlink.html)   | Unlink device sessions                |
-| [team linkedapp list]({{ site.baseurl }}/commands/team-linkedapp-list.html) | List linked applications              |
+| Command                                                                                                 | Description                                                 |
+|---------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
+| [team device list]({{ site.baseurl }}/commands/team-device-list.html)                                   | List all devices/sessions in the team                       |
+| [team device unlink]({{ site.baseurl }}/commands/team-device-unlink.html)                               | Unlink device sessions                                      |
+| [team linkedapp list]({{ site.baseurl }}/commands/team-linkedapp-list.html)                             | List linked applications                                    |
+| [dropbox team backup device status]({{ site.baseurl }}/commands/dropbox-team-backup-device-status.html) | Dropbox Backup device status change in the specified period |
 
 # Other usecases
 

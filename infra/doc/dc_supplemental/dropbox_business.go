@@ -416,6 +416,7 @@ func (z DropboxBusinessConnect) Body(ui app_ui.UI) {
 		"team device list",
 		"team device unlink",
 		"team linkedapp list",
+		"dropbox team backup device status",
 	})
 }
 
