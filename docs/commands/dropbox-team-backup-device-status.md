@@ -8,6 +8,13 @@ lang: en
 
 Dropbox Backup device status change in the specified period 
 
+Evaluates and reports the latest status of Dropbox Backup per device session from activity logs for a specified time period. If there is no activity during the specified period, it is reported as the value `no_status_update`.
+Multiple device sessions may be displayed in the following cases
+* If the Dropbox application has been reinstalled.
+* If the Dropbox application has not been unlinked (e.g. you initialized the OS without unlinking the Dropbox application).
+
+in that case, please refer to the report `session_info_updated` to see the most recent report. This command does not automatically make this determination, since it is possible that there may be a session with the same hostname by coincidence.
+
 # Security
 
 `watermint toolbox` stores credentials into the file system. That is located at below path:
@@ -128,17 +135,18 @@ Report file path will be displayed last line of the command line output. If you 
 Backup feature status of a device
 The command will generate a report in three different formats. `devices.csv`, `devices.json`, and `devices.xlsx`.
 
-| Column                      | Description                 |
-|-----------------------------|-----------------------------|
-| actor_user_email            | User email                  |
-| actor_user_display_name     | User display name           |
-| session_info_ip_address     | IP address                  |
-| session_info_host_name      | Host name                   |
-| session_info_client_type    | Client type                 |
-| session_info_client_version | Client version              |
-| session_info_platform       | Platform                    |
-| timestamp                   | Timestamp of the event      |
-| latest_status               | Latest status of the device |
+| Column                      | Description                          |
+|-----------------------------|--------------------------------------|
+| actor_user_email            | User email                           |
+| actor_user_display_name     | User display name                    |
+| session_info_ip_address     | IP address                           |
+| session_info_host_name      | Host name                            |
+| session_info_updated        | Last Date/time of the session update |
+| session_info_client_type    | Client type                          |
+| session_info_client_version | Client version                       |
+| session_info_platform       | Platform                             |
+| timestamp                   | Timestamp of the event               |
+| latest_status               | Latest status of the device          |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

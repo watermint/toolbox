@@ -292,11 +292,12 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 以下のコマンドは、チーム内で接続されているデバイスやアプリケーションの情報を取得することができます.
 
-| コマンド                                                                       | 説明                                          |
-|--------------------------------------------------------------------------------|-----------------------------------------------|
-| [team device list]({{ site.baseurl }}/ja/commands/team-device-list.html)       | チーム内全てのデバイス/セッションを一覧します |
-| [team device unlink]({{ site.baseurl }}/ja/commands/team-device-unlink.html)   | デバイスのセッションを解除します              |
-| [team linkedapp list]({{ site.baseurl }}/ja/commands/team-linkedapp-list.html) | リンク済みアプリを一覧                        |
+| コマンド                                                                                                   | 説明                                                                  |
+|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| [team device list]({{ site.baseurl }}/ja/commands/team-device-list.html)                                   | チーム内全てのデバイス/セッションを一覧します                         |
+| [team device unlink]({{ site.baseurl }}/ja/commands/team-device-unlink.html)                               | デバイスのセッションを解除します                                      |
+| [team linkedapp list]({{ site.baseurl }}/ja/commands/team-linkedapp-list.html)                             | リンク済みアプリを一覧                                                |
+| [dropbox team backup device status]({{ site.baseurl }}/ja/commands/dropbox-team-backup-device-status.html) | Dropbox バックアップ デバイスのステータスが指定期間内に変更された場合 |
 
 # その他の使用例
 
