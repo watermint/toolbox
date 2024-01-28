@@ -2,9 +2,11 @@ package uc_insight
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharing"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 )
 
@@ -45,11 +47,21 @@ func NewReceivedFileFromJsonWithTeamMemberId(teamMemberId string, data es_json.J
 }
 
 func (z tsImpl) scanReceivedFile(teamMemberId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	l := z.client.Log().With(esl.String("teamMemberId", teamMemberId))
 	client := z.client.AsMemberId(teamMemberId)
 	received, err := sv_sharing.NewReceived(client).List()
-	if err != nil {
+	dbxErr := dbx_error.NewErrors(err)
+	switch {
+	case dbxErr == nil:
+		// fall through
+	case dbxErr.IsEmailUnverified():
+		l.Debug("Email unverified, skip")
+		return nil
+	default:
+		l.Debug("List received files", esl.Error(err))
 		return err
 	}
+
 	for _, rf := range received {
 		r, err := NewReceivedFileFromJsonWithTeamMemberId(teamMemberId, es_json.MustParse(rf.Raw))
 		if err != nil {

@@ -55,7 +55,7 @@ func (z tsImpl) summarizeTeamFolder(teamFolder *TeamFolder, s eq_sequence.Stage)
 		return nil
 	}
 
-	rows, err := z.adb.Model(&NamespaceEntry{}).Where("parent_folder_id = ?", ne.FileId).Rows()
+	rows, err := z.adb.Model(&NamespaceEntry{}).Where("parent_folder_id = ? AND entry_type = 'folder'", ne.FileId).Rows()
 	if err != nil {
 		l.Debug("Unable to find namespace entry", esl.Error(err))
 		return err
@@ -139,7 +139,7 @@ func (z tsImpl) summarizeTeamFolderEntry(teamFolderEntry *SummarizeTeamFolderEnt
 	z.sdb.Save(tfe)
 
 	if ne.EntryType == "folder" && ne.FileId != "" {
-		rows, err := z.adb.Model(&NamespaceEntry{}).Where("parent_folder_id = ?", ne.FileId).Rows()
+		rows, err := z.adb.Model(&NamespaceEntry{}).Where("parent_folder_id = ? AND entry_type = 'folder'", ne.FileId).Rows()
 		switch {
 		case err == nil:
 			defer func() {

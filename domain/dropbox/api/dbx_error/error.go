@@ -54,6 +54,8 @@ type DropboxError interface {
 
 	HasPrefix(prefix string) bool
 
+	// email_unverified
+	IsEmailUnverified() bool
 	// too_many_write_operations
 	IsTooManyWriteOperations() bool
 	// too_many_files
@@ -144,6 +146,10 @@ type ErrorMember interface {
 
 type errorsImpl struct {
 	ei ErrorInfo
+}
+
+func (z errorsImpl) IsEmailUnverified() bool {
+	return z.ei.HasPrefix("email_unverified")
 }
 
 func (z errorsImpl) HasPrefix(prefix string) bool {

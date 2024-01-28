@@ -61,7 +61,7 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 			NamespaceId: ns.NamespaceId,
 			FolderId:    "",
 		})
-		if ns.NamespaceType != "team_member_folder" && ns.NamespaceType != "app_folder" {
+		if ns.NamespaceType != "team_member_folder" && ns.NamespaceType != "app_folder" && ns.NamespaceType != "team_member_root" {
 			qnd.Enqueue(ns.NamespaceId)
 			qnm.Enqueue(ns.NamespaceId)
 		}
