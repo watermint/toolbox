@@ -3,6 +3,7 @@ package uc_insight
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
@@ -95,7 +96,6 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 		sv_file.IncludeDeleted(true),
 		sv_file.IncludeHasExplicitSharedMembers(true),
 	)
-
 	switch err {
 	case nil:
 		if param.IsRetry {
@@ -106,7 +106,10 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 		}
 
 	default:
-		z.adb.Create(&NamespaceEntryError{
+		dbxErr := dbx_error.NewErrors(err)
+		l.Debug("List namespace entry", esl.Error(err), esl.String("dbxErrorSummary", dbxErr.Summary()))
+
+		z.adb.Save(&NamespaceEntryError{
 			NamespaceId: param.NamespaceId,
 			FolderId:    param.FolderId,
 			Error:       err.Error(),

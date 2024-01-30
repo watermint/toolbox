@@ -69,6 +69,7 @@ func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err e
 	sdbTables := []interface{}{
 		&SummaryEntry{},
 		&SummaryFolderAndNamespace{},
+		&SummaryFolderError{},
 		&SummaryFolderImmediateCount{},
 		&SummaryFolderPath{},
 		&SummaryFolderRecursive{},
@@ -87,6 +88,13 @@ func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err e
 	for _, t := range sdbTables {
 		tableName := reflect.ValueOf(t).Elem().Type().Name()
 		l.Debug("Migrating", esl.String("table", tableName))
+		if sdb.Migrator().HasTable(t) {
+			l.Debug("Try removing existing data", esl.String("table", tableName))
+			if err = sdb.Delete(t).Error; err != nil {
+				l.Debug("Unable to delete", esl.Error(err), esl.String("table", tableName))
+				return nil, nil, err
+			}
+		}
 		if err = sdb.AutoMigrate(t); err != nil {
 			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
 			return nil, nil, err

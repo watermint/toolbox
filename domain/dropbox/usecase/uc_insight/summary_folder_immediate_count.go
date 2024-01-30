@@ -23,6 +23,13 @@ type SummaryFolderAndNamespace struct {
 	SummaryCount
 }
 
+type SummaryFolderError struct {
+	// primary keys
+	FolderId  string `path:"folder_id" gorm:"primaryKey"`
+	Error     string `path:"error"`
+	Operation string `path:"operation"`
+}
+
 func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
 	l := z.ctl.Log().With(esl.String("folderId", folderId))
 	if folderId == "" {
@@ -53,15 +60,15 @@ func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
 			ns := &SummaryNamespace{}
 			if err := z.sdb.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
 				l.Debug("cannot find namespace", esl.Error(err), esl.String("namespaceId", entry.EntryNamespaceId))
-				return err
+				z.sdb.Save(&SummaryFolderError{
+					FolderId:  folderId,
+					Error:     err.Error(),
+					Operation: "summarizeFolderImmediateCount#cannotFindSummaryNamespace",
+				})
+				return nil
 			}
 			summaryFolderAndNamespace = summaryFolderAndNamespace.AddSummary(ns.SummaryCount)
 		}
-	}
-
-	if err != nil {
-		l.Debug("cannot summarize", esl.Error(err))
-		return err
 	}
 
 	z.sdb.Save(&SummaryFolderImmediateCount{
