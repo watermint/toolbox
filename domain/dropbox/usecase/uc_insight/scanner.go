@@ -90,7 +90,7 @@ func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err e
 		l.Debug("Migrating", esl.String("table", tableName))
 		if sdb.Migrator().HasTable(t) {
 			l.Debug("Try removing existing data", esl.String("table", tableName))
-			if err = sdb.Delete(t).Error; err != nil {
+			if err = sdb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(t).Error; err != nil {
 				l.Debug("Unable to delete", esl.Error(err), esl.String("table", tableName))
 				return nil, nil, err
 			}
@@ -157,7 +157,8 @@ type tsImpl struct {
 	// adb: API results database
 	adb *gorm.DB
 	// sdb: summary database
-	sdb *gorm.DB
+	sdb              *gorm.DB
+	disableAutoRetry bool
 }
 
 func (z tsImpl) saveIfExternalGroup(member mo_sharedfolder_member.Member) {
@@ -232,6 +233,13 @@ func (z tsImpl) Scan() (err error) {
 		lastErr = err
 	}))
 
+	if !z.disableAutoRetry {
+		if err := z.RetryErrors(); err != nil {
+			l.Debug("Unable to retry errors", esl.Error(err))
+			return err
+		}
+	}
+
 	db, err := z.adb.DB()
 	if err != nil {
 		return err
@@ -279,9 +287,10 @@ func (z tsImpl) summarizeStage1() error {
 			}
 			qNamespace.Enqueue(namespaceModel.NamespaceId)
 		}
-	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-		lastErr = err
-	}))
+	}, eq_sequence.SingleThread(),
+		eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+			lastErr = err
+		}))
 	_ = namespaceRows.Close()
 
 	if lastErr != nil {
@@ -322,10 +331,10 @@ func (z tsImpl) summarizeStage2() error {
 			qFolderPath.Enqueue(folderEntry.FileId)
 			qFolderImmediate.Enqueue(folderEntry.FileId)
 		}
-
-	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-		lastErr = err
-	}))
+	}, eq_sequence.SingleThread(),
+		eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+			lastErr = err
+		}))
 
 	if lastErr != nil {
 		l.Debug("Failure on processing folder rows", esl.Error(lastErr))
@@ -363,10 +372,10 @@ func (z tsImpl) summarizeStage3() error {
 			}
 			qFolderRecursive.Enqueue(folderEntry.FileId)
 		}
-
-	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-		lastErr = err
-	}))
+	}, eq_sequence.SingleThread(),
+		eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+			lastErr = err
+		}))
 
 	if lastErr != nil {
 		l.Debug("Failure on processing folder rows", esl.Error(lastErr))
@@ -403,10 +412,10 @@ func (z tsImpl) summarizeStage4() error {
 			}
 			qEntry.Enqueue(folderEntry.FileId)
 		}
-
-	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-		lastErr = err
-	}))
+	}, eq_sequence.SingleThread(),
+		eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+			lastErr = err
+		}))
 
 	if lastErr != nil {
 		l.Debug("Failure on processing folder rows", esl.Error(lastErr))
@@ -443,7 +452,10 @@ func (z tsImpl) summarizeStage5() error {
 			}
 			qEntry.Enqueue(teamFolder)
 		}
-	})
+	}, eq_sequence.SingleThread(),
+		eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
+			lastErr = err
+		}))
 
 	if lastErr != nil {
 		l.Debug("Failure on processing folder rows", esl.Error(lastErr))
