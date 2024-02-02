@@ -73,24 +73,18 @@ var (
 	}
 )
 
-func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err error) {
+func newDatabase(ctl app_control.Control, path string) (adb *gorm.DB, err error) {
 	l := ctl.Log().With(esl.String("path", path))
 	if err := os.MkdirAll(path, 0700); err != nil {
 		l.Debug("Unable to create directory", esl.Error(err))
-		return nil, nil, err
+		return nil, err
 	}
 
-	adbPath := filepath.Join(path, "api.db")
+	adbPath := filepath.Join(path, "scan.db")
 	adb, err = ctl.NewOrm(adbPath)
 	if err != nil {
 		l.Debug("Unable to open database", esl.Error(err), esl.String("path", adbPath))
-		return nil, nil, err
-	}
-	sdbPath := filepath.Join(path, "summary.db")
-	sdb, err = ctl.NewOrm(sdbPath)
-	if err != nil {
-		l.Debug("Unable to open database", esl.Error(err), esl.String("path", sdbPath))
-		return nil, nil, err
+		return nil, err
 	}
 
 	for _, t := range adbTables {
@@ -98,7 +92,7 @@ func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err e
 		l.Debug("Migrating API tables", esl.String("table", tableName))
 		if err = adb.AutoMigrate(t); err != nil {
 			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
-			return nil, nil, err
+			return nil, err
 		}
 	}
 	for _, t := range adbErrorTables {
@@ -106,30 +100,30 @@ func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err e
 		l.Debug("Migrating API error tables", esl.String("table", tableName))
 		if err = adb.AutoMigrate(t); err != nil {
 			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
-			return nil, nil, err
+			return nil, err
 		}
 	}
 	for _, t := range sdbTables {
 		tableName := reflect.ValueOf(t).Elem().Type().Name()
 		l.Debug("Migrating summary tables", esl.String("table", tableName))
-		if sdb.Migrator().HasTable(t) {
+		if adb.Migrator().HasTable(t) {
 			l.Debug("Try removing existing data", esl.String("table", tableName))
-			if err = sdb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(t).Error; err != nil {
+			if err = adb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(t).Error; err != nil {
 				l.Debug("Unable to delete", esl.Error(err), esl.String("table", tableName))
-				return nil, nil, err
+				return nil, err
 			}
 		}
-		if err = sdb.AutoMigrate(t); err != nil {
+		if err = adb.AutoMigrate(t); err != nil {
 			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
-			return nil, nil, err
+			return nil, err
 		}
 	}
 
-	return adb, sdb, nil
+	return adb, nil
 }
 func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path string) (TeamScanner, error) {
 	l := ctl.Log().With(esl.String("path", path))
-	adb, sdb, err := newDatabase(ctl, path)
+	adb, err := newDatabase(ctl, path)
 	if err != nil {
 		l.Debug("Unable to open database", esl.Error(err))
 		return nil, err
@@ -138,7 +132,7 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 		ctl:              ctl,
 		client:           client,
 		adb:              adb,
-		sdb:              sdb,
+		sdb:              adb,
 		disableAutoRetry: false,
 		maxRetries:       3,
 	}, nil
