@@ -41,7 +41,8 @@ func (z tsImpl) RetryErrors() error {
 	handleRetry := func(queueId string, errRecordType interface{}, toParam func(record interface{}) interface{}) error {
 		typeName := reflect.TypeOf(errRecordType).Elem().Name()
 		l.Debug("Handling retry", esl.String("type", typeName))
-		rows, err := z.adb.Model(errRecordType).Rows()
+		record := reflect.New(reflect.TypeOf(errRecordType).Elem()).Interface()
+		rows, err := z.adb.Model(record).Rows()
 		if err != nil {
 			l.Debug("Unable to retrieve model", esl.Error(err))
 			return err
@@ -56,7 +57,7 @@ func (z tsImpl) RetryErrors() error {
 			q := s.Get(queueId)
 			for rows.Next() {
 				record := reflect.New(reflect.TypeOf(errRecordType).Elem()).Interface()
-				if err := rows.Scan(record); err != nil {
+				if err := z.adb.ScanRows(rows, record); err != nil {
 					l.Debug("Unable to scan row", esl.Error(err))
 					lastErr = err
 					return
