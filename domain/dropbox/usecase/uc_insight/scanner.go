@@ -1,6 +1,8 @@
 package uc_insight
 
 import (
+	"errors"
+	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
@@ -244,7 +246,6 @@ func (z tsImpl) Scan() (err error) {
 		return err
 	}
 
-	var lastErr error
 	z.ctl.Sequence().Do(func(s eq_sequence.Stage) {
 		z.defineScanQueues(s, admin, team)
 
@@ -256,10 +257,7 @@ func (z tsImpl) Scan() (err error) {
 		qGroup.Enqueue(&GroupParam{})
 		qTeamFolder := s.Get(teamScanQueueTeamFolder)
 		qTeamFolder.Enqueue(&TeamFolderParam{})
-
-	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
-		lastErr = err
-	}))
+	})
 
 	if !z.disableAutoRetry {
 		for i := 0; i < z.maxRetries; i++ {
@@ -285,7 +283,16 @@ func (z tsImpl) Scan() (err error) {
 	}
 	_ = db.Close()
 
-	return lastErr
+	numErrs, err := z.hasErrors()
+	if err != nil {
+		l.Debug("Unable to check errors", esl.Error(err))
+		return err
+	}
+	if numErrs > 0 {
+		l.Debug("There are errors", esl.Int64("errorRecords", numErrs))
+		return errors.New(fmt.Sprintf("There are %d errors", numErrs))
+	}
+	return nil
 }
 
 func (z tsImpl) defineSummarizeQueues(s eq_sequence.Stage) {
