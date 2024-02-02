@@ -31,6 +31,48 @@ type TeamScanner interface {
 	RetryErrors() (err error)
 }
 
+var (
+	adbTables = []interface{}{
+		&FileMember{},
+		&GroupMember{},
+		&Group{},
+		&Member{},
+		&Mount{},
+		&NamespaceDetail{},
+		&NamespaceEntry{},
+		&NamespaceMember{},
+		&Namespace{},
+		&ReceivedFile{},
+		&SharedLink{},
+		&TeamFolder{},
+	}
+	adbErrorTables = []interface{}{
+		&FileMemberError{},
+		&GroupError{},
+		&GroupMemberError{},
+		&MemberError{},
+		&MountError{},
+		&NamespaceDetailError{},
+		&NamespaceEntryError{},
+		&NamespaceError{},
+		&NamespaceMemberError{},
+		&ReceivedFileError{},
+		&SharedLinkError{},
+		&TeamFolderError{},
+	}
+
+	sdbTables = []interface{}{
+		&SummaryEntry{},
+		&SummaryFolderAndNamespace{},
+		&SummaryFolderError{},
+		&SummaryFolderImmediateCount{},
+		&SummaryFolderPath{},
+		&SummaryFolderRecursive{},
+		&SummaryNamespace{},
+		&SummaryTeamFolderEntry{},
+	}
+)
+
 func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err error) {
 	l := ctl.Log().With(esl.String("path", path))
 	if err := os.MkdirAll(path, 0700); err != nil {
@@ -51,35 +93,17 @@ func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err e
 		return nil, nil, err
 	}
 
-	adbTables := []interface{}{
-		&FileMember{},
-		&GroupMember{},
-		&Group{},
-		&Member{},
-		&Mount{},
-		&NamespaceDetail{},
-		&NamespaceEntryError{},
-		&NamespaceEntry{},
-		&NamespaceMember{},
-		&Namespace{},
-		&ReceivedFile{},
-		&SharedLink{},
-		&TeamFolder{},
-	}
-	sdbTables := []interface{}{
-		&SummaryEntry{},
-		&SummaryFolderAndNamespace{},
-		&SummaryFolderError{},
-		&SummaryFolderImmediateCount{},
-		&SummaryFolderPath{},
-		&SummaryFolderRecursive{},
-		&SummaryNamespace{},
-		&SummaryTeamFolderEntry{},
-	}
-
 	for _, t := range adbTables {
 		tableName := reflect.ValueOf(t).Elem().Type().Name()
-		l.Debug("Migrating", esl.String("table", tableName))
+		l.Debug("Migrating API tables", esl.String("table", tableName))
+		if err = adb.AutoMigrate(t); err != nil {
+			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
+			return nil, nil, err
+		}
+	}
+	for _, t := range adbErrorTables {
+		tableName := reflect.ValueOf(t).Elem().Type().Name()
+		l.Debug("Migrating API error tables", esl.String("table", tableName))
 		if err = adb.AutoMigrate(t); err != nil {
 			l.Debug("Unable to migrate", esl.Error(err), esl.String("table", tableName))
 			return nil, nil, err
@@ -87,7 +111,7 @@ func newDatabase(ctl app_control.Control, path string) (adb, sdb *gorm.DB, err e
 	}
 	for _, t := range sdbTables {
 		tableName := reflect.ValueOf(t).Elem().Type().Name()
-		l.Debug("Migrating", esl.String("table", tableName))
+		l.Debug("Migrating summary tables", esl.String("table", tableName))
 		if sdb.Migrator().HasTable(t) {
 			l.Debug("Try removing existing data", esl.String("table", tableName))
 			if err = sdb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(t).Error; err != nil {
@@ -111,10 +135,12 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 		return nil, err
 	}
 	return &tsImpl{
-		ctl:    ctl,
-		client: client,
-		adb:    adb,
-		sdb:    sdb,
+		ctl:              ctl,
+		client:           client,
+		adb:              adb,
+		sdb:              sdb,
+		disableAutoRetry: false,
+		maxRetries:       3,
 	}, nil
 }
 
@@ -148,7 +174,8 @@ type NamespaceEntryParam struct {
 
 type FileMemberParam struct {
 	NamespaceId string `json:"namespaceId" path:"namespace_id"`
-	FileId      string `json:"fileId" path:"file_id"`
+	FileId      string `json:"fileId" path:"file_id" gor:"primaryKey"`
+	IsRetry     bool   `json:"isRetry" path:"is_retry"`
 }
 
 type tsImpl struct {
@@ -159,6 +186,7 @@ type tsImpl struct {
 	// sdb: summary database
 	sdb              *gorm.DB
 	disableAutoRetry bool
+	maxRetries       int
 }
 
 func (z tsImpl) saveIfExternalGroup(member mo_sharedfolder_member.Member) {
@@ -179,11 +207,17 @@ func (z tsImpl) dispatchMember(member *mo_member.Member, stage eq_sequence.Stage
 		return nil
 	}
 	qMount := stage.Get(teamScanQueueMount)
-	qMount.Enqueue(member.TeamMemberId)
+	qMount.Enqueue(&MountParam{
+		TeamMemberId: member.TeamMemberId,
+	})
 	qReceivedFile := stage.Get(teamScanQueueReceivedFile)
-	qReceivedFile.Enqueue(member.TeamMemberId)
+	qReceivedFile.Enqueue(&ReceivedFileParam{
+		TeamMemberId: member.TeamMemberId,
+	})
 	qSharedLink := stage.Get(teamScanQueueSharedLink)
-	qSharedLink.Enqueue(member.TeamMemberId)
+	qSharedLink.Enqueue(&SharedLinkParam{
+		TeamMemberId: member.TeamMemberId,
+	})
 
 	return nil
 }
@@ -221,22 +255,33 @@ func (z tsImpl) Scan() (err error) {
 		z.defineScanQueues(s, admin, team)
 
 		qMember := s.Get(teamScanQueueMember)
-		qMember.Enqueue("")
+		qMember.Enqueue(&MemberParam{})
 		qNamespace := s.Get(teamScanQueueNamespace)
-		qNamespace.Enqueue("")
+		qNamespace.Enqueue(&NamespaceParam{})
 		qGroup := s.Get(teamScanQueueGroup)
-		qGroup.Enqueue("")
+		qGroup.Enqueue(&GroupParam{})
 		qTeamFolder := s.Get(teamScanQueueTeamFolder)
-		qTeamFolder.Enqueue("")
+		qTeamFolder.Enqueue(&TeamFolderParam{})
 
 	}, eq_sequence.ErrorHandler(func(err error, mouldId, batchId string, p interface{}) {
 		lastErr = err
 	}))
 
 	if !z.disableAutoRetry {
-		if err := z.RetryErrors(); err != nil {
-			l.Debug("Unable to retry errors", esl.Error(err))
-			return err
+		for i := 0; i < z.maxRetries; i++ {
+			numErrors, err := z.hasErrors()
+			if err != nil {
+				l.Debug("Unable to check errors", esl.Error(err))
+				return err
+			}
+			if numErrors > 0 {
+				l.Info("Retrying errors", esl.Int("retry", i+1), esl.Int64("errorRecords", numErrors))
+				l.Debug("Checking errors", esl.Int("retry", i+1), esl.Int64("errorRecords", numErrors))
+				if err := z.RetryErrors(); err != nil {
+					l.Debug("Unable to retry errors", esl.Error(err))
+					return err
+				}
+			}
 		}
 	}
 

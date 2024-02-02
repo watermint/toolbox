@@ -58,23 +58,47 @@ func NewNamespaceDetail(s *mo_sharedfolder.SharedFolder) (ns *NamespaceDetail, e
 	return ns, nil
 }
 
-func (z tsImpl) scanNamespaceDetail(namespaceId string, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) (err error) {
-	l := z.ctl.Log().With(esl.String("namespaceId", namespaceId))
+type NamespaceDetailParam struct {
+	NamespaceId string `path:"namespace_id" json:"namespace_id"`
+	IsRetry     bool   `path:"is_retry" json:"is_retry"`
+}
+
+type NamespaceDetailError struct {
+	NamespaceId string `path:"namespace_id" gorm:"primaryKey"`
+	Error       string `path:"error_summary"`
+}
+
+func (z NamespaceDetailError) ToParam() interface{} {
+	return &NamespaceDetailParam{
+		NamespaceId: z.NamespaceId,
+		IsRetry:     true,
+	}
+}
+
+func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) (err error) {
+	l := z.ctl.Log().With(esl.String("namespaceId", param.NamespaceId))
+	onError := func(err error) error {
+		z.adb.Save(&NamespaceDetailError{
+			NamespaceId: param.NamespaceId,
+			Error:       err.Error(),
+		})
+		return err
+	}
 	client := z.client.AsAdminId(admin.TeamMemberId)
-	ns, err := sv_sharedfolder.New(client).Resolve(namespaceId)
+	ns, err := sv_sharedfolder.New(client).Resolve(param.NamespaceId)
 	if err != nil {
 		l.Debug("Unable to resolve namespace", esl.Error(err))
-		return err
+		return onError(err)
 	}
 	n, err := NewNamespaceDetail(ns)
 	if err != nil {
 		l.Debug("Unable to retrieve namespace detail", esl.Error(err))
-		return err
+		return onError(err)
 	}
-	m, err := sv_file.NewFiles(client).Resolve(mo_path.NewDropboxPath("ns:" + namespaceId))
+	m, err := sv_file.NewFiles(client).Resolve(mo_path.NewDropboxPath("ns:" + param.NamespaceId))
 	if err != nil {
 		l.Debug("Unable to resolve namespace folder", esl.Error(err))
-		return err
+		return onError(err)
 	}
 	ce := m.Concrete()
 
@@ -89,7 +113,7 @@ func (z tsImpl) scanNamespaceDetail(namespaceId string, stage eq_sequence.Stage,
 	if n.ParentNamespaceId == "" {
 
 		z.adb.Save(&NamespaceEntry{
-			NamespaceId:              namespaceId,
+			NamespaceId:              param.NamespaceId,
 			FileId:                   ce.Id,
 			ParentFolderId:           "",
 			EntryType:                "folder",
@@ -103,11 +127,15 @@ func (z tsImpl) scanNamespaceDetail(namespaceId string, stage eq_sequence.Stage,
 			ContentHash:              "",
 			PathLower:                ce.PathLower,
 			PathDisplay:              ce.PathDisplay,
-			EntryNamespaceId:         namespaceId,
+			EntryNamespaceId:         param.NamespaceId,
 			ParentNamespaceId:        ce.ParentSharedFolderId,
 			Updated:                  0,
 			Raw:                      nil,
 		})
+	}
+
+	if param.IsRetry {
+		z.adb.Delete(&NamespaceDetailError{}, "namespace_id = ?", param.NamespaceId)
 	}
 
 	return nil

@@ -11,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"gorm.io/gorm"
 )
 
 type Namespace struct {
@@ -27,6 +28,21 @@ type Namespace struct {
 	Raw json.RawMessage
 }
 
+type NamespaceError struct {
+	Dummy string `path:"dummy" gorm:"primaryKey"`
+	Error string `path:"error_summary"`
+}
+
+func (z NamespaceError) ToParam() interface{} {
+	return &NamespaceParam{
+		IsRetry: true,
+	}
+}
+
+type NamespaceParam struct {
+	IsRetry bool `path:"is_retry" json:"is_retry"`
+}
+
 func NewNamespaceFromJson(data es_json.Json) (ns *Namespace, err error) {
 	ns = &Namespace{}
 	if err = data.Model(ns); err != nil {
@@ -35,7 +51,7 @@ func NewNamespaceFromJson(data es_json.Json) (ns *Namespace, err error) {
 	return ns, nil
 }
 
-func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
 	l := z.ctl.Log()
 	qne := stage.Get(teamScanQueueNamespaceEntry)
 	qnd := stage.Get(teamScanQueueNamespaceDetail)
@@ -62,8 +78,12 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 			FolderId:    "",
 		})
 		if ns.NamespaceType != "team_member_folder" && ns.NamespaceType != "app_folder" && ns.NamespaceType != "team_member_root" {
-			qnd.Enqueue(ns.NamespaceId)
-			qnm.Enqueue(ns.NamespaceId)
+			qnd.Enqueue(&NamespaceDetailParam{
+				NamespaceId: ns.NamespaceId,
+			})
+			qnm.Enqueue(&NamespaceMemberParam{
+				NamespaceId: ns.NamespaceId,
+			})
 		}
 		if ns.NamespaceType == "team_member_folder" || ns.NamespaceType == "app_folder" {
 			meta, err := sv_file.NewFiles(z.client.AsAdminId(admin.TeamMemberId)).Resolve(mo_path.NewDropboxPath("ns:" + namespace.NamespaceId))
@@ -98,5 +118,17 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 		return true
 	})
 
-	return es_lang.NewMultiErrorOrNull(opErr, lastErr)
+	err = es_lang.NewMultiErrorOrNull(opErr, lastErr)
+	if err != nil {
+		l.Debug("Operation error", esl.Error(err))
+		z.adb.Save(&NamespaceError{
+			Dummy: "dummy",
+			Error: err.Error(),
+		})
+		return opErr
+	}
+	if param.IsRetry {
+		z.adb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&NamespaceError{})
+	}
+	return nil
 }

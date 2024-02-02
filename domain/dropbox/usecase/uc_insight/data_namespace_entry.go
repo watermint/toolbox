@@ -39,6 +39,23 @@ type NamespaceEntry struct {
 	Raw json.RawMessage
 }
 
+type NamespaceEntryError struct {
+	NamespaceId string `path:"shared_folder_id" gorm:"primaryKey"`
+	FolderId    string `path:"folder_id" gorm:"primaryKey"`
+
+	Error string `path:"error_summary"`
+
+	Updated uint64 `gorm:"autoUpdateTime"`
+}
+
+func (z NamespaceEntryError) ToParam() interface{} {
+	return &NamespaceEntryParam{
+		NamespaceId: z.NamespaceId,
+		FolderId:    z.FolderId,
+		IsRetry:     true,
+	}
+}
+
 func NewNamespaceEntry(namespaceId string, parentFolderId string, data es_json.Json) (ne *NamespaceEntry, err error) {
 	ne = &NamespaceEntry{}
 	if err = data.Model(ne); err != nil {
