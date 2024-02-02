@@ -13,6 +13,7 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"gorm.io/gorm"
 	"os"
 	"path/filepath"
@@ -130,6 +131,13 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 		l.Debug("Unable to open database", esl.Error(err))
 		return nil, err
 	}
+
+	app_shutdown.AddShutdownHook(func() {
+		if db, err := adb.DB(); err == nil {
+			_ = db.Close()
+		}
+	})
+
 	return &tsImpl{
 		ctl:              ctl,
 		client:           client,
@@ -276,12 +284,6 @@ func (z tsImpl) Scan() (err error) {
 			}
 		}
 	}
-
-	db, err := z.adb.DB()
-	if err != nil {
-		return err
-	}
-	_ = db.Close()
 
 	numErrs, err := z.hasErrors()
 	if err != nil {

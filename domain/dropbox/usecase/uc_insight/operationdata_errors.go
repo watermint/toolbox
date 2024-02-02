@@ -76,15 +76,6 @@ func (z tsImpl) RetryErrors() error {
 		ToParam    func(record interface{}) interface{}
 	}
 
-	defer func() {
-		db, err := z.adb.DB()
-		if err != nil {
-			l.Debug("Unable to retrieve db", esl.Error(err))
-			return
-		}
-		_ = db.Close()
-	}()
-
 	retryables := []Retryable{
 		{
 			teamScanQueueFileMember,
