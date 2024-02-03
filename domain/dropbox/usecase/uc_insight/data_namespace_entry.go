@@ -74,11 +74,20 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 	targetPath := mo_path.NewDropboxPath(param.FolderId)
 	if param.FolderId == "" {
 		f, err := sv_file.NewFiles(z.client.AsAdminId(admin.TeamMemberId)).Resolve(mo_path.NewDropboxPath("ns:" + param.NamespaceId))
-		if err != nil {
+		dbxErr := dbx_error.NewErrors(err)
+		switch {
+		case dbxErr == nil:
+			param.FolderId = f.Concrete().Id
+			// fall through
+
+		case dbxErr.Path().IsNotFound():
+			l.Debug("Namespace folder not found, the folder removed during the process", esl.String("namespaceId", param.NamespaceId))
+			return nil
+
+		default:
 			l.Debug("Unable to resolve namespace folder", esl.Error(err))
 			return err
 		}
-		param.FolderId = f.Concrete().Id
 	}
 
 	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(param.NamespaceId))
@@ -113,14 +122,19 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 		sv_file.IncludeDeleted(true),
 		sv_file.IncludeHasExplicitSharedMembers(true),
 	)
-	switch err {
-	case nil:
+	dbxErr := dbx_error.NewErrors(err)
+	switch {
+	case dbxErr == nil:
 		if param.IsRetry {
 			z.adb.Delete(&NamespaceEntryError{
 				NamespaceId: param.NamespaceId,
 				FolderId:    param.FolderId,
 			})
 		}
+
+	case dbxErr.Path().IsNotFound():
+		l.Debug("Namespace folder not found, the folder removed during the process", esl.String("namespaceId", param.NamespaceId))
+		return nil
 
 	default:
 		dbxErr := dbx_error.NewErrors(err)

@@ -2,6 +2,7 @@ package uc_insight
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_member"
@@ -47,6 +48,12 @@ func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, 
 	members, err := sv_file_member.New(client).List(entry.FileId, false)
 	if err != nil {
 		l.Debug("Unable to retrieve members", esl.Error(err))
+		dbxErr := dbx_error.NewErrors(err)
+		if dbxErr != nil && dbxErr.Path().IsNotFound() {
+			l.Debug("File not found, maybe removed during the scan", esl.String("fileId", entry.FileId))
+			return nil
+		}
+
 		z.adb.Save(&FileMemberError{
 			FileMemberParam: *entry,
 			Error:           err.Error(),

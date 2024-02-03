@@ -2,6 +2,7 @@ package uc_insight
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -87,6 +88,14 @@ func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequen
 	client := z.client.AsAdminId(admin.TeamMemberId)
 	ns, err := sv_sharedfolder.New(client).Resolve(param.NamespaceId)
 	if err != nil {
+		dbxErr := dbx_error.NewErrors(err)
+		switch {
+		case dbxErr == nil:
+		// fall through
+		case dbxErr.HasPrefix("invalid_id"):
+			l.Debug("The namespace removed during the scan", esl.Error(err))
+			return nil
+		}
 		l.Debug("Unable to resolve namespace", esl.Error(err))
 		return onError(err)
 	}
