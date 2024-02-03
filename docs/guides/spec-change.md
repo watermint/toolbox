@@ -65,7 +65,6 @@ Below commands will be removed in the future release. If you continue to use you
 
 | Path                                                                                        | Command description                                   | Date                 |
 |---------------------------------------------------------------------------------------------|-------------------------------------------------------|----------------------|
-| log job ship                                                                                | Ship Job logs to Dropbox path                         | 2024-02-01T00:00:00Z |
 | [teamspace asadmin file list](https://github.com/watermint/toolbox/discussions/796)         | List files and folders in team space run as admin     | 2024-07-01T00:00:00Z |
 | [teamspace asadmin folder add](https://github.com/watermint/toolbox/discussions/796)        | Create top level folder in the team space             | 2024-07-01T00:00:00Z |
 | [teamspace asadmin folder delete](https://github.com/watermint/toolbox/discussions/796)     | Delete top level folder of the team space             | 2024-07-01T00:00:00Z |

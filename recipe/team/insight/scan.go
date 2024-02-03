@@ -3,6 +3,7 @@ package insight
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight"
+	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -14,15 +15,24 @@ import (
 
 type Scan struct {
 	rc_recipe.RemarkSecret
-	Peer     dbx_conn.ConnScopedTeam
-	Database mo_path.FileSystemPath
+	Peer              dbx_conn.ConnScopedTeam
+	Database          mo_path.FileSystemPath
+	MaxRetries        mo_int.RangeInt
+	ScanMemberFolders bool
 }
 
 func (z *Scan) Preset() {
+	z.MaxRetries.SetRange(0, 10, 3)
 }
 
 func (z *Scan) Exec(c app_control.Control) error {
-	ts, err := uc_insight.NewTeamScanner(c, z.Peer.Client(), z.Database.Path())
+	ts, err := uc_insight.NewTeamScanner(
+		c,
+		z.Peer.Client(),
+		z.Database.Path(),
+		uc_insight.MaxRetries(z.MaxRetries.Value()),
+		uc_insight.ScanMemberFolders(z.ScanMemberFolders),
+	)
 	if err != nil {
 		return err
 	}

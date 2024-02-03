@@ -29,18 +29,21 @@ type Namespace struct {
 }
 
 type NamespaceError struct {
-	Dummy string `path:"dummy" gorm:"primaryKey"`
-	Error string `path:"error_summary"`
+	Dummy             string `gorm:"primaryKey"`
+	ScanMemberFolders bool   `json:"scanMemberFolders" path:"scan_member_folders"`
+	Error             string `path:"error_summary"`
 }
 
 func (z NamespaceError) ToParam() interface{} {
 	return &NamespaceParam{
-		IsRetry: true,
+		ScanMemberFolders: z.ScanMemberFolders,
+		IsRetry:           true,
 	}
 }
 
 type NamespaceParam struct {
-	IsRetry bool `path:"is_retry" json:"is_retry"`
+	ScanMemberFolders bool `json:"scanMemberFolders" path:"scan_member_folders"`
+	IsRetry           bool `path:"is_retry" json:"is_retry" json:"is_retry,omitempty"`
 }
 
 func NewNamespaceFromJson(data es_json.Json) (ns *Namespace, err error) {
@@ -65,6 +68,13 @@ func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, a
 			lastErr = err
 			ll.Debug("unable to parse namespace", esl.Error(err))
 			return false
+		}
+		if !param.ScanMemberFolders {
+			switch ns.NamespaceType {
+			case "team_member_folder", "app_folder", "team_member_root", "shared_folder":
+				ll.Debug("skip member folder")
+				return true
+			}
 		}
 		z.adb.Save(ns)
 		if z.adb.Error != nil {

@@ -80,27 +80,26 @@ func (z tsImpl) Scan() (err error) {
 		qMember := s.Get(teamScanQueueMember)
 		qMember.Enqueue(&MemberParam{})
 		qNamespace := s.Get(teamScanQueueNamespace)
-		qNamespace.Enqueue(&NamespaceParam{})
+		qNamespace.Enqueue(&NamespaceParam{
+			ScanMemberFolders: z.opts.ScanMemberFolders,
+		})
 		qGroup := s.Get(teamScanQueueGroup)
 		qGroup.Enqueue(&GroupParam{})
 		qTeamFolder := s.Get(teamScanQueueTeamFolder)
 		qTeamFolder.Enqueue(&TeamFolderParam{})
 	})
 
-	if !z.disableAutoRetry {
-		for i := 0; i < z.maxRetries; i++ {
-			numErrors, err := z.hasErrors()
-			if err != nil {
-				l.Debug("Unable to check errors", esl.Error(err))
-				return err
-			}
-			if numErrors > 0 {
-				l.Info("Retrying errors", esl.Int("retry", i+1), esl.Int64("errorRecords", numErrors))
-				l.Debug("Checking errors", esl.Int("retry", i+1), esl.Int64("errorRecords", numErrors))
-				if err := z.RetryErrors(); err != nil {
-					l.Debug("Unable to retry errors", esl.Error(err))
-					return err
-				}
+	for i := 0; i < z.opts.MaxRetries; i++ {
+		ll := l.With(esl.Int("retry", i+1))
+		numErrors, err := z.hasErrors()
+		if err != nil {
+			ll.Debug("Unable to check errors", esl.Error(err))
+			return err
+		}
+		if numErrors > 0 {
+			ll.Debug("Checking errors", esl.Int64("errorRecords", numErrors))
+			if err := z.RetryErrors(); err != nil {
+				ll.Debug("Error on retry", esl.Error(err))
 			}
 		}
 	}

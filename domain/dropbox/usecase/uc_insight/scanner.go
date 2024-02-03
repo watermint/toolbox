@@ -22,8 +22,38 @@ type TeamScanner interface {
 	RetryErrors() (err error)
 }
 
-func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path string) (TeamScanner, error) {
+type ScanOpts struct {
+	MaxRetries        int
+	ScanMemberFolders bool
+}
+
+func (z ScanOpts) Apply(opts []ScanOpt) ScanOpts {
+	x := z
+	for _, o := range opts {
+		x = o(x)
+	}
+	return x
+}
+
+type ScanOpt func(opts ScanOpts) ScanOpts
+
+func MaxRetries(maxRetries int) ScanOpt {
+	return func(opts ScanOpts) ScanOpts {
+		opts.MaxRetries = maxRetries
+		return opts
+	}
+}
+
+func ScanMemberFolders(enabled bool) ScanOpt {
+	return func(opts ScanOpts) ScanOpts {
+		opts.ScanMemberFolders = enabled
+		return opts
+	}
+}
+
+func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path string, opts ...ScanOpt) (TeamScanner, error) {
 	l := ctl.Log().With(esl.String("path", path))
+	so := ScanOpts{}.Apply(opts)
 	adb, err := newDatabase(ctl, path)
 	if err != nil {
 		l.Debug("Unable to open database", esl.Error(err))
@@ -37,12 +67,11 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 	})
 
 	return &tsImpl{
-		ctl:              ctl,
-		client:           client,
-		adb:              adb,
-		sdb:              adb,
-		disableAutoRetry: false,
-		maxRetries:       3,
+		ctl:    ctl,
+		client: client,
+		adb:    adb,
+		sdb:    adb,
+		opts:   so,
 	}, nil
 }
 
@@ -52,7 +81,6 @@ type tsImpl struct {
 	// adb: API results database
 	adb *gorm.DB
 	// sdb: summary database
-	sdb              *gorm.DB
-	disableAutoRetry bool
-	maxRetries       int
+	sdb  *gorm.DB
+	opts ScanOpts
 }

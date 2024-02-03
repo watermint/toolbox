@@ -80,10 +80,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option      | Description                                                          | Default |
-|-------------|----------------------------------------------------------------------|---------|
-| `-database` | Path to the database containing the scanned information of the team. |         |
-| `-peer`     | Account alias                                                        | default |
+| Option                 | Description                                                          | Default |
+|------------------------|----------------------------------------------------------------------|---------|
+| `-database`            | Path to the database containing the scanned information of the team. |         |
+| `-max-retries`         | Maximum number of retries for the scan                               | 3       |
+| `-peer`                | Account alias                                                        | default |
+| `-scan-member-folders` | Scan member folders                                                  | false   |
 
 ## Common options:
 
