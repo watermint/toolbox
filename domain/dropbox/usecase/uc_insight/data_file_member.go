@@ -25,6 +25,12 @@ type FileMemberError struct {
 	Error string `path:"error_summary"`
 }
 
+type FileMemberParam struct {
+	NamespaceId string `json:"namespaceId" path:"namespace_id"`
+	FileId      string `json:"fileId" path:"file_id" gor:"primaryKey"`
+	IsRetry     bool   `json:"isRetry" path:"is_retry"`
+}
+
 func (z FileMemberError) ToParam() interface{} {
 	return &FileMemberParam{
 		NamespaceId: z.NamespaceId,

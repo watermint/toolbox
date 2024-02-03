@@ -39,6 +39,12 @@ type NamespaceEntry struct {
 	Raw json.RawMessage
 }
 
+type NamespaceEntryParam struct {
+	NamespaceId string `json:"namespaceId" path:"namespace_id"`
+	FolderId    string `json:"folderId" path:"folder_id"`
+	IsRetry     bool   `json:"isRetry" path:"is_retry"`
+}
+
 type NamespaceEntryError struct {
 	NamespaceId string `path:"shared_folder_id" gorm:"primaryKey"`
 	FolderId    string `path:"folder_id" gorm:"primaryKey"`
