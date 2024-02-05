@@ -26,7 +26,7 @@ type TeamFolder struct {
 
 type TeamFolderError struct {
 	Dummy string `path:"dummy" gorm:"primaryKey"`
-	Error string `path:"error_summary"`
+	ApiError
 }
 
 func (z TeamFolderError) ToParam() interface{} {
@@ -53,8 +53,8 @@ func (z tsImpl) scanTeamFolder(param *TeamFolderParam, stage eq_sequence.Stage, 
 	if err != nil {
 		l.Debug("Unable to retrieve team folders", esl.Error(err))
 		z.adb.Save(&TeamFolderError{
-			Dummy: "dummy",
-			Error: err.Error(),
+			Dummy:    "dummy",
+			ApiError: ApiErrorFromError(err),
 		})
 		return err
 	}

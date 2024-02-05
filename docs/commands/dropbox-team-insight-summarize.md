@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `team insight summarize`
+title: Command `dropbox team insight summarize`
 lang: en
 ---
 
-# team insight summarize
+# dropbox team insight summarize
 
-Summarize scanned team information 
+{"key":"complex","params":{"Messages":[{"K":"citron.dropbox.team.insight.summarize.title","P":null},{"K":"raw","P":[{"Raw":""}]}]}}
 
 # Security
 
@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team insight summarize -database /LOCAL/PATH/TO/database.db
+.\tbx.exe dropbox team insight summarize -database /LOCAL/PATH/TO/database
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team insight summarize -database /LOCAL/PATH/TO/database.db
+$HOME/Desktop/tbx dropbox team insight summarize -database /LOCAL/PATH/TO/database
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,10 +80,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-database` | Path to database |         |
-| `-peer`     | Account alias    | default |
+| Option      | Description                                                               | Default |
+|-------------|---------------------------------------------------------------------------|---------|
+| `-database` | {"key":"citron.dropbox.team.insight.summarize.flag.database","params":{}} |         |
+| `-peer`     | {"key":"citron.dropbox.team.insight.summarize.flag.peer","params":{}}     | default |
 
 ## Common options:
 

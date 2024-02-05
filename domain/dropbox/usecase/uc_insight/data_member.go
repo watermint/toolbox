@@ -33,7 +33,7 @@ type MemberParam struct {
 
 type MemberError struct {
 	Dummy string `path:"dummy" gorm:"primaryKey"`
-	Error string `path:"error_summary"`
+	ApiError
 }
 
 func (z MemberError) ToParam() interface{} {
@@ -76,8 +76,8 @@ func (z tsImpl) scanMembers(param *MemberParam, stage eq_sequence.Stage, admin *
 	if err != nil {
 		l.Debug("Operation error", esl.Error(err))
 		z.adb.Save(&MemberError{
-			Dummy: "dummy",
-			Error: err.Error(),
+			Dummy:    "dummy",
+			ApiError: ApiErrorFromError(err),
 		})
 		return opErr
 	}

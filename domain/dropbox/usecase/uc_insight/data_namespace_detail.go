@@ -66,7 +66,7 @@ type NamespaceDetailParam struct {
 
 type NamespaceDetailError struct {
 	NamespaceId string `path:"namespace_id" gorm:"primaryKey"`
-	Error       string `path:"error_summary"`
+	ApiError
 }
 
 func (z NamespaceDetailError) ToParam() interface{} {
@@ -81,7 +81,7 @@ func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequen
 	onError := func(err error) error {
 		z.adb.Save(&NamespaceDetailError{
 			NamespaceId: param.NamespaceId,
-			Error:       err.Error(),
+			ApiError:    ApiErrorFromError(err),
 		})
 		return err
 	}

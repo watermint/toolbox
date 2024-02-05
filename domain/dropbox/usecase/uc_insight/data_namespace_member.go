@@ -20,7 +20,7 @@ type NamespaceMember struct {
 
 type NamespaceMemberError struct {
 	NamespaceId string `path:"namespace_id" gorm:"primaryKey"`
-	Error       string `path:"error_summary"`
+	ApiError
 }
 
 func (z NamespaceMemberError) ToParam() interface{} {
@@ -49,7 +49,7 @@ func (z tsImpl) scanNamespaceMember(param *NamespaceMemberParam, stage eq_sequen
 		l.Debug("Unable to retrieve members", esl.Error(err))
 		z.adb.Save(&NamespaceMemberError{
 			NamespaceId: param.NamespaceId,
-			Error:       err.Error(),
+			ApiError:    ApiErrorFromError(err),
 		})
 		return err
 	}

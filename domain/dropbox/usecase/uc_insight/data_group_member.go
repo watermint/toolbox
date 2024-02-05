@@ -31,7 +31,7 @@ type GroupMemberParam struct {
 
 type GroupMemberError struct {
 	GroupId string `path:"group_id" gorm:"primaryKey"`
-	Error   string `path:"error_summary"`
+	ApiError
 }
 
 func (z GroupMemberError) ToParam() interface{} {
@@ -56,8 +56,8 @@ func (z tsImpl) scanGroupMember(param *GroupMemberParam, stage eq_sequence.Stage
 	if err != nil {
 		l.Debug("Unable to retrieve members", esl.Error(err))
 		z.adb.Save(&GroupMemberError{
-			GroupId: param.GroupId,
-			Error:   err.Error(),
+			GroupId:  param.GroupId,
+			ApiError: ApiErrorFromError(err),
 		})
 		return err
 	}

@@ -8,6 +8,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
+	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"os"
 	"path/filepath"
@@ -19,19 +20,32 @@ type Scan struct {
 	Database          mo_path.FileSystemPath
 	MaxRetries        mo_int.RangeInt
 	ScanMemberFolders bool
+	Errors            rp_model.RowReport
 }
 
 func (z *Scan) Preset() {
 	z.MaxRetries.SetRange(0, 10, 3)
+	z.Errors.SetModel(&uc_insight.ApiErrorReport{})
 }
 
 func (z *Scan) Exec(c app_control.Control) error {
+	if err := z.Errors.Open(); err != nil {
+		return err
+	}
 	ts, err := uc_insight.NewTeamScanner(
 		c,
 		z.Peer.Client(),
 		z.Database.Path(),
 		uc_insight.MaxRetries(z.MaxRetries.Value()),
 		uc_insight.ScanMemberFolders(z.ScanMemberFolders),
+		uc_insight.OnErrorRecords(func(errCategory, errMessage, errTag, detail string) {
+			z.Errors.Row(&uc_insight.ApiErrorReport{
+				Category: errCategory,
+				Message:  errMessage,
+				Tag:      errTag,
+				Detail:   detail,
+			})
+		}),
 	)
 	if err != nil {
 		return err

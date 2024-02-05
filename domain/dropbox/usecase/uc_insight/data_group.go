@@ -31,7 +31,7 @@ type Group struct {
 
 type GroupError struct {
 	Dummy string `path:"dummy" gorm:"primaryKey"`
-	Error string `path:"error_summary"`
+	ApiError
 }
 
 func (z GroupError) ToParam() interface{} {
@@ -74,8 +74,8 @@ func (z tsImpl) scanGroup(param *GroupParam, stage eq_sequence.Stage, admin *mo_
 	if err != nil {
 		l.Debug("Unable to retrieve groups", esl.Error(err))
 		z.adb.Save(&GroupError{
-			Dummy: "dummy",
-			Error: err.Error(),
+			Dummy:    "dummy",
+			ApiError: ApiErrorFromError(err),
 		})
 		return err
 	}

@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -31,7 +32,7 @@ type Namespace struct {
 type NamespaceError struct {
 	Dummy             string `gorm:"primaryKey"`
 	ScanMemberFolders bool   `json:"scanMemberFolders" path:"scan_member_folders"`
-	Error             string `path:"error_summary"`
+	ApiError
 }
 
 func (z NamespaceError) ToParam() interface{} {
@@ -70,9 +71,14 @@ func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, a
 			return false
 		}
 		if !param.ScanMemberFolders {
-			switch ns.NamespaceType {
-			case "team_member_folder", "app_folder", "team_member_root", "shared_folder":
-				ll.Debug("skip member folder")
+			detail, err := sv_sharedfolder.New(z.client.AsAdminId(admin.TeamMemberId)).Resolve(namespace.NamespaceId)
+			if err != nil {
+				lastErr = err
+				ll.Debug("unable to resolve namespace", esl.Error(err))
+				return false
+			}
+			if !detail.IsTeamFolder && !detail.IsInsideTeamFolder {
+				ll.Debug("skip non team owned folder", esl.Any("detail", detail))
 				return true
 			}
 		}
@@ -132,8 +138,8 @@ func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, a
 	if err != nil {
 		l.Debug("Operation error", esl.Error(err))
 		z.adb.Save(&NamespaceError{
-			Dummy: "dummy",
-			Error: err.Error(),
+			Dummy:    "dummy",
+			ApiError: ApiErrorFromError(err),
 		})
 		return opErr
 	}

@@ -25,6 +25,7 @@ type TeamScanner interface {
 type ScanOpts struct {
 	MaxRetries        int
 	ScanMemberFolders bool
+	OnErrorRecords    func(errCategory string, errMessage string, errTag string, detail string)
 }
 
 func (z ScanOpts) Apply(opts []ScanOpt) ScanOpts {
@@ -47,6 +48,13 @@ func MaxRetries(maxRetries int) ScanOpt {
 func ScanMemberFolders(enabled bool) ScanOpt {
 	return func(opts ScanOpts) ScanOpts {
 		opts.ScanMemberFolders = enabled
+		return opts
+	}
+}
+
+func OnErrorRecords(f func(errCategory, errMessage, errTag, detail string)) ScanOpt {
+	return func(opts ScanOpts) ScanOpts {
+		opts.OnErrorRecords = f
 		return opts
 	}
 }

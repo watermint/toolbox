@@ -22,7 +22,7 @@ type FileMember struct {
 
 type FileMemberError struct {
 	FileMemberParam
-	Error string `path:"error_summary"`
+	ApiError
 }
 
 type FileMemberParam struct {
@@ -62,7 +62,7 @@ func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, 
 
 		z.adb.Save(&FileMemberError{
 			FileMemberParam: *entry,
-			Error:           err.Error(),
+			ApiError:        ApiErrorFromError(err),
 		})
 		return err
 	}

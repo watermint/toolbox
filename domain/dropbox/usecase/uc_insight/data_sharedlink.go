@@ -31,7 +31,7 @@ type SharedLinkParam struct {
 
 type SharedLinkError struct {
 	TeamMemberId string `path:"team_member_id" gorm:"primaryKey"`
-	Error        string `path:"error_summary"`
+	ApiError
 }
 
 func (z SharedLinkError) ToParam() interface{} {
@@ -67,7 +67,7 @@ func (z tsImpl) scanSharedLink(param *SharedLinkParam, stage eq_sequence.Stage, 
 		l.Debug("Unable to retrieve links", esl.Error(err))
 		z.adb.Save(&SharedLinkError{
 			TeamMemberId: param.TeamMemberId,
-			Error:        err.Error(),
+			ApiError:     ApiErrorFromError(err),
 		})
 		return err
 	}

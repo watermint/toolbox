@@ -1,6 +1,7 @@
 package uc_insight
 
 import (
+	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -23,6 +24,55 @@ func (z tsImpl) hasErrors() (countErrors int64, err error) {
 	}
 
 	return countErrors, nil
+}
+
+func (z tsImpl) reportErrors() {
+	l := z.ctl.Log()
+	if z.opts.OnErrorRecords == nil {
+		l.Debug("No error handler, skip reporting")
+		return
+	}
+
+	reportTable := func(t interface{}) {
+		tableName := reflect.ValueOf(t).Elem().Type().Name()
+		ll := l.With(esl.String("table", tableName))
+
+		rows, err := z.adb.Model(t).Rows()
+		if err != nil {
+			ll.Debug("Unable to retrieve model", esl.Error(err))
+			return
+		}
+		defer func() {
+			_ = rows.Close()
+		}()
+
+		for rows.Next() {
+			record := reflect.New(reflect.TypeOf(t).Elem()).Interface()
+			if err := z.adb.ScanRows(rows, record); err != nil {
+				ll.Debug("Unable to scan row", esl.Error(err))
+				return
+			}
+			apiErrField := reflect.ValueOf(record).Elem().FieldByName("ApiError")
+			apiErr := apiErrField.Interface().(ApiError)
+
+			serialized, err := json.Marshal(record)
+			if err != nil {
+				ll.Debug("Unable to serialize record", esl.Error(err))
+				continue
+			}
+
+			z.opts.OnErrorRecords(
+				tableName,
+				apiErr.Error,
+				apiErr.ErrorTag,
+				string(serialized),
+			)
+		}
+	}
+
+	for _, t := range adbErrorTables {
+		reportTable(t)
+	}
 }
 
 func (z tsImpl) RetryErrors() error {

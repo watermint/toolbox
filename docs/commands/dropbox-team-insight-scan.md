@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `team insight scan`
+title: Command `dropbox team insight scan`
 lang: en
 ---
 
-# team insight scan
+# dropbox team insight scan
 
-Scan the team entire information 
+{"key":"complex","params":{"Messages":[{"K":"citron.dropbox.team.insight.scan.title","P":null},{"K":"raw","P":[{"Raw":""}]}]}}
 
 # Security
 
@@ -64,12 +64,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe team insight scan -database /LOCAL/PATH/TO/database.db
+.\tbx.exe dropbox team insight scan -database /LOCAL/PATH/TO/database
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx team insight scan -database /LOCAL/PATH/TO/database.db
+$HOME/Desktop/tbx dropbox team insight scan -database /LOCAL/PATH/TO/database
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -80,12 +80,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                 | Description                                                          | Default |
-|------------------------|----------------------------------------------------------------------|---------|
-| `-database`            | Path to the database containing the scanned information of the team. |         |
-| `-max-retries`         | Maximum number of retries for the scan                               | 3       |
-| `-peer`                | Account alias                                                        | default |
-| `-scan-member-folders` | Scan member folders                                                  | false   |
+| Option                 | Description                                                                     | Default |
+|------------------------|---------------------------------------------------------------------------------|---------|
+| `-database`            | {"key":"citron.dropbox.team.insight.scan.flag.database","params":{}}            |         |
+| `-max-retries`         | {"key":"citron.dropbox.team.insight.scan.flag.max_retries","params":{}}         | 3       |
+| `-peer`                | {"key":"citron.dropbox.team.insight.scan.flag.peer","params":{}}                | default |
+| `-scan-member-folders` | {"key":"citron.dropbox.team.insight.scan.flag.scan_member_folders","params":{}} | false   |
 
 ## Common options:
 

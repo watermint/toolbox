@@ -111,6 +111,7 @@ func (z tsImpl) Scan() (err error) {
 	}
 	if numErrs > 0 {
 		l.Debug("There are errors", esl.Int64("errorRecords", numErrs))
+
 		return errors.New(fmt.Sprintf("There are %d errors", numErrs))
 	}
 	return nil

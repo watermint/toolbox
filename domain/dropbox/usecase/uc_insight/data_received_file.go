@@ -36,7 +36,7 @@ type ReceivedFileParam struct {
 
 type ReceivedFileError struct {
 	TeamMemberId string `path:"team_member_id" gorm:"primaryKey"`
-	Error        string `path:"error_summary"`
+	ApiError
 }
 
 func (z ReceivedFileError) ToParam() interface{} {
@@ -79,6 +79,7 @@ func (z tsImpl) scanReceivedFile(param *ReceivedFileParam, stage eq_sequence.Sta
 
 		z.adb.Save(&ReceivedFileError{
 			TeamMemberId: param.TeamMemberId,
+			ApiError:     ApiErrorFromError(err),
 		})
 		return err
 	}

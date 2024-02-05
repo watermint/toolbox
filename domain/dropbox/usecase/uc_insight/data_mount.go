@@ -35,7 +35,7 @@ type MountParam struct {
 
 type MountError struct {
 	TeamMemberId string `path:"team_member_id" gorm:"primaryKey"`
-	Error        string `path:"error_summary"`
+	ApiError
 }
 
 func (z MountError) ToParam() interface{} {
@@ -72,7 +72,7 @@ func (z tsImpl) scanMount(param *MountParam, stage eq_sequence.Stage, admin *mo_
 		l.Debug("Unable to retrieve mountables", esl.Error(err))
 		z.adb.Save(&MountError{
 			TeamMemberId: param.TeamMemberId,
-			Error:        err.Error(),
+			ApiError:     ApiErrorFromError(err),
 		})
 		return err
 	}

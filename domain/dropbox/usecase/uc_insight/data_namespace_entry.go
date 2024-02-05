@@ -49,9 +49,7 @@ type NamespaceEntryError struct {
 	NamespaceId string `path:"shared_folder_id" gorm:"primaryKey"`
 	FolderId    string `path:"folder_id" gorm:"primaryKey"`
 
-	Error string `path:"error_summary"`
-
-	Updated uint64 `gorm:"autoUpdateTime"`
+	ApiError
 }
 
 func (z NamespaceEntryError) ToParam() interface{} {
@@ -149,7 +147,7 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 		z.adb.Save(&NamespaceEntryError{
 			NamespaceId: param.NamespaceId,
 			FolderId:    param.FolderId,
-			Error:       err.Error(),
+			ApiError:    ApiErrorFromError(err),
 		})
 	}
 	return err
