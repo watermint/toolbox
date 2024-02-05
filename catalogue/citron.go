@@ -12,6 +12,7 @@ import (
 	citrondropboxfileaccount "github.com/watermint/toolbox/citron/dropbox/file/account"
 	citrondropboxsignaccount "github.com/watermint/toolbox/citron/dropbox/sign/account"
 	citrondropboxteambackupdevice "github.com/watermint/toolbox/citron/dropbox/team/backup/device"
+	citrondropboxteaminsight "github.com/watermint/toolbox/citron/dropbox/team/insight"
 	citronfigmaaccount "github.com/watermint/toolbox/citron/figma/account"
 	citronfigmafile "github.com/watermint/toolbox/citron/figma/file"
 	citronfigmafileexport "github.com/watermint/toolbox/citron/figma/file/export"
@@ -52,6 +53,9 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxfileaccount.Info{},
 		&citrondropboxsignaccount.Info{},
 		&citrondropboxteambackupdevice.Status{},
+		&citrondropboxteaminsight.Scan{},
+		&citrondropboxteaminsight.Scanretry{},
+		&citrondropboxteaminsight.Summarize{},
 		&citronfigmaaccount.Info{},
 		&citronfigmafile.Info{},
 		&citronfigmafile.List{},

@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team insight scan
 
-{"key":"complex","params":{"Messages":[{"K":"citron.dropbox.team.insight.scan.title","P":null},{"K":"raw","P":[{"Raw":""}]}]}}
+ 
 
 # Security
 
@@ -80,12 +80,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                 | Description                                                                     | Default |
-|------------------------|---------------------------------------------------------------------------------|---------|
-| `-database`            | {"key":"citron.dropbox.team.insight.scan.flag.database","params":{}}            |         |
-| `-max-retries`         | {"key":"citron.dropbox.team.insight.scan.flag.max_retries","params":{}}         | 3       |
-| `-peer`                | {"key":"citron.dropbox.team.insight.scan.flag.peer","params":{}}                | default |
-| `-scan-member-folders` | {"key":"citron.dropbox.team.insight.scan.flag.scan_member_folders","params":{}} | false   |
+| Option                 | Description      | Default |
+|------------------------|------------------|---------|
+| `-database`            | Path to database |         |
+| `-max-retries`         |                  | 3       |
+| `-peer`                | Account alias    | default |
+| `-scan-member-folders` |                  | false   |
 
 ## Common options:
 
@@ -109,6 +109,32 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
+
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: errors
+
+Error report
+The command will generate a report in three different formats. `errors.csv`, `errors.json`, and `errors.xlsx`.
+
+| Column   | Description    |
+|----------|----------------|
+| category | Error category |
+| message  | Error message  |
+| tag      | Error tag      |
+| detail   | Error details  |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `errors_0000.xlsx`, `errors_0001.xlsx`, `errors_0002.xlsx`, ...
 
 # Proxy configuration
 
