@@ -47,7 +47,7 @@ func (z tsImpl) scanNamespaceMember(param *NamespaceMemberParam, stage eq_sequen
 	members, err := sv_sharedfolder_member.NewBySharedFolderId(z.client.AsAdminId(admin.TeamMemberId), param.NamespaceId).List()
 	if err != nil {
 		l.Debug("Unable to retrieve members", esl.Error(err))
-		z.adb.Save(&NamespaceMemberError{
+		z.db.Save(&NamespaceMemberError{
 			NamespaceId: param.NamespaceId,
 			ApiError:    ApiErrorFromError(err),
 		})
@@ -56,14 +56,14 @@ func (z tsImpl) scanNamespaceMember(param *NamespaceMemberParam, stage eq_sequen
 	for _, member := range members {
 		m := NewNamespaceMember(param.NamespaceId, member)
 		z.saveIfExternalGroup(member)
-		z.adb.Save(m)
-		if z.adb.Error != nil {
-			return z.adb.Error
+		z.db.Save(m)
+		if z.db.Error != nil {
+			return z.db.Error
 		}
 	}
 
 	if param.IsRetry {
-		z.adb.Delete(&NamespaceMemberError{}, "namespace_id = ?", param.NamespaceId)
+		z.db.Delete(&NamespaceMemberError{}, "namespace_id = ?", param.NamespaceId)
 	}
 
 	return nil

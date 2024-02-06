@@ -27,7 +27,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 	entryNames := make([]string, 0)
 
 	parents := make([]string, 0)
-	if err := z.adb.First(entry, "file_id = ?", folderId).Error; err != nil {
+	if err := z.db.First(entry, "file_id = ?", folderId).Error; err != nil {
 		l.Debug("cannot retrieve entry", esl.Error(err), esl.String("folderId", folderId))
 		return err
 	}
@@ -35,7 +35,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 
 	ns := &Namespace{}
 	if entry.EntryNamespaceId != "" {
-		if err := z.adb.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
+		if err := z.db.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
 			l.Debug("cannot retrieve namespace", esl.Error(err), esl.String("namespaceId", entry.EntryNamespaceId))
 			// fall through
 		}
@@ -43,7 +43,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 
 	for current != "" {
 		ne := &NamespaceEntry{}
-		if err := z.adb.First(ne, "file_id = ?", current).Error; err != nil {
+		if err := z.db.First(ne, "file_id = ?", current).Error; err != nil {
 			// This is not unusual. The cause hypothesis: in case the parent folder is not visible to the user
 			l.Debug("cannot retrieve parent entry", esl.Error(err), esl.String("current", current))
 			break
@@ -53,7 +53,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 		}
 
 		cn := &Namespace{}
-		if err := z.adb.First(cn, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
+		if err := z.db.First(cn, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
 			l.Debug("cannot retrieve namespace", esl.Error(err), esl.String("namespaceId", ne.NamespaceId))
 			return err
 		}
@@ -73,7 +73,7 @@ func (z tsImpl) summarizeFolderPaths(folderId string) error {
 	}
 	entryPath = path
 
-	err := z.sdb.Save(&SummaryFolderPath{
+	err := z.db.Save(&SummaryFolderPath{
 		FolderId:    folderId,
 		Name:        entry.Name,
 		NamespaceId: entry.NamespaceId,

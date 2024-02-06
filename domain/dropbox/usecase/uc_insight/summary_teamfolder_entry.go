@@ -46,7 +46,7 @@ func (z tsImpl) summarizeTeamFolder(teamFolder *TeamFolder, s eq_sequence.Stage)
 	childEntries := make([]*SummarizeTeamFolderEntry, 0)
 
 	ne := &NamespaceEntry{}
-	if err := z.adb.First(ne, "entry_namespace_id = ?", teamFolder.TeamFolderId).Error; err != nil {
+	if err := z.db.First(ne, "entry_namespace_id = ?", teamFolder.TeamFolderId).Error; err != nil {
 		l.Debug("Unable to find namespace entry", esl.Error(err))
 		return err
 	}
@@ -55,7 +55,7 @@ func (z tsImpl) summarizeTeamFolder(teamFolder *TeamFolder, s eq_sequence.Stage)
 		return nil
 	}
 
-	rows, err := z.adb.Model(&NamespaceEntry{}).Where("parent_folder_id = ? AND entry_type = 'folder'", ne.FileId).Rows()
+	rows, err := z.db.Model(&NamespaceEntry{}).Where("parent_folder_id = ? AND entry_type = 'folder'", ne.FileId).Rows()
 	if err != nil {
 		l.Debug("Unable to find namespace entry", esl.Error(err))
 		return err
@@ -66,7 +66,7 @@ func (z tsImpl) summarizeTeamFolder(teamFolder *TeamFolder, s eq_sequence.Stage)
 
 	for rows.Next() {
 		cne := &NamespaceEntry{}
-		if err := z.adb.ScanRows(rows, cne); err != nil {
+		if err := z.db.ScanRows(rows, cne); err != nil {
 			l.Debug("Unable to find namespace entry", esl.Error(err))
 			return err
 		}
@@ -98,13 +98,13 @@ func (z tsImpl) summarizeTeamFolderEntry(teamFolderEntry *SummarizeTeamFolderEnt
 	}
 
 	ne := &NamespaceEntry{}
-	if err := z.adb.First(ne, "file_id = ?", teamFolderEntry.FileId).Error; err != nil {
+	if err := z.db.First(ne, "file_id = ?", teamFolderEntry.FileId).Error; err != nil {
 		l.Debug("Unable to find namespace entry", esl.Error(err))
 		return err
 	}
 	se := &SummaryEntry{}
 	if ne.EntryType == "folder" {
-		err := z.sdb.First(se, "file_id = ?", teamFolderEntry.FileId).Error
+		err := z.db.First(se, "file_id = ?", teamFolderEntry.FileId).Error
 		switch {
 		case err == nil, errors.Is(err, gorm.ErrRecordNotFound):
 			l.Debug("Processing folder entry")
@@ -136,10 +136,10 @@ func (z tsImpl) summarizeTeamFolderEntry(teamFolderEntry *SummarizeTeamFolderEnt
 		},
 		Size: se.Size,
 	}
-	z.sdb.Save(tfe)
+	z.db.Save(tfe)
 
 	if ne.EntryType == "folder" && ne.FileId != "" {
-		rows, err := z.adb.Model(&NamespaceEntry{}).Where("parent_folder_id = ? AND entry_type = 'folder'", ne.FileId).Rows()
+		rows, err := z.db.Model(&NamespaceEntry{}).Where("parent_folder_id = ? AND entry_type = 'folder'", ne.FileId).Rows()
 		switch {
 		case err == nil:
 			defer func() {
@@ -148,14 +148,14 @@ func (z tsImpl) summarizeTeamFolderEntry(teamFolderEntry *SummarizeTeamFolderEnt
 
 			for rows.Next() {
 				cne := &NamespaceEntry{}
-				if err := z.adb.ScanRows(rows, cne); err != nil {
+				if err := z.db.ScanRows(rows, cne); err != nil {
 					l.Debug("Unable to find namespace entry", esl.Error(err))
 					return err
 				}
 
 				if cne.FileId == "" {
 					l.Debug("No file id", esl.Any("cne", cne))
-					z.sdb.Save(&SummaryTeamFolderEntry{
+					z.db.Save(&SummaryTeamFolderEntry{
 						TeamFolderId:       teamFolderEntry.TeamFolder.TeamFolderId,
 						FileId:             "",
 						Name:               cne.Name,

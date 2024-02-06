@@ -111,7 +111,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 	summarizeInternalGroup = func(am *AccessMember) error {
 		groupInternals[am.GroupId] = true
 		gm := &GroupMember{}
-		rows, err := z.adb.Model(&GroupMember{}).Where("group_id = ?", am.GroupId).Rows()
+		rows, err := z.db.Model(&GroupMember{}).Where("group_id = ?", am.GroupId).Rows()
 		if err != nil {
 			l.Debug("cannot find group members", esl.Error(err))
 			return err
@@ -121,7 +121,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 		}()
 		for rows.Next() {
 			gm = &GroupMember{}
-			if err := z.adb.ScanRows(rows, gm); err != nil {
+			if err := z.db.ScanRows(rows, gm); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				return err
 			}
@@ -148,7 +148,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 			} else {
 				groupExternals[am.GroupId] = true
 				ge := &Group{}
-				if err := z.adb.First(ge, "group_id = ?", am.GroupId).Error; err != nil {
+				if err := z.db.First(ge, "group_id = ?", am.GroupId).Error; err != nil {
 					l.Debug("cannot find group", esl.Error(err))
 					return smc, err
 				}
@@ -184,7 +184,7 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 	entry := &SummaryEntry{}
 
 	ne := &NamespaceEntry{}
-	if err := z.adb.First(ne, "file_id = ?", fileId).Error; err != nil {
+	if err := z.db.First(ne, "file_id = ?", fileId).Error; err != nil {
 		l.Debug("cannot find entry", esl.Error(err))
 		return err
 	}
@@ -196,7 +196,7 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 	entry.EntryNamespaceId = ne.EntryNamespaceId
 
 	var linkCount int64
-	z.adb.Model(&SharedLink{}).Where("file_id = ?", fileId).Count(&linkCount)
+	z.db.Model(&SharedLink{}).Where("file_id = ?", fileId).Count(&linkCount)
 	entry.CountLinks = uint64(linkCount)
 
 	switch ne.EntryType {
@@ -205,7 +205,7 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 
 	case "folder":
 		nm := &NamespaceMember{}
-		row, err := z.adb.Model(nm).Where("namespace_id = ?", ne.NamespaceId).Rows()
+		row, err := z.db.Model(nm).Where("namespace_id = ?", ne.NamespaceId).Rows()
 		switch {
 		case err == nil:
 			defer func() {
@@ -215,7 +215,7 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 			acs := make([]*AccessMember, 0)
 			for row.Next() {
 				nm = &NamespaceMember{}
-				if err := z.adb.ScanRows(row, nm); err != nil {
+				if err := z.db.ScanRows(row, nm); err != nil {
 					l.Debug("cannot scan row", esl.Error(err))
 					return err
 				}
@@ -228,18 +228,18 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 				entry.InheritType = "inherit"
 			} else {
 				nd := &NamespaceDetail{}
-				if err := z.adb.First(nd, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
+				if err := z.db.First(nd, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
 					entry.InheritType = ""
 				} else {
 					entry.InheritType = nd.AccessInheritance
 				}
 			}
-			z.sdb.Save(entry)
+			z.db.Save(entry)
 			return nil
 
 		case errors.Is(err, gorm.ErrRecordNotFound):
 			entry.InheritType = "inherit"
-			z.sdb.Save(entry)
+			z.db.Save(entry)
 			return nil
 
 		default:

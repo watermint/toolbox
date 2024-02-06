@@ -55,7 +55,7 @@ func (z tsImpl) scanGroupMember(param *GroupMemberParam, stage eq_sequence.Stage
 	members, err := sv_group_member.NewByGroupId(z.client, param.GroupId).List()
 	if err != nil {
 		l.Debug("Unable to retrieve members", esl.Error(err))
-		z.adb.Save(&GroupMemberError{
+		z.db.Save(&GroupMemberError{
 			GroupId:  param.GroupId,
 			ApiError: ApiErrorFromError(err),
 		})
@@ -66,14 +66,14 @@ func (z tsImpl) scanGroupMember(param *GroupMemberParam, stage eq_sequence.Stage
 		if err != nil {
 			return err
 		}
-		z.adb.Save(m)
-		if z.adb.Error != nil {
-			return z.adb.Error
+		z.db.Save(m)
+		if z.db.Error != nil {
+			return z.db.Error
 		}
 	}
 
 	if param.IsRetry {
-		z.adb.Delete(&GroupMemberError{}, "group_id = ?", param.GroupId)
+		z.db.Delete(&GroupMemberError{}, "group_id = ?", param.GroupId)
 	}
 
 	return nil

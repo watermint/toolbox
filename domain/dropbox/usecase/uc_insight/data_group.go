@@ -73,7 +73,7 @@ func (z tsImpl) scanGroup(param *GroupParam, stage eq_sequence.Stage, admin *mo_
 	groups, err := sv_group.New(z.client).List()
 	if err != nil {
 		l.Debug("Unable to retrieve groups", esl.Error(err))
-		z.adb.Save(&GroupError{
+		z.db.Save(&GroupError{
 			Dummy:    "dummy",
 			ApiError: ApiErrorFromError(err),
 		})
@@ -84,9 +84,9 @@ func (z tsImpl) scanGroup(param *GroupParam, stage eq_sequence.Stage, admin *mo_
 		if err != nil {
 			return err
 		}
-		z.adb.Save(g)
-		if z.adb.Error != nil {
-			return z.adb.Error
+		z.db.Save(g)
+		if z.db.Error != nil {
+			return z.db.Error
 		}
 		gmq.Enqueue(&GroupMemberParam{
 			GroupId: g.GroupId,
@@ -94,7 +94,7 @@ func (z tsImpl) scanGroup(param *GroupParam, stage eq_sequence.Stage, admin *mo_
 	}
 
 	if param.IsRetry {
-		z.adb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&GroupError{})
+		z.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&GroupError{})
 	}
 	return nil
 }

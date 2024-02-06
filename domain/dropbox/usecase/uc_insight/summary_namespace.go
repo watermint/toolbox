@@ -28,9 +28,9 @@ func (z tsImpl) summarizeNamespace(namespaceId string) error {
 	currentNamespaceId := namespaceId
 	for {
 		nd := &NamespaceDetail{}
-		if err := z.adb.First(nd, "namespace_id = ?", currentNamespaceId).Error; err != nil {
+		if err := z.db.First(nd, "namespace_id = ?", currentNamespaceId).Error; err != nil {
 			ns := &Namespace{}
-			if err := z.adb.First(ns, "namespace_id = ?", currentNamespaceId).Error; err != nil {
+			if err := z.db.First(ns, "namespace_id = ?", currentNamespaceId).Error; err != nil {
 				l.Debug("cannot find namespace", esl.Error(err))
 				return err
 			}
@@ -45,7 +45,7 @@ func (z tsImpl) summarizeNamespace(namespaceId string) error {
 	}
 
 	rootNamespace := &Namespace{}
-	if err := z.adb.First(rootNamespace, "namespace_id = ?", rootNamespaceId).Error; err != nil {
+	if err := z.db.First(rootNamespace, "namespace_id = ?", rootNamespaceId).Error; err != nil {
 		l.Debug("cannot find namespace", esl.Error(err))
 		return err
 	}
@@ -53,7 +53,7 @@ func (z tsImpl) summarizeNamespace(namespaceId string) error {
 	sn.RootNamespaceId = rootNamespaceId
 	sn.RootNamespaceType = rootNamespace.NamespaceType
 
-	rows, err := z.adb.Model(&NamespaceEntry{}).Where("namespace_id = ?", namespaceId).Rows()
+	rows, err := z.db.Model(&NamespaceEntry{}).Where("namespace_id = ?", namespaceId).Rows()
 	if err != nil {
 		l.Debug("cannot find entries", esl.Error(err))
 		return err
@@ -64,7 +64,7 @@ func (z tsImpl) summarizeNamespace(namespaceId string) error {
 
 	for rows.Next() {
 		entry := &NamespaceEntry{}
-		if err := z.adb.ScanRows(rows, entry); err != nil {
+		if err := z.db.ScanRows(rows, entry); err != nil {
 			l.Debug("cannot scan row", esl.Error(err))
 			return err
 		}
@@ -72,7 +72,7 @@ func (z tsImpl) summarizeNamespace(namespaceId string) error {
 	}
 
 	sn.SummaryCount = sc
-	if err := z.sdb.Save(&sn).Error; err != nil {
+	if err := z.db.Save(&sn).Error; err != nil {
 		l.Debug("cannot save", esl.Error(err))
 		return err
 	}

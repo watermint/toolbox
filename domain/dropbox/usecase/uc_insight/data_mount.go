@@ -70,7 +70,7 @@ func (z tsImpl) scanMount(param *MountParam, stage eq_sequence.Stage, admin *mo_
 	mountables, err := sv_sharedfolder_mount.New(client).Mountables()
 	if err != nil {
 		l.Debug("Unable to retrieve mountables", esl.Error(err))
-		z.adb.Save(&MountError{
+		z.db.Save(&MountError{
 			TeamMemberId: param.TeamMemberId,
 			ApiError:     ApiErrorFromError(err),
 		})
@@ -82,7 +82,7 @@ func (z tsImpl) scanMount(param *MountParam, stage eq_sequence.Stage, admin *mo_
 		if err != nil {
 			return err
 		}
-		z.adb.Save(m)
+		z.db.Save(m)
 
 		if team.TeamId != mount.OwnerTeamId {
 			qnd.Enqueue(&NamespaceDetailParam{
@@ -92,7 +92,7 @@ func (z tsImpl) scanMount(param *MountParam, stage eq_sequence.Stage, admin *mo_
 	}
 
 	if param.IsRetry {
-		z.adb.Delete(&MountError{}, "team_member_id = ?", param.TeamMemberId)
+		z.db.Delete(&MountError{}, "team_member_id = ?", param.TeamMemberId)
 	}
 
 	return nil

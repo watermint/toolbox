@@ -3,6 +3,7 @@ package insight
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -44,20 +45,20 @@ func (z *Scan) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	defer func() {
-		numErr, err := ts.ReportLastErrors(func(errCategory string, errMessage string, errTag string, detail string) {
-			z.Errors.Row(&uc_insight.ApiErrorReport{
-				Category: errCategory,
-				Message:  errMessage,
-				Tag:      errTag,
-				Detail:   detail,
-			})
+	scanErr := ts.Scan()
+
+	numErr, reportErr := ts.ReportLastErrors(func(errCategory string, errMessage string, errTag string, detail string) {
+		z.Errors.Row(&uc_insight.ApiErrorReport{
+			Category: errCategory,
+			Message:  errMessage,
+			Tag:      errTag,
+			Detail:   detail,
 		})
-		if err == nil {
-			c.UI().Info(z.Conclusion.With("Count", numErr))
-		}
-	}()
-	return ts.Scan()
+	})
+	if reportErr == nil {
+		c.UI().Info(z.Conclusion.With("Count", numErr))
+	}
+	return es_lang.NewMultiErrorOrNull(scanErr, reportErr)
 }
 
 func (z *Scan) Test(c app_control.Control) error {

@@ -60,7 +60,7 @@ func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, 
 			return nil
 		}
 
-		z.adb.Save(&FileMemberError{
+		z.db.Save(&FileMemberError{
 			FileMemberParam: *entry,
 			ApiError:        ApiErrorFromError(err),
 		})
@@ -70,11 +70,11 @@ func (z tsImpl) scanFileMember(entry *FileMemberParam, stage eq_sequence.Stage, 
 	for _, member := range members {
 		m := NewFileMember(entry.NamespaceId, entry.FileId, member)
 		z.saveIfExternalGroup(member)
-		z.adb.Save(m)
+		z.db.Save(m)
 	}
 
 	if entry.IsRetry {
-		z.adb.Delete(&FileMemberError{}, "namespace_id = ? and file_id = ?", entry.NamespaceId, entry.FileId)
+		z.db.Delete(&FileMemberError{}, "namespace_id = ? and file_id = ?", entry.NamespaceId, entry.FileId)
 	}
 
 	return nil

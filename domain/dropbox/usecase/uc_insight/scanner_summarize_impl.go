@@ -21,7 +21,7 @@ func (z tsImpl) summarizeStage1() error {
 	var lastErr error
 
 	namespaceModel := &Namespace{}
-	namespaceRows, err := z.adb.Model(namespaceModel).Distinct("namespace_id").Select("namespace_id").Rows()
+	namespaceRows, err := z.db.Model(namespaceModel).Distinct("namespace_id").Select("namespace_id").Rows()
 	if err != nil {
 		l.Debug("Unable to get namespace rows", esl.Error(err))
 		return err
@@ -36,7 +36,7 @@ func (z tsImpl) summarizeStage1() error {
 		qNamespace := s.Get(teamSummarizeNamespace)
 		for namespaceRows.Next() {
 			namespaceModel = &Namespace{}
-			if err := z.adb.ScanRows(namespaceRows, namespaceModel); err != nil {
+			if err := z.db.ScanRows(namespaceRows, namespaceModel); err != nil {
 				l.Debug("Unable to scan namespace row", esl.Error(err))
 				lastErr = err
 				return
@@ -63,7 +63,7 @@ func (z tsImpl) summarizeStage2() error {
 	var lastErr error
 
 	folderEntry := &NamespaceEntry{}
-	folderRows, err := z.adb.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
+	folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
 	if err != nil {
 		l.Debug("Unable to get folder rows", esl.Error(err))
 		return err
@@ -79,7 +79,7 @@ func (z tsImpl) summarizeStage2() error {
 		qFolderImmediate := s.Get(teamSummarizeFolderImmediate)
 		for folderRows.Next() {
 			folderEntry = &NamespaceEntry{}
-			if err := z.adb.ScanRows(folderRows, folderEntry); err != nil {
+			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				lastErr = err
 				return
@@ -106,7 +106,7 @@ func (z tsImpl) summarizeStage3() error {
 	var lastErr error
 
 	folderEntry := &NamespaceEntry{}
-	folderRows, err := z.adb.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
+	folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
 	if err != nil {
 		l.Debug("Unable to get folder rows", esl.Error(err))
 		return err
@@ -121,7 +121,7 @@ func (z tsImpl) summarizeStage3() error {
 		qFolderRecursive := s.Get(teamSummarizeFolderRecursive)
 		for folderRows.Next() {
 			folderEntry = &NamespaceEntry{}
-			if err := z.adb.ScanRows(folderRows, folderEntry); err != nil {
+			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				lastErr = err
 				return
@@ -146,7 +146,7 @@ func (z tsImpl) summarizeStage4() error {
 	var lastErr error
 
 	folderEntry := &NamespaceEntry{}
-	folderRows, err := z.adb.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
+	folderRows, err := z.db.Model(folderEntry).Distinct("file_id").Where("entry_type = ?", "folder").Rows()
 	if err != nil {
 		l.Debug("Unable to get folder rows", esl.Error(err))
 		return err
@@ -161,7 +161,7 @@ func (z tsImpl) summarizeStage4() error {
 		qEntry := s.Get(teamSummarizeEntry)
 		for folderRows.Next() {
 			folderEntry = &NamespaceEntry{}
-			if err := z.adb.ScanRows(folderRows, folderEntry); err != nil {
+			if err := z.db.ScanRows(folderRows, folderEntry); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				lastErr = err
 				return
@@ -186,7 +186,7 @@ func (z tsImpl) summarizeStage5() error {
 	var lastErr error
 
 	teamFolder := &TeamFolder{}
-	teamFolderRows, err := z.adb.Model(teamFolder).Rows()
+	teamFolderRows, err := z.db.Model(teamFolder).Rows()
 	if err != nil {
 		l.Debug("Unable to get team folder rows", esl.Error(err))
 		return err
@@ -201,7 +201,7 @@ func (z tsImpl) summarizeStage5() error {
 		qEntry := s.Get(teamSummarizeTeamFolder)
 		for teamFolderRows.Next() {
 			teamFolder := &TeamFolder{}
-			if err := z.adb.ScanRows(teamFolderRows, teamFolder); err != nil {
+			if err := z.db.ScanRows(teamFolderRows, teamFolder); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				lastErr = err
 				return
@@ -233,7 +233,7 @@ func (z tsImpl) Summarize() error {
 		&SummaryTeamFolderEntry{},
 	}
 	for _, st := range summaryTables {
-		z.adb.Delete(st)
+		z.db.Delete(st)
 	}
 
 	if err := z.summarizeStage1(); err != nil {
@@ -257,7 +257,7 @@ func (z tsImpl) Summarize() error {
 		return err
 	}
 
-	db, err := z.adb.DB()
+	db, err := z.db.DB()
 	if err != nil {
 		l.Debug("Unable to get DB", esl.Error(err))
 		return err

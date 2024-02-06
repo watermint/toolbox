@@ -79,7 +79,7 @@ func (z NamespaceDetailError) ToParam() interface{} {
 func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) (err error) {
 	l := z.ctl.Log().With(esl.String("namespaceId", param.NamespaceId))
 	onError := func(err error) error {
-		z.adb.Save(&NamespaceDetailError{
+		z.db.Save(&NamespaceDetailError{
 			NamespaceId: param.NamespaceId,
 			ApiError:    ApiErrorFromError(err),
 		})
@@ -113,15 +113,15 @@ func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequen
 
 	n.FileId = ce.Id
 	n.IsSameTeam = team.TeamId == n.OwnerTeamId
-	z.adb.Save(n)
-	if z.adb.Error != nil {
-		l.Debug("Unable to save namespace detail", esl.Error(z.adb.Error))
-		return z.adb.Error
+	z.db.Save(n)
+	if z.db.Error != nil {
+		l.Debug("Unable to save namespace detail", esl.Error(z.db.Error))
+		return z.db.Error
 	}
 
 	if n.ParentNamespaceId == "" {
 
-		z.adb.Save(&NamespaceEntry{
+		z.db.Save(&NamespaceEntry{
 			NamespaceId:              param.NamespaceId,
 			FileId:                   ce.Id,
 			ParentFolderId:           "",
@@ -144,7 +144,7 @@ func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequen
 	}
 
 	if param.IsRetry {
-		z.adb.Delete(&NamespaceDetailError{}, "namespace_id = ?", param.NamespaceId)
+		z.db.Delete(&NamespaceDetailError{}, "namespace_id = ?", param.NamespaceId)
 	}
 
 	return nil

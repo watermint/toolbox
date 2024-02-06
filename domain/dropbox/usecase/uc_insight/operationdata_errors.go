@@ -14,7 +14,7 @@ func (z tsImpl) hasErrors() (countErrors int64, err error) {
 		tableName := reflect.ValueOf(t).Elem().Type().Name()
 
 		var records int64
-		if err := z.adb.Model(t).Count(&records).Error; err != nil {
+		if err := z.db.Model(t).Count(&records).Error; err != nil {
 			z.ctl.Log().Debug("Unable to count errors", esl.Error(err))
 			return countErrors, err
 		}
@@ -42,7 +42,7 @@ func (z tsImpl) RetryErrors() error {
 		typeName := reflect.TypeOf(errRecordType).Elem().Name()
 		l.Debug("Handling retry", esl.String("type", typeName))
 		record := reflect.New(reflect.TypeOf(errRecordType).Elem()).Interface()
-		rows, err := z.adb.Model(record).Rows()
+		rows, err := z.db.Model(record).Rows()
 		if err != nil {
 			l.Debug("Unable to retrieve model", esl.Error(err))
 			return err
@@ -57,7 +57,7 @@ func (z tsImpl) RetryErrors() error {
 			q := s.Get(queueId)
 			for rows.Next() {
 				record := reflect.New(reflect.TypeOf(errRecordType).Elem()).Interface()
-				if err := z.adb.ScanRows(rows, record); err != nil {
+				if err := z.db.ScanRows(rows, record); err != nil {
 					l.Debug("Unable to scan row", esl.Error(err))
 					lastErr = err
 					return

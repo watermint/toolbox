@@ -23,7 +23,7 @@ func (z tsImpl) saveIfExternalGroup(member mo_sharedfolder_member.Member) {
 		// not an external group
 		return
 	}
-	z.adb.Create(g)
+	z.db.Create(g)
 }
 
 func (z tsImpl) dispatchMember(member *mo_member.Member, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {

@@ -52,7 +52,7 @@ func (z tsImpl) scanTeamFolder(param *TeamFolderParam, stage eq_sequence.Stage, 
 	folders, err := sv_teamfolder.New(z.client).List()
 	if err != nil {
 		l.Debug("Unable to retrieve team folders", esl.Error(err))
-		z.adb.Save(&TeamFolderError{
+		z.db.Save(&TeamFolderError{
 			Dummy:    "dummy",
 			ApiError: ApiErrorFromError(err),
 		})
@@ -64,11 +64,11 @@ func (z tsImpl) scanTeamFolder(param *TeamFolderParam, stage eq_sequence.Stage, 
 		if err != nil {
 			return err
 		}
-		z.adb.Save(f)
+		z.db.Save(f)
 	}
 
 	if param.IsRetry {
-		z.adb.Session(&gorm.Session{FullSaveAssociations: true}).Delete(&TeamFolderError{})
+		z.db.Session(&gorm.Session{FullSaveAssociations: true}).Delete(&TeamFolderError{})
 	}
 	return nil
 }

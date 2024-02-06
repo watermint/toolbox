@@ -65,7 +65,7 @@ func (z tsImpl) scanSharedLink(param *SharedLinkParam, stage eq_sequence.Stage, 
 	links, err := sv_sharedlink.New(client).List()
 	if err != nil {
 		l.Debug("Unable to retrieve links", esl.Error(err))
-		z.adb.Save(&SharedLinkError{
+		z.db.Save(&SharedLinkError{
 			TeamMemberId: param.TeamMemberId,
 			ApiError:     ApiErrorFromError(err),
 		})
@@ -77,11 +77,11 @@ func (z tsImpl) scanSharedLink(param *SharedLinkParam, stage eq_sequence.Stage, 
 		if err != nil {
 			return err
 		}
-		z.adb.Save(l)
+		z.db.Save(l)
 	}
 
 	if param.IsRetry {
-		z.adb.Delete(&SharedLinkError{}, "team_member_id = ?", param.TeamMemberId)
+		z.db.Delete(&SharedLinkError{}, "team_member_id = ?", param.TeamMemberId)
 	}
 	return nil
 }

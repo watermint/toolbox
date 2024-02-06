@@ -82,10 +82,10 @@ func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, a
 				return true
 			}
 		}
-		z.adb.Save(ns)
-		if z.adb.Error != nil {
-			lastErr = z.adb.Error
-			ll.Debug("unable to save namespace", esl.Error(z.adb.Error))
+		z.db.Save(ns)
+		if z.db.Error != nil {
+			lastErr = z.db.Error
+			ll.Debug("unable to save namespace", esl.Error(z.db.Error))
 			return false
 		}
 
@@ -109,7 +109,7 @@ func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, a
 				return false
 			}
 			ce := meta.Concrete()
-			z.adb.Save(&NamespaceEntry{
+			z.db.Save(&NamespaceEntry{
 				NamespaceId:              namespace.NamespaceId,
 				FileId:                   ce.Id,
 				ParentFolderId:           "",
@@ -137,14 +137,14 @@ func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, a
 	err = es_lang.NewMultiErrorOrNull(opErr, lastErr)
 	if err != nil {
 		l.Debug("Operation error", esl.Error(err))
-		z.adb.Save(&NamespaceError{
+		z.db.Save(&NamespaceError{
 			Dummy:    "dummy",
 			ApiError: ApiErrorFromError(err),
 		})
 		return opErr
 	}
 	if param.IsRetry {
-		z.adb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&NamespaceError{})
+		z.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&NamespaceError{})
 	}
 	return nil
 }

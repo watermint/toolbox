@@ -17,7 +17,7 @@ func (z tsImpl) summarizeFolderRecursive(folderId string) error {
 	l := z.ctl.Log().With(esl.String("folderId", folderId))
 	sc := SummaryCount{}
 
-	children, err := z.sdb.Model(&SummaryFolderPath{}).Where("path LIKE ?", "%"+folderId+"%").Rows()
+	children, err := z.db.Model(&SummaryFolderPath{}).Where("path LIKE ?", "%"+folderId+"%").Rows()
 	if err != nil {
 		l.Debug("cannot count", esl.Error(err))
 		return err
@@ -28,12 +28,12 @@ func (z tsImpl) summarizeFolderRecursive(folderId string) error {
 
 	for children.Next() {
 		child := &SummaryFolderPath{}
-		if err := z.sdb.ScanRows(children, child); err != nil {
+		if err := z.db.ScanRows(children, child); err != nil {
 			l.Debug("cannot scan child row", esl.Error(err))
 			return err
 		}
 		sn := &SummaryFolderAndNamespace{}
-		if err := z.sdb.First(sn, "folder_id = ?", child.FolderId).Error; err != nil {
+		if err := z.db.First(sn, "folder_id = ?", child.FolderId).Error; err != nil {
 			l.Debug("cannot find folder", esl.Error(err), esl.String("folderId", child.FolderId))
 			return err
 		}
@@ -42,7 +42,7 @@ func (z tsImpl) summarizeFolderRecursive(folderId string) error {
 		sc.CountEntries++
 	}
 
-	z.sdb.Save(&SummaryFolderRecursive{
+	z.db.Save(&SummaryFolderRecursive{
 		FolderId:     folderId,
 		SummaryCount: sc,
 	})

@@ -77,7 +77,7 @@ func (z tsImpl) scanReceivedFile(param *ReceivedFileParam, stage eq_sequence.Sta
 	default:
 		l.Debug("List received files", esl.Error(err))
 
-		z.adb.Save(&ReceivedFileError{
+		z.db.Save(&ReceivedFileError{
 			TeamMemberId: param.TeamMemberId,
 			ApiError:     ApiErrorFromError(err),
 		})
@@ -89,11 +89,11 @@ func (z tsImpl) scanReceivedFile(param *ReceivedFileParam, stage eq_sequence.Sta
 		if err != nil {
 			return err
 		}
-		z.adb.Save(r)
+		z.db.Save(r)
 	}
 
 	if param.IsRetry {
-		z.adb.Delete(&ReceivedFileError{}, "team_member_id = ?", param.TeamMemberId)
+		z.db.Delete(&ReceivedFileError{}, "team_member_id = ?", param.TeamMemberId)
 	}
 
 	return nil

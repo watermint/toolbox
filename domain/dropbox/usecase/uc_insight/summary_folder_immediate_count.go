@@ -40,7 +40,7 @@ func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
 	summaryFolderAndNamespace := SummaryCount{}
 
 	ne := &NamespaceEntry{}
-	rows, err := z.adb.Model(ne).Where("parent_folder_id = ?", folderId).Rows()
+	rows, err := z.db.Model(ne).Where("parent_folder_id = ?", folderId).Rows()
 	if err != nil {
 		l.Debug("cannot find entries", esl.Error(err))
 		return err
@@ -51,16 +51,16 @@ func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
 
 	for rows.Next() {
 		entry := &NamespaceEntry{}
-		if err := z.adb.ScanRows(rows, entry); err != nil {
+		if err := z.db.ScanRows(rows, entry); err != nil {
 			return err
 		}
 		summaryImmediate = summaryImmediate.AddEntry(entry)
 
 		if entry.EntryType == "folder" && entry.EntryNamespaceId != "" {
 			ns := &SummaryNamespace{}
-			if err := z.sdb.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
+			if err := z.db.First(ns, "namespace_id = ?", entry.EntryNamespaceId).Error; err != nil {
 				l.Debug("cannot find namespace", esl.Error(err), esl.String("namespaceId", entry.EntryNamespaceId))
-				z.sdb.Save(&SummaryFolderError{
+				z.db.Save(&SummaryFolderError{
 					FolderId:  folderId,
 					Error:     err.Error(),
 					Operation: "summarizeFolderImmediateCount#cannotFindSummaryNamespace",
@@ -71,11 +71,11 @@ func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
 		}
 	}
 
-	z.sdb.Save(&SummaryFolderImmediateCount{
+	z.db.Save(&SummaryFolderImmediateCount{
 		FolderId:     folderId,
 		SummaryCount: summaryImmediate,
 	})
-	z.sdb.Save(&SummaryFolderAndNamespace{
+	z.db.Save(&SummaryFolderAndNamespace{
 		FolderId:     folderId,
 		SummaryCount: summaryFolderAndNamespace.AddSummary(summaryImmediate),
 	})

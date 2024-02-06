@@ -60,9 +60,9 @@ func (z tsImpl) scanMembers(param *MemberParam, stage eq_sequence.Stage, admin *
 			lastErr = err
 			return false
 		}
-		z.adb.Save(m)
-		if z.adb.Error != nil {
-			lastErr = z.adb.Error
+		z.db.Save(m)
+		if z.db.Error != nil {
+			lastErr = z.db.Error
 			return false
 		}
 		if err = z.dispatchMember(member, stage, admin); err != nil {
@@ -75,14 +75,14 @@ func (z tsImpl) scanMembers(param *MemberParam, stage eq_sequence.Stage, admin *
 	err = es_lang.NewMultiErrorOrNull(opErr, lastErr)
 	if err != nil {
 		l.Debug("Operation error", esl.Error(err))
-		z.adb.Save(&MemberError{
+		z.db.Save(&MemberError{
 			Dummy:    "dummy",
 			ApiError: ApiErrorFromError(err),
 		})
 		return opErr
 	}
 	if param.IsRetry {
-		z.adb.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&MemberError{})
+		z.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&MemberError{})
 	}
 	return nil
 }

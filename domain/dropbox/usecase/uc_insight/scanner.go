@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"gorm.io/gorm"
+	"path/filepath"
 	"reflect"
 )
 
@@ -58,6 +59,16 @@ func ScanMemberFolders(enabled bool) ScanOpt {
 	}
 }
 
+func DatabaseFromPath(ctl app_control.Control, path string) (db *gorm.DB, err error) {
+	l := ctl.Log().With(esl.String("path", path))
+	db, err = ctl.NewOrm(filepath.Join(path, databaseName))
+	if err != nil {
+		l.Debug("Unable to open database", esl.Error(err))
+		return nil, err
+	}
+	return db, nil
+}
+
 func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path string, opts ...ScanOpt) (TeamScanner, error) {
 	l := ctl.Log().With(esl.String("path", path))
 	so := ScanOpts{}.Apply(opts)
@@ -76,8 +87,7 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 	return &tsImpl{
 		ctl:    ctl,
 		client: client,
-		adb:    adb,
-		sdb:    adb,
+		db:     adb,
 		opts:   so,
 	}, nil
 }
@@ -85,11 +95,8 @@ func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path stri
 type tsImpl struct {
 	ctl    app_control.Control
 	client dbx_client.Client
-	// adb: API results database
-	adb *gorm.DB
-	// sdb: summary database
-	sdb  *gorm.DB
-	opts ScanOpts
+	db     *gorm.DB
+	opts   ScanOpts
 }
 
 func (z tsImpl) ReportLastErrors(onErrorRecords func(errCategory string, errMessage string, errTag string, detail string)) (count int, err error) {
@@ -103,7 +110,7 @@ func (z tsImpl) ReportLastErrors(onErrorRecords func(errCategory string, errMess
 		tableName := reflect.ValueOf(t).Elem().Type().Name()
 		ll := l.With(esl.String("table", tableName))
 
-		rows, err := z.adb.Model(t).Rows()
+		rows, err := z.db.Model(t).Rows()
 		if err != nil {
 			ll.Debug("Unable to retrieve model", esl.Error(err))
 			return
@@ -114,7 +121,7 @@ func (z tsImpl) ReportLastErrors(onErrorRecords func(errCategory string, errMess
 
 		for rows.Next() {
 			record := reflect.New(reflect.TypeOf(t).Elem()).Interface()
-			if err := z.adb.ScanRows(rows, record); err != nil {
+			if err := z.db.ScanRows(rows, record); err != nil {
 				ll.Debug("Unable to scan row", esl.Error(err))
 				return
 			}

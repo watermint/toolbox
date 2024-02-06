@@ -31,6 +31,10 @@ const (
 	teamSummarizeTeamFolderEntry = "resolve_team_folder_entry"
 )
 
+const (
+	databaseName = "scan.db"
+)
+
 var (
 	adbTables = []interface{}{
 		&FileMember{},
@@ -80,7 +84,7 @@ func newDatabase(ctl app_control.Control, path string) (adb *gorm.DB, err error)
 		return nil, err
 	}
 
-	adbPath := filepath.Join(path, "scan.db")
+	adbPath := filepath.Join(path, databaseName)
 	adb, err = ctl.NewOrm(adbPath)
 	if err != nil {
 		l.Debug("Unable to open database", esl.Error(err), esl.String("path", adbPath))
