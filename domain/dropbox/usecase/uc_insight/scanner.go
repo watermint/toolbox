@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
 	"gorm.io/gorm"
+	"os"
 	"path/filepath"
 	"reflect"
 )
@@ -19,9 +20,6 @@ type IndividualScanner interface {
 type TeamScanner interface {
 	// Scan scans all team information
 	Scan() (err error)
-
-	// Summarize summarize the scan result
-	Summarize() (err error)
 
 	// RetryErrors retry errors
 	RetryErrors() (err error)
@@ -61,6 +59,11 @@ func ScanMemberFolders(enabled bool) ScanOpt {
 
 func DatabaseFromPath(ctl app_control.Control, path string) (db *gorm.DB, err error) {
 	l := ctl.Log().With(esl.String("path", path))
+	if err := os.MkdirAll(path, 0700); err != nil {
+		l.Debug("Unable to create directory", esl.Error(err))
+		return nil, err
+	}
+
 	db, err = ctl.NewOrm(filepath.Join(path, databaseName))
 	if err != nil {
 		l.Debug("Unable to open database", esl.Error(err))

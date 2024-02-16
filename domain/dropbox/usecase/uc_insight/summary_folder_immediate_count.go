@@ -30,7 +30,7 @@ type SummaryFolderError struct {
 	Operation string `path:"operation"`
 }
 
-func (z tsImpl) summarizeFolderImmediateCount(folderId string) error {
+func (z summaryImpl) summarizeFolderImmediateCount(folderId string) error {
 	l := z.ctl.Log().With(esl.String("folderId", folderId))
 	if folderId == "" {
 		l.Debug("skip. no folder id")

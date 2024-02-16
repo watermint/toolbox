@@ -3,9 +3,30 @@ package uc_insight
 import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"github.com/watermint/toolbox/infra/control/app_control"
+	"gorm.io/gorm"
 )
 
-func (z tsImpl) defineSummarizeQueues(s eq_sequence.Stage) {
+func NewSummary(ctl app_control.Control, path string) (Summarizer, error) {
+	l := ctl.Log().With(esl.String("path", path))
+	db, err := newDatabase(ctl, path)
+	if err != nil {
+		l.Error("Unable to open database", esl.Error(err))
+		return nil, err
+	}
+
+	return &summaryImpl{
+		ctl: ctl,
+		db:  db,
+	}, nil
+}
+
+type summaryImpl struct {
+	ctl app_control.Control
+	db  *gorm.DB
+}
+
+func (z summaryImpl) defineSummarizeQueues(s eq_sequence.Stage) {
 	s.Define(teamSummarizeFolderImmediate, z.summarizeFolderImmediateCount)
 	s.Define(teamSummarizeFolderPath, z.summarizeFolderPaths)
 	s.Define(teamSummarizeFolderRecursive, z.summarizeFolderRecursive)
@@ -16,7 +37,7 @@ func (z tsImpl) defineSummarizeQueues(s eq_sequence.Stage) {
 }
 
 // Stage1: summarize namespaces
-func (z tsImpl) summarizeStage1() error {
+func (z summaryImpl) summarizeStage1() error {
 	l := z.ctl.Log()
 	var lastErr error
 
@@ -58,7 +79,7 @@ func (z tsImpl) summarizeStage1() error {
 }
 
 // Stage2: summarize folders
-func (z tsImpl) summarizeStage2() error {
+func (z summaryImpl) summarizeStage2() error {
 	l := z.ctl.Log()
 	var lastErr error
 
@@ -101,7 +122,7 @@ func (z tsImpl) summarizeStage2() error {
 }
 
 // Stage3: summarize files
-func (z tsImpl) summarizeStage3() error {
+func (z summaryImpl) summarizeStage3() error {
 	l := z.ctl.Log()
 	var lastErr error
 
@@ -141,7 +162,7 @@ func (z tsImpl) summarizeStage3() error {
 }
 
 // Stage4: summarize entries
-func (z tsImpl) summarizeStage4() error {
+func (z summaryImpl) summarizeStage4() error {
 	l := z.ctl.Log()
 	var lastErr error
 
@@ -181,7 +202,7 @@ func (z tsImpl) summarizeStage4() error {
 }
 
 // Stage5: summarize team folder child entries
-func (z tsImpl) summarizeStage5() error {
+func (z summaryImpl) summarizeStage5() error {
 	l := z.ctl.Log()
 	var lastErr error
 
@@ -220,7 +241,7 @@ func (z tsImpl) summarizeStage5() error {
 	return nil
 }
 
-func (z tsImpl) Summarize() error {
+func (z summaryImpl) Summarize() error {
 	l := z.ctl.Log()
 
 	summaryTables := []interface{}{
@@ -235,6 +256,12 @@ func (z tsImpl) Summarize() error {
 	for _, st := range summaryTables {
 		z.db.Delete(st)
 	}
+	var numNamespaceEntries int64
+	if err := z.db.Model(&NamespaceEntry{}).Count(&numNamespaceEntries).Error; err != nil {
+		l.Debug("Unable to get namespace entry count", esl.Error(err))
+		return err
+	}
+	l.Info("Summarize start", esl.Int64("numNamespaceEntries", numNamespaceEntries))
 
 	if err := z.summarizeStage1(); err != nil {
 		l.Debug("Stage 1 failed", esl.Error(err))

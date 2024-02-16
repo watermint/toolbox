@@ -98,7 +98,7 @@ func (z SummaryEntry) AddAccess(am AccessMember) SummaryEntry {
 	return z
 }
 
-func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMemberCount, err error) {
+func (z summaryImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMemberCount, err error) {
 	l := z.ctl.Log().With(esl.Int("records", len(accessMembers)))
 	directInternals := make(map[string]bool)
 	directExternals := make(map[string]bool)
@@ -179,7 +179,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMem
 	return
 }
 
-func (z tsImpl) summarizeEntry(fileId string) error {
+func (z summaryImpl) summarizeEntry(fileId string) error {
 	l := z.ctl.Log().With(esl.String("fileId", fileId))
 	entry := &SummaryEntry{}
 

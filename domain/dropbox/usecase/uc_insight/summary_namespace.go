@@ -17,7 +17,7 @@ type SummaryNamespace struct {
 	Updated uint64 `gorm:"autoUpdateTime"`
 }
 
-func (z tsImpl) summarizeNamespace(namespaceId string) error {
+func (z summaryImpl) summarizeNamespace(namespaceId string) error {
 	l := z.ctl.Log().With(esl.String("namespaceId", namespaceId))
 	sn := &SummaryNamespace{
 		NamespaceId: namespaceId,

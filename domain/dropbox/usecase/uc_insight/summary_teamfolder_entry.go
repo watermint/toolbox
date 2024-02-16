@@ -41,7 +41,7 @@ type SummarizeTeamFolderEntry struct {
 	ParentNames []string    `path:"parent_names" json:"parent_names"`
 }
 
-func (z tsImpl) summarizeTeamFolder(teamFolder *TeamFolder, s eq_sequence.Stage) error {
+func (z summaryImpl) summarizeTeamFolder(teamFolder *TeamFolder, s eq_sequence.Stage) error {
 	l := z.ctl.Log().With(esl.String("teamFolderId", teamFolder.TeamFolderId))
 	childEntries := make([]*SummarizeTeamFolderEntry, 0)
 
@@ -89,7 +89,7 @@ func (z tsImpl) summarizeTeamFolder(teamFolder *TeamFolder, s eq_sequence.Stage)
 	return nil
 }
 
-func (z tsImpl) summarizeTeamFolderEntry(teamFolderEntry *SummarizeTeamFolderEntry, s eq_sequence.Stage) error {
+func (z summaryImpl) summarizeTeamFolderEntry(teamFolderEntry *SummarizeTeamFolderEntry, s eq_sequence.Stage) error {
 	l := z.ctl.Log().With(esl.String("teamFolderId", teamFolderEntry.TeamFolder.TeamFolderId))
 	childEntries := make([]*SummarizeTeamFolderEntry, 0)
 	if teamFolderEntry.FileId == "" {

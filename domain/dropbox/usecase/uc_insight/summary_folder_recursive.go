@@ -13,7 +13,7 @@ type SummaryFolderRecursive struct {
 	Updated uint64 `gorm:"autoUpdateTime"`
 }
 
-func (z tsImpl) summarizeFolderRecursive(folderId string) error {
+func (z summaryImpl) summarizeFolderRecursive(folderId string) error {
 	l := z.ctl.Log().With(esl.String("folderId", folderId))
 	sc := SummaryCount{}
 

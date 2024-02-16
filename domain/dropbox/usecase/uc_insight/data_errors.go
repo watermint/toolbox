@@ -14,15 +14,22 @@ type ApiError struct {
 
 func ApiErrorFromError(err error) ApiError {
 	dbxErr := dbx_error.NewErrors(err)
-	if dbxErr != nil {
+	switch {
+	case dbxErr == nil:
+		return ApiError{
+			Error:    "",
+			ErrorTag: "",
+		}
+	case dbxErr.Summary() != "":
 		return ApiError{
 			Error:    dbxErr.Error(),
 			ErrorTag: dbxErr.Summary(),
 		}
-	}
-	return ApiError{
-		Error:    err.Error(),
-		ErrorTag: "",
+	default:
+		return ApiError{
+			Error:    err.Error(),
+			ErrorTag: "",
+		}
 	}
 }
 

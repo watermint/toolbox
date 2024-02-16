@@ -4,8 +4,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"gorm.io/gorm"
-	"os"
-	"path/filepath"
 	"reflect"
 )
 
@@ -79,15 +77,10 @@ var (
 
 func newDatabase(ctl app_control.Control, path string) (adb *gorm.DB, err error) {
 	l := ctl.Log().With(esl.String("path", path))
-	if err := os.MkdirAll(path, 0700); err != nil {
-		l.Debug("Unable to create directory", esl.Error(err))
-		return nil, err
-	}
 
-	adbPath := filepath.Join(path, databaseName)
-	adb, err = ctl.NewOrm(adbPath)
+	adb, err = DatabaseFromPath(ctl, path)
 	if err != nil {
-		l.Debug("Unable to open database", esl.Error(err), esl.String("path", adbPath))
+		l.Debug("Unable to create database path", esl.Error(err))
 		return nil, err
 	}
 

@@ -20,7 +20,7 @@ type SummaryFolderPath struct {
 	Updated uint64 `gorm:"autoUpdateTime"`
 }
 
-func (z tsImpl) summarizeFolderPaths(folderId string) error {
+func (z summaryImpl) summarizeFolderPaths(folderId string) error {
 	l := z.ctl.Log().With(esl.String("folderId", folderId))
 	entry := &NamespaceEntry{}
 	entryPath := ""
