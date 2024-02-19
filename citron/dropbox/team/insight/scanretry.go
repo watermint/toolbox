@@ -3,6 +3,7 @@ package insight
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight"
+	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -16,10 +17,11 @@ import (
 
 type Scanretry struct {
 	rc_recipe.RemarkSecret
-	Peer       dbx_conn.ConnScopedTeam
-	Database   mo_path.FileSystemPath
-	Errors     rp_model.RowReport
-	Conclusion app_msg.Message
+	Peer          dbx_conn.ConnScopedTeam
+	Database      mo_path.FileSystemPath
+	Errors        rp_model.RowReport
+	Conclusion    app_msg.Message
+	SkipSummarize bool
 }
 
 func (z *Scanretry) Preset() {
@@ -38,21 +40,28 @@ func (z *Scanretry) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	defer func() {
-		numErr, err := ts.ReportLastErrors(func(errCategory string, errMessage string, errTag string, detail string) {
-			z.Errors.Row(&uc_insight.ApiErrorReport{
-				Category: errCategory,
-				Message:  errMessage,
-				Tag:      errTag,
-				Detail:   detail,
-			})
-		})
-		if err == nil {
-			c.UI().Info(z.Conclusion.With("Count", numErr))
-		}
-	}()
 
-	return ts.RetryErrors()
+	scanErr := ts.RetryErrors()
+
+	numErr, reportErr := ts.ReportLastErrors(func(errCategory string, errMessage string, errTag string, detail string) {
+		z.Errors.Row(&uc_insight.ApiErrorReport{
+			Category: errCategory,
+			Message:  errMessage,
+			Tag:      errTag,
+			Detail:   detail,
+		})
+	})
+	if reportErr == nil {
+		c.UI().Info(z.Conclusion.With("Count", numErr))
+		if numErr < 1 && !z.SkipSummarize {
+			summarizer, err := uc_insight.NewSummary(c, z.Database.Path())
+			if err != nil {
+				return err
+			}
+			return summarizer.Summarize()
+		}
+	}
+	return es_lang.NewMultiErrorOrNull(scanErr, reportErr)
 }
 
 func (z *Scanretry) Test(c app_control.Control) error {

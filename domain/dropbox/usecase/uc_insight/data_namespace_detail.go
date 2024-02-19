@@ -78,6 +78,14 @@ func (z NamespaceDetailError) ToParam() interface{} {
 
 func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) (err error) {
 	l := z.ctl.Log().With(esl.String("namespaceId", param.NamespaceId))
+	isSuccessOrRetriable := func(err error) bool {
+		dbxErr := dbx_error.NewErrors(err)
+		if dbxErr == nil {
+			return true
+		}
+		return dbxErr.HasPrefix("invalid_id") || dbxErr.Path().IsNotFound()
+	}
+
 	onError := func(err error) error {
 		z.db.Save(&NamespaceDetailError{
 			NamespaceId: param.NamespaceId,
@@ -87,15 +95,7 @@ func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequen
 	}
 	client := z.client.AsAdminId(admin.TeamMemberId)
 	ns, err := sv_sharedfolder.New(client).Resolve(param.NamespaceId)
-	if err != nil {
-		dbxErr := dbx_error.NewErrors(err)
-		switch {
-		case dbxErr == nil:
-		// fall through
-		case dbxErr.HasPrefix("invalid_id"):
-			l.Debug("The namespace removed during the scan", esl.Error(err))
-			return nil
-		}
+	if !isSuccessOrRetriable(err) {
 		l.Debug("Unable to resolve namespace", esl.Error(err))
 		return onError(err)
 	}
@@ -105,10 +105,20 @@ func (z tsImpl) scanNamespaceDetail(param *NamespaceDetailParam, stage eq_sequen
 		return onError(err)
 	}
 	m, err := sv_file.NewFiles(client).Resolve(mo_path.NewDropboxPath("ns:" + param.NamespaceId))
-	if err != nil {
-		l.Debug("Unable to resolve namespace folder", esl.Error(err))
+	switch {
+	case err == nil:
+		// fall through
+	case isSuccessOrRetriable(err):
+		l.Debug("Unable to resolve namespace", esl.Error(err))
+		if param.IsRetry {
+			z.db.Delete(&NamespaceDetailError{}, "namespace_id = ?", param.NamespaceId)
+		}
+		return nil
+	default:
+		l.Debug("Unable to resolve namespace", esl.Error(err))
 		return onError(err)
 	}
+
 	ce := m.Concrete()
 
 	n.FileId = ce.Id

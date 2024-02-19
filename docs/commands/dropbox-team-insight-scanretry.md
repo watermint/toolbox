@@ -80,10 +80,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option      | Description      | Default |
-|-------------|------------------|---------|
-| `-database` | Path to database |         |
-| `-peer`     | Account alias    | default |
+| Option            | Description          | Default |
+|-------------------|----------------------|---------|
+| `-database`       | Path to database     |         |
+| `-peer`           | Account alias        | default |
+| `-skip-summarize` | Skip summarize tasks | false   |
 
 ## Common options:
 

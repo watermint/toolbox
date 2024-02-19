@@ -72,6 +72,19 @@ func DatabaseFromPath(ctl app_control.Control, path string) (db *gorm.DB, err er
 	return db, nil
 }
 
+func HasEntryOf(db *gorm.DB, table interface{}) (has bool, err error) {
+	var count int64
+	err = db.Model(table).Count(&count).Error
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+func HasEntry(db *gorm.DB) (has bool, err error) {
+	return HasEntryOf(db, &Namespace{})
+}
+
 func NewTeamScanner(ctl app_control.Control, client dbx_client.Client, path string, opts ...ScanOpt) (TeamScanner, error) {
 	l := ctl.Log().With(esl.String("path", path))
 	so := ScanOpts{}.Apply(opts)

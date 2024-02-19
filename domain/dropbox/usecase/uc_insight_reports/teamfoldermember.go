@@ -1,30 +1,30 @@
 package uc_insight_reports
 
 type TeamFolderMember struct {
-	TeamFolderId   string `json:"team_folder_id,omitempty"`
-	TeamFolderName string `json:"team_folder_name,omitempty"`
-	PathDisplay    string `json:"path_display,omitempty"`
+	TeamFolderId   string `json:"team_folder_id"`
+	TeamFolderName string `json:"team_folder_name"`
+	PathDisplay    string `json:"path_display"`
 
-	AccessType  string `json:"access_type,omitempty"`
-	IsInherited bool   `json:"is_inherited,omitempty"`
+	AccessType  string `json:"access_type"`
+	IsInherited bool   `json:"is_inherited"`
 
 	// MemberType user, group, invitee
-	MemberType string `json:"member_type,omitempty"`
+	MemberType string `json:"member_type"`
 	// SameTeam yes, no, unknown
-	SameTeam string `json:"same_team,omitempty"`
+	SameTeam string `json:"same_team"`
 
 	// group
-	GroupId          string `json:"group_id,omitempty"`
-	GroupName        string `json:"group_name,omitempty"`
-	GroupType        string `json:"group_type,omitempty"`
-	GroupMemberCount uint64 `json:"group_member_count,omitempty"`
+	GroupId          string `json:"group_id"`
+	GroupName        string `json:"group_name"`
+	GroupType        string `json:"group_type"`
+	GroupMemberCount uint64 `json:"group_member_count"`
 
 	// invitee
-	InviteeEmail string `json:"invitee_email,omitempty"`
+	InviteeEmail string `json:"invitee_email"`
 
 	// user
-	UserTeamMemberId string `json:"user_team_member_id,omitempty"`
-	UserEmail        string `json:"user_email,omitempty"`
-	UserDisplayName  string `json:"user_display_name,omitempty"`
-	UserAccountId    string `json:"user_account_id,omitempty"`
+	UserTeamMemberId string `json:"user_team_member_id"`
+	UserEmail        string `json:"user_email"`
+	UserDisplayName  string `json:"user_display_name"`
+	UserAccountId    string `json:"user_account_id"`
 }

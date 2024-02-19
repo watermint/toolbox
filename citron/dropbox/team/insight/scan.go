@@ -17,13 +17,13 @@ import (
 )
 
 type Scan struct {
-	rc_recipe.RemarkSecret
 	Peer              dbx_conn.ConnScopedTeam
 	Database          mo_path.FileSystemPath
 	MaxRetries        mo_int.RangeInt
 	ScanMemberFolders bool
 	Errors            rp_model.RowReport
 	Conclusion        app_msg.Message
+	SkipSummarize     bool
 }
 
 func (z *Scan) Preset() {
@@ -57,6 +57,13 @@ func (z *Scan) Exec(c app_control.Control) error {
 	})
 	if reportErr == nil {
 		c.UI().Info(z.Conclusion.With("Count", numErr))
+		if numErr < 1 && !z.SkipSummarize {
+			summarizer, err := uc_insight.NewSummary(c, z.Database.Path())
+			if err != nil {
+				return err
+			}
+			return summarizer.Summarize()
+		}
 	}
 	return es_lang.NewMultiErrorOrNull(scanErr, reportErr)
 }

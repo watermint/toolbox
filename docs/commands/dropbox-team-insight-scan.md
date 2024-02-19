@@ -80,12 +80,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                 | Description      | Default |
-|------------------------|------------------|---------|
-| `-database`            | Path to database |         |
-| `-max-retries`         |                  | 3       |
-| `-peer`                | Account alias    | default |
-| `-scan-member-folders` |                  | false   |
+| Option                 | Description          | Default |
+|------------------------|----------------------|---------|
+| `-database`            | Path to database     |         |
+| `-max-retries`         |                      | 3       |
+| `-peer`                | Account alias        | default |
+| `-scan-member-folders` |                      | false   |
+| `-skip-summarize`      | Skip summarize tasks | false   |
 
 ## Common options:
 
