@@ -255,6 +255,86 @@
       ]
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "paper"
+        ],
+        "name": "append"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "file",
+            "paper"
+          ],
+          "name": "append"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "paper"
+        ],
+        "name": "create"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "file",
+            "paper"
+          ],
+          "name": "create"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "paper"
+        ],
+        "name": "overwrite"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "file",
+            "paper"
+          ],
+          "name": "overwrite"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "paper"
+        ],
+        "name": "prepend"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "file",
+            "paper"
+          ],
+          "name": "prepend"
+        }
+      ]
+    },
+    {
       "announcement": "https://github.com/watermint/toolbox/discussions/797",
       "prune_after_build_date": "2024-06-30T15:00:00Z",
       "current": {

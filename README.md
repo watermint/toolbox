@@ -128,6 +128,10 @@ Available commands:
 | [dropbox file account feature](docs/commands/dropbox-file-account-feature.md)       | List Dropbox account features                                 |
 | [dropbox file account filesystem](docs/commands/dropbox-file-account-filesystem.md) | Show Dropbox file system version                              |
 | [dropbox file account info](docs/commands/dropbox-file-account-info.md)             | Dropbox account info                                          |
+| [dropbox paper append](docs/commands/dropbox-paper-append.md)                       | Append the content to the end of the existing Paper doc       |
+| [dropbox paper create](docs/commands/dropbox-paper-create.md)                       | Create new Paper in the path                                  |
+| [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                 | Overwrite existing Paper document                             |
+| [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                     | Append the content to the beginning of the existing Paper doc |
 | [file compare account](docs/commands/file-compare-account.md)                       | Compare files of two accounts                                 |
 | [file compare local](docs/commands/file-compare-local.md)                           | Compare local folders and Dropbox folders                     |
 | [file copy](docs/commands/file-copy.md)                                             | Copy files                                                    |
@@ -146,10 +150,6 @@ Available commands:
 | [file lock release](docs/commands/file-lock-release.md)                             | Release a lock                                                |
 | [file merge](docs/commands/file-merge.md)                                           | Merge paths                                                   |
 | [file move](docs/commands/file-move.md)                                             | Move files                                                    |
-| [file paper append](docs/commands/file-paper-append.md)                             | Append the content to the end of the existing Paper doc       |
-| [file paper create](docs/commands/file-paper-create.md)                             | Create new Paper in the path                                  |
-| [file paper overwrite](docs/commands/file-paper-overwrite.md)                       | Overwrite existing Paper document                             |
-| [file paper prepend](docs/commands/file-paper-prepend.md)                           | Append the content to the beginning of the existing Paper doc |
 | [file replication](docs/commands/file-replication.md)                               | Replicate file content to the other account                   |
 | [file restore all](docs/commands/file-restore-all.md)                               | Restore files under given path                                |
 | [file revision download](docs/commands/file-revision-download.md)                   | Download the file revision                                    |

@@ -103,6 +103,9 @@ type MsgDropboxBusiness struct {
 
 	LegalHoldTitle app_msg.Message
 	LegalHoldInfo  app_msg.Message
+
+	InsightTitle app_msg.Message
+	InsightInfo  app_msg.Message
 }
 
 var (
@@ -399,6 +402,15 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.ContentMemberFileTitle)
 	z.cat.RecipeTable("member file commands", ui, []string{
 		"member file permdelete",
+	})
+
+	ui.SubHeader(MDropboxBusiness.InsightTitle)
+	ui.Info(MDropboxBusiness.InsightInfo)
+	z.cat.RecipeTable("insight commands", ui, []string{
+		"dropbox team insight scan",
+		"dropbox team insight scanretry",
+		"dropbox team insight summarize",
+		"dropbox team insight report teamfoldermember",
 	})
 }
 
