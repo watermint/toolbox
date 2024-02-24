@@ -2,15 +2,19 @@ package report
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/citron/dropbox/team/insight"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight_reports"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/recipe/rc_exec"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"github.com/watermint/toolbox/quality/infra/qt_errors"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"gorm.io/gorm"
+	"os"
 )
 
 type Teamfoldermember struct {
@@ -107,6 +111,7 @@ func (z *Teamfoldermember) Exec(c app_control.Control) error {
 		return err
 	}
 	if ok, err := uc_insight.HasEntry(db); err != nil {
+		c.UI().Error(z.ErrDatabaseIsNotReadyForReporting)
 		return err
 	} else if !ok {
 		c.UI().Error(z.ErrDatabaseIsNotReadyForReporting)
@@ -138,5 +143,26 @@ func (z *Teamfoldermember) Exec(c app_control.Control) error {
 }
 
 func (z *Teamfoldermember) Test(c app_control.Control) error {
-	return qt_errors.ErrorNoTestRequired
+	f, err := qt_file.MakeTestFolder("report", false)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = os.RemoveAll(f)
+	}()
+	err = rc_exec.ExecMock(c, &insight.Scan{}, func(r rc_recipe.Recipe) {
+		m := r.(*insight.Scan)
+		m.Database = mo_path.NewFileSystemPath(f)
+	})
+	if err != nil {
+		return err
+	}
+	err = rc_exec.Exec(c, &Teamfoldermember{}, func(r rc_recipe.Recipe) {
+		m := r.(*Teamfoldermember)
+		m.Database = mo_path.NewFileSystemPath(f)
+	})
+	if !errors.Is(err, ErrDatabaseIsNotReady) {
+		return err
+	}
+	return nil
 }
