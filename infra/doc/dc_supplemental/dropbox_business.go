@@ -298,34 +298,34 @@ func (z DropboxBusinessGroup) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.GroupMgmtInfo)
 
 	z.cat.RecipeTable("group management", ui, []string{
-		"group add",
-		"group batch add",
-		"group batch delete",
-		"group delete",
-		"group list",
-		"group rename",
-		"group update type",
+		"dropbox team group add",
+		"dropbox team group batch add",
+		"dropbox team group batch delete",
+		"dropbox team group delete",
+		"dropbox team group list",
+		"dropbox team group rename",
+		"dropbox team group update type",
 	})
 
 	ui.SubHeader(MDropboxBusiness.GroupMemberTitle)
 	ui.Info(MDropboxBusiness.GroupMemberInfo)
 
 	z.cat.RecipeTable("group member management", ui, []string{
-		"group member add",
-		"group member delete",
-		"group member list",
-		"group member batch add",
-		"group member batch delete",
-		"group member batch update",
+		"dropbox team group member add",
+		"dropbox team group member delete",
+		"dropbox team group member list",
+		"dropbox team group member batch add",
+		"dropbox team group member batch delete",
+		"dropbox team group member batch update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.GroupUnusedTitle)
 	ui.Info(MDropboxBusiness.GroupUnusedInfo)
 
 	z.cat.RecipeTable("handle unused groups", ui, []string{
-		"group list",
-		"group folder list",
-		"group batch delete",
+		"dropbox team group list",
+		"dropbox team group folder list",
+		"dropbox team group batch delete",
 	})
 }
 
@@ -522,8 +522,8 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 		"member list",
 		"member clear externalid",
 		"member update externalid",
-		"group list",
-		"group clear externalid",
+		"dropbox team group list",
+		"dropbox team group clear externalid",
 	})
 
 	ui.SubHeader(MDropboxBusiness.UsecaseDataMigrationTitle)

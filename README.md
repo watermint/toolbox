@@ -199,22 +199,22 @@ Available commands:
 | Command                                                                                                     | Description                                                                         |
 |-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
 | [dropbox team backup device status](docs/commands/dropbox-team-backup-device-status.md)                     | Dropbox Backup device status change in the specified period                         |
+| [dropbox team group add](docs/commands/dropbox-team-group-add.md)                                           | Create new group                                                                    |
+| [dropbox team group batch add](docs/commands/dropbox-team-group-batch-add.md)                               | Bulk adding groups                                                                  |
+| [dropbox team group batch delete](docs/commands/dropbox-team-group-batch-delete.md)                         | Delete groups                                                                       |
+| [dropbox team group clear externalid](docs/commands/dropbox-team-group-clear-externalid.md)                 | Clear an external ID of a group                                                     |
+| [dropbox team group delete](docs/commands/dropbox-team-group-delete.md)                                     | Delete group                                                                        |
+| [dropbox team group folder list](docs/commands/dropbox-team-group-folder-list.md)                           | List folders of each group                                                          |
+| [dropbox team group list](docs/commands/dropbox-team-group-list.md)                                         | List group(s)                                                                       |
+| [dropbox team group member add](docs/commands/dropbox-team-group-member-add.md)                             | Add a member to the group                                                           |
+| [dropbox team group member batch add](docs/commands/dropbox-team-group-member-batch-add.md)                 | Bulk add members into groups                                                        |
+| [dropbox team group member batch delete](docs/commands/dropbox-team-group-member-batch-delete.md)           | Delete members from groups                                                          |
+| [dropbox team group member batch update](docs/commands/dropbox-team-group-member-batch-update.md)           | Add or delete members from groups                                                   |
+| [dropbox team group member delete](docs/commands/dropbox-team-group-member-delete.md)                       | Delete a member from the group                                                      |
+| [dropbox team group member list](docs/commands/dropbox-team-group-member-list.md)                           | List members of groups                                                              |
+| [dropbox team group rename](docs/commands/dropbox-team-group-rename.md)                                     | Rename the group                                                                    |
+| [dropbox team group update type](docs/commands/dropbox-team-group-update-type.md)                           | Update group management type                                                        |
 | [dropbox team insight scan](docs/commands/dropbox-team-insight-scan.md)                                     |                                                                                     |
-| [group add](docs/commands/group-add.md)                                                                     | Create new group                                                                    |
-| [group batch add](docs/commands/group-batch-add.md)                                                         | Bulk adding groups                                                                  |
-| [group batch delete](docs/commands/group-batch-delete.md)                                                   | Delete groups                                                                       |
-| [group clear externalid](docs/commands/group-clear-externalid.md)                                           | Clear an external ID of a group                                                     |
-| [group delete](docs/commands/group-delete.md)                                                               | Delete group                                                                        |
-| [group folder list](docs/commands/group-folder-list.md)                                                     | List folders of each group                                                          |
-| [group list](docs/commands/group-list.md)                                                                   | List group(s)                                                                       |
-| [group member add](docs/commands/group-member-add.md)                                                       | Add a member to the group                                                           |
-| [group member batch add](docs/commands/group-member-batch-add.md)                                           | Bulk add members into groups                                                        |
-| [group member batch delete](docs/commands/group-member-batch-delete.md)                                     | Delete members from groups                                                          |
-| [group member batch update](docs/commands/group-member-batch-update.md)                                     | Add or delete members from groups                                                   |
-| [group member delete](docs/commands/group-member-delete.md)                                                 | Delete a member from the group                                                      |
-| [group member list](docs/commands/group-member-list.md)                                                     | List members of groups                                                              |
-| [group rename](docs/commands/group-rename.md)                                                               | Rename the group                                                                    |
-| [group update type](docs/commands/group-update-type.md)                                                     | Update group management type                                                        |
 | [member batch suspend](docs/commands/member-batch-suspend.md)                                               | Bulk suspend members                                                                |
 | [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                                           | Bulk unsuspend members                                                              |
 | [member clear externalid](docs/commands/member-clear-externalid.md)                                         | Clear external_id of members                                                        |

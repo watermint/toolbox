@@ -4,6 +4,8 @@ package catalogue
 
 import (
 	citrondropboxfileimportbatch "github.com/watermint/toolbox/citron/dropbox/file/import/batch"
+	citrondropboxteamgroupmember "github.com/watermint/toolbox/citron/dropbox/team/group/member"
+	citrondropboxteamgroupmemberbatch "github.com/watermint/toolbox/citron/dropbox/team/group/member/batch"
 	domaincoredc_version "github.com/watermint/toolbox/domain/core/dc_version"
 	domaindeeplapideepl_conn_impl "github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl"
 	domaindropboxapidbx_conn_impl "github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl"
@@ -50,8 +52,6 @@ import (
 	infrauiapp_ui "github.com/watermint/toolbox/infra/ui/app_ui"
 	ingredientig_dropboxig_file "github.com/watermint/toolbox/ingredient/ig_dropbox/ig_file"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
-	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
-	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
 	recipemember "github.com/watermint/toolbox/recipe/member"
 	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
@@ -61,6 +61,8 @@ import (
 func AutoDetectedMessageObjects() []interface{} {
 	return []interface{}{
 		&citrondropboxfileimportbatch.MsgUrl{},
+		&citrondropboxteamgroupmember.MsgList{},
+		&citrondropboxteamgroupmemberbatch.MsgOperation{},
 		&domaincoredc_version.MsgVersionInfo{},
 		&domaindeeplapideepl_conn_impl.MsgDeeplApi{},
 		&domaindropboxapidbx_conn_impl.MsgConnect{},
@@ -118,8 +120,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infrauiapp_ui.MsgProgress{},
 		&ingredientig_dropboxig_file.MsgUpload{},
 		&recipedevdiag.MsgLoader{},
-		&recipegroupmember.MsgList{},
-		&recipegroupmemberbatch.MsgOperation{},
 		&recipemember.MsgInvite{},
 		&recipememberupdate.MsgEmail{},
 		&recipeteamsharedlink.MsgList{},

@@ -82,28 +82,28 @@ Directory restriction is the Dropbox for teams feature to hide a member from oth
 
 Below commands are for managing groups.
 
-| Command                                                                   | Description                  |
-|---------------------------------------------------------------------------|------------------------------|
-| [group add]({{ site.baseurl }}/commands/group-add.html)                   | Create new group             |
-| [group batch add]({{ site.baseurl }}/commands/group-batch-add.html)       | Bulk adding groups           |
-| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups                |
-| [group delete]({{ site.baseurl }}/commands/group-delete.html)             | Delete group                 |
-| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)                |
-| [group rename]({{ site.baseurl }}/commands/group-rename.html)             | Rename the group             |
-| [group update type]({{ site.baseurl }}/commands/group-update-type.html)   | Update group management type |
+| Command                                                                                             | Description                  |
+|-----------------------------------------------------------------------------------------------------|------------------------------|
+| [dropbox team group add]({{ site.baseurl }}/commands/dropbox-team-group-add.html)                   | Create new group             |
+| [dropbox team group batch add]({{ site.baseurl }}/commands/dropbox-team-group-batch-add.html)       | Bulk adding groups           |
+| [dropbox team group batch delete]({{ site.baseurl }}/commands/dropbox-team-group-batch-delete.html) | Delete groups                |
+| [dropbox team group delete]({{ site.baseurl }}/commands/dropbox-team-group-delete.html)             | Delete group                 |
+| [dropbox team group list]({{ site.baseurl }}/commands/dropbox-team-group-list.html)                 | List group(s)                |
+| [dropbox team group rename]({{ site.baseurl }}/commands/dropbox-team-group-rename.html)             | Rename the group             |
+| [dropbox team group update type]({{ site.baseurl }}/commands/dropbox-team-group-update-type.html)   | Update group management type |
 
 ## Group member management commands
 
 You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `group member batch add`, `group member batch delete`, or `group member batch delete`.
 
-| Command                                                                                 | Description                       |
-|-----------------------------------------------------------------------------------------|-----------------------------------|
-| [group member add]({{ site.baseurl }}/commands/group-member-add.html)                   | Add a member to the group         |
-| [group member delete]({{ site.baseurl }}/commands/group-member-delete.html)             | Delete a member from the group    |
-| [group member list]({{ site.baseurl }}/commands/group-member-list.html)                 | List members of groups            |
-| [group member batch add]({{ site.baseurl }}/commands/group-member-batch-add.html)       | Bulk add members into groups      |
-| [group member batch delete]({{ site.baseurl }}/commands/group-member-batch-delete.html) | Delete members from groups        |
-| [group member batch update]({{ site.baseurl }}/commands/group-member-batch-update.html) | Add or delete members from groups |
+| Command                                                                                                           | Description                       |
+|-------------------------------------------------------------------------------------------------------------------|-----------------------------------|
+| [dropbox team group member add]({{ site.baseurl }}/commands/dropbox-team-group-member-add.html)                   | Add a member to the group         |
+| [dropbox team group member delete]({{ site.baseurl }}/commands/dropbox-team-group-member-delete.html)             | Delete a member from the group    |
+| [dropbox team group member list]({{ site.baseurl }}/commands/dropbox-team-group-member-list.html)                 | List members of groups            |
+| [dropbox team group member batch add]({{ site.baseurl }}/commands/dropbox-team-group-member-batch-add.html)       | Bulk add members into groups      |
+| [dropbox team group member batch delete]({{ site.baseurl }}/commands/dropbox-team-group-member-batch-delete.html) | Delete members from groups        |
+| [dropbox team group member batch update]({{ site.baseurl }}/commands/dropbox-team-group-member-batch-update.html) | Add or delete members from groups |
 
 ## Find and delete unused groups
 
@@ -111,11 +111,11 @@ There are two commands to find unused groups. The first command is `group list`.
 If you want to see which folder uses each group, use the command `group folder list`. `group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.
 You can safely remove groups once if you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `group batch delete`.
 
-| Command                                                                   | Description                |
-|---------------------------------------------------------------------------|----------------------------|
-| [group list]({{ site.baseurl }}/commands/group-list.html)                 | List group(s)              |
-| [group folder list]({{ site.baseurl }}/commands/group-folder-list.html)   | List folders of each group |
-| [group batch delete]({{ site.baseurl }}/commands/group-batch-delete.html) | Delete groups              |
+| Command                                                                                             | Description                |
+|-----------------------------------------------------------------------------------------------------|----------------------------|
+| [dropbox team group list]({{ site.baseurl }}/commands/dropbox-team-group-list.html)                 | List group(s)              |
+| [dropbox team group folder list]({{ site.baseurl }}/commands/dropbox-team-group-folder-list.html)   | List folders of each group |
+| [dropbox team group batch delete]({{ site.baseurl }}/commands/dropbox-team-group-batch-delete.html) | Delete groups              |
 
 # Team content commands
 
@@ -322,13 +322,13 @@ If you want to see existing external IDs, use the `member list` command. But the
 tbx member list -experiment report_all_columns
 ```
 
-| Command                                                                               | Description                        |
-|---------------------------------------------------------------------------------------|------------------------------------|
-| [member list]({{ site.baseurl }}/commands/member-list.html)                           | List team member(s)                |
-| [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)   | Clear external_id of members       |
-| [member update externalid]({{ site.baseurl }}/commands/member-update-externalid.html) | Update External ID of team members |
-| [group list]({{ site.baseurl }}/commands/group-list.html)                             | List group(s)                      |
-| [group clear externalid]({{ site.baseurl }}/commands/group-clear-externalid.html)     | Clear an external ID of a group    |
+| Command                                                                                                     | Description                        |
+|-------------------------------------------------------------------------------------------------------------|------------------------------------|
+| [member list]({{ site.baseurl }}/commands/member-list.html)                                                 | List team member(s)                |
+| [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)                         | Clear external_id of members       |
+| [member update externalid]({{ site.baseurl }}/commands/member-update-externalid.html)                       | Update External ID of team members |
+| [dropbox team group list]({{ site.baseurl }}/commands/dropbox-team-group-list.html)                         | List group(s)                      |
+| [dropbox team group clear externalid]({{ site.baseurl }}/commands/dropbox-team-group-clear-externalid.html) | Clear an external ID of a group    |
 
 ## Data migration helper commands
 

@@ -30,6 +30,13 @@ import (
 	citrondropboxpaper "github.com/watermint/toolbox/citron/dropbox/paper"
 	citrondropboxsignaccount "github.com/watermint/toolbox/citron/dropbox/sign/account"
 	citrondropboxteambackupdevice "github.com/watermint/toolbox/citron/dropbox/team/backup/device"
+	citrondropboxteamgroup "github.com/watermint/toolbox/citron/dropbox/team/group"
+	citrondropboxteamgroupbatch "github.com/watermint/toolbox/citron/dropbox/team/group/batch"
+	citrondropboxteamgroupclear "github.com/watermint/toolbox/citron/dropbox/team/group/clear"
+	citrondropboxteamgroupfolder "github.com/watermint/toolbox/citron/dropbox/team/group/folder"
+	citrondropboxteamgroupmember "github.com/watermint/toolbox/citron/dropbox/team/group/member"
+	citrondropboxteamgroupmemberbatch "github.com/watermint/toolbox/citron/dropbox/team/group/member/batch"
+	citrondropboxteamgroupupdate "github.com/watermint/toolbox/citron/dropbox/team/group/update"
 	citrondropboxteaminsight "github.com/watermint/toolbox/citron/dropbox/team/insight"
 	citrondropboxteaminsightreport "github.com/watermint/toolbox/citron/dropbox/team/insight/report"
 	citronfigmaaccount "github.com/watermint/toolbox/citron/figma/account"
@@ -117,6 +124,21 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxpaper.Prepend{},
 		&citrondropboxsignaccount.Info{},
 		&citrondropboxteambackupdevice.Status{},
+		&citrondropboxteamgroup.Add{},
+		&citrondropboxteamgroup.Delete{},
+		&citrondropboxteamgroup.List{},
+		&citrondropboxteamgroup.Rename{},
+		&citrondropboxteamgroupbatch.Add{},
+		&citrondropboxteamgroupbatch.Delete{},
+		&citrondropboxteamgroupclear.Externalid{},
+		&citrondropboxteamgroupfolder.List{},
+		&citrondropboxteamgroupmember.Add{},
+		&citrondropboxteamgroupmember.Delete{},
+		&citrondropboxteamgroupmember.List{},
+		&citrondropboxteamgroupmemberbatch.Add{},
+		&citrondropboxteamgroupmemberbatch.Delete{},
+		&citrondropboxteamgroupmemberbatch.Update{},
+		&citrondropboxteamgroupupdate.Type{},
 		&citrondropboxteaminsight.Scan{},
 		&citrondropboxteaminsight.Scanretry{},
 		&citrondropboxteaminsight.Summarize{},

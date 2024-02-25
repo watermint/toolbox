@@ -25,13 +25,6 @@ import (
 	recipedevtestsetup "github.com/watermint/toolbox/recipe/dev/test/setup"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
-	recipegroup "github.com/watermint/toolbox/recipe/group"
-	recipegroupbatch "github.com/watermint/toolbox/recipe/group/batch"
-	recipegroupclear "github.com/watermint/toolbox/recipe/group/clear"
-	recipegroupfolder "github.com/watermint/toolbox/recipe/group/folder"
-	recipegroupmember "github.com/watermint/toolbox/recipe/group/member"
-	recipegroupmemberbatch "github.com/watermint/toolbox/recipe/group/member/batch"
-	recipegroupupdate "github.com/watermint/toolbox/recipe/group/update"
 	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
 	recipelogjob "github.com/watermint/toolbox/recipe/log/job"
 	recipemember "github.com/watermint/toolbox/recipe/member"
@@ -179,21 +172,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Wait{},
 		&recipedevutilimage.Jpeg{},
-		&recipegroup.Add{},
-		&recipegroup.Delete{},
-		&recipegroup.List{},
-		&recipegroup.Rename{},
-		&recipegroupbatch.Add{},
-		&recipegroupbatch.Delete{},
-		&recipegroupclear.Externalid{},
-		&recipegroupfolder.List{},
-		&recipegroupmember.Add{},
-		&recipegroupmember.Delete{},
-		&recipegroupmember.List{},
-		&recipegroupmemberbatch.Add{},
-		&recipegroupmemberbatch.Delete{},
-		&recipegroupmemberbatch.Update{},
-		&recipegroupupdate.Type{},
 		&recipelogcat.Curl{},
 		&recipelogcat.Job{},
 		&recipelogcat.Kind{},
