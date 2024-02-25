@@ -27,40 +27,6 @@ import (
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
 	recipelogjob "github.com/watermint/toolbox/recipe/log/job"
-	recipeteam "github.com/watermint/toolbox/recipe/team"
-	recipeteamactivity "github.com/watermint/toolbox/recipe/team/activity"
-	recipeteamactivitybatch "github.com/watermint/toolbox/recipe/team/activity/batch"
-	recipeteamactivitydaily "github.com/watermint/toolbox/recipe/team/activity/daily"
-	recipeteamadmin "github.com/watermint/toolbox/recipe/team/admin"
-	recipeteamadmingrouprole "github.com/watermint/toolbox/recipe/team/admin/group/role"
-	recipeteamadminrole "github.com/watermint/toolbox/recipe/team/admin/role"
-	recipeteamcontentlegacypaper "github.com/watermint/toolbox/recipe/team/content/legacypaper"
-	recipeteamcontentmember "github.com/watermint/toolbox/recipe/team/content/member"
-	recipeteamcontentmount "github.com/watermint/toolbox/recipe/team/content/mount"
-	recipeteamcontentpolicy "github.com/watermint/toolbox/recipe/team/content/policy"
-	recipeteamdevice "github.com/watermint/toolbox/recipe/team/device"
-	recipeteamfilerequest "github.com/watermint/toolbox/recipe/team/filerequest"
-	recipeteamlegalhold "github.com/watermint/toolbox/recipe/team/legalhold"
-	recipeteamlegalholdmember "github.com/watermint/toolbox/recipe/team/legalhold/member"
-	recipeteamlegalholdmemberbatch "github.com/watermint/toolbox/recipe/team/legalhold/member/batch"
-	recipeteamlegalholdrevision "github.com/watermint/toolbox/recipe/team/legalhold/revision"
-	recipeteamlegalholdupdate "github.com/watermint/toolbox/recipe/team/legalhold/update"
-	recipeteamlinkedapp "github.com/watermint/toolbox/recipe/team/linkedapp"
-	recipeteamnamespace "github.com/watermint/toolbox/recipe/team/namespace"
-	recipeteamnamespacefile "github.com/watermint/toolbox/recipe/team/namespace/file"
-	recipeteamnamespacemember "github.com/watermint/toolbox/recipe/team/namespace/member"
-	recipeteamreport "github.com/watermint/toolbox/recipe/team/report"
-	recipeteamrunasfile "github.com/watermint/toolbox/recipe/team/runas/file"
-	recipeteamrunasfilebatch "github.com/watermint/toolbox/recipe/team/runas/file/batch"
-	recipeteamrunasfilesyncbatch "github.com/watermint/toolbox/recipe/team/runas/file/sync/batch"
-	recipeteamrunassharedfolder "github.com/watermint/toolbox/recipe/team/runas/sharedfolder"
-	recipeteamrunassharedfolderbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/batch"
-	recipeteamrunassharedfoldermemberbatch "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/member/batch"
-	recipeteamrunassharedfoldermount "github.com/watermint/toolbox/recipe/team/runas/sharedfolder/mount"
-	recipeteamsharedlink "github.com/watermint/toolbox/recipe/team/sharedlink"
-	recipeteamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
-	recipeteamsharedlinkdelete "github.com/watermint/toolbox/recipe/team/sharedlink/delete"
-	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
 	recipeteamspaceasadminfile "github.com/watermint/toolbox/recipe/teamspace/asadmin/file"
 	recipeteamspaceasadminfolder "github.com/watermint/toolbox/recipe/teamspace/asadmin/folder"
 	recipeteamspaceasadminmember "github.com/watermint/toolbox/recipe/teamspace/asadmin/member"
@@ -157,71 +123,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipelogjob.Delete{},
 		&recipelogjob.List{},
 		&recipelogjob.Ship{},
-		&recipeteam.Feature{},
-		&recipeteam.Filesystem{},
-		&recipeteam.Info{},
-		&recipeteamactivity.Event{},
-		&recipeteamactivity.User{},
-		&recipeteamactivitybatch.User{},
-		&recipeteamactivitydaily.Event{},
-		&recipeteamadmin.List{},
-		&recipeteamadmingrouprole.Add{},
-		&recipeteamadmingrouprole.Delete{},
-		&recipeteamadminrole.Add{},
-		&recipeteamadminrole.Clear{},
-		&recipeteamadminrole.Delete{},
-		&recipeteamadminrole.List{},
-		&recipeteamcontentlegacypaper.Count{},
-		&recipeteamcontentlegacypaper.Export{},
-		&recipeteamcontentlegacypaper.List{},
-		&recipeteamcontentmember.List{},
-		&recipeteamcontentmember.Size{},
-		&recipeteamcontentmount.List{},
-		&recipeteamcontentpolicy.List{},
-		&recipeteamdevice.List{},
-		&recipeteamdevice.Unlink{},
-		&recipeteamfilerequest.Clone{},
-		&recipeteamfilerequest.List{},
-		&recipeteamlegalhold.Add{},
-		&recipeteamlegalhold.List{},
-		&recipeteamlegalhold.Release{},
-		&recipeteamlegalholdmember.List{},
-		&recipeteamlegalholdmemberbatch.Update{},
-		&recipeteamlegalholdrevision.List{},
-		&recipeteamlegalholdupdate.Desc{},
-		&recipeteamlegalholdupdate.Name{},
-		&recipeteamlinkedapp.List{},
-		&recipeteamnamespace.List{},
-		&recipeteamnamespace.Summary{},
-		&recipeteamnamespacefile.List{},
-		&recipeteamnamespacefile.Size{},
-		&recipeteamnamespacemember.List{},
-		&recipeteamreport.Activity{},
-		&recipeteamreport.Devices{},
-		&recipeteamreport.Membership{},
-		&recipeteamreport.Storage{},
-		&recipeteamrunasfile.List{},
-		&recipeteamrunasfilebatch.Copy{},
-		&recipeteamrunasfilesyncbatch.Up{},
-		&recipeteamrunassharedfolder.Isolate{},
-		&recipeteamrunassharedfolder.List{},
-		&recipeteamrunassharedfolderbatch.Leave{},
-		&recipeteamrunassharedfolderbatch.Share{},
-		&recipeteamrunassharedfolderbatch.Unshare{},
-		&recipeteamrunassharedfoldermemberbatch.Add{},
-		&recipeteamrunassharedfoldermemberbatch.Delete{},
-		&recipeteamrunassharedfoldermount.Add{},
-		&recipeteamrunassharedfoldermount.Delete{},
-		&recipeteamrunassharedfoldermount.List{},
-		&recipeteamrunassharedfoldermount.Mountable{},
-		&recipeteamsharedlink.List{},
-		&recipeteamsharedlinkcap.Expiry{},
-		&recipeteamsharedlinkcap.Visibility{},
-		&recipeteamsharedlinkdelete.Links{},
-		&recipeteamsharedlinkdelete.Member{},
-		&recipeteamsharedlinkupdate.Expiry{},
-		&recipeteamsharedlinkupdate.Password{},
-		&recipeteamsharedlinkupdate.Visibility{},
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},

@@ -34,7 +34,20 @@ import (
 	citrondropboxfiletemplate "github.com/watermint/toolbox/citron/dropbox/file/template"
 	citrondropboxpaper "github.com/watermint/toolbox/citron/dropbox/paper"
 	citrondropboxsignaccount "github.com/watermint/toolbox/citron/dropbox/sign/account"
+	citrondropboxteam "github.com/watermint/toolbox/citron/dropbox/team"
+	citrondropboxteamactivity "github.com/watermint/toolbox/citron/dropbox/team/activity"
+	citrondropboxteamactivitybatch "github.com/watermint/toolbox/citron/dropbox/team/activity/batch"
+	citrondropboxteamactivitydaily "github.com/watermint/toolbox/citron/dropbox/team/activity/daily"
+	citrondropboxteamadmin "github.com/watermint/toolbox/citron/dropbox/team/admin"
+	citrondropboxteamadmingrouprole "github.com/watermint/toolbox/citron/dropbox/team/admin/group/role"
+	citrondropboxteamadminrole "github.com/watermint/toolbox/citron/dropbox/team/admin/role"
 	citrondropboxteambackupdevice "github.com/watermint/toolbox/citron/dropbox/team/backup/device"
+	citrondropboxteamcontentlegacypaper "github.com/watermint/toolbox/citron/dropbox/team/content/legacypaper"
+	citrondropboxteamcontentmember "github.com/watermint/toolbox/citron/dropbox/team/content/member"
+	citrondropboxteamcontentmount "github.com/watermint/toolbox/citron/dropbox/team/content/mount"
+	citrondropboxteamcontentpolicy "github.com/watermint/toolbox/citron/dropbox/team/content/policy"
+	citrondropboxteamdevice "github.com/watermint/toolbox/citron/dropbox/team/device"
+	citrondropboxteamfilerequest "github.com/watermint/toolbox/citron/dropbox/team/filerequest"
 	citrondropboxteamgroup "github.com/watermint/toolbox/citron/dropbox/team/group"
 	citrondropboxteamgroupbatch "github.com/watermint/toolbox/citron/dropbox/team/group/batch"
 	citrondropboxteamgroupclear "github.com/watermint/toolbox/citron/dropbox/team/group/clear"
@@ -44,6 +57,12 @@ import (
 	citrondropboxteamgroupupdate "github.com/watermint/toolbox/citron/dropbox/team/group/update"
 	citrondropboxteaminsight "github.com/watermint/toolbox/citron/dropbox/team/insight"
 	citrondropboxteaminsightreport "github.com/watermint/toolbox/citron/dropbox/team/insight/report"
+	citrondropboxteamlegalhold "github.com/watermint/toolbox/citron/dropbox/team/legalhold"
+	citrondropboxteamlegalholdmember "github.com/watermint/toolbox/citron/dropbox/team/legalhold/member"
+	citrondropboxteamlegalholdmemberbatch "github.com/watermint/toolbox/citron/dropbox/team/legalhold/member/batch"
+	citrondropboxteamlegalholdrevision "github.com/watermint/toolbox/citron/dropbox/team/legalhold/revision"
+	citrondropboxteamlegalholdupdate "github.com/watermint/toolbox/citron/dropbox/team/legalhold/update"
+	citrondropboxteamlinkedapp "github.com/watermint/toolbox/citron/dropbox/team/linkedapp"
 	citrondropboxteammember "github.com/watermint/toolbox/citron/dropbox/team/member"
 	citrondropboxteammemberbatch "github.com/watermint/toolbox/citron/dropbox/team/member/batch"
 	citrondropboxteammemberclear "github.com/watermint/toolbox/citron/dropbox/team/member/clear"
@@ -54,6 +73,21 @@ import (
 	citrondropboxteammemberquota "github.com/watermint/toolbox/citron/dropbox/team/member/quota"
 	citrondropboxteammemberquotabatch "github.com/watermint/toolbox/citron/dropbox/team/member/quota/batch"
 	citrondropboxteammemberupdatebatch "github.com/watermint/toolbox/citron/dropbox/team/member/update/batch"
+	citrondropboxteamnamespace "github.com/watermint/toolbox/citron/dropbox/team/namespace"
+	citrondropboxteamnamespacefile "github.com/watermint/toolbox/citron/dropbox/team/namespace/file"
+	citrondropboxteamnamespacemember "github.com/watermint/toolbox/citron/dropbox/team/namespace/member"
+	citrondropboxteamreport "github.com/watermint/toolbox/citron/dropbox/team/report"
+	citrondropboxteamrunasfile "github.com/watermint/toolbox/citron/dropbox/team/runas/file"
+	citrondropboxteamrunasfilebatch "github.com/watermint/toolbox/citron/dropbox/team/runas/file/batch"
+	citrondropboxteamrunasfilesyncbatch "github.com/watermint/toolbox/citron/dropbox/team/runas/file/sync/batch"
+	citrondropboxteamrunassharedfolder "github.com/watermint/toolbox/citron/dropbox/team/runas/sharedfolder"
+	citrondropboxteamrunassharedfolderbatch "github.com/watermint/toolbox/citron/dropbox/team/runas/sharedfolder/batch"
+	citrondropboxteamrunassharedfoldermemberbatch "github.com/watermint/toolbox/citron/dropbox/team/runas/sharedfolder/member/batch"
+	citrondropboxteamrunassharedfoldermount "github.com/watermint/toolbox/citron/dropbox/team/runas/sharedfolder/mount"
+	citrondropboxteamsharedlink "github.com/watermint/toolbox/citron/dropbox/team/sharedlink"
+	citrondropboxteamsharedlinkcap "github.com/watermint/toolbox/citron/dropbox/team/sharedlink/cap"
+	citrondropboxteamsharedlinkdelete "github.com/watermint/toolbox/citron/dropbox/team/sharedlink/delete"
+	citrondropboxteamsharedlinkupdate "github.com/watermint/toolbox/citron/dropbox/team/sharedlink/update"
 	citrondropboxteamteamfolder "github.com/watermint/toolbox/citron/dropbox/team/teamfolder"
 	citrondropboxteamteamfolderbatch "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/batch"
 	citrondropboxteamteamfolderfile "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/file"
@@ -163,7 +197,32 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxpaper.Overwrite{},
 		&citrondropboxpaper.Prepend{},
 		&citrondropboxsignaccount.Info{},
+		&citrondropboxteam.Feature{},
+		&citrondropboxteam.Filesystem{},
+		&citrondropboxteam.Info{},
+		&citrondropboxteamactivity.Event{},
+		&citrondropboxteamactivity.User{},
+		&citrondropboxteamactivitybatch.User{},
+		&citrondropboxteamactivitydaily.Event{},
+		&citrondropboxteamadmin.List{},
+		&citrondropboxteamadmingrouprole.Add{},
+		&citrondropboxteamadmingrouprole.Delete{},
+		&citrondropboxteamadminrole.Add{},
+		&citrondropboxteamadminrole.Clear{},
+		&citrondropboxteamadminrole.Delete{},
+		&citrondropboxteamadminrole.List{},
 		&citrondropboxteambackupdevice.Status{},
+		&citrondropboxteamcontentlegacypaper.Count{},
+		&citrondropboxteamcontentlegacypaper.Export{},
+		&citrondropboxteamcontentlegacypaper.List{},
+		&citrondropboxteamcontentmember.List{},
+		&citrondropboxteamcontentmember.Size{},
+		&citrondropboxteamcontentmount.List{},
+		&citrondropboxteamcontentpolicy.List{},
+		&citrondropboxteamdevice.List{},
+		&citrondropboxteamdevice.Unlink{},
+		&citrondropboxteamfilerequest.Clone{},
+		&citrondropboxteamfilerequest.List{},
 		&citrondropboxteamgroup.Add{},
 		&citrondropboxteamgroup.Delete{},
 		&citrondropboxteamgroup.List{},
@@ -183,6 +242,15 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxteaminsight.Scanretry{},
 		&citrondropboxteaminsight.Summarize{},
 		&citrondropboxteaminsightreport.Teamfoldermember{},
+		&citrondropboxteamlegalhold.Add{},
+		&citrondropboxteamlegalhold.List{},
+		&citrondropboxteamlegalhold.Release{},
+		&citrondropboxteamlegalholdmember.List{},
+		&citrondropboxteamlegalholdmemberbatch.Update{},
+		&citrondropboxteamlegalholdrevision.List{},
+		&citrondropboxteamlegalholdupdate.Desc{},
+		&citrondropboxteamlegalholdupdate.Name{},
+		&citrondropboxteamlinkedapp.List{},
 		&citrondropboxteammember.Feature{},
 		&citrondropboxteammember.List{},
 		&citrondropboxteammember.Replication{},
@@ -209,6 +277,37 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxteammemberupdatebatch.Invisible{},
 		&citrondropboxteammemberupdatebatch.Profile{},
 		&citrondropboxteammemberupdatebatch.Visible{},
+		&citrondropboxteamnamespace.List{},
+		&citrondropboxteamnamespace.Summary{},
+		&citrondropboxteamnamespacefile.List{},
+		&citrondropboxteamnamespacefile.Size{},
+		&citrondropboxteamnamespacemember.List{},
+		&citrondropboxteamreport.Activity{},
+		&citrondropboxteamreport.Devices{},
+		&citrondropboxteamreport.Membership{},
+		&citrondropboxteamreport.Storage{},
+		&citrondropboxteamrunasfile.List{},
+		&citrondropboxteamrunasfilebatch.Copy{},
+		&citrondropboxteamrunasfilesyncbatch.Up{},
+		&citrondropboxteamrunassharedfolder.Isolate{},
+		&citrondropboxteamrunassharedfolder.List{},
+		&citrondropboxteamrunassharedfolderbatch.Leave{},
+		&citrondropboxteamrunassharedfolderbatch.Share{},
+		&citrondropboxteamrunassharedfolderbatch.Unshare{},
+		&citrondropboxteamrunassharedfoldermemberbatch.Add{},
+		&citrondropboxteamrunassharedfoldermemberbatch.Delete{},
+		&citrondropboxteamrunassharedfoldermount.Add{},
+		&citrondropboxteamrunassharedfoldermount.Delete{},
+		&citrondropboxteamrunassharedfoldermount.List{},
+		&citrondropboxteamrunassharedfoldermount.Mountable{},
+		&citrondropboxteamsharedlink.List{},
+		&citrondropboxteamsharedlinkcap.Expiry{},
+		&citrondropboxteamsharedlinkcap.Visibility{},
+		&citrondropboxteamsharedlinkdelete.Links{},
+		&citrondropboxteamsharedlinkdelete.Member{},
+		&citrondropboxteamsharedlinkupdate.Expiry{},
+		&citrondropboxteamsharedlinkupdate.Password{},
+		&citrondropboxteamsharedlinkupdate.Visibility{},
 		&citrondropboxteamteamfolder.Add{},
 		&citrondropboxteamteamfolder.Archive{},
 		&citrondropboxteamteamfolder.List{},
