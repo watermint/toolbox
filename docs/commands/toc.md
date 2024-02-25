@@ -8,75 +8,75 @@ lang: en
 
 ## Dropbox (Individual account)
 
-| Command                                                                                                   | Description                                                   |
-|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [dropbox file account feature]({{ site.baseurl }}/commands/dropbox-file-account-feature.html)             | List Dropbox account features                                 |
-| [dropbox file account filesystem]({{ site.baseurl }}/commands/dropbox-file-account-filesystem.html)       | Show Dropbox file system version                              |
-| [dropbox file account info]({{ site.baseurl }}/commands/dropbox-file-account-info.html)                   | Dropbox account info                                          |
-| [dropbox file compare account]({{ site.baseurl }}/commands/dropbox-file-compare-account.html)             | Compare files of two accounts                                 |
-| [dropbox file compare local]({{ site.baseurl }}/commands/dropbox-file-compare-local.html)                 | Compare local folders and Dropbox folders                     |
-| [dropbox file copy]({{ site.baseurl }}/commands/dropbox-file-copy.html)                                   | Copy files                                                    |
-| [dropbox file delete]({{ site.baseurl }}/commands/dropbox-file-delete.html)                               | Delete file or folder                                         |
-| [dropbox file export doc]({{ site.baseurl }}/commands/dropbox-file-export-doc.html)                       | Export document                                               |
-| [dropbox file export url]({{ site.baseurl }}/commands/dropbox-file-export-url.html)                       | Export a document from the URL                                |
-| [dropbox file import batch url]({{ site.baseurl }}/commands/dropbox-file-import-batch-url.html)           | Batch import files from URL                                   |
-| [dropbox file import url]({{ site.baseurl }}/commands/dropbox-file-import-url.html)                       | Import file from the URL                                      |
-| [dropbox file info]({{ site.baseurl }}/commands/dropbox-file-info.html)                                   | Resolve metadata of the path                                  |
-| [dropbox file list]({{ site.baseurl }}/commands/dropbox-file-list.html)                                   | List files and folders                                        |
-| [dropbox file lock acquire]({{ site.baseurl }}/commands/dropbox-file-lock-acquire.html)                   | Lock a file                                                   |
-| [dropbox file lock all release]({{ site.baseurl }}/commands/dropbox-file-lock-all-release.html)           | Release all locks under the specified path                    |
-| [dropbox file lock batch acquire]({{ site.baseurl }}/commands/dropbox-file-lock-batch-acquire.html)       | Lock multiple files                                           |
-| [dropbox file lock batch release]({{ site.baseurl }}/commands/dropbox-file-lock-batch-release.html)       | Release multiple locks                                        |
-| [dropbox file lock list]({{ site.baseurl }}/commands/dropbox-file-lock-list.html)                         | List locks under the specified path                           |
-| [dropbox file lock release]({{ site.baseurl }}/commands/dropbox-file-lock-release.html)                   | Release a lock                                                |
-| [dropbox file merge]({{ site.baseurl }}/commands/dropbox-file-merge.html)                                 | Merge paths                                                   |
-| [dropbox file move]({{ site.baseurl }}/commands/dropbox-file-move.html)                                   | Move files                                                    |
-| [dropbox file replication]({{ site.baseurl }}/commands/dropbox-file-replication.html)                     | Replicate file content to the other account                   |
-| [dropbox file request create]({{ site.baseurl }}/commands/dropbox-file-request-create.html)               | Create a file request                                         |
-| [dropbox file request delete closed]({{ site.baseurl }}/commands/dropbox-file-request-delete-closed.html) | Delete all closed file requests on this account.              |
-| [dropbox file request delete url]({{ site.baseurl }}/commands/dropbox-file-request-delete-url.html)       | Delete a file request by the file request URL                 |
-| [dropbox file request list]({{ site.baseurl }}/commands/dropbox-file-request-list.html)                   | List file requests of the individual account                  |
-| [dropbox file restore all]({{ site.baseurl }}/commands/dropbox-file-restore-all.html)                     | Restore files under given path                                |
-| [dropbox file revision download]({{ site.baseurl }}/commands/dropbox-file-revision-download.html)         | Download the file revision                                    |
-| [dropbox file revision list]({{ site.baseurl }}/commands/dropbox-file-revision-list.html)                 | List file revisions                                           |
-| [dropbox file revision restore]({{ site.baseurl }}/commands/dropbox-file-revision-restore.html)           | Restore the file revision                                     |
-| [dropbox file search content]({{ site.baseurl }}/commands/dropbox-file-search-content.html)               | Search file content                                           |
-| [dropbox file search name]({{ site.baseurl }}/commands/dropbox-file-search-name.html)                     | Search file name                                              |
-| [dropbox file share info]({{ site.baseurl }}/commands/dropbox-file-share-info.html)                       | Retrieve sharing information of the file                      |
-| [dropbox file size]({{ site.baseurl }}/commands/dropbox-file-size.html)                                   | Storage usage                                                 |
-| [dropbox file sync down]({{ site.baseurl }}/commands/dropbox-file-sync-down.html)                         | Downstream sync with Dropbox                                  |
-| [dropbox file sync online]({{ site.baseurl }}/commands/dropbox-file-sync-online.html)                     | Sync online files                                             |
-| [dropbox file sync up]({{ site.baseurl }}/commands/dropbox-file-sync-up.html)                             | Upstream sync with Dropbox                                    |
-| [dropbox file tag add]({{ site.baseurl }}/commands/dropbox-file-tag-add.html)                             | Add a tag to the file/folder                                  |
-| [dropbox file tag delete]({{ site.baseurl }}/commands/dropbox-file-tag-delete.html)                       | Delete a tag from the file/folder                             |
-| [dropbox file tag list]({{ site.baseurl }}/commands/dropbox-file-tag-list.html)                           | List tags of the path                                         |
-| [dropbox file template apply]({{ site.baseurl }}/commands/dropbox-file-template-apply.html)               | Apply file/folder structure template to the Dropbox path      |
-| [dropbox file template capture]({{ site.baseurl }}/commands/dropbox-file-template-capture.html)           | Capture file/folder structure as template from Dropbox path   |
-| [dropbox file watch]({{ site.baseurl }}/commands/dropbox-file-watch.html)                                 | Watch file activities                                         |
-| [dropbox paper append]({{ site.baseurl }}/commands/dropbox-paper-append.html)                             | Append the content to the end of the existing Paper doc       |
-| [dropbox paper create]({{ site.baseurl }}/commands/dropbox-paper-create.html)                             | Create new Paper in the path                                  |
-| [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                       | Overwrite existing Paper document                             |
-| [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                           | Append the content to the beginning of the existing Paper doc |
-| [log job ship]({{ site.baseurl }}/commands/log-job-ship.html)                                             | Ship Job logs to Dropbox path                                 |
-| [sharedfolder leave]({{ site.baseurl }}/commands/sharedfolder-leave.html)                                 | Leave from the shared folder                                  |
-| [sharedfolder list]({{ site.baseurl }}/commands/sharedfolder-list.html)                                   | List shared folder(s)                                         |
-| [sharedfolder member add]({{ site.baseurl }}/commands/sharedfolder-member-add.html)                       | Add a member to the shared folder                             |
-| [sharedfolder member delete]({{ site.baseurl }}/commands/sharedfolder-member-delete.html)                 | Delete a member from the shared folder                        |
-| [sharedfolder member list]({{ site.baseurl }}/commands/sharedfolder-member-list.html)                     | List shared folder member(s)                                  |
-| [sharedfolder mount add]({{ site.baseurl }}/commands/sharedfolder-mount-add.html)                         | Add the shared folder to the current user's Dropbox           |
-| [sharedfolder mount delete]({{ site.baseurl }}/commands/sharedfolder-mount-delete.html)                   | The current user unmounts the designated folder.              |
-| [sharedfolder mount list]({{ site.baseurl }}/commands/sharedfolder-mount-list.html)                       | List all shared folders the current user mounted              |
-| [sharedfolder mount mountable]({{ site.baseurl }}/commands/sharedfolder-mount-mountable.html)             | List all shared folders the current user can mount            |
-| [sharedfolder share]({{ site.baseurl }}/commands/sharedfolder-share.html)                                 | Share a folder                                                |
-| [sharedfolder unshare]({{ site.baseurl }}/commands/sharedfolder-unshare.html)                             | Unshare a folder                                              |
-| [sharedlink create]({{ site.baseurl }}/commands/sharedlink-create.html)                                   | Create shared link                                            |
-| [sharedlink delete]({{ site.baseurl }}/commands/sharedlink-delete.html)                                   | Remove shared links                                           |
-| [sharedlink file list]({{ site.baseurl }}/commands/sharedlink-file-list.html)                             | List files for the shared link                                |
-| [sharedlink info]({{ site.baseurl }}/commands/sharedlink-info.html)                                       | Get information about the shared link                         |
-| [sharedlink list]({{ site.baseurl }}/commands/sharedlink-list.html)                                       | List of shared link(s)                                        |
-| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                               | List files and folders in team space                          |
-| [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                               | Start device monitor client                                   |
-| [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                           | Package remote folder into the zip file                       |
+| Command                                                                                                                 | Description                                                   |
+|-------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [dropbox file account feature]({{ site.baseurl }}/commands/dropbox-file-account-feature.html)                           | List Dropbox account features                                 |
+| [dropbox file account filesystem]({{ site.baseurl }}/commands/dropbox-file-account-filesystem.html)                     | Show Dropbox file system version                              |
+| [dropbox file account info]({{ site.baseurl }}/commands/dropbox-file-account-info.html)                                 | Dropbox account info                                          |
+| [dropbox file compare account]({{ site.baseurl }}/commands/dropbox-file-compare-account.html)                           | Compare files of two accounts                                 |
+| [dropbox file compare local]({{ site.baseurl }}/commands/dropbox-file-compare-local.html)                               | Compare local folders and Dropbox folders                     |
+| [dropbox file copy]({{ site.baseurl }}/commands/dropbox-file-copy.html)                                                 | Copy files                                                    |
+| [dropbox file delete]({{ site.baseurl }}/commands/dropbox-file-delete.html)                                             | Delete file or folder                                         |
+| [dropbox file export doc]({{ site.baseurl }}/commands/dropbox-file-export-doc.html)                                     | Export document                                               |
+| [dropbox file export url]({{ site.baseurl }}/commands/dropbox-file-export-url.html)                                     | Export a document from the URL                                |
+| [dropbox file import batch url]({{ site.baseurl }}/commands/dropbox-file-import-batch-url.html)                         | Batch import files from URL                                   |
+| [dropbox file import url]({{ site.baseurl }}/commands/dropbox-file-import-url.html)                                     | Import file from the URL                                      |
+| [dropbox file info]({{ site.baseurl }}/commands/dropbox-file-info.html)                                                 | Resolve metadata of the path                                  |
+| [dropbox file list]({{ site.baseurl }}/commands/dropbox-file-list.html)                                                 | List files and folders                                        |
+| [dropbox file lock acquire]({{ site.baseurl }}/commands/dropbox-file-lock-acquire.html)                                 | Lock a file                                                   |
+| [dropbox file lock all release]({{ site.baseurl }}/commands/dropbox-file-lock-all-release.html)                         | Release all locks under the specified path                    |
+| [dropbox file lock batch acquire]({{ site.baseurl }}/commands/dropbox-file-lock-batch-acquire.html)                     | Lock multiple files                                           |
+| [dropbox file lock batch release]({{ site.baseurl }}/commands/dropbox-file-lock-batch-release.html)                     | Release multiple locks                                        |
+| [dropbox file lock list]({{ site.baseurl }}/commands/dropbox-file-lock-list.html)                                       | List locks under the specified path                           |
+| [dropbox file lock release]({{ site.baseurl }}/commands/dropbox-file-lock-release.html)                                 | Release a lock                                                |
+| [dropbox file merge]({{ site.baseurl }}/commands/dropbox-file-merge.html)                                               | Merge paths                                                   |
+| [dropbox file move]({{ site.baseurl }}/commands/dropbox-file-move.html)                                                 | Move files                                                    |
+| [dropbox file replication]({{ site.baseurl }}/commands/dropbox-file-replication.html)                                   | Replicate file content to the other account                   |
+| [dropbox file request create]({{ site.baseurl }}/commands/dropbox-file-request-create.html)                             | Create a file request                                         |
+| [dropbox file request delete closed]({{ site.baseurl }}/commands/dropbox-file-request-delete-closed.html)               | Delete all closed file requests on this account.              |
+| [dropbox file request delete url]({{ site.baseurl }}/commands/dropbox-file-request-delete-url.html)                     | Delete a file request by the file request URL                 |
+| [dropbox file request list]({{ site.baseurl }}/commands/dropbox-file-request-list.html)                                 | List file requests of the individual account                  |
+| [dropbox file restore all]({{ site.baseurl }}/commands/dropbox-file-restore-all.html)                                   | Restore files under given path                                |
+| [dropbox file revision download]({{ site.baseurl }}/commands/dropbox-file-revision-download.html)                       | Download the file revision                                    |
+| [dropbox file revision list]({{ site.baseurl }}/commands/dropbox-file-revision-list.html)                               | List file revisions                                           |
+| [dropbox file revision restore]({{ site.baseurl }}/commands/dropbox-file-revision-restore.html)                         | Restore the file revision                                     |
+| [dropbox file search content]({{ site.baseurl }}/commands/dropbox-file-search-content.html)                             | Search file content                                           |
+| [dropbox file search name]({{ site.baseurl }}/commands/dropbox-file-search-name.html)                                   | Search file name                                              |
+| [dropbox file share info]({{ site.baseurl }}/commands/dropbox-file-share-info.html)                                     | Retrieve sharing information of the file                      |
+| [dropbox file sharedfolder leave]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-leave.html)                     | Leave from the shared folder                                  |
+| [dropbox file sharedfolder list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-list.html)                       | List shared folder(s)                                         |
+| [dropbox file sharedfolder member add]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-add.html)           | Add a member to the shared folder                             |
+| [dropbox file sharedfolder member delete]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-delete.html)     | Delete a member from the shared folder                        |
+| [dropbox file sharedfolder member list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-list.html)         | List shared folder member(s)                                  |
+| [dropbox file sharedfolder mount add]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-add.html)             | Add the shared folder to the current user's Dropbox           |
+| [dropbox file sharedfolder mount delete]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-delete.html)       | The current user unmounts the designated folder.              |
+| [dropbox file sharedfolder mount list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-list.html)           | List all shared folders the current user mounted              |
+| [dropbox file sharedfolder mount mountable]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-mount-mountable.html) | List all shared folders the current user can mount            |
+| [dropbox file sharedfolder share]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-share.html)                     | Share a folder                                                |
+| [dropbox file sharedfolder unshare]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-unshare.html)                 | Unshare a folder                                              |
+| [dropbox file sharedlink create]({{ site.baseurl }}/commands/dropbox-file-sharedlink-create.html)                       | Create shared link                                            |
+| [dropbox file sharedlink delete]({{ site.baseurl }}/commands/dropbox-file-sharedlink-delete.html)                       | Remove shared links                                           |
+| [dropbox file sharedlink file list]({{ site.baseurl }}/commands/dropbox-file-sharedlink-file-list.html)                 | List files for the shared link                                |
+| [dropbox file sharedlink info]({{ site.baseurl }}/commands/dropbox-file-sharedlink-info.html)                           | Get information about the shared link                         |
+| [dropbox file sharedlink list]({{ site.baseurl }}/commands/dropbox-file-sharedlink-list.html)                           | List of shared link(s)                                        |
+| [dropbox file size]({{ site.baseurl }}/commands/dropbox-file-size.html)                                                 | Storage usage                                                 |
+| [dropbox file sync down]({{ site.baseurl }}/commands/dropbox-file-sync-down.html)                                       | Downstream sync with Dropbox                                  |
+| [dropbox file sync online]({{ site.baseurl }}/commands/dropbox-file-sync-online.html)                                   | Sync online files                                             |
+| [dropbox file sync up]({{ site.baseurl }}/commands/dropbox-file-sync-up.html)                                           | Upstream sync with Dropbox                                    |
+| [dropbox file tag add]({{ site.baseurl }}/commands/dropbox-file-tag-add.html)                                           | Add a tag to the file/folder                                  |
+| [dropbox file tag delete]({{ site.baseurl }}/commands/dropbox-file-tag-delete.html)                                     | Delete a tag from the file/folder                             |
+| [dropbox file tag list]({{ site.baseurl }}/commands/dropbox-file-tag-list.html)                                         | List tags of the path                                         |
+| [dropbox file template apply]({{ site.baseurl }}/commands/dropbox-file-template-apply.html)                             | Apply file/folder structure template to the Dropbox path      |
+| [dropbox file template capture]({{ site.baseurl }}/commands/dropbox-file-template-capture.html)                         | Capture file/folder structure as template from Dropbox path   |
+| [dropbox file watch]({{ site.baseurl }}/commands/dropbox-file-watch.html)                                               | Watch file activities                                         |
+| [dropbox paper append]({{ site.baseurl }}/commands/dropbox-paper-append.html)                                           | Append the content to the end of the existing Paper doc       |
+| [dropbox paper create]({{ site.baseurl }}/commands/dropbox-paper-create.html)                                           | Create new Paper in the path                                  |
+| [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                                     | Overwrite existing Paper document                             |
+| [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                                         | Append the content to the beginning of the existing Paper doc |
+| [log job ship]({{ site.baseurl }}/commands/log-job-ship.html)                                                           | Ship Job logs to Dropbox path                                 |
+| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                                             | List files and folders in team space                          |
+| [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                                             | Start device monitor client                                   |
+| [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                                         | Package remote folder into the zip file                       |
 
 ## Dropbox for teams
 

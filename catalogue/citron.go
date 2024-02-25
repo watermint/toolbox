@@ -24,6 +24,11 @@ import (
 	citrondropboxfilerevision "github.com/watermint/toolbox/citron/dropbox/file/revision"
 	citrondropboxfilesearch "github.com/watermint/toolbox/citron/dropbox/file/search"
 	citrondropboxfileshare "github.com/watermint/toolbox/citron/dropbox/file/share"
+	citrondropboxfilesharedfolder "github.com/watermint/toolbox/citron/dropbox/file/sharedfolder"
+	citrondropboxfilesharedfoldermember "github.com/watermint/toolbox/citron/dropbox/file/sharedfolder/member"
+	citrondropboxfilesharedfoldermount "github.com/watermint/toolbox/citron/dropbox/file/sharedfolder/mount"
+	citrondropboxfilesharedlink "github.com/watermint/toolbox/citron/dropbox/file/sharedlink"
+	citrondropboxfilesharedlinkfile "github.com/watermint/toolbox/citron/dropbox/file/sharedlink/file"
 	citrondropboxfilesync "github.com/watermint/toolbox/citron/dropbox/file/sync"
 	citrondropboxfiletag "github.com/watermint/toolbox/citron/dropbox/file/tag"
 	citrondropboxfiletemplate "github.com/watermint/toolbox/citron/dropbox/file/template"
@@ -120,6 +125,22 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxfilesearch.Content{},
 		&citrondropboxfilesearch.Name{},
 		&citrondropboxfileshare.Info{},
+		&citrondropboxfilesharedfolder.Leave{},
+		&citrondropboxfilesharedfolder.List{},
+		&citrondropboxfilesharedfolder.Share{},
+		&citrondropboxfilesharedfolder.Unshare{},
+		&citrondropboxfilesharedfoldermember.Add{},
+		&citrondropboxfilesharedfoldermember.Delete{},
+		&citrondropboxfilesharedfoldermember.List{},
+		&citrondropboxfilesharedfoldermount.Add{},
+		&citrondropboxfilesharedfoldermount.Delete{},
+		&citrondropboxfilesharedfoldermount.List{},
+		&citrondropboxfilesharedfoldermount.Mountable{},
+		&citrondropboxfilesharedlink.Create{},
+		&citrondropboxfilesharedlink.Delete{},
+		&citrondropboxfilesharedlink.Info{},
+		&citrondropboxfilesharedlink.List{},
+		&citrondropboxfilesharedlinkfile.List{},
 		&citrondropboxfilesync.Down{},
 		&citrondropboxfilesync.Online{},
 		&citrondropboxfilesync.Up{},
