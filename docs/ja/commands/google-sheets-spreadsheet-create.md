@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `google sheets spreadsheet create`
 lang: ja
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `dev lifecycle planchangepath`
 lang: ja
 ---
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
+.\tbx.exe dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -message-file /LOCAL/PATH/TO/messages.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
+$HOME/Desktop/tbx dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -message-file /LOCAL/PATH/TO/messages.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -43,9 +43,12 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-announce-url`       | アナウンスURL              |                                        |
 | `-compact`            | コンパクトな出力を生成する | false                                  |
 | `-compatibility-file` | 互換性ファイル             | catalogue/catalogue_compatibility.json |
+| `-current-base`       | 現在のレシピのベースパス   | citron                                 |
 | `-current-path`       | 現在のCLIパス              |                                        |
 | `-date`               | 発効日                     |                                        |
+| `-former-base`        | 旧レシピのベースパス       | recipe                                 |
 | `-former-path`        | 旧CLIパス                  |                                        |
+| `-message-file`       | メッセージファイルのパス   | resources/messages/en/messages.json    |
 
 ## 共通のオプション:
 

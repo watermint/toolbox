@@ -1,10 +1,10 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}` は移動されました
+title: コマンド `config feature list` は移動されました
 lang: ja
 ---
 
-# コマンド `{.CliPath}}` は移動されました
+# コマンド `config features` は移動されました
 
 コマンド `{.FormerPath}}` は `{.CurrentPath}}` に移動されました。新しいパスをお使いください。
 
