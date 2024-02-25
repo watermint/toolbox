@@ -54,6 +54,15 @@ import (
 	citrondropboxteammemberquota "github.com/watermint/toolbox/citron/dropbox/team/member/quota"
 	citrondropboxteammemberquotabatch "github.com/watermint/toolbox/citron/dropbox/team/member/quota/batch"
 	citrondropboxteammemberupdatebatch "github.com/watermint/toolbox/citron/dropbox/team/member/update/batch"
+	citrondropboxteamteamfolder "github.com/watermint/toolbox/citron/dropbox/team/teamfolder"
+	citrondropboxteamteamfolderbatch "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/batch"
+	citrondropboxteamteamfolderfile "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/file"
+	citrondropboxteamteamfolderfilelock "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/file/lock"
+	citrondropboxteamteamfolderfilelockall "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/file/lock/all"
+	citrondropboxteamteamfoldermember "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/member"
+	citrondropboxteamteamfolderpartial "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/partial"
+	citrondropboxteamteamfolderpolicy "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/policy"
+	citrondropboxteamteamfoldersyncsetting "github.com/watermint/toolbox/citron/dropbox/team/teamfolder/sync/setting"
 	citronfigmaaccount "github.com/watermint/toolbox/citron/figma/account"
 	citronfigmafile "github.com/watermint/toolbox/citron/figma/file"
 	citronfigmafileexport "github.com/watermint/toolbox/citron/figma/file/export"
@@ -200,6 +209,26 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxteammemberupdatebatch.Invisible{},
 		&citrondropboxteammemberupdatebatch.Profile{},
 		&citrondropboxteammemberupdatebatch.Visible{},
+		&citrondropboxteamteamfolder.Add{},
+		&citrondropboxteamteamfolder.Archive{},
+		&citrondropboxteamteamfolder.List{},
+		&citrondropboxteamteamfolder.Permdelete{},
+		&citrondropboxteamteamfolder.Replication{},
+		&citrondropboxteamteamfolderbatch.Archive{},
+		&citrondropboxteamteamfolderbatch.Permdelete{},
+		&citrondropboxteamteamfolderbatch.Replication{},
+		&citrondropboxteamteamfolderfile.List{},
+		&citrondropboxteamteamfolderfile.Size{},
+		&citrondropboxteamteamfolderfilelock.List{},
+		&citrondropboxteamteamfolderfilelock.Release{},
+		&citrondropboxteamteamfolderfilelockall.Release{},
+		&citrondropboxteamteamfoldermember.Add{},
+		&citrondropboxteamteamfoldermember.Delete{},
+		&citrondropboxteamteamfoldermember.List{},
+		&citrondropboxteamteamfolderpartial.Replication{},
+		&citrondropboxteamteamfolderpolicy.List{},
+		&citrondropboxteamteamfoldersyncsetting.List{},
+		&citrondropboxteamteamfoldersyncsetting.Update{},
 		&citronfigmaaccount.Info{},
 		&citronfigmafile.Info{},
 		&citronfigmafile.List{},

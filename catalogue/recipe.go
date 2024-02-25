@@ -61,15 +61,6 @@ import (
 	recipeteamsharedlinkcap "github.com/watermint/toolbox/recipe/team/sharedlink/cap"
 	recipeteamsharedlinkdelete "github.com/watermint/toolbox/recipe/team/sharedlink/delete"
 	recipeteamsharedlinkupdate "github.com/watermint/toolbox/recipe/team/sharedlink/update"
-	recipeteamfolder "github.com/watermint/toolbox/recipe/teamfolder"
-	recipeteamfolderbatch "github.com/watermint/toolbox/recipe/teamfolder/batch"
-	recipeteamfolderfile "github.com/watermint/toolbox/recipe/teamfolder/file"
-	recipeteamfolderfilelock "github.com/watermint/toolbox/recipe/teamfolder/file/lock"
-	recipeteamfolderfilelockall "github.com/watermint/toolbox/recipe/teamfolder/file/lock/all"
-	recipeteamfoldermember "github.com/watermint/toolbox/recipe/teamfolder/member"
-	recipeteamfolderpartial "github.com/watermint/toolbox/recipe/teamfolder/partial"
-	recipeteamfolderpolicy "github.com/watermint/toolbox/recipe/teamfolder/policy"
-	recipeteamfoldersyncsetting "github.com/watermint/toolbox/recipe/teamfolder/sync/setting"
 	recipeteamspaceasadminfile "github.com/watermint/toolbox/recipe/teamspace/asadmin/file"
 	recipeteamspaceasadminfolder "github.com/watermint/toolbox/recipe/teamspace/asadmin/folder"
 	recipeteamspaceasadminmember "github.com/watermint/toolbox/recipe/teamspace/asadmin/member"
@@ -231,26 +222,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeteamsharedlinkupdate.Expiry{},
 		&recipeteamsharedlinkupdate.Password{},
 		&recipeteamsharedlinkupdate.Visibility{},
-		&recipeteamfolder.Add{},
-		&recipeteamfolder.Archive{},
-		&recipeteamfolder.List{},
-		&recipeteamfolder.Permdelete{},
-		&recipeteamfolder.Replication{},
-		&recipeteamfolderbatch.Archive{},
-		&recipeteamfolderbatch.Permdelete{},
-		&recipeteamfolderbatch.Replication{},
-		&recipeteamfolderfile.List{},
-		&recipeteamfolderfile.Size{},
-		&recipeteamfolderfilelock.List{},
-		&recipeteamfolderfilelock.Release{},
-		&recipeteamfolderfilelockall.Release{},
-		&recipeteamfoldermember.Add{},
-		&recipeteamfoldermember.Delete{},
-		&recipeteamfoldermember.List{},
-		&recipeteamfolderpartial.Replication{},
-		&recipeteamfolderpolicy.List{},
-		&recipeteamfoldersyncsetting.List{},
-		&recipeteamfoldersyncsetting.Update{},
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},

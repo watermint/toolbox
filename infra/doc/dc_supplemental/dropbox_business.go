@@ -344,25 +344,25 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.ContentTeamFolderOperationTitle)
 	ui.Info(MDropboxBusiness.ContentTeamFolderOperationInfo)
 	z.cat.RecipeTable("team folder operation", ui, []string{
-		"teamfolder add",
-		"teamfolder archive",
-		"teamfolder batch archive",
-		"teamfolder batch permdelete",
-		"teamfolder batch replication",
-		"teamfolder file size",
-		"teamfolder list",
-		"teamfolder permdelete",
-		"teamfolder policy list",
-		"teamfolder sync setting list",
-		"teamfolder sync setting update",
+		"dropbox team teamfolder add",
+		"dropbox team teamfolder archive",
+		"dropbox team teamfolder batch archive",
+		"dropbox team teamfolder batch permdelete",
+		"dropbox team teamfolder batch replication",
+		"dropbox team teamfolder file size",
+		"dropbox team teamfolder list",
+		"dropbox team teamfolder permdelete",
+		"dropbox team teamfolder policy list",
+		"dropbox team teamfolder sync setting list",
+		"dropbox team teamfolder sync setting update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamFolderPermissionTitle)
 	ui.Info(MDropboxBusiness.ContentTeamFolderPermissionInfo)
 	z.cat.RecipeTable("team folder permission", ui, []string{
-		"teamfolder member list",
-		"teamfolder member add",
-		"teamfolder member delete",
+		"dropbox team teamfolder member list",
+		"dropbox team teamfolder member add",
+		"dropbox team teamfolder member delete",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamContentTitle)
@@ -481,11 +481,11 @@ func (z DropboxBusinessFileLock) Body(ui app_ui.UI) {
 	})
 
 	ui.SubHeader(MDropboxBusiness.FileLockTeamFolderTitle)
-	z.cat.RecipeTable("teamfolder file lock management", ui, []string{
-		"teamfolder file list",
-		"teamfolder file lock all release",
-		"teamfolder file lock list",
-		"teamfolder file lock release",
+	z.cat.RecipeTable("dropbox team teamfolder file lock management", ui, []string{
+		"dropbox team teamfolder file list",
+		"dropbox team teamfolder file lock all release",
+		"dropbox team teamfolder file lock list",
+		"dropbox team teamfolder file lock release",
 	})
 }
 
@@ -531,8 +531,8 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 	z.cat.RecipeTable("data migration commands", ui, []string{
 		"dropbox team member folder replication",
 		"dropbox team member replication",
-		"teamfolder partial replication",
-		"teamfolder replication",
+		"dropbox team teamfolder partial replication",
+		"dropbox team teamfolder replication",
 	})
 
 	ui.SubHeader(MDropboxBusiness.UsecaseTeamInfoTitle)

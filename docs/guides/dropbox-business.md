@@ -127,29 +127,29 @@ The namespace commands can handle all types of folders, including team folders a
 
 You can create, archive or permanently delete team folders by using the below commands. Please consider using `teamfolder batch` commands if you need to handle multiple team folders.
 
-| Command                                                                                           | Description                            |
-|---------------------------------------------------------------------------------------------------|----------------------------------------|
-| [teamfolder add]({{ site.baseurl }}/commands/teamfolder-add.html)                                 | Add team folder to the team            |
-| [teamfolder archive]({{ site.baseurl }}/commands/teamfolder-archive.html)                         | Archive team folder                    |
-| [teamfolder batch archive]({{ site.baseurl }}/commands/teamfolder-batch-archive.html)             | Archiving team folders                 |
-| [teamfolder batch permdelete]({{ site.baseurl }}/commands/teamfolder-batch-permdelete.html)       | Permanently delete team folders        |
-| [teamfolder batch replication]({{ site.baseurl }}/commands/teamfolder-batch-replication.html)     | Batch replication of team folders      |
-| [teamfolder file size]({{ site.baseurl }}/commands/teamfolder-file-size.html)                     | Calculate size of team folders         |
-| [teamfolder list]({{ site.baseurl }}/commands/teamfolder-list.html)                               | List team folder(s)                    |
-| [teamfolder permdelete]({{ site.baseurl }}/commands/teamfolder-permdelete.html)                   | Permanently delete team folder         |
-| [teamfolder policy list]({{ site.baseurl }}/commands/teamfolder-policy-list.html)                 | List policies of team folders          |
-| [teamfolder sync setting list]({{ site.baseurl }}/commands/teamfolder-sync-setting-list.html)     | List team folder sync settings         |
-| [teamfolder sync setting update]({{ site.baseurl }}/commands/teamfolder-sync-setting-update.html) | Batch update team folder sync settings |
+| Command                                                                                                                     | Description                            |
+|-----------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
+| [dropbox team teamfolder add]({{ site.baseurl }}/commands/dropbox-team-teamfolder-add.html)                                 | Add team folder to the team            |
+| [dropbox team teamfolder archive]({{ site.baseurl }}/commands/dropbox-team-teamfolder-archive.html)                         | Archive team folder                    |
+| [dropbox team teamfolder batch archive]({{ site.baseurl }}/commands/dropbox-team-teamfolder-batch-archive.html)             | Archiving team folders                 |
+| [dropbox team teamfolder batch permdelete]({{ site.baseurl }}/commands/dropbox-team-teamfolder-batch-permdelete.html)       | Permanently delete team folders        |
+| [dropbox team teamfolder batch replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-batch-replication.html)     | Batch replication of team folders      |
+| [dropbox team teamfolder file size]({{ site.baseurl }}/commands/dropbox-team-teamfolder-file-size.html)                     | Calculate size of team folders         |
+| [dropbox team teamfolder list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-list.html)                               | List team folder(s)                    |
+| [dropbox team teamfolder permdelete]({{ site.baseurl }}/commands/dropbox-team-teamfolder-permdelete.html)                   | Permanently delete team folder         |
+| [dropbox team teamfolder policy list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-policy-list.html)                 | List policies of team folders          |
+| [dropbox team teamfolder sync setting list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-list.html)     | List team folder sync settings         |
+| [dropbox team teamfolder sync setting update]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-update.html) | Batch update team folder sync settings |
 
 ## Team folder permission commands
 
 You can bulk add or delete members into team folders or sub-folders of a team folder through the below commands.
 
-| Command                                                                               | Description                                   |
-|---------------------------------------------------------------------------------------|-----------------------------------------------|
-| [teamfolder member list]({{ site.baseurl }}/commands/teamfolder-member-list.html)     | List team folder members                      |
-| [teamfolder member add]({{ site.baseurl }}/commands/teamfolder-member-add.html)       | Batch adding users/groups to team folders     |
-| [teamfolder member delete]({{ site.baseurl }}/commands/teamfolder-member-delete.html) | Batch removing users/groups from team folders |
+| Command                                                                                                         | Description                                   |
+|-----------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| [dropbox team teamfolder member list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-member-list.html)     | List team folder members                      |
+| [dropbox team teamfolder member add]({{ site.baseurl }}/commands/dropbox-team-teamfolder-member-add.html)       | Batch adding users/groups to team folders     |
+| [dropbox team teamfolder member delete]({{ site.baseurl }}/commands/dropbox-team-teamfolder-member-delete.html) | Batch removing users/groups from team folders |
 
 ## Team folder & shared folder commands
 
@@ -281,12 +281,12 @@ File lock commands are capable of listing current file locks or releasing file l
 
 ## File lock commands for team folders
 
-| Command                                                                                               | Description                                         |
-|-------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [teamfolder file list]({{ site.baseurl }}/commands/teamfolder-file-list.html)                         | List files in team folders                          |
-| [teamfolder file lock all release]({{ site.baseurl }}/commands/teamfolder-file-lock-all-release.html) | Release all locks under the path of the team folder |
-| [teamfolder file lock list]({{ site.baseurl }}/commands/teamfolder-file-lock-list.html)               | List locks in the team folder                       |
-| [teamfolder file lock release]({{ site.baseurl }}/commands/teamfolder-file-lock-release.html)         | Release lock of the path in the team folder         |
+| Command                                                                                                                         | Description                                         |
+|---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| [dropbox team teamfolder file list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-file-list.html)                         | List files in team folders                          |
+| [dropbox team teamfolder file lock all release]({{ site.baseurl }}/commands/dropbox-team-teamfolder-file-lock-all-release.html) | Release all locks under the path of the team folder |
+| [dropbox team teamfolder file lock list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-file-lock-list.html)               | List locks in the team folder                       |
+| [dropbox team teamfolder file lock release]({{ site.baseurl }}/commands/dropbox-team-teamfolder-file-lock-release.html)         | Release lock of the path in the team folder         |
 
 # Activities log commands
 
@@ -334,12 +334,12 @@ tbx member list -experiment report_all_columns
 
 Data migration helper commands copies member folders or team folders to another account or team. Please test before using those commands before actual data migration.
 
-| Command                                                                                                           | Description                                            |
-|-------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| [dropbox team member folder replication]({{ site.baseurl }}/commands/dropbox-team-member-folder-replication.html) | Replicate a folder to another member's personal folder |
-| [dropbox team member replication]({{ site.baseurl }}/commands/dropbox-team-member-replication.html)               | Replicate team member files                            |
-| [teamfolder partial replication]({{ site.baseurl }}/commands/teamfolder-partial-replication.html)                 | Partial team folder replication to the other team      |
-| [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                 | Replicate a team folder to the other team              |
+| Command                                                                                                                     | Description                                            |
+|-----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| [dropbox team member folder replication]({{ site.baseurl }}/commands/dropbox-team-member-folder-replication.html)           | Replicate a folder to another member's personal folder |
+| [dropbox team member replication]({{ site.baseurl }}/commands/dropbox-team-member-replication.html)                         | Replicate team member files                            |
+| [dropbox team teamfolder partial replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-partial-replication.html) | Partial team folder replication to the other team      |
+| [dropbox team teamfolder replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-replication.html)                 | Replicate a team folder to the other team              |
 
 ## Team info commands
 
