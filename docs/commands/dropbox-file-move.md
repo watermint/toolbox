@@ -1,12 +1,57 @@
 ---
 layout: command
-title: Command `dev lifecycle planchangepath`
+title: Command `dropbox file move`
 lang: en
 ---
 
-# dev lifecycle planchangepath
+# dropbox file move
 
-Add plan of changing path to commands 
+Move files (Irreversible operation)
+
+# Security
+
+`watermint toolbox` stores credentials into the file system. That is located at below path:
+
+| OS      | Path                                                               |
+|---------|--------------------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
+| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
+| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
+
+Please do not share those files to anyone including Dropbox support.
+You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
+
+Please see below help article for more detail:
+* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+
+## Auth scopes
+
+| Description                                                                                          |
+|------------------------------------------------------------------------------------------------------|
+| Dropbox: View basic information about your Dropbox account such as your username, email, and country |
+| Dropbox: View content of your Dropbox files and folders                                              |
+| Dropbox: Edit content of your Dropbox files and folders                                              |
+
+# Authorization
+
+For the first run, `tbx` will ask you an authentication with your Dropbox account.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+```
+
+watermint toolbox xx.x.xxx
+==========================
+
+© 2016-2024 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
+
+1. Visit the URL for the auth dialogue:
+
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. Click 'Allow' (you might have to login first):
+3. Copy the authorisation code:
+Enter the authorisation code
+```
 
 # Installation
 
@@ -22,12 +67,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -message-file /LOCAL/PATH/TO/messages.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
+.\tbx.exe dropbox file move -src /SRC/PATH -dst /DST/PATH
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -message-file /LOCAL/PATH/TO/messages.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
+$HOME/Desktop/tbx dropbox file move -src /SRC/PATH -dst /DST/PATH
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -38,17 +83,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                | Description                | Default                                |
-|-----------------------|----------------------------|----------------------------------------|
-| `-announce-url`       | Announce URL               |                                        |
-| `-compact`            | Generate compact output    | false                                  |
-| `-compatibility-file` | Compatibility file         | catalogue/catalogue_compatibility.json |
-| `-current-base`       | Current recipe's base path | citron                                 |
-| `-current-path`       | Current CLI path           |                                        |
-| `-date`               | Effective date             |                                        |
-| `-former-base`        | Former recipe's base path  | recipe                                 |
-| `-former-path`        | Former CLI path            |                                        |
-| `-message-file`       | Message file path          | resources/messages/en/messages.json    |
+| Option  | Description      | Default |
+|---------|------------------|---------|
+| `-dst`  | Destination path |         |
+| `-peer` | Account alias    | default |
+| `-src`  | Source path      |         |
 
 ## Common options:
 

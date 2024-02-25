@@ -128,29 +128,31 @@ Available commands:
 | [dropbox file account feature](docs/commands/dropbox-file-account-feature.md)       | List Dropbox account features                                 |
 | [dropbox file account filesystem](docs/commands/dropbox-file-account-filesystem.md) | Show Dropbox file system version                              |
 | [dropbox file account info](docs/commands/dropbox-file-account-info.md)             | Dropbox account info                                          |
+| [dropbox file copy](docs/commands/dropbox-file-copy.md)                             | Copy files                                                    |
+| [dropbox file delete](docs/commands/dropbox-file-delete.md)                         | Delete file or folder                                         |
+| [dropbox file info](docs/commands/dropbox-file-info.md)                             | Resolve metadata of the path                                  |
+| [dropbox file list](docs/commands/dropbox-file-list.md)                             | List files and folders                                        |
+| [dropbox file merge](docs/commands/dropbox-file-merge.md)                           | Merge paths                                                   |
+| [dropbox file move](docs/commands/dropbox-file-move.md)                             | Move files                                                    |
+| [dropbox file replication](docs/commands/dropbox-file-replication.md)               | Replicate file content to the other account                   |
+| [dropbox file size](docs/commands/dropbox-file-size.md)                             | Storage usage                                                 |
+| [dropbox file watch](docs/commands/dropbox-file-watch.md)                           | Watch file activities                                         |
 | [dropbox paper append](docs/commands/dropbox-paper-append.md)                       | Append the content to the end of the existing Paper doc       |
 | [dropbox paper create](docs/commands/dropbox-paper-create.md)                       | Create new Paper in the path                                  |
 | [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                 | Overwrite existing Paper document                             |
 | [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                     | Append the content to the beginning of the existing Paper doc |
 | [file compare account](docs/commands/file-compare-account.md)                       | Compare files of two accounts                                 |
 | [file compare local](docs/commands/file-compare-local.md)                           | Compare local folders and Dropbox folders                     |
-| [file copy](docs/commands/file-copy.md)                                             | Copy files                                                    |
-| [file delete](docs/commands/file-delete.md)                                         | Delete file or folder                                         |
 | [file export doc](docs/commands/file-export-doc.md)                                 | Export document                                               |
 | [file export url](docs/commands/file-export-url.md)                                 | Export a document from the URL                                |
 | [file import batch url](docs/commands/file-import-batch-url.md)                     | Batch import files from URL                                   |
 | [file import url](docs/commands/file-import-url.md)                                 | Import file from the URL                                      |
-| [file info](docs/commands/file-info.md)                                             | Resolve metadata of the path                                  |
-| [file list](docs/commands/file-list.md)                                             | List files and folders                                        |
 | [file lock acquire](docs/commands/file-lock-acquire.md)                             | Lock a file                                                   |
 | [file lock all release](docs/commands/file-lock-all-release.md)                     | Release all locks under the specified path                    |
 | [file lock batch acquire](docs/commands/file-lock-batch-acquire.md)                 | Lock multiple files                                           |
 | [file lock batch release](docs/commands/file-lock-batch-release.md)                 | Release multiple locks                                        |
 | [file lock list](docs/commands/file-lock-list.md)                                   | List locks under the specified path                           |
 | [file lock release](docs/commands/file-lock-release.md)                             | Release a lock                                                |
-| [file merge](docs/commands/file-merge.md)                                           | Merge paths                                                   |
-| [file move](docs/commands/file-move.md)                                             | Move files                                                    |
-| [file replication](docs/commands/file-replication.md)                               | Replicate file content to the other account                   |
 | [file restore all](docs/commands/file-restore-all.md)                               | Restore files under given path                                |
 | [file revision download](docs/commands/file-revision-download.md)                   | Download the file revision                                    |
 | [file revision list](docs/commands/file-revision-list.md)                           | List file revisions                                           |
@@ -158,7 +160,6 @@ Available commands:
 | [file search content](docs/commands/file-search-content.md)                         | Search file content                                           |
 | [file search name](docs/commands/file-search-name.md)                               | Search file name                                              |
 | [file share info](docs/commands/file-share-info.md)                                 | Retrieve sharing information of the file                      |
-| [file size](docs/commands/file-size.md)                                             | Storage usage                                                 |
 | [file sync down](docs/commands/file-sync-down.md)                                   | Downstream sync with Dropbox                                  |
 | [file sync online](docs/commands/file-sync-online.md)                               | Sync online files                                             |
 | [file sync up](docs/commands/file-sync-up.md)                                       | Upstream sync with Dropbox                                    |
@@ -167,7 +168,6 @@ Available commands:
 | [file tag list](docs/commands/file-tag-list.md)                                     | List tags of the path                                         |
 | [file template apply remote](docs/commands/file-template-apply-remote.md)           | Apply file/folder structure template to the Dropbox path      |
 | [file template capture remote](docs/commands/file-template-capture-remote.md)       | Capture file/folder structure as template from Dropbox path   |
-| [file watch](docs/commands/file-watch.md)                                           | Watch file activities                                         |
 | [filerequest create](docs/commands/filerequest-create.md)                           | Create a file request                                         |
 | [filerequest delete closed](docs/commands/filerequest-delete-closed.md)             | Delete all closed file requests on this account.              |
 | [filerequest delete url](docs/commands/filerequest-delete-url.md)                   | Delete a file request by the file request URL                 |
