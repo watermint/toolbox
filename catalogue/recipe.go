@@ -27,15 +27,6 @@ import (
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
 	recipelogjob "github.com/watermint/toolbox/recipe/log/job"
-	recipemember "github.com/watermint/toolbox/recipe/member"
-	recipememberbatch "github.com/watermint/toolbox/recipe/member/batch"
-	recipememberclear "github.com/watermint/toolbox/recipe/member/clear"
-	recipememberfile "github.com/watermint/toolbox/recipe/member/file"
-	recipememberfilelock "github.com/watermint/toolbox/recipe/member/file/lock"
-	recipememberfilelockall "github.com/watermint/toolbox/recipe/member/file/lock/all"
-	recipememberfolder "github.com/watermint/toolbox/recipe/member/folder"
-	recipememberquota "github.com/watermint/toolbox/recipe/member/quota"
-	recipememberupdate "github.com/watermint/toolbox/recipe/member/update"
 	recipesharedfolder "github.com/watermint/toolbox/recipe/sharedfolder"
 	recipesharedfoldermember "github.com/watermint/toolbox/recipe/sharedfolder/member"
 	recipesharedfoldermount "github.com/watermint/toolbox/recipe/sharedfolder/mount"
@@ -180,32 +171,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipelogjob.Delete{},
 		&recipelogjob.List{},
 		&recipelogjob.Ship{},
-		&recipemember.Delete{},
-		&recipemember.Detach{},
-		&recipemember.Feature{},
-		&recipemember.Invite{},
-		&recipemember.List{},
-		&recipemember.Reinvite{},
-		&recipemember.Replication{},
-		&recipemember.Suspend{},
-		&recipemember.Unsuspend{},
-		&recipememberbatch.Suspend{},
-		&recipememberbatch.Unsuspend{},
-		&recipememberclear.Externalid{},
-		&recipememberfile.Permdelete{},
-		&recipememberfilelock.List{},
-		&recipememberfilelock.Release{},
-		&recipememberfilelockall.Release{},
-		&recipememberfolder.List{},
-		&recipememberfolder.Replication{},
-		&recipememberquota.List{},
-		&recipememberquota.Update{},
-		&recipememberquota.Usage{},
-		&recipememberupdate.Email{},
-		&recipememberupdate.Externalid{},
-		&recipememberupdate.Invisible{},
-		&recipememberupdate.Profile{},
-		&recipememberupdate.Visible{},
 		&recipesharedfolder.Leave{},
 		&recipesharedfolder.List{},
 		&recipesharedfolder.Share{},

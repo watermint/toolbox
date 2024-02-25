@@ -229,11 +229,11 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.MemberInfoOverview)
 
 	z.cat.RecipeTable("member info commands", ui, []string{
-		"member list",
-		"member feature",
-		"member folder list",
-		"member quota list",
-		"member quota usage",
+		"dropbox team member list",
+		"dropbox team member feature",
+		"dropbox team member folder list",
+		"dropbox team member quota list",
+		"dropbox team member quota usage",
 		"team activity user",
 	})
 
@@ -241,47 +241,47 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.MemberBasicOverview)
 
 	z.cat.RecipeTable("member management commands", ui, []string{
-		"member invite",
-		"member delete",
-		"member detach",
-		"member reinvite",
-		"member update email",
-		"member update profile",
-		"member update visible",
-		"member update invisible",
-		"member quota update",
+		"dropbox team member batch invite",
+		"dropbox team member batch delete",
+		"dropbox team member batch detach",
+		"dropbox team member batch reinvite",
+		"dropbox team member update batch email",
+		"dropbox team member update batch profile",
+		"dropbox team member update batch visible",
+		"dropbox team member update batch invisible",
+		"dropbox team member quota batch update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberProfileTitle)
 	ui.Info(MDropboxBusiness.MemberProfileInfo)
 	z.cat.RecipeTable("member profile commands", ui, []string{
-		"member update email",
-		"member update profile",
+		"dropbox team member update batch email",
+		"dropbox team member update batch profile",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberQuotaTitle)
 	ui.Info(MDropboxBusiness.MemberQuotaInfo)
 	z.cat.RecipeTable("member quota control", ui, []string{
-		"member quota list",
-		"member quota usage",
-		"member quota update",
+		"dropbox team member quota list",
+		"dropbox team member quota usage",
+		"dropbox team member quota batch update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberSuspendTitle)
 	ui.Info(MDropboxBusiness.MemberSuspendInfo)
 
 	z.cat.RecipeTable("member suspend commands", ui, []string{
-		"member suspend",
-		"member unsuspend",
-		"member batch suspend",
-		"member batch unsuspend",
+		"dropbox team member suspend",
+		"dropbox team member unsuspend",
+		"dropbox team member batch suspend",
+		"dropbox team member batch unsuspend",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberDirectoryRestrictionTitle)
 	ui.Info(MDropboxBusiness.MemberDirectoryRestrictionInfo)
 	z.cat.RecipeTable("directory restriction", ui, []string{
-		"member update visible",
-		"member update invisible",
+		"dropbox team member update batch visible",
+		"dropbox team member update batch invisible",
 	})
 }
 
@@ -401,7 +401,7 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 
 	ui.SubHeader(MDropboxBusiness.ContentMemberFileTitle)
 	z.cat.RecipeTable("member file commands", ui, []string{
-		"member file permdelete",
+		"dropbox team member file permdelete",
 	})
 
 	ui.SubHeader(MDropboxBusiness.InsightTitle)
@@ -475,9 +475,9 @@ func (z DropboxBusinessFileLock) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.FileLockInfo)
 	ui.SubHeader(MDropboxBusiness.FileLockMemberTitle)
 	z.cat.RecipeTable("member file lock management", ui, []string{
-		"member file lock all release",
-		"member file lock list",
-		"member file lock release",
+		"dropbox team member file lock all release",
+		"dropbox team member file lock list",
+		"dropbox team member file lock release",
 	})
 
 	ui.SubHeader(MDropboxBusiness.FileLockTeamFolderTitle)
@@ -519,9 +519,9 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.UsecaseExternalIdTitle)
 	ui.Info(MDropboxBusiness.UsecaseExternalIdInfo)
 	z.cat.RecipeTable("external id commands", ui, []string{
-		"member list",
-		"member clear externalid",
-		"member update externalid",
+		"dropbox team member list",
+		"dropbox team member clear externalid",
+		"dropbox team member update batch externalid",
 		"dropbox team group list",
 		"dropbox team group clear externalid",
 	})
@@ -529,8 +529,8 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.UsecaseDataMigrationTitle)
 	ui.Info(MDropboxBusiness.UsecaseDataMigrationInfo)
 	z.cat.RecipeTable("data migration commands", ui, []string{
-		"member folder replication",
-		"member replication",
+		"dropbox team member folder replication",
+		"dropbox team member replication",
 		"teamfolder partial replication",
 		"teamfolder replication",
 	})

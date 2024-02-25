@@ -1517,6 +1517,578 @@
       ]
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "batch"
+        ],
+        "name": "delete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "delete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "batch"
+        ],
+        "name": "detach"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "detach"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "batch"
+        ],
+        "name": "invite"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "invite"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "batch"
+        ],
+        "name": "reinvite"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "reinvite"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "batch"
+        ],
+        "name": "suspend"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "batch"
+          ],
+          "name": "suspend"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "batch"
+        ],
+        "name": "unsuspend"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "batch"
+          ],
+          "name": "unsuspend"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "clear"
+        ],
+        "name": "externalid"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "clear"
+          ],
+          "name": "externalid"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member"
+        ],
+        "name": "feature"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "feature"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "file",
+          "lock",
+          "all"
+        ],
+        "name": "release"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "file",
+            "lock",
+            "all"
+          ],
+          "name": "release"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "file",
+          "lock"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "file",
+            "lock"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "file",
+          "lock"
+        ],
+        "name": "release"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "file",
+            "lock"
+          ],
+          "name": "release"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "file"
+        ],
+        "name": "permdelete"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "file"
+          ],
+          "name": "permdelete"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "folder"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "folder"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "folder"
+        ],
+        "name": "replication"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "folder"
+          ],
+          "name": "replication"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "quota",
+          "batch"
+        ],
+        "name": "update"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "quota"
+          ],
+          "name": "update"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "quota"
+        ],
+        "name": "list"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "quota"
+          ],
+          "name": "list"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "quota"
+        ],
+        "name": "usage"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "quota"
+          ],
+          "name": "usage"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member"
+        ],
+        "name": "replication"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "replication"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member"
+        ],
+        "name": "suspend"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "suspend"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member"
+        ],
+        "name": "unsuspend"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member"
+          ],
+          "name": "unsuspend"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "update",
+          "batch"
+        ],
+        "name": "email"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "update"
+          ],
+          "name": "email"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "update",
+          "batch"
+        ],
+        "name": "externalid"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "update"
+          ],
+          "name": "externalid"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "update",
+          "batch"
+        ],
+        "name": "invisible"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "update"
+          ],
+          "name": "invisible"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "update",
+          "batch"
+        ],
+        "name": "profile"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "update"
+          ],
+          "name": "profile"
+        }
+      ]
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/799",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "dropbox",
+          "team",
+          "member",
+          "update",
+          "batch"
+        ],
+        "name": "visible"
+      },
+      "former_paths": [
+        {
+          "path": [
+            "member",
+            "update"
+          ],
+          "name": "visible"
+        }
+      ]
+    },
+    {
       "announcement": "https://github.com/watermint/toolbox/discussions/797",
       "prune_after_build_date": "2024-06-30T15:00:00Z",
       "current": {

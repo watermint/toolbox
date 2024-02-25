@@ -215,32 +215,32 @@ Available commands:
 | [dropbox team group rename](docs/commands/dropbox-team-group-rename.md)                                     | Rename the group                                                                    |
 | [dropbox team group update type](docs/commands/dropbox-team-group-update-type.md)                           | Update group management type                                                        |
 | [dropbox team insight scan](docs/commands/dropbox-team-insight-scan.md)                                     |                                                                                     |
-| [member batch suspend](docs/commands/member-batch-suspend.md)                                               | Bulk suspend members                                                                |
-| [member batch unsuspend](docs/commands/member-batch-unsuspend.md)                                           | Bulk unsuspend members                                                              |
-| [member clear externalid](docs/commands/member-clear-externalid.md)                                         | Clear external_id of members                                                        |
-| [member delete](docs/commands/member-delete.md)                                                             | Delete members                                                                      |
-| [member detach](docs/commands/member-detach.md)                                                             | Convert Dropbox for teams accounts to a Basic account                               |
-| [member feature](docs/commands/member-feature.md)                                                           | List member feature settings                                                        |
-| [member file lock all release](docs/commands/member-file-lock-all-release.md)                               | Release all locks under the path of the member                                      |
-| [member file lock list](docs/commands/member-file-lock-list.md)                                             | List locks of the member under the path                                             |
-| [member file lock release](docs/commands/member-file-lock-release.md)                                       | Release the lock of the path as the member                                          |
-| [member file permdelete](docs/commands/member-file-permdelete.md)                                           | Permanently delete the file or folder at a given path of the team member.           |
-| [member folder list](docs/commands/member-folder-list.md)                                                   | List folders for each member                                                        |
-| [member folder replication](docs/commands/member-folder-replication.md)                                     | Replicate a folder to another member's personal folder                              |
-| [member invite](docs/commands/member-invite.md)                                                             | Invite member(s)                                                                    |
-| [member list](docs/commands/member-list.md)                                                                 | List team member(s)                                                                 |
-| [member quota list](docs/commands/member-quota-list.md)                                                     | List team member quota                                                              |
-| [member quota update](docs/commands/member-quota-update.md)                                                 | Update team member quota                                                            |
-| [member quota usage](docs/commands/member-quota-usage.md)                                                   | List team member storage usage                                                      |
-| [member reinvite](docs/commands/member-reinvite.md)                                                         | Reinvite invited status members to the team                                         |
-| [member replication](docs/commands/member-replication.md)                                                   | Replicate team member files                                                         |
-| [member suspend](docs/commands/member-suspend.md)                                                           | Suspend a member                                                                    |
-| [member unsuspend](docs/commands/member-unsuspend.md)                                                       | Unsuspend a member                                                                  |
-| [member update email](docs/commands/member-update-email.md)                                                 | Member email operation                                                              |
-| [member update externalid](docs/commands/member-update-externalid.md)                                       | Update External ID of team members                                                  |
-| [member update invisible](docs/commands/member-update-invisible.md)                                         | Enable directory restriction to members                                             |
-| [member update profile](docs/commands/member-update-profile.md)                                             | Update member profile                                                               |
-| [member update visible](docs/commands/member-update-visible.md)                                             | Disable directory restriction to members                                            |
+| [dropbox team member batch delete](docs/commands/dropbox-team-member-batch-delete.md)                       | Delete members                                                                      |
+| [dropbox team member batch detach](docs/commands/dropbox-team-member-batch-detach.md)                       | Convert Dropbox for teams accounts to a Basic account                               |
+| [dropbox team member batch invite](docs/commands/dropbox-team-member-batch-invite.md)                       | Invite member(s)                                                                    |
+| [dropbox team member batch reinvite](docs/commands/dropbox-team-member-batch-reinvite.md)                   | Reinvite invited status members to the team                                         |
+| [dropbox team member batch suspend](docs/commands/dropbox-team-member-batch-suspend.md)                     | Bulk suspend members                                                                |
+| [dropbox team member batch unsuspend](docs/commands/dropbox-team-member-batch-unsuspend.md)                 | Bulk unsuspend members                                                              |
+| [dropbox team member clear externalid](docs/commands/dropbox-team-member-clear-externalid.md)               | Clear external_id of members                                                        |
+| [dropbox team member feature](docs/commands/dropbox-team-member-feature.md)                                 | List member feature settings                                                        |
+| [dropbox team member file lock all release](docs/commands/dropbox-team-member-file-lock-all-release.md)     | Release all locks under the path of the member                                      |
+| [dropbox team member file lock list](docs/commands/dropbox-team-member-file-lock-list.md)                   | List locks of the member under the path                                             |
+| [dropbox team member file lock release](docs/commands/dropbox-team-member-file-lock-release.md)             | Release the lock of the path as the member                                          |
+| [dropbox team member file permdelete](docs/commands/dropbox-team-member-file-permdelete.md)                 | Permanently delete the file or folder at a given path of the team member.           |
+| [dropbox team member folder list](docs/commands/dropbox-team-member-folder-list.md)                         | List folders for each member                                                        |
+| [dropbox team member folder replication](docs/commands/dropbox-team-member-folder-replication.md)           | Replicate a folder to another member's personal folder                              |
+| [dropbox team member list](docs/commands/dropbox-team-member-list.md)                                       | List team member(s)                                                                 |
+| [dropbox team member quota batch update](docs/commands/dropbox-team-member-quota-batch-update.md)           | Update team member quota                                                            |
+| [dropbox team member quota list](docs/commands/dropbox-team-member-quota-list.md)                           | List team member quota                                                              |
+| [dropbox team member quota usage](docs/commands/dropbox-team-member-quota-usage.md)                         | List team member storage usage                                                      |
+| [dropbox team member replication](docs/commands/dropbox-team-member-replication.md)                         | Replicate team member files                                                         |
+| [dropbox team member suspend](docs/commands/dropbox-team-member-suspend.md)                                 | Suspend a member                                                                    |
+| [dropbox team member unsuspend](docs/commands/dropbox-team-member-unsuspend.md)                             | Unsuspend a member                                                                  |
+| [dropbox team member update batch email](docs/commands/dropbox-team-member-update-batch-email.md)           | Member email operation                                                              |
+| [dropbox team member update batch externalid](docs/commands/dropbox-team-member-update-batch-externalid.md) | Update External ID of team members                                                  |
+| [dropbox team member update batch invisible](docs/commands/dropbox-team-member-update-batch-invisible.md)   | Enable directory restriction to members                                             |
+| [dropbox team member update batch profile](docs/commands/dropbox-team-member-update-batch-profile.md)       | Update member profile                                                               |
+| [dropbox team member update batch visible](docs/commands/dropbox-team-member-update-batch-visible.md)       | Disable directory restriction to members                                            |
 | [team activity batch user](docs/commands/team-activity-batch-user.md)                                       | Scan activities for multiple users                                                  |
 | [team activity daily event](docs/commands/team-activity-daily-event.md)                                     | Report activities by day                                                            |
 | [team activity event](docs/commands/team-activity-event.md)                                                 | Event log                                                                           |

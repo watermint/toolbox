@@ -39,6 +39,16 @@ import (
 	citrondropboxteamgroupupdate "github.com/watermint/toolbox/citron/dropbox/team/group/update"
 	citrondropboxteaminsight "github.com/watermint/toolbox/citron/dropbox/team/insight"
 	citrondropboxteaminsightreport "github.com/watermint/toolbox/citron/dropbox/team/insight/report"
+	citrondropboxteammember "github.com/watermint/toolbox/citron/dropbox/team/member"
+	citrondropboxteammemberbatch "github.com/watermint/toolbox/citron/dropbox/team/member/batch"
+	citrondropboxteammemberclear "github.com/watermint/toolbox/citron/dropbox/team/member/clear"
+	citrondropboxteammemberfile "github.com/watermint/toolbox/citron/dropbox/team/member/file"
+	citrondropboxteammemberfilelock "github.com/watermint/toolbox/citron/dropbox/team/member/file/lock"
+	citrondropboxteammemberfilelockall "github.com/watermint/toolbox/citron/dropbox/team/member/file/lock/all"
+	citrondropboxteammemberfolder "github.com/watermint/toolbox/citron/dropbox/team/member/folder"
+	citrondropboxteammemberquota "github.com/watermint/toolbox/citron/dropbox/team/member/quota"
+	citrondropboxteammemberquotabatch "github.com/watermint/toolbox/citron/dropbox/team/member/quota/batch"
+	citrondropboxteammemberupdatebatch "github.com/watermint/toolbox/citron/dropbox/team/member/update/batch"
 	citronfigmaaccount "github.com/watermint/toolbox/citron/figma/account"
 	citronfigmafile "github.com/watermint/toolbox/citron/figma/file"
 	citronfigmafileexport "github.com/watermint/toolbox/citron/figma/file/export"
@@ -143,6 +153,32 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxteaminsight.Scanretry{},
 		&citrondropboxteaminsight.Summarize{},
 		&citrondropboxteaminsightreport.Teamfoldermember{},
+		&citrondropboxteammember.Feature{},
+		&citrondropboxteammember.List{},
+		&citrondropboxteammember.Replication{},
+		&citrondropboxteammember.Suspend{},
+		&citrondropboxteammember.Unsuspend{},
+		&citrondropboxteammemberbatch.Delete{},
+		&citrondropboxteammemberbatch.Detach{},
+		&citrondropboxteammemberbatch.Invite{},
+		&citrondropboxteammemberbatch.Reinvite{},
+		&citrondropboxteammemberbatch.Suspend{},
+		&citrondropboxteammemberbatch.Unsuspend{},
+		&citrondropboxteammemberclear.Externalid{},
+		&citrondropboxteammemberfile.Permdelete{},
+		&citrondropboxteammemberfilelock.List{},
+		&citrondropboxteammemberfilelock.Release{},
+		&citrondropboxteammemberfilelockall.Release{},
+		&citrondropboxteammemberfolder.List{},
+		&citrondropboxteammemberfolder.Replication{},
+		&citrondropboxteammemberquota.List{},
+		&citrondropboxteammemberquota.Usage{},
+		&citrondropboxteammemberquotabatch.Update{},
+		&citrondropboxteammemberupdatebatch.Email{},
+		&citrondropboxteammemberupdatebatch.Externalid{},
+		&citrondropboxteammemberupdatebatch.Invisible{},
+		&citrondropboxteammemberupdatebatch.Profile{},
+		&citrondropboxteammemberupdatebatch.Visible{},
 		&citronfigmaaccount.Info{},
 		&citronfigmafile.Info{},
 		&citronfigmafile.List{},

@@ -10,30 +10,30 @@ lang: en
 
 Below commands are to retrieve information about team members.
 
-| Command                                                                   | Description                    |
-|---------------------------------------------------------------------------|--------------------------------|
-| [member list]({{ site.baseurl }}/commands/member-list.html)               | List team member(s)            |
-| [member feature]({{ site.baseurl }}/commands/member-feature.html)         | List member feature settings   |
-| [member folder list]({{ site.baseurl }}/commands/member-folder-list.html) | List folders for each member   |
-| [member quota list]({{ site.baseurl }}/commands/member-quota-list.html)   | List team member quota         |
-| [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html) | List team member storage usage |
-| [team activity user]({{ site.baseurl }}/commands/team-activity-user.html) | Activities log per user        |
+| Command                                                                                             | Description                    |
+|-----------------------------------------------------------------------------------------------------|--------------------------------|
+| [dropbox team member list]({{ site.baseurl }}/commands/dropbox-team-member-list.html)               | List team member(s)            |
+| [dropbox team member feature]({{ site.baseurl }}/commands/dropbox-team-member-feature.html)         | List member feature settings   |
+| [dropbox team member folder list]({{ site.baseurl }}/commands/dropbox-team-member-folder-list.html) | List folders for each member   |
+| [dropbox team member quota list]({{ site.baseurl }}/commands/dropbox-team-member-quota-list.html)   | List team member quota         |
+| [dropbox team member quota usage]({{ site.baseurl }}/commands/dropbox-team-member-quota-usage.html) | List team member storage usage |
+| [team activity user]({{ site.baseurl }}/commands/team-activity-user.html)                           | Activities log per user        |
 
 ## Basic management commands
 
 Below commands are for managing team member accounts. Those commands are for a bulk operation by a CSV file.
 
-| Command                                                                             | Description                                           |
-|-------------------------------------------------------------------------------------|-------------------------------------------------------|
-| [member invite]({{ site.baseurl }}/commands/member-invite.html)                     | Invite member(s)                                      |
-| [member delete]({{ site.baseurl }}/commands/member-delete.html)                     | Delete members                                        |
-| [member detach]({{ site.baseurl }}/commands/member-detach.html)                     | Convert Dropbox for teams accounts to a Basic account |
-| [member reinvite]({{ site.baseurl }}/commands/member-reinvite.html)                 | Reinvite invited status members to the team           |
-| [member update email]({{ site.baseurl }}/commands/member-update-email.html)         | Member email operation                                |
-| [member update profile]({{ site.baseurl }}/commands/member-update-profile.html)     | Update member profile                                 |
-| [member update visible]({{ site.baseurl }}/commands/member-update-visible.html)     | Disable directory restriction to members              |
-| [member update invisible]({{ site.baseurl }}/commands/member-update-invisible.html) | Enable directory restriction to members               |
-| [member quota update]({{ site.baseurl }}/commands/member-quota-update.html)         | Update team member quota                              |
+| Command                                                                                                                   | Description                                           |
+|---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| [dropbox team member batch invite]({{ site.baseurl }}/commands/dropbox-team-member-batch-invite.html)                     | Invite member(s)                                      |
+| [dropbox team member batch delete]({{ site.baseurl }}/commands/dropbox-team-member-batch-delete.html)                     | Delete members                                        |
+| [dropbox team member batch detach]({{ site.baseurl }}/commands/dropbox-team-member-batch-detach.html)                     | Convert Dropbox for teams accounts to a Basic account |
+| [dropbox team member batch reinvite]({{ site.baseurl }}/commands/dropbox-team-member-batch-reinvite.html)                 | Reinvite invited status members to the team           |
+| [dropbox team member update batch email]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-email.html)         | Member email operation                                |
+| [dropbox team member update batch profile]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-profile.html)     | Update member profile                                 |
+| [dropbox team member update batch visible]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-visible.html)     | Disable directory restriction to members              |
+| [dropbox team member update batch invisible]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-invisible.html) | Enable directory restriction to members               |
+| [dropbox team member quota batch update]({{ site.baseurl }}/commands/dropbox-team-member-quota-batch-update.html)         | Update team member quota                              |
 
 ## Member profile setting commands
 
@@ -41,40 +41,40 @@ Member profile commands are for bulk updating member profile information.
 If you need to update the members' email addresses, use the 'member update email` command. The command 'member update email` receives a CSV file to bulk update email addresses.
 If you need to update the member's display name, use the 'member update profile` command.
 
-| Command                                                                         | Description            |
-|---------------------------------------------------------------------------------|------------------------|
-| [member update email]({{ site.baseurl }}/commands/member-update-email.html)     | Member email operation |
-| [member update profile]({{ site.baseurl }}/commands/member-update-profile.html) | Update member profile  |
+| Command                                                                                                               | Description            |
+|-----------------------------------------------------------------------------------------------------------------------|------------------------|
+| [dropbox team member update batch email]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-email.html)     | Member email operation |
+| [dropbox team member update batch profile]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-profile.html) | Update member profile  |
 
 ## Member storage quota control commands
 
 You can see existing member storage quota setting or usage by the `member quota list` and `member quota usage` command. If you need to update member quota, use the `member quota update` command. The command `member quota update` receives CSV input for bulk updating storage quota setting.
 
-| Command                                                                     | Description                    |
-|-----------------------------------------------------------------------------|--------------------------------|
-| [member quota list]({{ site.baseurl }}/commands/member-quota-list.html)     | List team member quota         |
-| [member quota usage]({{ site.baseurl }}/commands/member-quota-usage.html)   | List team member storage usage |
-| [member quota update]({{ site.baseurl }}/commands/member-quota-update.html) | Update team member quota       |
+| Command                                                                                                           | Description                    |
+|-------------------------------------------------------------------------------------------------------------------|--------------------------------|
+| [dropbox team member quota list]({{ site.baseurl }}/commands/dropbox-team-member-quota-list.html)                 | List team member quota         |
+| [dropbox team member quota usage]({{ site.baseurl }}/commands/dropbox-team-member-quota-usage.html)               | List team member storage usage |
+| [dropbox team member quota batch update]({{ site.baseurl }}/commands/dropbox-team-member-quota-batch-update.html) | Update team member quota       |
 
 ## There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `member suspend` or `member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `member batch suspend` or `member batch unsuspend` command.
 
 Suspend/unsuspend a member
 
-| Command                                                                           | Description            |
-|-----------------------------------------------------------------------------------|------------------------|
-| [member suspend]({{ site.baseurl }}/commands/member-suspend.html)                 | Suspend a member       |
-| [member unsuspend]({{ site.baseurl }}/commands/member-unsuspend.html)             | Unsuspend a member     |
-| [member batch suspend]({{ site.baseurl }}/commands/member-batch-suspend.html)     | Bulk suspend members   |
-| [member batch unsuspend]({{ site.baseurl }}/commands/member-batch-unsuspend.html) | Bulk unsuspend members |
+| Command                                                                                                     | Description            |
+|-------------------------------------------------------------------------------------------------------------|------------------------|
+| [dropbox team member suspend]({{ site.baseurl }}/commands/dropbox-team-member-suspend.html)                 | Suspend a member       |
+| [dropbox team member unsuspend]({{ site.baseurl }}/commands/dropbox-team-member-unsuspend.html)             | Unsuspend a member     |
+| [dropbox team member batch suspend]({{ site.baseurl }}/commands/dropbox-team-member-batch-suspend.html)     | Bulk suspend members   |
+| [dropbox team member batch unsuspend]({{ site.baseurl }}/commands/dropbox-team-member-batch-unsuspend.html) | Bulk unsuspend members |
 
 ## Directory restriction commands
 
 Directory restriction is the Dropbox for teams feature to hide a member from others. Below commands update this setting to hide or unhide members from others.
 
-| Command                                                                             | Description                              |
-|-------------------------------------------------------------------------------------|------------------------------------------|
-| [member update visible]({{ site.baseurl }}/commands/member-update-visible.html)     | Disable directory restriction to members |
-| [member update invisible]({{ site.baseurl }}/commands/member-update-invisible.html) | Enable directory restriction to members  |
+| Command                                                                                                                   | Description                              |
+|---------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| [dropbox team member update batch visible]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-visible.html)     | Disable directory restriction to members |
+| [dropbox team member update batch invisible]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-invisible.html) | Enable directory restriction to members  |
 
 # Group commands
 
@@ -194,9 +194,9 @@ Command for team space.
 
 ## Member file commands
 
-| Command                                                                           | Description                                                               |
-|-----------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [member file permdelete]({{ site.baseurl }}/commands/member-file-permdelete.html) | Permanently delete the file or folder at a given path of the team member. |
+| Command                                                                                                     | Description                                                               |
+|-------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [dropbox team member file permdelete]({{ site.baseurl }}/commands/dropbox-team-member-file-permdelete.html) | Permanently delete the file or folder at a given path of the team member. |
 
 ## Team insight
 
@@ -273,11 +273,11 @@ File lock commands are capable of listing current file locks or releasing file l
 
 ## File lock commands for members
 
-| Command                                                                                       | Description                                    |
-|-----------------------------------------------------------------------------------------------|------------------------------------------------|
-| [member file lock all release]({{ site.baseurl }}/commands/member-file-lock-all-release.html) | Release all locks under the path of the member |
-| [member file lock list]({{ site.baseurl }}/commands/member-file-lock-list.html)               | List locks of the member under the path        |
-| [member file lock release]({{ site.baseurl }}/commands/member-file-lock-release.html)         | Release the lock of the path as the member     |
+| Command                                                                                                                 | Description                                    |
+|-------------------------------------------------------------------------------------------------------------------------|------------------------------------------------|
+| [dropbox team member file lock all release]({{ site.baseurl }}/commands/dropbox-team-member-file-lock-all-release.html) | Release all locks under the path of the member |
+| [dropbox team member file lock list]({{ site.baseurl }}/commands/dropbox-team-member-file-lock-list.html)               | List locks of the member under the path        |
+| [dropbox team member file lock release]({{ site.baseurl }}/commands/dropbox-team-member-file-lock-release.html)         | Release the lock of the path as the member     |
 
 ## File lock commands for team folders
 
@@ -322,24 +322,24 @@ If you want to see existing external IDs, use the `member list` command. But the
 tbx member list -experiment report_all_columns
 ```
 
-| Command                                                                                                     | Description                        |
-|-------------------------------------------------------------------------------------------------------------|------------------------------------|
-| [member list]({{ site.baseurl }}/commands/member-list.html)                                                 | List team member(s)                |
-| [member clear externalid]({{ site.baseurl }}/commands/member-clear-externalid.html)                         | Clear external_id of members       |
-| [member update externalid]({{ site.baseurl }}/commands/member-update-externalid.html)                       | Update External ID of team members |
-| [dropbox team group list]({{ site.baseurl }}/commands/dropbox-team-group-list.html)                         | List group(s)                      |
-| [dropbox team group clear externalid]({{ site.baseurl }}/commands/dropbox-team-group-clear-externalid.html) | Clear an external ID of a group    |
+| Command                                                                                                                     | Description                        |
+|-----------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| [dropbox team member list]({{ site.baseurl }}/commands/dropbox-team-member-list.html)                                       | List team member(s)                |
+| [dropbox team member clear externalid]({{ site.baseurl }}/commands/dropbox-team-member-clear-externalid.html)               | Clear external_id of members       |
+| [dropbox team member update batch externalid]({{ site.baseurl }}/commands/dropbox-team-member-update-batch-externalid.html) | Update External ID of team members |
+| [dropbox team group list]({{ site.baseurl }}/commands/dropbox-team-group-list.html)                                         | List group(s)                      |
+| [dropbox team group clear externalid]({{ site.baseurl }}/commands/dropbox-team-group-clear-externalid.html)                 | Clear an external ID of a group    |
 
 ## Data migration helper commands
 
 Data migration helper commands copies member folders or team folders to another account or team. Please test before using those commands before actual data migration.
 
-| Command                                                                                           | Description                                            |
-|---------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| [member folder replication]({{ site.baseurl }}/commands/member-folder-replication.html)           | Replicate a folder to another member's personal folder |
-| [member replication]({{ site.baseurl }}/commands/member-replication.html)                         | Replicate team member files                            |
-| [teamfolder partial replication]({{ site.baseurl }}/commands/teamfolder-partial-replication.html) | Partial team folder replication to the other team      |
-| [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                 | Replicate a team folder to the other team              |
+| Command                                                                                                           | Description                                            |
+|-------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
+| [dropbox team member folder replication]({{ site.baseurl }}/commands/dropbox-team-member-folder-replication.html) | Replicate a folder to another member's personal folder |
+| [dropbox team member replication]({{ site.baseurl }}/commands/dropbox-team-member-replication.html)               | Replicate team member files                            |
+| [teamfolder partial replication]({{ site.baseurl }}/commands/teamfolder-partial-replication.html)                 | Partial team folder replication to the other team      |
+| [teamfolder replication]({{ site.baseurl }}/commands/teamfolder-replication.html)                                 | Replicate a team folder to the other team              |
 
 ## Team info commands
 
