@@ -1,4 +1,4 @@
-package filerequest
+package request
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"

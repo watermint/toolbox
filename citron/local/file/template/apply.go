@@ -1,4 +1,4 @@
-package apply
+package template
 
 import (
 	"encoding/json"
@@ -18,15 +18,15 @@ import (
 	"path/filepath"
 )
 
-type Local struct {
+type Apply struct {
 	Template mo_path.ExistingFileSystemPath
 	Path     mo_path.FileSystemPath
 }
 
-func (z *Local) Preset() {
+func (z *Apply) Preset() {
 }
 
-func (z *Local) putFile(path es_filesystem.Path, f io.ReadSeeker) error {
+func (z *Apply) putFile(path es_filesystem.Path, f io.ReadSeeker) error {
 	l := esl.Default().With(esl.String("path", path.Path()))
 	l.Debug("Put the file")
 	w, err := os.Create(path.Path())
@@ -42,7 +42,7 @@ func (z *Local) putFile(path es_filesystem.Path, f io.ReadSeeker) error {
 	return err
 }
 
-func (z *Local) Exec(c app_control.Control) error {
+func (z *Apply) Exec(c app_control.Control) error {
 	tmpl, err := os.ReadFile(z.Template.Path())
 	if err != nil {
 		return err
@@ -61,7 +61,7 @@ func (z *Local) Exec(c app_control.Control) error {
 	return ap.Apply(es_filesystem_local.NewPath(z.Path.Path()), tmplData)
 }
 
-func (z *Local) Test(c app_control.Control) error {
+func (z *Apply) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFolder("tmpl", false)
 	if err != nil {
 		return err
@@ -81,8 +81,8 @@ func (z *Local) Test(c app_control.Control) error {
 		return err
 	}
 
-	err = rc_exec.Exec(c, &Local{}, func(r rc_recipe.Recipe) {
-		m := r.(*Local)
+	err = rc_exec.Exec(c, &Apply{}, func(r rc_recipe.Recipe) {
+		m := r.(*Apply)
 		m.Template = mo_path.NewExistingFileSystemPath(tmplPath)
 		m.Path = mo_path.NewFileSystemPath(f)
 	})

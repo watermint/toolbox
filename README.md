@@ -105,6 +105,7 @@ Available commands:
 | group        | Group management                |       |
 | job          | Log utilities (deprecated)      |       |
 | license      | Show license information        |       |
+| local        | Commands for local PC           |       |
 | log          | Log utilities                   |       |
 | member       | Team member management          |       |
 | services     | Commands for services           |       |
@@ -123,75 +124,75 @@ Available commands:
 
 ## Dropbox (Individual account)
 
-| Command                                                                             | Description                                                   |
-|-------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [dropbox file account feature](docs/commands/dropbox-file-account-feature.md)       | List Dropbox account features                                 |
-| [dropbox file account filesystem](docs/commands/dropbox-file-account-filesystem.md) | Show Dropbox file system version                              |
-| [dropbox file account info](docs/commands/dropbox-file-account-info.md)             | Dropbox account info                                          |
-| [dropbox file copy](docs/commands/dropbox-file-copy.md)                             | Copy files                                                    |
-| [dropbox file delete](docs/commands/dropbox-file-delete.md)                         | Delete file or folder                                         |
-| [dropbox file info](docs/commands/dropbox-file-info.md)                             | Resolve metadata of the path                                  |
-| [dropbox file list](docs/commands/dropbox-file-list.md)                             | List files and folders                                        |
-| [dropbox file merge](docs/commands/dropbox-file-merge.md)                           | Merge paths                                                   |
-| [dropbox file move](docs/commands/dropbox-file-move.md)                             | Move files                                                    |
-| [dropbox file replication](docs/commands/dropbox-file-replication.md)               | Replicate file content to the other account                   |
-| [dropbox file size](docs/commands/dropbox-file-size.md)                             | Storage usage                                                 |
-| [dropbox file watch](docs/commands/dropbox-file-watch.md)                           | Watch file activities                                         |
-| [dropbox paper append](docs/commands/dropbox-paper-append.md)                       | Append the content to the end of the existing Paper doc       |
-| [dropbox paper create](docs/commands/dropbox-paper-create.md)                       | Create new Paper in the path                                  |
-| [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                 | Overwrite existing Paper document                             |
-| [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                     | Append the content to the beginning of the existing Paper doc |
-| [file compare account](docs/commands/file-compare-account.md)                       | Compare files of two accounts                                 |
-| [file compare local](docs/commands/file-compare-local.md)                           | Compare local folders and Dropbox folders                     |
-| [file export doc](docs/commands/file-export-doc.md)                                 | Export document                                               |
-| [file export url](docs/commands/file-export-url.md)                                 | Export a document from the URL                                |
-| [file import batch url](docs/commands/file-import-batch-url.md)                     | Batch import files from URL                                   |
-| [file import url](docs/commands/file-import-url.md)                                 | Import file from the URL                                      |
-| [file lock acquire](docs/commands/file-lock-acquire.md)                             | Lock a file                                                   |
-| [file lock all release](docs/commands/file-lock-all-release.md)                     | Release all locks under the specified path                    |
-| [file lock batch acquire](docs/commands/file-lock-batch-acquire.md)                 | Lock multiple files                                           |
-| [file lock batch release](docs/commands/file-lock-batch-release.md)                 | Release multiple locks                                        |
-| [file lock list](docs/commands/file-lock-list.md)                                   | List locks under the specified path                           |
-| [file lock release](docs/commands/file-lock-release.md)                             | Release a lock                                                |
-| [file restore all](docs/commands/file-restore-all.md)                               | Restore files under given path                                |
-| [file revision download](docs/commands/file-revision-download.md)                   | Download the file revision                                    |
-| [file revision list](docs/commands/file-revision-list.md)                           | List file revisions                                           |
-| [file revision restore](docs/commands/file-revision-restore.md)                     | Restore the file revision                                     |
-| [file search content](docs/commands/file-search-content.md)                         | Search file content                                           |
-| [file search name](docs/commands/file-search-name.md)                               | Search file name                                              |
-| [file share info](docs/commands/file-share-info.md)                                 | Retrieve sharing information of the file                      |
-| [file sync down](docs/commands/file-sync-down.md)                                   | Downstream sync with Dropbox                                  |
-| [file sync online](docs/commands/file-sync-online.md)                               | Sync online files                                             |
-| [file sync up](docs/commands/file-sync-up.md)                                       | Upstream sync with Dropbox                                    |
-| [file tag add](docs/commands/file-tag-add.md)                                       | Add a tag to the file/folder                                  |
-| [file tag delete](docs/commands/file-tag-delete.md)                                 | Delete a tag from the file/folder                             |
-| [file tag list](docs/commands/file-tag-list.md)                                     | List tags of the path                                         |
-| [file template apply remote](docs/commands/file-template-apply-remote.md)           | Apply file/folder structure template to the Dropbox path      |
-| [file template capture remote](docs/commands/file-template-capture-remote.md)       | Capture file/folder structure as template from Dropbox path   |
-| [filerequest create](docs/commands/filerequest-create.md)                           | Create a file request                                         |
-| [filerequest delete closed](docs/commands/filerequest-delete-closed.md)             | Delete all closed file requests on this account.              |
-| [filerequest delete url](docs/commands/filerequest-delete-url.md)                   | Delete a file request by the file request URL                 |
-| [filerequest list](docs/commands/filerequest-list.md)                               | List file requests of the individual account                  |
-| [log job ship](docs/commands/log-job-ship.md)                                       | Ship Job logs to Dropbox path                                 |
-| [sharedfolder leave](docs/commands/sharedfolder-leave.md)                           | Leave from the shared folder                                  |
-| [sharedfolder list](docs/commands/sharedfolder-list.md)                             | List shared folder(s)                                         |
-| [sharedfolder member add](docs/commands/sharedfolder-member-add.md)                 | Add a member to the shared folder                             |
-| [sharedfolder member delete](docs/commands/sharedfolder-member-delete.md)           | Delete a member from the shared folder                        |
-| [sharedfolder member list](docs/commands/sharedfolder-member-list.md)               | List shared folder member(s)                                  |
-| [sharedfolder mount add](docs/commands/sharedfolder-mount-add.md)                   | Add the shared folder to the current user's Dropbox           |
-| [sharedfolder mount delete](docs/commands/sharedfolder-mount-delete.md)             | The current user unmounts the designated folder.              |
-| [sharedfolder mount list](docs/commands/sharedfolder-mount-list.md)                 | List all shared folders the current user mounted              |
-| [sharedfolder mount mountable](docs/commands/sharedfolder-mount-mountable.md)       | List all shared folders the current user can mount            |
-| [sharedfolder share](docs/commands/sharedfolder-share.md)                           | Share a folder                                                |
-| [sharedfolder unshare](docs/commands/sharedfolder-unshare.md)                       | Unshare a folder                                              |
-| [sharedlink create](docs/commands/sharedlink-create.md)                             | Create shared link                                            |
-| [sharedlink delete](docs/commands/sharedlink-delete.md)                             | Remove shared links                                           |
-| [sharedlink file list](docs/commands/sharedlink-file-list.md)                       | List files for the shared link                                |
-| [sharedlink info](docs/commands/sharedlink-info.md)                                 | Get information about the shared link                         |
-| [sharedlink list](docs/commands/sharedlink-list.md)                                 | List of shared link(s)                                        |
-| [teamspace file list](docs/commands/teamspace-file-list.md)                         | List files and folders in team space                          |
-| [util monitor client](docs/commands/util-monitor-client.md)                         | Start device monitor client                                   |
-| [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                     | Package remote folder into the zip file                       |
+| Command                                                                                   | Description                                                   |
+|-------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [dropbox file account feature](docs/commands/dropbox-file-account-feature.md)             | List Dropbox account features                                 |
+| [dropbox file account filesystem](docs/commands/dropbox-file-account-filesystem.md)       | Show Dropbox file system version                              |
+| [dropbox file account info](docs/commands/dropbox-file-account-info.md)                   | Dropbox account info                                          |
+| [dropbox file compare account](docs/commands/dropbox-file-compare-account.md)             | Compare files of two accounts                                 |
+| [dropbox file compare local](docs/commands/dropbox-file-compare-local.md)                 | Compare local folders and Dropbox folders                     |
+| [dropbox file copy](docs/commands/dropbox-file-copy.md)                                   | Copy files                                                    |
+| [dropbox file delete](docs/commands/dropbox-file-delete.md)                               | Delete file or folder                                         |
+| [dropbox file export doc](docs/commands/dropbox-file-export-doc.md)                       | Export document                                               |
+| [dropbox file export url](docs/commands/dropbox-file-export-url.md)                       | Export a document from the URL                                |
+| [dropbox file import batch url](docs/commands/dropbox-file-import-batch-url.md)           | Batch import files from URL                                   |
+| [dropbox file import url](docs/commands/dropbox-file-import-url.md)                       | Import file from the URL                                      |
+| [dropbox file info](docs/commands/dropbox-file-info.md)                                   | Resolve metadata of the path                                  |
+| [dropbox file list](docs/commands/dropbox-file-list.md)                                   | List files and folders                                        |
+| [dropbox file lock acquire](docs/commands/dropbox-file-lock-acquire.md)                   | Lock a file                                                   |
+| [dropbox file lock all release](docs/commands/dropbox-file-lock-all-release.md)           | Release all locks under the specified path                    |
+| [dropbox file lock batch acquire](docs/commands/dropbox-file-lock-batch-acquire.md)       | Lock multiple files                                           |
+| [dropbox file lock batch release](docs/commands/dropbox-file-lock-batch-release.md)       | Release multiple locks                                        |
+| [dropbox file lock list](docs/commands/dropbox-file-lock-list.md)                         | List locks under the specified path                           |
+| [dropbox file lock release](docs/commands/dropbox-file-lock-release.md)                   | Release a lock                                                |
+| [dropbox file merge](docs/commands/dropbox-file-merge.md)                                 | Merge paths                                                   |
+| [dropbox file move](docs/commands/dropbox-file-move.md)                                   | Move files                                                    |
+| [dropbox file replication](docs/commands/dropbox-file-replication.md)                     | Replicate file content to the other account                   |
+| [dropbox file request create](docs/commands/dropbox-file-request-create.md)               | Create a file request                                         |
+| [dropbox file request delete closed](docs/commands/dropbox-file-request-delete-closed.md) | Delete all closed file requests on this account.              |
+| [dropbox file request delete url](docs/commands/dropbox-file-request-delete-url.md)       | Delete a file request by the file request URL                 |
+| [dropbox file request list](docs/commands/dropbox-file-request-list.md)                   | List file requests of the individual account                  |
+| [dropbox file restore all](docs/commands/dropbox-file-restore-all.md)                     | Restore files under given path                                |
+| [dropbox file revision download](docs/commands/dropbox-file-revision-download.md)         | Download the file revision                                    |
+| [dropbox file revision list](docs/commands/dropbox-file-revision-list.md)                 | List file revisions                                           |
+| [dropbox file revision restore](docs/commands/dropbox-file-revision-restore.md)           | Restore the file revision                                     |
+| [dropbox file search content](docs/commands/dropbox-file-search-content.md)               | Search file content                                           |
+| [dropbox file search name](docs/commands/dropbox-file-search-name.md)                     | Search file name                                              |
+| [dropbox file share info](docs/commands/dropbox-file-share-info.md)                       | Retrieve sharing information of the file                      |
+| [dropbox file size](docs/commands/dropbox-file-size.md)                                   | Storage usage                                                 |
+| [dropbox file sync down](docs/commands/dropbox-file-sync-down.md)                         | Downstream sync with Dropbox                                  |
+| [dropbox file sync online](docs/commands/dropbox-file-sync-online.md)                     | Sync online files                                             |
+| [dropbox file sync up](docs/commands/dropbox-file-sync-up.md)                             | Upstream sync with Dropbox                                    |
+| [dropbox file tag add](docs/commands/dropbox-file-tag-add.md)                             | Add a tag to the file/folder                                  |
+| [dropbox file tag delete](docs/commands/dropbox-file-tag-delete.md)                       | Delete a tag from the file/folder                             |
+| [dropbox file tag list](docs/commands/dropbox-file-tag-list.md)                           | List tags of the path                                         |
+| [dropbox file template apply](docs/commands/dropbox-file-template-apply.md)               | Apply file/folder structure template to the Dropbox path      |
+| [dropbox file template capture](docs/commands/dropbox-file-template-capture.md)           | Capture file/folder structure as template from Dropbox path   |
+| [dropbox file watch](docs/commands/dropbox-file-watch.md)                                 | Watch file activities                                         |
+| [dropbox paper append](docs/commands/dropbox-paper-append.md)                             | Append the content to the end of the existing Paper doc       |
+| [dropbox paper create](docs/commands/dropbox-paper-create.md)                             | Create new Paper in the path                                  |
+| [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                       | Overwrite existing Paper document                             |
+| [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                           | Append the content to the beginning of the existing Paper doc |
+| [log job ship](docs/commands/log-job-ship.md)                                             | Ship Job logs to Dropbox path                                 |
+| [sharedfolder leave](docs/commands/sharedfolder-leave.md)                                 | Leave from the shared folder                                  |
+| [sharedfolder list](docs/commands/sharedfolder-list.md)                                   | List shared folder(s)                                         |
+| [sharedfolder member add](docs/commands/sharedfolder-member-add.md)                       | Add a member to the shared folder                             |
+| [sharedfolder member delete](docs/commands/sharedfolder-member-delete.md)                 | Delete a member from the shared folder                        |
+| [sharedfolder member list](docs/commands/sharedfolder-member-list.md)                     | List shared folder member(s)                                  |
+| [sharedfolder mount add](docs/commands/sharedfolder-mount-add.md)                         | Add the shared folder to the current user's Dropbox           |
+| [sharedfolder mount delete](docs/commands/sharedfolder-mount-delete.md)                   | The current user unmounts the designated folder.              |
+| [sharedfolder mount list](docs/commands/sharedfolder-mount-list.md)                       | List all shared folders the current user mounted              |
+| [sharedfolder mount mountable](docs/commands/sharedfolder-mount-mountable.md)             | List all shared folders the current user can mount            |
+| [sharedfolder share](docs/commands/sharedfolder-share.md)                                 | Share a folder                                                |
+| [sharedfolder unshare](docs/commands/sharedfolder-unshare.md)                             | Unshare a folder                                              |
+| [sharedlink create](docs/commands/sharedlink-create.md)                                   | Create shared link                                            |
+| [sharedlink delete](docs/commands/sharedlink-delete.md)                                   | Remove shared links                                           |
+| [sharedlink file list](docs/commands/sharedlink-file-list.md)                             | List files for the shared link                                |
+| [sharedlink info](docs/commands/sharedlink-info.md)                                       | Get information about the shared link                         |
+| [sharedlink list](docs/commands/sharedlink-list.md)                                       | List of shared link(s)                                        |
+| [teamspace file list](docs/commands/teamspace-file-list.md)                               | List files and folders in team space                          |
+| [util monitor client](docs/commands/util-monitor-client.md)                               | Start device monitor client                                   |
+| [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                           | Package remote folder into the zip file                       |
 
 ## Dropbox for teams
 
@@ -410,9 +411,9 @@ Available commands:
 | [config feature enable](docs/commands/config-feature-enable.md)                                               | Enable a feature.                                                    |
 | [config feature list](docs/commands/config-feature-list.md)                                                   | List available optional features.                                    |
 | [dropbox team insight report teamfoldermember](docs/commands/dropbox-team-insight-report-teamfoldermember.md) | Report team folder members                                           |
-| [file template apply local](docs/commands/file-template-apply-local.md)                                       | Apply file/folder structure template to the local path               |
-| [file template capture local](docs/commands/file-template-capture-local.md)                                   | Capture file/folder structure as template from local path            |
 | [license](docs/commands/license.md)                                                                           | Show license information                                             |
+| [local file template apply](docs/commands/local-file-template-apply.md)                                       | Apply file/folder structure template to the local path               |
+| [local file template capture](docs/commands/local-file-template-capture.md)                                   | Capture file/folder structure as template from local path            |
 | [log cat curl](docs/commands/log-cat-curl.md)                                                                 | Format capture logs as `curl` sample                                 |
 | [log cat job](docs/commands/log-cat-job.md)                                                                   | Retrieve logs of specified Job ID                                    |
 | [log cat kind](docs/commands/log-cat-kind.md)                                                                 | Concatenate and print logs of specified log kind                     |

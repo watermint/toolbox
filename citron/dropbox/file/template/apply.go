@@ -1,4 +1,4 @@
-package apply
+package template
 
 import (
 	"encoding/json"
@@ -26,7 +26,7 @@ import (
 	"time"
 )
 
-type Remote struct {
+type Apply struct {
 	Peer                 dbx_conn.ConnScopedIndividual
 	Template             mo_path.ExistingFileSystemPath
 	Path                 mo_path2.DropboxPath
@@ -35,7 +35,7 @@ type Remote struct {
 	ProgressCreateFolder app_msg.Message
 }
 
-func (z *Remote) Preset() {
+func (z *Apply) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentRead,
 		dbx_auth.ScopeFilesContentWrite,
@@ -44,7 +44,7 @@ func (z *Remote) Preset() {
 	)
 }
 
-func (z *Remote) addTags(path es_filesystem.Path, tags []string) error {
+func (z *Apply) addTags(path es_filesystem.Path, tags []string) error {
 	svt := sv_file_tag.New(z.Peer.Client())
 	for _, tag := range tags {
 		if err := svt.Add(mo_path2.NewDropboxPath(path.Path()), tag); err != nil {
@@ -54,7 +54,7 @@ func (z *Remote) addTags(path es_filesystem.Path, tags []string) error {
 	return nil
 }
 
-func (z *Remote) putFile(path es_filesystem.Path, f io.ReadSeeker) error {
+func (z *Apply) putFile(path es_filesystem.Path, f io.ReadSeeker) error {
 	l := esl.Default().With(esl.String("path", path.Path()))
 	rr, err := es_rewinder.NewReadRewinder(f, 0)
 	if err != nil {
@@ -71,7 +71,7 @@ func (z *Remote) putFile(path es_filesystem.Path, f io.ReadSeeker) error {
 	return nil
 }
 
-func (z *Remote) Exec(c app_control.Control) error {
+func (z *Apply) Exec(c app_control.Control) error {
 	tmpl, err := os.ReadFile(z.Template.Path())
 	if err != nil {
 		return err
@@ -100,7 +100,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 	return ap.Apply(dbx_fs.NewPath("", z.Path), tmplData)
 }
 
-func (z *Remote) Test(c app_control.Control) error {
+func (z *Apply) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFolder("tmpl", false)
 	if err != nil {
 		return err
@@ -115,8 +115,8 @@ func (z *Remote) Test(c app_control.Control) error {
 		return err
 	}
 
-	return rc_exec.ExecMock(c, &Remote{}, func(r rc_recipe.Recipe) {
-		m := r.(*Remote)
+	return rc_exec.ExecMock(c, &Apply{}, func(r rc_recipe.Recipe) {
+		m := r.(*Apply)
 		m.Path = qtr_endtoend.NewTestDropboxFolderPath("apply")
 		m.Template = mo_path.NewExistingFileSystemPath(tmplPath)
 	})

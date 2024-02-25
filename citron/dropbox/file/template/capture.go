@@ -1,4 +1,4 @@
-package capture
+package template
 
 import (
 	"encoding/json"
@@ -20,13 +20,13 @@ import (
 	"path/filepath"
 )
 
-type Remote struct {
+type Capture struct {
 	Peer dbx_conn.ConnScopedIndividual
 	Path mo_path.DropboxPath
 	Out  mo_path2.FileSystemPath
 }
 
-func (z *Remote) Preset() {
+func (z *Capture) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentRead,
 		dbx_auth.ScopeFilesMetadataRead,
@@ -35,7 +35,7 @@ func (z *Remote) Preset() {
 	)
 }
 
-func (z *Remote) findSourceLink(path es_filesystem.Path) (link string, err error) {
+func (z *Capture) findSourceLink(path es_filesystem.Path) (link string, err error) {
 	svl := sv_sharedlink.New(z.Peer.Client())
 	links, err := svl.ListByPath(mo_path.NewDropboxPath(path.Path()))
 	if err != nil {
@@ -47,7 +47,7 @@ func (z *Remote) findSourceLink(path es_filesystem.Path) (link string, err error
 	return links[0].LinkUrl(), nil
 }
 
-func (z *Remote) createSourceLink(path es_filesystem.Path) (link string, err error) {
+func (z *Capture) createSourceLink(path es_filesystem.Path) (link string, err error) {
 	svl := sv_sharedlink.New(z.Peer.Client())
 	sl, err := svl.Create(mo_path.NewDropboxPath(path.Path()))
 	if err != nil {
@@ -56,7 +56,7 @@ func (z *Remote) createSourceLink(path es_filesystem.Path) (link string, err err
 	return sl.LinkUrl(), nil
 }
 
-func (z *Remote) handlerSource(path es_filesystem.Path) (link string, err error) {
+func (z *Capture) handlerSource(path es_filesystem.Path) (link string, err error) {
 	link, err = z.findSourceLink(path)
 	if err != nil {
 		return "", err
@@ -75,11 +75,11 @@ func (z *Remote) handlerSource(path es_filesystem.Path) (link string, err error)
 	return dlLink, nil
 }
 
-func (z *Remote) handlerTags(path es_filesystem.Path) (tags []string, err error) {
+func (z *Capture) handlerTags(path es_filesystem.Path) (tags []string, err error) {
 	return sv_file_tag.New(z.Peer.Client()).Resolve(mo_path.NewDropboxPath(path.Path()))
 }
 
-func (z *Remote) Exec(c app_control.Control) error {
+func (z *Capture) Exec(c app_control.Control) error {
 	dfs := dbx_fs.NewFileSystem(z.Peer.Client())
 	cp := es_template.NewCapture(dfs, es_template.CaptureOpts{
 		HandlerSource: z.handlerSource,
@@ -97,7 +97,7 @@ func (z *Remote) Exec(c app_control.Control) error {
 	return os.WriteFile(z.Out.Path(), tj, 0644)
 }
 
-func (z *Remote) Test(c app_control.Control) error {
+func (z *Capture) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFolder("capture", false)
 	if err != nil {
 		return err
@@ -106,8 +106,8 @@ func (z *Remote) Test(c app_control.Control) error {
 		_ = os.RemoveAll(f)
 	}()
 
-	return rc_exec.ExecMock(c, &Remote{}, func(r rc_recipe.Recipe) {
-		m := r.(*Remote)
+	return rc_exec.ExecMock(c, &Capture{}, func(r rc_recipe.Recipe) {
+		m := r.(*Capture)
 		m.Path = qtr_endtoend.NewTestDropboxFolderPath("capture")
 		m.Out = mo_path2.NewFileSystemPath(filepath.Join(f, "test.json"))
 	})

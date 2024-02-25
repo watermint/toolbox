@@ -1,4 +1,4 @@
-package capture
+package template
 
 import (
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
@@ -6,5 +6,5 @@ import (
 )
 
 func TestRemote_Exec(t *testing.T) {
-	qtr_endtoend.TestRecipe(t, &Remote{})
+	qtr_endtoend.TestRecipe(t, &Apply{})
 }

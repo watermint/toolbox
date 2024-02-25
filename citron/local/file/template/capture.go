@@ -1,4 +1,4 @@
-package capture
+package template
 
 import (
 	"encoding/json"
@@ -13,15 +13,15 @@ import (
 	"path/filepath"
 )
 
-type Local struct {
+type Capture struct {
 	Path mo_path.ExistingFileSystemPath
 	Out  mo_path.FileSystemPath
 }
 
-func (z *Local) Preset() {
+func (z *Capture) Preset() {
 }
 
-func (z *Local) Exec(c app_control.Control) error {
+func (z *Capture) Exec(c app_control.Control) error {
 	lfs := es_filesystem_local.NewFileSystem()
 	cp := es_template.NewCapture(lfs, es_template.CaptureOpts{})
 
@@ -36,7 +36,7 @@ func (z *Local) Exec(c app_control.Control) error {
 	return os.WriteFile(z.Out.Path(), tj, 0644)
 }
 
-func (z *Local) Test(c app_control.Control) error {
+func (z *Capture) Test(c app_control.Control) error {
 	f, err := qt_file.MakeTestFolder("capture", true)
 	if err != nil {
 		return err
@@ -45,8 +45,8 @@ func (z *Local) Test(c app_control.Control) error {
 		_ = os.RemoveAll(f)
 	}()
 
-	return rc_exec.Exec(c, &Local{}, func(r rc_recipe.Recipe) {
-		m := r.(*Local)
+	return rc_exec.Exec(c, &Capture{}, func(r rc_recipe.Recipe) {
+		m := r.(*Capture)
 		m.Path = mo_path.NewExistingFileSystemPath(f)
 		m.Out = mo_path.NewFileSystemPath(filepath.Join(f, "test.json"))
 	})

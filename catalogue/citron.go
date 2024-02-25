@@ -9,7 +9,25 @@ import (
 	citronasanaworkspace "github.com/watermint/toolbox/citron/asana/workspace"
 	citronasanaworkspaceproject "github.com/watermint/toolbox/citron/asana/workspace/project"
 	citrondeepltranslate "github.com/watermint/toolbox/citron/deepl/translate"
+	citrondropboxfile "github.com/watermint/toolbox/citron/dropbox/file"
 	citrondropboxfileaccount "github.com/watermint/toolbox/citron/dropbox/file/account"
+	citrondropboxfilecompare "github.com/watermint/toolbox/citron/dropbox/file/compare"
+	citrondropboxfileexport "github.com/watermint/toolbox/citron/dropbox/file/export"
+	citrondropboxfileimport "github.com/watermint/toolbox/citron/dropbox/file/import"
+	citrondropboxfileimportbatch "github.com/watermint/toolbox/citron/dropbox/file/import/batch"
+	citrondropboxfilelock "github.com/watermint/toolbox/citron/dropbox/file/lock"
+	citrondropboxfilelockall "github.com/watermint/toolbox/citron/dropbox/file/lock/all"
+	citrondropboxfilelockbatch "github.com/watermint/toolbox/citron/dropbox/file/lock/batch"
+	citrondropboxfilerequest "github.com/watermint/toolbox/citron/dropbox/file/request"
+	citrondropboxfilerequestdelete "github.com/watermint/toolbox/citron/dropbox/file/request/delete"
+	citrondropboxfilerestore "github.com/watermint/toolbox/citron/dropbox/file/restore"
+	citrondropboxfilerevision "github.com/watermint/toolbox/citron/dropbox/file/revision"
+	citrondropboxfilesearch "github.com/watermint/toolbox/citron/dropbox/file/search"
+	citrondropboxfileshare "github.com/watermint/toolbox/citron/dropbox/file/share"
+	citrondropboxfilesync "github.com/watermint/toolbox/citron/dropbox/file/sync"
+	citrondropboxfiletag "github.com/watermint/toolbox/citron/dropbox/file/tag"
+	citrondropboxfiletemplate "github.com/watermint/toolbox/citron/dropbox/file/template"
+	citrondropboxpaper "github.com/watermint/toolbox/citron/dropbox/paper"
 	citrondropboxsignaccount "github.com/watermint/toolbox/citron/dropbox/sign/account"
 	citrondropboxteambackupdevice "github.com/watermint/toolbox/citron/dropbox/team/backup/device"
 	citrondropboxteaminsight "github.com/watermint/toolbox/citron/dropbox/team/insight"
@@ -37,6 +55,7 @@ import (
 	citrongooglesheetssheet "github.com/watermint/toolbox/citron/google/sheets/sheet"
 	citrongooglesheetsspreadsheet "github.com/watermint/toolbox/citron/google/sheets/spreadsheet"
 	citrongoogletranslate "github.com/watermint/toolbox/citron/google/translate"
+	citronlocalfiletemplate "github.com/watermint/toolbox/citron/local/file/template"
 	citronslackconversation "github.com/watermint/toolbox/citron/slack/conversation"
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
 )
@@ -49,9 +68,53 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citronasanaworkspace.List{},
 		&citronasanaworkspaceproject.List{},
 		&citrondeepltranslate.Text{},
+		&citrondropboxfile.Copy{},
+		&citrondropboxfile.Delete{},
+		&citrondropboxfile.Info{},
+		&citrondropboxfile.List{},
+		&citrondropboxfile.Merge{},
+		&citrondropboxfile.Move{},
+		&citrondropboxfile.Replication{},
+		&citrondropboxfile.Size{},
+		&citrondropboxfile.Watch{},
 		&citrondropboxfileaccount.Feature{},
 		&citrondropboxfileaccount.Filesystem{},
 		&citrondropboxfileaccount.Info{},
+		&citrondropboxfilecompare.Account{},
+		&citrondropboxfilecompare.Local{},
+		&citrondropboxfileexport.Doc{},
+		&citrondropboxfileexport.Url{},
+		&citrondropboxfileimport.Url{},
+		&citrondropboxfileimportbatch.Url{},
+		&citrondropboxfilelock.Acquire{},
+		&citrondropboxfilelock.List{},
+		&citrondropboxfilelock.Release{},
+		&citrondropboxfilelockall.Release{},
+		&citrondropboxfilelockbatch.Acquire{},
+		&citrondropboxfilelockbatch.Release{},
+		&citrondropboxfilerequest.Create{},
+		&citrondropboxfilerequest.List{},
+		&citrondropboxfilerequestdelete.Closed{},
+		&citrondropboxfilerequestdelete.Url{},
+		&citrondropboxfilerestore.All{},
+		&citrondropboxfilerevision.Download{},
+		&citrondropboxfilerevision.List{},
+		&citrondropboxfilerevision.Restore{},
+		&citrondropboxfilesearch.Content{},
+		&citrondropboxfilesearch.Name{},
+		&citrondropboxfileshare.Info{},
+		&citrondropboxfilesync.Down{},
+		&citrondropboxfilesync.Online{},
+		&citrondropboxfilesync.Up{},
+		&citrondropboxfiletag.Add{},
+		&citrondropboxfiletag.Delete{},
+		&citrondropboxfiletag.List{},
+		&citrondropboxfiletemplate.Apply{},
+		&citrondropboxfiletemplate.Capture{},
+		&citrondropboxpaper.Append{},
+		&citrondropboxpaper.Create{},
+		&citrondropboxpaper.Overwrite{},
+		&citrondropboxpaper.Prepend{},
 		&citrondropboxsignaccount.Info{},
 		&citrondropboxteambackupdevice.Status{},
 		&citrondropboxteaminsight.Scan{},
@@ -103,6 +166,8 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrongooglesheetssheet.List{},
 		&citrongooglesheetsspreadsheet.Create{},
 		&citrongoogletranslate.Text{},
+		&citronlocalfiletemplate.Apply{},
+		&citronlocalfiletemplate.Capture{},
 		&citronslackconversation.History{},
 		&citronslackconversation.List{},
 	}
