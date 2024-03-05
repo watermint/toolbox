@@ -1,6 +1,7 @@
 package lifecycle
 
 import (
+	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -22,8 +23,11 @@ import (
 type Planchangepath struct {
 	rc_recipe.RemarkSecret
 	CompatibilityFile mo_path.FileSystemPath
+	MessageFile       mo_path.FileSystemPath
 	CurrentPath       string
 	FormerPath        string
+	CurrentBase       string
+	FormerBase        string
 	AnnounceUrl       string
 	Date              mo_time.Time
 	Compact           bool
@@ -31,6 +35,9 @@ type Planchangepath struct {
 
 func (z *Planchangepath) Preset() {
 	z.CompatibilityFile = mo_path.NewFileSystemPath("catalogue/catalogue_compatibility.json")
+	z.MessageFile = mo_path.NewFileSystemPath("resources/messages/en/messages.json")
+	z.CurrentBase = "citron"
+	z.FormerBase = "recipe"
 }
 
 func (z *Planchangepath) Exec(c app_control.Control) error {
@@ -48,7 +55,7 @@ func (z *Planchangepath) Exec(c app_control.Control) error {
 		esl.String("title", c.UI().TextOrEmpty(rs.Title())))
 
 	if d, found := cds.FindPathChange(rs.Path()); found {
-		l.Info("Existing prune definition found", esl.Any("prune", d))
+		l.Info("Existing pathChange definition found", esl.Any("pathChange", d))
 		return nil
 	}
 
@@ -71,7 +78,7 @@ func (z *Planchangepath) Exec(c app_control.Control) error {
 			},
 		},
 	}
-	l.Info("New Prune", esl.Any("prune", pcd))
+	l.Info("New Path", esl.Any("pathChange", pcd))
 
 	cds.PathChanges = append(cds.PathChanges, pcd)
 	if err := rc_compatibility.SaveCompatibilityDefinition(z.CompatibilityFile.Path(), cds, z.Compact); err != nil {
@@ -80,6 +87,52 @@ func (z *Planchangepath) Exec(c app_control.Control) error {
 	}
 
 	l.Info("Saved", esl.String("path", z.CompatibilityFile.Path()))
+
+	formerMsgPath := z.FormerBase + "." + strings.Join(append(formerPath, formerName), ".")
+	currentMsgPath := z.CurrentBase + "." + strings.Join(append(path, name), ".")
+	l.Info("Search messages", esl.String("path", formerMsgPath))
+	mainMsgFile, err := os.ReadFile(z.MessageFile.Path())
+	if err != nil {
+		l.Error("Unable to read main message file", esl.Error(err))
+		return err
+	}
+	mainMessages := make(map[string]string)
+	if err := json.Unmarshal(mainMsgFile, &mainMessages); err != nil {
+		l.Error("Unable to unmarshal main message file", esl.Error(err))
+		return err
+	}
+
+	newMessages := make(map[string]string)
+
+	for mk, mm := range mainMessages {
+		currentKey := strings.Replace(mk, formerMsgPath, currentMsgPath, 1)
+		_, found := mainMessages[currentKey]
+		if found {
+			l.Debug("Key already exists", esl.String("key", currentKey))
+			continue
+		}
+
+		if strings.HasPrefix(mk, formerMsgPath) {
+			l.Info("Found message", esl.String("formerKey", mk), esl.String("newKey", currentKey), esl.String("message", mm))
+			newMessages[currentKey] = mm
+		}
+	}
+
+	if len(newMessages) > 0 {
+		for k, v := range newMessages {
+			mainMessages[k] = v
+		}
+		l.Info("Update messages", esl.Int("newMessages", len(newMessages)))
+		newMessageBody, err := json.MarshalIndent(mainMessages, "", "  ")
+		if err != nil {
+			l.Error("Unable to marshal new messages", esl.Error(err))
+			return err
+		}
+		if err := os.WriteFile(z.MessageFile.Path(), newMessageBody, 0644); err != nil {
+			l.Error("Unable to write new messages", esl.Error(err))
+			return err
+		}
+	}
 
 	return nil
 }
@@ -102,13 +155,24 @@ func (z *Planchangepath) Test(c app_control.Control) error {
 		[]app_feature.OptIn{},
 	))
 
-	path := filepath.Join(d, "test_compatibility.json")
+	msgSnapshot, err := os.ReadFile("resources/messages/en/messages.json")
+	if err != nil {
+		return err
+	}
+
+	pathCompat := filepath.Join(d, "test_compatibility.json")
+	pathMessages := filepath.Join(d, "test_messages.json")
+
+	if err := os.WriteFile(pathMessages, msgSnapshot, 0644); err != nil {
+		return err
+	}
 
 	err = rc_exec.Exec(c, &Planchangepath{}, func(r rc_recipe.Recipe) {
 		m := r.(*Planchangepath)
 		m.CurrentPath = "dev lifecycle planchangepath"
 		m.FormerPath = "dev lifecycle planpathchange"
-		m.CompatibilityFile = mo_path.NewFileSystemPath(path)
+		m.CompatibilityFile = mo_path.NewFileSystemPath(pathCompat)
+		m.MessageFile = mo_path.NewFileSystemPath(pathMessages)
 		m.Date = mo_time.New(time.Date(2123, 12, 24, 10, 30, 0, 0, time.UTC))
 		m.AnnounceUrl = "https://github.com/watermint/toolbox/issues/781"
 		m.Compact = true
@@ -117,7 +181,7 @@ func (z *Planchangepath) Test(c app_control.Control) error {
 		return err
 	}
 
-	content, err := os.ReadFile(path)
+	content, err := os.ReadFile(pathCompat)
 	if err != nil {
 		return err
 	}

@@ -22,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
+.\tbx.exe dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -message-file /LOCAL/PATH/TO/messages.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
+$HOME/Desktop/tbx dev lifecycle planchangepath -announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json -message-file /LOCAL/PATH/TO/messages.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-path RECIPE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -38,14 +38,17 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                | Description             | Default                                |
-|-----------------------|-------------------------|----------------------------------------|
-| `-announce-url`       | Announce URL            |                                        |
-| `-compact`            | Generate compact output | false                                  |
-| `-compatibility-file` | Compatibility file      | catalogue/catalogue_compatibility.json |
-| `-current-path`       | Current CLI path        |                                        |
-| `-date`               | Effective date          |                                        |
-| `-former-path`        | Former CLI path         |                                        |
+| Option                | Description                | Default                                |
+|-----------------------|----------------------------|----------------------------------------|
+| `-announce-url`       | Announce URL               |                                        |
+| `-compact`            | Generate compact output    | false                                  |
+| `-compatibility-file` | Compatibility file         | catalogue/catalogue_compatibility.json |
+| `-current-base`       | Current recipe's base path | citron                                 |
+| `-current-path`       | Current CLI path           |                                        |
+| `-date`               | Effective date             |                                        |
+| `-former-base`        | Former recipe's base path  | recipe                                 |
+| `-former-path`        | Former CLI path            |                                        |
+| `-message-file`       | Message file path          | resources/messages/en/messages.json    |
 
 ## Common options:
 

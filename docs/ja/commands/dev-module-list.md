@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `dev module list`
 lang: ja
 ---
 

@@ -7,7 +7,9 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"gorm.io/gorm"
 )
 
 type Member struct {
@@ -25,6 +27,21 @@ type Member struct {
 	Raw json.RawMessage
 }
 
+type MemberParam struct {
+	IsRetry bool `path:"is_retry" json:"is_retry"`
+}
+
+type MemberError struct {
+	Dummy string `path:"dummy" gorm:"primaryKey"`
+	ApiError
+}
+
+func (z MemberError) ToParam() interface{} {
+	return &MemberParam{
+		IsRetry: true,
+	}
+}
+
 func NewMemberFromJson(data es_json.Json) (m *Member, err error) {
 	m = &Member{}
 	if err = data.Model(m); err != nil {
@@ -33,7 +50,9 @@ func NewMemberFromJson(data es_json.Json) (m *Member, err error) {
 	return m, nil
 }
 
-func (z tsImpl) scanMembers(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+func (z tsImpl) scanMembers(param *MemberParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	l := z.ctl.Log()
+
 	var lastErr error
 	opErr := sv_member.New(z.client).ListEach(func(member *mo_member.Member) bool {
 		m, err := NewMemberFromJson(es_json.MustParse(member.Raw))
@@ -53,6 +72,17 @@ func (z tsImpl) scanMembers(dummy string, stage eq_sequence.Stage, admin *mo_pro
 
 		return true
 	}, sv_member.IncludeDeleted(true))
-
-	return es_lang.NewMultiErrorOrNull(opErr, lastErr)
+	err = es_lang.NewMultiErrorOrNull(opErr, lastErr)
+	if err != nil {
+		l.Debug("Operation error", esl.Error(err))
+		z.db.Save(&MemberError{
+			Dummy:    "dummy",
+			ApiError: ApiErrorFromError(err),
+		})
+		return opErr
+	}
+	if param.IsRetry {
+		z.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&MemberError{})
+	}
+	return nil
 }

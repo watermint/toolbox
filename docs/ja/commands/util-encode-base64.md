@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `util encode base64`
 lang: ja
 ---
 

@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 )
 
@@ -27,6 +28,23 @@ type Mount struct {
 	Raw json.RawMessage
 }
 
+type MountParam struct {
+	TeamMemberId string `path:"team_member_id" json:"team_member_id"`
+	IsRetry      bool   `path:"is_retry" json:"is_retry"`
+}
+
+type MountError struct {
+	TeamMemberId string `path:"team_member_id" gorm:"primaryKey"`
+	ApiError
+}
+
+func (z MountError) ToParam() interface{} {
+	return &MountParam{
+		TeamMemberId: z.TeamMemberId,
+		IsRetry:      true,
+	}
+}
+
 func NewMountFromJson(data es_json.Json) (m *Mount, err error) {
 	m = &Mount{}
 	if err = data.Model(m); err != nil {
@@ -44,25 +62,37 @@ func NewMountFromJsonWithTeamMemberId(teamMemberId string, data es_json.Json) (m
 	return m, nil
 }
 
-func (z tsImpl) scanMount(teamMemberId string, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) (err error) {
-	client := z.client.AsMemberId(teamMemberId)
+func (z tsImpl) scanMount(param *MountParam, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) (err error) {
+	l := z.ctl.Log().With(esl.String("teamMemberId", param.TeamMemberId))
+	client := z.client.AsMemberId(param.TeamMemberId)
 	qnd := stage.Get(teamScanQueueNamespaceDetail)
 
 	mountables, err := sv_sharedfolder_mount.New(client).Mountables()
 	if err != nil {
+		l.Debug("Unable to retrieve mountables", esl.Error(err))
+		z.db.Save(&MountError{
+			TeamMemberId: param.TeamMemberId,
+			ApiError:     ApiErrorFromError(err),
+		})
 		return err
 	}
 
 	for _, mount := range mountables {
-		m, err := NewMountFromJsonWithTeamMemberId(teamMemberId, es_json.MustParse(mount.Raw))
+		m, err := NewMountFromJsonWithTeamMemberId(param.TeamMemberId, es_json.MustParse(mount.Raw))
 		if err != nil {
 			return err
 		}
 		z.db.Save(m)
 
 		if team.TeamId != mount.OwnerTeamId {
-			qnd.Enqueue(mount.SharedFolderId)
+			qnd.Enqueue(&NamespaceDetailParam{
+				NamespaceId: mount.SharedFolderId,
+			})
 		}
+	}
+
+	if param.IsRetry {
+		z.db.Delete(&MountError{}, "team_member_id = ?", param.TeamMemberId)
 	}
 
 	return nil

@@ -103,6 +103,7 @@ Dropbox用ツールとDropbox for teams
 | group        | グループ管理                 |      |
 | job          | ログユーティリティ（非推奨） |      |
 | license      | ライセンス情報を表示します   |      |
+| local        | ローカルPC用コマンド         |      |
 | log          | ログユーティリティ           |      |
 | member       | チームメンバーの管理         |      |
 | services     | 各種サービス向けコマンド     |      |
@@ -121,206 +122,207 @@ Dropbox用ツールとDropbox for teams
 
 ## Dropbox (個人アカウント)
 
-| コマンド                                                                               | 説明                                                                      |
-|----------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [dropbox file account feature](docs/ja/commands/dropbox-file-account-feature.md)       | Dropboxアカウントの機能一覧                                               |
-| [dropbox file account filesystem](docs/ja/commands/dropbox-file-account-filesystem.md) | Dropboxのファイルシステムのバージョンを表示する                           |
-| [dropbox file account info](docs/ja/commands/dropbox-file-account-info.md)             | Dropboxアカウント情報                                                     |
-| [file compare account](docs/ja/commands/file-compare-account.md)                       | 二つのアカウントのファイルを比較します                                    |
-| [file compare local](docs/ja/commands/file-compare-local.md)                           | ローカルフォルダとDropboxフォルダの内容を比較します                       |
-| [file copy](docs/ja/commands/file-copy.md)                                             | ファイルをコピーします                                                    |
-| [file delete](docs/ja/commands/file-delete.md)                                         | ファイルまたはフォルダは削除します.                                       |
-| [file export doc](docs/ja/commands/file-export-doc.md)                                 | ドキュメントのエクスポート                                                |
-| [file export url](docs/ja/commands/file-export-url.md)                                 | URLからドキュメントをエクスポート                                         |
-| [file import batch url](docs/ja/commands/file-import-batch-url.md)                     | URLからファイルを一括インポートします                                     |
-| [file import url](docs/ja/commands/file-import-url.md)                                 | URLからファイルをインポートします                                         |
-| [file info](docs/ja/commands/file-info.md)                                             | パスのメタデータを解決                                                    |
-| [file list](docs/ja/commands/file-list.md)                                             | ファイルとフォルダを一覧します                                            |
-| [file lock acquire](docs/ja/commands/file-lock-acquire.md)                             | ファイルをロック                                                          |
-| [file lock all release](docs/ja/commands/file-lock-all-release.md)                     | 指定したパスでのすべてのロックを解除する                                  |
-| [file lock batch acquire](docs/ja/commands/file-lock-batch-acquire.md)                 | 複数のファイルをロックする                                                |
-| [file lock batch release](docs/ja/commands/file-lock-batch-release.md)                 | 複数のロックを解除                                                        |
-| [file lock list](docs/ja/commands/file-lock-list.md)                                   | 指定したパスの下にあるロックを一覧表示します                              |
-| [file lock release](docs/ja/commands/file-lock-release.md)                             | ロックを解除します                                                        |
-| [file merge](docs/ja/commands/file-merge.md)                                           | フォルダを統合します                                                      |
-| [file move](docs/ja/commands/file-move.md)                                             | ファイルを移動します                                                      |
-| [file paper append](docs/ja/commands/file-paper-append.md)                             | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
-| [file paper create](docs/ja/commands/file-paper-create.md)                             | パスに新しいPaperを作成                                                   |
-| [file paper overwrite](docs/ja/commands/file-paper-overwrite.md)                       | 既存のPaperドキュメントを上書きする                                       |
-| [file paper prepend](docs/ja/commands/file-paper-prepend.md)                           | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [file replication](docs/ja/commands/file-replication.md)                               | ファイルコンテンツを他のアカウントに複製します                            |
-| [file restore all](docs/ja/commands/file-restore-all.md)                               | 指定されたパス以下をリストアします                                        |
-| [file revision download](docs/ja/commands/file-revision-download.md)                   | ファイルリビジョンをダウンロードする                                      |
-| [file revision list](docs/ja/commands/file-revision-list.md)                           | ファイルリビジョン一覧                                                    |
-| [file revision restore](docs/ja/commands/file-revision-restore.md)                     | ファイルリビジョンを復元する                                              |
-| [file search content](docs/ja/commands/file-search-content.md)                         | ファイルコンテンツを検索                                                  |
-| [file search name](docs/ja/commands/file-search-name.md)                               | ファイル名を検索                                                          |
-| [file share info](docs/ja/commands/file-share-info.md)                                 | ファイルの共有情報を取得する                                              |
-| [file size](docs/ja/commands/file-size.md)                                             | ストレージの利用量                                                        |
-| [file sync down](docs/ja/commands/file-sync-down.md)                                   | Dropboxと下り方向で同期します                                             |
-| [file sync online](docs/ja/commands/file-sync-online.md)                               | オンラインファイルを同期します                                            |
-| [file sync up](docs/ja/commands/file-sync-up.md)                                       | Dropboxと上り方向で同期します                                             |
-| [file tag add](docs/ja/commands/file-tag-add.md)                                       | ファイル/フォルダーにタグを追加する                                       |
-| [file tag delete](docs/ja/commands/file-tag-delete.md)                                 | ファイル/フォルダーからタグを削除する                                     |
-| [file tag list](docs/ja/commands/file-tag-list.md)                                     | パスのタグを一覧                                                          |
-| [file template apply remote](docs/ja/commands/file-template-apply-remote.md)           | Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する            |
-| [file template capture remote](docs/ja/commands/file-template-capture-remote.md)       | Dropboxのパスからファイル/フォルダ構造をテンプレートとして取り込む。      |
-| [file watch](docs/ja/commands/file-watch.md)                                           | ファイルアクティビティを監視                                              |
-| [filerequest create](docs/ja/commands/filerequest-create.md)                           | ファイルリクエストを作成します                                            |
-| [filerequest delete closed](docs/ja/commands/filerequest-delete-closed.md)             | このアカウントの全ての閉じられているファイルリクエストを削除します        |
-| [filerequest delete url](docs/ja/commands/filerequest-delete-url.md)                   | ファイルリクエストのURLを指定して削除                                     |
-| [filerequest list](docs/ja/commands/filerequest-list.md)                               | 個人アカウントのファイルリクエストを一覧.                                 |
-| [log job ship](docs/ja/commands/log-job-ship.md)                                       | ログの転送先Dropboxパス                                                   |
-| [sharedfolder leave](docs/ja/commands/sharedfolder-leave.md)                           | 共有フォルダーから退出する.                                               |
-| [sharedfolder list](docs/ja/commands/sharedfolder-list.md)                             | 共有フォルダの一覧                                                        |
-| [sharedfolder member add](docs/ja/commands/sharedfolder-member-add.md)                 | 共有フォルダへのメンバーの追加                                            |
-| [sharedfolder member delete](docs/ja/commands/sharedfolder-member-delete.md)           | 共有フォルダからメンバーを削除する                                        |
-| [sharedfolder member list](docs/ja/commands/sharedfolder-member-list.md)               | 共有フォルダのメンバーを一覧します                                        |
-| [sharedfolder mount add](docs/ja/commands/sharedfolder-mount-add.md)                   | 共有フォルダを現在のユーザーのDropboxに追加する                           |
-| [sharedfolder mount delete](docs/ja/commands/sharedfolder-mount-delete.md)             | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
-| [sharedfolder mount list](docs/ja/commands/sharedfolder-mount-list.md)                 | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
-| [sharedfolder mount mountable](docs/ja/commands/sharedfolder-mount-mountable.md)       | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
-| [sharedfolder share](docs/ja/commands/sharedfolder-share.md)                           | フォルダの共有                                                            |
-| [sharedfolder unshare](docs/ja/commands/sharedfolder-unshare.md)                       | フォルダの共有解除                                                        |
-| [sharedlink create](docs/ja/commands/sharedlink-create.md)                             | 共有リンクの作成                                                          |
-| [sharedlink delete](docs/ja/commands/sharedlink-delete.md)                             | 共有リンクを削除します                                                    |
-| [sharedlink file list](docs/ja/commands/sharedlink-file-list.md)                       | 共有リンクのファイルを一覧する                                            |
-| [sharedlink info](docs/ja/commands/sharedlink-info.md)                                 | 共有リンクの情報取得                                                      |
-| [sharedlink list](docs/ja/commands/sharedlink-list.md)                                 | 共有リンクの一覧                                                          |
-| [teamspace file list](docs/ja/commands/teamspace-file-list.md)                         | チームスペースにあるファイルやフォルダーを一覧表示                        |
-| [util monitor client](docs/ja/commands/util-monitor-client.md)                         | デバイスモニタークライアントを起動する                                    |
-| [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                     | リモートフォルダをZIPファイルにパッケージする                             |
+| コマンド                                                                                                   | 説明                                                                      |
+|------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [dropbox file account feature](docs/ja/commands/dropbox-file-account-feature.md)                           | Dropboxアカウントの機能一覧                                               |
+| [dropbox file account filesystem](docs/ja/commands/dropbox-file-account-filesystem.md)                     | Dropboxのファイルシステムのバージョンを表示する                           |
+| [dropbox file account info](docs/ja/commands/dropbox-file-account-info.md)                                 | Dropboxアカウント情報                                                     |
+| [dropbox file compare account](docs/ja/commands/dropbox-file-compare-account.md)                           | 二つのアカウントのファイルを比較します                                    |
+| [dropbox file compare local](docs/ja/commands/dropbox-file-compare-local.md)                               | ローカルフォルダとDropboxフォルダの内容を比較します                       |
+| [dropbox file copy](docs/ja/commands/dropbox-file-copy.md)                                                 | ファイルをコピーします                                                    |
+| [dropbox file delete](docs/ja/commands/dropbox-file-delete.md)                                             | ファイルまたはフォルダは削除します.                                       |
+| [dropbox file export doc](docs/ja/commands/dropbox-file-export-doc.md)                                     | ドキュメントのエクスポート                                                |
+| [dropbox file export url](docs/ja/commands/dropbox-file-export-url.md)                                     | URLからドキュメントをエクスポート                                         |
+| [dropbox file import batch url](docs/ja/commands/dropbox-file-import-batch-url.md)                         | URLからファイルを一括インポートします                                     |
+| [dropbox file import url](docs/ja/commands/dropbox-file-import-url.md)                                     | URLからファイルをインポートします                                         |
+| [dropbox file info](docs/ja/commands/dropbox-file-info.md)                                                 | パスのメタデータを解決                                                    |
+| [dropbox file list](docs/ja/commands/dropbox-file-list.md)                                                 | ファイルとフォルダを一覧します                                            |
+| [dropbox file lock acquire](docs/ja/commands/dropbox-file-lock-acquire.md)                                 | ファイルをロック                                                          |
+| [dropbox file lock all release](docs/ja/commands/dropbox-file-lock-all-release.md)                         | 指定したパスでのすべてのロックを解除する                                  |
+| [dropbox file lock batch acquire](docs/ja/commands/dropbox-file-lock-batch-acquire.md)                     | 複数のファイルをロックする                                                |
+| [dropbox file lock batch release](docs/ja/commands/dropbox-file-lock-batch-release.md)                     | 複数のロックを解除                                                        |
+| [dropbox file lock list](docs/ja/commands/dropbox-file-lock-list.md)                                       | 指定したパスの下にあるロックを一覧表示します                              |
+| [dropbox file lock release](docs/ja/commands/dropbox-file-lock-release.md)                                 | ロックを解除します                                                        |
+| [dropbox file merge](docs/ja/commands/dropbox-file-merge.md)                                               | フォルダを統合します                                                      |
+| [dropbox file move](docs/ja/commands/dropbox-file-move.md)                                                 | ファイルを移動します                                                      |
+| [dropbox file replication](docs/ja/commands/dropbox-file-replication.md)                                   | ファイルコンテンツを他のアカウントに複製します                            |
+| [dropbox file request create](docs/ja/commands/dropbox-file-request-create.md)                             | ファイルリクエストを作成します                                            |
+| [dropbox file request delete closed](docs/ja/commands/dropbox-file-request-delete-closed.md)               | このアカウントの全ての閉じられているファイルリクエストを削除します        |
+| [dropbox file request delete url](docs/ja/commands/dropbox-file-request-delete-url.md)                     | ファイルリクエストのURLを指定して削除                                     |
+| [dropbox file request list](docs/ja/commands/dropbox-file-request-list.md)                                 | 個人アカウントのファイルリクエストを一覧.                                 |
+| [dropbox file restore all](docs/ja/commands/dropbox-file-restore-all.md)                                   | 指定されたパス以下をリストアします                                        |
+| [dropbox file revision download](docs/ja/commands/dropbox-file-revision-download.md)                       | ファイルリビジョンをダウンロードする                                      |
+| [dropbox file revision list](docs/ja/commands/dropbox-file-revision-list.md)                               | ファイルリビジョン一覧                                                    |
+| [dropbox file revision restore](docs/ja/commands/dropbox-file-revision-restore.md)                         | ファイルリビジョンを復元する                                              |
+| [dropbox file search content](docs/ja/commands/dropbox-file-search-content.md)                             | ファイルコンテンツを検索                                                  |
+| [dropbox file search name](docs/ja/commands/dropbox-file-search-name.md)                                   | ファイル名を検索                                                          |
+| [dropbox file share info](docs/ja/commands/dropbox-file-share-info.md)                                     | ファイルの共有情報を取得する                                              |
+| [dropbox file sharedfolder leave](docs/ja/commands/dropbox-file-sharedfolder-leave.md)                     | 共有フォルダーから退出する.                                               |
+| [dropbox file sharedfolder list](docs/ja/commands/dropbox-file-sharedfolder-list.md)                       | 共有フォルダの一覧                                                        |
+| [dropbox file sharedfolder member add](docs/ja/commands/dropbox-file-sharedfolder-member-add.md)           | 共有フォルダへのメンバーの追加                                            |
+| [dropbox file sharedfolder member delete](docs/ja/commands/dropbox-file-sharedfolder-member-delete.md)     | 共有フォルダからメンバーを削除する                                        |
+| [dropbox file sharedfolder member list](docs/ja/commands/dropbox-file-sharedfolder-member-list.md)         | 共有フォルダのメンバーを一覧します                                        |
+| [dropbox file sharedfolder mount add](docs/ja/commands/dropbox-file-sharedfolder-mount-add.md)             | 共有フォルダを現在のユーザーのDropboxに追加する                           |
+| [dropbox file sharedfolder mount delete](docs/ja/commands/dropbox-file-sharedfolder-mount-delete.md)       | 現在のユーザーが指定されたフォルダーをアンマウントする.                   |
+| [dropbox file sharedfolder mount list](docs/ja/commands/dropbox-file-sharedfolder-mount-list.md)           | 現在のユーザーがマウントしているすべての共有フォルダーを一覧表示          |
+| [dropbox file sharedfolder mount mountable](docs/ja/commands/dropbox-file-sharedfolder-mount-mountable.md) | 現在のユーザーがマウントできるすべての共有フォルダーをリストアップします. |
+| [dropbox file sharedfolder share](docs/ja/commands/dropbox-file-sharedfolder-share.md)                     | フォルダの共有                                                            |
+| [dropbox file sharedfolder unshare](docs/ja/commands/dropbox-file-sharedfolder-unshare.md)                 | フォルダの共有解除                                                        |
+| [dropbox file sharedlink create](docs/ja/commands/dropbox-file-sharedlink-create.md)                       | 共有リンクの作成                                                          |
+| [dropbox file sharedlink delete](docs/ja/commands/dropbox-file-sharedlink-delete.md)                       | 共有リンクを削除します                                                    |
+| [dropbox file sharedlink file list](docs/ja/commands/dropbox-file-sharedlink-file-list.md)                 | 共有リンクのファイルを一覧する                                            |
+| [dropbox file sharedlink info](docs/ja/commands/dropbox-file-sharedlink-info.md)                           | 共有リンクの情報取得                                                      |
+| [dropbox file sharedlink list](docs/ja/commands/dropbox-file-sharedlink-list.md)                           | 共有リンクの一覧                                                          |
+| [dropbox file size](docs/ja/commands/dropbox-file-size.md)                                                 | ストレージの利用量                                                        |
+| [dropbox file sync down](docs/ja/commands/dropbox-file-sync-down.md)                                       | Dropboxと下り方向で同期します                                             |
+| [dropbox file sync online](docs/ja/commands/dropbox-file-sync-online.md)                                   | オンラインファイルを同期します                                            |
+| [dropbox file sync up](docs/ja/commands/dropbox-file-sync-up.md)                                           | Dropboxと上り方向で同期します                                             |
+| [dropbox file tag add](docs/ja/commands/dropbox-file-tag-add.md)                                           | ファイル/フォルダーにタグを追加する                                       |
+| [dropbox file tag delete](docs/ja/commands/dropbox-file-tag-delete.md)                                     | ファイル/フォルダーからタグを削除する                                     |
+| [dropbox file tag list](docs/ja/commands/dropbox-file-tag-list.md)                                         | パスのタグを一覧                                                          |
+| [dropbox file template apply](docs/ja/commands/dropbox-file-template-apply.md)                             | Dropboxのパスにファイル/フォルダー構造のテンプレートを適用する            |
+| [dropbox file template capture](docs/ja/commands/dropbox-file-template-capture.md)                         | Dropboxのパスからファイル/フォルダ構造をテンプレートとして取り込む。      |
+| [dropbox file watch](docs/ja/commands/dropbox-file-watch.md)                                               | ファイルアクティビティを監視                                              |
+| [dropbox paper append](docs/ja/commands/dropbox-paper-append.md)                                           | 既存のPaperドキュメントの最後にコンテンツを追加する                       |
+| [dropbox paper create](docs/ja/commands/dropbox-paper-create.md)                                           | パスに新しいPaperを作成                                                   |
+| [dropbox paper overwrite](docs/ja/commands/dropbox-paper-overwrite.md)                                     | 既存のPaperドキュメントを上書きする                                       |
+| [dropbox paper prepend](docs/ja/commands/dropbox-paper-prepend.md)                                         | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
+| [log job ship](docs/ja/commands/log-job-ship.md)                                                           | ログの転送先Dropboxパス                                                   |
+| [teamspace file list](docs/ja/commands/teamspace-file-list.md)                                             | チームスペースにあるファイルやフォルダーを一覧表示                        |
+| [util monitor client](docs/ja/commands/util-monitor-client.md)                                             | デバイスモニタークライアントを起動する                                    |
+| [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                                         | リモートフォルダをZIPファイルにパッケージする                             |
 
 ## チーム向けDropbox
 
-| コマンド                                                                                                       | 説明                                                                                    |
-|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| [dropbox team backup device status](docs/ja/commands/dropbox-team-backup-device-status.md)                     | Dropbox バックアップ デバイスのステータスが指定期間内に変更された場合                   |
-| [group add](docs/ja/commands/group-add.md)                                                                     | グループを作成します                                                                    |
-| [group batch add](docs/ja/commands/group-batch-add.md)                                                         | グループの一括追加                                                                      |
-| [group batch delete](docs/ja/commands/group-batch-delete.md)                                                   | グループの削除                                                                          |
-| [group clear externalid](docs/ja/commands/group-clear-externalid.md)                                           | グループの外部IDをクリアする                                                            |
-| [group delete](docs/ja/commands/group-delete.md)                                                               | グループを削除します                                                                    |
-| [group folder list](docs/ja/commands/group-folder-list.md)                                                     | 各グループのフォルダーを一覧表示                                                        |
-| [group list](docs/ja/commands/group-list.md)                                                                   | グループを一覧                                                                          |
-| [group member add](docs/ja/commands/group-member-add.md)                                                       | メンバーをグループに追加                                                                |
-| [group member batch add](docs/ja/commands/group-member-batch-add.md)                                           | グループにメンバーを一括追加                                                            |
-| [group member batch delete](docs/ja/commands/group-member-batch-delete.md)                                     | グループからメンバーを削除                                                              |
-| [group member batch update](docs/ja/commands/group-member-batch-update.md)                                     | グループからメンバーを追加または削除                                                    |
-| [group member delete](docs/ja/commands/group-member-delete.md)                                                 | メンバーをグループから削除                                                              |
-| [group member list](docs/ja/commands/group-member-list.md)                                                     | グループに所属するメンバー一覧を取得します                                              |
-| [group rename](docs/ja/commands/group-rename.md)                                                               | グループの改名                                                                          |
-| [group update type](docs/ja/commands/group-update-type.md)                                                     | グループ管理タイプの更新                                                                |
-| [member batch suspend](docs/ja/commands/member-batch-suspend.md)                                               | メンバーの一括一時停止                                                                  |
-| [member batch unsuspend](docs/ja/commands/member-batch-unsuspend.md)                                           | メンバーの一括停止解除                                                                  |
-| [member clear externalid](docs/ja/commands/member-clear-externalid.md)                                         | メンバーのexternal_idを初期化します                                                     |
-| [member delete](docs/ja/commands/member-delete.md)                                                             | メンバーを削除します                                                                    |
-| [member detach](docs/ja/commands/member-detach.md)                                                             | Dropbox for teamsのアカウントをBasicアカウントに変更する                                |
-| [member feature](docs/ja/commands/member-feature.md)                                                           | メンバーの機能設定一覧                                                                  |
-| [member file lock all release](docs/ja/commands/member-file-lock-all-release.md)                               | メンバーのパスの下にあるすべてのロックを解除します                                      |
-| [member file lock list](docs/ja/commands/member-file-lock-list.md)                                             | パスの下にあるメンバーのロックを一覧表示                                                |
-| [member file lock release](docs/ja/commands/member-file-lock-release.md)                                       | メンバーとしてパスのロックを解除します                                                  |
-| [member file permdelete](docs/ja/commands/member-file-permdelete.md)                                           | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                  |
-| [member folder list](docs/ja/commands/member-folder-list.md)                                                   | 各メンバーのフォルダーを一覧表示                                                        |
-| [member folder replication](docs/ja/commands/member-folder-replication.md)                                     | フォルダを他のメンバーの個人フォルダに複製します                                        |
-| [member invite](docs/ja/commands/member-invite.md)                                                             | メンバーを招待します                                                                    |
-| [member list](docs/ja/commands/member-list.md)                                                                 | チームメンバーの一覧                                                                    |
-| [member quota list](docs/ja/commands/member-quota-list.md)                                                     | メンバーの容量制限情報を一覧します                                                      |
-| [member quota update](docs/ja/commands/member-quota-update.md)                                                 | チームメンバーの容量制限を変更                                                          |
-| [member quota usage](docs/ja/commands/member-quota-usage.md)                                                   | チームメンバーのストレージ利用状況を取得                                                |
-| [member reinvite](docs/ja/commands/member-reinvite.md)                                                         | 招待済み状態メンバーをチームに再招待します                                              |
-| [member replication](docs/ja/commands/member-replication.md)                                                   | チームメンバーのファイルを複製します                                                    |
-| [member suspend](docs/ja/commands/member-suspend.md)                                                           | メンバーの一時停止処理                                                                  |
-| [member unsuspend](docs/ja/commands/member-unsuspend.md)                                                       | メンバーの一時停止を解除する                                                            |
-| [member update email](docs/ja/commands/member-update-email.md)                                                 | メンバーのメールアドレス処理                                                            |
-| [member update externalid](docs/ja/commands/member-update-externalid.md)                                       | チームメンバーのExternal IDを更新します.                                                |
-| [member update invisible](docs/ja/commands/member-update-invisible.md)                                         | メンバーへのディレクトリ制限を有効にします                                              |
-| [member update profile](docs/ja/commands/member-update-profile.md)                                             | メンバーのプロフィール変更                                                              |
-| [member update visible](docs/ja/commands/member-update-visible.md)                                             | メンバーへのディレクトリ制限を無効にします                                              |
-| [team activity batch user](docs/ja/commands/team-activity-batch-user.md)                                       | 複数ユーザーのアクティビティを一括取得します                                            |
-| [team activity daily event](docs/ja/commands/team-activity-daily-event.md)                                     | アクティビティーを1日ごとに取得します                                                   |
-| [team activity event](docs/ja/commands/team-activity-event.md)                                                 | イベントログ                                                                            |
-| [team activity user](docs/ja/commands/team-activity-user.md)                                                   | ユーザーごとのアクティビティ                                                            |
-| [team admin group role add](docs/ja/commands/team-admin-group-role-add.md)                                     | グループのメンバーにロールを追加する                                                    |
-| [team admin group role delete](docs/ja/commands/team-admin-group-role-delete.md)                               | 例外グループのメンバーを除くすべてのメンバーからロールを削除する                        |
-| [team admin list](docs/ja/commands/team-admin-list.md)                                                         | メンバーの管理者権限一覧                                                                |
-| [team admin role add](docs/ja/commands/team-admin-role-add.md)                                                 | メンバーに新しいロールを追加する                                                        |
-| [team admin role clear](docs/ja/commands/team-admin-role-clear.md)                                             | メンバーからすべての管理者ロールを削除する                                              |
-| [team admin role delete](docs/ja/commands/team-admin-role-delete.md)                                           | メンバーからロールを削除する                                                            |
-| [team admin role list](docs/ja/commands/team-admin-role-list.md)                                               | チームの管理者の役割を列挙                                                              |
-| [team content legacypaper count](docs/ja/commands/team-content-legacypaper-count.md)                           | メンバー1人あたりのPaper文書の枚数                                                      |
-| [team content legacypaper export](docs/ja/commands/team-content-legacypaper-export.md)                         | チームメンバー全員のPaper文書をローカルパスにエクスポート.                              |
-| [team content legacypaper list](docs/ja/commands/team-content-legacypaper-list.md)                             | チームメンバーのPaper文書リスト出力                                                     |
-| [team content member list](docs/ja/commands/team-content-member-list.md)                                       | チームフォルダや共有フォルダのメンバー一覧                                              |
-| [team content member size](docs/ja/commands/team-content-member-size.md)                                       | チームフォルダや共有フォルダのメンバー数をカウントする                                  |
-| [team content mount list](docs/ja/commands/team-content-mount-list.md)                                         | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします.  |
-| [team content policy list](docs/ja/commands/team-content-policy-list.md)                                       | チームフォルダと共有フォルダのポリシー一覧                                              |
-| [team device list](docs/ja/commands/team-device-list.md)                                                       | チーム内全てのデバイス/セッションを一覧します                                           |
-| [team device unlink](docs/ja/commands/team-device-unlink.md)                                                   | デバイスのセッションを解除します                                                        |
-| [team feature](docs/ja/commands/team-feature.md)                                                               | チームの機能を出力します                                                                |
-| [team filerequest list](docs/ja/commands/team-filerequest-list.md)                                             | チームないのファイルリクエストを一覧します                                              |
-| [team filesystem](docs/ja/commands/team-filesystem.md)                                                         | チームのファイルシステムのバージョンを特定する                                          |
-| [team info](docs/ja/commands/team-info.md)                                                                     | チームの情報                                                                            |
-| [team legalhold add](docs/ja/commands/team-legalhold-add.md)                                                   | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
-| [team legalhold list](docs/ja/commands/team-legalhold-list.md)                                                 | 既存のポリシーを取得する                                                                |
-| [team legalhold member batch update](docs/ja/commands/team-legalhold-member-batch-update.md)                   | リーガル・ホールド・ポリシーのメンバーリスト更新                                        |
-| [team legalhold member list](docs/ja/commands/team-legalhold-member-list.md)                                   | リーガルホールドのメンバーをリストアップ                                                |
-| [team legalhold release](docs/ja/commands/team-legalhold-release.md)                                           | Idによるリーガルホールドを解除する                                                      |
-| [team legalhold revision list](docs/ja/commands/team-legalhold-revision-list.md)                               | リーガル・ホールド・ポリシーのリビジョンをリストアップする                              |
-| [team legalhold update desc](docs/ja/commands/team-legalhold-update-desc.md)                                   | リーガルホールド・ポリシーの説明を更新                                                  |
-| [team legalhold update name](docs/ja/commands/team-legalhold-update-name.md)                                   | リーガルホールドポリシーの名称を更新                                                    |
-| [team linkedapp list](docs/ja/commands/team-linkedapp-list.md)                                                 | リンク済みアプリを一覧                                                                  |
-| [team namespace file list](docs/ja/commands/team-namespace-file-list.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
-| [team namespace file size](docs/ja/commands/team-namespace-file-size.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
-| [team namespace list](docs/ja/commands/team-namespace-list.md)                                                 | チーム内すべての名前空間を一覧                                                          |
-| [team namespace member list](docs/ja/commands/team-namespace-member-list.md)                                   | チームフォルダ以下のファイル・フォルダを一覧                                            |
-| [team namespace summary](docs/ja/commands/team-namespace-summary.md)                                           | チーム・ネームスペースの状態概要を報告する.                                             |
-| [team runas file batch copy](docs/ja/commands/team-runas-file-batch-copy.md)                                   | ファイル/フォルダーをメンバーとして一括コピー                                           |
-| [team runas file list](docs/ja/commands/team-runas-file-list.md)                                               | メンバーとして実行するファイルやフォルダーの一覧                                        |
-| [team runas file sync batch up](docs/ja/commands/team-runas-file-sync-batch-up.md)                             | メンバーとして動作する一括同期                                                          |
-| [team runas sharedfolder batch leave](docs/ja/commands/team-runas-sharedfolder-batch-leave.md)                 | 共有フォルダからメンバーとして一括退出                                                  |
-| [team runas sharedfolder batch share](docs/ja/commands/team-runas-sharedfolder-batch-share.md)                 | メンバーのフォルダを一括で共有                                                          |
-| [team runas sharedfolder batch unshare](docs/ja/commands/team-runas-sharedfolder-batch-unshare.md)             | メンバーのフォルダの共有を一括解除                                                      |
-| [team runas sharedfolder isolate](docs/ja/commands/team-runas-sharedfolder-isolate.md)                         | 所有する共有フォルダの共有を解除し、メンバーとして実行する外部共有フォルダから離脱する. |
-| [team runas sharedfolder list](docs/ja/commands/team-runas-sharedfolder-list.md)                               | 共有フォルダーの一覧をメンバーとして実行                                                |
-| [team runas sharedfolder member batch add](docs/ja/commands/team-runas-sharedfolder-member-batch-add.md)       | メンバーの共有フォルダにメンバーを一括追加                                              |
-| [team runas sharedfolder member batch delete](docs/ja/commands/team-runas-sharedfolder-member-batch-delete.md) | メンバーの共有フォルダからメンバーを一括削除                                            |
-| [team runas sharedfolder mount add](docs/ja/commands/team-runas-sharedfolder-mount-add.md)                     | 指定したメンバーのDropboxに共有フォルダを追加する                                       |
-| [team runas sharedfolder mount delete](docs/ja/commands/team-runas-sharedfolder-mount-delete.md)               | 指定されたユーザーが指定されたフォルダーをアンマウントする.                             |
-| [team runas sharedfolder mount list](docs/ja/commands/team-runas-sharedfolder-mount-list.md)                   | 指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.         |
-| [team runas sharedfolder mount mountable](docs/ja/commands/team-runas-sharedfolder-mount-mountable.md)         | メンバーがマウントできるすべての共有フォルダーをリストアップ.                           |
-| [team sharedlink cap expiry](docs/ja/commands/team-sharedlink-cap-expiry.md)                                   | チーム内の共有リンクに有効期限の上限を設定                                              |
-| [team sharedlink cap visibility](docs/ja/commands/team-sharedlink-cap-visibility.md)                           | チーム内の共有リンクに可視性の上限を設定                                                |
-| [team sharedlink delete links](docs/ja/commands/team-sharedlink-delete-links.md)                               | 共有リンクの一括削除                                                                    |
-| [team sharedlink delete member](docs/ja/commands/team-sharedlink-delete-member.md)                             | メンバーの共有リンクをすべて削除                                                        |
-| [team sharedlink list](docs/ja/commands/team-sharedlink-list.md)                                               | 共有リンクの一覧                                                                        |
-| [team sharedlink update expiry](docs/ja/commands/team-sharedlink-update-expiry.md)                             | チーム内の公開されている共有リンクについて有効期限を更新します                          |
-| [team sharedlink update password](docs/ja/commands/team-sharedlink-update-password.md)                         | 共有リンクのパスワードの設定・更新                                                      |
-| [team sharedlink update visibility](docs/ja/commands/team-sharedlink-update-visibility.md)                     | 共有リンクの可視性の更新                                                                |
-| [teamfolder add](docs/ja/commands/teamfolder-add.md)                                                           | チームフォルダを追加します                                                              |
-| [teamfolder archive](docs/ja/commands/teamfolder-archive.md)                                                   | チームフォルダのアーカイブ                                                              |
-| [teamfolder batch archive](docs/ja/commands/teamfolder-batch-archive.md)                                       | 複数のチームフォルダをアーカイブします                                                  |
-| [teamfolder batch permdelete](docs/ja/commands/teamfolder-batch-permdelete.md)                                 | 複数のチームフォルダを完全に削除します                                                  |
-| [teamfolder batch replication](docs/ja/commands/teamfolder-batch-replication.md)                               | チームフォルダの一括レプリケーション                                                    |
-| [teamfolder file list](docs/ja/commands/teamfolder-file-list.md)                                               | チームフォルダの一覧                                                                    |
-| [teamfolder file lock all release](docs/ja/commands/teamfolder-file-lock-all-release.md)                       | チームフォルダのパスの下にあるすべてのロックを解除する                                  |
-| [teamfolder file lock list](docs/ja/commands/teamfolder-file-lock-list.md)                                     | チームフォルダ内のロックを一覧表示                                                      |
-| [teamfolder file lock release](docs/ja/commands/teamfolder-file-lock-release.md)                               | チームフォルダ内のパスのロックを解除                                                    |
-| [teamfolder file size](docs/ja/commands/teamfolder-file-size.md)                                               | チームフォルダのサイズを計算                                                            |
-| [teamfolder list](docs/ja/commands/teamfolder-list.md)                                                         | チームフォルダの一覧                                                                    |
-| [teamfolder member add](docs/ja/commands/teamfolder-member-add.md)                                             | チームフォルダへのユーザー/グループの一括追加                                           |
-| [teamfolder member delete](docs/ja/commands/teamfolder-member-delete.md)                                       | チームフォルダからのユーザー/グループの一括削除                                         |
-| [teamfolder member list](docs/ja/commands/teamfolder-member-list.md)                                           | チームフォルダのメンバー一覧                                                            |
-| [teamfolder partial replication](docs/ja/commands/teamfolder-partial-replication.md)                           | 部分的なチームフォルダの他チームへのレプリケーション                                    |
-| [teamfolder permdelete](docs/ja/commands/teamfolder-permdelete.md)                                             | チームフォルダを完全に削除します                                                        |
-| [teamfolder policy list](docs/ja/commands/teamfolder-policy-list.md)                                           | チームフォルダのポリシー一覧                                                            |
-| [teamfolder replication](docs/ja/commands/teamfolder-replication.md)                                           | チームフォルダを他のチームに複製します                                                  |
-| [teamfolder sync setting list](docs/ja/commands/teamfolder-sync-setting-list.md)                               | チームフォルダーの同期設定を一覧表示                                                    |
-| [teamfolder sync setting update](docs/ja/commands/teamfolder-sync-setting-update.md)                           | チームフォルダ同期設定の一括更新                                                        |
-| [teamspace asadmin file list](docs/ja/commands/teamspace-asadmin-file-list.md)                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
-| [teamspace asadmin folder add](docs/ja/commands/teamspace-asadmin-folder-add.md)                               | チームスペースにトップレベルのフォルダーを作成                                          |
-| [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                         | チームスペースのトップレベルフォルダーを削除する                                        |
-| [teamspace asadmin folder permdelete](docs/ja/commands/teamspace-asadmin-folder-permdelete.md)                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
+| コマンド                                                                                                                       | 説明                                                                                    |
+|--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| [dropbox team activity batch user](docs/ja/commands/dropbox-team-activity-batch-user.md)                                       | 複数ユーザーのアクティビティを一括取得します                                            |
+| [dropbox team activity daily event](docs/ja/commands/dropbox-team-activity-daily-event.md)                                     | アクティビティーを1日ごとに取得します                                                   |
+| [dropbox team activity event](docs/ja/commands/dropbox-team-activity-event.md)                                                 | イベントログ                                                                            |
+| [dropbox team activity user](docs/ja/commands/dropbox-team-activity-user.md)                                                   | ユーザーごとのアクティビティ                                                            |
+| [dropbox team admin group role add](docs/ja/commands/dropbox-team-admin-group-role-add.md)                                     | グループのメンバーにロールを追加する                                                    |
+| [dropbox team admin group role delete](docs/ja/commands/dropbox-team-admin-group-role-delete.md)                               | 例外グループのメンバーを除くすべてのメンバーからロールを削除する                        |
+| [dropbox team admin list](docs/ja/commands/dropbox-team-admin-list.md)                                                         | メンバーの管理者権限一覧                                                                |
+| [dropbox team admin role add](docs/ja/commands/dropbox-team-admin-role-add.md)                                                 | メンバーに新しいロールを追加する                                                        |
+| [dropbox team admin role clear](docs/ja/commands/dropbox-team-admin-role-clear.md)                                             | メンバーからすべての管理者ロールを削除する                                              |
+| [dropbox team admin role delete](docs/ja/commands/dropbox-team-admin-role-delete.md)                                           | メンバーからロールを削除する                                                            |
+| [dropbox team admin role list](docs/ja/commands/dropbox-team-admin-role-list.md)                                               | チームの管理者の役割を列挙                                                              |
+| [dropbox team backup device status](docs/ja/commands/dropbox-team-backup-device-status.md)                                     | Dropbox バックアップ デバイスのステータスが指定期間内に変更された場合                   |
+| [dropbox team content legacypaper count](docs/ja/commands/dropbox-team-content-legacypaper-count.md)                           | メンバー1人あたりのPaper文書の枚数                                                      |
+| [dropbox team content legacypaper export](docs/ja/commands/dropbox-team-content-legacypaper-export.md)                         | チームメンバー全員のPaper文書をローカルパスにエクスポート.                              |
+| [dropbox team content legacypaper list](docs/ja/commands/dropbox-team-content-legacypaper-list.md)                             | チームメンバーのPaper文書リスト出力                                                     |
+| [dropbox team content member list](docs/ja/commands/dropbox-team-content-member-list.md)                                       | チームフォルダや共有フォルダのメンバー一覧                                              |
+| [dropbox team content member size](docs/ja/commands/dropbox-team-content-member-size.md)                                       | チームフォルダや共有フォルダのメンバー数をカウントする                                  |
+| [dropbox team content mount list](docs/ja/commands/dropbox-team-content-mount-list.md)                                         | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします.  |
+| [dropbox team content policy list](docs/ja/commands/dropbox-team-content-policy-list.md)                                       | チームフォルダと共有フォルダのポリシー一覧                                              |
+| [dropbox team device list](docs/ja/commands/dropbox-team-device-list.md)                                                       | チーム内全てのデバイス/セッションを一覧します                                           |
+| [dropbox team device unlink](docs/ja/commands/dropbox-team-device-unlink.md)                                                   | デバイスのセッションを解除します                                                        |
+| [dropbox team feature](docs/ja/commands/dropbox-team-feature.md)                                                               | チームの機能を出力します                                                                |
+| [dropbox team filerequest list](docs/ja/commands/dropbox-team-filerequest-list.md)                                             | チームないのファイルリクエストを一覧します                                              |
+| [dropbox team filesystem](docs/ja/commands/dropbox-team-filesystem.md)                                                         | チームのファイルシステムのバージョンを特定する                                          |
+| [dropbox team group add](docs/ja/commands/dropbox-team-group-add.md)                                                           | グループを作成します                                                                    |
+| [dropbox team group batch add](docs/ja/commands/dropbox-team-group-batch-add.md)                                               | グループの一括追加                                                                      |
+| [dropbox team group batch delete](docs/ja/commands/dropbox-team-group-batch-delete.md)                                         | グループの削除                                                                          |
+| [dropbox team group clear externalid](docs/ja/commands/dropbox-team-group-clear-externalid.md)                                 | グループの外部IDをクリアする                                                            |
+| [dropbox team group delete](docs/ja/commands/dropbox-team-group-delete.md)                                                     | グループを削除します                                                                    |
+| [dropbox team group folder list](docs/ja/commands/dropbox-team-group-folder-list.md)                                           | 各グループのフォルダーを一覧表示                                                        |
+| [dropbox team group list](docs/ja/commands/dropbox-team-group-list.md)                                                         | グループを一覧                                                                          |
+| [dropbox team group member add](docs/ja/commands/dropbox-team-group-member-add.md)                                             | メンバーをグループに追加                                                                |
+| [dropbox team group member batch add](docs/ja/commands/dropbox-team-group-member-batch-add.md)                                 | グループにメンバーを一括追加                                                            |
+| [dropbox team group member batch delete](docs/ja/commands/dropbox-team-group-member-batch-delete.md)                           | グループからメンバーを削除                                                              |
+| [dropbox team group member batch update](docs/ja/commands/dropbox-team-group-member-batch-update.md)                           | グループからメンバーを追加または削除                                                    |
+| [dropbox team group member delete](docs/ja/commands/dropbox-team-group-member-delete.md)                                       | メンバーをグループから削除                                                              |
+| [dropbox team group member list](docs/ja/commands/dropbox-team-group-member-list.md)                                           | グループに所属するメンバー一覧を取得します                                              |
+| [dropbox team group rename](docs/ja/commands/dropbox-team-group-rename.md)                                                     | グループの改名                                                                          |
+| [dropbox team group update type](docs/ja/commands/dropbox-team-group-update-type.md)                                           | グループ管理タイプの更新                                                                |
+| [dropbox team info](docs/ja/commands/dropbox-team-info.md)                                                                     | チームの情報                                                                            |
+| [dropbox team insight scan](docs/ja/commands/dropbox-team-insight-scan.md)                                                     | チームデータをスキャンして分析                                                          |
+| [dropbox team legalhold add](docs/ja/commands/dropbox-team-legalhold-add.md)                                                   | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
+| [dropbox team legalhold list](docs/ja/commands/dropbox-team-legalhold-list.md)                                                 | 既存のポリシーを取得する                                                                |
+| [dropbox team legalhold member batch update](docs/ja/commands/dropbox-team-legalhold-member-batch-update.md)                   | リーガル・ホールド・ポリシーのメンバーリスト更新                                        |
+| [dropbox team legalhold member list](docs/ja/commands/dropbox-team-legalhold-member-list.md)                                   | リーガルホールドのメンバーをリストアップ                                                |
+| [dropbox team legalhold release](docs/ja/commands/dropbox-team-legalhold-release.md)                                           | Idによるリーガルホールドを解除する                                                      |
+| [dropbox team legalhold revision list](docs/ja/commands/dropbox-team-legalhold-revision-list.md)                               | リーガル・ホールド・ポリシーのリビジョンをリストアップする                              |
+| [dropbox team legalhold update desc](docs/ja/commands/dropbox-team-legalhold-update-desc.md)                                   | リーガルホールド・ポリシーの説明を更新                                                  |
+| [dropbox team legalhold update name](docs/ja/commands/dropbox-team-legalhold-update-name.md)                                   | リーガルホールドポリシーの名称を更新                                                    |
+| [dropbox team linkedapp list](docs/ja/commands/dropbox-team-linkedapp-list.md)                                                 | リンク済みアプリを一覧                                                                  |
+| [dropbox team member batch delete](docs/ja/commands/dropbox-team-member-batch-delete.md)                                       | メンバーを削除します                                                                    |
+| [dropbox team member batch detach](docs/ja/commands/dropbox-team-member-batch-detach.md)                                       | Dropbox for teamsのアカウントをBasicアカウントに変更する                                |
+| [dropbox team member batch invite](docs/ja/commands/dropbox-team-member-batch-invite.md)                                       | メンバーを招待します                                                                    |
+| [dropbox team member batch reinvite](docs/ja/commands/dropbox-team-member-batch-reinvite.md)                                   | 招待済み状態メンバーをチームに再招待します                                              |
+| [dropbox team member batch suspend](docs/ja/commands/dropbox-team-member-batch-suspend.md)                                     | メンバーの一括一時停止                                                                  |
+| [dropbox team member batch unsuspend](docs/ja/commands/dropbox-team-member-batch-unsuspend.md)                                 | メンバーの一括停止解除                                                                  |
+| [dropbox team member clear externalid](docs/ja/commands/dropbox-team-member-clear-externalid.md)                               | メンバーのexternal_idを初期化します                                                     |
+| [dropbox team member feature](docs/ja/commands/dropbox-team-member-feature.md)                                                 | メンバーの機能設定一覧                                                                  |
+| [dropbox team member file lock all release](docs/ja/commands/dropbox-team-member-file-lock-all-release.md)                     | メンバーのパスの下にあるすべてのロックを解除します                                      |
+| [dropbox team member file lock list](docs/ja/commands/dropbox-team-member-file-lock-list.md)                                   | パスの下にあるメンバーのロックを一覧表示                                                |
+| [dropbox team member file lock release](docs/ja/commands/dropbox-team-member-file-lock-release.md)                             | メンバーとしてパスのロックを解除します                                                  |
+| [dropbox team member file permdelete](docs/ja/commands/dropbox-team-member-file-permdelete.md)                                 | チームメンバーの指定したパスのファイルまたはフォルダを完全に削除します                  |
+| [dropbox team member folder list](docs/ja/commands/dropbox-team-member-folder-list.md)                                         | 各メンバーのフォルダーを一覧表示                                                        |
+| [dropbox team member folder replication](docs/ja/commands/dropbox-team-member-folder-replication.md)                           | フォルダを他のメンバーの個人フォルダに複製します                                        |
+| [dropbox team member list](docs/ja/commands/dropbox-team-member-list.md)                                                       | チームメンバーの一覧                                                                    |
+| [dropbox team member quota batch update](docs/ja/commands/dropbox-team-member-quota-batch-update.md)                           | チームメンバーの容量制限を変更                                                          |
+| [dropbox team member quota list](docs/ja/commands/dropbox-team-member-quota-list.md)                                           | メンバーの容量制限情報を一覧します                                                      |
+| [dropbox team member quota usage](docs/ja/commands/dropbox-team-member-quota-usage.md)                                         | チームメンバーのストレージ利用状況を取得                                                |
+| [dropbox team member replication](docs/ja/commands/dropbox-team-member-replication.md)                                         | チームメンバーのファイルを複製します                                                    |
+| [dropbox team member suspend](docs/ja/commands/dropbox-team-member-suspend.md)                                                 | メンバーの一時停止処理                                                                  |
+| [dropbox team member unsuspend](docs/ja/commands/dropbox-team-member-unsuspend.md)                                             | メンバーの一時停止を解除する                                                            |
+| [dropbox team member update batch email](docs/ja/commands/dropbox-team-member-update-batch-email.md)                           | メンバーのメールアドレス処理                                                            |
+| [dropbox team member update batch externalid](docs/ja/commands/dropbox-team-member-update-batch-externalid.md)                 | チームメンバーのExternal IDを更新します.                                                |
+| [dropbox team member update batch invisible](docs/ja/commands/dropbox-team-member-update-batch-invisible.md)                   | メンバーへのディレクトリ制限を有効にします                                              |
+| [dropbox team member update batch profile](docs/ja/commands/dropbox-team-member-update-batch-profile.md)                       | メンバーのプロフィール変更                                                              |
+| [dropbox team member update batch visible](docs/ja/commands/dropbox-team-member-update-batch-visible.md)                       | メンバーへのディレクトリ制限を無効にします                                              |
+| [dropbox team namespace file list](docs/ja/commands/dropbox-team-namespace-file-list.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
+| [dropbox team namespace file size](docs/ja/commands/dropbox-team-namespace-file-size.md)                                       | チーム内全ての名前空間でのファイル・フォルダを一覧                                      |
+| [dropbox team namespace list](docs/ja/commands/dropbox-team-namespace-list.md)                                                 | チーム内すべての名前空間を一覧                                                          |
+| [dropbox team namespace member list](docs/ja/commands/dropbox-team-namespace-member-list.md)                                   | チームフォルダ以下のファイル・フォルダを一覧                                            |
+| [dropbox team namespace summary](docs/ja/commands/dropbox-team-namespace-summary.md)                                           | チーム・ネームスペースの状態概要を報告する.                                             |
+| [dropbox team runas file batch copy](docs/ja/commands/dropbox-team-runas-file-batch-copy.md)                                   | ファイル/フォルダーをメンバーとして一括コピー                                           |
+| [dropbox team runas file list](docs/ja/commands/dropbox-team-runas-file-list.md)                                               | メンバーとして実行するファイルやフォルダーの一覧                                        |
+| [dropbox team runas file sync batch up](docs/ja/commands/dropbox-team-runas-file-sync-batch-up.md)                             | メンバーとして動作する一括同期                                                          |
+| [dropbox team runas sharedfolder batch leave](docs/ja/commands/dropbox-team-runas-sharedfolder-batch-leave.md)                 | 共有フォルダからメンバーとして一括退出                                                  |
+| [dropbox team runas sharedfolder batch share](docs/ja/commands/dropbox-team-runas-sharedfolder-batch-share.md)                 | メンバーのフォルダを一括で共有                                                          |
+| [dropbox team runas sharedfolder batch unshare](docs/ja/commands/dropbox-team-runas-sharedfolder-batch-unshare.md)             | メンバーのフォルダの共有を一括解除                                                      |
+| [dropbox team runas sharedfolder isolate](docs/ja/commands/dropbox-team-runas-sharedfolder-isolate.md)                         | 所有する共有フォルダの共有を解除し、メンバーとして実行する外部共有フォルダから離脱する. |
+| [dropbox team runas sharedfolder list](docs/ja/commands/dropbox-team-runas-sharedfolder-list.md)                               | 共有フォルダーの一覧をメンバーとして実行                                                |
+| [dropbox team runas sharedfolder member batch add](docs/ja/commands/dropbox-team-runas-sharedfolder-member-batch-add.md)       | メンバーの共有フォルダにメンバーを一括追加                                              |
+| [dropbox team runas sharedfolder member batch delete](docs/ja/commands/dropbox-team-runas-sharedfolder-member-batch-delete.md) | メンバーの共有フォルダからメンバーを一括削除                                            |
+| [dropbox team runas sharedfolder mount add](docs/ja/commands/dropbox-team-runas-sharedfolder-mount-add.md)                     | 指定したメンバーのDropboxに共有フォルダを追加する                                       |
+| [dropbox team runas sharedfolder mount delete](docs/ja/commands/dropbox-team-runas-sharedfolder-mount-delete.md)               | 指定されたユーザーが指定されたフォルダーをアンマウントする.                             |
+| [dropbox team runas sharedfolder mount list](docs/ja/commands/dropbox-team-runas-sharedfolder-mount-list.md)                   | 指定されたメンバーがマウントしているすべての共有フォルダーをリストアップします.         |
+| [dropbox team runas sharedfolder mount mountable](docs/ja/commands/dropbox-team-runas-sharedfolder-mount-mountable.md)         | メンバーがマウントできるすべての共有フォルダーをリストアップ.                           |
+| [dropbox team sharedlink cap expiry](docs/ja/commands/dropbox-team-sharedlink-cap-expiry.md)                                   | チーム内の共有リンクに有効期限の上限を設定                                              |
+| [dropbox team sharedlink cap visibility](docs/ja/commands/dropbox-team-sharedlink-cap-visibility.md)                           | チーム内の共有リンクに可視性の上限を設定                                                |
+| [dropbox team sharedlink delete links](docs/ja/commands/dropbox-team-sharedlink-delete-links.md)                               | 共有リンクの一括削除                                                                    |
+| [dropbox team sharedlink delete member](docs/ja/commands/dropbox-team-sharedlink-delete-member.md)                             | メンバーの共有リンクをすべて削除                                                        |
+| [dropbox team sharedlink list](docs/ja/commands/dropbox-team-sharedlink-list.md)                                               | 共有リンクの一覧                                                                        |
+| [dropbox team sharedlink update expiry](docs/ja/commands/dropbox-team-sharedlink-update-expiry.md)                             | チーム内の公開されている共有リンクについて有効期限を更新します                          |
+| [dropbox team sharedlink update password](docs/ja/commands/dropbox-team-sharedlink-update-password.md)                         | 共有リンクのパスワードの設定・更新                                                      |
+| [dropbox team sharedlink update visibility](docs/ja/commands/dropbox-team-sharedlink-update-visibility.md)                     | 共有リンクの可視性の更新                                                                |
+| [dropbox team teamfolder add](docs/ja/commands/dropbox-team-teamfolder-add.md)                                                 | チームフォルダを追加します                                                              |
+| [dropbox team teamfolder archive](docs/ja/commands/dropbox-team-teamfolder-archive.md)                                         | チームフォルダのアーカイブ                                                              |
+| [dropbox team teamfolder batch archive](docs/ja/commands/dropbox-team-teamfolder-batch-archive.md)                             | 複数のチームフォルダをアーカイブします                                                  |
+| [dropbox team teamfolder batch permdelete](docs/ja/commands/dropbox-team-teamfolder-batch-permdelete.md)                       | 複数のチームフォルダを完全に削除します                                                  |
+| [dropbox team teamfolder batch replication](docs/ja/commands/dropbox-team-teamfolder-batch-replication.md)                     | チームフォルダの一括レプリケーション                                                    |
+| [dropbox team teamfolder file list](docs/ja/commands/dropbox-team-teamfolder-file-list.md)                                     | チームフォルダの一覧                                                                    |
+| [dropbox team teamfolder file lock all release](docs/ja/commands/dropbox-team-teamfolder-file-lock-all-release.md)             | チームフォルダのパスの下にあるすべてのロックを解除する                                  |
+| [dropbox team teamfolder file lock list](docs/ja/commands/dropbox-team-teamfolder-file-lock-list.md)                           | チームフォルダ内のロックを一覧表示                                                      |
+| [dropbox team teamfolder file lock release](docs/ja/commands/dropbox-team-teamfolder-file-lock-release.md)                     | チームフォルダ内のパスのロックを解除                                                    |
+| [dropbox team teamfolder file size](docs/ja/commands/dropbox-team-teamfolder-file-size.md)                                     | チームフォルダのサイズを計算                                                            |
+| [dropbox team teamfolder list](docs/ja/commands/dropbox-team-teamfolder-list.md)                                               | チームフォルダの一覧                                                                    |
+| [dropbox team teamfolder member add](docs/ja/commands/dropbox-team-teamfolder-member-add.md)                                   | チームフォルダへのユーザー/グループの一括追加                                           |
+| [dropbox team teamfolder member delete](docs/ja/commands/dropbox-team-teamfolder-member-delete.md)                             | チームフォルダからのユーザー/グループの一括削除                                         |
+| [dropbox team teamfolder member list](docs/ja/commands/dropbox-team-teamfolder-member-list.md)                                 | チームフォルダのメンバー一覧                                                            |
+| [dropbox team teamfolder partial replication](docs/ja/commands/dropbox-team-teamfolder-partial-replication.md)                 | 部分的なチームフォルダの他チームへのレプリケーション                                    |
+| [dropbox team teamfolder permdelete](docs/ja/commands/dropbox-team-teamfolder-permdelete.md)                                   | チームフォルダを完全に削除します                                                        |
+| [dropbox team teamfolder policy list](docs/ja/commands/dropbox-team-teamfolder-policy-list.md)                                 | チームフォルダのポリシー一覧                                                            |
+| [dropbox team teamfolder replication](docs/ja/commands/dropbox-team-teamfolder-replication.md)                                 | チームフォルダを他のチームに複製します                                                  |
+| [dropbox team teamfolder sync setting list](docs/ja/commands/dropbox-team-teamfolder-sync-setting-list.md)                     | チームフォルダーの同期設定を一覧表示                                                    |
+| [dropbox team teamfolder sync setting update](docs/ja/commands/dropbox-team-teamfolder-sync-setting-update.md)                 | チームフォルダ同期設定の一括更新                                                        |
+| [teamspace asadmin file list](docs/ja/commands/teamspace-asadmin-file-list.md)                                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
+| [teamspace asadmin folder add](docs/ja/commands/teamspace-asadmin-folder-add.md)                                               | チームスペースにトップレベルのフォルダーを作成                                          |
+| [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                                         | チームスペースのトップレベルフォルダーを削除する                                        |
+| [teamspace asadmin folder permdelete](docs/ja/commands/teamspace-asadmin-folder-permdelete.md)                                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
 ## DeepL
 
@@ -399,65 +401,66 @@ Dropbox用ツールとDropbox for teams
 
 ## ユーティリティー
 
-| コマンド                                                                                 | 説明                                                                   |
-|------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| [config auth delete](docs/ja/commands/config-auth-delete.md)                             | 既存の認証クレデンシャルの削除                                         |
-| [config auth list](docs/ja/commands/config-auth-list.md)                                 | すべての認証情報を一覧表示                                             |
-| [config feature disable](docs/ja/commands/config-feature-disable.md)                     | 機能を無効化します.                                                    |
-| [config feature enable](docs/ja/commands/config-feature-enable.md)                       | 機能を有効化します.                                                    |
-| [config feature list](docs/ja/commands/config-feature-list.md)                           | 利用可能なオプション機能一覧.                                          |
-| [file template apply local](docs/ja/commands/file-template-apply-local.md)               | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
-| [file template capture local](docs/ja/commands/file-template-capture-local.md)           | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
-| [license](docs/ja/commands/license.md)                                                   | ライセンス情報を表示します                                             |
-| [log cat curl](docs/ja/commands/log-cat-curl.md)                                         | キャプチャログを `curl` サンプルとしてフォーマットする                 |
-| [log cat job](docs/ja/commands/log-cat-job.md)                                           | 指定したジョブIDのログを取得する                                       |
-| [log cat kind](docs/ja/commands/log-cat-kind.md)                                         | 指定種別のログを結合して出力します                                     |
-| [log cat last](docs/ja/commands/log-cat-last.md)                                         | 最後のジョブのログファイルを出力.                                      |
-| [log job archive](docs/ja/commands/log-job-archive.md)                                   | ジョブのアーカイブ                                                     |
-| [log job delete](docs/ja/commands/log-job-delete.md)                                     | 古いジョブ履歴の削除                                                   |
-| [log job list](docs/ja/commands/log-job-list.md)                                         | ジョブ履歴の表示                                                       |
-| [util archive unzip](docs/ja/commands/util-archive-unzip.md)                             | ZIPアーカイブファイルを解凍する                                        |
-| [util archive zip](docs/ja/commands/util-archive-zip.md)                                 | 対象ファイルをZIPアーカイブに圧縮する                                  |
-| [util cert selfsigned](docs/ja/commands/util-cert-selfsigned.md)                         | 自己署名証明書と鍵の生成                                               |
-| [util database exec](docs/ja/commands/util-database-exec.md)                             | SQLite3データベースファイルへのクエリ実行                              |
-| [util database query](docs/ja/commands/util-database-query.md)                           | SQLite3データベースへの問い合わせ                                      |
-| [util date today](docs/ja/commands/util-date-today.md)                                   | 現在の日付を表示                                                       |
-| [util datetime now](docs/ja/commands/util-datetime-now.md)                               | 現在の日時を表示                                                       |
-| [util decode base32](docs/ja/commands/util-decode-base32.md)                             | Base32 (RFC 4648) 形式からテキストをデコードします                     |
-| [util decode base64](docs/ja/commands/util-decode-base64.md)                             | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
-| [util desktop display list](docs/ja/commands/util-desktop-display-list.md)               | このマシンのディスプレイを一覧表示                                     |
-| [util desktop open](docs/ja/commands/util-desktop-open.md)                               | デフォルトのアプリケーションでファイルやフォルダを開く                 |
-| [util desktop screenshot interval](docs/ja/commands/util-desktop-screenshot-interval.md) | 定期的にスクリーンショットを撮る                                       |
-| [util desktop screenshot snap](docs/ja/commands/util-desktop-screenshot-snap.md)         | スクリーンショットを撮る                                               |
-| [util encode base32](docs/ja/commands/util-encode-base32.md)                             | テキストをBase32(RFC 4648)形式にエンコード                             |
-| [util encode base64](docs/ja/commands/util-encode-base64.md)                             | テキストをBase64(RFC 4648)形式にエンコード                             |
-| [util file hash](docs/ja/commands/util-file-hash.md)                                     | ファイルダイジェストの表示                                             |
-| [util git clone](docs/ja/commands/util-git-clone.md)                                     | git リポジトリをクローン                                               |
-| [util image exif](docs/ja/commands/util-image-exif.md)                                   | 画像ファイルのEXIFメタデータを表示                                     |
-| [util image placeholder](docs/ja/commands/util-image-placeholder.md)                     | プレースホルダー画像の作成                                             |
-| [util net download](docs/ja/commands/util-net-download.md)                               | ファイルをダウンロードする                                             |
-| [util qrcode create](docs/ja/commands/util-qrcode-create.md)                             | QRコード画像ファイルの作成                                             |
-| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)                                 | WIFI設定用のQRコードを生成                                             |
-| [util table format xlsx](docs/ja/commands/util-table-format-xlsx.md)                     | xlsxファイルをテキストに整形する                                       |
-| [util text case down](docs/ja/commands/util-text-case-down.md)                           | 小文字のテキストを表示する                                             |
-| [util text case up](docs/ja/commands/util-text-case-up.md)                               | 大文字のテキストを表示する                                             |
-| [util text encoding from](docs/ja/commands/util-text-encoding-from.md)                   | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
-| [util text encoding to](docs/ja/commands/util-text-encoding-to.md)                       | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
-| [util text nlp english entity](docs/ja/commands/util-text-nlp-english-entity.md)         | 英文をエンティティに分割する                                           |
-| [util text nlp english sentence](docs/ja/commands/util-text-nlp-english-sentence.md)     | 英文を文章に分割する                                                   |
-| [util text nlp english token](docs/ja/commands/util-text-nlp-english-token.md)           | 英文をトークンに分割する                                               |
-| [util text nlp japanese token](docs/ja/commands/util-text-nlp-japanese-token.md)         | 日本語テキストのトークン化                                             |
-| [util text nlp japanese wakati](docs/ja/commands/util-text-nlp-japanese-wakati.md)       | 分かち書き(日本語テキストのトークン化)                                 |
-| [util tidy move dispatch](docs/ja/commands/util-tidy-move-dispatch.md)                   | ファイルを整理                                                         |
-| [util tidy move simple](docs/ja/commands/util-tidy-move-simple.md)                       | ローカルファイルをアーカイブします                                     |
-| [util time now](docs/ja/commands/util-time-now.md)                                       | 現在の時刻を表示                                                       |
-| [util unixtime format](docs/ja/commands/util-unixtime-format.md)                         | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
-| [util unixtime now](docs/ja/commands/util-unixtime-now.md)                               | UNIX時間で現在の時刻を表示する                                         |
-| [util uuid v4](docs/ja/commands/util-uuid-v4.md)                                         | UUID v4（ランダムUUID）の生成                                          |
-| [util video subtitles optimize](docs/ja/commands/util-video-subtitles-optimize.md)       | 字幕ファイルの最適化                                                   |
-| [util xlsx create](docs/ja/commands/util-xlsx-create.md)                                 | 空のスプレッドシートを作成する                                         |
-| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)                     | xlsxファイルからデータをエクスポート                                   |
-| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)                     | データをxlsxファイルにインポート                                       |
-| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)                         | xlsxファイルのシート一覧                                               |
-| [version](docs/ja/commands/version.md)                                                   | バージョン情報                                                         |
+| コマンド                                                                                                         | 説明                                                                   |
+|------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
+| [config auth delete](docs/ja/commands/config-auth-delete.md)                                                     | 既存の認証クレデンシャルの削除                                         |
+| [config auth list](docs/ja/commands/config-auth-list.md)                                                         | すべての認証情報を一覧表示                                             |
+| [config feature disable](docs/ja/commands/config-feature-disable.md)                                             | 機能を無効化します.                                                    |
+| [config feature enable](docs/ja/commands/config-feature-enable.md)                                               | 機能を有効化します.                                                    |
+| [config feature list](docs/ja/commands/config-feature-list.md)                                                   | 利用可能なオプション機能一覧.                                          |
+| [dropbox team insight report teamfoldermember](docs/ja/commands/dropbox-team-insight-report-teamfoldermember.md) | チームフォルダーメンバーを報告                                         |
+| [license](docs/ja/commands/license.md)                                                                           | ライセンス情報を表示します                                             |
+| [local file template apply](docs/ja/commands/local-file-template-apply.md)                                       | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
+| [local file template capture](docs/ja/commands/local-file-template-capture.md)                                   | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
+| [log cat curl](docs/ja/commands/log-cat-curl.md)                                                                 | キャプチャログを `curl` サンプルとしてフォーマットする                 |
+| [log cat job](docs/ja/commands/log-cat-job.md)                                                                   | 指定したジョブIDのログを取得する                                       |
+| [log cat kind](docs/ja/commands/log-cat-kind.md)                                                                 | 指定種別のログを結合して出力します                                     |
+| [log cat last](docs/ja/commands/log-cat-last.md)                                                                 | 最後のジョブのログファイルを出力.                                      |
+| [log job archive](docs/ja/commands/log-job-archive.md)                                                           | ジョブのアーカイブ                                                     |
+| [log job delete](docs/ja/commands/log-job-delete.md)                                                             | 古いジョブ履歴の削除                                                   |
+| [log job list](docs/ja/commands/log-job-list.md)                                                                 | ジョブ履歴の表示                                                       |
+| [util archive unzip](docs/ja/commands/util-archive-unzip.md)                                                     | ZIPアーカイブファイルを解凍する                                        |
+| [util archive zip](docs/ja/commands/util-archive-zip.md)                                                         | 対象ファイルをZIPアーカイブに圧縮する                                  |
+| [util cert selfsigned](docs/ja/commands/util-cert-selfsigned.md)                                                 | 自己署名証明書と鍵の生成                                               |
+| [util database exec](docs/ja/commands/util-database-exec.md)                                                     | SQLite3データベースファイルへのクエリ実行                              |
+| [util database query](docs/ja/commands/util-database-query.md)                                                   | SQLite3データベースへの問い合わせ                                      |
+| [util date today](docs/ja/commands/util-date-today.md)                                                           | 現在の日付を表示                                                       |
+| [util datetime now](docs/ja/commands/util-datetime-now.md)                                                       | 現在の日時を表示                                                       |
+| [util decode base32](docs/ja/commands/util-decode-base32.md)                                                     | Base32 (RFC 4648) 形式からテキストをデコードします                     |
+| [util decode base64](docs/ja/commands/util-decode-base64.md)                                                     | Base64 (RFC 4648) フォーマットからテキストをデコードします             |
+| [util desktop display list](docs/ja/commands/util-desktop-display-list.md)                                       | このマシンのディスプレイを一覧表示                                     |
+| [util desktop open](docs/ja/commands/util-desktop-open.md)                                                       | デフォルトのアプリケーションでファイルやフォルダを開く                 |
+| [util desktop screenshot interval](docs/ja/commands/util-desktop-screenshot-interval.md)                         | 定期的にスクリーンショットを撮る                                       |
+| [util desktop screenshot snap](docs/ja/commands/util-desktop-screenshot-snap.md)                                 | スクリーンショットを撮る                                               |
+| [util encode base32](docs/ja/commands/util-encode-base32.md)                                                     | テキストをBase32(RFC 4648)形式にエンコード                             |
+| [util encode base64](docs/ja/commands/util-encode-base64.md)                                                     | テキストをBase64(RFC 4648)形式にエンコード                             |
+| [util file hash](docs/ja/commands/util-file-hash.md)                                                             | ファイルダイジェストの表示                                             |
+| [util git clone](docs/ja/commands/util-git-clone.md)                                                             | git リポジトリをクローン                                               |
+| [util image exif](docs/ja/commands/util-image-exif.md)                                                           | 画像ファイルのEXIFメタデータを表示                                     |
+| [util image placeholder](docs/ja/commands/util-image-placeholder.md)                                             | プレースホルダー画像の作成                                             |
+| [util net download](docs/ja/commands/util-net-download.md)                                                       | ファイルをダウンロードする                                             |
+| [util qrcode create](docs/ja/commands/util-qrcode-create.md)                                                     | QRコード画像ファイルの作成                                             |
+| [util qrcode wifi](docs/ja/commands/util-qrcode-wifi.md)                                                         | WIFI設定用のQRコードを生成                                             |
+| [util table format xlsx](docs/ja/commands/util-table-format-xlsx.md)                                             | xlsxファイルをテキストに整形する                                       |
+| [util text case down](docs/ja/commands/util-text-case-down.md)                                                   | 小文字のテキストを表示する                                             |
+| [util text case up](docs/ja/commands/util-text-case-up.md)                                                       | 大文字のテキストを表示する                                             |
+| [util text encoding from](docs/ja/commands/util-text-encoding-from.md)                                           | 指定されたエンコーディングからUTF-8テキストファイルに変換します.       |
+| [util text encoding to](docs/ja/commands/util-text-encoding-to.md)                                               | UTF-8テキストファイルから指定されたエンコーディングに変換する.         |
+| [util text nlp english entity](docs/ja/commands/util-text-nlp-english-entity.md)                                 | 英文をエンティティに分割する                                           |
+| [util text nlp english sentence](docs/ja/commands/util-text-nlp-english-sentence.md)                             | 英文を文章に分割する                                                   |
+| [util text nlp english token](docs/ja/commands/util-text-nlp-english-token.md)                                   | 英文をトークンに分割する                                               |
+| [util text nlp japanese token](docs/ja/commands/util-text-nlp-japanese-token.md)                                 | 日本語テキストのトークン化                                             |
+| [util text nlp japanese wakati](docs/ja/commands/util-text-nlp-japanese-wakati.md)                               | 分かち書き(日本語テキストのトークン化)                                 |
+| [util tidy move dispatch](docs/ja/commands/util-tidy-move-dispatch.md)                                           | ファイルを整理                                                         |
+| [util tidy move simple](docs/ja/commands/util-tidy-move-simple.md)                                               | ローカルファイルをアーカイブします                                     |
+| [util time now](docs/ja/commands/util-time-now.md)                                                               | 現在の時刻を表示                                                       |
+| [util unixtime format](docs/ja/commands/util-unixtime-format.md)                                                 | UNIX時間（1970-01-01からのエポック秒）を変換するための時間フォーマット |
+| [util unixtime now](docs/ja/commands/util-unixtime-now.md)                                                       | UNIX時間で現在の時刻を表示する                                         |
+| [util uuid v4](docs/ja/commands/util-uuid-v4.md)                                                                 | UUID v4（ランダムUUID）の生成                                          |
+| [util video subtitles optimize](docs/ja/commands/util-video-subtitles-optimize.md)                               | 字幕ファイルの最適化                                                   |
+| [util xlsx create](docs/ja/commands/util-xlsx-create.md)                                                         | 空のスプレッドシートを作成する                                         |
+| [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)                                             | xlsxファイルからデータをエクスポート                                   |
+| [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)                                             | データをxlsxファイルにインポート                                       |
+| [util xlsx sheet list](docs/ja/commands/util-xlsx-sheet-list.md)                                                 | xlsxファイルのシート一覧                                               |
+| [version](docs/ja/commands/version.md)                                                                           | バージョン情報                                                         |
 

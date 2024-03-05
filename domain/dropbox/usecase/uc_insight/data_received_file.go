@@ -2,9 +2,11 @@ package uc_insight
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharing"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 )
 
@@ -27,6 +29,23 @@ type ReceivedFile struct {
 	Raw json.RawMessage
 }
 
+type ReceivedFileParam struct {
+	TeamMemberId string `path:"team_member_id" json:"team_member_id"`
+	IsRetry      bool   `path:"is_retry" json:"is_retry"`
+}
+
+type ReceivedFileError struct {
+	TeamMemberId string `path:"team_member_id" gorm:"primaryKey"`
+	ApiError
+}
+
+func (z ReceivedFileError) ToParam() interface{} {
+	return &ReceivedFileParam{
+		TeamMemberId: z.TeamMemberId,
+		IsRetry:      true,
+	}
+}
+
 func NewReceivedFileFromJson(data es_json.Json) (rf *ReceivedFile, err error) {
 	rf = &ReceivedFile{}
 	if err = data.Model(rf); err != nil {
@@ -44,18 +63,38 @@ func NewReceivedFileFromJsonWithTeamMemberId(teamMemberId string, data es_json.J
 	return rf, nil
 }
 
-func (z tsImpl) scanReceivedFile(teamMemberId string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
-	client := z.client.AsMemberId(teamMemberId)
+func (z tsImpl) scanReceivedFile(param *ReceivedFileParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+	l := z.client.Log().With(esl.String("teamMemberId", param.TeamMemberId))
+	client := z.client.AsMemberId(param.TeamMemberId)
 	received, err := sv_sharing.NewReceived(client).List()
-	if err != nil {
+	dbxErr := dbx_error.NewErrors(err)
+	switch {
+	case dbxErr == nil:
+		// fall through
+	case dbxErr.IsEmailUnverified():
+		l.Debug("Email unverified, skip")
+		return nil
+	default:
+		l.Debug("List received files", esl.Error(err))
+
+		z.db.Save(&ReceivedFileError{
+			TeamMemberId: param.TeamMemberId,
+			ApiError:     ApiErrorFromError(err),
+		})
 		return err
 	}
+
 	for _, rf := range received {
-		r, err := NewReceivedFileFromJsonWithTeamMemberId(teamMemberId, es_json.MustParse(rf.Raw))
+		r, err := NewReceivedFileFromJsonWithTeamMemberId(param.TeamMemberId, es_json.MustParse(rf.Raw))
 		if err != nil {
 			return err
 		}
 		z.db.Save(r)
 	}
+
+	if param.IsRetry {
+		z.db.Delete(&ReceivedFileError{}, "team_member_id = ?", param.TeamMemberId)
+	}
+
 	return nil
 }

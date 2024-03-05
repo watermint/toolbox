@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `util video subtitles optimize`
 lang: ja
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `dropbox file account filesystem`
 lang: ja
 ---
 

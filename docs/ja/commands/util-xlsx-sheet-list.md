@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `util xlsx sheet list`
 lang: ja
 ---
 

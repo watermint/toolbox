@@ -7,7 +7,7 @@ import (
 
 type TeamFolder struct {
 	Raw                 json.RawMessage
-	TeamFolderId        string `path:"team_folder_id" json:"team_folder_id"`
+	TeamFolderId        string `path:"team_folder_id" json:"team_folder_id" gorm:"primaryKey"`
 	Name                string `path:"name" json:"name"`
 	Status              string `path:"status.\\.tag" json:"status"`
 	IsTeamSharedDropbox bool   `path:"is_team_shared_dropbox" json:"is_team_shared_dropbox"`

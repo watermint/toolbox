@@ -1,10 +1,10 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}` は移動されました
+title: コマンド `dropbox sign account info` は移動されました
 lang: ja
 ---
 
-# コマンド `{.CliPath}}` は移動されました
+# コマンド `services dropboxsign account info` は移動されました
 
 コマンド `{.FormerPath}}` は `{.CurrentPath}}` に移動されました。新しいパスをお使いください。
 

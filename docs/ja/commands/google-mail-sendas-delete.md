@@ -1,6 +1,6 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}`
+title: コマンド `google mail sendas delete`
 lang: ja
 ---
 

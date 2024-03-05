@@ -103,6 +103,9 @@ type MsgDropboxBusiness struct {
 
 	LegalHoldTitle app_msg.Message
 	LegalHoldInfo  app_msg.Message
+
+	InsightTitle app_msg.Message
+	InsightInfo  app_msg.Message
 }
 
 var (
@@ -226,59 +229,59 @@ func (z DropboxBusinessMember) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.MemberInfoOverview)
 
 	z.cat.RecipeTable("member info commands", ui, []string{
-		"member list",
-		"member feature",
-		"member folder list",
-		"member quota list",
-		"member quota usage",
-		"team activity user",
+		"dropbox team member list",
+		"dropbox team member feature",
+		"dropbox team member folder list",
+		"dropbox team member quota list",
+		"dropbox team member quota usage",
+		"dropbox team activity user",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberBasicCommands)
 	ui.Info(MDropboxBusiness.MemberBasicOverview)
 
 	z.cat.RecipeTable("member management commands", ui, []string{
-		"member invite",
-		"member delete",
-		"member detach",
-		"member reinvite",
-		"member update email",
-		"member update profile",
-		"member update visible",
-		"member update invisible",
-		"member quota update",
+		"dropbox team member batch invite",
+		"dropbox team member batch delete",
+		"dropbox team member batch detach",
+		"dropbox team member batch reinvite",
+		"dropbox team member update batch email",
+		"dropbox team member update batch profile",
+		"dropbox team member update batch visible",
+		"dropbox team member update batch invisible",
+		"dropbox team member quota batch update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberProfileTitle)
 	ui.Info(MDropboxBusiness.MemberProfileInfo)
 	z.cat.RecipeTable("member profile commands", ui, []string{
-		"member update email",
-		"member update profile",
+		"dropbox team member update batch email",
+		"dropbox team member update batch profile",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberQuotaTitle)
 	ui.Info(MDropboxBusiness.MemberQuotaInfo)
 	z.cat.RecipeTable("member quota control", ui, []string{
-		"member quota list",
-		"member quota usage",
-		"member quota update",
+		"dropbox team member quota list",
+		"dropbox team member quota usage",
+		"dropbox team member quota batch update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberSuspendTitle)
 	ui.Info(MDropboxBusiness.MemberSuspendInfo)
 
 	z.cat.RecipeTable("member suspend commands", ui, []string{
-		"member suspend",
-		"member unsuspend",
-		"member batch suspend",
-		"member batch unsuspend",
+		"dropbox team member suspend",
+		"dropbox team member unsuspend",
+		"dropbox team member batch suspend",
+		"dropbox team member batch unsuspend",
 	})
 
 	ui.SubHeader(MDropboxBusiness.MemberDirectoryRestrictionTitle)
 	ui.Info(MDropboxBusiness.MemberDirectoryRestrictionInfo)
 	z.cat.RecipeTable("directory restriction", ui, []string{
-		"member update visible",
-		"member update invisible",
+		"dropbox team member update batch visible",
+		"dropbox team member update batch invisible",
 	})
 }
 
@@ -295,34 +298,34 @@ func (z DropboxBusinessGroup) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.GroupMgmtInfo)
 
 	z.cat.RecipeTable("group management", ui, []string{
-		"group add",
-		"group batch add",
-		"group batch delete",
-		"group delete",
-		"group list",
-		"group rename",
-		"group update type",
+		"dropbox team group add",
+		"dropbox team group batch add",
+		"dropbox team group batch delete",
+		"dropbox team group delete",
+		"dropbox team group list",
+		"dropbox team group rename",
+		"dropbox team group update type",
 	})
 
 	ui.SubHeader(MDropboxBusiness.GroupMemberTitle)
 	ui.Info(MDropboxBusiness.GroupMemberInfo)
 
 	z.cat.RecipeTable("group member management", ui, []string{
-		"group member add",
-		"group member delete",
-		"group member list",
-		"group member batch add",
-		"group member batch delete",
-		"group member batch update",
+		"dropbox team group member add",
+		"dropbox team group member delete",
+		"dropbox team group member list",
+		"dropbox team group member batch add",
+		"dropbox team group member batch delete",
+		"dropbox team group member batch update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.GroupUnusedTitle)
 	ui.Info(MDropboxBusiness.GroupUnusedInfo)
 
 	z.cat.RecipeTable("handle unused groups", ui, []string{
-		"group list",
-		"group folder list",
-		"group batch delete",
+		"dropbox team group list",
+		"dropbox team group folder list",
+		"dropbox team group batch delete",
 	})
 }
 
@@ -340,40 +343,40 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamFolderOperationTitle)
 	ui.Info(MDropboxBusiness.ContentTeamFolderOperationInfo)
-	z.cat.RecipeTable("team folder operation", ui, []string{
-		"teamfolder add",
-		"teamfolder archive",
-		"teamfolder batch archive",
-		"teamfolder batch permdelete",
-		"teamfolder batch replication",
-		"teamfolder file size",
-		"teamfolder list",
-		"teamfolder permdelete",
-		"teamfolder policy list",
-		"teamfolder sync setting list",
-		"teamfolder sync setting update",
+	z.cat.RecipeTable("dropbox team folder operation", ui, []string{
+		"dropbox team teamfolder add",
+		"dropbox team teamfolder archive",
+		"dropbox team teamfolder batch archive",
+		"dropbox team teamfolder batch permdelete",
+		"dropbox team teamfolder batch replication",
+		"dropbox team teamfolder file size",
+		"dropbox team teamfolder list",
+		"dropbox team teamfolder permdelete",
+		"dropbox team teamfolder policy list",
+		"dropbox team teamfolder sync setting list",
+		"dropbox team teamfolder sync setting update",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamFolderPermissionTitle)
 	ui.Info(MDropboxBusiness.ContentTeamFolderPermissionInfo)
-	z.cat.RecipeTable("team folder permission", ui, []string{
-		"teamfolder member list",
-		"teamfolder member add",
-		"teamfolder member delete",
+	z.cat.RecipeTable("dropbox team folder permission", ui, []string{
+		"dropbox team teamfolder member list",
+		"dropbox team teamfolder member add",
+		"dropbox team teamfolder member delete",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamContentTitle)
 	ui.Info(MDropboxBusiness.ContentTeamContentInfo)
-	z.cat.RecipeTable("team content", ui, []string{
-		"team content member list",
-		"team content member size",
-		"team content mount list",
-		"team content policy list",
+	z.cat.RecipeTable("dropbox team content", ui, []string{
+		"dropbox team content member list",
+		"dropbox team content member size",
+		"dropbox team content mount list",
+		"dropbox team content policy list",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentTeamSpaceOperationTitle)
 	ui.Info(MDropboxBusiness.ContentTeamSpaceOperationInfo)
-	z.cat.RecipeTable("team space operation", ui, []string{
+	z.cat.RecipeTable("dropbox team space operation", ui, []string{
 		"teamspace asadmin file list",
 		"teamspace asadmin folder add",
 		"teamspace asadmin folder delete",
@@ -383,22 +386,31 @@ func (z DropboxBusinessContent) Body(ui app_ui.UI) {
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentNamespaceTitle)
-	z.cat.RecipeTable("team namespace", ui, []string{
-		"team namespace list",
-		"team namespace summary",
-		"team namespace file list",
-		"team namespace file size",
-		"team namespace member list",
+	z.cat.RecipeTable("dropbox team namespace", ui, []string{
+		"dropbox team namespace list",
+		"dropbox team namespace summary",
+		"dropbox team namespace file list",
+		"dropbox team namespace file size",
+		"dropbox team namespace member list",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentFileRequestTitle)
-	z.cat.RecipeTable("team file request", ui, []string{
-		"team filerequest list",
+	z.cat.RecipeTable("dropbox team file request", ui, []string{
+		"dropbox team filerequest list",
 	})
 
 	ui.SubHeader(MDropboxBusiness.ContentMemberFileTitle)
 	z.cat.RecipeTable("member file commands", ui, []string{
-		"member file permdelete",
+		"dropbox team member file permdelete",
+	})
+
+	ui.SubHeader(MDropboxBusiness.InsightTitle)
+	ui.Info(MDropboxBusiness.InsightInfo)
+	z.cat.RecipeTable("insight commands", ui, []string{
+		"dropbox team insight scan",
+		"dropbox team insight scanretry",
+		"dropbox team insight summarize",
+		"dropbox team insight report teamfoldermember",
 	})
 }
 
@@ -413,9 +425,9 @@ func (z DropboxBusinessConnect) Title() app_msg.Message {
 func (z DropboxBusinessConnect) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.ConnectInfo)
 	z.cat.RecipeTable("connected applications and devices commands", ui, []string{
-		"team device list",
-		"team device unlink",
-		"team linkedapp list",
+		"dropbox team device list",
+		"dropbox team device unlink",
+		"dropbox team linkedapp list",
 		"dropbox team backup device status",
 	})
 }
@@ -430,15 +442,15 @@ func (z DropboxBusinessSharedLink) Title() app_msg.Message {
 
 func (z DropboxBusinessSharedLink) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.SharedLinkInfo)
-	z.cat.RecipeTable("team shared link commands", ui, []string{
-		"team sharedlink list",
-		"team sharedlink cap expiry",
-		"team sharedlink cap visibility",
-		"team sharedlink update expiry",
-		"team sharedlink update password",
-		"team sharedlink update visibility",
-		"team sharedlink delete links",
-		"team sharedlink delete member",
+	z.cat.RecipeTable("dropbox team shared link commands", ui, []string{
+		"dropbox team sharedlink list",
+		"dropbox team sharedlink cap expiry",
+		"dropbox team sharedlink cap visibility",
+		"dropbox team sharedlink update expiry",
+		"dropbox team sharedlink update password",
+		"dropbox team sharedlink update visibility",
+		"dropbox team sharedlink delete links",
+		"dropbox team sharedlink delete member",
 	})
 
 	ui.SubHeader(MDropboxBusiness.SharedLinkCapVsUpdateTitle)
@@ -463,17 +475,17 @@ func (z DropboxBusinessFileLock) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.FileLockInfo)
 	ui.SubHeader(MDropboxBusiness.FileLockMemberTitle)
 	z.cat.RecipeTable("member file lock management", ui, []string{
-		"member file lock all release",
-		"member file lock list",
-		"member file lock release",
+		"dropbox team member file lock all release",
+		"dropbox team member file lock list",
+		"dropbox team member file lock release",
 	})
 
 	ui.SubHeader(MDropboxBusiness.FileLockTeamFolderTitle)
-	z.cat.RecipeTable("teamfolder file lock management", ui, []string{
-		"teamfolder file list",
-		"teamfolder file lock all release",
-		"teamfolder file lock list",
-		"teamfolder file lock release",
+	z.cat.RecipeTable("dropbox team teamfolder file lock management", ui, []string{
+		"dropbox team teamfolder file list",
+		"dropbox team teamfolder file lock all release",
+		"dropbox team teamfolder file lock list",
+		"dropbox team teamfolder file lock release",
 	})
 }
 
@@ -488,10 +500,10 @@ func (z DropboxBusinessActivities) Title() app_msg.Message {
 func (z DropboxBusinessActivities) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.ActivitiesInfo)
 	z.cat.RecipeTable("activities commands", ui, []string{
-		"team activity batch user",
-		"team activity daily event",
-		"team activity event",
-		"team activity user",
+		"dropbox team activity batch user",
+		"dropbox team activity daily event",
+		"dropbox team activity event",
+		"dropbox team activity user",
 	})
 }
 
@@ -507,27 +519,27 @@ func (z DropboxBusinessUsecase) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.UsecaseExternalIdTitle)
 	ui.Info(MDropboxBusiness.UsecaseExternalIdInfo)
 	z.cat.RecipeTable("external id commands", ui, []string{
-		"member list",
-		"member clear externalid",
-		"member update externalid",
-		"group list",
-		"group clear externalid",
+		"dropbox team member list",
+		"dropbox team member clear externalid",
+		"dropbox team member update batch externalid",
+		"dropbox team group list",
+		"dropbox team group clear externalid",
 	})
 
 	ui.SubHeader(MDropboxBusiness.UsecaseDataMigrationTitle)
 	ui.Info(MDropboxBusiness.UsecaseDataMigrationInfo)
 	z.cat.RecipeTable("data migration commands", ui, []string{
-		"member folder replication",
-		"member replication",
-		"teamfolder partial replication",
-		"teamfolder replication",
+		"dropbox team member folder replication",
+		"dropbox team member replication",
+		"dropbox team teamfolder partial replication",
+		"dropbox team teamfolder replication",
 	})
 
 	ui.SubHeader(MDropboxBusiness.UsecaseTeamInfoTitle)
 	z.cat.RecipeTable("information commands", ui, []string{
-		"team feature",
-		"team filesystem",
-		"team info",
+		"dropbox team feature",
+		"dropbox team filesystem",
+		"dropbox team info",
 	})
 }
 
@@ -543,9 +555,9 @@ func (z DropboxBusinessPaper) Body(ui app_ui.UI) {
 	ui.SubHeader(MDropboxBusiness.LegacyPaperTitle)
 	ui.Info(MDropboxBusiness.LegacyPaperInfo)
 	z.cat.RecipeTable("legacy paper commands", ui, []string{
-		"team content legacypaper count",
-		"team content legacypaper list",
-		"team content legacypaper export",
+		"dropbox team content legacypaper count",
+		"dropbox team content legacypaper list",
+		"dropbox team content legacypaper export",
 	})
 }
 
@@ -559,14 +571,14 @@ func (z DropboxBusinessTeamAdmin) Title() app_msg.Message {
 
 func (z DropboxBusinessTeamAdmin) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.TeamAdminInfo)
-	z.cat.RecipeTable("team admin commands", ui, []string{
-		"team admin list",
-		"team admin role add",
-		"team admin role clear",
-		"team admin role delete",
-		"team admin role list",
-		"team admin group role add",
-		"team admin group role delete",
+	z.cat.RecipeTable("dropbox team admin commands", ui, []string{
+		"dropbox team admin list",
+		"dropbox team admin role add",
+		"dropbox team admin role clear",
+		"dropbox team admin role delete",
+		"dropbox team admin role list",
+		"dropbox team admin group role add",
+		"dropbox team admin group role delete",
 	})
 }
 
@@ -595,21 +607,21 @@ func (z DropboxBusinessRunAs) Title() app_msg.Message {
 
 func (z DropboxBusinessRunAs) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.RunAsInfo)
-	z.cat.RecipeTable("team runas commands", ui, []string{
-		"team runas file list",
-		"team runas file batch copy",
-		"team runas file sync batch up",
-		"team runas sharedfolder list",
-		"team runas sharedfolder isolate",
-		"team runas sharedfolder mount add",
-		"team runas sharedfolder mount delete",
-		"team runas sharedfolder mount list",
-		"team runas sharedfolder mount mountable",
-		"team runas sharedfolder batch leave",
-		"team runas sharedfolder batch share",
-		"team runas sharedfolder batch unshare",
-		"team runas sharedfolder member batch add",
-		"team runas sharedfolder member batch delete",
+	z.cat.RecipeTable("dropbox team runas commands", ui, []string{
+		"dropbox team runas file list",
+		"dropbox team runas file batch copy",
+		"dropbox team runas file sync batch up",
+		"dropbox team runas sharedfolder list",
+		"dropbox team runas sharedfolder isolate",
+		"dropbox team runas sharedfolder mount add",
+		"dropbox team runas sharedfolder mount delete",
+		"dropbox team runas sharedfolder mount list",
+		"dropbox team runas sharedfolder mount mountable",
+		"dropbox team runas sharedfolder batch leave",
+		"dropbox team runas sharedfolder batch share",
+		"dropbox team runas sharedfolder batch unshare",
+		"dropbox team runas sharedfolder member batch add",
+		"dropbox team runas sharedfolder member batch delete",
 	})
 }
 
@@ -623,14 +635,14 @@ func (z DropboxBusinessLegalHold) Title() app_msg.Message {
 
 func (z DropboxBusinessLegalHold) Body(ui app_ui.UI) {
 	ui.Info(MDropboxBusiness.LegalHoldInfo)
-	z.cat.RecipeTable("team legalhold commands", ui, []string{
-		"team legalhold add",
-		"team legalhold list",
-		"team legalhold member batch update",
-		"team legalhold member list",
-		"team legalhold release",
-		"team legalhold revision list",
-		"team legalhold update desc",
-		"team legalhold update name",
+	z.cat.RecipeTable("dropbox team legalhold commands", ui, []string{
+		"dropbox team legalhold add",
+		"dropbox team legalhold list",
+		"dropbox team legalhold member batch update",
+		"dropbox team legalhold member list",
+		"dropbox team legalhold release",
+		"dropbox team legalhold revision list",
+		"dropbox team legalhold update desc",
+		"dropbox team legalhold update name",
 	})
 }

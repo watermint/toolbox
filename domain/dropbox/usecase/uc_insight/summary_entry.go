@@ -1,6 +1,7 @@
 package uc_insight
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"gorm.io/gorm"
 )
@@ -97,7 +98,7 @@ func (z SummaryEntry) AddAccess(am AccessMember) SummaryEntry {
 	return z
 }
 
-func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember, tx *gorm.DB) (smc SummaryMemberCount, err error) {
+func (z summaryImpl) reduceMemberCount(accessMembers []*AccessMember) (smc SummaryMemberCount, err error) {
 	l := z.ctl.Log().With(esl.Int("records", len(accessMembers)))
 	directInternals := make(map[string]bool)
 	directExternals := make(map[string]bool)
@@ -110,7 +111,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember, tx *gorm.DB) (s
 	summarizeInternalGroup = func(am *AccessMember) error {
 		groupInternals[am.GroupId] = true
 		gm := &GroupMember{}
-		rows, err := tx.Model(&GroupMember{}).Where("group_id = ?", am.GroupId).Rows()
+		rows, err := z.db.Model(&GroupMember{}).Where("group_id = ?", am.GroupId).Rows()
 		if err != nil {
 			l.Debug("cannot find group members", esl.Error(err))
 			return err
@@ -120,7 +121,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember, tx *gorm.DB) (s
 		}()
 		for rows.Next() {
 			gm = &GroupMember{}
-			if err := tx.ScanRows(rows, gm); err != nil {
+			if err := z.db.ScanRows(rows, gm); err != nil {
 				l.Debug("cannot scan row", esl.Error(err))
 				return err
 			}
@@ -147,7 +148,7 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember, tx *gorm.DB) (s
 			} else {
 				groupExternals[am.GroupId] = true
 				ge := &Group{}
-				if err := tx.First(ge, "group_id = ?", am.GroupId).Error; err != nil {
+				if err := z.db.First(ge, "group_id = ?", am.GroupId).Error; err != nil {
 					l.Debug("cannot find group", esl.Error(err))
 					return smc, err
 				}
@@ -178,59 +179,35 @@ func (z tsImpl) reduceMemberCount(accessMembers []*AccessMember, tx *gorm.DB) (s
 	return
 }
 
-func (z tsImpl) summarizeEntry(fileId string) error {
+func (z summaryImpl) summarizeEntry(fileId string) error {
 	l := z.ctl.Log().With(esl.String("fileId", fileId))
-	return func(tx *gorm.DB) error {
-		entry := &SummaryEntry{}
+	entry := &SummaryEntry{}
 
-		ne := &NamespaceEntry{}
-		if err := tx.First(ne, "file_id = ?", fileId).Error; err != nil {
-			l.Debug("cannot find entry", esl.Error(err))
-			return err
-		}
+	ne := &NamespaceEntry{}
+	if err := z.db.First(ne, "file_id = ?", fileId).Error; err != nil {
+		l.Debug("cannot find entry", esl.Error(err))
+		return err
+	}
 
-		entry.FileId = fileId
-		entry.Name = ne.Name
-		entry.EntryType = ne.EntryType
-		entry.ParentFolderId = ne.ParentFolderId
-		entry.EntryNamespaceId = ne.EntryNamespaceId
+	entry.FileId = fileId
+	entry.Name = ne.Name
+	entry.EntryType = ne.EntryType
+	entry.ParentFolderId = ne.ParentFolderId
+	entry.EntryNamespaceId = ne.EntryNamespaceId
 
-		var linkCount int64
-		tx.Model(&SharedLink{}).Where("file_id = ?", fileId).Count(&linkCount)
-		entry.CountLinks = uint64(linkCount)
+	var linkCount int64
+	z.db.Model(&SharedLink{}).Where("file_id = ?", fileId).Count(&linkCount)
+	entry.CountLinks = uint64(linkCount)
 
-		switch ne.EntryType {
-		case "file":
-			fm := &FileMember{}
-			row, err := tx.Model(fm).Where("file_id = ?", fileId).Rows()
-			if err != nil {
-				l.Debug("cannot find file members", esl.Error(err))
-				return err
-			}
-			defer func() {
-				_ = row.Close()
-			}()
+	switch ne.EntryType {
+	case "deleted", "file":
+		return nil // ignore non folder entries
 
-			entry.InheritType = "inherit"
-			acs := make([]*AccessMember, 0)
-			for row.Next() {
-				fm = &FileMember{}
-				if err := tx.ScanRows(row, fm); err != nil {
-					l.Debug("cannot scan row", esl.Error(err))
-					return err
-				}
-				entry.InheritType = "inherit_plus" // Change to "inherit_plus" if there is at least one member
-				acs = append(acs, &fm.AccessMember)
-			}
-			entry.SummaryMemberCount, err = z.reduceMemberCount(acs, tx)
-
-		case "folder":
-			nm := &NamespaceMember{}
-			row, err := tx.Model(nm).Where("namespace_id = ?", ne.NamespaceId).Rows()
-			if err != nil {
-				l.Debug("cannot find namespace members", esl.Error(err))
-				return err
-			}
+	case "folder":
+		nm := &NamespaceMember{}
+		row, err := z.db.Model(nm).Where("namespace_id = ?", ne.NamespaceId).Rows()
+		switch {
+		case err == nil:
 			defer func() {
 				_ = row.Close()
 			}()
@@ -238,29 +215,40 @@ func (z tsImpl) summarizeEntry(fileId string) error {
 			acs := make([]*AccessMember, 0)
 			for row.Next() {
 				nm = &NamespaceMember{}
-				if err := tx.ScanRows(row, nm); err != nil {
+				if err := z.db.ScanRows(row, nm); err != nil {
 					l.Debug("cannot scan row", esl.Error(err))
 					return err
 				}
 				acs = append(acs, &nm.AccessMember)
 			}
-			entry.SummaryMemberCount, err = z.reduceMemberCount(acs, tx)
+			entry.SummaryMemberCount, err = z.reduceMemberCount(acs)
 
 			// Determine inherit type
 			if ne.EntryNamespaceId == "" {
 				entry.InheritType = "inherit"
 			} else {
 				nd := &NamespaceDetail{}
-				if err := tx.First(nd, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
+				if err := z.db.First(nd, "namespace_id = ?", ne.NamespaceId).Error; err != nil {
 					entry.InheritType = ""
 				} else {
 					entry.InheritType = nd.AccessInheritance
 				}
 			}
+			z.db.Save(entry)
+			return nil
+
+		case errors.Is(err, gorm.ErrRecordNotFound):
+			entry.InheritType = "inherit"
+			z.db.Save(entry)
+			return nil
+
+		default:
+			l.Debug("cannot find namespace members", esl.Error(err))
+			return err
 		}
 
-		tx.Save(entry)
-
-		return nil
-	}(z.db)
+	default:
+		l.Debug("unknown entry type", esl.String("entryType", ne.EntryType))
+		return errors.New("unknown entry type")
+	}
 }

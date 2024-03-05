@@ -7,10 +7,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_namespace"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
+	"gorm.io/gorm"
 )
 
 type Namespace struct {
@@ -27,6 +29,24 @@ type Namespace struct {
 	Raw json.RawMessage
 }
 
+type NamespaceError struct {
+	Dummy             string `gorm:"primaryKey"`
+	ScanMemberFolders bool   `json:"scanMemberFolders" path:"scan_member_folders"`
+	ApiError
+}
+
+func (z NamespaceError) ToParam() interface{} {
+	return &NamespaceParam{
+		ScanMemberFolders: z.ScanMemberFolders,
+		IsRetry:           true,
+	}
+}
+
+type NamespaceParam struct {
+	ScanMemberFolders bool `json:"scanMemberFolders" path:"scan_member_folders"`
+	IsRetry           bool `path:"is_retry" json:"is_retry" json:"is_retry,omitempty"`
+}
+
 func NewNamespaceFromJson(data es_json.Json) (ns *Namespace, err error) {
 	ns = &Namespace{}
 	if err = data.Model(ns); err != nil {
@@ -35,7 +55,7 @@ func NewNamespaceFromJson(data es_json.Json) (ns *Namespace, err error) {
 	return ns, nil
 }
 
-func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+func (z tsImpl) scanNamespaces(param *NamespaceParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
 	l := z.ctl.Log()
 	qne := stage.Get(teamScanQueueNamespaceEntry)
 	qnd := stage.Get(teamScanQueueNamespaceDetail)
@@ -50,6 +70,18 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 			ll.Debug("unable to parse namespace", esl.Error(err))
 			return false
 		}
+		if !param.ScanMemberFolders {
+			detail, err := sv_sharedfolder.New(z.client.AsAdminId(admin.TeamMemberId)).Resolve(namespace.NamespaceId)
+			if err != nil {
+				lastErr = err
+				ll.Debug("unable to resolve namespace", esl.Error(err))
+				return false
+			}
+			if !detail.IsTeamFolder && !detail.IsInsideTeamFolder {
+				ll.Debug("skip non team owned folder", esl.Any("detail", detail))
+				return true
+			}
+		}
 		z.db.Save(ns)
 		if z.db.Error != nil {
 			lastErr = z.db.Error
@@ -61,9 +93,13 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 			NamespaceId: ns.NamespaceId,
 			FolderId:    "",
 		})
-		if ns.NamespaceType != "team_member_folder" && ns.NamespaceType != "app_folder" {
-			qnd.Enqueue(ns.NamespaceId)
-			qnm.Enqueue(ns.NamespaceId)
+		if ns.NamespaceType != "team_member_folder" && ns.NamespaceType != "app_folder" && ns.NamespaceType != "team_member_root" {
+			qnd.Enqueue(&NamespaceDetailParam{
+				NamespaceId: ns.NamespaceId,
+			})
+			qnm.Enqueue(&NamespaceMemberParam{
+				NamespaceId: ns.NamespaceId,
+			})
 		}
 		if ns.NamespaceType == "team_member_folder" || ns.NamespaceType == "app_folder" {
 			meta, err := sv_file.NewFiles(z.client.AsAdminId(admin.TeamMemberId)).Resolve(mo_path.NewDropboxPath("ns:" + namespace.NamespaceId))
@@ -98,5 +134,17 @@ func (z tsImpl) scanNamespaces(dummy string, stage eq_sequence.Stage, admin *mo_
 		return true
 	})
 
-	return es_lang.NewMultiErrorOrNull(opErr, lastErr)
+	err = es_lang.NewMultiErrorOrNull(opErr, lastErr)
+	if err != nil {
+		l.Debug("Operation error", esl.Error(err))
+		z.db.Save(&NamespaceError{
+			Dummy:    "dummy",
+			ApiError: ApiErrorFromError(err),
+		})
+		return opErr
+	}
+	if param.IsRetry {
+		z.db.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&NamespaceError{})
+	}
+	return nil
 }

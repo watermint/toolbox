@@ -11,7 +11,7 @@ import (
 type Namespace struct {
 	Raw           json.RawMessage
 	Name          string `path:"name" json:"name"`
-	NamespaceId   string `path:"namespace_id" json:"namespace_id"`
+	NamespaceId   string `path:"namespace_id" json:"namespace_id" gorm:"primaryKey"`
 	NamespaceType string `path:"namespace_type.\\.tag" json:"namespace_type"`
 	TeamMemberId  string `path:"team_member_id" json:"team_member_id"`
 }

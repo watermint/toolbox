@@ -39,7 +39,7 @@ func (z *Preflight) Test(c app_control.Control) error {
 func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 	l := c.Log().With(esl.String("filename", filename))
 	p := filepath.Join("resources/messages", filename)
-	content, err := ioutil.ReadFile(p)
+	content, err := os.ReadFile(p)
 	if err != nil {
 		l.Info("SKIP: Unable to open resource file", esl.Error(err))
 		return nil
@@ -80,7 +80,7 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 func (z *Preflight) deleteOldGeneratedFiles(c app_control.Control, path string) error {
 	l := c.Log()
 
-	entries, err := ioutil.ReadDir(path)
+	entries, err := os.ReadDir(path)
 	if err != nil {
 		return err
 	}

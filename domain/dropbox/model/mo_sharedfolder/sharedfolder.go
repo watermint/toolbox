@@ -7,7 +7,7 @@ import (
 
 type SharedFolder struct {
 	Raw                  json.RawMessage
-	SharedFolderId       string `path:"shared_folder_id" json:"shared_folder_id"`
+	SharedFolderId       string `path:"shared_folder_id" json:"shared_folder_id" gorm:"primaryKey"`
 	ParentSharedFolderId string `path:"parent_shared_folder_id" json:"parent_shared_folder_id"`
 	Name                 string `path:"name" json:"name"`
 	AccessType           string `path:"access_type.\\.tag" json:"access_type"`

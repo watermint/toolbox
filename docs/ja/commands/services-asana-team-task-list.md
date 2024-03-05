@@ -1,10 +1,10 @@
 ---
 layout: command
-title: コマンド `{.CliPath}}` は移動されました
+title: コマンド `asana team task list` は移動されました
 lang: ja
 ---
 
-# コマンド `{.CliPath}}` は移動されました
+# コマンド `services asana team task list` は移動されました
 
 コマンド `{.FormerPath}}` は `{.CurrentPath}}` に移動されました。新しいパスをお使いください。
 

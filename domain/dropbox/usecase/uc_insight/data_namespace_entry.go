@@ -3,6 +3,7 @@ package uc_insight
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
@@ -38,6 +39,27 @@ type NamespaceEntry struct {
 	Raw json.RawMessage
 }
 
+type NamespaceEntryParam struct {
+	NamespaceId string `json:"namespaceId" path:"namespace_id"`
+	FolderId    string `json:"folderId" path:"folder_id"`
+	IsRetry     bool   `json:"isRetry" path:"is_retry"`
+}
+
+type NamespaceEntryError struct {
+	NamespaceId string `path:"shared_folder_id" gorm:"primaryKey"`
+	FolderId    string `path:"folder_id" gorm:"primaryKey"`
+
+	ApiError
+}
+
+func (z NamespaceEntryError) ToParam() interface{} {
+	return &NamespaceEntryParam{
+		NamespaceId: z.NamespaceId,
+		FolderId:    z.FolderId,
+		IsRetry:     true,
+	}
+}
+
 func NewNamespaceEntry(namespaceId string, parentFolderId string, data es_json.Json) (ne *NamespaceEntry, err error) {
 	ne = &NamespaceEntry{}
 	if err = data.Model(ne); err != nil {
@@ -56,11 +78,20 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 	targetPath := mo_path.NewDropboxPath(param.FolderId)
 	if param.FolderId == "" {
 		f, err := sv_file.NewFiles(z.client.AsAdminId(admin.TeamMemberId)).Resolve(mo_path.NewDropboxPath("ns:" + param.NamespaceId))
-		if err != nil {
+		dbxErr := dbx_error.NewErrors(err)
+		switch {
+		case dbxErr == nil:
+			param.FolderId = f.Concrete().Id
+			// fall through
+
+		case dbxErr.Path().IsNotFound():
+			l.Debug("Namespace folder not found, the folder removed during the process", esl.String("namespaceId", param.NamespaceId))
+			return nil
+
+		default:
 			l.Debug("Unable to resolve namespace folder", esl.Error(err))
 			return err
 		}
-		param.FolderId = f.Concrete().Id
 	}
 
 	client := z.client.AsAdminId(admin.TeamMemberId).WithPath(dbx_client.Namespace(param.NamespaceId))
@@ -95,9 +126,9 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 		sv_file.IncludeDeleted(true),
 		sv_file.IncludeHasExplicitSharedMembers(true),
 	)
-
-	switch err {
-	case nil:
+	dbxErr := dbx_error.NewErrors(err)
+	switch {
+	case dbxErr == nil:
 		if param.IsRetry {
 			z.db.Delete(&NamespaceEntryError{
 				NamespaceId: param.NamespaceId,
@@ -105,11 +136,18 @@ func (z tsImpl) scanNamespaceEntry(param *NamespaceEntryParam, stage eq_sequence
 			})
 		}
 
+	case dbxErr.Path().IsNotFound():
+		l.Debug("Namespace folder not found, the folder removed during the process", esl.String("namespaceId", param.NamespaceId))
+		return nil
+
 	default:
-		z.db.Create(&NamespaceEntryError{
+		dbxErr := dbx_error.NewErrors(err)
+		l.Debug("List namespace entry", esl.Error(err), esl.String("dbxErrorSummary", dbxErr.Summary()))
+
+		z.db.Save(&NamespaceEntryError{
 			NamespaceId: param.NamespaceId,
 			FolderId:    param.FolderId,
-			Error:       err.Error(),
+			ApiError:    ApiErrorFromError(err),
 		})
 	}
 	return err
