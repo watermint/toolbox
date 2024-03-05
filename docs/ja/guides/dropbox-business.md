@@ -48,7 +48,7 @@ lang: ja
 
 ## メンバーのストレージ クォータ制御コマンド
 
-既存のメンバーストレージのクォータの設定や使用状況は、`member quota list`や`member quota usage`コマンドで確認できます. メンバークオータを更新する必要がある場合は、`member quota update`コマンドを使用します. コマンド `member quota update` は、ストレージのクォータ設定を一括更新するためのCSV入力を受け付けます.
+`dropbox team member quota list` と `dropbox team member quota usage` コマンドを使えば、既存のメンバーのストレージクォータの設定や使用状況を見ることができる。メンバーのクォータを更新する必要がある場合は、`dropbox team member quota update`コマンドを使用します。コマンド `dropbox team member quota update` はストレージのクォータ設定を一括更新するためにCSV入力を受け取ります。
 
 | コマンド                                                                                                             | 説明                                     |
 |----------------------------------------------------------------------------------------------------------------------|------------------------------------------|
@@ -56,7 +56,7 @@ lang: ja
 | [dropbox team member quota usage]({{ site.baseurl }}/ja/commands/dropbox-team-member-quota-usage.html)               | チームメンバーのストレージ利用状況を取得 |
 | [dropbox team member quota batch update]({{ site.baseurl }}/ja/commands/dropbox-team-member-quota-batch-update.html) | チームメンバーの容量制限を変更           |
 
-## メンバーの一時停止/停止解除には、2種類のコマンドがあります. メンバーを一人ずつ一時停止/停止解除したい場合は、`member suspend`または`member unsuspend`を使用してください. また、CSVファイルを使ってメンバーの一時停止や停止解除を行う場合は、`member batch suspend`や`member batch unsuspend`コマンドをご利用ください.
+## メンバーの一時停止/停止解除には、2種類のコマンドがあります. メンバーを一人ずつサスペンド/アンサスペンドしたい場合は、`dropbox team member suspend` または `dropbox team member unsuspend` を使ってください。その他、CSVファイルを通してメンバーのサスペンド/アンサスペンドを行いたい場合は、`dropbox team member batch suspend`または`dropbox member batch unsuspend`コマンドを使用してください。
 
 メンバーの一時停止/停止解除
 
@@ -94,7 +94,7 @@ lang: ja
 
 ## グループメンバー管理コマンド
 
-グループメンバーの追加・削除・更新は、以下のコマンドで行うことができます. グループメンバーをCSVファイルで追加/削除/更新したい場合は、`group member batch add`, `group member batch delete`, `group member batch delete`を用います.
+グループメンバーの追加・削除・更新は、以下のコマンドで行うことができます. CSVファイルでグループメンバーを追加・削除・更新したい場合は、`dropbox team group member batch add`、`dropbox team group member batch delete`、`dropbox team group member batch delete`を使用します。
 
 | コマンド                                                                                                             | 説明                                       |
 |----------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
@@ -107,9 +107,9 @@ lang: ja
 
 ## 未使用のグループの検索と削除
 
-未使用のグループを探すには2つのコマンドがあります. 最初のコマンドは `group list` です. コマンド `group list` は、各グループのメンバー数を報告します. 0の場合は、フォルダに権限を追加するためのグループが現在使用されていません.
-どのフォルダが各グループを使用しているかを確認したい場合は、`group folder list`というコマンドを使います. `group folder list`では、グループとフォルダのマッピングを報告します. `group_with_no_folders`というレポートでは、フォルダがないグループが表示されます.
-グループの削除は、メンバー数とフォルダ数の両方を確認すれば、安全に行うことができます. 確認後、`group batch delete`コマンドでグループを一括削除することができます.
+未使用のグループを探すには2つのコマンドがあります. 最初のコマンドは`dropbox team group list`である。`dropbox team group list`コマンドは各グループのメンバー数を表示します。0の場合は、フォルダに権限を追加するためのグループが現在使用されていません.
+どのフォルダが各グループを使用しているかを確認したい場合は、`dropbox team group folder list`コマンドを使用します。`dropbox team group folder list`はグループとフォルダのマッピングを報告します。`group_with_no_folders`というレポートでは、フォルダがないグループが表示されます.
+グループの削除は、メンバー数とフォルダ数の両方を確認すれば、安全に行うことができます. 確認後、`dropbox team group batch delete`コマンドを使ってグループを一括削除することができます。
 
 | コマンド                                                                                               | 説明                             |
 |--------------------------------------------------------------------------------------------------------|----------------------------------|
@@ -125,7 +125,7 @@ lang: ja
 
 ## チームフォルダ操作コマンド
 
-以下のコマンドを使って、チームフォルダーの作成、アーカイブ、完全に削除ができます. 複数のチームフォルダを扱う必要がある場合は、`teamfolder batch`コマンドの使用をご検討ください.
+以下のコマンドを使って、チームフォルダーの作成、アーカイブ、完全に削除ができます. 複数のチームフォルダを処理する必要がある場合は、`dropbox team teamfolder batch`コマンドの使用を検討してください。
 
 | コマンド                                                                                                                       | 説明                                   |
 |--------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
@@ -154,7 +154,7 @@ lang: ja
 ## チームフォルダと共有フォルダのコマンド
 
 以下のコマンドは、チームフォルダとチームの共有フォルダの両方に対応しています.
-特定のフォルダを実際に使用している人を知りたい場合は、`team content mount list`というコマンドの使用をご検討ください. マウントは、ユーザーが自分のDropboxアカウントに共有フォルダを追加した状態です.
+特定のフォルダーを実際に使用している人を知りたい場合は、`dropbox team content mount list`コマンドの使用を検討してください。マウントは、ユーザーが自分のDropboxアカウントに共有フォルダを追加した状態です.
 
 | コマンド                                                                                                 | 説明                                                                                   |
 |----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
@@ -224,13 +224,13 @@ lang: ja
 | [dropbox team sharedlink delete links]({{ site.baseurl }}/ja/commands/dropbox-team-sharedlink-delete-links.html)           | 共有リンクの一括削除                                           |
 | [dropbox team sharedlink delete member]({{ site.baseurl }}/ja/commands/dropbox-team-sharedlink-delete-member.html)         | メンバーの共有リンクをすべて削除                               |
 
-## `team sharedlink cap` と `team sharedlink update` の違い
+## `dropbox team sharelink cap`と`dropbox team sharelink update`の違い
 
-コマンド `team sharedlink update` は、共有リンクに値を設定するためのものです. コマンド `team sharedlink cap` は、共有リンクにキャップ値を設定するためのものです.
-例：有効期限を2021-05-06に設定して、`team sharedlink update expiry`で設定した場合. このコマンドは、既存のリンクが2021-05-04のように短い有効期限を持っている場合でも、有効期限を2021-05-06に更新します.
-一方、`team sharedlink cap expiry`は、リンクの有効期限が2021-05-07のように長い場合にリンクを更新します.
+コマンド `dropbox team sharedlink update` は共有リンクに値を設定するためのコマンドです。コマンド `dropbox team sharedlink cap` は共有リンクに上限値を設定するためのコマンドです。
+例えば、`dropbox team sharedlink update expiry`で有効期限を2021-05-06に設定した場合。このコマンドは、既存のリンクが2021-05-04のように短い有効期限を持っている場合でも、有効期限を2021-05-06に更新します.
+一方、`dropbox team sharedlink cap expiry`は、リンクの有効期限が2021-05-07のように長い場合、リンクを更新する。
 
-同様に、`team sharedlink cap visibility`というコマンドは、リンクの保護された可視性が少ない場合にのみ、可視性を制限します. 例えば、パスワードのない共有リンクをteam_onlyにしたい場合などです. team sharelink cap visibility` は、リンクが公開されていてパスワードがない場合にteam_onlyへ可視性を更新します
+同様に、`dropbox team sharedlink cap visibility`コマンドは、リンクが保護されている可視性が低い場合にのみ可視性を制限します。例えば、パスワードのない共有リンクをteam_onlyにしたい場合などです. dropbox team sharedlink cap visibility` は、リンクが公開されていてパスワードがない場合にのみ、チームの可視性を更新します。
 
 ## 例(リンクの一覧):
 
@@ -316,7 +316,7 @@ tbx team sharedlink list -visibility public -output json | tbx team sharedlink d
 
 External IDは、Dropboxのどのユーザーインターフェースにも表示されない属性です. この属性は、Dropbox AD ConnectorなどのID管理ソフトウェアによって、DropboxとIDソース（Active Directoryや人事データベースなど）との関係を維持するためのものです. Dropbox AD Connectorを使用していて、新しいActive Directoryツリーを構築した場合は、以下のようになります. 古いActive Directoryツリーと新しいツリーとの関係を切断するために、既存の外部IDをクリアする必要があるかもしれません.
 External IDのクリアを省略すると、Dropbox AD Connectorが新しいツリーへの構成中に意図せずアカウントを削除してしまう可能性があります.
-既存の外部IDを確認したい場合は、`member list`コマンドを使います. しかし、このコマンドはデフォルトでは外部IDを含みません. 以下のように`experiment report_all_columns`オプションを追加してください
+既存の外部IDを見たい場合は、`dropbox team member list`コマンドを使ってください。しかし、このコマンドはデフォルトでは外部IDを含みません. 以下のように`experiment report_all_columns`オプションを追加してください
 
 ```
 tbx member list -experiment report_all_columns
@@ -377,7 +377,7 @@ tbx member list -experiment report_all_columns
 
 # チームメンバーとして実行するコマンド
 
-チームメンバーとしてコマンドを実行することができます. 例えば、`team runas file sync batch up`を使えば、メンバーのフォルダにファイルをアップロードすることができます.
+チームメンバーとしてコマンドを実行することができます. 例えば、`dropbox team runas file sync batch up`を使ってメンバーのフォルダにファイルをアップロードすることができます。
 
 | コマンド                                                                                                                                       | 説明                                                                                    |
 |------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|

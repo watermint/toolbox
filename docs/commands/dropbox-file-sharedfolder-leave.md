@@ -8,7 +8,7 @@ lang: en
 
 Leave from the shared folder 
 
-Upon success, the current user will no longer have access to the folder. Please use `sharedfolder list` command to find the shared_folder_id of the folder you want to leave.
+Upon success, the current user will no longer have access to the folder. Please use `dropbox file sharedfolder list` command to find the shared_folder_id of the folder you want to leave.
 
 # Security
 

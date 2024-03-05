@@ -412,116 +412,50 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 3 identical fields
-  	Remarks: "",
-  	Path:    "dev lifecycle planchangepath",
-  	CliArgs: strings.Join({
-  		"-announce-url URL -compatibility-file /LOCAL/PATH/TO/compat.json",
-  		" -",
-+ 		"message-file /LOCAL/PATH/TO/messages.json -",
-  		`date "2020-04-01 17:58:38" -current-path RECIPE -former-path REC`,
-  		"IPE",
-  	}, ""),
-  	CliNote:         "",
-  	ConnUsePersonal: false,
-  	... // 9 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "AnnounceUrl", Desc: "Announce URL", TypeName: "string"},
-  		&{Name: "Compact", Desc: "Generate compact output", Default: "false", TypeName: "bool", ...},
-  		&{Name: "CompatibilityFile", Desc: "Compatibility file", Default: "catalogue/catalogue_compatibility.json", TypeName: "essentials.model.mo_path.file_system_path_impl", ...},
-+ 		&{
-+ 			Name:     "CurrentBase",
-+ 			Desc:     "Current recipe's base path",
-+ 			Default:  "citron",
-+ 			TypeName: "string",
-+ 		},
-  		&{Name: "CurrentPath", Desc: "Current CLI path", TypeName: "string"},
-  		&{Name: "Date", Desc: "Effective date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(false)}},
-+ 		&{
-+ 			Name:     "FormerBase",
-+ 			Desc:     "Former recipe's base path",
-+ 			Default:  "recipe",
-+ 			TypeName: "string",
-+ 		},
-  		&{Name: "FormerPath", Desc: "Former CLI path", TypeName: "string"},
-+ 		&{
-+ 			Name:     "MessageFile",
-+ 			Desc:     "Message file path",
-+ 			Default:  "resources/messages/en/messages.json",
-+ 			TypeName: "essentials.model.mo_path.file_system_path_impl",
-+ 			TypeAttr: map[string]any{"shouldExist": bool(false)},
-+ 		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
-```
-# Command spec changed: `util desktop screenshot interval`
-
-
-
-## Command configuration changed
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Count", Desc: "Number of screenshots to take. If the value is less than 1, the "..., Default: "-1", TypeName: "int", ...},
-  		&{
-  			... // 2 identical fields
-  			Default:  "0",
-  			TypeName: "essentials.model.mo_int.range_int",
-  			TypeAttr: map[string]any{
-- 				"max":   float64(2),
-+ 				"max":   float64(1),
-  				"min":   float64(0),
-  				"value": float64(0),
-  			},
-  		},
-  		&{Name: "Interval", Desc: "Interval seconds between screenshots.", Default: "10", TypeName: "int", ...},
-  		&{Name: "NamePattern", Desc: "Name pattern of screenshot file. You can use the following place"..., Default: "{% raw %}{{.{% endraw %}Sequence}}_{% raw %}{{.{% endraw %}Timestamp}}.png", TypeName: "string", ...},
-  		... // 2 identical elements
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
-```
-# Command spec changed: `util desktop screenshot snap`
-
-
-
-## Command configuration changed
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			... // 2 identical fields
-  			Default:  "0",
-  			TypeName: "essentials.model.mo_int.range_int",
-  			TypeAttr: map[string]any{
-- 				"max":   float64(2),
-+ 				"max":   float64(1),
-  				"min":   float64(0),
-  				"value": float64(0),
-  			},
-  		},
-  		&{Name: "Path", Desc: "Path to save the screenshot", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 3 identical fields
+  	Remarks: "",
+  	Path:    "dev lifecycle planchangepath",
+  	CliArgs: strings.Join({
+  		"-announce-url URL -compatibility-file /LOCAL/PATH/TO/compat",
++ 		".json -message-file /LOCAL/PATH/TO/messages",
+  		`.json -date "2020-04-01 17:58:38" -current-path RECIPE -former-p`,
+  		"ath RECIPE",
+  	}, ""),
+  	CliNote:         "",
+  	ConnUsePersonal: false,
+  	... // 9 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "AnnounceUrl", Desc: "Announce URL", TypeName: "string"},
+  		&{Name: "Compact", Desc: "Generate compact output", Default: "false", TypeName: "bool", ...},
+  		&{Name: "CompatibilityFile", Desc: "Compatibility file", Default: "catalogue/catalogue_compatibility.json", TypeName: "essentials.model.mo_path.file_system_path_impl", ...},
++ 		&{
++ 			Name:     "CurrentBase",
++ 			Desc:     "Current recipe's base path",
++ 			Default:  "citron",
++ 			TypeName: "string",
++ 		},
+  		&{Name: "CurrentPath", Desc: "Current CLI path", TypeName: "string"},
+  		&{Name: "Date", Desc: "Effective date", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(false)}},
++ 		&{
++ 			Name:     "FormerBase",
++ 			Desc:     "Former recipe's base path",
++ 			Default:  "recipe",
++ 			TypeName: "string",
++ 		},
+  		&{Name: "FormerPath", Desc: "Former CLI path", TypeName: "string"},
++ 		&{
++ 			Name:     "MessageFile",
++ 			Desc:     "Message file path",
++ 			Default:  "resources/messages/en/messages.json",
++ 			TypeName: "essentials.model.mo_path.file_system_path_impl",
++ 			TypeAttr: map[string]any{"shouldExist": bool(false)},
++ 		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```

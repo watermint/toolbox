@@ -8,7 +8,7 @@ lang: en
 
 The current user unmounts the designated folder. 
 
-Upon success, the current user cannot access the folder unless adding the folder again. Please use `sharedfolder mount list` command to find the shared_folder_id of the folder you want to delete.
+Upon success, the current user cannot access the folder unless adding the folder again. Please use `dropbox file sharedfolder mount list` command to find the shared_folder_id of the folder you want to delete.
 
 # Security
 

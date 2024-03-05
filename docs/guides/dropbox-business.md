@@ -48,7 +48,7 @@ If you need to update the member's display name, use the 'member update profile`
 
 ## Member storage quota control commands
 
-You can see existing member storage quota setting or usage by the `member quota list` and `member quota usage` command. If you need to update member quota, use the `member quota update` command. The command `member quota update` receives CSV input for bulk updating storage quota setting.
+You can see existing member storage quota setting or usage by the `dropbox team member quota list` and `dropbox team member quota usage` command. If you need to update member quota, use the `dropbox team member quota update` command. The command `dropbox team member quota update` receives CSV input for bulk updating storage quota setting.
 
 | Command                                                                                                           | Description                    |
 |-------------------------------------------------------------------------------------------------------------------|--------------------------------|
@@ -56,7 +56,7 @@ You can see existing member storage quota setting or usage by the `member quota 
 | [dropbox team member quota usage]({{ site.baseurl }}/commands/dropbox-team-member-quota-usage.html)               | List team member storage usage |
 | [dropbox team member quota batch update]({{ site.baseurl }}/commands/dropbox-team-member-quota-batch-update.html) | Update team member quota       |
 
-## There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `member suspend` or `member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `member batch suspend` or `member batch unsuspend` command.
+## There are two types of commands available for suspending/unsuspending members. If you wanted to suspend/unsuspend a member one by one, please use `dropbox team member suspend` or `dropbox team member unsuspend`. Otherwise, if you want to suspend/unsuspend members through a CSV file, please use the `dropbox team member batch suspend` or `dropbox member batch unsuspend` command.
 
 Suspend/unsuspend a member
 
@@ -94,7 +94,7 @@ Below commands are for managing groups.
 
 ## Group member management commands
 
-You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `group member batch add`, `group member batch delete`, or `group member batch delete`.
+You can add/delete/update group members by the below commands. If you want to add/delete/update group members by CSV file, use `dropbox team group member batch add`, `dropbox team group member batch delete`, or `dropbox team group member batch delete`.
 
 | Command                                                                                                           | Description                       |
 |-------------------------------------------------------------------------------------------------------------------|-----------------------------------|
@@ -107,9 +107,9 @@ You can add/delete/update group members by the below commands. If you want to ad
 
 ## Find and delete unused groups
 
-There are two commands to find unused groups. The first command is `group list`. The command `group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.
-If you want to see which folder uses each group, use the command `group folder list`. `group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.
-You can safely remove groups once if you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `group batch delete`.
+There are two commands to find unused groups. The first command is `dropbox team group list`. The command `dropbox team group list` will report the number of members of each group. If it's zero, a group is not currently used to adding permission to folders.
+If you want to see which folder uses each group, use the command `dropbox team group folder list`. `dropbox team group folder list` will report the group to folder mapping. The report `group_with_no_folders` will show groups with no folders.
+You can safely remove groups once if you check both the number of members and folders. After confirmation, you can bulk delete groups by using the command `dropbox team group batch delete`.
 
 | Command                                                                                             | Description                |
 |-----------------------------------------------------------------------------------------------------|----------------------------|
@@ -125,7 +125,7 @@ The namespace commands can handle all types of folders, including team folders a
 
 ## Team folder operation commands
 
-You can create, archive or permanently delete team folders by using the below commands. Please consider using `teamfolder batch` commands if you need to handle multiple team folders.
+You can create, archive or permanently delete team folders by using the below commands. Please consider using `dropbox team teamfolder batch` commands if you need to handle multiple team folders.
 
 | Command                                                                                                                     | Description                            |
 |-----------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
@@ -154,7 +154,7 @@ You can bulk add or delete members into team folders or sub-folders of a team fo
 ## Team folder & shared folder commands
 
 The below commands are for both team folders and shared folders of the team.
-If you wanted to know who are actually uses specific folders, please consider using the command `team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
+If you wanted to know who are actually uses specific folders, please consider using the command `dropbox team content mount list`. Mount is a status a user add a shared folder to his/her Dropbox account.
 
 | Command                                                                                               | Description                                                  |
 |-------------------------------------------------------------------------------------------------------|--------------------------------------------------------------|
@@ -224,13 +224,13 @@ The team shared link commands are capable of listing all shared links in the tea
 | [dropbox team sharedlink delete links]({{ site.baseurl }}/commands/dropbox-team-sharedlink-delete-links.html)           | Batch delete shared links                                     |
 | [dropbox team sharedlink delete member]({{ site.baseurl }}/commands/dropbox-team-sharedlink-delete-member.html)         | Delete all shared links of the member                         |
 
-## Difference between `team sharedlink cap` and `team sharedlink update`
+## Difference between `dropbox team sharedlink cap` and `dropbox team sharedlink update`
 
-Commands `team sharedlink update` is for setting a value to the shared links. Commands `team sharedlink cap` is for putting a cap value to the shared links.
-For example: if you set expiry by `team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
-On the other hand, `team sharedlink cap expiry` updates links when the link has a longer expiration date, like 2021-05-07.
+Commands `dropbox team sharedlink update` is for setting a value to the shared links. Commands `dropbox team sharedlink cap` is for putting a cap value to the shared links.
+For example: if you set expiry by `dropbox team sharedlink update expiry` with the expiration date 2021-05-06. The command will update the expiry to 2021-05-06 even if the existing link has a shorter expiration date like 2021-05-04.
+On the other hand, `dropbox team sharedlink cap expiry` updates links when the link has a longer expiration date, like 2021-05-07.
 
-Similarly, the command `team sharedlink cap visibility` will restrict visibility only when the link has less protected visibility. For example, if you want to ensure shared links without password to the team only. `team sharedlink cap visibility` will update visibility to the team only when a link is public and has no password.
+Similarly, the command `dropbox team sharedlink cap visibility` will restrict visibility only when the link has less protected visibility. For example, if you want to ensure shared links without password to the team only. `dropbox team sharedlink cap visibility` will update visibility to the team only when a link is public and has no password.
 
 ## Example (list links):
 
@@ -316,7 +316,7 @@ The below commands can retrieve information about connected devices or applicati
 
 External ID is the attribute that is not shown in any user interface of Dropbox. This attribute is for keep a relationship between Dropbox and identity source (e.g. Active Directory, HR database) by identity management software such as Dropbox AD Connector. In case if you are using Dropbox AD Connector and you built a new Active Directory tree. You may need to clear existing external IDs to disconnect relationships with the old Active Directory tree and the new tree.
 If you skip clear external IDs, Dropbox AD Connector may unintentionally delete accounts during configuring to the new tree.
-If you want to see existing external IDs, use the `member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.
+If you want to see existing external IDs, use the `dropbox team member list` command. But the command will not include external ID by default. Please add the option `-experiment report_all_columns` like below.
 
 ```
 tbx member list -experiment report_all_columns
@@ -377,7 +377,7 @@ Below commands are for managing team admins.
 
 # Commands that run as a team member
 
-You can run a command as a team member. For example, you can upload a file into member's folder by using `team runas file sync batch up`.
+You can run a command as a team member. For example, you can upload a file into member's folder by using `dropbox team runas file sync batch up`.
 
 | Command                                                                                                                                     | Description                                                                         |
 |---------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|

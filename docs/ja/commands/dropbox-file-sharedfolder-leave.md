@@ -8,7 +8,7 @@ lang: ja
 
 共有フォルダーから退出する. 
 
-成功すると、現在のユーザーはそのフォルダーへのアクセス権を失います. `sharedfolder list` コマンドで、抜けたいフォルダの shared_folder_id を探してください.
+成功すると、現在のユーザーはそのフォルダーへのアクセス権を失います. `dropbox file sharedfolder list`コマンドを使って、退出したいフォルダのshared_folder_idを探してください。
 
 # セキュリティ
 
