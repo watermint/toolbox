@@ -112,9 +112,9 @@ lang: en
 | dropbox team group update type                      | Update group management type                                                        |
 | dropbox team info                                   | Team information                                                                    |
 | dropbox team insight report teamfoldermember        | Report team folder members                                                          |
-| dropbox team insight scan                           |                                                                                     |
+| dropbox team insight scan                           | Scans team data for analysis                                                        |
 | dropbox team insight scanretry                      | Retry scan for errors on the last scan                                              |
-| dropbox team insight summarize                      |                                                                                     |
+| dropbox team insight summarize                      | Summarize team data for analysis                                                    |
 | dropbox team legalhold add                          | Creates new legal hold policy.                                                      |
 | dropbox team legalhold list                         | Retrieve existing policies                                                          |
 | dropbox team legalhold member batch update          | Update member list of legal hold policy                                             |

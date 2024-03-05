@@ -152,7 +152,7 @@ The command will generate a report in three different formats. `updated.csv`, `u
 | reason                | Reason of failure or skipped operation                                   |
 | input.path            | Path to the target folder                                                |
 | input.sync_setting    | Sync setting (default/not_synced)                                        |
-| result.team_folder_id |                                                                          |
+| result.team_folder_id | Team folder ID                                                           |
 | result.name           | The name of the team folder.                                             |
 | result.status         | The status of the team folder (active, archived, or archive_in_progress) |
 

@@ -6,7 +6,28 @@ lang: en
 
 # dropbox team insight scan
 
- 
+Scans team data for analysis 
+
+This command collects various team data, such as files in team folders, permissions and shared links, and stores them in a database.
+The collected data can be analysed with commands such as `dropbox team insight report teamfoldermember`, or with database tools that support SQLite in general.
+
+About how long a scan takes:.
+
+Scanning a team often takes a long time. Especially if there are a large number of files stored, the time is linearly proportional to the number of files. To increase the scanning speed, it is better to use the `-concurrency` option for parallel processing.
+However, too much parallelism will increase the error rate from the Dropbox server, so a balance must be considered. According to the results of a few benchmarks, a parallelism level of 12-24 for the `-concurrency` option seems to be a good choice.
+The time required for scanning depends on the response of the Dropbox server, but is around 20-30 hours per 10 million files (with `-concurrency 16`).
+
+During the scan, users might delete, move or add files during that time. The command does not aim to capture all those differences and report exact results, but to provide rough information as quickly as possible.
+
+For database file sizes:.
+
+As this command retrieves all metadata, including the team's files, the size of the database increases with the size of those metadata. Benchmark results show that the database size is around 10-12 GB per 10 million files stored in the team. Make sure that the path specified by `-database` has enough space before running.
+
+About scan errors:.
+
+The Dropbox server may return an error when running the scan. The command will automatically try to re-run the scan several times, but the error may not be resolved for a certain period of time due to server congestion or condition. In that case, the command stops the re-run and records the scan task in the database where the error occurred.
+If you want to re-run a failed scan, use the `dropbox team insight scanretry` command to run the scan again.
+If the issue is not resolved after repeated re-runs and you want to analyse only the coverage of the current scan, you need to perform an aggregation task before the analysis. Aggregation tasks can be performed with the `dropbox team insight summary` command.
 
 # Security
 
@@ -80,13 +101,13 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                 | Description          | Default |
-|------------------------|----------------------|---------|
-| `-database`            | Path to database     |         |
-| `-max-retries`         |                      | 3       |
-| `-peer`                | Account alias        | default |
-| `-scan-member-folders` |                      | false   |
-| `-skip-summarize`      | Skip summarize tasks | false   |
+| Option                 | Description               | Default |
+|------------------------|---------------------------|---------|
+| `-database`            | Path to database          |         |
+| `-max-retries`         | Maximum number of retries | 3       |
+| `-peer`                | Account alias             | default |
+| `-scan-member-folders` | Scan member folders       | false   |
+| `-skip-summarize`      | Skip summarize tasks      | false   |
 
 ## Common options:
 

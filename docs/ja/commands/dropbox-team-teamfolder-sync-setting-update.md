@@ -152,7 +152,7 @@ path,sync_setting
 | reason                | 失敗またはスキップの理由                                            |
 | input.path            | ターゲットフォルダへのパス                                          |
 | input.sync_setting    | 同期設定 (default/not_synced)                                       |
-| result.team_folder_id |                                                                     |
+| result.team_folder_id | チームフォルダID                                                    |
 | result.name           | チームフォルダの名称                                                |
 | result.status         | チームフォルダの状態 (active, archived, または archive_in_progress) |
 

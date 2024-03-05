@@ -236,7 +236,7 @@ Dropbox用ツールとDropbox for teams
 | [dropbox team group rename](docs/ja/commands/dropbox-team-group-rename.md)                                                     | グループの改名                                                                          |
 | [dropbox team group update type](docs/ja/commands/dropbox-team-group-update-type.md)                                           | グループ管理タイプの更新                                                                |
 | [dropbox team info](docs/ja/commands/dropbox-team-info.md)                                                                     | チームの情報                                                                            |
-| [dropbox team insight scan](docs/ja/commands/dropbox-team-insight-scan.md)                                                     |                                                                                         |
+| [dropbox team insight scan](docs/ja/commands/dropbox-team-insight-scan.md)                                                     | チームデータをスキャンして分析                                                          |
 | [dropbox team legalhold add](docs/ja/commands/dropbox-team-legalhold-add.md)                                                   | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
 | [dropbox team legalhold list](docs/ja/commands/dropbox-team-legalhold-list.md)                                                 | 既存のポリシーを取得する                                                                |
 | [dropbox team legalhold member batch update](docs/ja/commands/dropbox-team-legalhold-member-batch-update.md)                   | リーガル・ホールド・ポリシーのメンバーリスト更新                                        |

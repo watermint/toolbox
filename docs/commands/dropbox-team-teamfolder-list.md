@@ -128,7 +128,7 @@ The command will generate a report in three different formats. `team_folder.csv`
 |------------------------|--------------------------------------------------------------------------------------------|
 | name                   | The name of the team folder.                                                               |
 | status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
-| is_team_shared_dropbox |                                                                                            |
+| is_team_shared_dropbox | True if the team has team shared Dropbox                                                   |
 | sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.

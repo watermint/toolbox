@@ -238,7 +238,7 @@ Available commands:
 | [dropbox team group rename](docs/commands/dropbox-team-group-rename.md)                                                     | Rename the group                                                                    |
 | [dropbox team group update type](docs/commands/dropbox-team-group-update-type.md)                                           | Update group management type                                                        |
 | [dropbox team info](docs/commands/dropbox-team-info.md)                                                                     | Team information                                                                    |
-| [dropbox team insight scan](docs/commands/dropbox-team-insight-scan.md)                                                     |                                                                                     |
+| [dropbox team insight scan](docs/commands/dropbox-team-insight-scan.md)                                                     | Scans team data for analysis                                                        |
 | [dropbox team legalhold add](docs/commands/dropbox-team-legalhold-add.md)                                                   | Creates new legal hold policy.                                                      |
 | [dropbox team legalhold list](docs/commands/dropbox-team-legalhold-list.md)                                                 | Retrieve existing policies                                                          |
 | [dropbox team legalhold member batch update](docs/commands/dropbox-team-legalhold-member-batch-update.md)                   | Update member list of legal hold policy                                             |

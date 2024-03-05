@@ -142,7 +142,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | country                       | このセッションの最終アクティビティの国                                 |
 | created                       | セッションが作成された日時                                             |
 | updated                       | このセッションの最終アクティビティの日時                               |
-| expires                       | このセッションが失効する日時                                           |
+| expires                       | このセッションが終了する時間（出力は省略される場合がある）             |
 | host_name                     | デスクトップホストの名称                                               |
 | client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        |
 | client_version                | Dropboxクライアントバージョン                                          |
@@ -150,7 +150,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     |
 | device_name                   | デバイス名                                                             |
 | os_version                    | ホストOSのバージョン                                                   |
-| last_carrier                  | このデバイスで利用された最後のキャリア                                 |
+| last_carrier                  | デバイスが最後に使用したキャリア（出力は省略される場合がある）。       |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

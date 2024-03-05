@@ -147,7 +147,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.name                    | Name of team folder                                                                        |
 | result.name                   | The name of the team folder.                                                               |
 | result.status                 | The status of the team folder (active, archived, or archive_in_progress)                   |
-| result.is_team_shared_dropbox |                                                                                            |
+| result.is_team_shared_dropbox | True if the team has team shared Dropbox                                                   |
 | result.sync_setting           | The sync setting applied to this team folder (default, not_synced, or not_synced_inactive) |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.

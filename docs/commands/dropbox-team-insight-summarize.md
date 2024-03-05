@@ -6,7 +6,7 @@ lang: en
 
 # dropbox team insight summarize
 
- 
+Summarize team data for analysis 
 
 # Installation
 
@@ -38,9 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option      | Description | Default |
-|-------------|-------------|---------|
-| `-database` |             |         |
+| Option      | Description      | Default |
+|-------------|------------------|---------|
+| `-database` | Path to database |         |
 
 ## Common options:
 

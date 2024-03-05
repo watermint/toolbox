@@ -204,9 +204,9 @@ Team Insight is a feature of Dropbox Business that provides a view of team folde
 
 | Command                                                                                                                       | Description                            |
 |-------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|
-| [dropbox team insight scan]({{ site.baseurl }}/commands/dropbox-team-insight-scan.html)                                       |                                        |
+| [dropbox team insight scan]({{ site.baseurl }}/commands/dropbox-team-insight-scan.html)                                       | Scans team data for analysis           |
 | [dropbox team insight scanretry]({{ site.baseurl }}/commands/dropbox-team-insight-scanretry.html)                             | Retry scan for errors on the last scan |
-| [dropbox team insight summarize]({{ site.baseurl }}/commands/dropbox-team-insight-summarize.html)                             |                                        |
+| [dropbox team insight summarize]({{ site.baseurl }}/commands/dropbox-team-insight-summarize.html)                             | Summarize team data for analysis       |
 | [dropbox team insight report teamfoldermember]({{ site.baseurl }}/commands/dropbox-team-insight-report-teamfoldermember.html) | Report team folder members             |
 
 # Team shared link commands

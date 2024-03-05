@@ -204,9 +204,9 @@ lang: ja
 
 | コマンド                                                                                                                         | 説明                                                     |
 |----------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|
-| [dropbox team insight scan]({{ site.baseurl }}/ja/commands/dropbox-team-insight-scan.html)                                       |                                                          |
+| [dropbox team insight scan]({{ site.baseurl }}/ja/commands/dropbox-team-insight-scan.html)                                       | チームデータをスキャンして分析                           |
 | [dropbox team insight scanretry]({{ site.baseurl }}/ja/commands/dropbox-team-insight-scanretry.html)                             | 前回のスキャンでエラーがあった場合、スキャンを再試行する |
-| [dropbox team insight summarize]({{ site.baseurl }}/ja/commands/dropbox-team-insight-summarize.html)                             |                                                          |
+| [dropbox team insight summarize]({{ site.baseurl }}/ja/commands/dropbox-team-insight-summarize.html)                             | 分析のためにチームデータをまとめる                       |
 | [dropbox team insight report teamfoldermember]({{ site.baseurl }}/ja/commands/dropbox-team-insight-report-teamfoldermember.html) | チームフォルダーメンバーを報告                           |
 
 # チーム共有リンクコマンド

@@ -130,7 +130,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 |------------------------|--------------------------------------------------------------------------------------|
 | name                   | チームフォルダの名称                                                                 |
 | status                 | チームフォルダの状態 (active, archived, または archive_in_progress)                  |
-| is_team_shared_dropbox |                                                                                      |
+| is_team_shared_dropbox | チームがDropboxを共有している場合は真                                                |
 | sync_setting           | チームフォルダに設定された同期設定 (default, not_synced, または not_synced_inactive) |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます

@@ -112,9 +112,9 @@ lang: ja
 | dropbox team group update type                      | グループ管理タイプの更新                                                                |
 | dropbox team info                                   | チームの情報                                                                            |
 | dropbox team insight report teamfoldermember        | チームフォルダーメンバーを報告                                                          |
-| dropbox team insight scan                           |                                                                                         |
+| dropbox team insight scan                           | チームデータをスキャンして分析                                                          |
 | dropbox team insight scanretry                      | 前回のスキャンでエラーがあった場合、スキャンを再試行する                                |
-| dropbox team insight summarize                      |                                                                                         |
+| dropbox team insight summarize                      | 分析のためにチームデータをまとめる                                                      |
 | dropbox team legalhold add                          | 新しいリーガル・ホールド・ポリシーを作成する.                                           |
 | dropbox team legalhold list                         | 既存のポリシーを取得する                                                                |
 | dropbox team legalhold member batch update          | リーガル・ホールド・ポリシーのメンバーリスト更新                                        |

@@ -117,41 +117,41 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 This report shows a list of current existing sessions in the team with team member information.
 
-| Column                        | Description                                                                          | Example                                    |
-|-------------------------------|--------------------------------------------------------------------------------------|--------------------------------------------|
-| team_member_id                | ID of user as a member of a team.                                                    | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  |
-| email                         | Email address of user.                                                               | john.smith@example.com                     |
-| status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) | active                                     |
-| given_name                    | Also known as a first name                                                           | John                                       |
-| surname                       | Also known as a last name or family name.                                            | Smith                                      |
-| familiar_name                 | Locale-dependent name                                                                | John Smith                                 |
-| display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  | John Smith                                 |
-| abbreviated_name              | An abbreviated form of the person's name.                                            | JS                                         |
-| external_id                   | External ID that a team can attach to the user.                                      |                                            |
-| account_id                    | A user's account identifier.                                                         | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   |
-| device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  | desktop_client                             |
-| id                            | The session id.                                                                      | dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
-| user_agent                    | Information on the hosting device.                                                   |                                            |
-| os                            | Information on the hosting operating system                                          |                                            |
-| browser                       | Information on the browser used for this web session.                                |                                            |
-| ip_address                    | The IP address of the last activity from this session.                               | xx.xxx.x.xxx                               |
-| country                       | The country from which the last activity from this session was made.                 | United States                              |
-| created                       | The time this session was created.                                                   | 2019-09-20T23:47:33Z                       |
-| updated                       | The time of the last activity from this session.                                     | 2019-10-25T04:42:16Z                       |
-| expires                       | The time this session expires                                                        |                                            |
-| host_name                     | Name of the hosting desktop.                                                         | nihonbashi                                 |
-| client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             | windows                                    |
-| client_version                | The Dropbox client version.                                                          | 83.4.152                                   |
-| platform                      | Information on the hosting platform.                                                 | Windows 10 1903                            |
-| is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             | TRUE                                       |
-| device_name                   | The device name.                                                                     |                                            |
-| os_version                    | The hosting OS version.                                                              |                                            |
-| last_carrier                  | Last carrier used by the device.                                                     |                                            |
+| Column                        | Description                                                                          | Example                                                                                                         |
+|-------------------------------|--------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| team_member_id                | ID of user as a member of a team.                                                    | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                       |
+| email                         | Email address of user.                                                               | john.smith@example.com                                                                                          |
+| status                        | The user's status as a member of a specific team. (active/invited/suspended/removed) | active                                                                                                          |
+| given_name                    | Also known as a first name                                                           | John                                                                                                            |
+| surname                       | Also known as a last name or family name.                                            | Smith                                                                                                           |
+| familiar_name                 | Locale-dependent name                                                                | John Smith                                                                                                      |
+| display_name                  | A name that can be used directly to represent the name of a user's Dropbox account.  | John Smith                                                                                                      |
+| abbreviated_name              | An abbreviated form of the person's name.                                            | JS                                                                                                              |
+| external_id                   | External ID that a team can attach to the user (optional)                            | (empty string if not set)                                                                                       |
+| account_id                    | A user's account identifier.                                                         | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                        |
+| device_tag                    | Type of the session (web_session, desktop_client, or mobile_client)                  | desktop_client                                                                                                  |
+| id                            | The session id.                                                                      | dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                      |
+| user_agent                    | Information on the hosting device.                                                   | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 |
+| os                            | Information on the hosting operating system                                          | Windows                                                                                                         |
+| browser                       | Information on the browser used for this web session.                                | Chrome                                                                                                          |
+| ip_address                    | The IP address of the last activity from this session.                               | xx.xxx.x.xxx                                                                                                    |
+| country                       | The country from which the last activity from this session was made.                 | United States                                                                                                   |
+| created                       | The time this session was created.                                                   | 2019-09-20T23:47:33Z                                                                                            |
+| updated                       | The time of the last activity from this session.                                     | 2019-10-25T04:42:16Z                                                                                            |
+| expires                       | The time this session expires (optional)                                             | 2024-03-22T10:30:56Z                                                                                            |
+| host_name                     | Name of the hosting desktop.                                                         | nihonbashi                                                                                                      |
+| client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             | windows                                                                                                         |
+| client_version                | The Dropbox client version.                                                          | 83.4.152                                                                                                        |
+| platform                      | Information on the hosting platform.                                                 | Windows 10 1903                                                                                                 |
+| is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             | TRUE                                                                                                            |
+| device_name                   | The device name.                                                                     | My Awesome PC                                                                                                   |
+| os_version                    | The hosting OS version.                                                              | (empty string if not set)                                                                                       |
+| last_carrier                  | Last carrier used by the device (optional).                                          | AT&T                                                                                                            |
 
 The first line is a header line. The program will accept a file without the header.
 ```
 team_member_id,email,status,given_name,surname,familiar_name,display_name,abbreviated_name,external_id,account_id,device_tag,id,user_agent,os,browser,ip_address,country,created,updated,expires,host_name,client_type,client_version,platform,is_delete_on_unlink_supported,device_name,os_version,last_carrier
-dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,,dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,,,,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,,,
+dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,(empty string if not set),dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",Windows,Chrome,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,2024-03-22T10:30:56Z,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,My Awesome PC,(empty string if not set),AT&T
 ```
 
 # Results
@@ -188,7 +188,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.country                       | The country from which the last activity from this session was made.                 |
 | input.created                       | The time this session was created.                                                   |
 | input.updated                       | The time of the last activity from this session.                                     |
-| input.expires                       | The time this session expires                                                        |
+| input.expires                       | The time this session expires (optional)                                             |
 | input.host_name                     | Name of the hosting desktop.                                                         |
 | input.client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             |
 | input.client_version                | The Dropbox client version.                                                          |
@@ -196,7 +196,7 @@ The command will generate a report in three different formats. `operation_log.cs
 | input.is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             |
 | input.device_name                   | The device name.                                                                     |
 | input.os_version                    | The hosting OS version.                                                              |
-| input.last_carrier                  | Last carrier used by the device.                                                     |
+| input.last_carrier                  | Last carrier used by the device (optional).                                          |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

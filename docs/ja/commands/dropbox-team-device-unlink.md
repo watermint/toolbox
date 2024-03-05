@@ -117,41 +117,41 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 このレポートではチーム内の既存セッションとメンバー情報を一覧できます.
 
-| 列                            | 説明                                                                   | 例                                         |
-|-------------------------------|------------------------------------------------------------------------|--------------------------------------------|
-| team_member_id                | チームにおけるメンバーのID                                             | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  |
-| email                         | ユーザーのメールアドレス                                               | john.smith@example.com                     |
-| status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   | active                                     |
-| given_name                    | 名                                                                     | John                                       |
-| surname                       | 名字                                                                   | Smith                                      |
-| familiar_name                 | ロケール依存の名前                                                     | John Smith                                 |
-| display_name                  | ユーザーのDropboxアカウントの表示名称                                  | John Smith                                 |
-| abbreviated_name              | ユーザーの省略名称                                                     | JS                                         |
-| external_id                   | このユーザーに関連づけられた外部ID                                     |                                            |
-| account_id                    | ユーザーのアカウントID                                                 | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx   |
-| device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) | desktop_client                             |
-| id                            | セッションID                                                           | dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |
-| user_agent                    | ホストデバイスの情報                                                   |                                            |
-| os                            | ホストOSの情報                                                         |                                            |
-| browser                       | Webセッションのブラウザ情報                                            |                                            |
-| ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         | xx.xxx.x.xxx                               |
-| country                       | このセッションの最終アクティビティの国                                 | United States                              |
-| created                       | セッションが作成された日時                                             | 2019-09-20T23:47:33Z                       |
-| updated                       | このセッションの最終アクティビティの日時                               | 2019-10-25T04:42:16Z                       |
-| expires                       | このセッションが失効する日時                                           |                                            |
-| host_name                     | デスクトップホストの名称                                               | nihonbashi                                 |
-| client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        | windows                                    |
-| client_version                | Dropboxクライアントバージョン                                          | 83.4.152                                   |
-| platform                      | ホストプラットホームの情報                                             | Windows 10 1903                            |
-| is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     | TRUE                                       |
-| device_name                   | デバイス名                                                             |                                            |
-| os_version                    | ホストOSのバージョン                                                   |                                            |
-| last_carrier                  | このデバイスで利用された最後のキャリア                                 |                                            |
+| 列                            | 説明                                                                   | 例                                                                                                              |
+|-------------------------------|------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| team_member_id                | チームにおけるメンバーのID                                             | dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                       |
+| email                         | ユーザーのメールアドレス                                               | john.smith@example.com                                                                                          |
+| status                        | チームにおけるメンバーのステータス(active/invited/suspended/removed)   | active                                                                                                          |
+| given_name                    | 名                                                                     | John                                                                                                            |
+| surname                       | 名字                                                                   | Smith                                                                                                           |
+| familiar_name                 | ロケール依存の名前                                                     | John Smith                                                                                                      |
+| display_name                  | ユーザーのDropboxアカウントの表示名称                                  | John Smith                                                                                                      |
+| abbreviated_name              | ユーザーの省略名称                                                     | JS                                                                                                              |
+| external_id                   | チームがユーザーに付加できる外部ID（出力は省略される場合がある）       | (設定されていない場合は空文字列）                                                                               |
+| account_id                    | ユーザーのアカウントID                                                 | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                        |
+| device_tag                    | セッションのタイプ (web_session, desktop_client, または mobile_client) | desktop_client                                                                                                  |
+| id                            | セッションID                                                           | dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                                                      |
+| user_agent                    | ホストデバイスの情報                                                   | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 |
+| os                            | ホストOSの情報                                                         | Windows                                                                                                         |
+| browser                       | Webセッションのブラウザ情報                                            | Chrome                                                                                                          |
+| ip_address                    | このセッションの昨秋アクティビティのIPアドレス                         | xx.xxx.x.xxx                                                                                                    |
+| country                       | このセッションの最終アクティビティの国                                 | United States                                                                                                   |
+| created                       | セッションが作成された日時                                             | 2019-09-20T23:47:33Z                                                                                            |
+| updated                       | このセッションの最終アクティビティの日時                               | 2019-10-25T04:42:16Z                                                                                            |
+| expires                       | このセッションが終了する時間（出力は省略される場合がある）             | 2024-03-22T10:30:56Z                                                                                            |
+| host_name                     | デスクトップホストの名称                                               | nihonbashi                                                                                                      |
+| client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        | windows                                                                                                         |
+| client_version                | Dropboxクライアントバージョン                                          | 83.4.152                                                                                                        |
+| platform                      | ホストプラットホームの情報                                             | Windows 10 1903                                                                                                 |
+| is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     | TRUE                                                                                                            |
+| device_name                   | デバイス名                                                             | My Awesome PC                                                                                                   |
+| os_version                    | ホストOSのバージョン                                                   | (設定されていない場合は空文字列）                                                                               |
+| last_carrier                  | デバイスが最後に使用したキャリア（出力は省略される場合がある）。       | AT&T                                                                                                            |
 
 最初の行はヘッダ行です. プログラムは、ヘッダのないファイルを受け入れます.
 ```
 team_member_id,email,status,given_name,surname,familiar_name,display_name,abbreviated_name,external_id,account_id,device_tag,id,user_agent,os,browser,ip_address,country,created,updated,expires,host_name,client_type,client_version,platform,is_delete_on_unlink_supported,device_name,os_version,last_carrier
-dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,,dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,,,,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,,,
+dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smith,John Smith,John Smith,JS,(設定されていない場合は空文字列）,dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,desktop_client,dbdsid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",Windows,Chrome,xx.xxx.x.xxx,United States,2019-09-20T23:47:33Z,2019-10-25T04:42:16Z,2024-03-22T10:30:56Z,nihonbashi,windows,83.4.152,Windows 10 1903,TRUE,My Awesome PC,(設定されていない場合は空文字列）,AT&T
 ```
 
 # 実行結果
@@ -188,7 +188,7 @@ dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smi
 | input.country                       | このセッションの最終アクティビティの国                                 |
 | input.created                       | セッションが作成された日時                                             |
 | input.updated                       | このセッションの最終アクティビティの日時                               |
-| input.expires                       | このセッションが失効する日時                                           |
+| input.expires                       | このセッションが終了する時間（出力は省略される場合がある）             |
 | input.host_name                     | デスクトップホストの名称                                               |
 | input.client_type                   | Dropboxデスクトップクライアントタイプ (Windows, macまたはlinux)        |
 | input.client_version                | Dropboxクライアントバージョン                                          |
@@ -196,7 +196,7 @@ dbmid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx,john.smith@example.com,active,John,Smi
 | input.is_delete_on_unlink_supported | アカウントのファイルをリンク解除時に削除を試みます                     |
 | input.device_name                   | デバイス名                                                             |
 | input.os_version                    | ホストOSのバージョン                                                   |
-| input.last_carrier                  | このデバイスで利用された最後のキャリア                                 |
+| input.last_carrier                  | デバイスが最後に使用したキャリア（出力は省略される場合がある）。       |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

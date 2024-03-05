@@ -142,7 +142,7 @@ The command will generate a report in three different formats. `device.csv`, `de
 | country                       | The country from which the last activity from this session was made.                 |
 | created                       | The time this session was created.                                                   |
 | updated                       | The time of the last activity from this session.                                     |
-| expires                       | The time this session expires                                                        |
+| expires                       | The time this session expires (optional)                                             |
 | host_name                     | Name of the hosting desktop.                                                         |
 | client_type                   | The Dropbox desktop client type (windows, mac, or linux)                             |
 | client_version                | The Dropbox client version.                                                          |
@@ -150,7 +150,7 @@ The command will generate a report in three different formats. `device.csv`, `de
 | is_delete_on_unlink_supported | Whether it's possible to delete all of the account files upon unlinking.             |
 | device_name                   | The device name.                                                                     |
 | os_version                    | The hosting OS version.                                                              |
-| last_carrier                  | Last carrier used by the device.                                                     |
+| last_carrier                  | Last carrier used by the device (optional).                                          |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
