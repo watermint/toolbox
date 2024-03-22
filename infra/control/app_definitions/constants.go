@@ -81,8 +81,11 @@ const (
 	// EnvNameToolboxBuildTarget Env variable name for build target
 	EnvNameToolboxBuildTarget = "TOOLBOX_BUILD_TARGET"
 
-	// EnvNameToolboxRecipeFlavor Env variable name for enable additional flavor
-	EnvNameToolboxRecipeFlavor = "TOOLBOX_RECIPE_FLAVOR"
+	// EnvNameToolboxLicenseUrl Env variable name for license server URL
+	EnvNameToolboxLicenseUrl = "TOOLBOX_LICENSE_URL"
+
+	// EnvNameToolboxLicenseSalt Env variable name for license salt
+	EnvNameToolboxLicenseSalt = "TOOLBOX_LICENSE_SALT"
 )
 
 // Document

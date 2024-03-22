@@ -8,14 +8,16 @@ import (
 )
 
 type BuildInfo struct {
-	Version    string `json:"version"`
-	Hash       string `json:"hash"`
-	Branch     string `json:"branch"`
-	Timestamp  string `json:"timestamp"`
-	Year       int    `json:"year"`
-	Zap        string `json:"zap"`
-	Xap        string `json:"xap"`
-	Production bool   `json:"production"`
+	Version     string `json:"version"`
+	Hash        string `json:"hash"`
+	Branch      string `json:"branch"`
+	Timestamp   string `json:"timestamp"`
+	Year        int    `json:"year"`
+	Zap         string `json:"zap"`
+	Xap         string `json:"xap"`
+	Production  bool   `json:"production"`
+	LicenseUrl  string `json:"license_url"`
+	LicenseSalt string `json:"license_salt"`
 }
 
 var (
@@ -67,14 +69,16 @@ func Build() BuildInfo {
 
 func buildInfoFallback() BuildInfo {
 	return BuildInfo{
-		Version:    "",
-		Hash:       "",
-		Branch:     "",
-		Timestamp:  time.Now().UTC().Format(time.RFC3339),
-		Year:       time.Now().UTC().Year(),
-		Zap:        "",
-		Xap:        "",
-		Production: false,
+		Version:     "",
+		Hash:        "",
+		Branch:      "",
+		Timestamp:   time.Now().UTC().Format(time.RFC3339),
+		Year:        time.Now().UTC().Year(),
+		Zap:         "",
+		Xap:         "",
+		Production:  false,
+		LicenseUrl:  "",
+		LicenseSalt: "",
 	}
 }
 

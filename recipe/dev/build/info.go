@@ -96,16 +96,38 @@ func (z *Info) Exec(c app_control.Control) error {
 		}
 	}
 
+	licenseUrl, found := os.LookupEnv(app_definitions2.EnvNameToolboxLicenseUrl)
+	if !found {
+		l.Warn("License URL not found", esl.String("key", app_definitions2.EnvNameToolboxLicenseUrl))
+		licenseUrl = ""
+		productionReady = false
+		if z.FailFast {
+			return errors.New("license URL not found")
+		}
+	}
+
+	licenseSalt, found := os.LookupEnv(app_definitions2.EnvNameToolboxLicenseSalt)
+	if !found {
+		l.Warn("License salt not found", esl.String("key", app_definitions2.EnvNameToolboxLicenseSalt))
+		licenseSalt = ""
+		productionReady = false
+		if z.FailFast {
+			return errors.New("license salt not found")
+		}
+	}
+
 	buildTimestamp := time.Now().UTC()
 	info := resources.BuildInfo{
-		Version:    app_definitions2.BuildId,
-		Hash:       hash.String(),
-		Branch:     branch,
-		Timestamp:  buildTimestamp.Format(time.RFC3339),
-		Year:       buildTimestamp.Year(),
-		Zap:        zap,
-		Xap:        xap,
-		Production: productionReady,
+		Version:     app_definitions2.BuildId,
+		Hash:        hash.String(),
+		Branch:      branch,
+		Timestamp:   buildTimestamp.Format(time.RFC3339),
+		Year:        buildTimestamp.Year(),
+		Zap:         zap,
+		Xap:         xap,
+		Production:  productionReady,
+		LicenseUrl:  licenseUrl,
+		LicenseSalt: licenseSalt,
 	}
 
 	infoPath := filepath.Join(prjBase, "resources/build", "info.json")

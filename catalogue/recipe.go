@@ -14,6 +14,7 @@ import (
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
+	recipedevlicense "github.com/watermint/toolbox/recipe/dev/license"
 	recipedevlifecycle "github.com/watermint/toolbox/recipe/dev/lifecycle"
 	recipedevmodule "github.com/watermint/toolbox/recipe/dev/module"
 	recipedevplaceholder "github.com/watermint/toolbox/recipe/dev/placeholder"
@@ -89,6 +90,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
+		&recipedevlicense.Issue{},
 		&recipedevlifecycle.Planchangepath{},
 		&recipedevlifecycle.Planprune{},
 		&recipedevmodule.List{},
