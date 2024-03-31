@@ -349,6 +349,7 @@ Available commands:
 
 | Command                                                                         | Description                                         |
 |---------------------------------------------------------------------------------|-----------------------------------------------------|
+| [dev release checkin](docs/commands/dev-release-checkin.md)                     | Check in the new release                            |
 | [github content get](docs/commands/github-content-get.md)                       | Get content metadata of the repository              |
 | [github content put](docs/commands/github-content-put.md)                       | Put small text content into the repository          |
 | [github issue list](docs/commands/github-issue-list.md)                         | List issues of the public/private GitHub repository |

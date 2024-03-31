@@ -94,6 +94,14 @@ type specValueSelfContained struct {
 	specChange bool
 }
 
+func (z specValueSelfContained) IsLicenseRequired() bool {
+	if z.annotation != nil {
+		return z.annotation.IsLicenseRequired()
+	}
+	return false
+
+}
+
 func (z specValueSelfContained) IsPruned() bool {
 	if _, found := rc_compatibility.Definitions.FindPrunedPrune(z.path, z.name); found {
 		return true

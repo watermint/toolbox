@@ -82,11 +82,6 @@ func VersionComponents(ui app_ui.UI) []*VersionInfo {
 		Component: ui.Text(MVersionInfo.HeaderLifecycle),
 		Version:   app_lifecycle.LifecycleControl().TimeExpiration().Format(time.RFC3339),
 	})
-	components = append(components, &VersionInfo{
-		Key:       "lifecycle.mode",
-		Component: ui.Text(MVersionInfo.HeaderLifecycle),
-		Version:   string(app_definitions2.LifecycleExpirationMode),
-	})
 
 	return components
 }

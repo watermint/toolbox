@@ -11,4 +11,5 @@ type Client interface {
 	api_client.Put
 	api_client.Upload
 	api_client.Patch
+	api_client.Delete
 }

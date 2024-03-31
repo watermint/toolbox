@@ -23,6 +23,8 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
+	"github.com/watermint/toolbox/infra/control/app_license"
+	"github.com/watermint/toolbox/infra/control/app_license_key"
 	"github.com/watermint/toolbox/infra/control/app_lifecycle"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
@@ -42,6 +44,7 @@ import (
 	"runtime"
 	"strings"
 	"syscall"
+	"time"
 )
 
 type msgRun struct {
@@ -57,6 +60,9 @@ type msgRun struct {
 	ErrorUnsupportedOutput                app_msg.Message
 	ErrorInitialization                   app_msg.Message
 	ErrorUnableToLoadExtra                app_msg.Message
+	ErrorLicenseExpired                   app_msg.Message
+	ErrorLifecycleEnded                   app_msg.Message
+	WarnLifecycleNearEnd                  app_msg.Message
 	ProgressInterruptedShutdown           app_msg.Message
 	InfoRecipeFailedLogLocation           app_msg.Message
 }
@@ -243,6 +249,30 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 			app_exit.Abort(app_exit.FatalNetwork)
 		}
 	}
+
+	// License
+	license := app_license.NewLicenseBundleFromKeys(
+		app_license_key.AvailableKeys(),
+		wb.Workspace().Secrets(),
+	)
+
+	// Check license
+	if valid, _, _ := license.IsValid(); !valid {
+		ui.Failure(MRun.ErrorLicenseExpired)
+		app_exit.Abort(app_exit.FailureLicenseExpired)
+	}
+
+	// Check lifecycle
+	if active, warn := license.IsLifecycleWithinLimit(); !active {
+		ui.Failure(MRun.ErrorLifecycleEnded)
+		app_exit.Abort(app_exit.FailureBinaryExpired)
+	} else if warn {
+		ui.Info(MRun.WarnLifecycleNearEnd.With(
+			"Expiration",
+			license.LifecycleLimit().Format(time.RFC3339)))
+	}
+
+	// Check license of the recipe
 
 	// Bootstrap recipe
 	if err := rc_exec.Exec(ctl, &ig_bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {

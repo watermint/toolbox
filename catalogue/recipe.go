@@ -99,6 +99,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevrelease.Asset{},
 		&recipedevrelease.Asseturl{},
 		&recipedevrelease.Candidate{},
+		&recipedevrelease.Checkin{},
 		&recipedevrelease.Doc{},
 		&recipedevrelease.Publish{},
 		&recipedevreplay.Approve{},

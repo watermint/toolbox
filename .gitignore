@@ -15,6 +15,7 @@
 /dist
 /resources/keys/toolbox.appkeys
 /resources/keys/toolbox.appkeys.secret
+/resources/keys/license.json
 /resources/build/info.json
 /test/dev
 /test/results

@@ -104,3 +104,11 @@ func (z clientImpl) Put(endpoint string, d ...api_request.RequestDatum) (res es_
 		api_request.Combine(d))
 	return z.client.Call(&z, b)
 }
+
+func (z clientImpl) Delete(endpoint string, d ...api_request.RequestDatum) (res es_response.Response) {
+	b := z.builder.With(
+		http.MethodDelete,
+		ServerRpc+endpoint,
+		api_request.Combine(d))
+	return z.client.Call(&z, b)
+}

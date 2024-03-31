@@ -19,12 +19,22 @@ func TestNewLicense(t *testing.T) {
 	}
 
 	{
-		licExceptionUntil := time.Now().Add(24 * time.Hour)
+		availableAfter := int64(3600)
+		warningAfter := int64(7200)
+
 		lic1 := lic.WithLifecycle(&LicenseLifecycle{
-			ExceptionUntil: licExceptionUntil.Format(time.RFC3339),
+			AvailableAfter: availableAfter,
+			WarningAfter:   warningAfter,
 		})
-		if h, e := lic1.HasLifecycleException(); h && e.Equal(licExceptionUntil) {
+		if lic1.Lifecycle.AvailableAfter != availableAfter || lic1.Lifecycle.WarningAfter != warningAfter {
 			t.Error("Invalid lifecycle")
+		}
+	}
+
+	{
+		lic2 := lic.WithLicensee("Scott", "scott@example.com")
+		if lic2.LicenseeName != "Scott" || lic2.LicenseeEmail != "scott@example.com" {
+			t.Error("Invalid licensee")
 		}
 	}
 
@@ -52,15 +62,18 @@ func TestNewLicense(t *testing.T) {
 func TestIssueParse(t *testing.T) {
 	lic := NewLicense(LicenseScopeBase)
 	lic = lic.WithExpiration(time.Now().AddDate(1, 0, 0))
+	availableAfter := int64(3600)
+	warningAfter := int64(7200)
 	lic = lic.WithLifecycle(&LicenseLifecycle{
-		ExceptionUntil: time.Now().AddDate(1, 0, 0).Format(time.RFC3339),
+		AvailableAfter: availableAfter,
+		WarningAfter:   warningAfter,
 	})
 	lic = lic.WithRecipe(&LicenseRecipe{
 		Allow: []string{
 			"allow1",
 		},
 	})
-	licData, key, err := lic.Issue()
+	licData, key, err := lic.Seal()
 	if err != nil {
 		t.Error(err)
 	}
@@ -77,7 +90,10 @@ func TestIssueParse(t *testing.T) {
 	if lic.Expiration != li2.Expiration {
 		t.Error("Invalid expiration")
 	}
-	if lic.Lifecycle.ExceptionUntil != li2.Lifecycle.ExceptionUntil {
+	if lic.Lifecycle.AvailableAfter != li2.Lifecycle.AvailableAfter {
+		t.Error("Invalid lifecycle")
+	}
+	if lic.Lifecycle.WarningAfter != li2.Lifecycle.WarningAfter {
 		t.Error("Invalid lifecycle")
 	}
 	if lic.Recipe.Allow[0] != li2.Recipe.Allow[0] {
@@ -87,12 +103,28 @@ func TestIssueParse(t *testing.T) {
 
 func TestLicenseName(t *testing.T) {
 	lic := NewLicense(LicenseScopeBase)
-	_, key, err := lic.Issue()
+	_, key, err := lic.Seal()
 	if err != nil {
 		t.Error(err)
 	}
 	name := LicenseName(key)
 	if len(name) < 1 {
 		t.Error("Invalid name")
+	}
+}
+
+func TestDefaultWarningPeriod(t *testing.T) {
+	if x := DefaultWarningPeriod(0); x != DefaultWarningMinimumPeriod {
+		t.Error(x)
+	}
+
+	x0 := 365 * 24 * 3600 * time.Second
+	if x := DefaultWarningPeriod(x0); x != time.Duration(float64(x0)*DefaultWarningPeriodFraction)*time.Second {
+		t.Error(x)
+	}
+
+	x1 := 10 * 365 * 24 * 3600 * time.Second
+	if x := DefaultWarningPeriod(x1); x != DefaultWarningMaximumPeriod {
+		t.Error(x)
 	}
 }

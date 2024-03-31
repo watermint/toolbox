@@ -12,6 +12,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Run command '...' with option '...'
 2. See error
 
@@ -22,8 +23,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots or log snippets to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. Windows 10]
- - toolbox Version [e.g. 64.4.220]
+
+- OS: [e.g. Windows 10]
+- toolbox Version [e.g. 64.4.220]
 
 **Additional context**
 Add any other context about the problem here.

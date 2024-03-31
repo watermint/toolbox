@@ -2,7 +2,6 @@ package app_lifecycle
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_definitions"
-	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"time"
@@ -60,15 +59,15 @@ func (z lifecycleImpl) IsBeyondBestBefore() (bestBefore bool) {
 
 func (z lifecycleImpl) Verify(ui app_ui.UI) {
 	if z.IsExpired() {
-		switch app_definitions.LifecycleExpirationMode {
-		case app_definitions.LifecycleExpirationShutdown:
-			ui.Error(MAppLifecycle.LifecycleErrorExpired)
-			ui.Info(MAppLifecycle.LifecycleUpgradeInstruction.With("UpgradeUrl", app_definitions.LifecycleUpgradeUrl))
-			app_exit.Abort(app_exit.FailureBinaryExpired)
-		case app_definitions.LifecycleExpirationWarningOnly:
-			ui.Error(MAppLifecycle.LifecycleWarnExpired)
-			ui.Info(MAppLifecycle.LifecycleUpgradeInstruction.With("UpgradeUrl", app_definitions.LifecycleUpgradeUrl))
-		}
+		//switch app_definitions.LifecycleExpirationMode {
+		//case app_definitions.LifecycleExpirationShutdown:
+		//	ui.Error(MAppLifecycle.LifecycleErrorExpired)
+		//	ui.Info(MAppLifecycle.LifecycleUpgradeInstruction.With("UpgradeUrl", app_definitions.LifecycleUpgradeUrl))
+		//	app_exit.Abort(app_exit.FailureBinaryExpired)
+		//case app_definitions.LifecycleExpirationWarningOnly:
+		//	ui.Error(MAppLifecycle.LifecycleWarnExpired)
+		//	ui.Info(MAppLifecycle.LifecycleUpgradeInstruction.With("UpgradeUrl", app_definitions.LifecycleUpgradeUrl))
+		//}
 	} else if z.IsBeyondBestBefore() {
 		ui.Error(MAppLifecycle.LifecycleWarnBestBefore.With("ExpirationDate", z.TimeExpiration().Format(time.RFC3339)))
 		ui.Info(MAppLifecycle.LifecycleUpgradeInstruction.With("UpgradeUrl", app_definitions.LifecycleUpgradeUrl))

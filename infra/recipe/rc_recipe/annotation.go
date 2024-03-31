@@ -25,6 +25,9 @@ type Annotation interface {
 
 	// IsDeprecated returns true if the operation is deprecated.
 	IsDeprecated() bool
+
+	// IsLicenseRequired returns true if the operation requires a license that explicitly approve run this recipe.
+	IsLicenseRequired() bool
 }
 
 func NewAnnotated(seed Recipe) Annotation {
@@ -89,6 +92,13 @@ func (z AnnotatedRecipe) IsIrreversible() bool {
 func (z AnnotatedRecipe) IsTransient() bool {
 	if r, ok := z.seed.(RemarkRecipeTransient); ok {
 		return r.IsTransient()
+	}
+	return false
+}
+
+func (z AnnotatedRecipe) IsLicenseRequired() bool {
+	if r, ok := z.seed.(RemarkRecipeLicenseRequired); ok {
+		return r.IsLicenseRequired()
 	}
 	return false
 }

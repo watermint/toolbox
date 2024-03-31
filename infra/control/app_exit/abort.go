@@ -15,12 +15,13 @@ const (
 	FatalNetwork
 	FatalResourceUnavailable
 
-	// Failures
 	FailureGeneral
 	FailureInvalidCommand
 	FailureInvalidCommandFlags
-	FailureAuthenticationFailedOrCancelled
 	FailureBinaryExpired
+	FailureLicenseExpired
+	FailureLicenseRequired
+	FailureAuthenticationFailedOrCancelled
 )
 
 type AbortCode int

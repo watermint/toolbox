@@ -1,5 +1,7 @@
 package app_definitions
 
+import "github.com/watermint/toolbox/resources"
+
 // Project information
 const (
 	// project owner on GitHub
@@ -10,6 +12,12 @@ const (
 
 	// Package name
 	Pkg = "github.com/" + RepositoryOwner + "/" + RepositoryName
+
+	RepositorySupplementOwner = "watermint"
+	RepositorySupplementName  = "toolbox-supplement"
+
+	// LicenseUrl is the URL of the license.
+	RepositorySupplementLicenseUrl = "https://raw.githubusercontent.com/watermint/toolbox-supplement/main/licenses/"
 )
 
 // Project structure definitions
@@ -81,11 +89,11 @@ const (
 	// EnvNameToolboxBuildTarget Env variable name for build target
 	EnvNameToolboxBuildTarget = "TOOLBOX_BUILD_TARGET"
 
-	// EnvNameToolboxLicenseUrl Env variable name for license server URL
-	EnvNameToolboxLicenseUrl = "TOOLBOX_LICENSE_URL"
-
 	// EnvNameToolboxLicenseSalt Env variable name for license salt
-	EnvNameToolboxLicenseSalt = "TOOLBOX_LICENSE_SALT"
+	EnvNameToolboxLicenseSalt = resources.EnvNameToolboxLicenseSalt
+
+	// EnvNameToolboxLicenseKey Env variable name for license key
+	EnvNameToolboxLicenseKey = "TOOLBOX_LICENSE_KEY"
 )
 
 // Document

@@ -15,8 +15,14 @@ var (
 )
 
 type Content interface {
+	// Get the content
 	Get(path string, opts ...ContentOpt) (c mo_content.Contents, err error)
+
+	// Put the content
 	Put(path, message, content string, opts ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error)
+
+	// Delete the content
+	Delete(path, message string, opts ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error)
 }
 
 type ContentOpt func(o contentOpts) contentOpts
@@ -124,6 +130,35 @@ func (z ctsImpl) Put(path, message, content string, opts ...ContentOpt) (cts mo_
 	}
 
 	res := z.ctx.Put(endpoint, api_request.Param(&req))
+	if err, fail := res.Failure(); fail {
+		return cts, commit, err
+	}
+
+	j := res.Success().Json()
+	if err := j.FindModel("content", &cts); err != nil {
+		return cts, commit, err
+	}
+	if err := j.FindModel("commit", &commit); err != nil {
+		return cts, commit, err
+	}
+	return cts, commit, nil
+}
+
+func (z ctsImpl) Delete(path, message string, opts ...ContentOpt) (cts mo_content.Content, commit mo_commit.Commit, err error) {
+	co := contentOpts{}.Apply(opts...)
+	endpoint := z.makePath(path)
+
+	req := struct {
+		Message string `json:"message"`
+		Sha     string `json:"sha,omitempty"`
+		Branch  string `json:"branch,omitempty"`
+	}{
+		Message: message,
+		Sha:     co.sha,
+		Branch:  co.branch,
+	}
+
+	res := z.ctx.Delete(endpoint, api_request.Param(&req))
 	if err, fail := res.Failure(); fail {
 		return cts, commit, err
 	}

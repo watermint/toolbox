@@ -227,12 +227,14 @@ func (z *folderNode) Descendants() []Node {
 // Returns demo tree like below
 // ```
 // root
-//  |-- a (folder)
-//      |-- x (file)
-//      |-- y (file)
-//      |-- b (empty folder)
-//      |-- c (folder)
-//          |-- z (file)
+//
+//	|-- a (folder)
+//	    |-- x (file)
+//	    |-- y (file)
+//	    |-- b (empty folder)
+//	    |-- c (folder)
+//	        |-- z (file)
+//
 // ```
 func DemoTree() Folder {
 	tier2cZ := NewFile("z", 98, time.Unix(1599540262, 0), 98)

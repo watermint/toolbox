@@ -1,15 +1,14 @@
 package license
 
 import (
-	"encoding/base64"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
-	"github.com/watermint/toolbox/domain/github/service/sv_content"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_license"
+	"github.com/watermint/toolbox/infra/control/app_license_registry"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -23,9 +22,12 @@ type Issue struct {
 	AppName                 string
 	Scope                   mo_string.OptionalString
 	Expiration              mo_time.TimeOptional
-	LifecycleExceptionUntil mo_time.TimeOptional
+	LifecycleAvailableAfter int64
+	LifecycleWarningAfter   int64
 	RecipesAllowed          mo_string.OptionalString
 	InfoIssuedLicenseKey    app_msg.Message
+	LicenseeName            string
+	LicenseeEmail           string
 	Owner                   string
 	Repository              string
 	Branch                  string
@@ -36,6 +38,8 @@ func (z *Issue) Preset() {
 	z.Owner = "watermint"
 	z.Repository = "toolbox-supplement"
 	z.Branch = "main"
+	z.LifecycleAvailableAfter = int64(app_license.DefaultLifecyclePeriod / time.Second)
+	z.LifecycleWarningAfter = int64(app_license.DefaultLifecyclePeriod / time.Second)
 }
 
 func (z *Issue) Exec(c app_control.Control) error {
@@ -51,9 +55,13 @@ func (z *Issue) Exec(c app_control.Control) error {
 		expiration = z.Expiration.Time()
 	}
 
-	lifecycleExceptionUntil := ""
-	if !z.LifecycleExceptionUntil.IsZero() {
-		lifecycleExceptionUntil = z.LifecycleExceptionUntil.Time().Format(time.RFC3339)
+	var lifecycleAvailableAfter int64
+	if z.LifecycleAvailableAfter > 0 {
+		lifecycleAvailableAfter = z.LifecycleAvailableAfter
+	}
+	var lifecycleWarningAfter int64
+	if z.LifecycleWarningAfter > 0 {
+		lifecycleWarningAfter = z.LifecycleWarningAfter
 	}
 
 	recipesAllowed := make([]string, 0)
@@ -67,51 +75,53 @@ func (z *Issue) Exec(c app_control.Control) error {
 	l = l.With(
 		esl.String("scope", scope),
 		esl.Time("expiration", expiration),
-		esl.String("lifecycleExceptionUntil", lifecycleExceptionUntil),
+		esl.Int64("lifecycleAvailableAfter", lifecycleAvailableAfter),
+		esl.Int64("lifecycleWarningAfter", lifecycleWarningAfter),
 		esl.Strings("recipesAllowed", recipesAllowed),
 	)
 
 	lic := app_license.NewLicense(scope).WithExpiration(expiration)
 	lic.AppName = z.AppName
-	if lifecycleExceptionUntil != "" {
-		lic = lic.WithLifecycle(&app_license.LicenseLifecycle{
-			ExceptionUntil: lifecycleExceptionUntil,
-		})
-	}
+	lic = lic.WithLifecycle(&app_license.LicenseLifecycle{
+		AvailableAfter: lifecycleAvailableAfter,
+		WarningAfter:   lifecycleWarningAfter,
+	})
+
 	if len(recipesAllowed) > 0 {
 		lic = lic.WithRecipe(&app_license.LicenseRecipe{
 			Allow: recipesAllowed,
 		})
 	}
+	lic = lic.WithLicensee(z.LicenseeName, z.LicenseeEmail)
 
-	data, key, err := lic.Issue()
+	registryPath := app_license_registry.DefaultRegistryPath(c.Workspace().Secrets())
+	registryDb, err := c.NewOrm(registryPath)
 	if err != nil {
-		l.Debug("Unable to issue a license", esl.Error(err))
+		l.Debug("Unable to open the license registry", esl.Error(err))
 		return err
 	}
 
-	licenseName := app_license.LicenseName(key)
+	registry := app_license_registry.NewRegistry(
+		z.Peer.Client(),
+		z.Owner,
+		z.Repository,
+		z.Branch,
+		registryDb,
+	)
+	key, err := registry.Issue(&lic)
 
 	c.UI().Info(z.InfoIssuedLicenseKey.With("Key", key))
-
-	sgh := sv_content.New(z.Peer.Client(), z.Owner, z.Repository)
-
-	_, _, err = sgh.Put(
-		"licenses/"+licenseName,
-		"LICENSE:"+licenseName,
-		base64.StdEncoding.EncodeToString(data),
-		sv_content.Branch(z.Branch),
-	)
 
 	return nil
 }
 
 func (z *Issue) Test(c app_control.Control) error {
-	return rc_exec.Exec(c, &Issue{}, func(r rc_recipe.Recipe) {
+	return rc_exec.ExecMock(c, &Issue{}, func(r rc_recipe.Recipe) {
 		m := r.(*Issue)
 		m.Scope = mo_string.NewOptional("scope_test")
 		m.Expiration = mo_time.NewOptional(time.Now().Add(24 * time.Hour))
-		m.LifecycleExceptionUntil = mo_time.NewOptional(time.Now().Add(24 * time.Hour))
 		m.RecipesAllowed = mo_string.NewOptional("recipe1, recipe2")
+		m.LicenseeName = "John Doe"
+		m.LicenseeEmail = "john@example.com"
 	})
 }

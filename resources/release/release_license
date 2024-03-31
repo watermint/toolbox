@@ -1,0 +1,14 @@
+{
+  "licenses": [
+    {
+      "release": 130,
+      "key": "IF6I3KRBMYCHVEC343C4JOUBPMURF5LNTBB",
+      "hashed_salt": "5BVZ3FXT2FEO2LHHGLYOHPEZ566FOI36"
+    },
+    {
+      "release": 130,
+      "key": "C2TATCJYT7SJXFRQ3UQPF4F7SEUN42IKBMV",
+      "hashed_salt": "BUPMD2LFXN3T6WMNU3TUEINGAOWJD37L"
+    }
+  ]
+}

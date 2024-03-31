@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `dev license issue`
+title: Command `dev release checkin`
 lang: en
 ---
 
-# dev license issue
+# dev release checkin
 
-Issue a license 
+Check in the new release 
 
 # Security
 
@@ -61,12 +61,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+.\tbx.exe dev release checkin 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+$HOME/Desktop/tbx dev release checkin 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,20 +77,15 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                       | Description                                                         | Default            |
-|------------------------------|---------------------------------------------------------------------|--------------------|
-| `-app-name`                  | Application name                                                    | watermint toolbox  |
-| `-branch`                    | License repository branch                                           | main               |
-| `-expiration`                | License expiration date                                             |                    |
-| `-licensee-email`            | Licensee email                                                      |                    |
-| `-licensee-name`             | Licensee name                                                       |                    |
-| `-lifecycle-available-after` | Lifecycle available after this period from the build time (seconds) | 157680000          |
-| `-lifecycle-warning-after`   | Lifecycle warning after this period from the build time (seconds)   | 157680000          |
-| `-owner`                     | License repository owner                                            | watermint          |
-| `-peer`                      | Account alias                                                       | default            |
-| `-recipes-allowed`           | Comma separated list of recipes allowed                             |                    |
-| `-repository`                | License repository                                                  | toolbox-supplement |
-| `-scope`                     | License scope                                                       |                    |
+| Option               | Description                       | Default            |
+|----------------------|-----------------------------------|--------------------|
+| `-branch`            | Repository branch                 | main               |
+| `-owner`             | Repository owner                  | watermint          |
+| `-peer`              | Account alias                     | default            |
+| `-repo`              | Repository name                   | toolbox            |
+| `-supplement-branch` | Supplement repository branch name | main               |
+| `-supplement-owner`  | Supplement repository owner       | watermint          |
+| `-supplement-repo`   | Supplement repository name        | toolbox-supplement |
 
 ## Common options:
 
