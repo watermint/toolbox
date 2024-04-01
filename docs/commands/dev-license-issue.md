@@ -85,7 +85,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-licensee-email`            | Licensee email                                                      |                    |
 | `-licensee-name`             | Licensee name                                                       |                    |
 | `-lifecycle-available-after` | Lifecycle available after this period from the build time (seconds) | 157680000          |
-| `-lifecycle-warning-after`   | Lifecycle warning after this period from the build time (seconds)   | 157680000          |
+| `-lifecycle-warning-after`   | Lifecycle warning after this period from the build time (seconds)   | 31536000           |
 | `-owner`                     | License repository owner                                            | watermint          |
 | `-peer`                      | Account alias                                                       | default            |
 | `-recipes-allowed`           | Comma separated list of recipes allowed                             |                    |

@@ -20,17 +20,17 @@ type Issue struct {
 	rc_recipe.RemarkSecret
 	Peer                    gh_conn.ConnGithubRepo
 	AppName                 string
-	Scope                   mo_string.OptionalString
+	Branch                  string
 	Expiration              mo_time.TimeOptional
+	InfoIssuedLicenseKey    app_msg.Message
+	LicenseeEmail           string
+	LicenseeName            string
 	LifecycleAvailableAfter int64
 	LifecycleWarningAfter   int64
-	RecipesAllowed          mo_string.OptionalString
-	InfoIssuedLicenseKey    app_msg.Message
-	LicenseeName            string
-	LicenseeEmail           string
 	Owner                   string
+	RecipesAllowed          mo_string.OptionalString
 	Repository              string
-	Branch                  string
+	Scope                   mo_string.OptionalString
 }
 
 func (z *Issue) Preset() {
@@ -39,7 +39,7 @@ func (z *Issue) Preset() {
 	z.Repository = "toolbox-supplement"
 	z.Branch = "main"
 	z.LifecycleAvailableAfter = int64(app_license.DefaultLifecyclePeriod / time.Second)
-	z.LifecycleWarningAfter = int64(app_license.DefaultLifecyclePeriod / time.Second)
+	z.LifecycleWarningAfter = int64(app_license.DefaultWarningPeriod(time.Duration(z.LifecycleAvailableAfter)*time.Second) / time.Second)
 }
 
 func (z *Issue) Exec(c app_control.Control) error {

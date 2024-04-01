@@ -186,7 +186,7 @@ func (z LicenseData) IsLifecycleWithinLimit() (active bool, warning bool) {
 	warningAfter := z.buildTimestamp().Add(time.Duration(z.Lifecycle.WarningAfter) * time.Second)
 	lifecycleLimit := z.LifecycleLimit()
 	active = time.Now().Before(lifecycleLimit)
-	warning = time.Now().Before(warningAfter)
+	warning = time.Now().After(warningAfter)
 	return
 }
 

@@ -140,8 +140,8 @@ func (z *Checkin) releaseLicenseKey(c app_control.Control, targetRelease uint64)
 	license := app_license.NewLicense(app_license.LicenseScopeBase).
 		WithExpiration(time.Now().Add(app_definitions.LifecycleExpirationCritical)).
 		WithLifecycle(&app_license.LicenseLifecycle{
-			AvailableAfter: int64(app_definitions.LifecycleExpirationWarning / time.Second),
-			WarningAfter:   int64(app_definitions.LifecycleExpirationCritical / time.Second),
+			AvailableAfter: int64(app_definitions.LifecycleExpirationCritical / time.Second),
+			WarningAfter:   int64(app_definitions.LifecycleExpirationWarning / time.Second),
 		}).
 		WithLicensee(
 			fmt.Sprintf("Release %d users", targetRelease),

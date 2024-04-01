@@ -61,6 +61,7 @@ type msgRun struct {
 	ErrorInitialization                   app_msg.Message
 	ErrorUnableToLoadExtra                app_msg.Message
 	ErrorLicenseExpired                   app_msg.Message
+	ErrorLicenseRequired                  app_msg.Message
 	ErrorLifecycleEnded                   app_msg.Message
 	WarnLifecycleNearEnd                  app_msg.Message
 	ProgressInterruptedShutdown           app_msg.Message
@@ -257,13 +258,13 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	)
 
 	// Check license
-	if valid, _, _ := license.IsValid(); !valid {
+	if valid, _, _ := license.IsValid(); !valid && app_definitions2.IsProduction() {
 		ui.Failure(MRun.ErrorLicenseExpired)
 		app_exit.Abort(app_exit.FailureLicenseExpired)
 	}
 
 	// Check lifecycle
-	if active, warn := license.IsLifecycleWithinLimit(); !active {
+	if active, warn := license.IsLifecycleWithinLimit(); !active && app_definitions2.IsProduction() {
 		ui.Failure(MRun.ErrorLifecycleEnded)
 		app_exit.Abort(app_exit.FailureBinaryExpired)
 	} else if warn {
@@ -273,6 +274,10 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	}
 
 	// Check license of the recipe
+	if rcp.IsLicenseRequired() && !license.IsRecipeEnabled(rcp.CliPath()) {
+		ui.Failure(MRun.ErrorLicenseRequired.With("CliPath", rcp.CliPath()))
+		app_exit.Abort(app_exit.FailureLicenseRequired)
+	}
 
 	// Bootstrap recipe
 	if err := rc_exec.Exec(ctl, &ig_bootstrap.Bootstrap{}, rc_recipe.NoCustomValues); err != nil {

@@ -103,7 +103,6 @@ Available commands:
 | github       | GitHub commands                 |       |
 | google       | Google commands                 |       |
 | group        | Group management                |       |
-| job          | Log utilities (deprecated)      |       |
 | license      | Show license information        |       |
 | local        | Commands for local PC           |       |
 | log          | Log utilities                   |       |

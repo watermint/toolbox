@@ -109,6 +109,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevtest.Echo{},
+		&recipedevtest.License{},
 		&recipedevtest.Panic{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
