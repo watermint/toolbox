@@ -150,6 +150,7 @@ func (z WikimediaLoader) load(stream io.Reader, handler func(p Page) error) erro
 }
 
 type Massfiles struct {
+	rc_recipe.RemarkLicenseRequired
 	rc_recipe.RemarkSecret
 	Peer              dbx_conn.ConnScopedIndividual
 	Source            mo_path.ExistingFileSystemPath

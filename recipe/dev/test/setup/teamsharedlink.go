@@ -60,6 +60,7 @@ func SelectOpts(mode string, r *rand.Rand) []sv_sharedlink.LinkOpt {
 type Teamsharedlink struct {
 	rc_recipe.RemarkSecret
 	rc_recipe.RemarkIrreversible
+	rc_recipe.RemarkLicenseRequired
 	Peer              dbx_conn.ConnScopedTeam
 	Group             string
 	Query             string
