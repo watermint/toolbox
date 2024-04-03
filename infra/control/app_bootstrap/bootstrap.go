@@ -25,7 +25,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
 	"github.com/watermint/toolbox/infra/control/app_license"
 	"github.com/watermint/toolbox/infra/control/app_license_key"
-	"github.com/watermint/toolbox/infra/control/app_lifecycle"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -163,9 +162,6 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	com := comSpec.Opts()
 
 	ui := z.SelectUI(com)
-
-	// Check binary build time
-	app_lifecycle.LifecycleControl().Verify(ui)
 
 	if exErr := com.ExtraLoad(); exErr != nil {
 		ui.Failure(MRun.ErrorUnableToLoadExtra.With("Error", exErr).With("Path", com.Extra.Value()))
