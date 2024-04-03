@@ -17,20 +17,20 @@
           },
           {
             "number": 799,
-            "title": "Commands of Dropbox and Dropbox for teams will be moved under path `dropbox`",
-            "updatedAt": "2024-02-24T23:24:09Z",
+            "title": "Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`",
+            "updatedAt": "2024-04-03T15:51:51Z",
             "url": "https://github.com/watermint/toolbox/discussions/799"
           },
           {
             "number": 797,
-            "title": "Path change in future release: commands under `services` will be moved to new location",
-            "updatedAt": "2023-12-24T04:29:54Z",
+            "title": "Path change: commands under `services` have been moved to a new location",
+            "updatedAt": "2024-04-03T15:50:02Z",
             "url": "https://github.com/watermint/toolbox/discussions/797"
           },
           {
             "number": 796,
-            "title": "Dropbox Team space Commands deprecation",
-            "updatedAt": "2023-12-23T15:25:58Z",
+            "title": "Deprecation: Dropbox Team space commands will be removed",
+            "updatedAt": "2024-04-03T15:54:18Z",
             "url": "https://github.com/watermint/toolbox/discussions/796"
           }
         ]
