@@ -31,6 +31,7 @@ brew install toolbox
 
 # Announcements
 
+* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
 * [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
 * [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
 * [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
