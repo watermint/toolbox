@@ -92,6 +92,7 @@ func (z RequestData) Content() es_rewinder.ReadRewinder {
 
 type RequestDatum func(d RequestData) RequestData
 
+// Query is a request datum to specify query parameters (?key=value&key2=value2)
 func Query(q interface{}) RequestDatum {
 	return func(d RequestData) RequestData {
 		d.q = q
@@ -99,6 +100,7 @@ func Query(q interface{}) RequestDatum {
 	}
 }
 
+// Param is a request datum to specify request body
 func Param(p interface{}) RequestDatum {
 	return func(d RequestData) RequestData {
 		d.p = p

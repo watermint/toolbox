@@ -1,0 +1,40 @@
+{
+  "data": {
+    "repository": {
+      "discussions": {
+        "nodes": [
+          {
+            "number": 793,
+            "title": "Google commands require re-authentication on Release 130",
+            "updatedAt": "2024-04-03T05:51:51Z",
+            "url": "https://github.com/watermint/toolbox/discussions/793"
+          },
+          {
+            "number": 813,
+            "title": "License change : MIT License to Apache License, Version 2.0",
+            "updatedAt": "2024-04-01T15:49:31Z",
+            "url": "https://github.com/watermint/toolbox/discussions/813"
+          },
+          {
+            "number": 799,
+            "title": "Commands of Dropbox and Dropbox for teams will be moved under path `dropbox`",
+            "updatedAt": "2024-02-24T23:24:09Z",
+            "url": "https://github.com/watermint/toolbox/discussions/799"
+          },
+          {
+            "number": 797,
+            "title": "Path change in future release: commands under `services` will be moved to new location",
+            "updatedAt": "2023-12-24T04:29:54Z",
+            "url": "https://github.com/watermint/toolbox/discussions/797"
+          },
+          {
+            "number": 796,
+            "title": "Dropbox Team space Commands deprecation",
+            "updatedAt": "2023-12-23T15:25:58Z",
+            "url": "https://github.com/watermint/toolbox/discussions/796"
+          }
+        ]
+      }
+    }
+  }
+}

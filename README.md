@@ -29,6 +29,14 @@ brew tap watermint/toolbox
 brew install toolbox
 ```
 
+# Announcements
+
+* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
+* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#799 Commands of Dropbox and Dropbox for teams will be moved under path `dropbox`](https://github.com/watermint/toolbox/discussions/799)
+* [#797 Path change in future release: commands under `services` will be moved to new location](https://github.com/watermint/toolbox/discussions/797)
+* [#796 Dropbox Team space Commands deprecation](https://github.com/watermint/toolbox/discussions/796)
+
 # Product lifecycle
 
 ## Maintenance policy

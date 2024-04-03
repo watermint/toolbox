@@ -96,6 +96,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevmodule.List{},
 		&recipedevplaceholder.Pathchange{},
 		&recipedevplaceholder.Prune{},
+		&recipedevrelease.Announcement{},
 		&recipedevrelease.Asset{},
 		&recipedevrelease.Asseturl{},
 		&recipedevrelease.Candidate{},
