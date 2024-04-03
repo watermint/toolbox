@@ -107,6 +107,32 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
 
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: announcements
+
+Announcement
+The command will generate a report in three different formats. `announcements.csv`, `announcements.json`, and `announcements.xlsx`.
+
+| Column    | Description         |
+|-----------|---------------------|
+| number    | Announcement number |
+| title     | Title               |
+| url       | URL                 |
+| updatedAt | Updated at          |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `announcements_0000.xlsx`, `announcements_0001.xlsx`, `announcements_0002.xlsx`, ...
+
 # Proxy configuration
 
 The executable automatically detects your proxy configuration from the environment. However, if you got an error or you want to specify explicitly, please add -proxy option, like -proxy hostname:port. Currently, the executable doesn't support proxies which require authentication.

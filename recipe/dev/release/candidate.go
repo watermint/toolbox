@@ -21,10 +21,11 @@ import (
 type Candidate struct {
 	rc_recipe.RemarkConsole
 	rc_recipe.RemarkSecret
-	Recipe    *test.Recipe
-	Doc       *Doc
-	Preflight *build.Preflight
-	License   *build.License
+	Recipe       *test.Recipe
+	Doc          *Doc
+	Preflight    *build.Preflight
+	License      *build.License
+	Announcement *Announcement
 }
 
 func (z *Candidate) Preset() {
@@ -85,6 +86,13 @@ func (z *Candidate) Exec(c app_control.Control) error {
 
 	l.Info("Verify translations")
 	if err := z.verifyMessages(c); err != nil {
+		return err
+	}
+
+	l.Info("Update release announcements")
+	err = rc_exec.Exec(c, z.Announcement, rc_recipe.NoCustomValues)
+	if err != nil {
+		l.Debug("Unable to update release announcements", esl.Error(err))
 		return err
 	}
 

@@ -1,12 +1,12 @@
 ---
 layout: command
-title: コマンド `dev release candidate`
+title: コマンド `dev release checkin`
 lang: ja
 ---
 
-# dev release candidate
+# dev release checkin
 
-リリース候補を検査します 
+新作りリースをチェック 
 
 # セキュリティ
 
@@ -26,8 +26,9 @@ lang: ja
 
 ## 認可スコープ
 
-| 説明 |
-|------|
+| 説明                                                                                                                                                                                                                                                                                                                                               |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
 
 # 認可
 
@@ -60,12 +61,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev release candidate 
+.\tbx.exe dev release checkin 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev release candidate 
+$HOME/Desktop/tbx dev release checkin 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -73,6 +74,18 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 > "tbx"は開発元を確認できないため、使用がブロックされました。
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
+
+## オプション:
+
+| オプション           | 説明                         | デフォルト         |
+|----------------------|------------------------------|--------------------|
+| `-branch`            | リポジトリブランチ           | main               |
+| `-owner`             | レポジトリの所有者           | watermint          |
+| `-peer`              | アカウントの別名             | default            |
+| `-repo`              | レポジトリ名                 | toolbox            |
+| `-supplement-branch` | リポジトリブランチ名の補足   | main               |
+| `-supplement-owner`  | サプリメントリポジトリ所有者 | watermint          |
+| `-supplement-repo`   | 補足リポジトリ名             | toolbox-supplement |
 
 ## 共通のオプション:
 
@@ -96,53 +109,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: announcements
-
-お知らせ
-このコマンドはレポートを3種類の書式で出力します. `announcements.csv`, `announcements.json`, ならびに `announcements.xlsx`.
-
-| 列        | 説明         |
-|-----------|--------------|
-| number    | お知らせ番号 |
-| title     | タイトル     |
-| url       | URL          |
-| updatedAt | 更新日時     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `announcements_0000.xlsx`, `announcements_0001.xlsx`, `announcements_0002.xlsx`, ...
-
-## レポート: result
-
-レシピテスト結果
-このコマンドはレポートを3種類の書式で出力します. `result.csv`, `result.json`, ならびに `result.xlsx`.
-
-| 列              | 説明                                   |
-|-----------------|----------------------------------------|
-| path            | レシピへのパス                         |
-| name            | レシピの名称                           |
-| skip            | テストがスキップされた場合はTrue       |
-| timeout_enabled | タイムアウトモードが有効な場合はTrue   |
-| use_mock        | モックモードを有効にしている場合はTrue |
-| timeout         | テストタイムアウトの場合はTrue         |
-| duration        | テスト時間(ミリ秒)                     |
-| no_error        | エラーを受信しなかった場合はTrue       |
-| error           | エラー                                 |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `result_0000.xlsx`, `result_0001.xlsx`, `result_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

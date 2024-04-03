@@ -233,6 +233,7 @@ lang: ja
 
 | コマンド                                                                                           | 説明                                                          |
 |----------------------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [dev release checkin]({{ site.baseurl }}/ja/commands/dev-release-checkin.html)                     | 新作りリースをチェック                                        |
 | [github content get]({{ site.baseurl }}/ja/commands/github-content-get.html)                       | レポジトリのコンテンツメタデータを取得します.                 |
 | [github content put]({{ site.baseurl }}/ja/commands/github-content-put.html)                       | レポジトリに小さなテキストコンテンツを格納します              |
 | [github issue list]({{ site.baseurl }}/ja/commands/github-issue-list.html)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |

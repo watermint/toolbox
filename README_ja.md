@@ -11,11 +11,11 @@ Dropbox、Dropbox for teams、Google、GitHubなどのウェブサービス用�
 
 # ライセンスと免責条項
 
-watermint toolboxはMITライセンスのもと配布されています.
+watermint toolboxはApache License, Version 2.0でライセンスされています。
 詳細はファイル LICENSE.mdまたは LICENSE.txt ご参照ください.
 
 以下にご留意ください:
-> ソフトウェアは「現状のまま」で、明示であるか暗黙であるかを問わず、何らの保証もなく提供されます。ここでいう保証とは、商品性、特定の目的への適合性、および権利非侵害についての保証も含みますが、それに限定されるものではありません。
+> Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
 
 # ビルド済み実行ファイル
 
@@ -28,6 +28,14 @@ watermint toolboxはMITライセンスのもと配布されています.
 brew tap watermint/toolbox
 brew install toolbox
 ```
+
+# お知らせ
+
+* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
+* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#799 Commands of Dropbox and Dropbox for teams will be moved under path `dropbox`](https://github.com/watermint/toolbox/discussions/799)
+* [#797 Path change in future release: commands under `services` will be moved to new location](https://github.com/watermint/toolbox/discussions/797)
+* [#796 Dropbox Team space Commands deprecation](https://github.com/watermint/toolbox/discussions/796)
 
 # 製品ライフサイクル
 
@@ -89,32 +97,31 @@ Dropbox用ツールとDropbox for teams
 利用可能なコマンド:
 ===================
 
-| コマンド     | 説明                         | 備考 |
-|--------------|------------------------------|------|
-| asana        | Asanaのコマンド              |      |
-| config       | CLI設定                      |      |
-| deepl        | DeepLコマンド                |      |
-| dropbox      | Dropboxコマンド              |      |
-| figma        | フィグマコマンド             |      |
-| file         | ファイル操作                 |      |
-| filerequest  | ファイルリクエストの操作     |      |
-| github       | GitHubコマンド               |      |
-| google       | Google コマンド              |      |
-| group        | グループ管理                 |      |
-| job          | ログユーティリティ（非推奨） |      |
-| license      | ライセンス情報を表示します   |      |
-| local        | ローカルPC用コマンド         |      |
-| log          | ログユーティリティ           |      |
-| member       | チームメンバーの管理         |      |
-| services     | 各種サービス向けコマンド     |      |
-| sharedfolder | 共有フォルダ                 |      |
-| sharedlink   | 個人アカウントの共有リンク   |      |
-| slack        | Slack コマンド               |      |
-| team         | チーム向けDropboxのコマンド  |      |
-| teamfolder   | チームフォルダの管理         |      |
-| teamspace    | チームスペースコマンド       |      |
-| util         | ユーティリティー             |      |
-| version      | バージョン情報               |      |
+| コマンド     | 説明                        | 備考 |
+|--------------|-----------------------------|------|
+| asana        | Asanaのコマンド             |      |
+| config       | CLI設定                     |      |
+| deepl        | DeepLコマンド               |      |
+| dropbox      | Dropboxコマンド             |      |
+| figma        | フィグマコマンド            |      |
+| file         | ファイル操作                |      |
+| filerequest  | ファイルリクエストの操作    |      |
+| github       | GitHubコマンド              |      |
+| google       | Google コマンド             |      |
+| group        | グループ管理                |      |
+| license      | ライセンス情報を表示します  |      |
+| local        | ローカルPC用コマンド        |      |
+| log          | ログユーティリティ          |      |
+| member       | チームメンバーの管理        |      |
+| services     | 各種サービス向けコマンド    |      |
+| sharedfolder | 共有フォルダ                |      |
+| sharedlink   | 個人アカウントの共有リンク  |      |
+| slack        | Slack コマンド              |      |
+| team         | チーム向けDropboxのコマンド |      |
+| teamfolder   | チームフォルダの管理        |      |
+| teamspace    | チームスペースコマンド      |      |
+| util         | ユーティリティー            |      |
+| version      | バージョン情報              |      |
 
 ```
 
@@ -347,6 +354,7 @@ Dropbox用ツールとDropbox for teams
 
 | コマンド                                                                           | 説明                                                          |
 |------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [dev release checkin](docs/ja/commands/dev-release-checkin.md)                     | 新作りリースをチェック                                        |
 | [github content get](docs/ja/commands/github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.                 |
 | [github content put](docs/ja/commands/github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します              |
 | [github issue list](docs/ja/commands/github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |

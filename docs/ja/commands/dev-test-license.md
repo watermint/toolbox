@@ -1,50 +1,12 @@
 ---
 layout: command
-title: コマンド `dev release candidate`
+title: コマンド `dev test license`
 lang: ja
 ---
 
-# dev release candidate
+# dev test license
 
-リリース候補を検査します 
-
-# セキュリティ
-
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
-
-| OS      | パス                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
-
-方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
-
-## 認可スコープ
-
-| 説明 |
-|------|
-
-# 認可
-
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
-Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2024 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
-
-```
+ライセンスが必要なロジックのテスト 
 
 # インストール
 
@@ -60,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev release candidate 
+.\tbx.exe dev test license 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev release candidate 
+$HOME/Desktop/tbx dev test license 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -96,53 +58,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: announcements
-
-お知らせ
-このコマンドはレポートを3種類の書式で出力します. `announcements.csv`, `announcements.json`, ならびに `announcements.xlsx`.
-
-| 列        | 説明         |
-|-----------|--------------|
-| number    | お知らせ番号 |
-| title     | タイトル     |
-| url       | URL          |
-| updatedAt | 更新日時     |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `announcements_0000.xlsx`, `announcements_0001.xlsx`, `announcements_0002.xlsx`, ...
-
-## レポート: result
-
-レシピテスト結果
-このコマンドはレポートを3種類の書式で出力します. `result.csv`, `result.json`, ならびに `result.xlsx`.
-
-| 列              | 説明                                   |
-|-----------------|----------------------------------------|
-| path            | レシピへのパス                         |
-| name            | レシピの名称                           |
-| skip            | テストがスキップされた場合はTrue       |
-| timeout_enabled | タイムアウトモードが有効な場合はTrue   |
-| use_mock        | モックモードを有効にしている場合はTrue |
-| timeout         | テストタイムアウトの場合はTrue         |
-| duration        | テスト時間(ミリ秒)                     |
-| no_error        | エラーを受信しなかった場合はTrue       |
-| error           | エラー                                 |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `result_0000.xlsx`, `result_0001.xlsx`, `result_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

@@ -107,6 +107,22 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## Report: announcements
+
+Announcement
+The command will generate a report in three different formats. `announcements.csv`, `announcements.json`, and `announcements.xlsx`.
+
+| Column    | Description         |
+|-----------|---------------------|
+| number    | Announcement number |
+| title     | Title               |
+| url       | URL                 |
+| updatedAt | Updated at          |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `announcements_0000.xlsx`, `announcements_0001.xlsx`, `announcements_0002.xlsx`, ...
+
 ## Report: result
 
 Recipe test result
