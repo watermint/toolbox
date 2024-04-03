@@ -33,9 +33,9 @@ brew install toolbox
 
 * [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
 * [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
-* [#799 Commands of Dropbox and Dropbox for teams will be moved under path `dropbox`](https://github.com/watermint/toolbox/discussions/799)
-* [#797 Path change in future release: commands under `services` will be moved to new location](https://github.com/watermint/toolbox/discussions/797)
-* [#796 Dropbox Team space Commands deprecation](https://github.com/watermint/toolbox/discussions/796)
+* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
+* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
+* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
 
 # 製品ライフサイクル
 
@@ -60,6 +60,10 @@ brew install toolbox
 
 仕様の変更は[お知らせ](https://github.com/watermint/toolbox/discussions/categories/announcements)で発表されます。仕様変更予定一覧は[仕様変更](https://toolbox.watermint.org/ja/guides/spec-change.html)をご参照ください。
 
+## 各リリースの提供期間
+
+一般に、新しいセキュリティ問題は毎日発見されています。古いリリースのwatermint toolboxを使い続けることで、これらのセキュリティーやクリティカルな問題が未解決のまま放置されることのないよう、リリース130以上には最大利用可能期間が設定されています。詳しくは[#815](https://github.com/watermint/toolbox/discussions/815)をご覧ください。
+
 # セキュリティとプライバシー
 
 ## 情報は収集しません 
@@ -72,6 +76,12 @@ watermint toolboxは、Dropbox のようなサービスとご自身のアカウ�
 
 APIトークンなどの機密データのほとんどは、難読化されてアクセス制限された状態でPCのストレージに保存されています. しかし、それらのデータを秘密にするのはあなたの責任です.
 特に、ツールボックスのワークパスの下にある`secrets`フォルダ(デフォルトでは`C:\Users\<ユーザー名>\.toolbox`、または`$HOME/.toolbox`フォルダ以下)は共有しないでください。
+
+## 使用するコマンドの対象となるサービス以外のインターネットアクセス
+
+watermintツールボックスには、重大なバグやセキュリティ上の問題がある特定のリリースを無効にする機能があります。これは、約30日に1度、GitHubにホストされているリポジトリからデータを取得し、リリースのステータスをチェックすることによって行われます。
+このアクセスは、あなたの個人データ（Dropbox、Google、ローカルファイル、トークンなど）を収集することはありません。これはリリースステータスをチェックするだけですが、副次的な効果として、データをダウンロードする際にあなたのIPアドレスがGitHubに送信されます。IPアドレスもPIIであることは承知しています。しかし、これは一般のウェブサイトを訪問するのと同じであり、特別な操作ではありません。
+watermint toolboxプロジェクトの管理者は、これらのファイルが何回ダウンロードされたかを確認することもできません。
 
 # 利用方法
 
