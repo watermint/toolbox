@@ -24,18 +24,18 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-+ 		&{Name: "Offset", Desc: "オフセット（日）", Default: "0", TypeName: "int"},
-  		&{Name: "Utc", Desc: "UTC(協定世界時)を使用する", Default: "false", TypeName: "bool", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{Name: "Offset", Desc: "オフセット（日）", Default: "0", TypeName: "int"},
+  		&{Name: "Utc", Desc: "UTC(協定世界時)を使用する", Default: "false", TypeName: "bool", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # コマンド仕様の変更: `util datetime now`
 
@@ -45,39 +45,39 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 17 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-+ 		&{
-+ 			Name:     "OffsetDay",
-+ 			Desc:     "オフセット（日）",
-+ 			Default:  "0",
-+ 			TypeName: "int",
-+ 		},
-+ 		&{
-+ 			Name:     "OffsetHour",
-+ 			Desc:     "オフセット（時間）",
-+ 			Default:  "0",
-+ 			TypeName: "int",
-+ 		},
-+ 		&{
-+ 			Name:     "OffsetMin",
-+ 			Desc:     "オフセット（分）",
-+ 			Default:  "0",
-+ 			TypeName: "int",
-+ 		},
-+ 		&{
-+ 			Name:     "OffsetSec",
-+ 			Desc:     "オフセット（秒）",
-+ 			Default:  "0",
-+ 			TypeName: "int",
-+ 		},
-  		&{Name: "Utc", Desc: "UTC(協定世界時)を使用する", Default: "false", TypeName: "bool", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 17 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
++ 		&{
++ 			Name:     "OffsetDay",
++ 			Desc:     "オフセット（日）",
++ 			Default:  "0",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "OffsetHour",
++ 			Desc:     "オフセット（時間）",
++ 			Default:  "0",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "OffsetMin",
++ 			Desc:     "オフセット（分）",
++ 			Default:  "0",
++ 			TypeName: "int",
++ 		},
++ 		&{
++ 			Name:     "OffsetSec",
++ 			Desc:     "オフセット（秒）",
++ 			Default:  "0",
++ 			TypeName: "int",
++ 		},
+  		&{Name: "Utc", Desc: "UTC(協定世界時)を使用する", Default: "false", TypeName: "bool", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```

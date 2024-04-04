@@ -2688,6 +2688,7 @@
   "infra.doc.dc_supplemental.experimental_feature_definitions.report_all_columns.desc": "データ構造として定義されているすべての列を表示します.",
   "infra.doc.dc_supplemental.experimental_feature_definitions.suppress_progress.desc": "進捗表示の抑制",
   "infra.doc.dc_supplemental.experimental_feature_definitions.use_no_cache_dbxfs.desc": "ノンキャッシュのDropboxファイルシステムの使用",
+  "infra.doc.dc_supplemental.experimental_feature_definitions.validate_network_connection_on_bootstrap.desc": "起動時にネットワーク接続を検証する",
   "infra.doc.dc_supplemental.msg_dropbox_business.activities_info": "チーム活動ログのコマンドでは、特定のフィルターや視点で活動ログをエクスポートすることができます.",
   "infra.doc.dc_supplemental.msg_dropbox_business.activities_title": "アクティビティ ログ コマンド",
   "infra.doc.dc_supplemental.msg_dropbox_business.command_header_desc": "説明",

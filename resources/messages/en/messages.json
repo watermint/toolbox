@@ -2688,6 +2688,7 @@
   "infra.doc.dc_supplemental.experimental_feature_definitions.report_all_columns.desc": "Show all columns defined as data structure.",
   "infra.doc.dc_supplemental.experimental_feature_definitions.suppress_progress.desc": "Suppress progress indicators",
   "infra.doc.dc_supplemental.experimental_feature_definitions.use_no_cache_dbxfs.desc": "Use non-cache dropbox file system",
+  "infra.doc.dc_supplemental.experimental_feature_definitions.validate_network_connection_on_bootstrap.desc": "Validate network connection on bootstrap",
   "infra.doc.dc_supplemental.msg_dropbox_business.activities_info": "The team activities log commands can export activities log by a certain filter or perspective.",
   "infra.doc.dc_supplemental.msg_dropbox_business.activities_title": "Activities log commands",
   "infra.doc.dc_supplemental.msg_dropbox_business.command_header_desc": "Description",
