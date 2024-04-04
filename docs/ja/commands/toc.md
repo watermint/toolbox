@@ -295,6 +295,7 @@ lang: ja
 | [config feature disable]({{ site.baseurl }}/ja/commands/config-feature-disable.html)                                             | 機能を無効化します.                                                    |
 | [config feature enable]({{ site.baseurl }}/ja/commands/config-feature-enable.html)                                               | 機能を有効化します.                                                    |
 | [config feature list]({{ site.baseurl }}/ja/commands/config-feature-list.html)                                                   | 利用可能なオプション機能一覧.                                          |
+| [config license list]({{ site.baseurl }}/ja/commands/config-license-list.html)                                                   | 利用可能なライセンスキーのリスト                                       |
 | [dropbox team insight report teamfoldermember]({{ site.baseurl }}/ja/commands/dropbox-team-insight-report-teamfoldermember.html) | チームフォルダーメンバーを報告                                         |
 | [license]({{ site.baseurl }}/ja/commands/license.html)                                                                           | ライセンス情報を表示します                                             |
 | [local file template apply]({{ site.baseurl }}/ja/commands/local-file-template-apply.html)                                       | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |

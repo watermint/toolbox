@@ -84,7 +84,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-expiration`                | License expiration date                                             |                    |
 | `-licensee-email`            | Licensee email                                                      |                    |
 | `-licensee-name`             | Licensee name                                                       |                    |
-| `-lifecycle-available-after` | Lifecycle available after this period from the build time (seconds) | 157680000          |
+| `-lifecycle-available-after` | Lifecycle available after this period from the build time (seconds) | 94608000           |
 | `-lifecycle-warning-after`   | Lifecycle warning after this period from the build time (seconds)   | 31536000           |
 | `-owner`                     | License repository owner                                            | watermint          |
 | `-peer`                      | Account alias                                                       | default            |

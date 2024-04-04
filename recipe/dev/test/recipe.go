@@ -42,6 +42,10 @@ func (z *Recipe) runSingle(c app_control.Control, r rc_recipe.Recipe) error {
 		l.Info("Skip secret recipe")
 		return nil
 	}
+	if rs.IsLicenseRequired() {
+		l.Info("Skip license required recipe")
+		return nil
+	}
 
 	rtr, err := qtr_timeout.RunRecipeTestWithTimeout(c, r, !z.NoTimeout, false)
 	z.Result.Row(&rtr)

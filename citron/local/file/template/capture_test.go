@@ -5,6 +5,6 @@ import (
 	"testing"
 )
 
-func TestLocal_Exec(t *testing.T) {
+func TestApply_Exec(t *testing.T) {
 	qtr_endtoend.TestRecipe(t, &Apply{})
 }

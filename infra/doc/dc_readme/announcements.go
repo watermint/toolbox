@@ -2,10 +2,12 @@ package dc_readme
 
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"github.com/watermint/toolbox/resources"
+	"os"
+	"path/filepath"
 )
 
 type AnnouncementNode struct {
@@ -33,7 +35,12 @@ func (z Announcements) Title() app_msg.Message {
 func (z Announcements) Body(ui app_ui.UI) {
 	_ = ui.Text(z.NoAnnouncements)
 
-	ad, err := resources.CurrentBundle.Release().Bytes("announcements.json")
+	root, err := es_project.DetectRepositoryRoot()
+	if err != nil {
+		panic("Unable to detect repository root: " + err.Error())
+	}
+	path := filepath.Join(root, "resources", "release", "announcements.json")
+	ad, err := os.ReadFile(path)
 	if err != nil {
 		panic("Unable to load announcements.json: " + err.Error())
 	}

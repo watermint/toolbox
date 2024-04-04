@@ -427,6 +427,7 @@ Dropbox用ツールとDropbox for teams
 | [config feature disable](docs/ja/commands/config-feature-disable.md)                                             | 機能を無効化します.                                                    |
 | [config feature enable](docs/ja/commands/config-feature-enable.md)                                               | 機能を有効化します.                                                    |
 | [config feature list](docs/ja/commands/config-feature-list.md)                                                   | 利用可能なオプション機能一覧.                                          |
+| [config license list](docs/ja/commands/config-license-list.md)                                                   | 利用可能なライセンスキーのリスト                                       |
 | [dropbox team insight report teamfoldermember](docs/ja/commands/dropbox-team-insight-report-teamfoldermember.md) | チームフォルダーメンバーを報告                                         |
 | [license](docs/ja/commands/license.md)                                                                           | ライセンス情報を表示します                                             |
 | [local file template apply](docs/ja/commands/local-file-template-apply.md)                                       | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |

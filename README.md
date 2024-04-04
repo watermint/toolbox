@@ -427,6 +427,7 @@ Available commands:
 | [config feature disable](docs/commands/config-feature-disable.md)                                             | Disable a feature.                                                   |
 | [config feature enable](docs/commands/config-feature-enable.md)                                               | Enable a feature.                                                    |
 | [config feature list](docs/commands/config-feature-list.md)                                                   | List available optional features.                                    |
+| [config license list](docs/commands/config-license-list.md)                                                   | List available license keys                                          |
 | [dropbox team insight report teamfoldermember](docs/commands/dropbox-team-insight-report-teamfoldermember.md) | Report team folder members                                           |
 | [license](docs/commands/license.md)                                                                           | Show license information                                             |
 | [local file template apply](docs/commands/local-file-template-apply.md)                                       | Apply file/folder structure template to the local path               |

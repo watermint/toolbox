@@ -7,6 +7,7 @@ import (
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfigauth "github.com/watermint/toolbox/recipe/config/auth"
 	recipeconfigfeature "github.com/watermint/toolbox/recipe/config/feature"
+	recipeconfiglicense "github.com/watermint/toolbox/recipe/config/license"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
@@ -22,8 +23,6 @@ import (
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
-	recipedevtestauth "github.com/watermint/toolbox/recipe/dev/test/auth"
-	recipedevtestsetup "github.com/watermint/toolbox/recipe/dev/test/setup"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
@@ -73,6 +72,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeconfigfeature.Disable{},
 		&recipeconfigfeature.Enable{},
 		&recipeconfigfeature.List{},
+		&recipeconfiglicense.List{},
 		&recipedev.Info{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
@@ -114,9 +114,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevtest.Panic{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
-		&recipedevtestauth.All{},
-		&recipedevtestsetup.Massfiles{},
-		&recipedevtestsetup.Teamsharedlink{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Wait{},
 		&recipedevutilimage.Jpeg{},

@@ -254,7 +254,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	)
 
 	// Check license
-	if valid, _, _ := license.IsValid(); !valid && app_definitions2.IsProduction() {
+	if !license.IsValid() && app_definitions2.IsProduction() {
 		ui.Failure(MRun.ErrorLicenseExpired)
 		app_exit.Abort(app_exit.FailureLicenseExpired)
 	}

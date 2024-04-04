@@ -80,7 +80,7 @@ func (z *Issue) Exec(c app_control.Control) error {
 		esl.Strings("recipesAllowed", recipesAllowed),
 	)
 
-	lic := app_license.NewLicense(scope).WithExpiration(expiration)
+	lic := app_license.NewLicense(scope)
 	lic.AppName = z.AppName
 	lic = lic.WithLifecycle(&app_license.LicenseLifecycle{
 		AvailableAfter: lifecycleAvailableAfter,

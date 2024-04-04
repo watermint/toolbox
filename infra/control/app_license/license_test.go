@@ -7,7 +7,7 @@ import (
 )
 
 func TestNewLicense(t *testing.T) {
-	lic := NewLicense(LicenseScopeBase).WithExpiration(time.Now().AddDate(1, 0, 0))
+	lic := NewLicense(LicenseScopeBase)
 	if lic.Version != LicenseVersionCurrent {
 		t.Error("Invalid version")
 	}
@@ -61,7 +61,6 @@ func TestNewLicense(t *testing.T) {
 
 func TestIssueParse(t *testing.T) {
 	lic := NewLicense(LicenseScopeBase)
-	lic = lic.WithExpiration(time.Now().AddDate(1, 0, 0))
 	availableAfter := int64(3600)
 	warningAfter := int64(7200)
 	lic = lic.WithLifecycle(&LicenseLifecycle{
@@ -86,9 +85,6 @@ func TestIssueParse(t *testing.T) {
 	}
 	if lic.Scope != li2.Scope {
 		t.Error("Invalid scope")
-	}
-	if lic.Expiration != li2.Expiration {
-		t.Error("Invalid expiration")
 	}
 	if lic.Lifecycle.AvailableAfter != li2.Lifecycle.AvailableAfter {
 		t.Error("Invalid lifecycle")

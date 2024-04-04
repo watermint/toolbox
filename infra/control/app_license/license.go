@@ -18,12 +18,17 @@ import (
 
 type License interface {
 	// IsValid returns true if the license is valid.
-	// The second return value is the license expiration date.
-	IsValid() (valid bool, cacheTimeout bool, expiration time.Time)
+	IsValid() bool
+
+	// IsCacheTimeout returns true if the license is cached and the cache is timed out.
+	IsCacheTimeout() bool
 
 	// IsLifecycleWithinLimit returns true if the license is active in terms of the expiration date.
 	// The second return value is true if the license is warned before the expiration.
 	IsLifecycleWithinLimit() (active bool, warning bool)
+
+	// IsEOL returns true if the license is end-of-life.
+	IsEOL() (eol bool, reason string)
 
 	// LifecycleLimit returns the lifecycle limit of the license.
 	LifecycleLimit() time.Time
@@ -54,18 +59,19 @@ const (
 	LicenseKeySize = 35
 
 	// MaxLicenseYears is the maximum years of the license.
-	MaxLicenseYears = 8
+	MaxLicenseYears = 3
+	MinLicenseHours = 1
 
 	// MaxLicenseeNameLength is the maximum length of the licensee name.
 	MaxLicenseeNameLength = 128
 
-	DefaultLifecyclePeriod = 5 * 365 * 24 * time.Hour
+	DefaultLifecyclePeriod = MaxLicenseYears * 365 * 24 * time.Hour
 
 	DefaultWarningPeriodFraction = 0.8
 	DefaultWarningMinimumPeriod  = 7 * 24 * time.Hour
 	DefaultWarningMaximumPeriod  = 365 * 24 * time.Hour
 
-	CacheTimeout = 28 * 24 * time.Hour
+	CacheTimeout = 30 * 24 * time.Hour
 )
 
 var (
@@ -101,6 +107,12 @@ type LicenseLifecycle struct {
 
 	// WarningAfter is the time when the license is warned before the expiration in seconds.
 	WarningAfter int64 `json:"warning_after"`
+
+	// IsEOL is the flag to indicate the license is end-of-life.
+	IsEOL bool `json:"is_eol"`
+
+	// ReasonEOL is the reason of the end-of-life.
+	ReasonEOL string `json:"reason_eol"`
 }
 
 // LicenseReleaseBinding is the binding of the release number.
@@ -133,9 +145,6 @@ type LicenseData struct {
 
 	// LicenseeEmail is the email address of the licensee.
 	LicenseeEmail string `json:"licensee_email,omitempty"`
-
-	// Expiration is the expiration date of the license, in RFC3339 format.
-	Expiration string `json:"expiration,omitempty"`
 
 	// CachedAt is the date when the license was cached, in RFC3339 format.
 	CachedAt string `json:"cached_at,omitempty"`
@@ -179,6 +188,10 @@ func (z LicenseData) IsLifecycleWithinLimit() (active bool, warning bool) {
 	if z.Lifecycle == nil {
 		return true, false
 	}
+	if z.Lifecycle.IsEOL {
+		return false, false
+	}
+
 	buildTimestamp := app_definitions.BuildInfo.Timestamp
 	if buildTimestamp == "" {
 		buildTimestamp = time.Now().Format(time.RFC3339)
@@ -190,56 +203,46 @@ func (z LicenseData) IsLifecycleWithinLimit() (active bool, warning bool) {
 	return
 }
 
-func (z LicenseData) IsValid() (valid bool, cacheTimeout bool, expiration time.Time) {
+func (z LicenseData) IsCacheTimeout() bool {
 	if z.CachedAt != "" {
 		cachedAt, err := time.Parse(time.RFC3339, z.CachedAt)
 		if err != nil {
-			return false, false, time.Time{}
+			return true
 		}
 		if time.Now().Sub(cachedAt) > CacheTimeout {
-			return false, true, time.Time{}
+			return true
 		}
 	}
+	return false
+}
 
+func (z LicenseData) IsValid() bool {
 	if z.CopyType == CopyTypeCachedNotFound {
-		return false, false, time.Time{}
+		return false
 	}
 
 	if z.Binding != nil {
 		if app_definitions.Version.Major < z.Binding.ReleaseMinimum || z.Binding.ReleaseMaximum < app_definitions.Version.Major {
-			return false, false, time.Time{}
+			return false
 		}
 	}
 
 	if lc, _ := z.IsLifecycleWithinLimit(); !lc {
-		return false, false, time.Time{}
+		return false
 	}
 
-	if z.Expiration == "" {
-		return false, false, time.Time{}
-	} else {
-		expiration, err := time.Parse(time.RFC3339, z.Expiration)
-		if err != nil {
-			return false, false, time.Time{}
-		}
-		// Check if the license is matching the application name
-		if z.AppName != app_definitions.Name {
-			return false, false, expiration
-		}
-		valid = expiration.After(time.Now())
-		return valid, false, expiration
-	}
+	return true
 }
 
 func (z LicenseData) IsScopeEnabled(scope string) bool {
-	if ok, _, _ := z.IsValid(); !ok {
+	if z.IsValid() {
 		return false
 	}
 	return z.Scope == scope
 }
 
 func (z LicenseData) IsRecipeEnabled(recipePath string) bool {
-	if ok, _, _ := z.IsValid(); !ok {
+	if z.IsValid() {
 		return false
 	}
 	if z.Recipe == nil {
@@ -258,15 +261,6 @@ func (z LicenseData) WithBinding(minimum, maximum uint64) LicenseData {
 		ReleaseMinimum: minimum,
 		ReleaseMaximum: maximum,
 	}
-	return z
-}
-
-func (z LicenseData) WithExpiration(expiration time.Time) LicenseData {
-	// Limit the expiration date to the maximum license years
-	if expiration.After(time.Now().AddDate(MaxLicenseYears, 0, 0)) {
-		expiration = time.Now().AddDate(MaxLicenseYears, 0, 0)
-	}
-	z.Expiration = expiration.Format(time.RFC3339)
 	return z
 }
 
@@ -329,29 +323,20 @@ func (z LicenseData) SealWithKey(key string) (data []byte, err error) {
 // Seal seals the license data.
 func (z LicenseData) Seal() (data []byte, key string, err error) {
 	l := esl.Default()
-	if z.Expiration == "" {
+	if z.Lifecycle == nil {
 		l.Debug("Expiration date is not set, set to the maximum expiration date")
-		z.Expiration = time.Now().AddDate(MaxLicenseYears, 0, 0).Format(time.RFC3339)
+		z.Lifecycle.AvailableAfter = int64(DefaultLifecyclePeriod.Seconds())
+		z.Lifecycle.WarningAfter = int64(DefaultWarningPeriod(DefaultLifecyclePeriod).Seconds())
 	} else {
-		expiration, err := time.Parse(time.RFC3339, z.Expiration)
-		if err != nil {
-			l.Debug("Unable to parse the expiration date", esl.Error(err))
-			return nil, "", err
-		}
-
-		// Check if the license is expired at the time of issue
-		if expiration.Before(time.Now()) {
-			l.Debug("License is expired", esl.Time("expiration", expiration), esl.Time("now", time.Now()))
-			return nil, "", ErrorExpired
-		}
-
-		// Limit the expiration date to the maximum license years
-		if expiration.After(time.Now().AddDate(MaxLicenseYears, 0, 0)) {
-			l.Debug("Expiration date is beyond the maximum license years", esl.Time("expiration", expiration), esl.Time("now", time.Now()))
-			expiration = time.Now().AddDate(MaxLicenseYears, 0, 0)
-		}
-		l.Debug("Expiration date", esl.Time("expiration", expiration))
-		z.Expiration = expiration.Format(time.RFC3339)
+		z.Lifecycle.AvailableAfter = min(int64(DefaultLifecyclePeriod.Seconds()),
+			max(z.Lifecycle.AvailableAfter, int64(MinLicenseHours)*3600))
+		z.Lifecycle.WarningAfter = min(
+			max(
+				z.Lifecycle.WarningAfter,
+				0,
+			),
+			z.Lifecycle.AvailableAfter,
+		)
 	}
 
 	key = sc_random.MustGetSecureRandomString(LicenseKeySize)
@@ -366,10 +351,9 @@ func (z LicenseData) Seal() (data []byte, key string, err error) {
 // NewLicense creates a new license data with the scope in the current license version.
 func NewLicense(scope string) LicenseData {
 	return LicenseData{
-		Version:    LicenseVersionV1,
-		AppName:    app_definitions.Name,
-		Scope:      scope,
-		Expiration: time.Now().AddDate(MaxLicenseYears, 0, 0).Format(time.RFC3339),
+		Version: LicenseVersionV1,
+		AppName: app_definitions.Name,
+		Scope:   scope,
 		Lifecycle: &LicenseLifecycle{
 			AvailableAfter: int64(DefaultLifecyclePeriod.Seconds()),
 			WarningAfter:   int64(DefaultWarningPeriod(DefaultLifecyclePeriod).Seconds()),
@@ -392,7 +376,7 @@ func LoadAndCacheLicense(key, url, path string) (ld *LicenseData, err error) {
 	cache, err := loadLicenseFile(key, path)
 	switch {
 	case err == nil:
-		if _, c, _ := cache.IsValid(); !c {
+		if cache.IsCacheTimeout() {
 			ld, err = loadLicenseUrl(key, url)
 			if err != nil {
 				l.Debug("Unable to load the license", esl.Error(err))
@@ -451,7 +435,7 @@ func loadLicenseUrl(key, url string) (ld *LicenseData, err error) {
 		l.Debug("Unable to parse the data", esl.Error(err))
 		return nil, err
 	}
-	if ok, _, _ := ld.IsValid(); !ok {
+	if !ld.IsValid() {
 		l.Debug("License is invalid", esl.String("url", fileUrl))
 		return nil, ErrorExpired
 	}
@@ -495,7 +479,7 @@ func loadLicenseFile(key, path string) (ld *LicenseData, err error) {
 		l.Debug("Unable to parse the data", esl.Error(err))
 		return nil, err
 	}
-	if ok, cache, _ := ld.IsValid(); !ok && cache {
+	if ld.IsCacheTimeout() {
 		l.Debug("Cache timeout", esl.String("path", path))
 		return nil, ErrorCacheExpired
 	}

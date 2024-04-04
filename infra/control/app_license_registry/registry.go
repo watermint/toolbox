@@ -115,7 +115,6 @@ func (z registryImpl) Issue(licenseData *app_license.LicenseData) (key string, e
 		Scope:         licenseData.Scope,
 		LicenseeName:  licenseData.LicenseeName,
 		LicenseeEmail: licenseData.LicenseeEmail,
-		Expiration:    licenseData.Expiration,
 	}
 
 	ghc := sv_content.New(z.client, z.owner, z.repo)

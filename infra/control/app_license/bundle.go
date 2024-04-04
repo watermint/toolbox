@@ -17,7 +17,7 @@ func NewLicenseBundleFromKeys(keys []string, path string) LicenseBundle {
 		if err != nil {
 			continue
 		}
-		if v, _, _ := l.IsValid(); v {
+		if l.IsValid() {
 			licenses = append(licenses, l)
 		}
 	}
@@ -33,13 +33,15 @@ type LicenseBundle struct {
 
 func (z LicenseBundle) LifecycleLimit() time.Time {
 	var bestLicense *LicenseData
-	var bestExpiration time.Time
+	var bestExpiration int64 = 0
 
 	for _, l := range z.licenses {
-		_, _, e := l.IsValid()
-		if bestLicense == nil || e.After(bestExpiration) {
+		if !l.IsValid() {
+			continue
+		}
+		if bestLicense == nil || l.Lifecycle != nil && l.Lifecycle.AvailableAfter > bestExpiration {
 			bestLicense = l
-			bestExpiration = e
+			bestExpiration = l.Lifecycle.AvailableAfter
 		}
 	}
 
@@ -50,23 +52,13 @@ func (z LicenseBundle) LifecycleLimit() time.Time {
 	return bestLicense.LifecycleLimit()
 }
 
-func (z LicenseBundle) IsValid() (valid bool, cacheTimeout bool, expiration time.Time) {
-	var bestLicense *LicenseData
-	var bestExpiration time.Time
-
+func (z LicenseBundle) IsValid() bool {
 	for _, l := range z.licenses {
-		_, _, e := l.IsValid()
-		if bestLicense == nil || e.After(bestExpiration) {
-			bestLicense = l
-			bestExpiration = e
+		if l.IsValid() {
+			return true
 		}
 	}
-
-	if bestLicense == nil {
-		return false, false, time.Time{}
-	}
-
-	return bestLicense.IsValid()
+	return false
 }
 
 func (z LicenseBundle) IsLifecycleWithinLimit() (active bool, warning bool) {

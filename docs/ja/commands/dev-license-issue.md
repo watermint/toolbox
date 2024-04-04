@@ -84,7 +84,7 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-expiration`                | ライセンスの有効期限                                     |                    |
 | `-licensee-email`            | ライセンシーのEメール                                    |                    |
 | `-licensee-name`             | ライセンシー名                                           |                    |
-| `-lifecycle-available-after` | ビルド時間からこの期間後に利用可能なライフサイクル（秒） | 157680000          |
+| `-lifecycle-available-after` | ビルド時間からこの期間後に利用可能なライフサイクル（秒） | 94608000           |
 | `-lifecycle-warning-after`   | ビルド時刻からこの期間経過後のライフサイクル警告（秒）   | 31536000           |
 | `-owner`                     | ライセンス・リポジトリの所有者                           | watermint          |
 | `-peer`                      | アカウントの別名                                         | default            |

@@ -295,6 +295,7 @@ lang: en
 | [config feature disable]({{ site.baseurl }}/commands/config-feature-disable.html)                                             | Disable a feature.                                                   |
 | [config feature enable]({{ site.baseurl }}/commands/config-feature-enable.html)                                               | Enable a feature.                                                    |
 | [config feature list]({{ site.baseurl }}/commands/config-feature-list.html)                                                   | List available optional features.                                    |
+| [config license list]({{ site.baseurl }}/commands/config-license-list.html)                                                   | List available license keys                                          |
 | [dropbox team insight report teamfoldermember]({{ site.baseurl }}/commands/dropbox-team-insight-report-teamfoldermember.html) | Report team folder members                                           |
 | [license]({{ site.baseurl }}/commands/license.html)                                                                           | Show license information                                             |
 | [local file template apply]({{ site.baseurl }}/commands/local-file-template-apply.html)                                       | Apply file/folder structure template to the local path               |

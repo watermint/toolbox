@@ -36,7 +36,6 @@ import (
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
 	infracontrolapp_error "github.com/watermint/toolbox/infra/control/app_error"
 	infracontrolapp_job_impl "github.com/watermint/toolbox/infra/control/app_job_impl"
-	infracontrolapp_lifecycle "github.com/watermint/toolbox/infra/control/app_lifecycle"
 	infradatada_griddata "github.com/watermint/toolbox/infra/data/da_griddata"
 	infradatada_json "github.com/watermint/toolbox/infra/data/da_json"
 	infradocdc_command "github.com/watermint/toolbox/infra/doc/dc_command"
@@ -96,7 +95,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&essentialsnetworknw_diag.MsgNetwork{},
 		&infracontrolapp_error.MsgErrorReport{},
 		&infracontrolapp_job_impl.MsgLauncher{},
-		&infracontrolapp_lifecycle.MsgAppLifecycle{},
 		&infradatada_griddata.MsgGridDataInput{},
 		&infradatada_json.MsgJsonInput{},
 		&infradocdc_command.MsgHeader{},

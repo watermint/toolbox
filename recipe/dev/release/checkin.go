@@ -138,14 +138,15 @@ func (z *Checkin) releaseLicenseKey(c app_control.Control, targetRelease uint64)
 	}
 
 	license := app_license.NewLicense(app_license.LicenseScopeBase).
-		WithExpiration(time.Now().Add(app_definitions.LifecycleExpirationCritical)).
 		WithLifecycle(&app_license.LicenseLifecycle{
 			AvailableAfter: int64(app_definitions.LifecycleExpirationCritical / time.Second),
 			WarningAfter:   int64(app_definitions.LifecycleExpirationWarning / time.Second),
+			IsEOL:          false,
+			ReasonEOL:      "",
 		}).
 		WithLicensee(
-			fmt.Sprintf("Release %d users", targetRelease),
-			"no-reply@toolbox.watermint.org",
+			fmt.Sprintf("watermint toolbox, Release %d", targetRelease),
+			"",
 		).
 		WithBinding(
 			app_definitions.Version.Major,

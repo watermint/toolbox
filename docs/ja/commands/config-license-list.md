@@ -1,59 +1,12 @@
 ---
 layout: command
-title: コマンド `dev test setup teamsharedlink`
+title: コマンド `config license list`
 lang: ja
 ---
 
-# dev test setup teamsharedlink
+# config license list
 
-デモ用共有リンクの作成 (非可逆な操作です)
-
-# セキュリティ
-
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
-
-| OS      | パス                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
-
-方法は次のヘルプセンター記事をご参照ください:
-* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
-
-## 認可スコープ
-
-| 説明                                                                                |
-|-------------------------------------------------------------------------------------|
-| Dropbox for teams：Dropboxのファイルやフォルダの内容を編集する                      |
-| Dropbox for teams：チームのグループ メンバーシップを表示                            |
-| Dropbox for teams：Dropboxの共有設定と共同作業者の表示と管理                        |
-| Dropbox for teams：チームやメンバーのフォルダ構造を表示                             |
-| Dropbox for teams：名前、ユーザー数、チーム設定など、チームの基本情報を表示します。 |
-
-# 認可
-
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
-リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2024 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
-```
+利用可能なライセンスキーのリスト 
 
 # インストール
 
@@ -69,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev test setup teamsharedlink -group GROUP_NAME -num-links-per-member NUM -query QUERY
+.\tbx.exe config license list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev test setup teamsharedlink -group GROUP_NAME -num-links-per-member NUM -query QUERY
+$HOME/Desktop/tbx config license list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -82,17 +35,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 > "tbx"は開発元を確認できないため、使用がブロックされました。
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
-
-## オプション:
-
-| オプション              | 説明                           | デフォルト |
-|-------------------------|--------------------------------|------------|
-| `-group`                | グループ名                     |            |
-| `-num-links-per-member` | メンバーごとに作成するリンク数 | 5          |
-| `-peer`                 | アカウントの別名               | default    |
-| `-query`                | クエリ                         |            |
-| `-seed`                 | シェアードリンクのシード値     | 0          |
-| `-visibility`           | ビジビリティ                   | random     |
 
 ## 共通のオプション:
 
@@ -127,24 +69,23 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: created
+## レポート: keys
 
-このレポートは共有リンクの一覧を出力します.
-このコマンドはレポートを3種類の書式で出力します. `created.csv`, `created.json`, ならびに `created.xlsx`.
+ライセンスキーの概要
+このコマンドはレポートを3種類の書式で出力します. `keys.csv`, `keys.json`, ならびに `keys.xlsx`.
 
-| 列         | 説明                                   |
-|------------|----------------------------------------|
-| id         | ファイルまたはフォルダへのリンクのID   |
-| tag        | エントリーの種別 (file, または folder) |
-| url        | 共有リンクのURL.                       |
-| name       | リンク先ファイル名称                   |
-| expires    | 有効期限 (設定されている場合)          |
-| path_lower | パス (すべて小文字に変換).             |
-| visibility | 共有リンクの開示範囲                   |
+| 列               | 説明                             |
+|------------------|----------------------------------|
+| key              | ライセンスキー                   |
+| expiration_date  | 有効期限                         |
+| valid            | ライセンスキーが有効であれば真   |
+| licensee_name    | ライセンシー名                   |
+| licensee_email   | ライセンシーのEメール            |
+| licensed_recipes | このライセンスキーで有効なレシピ |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `created_0000.xlsx`, `created_0001.xlsx`, `created_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `keys_0000.xlsx`, `keys_0001.xlsx`, `keys_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
