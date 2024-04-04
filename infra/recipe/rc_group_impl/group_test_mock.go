@@ -25,6 +25,10 @@ type MockSpec struct {
 	hasChange bool
 }
 
+func (z MockSpec) IsLicenseRequired() bool {
+	panic("implement me")
+}
+
 func (z MockSpec) FormerPaths() (paths []rc_compatibility.PathPair) {
 	return []rc_compatibility.PathPair{}
 }

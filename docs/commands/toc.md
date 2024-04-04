@@ -233,6 +233,7 @@ lang: en
 
 | Command                                                                                         | Description                                         |
 |-------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| [dev release checkin]({{ site.baseurl }}/commands/dev-release-checkin.html)                     | Check in the new release                            |
 | [github content get]({{ site.baseurl }}/commands/github-content-get.html)                       | Get content metadata of the repository              |
 | [github content put]({{ site.baseurl }}/commands/github-content-put.html)                       | Put small text content into the repository          |
 | [github issue list]({{ site.baseurl }}/commands/github-issue-list.html)                         | List issues of the public/private GitHub repository |
@@ -294,6 +295,7 @@ lang: en
 | [config feature disable]({{ site.baseurl }}/commands/config-feature-disable.html)                                             | Disable a feature.                                                   |
 | [config feature enable]({{ site.baseurl }}/commands/config-feature-enable.html)                                               | Enable a feature.                                                    |
 | [config feature list]({{ site.baseurl }}/commands/config-feature-list.html)                                                   | List available optional features.                                    |
+| [config license list]({{ site.baseurl }}/commands/config-license-list.html)                                                   | List available license keys                                          |
 | [dropbox team insight report teamfoldermember]({{ site.baseurl }}/commands/dropbox-team-insight-report-teamfoldermember.html) | Report team folder members                                           |
 | [license]({{ site.baseurl }}/commands/license.html)                                                                           | Show license information                                             |
 | [local file template apply]({{ site.baseurl }}/commands/local-file-template-apply.html)                                       | Apply file/folder structure template to the local path               |

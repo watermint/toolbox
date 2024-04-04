@@ -11,11 +11,11 @@ Dropbox、Dropbox for teams、Google、GitHubなどのウェブサービス用�
 
 # ライセンスと免責条項
 
-watermint toolboxはMITライセンスのもと配布されています.
+watermint toolboxはApache License, Version 2.0でライセンスされています。
 詳細はファイル LICENSE.mdまたは LICENSE.txt ご参照ください.
 
 以下にご留意ください:
-> ソフトウェアは「現状のまま」で、明示であるか暗黙であるかを問わず、何らの保証もなく提供されます。ここでいう保証とは、商品性、特定の目的への適合性、および権利非侵害についての保証も含みますが、それに限定されるものではありません。
+> Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
 
 # ビルド済み実行ファイル
 
@@ -28,6 +28,15 @@ watermint toolboxはMITライセンスのもと配布されています.
 brew tap watermint/toolbox
 brew install toolbox
 ```
+
+# お知らせ
+
+* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
+* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
+* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
+* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
+* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
 
 # 製品ライフサイクル
 
@@ -52,6 +61,10 @@ brew install toolbox
 
 仕様の変更は[お知らせ](https://github.com/watermint/toolbox/discussions/categories/announcements)で発表されます。仕様変更予定一覧は[仕様変更](https://toolbox.watermint.org/ja/guides/spec-change.html)をご参照ください。
 
+## 各リリースの提供期間
+
+一般に、新しいセキュリティ問題は毎日発見されています。古いリリースのwatermint toolboxを使い続けることで、これらのセキュリティーやクリティカルな問題が未解決のまま放置されることのないよう、リリース130以上には最大利用可能期間が設定されています。詳しくは[#815](https://github.com/watermint/toolbox/discussions/815)をご覧ください。
+
 # セキュリティとプライバシー
 
 ## 情報は収集しません 
@@ -64,6 +77,12 @@ watermint toolboxは、Dropbox のようなサービスとご自身のアカウ�
 
 APIトークンなどの機密データのほとんどは、難読化されてアクセス制限された状態でPCのストレージに保存されています. しかし、それらのデータを秘密にするのはあなたの責任です.
 特に、ツールボックスのワークパスの下にある`secrets`フォルダ(デフォルトでは`C:\Users\<ユーザー名>\.toolbox`、または`$HOME/.toolbox`フォルダ以下)は共有しないでください。
+
+## 使用するコマンドの対象となるサービス以外のインターネットアクセス
+
+watermintツールボックスには、重大なバグやセキュリティ上の問題がある特定のリリースを無効にする機能があります。これは、約30日に1度、GitHubにホストされているリポジトリからデータを取得し、リリースのステータスをチェックすることによって行われます。
+このアクセスは、あなたの個人データ（Dropbox、Google、ローカルファイル、トークンなど）を収集することはありません。これはリリースステータスをチェックするだけですが、副次的な効果として、データをダウンロードする際にあなたのIPアドレスがGitHubに送信されます。IPアドレスもPIIであることは承知しています。しかし、これは一般のウェブサイトを訪問するのと同じであり、特別な操作ではありません。
+watermint toolboxプロジェクトの管理者は、これらのファイルが何回ダウンロードされたかを確認することもできません。
 
 # 利用方法
 
@@ -89,32 +108,31 @@ Dropbox用ツールとDropbox for teams
 利用可能なコマンド:
 ===================
 
-| コマンド     | 説明                         | 備考 |
-|--------------|------------------------------|------|
-| asana        | Asanaのコマンド              |      |
-| config       | CLI設定                      |      |
-| deepl        | DeepLコマンド                |      |
-| dropbox      | Dropboxコマンド              |      |
-| figma        | フィグマコマンド             |      |
-| file         | ファイル操作                 |      |
-| filerequest  | ファイルリクエストの操作     |      |
-| github       | GitHubコマンド               |      |
-| google       | Google コマンド              |      |
-| group        | グループ管理                 |      |
-| job          | ログユーティリティ（非推奨） |      |
-| license      | ライセンス情報を表示します   |      |
-| local        | ローカルPC用コマンド         |      |
-| log          | ログユーティリティ           |      |
-| member       | チームメンバーの管理         |      |
-| services     | 各種サービス向けコマンド     |      |
-| sharedfolder | 共有フォルダ                 |      |
-| sharedlink   | 個人アカウントの共有リンク   |      |
-| slack        | Slack コマンド               |      |
-| team         | チーム向けDropboxのコマンド  |      |
-| teamfolder   | チームフォルダの管理         |      |
-| teamspace    | チームスペースコマンド       |      |
-| util         | ユーティリティー             |      |
-| version      | バージョン情報               |      |
+| コマンド     | 説明                        | 備考 |
+|--------------|-----------------------------|------|
+| asana        | Asanaのコマンド             |      |
+| config       | CLI設定                     |      |
+| deepl        | DeepLコマンド               |      |
+| dropbox      | Dropboxコマンド             |      |
+| figma        | フィグマコマンド            |      |
+| file         | ファイル操作                |      |
+| filerequest  | ファイルリクエストの操作    |      |
+| github       | GitHubコマンド              |      |
+| google       | Google コマンド             |      |
+| group        | グループ管理                |      |
+| license      | ライセンス情報を表示します  |      |
+| local        | ローカルPC用コマンド        |      |
+| log          | ログユーティリティ          |      |
+| member       | チームメンバーの管理        |      |
+| services     | 各種サービス向けコマンド    |      |
+| sharedfolder | 共有フォルダ                |      |
+| sharedlink   | 個人アカウントの共有リンク  |      |
+| slack        | Slack コマンド              |      |
+| team         | チーム向けDropboxのコマンド |      |
+| teamfolder   | チームフォルダの管理        |      |
+| teamspace    | チームスペースコマンド      |      |
+| util         | ユーティリティー            |      |
+| version      | バージョン情報              |      |
 
 ```
 
@@ -347,6 +365,7 @@ Dropbox用ツールとDropbox for teams
 
 | コマンド                                                                           | 説明                                                          |
 |------------------------------------------------------------------------------------|---------------------------------------------------------------|
+| [dev release checkin](docs/ja/commands/dev-release-checkin.md)                     | 新作りリースをチェック                                        |
 | [github content get](docs/ja/commands/github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.                 |
 | [github content put](docs/ja/commands/github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します              |
 | [github issue list](docs/ja/commands/github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |
@@ -408,6 +427,7 @@ Dropbox用ツールとDropbox for teams
 | [config feature disable](docs/ja/commands/config-feature-disable.md)                                             | 機能を無効化します.                                                    |
 | [config feature enable](docs/ja/commands/config-feature-enable.md)                                               | 機能を有効化します.                                                    |
 | [config feature list](docs/ja/commands/config-feature-list.md)                                                   | 利用可能なオプション機能一覧.                                          |
+| [config license list](docs/ja/commands/config-license-list.md)                                                   | 利用可能なライセンスキーのリスト                                       |
 | [dropbox team insight report teamfoldermember](docs/ja/commands/dropbox-team-insight-report-teamfoldermember.md) | チームフォルダーメンバーを報告                                         |
 | [license](docs/ja/commands/license.md)                                                                           | ライセンス情報を表示します                                             |
 | [local file template apply](docs/ja/commands/local-file-template-apply.md)                                       | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |

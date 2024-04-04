@@ -64,6 +64,9 @@ const (
 
 	// ExperimentSuppressProgress suppress progress
 	ExperimentSuppressProgress = "suppress_progress"
+
+	// ExperimentValidateNetworkConnectionOnBootstrap validate network connection on bootstrap
+	ExperimentValidateNetworkConnectionOnBootstrap = "validate_network_connection_on_bootstrap"
 )
 
 var (
@@ -96,5 +99,6 @@ var (
 		ExperimentProfileMemory,
 		ExperimentReportAllColumns,
 		ExperimentSuppressProgress,
+		ExperimentValidateNetworkConnectionOnBootstrap,
 	}
 )

@@ -31,6 +31,7 @@ jobs:
         env:
           TOOLBOX_APPKEYS: '${{ secrets.TOOLBOX_APPKEYS }}'
           TOOLBOX_BUILDERKEY: '${{ secrets.TOOLBOX_BUILDERKEY }}'
+          TOOLBOX_LICENSE_SALT: '${{ secrets.TOOLBOX_LICENSE_SALT }}'
           TOOLBOX_BUILD_TARGET: '${{ matrix.target }}'
 
       - name: build

@@ -107,6 +107,22 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
+## レポート: announcements
+
+お知らせ
+このコマンドはレポートを3種類の書式で出力します. `announcements.csv`, `announcements.json`, ならびに `announcements.xlsx`.
+
+| 列        | 説明         |
+|-----------|--------------|
+| number    | お知らせ番号 |
+| title     | タイトル     |
+| url       | URL          |
+| updatedAt | 更新日時     |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `announcements_0000.xlsx`, `announcements_0001.xlsx`, `announcements_0002.xlsx`, ...
+
 ## レポート: result
 
 レシピテスト結果

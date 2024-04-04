@@ -1,14 +1,12 @@
 package dc_version
 
 import (
-	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
-	"github.com/watermint/toolbox/infra/control/app_lifecycle"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/resources"
 	"runtime"
 	"strconv"
-	"time"
 )
 
 type MsgVersionInfo struct {
@@ -35,57 +33,42 @@ func VersionComponents(ui app_ui.UI) []*VersionInfo {
 	components = append(components, &VersionInfo{
 		Key:       "app.name",
 		Component: "app.name",
-		Version:   app_definitions2.Name,
+		Version:   app_definitions.Name,
 	})
 	components = append(components, &VersionInfo{
 		Key:       "app.version",
-		Component: app_definitions2.Name,
-		Version:   app_definitions2.BuildId,
+		Component: app_definitions.Name,
+		Version:   app_definitions.BuildId,
 	})
 	components = append(components, &VersionInfo{
 		Key:       "app.hash",
 		Component: ui.Text(MVersionInfo.HeaderAppHash),
-		Version:   app_definitions2.BuildInfo.Hash,
+		Version:   app_definitions.BuildInfo.Hash,
 	})
 	components = append(components, &VersionInfo{
 		Key:       "app.branch",
 		Component: ui.Text(MVersionInfo.HeaderBranch),
-		Version:   app_definitions2.BuildInfo.Branch,
+		Version:   app_definitions.BuildInfo.Branch,
 	})
 	components = append(components, &VersionInfo{
 		Key:       "app.production",
 		Component: ui.Text(MVersionInfo.HeaderProduction),
-		Version:   strconv.FormatBool(app_definitions2.BuildInfo.Production),
+		Version:   strconv.FormatBool(app_definitions.BuildInfo.Production),
 	})
 	components = append(components, &VersionInfo{
 		Key:       "core.release",
-		Component: app_definitions2.Pkg,
+		Component: app_definitions.Pkg,
 		Version:   resources.CoreRelease(),
 	})
 	components = append(components, &VersionInfo{
 		Key:       "build.time",
 		Component: ui.Text(MVersionInfo.HeaderBuildTime),
-		Version:   app_definitions2.BuildInfo.Timestamp,
+		Version:   app_definitions.BuildInfo.Timestamp,
 	})
 	components = append(components, &VersionInfo{
 		Key:       "go.version",
 		Component: ui.Text(MVersionInfo.HeaderGoVersion),
 		Version:   runtime.Version(),
-	})
-	components = append(components, &VersionInfo{
-		Key:       "lifecycle.bestbefore",
-		Component: ui.Text(MVersionInfo.HeaderLifecycle),
-		Version:   app_lifecycle.LifecycleControl().TimeBestBefore().Format(time.RFC3339),
-	})
-	components = append(components, &VersionInfo{
-		Key:       "lifecycle.expiration",
-		Component: ui.Text(MVersionInfo.HeaderLifecycle),
-		Version:   app_lifecycle.LifecycleControl().TimeExpiration().Format(time.RFC3339),
-	})
-	components = append(components, &VersionInfo{
-		Key:       "lifecycle.mode",
-		Component: ui.Text(MVersionInfo.HeaderLifecycle),
-		Version:   string(app_definitions2.LifecycleExpirationMode),
 	})
 
 	return components

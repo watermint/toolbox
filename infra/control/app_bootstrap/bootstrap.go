@@ -19,11 +19,12 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_exit"
 	"github.com/watermint/toolbox/infra/control/app_feature"
 	"github.com/watermint/toolbox/infra/control/app_job_impl"
-	"github.com/watermint/toolbox/infra/control/app_lifecycle"
+	"github.com/watermint/toolbox/infra/control/app_license"
+	"github.com/watermint/toolbox/infra/control/app_license_key"
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -42,6 +43,7 @@ import (
 	"runtime"
 	"strings"
 	"syscall"
+	"time"
 )
 
 type msgRun struct {
@@ -57,6 +59,10 @@ type msgRun struct {
 	ErrorUnsupportedOutput                app_msg.Message
 	ErrorInitialization                   app_msg.Message
 	ErrorUnableToLoadExtra                app_msg.Message
+	ErrorLicenseExpired                   app_msg.Message
+	ErrorLicenseRequired                  app_msg.Message
+	ErrorLifecycleEnded                   app_msg.Message
+	WarnLifecycleNearEnd                  app_msg.Message
 	ProgressInterruptedShutdown           app_msg.Message
 	InfoRecipeFailedLogLocation           app_msg.Message
 }
@@ -133,7 +139,7 @@ func (z *bsImpl) SelectUI(opt app_opt.CommonOpts) (ui app_ui.UI) {
 
 func (z *bsImpl) verifyMessages(ui app_ui.UI, l esl.Logger) {
 	// Test MRun message, due to unable to test because of package dependency
-	if !app_definitions2.IsProduction() {
+	if !app_definitions.IsProduction() {
 		for _, msg := range app_msg.Messages(MRun) {
 			ui.Text(msg)
 		}
@@ -156,9 +162,6 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	com := comSpec.Opts()
 
 	ui := z.SelectUI(com)
-
-	// Check binary build time
-	app_lifecycle.LifecycleControl().Verify(ui)
 
 	if exErr := com.ExtraLoad(); exErr != nil {
 		ui.Failure(MRun.ErrorUnableToLoadExtra.With("Error", exErr).With("Path", com.Extra.Value()))
@@ -199,8 +202,8 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	case com.Quiet,
 		com.Output.Value() == app_opt.OutputJson,
 		com.Output.Value() == app_opt.OutputNone,
-		es_env.IsEnabled(app_definitions2.EnvNameDebugVerbose),
-		ctl.Feature().Experiment(app_definitions2.ExperimentSuppressProgress):
+		es_env.IsEnabled(app_definitions.EnvNameDebugVerbose),
+		ctl.Feature().Experiment(app_definitions.ExperimentSuppressProgress):
 
 		wb.Logger().Logger().Debug("Set indicators as silent mode")
 		ea_indicator.SuppressIndicatorForce()
@@ -220,14 +223,14 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	go trapSignal(sig, ctl)
 
 	// App Header
-	rc_group.AppHeader(ui, app_definitions2.BuildId)
+	rc_group.AppHeader(ui, app_definitions.BuildId)
 
 	// Global settings
-	nw_proxy.Setup("https://api.dropboxapi.com", com.Proxy.Value(), ctl.Log())
+	nw_proxy.Setup("https://github.com", com.Proxy.Value(), ctl.Log())
 	nw_bandwidth.SetBandwidth(com.BandwidthKb)
 	nw_congestion.SetMaxCongestionWindow(com.Concurrency,
-		ctl.Feature().Experiment(app_definitions2.ExperimentCongestionWindowNoLimit))
-	if ctl.Feature().Experiment(app_definitions2.ExperimentCongestionWindowAggressive) {
+		ctl.Feature().Experiment(app_definitions.ExperimentCongestionWindowNoLimit))
+	if ctl.Feature().Experiment(app_definitions.ExperimentCongestionWindowAggressive) {
 		ctl.Log().Debug("Enable aggressive initial window")
 		nw_congestion.SetInitCongestionWindow(com.Concurrency)
 	}
@@ -237,11 +240,39 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		jl.Down(err, ctl)
 		app_exit.Abort(app_exit.FatalRuntime)
 	}
-	if ctl.Feature().IsProduction() && len(rcp.ConnScopes()) > 0 {
+	if ctl.Feature().IsProduction() && ctl.Feature().Experiment(app_definitions.ExperimentValidateNetworkConnectionOnBootstrap) {
 		if err = nw_diag.Network(ctl); err != nil {
 			jl.Down(err, ctl)
 			app_exit.Abort(app_exit.FatalNetwork)
 		}
+	}
+
+	// License
+	license := app_license.NewLicenseBundleFromKeys(
+		app_license_key.AvailableKeys(),
+		wb.Workspace().Secrets(),
+	)
+
+	// Check license
+	if !license.IsValid() && app_definitions.IsProduction() {
+		ui.Failure(MRun.ErrorLicenseExpired)
+		app_exit.Abort(app_exit.FailureLicenseExpired)
+	}
+
+	// Check lifecycle
+	if active, warn := license.IsLifecycleWithinLimit(); !active && app_definitions.IsProduction() {
+		ui.Failure(MRun.ErrorLifecycleEnded)
+		app_exit.Abort(app_exit.FailureBinaryExpired)
+	} else if warn {
+		ui.Info(MRun.WarnLifecycleNearEnd.With(
+			"Expiration",
+			license.LifecycleLimit().Format(time.RFC3339)))
+	}
+
+	// Check license of the recipe
+	if rcp.IsLicenseRequired() && !license.IsRecipeEnabled(rcp.CliPath()) {
+		ui.Failure(MRun.ErrorLicenseRequired.With("CliPath", rcp.CliPath()))
+		app_exit.Abort(app_exit.FailureLicenseRequired)
 	}
 
 	// Bootstrap recipe
@@ -254,12 +285,12 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// Apply profiler
 	var prof interface{ Stop() }
-	if ctl.Feature().IsDebug() || ctl.Feature().Experiment(app_definitions2.ExperimentProfileMemory) {
+	if ctl.Feature().IsDebug() || ctl.Feature().Experiment(app_definitions.ExperimentProfileMemory) {
 		prof = profile.Start(
 			profile.ProfilePath(ctl.Workspace().Log()),
 			profile.MemProfile,
 		)
-	} else if ctl.Feature().Experiment(app_definitions2.ExperimentProfileCpu) {
+	} else if ctl.Feature().Experiment(app_definitions.ExperimentProfileCpu) {
 		prof = profile.Start(
 			profile.ProfilePath(ctl.Workspace().Log()),
 			profile.CPUProfile,
@@ -309,7 +340,7 @@ func (z bsImpl) bootUI() app_ui.UI {
 
 func (z *bsImpl) ParseCommon(args []string, ignoreErrors bool) (rem []string, com *rc_spec.CommonValues) {
 	comSpec := rc_spec.NewCommonValue()
-	f := flag.NewFlagSet(app_definitions2.Name, flag.ContinueOnError)
+	f := flag.NewFlagSet(app_definitions.Name, flag.ContinueOnError)
 	ui := z.bootUI()
 	comSpec.SetFlags(f, ui)
 	err := f.Parse(rem)
@@ -337,14 +368,14 @@ func (z *bsImpl) Parse(args ...string) (rcp rc_recipe.Spec, com *rc_spec.CommonV
 	case err != nil:
 		ui.Error(MRun.ErrorInvalidArgument.With("Args", strings.Join(args, " ")))
 		if grp != nil {
-			grp.PrintUsage(ui, os.Args[0], app_definitions2.BuildId)
+			grp.PrintUsage(ui, os.Args[0], app_definitions.BuildId)
 		} else {
-			rg.PrintUsage(ui, os.Args[0], app_definitions2.BuildId)
+			rg.PrintUsage(ui, os.Args[0], app_definitions.BuildId)
 		}
 		app_exit.Abort(app_exit.FailureInvalidCommand)
 
 	case rcp == nil:
-		grp.PrintUsage(ui, os.Args[0], app_definitions2.BuildId)
+		grp.PrintUsage(ui, os.Args[0], app_definitions.BuildId)
 		app_exit.ExitSuccess()
 	}
 

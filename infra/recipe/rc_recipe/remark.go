@@ -21,6 +21,11 @@ type RemarkRecipeTransient interface {
 	IsTransient() bool
 }
 
+type RemarkRecipeLicenseRequired interface {
+	// IsLicenseRequired returns true if the operation requires a license.
+	IsLicenseRequired() bool
+}
+
 type RemarkSecret struct {
 }
 
@@ -60,5 +65,12 @@ type RemarkDeprecated struct {
 }
 
 func (z RemarkDeprecated) IsDeprecated() bool {
+	return true
+}
+
+type RemarkLicenseRequired struct {
+}
+
+func (z RemarkLicenseRequired) IsLicenseRequired() bool {
 	return true
 }

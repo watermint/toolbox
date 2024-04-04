@@ -1,21 +1,34 @@
 package resources
 
 import (
+	"encoding/base32"
 	"encoding/json"
 	"github.com/watermint/toolbox/essentials/go/es_resource"
+	"golang.org/x/crypto/sha3"
 	"strings"
 	"time"
 )
 
 type BuildInfo struct {
-	Version    string `json:"version"`
-	Hash       string `json:"hash"`
-	Branch     string `json:"branch"`
-	Timestamp  string `json:"timestamp"`
-	Year       int    `json:"year"`
-	Zap        string `json:"zap"`
-	Xap        string `json:"xap"`
-	Production bool   `json:"production"`
+	Version     string `json:"version"`
+	Hash        string `json:"hash"`
+	Branch      string `json:"branch"`
+	Timestamp   string `json:"timestamp"`
+	Year        int    `json:"year"`
+	Zap         string `json:"zap"`
+	Xap         string `json:"xap"`
+	Production  bool   `json:"production"`
+	LicenseSalt string `json:"license_salt"`
+}
+
+type License struct {
+	Release    uint64 `json:"release"`
+	Key        string `json:"key"`
+	HashedSalt string `json:"hashed_salt"`
+}
+
+type Licenses struct {
+	Licenses []*License `json:"licenses"`
 }
 
 var (
@@ -61,21 +74,51 @@ func ReleaseNotes() string {
 	return string(rel)
 }
 
+func ReleaseLicenses() Licenses {
+	relData, err := CurrentBundle.Release().Bytes("release_license")
+	if err != nil {
+		return Licenses{Licenses: make([]*License, 0)}
+	}
+	licenses := Licenses{}
+	if err := json.Unmarshal(relData, &licenses); err != nil {
+		return Licenses{Licenses: make([]*License, 0)}
+	}
+	return licenses
+}
+
+// ReleaseLicense release license key for the current release.
+func ReleaseLicense(release uint64, hashedSalt string) string {
+	licenses := ReleaseLicenses()
+
+	for _, r := range licenses.Licenses {
+		if r.Release == release && r.HashedSalt == hashedSalt {
+			return r.Key
+		}
+	}
+	return ""
+}
+
 func Build() BuildInfo {
 	return BuildFromResource(CurrentBundle.Build())
 }
 
 func buildInfoFallback() BuildInfo {
 	return BuildInfo{
-		Version:    "",
-		Hash:       "",
-		Branch:     "",
-		Timestamp:  time.Now().UTC().Format(time.RFC3339),
-		Year:       time.Now().UTC().Year(),
-		Zap:        "",
-		Xap:        "",
-		Production: false,
+		Version:     "",
+		Hash:        "",
+		Branch:      "",
+		Timestamp:   time.Now().UTC().Format(time.RFC3339),
+		Year:        time.Now().UTC().Year(),
+		Zap:         "",
+		Xap:         "",
+		Production:  false,
+		LicenseSalt: LicenseSalt(),
 	}
+}
+
+func (z BuildInfo) HashedSalt() string {
+	hashed := sha3.Sum384([]byte("RELEASE_KEY:" + z.LicenseSalt))
+	return base32.StdEncoding.EncodeToString(hashed[:])[:32]
 }
 
 func BuildFromResource(res es_resource.Resource) BuildInfo {

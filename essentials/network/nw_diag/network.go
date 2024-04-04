@@ -24,7 +24,7 @@ var (
 	MNetwork        = app_msg.Apply(&MsgNetwork{}).(*MsgNetwork)
 	NetworkDiagUrls = []string{
 		"https://www.dropbox.com",
-		"https://api.dropboxapi.com",
+		"https://www.github.com",
 	}
 )
 

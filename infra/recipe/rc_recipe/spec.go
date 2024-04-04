@@ -125,6 +125,9 @@ type Spec interface {
 	// IsPruned returns true if the recipe has removed
 	IsPruned() bool
 
+	// IsLicenseRequired returns true if the operation requires a license that explicitly approve run this recipe.
+	IsLicenseRequired() bool
+
 	// Print usage
 	PrintUsage(ui app_ui.UI)
 

@@ -6,7 +6,7 @@ Dropbox、Figma、Google、GitHubなどのウェブサービス用の多目的�
 
 # watermint toolboxでもっとできること
 
-watermint toolboxには、日々の作業を解決するための299コマンドが用意されています. 例えば、あなたがDropbox for teamsの管理者で、グループを管理する必要がある場合。グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
+watermint toolboxには、日々の作業を解決するための301コマンドが用意されています. 例えば、あなたがDropbox for teamsの管理者で、グループを管理する必要がある場合。グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -33,11 +33,11 @@ brew install toolbox
 
 # ライセンスと免責条項
 
-watermint toolboxはMITライセンスのもと配布されています.
+watermint toolboxはApache License, Version 2.0でライセンスされています。
 詳細はファイル LICENSE.mdまたは LICENSE.txt ご参照ください.
 
 以下にご留意ください:
-> ソフトウェアは「現状のまま」で、明示であるか暗黙であるかを問わず、何らの保証もなく提供されます。ここでいう保証とは、商品性、特定の目的への適合性、および権利非侵害についての保証も含みますが、それに限定されるものではありません。
+> Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
 
 # セキュリティとプライバシー
 
@@ -51,4 +51,10 @@ watermint toolboxは、Dropbox のようなサービスとご自身のアカウ�
 
 APIトークンなどの機密データのほとんどは、難読化されてアクセス制限された状態でPCのストレージに保存されています. しかし、それらのデータを秘密にするのはあなたの責任です.
 特に、ツールボックスのワークパスの下にある`secrets`フォルダ(デフォルトでは`C:\Users\<ユーザー名>\.toolbox`、または`$HOME/.toolbox`フォルダ以下)は共有しないでください。
+
+## 使用するコマンドの対象となるサービス以外のインターネットアクセス
+
+watermintツールボックスには、重大なバグやセキュリティ上の問題がある特定のリリースを無効にする機能があります。これは、約30日に1度、GitHubにホストされているリポジトリからデータを取得し、リリースのステータスをチェックすることによって行われます。
+このアクセスは、あなたの個人データ（Dropbox、Google、ローカルファイル、トークンなど）を収集することはありません。これはリリースステータスをチェックするだけですが、副次的な効果として、データをダウンロードする際にあなたのIPアドレスがGitHubに送信されます。IPアドレスもPIIであることは承知しています。しかし、これは一般のウェブサイトを訪問するのと同じであり、特別な操作ではありません。
+watermint toolboxプロジェクトの管理者は、これらのファイルが何回ダウンロードされたかを確認することもできません。
 

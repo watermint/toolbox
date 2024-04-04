@@ -37,8 +37,10 @@ type SecurityDesc struct {
 	HeaderTitle                   app_msg.Message
 	HeaderInformationNotCollected app_msg.Message
 	HeaderSensitiveData           app_msg.Message
+	HeaderLifecycleManagement     app_msg.Message
 	BodyInformationNotCollected   app_msg.Message
 	BodySensitiveData             app_msg.Message
+	BodyLifecycleManagement       app_msg.Message
 }
 
 func (z SecurityDesc) Title() app_msg.Message {
@@ -51,4 +53,7 @@ func (z SecurityDesc) Body(ui app_ui.UI) {
 	ui.Break()
 	ui.SubHeader(z.HeaderSensitiveData)
 	ui.Info(z.BodySensitiveData)
+	ui.Break()
+	ui.SubHeader(z.HeaderLifecycleManagement)
+	ui.Info(z.BodyLifecycleManagement)
 }

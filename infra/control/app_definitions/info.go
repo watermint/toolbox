@@ -27,8 +27,7 @@ var (
 	LandingPage                 = "https://toolbox.watermint.org"
 	DefaultWebPort              = 7800
 	LifecycleExpirationWarning  = LifecycleExpirationCritical - 30*24*time.Hour // T-30 days
-	LifecycleExpirationCritical = 365 * 24 * time.Hour                          // 365 days
-	LifecycleExpirationMode     = LifecycleExpirationWarningOnly
+	LifecycleExpirationCritical = 3 * 365 * 24 * time.Hour                      // 3 years
 	LifecycleUpgradeUrl         = "https://github.com/watermint/toolbox/releases/latest"
 )
 

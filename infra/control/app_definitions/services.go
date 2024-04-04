@@ -5,9 +5,9 @@ const (
 	ServiceDropboxTeam       = "dropbox_team"
 	ServiceDropboxSign       = "dropbox_sign"
 	ServiceGithub            = "github"
-	ServiceGoogleMail        = "google_mail"
-	ServiceGoogleSheets      = "google_sheets"
-	ServiceGoogleCalendar    = "google_calendar"
+	ServiceGoogleMail        = "google_mail2024"     // Adding 2024 to avoid conflict with existing auth data #777
+	ServiceGoogleSheets      = "google_sheets2024"   // Adding 2024 to avoid conflict with existing auth data #777
+	ServiceGoogleCalendar    = "google_calendar2024" // Adding 2024 to avoid conflict with existing auth data #777
 	ServiceGoogleTranslate   = "google_translate"
 	ServiceAsana             = "asana"
 	ServiceDeepl             = "deepl"

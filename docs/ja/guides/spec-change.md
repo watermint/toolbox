@@ -12,9 +12,6 @@ lang: ja
 
 | 旧パス                                                                                              | 現在のパス                                          | コマンドの説明                                                                          | 日付                 |
 |-----------------------------------------------------------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------------------------------------------|----------------------|
-| [config disable](https://github.com/watermint/toolbox/discussions/795)                              | config feature disable                              | 機能を無効化します.                                                                     | 2024-04-01T00:00:00Z |
-| [config enable](https://github.com/watermint/toolbox/discussions/795)                               | config feature enable                               | 機能を有効化します.                                                                     | 2024-04-01T00:00:00Z |
-| [config features](https://github.com/watermint/toolbox/discussions/795)                             | config feature list                                 | 利用可能なオプション機能一覧.                                                           | 2024-04-01T00:00:00Z |
 | [services deepl translate text](https://github.com/watermint/toolbox/discussions/797)               | deepl translate text                                | テキストを翻訳する                                                                      | 2024-06-30T15:00:00Z |
 | [services dropbox user feature](https://github.com/watermint/toolbox/discussions/797)               | dropbox file account feature                        | Dropboxアカウントの機能一覧                                                             | 2024-06-30T15:00:00Z |
 | [services dropbox user filesystem](https://github.com/watermint/toolbox/discussions/797)            | dropbox file account filesystem                     | Dropboxのファイルシステムのバージョンを表示する                                         | 2024-06-30T15:00:00Z |
@@ -236,12 +233,6 @@ lang: ja
 | [services google sheets spreadsheet create](https://github.com/watermint/toolbox/discussions/797)   | google sheets spreadsheet create                    | 新しいスプレッドシートの作成                                                            | 2024-06-30T15:00:00Z |
 | [file template apply local](https://github.com/watermint/toolbox/discussions/799)                   | local file template apply                           | ファイル/フォルダー構造のテンプレートをローカルパスに適用する                           | 2024-06-30T15:00:00Z |
 | [file template capture local](https://github.com/watermint/toolbox/discussions/799)                 | local file template capture                         | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む                       | 2024-06-30T15:00:00Z |
-| [job log jobid](https://github.com/watermint/toolbox/discussions/794)                               | log cat job                                         | 指定したジョブIDのログを取得する                                                        | 2024-04-01T00:00:00Z |
-| [job log kind](https://github.com/watermint/toolbox/discussions/794)                                | log cat kind                                        | 指定種別のログを結合して出力します                                                      | 2024-04-01T00:00:00Z |
-| [job log last](https://github.com/watermint/toolbox/discussions/794)                                | log cat last                                        | 最後のジョブのログファイルを出力.                                                       | 2024-04-01T00:00:00Z |
-| [job history archive](https://github.com/watermint/toolbox/discussions/794)                         | log job archive                                     | ジョブのアーカイブ                                                                      | 2024-04-01T00:00:00Z |
-| [job history delete](https://github.com/watermint/toolbox/discussions/794)                          | log job delete                                      | 古いジョブ履歴の削除                                                                    | 2024-04-01T00:00:00Z |
-| [job history list](https://github.com/watermint/toolbox/discussions/794)                            | log job list                                        | ジョブ履歴の表示                                                                        | 2024-04-01T00:00:00Z |
 
 # 非推奨
 

@@ -7,6 +7,7 @@ import (
 	recipe "github.com/watermint/toolbox/recipe"
 	recipeconfigauth "github.com/watermint/toolbox/recipe/config/auth"
 	recipeconfigfeature "github.com/watermint/toolbox/recipe/config/feature"
+	recipeconfiglicense "github.com/watermint/toolbox/recipe/config/license"
 	recipedev "github.com/watermint/toolbox/recipe/dev"
 	recipedevbenchmark "github.com/watermint/toolbox/recipe/dev/benchmark"
 	recipedevbuild "github.com/watermint/toolbox/recipe/dev/build"
@@ -14,6 +15,7 @@ import (
 	recipedevciauth "github.com/watermint/toolbox/recipe/dev/ci/auth"
 	recipedevdiag "github.com/watermint/toolbox/recipe/dev/diag"
 	recipedevkvs "github.com/watermint/toolbox/recipe/dev/kvs"
+	recipedevlicense "github.com/watermint/toolbox/recipe/dev/license"
 	recipedevlifecycle "github.com/watermint/toolbox/recipe/dev/lifecycle"
 	recipedevmodule "github.com/watermint/toolbox/recipe/dev/module"
 	recipedevplaceholder "github.com/watermint/toolbox/recipe/dev/placeholder"
@@ -21,8 +23,6 @@ import (
 	recipedevreplay "github.com/watermint/toolbox/recipe/dev/replay"
 	recipedevspec "github.com/watermint/toolbox/recipe/dev/spec"
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
-	recipedevtestauth "github.com/watermint/toolbox/recipe/dev/test/auth"
-	recipedevtestsetup "github.com/watermint/toolbox/recipe/dev/test/setup"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
 	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
@@ -72,6 +72,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeconfigfeature.Disable{},
 		&recipeconfigfeature.Enable{},
 		&recipeconfigfeature.List{},
+		&recipeconfiglicense.List{},
 		&recipedev.Info{},
 		&recipedevbenchmark.Local{},
 		&recipedevbenchmark.Upload{},
@@ -89,14 +90,17 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevdiag.Throughput{},
 		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
+		&recipedevlicense.Issue{},
 		&recipedevlifecycle.Planchangepath{},
 		&recipedevlifecycle.Planprune{},
 		&recipedevmodule.List{},
 		&recipedevplaceholder.Pathchange{},
 		&recipedevplaceholder.Prune{},
+		&recipedevrelease.Announcement{},
 		&recipedevrelease.Asset{},
 		&recipedevrelease.Asseturl{},
 		&recipedevrelease.Candidate{},
+		&recipedevrelease.Checkin{},
 		&recipedevrelease.Doc{},
 		&recipedevrelease.Publish{},
 		&recipedevreplay.Approve{},
@@ -106,12 +110,10 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevspec.Diff{},
 		&recipedevspec.Doc{},
 		&recipedevtest.Echo{},
+		&recipedevtest.License{},
 		&recipedevtest.Panic{},
 		&recipedevtest.Recipe{},
 		&recipedevtest.Resources{},
-		&recipedevtestauth.All{},
-		&recipedevtestsetup.Massfiles{},
-		&recipedevtestsetup.Teamsharedlink{},
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Wait{},
 		&recipedevutilimage.Jpeg{},
