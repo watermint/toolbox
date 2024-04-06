@@ -9,7 +9,7 @@ import (
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/infra/doc/dc_readme"
+	"github.com/watermint/toolbox/infra/doc/dc_announcement"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -48,7 +48,7 @@ func (z *Announcement) Preset() {
 	z.Owner = "watermint"
 	z.Repository = "toolbox"
 	z.CategoryId = "DIC_kwDOBFqRm84CQesd"
-	z.Announcements.SetModel(&dc_readme.AnnouncementNode{})
+	z.Announcements.SetModel(&dc_announcement.AnnouncementNode{})
 }
 
 func (z *Announcement) Exec(c app_control.Control) error {
@@ -90,7 +90,7 @@ func (z *Announcement) Exec(c app_control.Control) error {
 	}
 
 	err = result.FindArrayEach("data.repository.discussions.nodes", func(e es_json.Json) error {
-		a := &dc_readme.AnnouncementNode{}
+		a := &dc_announcement.AnnouncementNode{}
 		if err := e.Model(a); err != nil {
 			l.Debug("Unable to parse announcement", esl.Error(err))
 			return err

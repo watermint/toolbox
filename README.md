@@ -29,15 +29,6 @@ brew tap watermint/toolbox
 brew install toolbox
 ```
 
-# Announcements
-
-* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
-* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
-* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
-* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
-* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
-* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
-
 # Product lifecycle
 
 ## Maintenance policy
@@ -64,6 +55,15 @@ Changes in specifications will be announced at [Announcements](https://github.co
 ## Availability period for each release
 
 In general, new security issues are discovered every day. In order not to leave these security and critical issues unaddressed by continuing to use older watermint toolbox releases, a maximum availability period has been set for release 130 and above. Please see [#815](https://github.com/watermint/toolbox/discussions/815) for more details.
+
+# Announcements
+
+* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
+* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
+* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
+* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
+* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
 
 # Security and privacy
 
