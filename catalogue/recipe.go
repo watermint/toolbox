@@ -127,7 +127,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipelogjob.Archive{},
 		&recipelogjob.Delete{},
 		&recipelogjob.List{},
-		&recipelogjob.Ship{},
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},
