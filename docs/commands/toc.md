@@ -300,6 +300,8 @@ lang: en
 | [license]({{ site.baseurl }}/commands/license.html)                                                                           | Show license information                                             |
 | [local file template apply]({{ site.baseurl }}/commands/local-file-template-apply.html)                                       | Apply file/folder structure template to the local path               |
 | [local file template capture]({{ site.baseurl }}/commands/local-file-template-capture.html)                                   | Capture file/folder structure as template from local path            |
+| [log api job]({{ site.baseurl }}/commands/log-api-job.html)                                                                   | Show statistics of the API log of the job specified by the job ID    |
+| [log api name]({{ site.baseurl }}/commands/log-api-name.html)                                                                 | Show statistics of the API log of the job specified by the job name  |
 | [log cat curl]({{ site.baseurl }}/commands/log-cat-curl.html)                                                                 | Format capture logs as `curl` sample                                 |
 | [log cat job]({{ site.baseurl }}/commands/log-cat-job.html)                                                                   | Retrieve logs of specified Job ID                                    |
 | [log cat kind]({{ site.baseurl }}/commands/log-cat-kind.html)                                                                 | Concatenate and print logs of specified log kind                     |
