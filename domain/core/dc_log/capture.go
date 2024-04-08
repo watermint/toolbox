@@ -185,6 +185,10 @@ func (z caImpl) AggregateTimeSeries(handler func(r *TimeSeries)) error {
 				return err
 			}
 
+			if len(codes) == 0 {
+				continue
+			}
+
 			code2xx := int64(0)
 			code3xx := int64(0)
 			code4xx := int64(0)
