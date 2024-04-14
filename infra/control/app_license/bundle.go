@@ -13,7 +13,7 @@ var (
 func NewLicenseBundleFromKeys(keys []string, path string) LicenseBundle {
 	licenses := make([]*LicenseData, 0)
 	for _, k := range keys {
-		l, err := LoadAndCacheLicense(k, app_definitions.RepositorySupplementLicenseUrl, path)
+		l, err := LoadAndCacheLicense(k, app_definitions.SupplementRepositoryLicenseUrl, path)
 		if err != nil {
 			continue
 		}

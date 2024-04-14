@@ -542,7 +542,7 @@ func (z *RepositoryImpl) ApplyFlags(f *flag.FlagSet, ui app_ui.UI) {
 
 func (z *RepositoryImpl) fieldMessageKeyBase() string {
 	key := z.rcpName
-	key = strings.ReplaceAll(key, app_definitions.Pkg+"/", "")
+	key = strings.ReplaceAll(key, app_definitions.CorePkg+"/", "")
 	key = strings.ReplaceAll(key, "/", ".")
 	return key + ".flag."
 }

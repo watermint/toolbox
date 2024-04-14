@@ -33,11 +33,11 @@ type Checkin struct {
 }
 
 func (z *Checkin) Preset() {
-	z.SupplementOwner = app_definitions.RepositorySupplementOwner
-	z.SupplementRepo = app_definitions.RepositorySupplementName
+	z.SupplementOwner = app_definitions.SupplementRepositoryOwner
+	z.SupplementRepo = app_definitions.SupplementRepositoryName
 	z.SupplementBranch = "main"
-	z.Owner = app_definitions.RepositoryOwner
-	z.Repo = app_definitions.RepositoryName
+	z.Owner = app_definitions.ApplicationRepositoryOwner
+	z.Repo = app_definitions.ApplicationRepositoryName
 	z.Branch = "main"
 }
 

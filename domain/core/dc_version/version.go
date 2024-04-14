@@ -57,7 +57,7 @@ func VersionComponents(ui app_ui.UI) []*VersionInfo {
 	})
 	components = append(components, &VersionInfo{
 		Key:       "core.release",
-		Component: app_definitions.Pkg,
+		Component: app_definitions.CorePkg,
 		Version:   resources.CoreRelease(),
 	})
 	components = append(components, &VersionInfo{

@@ -3,21 +3,29 @@ package app_definitions
 import "github.com/watermint/toolbox/resources"
 
 // Project information
+const (
+	// CoreRepositoryOwner is the owner of the core repository.
+	CoreRepositoryOwner = "watermint"
+
+	// CoreRepositoryName is the name of the core repository.
+	CoreRepositoryName = "toolbox"
+
+	// CorePkg is the package name of the core repository.
+	CorePkg = "github.com/" + CoreRepositoryOwner + "/" + CoreRepositoryName
+
+	// SupplementRepositoryOwner is the owner of the supplement repository.
+	SupplementRepositoryOwner = "watermint"
+
+	// SupplementRepositoryName is the name of the supplement repository.
+	SupplementRepositoryName = "toolbox-supplement"
+
+	// SupplementRepositoryLicenseUrl is the URL of the license files
+	SupplementRepositoryLicenseUrl = "https://raw.githubusercontent.com/watermint/toolbox-supplement/main/licenses/"
+)
+
 var (
-	// project owner on GitHub
-	RepositoryOwner = "watermint"
-
-	// Project name on GitHub
-	RepositoryName = "toolbox"
-
-	// Package name
-	Pkg = "github.com/" + RepositoryOwner + "/" + RepositoryName
-
-	RepositorySupplementOwner = "watermint"
-	RepositorySupplementName  = "toolbox-supplement"
-
-	// LicenseUrl is the URL of the license.
-	RepositorySupplementLicenseUrl = "https://raw.githubusercontent.com/watermint/toolbox-supplement/main/licenses/"
+	ApplicationRepositoryOwner = CoreRepositoryOwner
+	ApplicationRepositoryName  = CoreRepositoryName
 )
 
 // Project structure definitions
