@@ -3,7 +3,7 @@ package app_definitions
 import "github.com/watermint/toolbox/resources"
 
 // Project information
-const (
+var (
 	// project owner on GitHub
 	RepositoryOwner = "watermint"
 
