@@ -73,7 +73,6 @@ lang: en
 | [dropbox paper create]({{ site.baseurl }}/commands/dropbox-paper-create.html)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                                         | Append the content to the beginning of the existing Paper doc |
-| [log job ship]({{ site.baseurl }}/commands/log-job-ship.html)                                                           | Ship Job logs to Dropbox path                                 |
 | [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                                             | List files and folders in team space                          |
 | [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                                             | Start device monitor client                                   |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                                         | Package remote folder into the zip file                       |

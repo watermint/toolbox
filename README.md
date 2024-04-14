@@ -205,7 +205,6 @@ Available commands:
 | [dropbox paper create](docs/commands/dropbox-paper-create.md)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                                         | Append the content to the beginning of the existing Paper doc |
-| [log job ship](docs/commands/log-job-ship.md)                                                           | Ship Job logs to Dropbox path                                 |
 | [teamspace file list](docs/commands/teamspace-file-list.md)                                             | List files and folders in team space                          |
 | [util monitor client](docs/commands/util-monitor-client.md)                                             | Start device monitor client                                   |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                                         | Package remote folder into the zip file                       |
