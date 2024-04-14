@@ -64,6 +64,7 @@ type msgRun struct {
 	ErrorLifecycleEnded                   app_msg.Message
 	WarnLifecycleNearEnd                  app_msg.Message
 	WarnLifecycleErrorOnNonProductionMode app_msg.Message
+	WarnLicenseExpiredOnNonProductionMode app_msg.Message
 	ProgressInterruptedShutdown           app_msg.Message
 	InfoRecipeFailedLogLocation           app_msg.Message
 }
@@ -255,9 +256,13 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 	)
 
 	// Check license
-	if !license.IsValid() && app_definitions.IsProduction() {
-		ui.Failure(MRun.ErrorLicenseExpired)
-		app_exit.Abort(app_exit.FailureLicenseExpired)
+	if !license.IsValid() {
+		if app_definitions.IsProduction() {
+			ui.Failure(MRun.ErrorLicenseExpired)
+			app_exit.Abort(app_exit.FailureLicenseExpired)
+		} else {
+			ui.Error(MRun.WarnLicenseExpiredOnNonProductionMode)
+		}
 	}
 
 	// Check lifecycle
