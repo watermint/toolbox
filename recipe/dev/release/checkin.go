@@ -141,7 +141,10 @@ func (z *Checkin) releaseLicenseKey(c app_control.Control, targetRelease uint64)
 			ReasonEOL:      "",
 		}).
 		WithLicensee(
-			fmt.Sprintf("watermint toolbox, Release %d", targetRelease),
+			fmt.Sprintf("%s %s, Release %d",
+				app_definitions.ApplicationRepositoryOwner,
+				app_definitions.ApplicationRepositoryName,
+				targetRelease),
 			"",
 		).
 		WithBinding(
