@@ -1,12 +1,12 @@
 package release
 
 import (
-	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
+	"github.com/watermint/toolbox/domain/github/service/sv_content"
 	"github.com/watermint/toolbox/essentials/go/es_project"
-	"github.com/watermint/toolbox/essentials/http/es_download"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
@@ -18,7 +18,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
-	"text/template"
 	"time"
 )
 
@@ -43,29 +42,26 @@ func (z *Checkin) Preset() {
 
 func (z *Checkin) repoReleaseNumber(c app_control.Control) (release uint64, err error) {
 	l := c.Log()
-	urlPattern := "https://raw.githubusercontent.com/{{.Owner}}/{{.Name}}/{{.Branch}}/resources/release/release"
-	urlTemplate, err := template.New("url").Parse(urlPattern)
+
+	svc := sv_content.New(z.Peer.Client(), z.Owner, z.Repo)
+	releaseContent, err := svc.Get("resources/release/release", sv_content.Branch(z.Branch))
 	if err != nil {
-		l.Debug("Unable to parse template", esl.Error(err))
+		l.Debug("Unable to get release file", esl.Error(err))
 		return 0, err
 	}
-	urlBuf := &bytes.Buffer{}
-	err = urlTemplate.Execute(urlBuf, map[string]string{
-		"Owner":  z.Owner,
-		"Name":   z.Repo,
-		"Branch": z.Branch,
-	})
-	if err != nil {
-		l.Debug("Unable to execute template", esl.Error(err))
+	relFile, found := releaseContent.File()
+	if !found {
+		l.Debug("Unable to get release file", esl.Error(err))
 		return 0, err
 	}
-	url := urlBuf.String()
-	l.Debug("Release URL", esl.String("url", url))
-	releaseText, err := es_download.DownloadText(l, url)
+
+	relContent, err := base64.StdEncoding.DecodeString(relFile.Content)
 	if err != nil {
-		l.Debug("Unable to download release", esl.Error(err))
+		l.Debug("Unable to decode release file", esl.Error(err))
 		return 0, err
 	}
+	releaseText := strings.TrimSpace(string(relContent))
+
 	l.Debug("Release text", esl.String("text", releaseText))
 	if strings.TrimSpace(releaseText) == "" {
 		l.Debug("Empty release number")
