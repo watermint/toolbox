@@ -21,7 +21,8 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_spec"
 	"github.com/watermint/toolbox/quality/infra/qt_messages"
 	"github.com/watermint/toolbox/quality/infra/qt_msgusage"
-	"io/ioutil"
+	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -41,7 +42,11 @@ func (z *Doc) genDoc(path string, doc string, c app_control.Control) error {
 		_, _ = fmt.Fprintln(out, doc)
 		return nil
 	} else {
-		return ioutil.WriteFile(path, []byte(doc), 0644)
+		folderPath := filepath.Dir(path)
+		if err := os.MkdirAll(folderPath, 0755); err != nil {
+			return err
+		}
+		return os.WriteFile(path, []byte(doc), 0644)
 	}
 }
 
