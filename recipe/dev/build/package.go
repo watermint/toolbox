@@ -218,7 +218,7 @@ func (z *Package) Exec(c app_control.Control) error {
 			return err
 		}
 
-		verFilePath := filepath.Join(c.Workspace().Job(), app_definitions.BuildInfo.Branch, z.ExecutableName+"-"+z.platformName())
+		verFilePath := filepath.Join(c.Workspace().Job(), z.ExecutableName+"-"+z.platformName())
 		err = os.WriteFile(verFilePath, []byte(pkgPath), 0644)
 		if err != nil {
 			return err
