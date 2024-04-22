@@ -227,7 +227,7 @@ func (z *Package) Exec(c app_control.Control) error {
 		err = rc_exec.Exec(c, z.Up, func(r rc_recipe.Recipe) {
 			m := r.(*artifact.Up)
 			m.LocalPath = mo_path.NewFileSystemPath(verFilePath)
-			m.DropboxPath = mo_dbx_path.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app_definitions.BuildInfo.Branch, z.ExecutableName+"-"+z.platformName())))
+			m.DropboxPath = mo_dbx_path.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app_definitions.BuildInfo.Branch)))
 			m.PeerName = "deploy"
 		})
 		if err != nil {
