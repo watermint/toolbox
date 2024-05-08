@@ -9,6 +9,11 @@
       "release": 131,
       "key": "MV63WHPVXOE7GEOGDHQYFCN53JNNRRIKNPR",
       "hashed_salt": "BUPMD2LFXN3T6WMNU3TUEINGAOWJD37L"
+    },
+    {
+      "release": 132,
+      "key": "NZ3IOEIKM27X7FRXLWABFZEI3Q553ALSZEU",
+      "hashed_salt": "BUPMD2LFXN3T6WMNU3TUEINGAOWJD37L"
     }
   ]
 }
