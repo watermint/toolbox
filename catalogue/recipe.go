@@ -25,6 +25,7 @@ import (
 	recipedevtest "github.com/watermint/toolbox/recipe/dev/test"
 	recipedevutil "github.com/watermint/toolbox/recipe/dev/util"
 	recipedevutilimage "github.com/watermint/toolbox/recipe/dev/util/image"
+	recipelogapi "github.com/watermint/toolbox/recipe/log/api"
 	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
 	recipelogjob "github.com/watermint/toolbox/recipe/log/job"
 	recipeteamspaceasadminfile "github.com/watermint/toolbox/recipe/teamspace/asadmin/file"
@@ -117,6 +118,8 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevutil.Anonymise{},
 		&recipedevutil.Wait{},
 		&recipedevutilimage.Jpeg{},
+		&recipelogapi.Job{},
+		&recipelogapi.Name{},
 		&recipelogcat.Curl{},
 		&recipelogcat.Job{},
 		&recipelogcat.Kind{},
@@ -124,7 +127,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipelogjob.Archive{},
 		&recipelogjob.Delete{},
 		&recipelogjob.List{},
-		&recipelogjob.Ship{},
 		&recipeteamspaceasadminfile.List{},
 		&recipeteamspaceasadminfolder.Add{},
 		&recipeteamspaceasadminfolder.Delete{},

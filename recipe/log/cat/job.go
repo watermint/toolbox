@@ -16,7 +16,7 @@ import (
 type Job struct {
 	rc_recipe.RemarkTransient
 	Path              mo_string.OptionalString
-	Id                string
+	Id                mo_string.OptionalString
 	Kind              mo_string.SelectString
 	ErrorUnableToRead app_msg.Message
 }
@@ -40,8 +40,21 @@ func (z *Job) Exec(c app_control.Control) error {
 		out = es_stdout.NewDirectOut()
 	}
 
+	var jobId string
+	if z.Id.IsExists() {
+		jobId = z.Id.Value()
+	} else {
+		histories, err := app_job_impl.NewHistorian(c.Workspace()).Histories()
+		if err != nil {
+			return err
+		}
+		last := histories[len(histories)-1]
+		jobId = last.JobId()
+	}
+	l.Debug("JobId", esl.String("jobId", jobId))
+
 	for _, h := range histories {
-		if h.JobId() != z.Id {
+		if h.JobId() != jobId {
 			l.Debug("Skip", esl.String("jobId", h.JobId()))
 			continue
 		}
@@ -72,6 +85,6 @@ func (z *Job) Exec(c app_control.Control) error {
 func (z *Job) Test(c app_control.Control) error {
 	return rc_exec.Exec(c, &Job{}, func(r rc_recipe.Recipe) {
 		m := r.(*Job)
-		m.Id = "20200512-011129.010"
+		m.Id = mo_string.NewOptional("20200512-011129.010")
 	})
 }

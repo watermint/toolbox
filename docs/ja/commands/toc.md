@@ -73,7 +73,6 @@ lang: ja
 | [dropbox paper create]({{ site.baseurl }}/ja/commands/dropbox-paper-create.html)                                           | パスに新しいPaperを作成                                                   |
 | [dropbox paper overwrite]({{ site.baseurl }}/ja/commands/dropbox-paper-overwrite.html)                                     | 既存のPaperドキュメントを上書きする                                       |
 | [dropbox paper prepend]({{ site.baseurl }}/ja/commands/dropbox-paper-prepend.html)                                         | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [log job ship]({{ site.baseurl }}/ja/commands/log-job-ship.html)                                                           | ログの転送先Dropboxパス                                                   |
 | [teamspace file list]({{ site.baseurl }}/ja/commands/teamspace-file-list.html)                                             | チームスペースにあるファイルやフォルダーを一覧表示                        |
 | [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                                             | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote]({{ site.baseurl }}/ja/commands/util-tidy-pack-remote.html)                                         | リモートフォルダをZIPファイルにパッケージする                             |
@@ -210,6 +209,13 @@ lang: ja
 | [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)                                         | チームスペースのトップレベルフォルダーを削除する                                        |
 | [teamspace asadmin folder permdelete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-permdelete.html)                                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
+## Dropbox Sign
+
+| コマンド                                                                                                       | 説明                 |
+|----------------------------------------------------------------------------------------------------------------|----------------------|
+| [dropbox sign request list]({{ site.baseurl }}/ja/commands/dropbox-sign-request-list.html)                     | 署名依頼リスト       |
+| [dropbox sign request signature list]({{ site.baseurl }}/ja/commands/dropbox-sign-request-signature-list.html) | リクエストの署名一覧 |
+
 ## DeepL
 
 | コマンド                                                                         | 説明               |
@@ -300,6 +306,8 @@ lang: ja
 | [license]({{ site.baseurl }}/ja/commands/license.html)                                                                           | ライセンス情報を表示します                                             |
 | [local file template apply]({{ site.baseurl }}/ja/commands/local-file-template-apply.html)                                       | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
 | [local file template capture]({{ site.baseurl }}/ja/commands/local-file-template-capture.html)                                   | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
+| [log api job]({{ site.baseurl }}/ja/commands/log-api-job.html)                                                                   | ジョブIDで指定されたジョブのAPIログの統計情報を表示する                |
+| [log api name]({{ site.baseurl }}/ja/commands/log-api-name.html)                                                                 | ジョブ名で指定されたジョブのAPIログの統計情報を表示する                |
 | [log cat curl]({{ site.baseurl }}/ja/commands/log-cat-curl.html)                                                                 | キャプチャログを `curl` サンプルとしてフォーマットする                 |
 | [log cat job]({{ site.baseurl }}/ja/commands/log-cat-job.html)                                                                   | 指定したジョブIDのログを取得する                                       |
 | [log cat kind]({{ site.baseurl }}/ja/commands/log-cat-kind.html)                                                                 | 指定種別のログを結合して出力します                                     |

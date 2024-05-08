@@ -73,7 +73,6 @@ lang: en
 | [dropbox paper create]({{ site.baseurl }}/commands/dropbox-paper-create.html)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                                         | Append the content to the beginning of the existing Paper doc |
-| [log job ship]({{ site.baseurl }}/commands/log-job-ship.html)                                                           | Ship Job logs to Dropbox path                                 |
 | [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                                             | List files and folders in team space                          |
 | [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                                             | Start device monitor client                                   |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                                         | Package remote folder into the zip file                       |
@@ -210,6 +209,13 @@ lang: en
 | [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)                                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-permdelete.html)                                 | Permanently delete top level folder of the team space                               |
 
+## Dropbox Sign
+
+| Command                                                                                                     | Description                 |
+|-------------------------------------------------------------------------------------------------------------|-----------------------------|
+| [dropbox sign request list]({{ site.baseurl }}/commands/dropbox-sign-request-list.html)                     | List signature requests     |
+| [dropbox sign request signature list]({{ site.baseurl }}/commands/dropbox-sign-request-signature-list.html) | List signatures of requests |
+
 ## DeepL
 
 | Command                                                                       | Description    |
@@ -300,6 +306,8 @@ lang: en
 | [license]({{ site.baseurl }}/commands/license.html)                                                                           | Show license information                                             |
 | [local file template apply]({{ site.baseurl }}/commands/local-file-template-apply.html)                                       | Apply file/folder structure template to the local path               |
 | [local file template capture]({{ site.baseurl }}/commands/local-file-template-capture.html)                                   | Capture file/folder structure as template from local path            |
+| [log api job]({{ site.baseurl }}/commands/log-api-job.html)                                                                   | Show statistics of the API log of the job specified by the job ID    |
+| [log api name]({{ site.baseurl }}/commands/log-api-name.html)                                                                 | Show statistics of the API log of the job specified by the job name  |
 | [log cat curl]({{ site.baseurl }}/commands/log-cat-curl.html)                                                                 | Format capture logs as `curl` sample                                 |
 | [log cat job]({{ site.baseurl }}/commands/log-cat-job.html)                                                                   | Retrieve logs of specified Job ID                                    |
 | [log cat kind]({{ site.baseurl }}/commands/log-cat-kind.html)                                                                 | Concatenate and print logs of specified log kind                     |

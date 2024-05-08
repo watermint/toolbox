@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_license"
 	"golang.org/x/crypto/sha3"
 	"gorm.io/gorm"
+	"path/filepath"
 	"strings"
 )
 
@@ -28,7 +29,17 @@ func DefaultRegistryPath(base string) string {
 	tag := sha3.Sum384([]byte("REGISTRY_PATH:" + salt))
 	suffix := base32.HexEncoding.EncodeToString(tag[:])[:16]
 
-	return base + "/licenses_" + strings.ToLower(suffix) + ".db"
+	nameParts := []string{
+		"/licenses_",
+		strings.ToLower(suffix),
+		"_",
+		strings.ToLower(app_definitions.ApplicationRepositoryOwner),
+		"-",
+		strings.ToLower(app_definitions.ApplicationRepositoryName),
+		".db",
+	}
+
+	return filepath.Join(base, strings.Join(nameParts, ""))
 }
 
 var (

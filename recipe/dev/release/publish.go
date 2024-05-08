@@ -220,11 +220,11 @@ func (z *Publish) ghCtx(c app_control.Control) gh_client.Client {
 
 func (z *Publish) createTag(c app_control.Control) error {
 	l := c.Log().With(
-		esl.String("owner", app_definitions2.RepositoryOwner),
-		esl.String("repository", app_definitions2.RepositoryName),
+		esl.String("owner", app_definitions2.CoreRepositoryOwner),
+		esl.String("repository", app_definitions2.CoreRepositoryName),
 		esl.String("version", app_definitions2.BuildId),
 		esl.String("hash", app_definitions2.BuildInfo.Hash))
-	svt := sv_reference.New(z.ghCtx(c), app_definitions2.RepositoryOwner, app_definitions2.RepositoryName)
+	svt := sv_reference.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
 		"refs/tags/"+app_definitions2.BuildId,
@@ -243,8 +243,8 @@ func (z *Publish) createTag(c app_control.Control) error {
 
 func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel *mo_release.Release, err error) {
 	l := c.Log().With(
-		esl.String("owner", app_definitions2.RepositoryOwner),
-		esl.String("repository", app_definitions2.RepositoryName),
+		esl.String("owner", app_definitions2.CoreRepositoryOwner),
+		esl.String("repository", app_definitions2.CoreRepositoryName),
 		esl.String("version", app_definitions2.BuildId),
 		esl.String("hash", app_definitions2.BuildInfo.Hash))
 	ui := c.UI()
@@ -259,7 +259,7 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 		relName = ui.Text(z.ReleaseName.With("Version", app_definitions2.BuildId))
 	}
 
-	svr := sv_release.New(z.ghCtx(c), app_definitions2.RepositoryOwner, app_definitions2.RepositoryName)
+	svr := sv_release.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName)
 	rel, err = svr.CreateDraft(
 		app_definitions2.BuildId,
 		relName,
@@ -284,7 +284,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) (
 		return nil, err
 	}
 
-	sva := sv_release_asset.New(z.ghCtx(c), app_definitions2.RepositoryOwner, app_definitions2.RepositoryName, rel.Id)
+	sva := sv_release_asset.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName, rel.Id)
 
 	// filename -> asset info
 	uploaded = make(map[string]*mo_release_asset.Asset)
@@ -305,7 +305,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) (
 
 func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Release) error {
 	l := c.Log()
-	svr := sv_release.New(z.ghCtx(c), app_definitions2.RepositoryOwner, app_definitions2.RepositoryName)
+	svr := sv_release.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName)
 	published, err := svr.Publish(release.Id)
 	if err != nil {
 		l.Warn("Unable to publish the release", esl.Error(err))
@@ -419,8 +419,8 @@ func (z *Publish) Exec(c app_control.Control) error {
 
 	err = rc_exec.Exec(c, z.Asseturl, func(r rc_recipe.Recipe) {
 		m := r.(*Asseturl)
-		m.SourceOwner = app_definitions2.RepositoryOwner
-		m.SourceRepo = app_definitions2.RepositoryName
+		m.SourceOwner = app_definitions2.CoreRepositoryOwner
+		m.SourceRepo = app_definitions2.CoreRepositoryName
 		m.TargetOwner = homebrewRepoOwner
 		m.TargetRepo = homebrewRepoName
 		m.TargetBranch = homebrewRepoBranch

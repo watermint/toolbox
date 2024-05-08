@@ -10,7 +10,7 @@ import (
 
 func applyReflect(mot reflect.Type, mov reflect.Value) {
 	base := mot.PkgPath() + "." + es_case.ToLowerSnakeCase(mot.Name())
-	base = strings.ReplaceAll(base, app_definitions.Pkg+"/", "")
+	base = strings.ReplaceAll(base, app_definitions.CorePkg+"/", "")
 	base = strings.ReplaceAll(base, "/", ".")
 
 	nf := mot.NumField()

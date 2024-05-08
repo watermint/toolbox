@@ -1,6 +1,7 @@
 package dc_readme
 
 import (
+	"github.com/watermint/toolbox/infra/doc/dc_announcement"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -36,9 +37,9 @@ func (z Readme) Sections() []dc_section.Section {
 	sections = append(sections, NewLicense())
 	if z.forPublish {
 		sections = append(sections, NewRelease())
-		sections = append(sections, NewAnnouncements())
 		sections = append(sections, NewLifecycle())
 	}
+	sections = append(sections, dc_announcement.NewAnnouncements())
 	sections = append(sections, NewSecuritySection())
 	sections = append(sections, NewUsage())
 	if z.forPublish {

@@ -56,12 +56,12 @@ func IsWindows() bool {
 
 var (
 	PackagesBaseKey = []string{
-		Pkg,
+		CorePkg,
 	}
 
 	// Base packages for recipes
 	PackagesBaseRecipe = []string{
-		Pkg + "/citron",
-		Pkg + "/recipe",
+		CorePkg + "/citron",
+		CorePkg + "/recipe",
 	}
 )

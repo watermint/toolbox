@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `log job ship`
+title: Command `dropbox sign request list`
 lang: en
 ---
 
-# log job ship
+# dropbox sign request list
 
-Ship Job logs to Dropbox path 
+List signature requests 
 
 # Security
 
@@ -22,20 +22,18 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Sign: https://faq.hellosign.com/hc/en-us/articles/360035403131-HelloSign-API-accounts-and-how-to-find-your-API-key
 
 ## Auth scopes
 
-| Description                                                                                          |
-|------------------------------------------------------------------------------------------------------|
-| Dropbox: View basic information about your Dropbox account such as your username, email, and country |
-| Dropbox: View content of your Dropbox files and folders                                              |
-| Dropbox: Edit content of your Dropbox files and folders                                              |
+| Description                                         |
+|-----------------------------------------------------|
+| Dropbox Sign: Process request as authenticated user |
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your Dropbox account.
-Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
+For the first run, `tbx` will ask you an authentication with your DropboxSign account.
+Log in to Dropbox Sign and copy the API key of your application from API Integration. Enter the copied API key into tbx.
 ```
 
 watermint toolbox xx.x.xxx
@@ -44,13 +42,7 @@ watermint toolbox xx.x.xxx
 © 2016-2024 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-1. Visit the URL for the auth dialogue:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. Click 'Allow' (you might have to login first):
-3. Copy the authorisation code:
-Enter the authorisation code
+Please enter your credential(s).
 ```
 
 # Installation
@@ -67,12 +59,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe log job ship -dropbox-path /DROPBOX/PATH/TO/UPLOAD
+.\tbx.exe dropbox sign request list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx log job ship -dropbox-path /DROPBOX/PATH/TO/UPLOAD
+$HOME/Desktop/tbx dropbox sign request list 
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -83,10 +75,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option          | Description            | Default |
-|-----------------|------------------------|---------|
-| `-dropbox-path` | Dropbox path to upload |         |
-| `-peer`         | Account alias          | default |
+| Option        | Description                                                                                                                             | Default |
+|---------------|-----------------------------------------------------------------------------------------------------------------------------------------|---------|
+| `-account-id` | Which account to return SignatureRequests for. Must be a team member. Use `all` to indicate all team members. Defaults to your account. |         |
+| `-peer`       | Account alias                                                                                                                           | default |
 
 ## Common options:
 
@@ -121,31 +113,26 @@ Report file path will be displayed last line of the command line output. If you 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## Report: operation_log
+## Report: requests
 
-This report shows the transaction result.
-The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
+Signature request
+The command will generate a report in three different formats. `requests.csv`, `requests.json`, and `requests.xlsx`.
 
-| Column                             | Description                                                                                                          |
-|------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| status                             | Status of the operation                                                                                              |
-| reason                             | Reason of failure or skipped operation                                                                               |
-| input.job_id                       | Job ID                                                                                                               |
-| input.recipe_name                  | Command                                                                                                              |
-| result.id                          | A unique identifier for the file.                                                                                    |
-| result.tag                         | Type of entry. `file`, `folder`, or `deleted`                                                                        |
-| result.name                        | The last component of the path (including extension).                                                                |
-| result.path_lower                  | The lowercased full path in the user's Dropbox. This always starts with a slash.                                     |
-| result.path_display                | The cased path to be used for display purposes only.                                                                 |
-| result.client_modified             | For files, this is the modification time set by the desktop client when the file was added to Dropbox.               |
-| result.server_modified             | The last time the file was modified on Dropbox.                                                                      |
-| result.revision                    | A unique identifier for the current revision of a file.                                                              |
-| result.size                        | The file size in bytes.                                                                                              |
-| result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+| Column                  | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| signature_request_id    | The id of the SignatureRequest.                                             |
+| requester_email_address | The email address of the initiator of the SignatureRequest.                 |
+| title                   | The title the specified Account uses for the SignatureRequest.              |
+| subject                 | The subject in the email that was initially sent to the signers.            |
+| message                 | The custom message in the email that was initially sent to the signers.     |
+| created_at_rfc3339      | Time the signature request was created.                                     |
+| expires_at_rfc3339      | The time when the signature request will expire unsigned signatures.        |
+| is_complete             | Whether or not the SignatureRequest has been fully executed by all signers. |
+| is_declined             | Whether or not the SignatureRequest has been declined by a signer.          |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 
-In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `requests_0000.xlsx`, `requests_0001.xlsx`, `requests_0002.xlsx`, ...
 
 # Proxy configuration
 

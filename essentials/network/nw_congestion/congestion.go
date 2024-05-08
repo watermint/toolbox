@@ -14,6 +14,16 @@ const (
 	hardLimitCongestionWindow = 8
 )
 
+// Define log messages for log analysis
+const (
+	// LogCallerName is a caller name
+	LogCallerName = "nw_congestion/congestion.go"
+
+	// LogMsgResolvedConcurrency is a log when the congestion control resolved concurrency
+	LogMsgResolvedConcurrency = "Resolved concurrency"
+	LogMsgWaiterStatus        = "WaiterStatus"
+)
+
 var (
 	monitorDuration          = 1 * time.Minute
 	maxCongestionWindow      = runtime.NumCPU()
@@ -304,7 +314,7 @@ func (z *ccImpl) monitor() {
 					concurrencyMap[runner.Key] = 1
 				}
 			}
-			l.Debug("WaiterStatus",
+			l.Debug(LogMsgWaiterStatus,
 				esl.Any("runners", z.runners),
 				esl.Int("numRunners", len(z.runners)),
 				esl.Any("waiters", waiters),
@@ -379,7 +389,7 @@ func (z *ccImpl) noLockCalcConcurrency(key string, includeSelf bool) (concurrenc
 			waiters++
 		}
 	}
-	l.Debug("Resolved concurrency",
+	l.Debug(LogMsgResolvedConcurrency,
 		esl.String("key", key),
 		esl.Int("concurrency", concurrency),
 		esl.Int("waiters", waiters))

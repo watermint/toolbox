@@ -1,4 +1,2 @@
-* #811 : License change, from MIT License to Apache License 2.0
-* #810 : Better lifecycle management framework
-* #777 : Change Google's client ID
-* #814 : Better navigation path to announcements
+* #820 : Add API request/response log analysis commands
+* #512 : Add Dropbox Sign commands

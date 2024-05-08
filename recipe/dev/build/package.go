@@ -4,14 +4,14 @@ import (
 	"archive/zip"
 	"compress/flate"
 	"fmt"
-	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
+	mo_dbx_path "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_license"
 	"github.com/watermint/toolbox/infra/doc/dc_readme"
@@ -37,11 +37,11 @@ type Package struct {
 }
 
 func (z *Package) Preset() {
-	z.ExecutableName = app_definitions2.ExecutableName
+	z.ExecutableName = app_definitions.ExecutableName
 }
 
 func (z *Package) platformName() string {
-	target, ok := os.LookupEnv(app_definitions2.EnvNameToolboxBuildTarget)
+	target, ok := os.LookupEnv(app_definitions.EnvNameToolboxBuildTarget)
 	if ok {
 		switch target {
 		case "windows/amd64":
@@ -61,14 +61,14 @@ func (z *Package) platformName() string {
 
 func (z *Package) createPackage(c app_control.Control) (path string, err error) {
 	platform := z.platformName()
-	name := fmt.Sprintf("%s-%s-%s.zip", z.ExecutableName, app_definitions2.Version, platform)
+	name := fmt.Sprintf("%s-%s-%s.zip", z.ExecutableName, app_definitions.Version, platform)
 	l := c.Log().With(esl.String("name", name))
 	if err := os.MkdirAll(z.DistPath.Path(), 0755); err != nil {
 		return "", err
 	}
 
 	path = filepath.Join(z.DistPath.Path(), name)
-	buildTimestamp, err := time.Parse(time.RFC3339, app_definitions2.BuildInfo.Timestamp)
+	buildTimestamp, err := time.Parse(time.RFC3339, app_definitions.BuildInfo.Timestamp)
 	if err != nil {
 		return "", err
 	}
@@ -83,7 +83,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 	}()
 
 	pkg := zip.NewWriter(f)
-	if err = pkg.SetComment(fmt.Sprintf("%s %s, %s, %s", app_definitions2.Name, app_definitions2.Version, app_definitions2.Copyright, app_definitions2.LandingPage)); err != nil {
+	if err = pkg.SetComment(fmt.Sprintf("%s %s, %s, %s", app_definitions.Name, app_definitions.Version, app_definitions.Copyright, app_definitions.LandingPage)); err != nil {
 		return path, err
 	}
 	pkg.RegisterCompressor(zip.Deflate, func(out io.Writer) (io.WriteCloser, error) {
@@ -132,7 +132,7 @@ func (z *Package) createPackage(c app_control.Control) (path string, err error) 
 	{
 		binaryName := z.ExecutableName
 		binarySuffix := ""
-		target, ok := os.LookupEnv(app_definitions2.EnvNameToolboxBuildTarget)
+		target, ok := os.LookupEnv(app_definitions.EnvNameToolboxBuildTarget)
 		if ok {
 			switch target {
 			case "windows/amd64":
@@ -208,12 +208,32 @@ func (z *Package) Exec(c app_control.Control) error {
 	if z.DeployPath.IsExists() {
 		ea_indicator.SuppressIndicatorForce()
 
-		return rc_exec.Exec(c, z.Up, func(r rc_recipe.Recipe) {
+		err = rc_exec.Exec(c, z.Up, func(r rc_recipe.Recipe) {
 			m := r.(*artifact.Up)
 			m.LocalPath = mo_path.NewFileSystemPath(pkgPath)
-			m.DropboxPath = mo_path2.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app_definitions2.BuildInfo.Branch, z.ExecutableName+"-"+app_definitions2.BuildId)))
+			m.DropboxPath = mo_dbx_path.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app_definitions.BuildInfo.Branch, z.ExecutableName+"-"+app_definitions.BuildId)))
 			m.PeerName = "deploy"
 		})
+		if err != nil {
+			return err
+		}
+
+		pkgFilePath := filepath.Join(z.ExecutableName+"-"+app_definitions.BuildId, filepath.Base(pkgPath))
+		verFilePath := filepath.Join(c.Workspace().Job(), z.ExecutableName+"-"+z.platformName())
+		err = os.WriteFile(verFilePath, []byte(pkgFilePath), 0644)
+		if err != nil {
+			return err
+		}
+
+		err = rc_exec.Exec(c, z.Up, func(r rc_recipe.Recipe) {
+			m := r.(*artifact.Up)
+			m.LocalPath = mo_path.NewFileSystemPath(verFilePath)
+			m.DropboxPath = mo_dbx_path.NewDropboxPath(filepath.ToSlash(filepath.Join(z.DeployPath.Value(), app_definitions.BuildInfo.Branch)))
+			m.PeerName = "deploy"
+		})
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
@@ -228,7 +248,7 @@ func (z *Package) Test(c app_control.Control) error {
 		_ = os.RemoveAll(dest)
 	}()
 
-	binPath := filepath.Join(dest, app_definitions2.ExecutableName)
+	binPath := filepath.Join(dest, app_definitions.ExecutableName)
 	err = os.WriteFile(binPath, []byte("This is test content"), 0644)
 	if err != nil {
 		return err

@@ -2,6 +2,7 @@ package dc_web
 
 import (
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
+	"github.com/watermint/toolbox/infra/doc/dc_announcement"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_readme"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
@@ -38,6 +39,7 @@ func (z homeDoc) Sections() []dc_section.Section {
 		&homeUsage{},
 		dc_readme.NewRelease(),
 		dc_readme.NewLicense(),
+		dc_announcement.NewAnnouncements(),
 		dc_readme.NewSecuritySection(),
 	}
 }

@@ -29,15 +29,6 @@ brew tap watermint/toolbox
 brew install toolbox
 ```
 
-# Announcements
-
-* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
-* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
-* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
-* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
-* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
-* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
-
 # Product lifecycle
 
 ## Maintenance policy
@@ -64,6 +55,15 @@ Changes in specifications will be announced at [Announcements](https://github.co
 ## Availability period for each release
 
 In general, new security issues are discovered every day. In order not to leave these security and critical issues unaddressed by continuing to use older watermint toolbox releases, a maximum availability period has been set for release 130 and above. Please see [#815](https://github.com/watermint/toolbox/discussions/815) for more details.
+
+# Announcements
+
+* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
+* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
+* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
+* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
+* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
 
 # Security and privacy
 
@@ -205,7 +205,6 @@ Available commands:
 | [dropbox paper create](docs/commands/dropbox-paper-create.md)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                                         | Append the content to the beginning of the existing Paper doc |
-| [log job ship](docs/commands/log-job-ship.md)                                                           | Ship Job logs to Dropbox path                                 |
 | [teamspace file list](docs/commands/teamspace-file-list.md)                                             | List files and folders in team space                          |
 | [util monitor client](docs/commands/util-monitor-client.md)                                             | Start device monitor client                                   |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                                         | Package remote folder into the zip file                       |
@@ -342,6 +341,13 @@ Available commands:
 | [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete](docs/commands/teamspace-asadmin-folder-permdelete.md)                                 | Permanently delete top level folder of the team space                               |
 
+## Dropbox Sign
+
+| Command                                                                                     | Description                 |
+|---------------------------------------------------------------------------------------------|-----------------------------|
+| [dropbox sign request list](docs/commands/dropbox-sign-request-list.md)                     | List signature requests     |
+| [dropbox sign request signature list](docs/commands/dropbox-sign-request-signature-list.md) | List signatures of requests |
+
 ## DeepL
 
 | Command                                                       | Description    |
@@ -432,6 +438,8 @@ Available commands:
 | [license](docs/commands/license.md)                                                                           | Show license information                                             |
 | [local file template apply](docs/commands/local-file-template-apply.md)                                       | Apply file/folder structure template to the local path               |
 | [local file template capture](docs/commands/local-file-template-capture.md)                                   | Capture file/folder structure as template from local path            |
+| [log api job](docs/commands/log-api-job.md)                                                                   | Show statistics of the API log of the job specified by the job ID    |
+| [log api name](docs/commands/log-api-name.md)                                                                 | Show statistics of the API log of the job specified by the job name  |
 | [log cat curl](docs/commands/log-cat-curl.md)                                                                 | Format capture logs as `curl` sample                                 |
 | [log cat job](docs/commands/log-cat-job.md)                                                                   | Retrieve logs of specified Job ID                                    |
 | [log cat kind](docs/commands/log-cat-kind.md)                                                                 | Concatenate and print logs of specified log kind                     |

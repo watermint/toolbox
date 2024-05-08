@@ -1,4 +1,4 @@
-package dc_readme
+package dc_announcement
 
 import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"

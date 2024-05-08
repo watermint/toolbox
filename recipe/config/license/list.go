@@ -35,7 +35,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 	keys := app_license_key.AvailableKeys()
 	for _, key := range keys {
-		lic, err := app_license.LoadAndCacheLicense(key, app_definitions.RepositorySupplementLicenseUrl, c.Workspace().Secrets())
+		lic, err := app_license.LoadAndCacheLicense(key, app_definitions.SupplementRepositoryLicenseUrl, c.Workspace().Secrets())
 		if err != nil {
 			return err
 		}

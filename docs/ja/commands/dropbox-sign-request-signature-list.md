@@ -1,12 +1,12 @@
 ---
 layout: command
-title: コマンド `log job ship`
+title: コマンド `dropbox sign request signature list`
 lang: ja
 ---
 
-# log job ship
+# dropbox sign request signature list
 
-ログの転送先Dropboxパス 
+リクエストの署名一覧 
 
 # セキュリティ
 
@@ -22,20 +22,18 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
+* Dropbox Sign: https://faq.hellosign.com/hc/en-us/articles/360035403131-HelloSign-API-accounts-and-how-to-find-your-API-key
 
 ## 認可スコープ
 
-| 説明                                                                                   |
-|----------------------------------------------------------------------------------------|
-| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示                                 |
-| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集                                 |
+| 説明                                                         |
+|--------------------------------------------------------------|
+| Dropbox Sign: 認証されたユーザーとしてリクエストを処理します |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
-リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
+最初の実行では、`tbx`はあなたのDropboxSignアカウントへの認可を要求します.
+Dropbox Signにログインし、API IntegrationからアプリケーションのAPIキーをコピーします。コピーしたAPIキーをtbxに入力します。
 ```
 
 watermint toolbox xx.x.xxx
@@ -44,13 +42,7 @@ watermint toolbox xx.x.xxx
 © 2016-2024 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-1. 次のURLを開き認証ダイアログを開いてください:
-
-https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
-
-2. 'Allow'をクリックします (先にログインしておく必要があります):
-3. 認証コードをコピーします:
-認証コードを入力してください
+クレデンシャルを入力してください.
 ```
 
 # インストール
@@ -67,12 +59,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe log job ship -dropbox-path /DROPBOX/PATH/TO/UPLOAD
+.\tbx.exe dropbox sign request signature list 
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx log job ship -dropbox-path /DROPBOX/PATH/TO/UPLOAD
+$HOME/Desktop/tbx dropbox sign request signature list 
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -83,10 +75,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション      | 説明                      | デフォルト |
-|-----------------|---------------------------|------------|
-| `-dropbox-path` | アップロード先Dropboxパス |            |
-| `-peer`         | アカウントの別名          | default    |
+| オプション    | 説明                                                                                                                                               | デフォルト |
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------|------------|
+| `-account-id` | どのアカウントのSignatureRequestsを返すか。チームメンバーであること。チームメンバー全員を示すには`all`を使う。デフォルトはあなたのアカウントです。 |            |
+| `-peer`       | アカウントの別名                                                                                                                                   | default    |
 
 ## 共通のオプション:
 
@@ -121,31 +113,34 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
 | Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
 
-## レポート: operation_log
+## レポート: signatures
 
-このレポートは処理結果を出力します.
-このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+リクエストの署名データ。
+このコマンドはレポートを3種類の書式で出力します. `signatures.csv`, `signatures.json`, ならびに `signatures.xlsx`.
 
-| 列                                 | 説明                                                                                      |
-|------------------------------------|-------------------------------------------------------------------------------------------|
-| status                             | 処理の状態                                                                                |
-| reason                             | 失敗またはスキップの理由                                                                  |
-| input.job_id                       | ジョブID                                                                                  |
-| input.recipe_name                  | コマンド                                                                                  |
-| result.id                          | ファイルへの一意なID                                                                      |
-| result.tag                         | エントリーの種別`file`, `folder`, または `deleted`                                        |
-| result.name                        | 名称                                                                                      |
-| result.path_lower                  | パス (すべて小文字に変換). これは常にスラッシュで始まります.                              |
-| result.path_display                | パス (表示目的で大文字小文字を区別する).                                                  |
-| result.client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                              |
-| result.server_modified             | Dropbox上で最後に更新された日時                                                           |
-| result.revision                    | ファイルの現在バージョンの一意な識別子                                                    |
-| result.size                        | ファイルサイズ(バイト単位)                                                                |
-| result.has_explicit_shared_members | trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます. |
+| 列                      | 説明                                                                            |
+|-------------------------|---------------------------------------------------------------------------------|
+| signature_request_id    | SignatureRequest の id。                                                        |
+| signature_id            | 署名の識別子。                                                                  |
+| requester_email_address | SignatureRequestの開始者の電子メールアドレス。                                  |
+| title                   | 指定された Account が SignatureRequest に使用するタイトル。                     |
+| subject                 | 署名者に最初に送られた電子メールの件名。                                        |
+| message                 | 署名者に最初に送信された電子メールのカスタムメッセージ。                        |
+| created_at_rfc3339      | 署名要求が作成された時刻。                                                      |
+| expires_at_rfc3339      | 署名要求が未署名の署名を失効させる時間。                                        |
+| is_complete             | SignatureRequestがすべての署名者によって完全に実行されたかどうか。              |
+| is_declined             | SignatureRequest が署名者によって拒否されたかどうか。                           |
+| signer_email_address    | 署名者のEメールアドレス。                                                       |
+| signer_name             | 署名者の名前。                                                                  |
+| signer_role             | 署名者の役割。                                                                  |
+| order                   | 署名順が割り当てられている場合、これはこの署名者の0ベースのインデックスである。 |
+| status_code             | 署名の現在の状態。例：awaiting_signature、signed、declined。                    |
+| decline_reason          | 署名者が提示した、リクエストを拒否する理由。                                    |
+| signed_at_rfc3339       | 文書が署名された時刻、または空であった時刻。                                    |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `signatures_0000.xlsx`, `signatures_0001.xlsx`, `signatures_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
