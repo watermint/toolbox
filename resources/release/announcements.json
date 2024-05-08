@@ -4,6 +4,12 @@
       "discussions": {
         "nodes": [
           {
+            "number": 813,
+            "title": "License change : MIT License to Apache License, Version 2.0",
+            "updatedAt": "2024-04-04T23:11:21Z",
+            "url": "https://github.com/watermint/toolbox/discussions/813"
+          },
+          {
             "number": 815,
             "title": "Lifecycle: Availability period for each release",
             "updatedAt": "2024-04-03T16:25:42Z",
@@ -14,12 +20,6 @@
             "title": "Google commands require re-authentication on Release 130",
             "updatedAt": "2024-04-03T05:51:51Z",
             "url": "https://github.com/watermint/toolbox/discussions/793"
-          },
-          {
-            "number": 813,
-            "title": "License change : MIT License to Apache License, Version 2.0",
-            "updatedAt": "2024-04-01T15:49:31Z",
-            "url": "https://github.com/watermint/toolbox/discussions/813"
           },
           {
             "number": 799,

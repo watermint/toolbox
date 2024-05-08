@@ -29,15 +29,6 @@ brew tap watermint/toolbox
 brew install toolbox
 ```
 
-# お知らせ
-
-* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
-* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
-* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
-* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
-* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
-* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
-
 # 製品ライフサイクル
 
 ## メンテナンス ポリシー
@@ -64,6 +55,15 @@ brew install toolbox
 ## 各リリースの提供期間
 
 一般に、新しいセキュリティ問題は毎日発見されています。古いリリースのwatermint toolboxを使い続けることで、これらのセキュリティーやクリティカルな問題が未解決のまま放置されることのないよう、リリース130以上には最大利用可能期間が設定されています。詳しくは[#815](https://github.com/watermint/toolbox/discussions/815)をご覧ください。
+
+# お知らせ
+
+* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
+* [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
+* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
+* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
+* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
 
 # セキュリティとプライバシー
 
@@ -205,7 +205,6 @@ Dropbox用ツールとDropbox for teams
 | [dropbox paper create](docs/ja/commands/dropbox-paper-create.md)                                           | パスに新しいPaperを作成                                                   |
 | [dropbox paper overwrite](docs/ja/commands/dropbox-paper-overwrite.md)                                     | 既存のPaperドキュメントを上書きする                                       |
 | [dropbox paper prepend](docs/ja/commands/dropbox-paper-prepend.md)                                         | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [log job ship](docs/ja/commands/log-job-ship.md)                                                           | ログの転送先Dropboxパス                                                   |
 | [teamspace file list](docs/ja/commands/teamspace-file-list.md)                                             | チームスペースにあるファイルやフォルダーを一覧表示                        |
 | [util monitor client](docs/ja/commands/util-monitor-client.md)                                             | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                                         | リモートフォルダをZIPファイルにパッケージする                             |
@@ -342,6 +341,13 @@ Dropbox用ツールとDropbox for teams
 | [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                                         | チームスペースのトップレベルフォルダーを削除する                                        |
 | [teamspace asadmin folder permdelete](docs/ja/commands/teamspace-asadmin-folder-permdelete.md)                                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
+## Dropbox Sign
+
+| コマンド                                                                                       | 説明                 |
+|------------------------------------------------------------------------------------------------|----------------------|
+| [dropbox sign request list](docs/ja/commands/dropbox-sign-request-list.md)                     | 署名依頼リスト       |
+| [dropbox sign request signature list](docs/ja/commands/dropbox-sign-request-signature-list.md) | リクエストの署名一覧 |
+
 ## DeepL
 
 | コマンド                                                         | 説明               |
@@ -432,6 +438,8 @@ Dropbox用ツールとDropbox for teams
 | [license](docs/ja/commands/license.md)                                                                           | ライセンス情報を表示します                                             |
 | [local file template apply](docs/ja/commands/local-file-template-apply.md)                                       | ファイル/フォルダー構造のテンプレートをローカルパスに適用する          |
 | [local file template capture](docs/ja/commands/local-file-template-capture.md)                                   | ローカルパスからファイル/フォルダ構造をテンプレートとして取り込む      |
+| [log api job](docs/ja/commands/log-api-job.md)                                                                   | ジョブIDで指定されたジョブのAPIログの統計情報を表示する                |
+| [log api name](docs/ja/commands/log-api-name.md)                                                                 | ジョブ名で指定されたジョブのAPIログの統計情報を表示する                |
 | [log cat curl](docs/ja/commands/log-cat-curl.md)                                                                 | キャプチャログを `curl` サンプルとしてフォーマットする                 |
 | [log cat job](docs/ja/commands/log-cat-job.md)                                                                   | 指定したジョブIDのログを取得する                                       |
 | [log cat kind](docs/ja/commands/log-cat-kind.md)                                                                 | 指定種別のログを結合して出力します                                     |

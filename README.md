@@ -58,9 +58,9 @@ In general, new security issues are discovered every day. In order not to leave 
 
 # Announcements
 
+* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
 * [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
 * [#793 Google commands require re-authentication on Release 130](https://github.com/watermint/toolbox/discussions/793)
-* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
 * [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
 * [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
 * [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
@@ -340,6 +340,13 @@ Available commands:
 | [teamspace asadmin folder add](docs/commands/teamspace-asadmin-folder-add.md)                                               | Create top level folder in the team space                                           |
 | [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete](docs/commands/teamspace-asadmin-folder-permdelete.md)                                 | Permanently delete top level folder of the team space                               |
+
+## Dropbox Sign
+
+| Command                                                                                     | Description                 |
+|---------------------------------------------------------------------------------------------|-----------------------------|
+| [dropbox sign request list](docs/commands/dropbox-sign-request-list.md)                     | List signature requests     |
+| [dropbox sign request signature list](docs/commands/dropbox-sign-request-signature-list.md) | List signatures of requests |
 
 ## DeepL
 

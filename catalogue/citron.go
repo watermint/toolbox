@@ -34,6 +34,8 @@ import (
 	citrondropboxfiletemplate "github.com/watermint/toolbox/citron/dropbox/file/template"
 	citrondropboxpaper "github.com/watermint/toolbox/citron/dropbox/paper"
 	citrondropboxsignaccount "github.com/watermint/toolbox/citron/dropbox/sign/account"
+	citrondropboxsignrequest "github.com/watermint/toolbox/citron/dropbox/sign/request"
+	citrondropboxsignrequestsignature "github.com/watermint/toolbox/citron/dropbox/sign/request/signature"
 	citrondropboxteam "github.com/watermint/toolbox/citron/dropbox/team"
 	citrondropboxteamactivity "github.com/watermint/toolbox/citron/dropbox/team/activity"
 	citrondropboxteamactivitybatch "github.com/watermint/toolbox/citron/dropbox/team/activity/batch"
@@ -197,6 +199,8 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxpaper.Overwrite{},
 		&citrondropboxpaper.Prepend{},
 		&citrondropboxsignaccount.Info{},
+		&citrondropboxsignrequest.List{},
+		&citrondropboxsignrequestsignature.List{},
 		&citrondropboxteam.Feature{},
 		&citrondropboxteam.Filesystem{},
 		&citrondropboxteam.Info{},

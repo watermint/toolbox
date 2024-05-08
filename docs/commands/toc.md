@@ -209,6 +209,13 @@ lang: en
 | [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)                                         | Delete top level folder of the team space                                           |
 | [teamspace asadmin folder permdelete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-permdelete.html)                                 | Permanently delete top level folder of the team space                               |
 
+## Dropbox Sign
+
+| Command                                                                                                     | Description                 |
+|-------------------------------------------------------------------------------------------------------------|-----------------------------|
+| [dropbox sign request list]({{ site.baseurl }}/commands/dropbox-sign-request-list.html)                     | List signature requests     |
+| [dropbox sign request signature list]({{ site.baseurl }}/commands/dropbox-sign-request-signature-list.html) | List signatures of requests |
+
 ## DeepL
 
 | Command                                                                       | Description    |
