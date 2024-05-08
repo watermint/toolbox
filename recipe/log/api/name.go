@@ -75,7 +75,12 @@ func (z *Name) Exec(c app_control.Control) error {
 }
 
 func (z *Name) Test(c app_control.Control) error {
-	err := rc_exec.ExecMock(c, &Name{}, rc_recipe.NoCustomValues)
+	err := rc_exec.ExecMock(c, &Name{}, func(r rc_recipe.Recipe) {
+		m := r.(*Name)
+		m.Name = "version"
+		m.FullUrl = false
+		m.IntervalSecond = 3600
+	})
 	if errors.Is(err, dc_log.ErrorJobNotFound) {
 		return nil
 	}
