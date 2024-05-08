@@ -148,8 +148,8 @@ func (z *Checkin) releaseLicenseKey(c app_control.Control, targetRelease uint64)
 			"",
 		).
 		WithBinding(
-			app_definitions.Version.Major,
-			app_definitions.Version.Major,
+			targetRelease,
+			targetRelease,
 		)
 
 	registry := app_license_registry.NewRegistry(
