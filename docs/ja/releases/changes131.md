@@ -27,6 +27,25 @@ lang: ja
 
 
 
+# コマンド仕様の変更: `dev release candidate`
+
+
+
+## 設定が変更されたコマンド
+
+
+```
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github_public"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 12 identical fields
+  }
+```
 # コマンド仕様の変更: `log cat job`
 
 
