@@ -25,6 +25,7 @@ type signatureImpl struct {
 }
 
 func (z signatureImpl) List(accountId string, handler func(request *mo_signature.Request) bool) (err error) {
+	reqSigIds := make(map[string]struct{})
 	l := z.client.Log().With(esl.String("accountId", accountId))
 	q := struct {
 		AccountId string `url:"account_id,omitempty"`
@@ -49,12 +50,17 @@ func (z signatureImpl) List(accountId string, handler func(request *mo_signature
 		}
 
 		for _, req := range reqList.SignatureRequests {
+			if _, found := reqSigIds[req.SignatureRequestId]; found {
+				l.Debug("Duplicated signature request", esl.String("id", req.SignatureRequestId))
+				continue
+			}
+			reqSigIds[req.SignatureRequestId] = struct{}{}
 			if !handler(req) {
 				return nil
 			}
 		}
 		q.Page++
-		if reqList.ListInfo.NumPages <= q.Page {
+		if reqList.ListInfo.NumPages < q.Page {
 			l.Debug("No more pages. Stop iteration.", esl.Int("page", reqList.ListInfo.NumPages))
 			return nil
 		}

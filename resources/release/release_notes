@@ -1,2 +1,1 @@
-* #820 : Add API request/response log analysis commands
-* #512 : Add Dropbox Sign commands
+* #830 : bug fix of `dropbox sign request list` and `dropbox sign request signature list` commands
