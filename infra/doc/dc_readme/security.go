@@ -34,13 +34,14 @@ func NewSecuritySection() dc_section.Section {
 }
 
 type SecurityDesc struct {
-	HeaderTitle                   app_msg.Message
-	HeaderInformationNotCollected app_msg.Message
-	HeaderSensitiveData           app_msg.Message
-	HeaderLifecycleManagement     app_msg.Message
-	BodyInformationNotCollected   app_msg.Message
-	BodySensitiveData             app_msg.Message
-	BodyLifecycleManagement       app_msg.Message
+	HeaderTitle          app_msg.Message
+	BodyOverview         app_msg.Message
+	HeaderDataProtection app_msg.Message
+	BodyDataProtection   app_msg.Message
+	HeaderUse            app_msg.Message
+	BodyUse              app_msg.Message
+	HeaderSharing        app_msg.Message
+	BodySharing          app_msg.Message
 }
 
 func (z SecurityDesc) Title() app_msg.Message {
@@ -48,12 +49,14 @@ func (z SecurityDesc) Title() app_msg.Message {
 }
 
 func (z SecurityDesc) Body(ui app_ui.UI) {
-	ui.SubHeader(z.HeaderInformationNotCollected)
-	ui.Info(z.BodyInformationNotCollected)
-	ui.Break()
-	ui.SubHeader(z.HeaderSensitiveData)
-	ui.Info(z.BodySensitiveData)
-	ui.Break()
-	ui.SubHeader(z.HeaderLifecycleManagement)
-	ui.Info(z.BodyLifecycleManagement)
+	ui.Info(z.BodyOverview)
+
+	ui.SubHeader(z.HeaderDataProtection)
+	ui.Info(z.BodyDataProtection)
+
+	ui.SubHeader(z.HeaderUse)
+	ui.Info(z.BodyUse)
+
+	ui.SubHeader(z.HeaderSharing)
+	ui.Info(z.BodySharing)
 }
