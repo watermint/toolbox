@@ -67,22 +67,33 @@ In general, new security issues are discovered every day. In order not to leave 
 
 # Security and privacy
 
-## Information Not Collected 
+The watermint toolbox is designed to simplify the use of cloud service APIs. It will not use the data in any way that is contrary to your intentions.
 
-The watermint toolbox does not collect any information to third-party servers.
+The watermint toolbox does not store the data it retrieves via the linked cloud service API on a separate server, contrary to the intent of the specified command.
 
-The watermint toolbox is for interacting with the services like Dropbox with your account. There is no third-party account involved. The Commands stores API token, logs, files, or reports on your PC storage.
+For example, if you use the watermint toolbox to retrieve data from a cloud service, those data will only be stored on your PC. Furthermore, in the case of commands that upload files or data to a cloud service, they will only be stored in the location specified by your account.
 
-## Sensitive data
+## Data protection
 
-Most sensitive data, such as API token, are saved on your PC storage in obfuscated & made restricted access. However, it's your responsibility to keep those data secret. 
-Please do not share files, especially the `secrets` folder under toolbox work path (`C:\Users\<your user name>\.toolbox`, or `$HOME/.toolbox` by default).
+When you use the watermint toolbox to retrieve data from the cloud service API, your data is stored on your PC as report data or log data. More sensitive information, such as the authentication token for the cloud service API, is also stored on your PC.
 
-## Internet access other than the service that is the subject of the command used
+It is your responsibility to keep these data stored on your PC secure.
 
-The watermint toolbox has the ability to deactivate certain releases that have critical bugs or security issues. It does this by retrieving data from a repository hosted on GitHub about once every 30 days to check the status of a release.
-This access does not collect your private data (such as your Dropbox, Google, local files, token, etc). It just checks the release status, but as a side effect your IP address is sent to GitHub when downloading data. I know IP address is also a PII. But this is the same as visiting a general website and is not a special operation.
-The watermint toolbox project administrator cannot even see how many times these files have been downloaded.
+Important information such as authentication tokens are obfuscated so that their contents cannot be easily read. However, this obfuscation is not intended to enhance security, but to prevent unintentional operational errors. If a malicious third party copies your token information to another PC, they may be able to access cloud services that you did not intend.
+
+## Use
+
+As previously stated, the watermint toolbox is designed to store data on your PC or in your cloud account. Processes other than your intended operation include data retrieval for release lifecycle management, as outlined below.
+
+The watermint toolbox has the capability to deactivate specific releases that have critical bugs or security issues. This is achieved by retrieving data from a repository hosted on GitHub approximately every 30 days to assess the status of a release. This access does not collect any private data (such as your cloud account information, local files, token, etc.). It merely checks the release status, but as a side effect, your IP address is sent to GitHub when downloading data.
+
+Please be aware that this access information (date, time and IP address) may be used in the future to estimate the usage of each release.
+
+## Sharing
+
+The watermint toolbox project does not currently manage or obtain data including IP addresses, information that only GitHub, the company that hosts the project, has the possibility to access. However, the project may in the future make this information available, and may disclose anonymised release-by-release usage to project members if deemed necessary for the operation of the project.
+
+Any such changes will be announced on the announcement page and this security & privacy policy page at least 30 days before the change takes effect.
 
 # Usage
 
