@@ -11,6 +11,10 @@ import (
 	"strconv"
 )
 
+var (
+	ErrorNotFound = errors.New("not found")
+)
+
 // Download downloads file from `url` to `path`.
 func Download(l esl.Logger, url string, path string) error {
 	l.Debug("Try download", esl.String("url", url))
@@ -48,7 +52,12 @@ func DownloadText(l esl.Logger, url string) (string, error) {
 		_ = resp.Body.Close()
 	}()
 
-	if resp.StatusCode != http.StatusOK {
+	switch resp.StatusCode {
+	case http.StatusOK:
+		// OK, fall through
+	case http.StatusNotFound:
+		return "", ErrorNotFound
+	default:
 		l.Debug("Invalid status code", esl.Int("code", resp.StatusCode))
 		return "", errors.New("status code " + strconv.FormatInt(int64(resp.StatusCode), 10))
 	}

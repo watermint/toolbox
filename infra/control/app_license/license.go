@@ -85,6 +85,7 @@ var (
 
 var (
 	ErrorExpired            = errors.New("license expired")
+	ErrorLicenseNotFound    = errors.New("license not found")
 	ErrorUnknownLicenseType = errors.New("unknown license type")
 	ErrorCacheNotFound      = errors.New("cache not found")
 	ErrorCacheExpired       = errors.New("license expired")
@@ -394,10 +395,19 @@ func LoadAndCacheLicense(key, url, path string) (ld *LicenseData, err error) {
 
 	case errors.Is(err, ErrorCacheNotFound), errors.Is(err, ErrorCacheExpired):
 		ld, err = loadLicenseUrl(key, url)
+
+		if errors.Is(err, ErrorLicenseNotFound) {
+			// Cache even if the license is not found, to avoid the repeated download
+			_ = cacheLicenseFile(key, path, &LicenseData{
+				CopyType: CopyTypeCachedNotFound,
+			})
+			return nil, err
+		}
 		if err != nil {
 			l.Debug("Unable to load the license", esl.Error(err))
 			return nil, err
 		}
+
 		cached := ld.Cache()
 		cached.Padding = ""
 		if err = cacheLicenseFile(key, path, &cached); err != nil {
@@ -421,6 +431,10 @@ func loadLicenseUrl(key, url string) (ld *LicenseData, err error) {
 	fileUrl := url + LicenseName(key)
 	l := esl.Default().With(esl.String("url", fileUrl))
 	dataBase64, err := es_download.DownloadText(l, fileUrl)
+	if errors.Is(err, es_download.ErrorNotFound) {
+		l.Debug("License not found", esl.String("url", fileUrl))
+		return nil, ErrorLicenseNotFound
+	}
 	if err != nil {
 		l.Debug("Unable to download the data", esl.Error(err))
 		return nil, err
