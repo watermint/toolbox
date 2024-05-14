@@ -19,6 +19,11 @@
       "release": 133,
       "key": "YQU6OXVGOWTSWATWXVAAHXTHEPIG7QHVVVP",
       "hashed_salt": "BUPMD2LFXN3T6WMNU3TUEINGAOWJD37L"
+    },
+    {
+      "release": 134,
+      "key": "EQ6Z7NXZU24DK6VWEBBXH7JGFOLZ3G7MEWN",
+      "hashed_salt": "BUPMD2LFXN3T6WMNU3TUEINGAOWJD37L"
     }
   ]
 }
