@@ -5414,6 +5414,333 @@
       }
     },
     {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "calendar",
+          "event"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter"
+        ],
+        "name": "add"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter",
+          "batch"
+        ],
+        "name": "add"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter"
+        ],
+        "name": "delete"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "filter"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "add"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "delete"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "label"
+        ],
+        "name": "rename"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message",
+          "label"
+        ],
+        "name": "add"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message",
+          "label"
+        ],
+        "name": "delete"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message",
+          "processed"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "message"
+        ],
+        "name": "send"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "sendas"
+        ],
+        "name": "add"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "sendas"
+        ],
+        "name": "delete"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "sendas"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "mail",
+          "thread"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "append"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "clear"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "create"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "delete"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "export"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "import"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "sheet"
+        ],
+        "name": "list"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "sheets",
+          "spreadsheet"
+        ],
+        "name": "create"
+      }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/835",
+      "prune_after_build_date": "2024-06-30T15:00:00Z",
+      "current": {
+        "path": [
+          "google",
+          "translate"
+        ],
+        "name": "text"
+      }
+    },
+    {
       "prune_after_build_date": "2024-02-01T00:00:00Z",
       "current": {
         "path": [
