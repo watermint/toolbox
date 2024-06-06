@@ -20,6 +20,9 @@ type License interface {
 	// IsValid returns true if the license is valid.
 	IsValid() bool
 
+	// IsInvalid returns true if the license is invalid.
+	IsInvalid() bool
+
 	// IsCacheTimeout returns true if the license is cached and the cache is timed out.
 	IsCacheTimeout() bool
 
@@ -235,15 +238,19 @@ func (z LicenseData) IsValid() bool {
 	return true
 }
 
+func (z LicenseData) IsInvalid() bool {
+	return !z.IsValid()
+}
+
 func (z LicenseData) IsScopeEnabled(scope string) bool {
-	if z.IsValid() {
+	if z.IsInvalid() {
 		return false
 	}
 	return z.Scope == scope
 }
 
 func (z LicenseData) IsRecipeEnabled(recipePath string) bool {
-	if z.IsValid() {
+	if z.IsInvalid() {
 		return false
 	}
 	if z.Recipe == nil {
@@ -449,7 +456,7 @@ func loadLicenseUrl(key, url string) (ld *LicenseData, err error) {
 		l.Debug("Unable to parse the data", esl.Error(err))
 		return nil, err
 	}
-	if !ld.IsValid() {
+	if ld.IsInvalid() {
 		l.Debug("License is invalid", esl.String("url", fileUrl))
 		return nil, ErrorExpired
 	}
