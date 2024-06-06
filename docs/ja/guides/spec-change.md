@@ -240,6 +240,31 @@ lang: ja
 
 | パス                                                                                        | コマンドの説明                                                       | 日付                 |
 |---------------------------------------------------------------------------------------------|----------------------------------------------------------------------|----------------------|
+| [google calendar event list](https://github.com/watermint/toolbox/discussions/835)          | Googleカレンダーのイベントを一覧表示                                 | 2024-06-30T15:00:00Z |
+| [google mail filter add](https://github.com/watermint/toolbox/discussions/835)              | フィルターを追加します.                                              | 2024-06-30T15:00:00Z |
+| [google mail filter batch add](https://github.com/watermint/toolbox/discussions/835)        | クエリによるラベルの一括追加・削除                                   | 2024-06-30T15:00:00Z |
+| [google mail filter delete](https://github.com/watermint/toolbox/discussions/835)           | フィルタの削除                                                       | 2024-06-30T15:00:00Z |
+| [google mail filter list](https://github.com/watermint/toolbox/discussions/835)             | フィルターの一覧                                                     | 2024-06-30T15:00:00Z |
+| [google mail label add](https://github.com/watermint/toolbox/discussions/835)               | ラベルの追加                                                         | 2024-06-30T15:00:00Z |
+| [google mail label delete](https://github.com/watermint/toolbox/discussions/835)            | ラベルの削除.                                                        | 2024-06-30T15:00:00Z |
+| [google mail label list](https://github.com/watermint/toolbox/discussions/835)              | ラベルのリスト                                                       | 2024-06-30T15:00:00Z |
+| [google mail label rename](https://github.com/watermint/toolbox/discussions/835)            | ラベルの名前を変更する                                               | 2024-06-30T15:00:00Z |
+| [google mail message label add](https://github.com/watermint/toolbox/discussions/835)       | メッセージにラベルを追加                                             | 2024-06-30T15:00:00Z |
+| [google mail message label delete](https://github.com/watermint/toolbox/discussions/835)    | メッセージからラベルを削除する                                       | 2024-06-30T15:00:00Z |
+| [google mail message list](https://github.com/watermint/toolbox/discussions/835)            | メッセージの一覧                                                     | 2024-06-30T15:00:00Z |
+| [google mail message processed list](https://github.com/watermint/toolbox/discussions/835)  | 処理された形式でメッセージを一覧表示します.                          | 2024-06-30T15:00:00Z |
+| [google mail sendas add](https://github.com/watermint/toolbox/discussions/835)              | カスタムの "from" send-asエイリアスの作成                            | 2024-06-30T15:00:00Z |
+| [google mail sendas delete](https://github.com/watermint/toolbox/discussions/835)           | 指定したsend-asエイリアスを削除する                                  | 2024-06-30T15:00:00Z |
+| [google mail sendas list](https://github.com/watermint/toolbox/discussions/835)             | 指定されたアカウントの送信エイリアスを一覧表示する                   | 2024-06-30T15:00:00Z |
+| [google mail thread list](https://github.com/watermint/toolbox/discussions/835)             | スレッド一覧                                                         | 2024-06-30T15:00:00Z |
+| [google sheets sheet append](https://github.com/watermint/toolbox/discussions/835)          | スプレッドシートにデータを追加する                                   | 2024-06-30T15:00:00Z |
+| [google sheets sheet clear](https://github.com/watermint/toolbox/discussions/835)           | スプレッドシートから値をクリアする                                   | 2024-06-30T15:00:00Z |
+| [google sheets sheet create](https://github.com/watermint/toolbox/discussions/835)          | 新規シートの作成                                                     | 2024-06-30T15:00:00Z |
+| [google sheets sheet delete](https://github.com/watermint/toolbox/discussions/835)          | スプレッドシートからシートを削除する                                 | 2024-06-30T15:00:00Z |
+| [google sheets sheet export](https://github.com/watermint/toolbox/discussions/835)          | シートデータのエクスポート                                           | 2024-06-30T15:00:00Z |
+| [google sheets sheet import](https://github.com/watermint/toolbox/discussions/835)          | スプレッドシートにデータをインポート                                 | 2024-06-30T15:00:00Z |
+| [google sheets sheet list](https://github.com/watermint/toolbox/discussions/835)            | スプレッドシートのシート一覧                                         | 2024-06-30T15:00:00Z |
+| [google sheets spreadsheet create](https://github.com/watermint/toolbox/discussions/835)    | 新しいスプレッドシートの作成                                         | 2024-06-30T15:00:00Z |
 | [teamspace asadmin file list](https://github.com/watermint/toolbox/discussions/796)         | チームスペース内のファイルやフォルダーを一覧表示することができます。 | 2024-07-01T00:00:00Z |
 | [teamspace asadmin folder add](https://github.com/watermint/toolbox/discussions/796)        | チームスペースにトップレベルのフォルダーを作成                       | 2024-07-01T00:00:00Z |
 | [teamspace asadmin folder delete](https://github.com/watermint/toolbox/discussions/796)     | チームスペースのトップレベルフォルダーを削除する                     | 2024-07-01T00:00:00Z |
