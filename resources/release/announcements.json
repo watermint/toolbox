@@ -4,6 +4,18 @@
       "discussions": {
         "nodes": [
           {
+            "number": 836,
+            "title": "Remove binaries that are more than six months old after release",
+            "updatedAt": "2024-05-17T06:28:19Z",
+            "url": "https://github.com/watermint/toolbox/discussions/836"
+          },
+          {
+            "number": 835,
+            "title": "Google commands deprecation",
+            "updatedAt": "2024-05-17T06:10:43Z",
+            "url": "https://github.com/watermint/toolbox/discussions/835"
+          },
+          {
             "number": 813,
             "title": "License change : MIT License to Apache License, Version 2.0",
             "updatedAt": "2024-04-04T23:11:21Z",
@@ -14,12 +26,6 @@
             "title": "Lifecycle: Availability period for each release",
             "updatedAt": "2024-04-03T16:25:42Z",
             "url": "https://github.com/watermint/toolbox/discussions/815"
-          },
-          {
-            "number": 793,
-            "title": "Google commands require re-authentication on Release 130",
-            "updatedAt": "2024-04-03T05:51:51Z",
-            "url": "https://github.com/watermint/toolbox/discussions/793"
           },
           {
             "number": 799,

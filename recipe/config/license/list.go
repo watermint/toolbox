@@ -1,6 +1,8 @@
 package license
 
 import (
+	"errors"
+	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_license"
@@ -30,14 +32,20 @@ func (z *List) Preset() {
 }
 
 func (z *List) Exec(c app_control.Control) error {
+	l := c.Log()
 	if err := z.Keys.Open(); err != nil {
 		return err
 	}
 	keys := app_license_key.AvailableKeys()
 	for _, key := range keys {
 		lic, err := app_license.LoadAndCacheLicense(key, app_definitions.SupplementRepositoryLicenseUrl, c.Workspace().Secrets())
+		if errors.Is(err, app_license.ErrorUnknownLicenseType) {
+			l.Debug("Unknown license type, potentially the key is for different tool", esl.String("key", key))
+			continue
+		}
 		if err != nil {
-			return err
+			l.Warn("Unable to load license", esl.String("key", key), esl.Error(err))
+			continue
 		}
 		recipes := make([]string, 0)
 		if lic.Recipe != nil {

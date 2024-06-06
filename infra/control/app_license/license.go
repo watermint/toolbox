@@ -20,6 +20,9 @@ type License interface {
 	// IsValid returns true if the license is valid.
 	IsValid() bool
 
+	// IsInvalid returns true if the license is invalid.
+	IsInvalid() bool
+
 	// IsCacheTimeout returns true if the license is cached and the cache is timed out.
 	IsCacheTimeout() bool
 
@@ -85,6 +88,7 @@ var (
 
 var (
 	ErrorExpired            = errors.New("license expired")
+	ErrorLicenseNotFound    = errors.New("license not found")
 	ErrorUnknownLicenseType = errors.New("unknown license type")
 	ErrorCacheNotFound      = errors.New("cache not found")
 	ErrorCacheExpired       = errors.New("license expired")
@@ -234,15 +238,19 @@ func (z LicenseData) IsValid() bool {
 	return true
 }
 
+func (z LicenseData) IsInvalid() bool {
+	return !z.IsValid()
+}
+
 func (z LicenseData) IsScopeEnabled(scope string) bool {
-	if z.IsValid() {
+	if z.IsInvalid() {
 		return false
 	}
 	return z.Scope == scope
 }
 
 func (z LicenseData) IsRecipeEnabled(recipePath string) bool {
-	if z.IsValid() {
+	if z.IsInvalid() {
 		return false
 	}
 	if z.Recipe == nil {
@@ -394,10 +402,19 @@ func LoadAndCacheLicense(key, url, path string) (ld *LicenseData, err error) {
 
 	case errors.Is(err, ErrorCacheNotFound), errors.Is(err, ErrorCacheExpired):
 		ld, err = loadLicenseUrl(key, url)
+
+		if errors.Is(err, ErrorLicenseNotFound) {
+			// Cache even if the license is not found, to avoid the repeated download
+			_ = cacheLicenseFile(key, path, &LicenseData{
+				CopyType: CopyTypeCachedNotFound,
+			})
+			return nil, err
+		}
 		if err != nil {
 			l.Debug("Unable to load the license", esl.Error(err))
 			return nil, err
 		}
+
 		cached := ld.Cache()
 		cached.Padding = ""
 		if err = cacheLicenseFile(key, path, &cached); err != nil {
@@ -421,6 +438,10 @@ func loadLicenseUrl(key, url string) (ld *LicenseData, err error) {
 	fileUrl := url + LicenseName(key)
 	l := esl.Default().With(esl.String("url", fileUrl))
 	dataBase64, err := es_download.DownloadText(l, fileUrl)
+	if errors.Is(err, es_download.ErrorNotFound) {
+		l.Debug("License not found", esl.String("url", fileUrl))
+		return nil, ErrorLicenseNotFound
+	}
 	if err != nil {
 		l.Debug("Unable to download the data", esl.Error(err))
 		return nil, err
@@ -435,7 +456,7 @@ func loadLicenseUrl(key, url string) (ld *LicenseData, err error) {
 		l.Debug("Unable to parse the data", esl.Error(err))
 		return nil, err
 	}
-	if !ld.IsValid() {
+	if ld.IsInvalid() {
 		l.Debug("License is invalid", esl.String("url", fileUrl))
 		return nil, ErrorExpired
 	}

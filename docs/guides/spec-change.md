@@ -240,6 +240,31 @@ Below commands will be removed in the future release. If you continue to use you
 
 | Path                                                                                        | Command description                                   | Date                 |
 |---------------------------------------------------------------------------------------------|-------------------------------------------------------|----------------------|
+| [google calendar event list](https://github.com/watermint/toolbox/discussions/835)          | List Google Calendar events                           | 2024-06-30T15:00:00Z |
+| [google mail filter add](https://github.com/watermint/toolbox/discussions/835)              | Add a filter.                                         | 2024-06-30T15:00:00Z |
+| [google mail filter batch add](https://github.com/watermint/toolbox/discussions/835)        | Batch adding/deleting labels with query               | 2024-06-30T15:00:00Z |
+| [google mail filter delete](https://github.com/watermint/toolbox/discussions/835)           | Delete a filter                                       | 2024-06-30T15:00:00Z |
+| [google mail filter list](https://github.com/watermint/toolbox/discussions/835)             | List filters                                          | 2024-06-30T15:00:00Z |
+| [google mail label add](https://github.com/watermint/toolbox/discussions/835)               | Add a label                                           | 2024-06-30T15:00:00Z |
+| [google mail label delete](https://github.com/watermint/toolbox/discussions/835)            | Delete a label                                        | 2024-06-30T15:00:00Z |
+| [google mail label list](https://github.com/watermint/toolbox/discussions/835)              | List email labels                                     | 2024-06-30T15:00:00Z |
+| [google mail label rename](https://github.com/watermint/toolbox/discussions/835)            | Rename a label                                        | 2024-06-30T15:00:00Z |
+| [google mail message label add](https://github.com/watermint/toolbox/discussions/835)       | Add labels to the message                             | 2024-06-30T15:00:00Z |
+| [google mail message label delete](https://github.com/watermint/toolbox/discussions/835)    | Remove labels from the message                        | 2024-06-30T15:00:00Z |
+| [google mail message list](https://github.com/watermint/toolbox/discussions/835)            | List messages                                         | 2024-06-30T15:00:00Z |
+| [google mail message processed list](https://github.com/watermint/toolbox/discussions/835)  | List messages in processed format.                    | 2024-06-30T15:00:00Z |
+| [google mail sendas add](https://github.com/watermint/toolbox/discussions/835)              | Creates a custom "from" send-as alias                 | 2024-06-30T15:00:00Z |
+| [google mail sendas delete](https://github.com/watermint/toolbox/discussions/835)           | Deletes the specified send-as alias                   | 2024-06-30T15:00:00Z |
+| [google mail sendas list](https://github.com/watermint/toolbox/discussions/835)             | Lists the send-as aliases for the specified account   | 2024-06-30T15:00:00Z |
+| [google mail thread list](https://github.com/watermint/toolbox/discussions/835)             | List threads                                          | 2024-06-30T15:00:00Z |
+| [google sheets sheet append](https://github.com/watermint/toolbox/discussions/835)          | Append data to a spreadsheet                          | 2024-06-30T15:00:00Z |
+| [google sheets sheet clear](https://github.com/watermint/toolbox/discussions/835)           | Clears values from a spreadsheet                      | 2024-06-30T15:00:00Z |
+| [google sheets sheet create](https://github.com/watermint/toolbox/discussions/835)          | Create a new sheet                                    | 2024-06-30T15:00:00Z |
+| [google sheets sheet delete](https://github.com/watermint/toolbox/discussions/835)          | Delete a sheet from the spreadsheet                   | 2024-06-30T15:00:00Z |
+| [google sheets sheet export](https://github.com/watermint/toolbox/discussions/835)          | Export sheet data                                     | 2024-06-30T15:00:00Z |
+| [google sheets sheet import](https://github.com/watermint/toolbox/discussions/835)          | Import data into the spreadsheet                      | 2024-06-30T15:00:00Z |
+| [google sheets sheet list](https://github.com/watermint/toolbox/discussions/835)            | List sheets of the spreadsheet                        | 2024-06-30T15:00:00Z |
+| [google sheets spreadsheet create](https://github.com/watermint/toolbox/discussions/835)    | Create a new spreadsheet                              | 2024-06-30T15:00:00Z |
 | [teamspace asadmin file list](https://github.com/watermint/toolbox/discussions/796)         | List files and folders in team space run as admin     | 2024-07-01T00:00:00Z |
 | [teamspace asadmin folder add](https://github.com/watermint/toolbox/discussions/796)        | Create top level folder in the team space             | 2024-07-01T00:00:00Z |
 | [teamspace asadmin folder delete](https://github.com/watermint/toolbox/discussions/796)     | Delete top level folder of the team space             | 2024-07-01T00:00:00Z |

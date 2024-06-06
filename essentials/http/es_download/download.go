@@ -2,11 +2,17 @@ package es_download
 
 import (
 	"bytes"
+	"errors"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
 	"io"
 	"net/http"
 	"os"
+	"strconv"
+)
+
+var (
+	ErrorNotFound = errors.New("not found")
 )
 
 // Download downloads file from `url` to `path`.
@@ -45,6 +51,16 @@ func DownloadText(l esl.Logger, url string) (string, error) {
 	defer func() {
 		_ = resp.Body.Close()
 	}()
+
+	switch resp.StatusCode {
+	case http.StatusOK:
+		// OK, fall through
+	case http.StatusNotFound:
+		return "", ErrorNotFound
+	default:
+		l.Debug("Invalid status code", esl.Int("code", resp.StatusCode))
+		return "", errors.New("status code " + strconv.FormatInt(int64(resp.StatusCode), 10))
+	}
 
 	out := new(bytes.Buffer)
 

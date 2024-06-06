@@ -22,7 +22,7 @@ require (
 	github.com/pkg/profile v1.7.0
 	github.com/rapid7/go-get-proxied v0.0.0-20240311092404-798791728c56
 	github.com/rwcarlsen/goexif v0.0.0-20190401172101-9e8deecbddbd
-	github.com/shirou/gopsutil/v3 v3.24.4
+	github.com/shirou/gopsutil/v3 v3.24.5
 	github.com/tdewolff/minify v2.3.6+incompatible
 	github.com/tdewolff/parse v2.3.4+incompatible
 	github.com/tealeg/xlsx v1.0.5
@@ -32,13 +32,13 @@ require (
 	github.com/watermint/prose/v3 v3.0.1
 	go.uber.org/atomic v1.11.0
 	go.uber.org/zap v1.27.0
-	golang.org/x/crypto v0.23.0
-	golang.org/x/exp v0.0.0-20240506185415-9bf2ced13842
-	golang.org/x/image v0.16.0
-	golang.org/x/oauth2 v0.20.0
+	golang.org/x/crypto v0.24.0
+	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8
+	golang.org/x/image v0.17.0
+	golang.org/x/oauth2 v0.21.0
 	golang.org/x/sync v0.7.0
-	golang.org/x/text v0.15.0
-	golang.org/x/tools v0.21.0
+	golang.org/x/text v0.16.0
+	golang.org/x/tools v0.22.0
 	gorm.io/driver/sqlite v1.5.5
 	gorm.io/gorm v1.25.10
 )
@@ -52,7 +52,7 @@ require (
 	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d // indirect
 	github.com/asticode/go-astikit v0.43.0 // indirect
 	github.com/asticode/go-astits v1.13.0 // indirect
-	github.com/bytedance/sonic v1.11.6 // indirect
+	github.com/bytedance/sonic v1.11.8 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/cloudflare/circl v1.3.8 // indirect
@@ -63,7 +63,7 @@ require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/felixge/fgprof v0.9.4 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
 	github.com/gen2brain/shm v0.1.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-git/gcfg v1.5.1-0.20230307220236-3a3c6141e376 // indirect
@@ -71,8 +71,8 @@ require (
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/go-playground/validator/v10 v10.20.0 // indirect
-	github.com/goccy/go-json v0.10.2 // indirect
+	github.com/go-playground/validator/v10 v10.21.0 // indirect
+	github.com/goccy/go-json v0.10.3 // indirect
 	github.com/gofrs/flock v0.8.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/glog v1.2.1 // indirect
@@ -80,7 +80,7 @@ require (
 	github.com/golang/protobuf v1.5.4 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/flatbuffers v24.3.25+incompatible // indirect
-	github.com/google/pprof v0.0.0-20240509144519-723abb6459b7 // indirect
+	github.com/google/pprof v0.0.0-20240528025155-186aa0362fba // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/jezek/xgb v1.1.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -90,7 +90,7 @@ require (
 	github.com/klauspost/compress v1.17.8 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
-	github.com/lufia/plan9stats v0.0.0-20240408141607-282e7b5d6b74 // indirect
+	github.com/lufia/plan9stats v0.0.0-20240513124658-fba389f38bae // indirect
 	github.com/lxn/win v0.0.0-20210218163916-a377121e959e // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
@@ -118,10 +118,10 @@ require (
 	go.opencensus.io v0.24.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/mod v0.17.0 // indirect
-	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sys v0.20.0 // indirect
-	golang.org/x/term v0.20.0 // indirect
+	golang.org/x/mod v0.18.0 // indirect
+	golang.org/x/net v0.26.0 // indirect
+	golang.org/x/sys v0.21.0 // indirect
+	golang.org/x/term v0.21.0 // indirect
 	gonum.org/v1/gonum v0.15.0 // indirect
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/neurosnap/sentences.v1 v1.0.7 // indirect
