@@ -39,7 +39,7 @@ require (
 	golang.org/x/sync v0.7.0
 	golang.org/x/text v0.16.0
 	golang.org/x/tools v0.22.0
-	gorm.io/driver/sqlite v1.5.5
+	gorm.io/driver/sqlite v1.5.6
 	gorm.io/gorm v1.25.10
 )
 
