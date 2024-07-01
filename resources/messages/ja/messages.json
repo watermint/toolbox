@@ -2693,7 +2693,7 @@
   "infra.doc.dc_readme.command.table_header_command": "コマンド",
   "infra.doc.dc_readme.command.table_header_desc": "説明",
   "infra.doc.dc_readme.doc_security.desc": "セキュリティとプライバシー",
-  "infra.doc.dc_readme.header.header_body": "Dropbox、Dropbox for teams、Google、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツール。",
+  "infra.doc.dc_readme.header.header_body": "watermint toolboxは、Dropbox、Figma、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツールです。このツールの目的は、クラウドサービスのユーザーやシステム管理者に、ワークフローを自動化する方法を提供し、いくつかの問題に対する回避策を提供することです。",
   "infra.doc.dc_readme.header.header_title": "{{.AppName}}",
   "infra.doc.dc_readme.license.body_license": "watermint toolboxはApache License, Version 2.0でライセンスされています。\n詳細はファイル LICENSE.mdまたは LICENSE.txt ご参照ください.",
   "infra.doc.dc_readme.license.body_license_quote": "Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.",

@@ -7,7 +7,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-The multi-purpose utility command-line tool for web services including Dropbox, Dropbox for teams, Google, GitHub, etc.
+The watermint toolbox is the multi-purpose utility command-line tool for web services including Dropbox, Figma, GitHub, etc. The purpose of the tool is to provide users of cloud services and system administrators with a way to automate workflows and provide a work-around for some issues.
 
 # Licensing & Disclaimers
 

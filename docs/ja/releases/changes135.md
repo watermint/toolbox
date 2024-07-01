@@ -15,25 +15,6 @@ lang: ja
 
 
 
-# コマンド仕様の変更: `dev release candidate`
-
-
-
-## 設定が変更されたコマンド
-
-
-```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github_public"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 12 identical fields
-  }
-```
 # コマンド仕様の変更: `google mail message send`
 
 
@@ -42,14 +23,14 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	Name:    "send",
-- 	Title:   "メールの送信",
-+ 	Title:   `{"key":"citron.google.mail.message.send.title","params":{}}`,
-  	Desc:    "",
-  	Remarks: "(非可逆な操作です)",
-  	... // 20 identical fields
-  }
+  &dc_recipe.Recipe{
+  	Name:    "send",
+- 	Title:   "メールの送信",
++ 	Title:   `{"key":"citron.google.mail.message.send.title","params":{}}`,
+  	Desc:    "",
+  	Remarks: "(非可逆な操作です)",
+  	... // 20 identical fields
+  }
 ```
 # コマンド仕様の変更: `google translate text`
 
@@ -59,12 +40,12 @@ lang: ja
 
 
 ```
-  &dc_recipe.Recipe{
-  	Name:    "text",
-- 	Title:   "テキストを翻訳する",
-+ 	Title:   `{"key":"citron.google.translate.text.title","params":{}}`,
-  	Desc:    "",
-  	Remarks: "",
-  	... // 20 identical fields
-  }
+  &dc_recipe.Recipe{
+  	Name:    "text",
+- 	Title:   "テキストを翻訳する",
++ 	Title:   `{"key":"citron.google.translate.text.title","params":{}}`,
+  	Desc:    "",
+  	Remarks: "",
+  	... // 20 identical fields
+  }
 ```

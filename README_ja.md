@@ -7,7 +7,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-Dropbox、Dropbox for teams、Google、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツール。
+watermint toolboxは、Dropbox、Figma、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツールです。このツールの目的は、クラウドサービスのユーザーやシステム管理者に、ワークフローを自動化する方法を提供し、いくつかの問題に対する回避策を提供することです。
 
 # ライセンスと免責条項
 

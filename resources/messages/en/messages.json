@@ -2693,7 +2693,7 @@
   "infra.doc.dc_readme.command.table_header_command": "Command",
   "infra.doc.dc_readme.command.table_header_desc": "Description",
   "infra.doc.dc_readme.doc_security.desc": "Security and privacy",
-  "infra.doc.dc_readme.header.header_body": "The multi-purpose utility command-line tool for web services including Dropbox, Dropbox for teams, Google, GitHub, etc.",
+  "infra.doc.dc_readme.header.header_body": "The watermint toolbox is the multi-purpose utility command-line tool for web services including Dropbox, Figma, GitHub, etc. The purpose of the tool is to provide users of cloud services and system administrators with a way to automate workflows and provide a work-around for some issues.",
   "infra.doc.dc_readme.header.header_title": "{{.AppName}}",
   "infra.doc.dc_readme.license.body_license": "watermint toolbox is licensed under the Apache License, Version 2.0.\nPlease see LICENSE.md or LICENSE.txt for more detail.",
   "infra.doc.dc_readme.license.body_license_quote": "Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.",
