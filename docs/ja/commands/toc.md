@@ -74,7 +74,6 @@ lang: ja
 | [dropbox paper create]({{ site.baseurl }}/ja/commands/dropbox-paper-create.html)                                           | パスに新しいPaperを作成                                                   |
 | [dropbox paper overwrite]({{ site.baseurl }}/ja/commands/dropbox-paper-overwrite.html)                                     | 既存のPaperドキュメントを上書きする                                       |
 | [dropbox paper prepend]({{ site.baseurl }}/ja/commands/dropbox-paper-prepend.html)                                         | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [teamspace file list]({{ site.baseurl }}/ja/commands/teamspace-file-list.html)                                             | チームスペースにあるファイルやフォルダーを一覧表示                        |
 | [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                                             | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote]({{ site.baseurl }}/ja/commands/util-tidy-pack-remote.html)                                         | リモートフォルダをZIPファイルにパッケージする                             |
 
@@ -205,10 +204,6 @@ lang: ja
 | [dropbox team teamfolder replication]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-replication.html)                                 | チームフォルダを他のチームに複製します                                                  |
 | [dropbox team teamfolder sync setting list]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-sync-setting-list.html)                     | チームフォルダーの同期設定を一覧表示                                                    |
 | [dropbox team teamfolder sync setting update]({{ site.baseurl }}/ja/commands/dropbox-team-teamfolder-sync-setting-update.html)                 | チームフォルダ同期設定の一括更新                                                        |
-| [teamspace asadmin file list]({{ site.baseurl }}/ja/commands/teamspace-asadmin-file-list.html)                                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
-| [teamspace asadmin folder add]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-add.html)                                               | チームスペースにトップレベルのフォルダーを作成                                          |
-| [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)                                         | チームスペースのトップレベルフォルダーを削除する                                        |
-| [teamspace asadmin folder permdelete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-permdelete.html)                                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
 ## Dropbox Sign
 
@@ -252,46 +247,6 @@ lang: ja
 | [github release list]({{ site.baseurl }}/ja/commands/github-release-list.html)                     | リリースの一覧                                                |
 | [github tag create]({{ site.baseurl }}/ja/commands/github-tag-create.html)                         | レポジトリにタグを作成します                                  |
 | [util release install]({{ site.baseurl }}/ja/commands/util-release-install.html)                   | watermint toolboxをダウンロードし、パスにインストールします。 |
-
-## Google Calendar
-
-| コマンド                                                                                     | 説明                                 |
-|----------------------------------------------------------------------------------------------|--------------------------------------|
-| [google calendar event list]({{ site.baseurl }}/ja/commands/google-calendar-event-list.html) | Googleカレンダーのイベントを一覧表示 |
-
-## Google Gmail
-
-| コマンド                                                                                                     | 説明                                               |
-|--------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| [google mail filter add]({{ site.baseurl }}/ja/commands/google-mail-filter-add.html)                         | フィルターを追加します.                            |
-| [google mail filter batch add]({{ site.baseurl }}/ja/commands/google-mail-filter-batch-add.html)             | クエリによるラベルの一括追加・削除                 |
-| [google mail filter delete]({{ site.baseurl }}/ja/commands/google-mail-filter-delete.html)                   | フィルタの削除                                     |
-| [google mail filter list]({{ site.baseurl }}/ja/commands/google-mail-filter-list.html)                       | フィルターの一覧                                   |
-| [google mail label add]({{ site.baseurl }}/ja/commands/google-mail-label-add.html)                           | ラベルの追加                                       |
-| [google mail label delete]({{ site.baseurl }}/ja/commands/google-mail-label-delete.html)                     | ラベルの削除.                                      |
-| [google mail label list]({{ site.baseurl }}/ja/commands/google-mail-label-list.html)                         | ラベルのリスト                                     |
-| [google mail label rename]({{ site.baseurl }}/ja/commands/google-mail-label-rename.html)                     | ラベルの名前を変更する                             |
-| [google mail message label add]({{ site.baseurl }}/ja/commands/google-mail-message-label-add.html)           | メッセージにラベルを追加                           |
-| [google mail message label delete]({{ site.baseurl }}/ja/commands/google-mail-message-label-delete.html)     | メッセージからラベルを削除する                     |
-| [google mail message list]({{ site.baseurl }}/ja/commands/google-mail-message-list.html)                     | メッセージの一覧                                   |
-| [google mail message processed list]({{ site.baseurl }}/ja/commands/google-mail-message-processed-list.html) | 処理された形式でメッセージを一覧表示します.        |
-| [google mail sendas add]({{ site.baseurl }}/ja/commands/google-mail-sendas-add.html)                         | カスタムの "from" send-asエイリアスの作成          |
-| [google mail sendas delete]({{ site.baseurl }}/ja/commands/google-mail-sendas-delete.html)                   | 指定したsend-asエイリアスを削除する                |
-| [google mail sendas list]({{ site.baseurl }}/ja/commands/google-mail-sendas-list.html)                       | 指定されたアカウントの送信エイリアスを一覧表示する |
-| [google mail thread list]({{ site.baseurl }}/ja/commands/google-mail-thread-list.html)                       | スレッド一覧                                       |
-
-## Google Sheets
-
-| コマンド                                                                                                 | 説明                                 |
-|----------------------------------------------------------------------------------------------------------|--------------------------------------|
-| [google sheets sheet append]({{ site.baseurl }}/ja/commands/google-sheets-sheet-append.html)             | スプレッドシートにデータを追加する   |
-| [google sheets sheet clear]({{ site.baseurl }}/ja/commands/google-sheets-sheet-clear.html)               | スプレッドシートから値をクリアする   |
-| [google sheets sheet create]({{ site.baseurl }}/ja/commands/google-sheets-sheet-create.html)             | 新規シートの作成                     |
-| [google sheets sheet delete]({{ site.baseurl }}/ja/commands/google-sheets-sheet-delete.html)             | スプレッドシートからシートを削除する |
-| [google sheets sheet export]({{ site.baseurl }}/ja/commands/google-sheets-sheet-export.html)             | シートデータのエクスポート           |
-| [google sheets sheet import]({{ site.baseurl }}/ja/commands/google-sheets-sheet-import.html)             | スプレッドシートにデータをインポート |
-| [google sheets sheet list]({{ site.baseurl }}/ja/commands/google-sheets-sheet-list.html)                 | スプレッドシートのシート一覧         |
-| [google sheets spreadsheet create]({{ site.baseurl }}/ja/commands/google-sheets-spreadsheet-create.html) | 新しいスプレッドシートの作成         |
 
 ## ユーティリティー
 

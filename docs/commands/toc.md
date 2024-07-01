@@ -74,7 +74,6 @@ lang: en
 | [dropbox paper create]({{ site.baseurl }}/commands/dropbox-paper-create.html)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                                         | Append the content to the beginning of the existing Paper doc |
-| [teamspace file list]({{ site.baseurl }}/commands/teamspace-file-list.html)                                             | List files and folders in team space                          |
 | [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                                             | Start device monitor client                                   |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                                         | Package remote folder into the zip file                       |
 
@@ -205,10 +204,6 @@ lang: en
 | [dropbox team teamfolder replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-replication.html)                                 | Replicate a team folder to the other team                                           |
 | [dropbox team teamfolder sync setting list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-list.html)                     | List team folder sync settings                                                      |
 | [dropbox team teamfolder sync setting update]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-update.html)                 | Batch update team folder sync settings                                              |
-| [teamspace asadmin file list]({{ site.baseurl }}/commands/teamspace-asadmin-file-list.html)                                                 | List files and folders in team space run as admin                                   |
-| [teamspace asadmin folder add]({{ site.baseurl }}/commands/teamspace-asadmin-folder-add.html)                                               | Create top level folder in the team space                                           |
-| [teamspace asadmin folder delete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-delete.html)                                         | Delete top level folder of the team space                                           |
-| [teamspace asadmin folder permdelete]({{ site.baseurl }}/commands/teamspace-asadmin-folder-permdelete.html)                                 | Permanently delete top level folder of the team space                               |
 
 ## Dropbox Sign
 
@@ -252,46 +247,6 @@ lang: en
 | [github release list]({{ site.baseurl }}/commands/github-release-list.html)                     | List releases                                       |
 | [github tag create]({{ site.baseurl }}/commands/github-tag-create.html)                         | Create a tag on the repository                      |
 | [util release install]({{ site.baseurl }}/commands/util-release-install.html)                   | Download & install watermint toolbox to the path    |
-
-## Google Calendar
-
-| Command                                                                                   | Description                 |
-|-------------------------------------------------------------------------------------------|-----------------------------|
-| [google calendar event list]({{ site.baseurl }}/commands/google-calendar-event-list.html) | List Google Calendar events |
-
-## Google GMail
-
-| Command                                                                                                   | Description                                         |
-|-----------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [google mail filter add]({{ site.baseurl }}/commands/google-mail-filter-add.html)                         | Add a filter.                                       |
-| [google mail filter batch add]({{ site.baseurl }}/commands/google-mail-filter-batch-add.html)             | Batch adding/deleting labels with query             |
-| [google mail filter delete]({{ site.baseurl }}/commands/google-mail-filter-delete.html)                   | Delete a filter                                     |
-| [google mail filter list]({{ site.baseurl }}/commands/google-mail-filter-list.html)                       | List filters                                        |
-| [google mail label add]({{ site.baseurl }}/commands/google-mail-label-add.html)                           | Add a label                                         |
-| [google mail label delete]({{ site.baseurl }}/commands/google-mail-label-delete.html)                     | Delete a label                                      |
-| [google mail label list]({{ site.baseurl }}/commands/google-mail-label-list.html)                         | List email labels                                   |
-| [google mail label rename]({{ site.baseurl }}/commands/google-mail-label-rename.html)                     | Rename a label                                      |
-| [google mail message label add]({{ site.baseurl }}/commands/google-mail-message-label-add.html)           | Add labels to the message                           |
-| [google mail message label delete]({{ site.baseurl }}/commands/google-mail-message-label-delete.html)     | Remove labels from the message                      |
-| [google mail message list]({{ site.baseurl }}/commands/google-mail-message-list.html)                     | List messages                                       |
-| [google mail message processed list]({{ site.baseurl }}/commands/google-mail-message-processed-list.html) | List messages in processed format.                  |
-| [google mail sendas add]({{ site.baseurl }}/commands/google-mail-sendas-add.html)                         | Creates a custom "from" send-as alias               |
-| [google mail sendas delete]({{ site.baseurl }}/commands/google-mail-sendas-delete.html)                   | Deletes the specified send-as alias                 |
-| [google mail sendas list]({{ site.baseurl }}/commands/google-mail-sendas-list.html)                       | Lists the send-as aliases for the specified account |
-| [google mail thread list]({{ site.baseurl }}/commands/google-mail-thread-list.html)                       | List threads                                        |
-
-## Google Sheets
-
-| Command                                                                                               | Description                         |
-|-------------------------------------------------------------------------------------------------------|-------------------------------------|
-| [google sheets sheet append]({{ site.baseurl }}/commands/google-sheets-sheet-append.html)             | Append data to a spreadsheet        |
-| [google sheets sheet clear]({{ site.baseurl }}/commands/google-sheets-sheet-clear.html)               | Clears values from a spreadsheet    |
-| [google sheets sheet create]({{ site.baseurl }}/commands/google-sheets-sheet-create.html)             | Create a new sheet                  |
-| [google sheets sheet delete]({{ site.baseurl }}/commands/google-sheets-sheet-delete.html)             | Delete a sheet from the spreadsheet |
-| [google sheets sheet export]({{ site.baseurl }}/commands/google-sheets-sheet-export.html)             | Export sheet data                   |
-| [google sheets sheet import]({{ site.baseurl }}/commands/google-sheets-sheet-import.html)             | Import data into the spreadsheet    |
-| [google sheets sheet list]({{ site.baseurl }}/commands/google-sheets-sheet-list.html)                 | List sheets of the spreadsheet      |
-| [google sheets spreadsheet create]({{ site.baseurl }}/commands/google-sheets-spreadsheet-create.html) | Create a new spreadsheet            |
 
 ## Utilities
 

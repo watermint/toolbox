@@ -98,6 +98,9 @@ func (z Command) specForService(services string) []rc_recipe.Spec {
 	specs := make([]rc_recipe.Spec, 0)
 	for _, recipe := range recipes {
 		spec := rc_spec.New(recipe)
+		if spec.IsPruned() {
+			continue
+		}
 		key := z.serviceKey(spec)
 		if key == services {
 			specs = append(specs, spec)
@@ -113,8 +116,11 @@ func (z Command) Body(ui app_ui.UI) {
 		if svc == "" {
 			suffix = "utility"
 		}
-		header := app_msg.ObjMessage(&z, "services."+suffix)
 		specs := z.specForService(svc)
+		if len(specs) < 1 {
+			continue
+		}
+		header := app_msg.ObjMessage(&z, "services."+suffix)
 		z.specListTable(ui, header, specs)
 	}
 }
