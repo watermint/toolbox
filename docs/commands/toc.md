@@ -43,6 +43,7 @@ lang: en
 | [dropbox file search content]({{ site.baseurl }}/commands/dropbox-file-search-content.html)                             | Search file content                                           |
 | [dropbox file search name]({{ site.baseurl }}/commands/dropbox-file-search-name.html)                                   | Search file name                                              |
 | [dropbox file share info]({{ site.baseurl }}/commands/dropbox-file-share-info.html)                                     | Retrieve sharing information of the file                      |
+| [dropbox file sharedfolder info]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-info.html)                       | Get shared folder info                                        |
 | [dropbox file sharedfolder leave]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-leave.html)                     | Leave from the shared folder                                  |
 | [dropbox file sharedfolder list]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-list.html)                       | List shared folder(s)                                         |
 | [dropbox file sharedfolder member add]({{ site.baseurl }}/commands/dropbox-file-sharedfolder-member-add.html)           | Add a member to the shared folder                             |

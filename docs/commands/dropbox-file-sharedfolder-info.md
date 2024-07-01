@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `teamspace asadmin folder permdelete`
+title: Command `dropbox file sharedfolder info`
 lang: en
 ---
 
-# teamspace asadmin folder permdelete
+# dropbox file sharedfolder info
 
-Permanently delete top level folder of the team space 
+Get shared folder info 
 
 # Security
 
@@ -22,21 +22,14 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* Dropbox for teams: https://help.dropbox.com/installs-integrations/third-party/business-api#manage
+* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
 
-| Description                                                                                              |
-|----------------------------------------------------------------------------------------------------------|
-| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
-| Dropbox for teams: View content of your Dropbox files and folders                                        |
-| Dropbox for teams: Edit content of your Dropbox files and folders                                        |
-| Dropbox for teams: Permanently delete members' Dropbox files and folders                                 |
-| Dropbox for teams: View content of your team's files and folders                                         |
-| Dropbox for teams: View and edit content of your team's files and folders                                |
-| Dropbox for teams: View structure of your team's and members' folders                                    |
-| Dropbox for teams: View and edit content of your team's files and folders                                |
-| Dropbox for teams: View basic information about your team including names, user count, and team settings |
+| Description                                                                                          |
+|------------------------------------------------------------------------------------------------------|
+| Dropbox: View basic information about your Dropbox account such as your username, email, and country |
+| Dropbox: View your Dropbox sharing settings and collaborators                                        |
 
 # Authorization
 
@@ -73,12 +66,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe teamspace asadmin folder permdelete -name FOLDER_NAME
+.\tbx.exe dropbox file sharedfolder info -shared-folder-id NAMESPACE_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx teamspace asadmin folder permdelete -name FOLDER_NAME
+$HOME/Desktop/tbx dropbox file sharedfolder info -shared-folder-id NAMESPACE_ID
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -89,10 +82,10 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option  | Description   | Default |
-|---------|---------------|---------|
-| `-name` | Folder name   |         |
-| `-peer` | Account alias | default |
+| Option              | Description   | Default |
+|---------------------|---------------|---------|
+| `-peer`             | Account alias | default |
+| `-shared-folder-id` | Namespace ID  |         |
 
 ## Common options:
 
@@ -116,6 +109,41 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
+
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: policies
+
+This report shows a list of shared folders.
+The command will generate a report in three different formats. `policies.csv`, `policies.json`, and `policies.xlsx`.
+
+| Column                | Description                                                                                               |
+|-----------------------|-----------------------------------------------------------------------------------------------------------|
+| shared_folder_id      | The ID of the shared folder.                                                                              |
+| name                  | The name of the this shared folder.                                                                       |
+| access_type           | The current user's access level for this shared file/folder (owner, editor, viewer, or viewer_no_comment) |
+| path_lower            | The lower-cased full path of this shared folder.                                                          |
+| is_inside_team_folder | Whether this folder is inside of a team folder.                                                           |
+| is_team_folder        | Whether this folder is a team folder.                                                                     |
+| policy_manage_access  | Who can add and remove members from this shared folder.                                                   |
+| policy_shared_link    | Who links can be shared with.                                                                             |
+| policy_member_folder  | Who can be a member of this shared folder, as set on the folder itself.                                   |
+| policy_member         | Who can be a member of this shared folder, as set on the folder itself (team, or anyone)                  |
+| policy_viewer_info    | Who can enable/disable viewer info for this shared folder.                                                |
+| owner_team_name       | Team name of the team that owns the folder                                                                |
+| access_inheritance    | Access inheritance type                                                                                   |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
 
 # Proxy configuration
 

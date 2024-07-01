@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
+	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
@@ -155,7 +156,11 @@ func (z *Planchangepath) Test(c app_control.Control) error {
 		[]app_feature.OptIn{},
 	))
 
-	msgSnapshot, err := os.ReadFile("resources/messages/en/messages.json")
+	repoRoot, err := es_project.DetectRepositoryRoot()
+	if err != nil {
+		return err
+	}
+	msgSnapshot, err := os.ReadFile(filepath.Join(repoRoot, "resources/messages/en/messages.json"))
 	if err != nil {
 		return err
 	}

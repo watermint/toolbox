@@ -120,31 +120,21 @@ Usage:
 Available commands:
 ===================
 
-| Command      | Description                     | Notes |
-|--------------|---------------------------------|-------|
-| asana        | Asana commands                  |       |
-| config       | CLI configuration               |       |
-| deepl        | DeepL commands                  |       |
-| dropbox      | Dropbox commands                |       |
-| figma        | Figma commands                  |       |
-| file         | File operation                  |       |
-| filerequest  | File request operation          |       |
-| github       | GitHub commands                 |       |
-| google       | Google commands                 |       |
-| group        | Group management                |       |
-| license      | Show license information        |       |
-| local        | Commands for local PC           |       |
-| log          | Log utilities                   |       |
-| member       | Team member management          |       |
-| services     | Commands for services           |       |
-| sharedfolder | Shared folder                   |       |
-| sharedlink   | Shared Link of Personal account |       |
-| slack        | Slack commands                  |       |
-| team         | Commands of Dropbox for teams   |       |
-| teamfolder   | Team folder management          |       |
-| teamspace    | Team space commands             |       |
-| util         | Utilities                       |       |
-| version      | Show version                    |       |
+| Command   | Description              | Notes |
+|-----------|--------------------------|-------|
+| asana     | Asana commands           |       |
+| config    | CLI configuration        |       |
+| deepl     | DeepL commands           |       |
+| dropbox   | Dropbox commands         |       |
+| figma     | Figma commands           |       |
+| github    | GitHub commands          |       |
+| license   | Show license information |       |
+| local     | Commands for local PC    |       |
+| log       | Log utilities            |       |
+| slack     | Slack commands           |       |
+| teamspace | Team space commands      |       |
+| util      | Utilities                |       |
+| version   | Show version             |       |
 
 ```
 
@@ -187,6 +177,7 @@ Available commands:
 | [dropbox file search content](docs/commands/dropbox-file-search-content.md)                             | Search file content                                           |
 | [dropbox file search name](docs/commands/dropbox-file-search-name.md)                                   | Search file name                                              |
 | [dropbox file share info](docs/commands/dropbox-file-share-info.md)                                     | Retrieve sharing information of the file                      |
+| [dropbox file sharedfolder info](docs/commands/dropbox-file-sharedfolder-info.md)                       | Get shared folder info                                        |
 | [dropbox file sharedfolder leave](docs/commands/dropbox-file-sharedfolder-leave.md)                     | Leave from the shared folder                                  |
 | [dropbox file sharedfolder list](docs/commands/dropbox-file-sharedfolder-list.md)                       | List shared folder(s)                                         |
 | [dropbox file sharedfolder member add](docs/commands/dropbox-file-sharedfolder-member-add.md)           | Add a member to the shared folder                             |

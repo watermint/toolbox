@@ -114,12 +114,13 @@ func TestDefaultWarningPeriod(t *testing.T) {
 		t.Error(x)
 	}
 
-	x0 := 365 * 24 * 3600 * time.Second
-	if x := DefaultWarningPeriod(x0); x != time.Duration(float64(x0)*DefaultWarningPeriodFraction)*time.Second {
-		t.Error(x)
+	x0 := 365 * 24 * time.Hour
+	y0 := time.Duration(x0.Seconds()*DefaultWarningPeriodFraction) * time.Second
+	if x := DefaultWarningPeriod(x0); x != y0 {
+		t.Error(x, y0)
 	}
 
-	x1 := 10 * 365 * 24 * 3600 * time.Second
+	x1 := 10 * 365 * 24 * time.Hour
 	if x := DefaultWarningPeriod(x1); x != DefaultWarningMaximumPeriod {
 		t.Error(x)
 	}

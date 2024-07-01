@@ -120,31 +120,21 @@ Dropbox用ツールとDropbox for teams
 利用可能なコマンド:
 ===================
 
-| コマンド     | 説明                        | 備考 |
-|--------------|-----------------------------|------|
-| asana        | Asanaのコマンド             |      |
-| config       | CLI設定                     |      |
-| deepl        | DeepLコマンド               |      |
-| dropbox      | Dropboxコマンド             |      |
-| figma        | フィグマコマンド            |      |
-| file         | ファイル操作                |      |
-| filerequest  | ファイルリクエストの操作    |      |
-| github       | GitHubコマンド              |      |
-| google       | Google コマンド             |      |
-| group        | グループ管理                |      |
-| license      | ライセンス情報を表示します  |      |
-| local        | ローカルPC用コマンド        |      |
-| log          | ログユーティリティ          |      |
-| member       | チームメンバーの管理        |      |
-| services     | 各種サービス向けコマンド    |      |
-| sharedfolder | 共有フォルダ                |      |
-| sharedlink   | 個人アカウントの共有リンク  |      |
-| slack        | Slack コマンド              |      |
-| team         | チーム向けDropboxのコマンド |      |
-| teamfolder   | チームフォルダの管理        |      |
-| teamspace    | チームスペースコマンド      |      |
-| util         | ユーティリティー            |      |
-| version      | バージョン情報              |      |
+| コマンド  | 説明                       | 備考 |
+|-----------|----------------------------|------|
+| asana     | Asanaのコマンド            |      |
+| config    | CLI設定                    |      |
+| deepl     | DeepLコマンド              |      |
+| dropbox   | Dropboxコマンド            |      |
+| figma     | フィグマコマンド           |      |
+| github    | GitHubコマンド             |      |
+| license   | ライセンス情報を表示します |      |
+| local     | ローカルPC用コマンド       |      |
+| log       | ログユーティリティ         |      |
+| slack     | Slack コマンド             |      |
+| teamspace | チームスペースコマンド     |      |
+| util      | ユーティリティー           |      |
+| version   | バージョン情報             |      |
 
 ```
 
@@ -187,6 +177,7 @@ Dropbox用ツールとDropbox for teams
 | [dropbox file search content](docs/ja/commands/dropbox-file-search-content.md)                             | ファイルコンテンツを検索                                                  |
 | [dropbox file search name](docs/ja/commands/dropbox-file-search-name.md)                                   | ファイル名を検索                                                          |
 | [dropbox file share info](docs/ja/commands/dropbox-file-share-info.md)                                     | ファイルの共有情報を取得する                                              |
+| [dropbox file sharedfolder info](docs/ja/commands/dropbox-file-sharedfolder-info.md)                       | 共有フォルダ情報の取得                                                    |
 | [dropbox file sharedfolder leave](docs/ja/commands/dropbox-file-sharedfolder-leave.md)                     | 共有フォルダーから退出する.                                               |
 | [dropbox file sharedfolder list](docs/ja/commands/dropbox-file-sharedfolder-list.md)                       | 共有フォルダの一覧                                                        |
 | [dropbox file sharedfolder member add](docs/ja/commands/dropbox-file-sharedfolder-member-add.md)           | 共有フォルダへのメンバーの追加                                            |

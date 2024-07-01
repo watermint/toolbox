@@ -1,12 +1,12 @@
 ---
 layout: command
-title: コマンド `google sheets sheet delete`
+title: コマンド `dropbox file sharedfolder info`
 lang: ja
 ---
 
-# google sheets sheet delete
+# dropbox file sharedfolder info
 
-スプレッドシートからシートを削除する 
+共有フォルダ情報の取得 
 
 # セキュリティ
 
@@ -22,18 +22,19 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* Google: https://support.google.com/accounts/answer/3466521
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
 
-| 説明                                                                    |
-|-------------------------------------------------------------------------|
-| Google Sheets: Google Driveでのスプレッドシートの閲覧、編集、作成、削除 |
+| 説明                                                                                   |
+|----------------------------------------------------------------------------------------|
+| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
+| Dropbox: Dropboxの共有設定と共同作業者の表示                                           |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGoogleアカウントへの認可を要求します.
-Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
+リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -42,9 +43,13 @@ watermint toolbox xx.x.xxx
 © 2016-2024 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-認可URLを開きます:
-https://accounts.google.com/o/oauth2/auth?client_id=xxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&state=xxxxxxxx
+1. 次のURLを開き認証ダイアログを開いてください:
 
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
 ```
 
 # インストール
@@ -61,12 +66,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe google sheets sheet delete -id SPREADSHEET_ID -sheet-id SHEET_ID
+.\tbx.exe dropbox file sharedfolder info -shared-folder-id NAMESPACE_ID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx google sheets sheet delete -id SPREADSHEET_ID -sheet-id SHEET_ID
+$HOME/Desktop/tbx dropbox file sharedfolder info -shared-folder-id NAMESPACE_ID
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,11 +82,10 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション  | 説明                                                                     | デフォルト |
-|-------------|--------------------------------------------------------------------------|------------|
-| `-id`       | スプレッドシートID                                                       |            |
-| `-peer`     | アカウントの別名                                                         | default    |
-| `-sheet-id` | シートID (シートIDは `services google sheets sheet list` で確認できます) |            |
+| オプション          | 説明             | デフォルト |
+|---------------------|------------------|------------|
+| `-peer`             | アカウントの別名 | default    |
+| `-shared-folder-id` | 名前空間ID       |            |
 
 ## 共通のオプション:
 
@@ -105,6 +109,41 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: policies
+
+このレポートは共有フォルダの一覧を出力します.
+このコマンドはレポートを3種類の書式で出力します. `policies.csv`, `policies.json`, ならびに `policies.xlsx`.
+
+| 列                    | 説明                                                                                                 |
+|-----------------------|------------------------------------------------------------------------------------------------------|
+| shared_folder_id      | 共有フォルダのID                                                                                     |
+| name                  | 共有フォルダの名称                                                                                   |
+| access_type           | ユーザーの共有ファイル・フォルダへのアクセスレベル (owner, editor, viewer, または viewer_no_comment) |
+| path_lower            | 共有フォルダのフルパス(小文字に変換済み).                                                            |
+| is_inside_team_folder | フォルダがチームフォルダに内包されているかどうか                                                     |
+| is_team_folder        | このフォルダがチームフォルダであるかどうか                                                           |
+| policy_manage_access  | このフォルダへメンバーを追加したり削除できるユーザー                                                 |
+| policy_shared_link    | このフォルダの共有リンクを誰が利用できるか                                                           |
+| policy_member_folder  | フォルダ自体に設定されている、この共有フォルダのメンバーになれる人.                                  |
+| policy_member         | だれがこの共有フォルダのメンバーに参加できるか (team, または anyone)                                 |
+| policy_viewer_info    | だれが閲覧社情報を有効化・無効化できるか                                                             |
+| owner_team_name       | このフォルダを所有するチームの名前                                                                   |
+| access_inheritance    | アクセス継承タイプ                                                                                   |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `policies_0000.xlsx`, `policies_0001.xlsx`, `policies_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
