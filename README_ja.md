@@ -7,7 +7,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-Dropbox、Dropbox for teams、Google、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツール。
+watermint toolboxは、Dropbox、Figma、GitHubなどのウェブサービス用の多目的ユーティリティコマンドラインツールです。このツールの目的は、クラウドサービスのユーザーやシステム管理者に、ワークフローを自動化する方法を提供し、いくつかの問題に対する回避策を提供することです。
 
 # ライセンスと免責条項
 
@@ -120,21 +120,20 @@ Dropbox用ツールとDropbox for teams
 利用可能なコマンド:
 ===================
 
-| コマンド  | 説明                       | 備考 |
-|-----------|----------------------------|------|
-| asana     | Asanaのコマンド            |      |
-| config    | CLI設定                    |      |
-| deepl     | DeepLコマンド              |      |
-| dropbox   | Dropboxコマンド            |      |
-| figma     | フィグマコマンド           |      |
-| github    | GitHubコマンド             |      |
-| license   | ライセンス情報を表示します |      |
-| local     | ローカルPC用コマンド       |      |
-| log       | ログユーティリティ         |      |
-| slack     | Slack コマンド             |      |
-| teamspace | チームスペースコマンド     |      |
-| util      | ユーティリティー           |      |
-| version   | バージョン情報             |      |
+| コマンド | 説明                       | 備考 |
+|----------|----------------------------|------|
+| asana    | Asanaのコマンド            |      |
+| config   | CLI設定                    |      |
+| deepl    | DeepLコマンド              |      |
+| dropbox  | Dropboxコマンド            |      |
+| figma    | フィグマコマンド           |      |
+| github   | GitHubコマンド             |      |
+| license  | ライセンス情報を表示します |      |
+| local    | ローカルPC用コマンド       |      |
+| log      | ログユーティリティ         |      |
+| slack    | Slack コマンド             |      |
+| util     | ユーティリティー           |      |
+| version  | バージョン情報             |      |
 
 ```
 
@@ -208,7 +207,6 @@ Dropbox用ツールとDropbox for teams
 | [dropbox paper create](docs/ja/commands/dropbox-paper-create.md)                                           | パスに新しいPaperを作成                                                   |
 | [dropbox paper overwrite](docs/ja/commands/dropbox-paper-overwrite.md)                                     | 既存のPaperドキュメントを上書きする                                       |
 | [dropbox paper prepend](docs/ja/commands/dropbox-paper-prepend.md)                                         | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [teamspace file list](docs/ja/commands/teamspace-file-list.md)                                             | チームスペースにあるファイルやフォルダーを一覧表示                        |
 | [util monitor client](docs/ja/commands/util-monitor-client.md)                                             | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                                         | リモートフォルダをZIPファイルにパッケージする                             |
 
@@ -339,10 +337,6 @@ Dropbox用ツールとDropbox for teams
 | [dropbox team teamfolder replication](docs/ja/commands/dropbox-team-teamfolder-replication.md)                                 | チームフォルダを他のチームに複製します                                                  |
 | [dropbox team teamfolder sync setting list](docs/ja/commands/dropbox-team-teamfolder-sync-setting-list.md)                     | チームフォルダーの同期設定を一覧表示                                                    |
 | [dropbox team teamfolder sync setting update](docs/ja/commands/dropbox-team-teamfolder-sync-setting-update.md)                 | チームフォルダ同期設定の一括更新                                                        |
-| [teamspace asadmin file list](docs/ja/commands/teamspace-asadmin-file-list.md)                                                 | チームスペース内のファイルやフォルダーを一覧表示することができます。                    |
-| [teamspace asadmin folder add](docs/ja/commands/teamspace-asadmin-folder-add.md)                                               | チームスペースにトップレベルのフォルダーを作成                                          |
-| [teamspace asadmin folder delete](docs/ja/commands/teamspace-asadmin-folder-delete.md)                                         | チームスペースのトップレベルフォルダーを削除する                                        |
-| [teamspace asadmin folder permdelete](docs/ja/commands/teamspace-asadmin-folder-permdelete.md)                                 | チームスペースのトップレベルフォルダを完全に削除します。                                |
 
 ## Dropbox Sign
 
@@ -386,46 +380,6 @@ Dropbox用ツールとDropbox for teams
 | [github release list](docs/ja/commands/github-release-list.md)                     | リリースの一覧                                                |
 | [github tag create](docs/ja/commands/github-tag-create.md)                         | レポジトリにタグを作成します                                  |
 | [util release install](docs/ja/commands/util-release-install.md)                   | watermint toolboxをダウンロードし、パスにインストールします。 |
-
-## Google Calendar
-
-| コマンド                                                                     | 説明                                 |
-|------------------------------------------------------------------------------|--------------------------------------|
-| [google calendar event list](docs/ja/commands/google-calendar-event-list.md) | Googleカレンダーのイベントを一覧表示 |
-
-## Google Gmail
-
-| コマンド                                                                                     | 説明                                               |
-|----------------------------------------------------------------------------------------------|----------------------------------------------------|
-| [google mail filter add](docs/ja/commands/google-mail-filter-add.md)                         | フィルターを追加します.                            |
-| [google mail filter batch add](docs/ja/commands/google-mail-filter-batch-add.md)             | クエリによるラベルの一括追加・削除                 |
-| [google mail filter delete](docs/ja/commands/google-mail-filter-delete.md)                   | フィルタの削除                                     |
-| [google mail filter list](docs/ja/commands/google-mail-filter-list.md)                       | フィルターの一覧                                   |
-| [google mail label add](docs/ja/commands/google-mail-label-add.md)                           | ラベルの追加                                       |
-| [google mail label delete](docs/ja/commands/google-mail-label-delete.md)                     | ラベルの削除.                                      |
-| [google mail label list](docs/ja/commands/google-mail-label-list.md)                         | ラベルのリスト                                     |
-| [google mail label rename](docs/ja/commands/google-mail-label-rename.md)                     | ラベルの名前を変更する                             |
-| [google mail message label add](docs/ja/commands/google-mail-message-label-add.md)           | メッセージにラベルを追加                           |
-| [google mail message label delete](docs/ja/commands/google-mail-message-label-delete.md)     | メッセージからラベルを削除する                     |
-| [google mail message list](docs/ja/commands/google-mail-message-list.md)                     | メッセージの一覧                                   |
-| [google mail message processed list](docs/ja/commands/google-mail-message-processed-list.md) | 処理された形式でメッセージを一覧表示します.        |
-| [google mail sendas add](docs/ja/commands/google-mail-sendas-add.md)                         | カスタムの "from" send-asエイリアスの作成          |
-| [google mail sendas delete](docs/ja/commands/google-mail-sendas-delete.md)                   | 指定したsend-asエイリアスを削除する                |
-| [google mail sendas list](docs/ja/commands/google-mail-sendas-list.md)                       | 指定されたアカウントの送信エイリアスを一覧表示する |
-| [google mail thread list](docs/ja/commands/google-mail-thread-list.md)                       | スレッド一覧                                       |
-
-## Google Sheets
-
-| コマンド                                                                                 | 説明                                 |
-|------------------------------------------------------------------------------------------|--------------------------------------|
-| [google sheets sheet append](docs/ja/commands/google-sheets-sheet-append.md)             | スプレッドシートにデータを追加する   |
-| [google sheets sheet clear](docs/ja/commands/google-sheets-sheet-clear.md)               | スプレッドシートから値をクリアする   |
-| [google sheets sheet create](docs/ja/commands/google-sheets-sheet-create.md)             | 新規シートの作成                     |
-| [google sheets sheet delete](docs/ja/commands/google-sheets-sheet-delete.md)             | スプレッドシートからシートを削除する |
-| [google sheets sheet export](docs/ja/commands/google-sheets-sheet-export.md)             | シートデータのエクスポート           |
-| [google sheets sheet import](docs/ja/commands/google-sheets-sheet-import.md)             | スプレッドシートにデータをインポート |
-| [google sheets sheet list](docs/ja/commands/google-sheets-sheet-list.md)                 | スプレッドシートのシート一覧         |
-| [google sheets spreadsheet create](docs/ja/commands/google-sheets-spreadsheet-create.md) | 新しいスプレッドシートの作成         |
 
 ## ユーティリティー
 

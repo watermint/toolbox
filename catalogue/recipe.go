@@ -28,10 +28,6 @@ import (
 	recipelogapi "github.com/watermint/toolbox/recipe/log/api"
 	recipelogcat "github.com/watermint/toolbox/recipe/log/cat"
 	recipelogjob "github.com/watermint/toolbox/recipe/log/job"
-	recipeteamspaceasadminfile "github.com/watermint/toolbox/recipe/teamspace/asadmin/file"
-	recipeteamspaceasadminfolder "github.com/watermint/toolbox/recipe/teamspace/asadmin/folder"
-	recipeteamspaceasadminmember "github.com/watermint/toolbox/recipe/teamspace/asadmin/member"
-	recipeteamspacefile "github.com/watermint/toolbox/recipe/teamspace/file"
 	recipeutilarchive "github.com/watermint/toolbox/recipe/util/archive"
 	recipeutilcert "github.com/watermint/toolbox/recipe/util/cert"
 	recipeutildatabase "github.com/watermint/toolbox/recipe/util/database"
@@ -127,12 +123,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipelogjob.Archive{},
 		&recipelogjob.Delete{},
 		&recipelogjob.List{},
-		&recipeteamspaceasadminfile.List{},
-		&recipeteamspaceasadminfolder.Add{},
-		&recipeteamspaceasadminfolder.Delete{},
-		&recipeteamspaceasadminfolder.Permdelete{},
-		&recipeteamspaceasadminmember.List{},
-		&recipeteamspacefile.List{},
 		&recipeutilarchive.Unzip{},
 		&recipeutilarchive.Zip{},
 		&recipeutilcert.Selfsigned{},

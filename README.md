@@ -7,7 +7,7 @@
 
 ![watermint toolbox](resources/images/watermint-toolbox-256x256.png)
 
-The multi-purpose utility command-line tool for web services including Dropbox, Dropbox for teams, Google, GitHub, etc.
+The watermint toolbox is the multi-purpose utility command-line tool for web services including Dropbox, Figma, GitHub, etc. The purpose of the tool is to provide users of cloud services and system administrators with a way to automate workflows and provide a work-around for some issues.
 
 # Licensing & Disclaimers
 
@@ -120,21 +120,20 @@ Usage:
 Available commands:
 ===================
 
-| Command   | Description              | Notes |
-|-----------|--------------------------|-------|
-| asana     | Asana commands           |       |
-| config    | CLI configuration        |       |
-| deepl     | DeepL commands           |       |
-| dropbox   | Dropbox commands         |       |
-| figma     | Figma commands           |       |
-| github    | GitHub commands          |       |
-| license   | Show license information |       |
-| local     | Commands for local PC    |       |
-| log       | Log utilities            |       |
-| slack     | Slack commands           |       |
-| teamspace | Team space commands      |       |
-| util      | Utilities                |       |
-| version   | Show version             |       |
+| Command | Description              | Notes |
+|---------|--------------------------|-------|
+| asana   | Asana commands           |       |
+| config  | CLI configuration        |       |
+| deepl   | DeepL commands           |       |
+| dropbox | Dropbox commands         |       |
+| figma   | Figma commands           |       |
+| github  | GitHub commands          |       |
+| license | Show license information |       |
+| local   | Commands for local PC    |       |
+| log     | Log utilities            |       |
+| slack   | Slack commands           |       |
+| util    | Utilities                |       |
+| version | Show version             |       |
 
 ```
 
@@ -208,7 +207,6 @@ Available commands:
 | [dropbox paper create](docs/commands/dropbox-paper-create.md)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                                         | Append the content to the beginning of the existing Paper doc |
-| [teamspace file list](docs/commands/teamspace-file-list.md)                                             | List files and folders in team space                          |
 | [util monitor client](docs/commands/util-monitor-client.md)                                             | Start device monitor client                                   |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                                         | Package remote folder into the zip file                       |
 
@@ -339,10 +337,6 @@ Available commands:
 | [dropbox team teamfolder replication](docs/commands/dropbox-team-teamfolder-replication.md)                                 | Replicate a team folder to the other team                                           |
 | [dropbox team teamfolder sync setting list](docs/commands/dropbox-team-teamfolder-sync-setting-list.md)                     | List team folder sync settings                                                      |
 | [dropbox team teamfolder sync setting update](docs/commands/dropbox-team-teamfolder-sync-setting-update.md)                 | Batch update team folder sync settings                                              |
-| [teamspace asadmin file list](docs/commands/teamspace-asadmin-file-list.md)                                                 | List files and folders in team space run as admin                                   |
-| [teamspace asadmin folder add](docs/commands/teamspace-asadmin-folder-add.md)                                               | Create top level folder in the team space                                           |
-| [teamspace asadmin folder delete](docs/commands/teamspace-asadmin-folder-delete.md)                                         | Delete top level folder of the team space                                           |
-| [teamspace asadmin folder permdelete](docs/commands/teamspace-asadmin-folder-permdelete.md)                                 | Permanently delete top level folder of the team space                               |
 
 ## Dropbox Sign
 
@@ -386,46 +380,6 @@ Available commands:
 | [github release list](docs/commands/github-release-list.md)                     | List releases                                       |
 | [github tag create](docs/commands/github-tag-create.md)                         | Create a tag on the repository                      |
 | [util release install](docs/commands/util-release-install.md)                   | Download & install watermint toolbox to the path    |
-
-## Google Calendar
-
-| Command                                                                   | Description                 |
-|---------------------------------------------------------------------------|-----------------------------|
-| [google calendar event list](docs/commands/google-calendar-event-list.md) | List Google Calendar events |
-
-## Google GMail
-
-| Command                                                                                   | Description                                         |
-|-------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [google mail filter add](docs/commands/google-mail-filter-add.md)                         | Add a filter.                                       |
-| [google mail filter batch add](docs/commands/google-mail-filter-batch-add.md)             | Batch adding/deleting labels with query             |
-| [google mail filter delete](docs/commands/google-mail-filter-delete.md)                   | Delete a filter                                     |
-| [google mail filter list](docs/commands/google-mail-filter-list.md)                       | List filters                                        |
-| [google mail label add](docs/commands/google-mail-label-add.md)                           | Add a label                                         |
-| [google mail label delete](docs/commands/google-mail-label-delete.md)                     | Delete a label                                      |
-| [google mail label list](docs/commands/google-mail-label-list.md)                         | List email labels                                   |
-| [google mail label rename](docs/commands/google-mail-label-rename.md)                     | Rename a label                                      |
-| [google mail message label add](docs/commands/google-mail-message-label-add.md)           | Add labels to the message                           |
-| [google mail message label delete](docs/commands/google-mail-message-label-delete.md)     | Remove labels from the message                      |
-| [google mail message list](docs/commands/google-mail-message-list.md)                     | List messages                                       |
-| [google mail message processed list](docs/commands/google-mail-message-processed-list.md) | List messages in processed format.                  |
-| [google mail sendas add](docs/commands/google-mail-sendas-add.md)                         | Creates a custom "from" send-as alias               |
-| [google mail sendas delete](docs/commands/google-mail-sendas-delete.md)                   | Deletes the specified send-as alias                 |
-| [google mail sendas list](docs/commands/google-mail-sendas-list.md)                       | Lists the send-as aliases for the specified account |
-| [google mail thread list](docs/commands/google-mail-thread-list.md)                       | List threads                                        |
-
-## Google Sheets
-
-| Command                                                                               | Description                         |
-|---------------------------------------------------------------------------------------|-------------------------------------|
-| [google sheets sheet append](docs/commands/google-sheets-sheet-append.md)             | Append data to a spreadsheet        |
-| [google sheets sheet clear](docs/commands/google-sheets-sheet-clear.md)               | Clears values from a spreadsheet    |
-| [google sheets sheet create](docs/commands/google-sheets-sheet-create.md)             | Create a new sheet                  |
-| [google sheets sheet delete](docs/commands/google-sheets-sheet-delete.md)             | Delete a sheet from the spreadsheet |
-| [google sheets sheet export](docs/commands/google-sheets-sheet-export.md)             | Export sheet data                   |
-| [google sheets sheet import](docs/commands/google-sheets-sheet-import.md)             | Import data into the spreadsheet    |
-| [google sheets sheet list](docs/commands/google-sheets-sheet-list.md)                 | List sheets of the spreadsheet      |
-| [google sheets spreadsheet create](docs/commands/google-sheets-spreadsheet-create.md) | Create a new spreadsheet            |
 
 ## Utilities
 

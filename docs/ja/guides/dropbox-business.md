@@ -163,19 +163,6 @@ lang: ja
 | [dropbox team content mount list]({{ site.baseurl }}/ja/commands/dropbox-team-content-mount-list.html)   | チームメンバーのマウント済み/アンマウント済みの共有フォルダをすべてリストアップします. |
 | [dropbox team content policy list]({{ site.baseurl }}/ja/commands/dropbox-team-content-policy-list.html) | チームフォルダと共有フォルダのポリシー一覧                                             |
 
-## チームスペースコマンド
-
-チームスペースのためのコマンド。
-
-| コマンド                                                                                                       | 説明                                                                 |
-|----------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
-| [teamspace asadmin file list]({{ site.baseurl }}/ja/commands/teamspace-asadmin-file-list.html)                 | チームスペース内のファイルやフォルダーを一覧表示することができます。 |
-| [teamspace asadmin folder add]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-add.html)               | チームスペースにトップレベルのフォルダーを作成                       |
-| [teamspace asadmin folder delete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-delete.html)         | チームスペースのトップレベルフォルダーを削除する                     |
-| [teamspace asadmin folder permdelete]({{ site.baseurl }}/ja/commands/teamspace-asadmin-folder-permdelete.html) | チームスペースのトップレベルフォルダを完全に削除します。             |
-| [teamspace asadmin member list]({{ site.baseurl }}/ja/commands/teamspace-asadmin-member-list.html)             | トップレベルのフォルダーメンバーをリストアップ                       |
-| [teamspace file list]({{ site.baseurl }}/ja/commands/teamspace-file-list.html)                                 | チームスペースにあるファイルやフォルダーを一覧表示                   |
-
 ## 名前空間コマンド
 
 | コマンド                                                                                                     | 説明                                               |
