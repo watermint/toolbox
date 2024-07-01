@@ -545,7 +545,7 @@ func ParseLicense(data []byte, license string) (ld *LicenseData, err error) {
 
 // DefaultWarningPeriod returns the default warning period for the expiration in seconds.
 func DefaultWarningPeriod(expiration time.Duration) time.Duration {
-	warningPeriod := time.Duration(float64(expiration) * DefaultWarningPeriodFraction)
+	warningPeriod := time.Duration(expiration.Seconds()*DefaultWarningPeriodFraction) * time.Second
 	if warningPeriod < DefaultWarningMinimumPeriod {
 		return DefaultWarningMinimumPeriod
 	}
