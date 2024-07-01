@@ -173,6 +173,7 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxfilesharedfolder.Leave{},
 		&citrondropboxfilesharedfolder.List{},
 		&citrondropboxfilesharedfolder.Share{},
+		&citrondropboxfilesharedfolder.Info{},
 		&citrondropboxfilesharedfolder.Unshare{},
 		&citrondropboxfilesharedfoldermember.Add{},
 		&citrondropboxfilesharedfoldermember.Delete{},

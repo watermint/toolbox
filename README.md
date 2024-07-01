@@ -187,6 +187,7 @@ Available commands:
 | [dropbox file search content](docs/commands/dropbox-file-search-content.md)                             | Search file content                                           |
 | [dropbox file search name](docs/commands/dropbox-file-search-name.md)                                   | Search file name                                              |
 | [dropbox file share info](docs/commands/dropbox-file-share-info.md)                                     | Retrieve sharing information of the file                      |
+| [dropbox file sharedfolder info](docs/commands/dropbox-file-sharedfolder-info.md)                       | Get shared folder info                                        |
 | [dropbox file sharedfolder leave](docs/commands/dropbox-file-sharedfolder-leave.md)                     | Leave from the shared folder                                  |
 | [dropbox file sharedfolder list](docs/commands/dropbox-file-sharedfolder-list.md)                       | List shared folder(s)                                         |
 | [dropbox file sharedfolder member add](docs/commands/dropbox-file-sharedfolder-member-add.md)           | Add a member to the shared folder                             |
