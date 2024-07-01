@@ -120,31 +120,21 @@ Usage:
 Available commands:
 ===================
 
-| Command      | Description                     | Notes |
-|--------------|---------------------------------|-------|
-| asana        | Asana commands                  |       |
-| config       | CLI configuration               |       |
-| deepl        | DeepL commands                  |       |
-| dropbox      | Dropbox commands                |       |
-| figma        | Figma commands                  |       |
-| file         | File operation                  |       |
-| filerequest  | File request operation          |       |
-| github       | GitHub commands                 |       |
-| google       | Google commands                 |       |
-| group        | Group management                |       |
-| license      | Show license information        |       |
-| local        | Commands for local PC           |       |
-| log          | Log utilities                   |       |
-| member       | Team member management          |       |
-| services     | Commands for services           |       |
-| sharedfolder | Shared folder                   |       |
-| sharedlink   | Shared Link of Personal account |       |
-| slack        | Slack commands                  |       |
-| team         | Commands of Dropbox for teams   |       |
-| teamfolder   | Team folder management          |       |
-| teamspace    | Team space commands             |       |
-| util         | Utilities                       |       |
-| version      | Show version                    |       |
+| Command   | Description              | Notes |
+|-----------|--------------------------|-------|
+| asana     | Asana commands           |       |
+| config    | CLI configuration        |       |
+| deepl     | DeepL commands           |       |
+| dropbox   | Dropbox commands         |       |
+| figma     | Figma commands           |       |
+| github    | GitHub commands          |       |
+| license   | Show license information |       |
+| local     | Commands for local PC    |       |
+| log       | Log utilities            |       |
+| slack     | Slack commands           |       |
+| teamspace | Team space commands      |       |
+| util      | Utilities                |       |
+| version   | Show version             |       |
 
 ```
 

@@ -43,6 +43,7 @@ lang: ja
 | [dropbox file search content]({{ site.baseurl }}/ja/commands/dropbox-file-search-content.html)                             | ファイルコンテンツを検索                                                  |
 | [dropbox file search name]({{ site.baseurl }}/ja/commands/dropbox-file-search-name.html)                                   | ファイル名を検索                                                          |
 | [dropbox file share info]({{ site.baseurl }}/ja/commands/dropbox-file-share-info.html)                                     | ファイルの共有情報を取得する                                              |
+| [dropbox file sharedfolder info]({{ site.baseurl }}/ja/commands/dropbox-file-sharedfolder-info.html)                       | 共有フォルダ情報の取得                                                    |
 | [dropbox file sharedfolder leave]({{ site.baseurl }}/ja/commands/dropbox-file-sharedfolder-leave.html)                     | 共有フォルダーから退出する.                                               |
 | [dropbox file sharedfolder list]({{ site.baseurl }}/ja/commands/dropbox-file-sharedfolder-list.html)                       | 共有フォルダの一覧                                                        |
 | [dropbox file sharedfolder member add]({{ site.baseurl }}/ja/commands/dropbox-file-sharedfolder-member-add.html)           | 共有フォルダへのメンバーの追加                                            |
