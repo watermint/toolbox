@@ -9,10 +9,10 @@ import (
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 )
 
-func NewListV1(ctx dbx_client.Client, limit int) Member {
+func NewListV1(ctx dbx_client.Client) Member {
 	return &memberListV1{
 		ctx:      ctx,
-		delegate: New(ctx),
+		delegate: NewV2(ctx),
 	}
 }
 

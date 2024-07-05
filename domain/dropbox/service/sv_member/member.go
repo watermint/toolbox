@@ -207,7 +207,11 @@ func TransferNotifyAdminOnError(email string) RemoveOpt {
 	}
 }
 
-func New(ctx dbx_client.Client) Member {
+func New(client dbx_client.Client) Member {
+	return NewWorkaround853(client)
+}
+
+func NewV2(ctx dbx_client.Client) Member {
 	return &memberImpl{
 		ctx: ctx,
 	}
