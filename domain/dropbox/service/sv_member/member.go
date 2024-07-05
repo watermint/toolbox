@@ -208,12 +208,19 @@ func TransferNotifyAdminOnError(email string) RemoveOpt {
 }
 
 func New(client dbx_client.Client) Member {
-	return NewWorkaround853(client)
+	return NewV2(client)
 }
 
 func NewV2(ctx dbx_client.Client) Member {
 	return &memberImpl{
 		ctx: ctx,
+	}
+}
+
+func NewV2WithLimit(ctx dbx_client.Client, limit int) Member {
+	return &memberImpl{
+		ctx:   ctx,
+		limit: limit,
 	}
 }
 
