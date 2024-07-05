@@ -308,7 +308,7 @@ func (z *memberImpl) ListEach(f func(member *mo_member.Member) bool, opts ...Lis
 
 	ErrorBreak := errors.New("break")
 	res := z.ctx.List("team/members/list_v2", api_request.Param(p)).Call(
-		dbx_list.Continue("team/members/list/continue"),
+		dbx_list.Continue("team/members/list/continue_v2"),
 		dbx_list.UseHasMore(),
 		dbx_list.ResultTag("members"),
 		dbx_list.OnEntry(func(entry es_json.Json) error {
