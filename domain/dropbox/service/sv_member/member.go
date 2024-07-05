@@ -208,7 +208,7 @@ func TransferNotifyAdminOnError(email string) RemoveOpt {
 }
 
 func New(client dbx_client.Client) Member {
-	return NewV2(client)
+	return NewV2WithLimit(client, 100)
 }
 
 func NewV2(ctx dbx_client.Client) Member {
