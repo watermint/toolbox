@@ -7,7 +7,7 @@ toolchain go1.22.4
 require (
 	git.mills.io/prologic/bitcask v1.0.2
 	github.com/asticode/go-astisub v0.26.2
-	github.com/boombuler/barcode v1.0.1
+	github.com/boombuler/barcode v1.0.2
 	github.com/dgraph-io/badger/v4 v4.2.0
 	github.com/eiannone/keyboard v0.0.0-20220611211555-0d226195f203
 	github.com/gin-gonic/gin v1.10.0
