@@ -1,32 +1,9 @@
 package es_uuid
 
 import (
-	"crypto/rand"
 	"github.com/watermint/toolbox/essentials/go/es_idiom_deprecated/eoutcome"
 	"github.com/watermint/toolbox/essentials/strings/es_hex"
 )
-
-func NewV4() UUID {
-	u := make([]byte, 16)
-
-	// Generate random sequence
-	_, err := rand.Read(u)
-	if err != nil {
-		panic(err)
-	}
-
-	// Copy from Google's impl.
-	// ---
-	// Copyright 2016 Google Inc.  All rights reserved.
-	// Use of this source code is governed by a BSD-style
-	// license that can be found in the LICENSE file.
-	u[6] = (u[6] & 0x0f) | 0x40 // Version 4
-	u[8] = (u[8] & 0x3f) | 0x80 // Variant is 10
-
-	return &uuidData{
-		u: u,
-	}
-}
 
 func New(data []byte) (UUID, eoutcome.ParseOutcome) {
 	if len(data) != 16 {
@@ -39,6 +16,18 @@ func New(data []byte) (UUID, eoutcome.ParseOutcome) {
 
 type uuidData struct {
 	u []byte
+}
+
+func (z uuidData) Metadata() *UUIDMetadata {
+	return &UUIDMetadata{
+		UUID:    z.String(),
+		Version: int(z.Version()),
+		Variant: int(z.Variant()),
+	}
+}
+
+func (z uuidData) Bytes() []byte {
+	return z.u
 }
 
 func (z uuidData) Equals(x UUID) bool {
@@ -70,6 +59,12 @@ func (z uuidData) Version() Version {
 		return Version4
 	case 5:
 		return Version5
+	case 6:
+		return Version6
+	case 7:
+		return Version7
+	case 8:
+		return Version8
 	default:
 		return Version(x)
 	}
