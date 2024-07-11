@@ -3462,6 +3462,7 @@
   "recipe.util.uuid.timestamp.flag.uuid": "UUID",
   "recipe.util.uuid.timestamp.title": "Parse UUID timestamp",
   "recipe.util.uuid.title": "UUID commands",
+  "recipe.util.uuid.ulid.title": "Generate ULID (Universally Unique Lexicographically Sortable Identifier)",
   "recipe.util.uuid.v4.flag.upper_case": "Use upper case characters",
   "recipe.util.uuid.v4.title": "Generate UUID v4 (random UUID)",
   "recipe.util.uuid.v7.flag.upper_case": "Upper case",

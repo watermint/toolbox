@@ -164,6 +164,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},
 		&recipeutiluuid.Timestamp{},
+		&recipeutiluuid.Ulid{},
 		&recipeutiluuid.V4{},
 		&recipeutiluuid.V7{},
 		&recipeutiluuid.Version{},
