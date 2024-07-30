@@ -37,6 +37,7 @@ lang: en
 | [dropbox file request delete url]({{ site.baseurl }}/commands/dropbox-file-request-delete-url.html)                     | Delete a file request by the file request URL                 |
 | [dropbox file request list]({{ site.baseurl }}/commands/dropbox-file-request-list.html)                                 | List file requests of the individual account                  |
 | [dropbox file restore all]({{ site.baseurl }}/commands/dropbox-file-restore-all.html)                                   | Restore files under given path                                |
+| [dropbox file restore ext]({{ site.baseurl }}/commands/dropbox-file-restore-ext.html)                                   | Restore files with a specific extension                       |
 | [dropbox file revision download]({{ site.baseurl }}/commands/dropbox-file-revision-download.html)                       | Download the file revision                                    |
 | [dropbox file revision list]({{ site.baseurl }}/commands/dropbox-file-revision-list.html)                               | List file revisions                                           |
 | [dropbox file revision restore]({{ site.baseurl }}/commands/dropbox-file-revision-restore.html)                         | Restore the file revision                                     |

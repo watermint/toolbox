@@ -170,6 +170,7 @@ Available commands:
 | [dropbox file request delete url](docs/commands/dropbox-file-request-delete-url.md)                     | Delete a file request by the file request URL                 |
 | [dropbox file request list](docs/commands/dropbox-file-request-list.md)                                 | List file requests of the individual account                  |
 | [dropbox file restore all](docs/commands/dropbox-file-restore-all.md)                                   | Restore files under given path                                |
+| [dropbox file restore ext](docs/commands/dropbox-file-restore-ext.md)                                   | Restore files with a specific extension                       |
 | [dropbox file revision download](docs/commands/dropbox-file-revision-download.md)                       | Download the file revision                                    |
 | [dropbox file revision list](docs/commands/dropbox-file-revision-list.md)                               | List file revisions                                           |
 | [dropbox file revision restore](docs/commands/dropbox-file-revision-restore.md)                         | Restore the file revision                                     |
