@@ -69,6 +69,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeconfigfeature.Disable{},
 		&recipeconfigfeature.Enable{},
 		&recipeconfigfeature.List{},
+		&recipeconfiglicense.Install{},
 		&recipeconfiglicense.List{},
 		&recipedev.Info{},
 		&recipedevbenchmark.Local{},

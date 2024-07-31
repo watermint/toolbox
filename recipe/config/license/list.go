@@ -36,7 +36,7 @@ func (z *List) Exec(c app_control.Control) error {
 	if err := z.Keys.Open(); err != nil {
 		return err
 	}
-	keys := app_license_key.AvailableKeys()
+	keys := app_license_key.AvailableKeys(c.Workspace())
 	for _, key := range keys {
 		lic, err := app_license.LoadAndCacheLicense(key, app_definitions.SupplementRepositoryLicenseUrl, c.Workspace().Secrets())
 		if errors.Is(err, app_license.ErrorUnknownLicenseType) {

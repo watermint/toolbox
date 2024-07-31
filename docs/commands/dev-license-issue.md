@@ -88,6 +88,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lifecycle-warning-after`   | Lifecycle warning after this period from the build time (seconds)   | 31536000           |
 | `-owner`                     | License repository owner                                            | watermint          |
 | `-peer`                      | Account alias                                                       | default            |
+| `-recipe-allowed-prefix`     | Recipe allowed prefix                                               |                    |
 | `-recipes-allowed`           | Comma separated list of recipes allowed                             |                    |
 | `-repository`                | License repository                                                  | toolbox-supplement |
 | `-scope`                     | License scope                                                       |                    |
