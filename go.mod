@@ -16,7 +16,7 @@ require (
 	github.com/google/go-cmp v0.6.0
 	github.com/google/go-querystring v1.1.0
 	github.com/ikawaha/kagome-dict v1.1.0
-	github.com/ikawaha/kagome/v2 v2.9.11
+	github.com/ikawaha/kagome/v2 v2.10.0
 	github.com/kbinani/screenshot v0.0.0-20230812210009-b87d31814237
 	github.com/mattn/go-colorable v0.1.13
 	github.com/mattn/go-sqlite3 v1.14.22
