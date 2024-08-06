@@ -25,6 +25,16 @@ const (
 
 	// Version5 Namespace name-based (SHA1)
 	Version5
+
+	// Version6 UUIDv6 is a field-compatible version of UUIDv1
+	Version6
+
+	// Version7 UUIDv7 features a time-ordered value field derived from the widely implemented and well-known
+	// Unix Epoch timestamp source, the number of milliseconds since midnight 1 Jan 1970 UTC, leap seconds excluded.
+	Version7
+
+	// Version8 UUIDv8 provides a format for experimental or vendor-specific use cases.
+	Version8
 )
 
 const (
@@ -33,6 +43,12 @@ const (
 	Variant2
 	VariantReserved
 )
+
+type UUIDMetadata struct {
+	UUID    string `json:"uuid"`
+	Version int    `json:"version"`
+	Variant int    `json:"variant"`
+}
 
 type UUID interface {
 	fmt.Stringer
@@ -51,6 +67,12 @@ type UUID interface {
 
 	// Equals true if same value
 	Equals(x UUID) bool
+
+	// Bytes returns the UUID as byte array
+	Bytes() []byte
+
+	// Metadata returns the metadata of UUID
+	Metadata() *UUIDMetadata
 }
 
 const (

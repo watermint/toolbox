@@ -29,6 +29,7 @@ type Issue struct {
 	LifecycleWarningAfter   int64
 	Owner                   string
 	RecipesAllowed          mo_string.OptionalString
+	RecipeAllowedPrefix     mo_string.OptionalString
 	Repository              string
 	Scope                   mo_string.OptionalString
 }
@@ -90,6 +91,10 @@ func (z *Issue) Exec(c app_control.Control) error {
 	if len(recipesAllowed) > 0 {
 		lic = lic.WithRecipe(&app_license.LicenseRecipe{
 			Allow: recipesAllowed,
+		})
+	} else if z.RecipeAllowedPrefix.IsExists() {
+		lic = lic.WithRecipe(&app_license.LicenseRecipe{
+			AllowPrefix: z.RecipeAllowedPrefix.Value(),
 		})
 	}
 	lic = lic.WithLicensee(z.LicenseeName, z.LicenseeEmail)

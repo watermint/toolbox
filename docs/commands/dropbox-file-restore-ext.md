@@ -1,12 +1,12 @@
 ---
 layout: command
-title: Command `dev license issue`
+title: Command `dropbox file restore ext`
 lang: en
 ---
 
-# dev license issue
+# dropbox file restore ext
 
-Issue a license 
+Restore files with a specific extension (Experimental, and Irreversible operation)
 
 # Security
 
@@ -22,18 +22,20 @@ Please do not share those files to anyone including Dropbox support.
 You can delete those files after use if you want to remove it. If you want to make sure removal of credentials, revoke application access from setting or the admin console.
 
 Please see below help article for more detail:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Dropbox (Individual account): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## Auth scopes
 
-| Description                                                                                                                                                                                                                                                                                                                                                    |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: Grants full access to repositories, including private repositories. That includes read/write access to code, commit statuses, repository and organization projects, invitations, collaborators, adding team memberships, deployment statuses, and repository webhooks for repositories and organizations. Also grants ability to manage user projects. |
+| Description                                                                                          |
+|------------------------------------------------------------------------------------------------------|
+| Dropbox: View basic information about your Dropbox account such as your username, email, and country |
+| Dropbox: View content of your Dropbox files and folders                                              |
+| Dropbox: Edit content of your Dropbox files and folders                                              |
 
 # Authorization
 
-For the first run, `tbx` will ask you an authentication with your GitHub account.
-Press the Enter key to launch the browser. The service then performs the authorization and tbx receives the results. You can close the browser window when you see the authentication success message.
+For the first run, `tbx` will ask you an authentication with your Dropbox account.
+Please copy the link and paste it into your browser. Then proceed to authorization. After authorization, Dropbox will show you an authorization code. Please copy that code and paste it to the `tbx`.
 ```
 
 watermint toolbox xx.x.xxx
@@ -42,9 +44,13 @@ watermint toolbox xx.x.xxx
 © 2016-2024 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
-Opening the authorization URL:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+1. Visit the URL for the auth dialogue:
 
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. Click 'Allow' (you might have to login first):
+3. Copy the authorisation code:
+Enter the authorisation code
 ```
 
 # Installation
@@ -61,12 +67,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+.\tbx.exe dropbox file restore ext -ext EXT -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+$HOME/Desktop/tbx dropbox file restore ext -ext EXT -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -77,21 +83,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option                       | Description                                                         | Default            |
-|------------------------------|---------------------------------------------------------------------|--------------------|
-| `-app-name`                  | Application name                                                    | watermint toolbox  |
-| `-branch`                    | License repository branch                                           | main               |
-| `-expiration`                | License expiration date                                             |                    |
-| `-licensee-email`            | Licensee email                                                      |                    |
-| `-licensee-name`             | Licensee name                                                       |                    |
-| `-lifecycle-available-after` | Lifecycle available after this period from the build time (seconds) | 94608000           |
-| `-lifecycle-warning-after`   | Lifecycle warning after this period from the build time (seconds)   | 31536000           |
-| `-owner`                     | License repository owner                                            | watermint          |
-| `-peer`                      | Account alias                                                       | default            |
-| `-recipe-allowed-prefix`     | Recipe allowed prefix                                               |                    |
-| `-recipes-allowed`           | Comma separated list of recipes allowed                             |                    |
-| `-repository`                | License repository                                                  | toolbox-supplement |
-| `-scope`                     | License scope                                                       |                    |
+| Option  | Description                               | Default |
+|---------|-------------------------------------------|---------|
+| `-ext`  | Extension to restore (e.g. jpg, png, pdf) |         |
+| `-path` | Path to restore                           |         |
+| `-peer` | Account alias                             | default |
 
 ## Common options:
 
@@ -115,6 +111,38 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-skip-logging`    | Skip logging in the local storage                                                         | false                |
 | `-verbose`         | Show current operations for more detail.                                                  | false                |
 | `-workspace`       | Workspace path                                                                            |                      |
+
+# Results
+
+Report file path will be displayed last line of the command line output. If you missed command line output, please see path below. [job-id] will be the date/time of the run. Please see the latest job-id.
+
+| OS      | Path pattern                                | Example                                                |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## Report: operation_log
+
+This report shows the transaction result.
+The command will generate a report in three different formats. `operation_log.csv`, `operation_log.json`, and `operation_log.xlsx`.
+
+| Column                             | Description                                                                                                          |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| status                             | Status of the operation                                                                                              |
+| reason                             | Reason of failure or skipped operation                                                                               |
+| input.path                         | Path                                                                                                                 |
+| result.tag                         | Type of entry. `file`, `folder`, or `deleted`                                                                        |
+| result.name                        | The last component of the path (including extension).                                                                |
+| result.path_display                | The cased path to be used for display purposes only.                                                                 |
+| result.client_modified             | For files, this is the modification time set by the desktop client when the file was added to Dropbox.               |
+| result.server_modified             | The last time the file was modified on Dropbox.                                                                      |
+| result.size                        | The file size in bytes.                                                                                              |
+| result.has_explicit_shared_members | If true, the results will include a flag for each file indicating whether or not that file has any explicit members. |
+
+If you run with `-budget-memory low` option, the command will generate only JSON format report.
+
+In case of a report become large, a report in `.xlsx` format will be split into several chunks like follows; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # Proxy configuration
 

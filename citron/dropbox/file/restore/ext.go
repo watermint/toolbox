@@ -18,19 +18,16 @@ import (
 	"strings"
 )
 
-type TargetPath struct {
-	Path string `json:"path"`
-}
-
-type All struct {
+type Ext struct {
 	rc_recipe.RemarkExperimental
 	rc_recipe.RemarkIrreversible
 	Peer         dbx_conn.ConnScopedIndividual
 	Path         mo_path.DropboxPath
+	Ext          string
 	OperationLog rp_model.TransactionReport
 }
 
-func (z *All) Preset() {
+func (z *Ext) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeFilesContentRead,
 		dbx_auth.ScopeFilesContentWrite,
@@ -49,7 +46,7 @@ func (z *All) Preset() {
 	)
 }
 
-func (z *All) Exec(c app_control.Control) error {
+func (z *Ext) Exec(c app_control.Control) error {
 	l := c.Log()
 	ctx := z.Peer.Client()
 	if err := z.OperationLog.Open(); err != nil {
@@ -91,6 +88,7 @@ func (z *All) Exec(c app_control.Control) error {
 
 	var lastErr error
 	proceed := false
+	targetExtLower := strings.ToLower(z.Ext)
 	c.Sequence().Do(func(s eq_sequence.Stage) {
 		s.Define("restore", restoreEntry, ctx, c, z.OperationLog)
 		q := s.Get("restore")
@@ -100,6 +98,10 @@ func (z *All) Exec(c app_control.Control) error {
 			func(entry mo_file.Entry) {
 				if !isTargetPath(entry.PathLower()) {
 					l.Debug("Skip non target path", esl.String("entryPath", entry.PathDisplay()))
+					return
+				}
+				if !strings.HasSuffix(entry.PathLower(), targetExtLower) {
+					l.Debug("Skip non target extension", esl.String("entryPath", entry.PathDisplay()))
 					return
 				}
 				if d, e := entry.Deleted(); e {
@@ -120,9 +122,10 @@ func (z *All) Exec(c app_control.Control) error {
 	return lastErr
 }
 
-func (z *All) Test(c app_control.Control) error {
-	return rc_exec.ExecMock(c, &All{}, func(r rc_recipe.Recipe) {
-		m := r.(*All)
+func (z *Ext) Test(c app_control.Control) error {
+	return rc_exec.ExecMock(c, &Ext{}, func(r rc_recipe.Recipe) {
+		m := r.(*Ext)
 		m.Path = qtr_endtoend.NewTestDropboxFolderPath("file-restore")
+		m.Ext = "txt"
 	})
 }

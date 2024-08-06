@@ -2,6 +2,7 @@ package es_uuid
 
 import (
 	"testing"
+	"time"
 )
 
 func TestNewV4(t *testing.T) {
@@ -140,5 +141,43 @@ func TestUuidV4_Urn(t *testing.T) {
 		if x := u.Urn(); x != "urn:uuid:7184c668-b4e7-4ecd-b0bb-f7d9879fd913" {
 			t.Error(x)
 		}
+	}
+}
+
+func TestUuidV7(t *testing.T) {
+	u := NewV7()
+	if x := u.String(); !IsUUID(x) {
+		t.Error(x)
+	} else {
+		t.Log(x)
+	}
+	if u.Version() != Version7 {
+		t.Error(u.Version())
+	}
+	if u.Variant() != Variant1 {
+		t.Error(u.Variant())
+	}
+}
+
+func TestUuidV7Timestamp(t *testing.T) {
+	ts := time.Now()
+	u := NewV7WithTimestamp(time.Now())
+	if x := u.String(); !IsUUID(x) {
+		t.Error(x)
+	} else {
+		t.Log(x)
+	}
+	if u.Version() != Version7 {
+		t.Error(u.Version())
+	}
+	if u.Variant() != Variant1 {
+		t.Error(u.Variant())
+	}
+	if x, err := TimestampFromUUIDV7(u); err != nil {
+		t.Error(err)
+	} else if x.UnixNano() != (ts.UnixNano()/1_000_000)*1_000_000 {
+		t.Error(x.UnixNano(), ts.UnixNano())
+	} else {
+		t.Log(x)
 	}
 }

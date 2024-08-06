@@ -251,7 +251,7 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 
 	// License
 	license := app_license.NewLicenseBundleFromKeys(
-		app_license_key.AvailableKeys(),
+		app_license_key.AvailableKeys(wb.Workspace()),
 		wb.Workspace().Secrets(),
 	)
 

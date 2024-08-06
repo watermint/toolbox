@@ -152,6 +152,7 @@ func AutoDetectedRecipesCitron() []infra_recipe_rc_recipe.Recipe {
 		&citrondropboxfilerequestdelete.Closed{},
 		&citrondropboxfilerequestdelete.Url{},
 		&citrondropboxfilerestore.All{},
+		&citrondropboxfilerestore.Ext{},
 		&citrondropboxfilerevision.Download{},
 		&citrondropboxfilerevision.List{},
 		&citrondropboxfilerevision.Restore{},

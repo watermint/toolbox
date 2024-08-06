@@ -19,7 +19,13 @@ type LicenseKey struct {
 	Keys    []string `json:"keys"`
 }
 
-func AvailableKeys() (licenses []string) {
+func KeyFileName() string {
+	keyFileNamePart := sha3.Sum384([]byte("KEY_FILE:" + app_definitions.BuildInfo.HashedSalt()))
+	keyFileNameHash := base32.StdEncoding.EncodeToString(keyFileNamePart[:])[:32]
+	return "license_key_" + keyFileNameHash + ".key"
+}
+
+func AvailableKeys(ws app_workspace.Workspace) (licenses []string) {
 	licenses = make([]string, 0)
 	if relLic := resources.ReleaseLicense(app_definitions.Version.Major, app_definitions.BuildInfo.HashedSalt()); relLic != "" {
 		licenses = append(licenses, relLic)
@@ -30,6 +36,11 @@ func AvailableKeys() (licenses []string) {
 		for _, el := range envLicSplit {
 			licenses = append(licenses, strings.TrimSpace(el))
 		}
+	}
+
+	loadedKeys := loadKeys(ws)
+	if len(loadedKeys) > 0 {
+		licenses = append(licenses, loadedKeys...)
 	}
 
 	return licenses

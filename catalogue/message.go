@@ -4,6 +4,7 @@ package catalogue
 
 import (
 	citrondropboxfileimportbatch "github.com/watermint/toolbox/citron/dropbox/file/import/batch"
+	citrondropboxfilerestore "github.com/watermint/toolbox/citron/dropbox/file/restore"
 	citrondropboxteamgroupmember "github.com/watermint/toolbox/citron/dropbox/team/group/member"
 	citrondropboxteamgroupmemberbatch "github.com/watermint/toolbox/citron/dropbox/team/group/member/batch"
 	citrondropboxteammemberbatch "github.com/watermint/toolbox/citron/dropbox/team/member/batch"
@@ -60,6 +61,7 @@ import (
 func AutoDetectedMessageObjects() []interface{} {
 	return []interface{}{
 		&citrondropboxfileimportbatch.MsgUrl{},
+		&citrondropboxfilerestore.MsgRestore{},
 		&citrondropboxteamgroupmember.MsgList{},
 		&citrondropboxteamgroupmemberbatch.MsgOperation{},
 		&citrondropboxteammemberbatch.MsgInvite{},
