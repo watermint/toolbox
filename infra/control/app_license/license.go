@@ -260,7 +260,7 @@ func (z LicenseData) IsRecipeEnabled(recipePath string) bool {
 	if z.Recipe == nil {
 		return false
 	}
-	if strings.HasPrefix(recipePath, z.Recipe.AllowPrefix) {
+	if z.Recipe.AllowPrefix != "" && strings.HasPrefix(recipePath, z.Recipe.AllowPrefix+" ") {
 		return true
 	}
 	for _, allow := range z.Recipe.Allow {

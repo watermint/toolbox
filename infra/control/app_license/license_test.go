@@ -53,7 +53,33 @@ func TestNewLicense(t *testing.T) {
 		if !lic1.IsRecipeEnabled("allow1") {
 			t.Error("recipe not enabled")
 		}
-		if lic1.IsRecipeEnabled("allow999") {
+		if lic1.IsRecipeEnabled("deny999") {
+			t.Error("recipe enabled")
+		}
+		if lic1.IsRecipeEnabled("allow1deny8") {
+			t.Error("recipe not enabled")
+		}
+	}
+
+	{
+		licRecipe := &LicenseRecipe{
+			AllowPrefix: "allow",
+		}
+		lic1 := lic.WithRecipe(licRecipe)
+		if lic1.Recipe.AllowPrefix != "allow" {
+			t.Error("Invalid recipe")
+		}
+
+		if !lic1.IsRecipeEnabled("allow ok") {
+			t.Error("recipe not enabled")
+		}
+		if !lic1.IsRecipeEnabled("allow penguin") {
+			t.Error("recipe not enabled")
+		}
+		if lic1.IsRecipeEnabled("deny999") {
+			t.Error("recipe enabled")
+		}
+		if lic1.IsRecipeEnabled("allow1deny8") {
 			t.Error("recipe enabled")
 		}
 	}
