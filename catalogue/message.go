@@ -25,8 +25,6 @@ import (
 	domaindropboxsignapihs_conn_impl "github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
 	domainfigmaservicesv_file "github.com/watermint/toolbox/domain/figma/service/sv_file"
 	domainfigmaservicesv_project "github.com/watermint/toolbox/domain/figma/service/sv_project"
-	domaingooglemailservicesv_label "github.com/watermint/toolbox/domain/google/mail/service/sv_label"
-	domaingooglemailservicesv_message "github.com/watermint/toolbox/domain/google/mail/service/sv_message"
 	essentialsapiapi_auth_basic "github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	essentialsapiapi_auth_key "github.com/watermint/toolbox/essentials/api/api_auth_key"
 	essentialsapiapi_auth_oauth "github.com/watermint/toolbox/essentials/api/api_auth_oauth"
@@ -83,8 +81,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxsignapihs_conn_impl.MsgDropboxSign{},
 		&domainfigmaservicesv_file.MsgFile{},
 		&domainfigmaservicesv_project.MsgProject{},
-		&domaingooglemailservicesv_label.MsgFindLabel{},
-		&domaingooglemailservicesv_message.MsgProgress{},
 		&essentialsapiapi_auth_basic.MsgConsole{},
 		&essentialsapiapi_auth_key.MsgConsole{},
 		&essentialsapiapi_auth_oauth.MsgApiAuth{},

@@ -36,29 +36,21 @@ lang: en
 | github.com/watermint/toolbox/domain/figma/api/fg_conn_impl.connFigmaApi            | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubPublic       | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubRepo         | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleCalendar   | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleMail       | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connSheets           | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connTranslateImpl    | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl.connHelloSignApi  | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 | github.com/watermint/toolbox/domain/slack/api/work_conn_impl.connSlackApi          | true  | false | true            | false        | false | false         | false          | false     | false   | false    | false  | false   | false     |
 
 ## Connection value types
 
-| Implementation                                                                     | CustomValueText | Service name     | Scope label         |
-|------------------------------------------------------------------------------------|-----------------|------------------|---------------------|
-| github.com/watermint/toolbox/domain/asana/api/as_conn_impl.connAsanaApi            | true            | asana            | asana               |
-| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedIndividual | true            | dropbox          | dropbox_individual  |
-| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedTeam       | true            | dropbox_business | dropbox_team        |
-| github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl.connDeeplApiImpl     | true            | deepl            | deepl               |
-| github.com/watermint/toolbox/domain/figma/api/fg_conn_impl.connFigmaApi            | true            | figma            | figma               |
-| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubPublic       | true            | github           | github_public       |
-| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubRepo         | true            | github           | github_repo         |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleCalendar   | true            | google_calendar  | google_calendar2024 |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connGoogleMail       | true            | google_mail      | google_mail2024     |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connSheets           | true            | google_sheets    | google_sheets2024   |
-| github.com/watermint/toolbox/domain/google/api/goog_conn_impl.connTranslateImpl    | true            | google_translate | google_translate    |
-| github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl.connHelloSignApi  | true            | dropbox_sign     | dropbox_sign        |
-| github.com/watermint/toolbox/domain/slack/api/work_conn_impl.connSlackApi          | true            | slack            | slack               |
+| Implementation                                                                     | CustomValueText | Service name     | Scope label        |
+|------------------------------------------------------------------------------------|-----------------|------------------|--------------------|
+| github.com/watermint/toolbox/domain/asana/api/as_conn_impl.connAsanaApi            | true            | asana            | asana              |
+| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedIndividual | true            | dropbox          | dropbox_individual |
+| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedTeam       | true            | dropbox_business | dropbox_team       |
+| github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl.connDeeplApiImpl     | true            | deepl            | deepl              |
+| github.com/watermint/toolbox/domain/figma/api/fg_conn_impl.connFigmaApi            | true            | figma            | figma              |
+| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubPublic       | true            | github           | github_public      |
+| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubRepo         | true            | github           | github_repo        |
+| github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl.connHelloSignApi  | true            | dropbox_sign     | dropbox_sign       |
+| github.com/watermint/toolbox/domain/slack/api/work_conn_impl.connSlackApi          | true            | slack            | slack              |
 
 

@@ -74,7 +74,7 @@ func TestValueConnBaseRecipe(t *testing.T) {
 
 func TestValueConnBase_Restore(t *testing.T) {
 	err := qt_control.WithControl(func(ctl app_control.Control) error {
-		v := newValueConn((*dbx_conn.ConnScopedIndividual)(nil), func(peerName string) api_conn.Connection {
+		v := NewValueConn((*dbx_conn.ConnScopedIndividual)(nil), func(peerName string) api_conn.Connection {
 			return dbx_conn_impl.NewConnScopedIndividual(peerName)
 		})
 		v.ApplyPreset(dbx_conn_impl.NewConnScopedIndividual("123"))
@@ -94,7 +94,7 @@ func TestValueConnBase_Restore(t *testing.T) {
 			t.Error(err)
 		}
 
-		v2 := newValueConn((*dbx_conn.ConnScopedIndividual)(nil), func(peerName string) api_conn.Connection {
+		v2 := NewValueConn((*dbx_conn.ConnScopedIndividual)(nil), func(peerName string) api_conn.Connection {
 			return dbx_conn_impl.NewConnScopedIndividual(peerName)
 		})
 
