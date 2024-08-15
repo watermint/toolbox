@@ -37,58 +37,58 @@ type ApiAuthDoc func(cui app_ui.UI)
 
 var (
 	ApiDocCuiPreview = map[string]ApiAuthDoc{
-		api_conn.ServiceAsana: func(cui app_ui.UI) {
+		api_conn.ServiceTagAsana: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlAsana))
 			cui.Break()
 		},
-		api_conn.ServiceDeepl: func(cui app_ui.UI) {
+		api_conn.ServiceTagDeepl: func(cui app_ui.UI) {
 			cui.Info(api_auth_key.MConsole.PromptEnterKey)
 			cui.AskText(deepl_conn_impl.MDeeplApi.AskApiKey)
 		},
-		api_conn.ServiceDropbox: func(cui app_ui.UI) {
+		api_conn.ServiceTagDropbox: func(cui app_ui.UI) {
 			cui.Info(api_auth_oauth.MApiAuth.OauthSeq1.With("Url", cui.Text(MApiDoc.ServiceUrlDropbox)))
 			cui.Info(api_auth_oauth.MApiAuth.OauthSeq2)
 		},
-		api_conn.ServiceDropboxBusiness: func(cui app_ui.UI) {
+		api_conn.ServiceTagDropboxBusiness: func(cui app_ui.UI) {
 			cui.Info(api_auth_oauth.MApiAuth.OauthSeq1.With("Url", cui.Text(MApiDoc.ServiceUrlDropbox)))
 			cui.Info(api_auth_oauth.MApiAuth.OauthSeq2)
 		},
-		api_conn.ServiceGithub: func(cui app_ui.UI) {
+		api_conn.ServiceTagGithub: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlGithub))
 			cui.Break()
 		},
-		api_conn.ServiceGoogleCalendar: func(cui app_ui.UI) {
+		api_conn.ServiceTagGoogleCalendar: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlGoogle))
 			cui.Break()
 		},
-		api_conn.ServiceGoogleMail: func(cui app_ui.UI) {
+		api_conn.ServiceTagGoogleMail: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlGoogle))
 			cui.Break()
 		},
-		api_conn.ServiceGoogleSheets: func(cui app_ui.UI) {
+		api_conn.ServiceTagGoogleSheets: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlGoogle))
 			cui.Break()
 		},
-		api_conn.ServiceGoogleTranslate: func(cui app_ui.UI) {
+		api_conn.ServiceTagGoogleTranslate: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlGoogle))
 			cui.Break()
 		},
-		api_conn.ServiceDropboxSign: func(cui app_ui.UI) {
+		api_conn.ServiceTagDropboxSign: func(cui app_ui.UI) {
 			cui.Info(api_auth_basic.MConsole.PromptEnterUsernameAndPassword)
 			cui.AskText(hs_conn_impl.MHelloSign.AskApiKey)
 		},
-		api_conn.ServiceSlack: func(cui app_ui.UI) {
+		api_conn.ServiceTagSlack: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlSlack))
 			cui.Break()
 		},
-		api_conn.ServiceFigma: func(cui app_ui.UI) {
+		api_conn.ServiceTagFigma: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
 			cui.Code(cui.Text(MApiDoc.ServiceUrlFigma))
 			cui.Break()
@@ -96,17 +96,17 @@ var (
 	}
 
 	ApiDocAuthDesc = map[string]app_msg.Message{
-		api_conn.ServiceAsana:           MApiDoc.AuthDescAsana,
-		api_conn.ServiceDeepl:           MApiDoc.AuthDescDeepl,
-		api_conn.ServiceDropbox:         MApiDoc.AuthDescDropbox,
-		api_conn.ServiceDropboxBusiness: MApiDoc.AuthDescDropbox,
-		api_conn.ServiceGithub:          MApiDoc.AuthDescGithub,
-		api_conn.ServiceGoogleCalendar:  MApiDoc.AuthDescGoogle,
-		api_conn.ServiceGoogleMail:      MApiDoc.AuthDescGoogle,
-		api_conn.ServiceGoogleSheets:    MApiDoc.AuthDescGoogle,
-		api_conn.ServiceGoogleTranslate: MApiDoc.AuthDescGoogle,
-		api_conn.ServiceDropboxSign:     MApiDoc.AuthDescDropboxSign,
-		api_conn.ServiceSlack:           MApiDoc.AuthDescSlack,
-		api_conn.ServiceFigma:           MApiDoc.AuthDescFigma,
+		api_conn.ServiceTagAsana:           MApiDoc.AuthDescAsana,
+		api_conn.ServiceTagDeepl:           MApiDoc.AuthDescDeepl,
+		api_conn.ServiceTagDropbox:         MApiDoc.AuthDescDropbox,
+		api_conn.ServiceTagDropboxBusiness: MApiDoc.AuthDescDropbox,
+		api_conn.ServiceTagGithub:          MApiDoc.AuthDescGithub,
+		api_conn.ServiceTagGoogleCalendar:  MApiDoc.AuthDescGoogle,
+		api_conn.ServiceTagGoogleMail:      MApiDoc.AuthDescGoogle,
+		api_conn.ServiceTagGoogleSheets:    MApiDoc.AuthDescGoogle,
+		api_conn.ServiceTagGoogleTranslate: MApiDoc.AuthDescGoogle,
+		api_conn.ServiceTagDropboxSign:     MApiDoc.AuthDescDropboxSign,
+		api_conn.ServiceTagSlack:           MApiDoc.AuthDescSlack,
+		api_conn.ServiceTagFigma:           MApiDoc.AuthDescFigma,
 	}
 )

@@ -11,7 +11,7 @@ const (
 
 var (
 	Figma = api_auth.OAuthAppData{
-		AppKeyName:       app_definitions.ServiceFigma,
+		AppKeyName:       app_definitions.ServiceKeysFigma,
 		EndpointAuthUrl:  "https://www.figma.com/oauth",
 		EndpointTokenUrl: "https://www.figma.com/api/oauth/token",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

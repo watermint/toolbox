@@ -42,11 +42,11 @@ func (z *connScopedIndividual) SetPeerName(name string) {
 }
 
 func (z *connScopedIndividual) ScopeLabel() string {
-	return app_definitions2.ServiceDropboxIndividual
+	return app_definitions2.ServiceKeyDropboxIndividual
 }
 
 func (z *connScopedIndividual) ServiceName() string {
-	return api_conn.ServiceDropbox
+	return api_conn.ServiceTagDropbox
 }
 
 func (z *connScopedIndividual) Client() dbx_client.Client {

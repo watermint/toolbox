@@ -23,7 +23,7 @@ type ConnGithubRepo struct {
 }
 
 func (z *ConnGithubRepo) ServiceName() string {
-	return api_conn.ServiceGithub
+	return api_conn.ServiceTagGithub
 }
 
 func (z *ConnGithubRepo) ScopeLabel() string {

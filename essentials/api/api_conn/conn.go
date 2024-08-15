@@ -5,35 +5,35 @@ import (
 )
 
 const (
-	ServiceUtility         = ""
-	ServiceDropbox         = "dropbox"
-	ServiceDropboxBusiness = "dropbox_business"
-	ServiceDropboxSign     = "dropbox_sign"
-	ServiceAsana           = "asana"
-	ServiceDeepl           = "deepl"
-	ServiceFigma           = "figma"
-	ServiceGithub          = "github"
-	ServiceGoogleCalendar  = "google_calendar"
-	ServiceGoogleMail      = "google_mail"
-	ServiceGoogleSheets    = "google_sheets"
-	ServiceGoogleTranslate = "google_translate"
-	ServiceSlack           = "slack"
+	ServiceTagUtility         = ""
+	ServiceTagDropbox         = "dropbox"
+	ServiceTagDropboxBusiness = "dropbox_business"
+	ServiceTagDropboxSign     = "dropbox_sign"
+	ServiceTagAsana           = "asana"
+	ServiceTagDeepl           = "deepl"
+	ServiceTagFigma           = "figma"
+	ServiceTagGithub          = "github"
+	ServiceTagGoogleCalendar  = "google_calendar"
+	ServiceTagGoogleMail      = "google_mail"
+	ServiceTagGoogleSheets    = "google_sheets"
+	ServiceTagGoogleTranslate = "google_translate"
+	ServiceTagSlack           = "slack"
 )
 
 var (
 	Services = []string{
-		ServiceDropbox,
-		ServiceDropboxBusiness,
-		ServiceDropboxSign,
-		ServiceAsana,
-		ServiceDeepl,
-		ServiceFigma,
-		ServiceGithub,
-		ServiceGoogleCalendar,
-		ServiceGoogleMail,
-		ServiceGoogleSheets,
-		ServiceSlack,
-		ServiceUtility,
+		ServiceTagDropbox,
+		ServiceTagDropboxBusiness,
+		ServiceTagDropboxSign,
+		ServiceTagAsana,
+		ServiceTagDeepl,
+		ServiceTagFigma,
+		ServiceTagGithub,
+		ServiceTagGoogleCalendar,
+		ServiceTagGoogleMail,
+		ServiceTagGoogleSheets,
+		ServiceTagSlack,
+		ServiceTagUtility,
 	}
 )
 

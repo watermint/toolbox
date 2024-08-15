@@ -41,7 +41,7 @@ func (z *connHelloSignApi) Connect(ctl app_control.Control) (err error) {
 	l := ctl.Log()
 	sessionData := api_auth.BasicSessionData{
 		AppData: api_auth.BasicAppData{
-			AppKeyName:      api_conn.ServiceDropboxSign,
+			AppKeyName:      api_conn.ServiceTagDropboxSign,
 			DontUseUsername: false,
 			DontUsePassword: true,
 		},
@@ -73,11 +73,11 @@ func (z *connHelloSignApi) SetPeerName(name string) {
 }
 
 func (z *connHelloSignApi) ScopeLabel() string {
-	return app_definitions.ServiceDropboxSign
+	return app_definitions.ServiceKeyDropboxSign
 }
 
 func (z *connHelloSignApi) ServiceName() string {
-	return api_conn.ServiceDropboxSign
+	return api_conn.ServiceTagDropboxSign
 }
 
 func (z *connHelloSignApi) Client() hs_client.Client {

@@ -509,7 +509,7 @@ func (z specValueSelfContained) Services() []string {
 func (z specValueSelfContained) ConnUsePersonal() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.ServiceName() == api_conn.ServiceDropbox {
+		if c.ServiceName() == api_conn.ServiceTagDropbox {
 			use = true
 		}
 	}
@@ -519,7 +519,7 @@ func (z specValueSelfContained) ConnUsePersonal() bool {
 func (z specValueSelfContained) ConnUseBusiness() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.ServiceName() == api_conn.ServiceDropboxBusiness {
+		if c.ServiceName() == api_conn.ServiceTagDropboxBusiness {
 			use = true
 		}
 	}

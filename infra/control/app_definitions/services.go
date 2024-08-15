@@ -1,25 +1,25 @@
 package app_definitions
 
 const (
-	ServiceDropboxIndividual = "dropbox_individual"
-	ServiceDropboxTeam       = "dropbox_team"
-	ServiceDropboxSign       = "dropbox_sign"
-	ServiceGithub            = "github"
-	ServiceAsana             = "asana"
-	ServiceDeepl             = "deepl"
-	ServiceSlack             = "slack"
-	ServiceFigma             = "figma"
+	ServiceKeyDropboxIndividual = "dropbox_individual"
+	ServiceKeyDropboxTeam       = "dropbox_team"
+	ServiceKeyDropboxSign       = "dropbox_sign"
+	ServiceKeyGithub            = "github"
+	ServiceKeyAsana             = "asana"
+	ServiceKeyDeepl             = "deepl"
+	ServiceKeySlack             = "slack"
+	ServiceKeyFigma             = "figma"
 )
 
 var (
-	AllServices = []string{
-		ServiceDropboxIndividual,
-		ServiceDropboxTeam,
-		ServiceDropboxSign,
-		ServiceAsana,
-		ServiceDeepl,
-		ServiceFigma,
-		ServiceGithub,
-		ServiceSlack,
+	AllServiceKeys = []string{
+		ServiceKeyDropboxIndividual,
+		ServiceKeyDropboxTeam,
+		ServiceKeyDropboxSign,
+		ServiceKeyAsana,
+		ServiceKeyDeepl,
+		ServiceKeyFigma,
+		ServiceKeyGithub,
+		ServiceKeySlack,
 	}
 )

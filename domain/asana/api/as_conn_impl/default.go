@@ -56,11 +56,11 @@ func (z *connAsanaApi) SetPeerName(name string) {
 }
 
 func (z *connAsanaApi) ScopeLabel() string {
-	return app_definitions.ServiceAsana
+	return app_definitions.ServiceKeyAsana
 }
 
 func (z *connAsanaApi) ServiceName() string {
-	return api_conn.ServiceAsana
+	return api_conn.ServiceTagAsana
 }
 
 func (z *connAsanaApi) SetScopes(scopes ...string) {

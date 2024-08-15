@@ -36,7 +36,7 @@ func (z *connDeeplApiImpl) Connect(ctl app_control.Control) (err error) {
 	l := ctl.Log()
 	sessionData := api_auth.KeySessionData{
 		AppData: api_auth.KeyAppData{
-			AppKeyName: api_conn.ServiceDeepl,
+			AppKeyName: api_conn.ServiceTagDeepl,
 		},
 		PeerName: z.peerName,
 	}
@@ -66,11 +66,11 @@ func (z *connDeeplApiImpl) SetPeerName(name string) {
 }
 
 func (z *connDeeplApiImpl) ScopeLabel() string {
-	return app_definitions.ServiceDeepl
+	return app_definitions.ServiceKeyDeepl
 }
 
 func (z *connDeeplApiImpl) ServiceName() string {
-	return api_conn.ServiceDeepl
+	return api_conn.ServiceTagDeepl
 }
 
 func (z *connDeeplApiImpl) IsKeyAuth() bool {

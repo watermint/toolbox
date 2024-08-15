@@ -60,11 +60,11 @@ func (z *connFigmaApi) SetPeerName(name string) {
 }
 
 func (z *connFigmaApi) ScopeLabel() string {
-	return app_definitions.ServiceFigma
+	return app_definitions.ServiceKeysFigma
 }
 
 func (z *connFigmaApi) ServiceName() string {
-	return api_conn.ServiceFigma
+	return api_conn.ServiceTagFigma
 }
 
 func (z *connFigmaApi) Client() fg_client.Client {

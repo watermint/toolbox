@@ -18,7 +18,7 @@ const (
 
 var (
 	Slack = api_auth.OAuthAppData{
-		AppKeyName:       app_definitions.ServiceSlack,
+		AppKeyName:       app_definitions.ServiceKeySlack,
 		EndpointAuthUrl:  "https://slack.com/oauth/v2/authorize",
 		EndpointTokenUrl: "https://slack.com/api/oauth.v2.access",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

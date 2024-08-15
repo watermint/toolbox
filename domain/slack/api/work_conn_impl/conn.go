@@ -54,11 +54,11 @@ func (z *connSlackApi) SetPeerName(name string) {
 }
 
 func (z *connSlackApi) ScopeLabel() string {
-	return app_definitions.ServiceSlack
+	return app_definitions.ServiceKeySlack
 }
 
 func (z *connSlackApi) ServiceName() string {
-	return api_conn.ServiceSlack
+	return api_conn.ServiceTagSlack
 }
 
 func (z *connSlackApi) SetScopes(scopes ...string) {
