@@ -1,5 +1,6 @@
 package app_definitions
 
+// App service keys
 const (
 	ServiceKeyDropboxIndividual = "dropbox_individual"
 	ServiceKeyDropboxTeam       = "dropbox_team"

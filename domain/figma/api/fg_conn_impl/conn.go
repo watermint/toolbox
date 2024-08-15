@@ -60,7 +60,7 @@ func (z *connFigmaApi) SetPeerName(name string) {
 }
 
 func (z *connFigmaApi) ScopeLabel() string {
-	return app_definitions.ServiceKeysFigma
+	return app_definitions.ServiceKeyFigma
 }
 
 func (z *connFigmaApi) ServiceName() string {

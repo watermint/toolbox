@@ -2194,6 +2194,7 @@
   "essentials.strings.es_uuid.uuidmetadata.uuid.desc": "UUID string",
   "essentials.strings.es_uuid.uuidmetadata.variant.desc": "UUID variant",
   "essentials.strings.es_uuid.uuidmetadata.version.desc": "UUID version",
+  "infra.control.app_apikey.msg_api_key.ask_basic_auth_key": "Enter your app API key.",
   "infra.control.app_bootstrap.msg_run.error_initialization": "Initialization failed (Error: {{.Error}})",
   "infra.control.app_bootstrap.msg_run.error_interrupted": "Interrupted",
   "infra.control.app_bootstrap.msg_run.error_interrupted_instruction": "Logs and reports are stored at: {{.JobPath}}",
