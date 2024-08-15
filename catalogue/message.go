@@ -22,7 +22,6 @@ import (
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
 	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
-	domaindropboxsignapihs_conn_impl "github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
 	domainfigmaservicesv_file "github.com/watermint/toolbox/domain/figma/service/sv_file"
 	domainfigmaservicesv_project "github.com/watermint/toolbox/domain/figma/service/sv_project"
 	essentialsapiapi_auth_basic "github.com/watermint/toolbox/essentials/api/api_auth_basic"
@@ -33,7 +32,6 @@ import (
 	essentialslogesl_rotate "github.com/watermint/toolbox/essentials/log/esl_rotate"
 	essentialsmodelmo_filter "github.com/watermint/toolbox/essentials/model/mo_filter"
 	essentialsnetworknw_diag "github.com/watermint/toolbox/essentials/network/nw_diag"
-	infracontrolapp_apikey "github.com/watermint/toolbox/infra/control/app_apikey"
 	infracontrolapp_error "github.com/watermint/toolbox/infra/control/app_error"
 	infracontrolapp_job_impl "github.com/watermint/toolbox/infra/control/app_job_impl"
 	infradatada_griddata "github.com/watermint/toolbox/infra/data/da_griddata"
@@ -79,7 +77,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
 		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
-		&domaindropboxsignapihs_conn_impl.MsgDropboxSign{},
 		&domainfigmaservicesv_file.MsgFile{},
 		&domainfigmaservicesv_project.MsgProject{},
 		&essentialsapiapi_auth_basic.MsgConsole{},
@@ -92,7 +89,6 @@ func AutoDetectedMessageObjects() []interface{} {
 		&essentialslogesl_rotate.MsgRotate{},
 		&essentialsmodelmo_filter.MsgFilter{},
 		&essentialsnetworknw_diag.MsgNetwork{},
-		&infracontrolapp_apikey.MsgApiKey{},
 		&infracontrolapp_error.MsgErrorReport{},
 		&infracontrolapp_job_impl.MsgLauncher{},
 		&infradatada_griddata.MsgGridDataInput{},

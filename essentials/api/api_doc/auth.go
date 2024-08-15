@@ -2,7 +2,6 @@ package api_doc
 
 import (
 	"github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl"
-	"github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
 	"github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	"github.com/watermint/toolbox/essentials/api/api_auth_key"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
@@ -81,7 +80,7 @@ var (
 		},
 		api_conn.ServiceTagDropboxSign: func(cui app_ui.UI) {
 			cui.Info(api_auth_basic.MConsole.PromptEnterUsernameAndPassword)
-			cui.AskText(hs_conn_impl.MHelloSign.AskApiKey)
+			cui.AskText(api_auth_key.MConsole.AskKey)
 		},
 		api_conn.ServiceTagSlack: func(cui app_ui.UI) {
 			cui.Info(api_callback.MCallback.MsgOpenUrlOnYourBrowser)
