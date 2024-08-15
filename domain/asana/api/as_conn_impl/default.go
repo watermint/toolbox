@@ -59,8 +59,8 @@ func (z *connAsanaApi) ScopeLabel() string {
 	return app_definitions.ServiceKeyAsana
 }
 
-func (z *connAsanaApi) ServiceName() string {
-	return api_conn.ServiceTagAsana
+func (z *connAsanaApi) AppKeyName() string {
+	return api_conn.ScopeLabelAsana
 }
 
 func (z *connAsanaApi) SetScopes(scopes ...string) {

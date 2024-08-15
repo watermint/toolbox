@@ -45,8 +45,8 @@ func (z *connScopedIndividual) ScopeLabel() string {
 	return app_definitions2.ServiceKeyDropboxIndividual
 }
 
-func (z *connScopedIndividual) ServiceName() string {
-	return api_conn.ServiceTagDropbox
+func (z *connScopedIndividual) AppKeyName() string {
+	return api_conn.ScopeLabelDropbox
 }
 
 func (z *connScopedIndividual) Client() dbx_client.Client {

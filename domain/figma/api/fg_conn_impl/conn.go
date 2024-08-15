@@ -63,8 +63,8 @@ func (z *connFigmaApi) ScopeLabel() string {
 	return app_definitions.ServiceKeyFigma
 }
 
-func (z *connFigmaApi) ServiceName() string {
-	return api_conn.ServiceTagFigma
+func (z *connFigmaApi) AppKeyName() string {
+	return api_conn.ScopeLabelFigma
 }
 
 func (z *connFigmaApi) Client() fg_client.Client {

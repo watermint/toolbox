@@ -138,7 +138,7 @@ func (z RecipeValuesSection) Body(ui app_ui.UI) {
 			t.RowRaw(
 				ct,
 				strconv.FormatBool(isValueTypeCustomValueText),
-				conn.ServiceName(),
+				conn.AppKeyName(),
 				conn.ScopeLabel(),
 			)
 		}

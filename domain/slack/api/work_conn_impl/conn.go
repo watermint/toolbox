@@ -57,8 +57,8 @@ func (z *connSlackApi) ScopeLabel() string {
 	return app_definitions.ServiceKeySlack
 }
 
-func (z *connSlackApi) ServiceName() string {
-	return api_conn.ServiceTagSlack
+func (z *connSlackApi) AppKeyName() string {
+	return api_conn.ScopeLabelSlack
 }
 
 func (z *connSlackApi) SetScopes(scopes ...string) {

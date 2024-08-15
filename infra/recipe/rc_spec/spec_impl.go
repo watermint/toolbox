@@ -501,7 +501,7 @@ func (z specValueSelfContained) Services() []string {
 	services := make([]string, 0)
 	conns := z.repo.Conns()
 	for _, c := range conns {
-		services = append(services, c.ServiceName())
+		services = append(services, c.AppKeyName())
 	}
 	return es_array_deprecated.NewByString(services...).Unique().Sort().AsStringArray()
 }
@@ -509,7 +509,7 @@ func (z specValueSelfContained) Services() []string {
 func (z specValueSelfContained) ConnUsePersonal() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.ServiceName() == api_conn.ServiceTagDropbox {
+		if c.AppKeyName() == api_conn.ScopeLabelDropbox {
 			use = true
 		}
 	}
@@ -519,7 +519,7 @@ func (z specValueSelfContained) ConnUsePersonal() bool {
 func (z specValueSelfContained) ConnUseBusiness() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.ServiceName() == api_conn.ServiceTagDropboxBusiness {
+		if c.AppKeyName() == api_conn.ScopeLabelDropboxBusiness {
 			use = true
 		}
 	}

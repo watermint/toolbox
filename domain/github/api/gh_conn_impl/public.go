@@ -20,8 +20,8 @@ type ConnGithubPublic struct {
 	ctl  app_control.Control
 }
 
-func (z *ConnGithubPublic) ServiceName() string {
-	return api_conn.ServiceTagGithub
+func (z *ConnGithubPublic) AppKeyName() string {
+	return api_conn.ScopeLabelGithub
 }
 
 func (z *ConnGithubPublic) ScopeLabel() string {

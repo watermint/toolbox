@@ -5,35 +5,28 @@ import (
 )
 
 const (
-	ServiceTagUtility         = ""
-	ServiceTagDropbox         = "dropbox"
-	ServiceTagDropboxBusiness = "dropbox_business"
-	ServiceTagDropboxSign     = "dropbox_sign"
-	ServiceTagAsana           = "asana"
-	ServiceTagDeepl           = "deepl"
-	ServiceTagFigma           = "figma"
-	ServiceTagGithub          = "github"
-	ServiceTagGoogleCalendar  = "google_calendar"
-	ServiceTagGoogleMail      = "google_mail"
-	ServiceTagGoogleSheets    = "google_sheets"
-	ServiceTagGoogleTranslate = "google_translate"
-	ServiceTagSlack           = "slack"
+	ScopeLabelUtility         = ""
+	ScopeLabelDropbox         = "dropbox"
+	ScopeLabelDropboxBusiness = "dropbox_business"
+	ScopeLabelDropboxSign     = "dropbox_sign"
+	ScopeLabelAsana           = "asana"
+	ScopeLabelDeepl           = "deepl"
+	ScopeLabelFigma           = "figma"
+	ScopeLabelGithub          = "github"
+	ScopeLabelSlack           = "slack"
 )
 
 var (
 	Services = []string{
-		ServiceTagDropbox,
-		ServiceTagDropboxBusiness,
-		ServiceTagDropboxSign,
-		ServiceTagAsana,
-		ServiceTagDeepl,
-		ServiceTagFigma,
-		ServiceTagGithub,
-		ServiceTagGoogleCalendar,
-		ServiceTagGoogleMail,
-		ServiceTagGoogleSheets,
-		ServiceTagSlack,
-		ServiceTagUtility,
+		ScopeLabelDropbox,
+		ScopeLabelDropboxBusiness,
+		ScopeLabelDropboxSign,
+		ScopeLabelAsana,
+		ScopeLabelDeepl,
+		ScopeLabelFigma,
+		ScopeLabelGithub,
+		ScopeLabelSlack,
+		ScopeLabelUtility,
 	}
 )
 
@@ -45,17 +38,20 @@ type Connection interface {
 	// Connect to api
 	Connect(ctl app_control.Control) (err error)
 
-	// Peer name
+	// PeerName returns the peer name of the connection.
+	// The peer name is the key to identify auth entity in the auth repository.
+	// If the user want multiple connections to the same service, the peer name should be different.
 	PeerName() string
 
-	// Update peer name
+	// SetPeerName set peer name
 	SetPeerName(name string)
 
-	// Scope label
+	// ScopeLabel returns the scope label of the connection.
+	// The scope label is used to categorize the service in the UI, documentation, etc.
 	ScopeLabel() string
 
-	// Name tag of the service
-	ServiceName() string
+	// AppKeyName returns the app key name that identifies app key in the auth repository.
+	AppKeyName() string
 }
 
 // BasicConnection Basic auth connection

@@ -22,8 +22,8 @@ type ConnGithubRepo struct {
 	ctx      gh_client.Client
 }
 
-func (z *ConnGithubRepo) ServiceName() string {
-	return api_conn.ServiceTagGithub
+func (z *ConnGithubRepo) AppKeyName() string {
+	return api_conn.ScopeLabelGithub
 }
 
 func (z *ConnGithubRepo) ScopeLabel() string {
