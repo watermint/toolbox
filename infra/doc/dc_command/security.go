@@ -55,10 +55,10 @@ func (z Security) Body(ui app_ui.UI) {
 			if conn, ok := vc.Conn(); ok {
 				if cs, ok := conn.(api_conn.ScopedConnection); ok {
 					for _, scope := range cs.Scopes() {
-						scopes[cs.AppKeyName()+"."+scope] = true
+						scopes[cs.ScopeLabel()+"."+scope] = true
 					}
 				} else {
-					scopes[conn.AppKeyName()+"."+conn.ScopeLabel()] = true
+					scopes[conn.ScopeLabel()+"."+conn.AppKeyName()] = true
 				}
 			}
 		}
