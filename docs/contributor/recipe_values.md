@@ -41,16 +41,16 @@ lang: en
 
 ## Connection value types
 
-| Implementation                                                                     | CustomValueText | Service name     | Scope label        |
-|------------------------------------------------------------------------------------|-----------------|------------------|--------------------|
-| github.com/watermint/toolbox/domain/asana/api/as_conn_impl.connAsanaApi            | true            | asana            | asana              |
-| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedIndividual | true            | dropbox          | dropbox_individual |
-| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedTeam       | true            | dropbox_business | dropbox_team       |
-| github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl.connDeeplApiImpl     | true            | deepl            | deepl              |
-| github.com/watermint/toolbox/domain/figma/api/fg_conn_impl.connFigmaApi            | true            | figma            | figma              |
-| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubPublic       | true            | github           | github_public      |
-| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubRepo         | true            | github           | github_repo        |
-| github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl.connHelloSignApi  | true            | dropbox_sign     | dropbox_sign       |
-| github.com/watermint/toolbox/domain/slack/api/work_conn_impl.connSlackApi          | true            | slack            | slack              |
+| Implementation                                                                     | CustomValueText | Service name       | Scope label        |
+|------------------------------------------------------------------------------------|-----------------|--------------------|--------------------|
+| github.com/watermint/toolbox/domain/asana/api/as_conn_impl.connAsanaApi            | true            | asana              | asana              |
+| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedIndividual | true            | dropbox_individual | dropbox_individual |
+| github.com/watermint/toolbox/domain/dropbox/api/dbx_conn_impl.connScopedTeam       | true            | dropbox_team       | dropbox_team       |
+| github.com/watermint/toolbox/domain/deepl/api/deepl_conn_impl.connDeeplApiImpl     | true            | deepl              | deepl              |
+| github.com/watermint/toolbox/domain/figma/api/fg_conn_impl.connFigmaApi            | true            | figma              | figma              |
+| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubPublic       | true            | github_public      | github             |
+| github.com/watermint/toolbox/domain/github/api/gh_conn_impl.ConnGithubRepo         | true            | github_repo        | github             |
+| github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl.connHelloSignApi  | true            | dropbox_sign       | dropbox_sign       |
+| github.com/watermint/toolbox/domain/slack/api/work_conn_impl.connSlackApi          | true            | slack              | slack              |
 
 

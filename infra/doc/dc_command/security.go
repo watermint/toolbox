@@ -44,7 +44,7 @@ func (z Security) Body(ui app_ui.UI) {
 
 	ui.Break()
 	ui.Info(z.HowToHelpCenter)
-	for _, svc := range z.spec.Services() {
+	for _, svc := range z.spec.ScopeLabels() {
 		ui.Info(app_msg.ObjMessage(&z, "help_center."+svc))
 	}
 	ui.Break()

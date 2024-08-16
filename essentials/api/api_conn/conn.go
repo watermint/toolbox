@@ -5,32 +5,6 @@ import (
 )
 
 const (
-	ScopeLabelUtility         = ""
-	ScopeLabelDropbox         = "dropbox"
-	ScopeLabelDropboxBusiness = "dropbox_business"
-	ScopeLabelDropboxSign     = "dropbox_sign"
-	ScopeLabelAsana           = "asana"
-	ScopeLabelDeepl           = "deepl"
-	ScopeLabelFigma           = "figma"
-	ScopeLabelGithub          = "github"
-	ScopeLabelSlack           = "slack"
-)
-
-var (
-	Services = []string{
-		ScopeLabelDropbox,
-		ScopeLabelDropboxBusiness,
-		ScopeLabelDropboxSign,
-		ScopeLabelAsana,
-		ScopeLabelDeepl,
-		ScopeLabelFigma,
-		ScopeLabelGithub,
-		ScopeLabelSlack,
-		ScopeLabelUtility,
-	}
-)
-
-const (
 	DefaultPeerName = "default"
 )
 

@@ -154,15 +154,15 @@ func (z MockSpec) Messages() []app_msg.Message {
 	panic("implement me")
 }
 
-func (z MockSpec) Services() []string {
+func (z MockSpec) ScopeLabels() []string {
 	panic("implement me")
 }
 
-func (z MockSpec) ConnUsePersonal() bool {
+func (z MockSpec) ConnUseDropboxPersonal() bool {
 	panic("implement me")
 }
 
-func (z MockSpec) ConnUseBusiness() bool {
+func (z MockSpec) ConnUseDropboxTeam() bool {
 	panic("implement me")
 }
 

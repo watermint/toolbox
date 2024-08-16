@@ -1,8 +1,8 @@
 package dc_readme
 
 import (
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -56,7 +56,7 @@ func (z Command) specListTable(ui app_ui.UI, header app_msg.Message, specs []rc_
 }
 
 func (z Command) serviceKey(spec rc_recipe.Spec) string {
-	specServices := spec.Services()
+	specServices := spec.ScopeLabels()
 	sort.Strings(specServices)
 	return strings.Join(specServices, "_")
 }
@@ -85,7 +85,7 @@ func (z Command) services() []string {
 		svcKey := z.serviceKey(spec)
 		availSvc[svcKey] = true
 	}
-	for _, svc := range api_conn.Services {
+	for _, svc := range app_definitions.Services {
 		if availSvc[svc] {
 			services = append(services, svc)
 		}

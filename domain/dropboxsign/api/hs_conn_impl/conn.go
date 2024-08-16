@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	"github.com/watermint/toolbox/essentials/api/api_auth_key"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -33,7 +32,7 @@ func (z *connHelloSignApi) Connect(ctl app_control.Control) (err error) {
 	l := ctl.Log()
 	sessionData := api_auth.BasicSessionData{
 		AppData: api_auth.BasicAppData{
-			AppKeyName:      api_conn.ScopeLabelDropboxSign,
+			AppKeyName:      app_definitions.ScopeLabelDropboxSign,
 			DontUseUsername: false,
 			DontUsePassword: true,
 		},
@@ -65,11 +64,11 @@ func (z *connHelloSignApi) SetPeerName(name string) {
 }
 
 func (z *connHelloSignApi) ScopeLabel() string {
-	return app_definitions.ServiceKeyDropboxSign
+	return app_definitions.ScopeLabelDropboxSign
 }
 
 func (z *connHelloSignApi) AppKeyName() string {
-	return api_conn.ScopeLabelDropboxSign
+	return app_definitions.AppKeyDropboxSign
 }
 
 func (z *connHelloSignApi) Client() hs_client.Client {

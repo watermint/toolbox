@@ -27,7 +27,7 @@ func (z Auth) Title() app_msg.Message {
 }
 
 func (z Auth) Body(ui app_ui.UI) {
-	services := z.spec.Services()
+	services := z.spec.ScopeLabels()
 	msgBase := es_reflect.Key(&z)
 	for _, service := range services {
 		serviceName := ui.Text(app_msg.CreateMessage(msgBase + ".service_name." + service))

@@ -6,6 +6,12 @@ lang: en
 
 # Commands
 
+## DeepL
+
+| Command                                                                       | Description    |
+|-------------------------------------------------------------------------------|----------------|
+| [deepl translate text]({{ site.baseurl }}/commands/deepl-translate-text.html) | Translate text |
+
 ## Dropbox (Individual account)
 
 | Command                                                                                                                 | Description                                                   |
@@ -77,6 +83,13 @@ lang: en
 | [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                                         | Append the content to the beginning of the existing Paper doc |
 | [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                                             | Start device monitor client                                   |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                                         | Package remote folder into the zip file                       |
+
+## Dropbox Sign
+
+| Command                                                                                                     | Description                 |
+|-------------------------------------------------------------------------------------------------------------|-----------------------------|
+| [dropbox sign request list]({{ site.baseurl }}/commands/dropbox-sign-request-list.html)                     | List signature requests     |
+| [dropbox sign request signature list]({{ site.baseurl }}/commands/dropbox-sign-request-signature-list.html) | List signatures of requests |
 
 ## Dropbox for teams
 
@@ -205,19 +218,6 @@ lang: en
 | [dropbox team teamfolder replication]({{ site.baseurl }}/commands/dropbox-team-teamfolder-replication.html)                                 | Replicate a team folder to the other team                                           |
 | [dropbox team teamfolder sync setting list]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-list.html)                     | List team folder sync settings                                                      |
 | [dropbox team teamfolder sync setting update]({{ site.baseurl }}/commands/dropbox-team-teamfolder-sync-setting-update.html)                 | Batch update team folder sync settings                                              |
-
-## Dropbox Sign
-
-| Command                                                                                                     | Description                 |
-|-------------------------------------------------------------------------------------------------------------|-----------------------------|
-| [dropbox sign request list]({{ site.baseurl }}/commands/dropbox-sign-request-list.html)                     | List signature requests     |
-| [dropbox sign request signature list]({{ site.baseurl }}/commands/dropbox-sign-request-signature-list.html) | List signatures of requests |
-
-## DeepL
-
-| Command                                                                       | Description    |
-|-------------------------------------------------------------------------------|----------------|
-| [deepl translate text]({{ site.baseurl }}/commands/deepl-translate-text.html) | Translate text |
 
 ## Figma
 

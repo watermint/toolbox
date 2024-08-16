@@ -1,12 +1,12 @@
 package gh_conn_impl
 
 import (
-	"github.com/watermint/toolbox/domain/github/api/gh_auth"
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/api/gh_client_impl"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewConnGithubPublic(name string) api_conn.Connection {
@@ -21,11 +21,11 @@ type ConnGithubPublic struct {
 }
 
 func (z *ConnGithubPublic) AppKeyName() string {
-	return api_conn.ScopeLabelGithub
+	return app_definitions.AppKeyGithubPublic
 }
 
 func (z *ConnGithubPublic) ScopeLabel() string {
-	return gh_auth.ScopeLabelPublic
+	return app_definitions.ScopeLabelGithub
 }
 
 func (z *ConnGithubPublic) PeerName() string {

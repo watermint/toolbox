@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/asana/api/as_client_impl"
 	"github.com/watermint/toolbox/domain/asana/api/as_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
@@ -56,11 +55,11 @@ func (z *connAsanaApi) SetPeerName(name string) {
 }
 
 func (z *connAsanaApi) ScopeLabel() string {
-	return app_definitions.ServiceKeyAsana
+	return app_definitions.ScopeLabelAsana
 }
 
 func (z *connAsanaApi) AppKeyName() string {
-	return api_conn.ScopeLabelAsana
+	return app_definitions.AppKeyAsana
 }
 
 func (z *connAsanaApi) SetScopes(scopes ...string) {

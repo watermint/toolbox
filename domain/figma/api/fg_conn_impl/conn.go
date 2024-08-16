@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/figma/api/fg_client_impl"
 	"github.com/watermint/toolbox/domain/figma/api/fg_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
@@ -60,11 +59,11 @@ func (z *connFigmaApi) SetPeerName(name string) {
 }
 
 func (z *connFigmaApi) ScopeLabel() string {
-	return app_definitions.ServiceKeyFigma
+	return app_definitions.ScopeLabelFigma
 }
 
 func (z *connFigmaApi) AppKeyName() string {
-	return api_conn.ScopeLabelFigma
+	return app_definitions.AppKeyFigma
 }
 
 func (z *connFigmaApi) Client() fg_client.Client {

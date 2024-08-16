@@ -6,7 +6,6 @@ import (
 	"github.com/watermint/toolbox/domain/slack/api/work_client_impl"
 	"github.com/watermint/toolbox/domain/slack/api/work_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
@@ -54,11 +53,11 @@ func (z *connSlackApi) SetPeerName(name string) {
 }
 
 func (z *connSlackApi) ScopeLabel() string {
-	return app_definitions.ServiceKeySlack
+	return app_definitions.ScopeLabelSlack
 }
 
 func (z *connSlackApi) AppKeyName() string {
-	return api_conn.ScopeLabelSlack
+	return app_definitions.AppKeySlack
 }
 
 func (z *connSlackApi) SetScopes(scopes ...string) {
