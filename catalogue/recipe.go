@@ -36,7 +36,6 @@ import (
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutildesktop "github.com/watermint/toolbox/recipe/util/desktop"
 	recipeutildesktopdisplay "github.com/watermint/toolbox/recipe/util/desktop/display"
-	recipeutildesktopscreenshot "github.com/watermint/toolbox/recipe/util/desktop/screenshot"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
 	recipeutilfile "github.com/watermint/toolbox/recipe/util/file"
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
@@ -135,8 +134,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeutildecode.Base64{},
 		&recipeutildesktop.Open{},
 		&recipeutildesktopdisplay.List{},
-		&recipeutildesktopscreenshot.Interval{},
-		&recipeutildesktopscreenshot.Snap{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
 		&recipeutilfile.Hash{},
