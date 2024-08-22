@@ -282,7 +282,6 @@ lang: en
 | [util datetime now]({{ site.baseurl }}/commands/util-datetime-now.html)                                                       | Display current date/time                                                |
 | [util decode base32]({{ site.baseurl }}/commands/util-decode-base32.html)                                                     | Decode text from Base32 (RFC 4648) format                                |
 | [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)                                                     | Decode text from Base64 (RFC 4648) format                                |
-| [util desktop display list]({{ site.baseurl }}/commands/util-desktop-display-list.html)                                       | List displays of the current machine                                     |
 | [util desktop open]({{ site.baseurl }}/commands/util-desktop-open.html)                                                       | Open a file or folder with the default application                       |
 | [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)                                                     | Encode text into Base32 (RFC 4648) format                                |
 | [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)                                                     | Encode text into Base64 (RFC 4648) format                                |
