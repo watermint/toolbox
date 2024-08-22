@@ -284,8 +284,6 @@ lang: en
 | [util decode base64]({{ site.baseurl }}/commands/util-decode-base64.html)                                                     | Decode text from Base64 (RFC 4648) format                                |
 | [util desktop display list]({{ site.baseurl }}/commands/util-desktop-display-list.html)                                       | List displays of the current machine                                     |
 | [util desktop open]({{ site.baseurl }}/commands/util-desktop-open.html)                                                       | Open a file or folder with the default application                       |
-| [util desktop screenshot interval]({{ site.baseurl }}/commands/util-desktop-screenshot-interval.html)                         | Take screenshots at regular intervals                                    |
-| [util desktop screenshot snap]({{ site.baseurl }}/commands/util-desktop-screenshot-snap.html)                                 | Take a screenshot                                                        |
 | [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)                                                     | Encode text into Base32 (RFC 4648) format                                |
 | [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)                                                     | Encode text into Base64 (RFC 4648) format                                |
 | [util file hash]({{ site.baseurl }}/commands/util-file-hash.html)                                                             | Print file digest                                                        |
