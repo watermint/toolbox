@@ -12,6 +12,7 @@ lang: en
 | Command                  | Title                                                                    |
 |--------------------------|--------------------------------------------------------------------------|
 | config license install   | Install a license key                                                    |
+| dev lifecycle assets     | Remove deprecated assets                                                 |
 | dropbox file restore ext | Restore files with a specific extension                                  |
 | util feed json           | Load feed from the URL and output the content as JSON                    |
 | util json query          | Query JSON data                                                          |

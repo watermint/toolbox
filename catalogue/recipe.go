@@ -89,6 +89,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
 		&recipedevlicense.Issue{},
+		&recipedevlifecycle.Assets{},
 		&recipedevlifecycle.Planchangepath{},
 		&recipedevlifecycle.Planprune{},
 		&recipedevmodule.List{},

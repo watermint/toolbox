@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
 	"github.com/watermint/toolbox/essentials/api/api_request"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 var (
@@ -15,6 +16,7 @@ var (
 type Release interface {
 	Get(tagName string) (release *mo_release.Release, err error)
 	List() (releases []*mo_release.Release, err error)
+	ListEach(f func(release *mo_release.Release) error) error
 	Latest() (release *mo_release.Release, err error)
 	CreateDraft(tagName, name, body, branch string) (release *mo_release.Release, err error)
 	Publish(releaseId string) (release *mo_release.Release, err error)
@@ -113,4 +115,50 @@ func (z *releaseImpl) List() (releases []*mo_release.Release, err error) {
 		return nil
 	})
 	return
+}
+
+func (z *releaseImpl) ListEach(f func(release *mo_release.Release) error) error {
+	l := z.ctx.Log()
+	paging := struct {
+		PageSize int `url:"per_page"`
+		Page     int `url:"page"`
+	}{
+		PageSize: 100,
+		Page:     1,
+	}
+
+	for {
+		l.Debug("List releases", esl.Int("page", paging.Page))
+		endpoint := "repos/" + z.owner + "/" + z.repo + "/releases"
+		res := z.ctx.Get(endpoint, api_request.Query(&paging))
+		if err, fail := res.Failure(); fail {
+			l.Debug("Unable to list releases", esl.Error(err))
+			if res.Code() == 404 && paging.Page > 1 {
+				l.Debug("No more releases")
+				return nil
+			}
+			return err
+		}
+
+		entries, ok := res.Success().Json().Array()
+		if !ok {
+			l.Debug("Unable to parse response as array")
+			return errors.New("invalid response")
+		}
+		if len(entries) == 0 {
+			l.Debug("No more releases")
+			return nil
+		}
+		for _, e := range entries {
+			release := &mo_release.Release{}
+			if err := e.Model(release); err != nil {
+				return err
+			}
+			if err := f(release); err != nil {
+				return err
+			}
+		}
+
+		paging.Page++
+	}
 }

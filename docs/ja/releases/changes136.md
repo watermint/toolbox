@@ -12,6 +12,7 @@ lang: ja
 | コマンド                 | タイトル                                                                     |
 |--------------------------|------------------------------------------------------------------------------|
 | config license install   | ライセンスキーのインストール                                                 |
+| dev lifecycle assets     | 非推奨資産の削除                                                             |
 | dropbox file restore ext | 特定の拡張子を持つファイルの復元                                             |
 | util feed json           | URLからフィードを読み込み、コンテンツをJSONとして出力する。                  |
 | util json query          | JSONデータを問い合わせる                                                     |
