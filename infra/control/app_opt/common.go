@@ -180,6 +180,7 @@ func Default() CommonOpts {
 	com.RetainJobData = mo_string.NewSelect()
 	com.Lang = mo_string.NewSelect()
 	com.Output = mo_string.NewSelect()
+	com.OutputFilter = mo_string.NewOptional("")
 	com.Extra = mo_string.NewOptional("")
 	com.Preset()
 	return com

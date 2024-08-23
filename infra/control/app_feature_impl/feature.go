@@ -45,7 +45,7 @@ type featureImpl struct {
 }
 
 func (z featureImpl) UIReportFilter() (filter string, enabled bool) {
-	return z.com.OutputFilter.Value(), z.com.OutputFilter.IsExists() && z.com.OutputFilter.Value() != ""
+	return z.com.OutputFilter.Value(), z.com.OutputFilter.IsExists()
 }
 
 func (z featureImpl) KvsEngine() kv_storage.KvsEngine {

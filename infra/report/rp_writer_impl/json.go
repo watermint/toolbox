@@ -89,21 +89,10 @@ func (z *jsonWriter) findRaw(row interface{}) json.RawMessage {
 }
 
 func (z *jsonWriter) Row(r interface{}) {
-	l := z.ctl.Log().With(esl.String("path", z.path))
-	filter, enabled := z.ctl.Feature().UIReportFilter()
-	var filterQuery *gojq.Query
-	var err error
-	if enabled {
-		l.Debug("Filter enabled", esl.String("filter", filter))
-		filterQuery, err = gojq.Parse(filter)
-		if err != nil {
-			l.Debug("Unable to parse filter query", esl.Error(err))
-			return
-		}
-	}
-
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
+
+	l := z.ctl.Log().With(esl.String("path", z.path))
 	z.index++
 	if r == nil {
 		z.warnZero.Do(func() {
@@ -112,11 +101,22 @@ func (z *jsonWriter) Row(r interface{}) {
 		return
 	}
 
+	filter, enabled := z.ctl.Feature().UIReportFilter()
+	var filterQuery *gojq.Query
+	var err error
+	if enabled {
+		l.Debug("Filter enabled", esl.String("filter", filter))
+		filterQuery, err = gojq.Parse(filter)
+		if err != nil {
+			l.Debug("Unable to parse filter query", esl.Error(err))
+			filterQuery = nil // ignore filter
+		}
+	}
+
 	raw := z.findRaw(r)
 	if raw != nil {
 		if filterQuery != nil {
-			var v0 interface{}
-			err := json.Unmarshal(raw, &v0)
+			v0, err := es_json.ParseAny(raw)
 			if err != nil {
 				l.Debug("Unable to unmarshal", esl.Error(err))
 				return
