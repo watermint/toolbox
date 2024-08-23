@@ -422,6 +422,7 @@ Available commands:
 | [util git clone](docs/commands/util-git-clone.md)                                                             | Clone git repository                                                     |
 | [util image exif](docs/commands/util-image-exif.md)                                                           | Print EXIF metadata of image file                                        |
 | [util image placeholder](docs/commands/util-image-placeholder.md)                                             | Create placeholder image                                                 |
+| [util json query](docs/commands/util-json-query.md)                                                           | Query JSON data                                                          |
 | [util net download](docs/commands/util-net-download.md)                                                       | Download a file                                                          |
 | [util qrcode create](docs/commands/util-qrcode-create.md)                                                     | Create a QR code image file                                              |
 | [util qrcode wifi](docs/commands/util-qrcode-wifi.md)                                                         | Generate QR code for WIFI configuration                                  |

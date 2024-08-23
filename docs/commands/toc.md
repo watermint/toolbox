@@ -289,6 +289,7 @@ lang: en
 | [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                                                             | Clone git repository                                                     |
 | [util image exif]({{ site.baseurl }}/commands/util-image-exif.html)                                                           | Print EXIF metadata of image file                                        |
 | [util image placeholder]({{ site.baseurl }}/commands/util-image-placeholder.html)                                             | Create placeholder image                                                 |
+| [util json query]({{ site.baseurl }}/commands/util-json-query.html)                                                           | Query JSON data                                                          |
 | [util net download]({{ site.baseurl }}/commands/util-net-download.html)                                                       | Download a file                                                          |
 | [util qrcode create]({{ site.baseurl }}/commands/util-qrcode-create.html)                                                     | Create a QR code image file                                              |
 | [util qrcode wifi]({{ site.baseurl }}/commands/util-qrcode-wifi.html)                                                         | Generate QR code for WIFI configuration                                  |

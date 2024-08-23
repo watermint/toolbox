@@ -39,6 +39,7 @@ import (
 	recipeutilfile "github.com/watermint/toolbox/recipe/util/file"
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
 	recipeutilimage "github.com/watermint/toolbox/recipe/util/image"
+	recipeutiljson "github.com/watermint/toolbox/recipe/util/json"
 	recipeutilmonitor "github.com/watermint/toolbox/recipe/util/monitor"
 	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
@@ -138,6 +139,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilgit.Clone{},
 		&recipeutilimage.Exif{},
 		&recipeutilimage.Placeholder{},
+		&recipeutiljson.Query{},
 		&recipeutilmonitor.Client{},
 		&recipeutilnet.Download{},
 		&recipeutilqrcode.Create{},

@@ -82,6 +82,8 @@ require (
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/flatbuffers v24.3.25+incompatible // indirect
 	github.com/google/pprof v0.0.0-20240727154555-813a5fbdbec8 // indirect
+	github.com/itchyny/gojq v0.12.16 // indirect
+	github.com/itchyny/timefmt-go v0.1.6 // indirect
 	github.com/jbenet/go-context v0.0.0-20150711004518-d14ea06fba99 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
