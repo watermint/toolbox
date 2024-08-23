@@ -3279,6 +3279,7 @@
   "recipe.util.json.query.cli.args": "-path /LOCAL/PATH/TO/DATA.json -query QUERY",
   "recipe.util.json.query.desc": "Please refer to [jq Manual](https://jqlang.github.io/jq/manual/) for the syntax (some features are not supported).",
   "recipe.util.json.query.flag.compact": "Compact output",
+  "recipe.util.json.query.flag.lines": "Read JSON Lines (https://jsonlines.org/) format",
   "recipe.util.json.query.flag.path": "File path",
   "recipe.util.json.query.flag.query": "Query string. ",
   "recipe.util.json.query.text_input.path.desc": "The path to the JSON file",

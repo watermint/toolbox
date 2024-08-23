@@ -40,11 +40,12 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description    | Default |
-|------------|----------------|---------|
-| `-compact` | Compact output | false   |
-| `-path`    | File path      |         |
-| `-query`   | Query string.  |         |
+| Option     | Description                                     | Default |
+|------------|-------------------------------------------------|---------|
+| `-compact` | Compact output                                  | false   |
+| `-lines`   | Read JSON Lines (https://jsonlines.org/) format | false   |
+| `-path`    | File path                                       |         |
+| `-query`   | Query string.                                   |         |
 
 ## Common options:
 
