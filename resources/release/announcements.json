@@ -4,46 +4,34 @@
       "discussions": {
         "nodes": [
           {
+            "number": 870,
+            "title": "Deprecation: util monitor client",
+            "updatedAt": "2024-08-23T10:53:42Z",
+            "url": "https://github.com/watermint/toolbox/discussions/870"
+          },
+          {
+            "number": 868,
+            "title": "Removal of the screenshot commands",
+            "updatedAt": "2024-08-22T12:59:02Z",
+            "url": "https://github.com/watermint/toolbox/discussions/868"
+          },
+          {
+            "number": 835,
+            "title": "Google commands deprecation",
+            "updatedAt": "2024-07-02T00:45:32Z",
+            "url": "https://github.com/watermint/toolbox/discussions/835"
+          },
+          {
             "number": 836,
             "title": "Remove binaries that are more than six months old after release",
             "updatedAt": "2024-05-17T06:28:19Z",
             "url": "https://github.com/watermint/toolbox/discussions/836"
           },
           {
-            "number": 835,
-            "title": "Google commands deprecation",
-            "updatedAt": "2024-05-17T06:10:43Z",
-            "url": "https://github.com/watermint/toolbox/discussions/835"
-          },
-          {
-            "number": 813,
-            "title": "License change : MIT License to Apache License, Version 2.0",
-            "updatedAt": "2024-04-04T23:11:21Z",
-            "url": "https://github.com/watermint/toolbox/discussions/813"
-          },
-          {
             "number": 815,
             "title": "Lifecycle: Availability period for each release",
             "updatedAt": "2024-04-03T16:25:42Z",
             "url": "https://github.com/watermint/toolbox/discussions/815"
-          },
-          {
-            "number": 799,
-            "title": "Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`",
-            "updatedAt": "2024-04-03T15:51:51Z",
-            "url": "https://github.com/watermint/toolbox/discussions/799"
-          },
-          {
-            "number": 797,
-            "title": "Path change: commands under `services` have been moved to a new location",
-            "updatedAt": "2024-04-03T15:50:02Z",
-            "url": "https://github.com/watermint/toolbox/discussions/797"
-          },
-          {
-            "number": 796,
-            "title": "Deprecation: Dropbox Team space commands will be removed",
-            "updatedAt": "2024-04-03T15:54:18Z",
-            "url": "https://github.com/watermint/toolbox/discussions/796"
           }
         ]
       }

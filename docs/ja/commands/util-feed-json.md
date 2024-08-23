@@ -1,12 +1,12 @@
 ---
 layout: command
-title: コマンド `util desktop display list`
+title: コマンド `util feed json`
 lang: ja
 ---
 
-# util desktop display list
+# util feed json
 
-このマシンのディスプレイを一覧表示 
+URLからフィードを読み込み、コンテンツをJSONとして出力する。 
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util desktop display list 
+.\tbx.exe util feed json -url URL
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util desktop display list 
+$HOME/Desktop/tbx util feed json -url URL
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -35,6 +35,13 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 > "tbx"は開発元を確認できないため、使用がブロックされました。
 
 "このまま開く"というボタンがあります. リスクを確認の上、開いてください. ２回目の実行ではダイアログに"開く”ボタンがありますので、これを選択します
+
+## オプション:
+
+| オプション | 説明             | デフォルト |
+|------------|------------------|------------|
+| `-compact` | コンパクトな出力 | false      |
+| `-url`     | フィードのURL    |            |
 
 ## 共通のオプション:
 
@@ -58,33 +65,6 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
-
-# 実行結果
-
-作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
-
-| OS      | パスのパターン                              | 例                                                     |
-|---------|---------------------------------------------|--------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
-| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
-| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
-
-## レポート: displays
-
-ディスプレイの情報
-このコマンドはレポートを3種類の書式で出力します. `displays.csv`, `displays.json`, ならびに `displays.xlsx`.
-
-| 列     | 説明                |
-|--------|---------------------|
-| id     | ディスプレイID      |
-| x      | ディスプレイのX位置 |
-| y      | ディスプレイのY位置 |
-| width  | ディスプレイの幅    |
-| height | ディスプレイの高さ  |
-
-`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
-
-レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `displays_0000.xlsx`, `displays_0001.xlsx`, `displays_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

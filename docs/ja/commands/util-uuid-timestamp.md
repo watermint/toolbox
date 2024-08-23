@@ -1,12 +1,12 @@
 ---
 layout: command
-title: コマンド `util desktop screenshot snap`
+title: コマンド `util uuid timestamp`
 lang: ja
 ---
 
-# util desktop screenshot snap
+# util uuid timestamp
 
-スクリーンショットを撮る 
+UUIDタイムスタンプの解析 
 
 # インストール
 
@@ -22,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util desktop screenshot snap -path /LOCAL/PATH/TO/snap.png
+.\tbx.exe util uuid timestamp -uuid UUID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util desktop screenshot snap -path /LOCAL/PATH/TO/snap.png
+$HOME/Desktop/tbx util uuid timestamp -uuid UUID
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -38,10 +38,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション    | 説明                                                                                             | デフォルト |
-|---------------|--------------------------------------------------------------------------------------------------|------------|
-| `-display-id` | ディスプレイ ID. IDを取得するには、`util desktop display list`コマンドの出力を参照してください。 | 0          |
-| `-path`       | スクリーンショットを保存するパス                                                                 |            |
+| オプション | 説明 | デフォルト |
+|------------|------|------------|
+| `-uuid`    | UUID |            |
 
 ## 共通のオプション:
 

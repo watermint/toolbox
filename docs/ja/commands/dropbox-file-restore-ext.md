@@ -1,12 +1,12 @@
 ---
 layout: command
-title: コマンド `dev license issue`
+title: コマンド `dropbox file restore ext`
 lang: ja
 ---
 
-# dev license issue
+# dropbox file restore ext
 
-ライセンスの発行 
+特定の拡張子を持つファイルの復元 (試験的実装かつ非可逆な操作です)
 
 # セキュリティ
 
@@ -22,18 +22,20 @@ lang: ja
 不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
 
 方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
+* Dropbox (個人アカウント): https://help.dropbox.com/installs-integrations/third-party/third-party-apps
 
 ## 認可スコープ
 
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
+| 説明                                                                                   |
+|----------------------------------------------------------------------------------------|
+| Dropbox: ユーザー名、メールアドレス、国名など、Dropboxアカウントの基本情報を表示します |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを表示                                 |
+| Dropbox: Dropboxのファイルやフォルダのコンテンツを編集                                 |
 
 # 認可
 
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
-Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
+最初の実行では、`tbx`はあなたのDropboxアカウントへの認可を要求します.
+リンクをブラウザにペーストしてください. その後、認可を行います. 認可されると、Dropboxは認証コードを表示します. `tbx`にこの認証コードをペーストしてください.
 ```
 
 watermint toolbox xx.x.xxx
@@ -42,9 +44,13 @@ watermint toolbox xx.x.xxx
 © 2016-2024 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
-認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
+1. 次のURLを開き認証ダイアログを開いてください:
 
+https://www.dropbox.com/oauth2/authorize?client_id=xxxxxxxxxxxxxxx&response_type=code&state=xxxxxxxx
+
+2. 'Allow'をクリックします (先にログインしておく必要があります):
+3. 認証コードをコピーします:
+認証コードを入力してください
 ```
 
 # インストール
@@ -61,12 +67,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+.\tbx.exe dropbox file restore ext -ext EXT -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+$HOME/Desktop/tbx dropbox file restore ext -ext EXT -path /DROPBOX/PATH/TO/RESTORE
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,21 +83,11 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                   | 説明                                                     | デフォルト         |
-|------------------------------|----------------------------------------------------------|--------------------|
-| `-app-name`                  | アプリケーション名                                       | watermint toolbox  |
-| `-branch`                    | ライセンス・リポジトリ・ブランチ                         | main               |
-| `-expiration`                | ライセンスの有効期限                                     |                    |
-| `-licensee-email`            | ライセンシーのEメール                                    |                    |
-| `-licensee-name`             | ライセンシー名                                           |                    |
-| `-lifecycle-available-after` | ビルド時間からこの期間後に利用可能なライフサイクル（秒） | 94608000           |
-| `-lifecycle-warning-after`   | ビルド時刻からこの期間経過後のライフサイクル警告（秒）   | 31536000           |
-| `-owner`                     | ライセンス・リポジトリの所有者                           | watermint          |
-| `-peer`                      | アカウントの別名                                         | default            |
-| `-recipe-allowed-prefix`     | レシピの接頭辞                                           |                    |
-| `-recipes-allowed`           | コンマで区切られたレシピのリスト                         |                    |
-| `-repository`                | ライセンス・リポジトリ                                   | toolbox-supplement |
-| `-scope`                     | ライセンス範囲                                           |                    |
+| オプション | 説明                                | デフォルト |
+|------------|-------------------------------------|------------|
+| `-ext`     | 復元する拡張子（jpg、png、pdfなど） |            |
+| `-path`    | リストアへのパス                    |            |
+| `-peer`    | アカウントの別名                    | default    |
 
 ## 共通のオプション:
 
@@ -115,6 +111,38 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: operation_log
+
+このレポートは処理結果を出力します.
+このコマンドはレポートを3種類の書式で出力します. `operation_log.csv`, `operation_log.json`, ならびに `operation_log.xlsx`.
+
+| 列                                 | 説明                                                                                      |
+|------------------------------------|-------------------------------------------------------------------------------------------|
+| status                             | 処理の状態                                                                                |
+| reason                             | 失敗またはスキップの理由                                                                  |
+| input.path                         | パス                                                                                      |
+| result.tag                         | エントリーの種別`file`, `folder`, または `deleted`                                        |
+| result.name                        | 名称                                                                                      |
+| result.path_display                | パス (表示目的で大文字小文字を区別する).                                                  |
+| result.client_modified             | ファイルの場合、更新日時はクライアントPC上でのタイムスタンプ                              |
+| result.server_modified             | Dropbox上で最後に更新された日時                                                           |
+| result.size                        | ファイルサイズ(バイト単位)                                                                |
+| result.has_explicit_shared_members | trueの場合、結果には、各ファイルに明示的なメンバーがいるかどうかを示すフラグが含まれます. |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `operation_log_0000.xlsx`, `operation_log_0001.xlsx`, `operation_log_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 

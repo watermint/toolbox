@@ -1,51 +1,12 @@
 ---
 layout: command
-title: コマンド `dev license issue`
+title: コマンド `util uuid version`
 lang: ja
 ---
 
-# dev license issue
+# util uuid version
 
-ライセンスの発行 
-
-# セキュリティ
-
-`watermint toolbox`は認証情報をファイルシステム上に保存します. それは次のパスです:
-
-| OS      | パス                                                               |
-|---------|--------------------------------------------------------------------|
-| Windows | `%HOMEPATH%\.toolbox\secrets` (e.g. C:\Users\bob\.toolbox\secrets) |
-| macOS   | `$HOME/.toolbox/secrets` (e.g. /Users/bob/.toolbox/secrets)        |
-| Linux   | `$HOME/.toolbox/secrets` (e.g. /home/bob/.toolbox/secrets)         |
-
-これらの認証情報ファイルはDropboxサポートを含め誰にも共有しないでください.
-不必要になった場合にはこれらのファイルを削除しても問題ありません. 認証情報の削除を確実にしたい場合には、アプリケーションアクセス設定または管理コンソールからアプリケーションへの許可を取り消してください.
-
-方法は次のヘルプセンター記事をご参照ください:
-* GitHub: https://developer.github.com/apps/managing-oauth-apps/deleting-an-oauth-app/
-
-## 認可スコープ
-
-| 説明                                                                                                                                                                                                                                                                                                                                               |
-|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| GitHub: プライベートリポジトリを含む、リポジトリへのフルアクセスを許可それには、コードへの読み書き可能なアクセス、コミットステータス、リポジトリや組織のプロジェクト、招待状、共同作業者、チームメンバーの追加、デプロイメントステータス、リポジトリや組織のWebhookなどが含まれます. また、ユーザーのプロジェクトを管理する機能も付与されています. |
-
-# 認可
-
-最初の実行では、`tbx`はあなたのGitHubアカウントへの認可を要求します.
-Enterキーを押すと、ブラウザが起動します。その後、サービスが認証を行い、tbxがその結果を受け取ります。認証成功のメッセージが表示されたら、ブラウザのウィンドウを閉じてもかまいません。
-```
-
-watermint toolbox xx.x.xxx
-==========================
-
-© 2016-2024 Takayuki Okazaki
-オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
-
-認可URLを開きます:
-https://github.com/login/oauth/authorize?client_id=xxxxxxxxxxxxxxxxxxxx&redirect_uri=http%3A%2F%2Flocalhost%3A7800%2Fconnect%2Fauth&response_type=code&scope=repo&state=xxxxxxxx
-
-```
+UUIDのバージョンとバリアントの解析 
 
 # インストール
 
@@ -61,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+.\tbx.exe util uuid version -uuid UUID
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx dev license issue -licensee-email LICENSEE_EMAIL -licensee-name LICENSEE_NAME
+$HOME/Desktop/tbx util uuid version -uuid UUID
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -77,21 +38,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション                   | 説明                                                     | デフォルト         |
-|------------------------------|----------------------------------------------------------|--------------------|
-| `-app-name`                  | アプリケーション名                                       | watermint toolbox  |
-| `-branch`                    | ライセンス・リポジトリ・ブランチ                         | main               |
-| `-expiration`                | ライセンスの有効期限                                     |                    |
-| `-licensee-email`            | ライセンシーのEメール                                    |                    |
-| `-licensee-name`             | ライセンシー名                                           |                    |
-| `-lifecycle-available-after` | ビルド時間からこの期間後に利用可能なライフサイクル（秒） | 94608000           |
-| `-lifecycle-warning-after`   | ビルド時刻からこの期間経過後のライフサイクル警告（秒）   | 31536000           |
-| `-owner`                     | ライセンス・リポジトリの所有者                           | watermint          |
-| `-peer`                      | アカウントの別名                                         | default            |
-| `-recipe-allowed-prefix`     | レシピの接頭辞                                           |                    |
-| `-recipes-allowed`           | コンマで区切られたレシピのリスト                         |                    |
-| `-repository`                | ライセンス・リポジトリ                                   | toolbox-supplement |
-| `-scope`                     | ライセンス範囲                                           |                    |
+| オプション | 説明 | デフォルト |
+|------------|------|------------|
+| `-uuid`    | UUID |            |
 
 ## 共通のオプション:
 
@@ -115,6 +64,31 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 | `-skip-logging`    | ローカルストレージへのログ保存をスキップ                                                           | false          |
 | `-verbose`         | 現在の操作を詳細に表示します.                                                                      | false          |
 | `-workspace`       | ワークスペースへのパス                                                                             |                |
+
+# 実行結果
+
+作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.
+
+| OS      | パスのパターン                              | 例                                                     |
+|---------|---------------------------------------------|--------------------------------------------------------|
+| Windows | `%HOMEPATH%\.toolbox\jobs\[job-id]\reports` | C:\Users\bob\.toolbox\jobs\20190909-115959.597\reports |
+| macOS   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /Users/bob/.toolbox/jobs/20190909-115959.597/reports   |
+| Linux   | `$HOME/.toolbox/jobs/[job-id]/reports`      | /home/bob/.toolbox/jobs/20190909-115959.597/reports    |
+
+## レポート: metadata
+
+UUIDメタデータ
+このコマンドはレポートを3種類の書式で出力します. `metadata.csv`, `metadata.json`, ならびに `metadata.xlsx`.
+
+| 列      | 説明           |
+|---------|----------------|
+| uuid    | UUID文字列     |
+| version | UUIDバージョン |
+| variant | UUIDバリアント |
+
+`-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
+
+レポートが大きなものとなる場合、`.xlsx`フォーマットのファイルは次のようにいくつかに分割されて出力されます; `metadata_0000.xlsx`, `metadata_0001.xlsx`, `metadata_0002.xlsx`, ...
 
 # ネットワークプロクシの設定
 
