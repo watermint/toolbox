@@ -285,6 +285,7 @@ lang: en
 | [util desktop open]({{ site.baseurl }}/commands/util-desktop-open.html)                                                       | Open a file or folder with the default application                       |
 | [util encode base32]({{ site.baseurl }}/commands/util-encode-base32.html)                                                     | Encode text into Base32 (RFC 4648) format                                |
 | [util encode base64]({{ site.baseurl }}/commands/util-encode-base64.html)                                                     | Encode text into Base64 (RFC 4648) format                                |
+| [util feed json]({{ site.baseurl }}/commands/util-feed-json.html)                                                             | Load feed from the URL and output the content as JSON                    |
 | [util file hash]({{ site.baseurl }}/commands/util-file-hash.html)                                                             | Print file digest                                                        |
 | [util git clone]({{ site.baseurl }}/commands/util-git-clone.html)                                                             | Clone git repository                                                     |
 | [util image exif]({{ site.baseurl }}/commands/util-image-exif.html)                                                           | Print EXIF metadata of image file                                        |

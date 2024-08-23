@@ -418,6 +418,7 @@ Available commands:
 | [util desktop open](docs/commands/util-desktop-open.md)                                                       | Open a file or folder with the default application                       |
 | [util encode base32](docs/commands/util-encode-base32.md)                                                     | Encode text into Base32 (RFC 4648) format                                |
 | [util encode base64](docs/commands/util-encode-base64.md)                                                     | Encode text into Base64 (RFC 4648) format                                |
+| [util feed json](docs/commands/util-feed-json.md)                                                             | Load feed from the URL and output the content as JSON                    |
 | [util file hash](docs/commands/util-file-hash.md)                                                             | Print file digest                                                        |
 | [util git clone](docs/commands/util-git-clone.md)                                                             | Clone git repository                                                     |
 | [util image exif](docs/commands/util-image-exif.md)                                                           | Print EXIF metadata of image file                                        |
