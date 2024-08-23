@@ -3,6 +3,8 @@ package rp_writer_impl
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/itchyny/gojq"
+	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -87,10 +89,22 @@ func (z *jsonWriter) findRaw(row interface{}) json.RawMessage {
 }
 
 func (z *jsonWriter) Row(r interface{}) {
+	l := z.ctl.Log().With(esl.String("path", z.path))
+	filter, enabled := z.ctl.Feature().UIReportFilter()
+	var filterQuery *gojq.Query
+	var err error
+	if enabled {
+		l.Debug("Filter enabled", esl.String("filter", filter))
+		filterQuery, err = gojq.Parse(filter)
+		if err != nil {
+			l.Debug("Unable to parse filter query", esl.Error(err))
+			return
+		}
+	}
+
 	z.mutex.Lock()
 	defer z.mutex.Unlock()
 	z.index++
-	l := z.ctl.Log().With(esl.String("path", z.path))
 	if r == nil {
 		z.warnZero.Do(func() {
 			l.Error("Empty row found")
@@ -100,7 +114,52 @@ func (z *jsonWriter) Row(r interface{}) {
 
 	raw := z.findRaw(r)
 	if raw != nil {
-		z.w.Write(raw)
+		if filterQuery != nil {
+			var v0 interface{}
+			err := json.Unmarshal(raw, &v0)
+			if err != nil {
+				l.Debug("Unable to unmarshal", esl.Error(err))
+				return
+			}
+			v1, err := es_json.QuerySingle(v0, filterQuery)
+			if err != nil {
+				l.Debug("Unable to filter", esl.Error(err))
+				return
+			}
+			switch v2 := v1.(type) {
+			case string:
+				z.w.Write([]byte(v2))
+			case []byte:
+				z.w.Write(v2)
+			default:
+				v4, _ := json.Marshal(v2)
+				z.w.Write(v4)
+			}
+
+			z.w.Write([]byte("\n"))
+			return
+		} else {
+			z.w.Write(raw)
+			z.w.Write([]byte("\n"))
+			return
+		}
+	}
+
+	if filterQuery != nil {
+		v, err := es_json.QuerySingle(r, filterQuery)
+		if err != nil {
+			l.Debug("Unable to filter", esl.Error(err))
+			return
+		}
+		switch v1 := v.(type) {
+		case string:
+			z.w.Write([]byte(v1))
+		case []byte:
+			z.w.Write(v1)
+		default:
+			v2, _ := json.Marshal(v)
+			z.w.Write(v2)
+		}
 		z.w.Write([]byte("\n"))
 		return
 	}
@@ -109,7 +168,7 @@ func (z *jsonWriter) Row(r interface{}) {
 	enc := json.NewEncoder(buf)
 	enc.SetEscapeHTML(false)
 	enc.SetIndent("", "")
-	err := enc.Encode(r)
+	err = enc.Encode(r)
 	if err != nil {
 		l.Debug("Unable to unmarshal", esl.Error(err))
 		return

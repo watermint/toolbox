@@ -44,6 +44,10 @@ type featureImpl struct {
 	hashReplay   kv_storage.Storage
 }
 
+func (z featureImpl) UIReportFilter() (filter string, enabled bool) {
+	return z.com.OutputFilter.Value(), z.com.OutputFilter.IsExists() && z.com.OutputFilter.Value() != ""
+}
+
 func (z featureImpl) KvsEngine() kv_storage.KvsEngine {
 	switch {
 	case z.Experiment(app_definitions2.ExperimentKvsBadger):

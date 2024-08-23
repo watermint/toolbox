@@ -259,8 +259,11 @@ lang: ja
 - 	ConnScopes:      map[string]string{"Peer": "github_repo"},
 + 	ConnScopes:      map[string]string{"Peer": "github"},
   	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
+- 	IsSecret:        false,
++ 	IsSecret:        true,
+  	IsConsole:       false,
+  	IsExperimental:  false,
+  	... // 3 identical fields
   	Reports: nil,
   	Feeds:   nil,
   	Values: []*dc_recipe.Value{

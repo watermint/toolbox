@@ -5855,6 +5855,18 @@
         ],
         "name": "client"
       }
+    },
+    {
+      "announcement": "https://github.com/watermint/toolbox/discussions/870",
+      "prune_after_build_date": "2024-09-29T15:00:00Z",
+      "current": {
+        "path": [
+          "util",
+          "video",
+          "subtitles"
+        ],
+        "name": "optimize"
+      }
     }
   ]
 }

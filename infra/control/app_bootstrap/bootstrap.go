@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"github.com/itchyny/gojq"
 	"github.com/pkg/profile"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
@@ -62,6 +63,7 @@ type msgRun struct {
 	ErrorLicenseExpired                   app_msg.Message
 	ErrorLicenseRequired                  app_msg.Message
 	ErrorLifecycleEnded                   app_msg.Message
+	ErrorInvalidOutputFilterQuery         app_msg.Message
 	WarnLifecycleNearEnd                  app_msg.Message
 	WarnLifecycleErrorOnNonProductionMode app_msg.Message
 	WarnLicenseExpiredOnNonProductionMode app_msg.Message
@@ -175,6 +177,14 @@ func (z *bsImpl) Run(rcp rc_recipe.Spec, comSpec *rc_spec.CommonValues) {
 		com.Output.Value() != app_opt.OutputJson {
 		ui.Failure(MRun.ErrorRetainNoneSupportsJsonReportOnly)
 		app_exit.Abort(app_exit.FatalStartup)
+	}
+
+	if com.OutputFilter.IsExists() {
+		_, err := gojq.Parse(com.OutputFilter.Value())
+		if err != nil {
+			ui.Failure(MRun.ErrorInvalidOutputFilterQuery.With("Error", err).With("Query", com.OutputFilter.Value()))
+			app_exit.Abort(app_exit.FatalStartup)
+		}
 	}
 
 	clv := app_feature.ConsoleLogLevel(false, com.Debug)

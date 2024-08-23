@@ -58,7 +58,7 @@ In general, new security issues are discovered every day. In order not to leave 
 
 # Announcements
 
-* [#870 Deprecation: util monitor client](https://github.com/watermint/toolbox/discussions/870)
+* [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
 * [#868 Removal of the screenshot commands](https://github.com/watermint/toolbox/discussions/868)
 * [#835 Google commands deprecation](https://github.com/watermint/toolbox/discussions/835)
 * [#836 Remove binaries that are more than six months old after release](https://github.com/watermint/toolbox/discussions/836)
@@ -367,7 +367,6 @@ Available commands:
 
 | Command                                                                         | Description                                         |
 |---------------------------------------------------------------------------------|-----------------------------------------------------|
-| [dev release checkin](docs/commands/dev-release-checkin.md)                     | Check in the new release                            |
 | [github content get](docs/commands/github-content-get.md)                       | Get content metadata of the repository              |
 | [github content put](docs/commands/github-content-put.md)                       | Put small text content into the repository          |
 | [github issue list](docs/commands/github-issue-list.md)                         | List issues of the public/private GitHub repository |

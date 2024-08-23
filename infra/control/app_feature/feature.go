@@ -33,6 +33,11 @@ type Feature interface {
 	// UIFormat UI format
 	UIFormat() string
 
+	// UIReportFilter is the filter for the report
+	// Returns empty string when the filter is not specified.
+	// Returns false when the filter is not enabled.
+	UIReportFilter() (filter string, enabled bool)
+
 	// Concurrency configuration.
 	Concurrency() int
 

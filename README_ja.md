@@ -58,7 +58,7 @@ brew install toolbox
 
 # お知らせ
 
-* [#870 Deprecation: util monitor client](https://github.com/watermint/toolbox/discussions/870)
+* [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
 * [#868 Removal of the screenshot commands](https://github.com/watermint/toolbox/discussions/868)
 * [#835 Google commands deprecation](https://github.com/watermint/toolbox/discussions/835)
 * [#836 Remove binaries that are more than six months old after release](https://github.com/watermint/toolbox/discussions/836)
@@ -367,7 +367,6 @@ Dropbox用ツールとDropbox for teams
 
 | コマンド                                                                           | 説明                                                          |
 |------------------------------------------------------------------------------------|---------------------------------------------------------------|
-| [dev release checkin](docs/ja/commands/dev-release-checkin.md)                     | 新作りリースをチェック                                        |
 | [github content get](docs/ja/commands/github-content-get.md)                       | レポジトリのコンテンツメタデータを取得します.                 |
 | [github content put](docs/ja/commands/github-content-put.md)                       | レポジトリに小さなテキストコンテンツを格納します              |
 | [github issue list](docs/ja/commands/github-issue-list.md)                         | 公開・プライベートGitHubレポジトリの課題一覧                  |

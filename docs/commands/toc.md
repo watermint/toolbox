@@ -236,7 +236,6 @@ lang: en
 
 | Command                                                                                         | Description                                         |
 |-------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| [dev release checkin]({{ site.baseurl }}/commands/dev-release-checkin.html)                     | Check in the new release                            |
 | [github content get]({{ site.baseurl }}/commands/github-content-get.html)                       | Get content metadata of the repository              |
 | [github content put]({{ site.baseurl }}/commands/github-content-put.html)                       | Put small text content into the repository          |
 | [github issue list]({{ site.baseurl }}/commands/github-issue-list.html)                         | List issues of the public/private GitHub repository |

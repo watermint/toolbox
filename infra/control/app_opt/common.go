@@ -80,6 +80,9 @@ type CommonOpts struct {
 	// Set output format
 	Output mo_string.SelectString `json:"output,omitempty"`
 
+	// Set output format filter
+	OutputFilter mo_string.OptionalString `json:"output_filter,omitempty"`
+
 	// Explicitly set proxy the hostname and the port number
 	Proxy mo_string.OptionalString `json:"proxy,omitempty"`
 
