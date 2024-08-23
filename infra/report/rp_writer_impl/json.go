@@ -17,6 +17,11 @@ import (
 	"sync"
 )
 
+var (
+	filterQueryLogEnabledExposed = false
+	filterQueryLogErrorExposed   = false
+)
+
 func NewJsonWriter(name string, ctl app_control.Control, toStdout bool) rp_writer.Writer {
 	return &jsonWriter{
 		name:     name,
@@ -105,10 +110,16 @@ func (z *jsonWriter) Row(r interface{}) {
 	var filterQuery *gojq.Query
 	var err error
 	if enabled {
-		l.Debug("Filter enabled", esl.String("filter", filter))
+		if !filterQueryLogEnabledExposed {
+			l.Debug("Filter enabled", esl.String("filter", filter))
+			filterQueryLogEnabledExposed = true
+		}
 		filterQuery, err = gojq.Parse(filter)
 		if err != nil {
-			l.Debug("Unable to parse filter query", esl.Error(err))
+			if !filterQueryLogErrorExposed {
+				l.Debug("Unable to parse filter query", esl.Error(err))
+				filterQueryLogErrorExposed = true
+			}
 			filterQuery = nil // ignore filter
 		}
 	}

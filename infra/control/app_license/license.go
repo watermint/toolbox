@@ -516,6 +516,10 @@ func loadLicenseFile(key, path string) (ld *LicenseData, err error) {
 
 func ParseLicense(data []byte, license string) (ld *LicenseData, err error) {
 	l := esl.Default()
+	if license == "" || len(data) == 0 {
+		l.Debug("License is empty")
+		return nil, ErrorUnknownLicenseType
+	}
 	keySalt := app_definitions.BuildInfo.LicenseSalt + license
 	p1, err := sc_obfuscate.Deobfuscate(l, []byte(keySalt), data)
 	if err != nil {

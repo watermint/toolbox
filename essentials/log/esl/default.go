@@ -15,9 +15,14 @@ import (
 var (
 	currentDefault Tee = newDefault()
 	currentConsole     = newConsole(ConsoleDefaultLevel())
+	currentStats       = newEmpty()
 	capture            = newEmpty()
 	loggerName     atomic.Int64
 )
+
+func SetStats(l Logger) {
+	currentStats = l
+}
 
 func Default() Logger {
 	return currentDefault
@@ -29,6 +34,10 @@ func ConsoleOnly() Logger {
 
 func Capture() Logger {
 	return capture
+}
+
+func Stats() Logger {
+	return currentStats
 }
 
 func newEmpty() Logger {

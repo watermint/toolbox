@@ -123,6 +123,7 @@ const (
 	LogToolbox = "toolbox"
 	LogCapture = "capture"
 	LogSummary = "summary"
+	LogStats   = "stats"
 
 	// Log names
 	LogNameStart  = "recipe.log"

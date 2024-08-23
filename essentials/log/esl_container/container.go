@@ -22,28 +22,36 @@ type Logger interface {
 	Close()
 }
 
-func NewTransient(consoleLevel esl.Level) (t, c, s Logger) {
+func NewTransient(consoleLevel esl.Level) (t, c, s, stats Logger) {
 	t = newTransient(consoleLevel, esl.FlavorConsole)
 	c = newTransient(esl.LevelQuiet, esl.FlavorFileCapture)
 	s = newTransient(esl.LevelQuiet, esl.FlavorConsole)
+	stats = newTransient(esl.LevelQuiet, esl.FlavorConsole)
 	return
 }
 
-func NewAll(basePath string, budget app_budget.Budget, consoleLevel esl.Level) (t, c, s Logger, err error) {
+func NewAll(basePath string, budget app_budget.Budget, consoleLevel esl.Level) (t, c, s, stats Logger, err error) {
 	t, err = NewToolbox(basePath, budget, consoleLevel)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, nil, nil, nil, err
 	}
 	c, err = NewCapture(basePath, budget)
 	if err != nil {
 		t.Close()
-		return nil, nil, nil, err
+		return nil, nil, nil, nil, err
 	}
 	s, err = LogSummary(basePath)
 	if err != nil {
 		t.Close()
 		c.Close()
-		return nil, nil, nil, err
+		return nil, nil, nil, nil, err
+	}
+	stats, err = LogStats(basePath, budget)
+	if err != nil {
+		t.Close()
+		c.Close()
+		s.Close()
+		return nil, nil, nil, nil, err
 	}
 	return
 }
@@ -58,6 +66,10 @@ func NewCapture(basePath string, budget app_budget.Budget) (c Logger, err error)
 
 func LogSummary(basePath string) (c Logger, err error) {
 	return New(basePath, app_definitions.LogSummary, app_budget.BudgetUnlimited, esl.LevelDebug, esl.LevelInfo, esl.FlavorFileStandard, false, false)
+}
+
+func LogStats(basePath string, budget app_budget.Budget) (c Logger, err error) {
+	return New(basePath, app_definitions.LogStats, budget, esl.LevelDebug, esl.LevelInfo, esl.FlavorFileStandard, false, false)
 }
 
 func New(basePath, name string, budget app_budget.Budget, fileLevel, consoleLevel esl.Level, flavor esl.Flavor, teeConsole, compress bool) (c Logger, err error) {
