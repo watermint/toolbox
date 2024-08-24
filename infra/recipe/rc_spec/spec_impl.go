@@ -3,7 +3,6 @@ package rc_spec
 import (
 	"flag"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/collections/es_array_deprecated"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
@@ -289,10 +288,10 @@ func (z specValueSelfContained) Doc(ui app_ui.UI) *dc_recipe.Recipe {
 		Path:            z.CliPath(),
 		CliArgs:         ui.TextOrEmpty(z.CliArgs()),
 		CliNote:         ui.TextOrEmpty(z.CliNote()),
-		ConnUsePersonal: z.ConnUsePersonal(),
-		ConnUseBusiness: z.ConnUseBusiness(),
+		ConnUsePersonal: z.ConnUseDropboxPersonal(),
+		ConnUseBusiness: z.ConnUseDropboxTeam(),
 		ConnScopes:      z.ConnScopeMap(),
-		Services:        z.Services(),
+		Services:        z.ScopeLabels(),
 		IsSecret:        z.IsSecret(),
 		IsConsole:       z.IsConsole(),
 		IsExperimental:  z.IsExperimental(),
@@ -497,29 +496,29 @@ func (z specValueSelfContained) Feeds() map[string]fd_file.Spec {
 	return z.repo.FeedSpecs()
 }
 
-func (z specValueSelfContained) Services() []string {
+func (z specValueSelfContained) ScopeLabels() []string {
 	services := make([]string, 0)
 	conns := z.repo.Conns()
 	for _, c := range conns {
-		services = append(services, c.ServiceName())
+		services = append(services, c.ScopeLabel())
 	}
 	return es_array_deprecated.NewByString(services...).Unique().Sort().AsStringArray()
 }
 
-func (z specValueSelfContained) ConnUsePersonal() bool {
+func (z specValueSelfContained) ConnUseDropboxPersonal() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.ServiceName() == api_conn.ServiceDropbox {
+		if c.AppKeyName() == app_definitions.AppKeyDropboxIndividual {
 			use = true
 		}
 	}
 	return use
 }
 
-func (z specValueSelfContained) ConnUseBusiness() bool {
+func (z specValueSelfContained) ConnUseDropboxTeam() bool {
 	use := false
 	for _, c := range z.repo.Conns() {
-		if c.ServiceName() == api_conn.ServiceDropboxBusiness {
+		if c.AppKeyName() == app_definitions.AppKeyDropboxTeam {
 			use = true
 		}
 	}

@@ -1,2 +1,66 @@
 * Remove deprecated commands as announced in #835, #796
 * Remove alias of old command paths as announced in #797, #799
+
+## #872 - Output filter option
+
+This feature allows you to filter the output of the command.
+This is useful if you want to process the output in a specific format.
+In addition, in some cases, data in JSON format contains more data.
+If you want to retrieve such hidden data, this option will help you to extract it as a report.
+
+For example, the command [dropbox team member list](https://toolbox.watermint.org/commands/dropbox-team-member-list.html) returns a list of team members.
+JSON report contains raw data from the Dropbox API.
+If you want to extract only the email address and the verification status of the team members, you can use the output filter option.
+
+```bash
+$ ./tbx dropbox team member list -output json --output-filter "[.profile.email, .profile.email_verified]"
+["sugito@example.com", true]
+["kajiwara@example.com", true]
+["takimoto@example.com", false]
+["ueno@example.com", true]
+["tomioka@example.com", false]
+```
+
+Then, if you want to format this data as a CSV, you can use the `@csv` filter like this:
+
+```bash
+$ ./tbx dropbox team member list -output json --output-filter "[.profile.email, .profile.email_verified] | @csv"
+"sugito@example.com",true
+"kajiwara@example.com",true
+"takimoto@example.com",false
+"ueno@example.com",true
+"tomioka@example.com",false
+```
+
+In case you want to test the output filter, you can run the command first without the output filter option.
+The command will generate the raw JSON output.
+Then, you can test the query the command [util json query](https://toolbox.watermint.org/commands/util-json-query.html) to test the query.
+
+```bash
+$ ./tbx dropbox team member list
+watermint toolbox xxx.x.xxx
+===========================
+
+© 2016-2024 Takayuki Okazaki
+Licensed under open source licenses. Use the `license` command for more detail.
+
+....snip...
+
+The report generated: /Users/YOU/.toolbox/jobs/20240824-012959.EHJ/report/member.csv
+The report generated: /Users/YOU/.toolbox/jobs/20240824-012959.EHJ/report/member.json
+The report generated: /Users/YOU/.toolbox/jobs/20240824-012959.EHJ/report/member.xlsx
+
+```
+
+In this case, the JSON report is generated in the path `/Users/YOU/.toolbox/jobs/20240824-012959.EHJ/report/member.json`.
+You can use this file to test the output filter.
+The report is generated in the JSON Lines format. You need to use the `-lines` option to read the file.
+
+```bash
+$ ./tbx util json query -lines -path /Users/YOU/.toolbox/jobs/20240824-012959.EHJ/report/member.json -query "[.profile.email, .profile.email_verified] | @csv"
+"sugito@example.com",true
+"kajiwara@example.com",true
+"takimoto@example.com",false
+"ueno@example.com",true
+"tomioka@example.com",false
+```

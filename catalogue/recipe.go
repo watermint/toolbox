@@ -35,12 +35,12 @@ import (
 	recipeutildatetime "github.com/watermint/toolbox/recipe/util/datetime"
 	recipeutildecode "github.com/watermint/toolbox/recipe/util/decode"
 	recipeutildesktop "github.com/watermint/toolbox/recipe/util/desktop"
-	recipeutildesktopdisplay "github.com/watermint/toolbox/recipe/util/desktop/display"
-	recipeutildesktopscreenshot "github.com/watermint/toolbox/recipe/util/desktop/screenshot"
 	recipeutilencode "github.com/watermint/toolbox/recipe/util/encode"
+	recipeutilfeed "github.com/watermint/toolbox/recipe/util/feed"
 	recipeutilfile "github.com/watermint/toolbox/recipe/util/file"
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
 	recipeutilimage "github.com/watermint/toolbox/recipe/util/image"
+	recipeutiljson "github.com/watermint/toolbox/recipe/util/json"
 	recipeutilmonitor "github.com/watermint/toolbox/recipe/util/monitor"
 	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
@@ -69,6 +69,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeconfigfeature.Disable{},
 		&recipeconfigfeature.Enable{},
 		&recipeconfigfeature.List{},
+		&recipeconfiglicense.Install{},
 		&recipeconfiglicense.List{},
 		&recipedev.Info{},
 		&recipedevbenchmark.Local{},
@@ -88,6 +89,7 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipedevkvs.Concurrency{},
 		&recipedevkvs.Dump{},
 		&recipedevlicense.Issue{},
+		&recipedevlifecycle.Assets{},
 		&recipedevlifecycle.Planchangepath{},
 		&recipedevlifecycle.Planprune{},
 		&recipedevmodule.List{},
@@ -133,15 +135,14 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeutildecode.Base32{},
 		&recipeutildecode.Base64{},
 		&recipeutildesktop.Open{},
-		&recipeutildesktopdisplay.List{},
-		&recipeutildesktopscreenshot.Interval{},
-		&recipeutildesktopscreenshot.Snap{},
 		&recipeutilencode.Base32{},
 		&recipeutilencode.Base64{},
+		&recipeutilfeed.Json{},
 		&recipeutilfile.Hash{},
 		&recipeutilgit.Clone{},
 		&recipeutilimage.Exif{},
 		&recipeutilimage.Placeholder{},
+		&recipeutiljson.Query{},
 		&recipeutilmonitor.Client{},
 		&recipeutilnet.Download{},
 		&recipeutilqrcode.Create{},
@@ -163,7 +164,11 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiltime.Now{},
 		&recipeutilunixtime.Format{},
 		&recipeutilunixtime.Now{},
+		&recipeutiluuid.Timestamp{},
+		&recipeutiluuid.Ulid{},
 		&recipeutiluuid.V4{},
+		&recipeutiluuid.V7{},
+		&recipeutiluuid.Version{},
 		&recipeutilvideosubtitles.Optimize{},
 		&recipeutilxlsx.Create{},
 		&recipeutilxlsxsheet.Export{},

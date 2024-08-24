@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func newValueConn(acceptType interface{}, factory func(peerName string) api_conn.Connection) rc_recipe.Value {
+func NewValueConn(acceptType interface{}, factory func(peerName string) api_conn.Connection) rc_recipe.Value {
 	return &ValueConnBase{
 		peerName:   api_conn.DefaultPeerName,
 		acceptType: reflect.TypeOf(acceptType).Elem(),

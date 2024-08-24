@@ -16,6 +16,7 @@ import (
 type Asset interface {
 	List() (assets []*mo_release_asset.Asset, err error)
 	Upload(file mo_path.ExistingFileSystemPath) (asset *mo_release_asset.Asset, err error)
+	Delete(assetId string) (err error)
 }
 
 func New(ctx gh_client.Client, owner, repository, release string) Asset {
@@ -32,6 +33,15 @@ type assetImpl struct {
 	owner      string
 	repository string
 	release    string
+}
+
+func (z *assetImpl) Delete(assetId string) (err error) {
+	endpoint := "repos/" + z.owner + "/" + z.repository + "/releases/assets/" + assetId
+	res := z.ctx.Delete(endpoint)
+	if err, fail := res.Failure(); fail {
+		return err
+	}
+	return nil
 }
 
 func (z *assetImpl) List() (assets []*mo_release_asset.Asset, err error) {

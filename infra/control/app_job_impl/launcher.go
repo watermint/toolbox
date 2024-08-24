@@ -97,7 +97,10 @@ func (z launchImpl) prepAuthDatabase(fe app_feature.Feature) (repo api_auth.Repo
 func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	lg := z.wb.Logger().Logger()
 	sm := z.wb.Summary().Logger()
+	st := z.wb.Stats().Logger()
 	fe := app_feature_impl.NewFeature(z.com, z.wb.Workspace(), z.rcp.IsTransient())
+
+	esl.SetStats(st)
 
 	seq, er := app_queue.NewSequence(lg, fe, z.ui, z.wb)
 	ar, err := z.prepAuthDatabase(fe)
@@ -120,7 +123,7 @@ func (z launchImpl) Up() (ctl app_control.Control, err error) {
 	}
 
 	// Launch monitor
-	es_memory.LaunchReporting(lg)
+	es_memory.LaunchReporting(st)
 
 	sm.Debug("Up completed",
 		esl.String("name", app_definitions.Name),

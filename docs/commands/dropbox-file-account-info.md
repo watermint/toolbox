@@ -87,26 +87,27 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Common options:
 
-| Option             | Description                                                                               | Default              |
-|--------------------|-------------------------------------------------------------------------------------------|----------------------|
-| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
-| `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
-| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
-| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |
-| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage)                      | normal               |
-| `-concurrency`     | Maximum concurrency for running operation                                                 | Number of processors |
-| `-debug`           | Enable debug mode                                                                         | false                |
-| `-experiment`      | Enable experimental feature(s).                                                           |                      |
-| `-extra`           | Extra parameter file path                                                                 |                      |
-| `-lang`            | Display language                                                                          | auto                 |
-| `-output`          | Output format (none/text/markdown/json)                                                   | text                 |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |
-| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
-| `-retain-job-data` | Job data retain policy                                                                    | default              |
-| `-secure`          | Do not store tokens into a file                                                           | false                |
-| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
-| `-verbose`         | Show current operations for more detail.                                                  | false                |
-| `-workspace`       | Workspace path                                                                            |                      |
+| Option             | Description                                                                                                                                           | Default              |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                                                                             |                      |
+| `-auto-open`       | Auto open URL or artifact folder                                                                                                                      | false                |
+| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited                                                                       | 0                    |
+| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                                                                                        | normal               |
+| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage)                                                                                  | normal               |
+| `-concurrency`     | Maximum concurrency for running operation                                                                                                             | Number of processors |
+| `-debug`           | Enable debug mode                                                                                                                                     | false                |
+| `-experiment`      | Enable experimental feature(s).                                                                                                                       |                      |
+| `-extra`           | Extra parameter file path                                                                                                                             |                      |
+| `-lang`            | Display language                                                                                                                                      | auto                 |
+| `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
+| `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
+| `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
+| `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
+| `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
+| `-workspace`       | Workspace path                                                                                                                                        |                      |
 
 # Results
 
@@ -123,16 +124,13 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows a list of members.
 The command will generate a report in three different formats. `profile.csv`, `profile.json`, and `profile.xlsx`.
 
-| Column         | Description                                                                          |
-|----------------|--------------------------------------------------------------------------------------|
-| email          | Email address of user.                                                               |
-| email_verified | Is true if the user's email is verified to be owned by the user.                     |
-| status         | The user's status as a member of a specific team. (active/invited/suspended/removed) |
-| given_name     | Also known as a first name                                                           |
-| surname        | Also known as a last name or family name.                                            |
-| display_name   | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| joined_on      | The date and time the user joined as a member of a specific team.                    |
-| invited_on     | The date and time the user was invited to the team                                   |
+| Column         | Description                                                                         |
+|----------------|-------------------------------------------------------------------------------------|
+| email          | Email address of user.                                                              |
+| email_verified | Is true if the user's email is verified to be owned by the user.                    |
+| given_name     | Also known as a first name                                                          |
+| surname        | Also known as a last name or family name.                                           |
+| display_name   | A name that can be used directly to represent the name of a user's Dropbox account. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

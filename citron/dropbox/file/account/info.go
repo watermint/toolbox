@@ -23,6 +23,9 @@ func (z *Info) Preset() {
 	z.Profile.SetModel(
 		&mo_member.Member{},
 		rp_model.HiddenColumns(
+			"status",
+			"joined_on",
+			"invited_on",
 			"team_member_id",
 			"external_id",
 			"account_id",

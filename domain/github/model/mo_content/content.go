@@ -12,5 +12,5 @@ type Content struct {
 	Sha     string `path:"sha" json:"sha"`
 	Size    int    `path:"size" json:"size"`
 	Target  string `path:"target" json:"target"`
-	Content string `path:"content" json:"-""`
+	Content string `path:"content" json:"-"`
 }

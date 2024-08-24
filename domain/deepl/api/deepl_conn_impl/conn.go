@@ -5,7 +5,6 @@ import (
 	"github.com/watermint/toolbox/domain/deepl/api/deepl_client_impl"
 	"github.com/watermint/toolbox/domain/deepl/api/deepl_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -36,7 +35,7 @@ func (z *connDeeplApiImpl) Connect(ctl app_control.Control) (err error) {
 	l := ctl.Log()
 	sessionData := api_auth.KeySessionData{
 		AppData: api_auth.KeyAppData{
-			AppKeyName: api_conn.ServiceDeepl,
+			AppKeyName: app_definitions.ScopeLabelDeepl,
 		},
 		PeerName: z.peerName,
 	}
@@ -66,11 +65,11 @@ func (z *connDeeplApiImpl) SetPeerName(name string) {
 }
 
 func (z *connDeeplApiImpl) ScopeLabel() string {
-	return app_definitions.ServiceDeepl
+	return app_definitions.ScopeLabelDeepl
 }
 
-func (z *connDeeplApiImpl) ServiceName() string {
-	return api_conn.ServiceDeepl
+func (z *connDeeplApiImpl) AppKeyName() string {
+	return app_definitions.AppKeyDeepl
 }
 
 func (z *connDeeplApiImpl) IsKeyAuth() bool {

@@ -1,6 +1,7 @@
 package group
 
 import (
+	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
@@ -56,7 +57,7 @@ func (z *Rename) Test(c app_control.Control) error {
 		m.CurrentName = "Marketing"
 		m.NewName = "Marketing (Archived)"
 	})
-	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil && err != sv_group.ErrorGroupNotFoundForName {
+	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); err != nil && !errors.Is(err, sv_group.ErrorGroupNotFoundForName) {
 		return err
 	}
 	return qt_errors.ErrorScenarioTest

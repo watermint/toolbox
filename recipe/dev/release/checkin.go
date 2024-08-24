@@ -12,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/control/app_license"
 	"github.com/watermint/toolbox/infra/control/app_license_registry"
+	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/resources"
 	"os"
@@ -22,6 +23,7 @@ import (
 )
 
 type Checkin struct {
+	rc_recipe.RemarkSecret
 	Peer             gh_conn.ConnGithubRepo
 	Owner            string
 	Repo             string

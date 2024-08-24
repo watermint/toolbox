@@ -88,32 +88,34 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 | `-lifecycle-warning-after`   | Lifecycle warning after this period from the build time (seconds)   | 31536000           |
 | `-owner`                     | License repository owner                                            | watermint          |
 | `-peer`                      | Account alias                                                       | default            |
+| `-recipe-allowed-prefix`     | Recipe allowed prefix                                               |                    |
 | `-recipes-allowed`           | Comma separated list of recipes allowed                             |                    |
 | `-repository`                | License repository                                                  | toolbox-supplement |
 | `-scope`                     | License scope                                                       |                    |
 
 ## Common options:
 
-| Option             | Description                                                                               | Default              |
-|--------------------|-------------------------------------------------------------------------------------------|----------------------|
-| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                 |                      |
-| `-auto-open`       | Auto open URL or artifact folder                                                          | false                |
-| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited           | 0                    |
-| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                            | normal               |
-| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage)                      | normal               |
-| `-concurrency`     | Maximum concurrency for running operation                                                 | Number of processors |
-| `-debug`           | Enable debug mode                                                                         | false                |
-| `-experiment`      | Enable experimental feature(s).                                                           |                      |
-| `-extra`           | Extra parameter file path                                                                 |                      |
-| `-lang`            | Display language                                                                          | auto                 |
-| `-output`          | Output format (none/text/markdown/json)                                                   | text                 |
-| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy. |                      |
-| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)          | false                |
-| `-retain-job-data` | Job data retain policy                                                                    | default              |
-| `-secure`          | Do not store tokens into a file                                                           | false                |
-| `-skip-logging`    | Skip logging in the local storage                                                         | false                |
-| `-verbose`         | Show current operations for more detail.                                                  | false                |
-| `-workspace`       | Workspace path                                                                            |                      |
+| Option             | Description                                                                                                                                           | Default              |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------|
+| `-auth-database`   | Custom path to auth database (default: $HOME/.toolbox/secrets/secrets.db)                                                                             |                      |
+| `-auto-open`       | Auto open URL or artifact folder                                                                                                                      | false                |
+| `-bandwidth-kb`    | Bandwidth limit in K bytes per sec for upload/download content. 0 for unlimited                                                                       | 0                    |
+| `-budget-memory`   | Memory budget (limits some feature to reduce memory footprint)                                                                                        | normal               |
+| `-budget-storage`  | Storage budget (limits logs or some feature to reduce storage usage)                                                                                  | normal               |
+| `-concurrency`     | Maximum concurrency for running operation                                                                                                             | Number of processors |
+| `-debug`           | Enable debug mode                                                                                                                                     | false                |
+| `-experiment`      | Enable experimental feature(s).                                                                                                                       |                      |
+| `-extra`           | Extra parameter file path                                                                                                                             |                      |
+| `-lang`            | Display language                                                                                                                                      | auto                 |
+| `-output`          | Output format (none/text/markdown/json)                                                                                                               | text                 |
+| `-output-filter`   | Output filter query (jq syntax). The output of the report is filtered using jq syntax. This option is only applied when the report is output as JSON. |                      |
+| `-proxy`           | HTTP/HTTPS proxy (hostname:port). Please specify `DIRECT` if you want skip setting proxy.                                                             |                      |
+| `-quiet`           | Suppress non-error messages, and make output readable by a machine (JSON format)                                                                      | false                |
+| `-retain-job-data` | Job data retain policy                                                                                                                                | default              |
+| `-secure`          | Do not store tokens into a file                                                                                                                       | false                |
+| `-skip-logging`    | Skip logging in the local storage                                                                                                                     | false                |
+| `-verbose`         | Show current operations for more detail.                                                                                                              | false                |
+| `-workspace`       | Workspace path                                                                                                                                        |                      |
 
 # Proxy configuration
 

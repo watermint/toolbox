@@ -157,7 +157,7 @@ func (z *dbxCat) WarnUnmentioned() bool {
 	businessRecipes := make([]string, 0)
 	for _, r := range app_catalogue.Current().Recipes() {
 		spec := rc_spec.New(r)
-		if spec.ConnUseBusiness() && !spec.IsSecret() {
+		if spec.ConnUseDropboxTeam() && !spec.IsSecret() {
 			businessRecipes = append(businessRecipes, spec.CliPath())
 		}
 	}

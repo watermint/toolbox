@@ -44,7 +44,7 @@ func (z Security) Body(ui app_ui.UI) {
 
 	ui.Break()
 	ui.Info(z.HowToHelpCenter)
-	for _, svc := range z.spec.Services() {
+	for _, svc := range z.spec.ScopeLabels() {
 		ui.Info(app_msg.ObjMessage(&z, "help_center."+svc))
 	}
 	ui.Break()
@@ -55,10 +55,10 @@ func (z Security) Body(ui app_ui.UI) {
 			if conn, ok := vc.Conn(); ok {
 				if cs, ok := conn.(api_conn.ScopedConnection); ok {
 					for _, scope := range cs.Scopes() {
-						scopes[cs.ServiceName()+"."+scope] = true
+						scopes[cs.ScopeLabel()+"."+scope] = true
 					}
 				} else {
-					scopes[conn.ServiceName()+"."+conn.ScopeLabel()] = true
+					scopes[conn.ScopeLabel()+"."+conn.AppKeyName()] = true
 				}
 			}
 		}

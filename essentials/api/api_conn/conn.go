@@ -5,39 +5,6 @@ import (
 )
 
 const (
-	ServiceUtility         = ""
-	ServiceDropbox         = "dropbox"
-	ServiceDropboxBusiness = "dropbox_business"
-	ServiceDropboxSign     = "dropbox_sign"
-	ServiceAsana           = "asana"
-	ServiceDeepl           = "deepl"
-	ServiceFigma           = "figma"
-	ServiceGithub          = "github"
-	ServiceGoogleCalendar  = "google_calendar"
-	ServiceGoogleMail      = "google_mail"
-	ServiceGoogleSheets    = "google_sheets"
-	ServiceGoogleTranslate = "google_translate"
-	ServiceSlack           = "slack"
-)
-
-var (
-	Services = []string{
-		ServiceDropbox,
-		ServiceDropboxBusiness,
-		ServiceDropboxSign,
-		ServiceAsana,
-		ServiceDeepl,
-		ServiceFigma,
-		ServiceGithub,
-		ServiceGoogleCalendar,
-		ServiceGoogleMail,
-		ServiceGoogleSheets,
-		ServiceSlack,
-		ServiceUtility,
-	}
-)
-
-const (
 	DefaultPeerName = "default"
 )
 
@@ -45,17 +12,20 @@ type Connection interface {
 	// Connect to api
 	Connect(ctl app_control.Control) (err error)
 
-	// Peer name
+	// PeerName returns the peer name of the connection.
+	// The peer name is the key to identify auth entity in the auth repository.
+	// If the user want multiple connections to the same service, the peer name should be different.
 	PeerName() string
 
-	// Update peer name
+	// SetPeerName set peer name
 	SetPeerName(name string)
 
-	// Scope label
+	// ScopeLabel returns the scope label of the connection.
+	// The scope label is used to categorize the service in the UI, documentation, etc.
 	ScopeLabel() string
 
-	// Name tag of the service
-	ServiceName() string
+	// AppKeyName returns the app key name that identifies app key in the auth repository.
+	AppKeyName() string
 }
 
 // BasicConnection Basic auth connection

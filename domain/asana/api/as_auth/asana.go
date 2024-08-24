@@ -22,7 +22,7 @@ const (
 
 var (
 	Asana = api_auth.OAuthAppData{
-		AppKeyName:       app_definitions.ServiceAsana,
+		AppKeyName:       app_definitions.AppKeyAsana,
 		EndpointAuthUrl:  "https://app.asana.com/-/oauth_authorize",
 		EndpointTokenUrl: "https://app.asana.com/-/oauth_token",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

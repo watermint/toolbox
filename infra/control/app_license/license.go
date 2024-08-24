@@ -13,6 +13,7 @@ import (
 	"golang.org/x/crypto/sha3"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 )
 
@@ -103,6 +104,9 @@ const (
 type LicenseRecipe struct {
 	// Allow is the list of allowed recipes in recipe path.
 	Allow []string `json:"allow"`
+
+	// AllowPrefix is the prefix of the recipe path.
+	AllowPrefix string `json:"allow_prefix"`
 }
 
 type LicenseLifecycle struct {
@@ -255,6 +259,9 @@ func (z LicenseData) IsRecipeEnabled(recipePath string) bool {
 	}
 	if z.Recipe == nil {
 		return false
+	}
+	if z.Recipe.AllowPrefix != "" && strings.HasPrefix(recipePath, z.Recipe.AllowPrefix+" ") {
+		return true
 	}
 	for _, allow := range z.Recipe.Allow {
 		if allow == recipePath {
@@ -509,6 +516,10 @@ func loadLicenseFile(key, path string) (ld *LicenseData, err error) {
 
 func ParseLicense(data []byte, license string) (ld *LicenseData, err error) {
 	l := esl.Default()
+	if license == "" || len(data) == 0 {
+		l.Debug("License is empty")
+		return nil, ErrorUnknownLicenseType
+	}
 	keySalt := app_definitions.BuildInfo.LicenseSalt + license
 	p1, err := sc_obfuscate.Deobfuscate(l, []byte(keySalt), data)
 	if err != nil {

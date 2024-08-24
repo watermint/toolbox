@@ -6,9 +6,9 @@ import (
 	"github.com/watermint/toolbox/domain/github/api/gh_client_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/essentials/api/api_conn_impl"
 	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 )
 
 func NewConnGithubRepo(peerName string) gh_conn.ConnGithubRepo {
@@ -22,12 +22,12 @@ type ConnGithubRepo struct {
 	ctx      gh_client.Client
 }
 
-func (z *ConnGithubRepo) ServiceName() string {
-	return api_conn.ServiceGithub
+func (z *ConnGithubRepo) AppKeyName() string {
+	return app_definitions.AppKeyGithubRepo
 }
 
 func (z *ConnGithubRepo) ScopeLabel() string {
-	return gh_auth.ScopeLabelRepo
+	return app_definitions.ScopeLabelGithub
 }
 
 func (z *ConnGithubRepo) Connect(ctl app_control.Control) (err error) {

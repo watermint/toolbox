@@ -58,13 +58,11 @@ In general, new security issues are discovered every day. In order not to leave 
 
 # Announcements
 
-* [#836 Remove binaries that are more than six months old after release](https://github.com/watermint/toolbox/discussions/836)
+* [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
+* [#868 Removal of the screenshot commands](https://github.com/watermint/toolbox/discussions/868)
 * [#835 Google commands deprecation](https://github.com/watermint/toolbox/discussions/835)
-* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#836 Remove binaries that are more than six months old after release](https://github.com/watermint/toolbox/discussions/836)
 * [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
-* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
-* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
-* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
 
 # Security and privacy
 
@@ -139,6 +137,12 @@ Available commands:
 
 # Commands
 
+## DeepL
+
+| Command                                                       | Description    |
+|---------------------------------------------------------------|----------------|
+| [deepl translate text](docs/commands/deepl-translate-text.md) | Translate text |
+
 ## Dropbox (Individual account)
 
 | Command                                                                                                 | Description                                                   |
@@ -170,6 +174,7 @@ Available commands:
 | [dropbox file request delete url](docs/commands/dropbox-file-request-delete-url.md)                     | Delete a file request by the file request URL                 |
 | [dropbox file request list](docs/commands/dropbox-file-request-list.md)                                 | List file requests of the individual account                  |
 | [dropbox file restore all](docs/commands/dropbox-file-restore-all.md)                                   | Restore files under given path                                |
+| [dropbox file restore ext](docs/commands/dropbox-file-restore-ext.md)                                   | Restore files with a specific extension                       |
 | [dropbox file revision download](docs/commands/dropbox-file-revision-download.md)                       | Download the file revision                                    |
 | [dropbox file revision list](docs/commands/dropbox-file-revision-list.md)                               | List file revisions                                           |
 | [dropbox file revision restore](docs/commands/dropbox-file-revision-restore.md)                         | Restore the file revision                                     |
@@ -209,6 +214,13 @@ Available commands:
 | [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                                         | Append the content to the beginning of the existing Paper doc |
 | [util monitor client](docs/commands/util-monitor-client.md)                                             | Start device monitor client                                   |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                                         | Package remote folder into the zip file                       |
+
+## Dropbox Sign
+
+| Command                                                                                     | Description                 |
+|---------------------------------------------------------------------------------------------|-----------------------------|
+| [dropbox sign request list](docs/commands/dropbox-sign-request-list.md)                     | List signature requests     |
+| [dropbox sign request signature list](docs/commands/dropbox-sign-request-signature-list.md) | List signatures of requests |
 
 ## Dropbox for teams
 
@@ -338,19 +350,6 @@ Available commands:
 | [dropbox team teamfolder sync setting list](docs/commands/dropbox-team-teamfolder-sync-setting-list.md)                     | List team folder sync settings                                                      |
 | [dropbox team teamfolder sync setting update](docs/commands/dropbox-team-teamfolder-sync-setting-update.md)                 | Batch update team folder sync settings                                              |
 
-## Dropbox Sign
-
-| Command                                                                                     | Description                 |
-|---------------------------------------------------------------------------------------------|-----------------------------|
-| [dropbox sign request list](docs/commands/dropbox-sign-request-list.md)                     | List signature requests     |
-| [dropbox sign request signature list](docs/commands/dropbox-sign-request-signature-list.md) | List signatures of requests |
-
-## DeepL
-
-| Command                                                       | Description    |
-|---------------------------------------------------------------|----------------|
-| [deepl translate text](docs/commands/deepl-translate-text.md) | Translate text |
-
 ## Figma
 
 | Command                                                                   | Description                           |
@@ -368,7 +367,6 @@ Available commands:
 
 | Command                                                                         | Description                                         |
 |---------------------------------------------------------------------------------|-----------------------------------------------------|
-| [dev release checkin](docs/commands/dev-release-checkin.md)                     | Check in the new release                            |
 | [github content get](docs/commands/github-content-get.md)                       | Get content metadata of the repository              |
 | [github content put](docs/commands/github-content-put.md)                       | Put small text content into the repository          |
 | [github issue list](docs/commands/github-issue-list.md)                         | List issues of the public/private GitHub repository |
@@ -383,69 +381,73 @@ Available commands:
 
 ## Utilities
 
-| Command                                                                                                       | Description                                                          |
-|---------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------|
-| [config auth delete](docs/commands/config-auth-delete.md)                                                     | Delete existing auth credential                                      |
-| [config auth list](docs/commands/config-auth-list.md)                                                         | List all auth credentials                                            |
-| [config feature disable](docs/commands/config-feature-disable.md)                                             | Disable a feature.                                                   |
-| [config feature enable](docs/commands/config-feature-enable.md)                                               | Enable a feature.                                                    |
-| [config feature list](docs/commands/config-feature-list.md)                                                   | List available optional features.                                    |
-| [config license list](docs/commands/config-license-list.md)                                                   | List available license keys                                          |
-| [dropbox team insight report teamfoldermember](docs/commands/dropbox-team-insight-report-teamfoldermember.md) | Report team folder members                                           |
-| [license](docs/commands/license.md)                                                                           | Show license information                                             |
-| [local file template apply](docs/commands/local-file-template-apply.md)                                       | Apply file/folder structure template to the local path               |
-| [local file template capture](docs/commands/local-file-template-capture.md)                                   | Capture file/folder structure as template from local path            |
-| [log api job](docs/commands/log-api-job.md)                                                                   | Show statistics of the API log of the job specified by the job ID    |
-| [log api name](docs/commands/log-api-name.md)                                                                 | Show statistics of the API log of the job specified by the job name  |
-| [log cat curl](docs/commands/log-cat-curl.md)                                                                 | Format capture logs as `curl` sample                                 |
-| [log cat job](docs/commands/log-cat-job.md)                                                                   | Retrieve logs of specified Job ID                                    |
-| [log cat kind](docs/commands/log-cat-kind.md)                                                                 | Concatenate and print logs of specified log kind                     |
-| [log cat last](docs/commands/log-cat-last.md)                                                                 | Print the last job log files                                         |
-| [log job archive](docs/commands/log-job-archive.md)                                                           | Archive jobs                                                         |
-| [log job delete](docs/commands/log-job-delete.md)                                                             | Delete old job history                                               |
-| [log job list](docs/commands/log-job-list.md)                                                                 | Show job history                                                     |
-| [util archive unzip](docs/commands/util-archive-unzip.md)                                                     | Extract the zip archive file                                         |
-| [util archive zip](docs/commands/util-archive-zip.md)                                                         | Compress target files into the zip archive                           |
-| [util cert selfsigned](docs/commands/util-cert-selfsigned.md)                                                 | Generate self-signed certificate and key                             |
-| [util database exec](docs/commands/util-database-exec.md)                                                     | Execute query on SQLite3 database file                               |
-| [util database query](docs/commands/util-database-query.md)                                                   | Query SQLite3 database                                               |
-| [util date today](docs/commands/util-date-today.md)                                                           | Display current date                                                 |
-| [util datetime now](docs/commands/util-datetime-now.md)                                                       | Display current date/time                                            |
-| [util decode base32](docs/commands/util-decode-base32.md)                                                     | Decode text from Base32 (RFC 4648) format                            |
-| [util decode base64](docs/commands/util-decode-base64.md)                                                     | Decode text from Base64 (RFC 4648) format                            |
-| [util desktop display list](docs/commands/util-desktop-display-list.md)                                       | List displays of the current machine                                 |
-| [util desktop open](docs/commands/util-desktop-open.md)                                                       | Open a file or folder with the default application                   |
-| [util desktop screenshot interval](docs/commands/util-desktop-screenshot-interval.md)                         | Take screenshots at regular intervals                                |
-| [util desktop screenshot snap](docs/commands/util-desktop-screenshot-snap.md)                                 | Take a screenshot                                                    |
-| [util encode base32](docs/commands/util-encode-base32.md)                                                     | Encode text into Base32 (RFC 4648) format                            |
-| [util encode base64](docs/commands/util-encode-base64.md)                                                     | Encode text into Base64 (RFC 4648) format                            |
-| [util file hash](docs/commands/util-file-hash.md)                                                             | Print file digest                                                    |
-| [util git clone](docs/commands/util-git-clone.md)                                                             | Clone git repository                                                 |
-| [util image exif](docs/commands/util-image-exif.md)                                                           | Print EXIF metadata of image file                                    |
-| [util image placeholder](docs/commands/util-image-placeholder.md)                                             | Create placeholder image                                             |
-| [util net download](docs/commands/util-net-download.md)                                                       | Download a file                                                      |
-| [util qrcode create](docs/commands/util-qrcode-create.md)                                                     | Create a QR code image file                                          |
-| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)                                                         | Generate QR code for WIFI configuration                              |
-| [util table format xlsx](docs/commands/util-table-format-xlsx.md)                                             | Formatting xlsx file into text                                       |
-| [util text case down](docs/commands/util-text-case-down.md)                                                   | Print lower case text                                                |
-| [util text case up](docs/commands/util-text-case-up.md)                                                       | Print upper case text                                                |
-| [util text encoding from](docs/commands/util-text-encoding-from.md)                                           | Convert text encoding to UTF-8 text file from specified encoding.    |
-| [util text encoding to](docs/commands/util-text-encoding-to.md)                                               | Convert text encoding to specified encoding from UTF-8 text file.    |
-| [util text nlp english entity](docs/commands/util-text-nlp-english-entity.md)                                 | Split English text into entities                                     |
-| [util text nlp english sentence](docs/commands/util-text-nlp-english-sentence.md)                             | Split English text into sentences                                    |
-| [util text nlp english token](docs/commands/util-text-nlp-english-token.md)                                   | Split English text into tokens                                       |
-| [util text nlp japanese token](docs/commands/util-text-nlp-japanese-token.md)                                 | Tokenize Japanese text                                               |
-| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)                               | Wakati gaki (tokenize Japanese text)                                 |
-| [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md)                                           | Dispatch files                                                       |
-| [util tidy move simple](docs/commands/util-tidy-move-simple.md)                                               | Archive local files                                                  |
-| [util time now](docs/commands/util-time-now.md)                                                               | Display current time                                                 |
-| [util unixtime format](docs/commands/util-unixtime-format.md)                                                 | Time format to convert the unix time (epoch seconds from 1970-01-01) |
-| [util unixtime now](docs/commands/util-unixtime-now.md)                                                       | Display current time in unixtime                                     |
-| [util uuid v4](docs/commands/util-uuid-v4.md)                                                                 | Generate UUID v4 (random UUID)                                       |
-| [util video subtitles optimize](docs/commands/util-video-subtitles-optimize.md)                               | Optimize subtitles file                                              |
-| [util xlsx create](docs/commands/util-xlsx-create.md)                                                         | Create an empty spreadsheet                                          |
-| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)                                             | Export data from the xlsx file                                       |
-| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md)                                             | Import data into xlsx file                                           |
-| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)                                                 | List sheets of the xlsx file                                         |
-| [version](docs/commands/version.md)                                                                           | Show version                                                         |
+| Command                                                                                                       | Description                                                              |
+|---------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| [config auth delete](docs/commands/config-auth-delete.md)                                                     | Delete existing auth credential                                          |
+| [config auth list](docs/commands/config-auth-list.md)                                                         | List all auth credentials                                                |
+| [config feature disable](docs/commands/config-feature-disable.md)                                             | Disable a feature.                                                       |
+| [config feature enable](docs/commands/config-feature-enable.md)                                               | Enable a feature.                                                        |
+| [config feature list](docs/commands/config-feature-list.md)                                                   | List available optional features.                                        |
+| [config license install](docs/commands/config-license-install.md)                                             | Install a license key                                                    |
+| [config license list](docs/commands/config-license-list.md)                                                   | List available license keys                                              |
+| [dropbox team insight report teamfoldermember](docs/commands/dropbox-team-insight-report-teamfoldermember.md) | Report team folder members                                               |
+| [license](docs/commands/license.md)                                                                           | Show license information                                                 |
+| [local file template apply](docs/commands/local-file-template-apply.md)                                       | Apply file/folder structure template to the local path                   |
+| [local file template capture](docs/commands/local-file-template-capture.md)                                   | Capture file/folder structure as template from local path                |
+| [log api job](docs/commands/log-api-job.md)                                                                   | Show statistics of the API log of the job specified by the job ID        |
+| [log api name](docs/commands/log-api-name.md)                                                                 | Show statistics of the API log of the job specified by the job name      |
+| [log cat curl](docs/commands/log-cat-curl.md)                                                                 | Format capture logs as `curl` sample                                     |
+| [log cat job](docs/commands/log-cat-job.md)                                                                   | Retrieve logs of specified Job ID                                        |
+| [log cat kind](docs/commands/log-cat-kind.md)                                                                 | Concatenate and print logs of specified log kind                         |
+| [log cat last](docs/commands/log-cat-last.md)                                                                 | Print the last job log files                                             |
+| [log job archive](docs/commands/log-job-archive.md)                                                           | Archive jobs                                                             |
+| [log job delete](docs/commands/log-job-delete.md)                                                             | Delete old job history                                                   |
+| [log job list](docs/commands/log-job-list.md)                                                                 | Show job history                                                         |
+| [util archive unzip](docs/commands/util-archive-unzip.md)                                                     | Extract the zip archive file                                             |
+| [util archive zip](docs/commands/util-archive-zip.md)                                                         | Compress target files into the zip archive                               |
+| [util cert selfsigned](docs/commands/util-cert-selfsigned.md)                                                 | Generate self-signed certificate and key                                 |
+| [util database exec](docs/commands/util-database-exec.md)                                                     | Execute query on SQLite3 database file                                   |
+| [util database query](docs/commands/util-database-query.md)                                                   | Query SQLite3 database                                                   |
+| [util date today](docs/commands/util-date-today.md)                                                           | Display current date                                                     |
+| [util datetime now](docs/commands/util-datetime-now.md)                                                       | Display current date/time                                                |
+| [util decode base32](docs/commands/util-decode-base32.md)                                                     | Decode text from Base32 (RFC 4648) format                                |
+| [util decode base64](docs/commands/util-decode-base64.md)                                                     | Decode text from Base64 (RFC 4648) format                                |
+| [util desktop open](docs/commands/util-desktop-open.md)                                                       | Open a file or folder with the default application                       |
+| [util encode base32](docs/commands/util-encode-base32.md)                                                     | Encode text into Base32 (RFC 4648) format                                |
+| [util encode base64](docs/commands/util-encode-base64.md)                                                     | Encode text into Base64 (RFC 4648) format                                |
+| [util feed json](docs/commands/util-feed-json.md)                                                             | Load feed from the URL and output the content as JSON                    |
+| [util file hash](docs/commands/util-file-hash.md)                                                             | Print file digest                                                        |
+| [util git clone](docs/commands/util-git-clone.md)                                                             | Clone git repository                                                     |
+| [util image exif](docs/commands/util-image-exif.md)                                                           | Print EXIF metadata of image file                                        |
+| [util image placeholder](docs/commands/util-image-placeholder.md)                                             | Create placeholder image                                                 |
+| [util json query](docs/commands/util-json-query.md)                                                           | Query JSON data                                                          |
+| [util net download](docs/commands/util-net-download.md)                                                       | Download a file                                                          |
+| [util qrcode create](docs/commands/util-qrcode-create.md)                                                     | Create a QR code image file                                              |
+| [util qrcode wifi](docs/commands/util-qrcode-wifi.md)                                                         | Generate QR code for WIFI configuration                                  |
+| [util table format xlsx](docs/commands/util-table-format-xlsx.md)                                             | Formatting xlsx file into text                                           |
+| [util text case down](docs/commands/util-text-case-down.md)                                                   | Print lower case text                                                    |
+| [util text case up](docs/commands/util-text-case-up.md)                                                       | Print upper case text                                                    |
+| [util text encoding from](docs/commands/util-text-encoding-from.md)                                           | Convert text encoding to UTF-8 text file from specified encoding.        |
+| [util text encoding to](docs/commands/util-text-encoding-to.md)                                               | Convert text encoding to specified encoding from UTF-8 text file.        |
+| [util text nlp english entity](docs/commands/util-text-nlp-english-entity.md)                                 | Split English text into entities                                         |
+| [util text nlp english sentence](docs/commands/util-text-nlp-english-sentence.md)                             | Split English text into sentences                                        |
+| [util text nlp english token](docs/commands/util-text-nlp-english-token.md)                                   | Split English text into tokens                                           |
+| [util text nlp japanese token](docs/commands/util-text-nlp-japanese-token.md)                                 | Tokenize Japanese text                                                   |
+| [util text nlp japanese wakati](docs/commands/util-text-nlp-japanese-wakati.md)                               | Wakati gaki (tokenize Japanese text)                                     |
+| [util tidy move dispatch](docs/commands/util-tidy-move-dispatch.md)                                           | Dispatch files                                                           |
+| [util tidy move simple](docs/commands/util-tidy-move-simple.md)                                               | Archive local files                                                      |
+| [util time now](docs/commands/util-time-now.md)                                                               | Display current time                                                     |
+| [util unixtime format](docs/commands/util-unixtime-format.md)                                                 | Time format to convert the unix time (epoch seconds from 1970-01-01)     |
+| [util unixtime now](docs/commands/util-unixtime-now.md)                                                       | Display current time in unixtime                                         |
+| [util uuid timestamp](docs/commands/util-uuid-timestamp.md)                                                   | Parse UUID timestamp                                                     |
+| [util uuid ulid](docs/commands/util-uuid-ulid.md)                                                             | Generate ULID (Universally Unique Lexicographically Sortable Identifier) |
+| [util uuid v4](docs/commands/util-uuid-v4.md)                                                                 | Generate UUID v4 (random UUID)                                           |
+| [util uuid v7](docs/commands/util-uuid-v7.md)                                                                 | Generate UUID v7                                                         |
+| [util uuid version](docs/commands/util-uuid-version.md)                                                       | Parse version and variant of UUID                                        |
+| [util video subtitles optimize](docs/commands/util-video-subtitles-optimize.md)                               | Optimize subtitles file                                                  |
+| [util xlsx create](docs/commands/util-xlsx-create.md)                                                         | Create an empty spreadsheet                                              |
+| [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)                                             | Export data from the xlsx file                                           |
+| [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md)                                             | Import data into xlsx file                                               |
+| [util xlsx sheet list](docs/commands/util-xlsx-sheet-list.md)                                                 | List sheets of the xlsx file                                             |
+| [version](docs/commands/version.md)                                                                           | Show version                                                             |
 

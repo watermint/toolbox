@@ -74,14 +74,14 @@ type Spec interface {
 	// Messages used by this recipe
 	Messages() []app_msg.Message
 
-	// Returns a list of services used by this recipe
-	Services() []string
+	// ScopeLabels returns the labels of the scopes of the recipe.
+	ScopeLabels() []string
 
 	// True if this recipe use connection to the Dropbox Personal account
-	ConnUsePersonal() bool
+	ConnUseDropboxPersonal() bool
 
 	// True if this recipe use connection to the Dropbox Business account
-	ConnUseBusiness() bool
+	ConnUseDropboxTeam() bool
 
 	// Returns array of scope of connections to Dropbox account(s)
 	ConnScopes() []string

@@ -24,6 +24,9 @@ type Bundle interface {
 	// Summary logger
 	Summary() esl_container.Logger
 
+	// Stats logger
+	Stats() esl_container.Logger
+
 	// Storage budget
 	Budget() app_budget.Budget
 
@@ -43,11 +46,11 @@ func ForkBundleWithLevel(wb Bundle, name string, consoleLevel esl.Level) (bundle
 	if err != nil {
 		return nil, err
 	}
-	l, c, s, err := esl_container.NewAll(nws.Log(), wb.Budget(), consoleLevel)
+	l, c, s, st, err := esl_container.NewAll(nws.Log(), wb.Budget(), consoleLevel)
 	if err != nil {
 		return nil, err
 	}
-	return newBundleInternal(nws, wb.Budget(), c, l, s, consoleLevel, wb.IsTransient()), nil
+	return newBundleInternal(nws, wb.Budget(), c, l, s, st, consoleLevel, wb.IsTransient()), nil
 }
 
 func WithFork(wb Bundle, name string, f func(fwb Bundle) error) error {
@@ -67,25 +70,26 @@ func NewBundle(home string, budget app_budget.Budget, consoleLevel esl.Level, tr
 		return nil, err
 	}
 
-	var l, c, s esl_container.Logger
+	var l, c, s, st esl_container.Logger
 	if skipLogging {
-		l, c, s = esl_container.NewTransient(consoleLevel)
+		l, c, s, st = esl_container.NewTransient(consoleLevel)
 	} else {
-		l, c, s, err = esl_container.NewAll(ws.Log(), budget, consoleLevel)
+		l, c, s, st, err = esl_container.NewAll(ws.Log(), budget, consoleLevel)
 		if err != nil {
 			return nil, err
 		}
 	}
-	return newBundleInternal(ws, budget, c, l, s, consoleLevel, transient), nil
+	return newBundleInternal(ws, budget, c, l, s, st, consoleLevel, transient), nil
 }
 
-func newBundleInternal(ws Workspace, budget app_budget.Budget, capture, logger, summary esl_container.Logger, consoleLevel esl.Level, transient bool) Bundle {
+func newBundleInternal(ws Workspace, budget app_budget.Budget, capture, logger, summary, stats esl_container.Logger, consoleLevel esl.Level, transient bool) Bundle {
 	return &bdlImpl{
 		budget:    budget,
 		conLv:     consoleLevel,
 		capture:   capture,
 		logger:    logger,
 		summary:   summary,
+		stats:     stats,
 		ws:        ws,
 		transient: transient,
 	}
@@ -97,8 +101,13 @@ type bdlImpl struct {
 	capture   esl_container.Logger
 	logger    esl_container.Logger
 	summary   esl_container.Logger
+	stats     esl_container.Logger
 	ws        Workspace
 	transient bool
+}
+
+func (z bdlImpl) Stats() esl_container.Logger {
+	return z.stats
 }
 
 func (z bdlImpl) IsTransient() bool {

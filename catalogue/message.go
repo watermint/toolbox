@@ -4,6 +4,7 @@ package catalogue
 
 import (
 	citrondropboxfileimportbatch "github.com/watermint/toolbox/citron/dropbox/file/import/batch"
+	citrondropboxfilerestore "github.com/watermint/toolbox/citron/dropbox/file/restore"
 	citrondropboxteamgroupmember "github.com/watermint/toolbox/citron/dropbox/team/group/member"
 	citrondropboxteamgroupmemberbatch "github.com/watermint/toolbox/citron/dropbox/team/group/member/batch"
 	citrondropboxteammemberbatch "github.com/watermint/toolbox/citron/dropbox/team/member/batch"
@@ -21,11 +22,8 @@ import (
 	domaindropboxusecaseuc_compare_paths "github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	domaindropboxusecaseuc_file_merge "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
 	domaindropboxusecaseuc_file_relocation "github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
-	domaindropboxsignapihs_conn_impl "github.com/watermint/toolbox/domain/dropboxsign/api/hs_conn_impl"
 	domainfigmaservicesv_file "github.com/watermint/toolbox/domain/figma/service/sv_file"
 	domainfigmaservicesv_project "github.com/watermint/toolbox/domain/figma/service/sv_project"
-	domaingooglemailservicesv_label "github.com/watermint/toolbox/domain/google/mail/service/sv_label"
-	domaingooglemailservicesv_message "github.com/watermint/toolbox/domain/google/mail/service/sv_message"
 	essentialsapiapi_auth_basic "github.com/watermint/toolbox/essentials/api/api_auth_basic"
 	essentialsapiapi_auth_key "github.com/watermint/toolbox/essentials/api/api_auth_key"
 	essentialsapiapi_auth_oauth "github.com/watermint/toolbox/essentials/api/api_auth_oauth"
@@ -60,6 +58,7 @@ import (
 func AutoDetectedMessageObjects() []interface{} {
 	return []interface{}{
 		&citrondropboxfileimportbatch.MsgUrl{},
+		&citrondropboxfilerestore.MsgRestore{},
 		&citrondropboxteamgroupmember.MsgList{},
 		&citrondropboxteamgroupmemberbatch.MsgOperation{},
 		&citrondropboxteammemberbatch.MsgInvite{},
@@ -78,11 +77,8 @@ func AutoDetectedMessageObjects() []interface{} {
 		&domaindropboxusecaseuc_compare_paths.MsgCompare{},
 		&domaindropboxusecaseuc_file_merge.MsgMerge{},
 		&domaindropboxusecaseuc_file_relocation.MsgRelocation{},
-		&domaindropboxsignapihs_conn_impl.MsgDropboxSign{},
 		&domainfigmaservicesv_file.MsgFile{},
 		&domainfigmaservicesv_project.MsgProject{},
-		&domaingooglemailservicesv_label.MsgFindLabel{},
-		&domaingooglemailservicesv_message.MsgProgress{},
 		&essentialsapiapi_auth_basic.MsgConsole{},
 		&essentialsapiapi_auth_key.MsgConsole{},
 		&essentialsapiapi_auth_oauth.MsgApiAuth{},
@@ -104,6 +100,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
+		&infradocdc_supplemental.MsgReportingOptions{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
 		&infrareciperc_exec.MsgPanic{},

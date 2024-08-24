@@ -105,9 +105,12 @@ func doSpecInternal(spec rc_recipe.Spec, scr rc_recipe.Recipe, ctl app_control.C
 	ui := ctl.UI()
 
 	defer func() {
-		rErr := recover()
+		var rErr interface{}
+		if ctl.Feature().IsProduction() {
+			rErr = recover()
+		}
 		if rErr != nil { // && ctl.Feature().IsProduction() {
-			l.Debug("Recovery from panic")
+			l.Debug("Recovery from panic", esl.Any("err", rErr))
 			traces := make([]ErrorTrace, 0)
 			for depth := 0; ; depth++ {
 				_, file, line, ok := runtime.Caller(depth)

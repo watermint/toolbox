@@ -4,9 +4,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
-	"github.com/watermint/toolbox/essentials/api/api_conn"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	app_definitions2 "github.com/watermint/toolbox/infra/control/app_definitions"
+	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"sort"
 )
 
@@ -26,7 +25,7 @@ type connScopedIndividual struct {
 
 func (z *connScopedIndividual) Connect(ctl app_control.Control) (err error) {
 	currentScope := z.Scopes()
-	if ctl.Feature().Experiment(app_definitions2.ExperimentDbxAuthCourseGrainedScope) {
+	if ctl.Feature().Experiment(app_definitions.ExperimentDbxAuthCourseGrainedScope) {
 		currentScope = []string{}
 	}
 	z.ctx, err = connect(currentScope, z.name, ctl, dbx_auth.DropboxIndividual)
@@ -42,11 +41,11 @@ func (z *connScopedIndividual) SetPeerName(name string) {
 }
 
 func (z *connScopedIndividual) ScopeLabel() string {
-	return app_definitions2.ServiceDropboxIndividual
+	return app_definitions.ScopeLabelDropboxIndividual
 }
 
-func (z *connScopedIndividual) ServiceName() string {
-	return api_conn.ServiceDropbox
+func (z *connScopedIndividual) AppKeyName() string {
+	return app_definitions.AppKeyDropboxIndividual
 }
 
 func (z *connScopedIndividual) Client() dbx_client.Client {

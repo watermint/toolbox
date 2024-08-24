@@ -7,7 +7,7 @@ import (
 
 var (
 	DropboxIndividual = api_auth.OAuthAppData{
-		AppKeyName:       app_definitions.ServiceDropboxIndividual,
+		AppKeyName:       app_definitions.AppKeyDropboxIndividual,
 		EndpointAuthUrl:  "https://www.dropbox.com/oauth2/authorize",
 		EndpointTokenUrl: "https://api.dropboxapi.com/oauth2/token",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,
@@ -16,7 +16,7 @@ var (
 	}
 
 	DropboxTeam = api_auth.OAuthAppData{
-		AppKeyName:       app_definitions.ServiceDropboxTeam,
+		AppKeyName:       app_definitions.AppKeyDropboxTeam,
 		EndpointAuthUrl:  "https://www.dropbox.com/oauth2/authorize",
 		EndpointTokenUrl: "https://api.dropboxapi.com/oauth2/token",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

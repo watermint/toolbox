@@ -6,7 +6,7 @@ The multi-purpose utility command-line tool for web services including Dropbox, 
 
 # Do more with the watermint toolbox
 
-The watermint toolbox has 275 commands to solve your daily tasks. For example, if you are an admin of Dropbox for teams and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
+The watermint toolbox has 279 commands to solve your daily tasks. For example, if you are an admin of Dropbox for teams and need to manage a group. You can bulk create groups or bulk add members to groups via group commands.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
@@ -41,13 +41,11 @@ Please carefully note:
 
 # Announcements
 
-* [#836 Remove binaries that are more than six months old after release](https://github.com/watermint/toolbox/discussions/836)
+* [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
+* [#868 Removal of the screenshot commands](https://github.com/watermint/toolbox/discussions/868)
 * [#835 Google commands deprecation](https://github.com/watermint/toolbox/discussions/835)
-* [#813 License change : MIT License to Apache License, Version 2.0](https://github.com/watermint/toolbox/discussions/813)
+* [#836 Remove binaries that are more than six months old after release](https://github.com/watermint/toolbox/discussions/836)
 * [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
-* [#799 Path change: Dropbox and Dropbox for teams commands have been  moved to under `dropbox`](https://github.com/watermint/toolbox/discussions/799)
-* [#797 Path change: commands under `services` have been moved to a new location](https://github.com/watermint/toolbox/discussions/797)
-* [#796 Deprecation: Dropbox Team space commands will be removed](https://github.com/watermint/toolbox/discussions/796)
 
 # Security and privacy
 

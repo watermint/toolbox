@@ -22,14 +22,9 @@ const (
 	ScopePublicRepo = "public_repo"
 )
 
-const (
-	ScopeLabelPublic = "github_public"
-	ScopeLabelRepo   = "github_repo"
-)
-
 var (
 	Github = api_auth.OAuthAppData{
-		AppKeyName:       app_definitions.ServiceGithub,
+		AppKeyName:       app_definitions.AppKeyGithubRepo,
 		EndpointAuthUrl:  "https://github.com/login/oauth/authorize",
 		EndpointTokenUrl: "https://github.com/login/oauth/access_token",
 		EndpointStyle:    api_auth.AuthStyleAutoDetect,

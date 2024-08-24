@@ -30,6 +30,7 @@ const (
 	DocSupplementalTroubleshooting
 	DocSupplementalDropboxBusiness
 	DocSupplementalSpecChange
+	DoCSupplementalReportingOptions
 
 	// Contributor documents
 	DocContributorRecipeValues
@@ -233,6 +234,8 @@ func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "troubleshooting", lg)
 		case DocSupplementalDropboxBusiness:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "dropbox-business", lg)
+		case DoCSupplementalReportingOptions:
+			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "reporting-options", lg)
 		case DocSupplementalSpecChange:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "spec-change", lg)
 		case DocContributorRecipeValues:

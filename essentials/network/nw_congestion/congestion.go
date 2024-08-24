@@ -139,7 +139,7 @@ func (z *ccImpl) key(hash, endpoint string) string {
 
 func (z *ccImpl) Start(hash, endpoint string) {
 	goRoutineId := es_goroutine.GetGoRoutineName()
-	l := esl.Default().With(esl.String("goroutine", goRoutineId),
+	l := esl.Stats().With(esl.String("goroutine", goRoutineId),
 		esl.String("hash", hash), esl.String("endpoint", endpoint))
 
 	z.monitorOnce.Do(func() {
@@ -206,7 +206,7 @@ func (z *ccImpl) Start(hash, endpoint string) {
 
 func (z *ccImpl) EndSuccess(hash, endpoint string) {
 	goRoutineId := es_goroutine.GetGoRoutineName()
-	l := esl.Default().With(esl.String("goroutine", goRoutineId),
+	l := esl.Stats().With(esl.String("goroutine", goRoutineId),
 		esl.String("hash", hash), esl.String("endpoint", endpoint))
 	l.Debug("Process finished: success")
 	key := z.key(hash, endpoint)
@@ -226,7 +226,7 @@ func (z *ccImpl) EndSuccess(hash, endpoint string) {
 
 func (z *ccImpl) EndTransportError(hash, endpoint string) {
 	goRoutineId := es_goroutine.GetGoRoutineName()
-	l := esl.Default().With(esl.String("goroutine", goRoutineId),
+	l := esl.Stats().With(esl.String("goroutine", goRoutineId),
 		esl.String("hash", hash), esl.String("endpoint", endpoint))
 
 	l.Debug("Transport error; do not change window")
@@ -246,7 +246,7 @@ func (z *ccImpl) isSignificantWait(reset time.Time) bool {
 func (z *ccImpl) EndRateLimit(hash, endpoint string, reset time.Time) {
 	isSignificant := z.isSignificantWait(reset)
 
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
+	l := esl.Stats().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
 		esl.String("hash", hash),
 		esl.String("endpoint", endpoint),
 		esl.Bool("significant", isSignificant),
@@ -295,7 +295,7 @@ func (z *ccImpl) EndRateLimit(hash, endpoint string, reset time.Time) {
 
 func (z *ccImpl) monitor() {
 	ticker := time.NewTicker(getReportInterval())
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()))
+	l := esl.Stats().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()))
 	l.Debug("Monitor start")
 
 	for {
@@ -328,7 +328,7 @@ func (z *ccImpl) monitor() {
 }
 
 func (z *ccImpl) noLockCanIncreaseWindow(key string) bool {
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
+	l := esl.Stats().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
 		esl.String("key", key))
 
 	monitorTime := time.Now().Add(-monitorDuration)
@@ -367,7 +367,7 @@ func (z *ccImpl) noLockCanIncreaseWindow(key string) bool {
 
 func (z *ccImpl) noLockCalcConcurrency(key string, includeSelf bool) (concurrency, waiters int) {
 	goRoutineId := es_goroutine.GetGoRoutineName()
-	l := esl.Default().With(esl.String("goroutine", goRoutineId),
+	l := esl.Stats().With(esl.String("goroutine", goRoutineId),
 		esl.String("key", key))
 
 	concurrency = 0
@@ -398,7 +398,7 @@ func (z *ccImpl) noLockCalcConcurrency(key string, includeSelf bool) (concurrenc
 
 func (z *ccImpl) noLockRelease(key string) {
 	goRoutineId := es_goroutine.GetGoRoutineName()
-	l := esl.Default().With(esl.String("goroutine", goRoutineId),
+	l := esl.Stats().With(esl.String("goroutine", goRoutineId),
 		esl.String("key", key))
 
 	delete(z.runners, goRoutineId)
@@ -407,7 +407,7 @@ func (z *ccImpl) noLockRelease(key string) {
 }
 
 func (z *ccImpl) noLockNotifyWaiters(key string) {
-	l := esl.Default().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
+	l := esl.Stats().With(esl.String("goroutine", es_goroutine.GetGoRoutineName()),
 		esl.String("key", key))
 
 	window := z.window[key]

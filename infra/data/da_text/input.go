@@ -7,7 +7,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"io"
-	"io/ioutil"
 	"os"
 )
 
@@ -102,7 +101,15 @@ func (z *txInput) EachLine(f func(line string) error) error {
 
 func (z *txInput) Content() (content []byte, err error) {
 	l := z.ctl.Log().With(esl.String("filePath", z.filePath))
-	content, err = ioutil.ReadFile(z.filePath)
+
+	// If the file path is "-", read from stdin
+	if z.filePath == "-" {
+		content, err = io.ReadAll(os.Stdin)
+		l.Debug("Content load finished", esl.Int("contentLength", len(content)), esl.Error(err))
+		return
+	}
+
+	content, err = os.ReadFile(z.filePath)
 	l.Debug("Content load finished", esl.Int("contentLength", len(content)), esl.Error(err))
 	return
 }
