@@ -124,16 +124,13 @@ Report file path will be displayed last line of the command line output. If you 
 This report shows a list of members.
 The command will generate a report in three different formats. `profile.csv`, `profile.json`, and `profile.xlsx`.
 
-| Column         | Description                                                                          |
-|----------------|--------------------------------------------------------------------------------------|
-| email          | Email address of user.                                                               |
-| email_verified | Is true if the user's email is verified to be owned by the user.                     |
-| status         | The user's status as a member of a specific team. (active/invited/suspended/removed) |
-| given_name     | Also known as a first name                                                           |
-| surname        | Also known as a last name or family name.                                            |
-| display_name   | A name that can be used directly to represent the name of a user's Dropbox account.  |
-| joined_on      | The date and time the user joined as a member of a specific team.                    |
-| invited_on     | The date and time the user was invited to the team                                   |
+| Column         | Description                                                                         |
+|----------------|-------------------------------------------------------------------------------------|
+| email          | Email address of user.                                                              |
+| email_verified | Is true if the user's email is verified to be owned by the user.                    |
+| given_name     | Also known as a first name                                                          |
+| surname        | Also known as a last name or family name.                                           |
+| display_name   | A name that can be used directly to represent the name of a user's Dropbox account. |
 
 If you run with `-budget-memory low` option, the command will generate only JSON format report.
 

@@ -42,16 +42,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dev benchmark uploadlink`
 
@@ -61,16 +61,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dev license issue`
 
@@ -80,41 +80,41 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 6 identical elements
-  		&{Name: "LifecycleWarningAfter", Desc: "Lifecycle warning after this period from the build time (seconds)", Default: "31536000", TypeName: "int", ...},
-  		&{Name: "Owner", Desc: "License repository owner", Default: "watermint", TypeName: "string", ...},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-+ 		&{
-+ 			Name:     "RecipeAllowedPrefix",
-+ 			Desc:     "Recipe allowed prefix",
-+ 			TypeName: "essentials.model.mo_string.opt_string",
-+ 		},
-  		&{Name: "RecipesAllowed", Desc: "Comma separated list of recipes allowed", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{Name: "Repository", Desc: "License repository", Default: "toolbox-supplement", TypeName: "string", ...},
-  		&{Name: "Scope", Desc: "License scope", TypeName: "essentials.model.mo_string.opt_string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 6 identical elements
+  		&{Name: "LifecycleWarningAfter", Desc: "Lifecycle warning after this period from the build time (seconds)", Default: "31536000", TypeName: "int", ...},
+  		&{Name: "Owner", Desc: "License repository owner", Default: "watermint", TypeName: "string", ...},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
++ 		&{
++ 			Name:     "RecipeAllowedPrefix",
++ 			Desc:     "Recipe allowed prefix",
++ 			TypeName: "essentials.model.mo_string.opt_string",
++ 		},
+  		&{Name: "RecipesAllowed", Desc: "Comma separated list of recipes allowed", TypeName: "essentials.model.mo_string.opt_string"},
+  		&{Name: "Repository", Desc: "License repository", Default: "toolbox-supplement", TypeName: "string", ...},
+  		&{Name: "Scope", Desc: "License scope", TypeName: "essentials.model.mo_string.opt_string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev release announcement`
 
@@ -124,33 +124,33 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "CategoryId", Desc: "Announcement category ID", Default: "DIC_kwDOBFqRm84CQesd", TypeName: "string", ...},
-  		&{Name: "Owner", Desc: "Repository owner", Default: "watermint", TypeName: "string", ...},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repository", Desc: "Repository name", Default: "toolbox", TypeName: "string", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "CategoryId", Desc: "Announcement category ID", Default: "DIC_kwDOBFqRm84CQesd", TypeName: "string", ...},
+  		&{Name: "Owner", Desc: "Repository owner", Default: "watermint", TypeName: "string", ...},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repository", Desc: "Repository name", Default: "toolbox", TypeName: "string", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev release asset`
 
@@ -160,35 +160,35 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 2 identical elements
-  		&{Name: "Owner", Desc: "Repository owner", TypeName: "string"},
-  		&{Name: "Path", Desc: "Content path", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repo", Desc: "Repository name", TypeName: "string"},
-  		&{Name: "Text", Desc: "Text content", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "Owner", Desc: "Repository owner", TypeName: "string"},
+  		&{Name: "Path", Desc: "Content path", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repo", Desc: "Repository name", TypeName: "string"},
+  		&{Name: "Text", Desc: "Text content", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev release asseturl`
 
@@ -198,33 +198,33 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "SourceOwner", Desc: "Source repository owner", TypeName: "string"},
-  		&{Name: "SourceRepo", Desc: "Source repository name", TypeName: "string"},
-  		... // 3 identical elements
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "SourceOwner", Desc: "Source repository owner", TypeName: "string"},
+  		&{Name: "SourceRepo", Desc: "Source repository name", TypeName: "string"},
+  		... // 3 identical elements
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev release candidate`
 
@@ -234,16 +234,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_public"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 12 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_public"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 12 identical fields
+  }
 ```
 # Command spec changed: `dev release checkin`
 
@@ -253,38 +253,38 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-- 	IsSecret:        false,
-+ 	IsSecret:        true,
-  	IsConsole:       false,
-  	IsExperimental:  false,
-  	... // 3 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Branch", Desc: "Repository branch", Default: "main", TypeName: "string", ...},
-  		&{Name: "Owner", Desc: "Repository owner", Default: "watermint", TypeName: "string", ...},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repo", Desc: "Repository name", Default: "toolbox", TypeName: "string", ...},
-  		&{Name: "SupplementBranch", Desc: "Supplement repository branch name", Default: "main", TypeName: "string", ...},
-  		... // 2 identical elements
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+- 	IsSecret:        false,
++ 	IsSecret:        true,
+  	IsConsole:       false,
+  	IsExperimental:  false,
+  	... // 3 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Branch", Desc: "Repository branch", Default: "main", TypeName: "string", ...},
+  		&{Name: "Owner", Desc: "Repository owner", Default: "watermint", TypeName: "string", ...},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repo", Desc: "Repository name", Default: "toolbox", TypeName: "string", ...},
+  		&{Name: "SupplementBranch", Desc: "Supplement repository branch name", Default: "main", TypeName: "string", ...},
+  		... // 2 identical elements
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev release doc`
 
@@ -294,30 +294,30 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_public"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        true,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_public",
-- 			TypeAttr: string("github_public"),
-+ 			TypeAttr: string("github"),
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_public"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        true,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_public",
+- 			TypeAttr: string("github_public"),
++ 			TypeAttr: string("github"),
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dev release publish`
 
@@ -327,37 +327,37 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-  	ConnScopes: map[string]string{
-- 		"ConnGithub": "github_repo",
-+ 		"ConnGithub": "github",
-- 		"Peer":       "github_repo",
-+ 		"Peer":       "github",
-  	},
-  	Services: {"github"},
-  	IsSecret: true,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "ArtifactPath", Desc: "Path to artifacts", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  		&{Name: "Branch", Desc: "Target branch", Default: "main", TypeName: "string", ...},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+  	ConnScopes: map[string]string{
+- 		"ConnGithub": "github_repo",
++ 		"ConnGithub": "github",
+- 		"Peer":       "github_repo",
++ 		"Peer":       "github",
+  	},
+  	Services: {"github"},
+  	IsSecret: true,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "ArtifactPath", Desc: "Path to artifacts", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
+  		&{Name: "Branch", Desc: "Target branch", Default: "main", TypeName: "string", ...},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "SkipTests", Desc: "Skip end to end tests.", Default: "false", TypeName: "bool", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `dropbox file account feature`
 
@@ -367,16 +367,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file account filesystem`
 
@@ -386,16 +386,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file account info`
 
@@ -405,16 +405,41 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
+```
+
+## Changed report: profile
+
+```
+  &dc_recipe.Report{
+  	Name: "profile",
+  	Desc: "This report shows a list of members.",
+  	Columns: []*dc_recipe.ReportColumn{
+  		&{Name: "email", Desc: "Email address of user."},
+  		&{Name: "email_verified", Desc: "Is true if the user's email is verified to be owned by the user."},
+- 		&{
+- 			Name: "status",
+- 			Desc: "The user's status as a member of a specific team. (active/invited/suspended/removed)",
+- 		},
+  		&{Name: "given_name", Desc: "Also known as a first name"},
+  		&{Name: "surname", Desc: "Also known as a last name or family name."},
+  		&{Name: "display_name", Desc: "A name that can be used directly to represent the name of a user"...},
+- 		&{
+- 			Name: "joined_on",
+- 			Desc: "The date and time the user joined as a member of a specific team.",
+- 		},
+- 		&{Name: "invited_on", Desc: "The date and time the user was invited to the team"},
+  	},
+  }
 ```
 # Command spec changed: `dropbox file compare account`
 
@@ -424,16 +449,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Left": "dropbox_individual", "Right": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Left": "dropbox_individual", "Right": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file compare local`
 
@@ -443,16 +468,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file copy`
 
@@ -462,16 +487,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file delete`
 
@@ -481,16 +506,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file export doc`
 
@@ -500,16 +525,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file export url`
 
@@ -519,16 +544,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file import batch url`
 
@@ -538,16 +563,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file import url`
 
@@ -557,16 +582,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file info`
 
@@ -576,16 +601,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file list`
 
@@ -595,16 +620,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file lock acquire`
 
@@ -614,16 +639,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file lock all release`
 
@@ -633,16 +658,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file lock batch acquire`
 
@@ -652,16 +677,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file lock batch release`
 
@@ -671,16 +696,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file lock list`
 
@@ -690,16 +715,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file lock release`
 
@@ -709,16 +734,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file merge`
 
@@ -728,16 +753,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file move`
 
@@ -747,16 +772,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file replication`
 
@@ -766,16 +791,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Dst": "dropbox_individual", "Src": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Dst": "dropbox_individual", "Src": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file request create`
 
@@ -785,16 +810,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file request delete closed`
 
@@ -804,16 +829,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file request delete url`
 
@@ -823,16 +848,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file request list`
 
@@ -842,16 +867,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file restore all`
 
@@ -861,16 +886,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file revision download`
 
@@ -880,16 +905,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file revision list`
 
@@ -899,16 +924,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file revision restore`
 
@@ -918,16 +943,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file search content`
 
@@ -937,16 +962,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file search name`
 
@@ -956,16 +981,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file share info`
 
@@ -975,16 +1000,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder info`
 
@@ -994,16 +1019,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder leave`
 
@@ -1013,16 +1038,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder list`
 
@@ -1032,16 +1057,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder member add`
 
@@ -1051,16 +1076,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder member delete`
 
@@ -1070,16 +1095,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder member list`
 
@@ -1089,16 +1114,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder mount add`
 
@@ -1108,16 +1133,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder mount delete`
 
@@ -1127,16 +1152,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder mount list`
 
@@ -1146,16 +1171,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder mount mountable`
 
@@ -1165,16 +1190,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder share`
 
@@ -1184,16 +1209,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedfolder unshare`
 
@@ -1203,16 +1228,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedlink create`
 
@@ -1222,16 +1247,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedlink delete`
 
@@ -1241,16 +1266,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedlink file list`
 
@@ -1260,16 +1285,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedlink info`
 
@@ -1279,16 +1304,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sharedlink list`
 
@@ -1298,16 +1323,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file size`
 
@@ -1317,16 +1342,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sync down`
 
@@ -1336,16 +1361,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sync online`
 
@@ -1355,16 +1380,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file sync up`
 
@@ -1374,16 +1399,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file tag add`
 
@@ -1393,16 +1418,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file tag delete`
 
@@ -1412,16 +1437,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file tag list`
 
@@ -1431,16 +1456,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file template apply`
 
@@ -1450,16 +1475,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file template capture`
 
@@ -1469,16 +1494,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox file watch`
 
@@ -1488,16 +1513,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox paper append`
 
@@ -1507,16 +1532,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox paper create`
 
@@ -1526,16 +1551,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox paper overwrite`
 
@@ -1545,16 +1570,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox paper prepend`
 
@@ -1564,16 +1589,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team activity batch user`
 
@@ -1583,16 +1608,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team activity daily event`
 
@@ -1602,16 +1627,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team activity event`
 
@@ -1621,16 +1646,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team activity user`
 
@@ -1640,16 +1665,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team admin group role add`
 
@@ -1659,16 +1684,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team admin group role delete`
 
@@ -1678,16 +1703,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team admin list`
 
@@ -1697,16 +1722,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team admin role add`
 
@@ -1716,16 +1741,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team admin role clear`
 
@@ -1735,16 +1760,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team admin role delete`
 
@@ -1754,16 +1779,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team admin role list`
 
@@ -1773,16 +1798,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team backup device status`
 
@@ -1792,16 +1817,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team content legacypaper count`
 
@@ -1811,16 +1836,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team content legacypaper export`
 
@@ -1830,16 +1855,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team content legacypaper list`
 
@@ -1849,16 +1874,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team content member list`
 
@@ -1868,16 +1893,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team content member size`
 
@@ -1887,16 +1912,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team content mount list`
 
@@ -1906,16 +1931,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team content policy list`
 
@@ -1925,16 +1950,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team device list`
 
@@ -1944,16 +1969,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team device unlink`
 
@@ -1963,16 +1988,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team feature`
 
@@ -1982,16 +2007,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team filerequest clone`
 
@@ -2001,16 +2026,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team filerequest list`
 
@@ -2020,16 +2045,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team filesystem`
 
@@ -2039,16 +2064,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group add`
 
@@ -2058,16 +2083,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group batch add`
 
@@ -2077,16 +2102,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group batch delete`
 
@@ -2096,16 +2121,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group clear externalid`
 
@@ -2115,16 +2140,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group delete`
 
@@ -2134,16 +2159,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group folder list`
 
@@ -2153,16 +2178,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group list`
 
@@ -2172,16 +2197,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group member add`
 
@@ -2191,16 +2216,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group member batch add`
 
@@ -2210,16 +2235,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group member batch delete`
 
@@ -2229,16 +2254,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group member batch update`
 
@@ -2248,16 +2273,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group member delete`
 
@@ -2267,16 +2292,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group member list`
 
@@ -2286,16 +2311,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group rename`
 
@@ -2305,16 +2330,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team group update type`
 
@@ -2324,16 +2349,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team info`
 
@@ -2343,16 +2368,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team insight scan`
 
@@ -2362,16 +2387,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team insight scanretry`
 
@@ -2381,16 +2406,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold add`
 
@@ -2400,16 +2425,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold list`
 
@@ -2419,16 +2444,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold member batch update`
 
@@ -2438,16 +2463,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold member list`
 
@@ -2457,16 +2482,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold release`
 
@@ -2476,16 +2501,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold revision list`
 
@@ -2495,16 +2520,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold update desc`
 
@@ -2514,16 +2539,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team legalhold update name`
 
@@ -2533,16 +2558,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team linkedapp list`
 
@@ -2552,16 +2577,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member batch delete`
 
@@ -2571,16 +2596,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member batch detach`
 
@@ -2590,16 +2615,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member batch invite`
 
@@ -2609,16 +2634,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member batch reinvite`
 
@@ -2628,16 +2653,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member batch suspend`
 
@@ -2647,16 +2672,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member batch unsuspend`
 
@@ -2666,16 +2691,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member clear externalid`
 
@@ -2685,16 +2710,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member feature`
 
@@ -2704,16 +2729,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member file lock all release`
 
@@ -2723,16 +2748,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member file lock list`
 
@@ -2742,16 +2767,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member file lock release`
 
@@ -2761,16 +2786,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member file permdelete`
 
@@ -2780,16 +2805,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member folder list`
 
@@ -2799,16 +2824,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member folder replication`
 
@@ -2818,16 +2843,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member list`
 
@@ -2837,16 +2862,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member quota batch update`
 
@@ -2856,16 +2881,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member quota list`
 
@@ -2875,16 +2900,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member quota usage`
 
@@ -2894,16 +2919,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member replication`
 
@@ -2913,16 +2938,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member suspend`
 
@@ -2932,16 +2957,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member unsuspend`
 
@@ -2951,16 +2976,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member update batch email`
 
@@ -2970,16 +2995,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member update batch externalid`
 
@@ -2989,16 +3014,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member update batch invisible`
 
@@ -3008,16 +3033,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member update batch profile`
 
@@ -3027,16 +3052,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team member update batch visible`
 
@@ -3046,16 +3071,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team namespace file list`
 
@@ -3065,16 +3090,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team namespace file size`
 
@@ -3084,16 +3109,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team namespace list`
 
@@ -3103,16 +3128,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team namespace member list`
 
@@ -3122,16 +3147,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team namespace summary`
 
@@ -3141,16 +3166,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team report activity`
 
@@ -3160,16 +3185,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team report devices`
 
@@ -3179,16 +3204,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team report membership`
 
@@ -3198,16 +3223,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team report storage`
 
@@ -3217,16 +3242,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        true,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        true,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas file batch copy`
 
@@ -3236,16 +3261,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas file list`
 
@@ -3255,16 +3280,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas file sync batch up`
 
@@ -3274,16 +3299,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder batch leave`
 
@@ -3293,16 +3318,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder batch share`
 
@@ -3312,16 +3337,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder batch unshare`
 
@@ -3331,16 +3356,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder isolate`
 
@@ -3350,16 +3375,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder list`
 
@@ -3369,16 +3394,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder member batch add`
 
@@ -3388,16 +3413,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder member batch delete`
 
@@ -3407,16 +3432,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder mount add`
 
@@ -3426,16 +3451,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder mount delete`
 
@@ -3445,16 +3470,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder mount list`
 
@@ -3464,16 +3489,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team runas sharedfolder mount mountable`
 
@@ -3483,16 +3508,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink cap expiry`
 
@@ -3502,16 +3527,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink cap visibility`
 
@@ -3521,16 +3546,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink delete links`
 
@@ -3540,16 +3565,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink delete member`
 
@@ -3559,16 +3584,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink list`
 
@@ -3578,16 +3603,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink update expiry`
 
@@ -3597,16 +3622,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink update password`
 
@@ -3616,16 +3641,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team sharedlink update visibility`
 
@@ -3635,16 +3660,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder add`
 
@@ -3654,16 +3679,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder archive`
 
@@ -3673,16 +3698,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder batch archive`
 
@@ -3692,16 +3717,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder batch permdelete`
 
@@ -3711,16 +3736,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder batch replication`
 
@@ -3730,16 +3755,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder file list`
 
@@ -3749,16 +3774,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder file lock all release`
 
@@ -3768,16 +3793,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder file lock list`
 
@@ -3787,16 +3812,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder file lock release`
 
@@ -3806,16 +3831,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder file size`
 
@@ -3825,16 +3850,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder list`
 
@@ -3844,16 +3869,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder member add`
 
@@ -3863,16 +3888,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder member delete`
 
@@ -3882,16 +3907,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder member list`
 
@@ -3901,16 +3926,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder partial replication`
 
@@ -3920,16 +3945,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder permdelete`
 
@@ -3939,16 +3964,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder policy list`
 
@@ -3958,16 +3983,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder replication`
 
@@ -3977,16 +4002,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Dst": "dropbox_team", "Src": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder sync setting list`
 
@@ -3996,16 +4021,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `dropbox team teamfolder sync setting update`
 
@@ -4015,16 +4040,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: true,
-  	ConnScopes:      {"Peer": "dropbox_team"},
-- 	Services:        []string{"dropbox_business"},
-+ 	Services:        []string{"dropbox_team"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: true,
+  	ConnScopes:      {"Peer": "dropbox_team"},
+- 	Services:        []string{"dropbox_business"},
++ 	Services:        []string{"dropbox_team"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `github content get`
 
@@ -4034,34 +4059,34 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{Name: "Path", Desc: "Path to the content", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Ref", Desc: "Name of reference", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{Name: "Path", Desc: "Path to the content", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Ref", Desc: "Name of reference", TypeName: "essentials.model.mo_string.opt_string"},
+  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github content put`
 
@@ -4071,34 +4096,34 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 3 identical elements
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{Name: "Path", Desc: "Path to the content", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 3 identical elements
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{Name: "Path", Desc: "Path to the content", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github issue list`
 
@@ -4108,36 +4133,36 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Filter", Desc: "Indicates which sorts of issues to return.", Default: "assigned", TypeName: "essentials.model.mo_string.select_string_internal", ...},
-  		&{Name: "Labels", Desc: "A list of comma separated label names.", TypeName: "essentials.model.mo_string.opt_string"},
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repository", Desc: "Repository name", TypeName: "string"},
-  		&{Name: "Since", Desc: "Only show notifications updated after the given time.", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
-  		&{Name: "State", Desc: "Indicates the state of the issues to return.", Default: "open", TypeName: "essentials.model.mo_string.select_string_internal", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Filter", Desc: "Indicates which sorts of issues to return.", Default: "assigned", TypeName: "essentials.model.mo_string.select_string_internal", ...},
+  		&{Name: "Labels", Desc: "A list of comma separated label names.", TypeName: "essentials.model.mo_string.opt_string"},
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repository", Desc: "Repository name", TypeName: "string"},
+  		&{Name: "Since", Desc: "Only show notifications updated after the given time.", TypeName: "domain.dropbox.model.mo_time.time_impl", TypeAttr: map[string]any{"optional": bool(true)}},
+  		&{Name: "State", Desc: "Indicates the state of the issues to return.", Default: "open", TypeName: "essentials.model.mo_string.select_string_internal", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github profile`
 
@@ -4147,30 +4172,30 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github release asset download`
 
@@ -4180,34 +4205,34 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{Name: "Path", Desc: "Path to download", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Release", Desc: "Release tag name", TypeName: "string"},
-  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{Name: "Path", Desc: "Path to download", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Release", Desc: "Release tag name", TypeName: "string"},
+  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github release asset list`
 
@@ -4217,33 +4242,33 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Release", Desc: "Release tag name", TypeName: "string"},
-  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Release", Desc: "Release tag name", TypeName: "string"},
+  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github release asset upload`
 
@@ -4253,34 +4278,34 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Asset", Desc: "Path to assets", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Release", Desc: "Release tag name", TypeName: "string"},
-  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Asset", Desc: "Path to assets", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Release", Desc: "Release tag name", TypeName: "string"},
+  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github release draft`
 
@@ -4290,35 +4315,35 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		... // 2 identical elements
-  		&{Name: "Name", Desc: "Name of the release", TypeName: "string"},
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
-  		&{Name: "Tag", Desc: "Name of the tag", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		... // 2 identical elements
+  		&{Name: "Name", Desc: "Name of the release", TypeName: "string"},
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
+  		&{Name: "Tag", Desc: "Name of the tag", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github release list`
 
@@ -4328,32 +4353,32 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Owner", Desc: "Repository owner", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repository", Desc: "Repository name", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Owner", Desc: "Repository owner", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repository", Desc: "Repository name", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `github tag create`
 
@@ -4363,34 +4388,34 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
-- 			TypeAttr: string("github_repo"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
-  		&{Name: "Sha1", Desc: "SHA1 hash of the commit", TypeName: "string"},
-  		&{Name: "Tag", Desc: "Tag name", TypeName: "string"},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_repo"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "Owner", Desc: "Owner of the repository", TypeName: "string"},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_repo",
+- 			TypeAttr: string("github_repo"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Repository", Desc: "Name of the repository", TypeName: "string"},
+  		&{Name: "Sha1", Desc: "SHA1 hash of the commit", TypeName: "string"},
+  		&{Name: "Tag", Desc: "Tag name", TypeName: "string"},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `util monitor client`
 
@@ -4400,16 +4425,16 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```
 # Command spec changed: `util release install`
 
@@ -4419,33 +4444,33 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 7 identical fields
-  	ConnUsePersonal: false,
-  	ConnUseBusiness: false,
-- 	ConnScopes:      map[string]string{"Peer": "github_public"},
-+ 	ConnScopes:      map[string]string{"Peer": "github"},
-  	Services:        {"github"},
-  	IsSecret:        false,
-  	... // 5 identical fields
-  	Reports: nil,
-  	Feeds:   nil,
-  	Values: []*dc_recipe.Value{
-  		&{Name: "AcceptLicenseAgreement", Desc: "Accept to the target release's license agreement", Default: "false", TypeName: "bool", ...},
-  		&{Name: "Path", Desc: "Path to install", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
-  		&{
-  			... // 2 identical fields
-  			Default:  "default",
-  			TypeName: "domain.github.api.gh_conn_impl.conn_github_public",
-- 			TypeAttr: string("github_public"),
-+ 			TypeAttr: string("github"),
-  		},
-  		&{Name: "Release", Desc: "Release tag name", Default: "latest", TypeName: "string", ...},
-  	},
-  	GridDataInput:  {},
-  	GridDataOutput: {},
-  	... // 2 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 7 identical fields
+  	ConnUsePersonal: false,
+  	ConnUseBusiness: false,
+- 	ConnScopes:      map[string]string{"Peer": "github_public"},
++ 	ConnScopes:      map[string]string{"Peer": "github"},
+  	Services:        {"github"},
+  	IsSecret:        false,
+  	... // 5 identical fields
+  	Reports: nil,
+  	Feeds:   nil,
+  	Values: []*dc_recipe.Value{
+  		&{Name: "AcceptLicenseAgreement", Desc: "Accept to the target release's license agreement", Default: "false", TypeName: "bool", ...},
+  		&{Name: "Path", Desc: "Path to install", TypeName: "essentials.model.mo_path.file_system_path_impl", TypeAttr: map[string]any{"shouldExist": bool(false)}},
+  		&{
+  			... // 2 identical fields
+  			Default:  "default",
+  			TypeName: "domain.github.api.gh_conn_impl.conn_github_public",
+- 			TypeAttr: string("github_public"),
++ 			TypeAttr: string("github"),
+  		},
+  		&{Name: "Release", Desc: "Release tag name", Default: "latest", TypeName: "string", ...},
+  	},
+  	GridDataInput:  {},
+  	GridDataOutput: {},
+  	... // 2 identical fields
+  }
 ```
 # Command spec changed: `util tidy pack remote`
 
@@ -4455,14 +4480,14 @@ lang: en
 
 
 ```
-  &dc_recipe.Recipe{
-  	... // 8 identical fields
-  	ConnUseBusiness: false,
-  	ConnScopes:      {"Peer": "dropbox_individual"},
-- 	Services:        []string{"dropbox"},
-+ 	Services:        []string{"dropbox_individual"},
-  	IsSecret:        false,
-  	IsConsole:       false,
-  	... // 11 identical fields
-  }
+  &dc_recipe.Recipe{
+  	... // 8 identical fields
+  	ConnUseBusiness: false,
+  	ConnScopes:      {"Peer": "dropbox_individual"},
+- 	Services:        []string{"dropbox"},
++ 	Services:        []string{"dropbox_individual"},
+  	IsSecret:        false,
+  	IsConsole:       false,
+  	... // 11 identical fields
+  }
 ```

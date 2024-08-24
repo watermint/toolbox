@@ -100,6 +100,7 @@ func AutoDetectedMessageObjects() []interface{} {
 		&infradocdc_supplemental.MsgDropboxBusiness{},
 		&infradocdc_supplemental.MsgExperimentalFeature{},
 		&infradocdc_supplemental.MsgPathVariable{},
+		&infradocdc_supplemental.MsgReportingOptions{},
 		&infradocdc_supplemental.MsgTroubleshooting{},
 		&infrafeedfd_file_impl.MsgRowFeed{},
 		&infrareciperc_exec.MsgPanic{},

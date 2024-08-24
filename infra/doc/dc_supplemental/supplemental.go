@@ -12,5 +12,6 @@ func Docs(media dc_index.MediaType) []dc_section.Document {
 		&Troubleshooting{},
 		NewDropboxBusiness(media),
 		&DocSpecChange{},
+		&ReportingOptions{},
 	}
 }
