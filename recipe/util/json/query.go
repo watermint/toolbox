@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/itchyny/gojq"
-	"github.com/simonfrey/jsonl"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
+	"github.com/watermint/toolbox/essentials/encoding/es_jsonl"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/data/da_text"
@@ -23,7 +23,6 @@ type Query struct {
 	Query   string `json:"query"`
 	Path    da_text.TextInput
 	Compact bool
-	Lines   bool
 }
 
 func (z *Query) Preset() {
@@ -108,9 +107,8 @@ func (z *Query) execLines(c app_control.Control, path string) error {
 		}()
 		source = f
 	}
-	jsl := jsonl.NewReader(source)
 	lineNum := 0
-	return jsl.ReadLines(func(data []byte) error {
+	return es_jsonl.ReadEachJson(source, func(data []byte) error {
 		var obj interface{}
 		if err := json.Unmarshal(data, &obj); err != nil {
 			l.Debug("Unable to parse JSON", esl.Error(err), esl.String("line", string(data)))
@@ -126,15 +124,7 @@ func (z *Query) execLines(c app_control.Control, path string) error {
 }
 
 func (z *Query) Exec(c app_control.Control) error {
-	if z.Lines {
-		return z.execLines(c, z.Path.FilePath())
-	} else {
-		content, err := z.Path.Content()
-		if err != nil {
-			return err
-		}
-		return z.execContent(c, content)
-	}
+	return z.execLines(c, z.Path.FilePath())
 }
 
 func (z *Query) Test(c app_control.Control) error {
