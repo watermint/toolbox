@@ -3301,7 +3301,6 @@
   "recipe.util.json.query.cli.args": "-path /LOCAL/PATH/TO/DATA.json -query QUERY",
   "recipe.util.json.query.desc": "構文については[jq Manual](https://jqlang.github.io/jq/manual/)を参照してください（サポートされていない機能もあります）。",
   "recipe.util.json.query.flag.compact": "コンパクトな出力",
-  "recipe.util.json.query.flag.lines": "JSON Lines (https://jsonlines.org/) フォーマットの読み込み",
   "recipe.util.json.query.flag.path": "ファイルパス",
   "recipe.util.json.query.flag.query": "クエリー文字列。 ",
   "recipe.util.json.query.text_input.path.desc": "JSONファイルへのパス",

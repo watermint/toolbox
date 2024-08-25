@@ -2540,10 +2540,6 @@
   "infra.doc.dc_supplemental.msg_path_variable.var_desc": "Description",
   "infra.doc.dc_supplemental.msg_path_variable.var_variable": "Path variable",
   "infra.doc.dc_supplemental.msg_reporting_options.doc_desc": "Reporting options",
-
-
-  "recipe.dev.doc.markdown.cli.args":"-content /LOCAL/PATH/TO/INPUT.md",
-
   "infra.doc.dc_supplemental.msg_reporting_options.hidden_column_code_with_option": "$ ./tbx dropbox file account info -experiment report_all_columns\n\nwatermint toolbox xxx.x.xxx\n===========================\n\n© 2016-2024 Takayuki Okazaki\nLicensed under open source licenses. Use the `license` command for more detail.\n\n\n| team_member_id                            | email                 | email_verified | status | given_name | surname | familiar_name | display_name | abbreviated_name | member_folder_id | external_id | account_id                               | persistent_id | joined_on | invited_on | role | tag |\n|-------------------------------------------|-----------------------|----------------|--------|------------|---------|---------------|--------------|------------------|------------------|-------------|------------------------------------------|---------------|-----------|------------|------|-----|\n| dbmid:xxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx | xxx@xxxxxxxxxxxxx.xxx | true           |        | xxxx       | xxxx    | xxxxxxxx      | xxxxxxx     | xxxx             |                  |             | dbid:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx |               |           |            |      |     |",
   "infra.doc.dc_supplemental.msg_reporting_options.hidden_column_code_without_option": "$ ./tbx dropbox file account info\n\nwatermint toolbox xxx.x.xxx\n===========================\n\n© 2016-2024 Takayuki Okazaki\nLicensed under open source licenses. Use the `license` command for more detail.\n\n\n| email                 | email_verified | given_name | surname | display_name |\n|-----------------------|----------------|------------|---------|--------------|\n| xxx@xxxxxxxxxxxxx.xxx | true           | xxxx       | xxxx    | xxxxxxxx     |",
   "infra.doc.dc_supplemental.msg_reporting_options.hidden_column_conclusion": "Even if you use this option, some information may not be output. If you need more detailed information, try the following output filters.",
@@ -2843,6 +2839,11 @@
   "recipe.dev.diag.throughput_row.success_sent.desc": "Sum of sent bytes of success requests in the bucket in bytes",
   "recipe.dev.diag.throughput_row.time.desc": "Timestamp",
   "recipe.dev.diag.title": "Diagnosis tools",
+  "recipe.dev.doc.markdown.cli.args": "-content /LOCAL/PATH/TO/INPUT.md",
+  "recipe.dev.doc.markdown.flag.content": "Markdown file path",
+  "recipe.dev.doc.markdown.text_input.content.desc": "Markdown file path",
+  "recipe.dev.doc.markdown.title": "Generate messages from markdown source",
+  "recipe.dev.doc.title": "Document development commands",
   "recipe.dev.info.title": "Dev information",
   "recipe.dev.kvs.concurrency.flag.count": "Number of tests",
   "recipe.dev.kvs.concurrency.title": "Concurrency test for KVS engine",
@@ -3305,7 +3306,6 @@
   "recipe.util.json.query.cli.args": "-path /LOCAL/PATH/TO/DATA.json -query QUERY",
   "recipe.util.json.query.desc": "Please refer to [jq Manual](https://jqlang.github.io/jq/manual/) for the syntax (some features are not supported).",
   "recipe.util.json.query.flag.compact": "Compact output",
-  "recipe.util.json.query.flag.lines": "Read JSON Lines (https://jsonlines.org/) format",
   "recipe.util.json.query.flag.path": "File path",
   "recipe.util.json.query.flag.query": "Query string. ",
   "recipe.util.json.query.text_input.path.desc": "The path to the JSON file",

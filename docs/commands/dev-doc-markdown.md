@@ -6,7 +6,7 @@ lang: en
 
 # dev doc markdown
 
-{"key":"complex","params":{"Messages":[{"K":"recipe.dev.doc.markdown.title","P":null},{"K":"raw","P":[{"Raw":""}]}]}}
+Generate messages from markdown source 
 
 # Installation
 
@@ -38,9 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description                                                | Default |
-|------------|------------------------------------------------------------|---------|
-| `-content` | {"key":"recipe.dev.doc.markdown.flag.content","params":{}} |         |
+| Option     | Description        | Default |
+|------------|--------------------|---------|
+| `-content` | Markdown file path |         |
 
 ## Common options:
 
@@ -70,7 +70,7 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Text input: Content
 
-{"key":"recipe.dev.doc.markdown.text_input.content.desc","params":{}}
+Markdown file path
 
 # Proxy configuration
 
