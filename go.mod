@@ -20,7 +20,7 @@ require (
 	github.com/ikawaha/kagome/v2 v2.10.0
 	github.com/itchyny/gojq v0.12.16
 	github.com/mattn/go-colorable v0.1.13
-	github.com/mattn/go-sqlite3 v1.14.22
+	github.com/mattn/go-sqlite3 v1.14.23
 	github.com/mmcdole/gofeed v1.3.0
 	github.com/montanaflynn/stats v0.7.1
 	github.com/oklog/ulid/v2 v2.1.0
