@@ -127,6 +127,8 @@ func (z *List) Exec(c app_control.Control) error {
 				process = true
 			case z.IncludeMemberFolder && namespace.NamespaceType == "team_member_folder":
 				process = true
+			case z.IncludeMemberFolder && namespace.NamespaceType == "team_member_root":
+				process = true
 			case z.IncludeMemberFolder && namespace.NamespaceType == "app_folder":
 				process = true
 			}
