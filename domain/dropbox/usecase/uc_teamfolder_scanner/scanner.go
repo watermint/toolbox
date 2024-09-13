@@ -91,7 +91,7 @@ func (z scanImpl) scanNamespace(sessionId string, stg eq_sequence.Stage, storage
 	err = sv_namespace.New(z.ctx).ListEach(func(namespace *mo_namespace.Namespace) bool {
 		l.Debug("Namespace", esl.Any("namespace", namespace))
 		switch namespace.NamespaceType {
-		case "app_folder", "team_member_folder":
+		case "app_folder", "team_member_folder", "team_member_root":
 			l.Debug("Ignore member folders")
 		default:
 			q.Enqueue(namespace)

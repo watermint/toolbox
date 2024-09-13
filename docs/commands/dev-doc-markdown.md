@@ -1,14 +1,12 @@
 ---
 layout: command
-title: Command `util json query`
+title: Command `dev doc markdown`
 lang: en
 ---
 
-# util json query
+# dev doc markdown
 
-Query JSON data 
-
-Please refer to [jq Manual](https://jqlang.github.io/jq/manual/) for the syntax (some features are not supported).
+Generate messages from markdown source 
 
 # Installation
 
@@ -24,12 +22,12 @@ This document uses the Desktop folder for command example.
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util json query -path /LOCAL/PATH/TO/DATA.json -query QUERY
+.\tbx.exe dev doc markdown -content /LOCAL/PATH/TO/INPUT.md
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util json query -path /LOCAL/PATH/TO/DATA.json -query QUERY
+$HOME/Desktop/tbx dev doc markdown -content /LOCAL/PATH/TO/INPUT.md
 ```
 
 Note for macOS Catalina 10.15 or above: macOS verifies Developer identity. Currently, `tbx` is not ready for it. Please select "Cancel" on the first dialogue. Then please proceed "System Preference", then open "Security & Privacy", select "General" tab.
@@ -40,11 +38,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option     | Description    | Default |
-|------------|----------------|---------|
-| `-compact` | Compact output | false   |
-| `-path`    | File path      |         |
-| `-query`   | Query string.  |         |
+| Option     | Description        | Default |
+|------------|--------------------|---------|
+| `-content` | Markdown file path |         |
 
 ## Common options:
 
@@ -72,9 +68,9 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 # Text inputs
 
-## Text input: Path
+## Text input: Content
 
-The path to the JSON file
+Markdown file path
 
 # Proxy configuration
 

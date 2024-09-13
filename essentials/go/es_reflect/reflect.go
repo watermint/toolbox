@@ -51,3 +51,14 @@ func NewInstance(v interface{}) interface{} {
 	t := reflect.ValueOf(v).Elem().Type()
 	return reflect.New(t).Interface()
 }
+
+func Clone(v interface{}) interface{} {
+	// Get the type of the model
+	modelType := reflect.TypeOf(v)
+
+	// Create a new instance of the same type
+	newInstance := reflect.New(modelType).Elem()
+
+	// Return the new instance as an interface{}
+	return newInstance.Interface()
+}

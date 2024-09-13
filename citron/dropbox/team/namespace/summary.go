@@ -87,7 +87,7 @@ func (z *Summary) scanTeam(dummy string, stage eq_sequence.Stage, c app_control.
 
 	lastErr := svn.ListEach(func(entry *mo_namespace.Namespace) bool {
 		switch entry.NamespaceType {
-		case "app_folder", "team_member_folder":
+		case "app_folder", "team_member_folder", "team_member_root":
 			if v, ok := summaries[entry.NamespaceType]; ok {
 				summaries[entry.NamespaceType] = v + 1
 			} else {

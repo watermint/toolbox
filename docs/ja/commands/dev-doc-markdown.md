@@ -1,14 +1,12 @@
 ---
 layout: command
-title: コマンド `util json query`
+title: コマンド `dev doc markdown`
 lang: ja
 ---
 
-# util json query
+# dev doc markdown
 
-JSONデータを問い合わせる 
-
-構文については[jq Manual](https://jqlang.github.io/jq/manual/)を参照してください（サポートされていない機能もあります）。
+マークダウンソースからメッセージを生成する 
 
 # インストール
 
@@ -24,12 +22,12 @@ watermint toolboxは、システムで許可されていれば、システム内
 Windows:
 ```
 cd $HOME\Desktop
-.\tbx.exe util json query -path /LOCAL/PATH/TO/DATA.json -query QUERY
+.\tbx.exe dev doc markdown -content /LOCAL/PATH/TO/INPUT.md
 ```
 
 macOS, Linux:
 ```
-$HOME/Desktop/tbx util json query -path /LOCAL/PATH/TO/DATA.json -query QUERY
+$HOME/Desktop/tbx dev doc markdown -content /LOCAL/PATH/TO/INPUT.md
 ```
 
 macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 現在、`tbx`はそれに対応していません. 実行時の最初に表示されるダイアログではキャンセルします. 続いて、”システム環境設定"のセキュリティーとプライバシーから一般タブを選択します.
@@ -40,11 +38,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 ## オプション:
 
-| オプション | 説明              | デフォルト |
-|------------|-------------------|------------|
-| `-compact` | コンパクトな出力  | false      |
-| `-path`    | ファイルパス      |            |
-| `-query`   | クエリー文字列。  |            |
+| オプション | 説明                         | デフォルト |
+|------------|------------------------------|------------|
+| `-content` | マークダウン・ファイルのパス |            |
 
 ## 共通のオプション:
 
@@ -72,9 +68,9 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 
 # テキスト入力
 
-## テキスト入力: Path
+## テキスト入力: Content
 
-JSONファイルへのパス
+マークダウン・ファイルのパス
 
 # ネットワークプロクシの設定
 

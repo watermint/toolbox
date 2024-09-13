@@ -8,30 +8,6 @@
             "title": "Deprecation: a few util commands",
             "updatedAt": "2024-08-23T12:43:32Z",
             "url": "https://github.com/watermint/toolbox/discussions/870"
-          },
-          {
-            "number": 868,
-            "title": "Removal of the screenshot commands",
-            "updatedAt": "2024-08-22T12:59:02Z",
-            "url": "https://github.com/watermint/toolbox/discussions/868"
-          },
-          {
-            "number": 835,
-            "title": "Google commands deprecation",
-            "updatedAt": "2024-07-02T00:45:32Z",
-            "url": "https://github.com/watermint/toolbox/discussions/835"
-          },
-          {
-            "number": 836,
-            "title": "Remove binaries that are more than six months old after release",
-            "updatedAt": "2024-05-17T06:28:19Z",
-            "url": "https://github.com/watermint/toolbox/discussions/836"
-          },
-          {
-            "number": 815,
-            "title": "Lifecycle: Availability period for each release",
-            "updatedAt": "2024-04-03T16:25:42Z",
-            "url": "https://github.com/watermint/toolbox/discussions/815"
           }
         ]
       }

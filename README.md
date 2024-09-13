@@ -59,10 +59,6 @@ In general, new security issues are discovered every day. In order not to leave 
 # Announcements
 
 * [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
-* [#868 Removal of the screenshot commands](https://github.com/watermint/toolbox/discussions/868)
-* [#835 Google commands deprecation](https://github.com/watermint/toolbox/discussions/835)
-* [#836 Remove binaries that are more than six months old after release](https://github.com/watermint/toolbox/discussions/836)
-* [#815 Lifecycle: Availability period for each release](https://github.com/watermint/toolbox/discussions/815)
 
 # Security and privacy
 
