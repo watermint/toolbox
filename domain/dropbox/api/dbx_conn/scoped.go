@@ -2,6 +2,7 @@ package dbx_conn
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
 	"github.com/watermint/toolbox/essentials/api/api_conn"
 )
 
@@ -19,4 +20,8 @@ type ConnScopedTeam interface {
 type ConnScopedIndividual interface {
 	ConnScopedDropboxApi
 	IsIndividual() bool
+}
+
+type FileSystemIdentifier interface {
+	Version() (mo_team.TeamFileSystemType, error)
 }
