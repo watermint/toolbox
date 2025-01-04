@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
@@ -34,7 +35,7 @@ func NewMock(name string, ctl app_control.Control) dbx_client.Client {
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity(), dbx_filesystem.NewEmptyHelper()),
 	}
 }
 
@@ -46,7 +47,7 @@ func NewSeqReplayMock(name string, ctl app_control.Control, rr []nw_replay.Respo
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity(), dbx_filesystem.NewEmptyHelper()),
 	}
 }
 
@@ -56,7 +57,7 @@ func NewReplayMock(name string, ctl app_control.Control, replay kv_storage.Stora
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity(), dbx_filesystem.NewEmptyHelper()),
 	}
 }
 
@@ -108,12 +109,12 @@ func newClientNoAuth(feature app_feature.Feature, l esl.Logger) nw_client.Rest {
 	return nw_rest_factory.New(opts...)
 }
 
-func New(ctl app_control.Control, app api_auth.OAuthAppData, entity api_auth.OAuthEntity) dbx_client.Client {
+func New(ctl app_control.Control, app api_auth.OAuthAppData, entity api_auth.OAuthEntity, helper *dbx_filesystem.FileSystemBuilderHelper) dbx_client.Client {
 	return &clientImpl{
 		name:    entity.PeerName,
 		client:  newClientWithToken(ctl, ctl.Log(), app, entity),
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, entity),
+		builder: dbx_request.NewBuilder(ctl, entity, helper),
 	}
 }
 

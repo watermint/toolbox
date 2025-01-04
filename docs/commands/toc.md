@@ -81,7 +81,6 @@ lang: en
 | [dropbox paper create]({{ site.baseurl }}/commands/dropbox-paper-create.html)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite]({{ site.baseurl }}/commands/dropbox-paper-overwrite.html)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend]({{ site.baseurl }}/commands/dropbox-paper-prepend.html)                                         | Append the content to the beginning of the existing Paper doc |
-| [util monitor client]({{ site.baseurl }}/commands/util-monitor-client.html)                                             | Start device monitor client                                   |
 | [util tidy pack remote]({{ site.baseurl }}/commands/util-tidy-pack-remote.html)                                         | Package remote folder into the zip file                       |
 
 ## Dropbox Sign
@@ -313,7 +312,6 @@ lang: en
 | [util uuid v4]({{ site.baseurl }}/commands/util-uuid-v4.html)                                                                 | Generate UUID v4 (random UUID)                                           |
 | [util uuid v7]({{ site.baseurl }}/commands/util-uuid-v7.html)                                                                 | Generate UUID v7                                                         |
 | [util uuid version]({{ site.baseurl }}/commands/util-uuid-version.html)                                                       | Parse version and variant of UUID                                        |
-| [util video subtitles optimize]({{ site.baseurl }}/commands/util-video-subtitles-optimize.html)                               | Optimize subtitles file                                                  |
 | [util xlsx create]({{ site.baseurl }}/commands/util-xlsx-create.html)                                                         | Create an empty spreadsheet                                              |
 | [util xlsx sheet export]({{ site.baseurl }}/commands/util-xlsx-sheet-export.html)                                             | Export data from the xlsx file                                           |
 | [util xlsx sheet import]({{ site.baseurl }}/commands/util-xlsx-sheet-import.html)                                             | Import data into xlsx file                                               |

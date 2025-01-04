@@ -2,8 +2,10 @@ package dbx_conn_impl
 
 import (
 	"errors"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -21,7 +23,7 @@ func authSession(ctl app_control.Control) api_auth.OAuthSession {
 	}
 }
 
-func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthAppData) (ctx dbx_client.Client, err error) {
+func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthAppData, isTeam bool) (ctx dbx_client.Client, err error) {
 	l := ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", peerName))
 	ui := ctl.UI()
 
@@ -60,9 +62,66 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 		if err != nil {
 			return nil, err
 		}
-		return dbx_client_impl.New(ctl, app, entity), nil
+		helper, err := getHelper(ctl, entity, isTeam)
+		if err != nil {
+			return nil, err
+		}
+		return dbx_client_impl.New(ctl, app, entity, helper), nil
 	}
 
 	l.Debug("Unsupported UI type")
 	return nil, errors.New("unsupported UI type")
+}
+
+func getHelper(ctl app_control.Control, entity api_auth.OAuthEntity, isTeam bool) (helper *dbx_filesystem.FileSystemBuilderHelper, err error) {
+	if isTeam {
+		return getHelperTeam(ctl, entity)
+	} else {
+		return getHelperIndividual(ctl, entity)
+	}
+}
+
+func getHelperIndividual(ctl app_control.Control, entity api_auth.OAuthEntity) (helper *dbx_filesystem.FileSystemBuilderHelper, err error) {
+	l := ctl.Log().With(esl.String("peerName", entity.PeerName), esl.Strings("scopes", entity.Scopes))
+	client := dbx_client_impl.New(ctl, dbx_auth.DropboxIndividual, entity, dbx_filesystem.NewEmptyHelper())
+
+	res := client.Post("users/get_current_account")
+	if err, fail := res.Failure(); fail {
+		l.Debug("Unable to verify token", esl.Error(err))
+		return nil, err
+	}
+	rj := res.Success().Json()
+	rootInfo := &dbx_filesystem.RootInfo{}
+	if rj.Model(rootInfo) != nil {
+		l.Debug("Unable to find root info")
+		return nil, errors.New("unable to find root info")
+	}
+
+	return dbx_filesystem.NewHelper(rootInfo), nil
+}
+
+func getHelperTeam(ctl app_control.Control, entity api_auth.OAuthEntity) (helper *dbx_filesystem.FileSystemBuilderHelper, err error) {
+	l := ctl.Log().With(esl.String("peerName", entity.PeerName), esl.Strings("scopes", entity.Scopes))
+	client := dbx_client_impl.New(ctl, dbx_auth.DropboxIndividual, entity, dbx_filesystem.NewEmptyHelper())
+
+	res := client.Post("team/token/get_authenticated_admin")
+	if err, fail := res.Failure(); fail {
+		l.Debug("Unable to verify token", esl.Error(err))
+		return nil, err
+	}
+	rj := res.Success().Json()
+	memberNamespaceId, ok := rj.FindString("admin_profile.member_folder_id")
+	if !ok {
+		l.Debug("Unable to find team folder id")
+		return nil, errors.New("unable to find team folder id")
+	}
+	rootNamespaceId, ok := rj.FindString("admin_profile.root_folder_id")
+	if !ok {
+		l.Debug("Unable to find root namespace id")
+		return nil, errors.New("unable to find root namespace id")
+	}
+	return dbx_filesystem.NewHelper(&dbx_filesystem.RootInfo{
+		HomeNamespaceId: memberNamespaceId,
+		RootNamespaceId: rootNamespaceId,
+	}), nil
 }

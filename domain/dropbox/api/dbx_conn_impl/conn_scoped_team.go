@@ -28,7 +28,7 @@ func (z *connScopedTeam) Connect(ctl app_control.Control) (err error) {
 	if ctl.Feature().Experiment(app_definitions.ExperimentDbxAuthCourseGrainedScope) {
 		currentScope = []string{}
 	}
-	z.ctx, err = connect(currentScope, z.name, ctl, dbx_auth.DropboxTeam)
+	z.ctx, err = connect(currentScope, z.name, ctl, dbx_auth.DropboxTeam, true)
 	return err
 }
 
@@ -55,6 +55,11 @@ func (z *connScopedTeam) Client() dbx_client.Client {
 func (z *connScopedTeam) SetScopes(scopes ...string) {
 	ss := make([]string, len(scopes))
 	copy(ss[:], scopes[:])
+
+	// To determine which file system is being used.
+	if !dbx_auth.HasAccountInfoRead(scopes) {
+		ss = append(ss, dbx_auth.ScopeAccountInfoRead)
+	}
 	if !dbx_auth.HasTeamInfoRead(scopes) {
 		ss = append(ss, dbx_auth.ScopeTeamInfoRead)
 	}

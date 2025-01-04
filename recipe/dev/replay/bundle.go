@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/ambient/ea_indicator"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
@@ -59,7 +60,7 @@ func (z *Bundle) deployDbxContext(c app_control.Control) (client dbx_client.Clie
 		l.Info("No token found. Skip operation")
 		return nil, errors.New("skip")
 	}
-	client = dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity)
+	client = dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity, dbx_filesystem.NewEmptyHelper())
 	return
 }
 
