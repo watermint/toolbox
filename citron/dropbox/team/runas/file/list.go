@@ -2,11 +2,13 @@ package file
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -59,7 +61,12 @@ func (z *List) Exec(c app_control.Control) error {
 	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers(z.IncludeExplicitSharedMembers))
 	opts = append(opts, sv_file.IncludeMountedFolders(z.IncludeMountedFolders))
 
-	return sv_file.NewFiles(z.Peer.Client().AsMemberId(member.TeamMemberId)).ListEach(
+	memberRootInfo, err := sv_profile.NewProfile(z.Peer.Client().AsMemberId(member.TeamMemberId)).Current()
+	if err != nil {
+		return err
+	}
+
+	return sv_file.NewFiles(z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(memberRootInfo.RootNamespaceId))).ListEach(
 		z.Path,
 		func(entry mo_file.Entry) {
 			z.FileList.Row(entry.Concrete())

@@ -2,6 +2,7 @@ package mount
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -54,7 +55,11 @@ func (z *Add) Exec(c app_control.Control) error {
 
 	l.Debug("Member found", esl.Any("member", member))
 
-	mount, err := sv_sharedfolder_mount.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).Mount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
+	mount, err := sv_sharedfolder_mount.New(
+		z.Peer.Client().
+			AsMemberId(member.TeamMemberId).
+			WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))).
+		Mount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
 	if err != nil {
 		de := dbx_error.NewErrors(err)
 		switch {

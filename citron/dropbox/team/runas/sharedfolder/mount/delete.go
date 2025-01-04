@@ -2,6 +2,7 @@ package mount
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -53,7 +54,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 
 	l.Debug("Member found", esl.Any("member", member))
 

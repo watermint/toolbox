@@ -2,6 +2,7 @@ package batch
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -89,7 +90,7 @@ func (z *Up) Exec(c app_control.Control) error {
 			ru.DropboxPath = mo_path2.NewDropboxPath(dbxPath)
 			ru.Overwrite = z.Overwrite
 			ru.Name = z.Name
-			ru.Context = z.Peer.Client().AsMemberId(member.TeamMemberId)
+			ru.Context = z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 			ru.BatchSize = z.BatchSize.Value()
 			ru.Delete = z.Delete
 		})

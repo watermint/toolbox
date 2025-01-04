@@ -2,6 +2,7 @@ package legacypaper
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -43,7 +44,7 @@ func (z *Count) countMember(member *mo_member.Member, c app_control.Control) err
 		Accessed:    0,
 	}
 
-	mc := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 	err := sv_paper.NewLegacy(mc).ListCreated(func(docId string) {
 		pc.Created++
 	})

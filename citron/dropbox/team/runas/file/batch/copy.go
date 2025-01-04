@@ -2,6 +2,7 @@ package batch
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -41,7 +42,7 @@ func (z *Copy) copy(cm *CopyMapping, svm sv_member.Member, c app_control.Control
 		return err
 	}
 
-	ctm := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	ctm := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 
 	srcPath, err := es_filepath.FormatPathWithPredefinedVariables(cm.SrcPath)
 	if err != nil {

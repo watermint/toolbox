@@ -2,6 +2,7 @@ package batch
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
@@ -56,7 +57,7 @@ func (z *Share) share(mf *MemberFolder, svm sv_member.Member, c app_control.Cont
 		return err
 	}
 
-	cm := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	cm := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 	sf, err := sv_sharedfolder.New(cm).Create(
 		mo_path.NewDropboxPath(mf.Path),
 		sv_sharedfolder.AclUpdatePolicy(z.AclUpdatePolicy.Value()),

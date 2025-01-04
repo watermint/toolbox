@@ -2,6 +2,7 @@ package batch
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -50,7 +51,7 @@ func (z *Add) addMember(m *AddMember, resolver uc_sharedfolder.Resolver, svm sv_
 		return err
 	}
 
-	cm := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	cm := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 	sf, err := uc_sharedfolder.NewResolver(cm).Resolve(mo_path.NewDropboxPath(m.Path))
 	if err != nil {
 		z.OperationLog.Failure(err, m)
