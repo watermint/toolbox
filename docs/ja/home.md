@@ -41,7 +41,7 @@ watermint toolboxはApache License, Version 2.0でライセンスされていま
 
 # お知らせ
 
-* [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
+* [#886 Releases released after 2024-02-01 will no longer include macOS Intel binaries.](https://github.com/watermint/toolbox/discussions/886)
 
 # セキュリティとプライバシー
 
