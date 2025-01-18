@@ -4,11 +4,13 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -20,6 +22,7 @@ import (
 type List struct {
 	Peer        dbx_conn.ConnScopedTeam
 	FileRequest rp_model.RowReport
+	BasePath    mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -36,11 +39,15 @@ func (z *List) Preset() {
 		dbx_auth.ScopeMembersRead,
 		dbx_auth.ScopeTeamDataMember,
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *List) scanMember(member *mo_member.Member, c app_control.Control) error {
 	l := c.Log().With(esl.Any("mmeber", member))
-	mc := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 	reqs, err := sv_filerequest.New(mc).List()
 	if err != nil {
 		l.Debug("Unable to retrieve file requests for the member", esl.Error(err))

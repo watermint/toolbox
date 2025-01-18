@@ -3,6 +3,7 @@ package update
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -30,6 +31,7 @@ type Visibility struct {
 	LinkNotFound   app_msg.Message
 	NoChange       app_msg.Message
 	NoLinkToUpdate app_msg.Message
+	BasePath       mo_string.SelectString
 }
 
 func (z *Visibility) Preset() {
@@ -54,11 +56,15 @@ func (z *Visibility) Preset() {
 		"public",
 		"team_only",
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Visibility) updateVisibility(target *uc_team_sharedlink.Target, c app_control.Control, sel uc_team_sharedlink.Selector) error {
 	l := c.Log().With(esl.String("member", target.Member.Email), esl.String("url", target.Entry.Url))
-	mc := z.Peer.Client().AsMemberId(target.Member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(target.Member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
 	defer func() {
 		_ = sel.Processed(target.Entry.Url)

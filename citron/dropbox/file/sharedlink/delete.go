@@ -3,10 +3,12 @@ package sharedlink
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -26,6 +28,7 @@ type Delete struct {
 	SharedLink           rp_model.TransactionReport
 	InfoNoLinksAtThePath app_msg.Message
 	ProgressDelete       app_msg.Message
+	BasePath             mo_string.SelectString
 }
 
 func (z *Delete) Preset() {
@@ -38,6 +41,10 @@ func (z *Delete) Preset() {
 		rp_model.HiddenColumns(
 			"input.id",
 		),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -56,7 +63,8 @@ func (z *Delete) Exec(c app_control.Control) error {
 func (z *Delete) removePathAt(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log()
-	links, err := sv_sharedlink.New(z.Peer.Client()).ListByPath(z.Path)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	links, err := sv_sharedlink.New(client).ListByPath(z.Path)
 	if err != nil {
 		return err
 	}
@@ -68,7 +76,7 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 	var lastErr error
 	for _, link := range links {
 		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
-		err = sv_sharedlink.New(z.Peer.Client()).Remove(link)
+		err = sv_sharedlink.New(client).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", esl.Error(err), esl.Any("link", link))
 			z.SharedLink.Failure(err, link)
@@ -83,7 +91,8 @@ func (z *Delete) removePathAt(c app_control.Control) error {
 func (z *Delete) removeRecursive(c app_control.Control) error {
 	ui := c.UI()
 	l := c.Log().With(esl.String("path", z.Path.Path()))
-	links, err := sv_sharedlink.New(z.Peer.Client()).List()
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	links, err := sv_sharedlink.New(client).List()
 	if err != nil {
 		return err
 	}
@@ -106,7 +115,7 @@ func (z *Delete) removeRecursive(c app_control.Control) error {
 		}
 
 		ui.Progress(z.ProgressDelete.With("Url", link.LinkUrl()).With("Path", link.LinkPathLower()))
-		err = sv_sharedlink.New(z.Peer.Client()).Remove(link)
+		err = sv_sharedlink.New(client).Remove(link)
 		if err != nil {
 			l.Debug("Unable to remove link", esl.Error(err), esl.Any("link", link))
 			z.SharedLink.Failure(err, link)

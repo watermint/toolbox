@@ -2,6 +2,7 @@ package uc_team_sharedlink
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -30,9 +31,9 @@ type UpdateOpts struct {
 	OnFailure UpdateOnFailure
 }
 
-func Update(target *Target, c app_control.Control, ctx dbx_client.Client, sel Selector, opts UpdateOpts) error {
+func Update(target *Target, c app_control.Control, ctx dbx_client.Client, sel Selector, opts UpdateOpts, baseNamespace dbx_filesystem.BaseNamespaceType) error {
 	l := c.Log().With(esl.String("member", target.Member.Email), esl.String("url", target.Entry.Url))
-	mc := ctx.AsMemberId(target.Member.TeamMemberId)
+	mc := ctx.AsMemberId(target.Member.TeamMemberId, baseNamespace)
 
 	defer func() {
 		_ = sel.Processed(target.Entry.Url)

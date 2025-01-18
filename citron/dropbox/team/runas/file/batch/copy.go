@@ -4,11 +4,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_relocation"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -22,6 +24,7 @@ type Copy struct {
 	Peer         dbx_conn.ConnScopedTeam
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
+	BasePath     mo_string.SelectString
 }
 
 func (z *Copy) Preset() {
@@ -33,6 +36,10 @@ func (z *Copy) Preset() {
 	)
 	z.File.SetModel(&CopyMapping{})
 	z.OperationLog.SetModel(&CopyMapping{}, nil)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Copy) copy(cm *CopyMapping, svm sv_member.Member, c app_control.Control) error {
@@ -42,7 +49,9 @@ func (z *Copy) copy(cm *CopyMapping, svm sv_member.Member, c app_control.Control
 		return err
 	}
 
-	ctm := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
+	client := z.Peer.Client().
+		AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
+		WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 
 	srcPath, err := es_filepath.FormatPathWithPredefinedVariables(cm.SrcPath)
 	if err != nil {
@@ -53,7 +62,7 @@ func (z *Copy) copy(cm *CopyMapping, svm sv_member.Member, c app_control.Control
 		dstPath = cm.DstPath
 	}
 
-	uc := uc_file_relocation.New(ctm)
+	uc := uc_file_relocation.New(client)
 	if err = uc.Copy(mo_path.NewDropboxPath(srcPath), mo_path.NewDropboxPath(dstPath)); err != nil {
 		z.OperationLog.Failure(err, cm)
 		return err

@@ -3,6 +3,7 @@ package sharedlink
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
@@ -26,6 +27,7 @@ type Create struct {
 	Expires  mo_time.TimeOptional
 	Created  rp_model.RowReport
 	Success  app_msg.Message
+	BasePath mo_string.SelectString
 }
 
 func (z *Create) Preset() {
@@ -33,6 +35,10 @@ func (z *Create) Preset() {
 		dbx_auth.ScopeSharingWrite,
 	)
 	z.Created.SetModel(&mo_sharedlink.Metadata{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Create) Exec(c app_control.Control) error {
@@ -53,7 +59,9 @@ func (z *Create) Exec(c app_control.Control) error {
 		return err
 	}
 
-	link, err := sv_sharedlink.New(z.Peer.Client()).Create(z.Path, opts...)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+
+	link, err := sv_sharedlink.New(client).Create(z.Path, opts...)
 	if err != nil {
 		return err
 	}

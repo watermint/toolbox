@@ -3,7 +3,7 @@ package artifact
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem_impl"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
@@ -53,7 +53,9 @@ func (z *Up) Exec(c app_control.Control) error {
 		return nil
 	}
 
-	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity, dbx_filesystem.NewEmptyHelper())
+	// Note: This implementation does not support the team space. So the base namespace will be
+	// User's home namespace.
+	dbxCtx := dbx_client_impl.New(c, dbx_auth.DropboxIndividual, entity, dbx_filesystem_impl.NewEmpty())
 
 	err = rc_exec.Exec(c, &ig_file.Upload{}, func(r rc_recipe.Recipe) {
 		m := r.(*ig_file.Upload)

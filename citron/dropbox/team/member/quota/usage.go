@@ -5,11 +5,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_usage"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_usage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -19,15 +21,16 @@ import (
 )
 
 type Usage struct {
-	Peer  dbx_conn.ConnScopedTeam
-	Usage rp_model.RowReport
+	Peer     dbx_conn.ConnScopedTeam
+	Usage    rp_model.RowReport
+	BasePath mo_string.SelectString
 }
 
 func (z *Usage) scanMember(member *mo_member.Member, ctl app_control.Control, ctx dbx_client.Client) error {
 	l := ctl.Log().With(esl.Any("member", member))
 	l.Debug("Scanning")
 
-	usage, err := sv_usage.New(ctx.AsMemberId(member.TeamMemberId)).Resolve()
+	usage, err := sv_usage.New(ctx.AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))).Resolve()
 	if err != nil {
 		l.Debug("Unable to scan usage data", esl.Error(err))
 		return err

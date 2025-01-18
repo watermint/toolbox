@@ -3,8 +3,10 @@ package tag
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_tag"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -12,9 +14,10 @@ import (
 )
 
 type Delete struct {
-	Peer dbx_conn.ConnScopedIndividual
-	Path mo_path.DropboxPath
-	Tag  string
+	Peer     dbx_conn.ConnScopedIndividual
+	Path     mo_path.DropboxPath
+	Tag      string
+	BasePath mo_string.SelectString
 }
 
 func (z *Delete) Preset() {
@@ -22,10 +25,15 @@ func (z *Delete) Preset() {
 		dbx_auth.ScopeFilesMetadataRead,
 		dbx_auth.ScopeFilesMetadataWrite,
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
-	return sv_file_tag.New(z.Peer.Client()).Delete(z.Path, z.Tag)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	return sv_file_tag.New(client).Delete(z.Path, z.Tag)
 }
 
 func (z *Delete) Test(c app_control.Control) error {

@@ -3,9 +3,11 @@ package batch
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -19,6 +21,7 @@ type Release struct {
 	Peer         dbx_conn.ConnScopedIndividual
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
+	BasePath     mo_string.SelectString
 }
 
 func (z *Release) Preset() {
@@ -41,6 +44,10 @@ func (z *Release) Preset() {
 			"result.lock_holder_account_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Release) Exec(c app_control.Control) error {
@@ -48,10 +55,11 @@ func (z *Release) Exec(c app_control.Control) error {
 		return err
 	}
 
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 	var lastErr error
 	_ = z.File.EachRow(func(m interface{}, rowIndex int) error {
 		row := m.(*PathLock)
-		entry, err := sv_file_lock.New(z.Peer.Client()).Unlock(mo_path.NewDropboxPath(row.Path))
+		entry, err := sv_file_lock.New(client).Unlock(mo_path.NewDropboxPath(row.Path))
 		if err != nil {
 			z.OperationLog.Failure(err, &PathLock{Path: row.Path})
 			lastErr = err

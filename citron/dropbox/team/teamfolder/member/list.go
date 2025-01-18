@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
@@ -36,6 +37,7 @@ type List struct {
 	memberTypeInternal         mo_sharedfolder_member.FolderMemberFilter
 	memberTypeExternal         mo_sharedfolder_member.FolderMemberFilter
 	ErrorTeamSpaceNotSupported app_msg.Message
+	BasePath                   mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -80,6 +82,10 @@ func (z *List) Preset() {
 		string(uc_teamfolder_scanner.ScanTimeoutShort),
 		string(uc_teamfolder_scanner.ScanTimeoutLong),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -100,14 +106,25 @@ func (z *List) Exec(c app_control.Control) error {
 		return err
 	}
 
-	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(
+		c,
+		z.Peer.Client(),
+		uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()),
+		dbx_filesystem.AsNamespaceType(z.BasePath.Value()),
+	)
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_folder_members", uc_folder_member.ScanFolderMember, z.Peer.Client(), z.FolderMember, z.FolderOrphaned)
+		s.Define("scan_folder_members",
+			uc_folder_member.ScanFolderMember,
+			z.Peer.Client(),
+			z.FolderMember,
+			z.FolderOrphaned,
+			dbx_filesystem.AsNamespaceType(z.BasePath.Value()),
+		)
 		q := s.Get("scan_folder_members")
 
 		for _, tf := range teamFolders {

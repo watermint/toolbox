@@ -3,11 +3,13 @@ package filerequest
 import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -25,6 +27,7 @@ type Clone struct {
 	File         fd_file.RowFeed
 	Peer         dbx_conn.ConnScopedTeam
 	OperationLog rp_model.TransactionReport
+	BasePath     mo_string.SelectString
 }
 
 func (z *Clone) Preset() {
@@ -40,6 +43,10 @@ func (z *Clone) Preset() {
 			"result.file_request_id",
 			"result.team_member_id",
 		),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -73,7 +80,8 @@ func (z *Clone) Exec(c app_control.Control) error {
 		if fm.DeadlineAllowLateUploads != "" {
 			opts = append(opts, sv_filerequest.OptAllowLateUploads(fm.DeadlineAllowLateUploads))
 		}
-		req, err := sv_filerequest.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).Create(
+		client := z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+		req, err := sv_filerequest.New(client).Create(
 			fm.Title,
 			mo_path.NewDropboxPath(fm.Destination),
 			opts...,

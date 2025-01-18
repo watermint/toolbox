@@ -3,8 +3,10 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_merge"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -20,6 +22,7 @@ type Merge struct {
 	DryRun              bool
 	KeepEmptyFolder     bool
 	WithinSameNamespace bool
+	BasePath            mo_string.SelectString
 }
 
 func (z *Merge) Preset() {
@@ -28,12 +31,16 @@ func (z *Merge) Preset() {
 		dbx_auth.ScopeFilesContentWrite,
 	)
 	z.DryRun = true
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Merge) Exec(c app_control.Control) error {
-	ctx := z.Peer.Client()
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
-	ufm := uc_file_merge.New(ctx, c)
+	ufm := uc_file_merge.New(client, c)
 	opts := make([]uc_file_merge.MergeOpt, 0)
 	if z.DryRun {
 		opts = append(opts, uc_file_merge.DryRun())

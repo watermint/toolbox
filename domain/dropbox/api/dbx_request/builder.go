@@ -15,11 +15,11 @@ import (
 	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity, helper *dbx_filesystem.FileSystemBuilderHelper) Builder {
+func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity, resolver dbx_filesystem.RootNamespaceResolver) Builder {
 	return &builderImpl{
-		ctl:    ctl,
-		entity: entity,
-		helper: helper,
+		ctl:          ctl,
+		entity:       entity,
+		rootResolver: resolver,
 	}
 }
 
@@ -29,19 +29,26 @@ type Builder interface {
 	AsAdminId(teamMemberId string) Builder
 	WithPath(pathRoot dbx_client.PathRoot) Builder
 	With(method, url string, data api_request.RequestData) Builder
+	BaseNamespace(baseNamespace dbx_filesystem.BaseNamespaceType) Builder
 	NoAuth() Builder
 }
 
 type builderImpl struct {
-	ctl        app_control.Control
-	entity     api_auth.OAuthEntity
-	asMemberId string
-	asAdminId  string
-	basePath   dbx_client.PathRoot
-	method     string
-	data       api_request.RequestData
-	url        string
-	helper     *dbx_filesystem.FileSystemBuilderHelper
+	ctl           app_control.Control
+	entity        api_auth.OAuthEntity
+	asMemberId    string
+	asAdminId     string
+	basePath      dbx_client.PathRoot
+	baseNamespace dbx_filesystem.BaseNamespaceType
+	rootResolver  dbx_filesystem.RootNamespaceResolver
+	method        string
+	data          api_request.RequestData
+	url           string
+}
+
+func (z builderImpl) BaseNamespace(baseNamespace dbx_filesystem.BaseNamespaceType) Builder {
+	z.baseNamespace = baseNamespace
+	return z
 }
 
 func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
@@ -96,6 +103,7 @@ func (z builderImpl) ClientHash() string {
 	sr = []string{
 		"m", z.method,
 		"u", z.url,
+		"b", string(z.baseNamespace),
 	}
 	ss = []string{
 		"m", z.asMemberId,
@@ -104,7 +112,6 @@ func (z builderImpl) ClientHash() string {
 	if z.basePath != nil {
 		sp = []string{"p", z.basePath.Header()}
 	}
-	sp = append(sp, z.helper.HashSeed()...)
 	return nw_client.ClientHash(ss, sr, z.entity.HashSeed(), sp)
 }
 
@@ -146,14 +153,34 @@ func (z builderImpl) reqHeaders() map[string]string {
 		} else {
 			headers[api_request.ReqHeaderDropboxApiPathRoot] = p
 		}
-	} else if z.helper != nil && z.helper.RootInfo != nil {
+	} else {
 		switch {
+		case z.baseNamespace == dbx_filesystem.BaseNamespaceHome:
+			// do nothing
+			break
+
 		case z.ctl.Feature().Experiment(app_definitions.ExperimentDbxDisableAutoPathRoot):
 			l.Debug("Auto path root disabled")
 
 		case strings.Contains(z.url, "2/files"),
 			strings.Contains(z.url, "2/sharing"):
-			p, err := dbx_util.HeaderSafeJson(dbx_client.Namespace(z.helper.RootInfo.RootNamespaceId))
+			var rootNamespaceId string
+			var err error
+			if z.asMemberId != "" {
+				rootNamespaceId, err = z.rootResolver.ResolveTeamMember(z.asMemberId)
+				if err != nil {
+					l.Warn("Unable to resolve team member namespace", esl.Error(err))
+					break
+				}
+			} else {
+				rootNamespaceId, err = z.rootResolver.ResolveIndividual()
+				if err != nil {
+					l.Warn("Unable to resolve individual namespace", esl.Error(err))
+					break
+				}
+			}
+
+			p, err := dbx_util.HeaderSafeJson(dbx_client.Namespace(rootNamespaceId))
 			if err != nil {
 				l.Debug("Unable to marshal root namespace", esl.Error(err))
 			} else {

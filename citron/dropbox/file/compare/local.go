@@ -3,10 +3,12 @@ package compare
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_local"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -24,17 +26,22 @@ type Local struct {
 	Diff        rp_model.RowReport
 	Skip        rp_model.RowReport
 	Success     app_msg.Message
+	BasePath    mo_string.SelectString
 }
 
 func (z *Local) Preset() {
 	z.Peer.SetScopes(dbx_auth.ScopeFilesContentRead)
 	z.Diff.SetModel(&mo_file_diff.Diff{})
 	z.Skip.SetModel(&mo_file_diff.Diff{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Local) Exec(c app_control.Control) error {
 	ui := c.UI()
-	ctx := z.Peer.Client()
+	ctx := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
 	if err := z.Diff.Open(); err != nil {
 		return err

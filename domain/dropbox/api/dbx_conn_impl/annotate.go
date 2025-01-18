@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
-	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem_impl"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
@@ -24,7 +24,7 @@ type annotateSession struct {
 
 func (z annotateSession) annotateIndividual(entity api_auth.OAuthEntity) (annotated api_auth.OAuthEntity) {
 	l := z.ctl.Log().With(esl.String("peerName", entity.PeerName), esl.Strings("scopes", entity.Scopes))
-	client := dbx_client_impl.New(z.ctl, dbx_auth.DropboxIndividual, entity, dbx_filesystem.NewEmptyHelper())
+	client := dbx_client_impl.New(z.ctl, dbx_auth.DropboxIndividual, entity, dbx_filesystem_impl.NewEmpty())
 	res := client.Post("users/get_current_account")
 	if err, fail := res.Failure(); fail {
 		l.Debug("Unable to verify token", esl.Error(err))
@@ -51,7 +51,7 @@ func (z annotateSession) annotateIndividual(entity api_auth.OAuthEntity) (annota
 
 func (z annotateSession) annotateTeam(entity api_auth.OAuthEntity) (annotated api_auth.OAuthEntity) {
 	l := z.ctl.Log().With(esl.String("peerName", entity.PeerName), esl.Strings("scopes", entity.Scopes))
-	client := dbx_client_impl.New(z.ctl, dbx_auth.DropboxTeam, entity, dbx_filesystem.NewEmptyHelper())
+	client := dbx_client_impl.New(z.ctl, dbx_auth.DropboxTeam, entity, dbx_filesystem_impl.NewEmpty())
 	res := client.Post("team/get_info")
 	if err, fail := res.Failure(); fail {
 		l.Debug("Unable to verify token", esl.Error(err))

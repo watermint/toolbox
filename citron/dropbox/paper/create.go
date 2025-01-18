@@ -3,6 +3,7 @@ package paper
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_paper"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_paper"
@@ -18,11 +19,12 @@ import (
 )
 
 type Create struct {
-	Peer    dbx_conn.ConnScopedIndividual
-	Content da_text.TextInput
-	Path    mo_path.DropboxPath
-	Format  mo_string.SelectString
-	Created rp_model.RowReport
+	Peer     dbx_conn.ConnScopedIndividual
+	Content  da_text.TextInput
+	Path     mo_path.DropboxPath
+	Format   mo_string.SelectString
+	Created  rp_model.RowReport
+	BasePath mo_string.SelectString
 }
 
 func (z *Create) Preset() {
@@ -36,6 +38,10 @@ func (z *Create) Preset() {
 			"file_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Create) Exec(c app_control.Control) error {
@@ -46,8 +52,8 @@ func (z *Create) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-
-	paper, err := sv_paper.New(z.Peer.Client()).Create(z.Path, z.Format.Value(), content)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	paper, err := sv_paper.New(client).Create(z.Path, z.Format.Value(), content)
 	if err != nil {
 		return err
 	}

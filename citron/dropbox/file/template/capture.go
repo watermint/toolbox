@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_tag"
@@ -11,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_template"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -21,9 +23,10 @@ import (
 )
 
 type Capture struct {
-	Peer dbx_conn.ConnScopedIndividual
-	Path mo_path.DropboxPath
-	Out  mo_path2.FileSystemPath
+	Peer     dbx_conn.ConnScopedIndividual
+	Path     mo_path.DropboxPath
+	Out      mo_path2.FileSystemPath
+	BasePath mo_string.SelectString
 }
 
 func (z *Capture) Preset() {
@@ -33,10 +36,15 @@ func (z *Capture) Preset() {
 		dbx_auth.ScopeSharingRead,
 		dbx_auth.ScopeSharingWrite,
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Capture) findSourceLink(path es_filesystem.Path) (link string, err error) {
-	svl := sv_sharedlink.New(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	svl := sv_sharedlink.New(client)
 	links, err := svl.ListByPath(mo_path.NewDropboxPath(path.Path()))
 	if err != nil {
 		return "", err
@@ -48,7 +56,8 @@ func (z *Capture) findSourceLink(path es_filesystem.Path) (link string, err erro
 }
 
 func (z *Capture) createSourceLink(path es_filesystem.Path) (link string, err error) {
-	svl := sv_sharedlink.New(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	svl := sv_sharedlink.New(client)
 	sl, err := svl.Create(mo_path.NewDropboxPath(path.Path()))
 	if err != nil {
 		return "", err
@@ -76,11 +85,13 @@ func (z *Capture) handlerSource(path es_filesystem.Path) (link string, err error
 }
 
 func (z *Capture) handlerTags(path es_filesystem.Path) (tags []string, err error) {
-	return sv_file_tag.New(z.Peer.Client()).Resolve(mo_path.NewDropboxPath(path.Path()))
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	return sv_file_tag.New(client).Resolve(mo_path.NewDropboxPath(path.Path()))
 }
 
 func (z *Capture) Exec(c app_control.Control) error {
-	dfs := dbx_fs.NewFileSystem(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	dfs := dbx_fs.NewFileSystem(client)
 	cp := es_template.NewCapture(dfs, es_template.CaptureOpts{
 		HandlerSource: z.handlerSource,
 		HandlerTags:   z.handlerTags,

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -31,6 +32,7 @@ type List struct {
 	Peer       dbx_conn.ConnScopedTeam
 	SharedLink rp_model.RowReport
 	Visibility mo_string.SelectString
+	BasePath   mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -50,6 +52,10 @@ func (z *List) Preset() {
 			"account_id",
 			"team_member_id",
 		),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -73,7 +79,7 @@ func (z *List) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), handler)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), handler, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		q := s.Get("scan_member")
 		for _, member := range members {
 			q.Enqueue(member)

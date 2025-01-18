@@ -4,11 +4,13 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_sharedfolder"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -21,6 +23,7 @@ type Delete struct {
 	File         fd_file.RowFeed
 	OperationLog rp_model.TransactionReport
 	LeaveCopy    bool
+	BasePath     mo_string.SelectString
 }
 
 func (z *Delete) Preset() {
@@ -34,6 +37,10 @@ func (z *Delete) Preset() {
 	)
 	z.File.SetModel(&DeleteMember{})
 	z.OperationLog.SetModel(&DeleteMember{}, nil)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Delete) deleteMember(m *DeleteMember, resolver uc_sharedfolder.Resolver, svm sv_member.Member, c app_control.Control) error {
@@ -49,7 +56,9 @@ func (z *Delete) deleteMember(m *DeleteMember, resolver uc_sharedfolder.Resolver
 		return err
 	}
 
-	cm := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
+	cm := z.Peer.Client().
+		AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
+		WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 	sf, err := uc_sharedfolder.NewResolver(cm).Resolve(mo_path.NewDropboxPath(m.Path))
 	if err != nil {
 		z.OperationLog.Failure(err, m)

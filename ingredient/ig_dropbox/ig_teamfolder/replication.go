@@ -7,6 +7,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_group"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
@@ -23,6 +24,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -187,6 +189,7 @@ type Replication struct {
 	Dst                                      dbx_conn.ConnScopedTeam
 	ErrorTeamSpaceNotSupportedSrcIsTeamSpace app_msg.Message
 	ErrorTeamSpaceNotSupportedDstIsTeamSpace app_msg.Message
+	BasePath                                 mo_string.SelectString
 }
 
 func (z *Replication) Exec(c app_control.Control) (err error) {
@@ -237,6 +240,10 @@ func (z *Replication) Preset() {
 	z.Verification.SetModel(&mo_file_diff.Diff{})
 	z.Src.SetPeerName("src")
 	z.Dst.SetPeerName("dst")
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Replication) AllFolderScope() (ctx Context, err error) {
@@ -590,14 +597,18 @@ func (z *Replication) Mount(c app_control.Control, ctx Context, scope Scope) (er
 
 	// Ensure access
 	ensureAccess := func(admin *mo_profile.Profile, ctx dbx_client.Client, folder *mo_teamfolder.TeamFolder) error {
-		mount, ensureErr := sv_sharedfolder.New(ctx.AsMemberId(admin.TeamMemberId)).Resolve(folder.TeamFolderId)
+		mount, ensureErr := sv_sharedfolder.New(
+			ctx.AsMemberId(admin.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())),
+		).Resolve(folder.TeamFolderId)
 		if ensureErr != nil {
 			return ensureErr
 		}
 		if mount.PathLower == "" {
 			return errors.New("the folder is not mounted on the account")
 		}
-		_, ensureErr = sv_file.NewFiles(ctx.AsMemberId(admin.TeamMemberId)).List(mo_path.NewDropboxPath(mount.PathLower))
+		_, ensureErr = sv_file.NewFiles(
+			ctx.AsMemberId(admin.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())),
+		).List(mo_path.NewDropboxPath(mount.PathLower))
 		if ensureErr != nil {
 			return ensureErr
 		}
@@ -624,10 +635,10 @@ func (z *Replication) Content(c app_control.Control, ctx Context, scope Scope) (
 	l.Info("Mirroring content")
 
 	ctxSrc := z.Src.Client().
-		AsMemberId(ctx.AdminSrc().TeamMemberId).
+		AsMemberId(ctx.AdminSrc().TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
 		WithPath(dbx_client.Namespace(scope.Pair().Src.TeamFolderId))
 	ctxDst := z.Dst.Client().
-		AsMemberId(ctx.AdminDst().TeamMemberId).
+		AsMemberId(ctx.AdminDst().TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
 		WithPath(dbx_client.Namespace(scope.Pair().Dst.TeamFolderId))
 
 	ucm := uc_file_mirror.New(ctxSrc, ctxDst)
@@ -649,10 +660,10 @@ func (z *Replication) Verify(c app_control.Control, ctx Context, scope Scope) (e
 	l.Info("Verify: comparing source and destination")
 
 	ctxSrc := z.Src.Client().
-		AsMemberId(ctx.AdminSrc().TeamMemberId).
+		AsMemberId(ctx.AdminSrc().TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
 		WithPath(dbx_client.Namespace(scope.Pair().Src.TeamFolderId))
 	ctxDst := z.Dst.Client().
-		AsMemberId(ctx.AdminDst().TeamMemberId).
+		AsMemberId(ctx.AdminDst().TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
 		WithPath(dbx_client.Namespace(scope.Pair().Dst.TeamFolderId))
 
 	ucc := uc_compare_paths.New(ctxSrc, ctxDst, c.UI())

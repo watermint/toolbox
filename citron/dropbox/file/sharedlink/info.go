@@ -3,6 +3,7 @@ package sharedlink
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
@@ -18,6 +19,7 @@ type Info struct {
 	Url        mo_url.Url
 	Password   mo_string.OptionalString
 	SharedLink rp_model.RowReport
+	BasePath   mo_string.SelectString
 }
 
 func (z *Info) Preset() {
@@ -32,6 +34,10 @@ func (z *Info) Preset() {
 			"parent_shared_folder_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Info) Exec(c app_control.Control) error {
@@ -39,7 +45,9 @@ func (z *Info) Exec(c app_control.Control) error {
 		return err
 	}
 
-	link, err := sv_sharedlink.New(z.Peer.Client()).Resolve(z.Url, z.Password.Value())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+
+	link, err := sv_sharedlink.New(client).Resolve(z.Url, z.Password.Value())
 	if err != nil {
 		return err
 	}

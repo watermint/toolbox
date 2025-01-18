@@ -2,10 +2,12 @@ package insight
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_insight"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -24,11 +26,16 @@ type Scan struct {
 	Errors            rp_model.RowReport
 	Conclusion        app_msg.Message
 	SkipSummarize     bool
+	BasePath          mo_string.SelectString
 }
 
 func (z *Scan) Preset() {
 	z.MaxRetries.SetRange(0, 10, 3)
 	z.Errors.SetModel(&uc_insight.ApiErrorReport{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Scan) Exec(c app_control.Control) error {
@@ -41,6 +48,7 @@ func (z *Scan) Exec(c app_control.Control) error {
 		z.Database.Path(),
 		uc_insight.MaxRetries(z.MaxRetries.Value()),
 		uc_insight.ScanMemberFolders(z.ScanMemberFolders),
+		uc_insight.BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value())),
 	)
 	if err != nil {
 		return err

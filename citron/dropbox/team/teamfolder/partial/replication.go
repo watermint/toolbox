@@ -5,12 +5,14 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_teamfolder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -29,6 +31,7 @@ type Replication struct {
 	ErrDstTeamFolderNotFound      app_msg.Message
 	ErrorTeamSpaceNotSupportedSrc app_msg.Message
 	ErrorTeamSpaceNotSupportedDst app_msg.Message
+	BasePath                      mo_string.SelectString
 }
 
 func (z *Replication) Preset() {
@@ -48,6 +51,10 @@ func (z *Replication) Preset() {
 		dbx_auth.ScopeTeamDataMember,
 		dbx_auth.ScopeTeamDataTeamSpace,
 		dbx_auth.ScopeTeamInfoRead,
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -89,8 +96,12 @@ func (z *Replication) Exec(c app_control.Control) error {
 	}
 	l.Debug("Dest team folder found", esl.Any("dstTeamFolder", dstTeamFolder))
 
-	srcCtx := z.Src.Client().AsMemberId(srcAdmin.TeamMemberId).WithPath(dbx_client.Namespace(srcTeamFolder.TeamFolderId))
-	dstCtx := z.Dst.Client().AsMemberId(dstAdmin.TeamMemberId).WithPath(dbx_client.Namespace(dstTeamFolder.TeamFolderId))
+	srcCtx := z.Src.Client().
+		AsMemberId(srcAdmin.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
+		WithPath(dbx_client.Namespace(srcTeamFolder.TeamFolderId))
+	dstCtx := z.Dst.Client().
+		AsMemberId(dstAdmin.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
+		WithPath(dbx_client.Namespace(dstTeamFolder.TeamFolderId))
 
 	mirror := uc_file_mirror.New(srcCtx, dstCtx)
 	return mirror.Mirror(z.SrcPath, z.DstPath)

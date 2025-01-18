@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_filerequest"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_time"
@@ -25,6 +26,7 @@ type Create struct {
 	AllowLateUploads mo_string.OptionalString
 	Peer             dbx_conn.ConnScopedIndividual
 	FileRequest      rp_model.RowReport
+	BasePath         mo_string.SelectString
 }
 
 func (z *Create) Preset() {
@@ -32,6 +34,10 @@ func (z *Create) Preset() {
 		dbx_auth.ScopeFileRequestsWrite,
 	)
 	z.FileRequest.SetModel(&mo_filerequest.FileRequest{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Create) Exec(c app_control.Control) error {
@@ -45,7 +51,8 @@ func (z *Create) Exec(c app_control.Control) error {
 	if err := z.FileRequest.Open(); err != nil {
 		return err
 	}
-	fr, err := sv_filerequest.New(z.Peer.Client()).Create(z.Title, z.Path, opts...)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	fr, err := sv_filerequest.New(client).Create(z.Title, z.Path, opts...)
 	if err != nil {
 		return err
 	}

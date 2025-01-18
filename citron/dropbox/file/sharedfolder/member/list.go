@@ -4,11 +4,13 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -18,8 +20,9 @@ import (
 )
 
 type List struct {
-	Peer   dbx_conn.ConnScopedIndividual
-	Member rp_model.RowReport
+	Peer     dbx_conn.ConnScopedIndividual
+	Member   rp_model.RowReport
+	BasePath mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -35,12 +38,17 @@ func (z *List) Preset() {
 			"group_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *List) listMembers(sf *mo_sharedfolder.SharedFolder, c app_control.Control) error {
 	l := c.Log().With(esl.Any("sf", sf))
 	l.Debug("Scanning")
-	members, err := sv_sharedfolder_member.New(z.Peer.Client(), sf).List()
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	members, err := sv_sharedfolder_member.New(client, sf).List()
 	if err != nil {
 		return err
 	}
@@ -52,7 +60,8 @@ func (z *List) listMembers(sf *mo_sharedfolder.SharedFolder, c app_control.Contr
 }
 
 func (z *List) Exec(c app_control.Control) error {
-	folders, err := sv_sharedfolder.New(z.Peer.Client()).List()
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	folders, err := sv_sharedfolder.New(client).List()
 	if err != nil {
 		return err
 	}

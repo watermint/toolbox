@@ -51,13 +51,13 @@ func (z tsImpl) defineScanQueues(s eq_sequence.Stage, admin *mo_profile.Profile,
 	s.Define(teamScanQueueGroup, z.scanGroup, s, admin)
 	s.Define(teamScanQueueGroupMember, z.scanGroupMember, s, admin)
 	s.Define(teamScanQueueMember, z.scanMembers, s, admin)
-	s.Define(teamScanQueueMount, z.scanMount, s, admin, team)
+	s.Define(teamScanQueueMount, z.scanMount, s, admin, team, z.opts.BaseNamespace)
 	s.Define(teamScanQueueNamespace, z.scanNamespaces, s, admin)
 	s.Define(teamScanQueueNamespaceDetail, z.scanNamespaceDetail, s, admin, team)
 	s.Define(teamScanQueueNamespaceEntry, z.scanNamespaceEntry, s, admin)
 	s.Define(teamScanQueueNamespaceMember, z.scanNamespaceMember, s, admin)
-	s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin)
-	s.Define(teamScanQueueSharedLink, z.scanSharedLink, s, admin)
+	s.Define(teamScanQueueReceivedFile, z.scanReceivedFile, s, admin, z.opts.BaseNamespace)
+	s.Define(teamScanQueueSharedLink, z.scanSharedLink, s, admin, z.opts.BaseNamespace)
 	s.Define(teamScanQueueTeamFolder, z.scanTeamFolder, s, admin)
 }
 

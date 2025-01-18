@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
@@ -13,6 +14,7 @@ import (
 	"github.com/watermint/toolbox/essentials/io/es_rewinder"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -33,6 +35,7 @@ type Apply struct {
 	ProgressAddTags      app_msg.Message
 	ProgressPutFile      app_msg.Message
 	ProgressCreateFolder app_msg.Message
+	BasePath             mo_string.SelectString
 }
 
 func (z *Apply) Preset() {
@@ -42,10 +45,15 @@ func (z *Apply) Preset() {
 		dbx_auth.ScopeFilesMetadataRead,
 		dbx_auth.ScopeFilesMetadataWrite,
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Apply) addTags(path es_filesystem.Path, tags []string) error {
-	svt := sv_file_tag.New(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	svt := sv_file_tag.New(client)
 	for _, tag := range tags {
 		if err := svt.Add(mo_path2.NewDropboxPath(path.Path()), tag); err != nil {
 			return err
@@ -61,7 +69,8 @@ func (z *Apply) putFile(path es_filesystem.Path, f io.ReadSeeker) error {
 		l.Debug("Unable to create read rewinder", esl.Error(err))
 		return err
 	}
-	svu := sv_file_content.NewUploadStream(z.Peer.Client(), false, true)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	svu := sv_file_content.NewUploadStream(client, false, true)
 	entry, err := svu.Upload(mo_path2.NewDropboxPath(path.Path()), rr, time.Now())
 	if err != nil {
 		l.Debug("Unable to upload", esl.Error(err))
@@ -81,7 +90,8 @@ func (z *Apply) Exec(c app_control.Control) error {
 		return err
 	}
 
-	fs := dbx_fs.NewFileSystem(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	fs := dbx_fs.NewFileSystem(client)
 	ap := es_template.NewApply(fs,
 		es_template.ApplyOpts{
 			HandlerTagAdd: func(path es_filesystem.Path, tags []string) error {

@@ -5,10 +5,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
@@ -21,6 +23,7 @@ type Add struct {
 	SharedFolderId     string
 	Mount              rp_model.RowReport
 	InfoAlreadyMounted app_msg.Message
+	BasePath           mo_string.SelectString
 }
 
 func (z *Add) Preset() {
@@ -40,6 +43,10 @@ func (z *Add) Preset() {
 			"owner_team_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Add) Exec(c app_control.Control) error {
@@ -57,7 +64,7 @@ func (z *Add) Exec(c app_control.Control) error {
 
 	mount, err := sv_sharedfolder_mount.New(
 		z.Peer.Client().
-			AsMemberId(member.TeamMemberId).
+			AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
 			WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))).
 		Mount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
 	if err != nil {

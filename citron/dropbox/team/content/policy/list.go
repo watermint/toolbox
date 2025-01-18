@@ -3,6 +3,7 @@ package policy
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_member_folder"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_content"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_teamfolder_scanner"
@@ -22,6 +23,7 @@ type List struct {
 	Folder                         mo_filter.Filter
 	ScanTimeout                    mo_string.SelectString
 	ErrorUnableToScanMemberFolders app_msg.Message
+	BasePath                       mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -51,12 +53,21 @@ func (z *List) Preset() {
 		string(uc_teamfolder_scanner.ScanTimeoutShort),
 		string(uc_teamfolder_scanner.ScanTimeoutLong),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
 	l := c.Log()
 
-	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(
+		c,
+		z.Peer.Client(),
+		uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()),
+		dbx_filesystem.AsNamespaceType(z.BasePath.Value()),
+	)
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err
@@ -72,7 +83,11 @@ func (z *List) Exec(c app_control.Control) error {
 		}
 	}
 
-	memberFolderScanner := uc_member_folder.New(c, z.Peer.Client())
+	memberFolderScanner := uc_member_folder.New(
+		c,
+		z.Peer.Client(),
+		dbx_filesystem.AsNamespaceType(z.BasePath.Value()),
+	)
 	memberFolders, err := memberFolderScanner.Scan(z.Folder)
 	if err != nil {
 		l.Debug("Failed to scan member folders", esl.Error(err))

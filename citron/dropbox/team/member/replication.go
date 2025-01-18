@@ -2,7 +2,9 @@ package member
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_member_mirror"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -25,6 +27,7 @@ type Replication struct {
 	File                fd_file.RowFeed
 	OperationLog        rp_model.TransactionReport
 	ProgressReplication app_msg.Message
+	BasePath            mo_string.SelectString
 }
 
 func (z *Replication) Preset() {
@@ -32,6 +35,10 @@ func (z *Replication) Preset() {
 	z.OperationLog.SetModel(&ReplicationRow{}, nil)
 	z.Src.SetPeerName("src")
 	z.Dst.SetPeerName("dst")
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Replication) Exec(c app_control.Control) error {
@@ -45,7 +52,11 @@ func (z *Replication) Exec(c app_control.Control) error {
 		row := m.(*ReplicationRow)
 
 		ui.Progress(z.ProgressReplication.With("SrcEmail", row.SrcEmail).With("DstEmail", row.DstEmail))
-		err := uc_member_mirror.New(z.Src.Client(), z.Dst.Client()).Mirror(row.SrcEmail, row.DstEmail)
+		err := uc_member_mirror.New(
+			z.Src.Client(),
+			z.Dst.Client(),
+			dbx_filesystem.AsNamespaceType(z.BasePath.Value()),
+		).Mirror(row.SrcEmail, row.DstEmail)
 		if err != nil {
 			z.OperationLog.Failure(err, row)
 			return err

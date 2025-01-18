@@ -4,6 +4,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -24,6 +25,7 @@ type Share struct {
 	AclUpdatePolicy  mo_string.SelectString
 	MemberPolicy     mo_string.SelectString
 	SharedLinkPolicy mo_string.SelectString
+	BasePath         mo_string.SelectString
 }
 
 func (z *Share) Preset() {
@@ -48,6 +50,10 @@ func (z *Share) Preset() {
 		"anyone", "members",
 	)
 	z.OperationLog.SetModel(&MemberFolder{}, &mo_sharedfolder.SharedFolder{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Share) share(mf *MemberFolder, svm sv_member.Member, c app_control.Control) error {
@@ -57,7 +63,9 @@ func (z *Share) share(mf *MemberFolder, svm sv_member.Member, c app_control.Cont
 		return err
 	}
 
-	cm := z.Peer.Client().AsMemberId(member.TeamMemberId).WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
+	cm := z.Peer.Client().
+		AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
+		WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 	sf, err := sv_sharedfolder.New(cm).Create(
 		mo_path.NewDropboxPath(mf.Path),
 		sv_sharedfolder.AclUpdatePolicy(z.AclUpdatePolicy.Value()),

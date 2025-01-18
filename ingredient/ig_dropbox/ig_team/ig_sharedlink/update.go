@@ -2,11 +2,13 @@ package ig_sharedlink
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -14,13 +16,18 @@ import (
 )
 
 type Update struct {
-	Ctx  dbx_client.Client
-	File fd_file.RowFeed
-	Opts uc_team_sharedlink.UpdateOpts
+	Ctx      dbx_client.Client
+	File     fd_file.RowFeed
+	Opts     uc_team_sharedlink.UpdateOpts
+	BasePath mo_string.SelectString
 }
 
 func (z *Update) Preset() {
 	z.File.SetModel(&uc_team_sharedlink.TargetLinks{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Update) Exec(c app_control.Control) error {
@@ -40,7 +47,7 @@ func (z *Update) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("update_link", uc_team_sharedlink.Update, c, z.Ctx, sel, z.Opts)
+		s.Define("update_link", uc_team_sharedlink.Update, c, z.Ctx, sel, z.Opts, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			l := c.Log().With(esl.Any("member", member), esl.Any("entry", entry))
 			if shouldProcess, selErr := sel.IsTarget(entry.Url); selErr != nil {
