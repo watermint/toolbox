@@ -24,3 +24,11 @@ var (
 		RedirectUrl:      "",
 	}
 )
+
+func IsTeamAppKey(appKey string) bool {
+	return appKey == app_definitions.AppKeyDropboxTeam
+}
+
+func IsIndividualAppKey(appKey string) bool {
+	return appKey == app_definitions.AppKeyDropboxIndividual
+}
