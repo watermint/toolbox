@@ -152,7 +152,7 @@ func (z *Password) Exec(c app_control.Control) error {
 			}
 		}
 
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		qsm := s.Get("scan_member")
 
 		dErr := sv_member.New(z.Peer.Client()).ListEach(func(member *mo_member.Member) bool {

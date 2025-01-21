@@ -6,26 +6,31 @@ Dropbox、Figma、Google、GitHubなどのウェブサービス用の多目的�
 
 # watermint toolboxでもっとできること
 
-watermint toolboxには、日々の作業を解決するための279コマンドが用意されています. 例えば、あなたがDropbox for teamsの管理者で、グループを管理する必要がある場合。グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
+watermint toolboxには、日々の作業を解決するための277コマンドが用意されています. 例えば、あなたがDropbox for
+teamsの管理者で、グループを管理する必要がある場合。グループコマンドを使って、グループを一括作成したり、グループにメンバーを一括追加することができます.
 
 ![Demo]({{ site.baseurl }}/images/demo.gif)
 
-watermint toolboxは、Windows、macOS（Darwin）、Linux上で、追加のライブラリなしで動作します. バイナリをダウンロードして解凍した直後に、コマンドを実行することができます.
+watermint toolboxは、Windows、macOS（Darwin）、Linux上で、追加のライブラリなしで動作します.
+バイナリをダウンロードして解凍した直後に、コマンドを実行することができます.
 
 詳細はコマンド リファレンスをご参照ください.
 
-| 参照                                                                              |
-|-----------------------------------------------------------------------------------|
-| [コマンド]({{ site.baseurl }}/ja/commands/toc.html)                               |
+| 参照                                                                      |
+|-------------------------------------------------------------------------|
+| [コマンド]({{ site.baseurl }}/ja/commands/toc.html)                         |
 | [チーム向けDropboxのコマンド]({{ site.baseurl }}/ja/guides/dropbox-business.html) |
 
 # ビルド済み実行ファイル
 
-コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます. ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
+コンパイル済みバイナリは [最新のリリース](https://github.com/watermint/toolbox/releases/latest) からダウンロードいただけます.
+ソースコードからビルドする場合には [BUILD.md](BUILD.md) を参照してください.
 
 ## macOS/LinuxでHomebrewを使ってインストールする。
 
-まずHomebrewをインストールします. 手順は [オフィシャルサイト](https://brew.sh/)を参照してください. 次のコマンドを実行してwatermint toolboxをインストールします.
+まずHomebrewをインストールします. 手順は [オフィシャルサイト](https://brew.sh/)を参照してください. 次のコマンドを実行してwatermint
+toolboxをインストールします.
+
 ```
 brew tap watermint/toolbox
 brew install toolbox
@@ -37,7 +42,10 @@ watermint toolboxはApache License, Version 2.0でライセンスされていま
 詳細はファイル LICENSE.mdまたは LICENSE.txt ご参照ください.
 
 以下にご留意ください:
-> Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE.
+> Unless required by applicable law or agreed to in writing, Licensor provides the Work (and each Contributor provides
+> its Contributions) on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+> including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR
+> A PARTICULAR PURPOSE.
 
 # お知らせ
 
@@ -49,7 +57,8 @@ watermint toolboxは、クラウドサービスAPIの使用を簡素化するよ
 
 watermint toolboxは、指定されたコマンドの意図に反して、リンクされたクラウドサービスAPIを介して取得したデータを別のサーバーに保存しません。
 
-例えば、watermint toolboxを使ってクラウドサービスからデータを取得した場合、そのデータは自分のPCにしか保存されません。さらに、ファイルまたはデータをクラウドサービスにアップロードするコマンドの場合、それらはお客様のアカウントによって指定された場所にのみ保存されます。
+例えば、watermint
+toolboxを使ってクラウドサービスからデータを取得した場合、そのデータは自分のPCにしか保存されません。さらに、ファイルまたはデータをクラウドサービスにアップロードするコマンドの場合、それらはお客様のアカウントによって指定された場所にのみ保存されます。
 
 ## データ保護
 
@@ -61,7 +70,8 @@ watermint toolboxを使ってクラウドサービスのAPIからデータを取
 
 ## 利用
 
-前述の通り、watermint toolboxはPCまたはクラウドアカウントにデータを保存するように設計されています。あなたが意図した操作以外のプロセスには、以下に説明するように、リリースのライフサイクル管理のためのデータ検索が含まれます。
+前述の通り、watermint
+toolboxはPCまたはクラウドアカウントにデータを保存するように設計されています。あなたが意図した操作以外のプロセスには、以下に説明するように、リリースのライフサイクル管理のためのデータ検索が含まれます。
 
 watermintツールボックスには、重大なバグやセキュリティ上の問題がある特定のリリースを無効にする機能があります。これは、GitHubにホストされているリポジトリから約30日ごとにデータを取得し、リリースのステータスを評価することで達成されます。このアクセスによって個人情報（クラウドアカウント情報、ローカルファイル、トークンなど）が収集されることはありません。これは単にリリース状況をチェックするだけだが、副次的な効果として、データをダウンロードする際にあなたのIPアドレスがGitHubに送信されます。
 
@@ -69,7 +79,8 @@ watermintツールボックスには、重大なバグやセキュリティ上�
 
 ## 共有
 
-watermint toolboxプロジェクトは現在、IPアドレスを含むデータを管理・取得していない。これは、プロジェクトをホストするGitHub社のみがアクセス可能な情報です。ただし、プロジェクトは将来的にこの情報を公開する可能性があり、プロジェクトの運営上必要と判断される場合には、匿名化されたリリースごとの使用状況をプロジェクト・メンバーに開示することがあります。
+watermint
+toolboxプロジェクトは現在、IPアドレスを含むデータを管理・取得していない。これは、プロジェクトをホストするGitHub社のみがアクセス可能な情報です。ただし、プロジェクトは将来的にこの情報を公開する可能性があり、プロジェクトの運営上必要と判断される場合には、匿名化されたリリースごとの使用状況をプロジェクト・メンバーに開示することがあります。
 
 このような変更は、変更が有効になる少なくとも30日前までに、告知ページおよびこのセキュリティ＆プライバシーポリシーページで発表されます。
 

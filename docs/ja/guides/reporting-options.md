@@ -57,12 +57,13 @@ Licensed under open source licenses. 詳細は`license`コマンドでご覧く�
 
 > 注：このフィルタはすべての出力レポートに適用されます。複数のレポート形式を出力するコマンドでは、意図したとおりに動作しません。
 > 複数のレポート形式を処理する場合は、`util json query`コマンドを使用して、出力されたJSONファイルをそれぞれ処理してください。
-> 
+>
 
 さらに、JSON形式のデータには、より多くのデータが含まれている場合もある。
 そのような隠されたデータを取得したい場合、このオプションはレポートとして抽出するのに役立ちます。
 
-例えば、[dropbox team member list](https://toolbox.watermint.org/commands/dropbox-team-member-list.html)というコマンドは、チームメンバーのリストを返す。
+例えば、[dropbox team member list](https://toolbox.watermint.org/commands/dropbox-team-member-list.html)
+というコマンドは、チームメンバーのリストを返す。
 JSONレポートには、Dropbox APIからの生データが含まれています。
 チームメンバーのEメールアドレスと認証ステータスのみを抽出したい場合は、出力フィルターオプションを使用できます。
 

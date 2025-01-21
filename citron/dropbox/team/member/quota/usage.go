@@ -48,6 +48,10 @@ func (z *Usage) Preset() {
 		dbx_auth.ScopeTeamInfoRead,
 	)
 	z.Usage.SetModel(&mo_usage.MemberUsage{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Usage) Exec(c app_control.Control) error {
