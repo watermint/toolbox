@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        target: [ windows/amd64, linux/amd64, linux/arm64, darwin/amd64, darwin/arm64 ]
+        target: [ windows/amd64, linux/amd64, linux/arm64, darwin/arm64 ]
     steps:
       - name: checkout
         uses: actions/checkout@v4
