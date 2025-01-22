@@ -22,6 +22,7 @@ type List struct {
 func (z *List) Preset() {
 	z.Peer.SetScopes(
 		dbx_auth.ScopeMembersRead,
+		dbx_auth.ScopeTeamDataMember,
 	)
 	z.Member.SetModel(
 		&mo_member.Member{},
