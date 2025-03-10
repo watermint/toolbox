@@ -38,7 +38,7 @@ jobs:
         uses: crazy-max/ghaction-xgo@v3
         with:
           xgo_version: latest
-          go_version: 1.23
+          go_version: 1.24
           dest: build
           prefix: tbx
           targets: ${{ matrix.target }}
