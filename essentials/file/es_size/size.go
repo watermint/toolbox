@@ -48,8 +48,8 @@ func fromKvsKey(key string) *sessionStoreKey {
 	return sk
 }
 
-// Returns new instance of this instance plus given s.
-// But keeps Path and Depth attributes.
+// Add returns a new instance that combines this instance with the given s.
+// It keeps the Path and Depth attributes from the original instance.
 func (z FolderSize) Add(s FolderSize) FolderSize {
 	z.Size += s.Size
 	z.NumFile += s.NumFile
@@ -193,35 +193,35 @@ func (z *ctxImpl) Log() esl.Logger {
 }
 
 type Session interface {
-	// Session Id of this scan
+	// SessionId returns the ID of this scan session.
 	SessionId() string
 
-	// Logger
+	// Log returns the logger for this session.
 	Log() esl.Logger
 
-	// Queue stage
+	// Stage returns the queue stage for this session.
 	Stage() eq_sequence.Stage
 
-	// Target file system
+	// FileSystem returns the target file system for this session.
 	FileSystem() es_filesystem.FileSystem
 
-	// Storage for folder tree (path -> descendant paths)
+	// Folder returns the storage for folder tree (path -> descendant paths).
 	Folder() kv_storage.Storage
 
-	// Storage for sum (path -> *FolderSize)
+	// Sum returns the storage for sum (path -> *FolderSize).
 	Sum() kv_storage.Storage
 
-	// List each results. This function must call after stage finish.
+	// ListEach lists each result. This function must be called after the stage finishes.
 	// depth == 0 for the root folder.
 	ListEach(depth int, h func(size FolderSize)) error
 
-	// Session metadata
+	// Metadata returns the session metadata.
 	Metadata() interface{}
 
-	// Open session
+	// Open opens the session.
 	Open() error
 
-	// Enqueue
+	// Enqueue adds the path to the processing queue at the specified depth.
 	Enqueue(path es_filesystem.Path, depth int)
 }
 
@@ -248,10 +248,10 @@ type sessionImpl struct {
 	fs        es_filesystem.FileSystem
 	metadata  interface{}
 
-	// folder structure (path -> descendants)
+	// folder is the storage for folder structure (path -> descendants).
 	folder kv_storage.Storage
 
-	// folder sum (path -> *FolderSize)
+	// sum is the storage for folder summaries (path -> *FolderSize).
 	sum kv_storage.Storage
 
 	ctx Context
@@ -334,7 +334,7 @@ type TaskScanFolder struct {
 	Depth     int                    `json:"depth"`
 }
 
-// Descendant folder paths
+// TaskScanFolderDescendants contains the paths of descendant folders.
 type TaskScanFolderDescendants struct {
 	Folders []string `json:"folders"`
 }
