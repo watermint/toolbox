@@ -3,6 +3,7 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink_file"
@@ -18,6 +19,7 @@ type List struct {
 	Url      mo_url.Url
 	Password mo_string.OptionalString
 	FileList rp_model.RowReport
+	BasePath mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -44,14 +46,19 @@ func (z *List) Preset() {
 			"parent_shared_folder_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
 	if err := z.FileList.Open(); err != nil {
 		return err
 	}
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
-	return sv_sharedlink_file.New(z.Peer.Client()).ListRecursive(z.Url, func(entry mo_file.Entry) {
+	return sv_sharedlink_file.New(client).ListRecursive(z.Url, func(entry mo_file.Entry) {
 		z.FileList.Row(entry.Concrete())
 	}, sv_sharedlink_file.Password(z.Password.Value()))
 }

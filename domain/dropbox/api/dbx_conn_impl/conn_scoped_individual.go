@@ -28,7 +28,7 @@ func (z *connScopedIndividual) Connect(ctl app_control.Control) (err error) {
 	if ctl.Feature().Experiment(app_definitions.ExperimentDbxAuthCourseGrainedScope) {
 		currentScope = []string{}
 	}
-	z.ctx, err = connect(currentScope, z.name, ctl, dbx_auth.DropboxIndividual)
+	z.ctx, err = connect(currentScope, z.name, ctl, dbx_auth.DropboxIndividual, false)
 	return err
 }
 

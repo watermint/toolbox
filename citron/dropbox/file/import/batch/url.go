@@ -6,6 +6,7 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_url"
@@ -66,6 +67,7 @@ type Url struct {
 	Path            mo_string.OptionalString
 	OperationLog    rp_model.TransactionReport
 	SkipPathMissing app_msg.Message
+	BasePath        mo_string.SelectString
 }
 
 func (z *Url) Preset() {
@@ -83,12 +85,18 @@ func (z *Url) Preset() {
 	)
 	z.File.SetModel(&UrlRow{})
 	z.Peer.SetScopes(dbx_auth.ScopeFilesContentWrite)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Url) process(row *UrlRow) error {
 	path := sv_file_url.PathWithName(mo_path.NewDropboxPath(row.Path), row.Url)
 
-	entry, err := sv_file_url.New(z.Peer.Client()).Save(path, row.Url)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+
+	entry, err := sv_file_url.New(client).Save(path, row.Url)
 	if err != nil {
 		z.OperationLog.Failure(err, row)
 		return err

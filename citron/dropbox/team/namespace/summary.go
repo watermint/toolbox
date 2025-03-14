@@ -3,6 +3,7 @@ package namespace
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
@@ -18,6 +19,7 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -58,6 +60,7 @@ type Summary struct {
 	SkipMemberSummary   bool
 	Namespace           kv_storage.Storage
 	AppFolderByMember   kv_storage.Storage
+	BasePath            mo_string.SelectString
 }
 
 func (z *Summary) Preset() {
@@ -74,6 +77,10 @@ func (z *Summary) Preset() {
 	z.FolderWithoutParent.SetModel(
 		&FolderWithoutParent{},
 		rp_model.HiddenColumns(),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -146,14 +153,15 @@ func (z *Summary) scanNamespace(namespace *mo_namespace.Namespace, admin *mo_pro
 
 func (z *Summary) scanMember(member *mo_member.Member, info *mo_team.Info, c app_control.Control) error {
 	l := c.Log().With(esl.String("member", member.Email))
-	svs := sv_sharedfolder.New(z.Peer.Client().AsMemberId(member.TeamMemberId))
+	client := z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	svs := sv_sharedfolder.New(client)
 	namespaces, err := svs.List()
 	if err != nil {
 		l.Debug("Unable to retrieve namespaces", esl.Error(err))
 		return err
 	}
 
-	mounts, err := sv_sharedfolder_mount.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).List()
+	mounts, err := sv_sharedfolder_mount.New(client).List()
 	if err != nil {
 		l.Debug("Unable to retrieve mount info", esl.Error(err))
 		return err

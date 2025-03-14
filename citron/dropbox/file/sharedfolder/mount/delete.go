@@ -4,9 +4,11 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -19,6 +21,7 @@ type Delete struct {
 	SharedFolderId       string
 	Mount                rp_model.RowReport
 	InfoAlreadyUnmounted app_msg.Message
+	BasePath             mo_string.SelectString
 }
 
 func (z *Delete) Preset() {
@@ -35,6 +38,10 @@ func (z *Delete) Preset() {
 			"owner_team_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Delete) Exec(c app_control.Control) error {
@@ -42,7 +49,8 @@ func (z *Delete) Exec(c app_control.Control) error {
 		return err
 	}
 
-	err := sv_sharedfolder_mount.New(z.Peer.Client()).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	err := sv_sharedfolder_mount.New(client).Unmount(&mo_sharedfolder.SharedFolder{SharedFolderId: z.SharedFolderId})
 	if err != nil {
 		de := dbx_error.NewErrors(err)
 		switch {
@@ -54,7 +62,7 @@ func (z *Delete) Exec(c app_control.Control) error {
 		}
 	}
 
-	mount, err := sv_sharedfolder.New(z.Peer.Client()).Resolve(z.SharedFolderId)
+	mount, err := sv_sharedfolder.New(client).Resolve(z.SharedFolderId)
 	if err != nil {
 		return err
 	}

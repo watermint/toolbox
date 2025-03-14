@@ -81,7 +81,6 @@ lang: ja
 | [dropbox paper create]({{ site.baseurl }}/ja/commands/dropbox-paper-create.html)                                           | パスに新しいPaperを作成                                                   |
 | [dropbox paper overwrite]({{ site.baseurl }}/ja/commands/dropbox-paper-overwrite.html)                                     | 既存のPaperドキュメントを上書きする                                       |
 | [dropbox paper prepend]({{ site.baseurl }}/ja/commands/dropbox-paper-prepend.html)                                         | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [util monitor client]({{ site.baseurl }}/ja/commands/util-monitor-client.html)                                             | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote]({{ site.baseurl }}/ja/commands/util-tidy-pack-remote.html)                                         | リモートフォルダをZIPファイルにパッケージする                             |
 
 ## Dropbox Sign
@@ -313,7 +312,6 @@ lang: ja
 | [util uuid v4]({{ site.baseurl }}/ja/commands/util-uuid-v4.html)                                                                 | UUID v4（ランダムUUID）の生成                                                |
 | [util uuid v7]({{ site.baseurl }}/ja/commands/util-uuid-v7.html)                                                                 | UUID v7 の生成                                                               |
 | [util uuid version]({{ site.baseurl }}/ja/commands/util-uuid-version.html)                                                       | UUIDのバージョンとバリアントの解析                                           |
-| [util video subtitles optimize]({{ site.baseurl }}/ja/commands/util-video-subtitles-optimize.html)                               | 字幕ファイルの最適化                                                         |
 | [util xlsx create]({{ site.baseurl }}/ja/commands/util-xlsx-create.html)                                                         | 空のスプレッドシートを作成する                                               |
 | [util xlsx sheet export]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-export.html)                                             | xlsxファイルからデータをエクスポート                                         |
 | [util xlsx sheet import]({{ site.baseurl }}/ja/commands/util-xlsx-sheet-import.html)                                             | データをxlsxファイルにインポート                                             |

@@ -3,9 +3,11 @@ package compare
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -23,6 +25,7 @@ type Account struct {
 	ConnLeft  app_msg.Message
 	ConnRight app_msg.Message
 	Success   app_msg.Message
+	BasePath  mo_string.SelectString
 }
 
 func (z *Account) Preset() {
@@ -35,16 +38,20 @@ func (z *Account) Preset() {
 	z.Right.SetScopes(
 		dbx_auth.ScopeFilesContentRead,
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Account) Exec(c app_control.Control) error {
 	ui := c.UI()
 
 	ui.Info(z.ConnLeft)
-	ctxLeft := z.Left.Client()
+	ctxLeft := z.Left.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
 	ui.Info(z.ConnRight)
-	ctxRight := z.Right.Client()
+	ctxRight := z.Right.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
 	err := z.Diff.Open()
 	if err != nil {

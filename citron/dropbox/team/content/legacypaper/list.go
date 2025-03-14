@@ -2,7 +2,9 @@ package legacypaper
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_paper"
@@ -24,15 +26,17 @@ type PaperList struct {
 }
 
 type MemberDoc struct {
-	MemberId    string `json:"member_id"`
-	MemberEmail string `json:"member_email"`
-	PaperDocId  string `json:"paper_doc_id"`
+	MemberId              string `json:"member_id"`
+	MemberEmail           string `json:"member_email"`
+	MemberRootNamespaceId string `json:"member_root_namespace_id"`
+	PaperDocId            string `json:"paper_doc_id"`
 }
 
 type List struct {
 	Peer     dbx_conn.ConnScopedTeam
 	Paper    rp_model.RowReport
 	FilterBy mo_string.SelectString
+	BasePath mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -44,11 +48,17 @@ func (z *List) Preset() {
 	)
 	z.Paper.SetModel(&PaperList{})
 	z.FilterBy.SetOptions("docs_created", "docs_created", "docs_accessed")
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *List) listMemberDoc(md *MemberDoc, c app_control.Control) error {
 	l := c.Log().With(esl.String("memberEmail", md.MemberEmail), esl.String("docId", md.PaperDocId))
-	mc := z.Peer.Client().AsMemberId(md.MemberId)
+	mc := z.Peer.Client().
+		AsMemberId(md.MemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
+		WithPath(dbx_client.Namespace(md.MemberRootNamespaceId))
 	meta, err := sv_paper.NewLegacy(mc).Metadata(md.PaperDocId, "markdown")
 	if err != nil {
 		l.Debug("Unable to export data", esl.Error(err))
@@ -68,12 +78,15 @@ func (z *List) listMemberDoc(md *MemberDoc, c app_control.Control) error {
 func (z *List) listMemberPaper(member *mo_member.Member, c app_control.Control, s eq_sequence.Stage) error {
 	l := c.Log().With(esl.String("memberEmail", member.Email))
 	q := s.Get("scan_paper")
-	mc := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	mc := z.Peer.Client().
+		AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value())).
+		WithPath(dbx_client.Namespace(member.Profile().RootNamespaceId))
 	err := sv_paper.NewLegacy(mc).List(z.FilterBy.Value(), func(docId string) {
 		q.Enqueue(&MemberDoc{
-			MemberId:    member.TeamMemberId,
-			MemberEmail: member.Email,
-			PaperDocId:  docId,
+			MemberId:              member.TeamMemberId,
+			MemberEmail:           member.Email,
+			MemberRootNamespaceId: member.Profile().RootNamespaceId,
+			PaperDocId:            docId,
 		})
 	})
 	if err != nil {

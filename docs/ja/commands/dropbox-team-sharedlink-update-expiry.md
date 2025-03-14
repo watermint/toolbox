@@ -37,6 +37,7 @@ tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' 
 
 | 説明                                                                                |
 |-------------------------------------------------------------------------------------|
+| Dropbox for teams：プロフィール写真など、Dropboxアカウントの基本情報の表示と編集    |
 | Dropbox for teams：チームメンバーの確認                                             |
 | Dropbox for teams：Dropboxの共有設定と共同作業者の表示と管理                        |
 | Dropbox for teams：チームやメンバーのフォルダ構造を表示                             |
@@ -51,7 +52,7 @@ tbx team sharedlink list -output json -visibility public | jq '.sharedlink.url' 
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 1. 次のURLを開き認証ダイアログを開いてください:

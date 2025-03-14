@@ -2,6 +2,7 @@ package uc_insight
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedlink"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
@@ -58,9 +59,9 @@ func NewSharedLinkWithTeamMemberId(teamMemberId string, data es_json.Json) (sl *
 	return sl, nil
 }
 
-func (z tsImpl) scanSharedLink(param *SharedLinkParam, stage eq_sequence.Stage, admin *mo_profile.Profile) (err error) {
+func (z tsImpl) scanSharedLink(param *SharedLinkParam, stage eq_sequence.Stage, admin *mo_profile.Profile, baseNamespace dbx_filesystem.BaseNamespaceType) (err error) {
 	l := z.client.Log().With(esl.String("teamMemberId", param.TeamMemberId))
-	client := z.client.AsMemberId(param.TeamMemberId)
+	client := z.client.AsMemberId(param.TeamMemberId, baseNamespace)
 
 	links, err := sv_sharedlink.New(client).List()
 	if err != nil {

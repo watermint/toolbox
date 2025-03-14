@@ -58,7 +58,7 @@ brew install toolbox
 
 # お知らせ
 
-* [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
+* [#886 Releases released after 2024-02-01 will no longer include macOS Intel binaries.](https://github.com/watermint/toolbox/discussions/886)
 
 # セキュリティとプライバシー
 
@@ -101,7 +101,7 @@ watermint toolboxプロジェクトは現在、IPアドレスを含むデータ�
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 Dropbox用ツールとDropbox for teams
@@ -208,7 +208,6 @@ Dropbox用ツールとDropbox for teams
 | [dropbox paper create](docs/ja/commands/dropbox-paper-create.md)                                           | パスに新しいPaperを作成                                                   |
 | [dropbox paper overwrite](docs/ja/commands/dropbox-paper-overwrite.md)                                     | 既存のPaperドキュメントを上書きする                                       |
 | [dropbox paper prepend](docs/ja/commands/dropbox-paper-prepend.md)                                         | 既存のPaperドキュメントの先頭にコンテンツを追加する                       |
-| [util monitor client](docs/ja/commands/util-monitor-client.md)                                             | デバイスモニタークライアントを起動する                                    |
 | [util tidy pack remote](docs/ja/commands/util-tidy-pack-remote.md)                                         | リモートフォルダをZIPファイルにパッケージする                             |
 
 ## Dropbox Sign
@@ -440,7 +439,6 @@ Dropbox用ツールとDropbox for teams
 | [util uuid v4](docs/ja/commands/util-uuid-v4.md)                                                                 | UUID v4（ランダムUUID）の生成                                                |
 | [util uuid v7](docs/ja/commands/util-uuid-v7.md)                                                                 | UUID v7 の生成                                                               |
 | [util uuid version](docs/ja/commands/util-uuid-version.md)                                                       | UUIDのバージョンとバリアントの解析                                           |
-| [util video subtitles optimize](docs/ja/commands/util-video-subtitles-optimize.md)                               | 字幕ファイルの最適化                                                         |
 | [util xlsx create](docs/ja/commands/util-xlsx-create.md)                                                         | 空のスプレッドシートを作成する                                               |
 | [util xlsx sheet export](docs/ja/commands/util-xlsx-sheet-export.md)                                             | xlsxファイルからデータをエクスポート                                         |
 | [util xlsx sheet import](docs/ja/commands/util-xlsx-sheet-import.md)                                             | データをxlsxファイルにインポート                                             |

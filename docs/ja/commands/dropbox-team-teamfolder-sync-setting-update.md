@@ -28,6 +28,7 @@ lang: ja
 
 | 説明                                                                                |
 |-------------------------------------------------------------------------------------|
+| Dropbox for teams：プロフィール写真など、Dropboxアカウントの基本情報の表示と編集    |
 | Dropbox for teams：Dropboxのファイルやフォルダに関する情報を表示                    |
 | Dropbox for teams：チームのファイルやフォルダの内容を表示                           |
 | Dropbox for teams：チーム内のファイルやフォルダのコンテンツを閲覧・編集できます。   |
@@ -44,7 +45,7 @@ lang: ja
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 1. 次のURLを開き認証ダイアログを開いてください:

@@ -3,6 +3,7 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_group_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_profile"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_team"
@@ -34,6 +35,7 @@ type Size struct {
 	MemberCount                    rp_model.RowReport
 	IncludeSubFolders              bool
 	ErrorUnableToScanMemberFolders app_msg.Message
+	BasePath                       mo_string.SelectString
 }
 
 func (z *Size) Preset() {
@@ -65,6 +67,10 @@ func (z *Size) Preset() {
 			"member_emails",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Size) Exec(c app_control.Control) error {
@@ -83,13 +89,13 @@ func (z *Size) Exec(c app_control.Control) error {
 		return err
 	}
 
-	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()))
+	teamFolderScanner := uc_teamfolder_scanner.New(c, z.Peer.Client(), uc_teamfolder_scanner.ScanTimeoutMode(z.ScanTimeout.Value()), dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 	teamFolders, err := teamFolderScanner.Scan(z.Folder)
 	if err != nil {
 		return err
 	}
 
-	memberFolderScanner := uc_member_folder.New(c, z.Peer.Client())
+	memberFolderScanner := uc_member_folder.New(c, z.Peer.Client(), dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 	memberFolders, err := memberFolderScanner.Scan(z.Folder)
 	if err != nil {
 		l.Debug("Failed to scan member folders", esl.Error(err))
@@ -98,7 +104,13 @@ func (z *Size) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("scan_folder_members", uc_folder_member.ScanFolderMember, z.Peer.Client(), z.FolderMember, z.FolderOrphaned)
+		s.Define("scan_folder_members",
+			uc_folder_member.ScanFolderMember,
+			z.Peer.Client(),
+			z.FolderMember,
+			z.FolderOrphaned,
+			dbx_filesystem.AsNamespaceType(z.BasePath.Value()),
+		)
 		q := s.Get("scan_folder_members")
 
 		for _, tf := range teamFolders {

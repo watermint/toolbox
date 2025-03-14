@@ -58,7 +58,7 @@ In general, new security issues are discovered every day. In order not to leave 
 
 # Announcements
 
-* [#870 Deprecation: a few util commands](https://github.com/watermint/toolbox/discussions/870)
+* [#886 Releases released after 2024-02-01 will no longer include macOS Intel binaries.](https://github.com/watermint/toolbox/discussions/886)
 
 # Security and privacy
 
@@ -101,7 +101,7 @@ You can see available commands and options by running executable without argumen
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Tools for Dropbox and Dropbox for teams
@@ -208,7 +208,6 @@ Available commands:
 | [dropbox paper create](docs/commands/dropbox-paper-create.md)                                           | Create new Paper in the path                                  |
 | [dropbox paper overwrite](docs/commands/dropbox-paper-overwrite.md)                                     | Overwrite existing Paper document                             |
 | [dropbox paper prepend](docs/commands/dropbox-paper-prepend.md)                                         | Append the content to the beginning of the existing Paper doc |
-| [util monitor client](docs/commands/util-monitor-client.md)                                             | Start device monitor client                                   |
 | [util tidy pack remote](docs/commands/util-tidy-pack-remote.md)                                         | Package remote folder into the zip file                       |
 
 ## Dropbox Sign
@@ -440,7 +439,6 @@ Available commands:
 | [util uuid v4](docs/commands/util-uuid-v4.md)                                                                 | Generate UUID v4 (random UUID)                                           |
 | [util uuid v7](docs/commands/util-uuid-v7.md)                                                                 | Generate UUID v7                                                         |
 | [util uuid version](docs/commands/util-uuid-version.md)                                                       | Parse version and variant of UUID                                        |
-| [util video subtitles optimize](docs/commands/util-video-subtitles-optimize.md)                               | Optimize subtitles file                                                  |
 | [util xlsx create](docs/commands/util-xlsx-create.md)                                                         | Create an empty spreadsheet                                              |
 | [util xlsx sheet export](docs/commands/util-xlsx-sheet-export.md)                                             | Export data from the xlsx file                                           |
 | [util xlsx sheet import](docs/commands/util-xlsx-sheet-import.md)                                             | Import data into xlsx file                                               |

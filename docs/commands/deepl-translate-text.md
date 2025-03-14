@@ -39,7 +39,7 @@ Log in to DeepL and copy the API. Then, enter the copied API key into tbx.
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 Please enter your API key(s).

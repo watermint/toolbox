@@ -3,6 +3,7 @@ package update
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -11,6 +12,7 @@ import (
 	"github.com/watermint/toolbox/essentials/kvs/kv_kvs"
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -35,6 +37,7 @@ type Password struct {
 	LinkPasswords  kv_storage.Storage
 	LinkNotFound   app_msg.Message
 	NoLinkToUpdate app_msg.Message
+	BasePath       mo_string.SelectString
 }
 
 func (z *Password) Preset() {
@@ -54,11 +57,15 @@ func (z *Password) Preset() {
 			"result.status",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Password) updatePassword(target *uc_team_sharedlink.Target, c app_control.Control, sel uc_team_sharedlink.Selector) error {
 	l := c.Log().With(esl.String("member", target.Member.Email), esl.String("url", target.Entry.Url))
-	mc := z.Peer.Client().AsMemberId(target.Member.TeamMemberId)
+	mc := z.Peer.Client().AsMemberId(target.Member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
 	defer func() {
 		_ = sel.Processed(target.Entry.Url)
@@ -145,7 +152,7 @@ func (z *Password) Exec(c app_control.Control) error {
 			}
 		}
 
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		qsm := s.Get("scan_member")
 
 		dErr := sv_member.New(z.Peer.Client()).ListEach(func(member *mo_member.Member) bool {

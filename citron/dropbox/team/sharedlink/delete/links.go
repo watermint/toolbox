@@ -3,11 +3,13 @@ package delete
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_sharedlink"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
@@ -32,6 +34,7 @@ type Links struct {
 	OperationLog   rp_model.TransactionReport
 	LinkNotFound   app_msg.Message
 	NoLinkToDelete app_msg.Message
+	BasePath       mo_string.SelectString
 }
 
 func (z *Links) Preset() {
@@ -50,6 +53,10 @@ func (z *Links) Preset() {
 			"result.team_member_id",
 			"result.status",
 		),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -103,7 +110,7 @@ func (z *Links) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLinkWithSel, c, z.Peer.Client(), onDeleteSuccess, onDeleteFailure, sel)
+		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLinkWithSel, c, z.Peer.Client(), onDeleteSuccess, onDeleteFailure, sel, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			l := l.With(esl.Any("member", member), esl.Any("entry", entry))
 			if shouldProcess, selErr := sel.IsTarget(entry.Url); selErr != nil {
@@ -117,7 +124,7 @@ func (z *Links) Exec(c app_control.Control) error {
 				})
 			}
 		}
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		qsm := s.Get("scan_member")
 
 		dErr := sv_member.New(z.Peer.Client()).ListEach(func(member *mo_member.Member) bool {

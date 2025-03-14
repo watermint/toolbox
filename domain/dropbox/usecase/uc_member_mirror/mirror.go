@@ -2,6 +2,7 @@ package uc_member_mirror
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -16,16 +17,18 @@ type Mirror interface {
 	Mirror(srcEmail, dstEmail string) error
 }
 
-func New(ctxFileSrc, ctxFileDst dbx_client.Client) Mirror {
+func New(ctxFileSrc, ctxFileDst dbx_client.Client, baseNamespace dbx_filesystem.BaseNamespaceType) Mirror {
 	return &mirrorImpl{
-		ctxFileSrc: ctxFileSrc,
-		ctxFileDst: ctxFileDst,
+		ctxFileSrc:    ctxFileSrc,
+		ctxFileDst:    ctxFileDst,
+		baseNamespace: baseNamespace,
 	}
 }
 
 type mirrorImpl struct {
-	ctxFileSrc dbx_client.Client
-	ctxFileDst dbx_client.Client
+	ctxFileSrc    dbx_client.Client
+	ctxFileDst    dbx_client.Client
+	baseNamespace dbx_filesystem.BaseNamespaceType
 }
 
 func (z *mirrorImpl) log() esl.Logger {
@@ -48,12 +51,12 @@ func (z *mirrorImpl) Mirror(srcEmail, dstEmail string) error {
 		return err
 	}
 
-	ctxFileSrcAsMember := z.ctxFileSrc.AsMemberId(srcProfile.TeamMemberId).WithPath(dbx_client.Namespace(srcProfile.MemberFolderId))
-	ctxFileDstAsMember := z.ctxFileDst.AsMemberId(dstProfile.TeamMemberId).WithPath(dbx_client.Namespace(dstProfile.MemberFolderId))
+	ctxFileSrcAsMember := z.ctxFileSrc.AsMemberId(srcProfile.TeamMemberId, z.baseNamespace).WithPath(dbx_client.Namespace(srcProfile.MemberFolderId))
+	ctxFileDstAsMember := z.ctxFileDst.AsMemberId(dstProfile.TeamMemberId, z.baseNamespace).WithPath(dbx_client.Namespace(dstProfile.MemberFolderId))
 	ucm := uc_file_mirror.New(ctxFileSrcAsMember, ctxFileDstAsMember)
 
 	// shared folder list of src member (for excluding mirror)
-	sharedFolders, err := sv_sharedfolder.New(z.ctxFileSrc.AsMemberId(srcProfile.TeamMemberId)).List()
+	sharedFolders, err := sv_sharedfolder.New(z.ctxFileSrc.AsMemberId(srcProfile.TeamMemberId, z.baseNamespace)).List()
 	if err != nil {
 		l.Error("Unable to list shared folders", esl.Error(err))
 		return err

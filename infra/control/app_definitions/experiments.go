@@ -11,6 +11,7 @@ const (
 
 	ExperimentDbxAuthRedirect           = "dbx_auth_redirect"
 	ExperimentDbxAuthCourseGrainedScope = "dbx_auth_course_grained_scope"
+	ExperimentDbxDisableAutoPathRoot    = "dbx_disable_auto_path_root"
 
 	// Execute batch sequentially in same batchId
 	ExperimentBatchSequential = "batch_sequential"
@@ -85,6 +86,7 @@ var (
 		ExperimentDbxClientConditionerNarrow100,
 		ExperimentDbxClientConditionerNarrow20,
 		ExperimentDbxClientConditionerNarrow40,
+		ExperimentDbxDisableAutoPathRoot,
 		ExperimentDbxDownloadBlock,
 		ExperimentFileSyncDisableReduceCreateFolder,
 		ExperimentFileSyncLegacyLocalToDropboxConnector,

@@ -2,6 +2,7 @@ package dbx_client
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_response"
 	"github.com/watermint/toolbox/essentials/api/api_client"
@@ -44,9 +45,10 @@ type Client interface {
 	Notify(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 	ContentHead(endpoint string, d ...api_request.RequestDatum) dbx_response.Response
 
-	AsMemberId(teamMemberId string) Client
+	AsMemberId(teamMemberId string, basePath dbx_filesystem.BaseNamespaceType) Client
 	AsAdminId(teamMemberId string) Client
 	WithPath(pathRoot PathRoot) Client
+	BaseNamespace(baseNamespace dbx_filesystem.BaseNamespaceType) Client
 	NoAuth() Client
 	NoRetry() Client
 	Feature() app_feature.Feature

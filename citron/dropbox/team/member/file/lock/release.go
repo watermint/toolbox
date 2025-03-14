@@ -3,10 +3,12 @@ package lock
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -23,6 +25,7 @@ type Release struct {
 	MemberEmail  string
 	Path         mo_path.DropboxPath
 	OperationLog rp_model.TransactionReport
+	BasePath     mo_string.SelectString
 }
 
 func (z *Release) Preset() {
@@ -46,6 +49,10 @@ func (z *Release) Preset() {
 			"result.lock_holder_account_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Release) Exec(c app_control.Control) error {
@@ -58,9 +65,9 @@ func (z *Release) Exec(c app_control.Control) error {
 		return err
 	}
 
-	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	client := z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
-	entry, err := sv_file_lock.New(ctx).Unlock(z.Path)
+	entry, err := sv_file_lock.New(client).Unlock(z.Path)
 	if err != nil {
 		z.OperationLog.Failure(err, &PathLock{Path: z.Path.Path()})
 		return err

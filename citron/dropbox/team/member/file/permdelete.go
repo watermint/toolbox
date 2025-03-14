@@ -4,9 +4,11 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -22,6 +24,7 @@ type Permdelete struct {
 	MemberEmail         string
 	ProgressMemberFound app_msg.Message
 	ProgressDelete      app_msg.Message
+	BasePath            mo_string.SelectString
 }
 
 func (z *Permdelete) Preset() {
@@ -29,6 +32,10 @@ func (z *Permdelete) Preset() {
 		dbx_auth.ScopeFilesPermanentDelete,
 		dbx_auth.ScopeTeamDataMember,
 		dbx_auth.ScopeMembersRead,
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -45,7 +52,7 @@ func (z *Permdelete) Exec(c app_control.Control) error {
 		With("MemberEmail", member.Email).
 		With("Path", z.Path.Path()))
 
-	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId)
+	ctx := z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
 	var del func(path mo_path.DropboxPath) error
 	del = func(path mo_path.DropboxPath) error {

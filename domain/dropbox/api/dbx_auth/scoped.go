@@ -125,6 +125,10 @@ func IsTeamScopeSession(session api_auth.OAuthSessionData) bool {
 }
 
 func HasAccountInfoRead(scopes []string) bool {
+	// If no scope is specified, that means all scopes are granted.
+	if len(scopes) == 0 {
+		return true
+	}
 	for _, scope := range scopes {
 		if scope == ScopeAccountInfoRead {
 			return true
@@ -134,6 +138,10 @@ func HasAccountInfoRead(scopes []string) bool {
 }
 
 func HasTeamInfoRead(scopes []string) bool {
+	// If no scope is specified, that means all scopes are granted.
+	if len(scopes) == 0 {
+		return true
+	}
 	for _, scope := range scopes {
 		if scope == ScopeTeamInfoRead {
 			return true

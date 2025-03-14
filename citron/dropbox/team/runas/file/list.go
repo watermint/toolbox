@@ -3,10 +3,12 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -23,6 +25,7 @@ type List struct {
 	IncludeMountedFolders        bool
 	IncludeExplicitSharedMembers bool
 	FileList                     rp_model.RowReport
+	BasePath                     mo_string.SelectString
 }
 
 func (z *List) Preset() {
@@ -42,6 +45,10 @@ func (z *List) Preset() {
 			"parent_shared_folder_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *List) Exec(c app_control.Control) error {
@@ -59,7 +66,8 @@ func (z *List) Exec(c app_control.Control) error {
 	opts = append(opts, sv_file.IncludeHasExplicitSharedMembers(z.IncludeExplicitSharedMembers))
 	opts = append(opts, sv_file.IncludeMountedFolders(z.IncludeMountedFolders))
 
-	return sv_file.NewFiles(z.Peer.Client().AsMemberId(member.TeamMemberId)).ListEach(
+	client := z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	return sv_file.NewFiles(client).ListEach(
 		z.Path,
 		func(entry mo_file.Entry) {
 			z.FileList.Row(entry.Concrete())

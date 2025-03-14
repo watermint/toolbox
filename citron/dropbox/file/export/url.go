@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_url"
@@ -30,6 +31,7 @@ type Url struct {
 	OperationLog          rp_model.RowReport
 	Format                mo_string.OptionalString
 	ErrorNotInYourDropbox app_msg.Message
+	BasePath              mo_string.SelectString
 }
 
 func (z *Url) Preset() {
@@ -47,6 +49,10 @@ func (z *Url) Preset() {
 			"export_hash",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Url) Exec(c app_control.Control) error {
@@ -55,7 +61,8 @@ func (z *Url) Exec(c app_control.Control) error {
 		return err
 	}
 
-	link, err := sv_sharedlink.New(z.Peer.Client()).Resolve(z.Url, z.Password.Value())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	link, err := sv_sharedlink.New(client).Resolve(z.Url, z.Password.Value())
 	if err != nil {
 		l.Debug("Unable to retrieve shared link")
 		return err
@@ -66,7 +73,7 @@ func (z *Url) Exec(c app_control.Control) error {
 		return errors.New("the document is not in your dropbox")
 	}
 
-	export, path, err := sv_file_content.NewExport(z.Peer.Client()).Export(mo_path2.NewDropboxPath(link.PathLower()),
+	export, path, err := sv_file_content.NewExport(client).Export(mo_path2.NewDropboxPath(link.PathLower()),
 		sv_file_content.ExportFormat(z.Format.Value()))
 	if err != nil {
 		return err

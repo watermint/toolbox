@@ -3,6 +3,7 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_sharedfolder"
@@ -20,6 +21,7 @@ type Add struct {
 	Email       string
 	Silent      bool
 	Message     mo_string.OptionalString
+	BasePath    mo_string.SelectString
 }
 
 func (z *Add) Preset() {
@@ -32,10 +34,15 @@ func (z *Add) Preset() {
 		"editor",
 		"editor", "viewer", "viewer_no_comment",
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Add) Exec(c app_control.Control) error {
-	sfr := uc_sharedfolder.NewResolver(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	sfr := uc_sharedfolder.NewResolver(client)
 
 	sf, err := sfr.Resolve(z.Path)
 	if err != nil {
@@ -49,7 +56,7 @@ func (z *Add) Exec(c app_control.Control) error {
 	if z.Message.IsExists() {
 		opts = append(opts, sv_sharedfolder_member.AddCustomMessage(z.Message.Value()))
 	}
-	err = sv_sharedfolder_member.New(z.Peer.Client(), sf).Add(sv_sharedfolder_member.AddByEmail(z.Email, z.AccessLevel.Value()), opts...)
+	err = sv_sharedfolder_member.New(client, sf).Add(sv_sharedfolder_member.AddByEmail(z.Email, z.AccessLevel.Value()), opts...)
 	if err != nil {
 		return err
 	}

@@ -3,10 +3,12 @@ package delete
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedlink"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_team_sharedlink"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -19,6 +21,7 @@ type Member struct {
 	Peer         dbx_conn.ConnScopedTeam
 	MemberEmail  string
 	OperationLog rp_model.TransactionReport
+	BasePath     mo_string.SelectString
 }
 
 func (z *Member) Preset() {
@@ -36,6 +39,10 @@ func (z *Member) Preset() {
 			"result.team_member_id",
 			"result.status",
 		),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -57,7 +64,7 @@ func (z *Member) Exec(c app_control.Control) error {
 	}
 
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Client(), onDeleteSuccess, onDeleteFailure)
+		s.Define("delete_link", uc_team_sharedlink.DeleteMemberLink, c, z.Peer.Client(), onDeleteSuccess, onDeleteFailure, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		var onSharedLink uc_team_sharedlink.OnSharedLinkMember = func(member *mo_member.Member, entry *mo_sharedlink.SharedLinkMember) {
 			q := s.Get("delete_link")
 			q.Enqueue(&uc_team_sharedlink.Target{
@@ -65,7 +72,7 @@ func (z *Member) Exec(c app_control.Control) error {
 				Entry:  entry,
 			})
 		}
-		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink)
+		s.Define("scan_member", uc_team_sharedlink.RetrieveMemberLinks, c, z.Peer.Client(), onSharedLink, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 		q := s.Get("scan_member")
 		q.Enqueue(member)
 	})

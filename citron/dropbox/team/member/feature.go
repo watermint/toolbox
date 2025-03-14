@@ -3,11 +3,13 @@ package member
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_user"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_user"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -18,6 +20,7 @@ import (
 type Feature struct {
 	Peer     dbx_conn.ConnScopedTeam
 	Features rp_model.RowReport
+	BasePath mo_string.SelectString
 }
 
 func (z *Feature) Preset() {
@@ -27,12 +30,17 @@ func (z *Feature) Preset() {
 		dbx_auth.ScopeTeamDataMember,
 	)
 	z.Features.SetModel(&mo_user.MemberFeature{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Feature) memberFeature(member *mo_member.Member, c app_control.Control) error {
 	l := c.Log().With(esl.String("scanMemberId", member.TeamMemberId), esl.String("scanMemberEmail", member.Email))
 	l.Debug("scan")
-	feature, err := sv_user.New(z.Peer.Client().AsMemberId(member.TeamMemberId)).Features()
+	client := z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	feature, err := sv_user.New(client).Features()
 	if err != nil {
 		l.Debug("Unable to retrieve member features", esl.Error(err))
 		return err

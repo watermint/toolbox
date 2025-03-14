@@ -3,10 +3,12 @@ package all
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_lock"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -23,6 +25,7 @@ type Release struct {
 	Path         mo_path.DropboxPath
 	OperationLog rp_model.TransactionReport
 	BatchSize    int
+	BasePath     mo_string.SelectString
 }
 
 func (z *Release) Preset() {
@@ -45,6 +48,10 @@ func (z *Release) Preset() {
 			"result.lock_holder_account_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Release) Exec(c app_control.Control) error {
@@ -52,7 +59,8 @@ func (z *Release) Exec(c app_control.Control) error {
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
-	sfl := sv_file_lock.New(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	sfl := sv_file_lock.New(client)
 	var lastErr error
 
 	unlockBucket := func(bucket []mo_path.DropboxPath) {

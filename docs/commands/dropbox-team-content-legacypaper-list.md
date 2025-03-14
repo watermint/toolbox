@@ -28,6 +28,7 @@ Please see below help article for more detail:
 
 | Description                                                                                              |
 |----------------------------------------------------------------------------------------------------------|
+| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View content of your Dropbox files and folders                                        |
 | Dropbox for teams: View information about your Dropbox files and folders                                 |
 | Dropbox for teams: View your team membership                                                             |
@@ -43,7 +44,7 @@ Please copy the link and paste it into your browser. Then proceed to authorizati
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:
@@ -85,10 +86,11 @@ And you may find the button "Allow Anyway". Please hit the button with your risk
 
 ## Options:
 
-| Option       | Description                                                               | Default      |
-|--------------|---------------------------------------------------------------------------|--------------|
-| `-filter-by` | Specify how the Paper docs should be filtered (doc_created/doc_accessed). | docs_created |
-| `-peer`      | Account alias                                                             | default      |
+| Option       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Default      |
+|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
+| `-base-path` | Choose the file path standard. This is an option for Dropbox for Teams in particular. If you are using the personal version of Dropbox, it basically doesn't matter what you choose. In Dropbox for Teams, if you select `home` in the updated team space, a personal folder with your username will be selected. This is convenient for referencing or uploading files in your personal folder, as you don't need to include the folder name with your username in the path. On the other hand, if you specify `root`, you can access all folders with permissions. On the other hand, when accessing your personal folder, you need to specify a path that includes the name of your personal folder. | root         |
+| `-filter-by` | Specify how the Paper docs should be filtered (doc_created/doc_accessed).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | docs_created |
+| `-peer`      | Account alias                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | default      |
 
 ## Common options:
 

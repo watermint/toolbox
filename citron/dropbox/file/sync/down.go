@@ -3,10 +3,12 @@ package sync
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	mo_path2 "github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -23,6 +25,7 @@ type Down struct {
 	DropboxPath  mo_path.DropboxPath
 	Name         mo_filter.Filter
 	Download     *ig_file.Download
+	BasePath     mo_string.SelectString
 }
 
 func (z *Down) Preset() {
@@ -35,6 +38,10 @@ func (z *Down) Preset() {
 		mo_filter.NewNamePrefixFilter(),
 		mo_file_filter.NewIgnoreFileFilter(),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Down) Exec(c app_control.Control) error {
@@ -44,7 +51,7 @@ func (z *Down) Exec(c app_control.Control) error {
 		ru.DropboxPath = z.DropboxPath
 		ru.Overwrite = !z.SkipExisting
 		ru.Name = z.Name
-		ru.Context = z.Peer.Client()
+		ru.Context = z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 	})
 }
 

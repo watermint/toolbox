@@ -4,10 +4,10 @@
       "discussions": {
         "nodes": [
           {
-            "number": 870,
-            "title": "Deprecation: a few util commands",
-            "updatedAt": "2024-08-23T12:43:32Z",
-            "url": "https://github.com/watermint/toolbox/discussions/870"
+            "number": 886,
+            "title": "Releases released after 2024-02-01 will no longer include macOS Intel binaries.",
+            "updatedAt": "2024-12-31T04:27:53Z",
+            "url": "https://github.com/watermint/toolbox/discussions/886"
           }
         ]
       }

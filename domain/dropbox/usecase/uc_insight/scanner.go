@@ -3,6 +3,7 @@ package uc_insight
 import (
 	"encoding/json"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_shutdown"
@@ -31,6 +32,7 @@ type TeamScanner interface {
 type ScanOpts struct {
 	MaxRetries        int
 	ScanMemberFolders bool
+	BaseNamespace     dbx_filesystem.BaseNamespaceType
 }
 
 func (z ScanOpts) Apply(opts []ScanOpt) ScanOpts {
@@ -53,6 +55,13 @@ func MaxRetries(maxRetries int) ScanOpt {
 func ScanMemberFolders(enabled bool) ScanOpt {
 	return func(opts ScanOpts) ScanOpts {
 		opts.ScanMemberFolders = enabled
+		return opts
+	}
+}
+
+func BaseNamespace(baseNamespace dbx_filesystem.BaseNamespaceType) ScanOpt {
+	return func(opts ScanOpts) ScanOpts {
+		opts.BaseNamespace = baseNamespace
 		return opts
 	}
 }

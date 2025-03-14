@@ -3,6 +3,7 @@ package search
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
@@ -20,6 +21,7 @@ type Name struct {
 	Extension mo_string.OptionalString
 	Category  mo_string.SelectString
 	Matches   rp_model.RowReport
+	BasePath  mo_string.SelectString
 }
 
 func (z *Name) Exec(c app_control.Control) error {
@@ -40,7 +42,8 @@ func (z *Name) Exec(c app_control.Control) error {
 		return err
 	}
 
-	matches, err := sv_file.NewFiles(z.Peer.Client()).Search(z.Query, so...)
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	matches, err := sv_file.NewFiles(client).Search(z.Query, so...)
 	if err != nil {
 		return err
 	}
@@ -68,5 +71,9 @@ func (z *Name) Preset() {
 		rp_model.HiddenColumns(
 			"name",
 			"path_lower"),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }

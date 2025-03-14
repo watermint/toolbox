@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_namespace"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
@@ -69,18 +70,20 @@ type Scanner interface {
 	Scan(filter mo_filter.Filter) (teamFolders []*TeamFolder, err error)
 }
 
-func New(ctl app_control.Control, ctx dbx_client.Client, scanTimeout ScanTimeoutMode) Scanner {
+func New(ctl app_control.Control, ctx dbx_client.Client, scanTimeout ScanTimeoutMode, baseNamespace dbx_filesystem.BaseNamespaceType) Scanner {
 	return &scanImpl{
-		ctl:         ctl,
-		ctx:         ctx,
-		scanTimeout: scanTimeout,
+		ctl:           ctl,
+		client:        ctx,
+		scanTimeout:   scanTimeout,
+		baseNamespace: baseNamespace,
 	}
 }
 
 type scanImpl struct {
-	ctl         app_control.Control
-	ctx         dbx_client.Client
-	scanTimeout ScanTimeoutMode
+	ctl           app_control.Control
+	client        dbx_client.Client
+	baseNamespace dbx_filesystem.BaseNamespaceType
+	scanTimeout   ScanTimeoutMode
 }
 
 func (z scanImpl) scanNamespace(sessionId string, stg eq_sequence.Stage, storageNamespace kv_storage.Storage) (err error) {
@@ -88,7 +91,7 @@ func (z scanImpl) scanNamespace(sessionId string, stg eq_sequence.Stage, storage
 	l.Debug("Scan namespace")
 	q := stg.Get(queueIdScanNamespaceMetadata)
 	var lastErr error
-	err = sv_namespace.New(z.ctx).ListEach(func(namespace *mo_namespace.Namespace) bool {
+	err = sv_namespace.New(z.client).ListEach(func(namespace *mo_namespace.Namespace) bool {
 		l.Debug("Namespace", esl.Any("namespace", namespace))
 		switch namespace.NamespaceType {
 		case "app_folder", "team_member_folder", "team_member_root":
@@ -116,7 +119,7 @@ func (z scanImpl) scanNamespaceMetadata(namespace *mo_namespace.Namespace, stora
 	l := z.ctl.Log().With(esl.Any("namespace", namespace))
 	l.Debug("Scan namespace")
 
-	meta, err := sv_sharedfolder.New(z.ctx.AsAdminId(admin.TeamMemberId)).Resolve(namespace.NamespaceId)
+	meta, err := sv_sharedfolder.New(z.client.AsAdminId(admin.TeamMemberId)).Resolve(namespace.NamespaceId)
 	if err != nil {
 		l.Debug("Unable to retrieve metadata", esl.Error(err))
 		return err
@@ -197,7 +200,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 	for _, d := range teamfolder.Descendants {
 		ll := l.With(esl.String("descendant", d))
 		ll.Debug("Retrieve file info")
-		info, err := sv_file.NewFiles(z.ctx.AsAdminId(admin.TeamMemberId)).Resolve(
+		info, err := sv_file.NewFiles(z.client.AsAdminId(admin.TeamMemberId)).Resolve(
 			mo_path.NewDropboxPath("ns:"+d),
 			sv_file.ResolveIncludeDeleted(true),
 		)
@@ -230,7 +233,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 
 		l.Debug("Looking for root folder members")
 		rootMemberTeamMemberId := ""
-		rootMembers, err := sv_sharedfolder_member.NewBySharedFolderId(z.ctx.AsAdminId(admin.TeamMemberId), teamfolder.NamespaceId).List()
+		rootMembers, err := sv_sharedfolder_member.NewBySharedFolderId(z.client.AsAdminId(admin.TeamMemberId), teamfolder.NamespaceId).List()
 		if err != nil {
 			l.Debug("Unable to retrieve root folder members", esl.Error(err))
 			return
@@ -246,7 +249,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 				}
 			}
 			if g, ok := member.Group(); ok {
-				groupMembers, err := sv_group_member.NewByGroupId(z.ctx, g.GroupId).List()
+				groupMembers, err := sv_group_member.NewByGroupId(z.client, g.GroupId).List()
 				if err != nil {
 					l.Debug("Unable to retrieve group members", esl.Error(err))
 					continue
@@ -266,7 +269,9 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 			return
 		}
 
-		ctx := z.ctx.WithPath(dbx_client.Namespace(teamfolder.NamespaceId)).AsMemberId(rootMemberTeamMemberId).NoRetry()
+		client := z.client.
+			WithPath(dbx_client.Namespace(teamfolder.NamespaceId)).
+			AsMemberId(rootMemberTeamMemberId, z.baseNamespace).NoRetry()
 
 		for _, descendantNamespaceId := range teamfolder.Descendants {
 			ll := l.With(esl.String("descendant", descendantNamespaceId))
@@ -281,7 +286,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 			}
 
 			ll.Debug("Search")
-			matches, err := sv_file.NewFiles(ctx).Search(descendant.Name, sv_file.SearchFileNameOnly(), sv_file.SearchCategories("folder"))
+			matches, err := sv_file.NewFiles(client).Search(descendant.Name, sv_file.SearchFileNameOnly(), sv_file.SearchCategories("folder"))
 			if err != nil {
 				ll.Debug("Unable to search", esl.Error(err))
 				continue
@@ -332,7 +337,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 		}
 
 		ll.Debug("Scan path")
-		ctx := z.ctx.WithPath(dbx_client.Namespace(teamfolder.NamespaceId)).AsAdminId(admin.TeamMemberId)
+		ctx := z.client.WithPath(dbx_client.Namespace(teamfolder.NamespaceId)).AsAdminId(admin.TeamMemberId)
 		entries, err := sv_file.NewFiles(ctx).List(path)
 		if err != nil {
 			l.Debug("Unable to retrieve entries", esl.Error(err), esl.String("path", path.Path()))
@@ -406,7 +411,7 @@ func (z scanImpl) scanTeamFolder(teamfolder *TeamFolderEntry, storageMeta, stora
 				}
 
 				ll.Debug("Retrieve shared folder metadata")
-				sf, err := sv_sharedfolder.New(z.ctx).Resolve(nsid)
+				sf, err := sv_sharedfolder.New(z.client).Resolve(nsid)
 				if err != nil {
 					ll.Debug("Unable to retrieve folder metadata", esl.Error(err))
 					return err
@@ -608,7 +613,7 @@ func (z scanImpl) Scan(filter mo_filter.Filter) (teamFolders []*TeamFolder, err 
 	l := z.ctl.Log()
 	scanSessionId := sc_random.MustGetSecureRandomString(8)
 
-	admin, err := sv_profile.NewTeam(z.ctx).Admin()
+	admin, err := sv_profile.NewTeam(z.client).Admin()
 	if err != nil {
 		l.Debug("Unable to identify admin")
 		return nil, err

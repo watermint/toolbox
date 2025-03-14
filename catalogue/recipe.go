@@ -42,7 +42,6 @@ import (
 	recipeutilgit "github.com/watermint/toolbox/recipe/util/git"
 	recipeutilimage "github.com/watermint/toolbox/recipe/util/image"
 	recipeutiljson "github.com/watermint/toolbox/recipe/util/json"
-	recipeutilmonitor "github.com/watermint/toolbox/recipe/util/monitor"
 	recipeutilnet "github.com/watermint/toolbox/recipe/util/net"
 	recipeutilqrcode "github.com/watermint/toolbox/recipe/util/qrcode"
 	recipeutilrelease "github.com/watermint/toolbox/recipe/util/release"
@@ -56,7 +55,6 @@ import (
 	recipeutiltime "github.com/watermint/toolbox/recipe/util/time"
 	recipeutilunixtime "github.com/watermint/toolbox/recipe/util/unixtime"
 	recipeutiluuid "github.com/watermint/toolbox/recipe/util/uuid"
-	recipeutilvideosubtitles "github.com/watermint/toolbox/recipe/util/video/subtitles"
 	recipeutilxlsx "github.com/watermint/toolbox/recipe/util/xlsx"
 	recipeutilxlsxsheet "github.com/watermint/toolbox/recipe/util/xlsx/sheet"
 )
@@ -145,7 +143,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeutilimage.Exif{},
 		&recipeutilimage.Placeholder{},
 		&recipeutiljson.Query{},
-		&recipeutilmonitor.Client{},
 		&recipeutilnet.Download{},
 		&recipeutilqrcode.Create{},
 		&recipeutilqrcode.Wifi{},
@@ -171,7 +168,6 @@ func AutoDetectedRecipesClassic() []infra_recipe_rc_recipe.Recipe {
 		&recipeutiluuid.V4{},
 		&recipeutiluuid.V7{},
 		&recipeutiluuid.Version{},
-		&recipeutilvideosubtitles.Optimize{},
 		&recipeutilxlsx.Create{},
 		&recipeutilxlsxsheet.Export{},
 		&recipeutilxlsxsheet.Import{},

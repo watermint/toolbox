@@ -3,10 +3,12 @@ package folder
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -19,6 +21,7 @@ type Replication struct {
 	SrcPath        mo_path.DropboxPath
 	DstMemberEmail string
 	DstPath        mo_path.DropboxPath
+	BasePath       mo_string.SelectString
 }
 
 func (z *Replication) Preset() {
@@ -27,6 +30,10 @@ func (z *Replication) Preset() {
 		dbx_auth.ScopeFilesContentWrite,
 		dbx_auth.ScopeMembersRead,
 		dbx_auth.ScopeTeamDataMember,
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -47,9 +54,9 @@ func (z *Replication) Exec(c app_control.Control) error {
 	}
 	l.Debug("dst member resolved", esl.Any("dstMember", dstMember))
 
-	ctxSrc := z.Peer.Client().AsMemberId(srcMember.TeamMemberId)
-	ctxDst := z.Peer.Client().AsMemberId(dstMember.TeamMemberId)
-	mirror := uc_file_mirror.New(ctxSrc, ctxDst)
+	clientSrc := z.Peer.Client().AsMemberId(srcMember.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	clientDst := z.Peer.Client().AsMemberId(dstMember.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	mirror := uc_file_mirror.New(clientSrc, clientDst)
 
 	l.Debug("Try mirroring", esl.String("srcPath", z.SrcPath.Path()), esl.String("dstPath", z.DstPath.Path()))
 	err = mirror.Mirror(z.SrcPath, z.DstPath)

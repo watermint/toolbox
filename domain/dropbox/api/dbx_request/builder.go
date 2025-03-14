@@ -1,7 +1,9 @@
 package dbx_request
 
 import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_util"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_request"
@@ -11,12 +13,14 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"net/http"
+	"strings"
 )
 
-func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity) Builder {
+func NewBuilder(ctl app_control.Control, entity api_auth.OAuthEntity, resolver dbx_filesystem.RootNamespaceResolver) Builder {
 	return &builderImpl{
-		ctl:    ctl,
-		entity: entity,
+		ctl:          ctl,
+		entity:       entity,
+		rootResolver: resolver,
 	}
 }
 
@@ -26,18 +30,26 @@ type Builder interface {
 	AsAdminId(teamMemberId string) Builder
 	WithPath(pathRoot dbx_client.PathRoot) Builder
 	With(method, url string, data api_request.RequestData) Builder
+	BaseNamespace(baseNamespace dbx_filesystem.BaseNamespaceType) Builder
 	NoAuth() Builder
 }
 
 type builderImpl struct {
-	ctl        app_control.Control
-	entity     api_auth.OAuthEntity
-	asMemberId string
-	asAdminId  string
-	basePath   dbx_client.PathRoot
-	method     string
-	data       api_request.RequestData
-	url        string
+	ctl           app_control.Control
+	entity        api_auth.OAuthEntity
+	asMemberId    string
+	asAdminId     string
+	basePath      dbx_client.PathRoot
+	baseNamespace dbx_filesystem.BaseNamespaceType
+	rootResolver  dbx_filesystem.RootNamespaceResolver
+	method        string
+	data          api_request.RequestData
+	url           string
+}
+
+func (z builderImpl) BaseNamespace(baseNamespace dbx_filesystem.BaseNamespaceType) Builder {
+	z.baseNamespace = baseNamespace
+	return z
 }
 
 func (z builderImpl) WithData(data api_request.RequestDatum) api_request.Builder {
@@ -92,6 +104,7 @@ func (z builderImpl) ClientHash() string {
 	sr = []string{
 		"m", z.method,
 		"u", z.url,
+		"b", string(z.baseNamespace),
 	}
 	ss = []string{
 		"m", z.asMemberId,
@@ -140,6 +153,45 @@ func (z builderImpl) reqHeaders() map[string]string {
 			l.Debug("Unable to marshal base path", esl.Error(err))
 		} else {
 			headers[api_request.ReqHeaderDropboxApiPathRoot] = p
+		}
+	} else {
+		switch {
+		case z.baseNamespace == dbx_filesystem.BaseNamespaceHome:
+			// do nothing
+			break
+
+		case z.ctl.Feature().Experiment(app_definitions.ExperimentDbxDisableAutoPathRoot):
+			l.Debug("Auto path root disabled")
+
+		case strings.Contains(z.url, "2/files"),
+			strings.Contains(z.url, "2/sharing"):
+			var rootNamespaceId string
+			var err error
+			if dbx_auth.IsTeamAppKey(z.entity.KeyName) && z.asMemberId != "" {
+				rootNamespaceId, err = z.rootResolver.ResolveTeamMember(z.asMemberId)
+				if err != nil {
+					l.Warn("Unable to resolve team member namespace", esl.Error(err))
+					break
+				}
+			}
+			if dbx_auth.IsIndividualAppKey(z.entity.KeyName) {
+				rootNamespaceId, err = z.rootResolver.ResolveIndividual()
+				if err != nil {
+					l.Warn("Unable to resolve individual namespace", esl.Error(err))
+					break
+				}
+			}
+
+			if rootNamespaceId == "" {
+				l.Debug("Root namespace is empty")
+			} else {
+				p, err := dbx_util.HeaderSafeJson(dbx_client.Namespace(rootNamespaceId))
+				if err != nil {
+					l.Debug("Unable to marshal root namespace", esl.Error(err))
+				} else {
+					headers[api_request.ReqHeaderDropboxApiPathRoot] = p
+				}
+			}
 		}
 	}
 	if z.data.Content() != nil {

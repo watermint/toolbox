@@ -4,6 +4,8 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_async_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_list_impl"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_request"
@@ -34,7 +36,7 @@ func NewMock(name string, ctl app_control.Control) dbx_client.Client {
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity(), dbx_filesystem_impl.NewEmpty()),
 	}
 }
 
@@ -46,7 +48,7 @@ func NewSeqReplayMock(name string, ctl app_control.Control, rr []nw_replay.Respo
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity(), dbx_filesystem_impl.NewEmpty()),
 	}
 }
 
@@ -56,7 +58,7 @@ func NewReplayMock(name string, ctl app_control.Control, replay kv_storage.Stora
 		name:    name,
 		client:  client,
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity()),
+		builder: dbx_request.NewBuilder(ctl, api_auth.NewNoAuthOAuthEntity(), dbx_filesystem_impl.NewEmpty()),
 	}
 }
 
@@ -108,12 +110,12 @@ func newClientNoAuth(feature app_feature.Feature, l esl.Logger) nw_client.Rest {
 	return nw_rest_factory.New(opts...)
 }
 
-func New(ctl app_control.Control, app api_auth.OAuthAppData, entity api_auth.OAuthEntity) dbx_client.Client {
+func New(ctl app_control.Control, app api_auth.OAuthAppData, entity api_auth.OAuthEntity, resolver dbx_filesystem.RootNamespaceResolver) dbx_client.Client {
 	return &clientImpl{
 		name:    entity.PeerName,
 		client:  newClientWithToken(ctl, ctl.Log(), app, entity),
 		ctl:     ctl,
-		builder: dbx_request.NewBuilder(ctl, entity),
+		builder: dbx_request.NewBuilder(ctl, entity, resolver),
 	}
 }
 
@@ -226,7 +228,12 @@ func (z clientImpl) ContentHead(endpoint string, d ...api_request.RequestDatum) 
 	return dbx_response_impl.New(z.client.Call(&z, b))
 }
 
-func (z clientImpl) AsMemberId(teamMemberId string) dbx_client.Client {
+func (z clientImpl) BaseNamespace(basePath dbx_filesystem.BaseNamespaceType) dbx_client.Client {
+	z.builder = z.builder.BaseNamespace(basePath)
+	return z
+}
+
+func (z clientImpl) AsMemberId(teamMemberId string, basePath dbx_filesystem.BaseNamespaceType) dbx_client.Client {
 	z.builder = z.builder.AsMemberId(teamMemberId)
 	return z
 }

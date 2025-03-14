@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client_impl"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem_impl"
 	"github.com/watermint/toolbox/essentials/api/api_auth"
 	"github.com/watermint/toolbox/essentials/api/api_auth_oauth"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -21,7 +22,7 @@ func authSession(ctl app_control.Control) api_auth.OAuthSession {
 	}
 }
 
-func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthAppData) (ctx dbx_client.Client, err error) {
+func connect(scopes []string, peerName string, ctl app_control.Control, app api_auth.OAuthAppData, isTeam bool) (ctx dbx_client.Client, err error) {
 	l := ctl.Log().With(esl.Strings("scopes", scopes), esl.String("peerName", peerName))
 	ui := ctl.UI()
 
@@ -60,7 +61,8 @@ func connect(scopes []string, peerName string, ctl app_control.Control, app api_
 		if err != nil {
 			return nil, err
 		}
-		return dbx_client_impl.New(ctl, app, entity), nil
+		resolver := dbx_filesystem_impl.GetByEntity(dbx_client_impl.New(ctl, app, entity, dbx_filesystem_impl.NewEmpty()), entity)
+		return dbx_client_impl.New(ctl, app, entity, resolver), nil
 	}
 
 	l.Debug("Unsupported UI type")

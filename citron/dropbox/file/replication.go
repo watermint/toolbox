@@ -3,10 +3,12 @@ package file
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_diff"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_compare_paths"
 	"github.com/watermint/toolbox/domain/dropbox/usecase/uc_file_mirror"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
@@ -23,6 +25,7 @@ type Replication struct {
 	DstPath         mo_path.DropboxPath
 	ReplicationDiff rp_model.RowReport
 	ProgressDone    app_msg.Message
+	BasePath        mo_string.SelectString
 }
 
 func (z *Replication) Preset() {
@@ -36,13 +39,17 @@ func (z *Replication) Preset() {
 		dbx_auth.ScopeFilesMetadataRead,
 		dbx_auth.ScopeFilesContentWrite,
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Replication) Exec(c app_control.Control) error {
 	ui := c.UI()
 
-	ctxSrc := z.Src.Client()
-	ctxDst := z.Dst.Client()
+	ctxSrc := z.Src.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	ctxDst := z.Dst.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 
 	err := uc_file_mirror.New(ctxSrc, ctxDst).Mirror(z.SrcPath, z.DstPath)
 	if err != nil {

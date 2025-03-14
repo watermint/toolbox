@@ -2,6 +2,7 @@ package uc_insight
 
 import (
 	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_profile"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_team"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder_mount"
@@ -62,9 +63,9 @@ func NewMountFromJsonWithTeamMemberId(teamMemberId string, data es_json.Json) (m
 	return m, nil
 }
 
-func (z tsImpl) scanMount(param *MountParam, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info) (err error) {
+func (z tsImpl) scanMount(param *MountParam, stage eq_sequence.Stage, admin *mo_profile.Profile, team *mo_team.Info, baseNamespace dbx_filesystem.BaseNamespaceType) (err error) {
 	l := z.ctl.Log().With(esl.String("teamMemberId", param.TeamMemberId))
-	client := z.client.AsMemberId(param.TeamMemberId)
+	client := z.client.AsMemberId(param.TeamMemberId, baseNamespace)
 	qnd := stage.Get(teamScanQueueNamespaceDetail)
 
 	mountables, err := sv_sharedfolder_mount.New(client).Mountables()

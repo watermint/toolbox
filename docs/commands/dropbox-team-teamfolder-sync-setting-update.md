@@ -28,6 +28,7 @@ Please see below help article for more detail:
 
 | Description                                                                                              |
 |----------------------------------------------------------------------------------------------------------|
+| Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View information about your Dropbox files and folders                                 |
 | Dropbox for teams: View content of your team's files and folders                                         |
 | Dropbox for teams: View and edit content of your team's files and folders                                |
@@ -44,7 +45,7 @@ Please copy the link and paste it into your browser. Then proceed to authorizati
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 Licensed under open source licenses. Use the `license` command for more detail.
 
 1. Visit the URL for the auth dialogue:

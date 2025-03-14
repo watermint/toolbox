@@ -2,6 +2,7 @@ package uc_member_folder
 
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_client"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_member"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -25,10 +26,11 @@ type Scanner interface {
 	Scan(filter mo_filter.Filter) (namespaces []*MemberNamespace, err error)
 }
 
-func New(ctl app_control.Control, ctx dbx_client.Client) Scanner {
+func New(ctl app_control.Control, client dbx_client.Client, baseNamespace dbx_filesystem.BaseNamespaceType) Scanner {
 	return &scanImpl{
-		ctl: ctl,
-		ctx: ctx,
+		ctl:           ctl,
+		client:        client,
+		baseNamespace: baseNamespace,
 	}
 }
 
@@ -38,15 +40,16 @@ const (
 )
 
 type scanImpl struct {
-	ctl app_control.Control
-	ctx dbx_client.Client
+	ctl           app_control.Control
+	client        dbx_client.Client
+	baseNamespace dbx_filesystem.BaseNamespaceType
 }
 
 func (z scanImpl) scanMember(sessionId string, stage eq_sequence.Stage) error {
 	l := z.ctl.Log().With(esl.String("sessionId", sessionId))
 	l.Debug("Scan members")
 
-	return sv_member.New(z.ctx).ListEach(func(member *mo_member.Member) bool {
+	return sv_member.New(z.client).ListEach(func(member *mo_member.Member) bool {
 		q := stage.Get(queueIdScanMemberFolders)
 		q.Enqueue(member)
 		return true
@@ -57,7 +60,7 @@ func (z scanImpl) scanNamespace(member *mo_member.Member, storageNamespace kv_st
 	l := z.ctl.Log().With(esl.String("teamMemberId", member.TeamMemberId), esl.String("teamMemberEmail", member.Email))
 	l.Debug("Scan member folders")
 
-	folders, err := sv_sharedfolder.New(z.ctx.AsMemberId(member.TeamMemberId)).List()
+	folders, err := sv_sharedfolder.New(z.client.AsMemberId(member.TeamMemberId, z.baseNamespace)).List()
 	if err != nil {
 		l.Debug("Unable to scan team member folders", esl.Error(err))
 		return err

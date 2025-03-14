@@ -3,6 +3,7 @@ package batch
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file_filter"
 	mo_path2 "github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_member"
@@ -10,6 +11,7 @@ import (
 	"github.com/watermint/toolbox/essentials/model/mo_filter"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/feed/fd_file"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -33,6 +35,7 @@ type Up struct {
 	ExitOnFailure bool
 	Name          mo_filter.Filter
 	ProgressStart app_msg.Message
+	BasePath      mo_string.SelectString
 }
 
 func (z *Up) Preset() {
@@ -50,6 +53,10 @@ func (z *Up) Preset() {
 		mo_filter.NewNameSuffixFilter(),
 		mo_filter.NewNamePrefixFilter(),
 		mo_file_filter.NewIgnoreFileFilter(),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
 
@@ -89,7 +96,7 @@ func (z *Up) Exec(c app_control.Control) error {
 			ru.DropboxPath = mo_path2.NewDropboxPath(dbxPath)
 			ru.Overwrite = z.Overwrite
 			ru.Name = z.Name
-			ru.Context = z.Peer.Client().AsMemberId(member.TeamMemberId)
+			ru.Context = z.Peer.Client().AsMemberId(member.TeamMemberId, dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
 			ru.BatchSize = z.BatchSize.Value()
 			ru.Delete = z.Delete
 		})

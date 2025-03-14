@@ -5,10 +5,12 @@ import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_error"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file"
 	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/essentials/queue/eq_sequence"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
@@ -25,6 +27,7 @@ type Ext struct {
 	Path         mo_path.DropboxPath
 	Ext          string
 	OperationLog rp_model.TransactionReport
+	BasePath     mo_string.SelectString
 }
 
 func (z *Ext) Preset() {
@@ -44,17 +47,21 @@ func (z *Ext) Preset() {
 			"result.parent_shared_folder_id",
 		),
 	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Ext) Exec(c app_control.Control) error {
 	l := c.Log()
-	ctx := z.Peer.Client()
 	if err := z.OperationLog.Open(); err != nil {
 		return err
 	}
 
 	searchBasePath := z.Path
-	svf := sv_file.NewFiles(z.Peer.Client())
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	svf := sv_file.NewFiles(client)
 	for {
 		if searchBasePath.IsRoot() {
 			break
@@ -90,10 +97,10 @@ func (z *Ext) Exec(c app_control.Control) error {
 	proceed := false
 	targetExtLower := strings.ToLower(z.Ext)
 	c.Sequence().Do(func(s eq_sequence.Stage) {
-		s.Define("restore", restoreEntry, ctx, c, z.OperationLog)
+		s.Define("restore", restoreEntry, client, c, z.OperationLog)
 		q := s.Get("restore")
 
-		lastErr = sv_file.NewFiles(ctx).ListEach(
+		lastErr = sv_file.NewFiles(client).ListEach(
 			searchBasePath,
 			func(entry mo_file.Entry) {
 				if !isTargetPath(entry.PathLower()) {

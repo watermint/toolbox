@@ -3,6 +3,7 @@ package sharedfolder
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_sharedfolder"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_sharedfolder"
@@ -21,6 +22,7 @@ type Share struct {
 	MemberPolicy     mo_string.SelectString
 	SharedLinkPolicy mo_string.SelectString
 	Shared           rp_model.RowReport
+	BasePath         mo_string.SelectString
 }
 
 func (z *Share) Preset() {
@@ -40,13 +42,18 @@ func (z *Share) Preset() {
 		"anyone", "members",
 	)
 	z.Shared.SetModel(&mo_sharedfolder.SharedFolder{})
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
+	)
 }
 
 func (z *Share) Exec(c app_control.Control) error {
 	if err := z.Shared.Open(); err != nil {
 		return err
 	}
-	sf, err := sv_sharedfolder.New(z.Peer.Client()).Create(
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	sf, err := sv_sharedfolder.New(client).Create(
 		z.Path,
 		sv_sharedfolder.AclUpdatePolicy(z.AclUpdatePolicy.Value()),
 		sv_sharedfolder.MemberPolicy(z.MemberPolicy.Value()),

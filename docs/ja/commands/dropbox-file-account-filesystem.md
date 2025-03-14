@@ -39,7 +39,7 @@ Dropboxのファイルシステムのバージョンを表示する
 watermint toolbox xx.x.xxx
 ==========================
 
-© 2016-2024 Takayuki Okazaki
+© 2016-2025 Takayuki Okazaki
 オープンソースライセンスのもと配布されています. 詳細は`license`コマンドでご覧ください.
 
 1. 次のURLを開き認証ダイアログを開いてください:
@@ -124,14 +124,14 @@ macOS Catalina 10.15以上の場合: macOSは開発者情報を検証します. 
 ファイルシステムのバージョン情報
 このコマンドはレポートを3種類の書式で出力します. `file_system.csv`, `file_system.json`, ならびに `file_system.xlsx`.
 
-| 列                                          | 説明                                                              |
-|---------------------------------------------|-------------------------------------------------------------------|
-| version                                     | ファイルシステムのバージョン                                      |
-| release_year                                | ファイルシステムのリリース年                                      |
-| has_distinct_member_homes                   | チームに個別のメンバーホームフォルダがある場合は真                |
-| has_team_shared_dropbox                     | チームがDropboxを共有している場合は真                             |
-| is_team_folder_api_supported                | チームフォルダAPIがサポートされていれば真                         |
-| is_path_root_required_to_access_team_folder | チームフォルダへのアクセスにDropbox-API-Path-Rootが必要な場合は真 |
+| 列                                          | 説明                                                                     |
+|---------------------------------------------|--------------------------------------------------------------------------|
+| version                                     | ファイルシステムのバージョン                                             |
+| release_year                                | ファイルシステムのリリース年                                             |
+| has_distinct_member_homes                   | チームにメンバーがそれぞれ独自のホームフォルダを持っている場合はtrue     |
+| has_team_shared_dropbox                     | チームに共有ドロップボックスがある場合は True                            |
+| is_team_folder_api_supported                | チームフォルダAPIがサポートされている場合はtrue                          |
+| is_path_root_required_to_access_team_folder | Dropbox-API-Path-Rootがチームフォルダへのアクセスに必要である場合はTrue. |
 
 `-budget-memory low`オプションを指定した場合、レポートはJSON形式のみで生成されます
 

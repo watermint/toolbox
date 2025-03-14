@@ -1,4 +1,4 @@
-package mo_team
+package dbx_filesystem
 
 type TeamFileSystemType string
 
@@ -70,10 +70,6 @@ const (
 
 	TeamFileSystemUnknown TeamFileSystemType = "unknown"
 )
-
-func IdentifyFileSystemType(f *Feature) TeamFileSystemType {
-	return IdentifyFileSystemTypeByParam(f.HasDistinctMemberHomes, f.HasTeamSharedDropbox)
-}
 
 func IdentifyFileSystemTypeByParam(hasDistinctMemberHomes, hasTeamSharedDropbox bool) TeamFileSystemType {
 	switch {

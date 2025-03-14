@@ -1,6 +1,8 @@
 package mo_user
 
-import "github.com/watermint/toolbox/domain/dropbox/model/mo_team"
+import (
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
+)
 
 type Feature struct {
 	PaperAsFiles       bool `json:"paper_as_files"`
@@ -9,8 +11,8 @@ type Feature struct {
 	DistinctMemberHome bool `json:"distinct_member_home"`
 }
 
-func (z Feature) FileSystemType() mo_team.TeamFileSystemType {
-	return mo_team.IdentifyFileSystemTypeByParam(z.DistinctMemberHome, z.TeamSharedDropbox)
+func (z Feature) FileSystemType() dbx_filesystem.TeamFileSystemType {
+	return dbx_filesystem.IdentifyFileSystemTypeByParam(z.DistinctMemberHome, z.TeamSharedDropbox)
 }
 
 type MemberFeature struct {

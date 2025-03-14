@@ -1,6 +1,9 @@
 package mo_team
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
+)
 
 type Info struct {
 	Raw                      json.RawMessage
@@ -25,6 +28,10 @@ type Feature struct {
 	HasDistinctMemberHomes  bool   `path:"has_distinct_member_homes.has_distinct_member_homes" json:"has_distinct_member_homes"`
 }
 
-func (z Feature) FileSystemType() TeamFileSystemType {
+func (z Feature) FileSystemType() dbx_filesystem.TeamFileSystemType {
 	return IdentifyFileSystemType(&z)
+}
+
+func IdentifyFileSystemType(f *Feature) dbx_filesystem.TeamFileSystemType {
+	return dbx_filesystem.IdentifyFileSystemTypeByParam(f.HasDistinctMemberHomes, f.HasTeamSharedDropbox)
 }

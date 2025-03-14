@@ -3,6 +3,7 @@ package export
 import (
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
+	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_file"
 	"github.com/watermint/toolbox/domain/dropbox/model/mo_path"
 	"github.com/watermint/toolbox/domain/dropbox/service/sv_file_content"
@@ -25,6 +26,7 @@ type Doc struct {
 	DropboxPath  mo_path.DropboxPath
 	OperationLog rp_model.RowReport
 	Format       mo_string.OptionalString
+	BasePath     mo_string.SelectString
 }
 
 func (z *Doc) Exec(c app_control.Control) error {
@@ -33,7 +35,8 @@ func (z *Doc) Exec(c app_control.Control) error {
 		return err
 	}
 
-	export, path, err := sv_file_content.NewExport(z.Peer.Client()).Export(z.DropboxPath, sv_file_content.ExportFormat(z.Format.Value()))
+	client := z.Peer.Client().BaseNamespace(dbx_filesystem.AsNamespaceType(z.BasePath.Value()))
+	export, path, err := sv_file_content.NewExport(client).Export(z.DropboxPath, sv_file_content.ExportFormat(z.Format.Value()))
 	if err != nil {
 		return err
 	}
@@ -71,5 +74,9 @@ func (z *Doc) Preset() {
 			"content_hash",
 			"export_hash",
 		),
+	)
+	z.BasePath.SetOptions(
+		dbx_filesystem.BaseNamespaceDefaultInString,
+		dbx_filesystem.BaseNamespaceTypesInString...,
 	)
 }
