@@ -390,11 +390,9 @@ func (z *Publish) Exec(c app_control.Control) error {
         return err
     }
 
-    var assetLinuxArm, assetLinuxIntel, assetMacArm, assetMacIntel *mo_release_asset.Asset
+    var assetLinuxArm, assetLinuxIntel, assetMacArm *mo_release_asset.Asset
     for _, a := range assets {
         switch IdentifyPlatform(a) {
-        case AssetPlatformMacIntel:
-            assetMacIntel = a
         case AssetPlatformMacArm:
             assetMacArm = a
         case AssetPlatformLinuxIntel:
@@ -405,13 +403,12 @@ func (z *Publish) Exec(c app_control.Control) error {
     }
 
     l.Info("updating Homebrew formula",
-        esl.Any("macIntel", assetMacIntel),
         esl.Any("macArm", assetMacArm),
         esl.Any("linuxIntel", assetLinuxIntel),
         esl.Any("linuxArm", assetLinuxArm),
     )
 
-    if err := z.updateHomebrewFormula(c, assetMacIntel, assetMacArm, assetLinuxIntel, assetLinuxArm); err != nil {
+    if err := z.updateHomebrewFormula(c, assetMacArm, assetLinuxIntel, assetLinuxArm); err != nil {
         return err
     }
 
