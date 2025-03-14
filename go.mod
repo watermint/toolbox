@@ -12,11 +12,11 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-git/go-git/v5 v5.14.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0
-	github.com/gomarkdown/markdown v0.0.0-20250207164621-7a1f277a159e
+	github.com/gomarkdown/markdown v0.0.0-20250311123330-531bef5e742b
 	github.com/google/go-cmp v0.7.0
 	github.com/google/go-querystring v1.1.0
-	github.com/ikawaha/kagome-dict v1.1.0
-	github.com/ikawaha/kagome/v2 v2.10.0
+	github.com/ikawaha/kagome-dict v1.1.2
+	github.com/ikawaha/kagome/v2 v2.10.1
 	github.com/itchyny/gojq v0.12.17
 	github.com/mattn/go-colorable v0.1.14
 	github.com/mattn/go-sqlite3 v1.14.24

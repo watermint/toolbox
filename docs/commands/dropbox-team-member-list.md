@@ -30,6 +30,7 @@ Please see below help article for more detail:
 |----------------------------------------------------------------------------------------------------------|
 | Dropbox for teams: View and edit basic information about your Dropbox account such as your profile photo |
 | Dropbox for teams: View your team membership                                                             |
+| Dropbox for teams: View structure of your team's and members' folders                                    |
 | Dropbox for teams: View basic information about your team including names, user count, and team settings |
 
 # Authorization
