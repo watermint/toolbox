@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	current rc_catalogue.Catalogue = rc_catalogue_impl.NewEmptyCatalogue()
+	current = rc_catalogue_impl.NewEmptyCatalogue()
 )
 
 func Current() rc_catalogue.Catalogue {

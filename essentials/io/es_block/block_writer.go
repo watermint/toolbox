@@ -187,7 +187,7 @@ func (z *bwImpl) noLockRequestBlocks() {
 			l.Debug("Request reached to the end of the file")
 			break
 		}
-		var reqBlockSize int64 = int64(z.blockSize)
+		var reqBlockSize = int64(z.blockSize)
 
 		if z.fileSize < reqBlockSize+z.posRequested {
 			reqBlockSize = z.fileSize - z.posRequested

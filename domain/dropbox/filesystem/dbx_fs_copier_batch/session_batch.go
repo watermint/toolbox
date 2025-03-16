@@ -233,7 +233,7 @@ func (z *copierBatchSessions) AbortSession(sessionId string, err error) {
 func (z *copierBatchSessions) FinishBatchEntry(count int) {
 	l := z.ctx.Log()
 
-	var finishBatch []string = make([]string, 0)
+	var finishBatch = make([]string, 0)
 
 	z.sessionIdToMutex.Lock()
 	z.finishedSessionIdMutex.Lock()

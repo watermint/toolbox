@@ -4,7 +4,7 @@ package catalogue
 
 import (
 	infra_recipe_rc_recipe "github.com/watermint/toolbox/infra/recipe/rc_recipe"
-	recipe "github.com/watermint/toolbox/recipe"
+	"github.com/watermint/toolbox/recipe"
 	recipeconfigauth "github.com/watermint/toolbox/recipe/config/auth"
 	recipeconfigfeature "github.com/watermint/toolbox/recipe/config/feature"
 	recipeconfiglicense "github.com/watermint/toolbox/recipe/config/license"

@@ -13,10 +13,10 @@ import (
 )
 
 var (
-	currentDefault Tee = newDefault()
-	currentConsole     = newConsole(ConsoleDefaultLevel())
-	currentStats       = newEmpty()
-	capture            = newEmpty()
+	currentDefault = newDefault()
+	currentConsole = newConsole(ConsoleDefaultLevel())
+	currentStats   = newEmpty()
+	capture        = newEmpty()
 	loggerName     atomic.Int64
 )
 

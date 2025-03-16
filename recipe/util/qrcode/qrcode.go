@@ -49,7 +49,7 @@ func fromLevelString(lv string) qr.ErrorCorrectionLevel {
 }
 
 func fromEncodeString(en string) qr.Encoding {
-	var encode qr.Encoding = qr.Auto
+	var encode = qr.Auto
 	switch en {
 	case "auto":
 		encode = qr.Auto

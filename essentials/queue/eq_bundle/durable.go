@@ -295,7 +295,7 @@ func (z *durableImpl) fetchBalance() (b Barrel, found bool) {
 			return b, false
 		}
 
-		var maxPipeLen int = -1
+		var maxPipeLen = -1
 		var maxPipe string
 
 		for k, p := range z.pipes {
