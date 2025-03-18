@@ -1,6 +1,7 @@
 package dc_command
 
 import (
+	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
@@ -10,13 +11,15 @@ import (
 	"strings"
 )
 
-func NewReport(spec rc_recipe.Spec) dc_section.Section {
+func NewReport(media dc_index.MediaType, spec rc_recipe.Spec) dc_section.Section {
 	return &Report{
-		spec: spec,
+		media: media,
+		spec:  spec,
 	}
 }
 
 type Report struct {
+	media              dc_index.MediaType
 	spec               rc_recipe.Spec
 	Header             app_msg.Message
 	FileLocation       app_msg.Message
@@ -31,30 +34,36 @@ type Report struct {
 	RemarkXlsx         app_msg.Message
 }
 
+func (z Report) isFullVersion() bool {
+	return z.media != dc_index.MediaKnowledge
+}
+
 func (z Report) Title() app_msg.Message {
 	return z.Header
 }
 
 func (z Report) Body(ui app_ui.UI) {
-	ui.Info(z.FileLocation)
-	ui.WithTable("Location", func(t app_ui.Table) {
-		t.Header(z.TableHeaderOs, z.TableHeaderPath, z.TableHeaderExample)
-		t.RowRaw(
-			"Windows",
-			"`%HOMEPATH%\\.toolbox\\jobs\\[job-id]\\reports`",
-			"C:\\Users\\bob\\.toolbox\\jobs\\20190909-115959.597\\reports",
-		)
-		t.RowRaw(
-			"macOS",
-			"`$HOME/.toolbox/jobs/[job-id]/reports`",
-			"/Users/bob/.toolbox/jobs/20190909-115959.597/reports",
-		)
-		t.RowRaw(
-			"Linux",
-			"`$HOME/.toolbox/jobs/[job-id]/reports`",
-			"/home/bob/.toolbox/jobs/20190909-115959.597/reports",
-		)
-	})
+	if z.isFullVersion() {
+		ui.Info(z.FileLocation)
+		ui.WithTable("Location", func(t app_ui.Table) {
+			t.Header(z.TableHeaderOs, z.TableHeaderPath, z.TableHeaderExample)
+			t.RowRaw(
+				"Windows",
+				"`%HOMEPATH%\\.toolbox\\jobs\\[job-id]\\reports`",
+				"C:\\Users\\bob\\.toolbox\\jobs\\20190909-115959.597\\reports",
+			)
+			t.RowRaw(
+				"macOS",
+				"`$HOME/.toolbox/jobs/[job-id]/reports`",
+				"/Users/bob/.toolbox/jobs/20190909-115959.597/reports",
+			)
+			t.RowRaw(
+				"Linux",
+				"`$HOME/.toolbox/jobs/[job-id]/reports`",
+				"/home/bob/.toolbox/jobs/20190909-115959.597/reports",
+			)
+		})
+	}
 
 	reports := z.spec.Reports()
 	sort.Slice(reports, func(i, j int) bool {
@@ -79,7 +88,9 @@ func (z Report) bodyReport(ui app_ui.UI, rs rp_model.Spec) {
 		}
 	})
 	ui.Break()
-	ui.Info(z.RemarkMemoryBudget)
-	ui.Break()
+	if z.isFullVersion() {
+		ui.Info(z.RemarkMemoryBudget)
+		ui.Break()
+	}
 	ui.Info(z.RemarkXlsx.With("Name", rs.Name()))
 }

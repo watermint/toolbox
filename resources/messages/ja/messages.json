@@ -2373,8 +2373,6 @@
   "infra.doc.dc_command.install.header": "インストール",
   "infra.doc.dc_command.install.instruction": "[最新リリース](https://github.com/watermint/toolbox/releases/latest)からコンパイル済みのバイナリをダウンロードしてください. Windowsをお使いの方は、`tbx-xx.x.xxx-win.zip`のようなzipファイルをダウンロードしてください. その後、アーカイブを解凍し、デスクトップ フォルダに `tbx.exe` を配置します.\nwatermint toolboxは、システムで許可されていれば、システム内のどのパスからでも実行できます. しかし、説明書のサンプルでは、デスクトップ フォルダを使用しています. デスクトップ フォルダ以外にバイナリを配置した場合は、パスを読み替えてください.",
   "infra.doc.dc_command.msg_header.warn_deprecation": "非推奨の警告。このコマンドはもう保守されていません。リリース前のテストは行われておらず、問題が発生した場合の修正プログラムも提供されません。",
-  "infra.doc.dc_command.proxy.desc": "プログラムはシステム設定から自動的にプロクシ設定情報を取得します. しかしながら、それでもエラーが発生する場合には明示的にプロクシを指定することができます. `-proxy` オプションを利用します, `-proxy ホスト名:ポート番号`のように指定してください. なお、現在のところ認証が必要なプロクシには対応していません.",
-  "infra.doc.dc_command.proxy.header": "ネットワークプロクシの設定",
   "infra.doc.dc_command.report.file_location": "作成されたレポートファイルのパスはコマンド実行時の最後に表示されます. もしコマンドライン出力を失ってしまった場合には次のパスを確認してください. [job-id]は実行の日時となります. このなかの最新のjob-idを各委任してください.",
   "infra.doc.dc_command.report.format_desc": "このコマンドはレポートを3種類の書式で出力します. `{{.Name}}.csv`, `{{.Name}}.json`, ならびに `{{.Name}}.xlsx`.",
   "infra.doc.dc_command.report.header": "実行結果",

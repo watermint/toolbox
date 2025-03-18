@@ -1,6 +1,8 @@
 package dc_supplemental
 
 import (
+	"strings"
+
 	"github.com/watermint/toolbox/infra/control/app_catalogue"
 	"github.com/watermint/toolbox/infra/doc/dc_index"
 	"github.com/watermint/toolbox/infra/doc/dc_section"
@@ -8,11 +10,24 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"strings"
+)
+
+type MsgSpecChange struct {
+	DocDesc app_msg.Message
+}
+
+var (
+	MSpecChange = app_msg.Apply(&MsgSpecChange{}).(*MsgSpecChange)
 )
 
 type DocSpecChange struct {
 	Desc app_msg.Message
+}
+
+func NewDocSpecChange() *DocSpecChange {
+	return &DocSpecChange{
+		Desc: MSpecChange.DocDesc,
+	}
 }
 
 func (z DocSpecChange) DocId() dc_index.DocId {

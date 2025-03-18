@@ -442,7 +442,7 @@ func (z specValueSelfContained) Remarks() app_msg.MessageOptional {
 
 func (z specValueSelfContained) CliNameRef(media dc_index.MediaType, lg es_lang.Lang, relPath string) app_msg.Message {
 	switch media {
-	case dc_index.MediaRepository:
+	case dc_index.MediaRepository, dc_index.MediaKnowledge:
 		path := filepath.ToSlash(filepath.Join(relPath, z.SpecId()+".md"))
 		return app_msg.Raw(fmt.Sprintf("[%s](%s)", z.CliPath(), path))
 	case dc_index.MediaWeb:
