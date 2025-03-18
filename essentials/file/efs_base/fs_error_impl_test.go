@@ -3,7 +3,7 @@ package efs_base
 import (
 	"errors"
 	"testing"
-	time "time"
+	"time"
 )
 
 func TestFsError_IsConflict(t *testing.T) {

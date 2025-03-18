@@ -16,7 +16,7 @@ type Token struct {
 }
 
 func NewToken(token tokenizer.Token) Token {
-	var klass string = "unknown"
+	var klass = "unknown"
 	switch token.Class {
 	case tokenizer.DUMMY:
 		klass = "dummy"

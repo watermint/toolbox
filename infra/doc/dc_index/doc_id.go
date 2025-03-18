@@ -1,6 +1,7 @@
 package dc_index
 
 import (
+	"fmt"
 	"github.com/watermint/toolbox/essentials/go/es_lang"
 	"github.com/watermint/toolbox/essentials/log/esl"
 )
@@ -16,6 +17,7 @@ const (
 	DocWebHome
 	DocWebLicense
 	DocWebCommandTableOfContent
+	DocWebKnowledge
 
 	// -- Documents under `doc/generated(_\w{2})?`
 
@@ -39,6 +41,7 @@ const (
 const (
 	MediaRepository MediaType = iota
 	MediaWeb
+	MediaKnowledge
 )
 
 type MediaType int
@@ -47,6 +50,7 @@ const (
 	WebCategoryHome WebCategory = iota
 	WebCategoryCommand
 	WebCategoryGuide
+	WebCategoryKnowledge
 	WebCategoryContributor
 )
 
@@ -86,6 +90,7 @@ var (
 		DocRootSecurityAndPrivacy,
 		DocWebHome,
 		DocWebLicense,
+		DocWebKnowledge,
 		DocManualCommand,
 		DocSupplementalPathVariables,
 		DocSupplementalExperimentalFeature,
@@ -163,6 +168,8 @@ func WebDocPath(refPath bool, cat WebCategory, name string, lg es_lang.Lang) str
 		return basePath + pathLang + "commands/" + name + suffix
 	case WebCategoryGuide:
 		return basePath + pathLang + "guides/" + name + suffix
+	case WebCategoryKnowledge:
+		return basePath + pathLang + "knowledge/" + name + suffix
 	case WebCategoryContributor:
 		return basePath + pathLang + "contributor/" + name + suffix
 	}
@@ -174,6 +181,7 @@ func WebDocPath(refPath bool, cat WebCategory, name string, lg es_lang.Lang) str
 // DocName Document path and name (without extension)
 func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string {
 	nameOpts := NameOpts{}.Apply(opts)
+	l := esl.Default()
 
 	switch media {
 	case MediaRepository:
@@ -206,9 +214,12 @@ func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "spec-change", lg)
 		case DocContributorRecipeValues:
 			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
+		default:
+			l.Warn("Invalid document id", esl.Int("mediaType", int(media)), esl.Int("documentId", int(id)))
+			panic(fmt.Sprintf("Invalid document id: %d", id))
 		}
 
-	case MediaWeb:
+	case MediaWeb, MediaKnowledge:
 		switch id {
 		case DocRootBuild:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "build", lg)
@@ -226,6 +237,8 @@ func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string
 			return WebDocPath(nameOpts.RefPath, WebCategoryCommand, "toc", lg)
 		case DocManualCommand:
 			return WebDocPath(nameOpts.RefPath, WebCategoryCommand, nameOpts.CommandName, lg)
+		case DocWebKnowledge:
+			return WebDocPath(nameOpts.RefPath, WebCategoryKnowledge, "knowledge", lg)
 		case DocSupplementalPathVariables:
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "path-variables", lg)
 		case DocSupplementalExperimentalFeature:
@@ -240,6 +253,9 @@ func DocName(media MediaType, id DocId, lg es_lang.Lang, opts ...NameOpt) string
 			return WebDocPath(nameOpts.RefPath, WebCategoryGuide, "spec-change", lg)
 		case DocContributorRecipeValues:
 			return WebDocPath(nameOpts.RefPath, WebCategoryContributor, "recipe_values", lg)
+		default:
+			l.Warn("Invalid document id", esl.Int("mediaType", int(media)), esl.Int("documentId", int(id)))
+			panic(fmt.Sprintf("Invalid document id: %d", id))
 		}
 	}
 
