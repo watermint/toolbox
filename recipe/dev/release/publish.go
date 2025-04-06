@@ -3,6 +3,10 @@ package release
 import (
 	"errors"
 	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/watermint/toolbox/domain/github/api/gh_client"
 	"github.com/watermint/toolbox/domain/github/api/gh_client_impl"
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
@@ -27,9 +31,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_runtime"
 	"github.com/watermint/toolbox/recipe/dev/test"
 	"github.com/watermint/toolbox/resources"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 var (
@@ -54,6 +55,14 @@ type Publish struct {
 	Formula      *ig_homebrew.Formula
 	Asset        *Asset
 	Asseturl     *Asseturl
+
+	// Repository configuration
+	RepoOwner          string
+	RepoName           string
+	ExecutableName     string
+	HomebrewRepoOwner  string
+	HomebrewRepoName   string
+	HomebrewRepoBranch string
 
 	HeadingReleaseTheme       app_msg.Message
 	HeadingChanges            app_msg.Message
@@ -80,6 +89,12 @@ type ArtifactSum struct {
 
 func (z *Publish) Preset() {
 	z.Branch = "main"
+	z.RepoOwner = app_definitions2.CoreRepositoryOwner
+	z.RepoName = app_definitions2.CoreRepositoryName
+	z.ExecutableName = app_definitions2.ExecutableName
+	z.HomebrewRepoOwner = homebrewRepoOwner
+	z.HomebrewRepoName = homebrewRepoName
+	z.HomebrewRepoBranch = homebrewRepoBranch
 }
 
 func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes map[string]int64, err error) {
@@ -92,7 +107,7 @@ func (z *Publish) artifactAssets(c app_control.Control) (paths []string, sizes m
 	paths = make([]string, 0)
 	sizes = make(map[string]int64)
 	for _, e := range entries {
-		if !strings.HasPrefix(e.Name(), app_definitions2.ExecutableName+"-"+app_definitions2.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
+		if !strings.HasPrefix(e.Name(), z.ExecutableName+"-"+app_definitions2.BuildId) || !strings.HasSuffix(e.Name(), ".zip") {
 			l.Debug("Ignore non artifact file", esl.Any("file", e))
 			continue
 		}
@@ -140,7 +155,7 @@ func (z *Publish) verifyArtifacts(c app_control.Control) (a []*ArtifactSum, err 
 
 func (z *Publish) releaseNotes(c app_control.Control, sum []*ArtifactSum) (relNote string, err error) {
 	l := c.Log()
-	baseUrl := "https://github.com/watermint/toolbox/blob/" + app_definitions2.BuildId
+	baseUrl := fmt.Sprintf("https://github.com/%s/%s/blob/%s", z.RepoOwner, z.RepoName, app_definitions2.BuildId)
 	if app_definitions2.Release == "" {
 		l.Error("Release number undefined")
 		return "", errors.New("release number undefined")
@@ -220,11 +235,11 @@ func (z *Publish) ghCtx(c app_control.Control) gh_client.Client {
 
 func (z *Publish) createTag(c app_control.Control) error {
 	l := c.Log().With(
-		esl.String("owner", app_definitions2.CoreRepositoryOwner),
-		esl.String("repository", app_definitions2.CoreRepositoryName),
+		esl.String("owner", z.RepoOwner),
+		esl.String("repository", z.RepoName),
 		esl.String("version", app_definitions2.BuildId),
 		esl.String("hash", app_definitions2.BuildInfo.Hash))
-	svt := sv_reference.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName)
+	svt := sv_reference.New(z.ghCtx(c), z.RepoOwner, z.RepoName)
 	l.Debug("Create tag")
 	tag, err := svt.Create(
 		"refs/tags/"+app_definitions2.BuildId,
@@ -243,8 +258,8 @@ func (z *Publish) createTag(c app_control.Control) error {
 
 func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel *mo_release.Release, err error) {
 	l := c.Log().With(
-		esl.String("owner", app_definitions2.CoreRepositoryOwner),
-		esl.String("repository", app_definitions2.CoreRepositoryName),
+		esl.String("owner", z.RepoOwner),
+		esl.String("repository", z.RepoName),
 		esl.String("version", app_definitions2.BuildId),
 		esl.String("hash", app_definitions2.BuildInfo.Hash))
 	ui := c.UI()
@@ -259,7 +274,7 @@ func (z *Publish) createReleaseDraft(c app_control.Control, relNote string) (rel
 		relName = ui.Text(z.ReleaseName.With("Version", app_definitions2.BuildId))
 	}
 
-	svr := sv_release.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName)
+	svr := sv_release.New(z.ghCtx(c), z.RepoOwner, z.RepoName)
 	rel, err = svr.CreateDraft(
 		app_definitions2.BuildId,
 		relName,
@@ -284,7 +299,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) (
 		return nil, err
 	}
 
-	sva := sv_release_asset.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName, rel.Id)
+	sva := sv_release_asset.New(z.ghCtx(c), z.RepoOwner, z.RepoName, rel.Id)
 
 	// filename -> asset info
 	uploaded = make(map[string]*mo_release_asset.Asset)
@@ -305,7 +320,7 @@ func (z *Publish) uploadAssets(c app_control.Control, rel *mo_release.Release) (
 
 func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Release) error {
 	l := c.Log()
-	svr := sv_release.New(z.ghCtx(c), app_definitions2.CoreRepositoryOwner, app_definitions2.CoreRepositoryName)
+	svr := sv_release.New(z.ghCtx(c), z.RepoOwner, z.RepoName)
 	published, err := svr.Publish(release.Id)
 	if err != nil {
 		l.Warn("Unable to publish the release", esl.Error(err))
@@ -317,14 +332,14 @@ func (z *Publish) publishRelease(c app_control.Control, release *mo_release.Rele
 }
 
 func (z *Publish) updateHomebrewFormula(c app_control.Control, macArm, linuxIntel, linuxArm *mo_release_asset.Asset) error {
-	baseUrl := "https://github.com/watermint/toolbox/releases/download/" + app_definitions2.BuildId + "/"
+	baseUrl := fmt.Sprintf("https://github.com/%s/%s/releases/download/%s/", z.RepoOwner, z.RepoName, app_definitions2.BuildId)
 	return rc_exec.Exec(c, z.Formula, func(r rc_recipe.Recipe) {
 		m := r.(*ig_homebrew.Formula)
-		m.Owner = homebrewRepoOwner
-		m.Repository = homebrewRepoName
-		m.Branch = homebrewRepoBranch
+		m.Owner = z.HomebrewRepoOwner
+		m.Repository = z.HomebrewRepoName
+		m.Branch = z.HomebrewRepoBranch
 		m.Message = "Release " + app_definitions2.BuildId
-		m.FormulaName = "toolbox.rb"
+		m.FormulaName = strings.TrimPrefix(z.RepoName, "toolbox") + ".rb"
 
 		m.AssetPathMacArm = mo_path2.NewExistingFileSystemPath(macArm.Name)
 		m.DownloadUrlMacArm = baseUrl + macArm.Name
@@ -414,11 +429,11 @@ func (z *Publish) Exec(c app_control.Control) error {
 
 	err = rc_exec.Exec(c, z.Asseturl, func(r rc_recipe.Recipe) {
 		m := r.(*Asseturl)
-		m.SourceOwner = app_definitions2.CoreRepositoryOwner
-		m.SourceRepo = app_definitions2.CoreRepositoryName
-		m.TargetOwner = homebrewRepoOwner
-		m.TargetRepo = homebrewRepoName
-		m.TargetBranch = homebrewRepoBranch
+		m.SourceOwner = z.RepoOwner
+		m.SourceRepo = z.RepoName
+		m.TargetOwner = z.HomebrewRepoOwner
+		m.TargetRepo = z.HomebrewRepoName
+		m.TargetBranch = z.HomebrewRepoBranch
 	})
 	if err != nil {
 		l.Error("Unable to update asset URL", esl.Error(err))
@@ -449,6 +464,9 @@ func (z *Publish) Test(c app_control.Control) error {
 	err = rc_exec.ExecMock(c, &Publish{}, func(r rc_recipe.Recipe) {
 		m := r.(*Publish)
 		m.ArtifactPath = mo_path2.NewFileSystemPath(d)
+		m.RepoOwner = app_definitions2.CoreRepositoryOwner
+		m.RepoName = app_definitions2.CoreRepositoryName
+		m.ExecutableName = app_definitions2.ExecutableName
 	})
 	if err, _ = qt_errors.ErrorsForTest(c.Log(), err); !errors.Is(err, ErrorBuildIsNotReadyForRelease) && err != nil {
 		return err
