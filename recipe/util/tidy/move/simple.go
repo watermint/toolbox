@@ -2,6 +2,9 @@ package move
 
 import (
 	"errors"
+	"os"
+	"path/filepath"
+
 	"github.com/watermint/toolbox/essentials/file/es_filemove"
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -11,9 +14,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 )
 
 type Simple struct {
@@ -35,7 +35,7 @@ func (z *Simple) move(c app_control.Control) (err error) {
 	l := c.Log().With(esl.String("targetPath", z.Src.Path()))
 	ui := c.UI()
 
-	entries, err := ioutil.ReadDir(z.Src.Path())
+	entries, err := os.ReadDir(z.Src.Path())
 	if err != nil {
 		l.Debug("Unable to read path", esl.Error(err))
 		return err

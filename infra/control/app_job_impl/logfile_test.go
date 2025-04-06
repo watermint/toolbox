@@ -1,6 +1,9 @@
 package app_job_impl
 
 import (
+	"io"
+	"testing"
+
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_budget"
 	"github.com/watermint/toolbox/infra/control/app_opt"
@@ -9,8 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"testing"
 )
 
 func TestLogFileImpl(t *testing.T) {
@@ -57,7 +58,7 @@ func TestLogFileImpl(t *testing.T) {
 				t.Error(lf.Path())
 			}
 			lf.IsCompressed()
-			if err := lf.CopyTo(ioutil.Discard); err != nil {
+			if err := lf.CopyTo(io.Discard); err != nil {
 				t.Error(err)
 			}
 		}

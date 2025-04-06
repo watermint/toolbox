@@ -1,15 +1,15 @@
 package app_job_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/essentials/model/mo_string"
-	"github.com/watermint/toolbox/infra/control/app_job"
-	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/essentials/model/mo_string"
+	"github.com/watermint/toolbox/infra/control/app_job"
+	"github.com/watermint/toolbox/infra/control/app_workspace"
 )
 
 func NewHistorian(ws app_workspace.Workspace) app_job.Historian {
@@ -41,7 +41,7 @@ func (z Historian) scanWorkspace(path string, parentJobId []string) (histories [
 		sp = filepath.Join(path, strings.Join(parentJobId, "/"))
 	}
 	l.Debug("Reading entries", esl.String("path", sp))
-	entries, err := ioutil.ReadDir(sp)
+	entries, err := os.ReadDir(sp)
 	if err != nil {
 		l.Debug("Unable to read dir", esl.Error(err))
 		return nil, err
@@ -90,7 +90,7 @@ func (z Historian) scanOrphaned(path string) (histories []app_job.History, err e
 		return histories, nil
 	}
 
-	entries, err := ioutil.ReadDir(path)
+	entries, err := os.ReadDir(path)
 	if err != nil {
 		l.Debug("Unable to read a folder", esl.Error(err))
 		return histories, err

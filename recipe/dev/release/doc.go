@@ -2,6 +2,13 @@ package release
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+	"strconv"
+	"strings"
+	"text/template"
+	"time"
+
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
 	"github.com/watermint/toolbox/essentials/api/api_parser"
@@ -17,13 +24,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/recipe/dev/spec"
 	"github.com/watermint/toolbox/resources"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strconv"
-	"strings"
-	"text/template"
-	"time"
 )
 
 const (
@@ -191,7 +191,7 @@ func (z *Doc) listReleases(c app_control.Control) (releases map[uint64]*Metadata
 func (z *Doc) removeOldReleaseNotes(c app_control.Control, base string) error {
 	l := c.Log()
 	path := filepath.Join(base, "docs/_posts")
-	entries, err := ioutil.ReadDir(path)
+	entries, err := os.ReadDir(path)
 	if err != nil {
 		l.Debug("Unable to read the directory", esl.Error(err))
 		return err

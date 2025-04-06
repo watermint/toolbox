@@ -1,10 +1,11 @@
 package esl_rotate
 
 import (
+	"os"
+	"testing"
+
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"testing"
 )
 
 func TestWriterImpl_Open(t *testing.T) {
@@ -81,7 +82,7 @@ func TestRotate(t *testing.T) {
 			t.Error(numPurge)
 		}
 
-		entries, err := ioutil.ReadDir(path)
+		entries, err := os.ReadDir(path)
 		if err != nil || len(entries) != 3 {
 			t.Error(err, entries)
 		}

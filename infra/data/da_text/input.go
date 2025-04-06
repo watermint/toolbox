@@ -3,11 +3,12 @@ package da_text
 import (
 	"bufio"
 	"errors"
+	"io"
+	"os"
+
 	"github.com/watermint/toolbox/essentials/io/es_file_read"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
-	"io"
-	"os"
 )
 
 type TextInput interface {
@@ -17,10 +18,11 @@ type TextInput interface {
 	Debug() interface{}
 	Open(ctl app_control.Control) error
 
-	// Read each line. If a func f returns an error, finish read text immediately and returns the error.
+	// EachLine reads each line of text. If the function f returns an error,
+	// it immediately stops reading and returns that error.
 	EachLine(f func(line string) error) error
 
-	// Returns entire text content.
+	// Content returns the entire text content.
 	Content() ([]byte, error)
 }
 
@@ -102,7 +104,7 @@ func (z *txInput) EachLine(f func(line string) error) error {
 func (z *txInput) Content() (content []byte, err error) {
 	l := z.ctl.Log().With(esl.String("filePath", z.filePath))
 
-	// If the file path is "-", read from stdin
+	// If the file path is "-", read from stdin.
 	if z.filePath == "-" {
 		content, err = io.ReadAll(os.Stdin)
 		l.Debug("Content load finished", esl.Int("contentLength", len(content)), esl.Error(err))

@@ -2,6 +2,10 @@ package dbx_fs_model_to_dbx
 
 import (
 	"errors"
+	"os"
+	"path/filepath"
+	"time"
+
 	"github.com/watermint/toolbox/domain/dropbox/filesystem/dbx_fs"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem"
 	"github.com/watermint/toolbox/essentials/file/es_filesystem_local"
@@ -9,10 +13,6 @@ import (
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/em_file"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"time"
 )
 
 func NewModelToDropbox(l esl.Logger, modelRoot em_file.Folder, conn es_filesystem.Connector) es_filesystem.Connector {
@@ -53,7 +53,7 @@ func (z copierModelToDropbox) Copy(source es_filesystem.Entry, target es_filesys
 
 	content := sourceNode.(em_file.File).Content()
 
-	tmpDir, ioErr := ioutil.TempDir("", "model_to_dropbox")
+	tmpDir, ioErr := os.MkdirTemp("", "model_to_dropbox")
 	if ioErr != nil {
 		l.Debug("unable to create temp file", esl.Error(ioErr))
 		onFailure(cp, dbx_fs.NewError(ioErr))
@@ -62,7 +62,7 @@ func (z copierModelToDropbox) Copy(source es_filesystem.Entry, target es_filesys
 
 	tmpFilePath := filepath.Join(tmpDir, sourceNode.Name())
 
-	if errIO := ioutil.WriteFile(tmpFilePath, content, 0644); errIO != nil {
+	if errIO := os.WriteFile(tmpFilePath, content, 0644); errIO != nil {
 		l.Debug("Unable to write to the file", esl.Error(errIO))
 		onFailure(cp, es_filesystem_local.NewError(errIO))
 		return

@@ -2,6 +2,9 @@ package build
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -12,9 +15,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 )
 
 type Readme struct {
@@ -31,7 +31,7 @@ func (z *Readme) genDoc(path string, doc string, c app_control.Control) error {
 		_, _ = fmt.Fprintln(out, doc)
 		return nil
 	} else {
-		return ioutil.WriteFile(path, []byte(doc), 0644)
+		return os.WriteFile(path, []byte(doc), 0644)
 	}
 }
 

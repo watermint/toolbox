@@ -2,6 +2,14 @@ package image
 
 import (
 	"fmt"
+	"image"
+	"image/color"
+	"image/jpeg"
+	"math"
+	"math/rand"
+	"os"
+	"path/filepath"
+
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/model/mo_int"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -9,14 +17,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
-	"image"
-	"image/color"
-	"image/jpeg"
-	"io/ioutil"
-	"math"
-	"math/rand"
-	"os"
-	"path/filepath"
 )
 
 const (
@@ -93,7 +93,7 @@ func (z *Jpeg) Exec(c app_control.Control) error {
 }
 
 func (z *Jpeg) Test(c app_control.Control) error {
-	tmp, err := ioutil.TempDir("", "jpeg")
+	tmp, err := os.MkdirTemp("", "jpeg")
 	if err != nil {
 		return err
 	}

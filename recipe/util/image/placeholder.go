@@ -2,7 +2,6 @@ package image
 
 import (
 	"errors"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -64,7 +63,7 @@ func (z *Placeholder) Exec(c app_control.Control) error {
 			ui.Error(z.ErrorFontPathRequired)
 			return errors.New("font path required to draw text")
 		}
-		fontData, err := ioutil.ReadFile(z.FontPath.Value())
+		fontData, err := os.ReadFile(z.FontPath.Value())
 		if err != nil {
 			ui.Error(z.ErrorCantLoadFont.With("Path", z.FontPath.Value()).With("Error", err))
 			return err

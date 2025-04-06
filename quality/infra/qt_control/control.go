@@ -1,6 +1,8 @@
 package qt_control
 
 import (
+	"os"
+
 	"github.com/watermint/toolbox/essentials/api/api_auth_repo"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/queue/eq_queue"
@@ -14,12 +16,11 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/ui/app_msg_container_impl"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"io/ioutil"
 )
 
 func WithControl(f func(c app_control.Control) error) error {
 	l := esl.Default()
-	home, err := ioutil.TempDir("", "control")
+	home, err := os.MkdirTemp("", "control")
 	if err != nil {
 		l.Debug("unable to create home", esl.Error(err))
 		return err

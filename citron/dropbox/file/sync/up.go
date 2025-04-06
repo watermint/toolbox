@@ -3,6 +3,9 @@ package sync
 import (
 	"encoding/json"
 	"errors"
+	"os"
+	"path/filepath"
+
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_auth"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_conn"
 	"github.com/watermint/toolbox/domain/dropbox/api/dbx_filesystem"
@@ -22,9 +25,6 @@ import (
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
 	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 )
 
 type Up struct {
@@ -127,7 +127,7 @@ func (z *Up) Test(c app_control.Control) error {
 		}
 
 		targetReportPath := filepath.Join(ct.Workspace().Report(), "summary.json")
-		targetReportFile, err := ioutil.ReadFile(targetReportPath)
+		targetReportFile, err := os.ReadFile(targetReportPath)
 		if err != nil {
 			l.Debug("Unable to retrieve report", esl.Error(err))
 			return err

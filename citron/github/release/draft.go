@@ -1,6 +1,8 @@
 package release
 
 import (
+	"os"
+
 	"github.com/watermint/toolbox/domain/github/api/gh_conn"
 	"github.com/watermint/toolbox/domain/github/model/mo_release"
 	"github.com/watermint/toolbox/domain/github/service/sv_release"
@@ -10,8 +12,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/report/rp_model"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"os"
 )
 
 type Draft struct {
@@ -32,7 +32,7 @@ func (z *Draft) Preset() {
 }
 
 func (z *Draft) Exec(c app_control.Control) error {
-	body, err := ioutil.ReadFile(z.BodyFile.Path())
+	body, err := os.ReadFile(z.BodyFile.Path())
 	if err != nil {
 		return err
 	}

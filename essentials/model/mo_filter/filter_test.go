@@ -2,7 +2,7 @@ package mo_filter
 
 import (
 	"reflect"
-	"sort"
+	"slices"
 	"testing"
 )
 
@@ -24,8 +24,8 @@ func TestFilterImpl_Accept(t *testing.T) {
 	expected := []string{"HelloName", "HelloNameSuffix"}
 
 	// Sort both slices for comparison
-	sort.Strings(fields)
-	sort.Strings(expected)
+	slices.Sort(fields)
+	slices.Sort(expected)
 
 	if !reflect.DeepEqual(fields, expected) {
 		t.Errorf("Expected fields %v but got %v", expected, fields)

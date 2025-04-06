@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
@@ -83,7 +82,7 @@ func (z *Preflight) sortMessages(c app_control.Control, filename string) error {
 		l.Warn("Unable to create sorted image", esl.Error(err))
 		return err
 	}
-	if err := ioutil.WriteFile(p, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(p, buf.Bytes(), 0644); err != nil {
 		l.Warn("Unable to update message", esl.Error(err))
 		return err
 	}

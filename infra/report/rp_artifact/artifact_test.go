@@ -1,11 +1,12 @@
 package rp_artifact
 
 import (
-	"github.com/watermint/toolbox/infra/control/app_workspace"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/watermint/toolbox/infra/control/app_workspace"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 func TestArtifacts(t *testing.T) {
@@ -15,12 +16,12 @@ func TestArtifacts(t *testing.T) {
 			t.Error(err)
 			return
 		}
-		err = ioutil.WriteFile(filepath.Join(ws.Report(), "test.csv"), []byte("1,2,3"), 0644)
+		err = os.WriteFile(filepath.Join(ws.Report(), "test.csv"), []byte("1,2,3"), 0644)
 		if err != nil {
 			t.Error(err)
 			return
 		}
-		err = ioutil.WriteFile(filepath.Join(ws.Report(), "test.zip"), []byte("PK"), 0644)
+		err = os.WriteFile(filepath.Join(ws.Report(), "test.zip"), []byte("PK"), 0644)
 		if err != nil {
 			t.Error(err)
 			return

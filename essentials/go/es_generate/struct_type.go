@@ -1,6 +1,8 @@
 package es_generate
 
-import "sort"
+import (
+	"slices"
+)
 
 type StructType struct {
 	// Relative package path from the scan root.
@@ -11,15 +13,20 @@ type StructType struct {
 }
 
 func UniqSortedPackages(sts []*StructType) []string {
+	// Collect unique packages using a temporary map
 	pkgMap := make(map[string]bool)
 	for _, st := range sts {
 		pkgMap[st.Package] = true
 	}
-	pkgSorted := make([]string, 0)
+
+	// Get keys from the map
+	pkgSorted := make([]string, 0, len(pkgMap))
 	for pkg := range pkgMap {
 		pkgSorted = append(pkgSorted, pkg)
 	}
-	sort.Strings(pkgSorted)
+
+	// Sort using slices.Sort
+	slices.Sort(pkgSorted)
 	return pkgSorted
 }
 
@@ -28,11 +35,16 @@ func SortedStructTypes(sts []*StructType) (sorted []*StructType) {
 	for _, st := range sts {
 		stsMap[st.Package+"/"+st.Name] = st
 	}
-	stsKey := make([]string, 0)
+
+	// Pre-allocate capacity for memory efficiency
+	stsKey := make([]string, 0, len(stsMap))
 	for key := range stsMap {
 		stsKey = append(stsKey, key)
 	}
-	sort.Strings(stsKey)
+
+	// Sort using slices.Sort
+	slices.Sort(stsKey)
+
 	sorted = make([]*StructType, len(stsKey))
 	for i, key := range stsKey {
 		sorted[i] = stsMap[key]

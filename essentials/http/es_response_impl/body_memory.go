@@ -1,14 +1,14 @@
 package es_response_impl
 
 import (
+	"os"
+
 	"github.com/tidwall/gjson"
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/log/esl_encode"
-	"io/ioutil"
-	"os"
 )
 
 func newMemoryBody(ctx es_client.Client, content []byte) es_response.Body {
@@ -50,7 +50,7 @@ func (z bodyMemoryImpl) AsJson() (es_json.Json, error) {
 
 func toFile(ctx es_client.Client, content []byte) (string, error) {
 	l := ctx.Log()
-	p, err := ioutil.TempFile("", ctx.ClientHash())
+	p, err := os.CreateTemp("", ctx.ClientHash())
 	if err != nil {
 		l.Debug("Unable to create temp file", esl.Error(err))
 		return "", err
@@ -63,7 +63,7 @@ func toFile(ctx es_client.Client, content []byte) (string, error) {
 			l.Debug("unable to remove", esl.Error(err))
 		}
 	}
-	if err := ioutil.WriteFile(p.Name(), content, 0600); err != nil {
+	if err := os.WriteFile(p.Name(), content, 0600); err != nil {
 		l.Debug("Unable to write", esl.Error(err))
 		cleanupOnError()
 		return "", err

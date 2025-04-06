@@ -23,7 +23,8 @@ import (
 )
 
 const (
-	BlockSize = 4 * 1048576 // 4MiB
+	// BlockSize defines the size of download blocks (4MiB).
+	BlockSize = 4 * 1048576 // 4MiB blocks
 )
 
 var (
@@ -88,7 +89,7 @@ func (z *copierDropboxToLocal) Copy(source es_filesystem.Entry, target es_filesy
 		return
 	}
 
-	// create zero byte file
+	// Create zero byte file
 	if contentLength == 0 {
 		l.Debug("Create the zero byte file")
 		f, err := os.Create(target.Path())

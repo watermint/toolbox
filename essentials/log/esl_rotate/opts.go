@@ -5,7 +5,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"sort"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -129,8 +129,15 @@ func (z RotateOpts) targetsByCount(entries []os.FileInfo) []os.FileInfo {
 	}
 
 	// Sort entries by modification time (oldest first)
-	sort.Slice(entries, func(i, j int) bool {
-		return entries[i].ModTime().Before(entries[j].ModTime())
+	slices.SortFunc(entries, func(i, j os.FileInfo) int {
+		switch {
+		case i.ModTime().Before(j.ModTime()):
+			return -1
+		case i.ModTime().After(j.ModTime()):
+			return 1
+		default:
+			return 0
+		}
 	})
 
 	// Return the oldest entries up to numPurge
@@ -143,8 +150,15 @@ func (z RotateOpts) targetsByQuota(entries []os.FileInfo) []os.FileInfo {
 	}
 
 	// Sort entries by modification time (newest first)
-	sort.Slice(entries, func(i, j int) bool {
-		return entries[i].ModTime().After(entries[j].ModTime())
+	slices.SortFunc(entries, func(i, j os.FileInfo) int {
+		switch {
+		case i.ModTime().After(j.ModTime()):
+			return -1
+		case i.ModTime().Before(j.ModTime()):
+			return 1
+		default:
+			return 0
+		}
 	})
 
 	var used int64
@@ -161,8 +175,8 @@ func (z RotateOpts) targetsByQuota(entries []os.FileInfo) []os.FileInfo {
 	}
 
 	// Find files to purge (those not in preserve)
-	purge := make([]os.FileInfo, 0)
-	preserveMap := make(map[string]bool)
+	purge := make([]os.FileInfo, 0, len(entries)-len(preserve))
+	preserveMap := make(map[string]bool, len(preserve))
 	for _, p := range preserve {
 		preserveMap[p.Name()] = true
 	}
@@ -186,7 +200,7 @@ func (z RotateOpts) PurgeTargets() (purge []string, err error) {
 	byQuota := z.targetsByQuota(logs)
 
 	// Combine and deduplicate purge targets
-	purgeMap := make(map[string]bool)
+	purgeMap := make(map[string]bool, len(byCount)+len(byQuota))
 	for _, entry := range byCount {
 		purgeMap[filepath.Join(z.BasePath(), entry.Name())] = true
 	}
@@ -194,6 +208,7 @@ func (z RotateOpts) PurgeTargets() (purge []string, err error) {
 		purgeMap[filepath.Join(z.BasePath(), entry.Name())] = true
 	}
 
+	// Pre-allocate capacity for efficiency
 	purge = make([]string, 0, len(purgeMap))
 	for path := range purgeMap {
 		purge = append(purge, path)

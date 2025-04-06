@@ -3,16 +3,16 @@ package app_workspace
 import (
 	"errors"
 	"fmt"
+	"os"
+	"os/user"
+	"path/filepath"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/file/es_filepath"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_definitions"
 	"github.com/watermint/toolbox/infra/security/sc_random"
 	"go.uber.org/atomic"
-	"io/ioutil"
-	"os"
-	"os/user"
-	"path/filepath"
-	"time"
 )
 
 type Application interface {
@@ -144,7 +144,7 @@ func GetOrCreateDefaultAppConfigPath() (path string, err error) {
 
 func NewWorkspace(home string, transient bool) (Workspace, error) {
 	if transient {
-		if path, err := ioutil.TempDir("", "transient"); err != nil {
+		if path, err := os.MkdirTemp("", "transient"); err != nil {
 			return nil, err
 		} else {
 			return newWorkspaceWithJobIdNoSetup(path, NewJobId()), nil

@@ -3,12 +3,13 @@ package da_griddata
 import (
 	"errors"
 	"flag"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/encoding/es_json"
 	es_case2 "github.com/watermint/toolbox/essentials/strings/es_case"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"strings"
 )
 
 func NewOutput(recipe interface{}, name string) GridDataOutput {
@@ -56,8 +57,8 @@ func (z *gdOutput) Name() string {
 }
 
 func (z *gdOutput) ApplyFlags(f *flag.FlagSet, fieldDesc app_msg.Message, ui app_ui.UI) {
-	//descFilePath := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + es_case.ToLowerSnakeCase(GridOutputOptionFilePath)))
-	//descFormat := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + es_case.ToLowerSnakeCase(GridOutputOptionFormat)))
+	// descFilePath := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + es_case.ToLowerSnakeCase(GridOutputOptionFilePath)))
+	// descFormat := ui.Text(app_msg.CreateMessage(fieldDesc.Key() + es_case.ToLowerSnakeCase(GridOutputOptionFormat)))
 	descFilePath := ui.Text(z.FieldDesc(fieldDesc, z.Name()+GridOutputOptionFilePath))
 	descFormat := ui.Text(z.FieldDesc(fieldDesc, z.Name()+GridOutputOptionFormat))
 	f.StringVar(&z.filePath, es_case2.ToLowerKebabCase(z.Name()+GridOutputOptionFilePath), "", descFilePath)

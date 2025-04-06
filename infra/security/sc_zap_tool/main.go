@@ -3,12 +3,13 @@ package main
 import (
 	"crypto/sha256"
 	"encoding/base32"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
-	"io/ioutil"
+	"io"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/security/sc_obfuscate"
 )
 
 var (
@@ -68,13 +69,13 @@ func main() {
 	}
 
 	defer keyFile.Close()
-	keyContent, err := ioutil.ReadAll(keyFile)
+	keyContent, err := io.ReadAll(keyFile)
 	if err != nil {
 		os.Exit(exitCantReadKey)
 	}
 
 	key := getKey()
-	if err := ioutil.WriteFile("/tmp/toolbox.zap", []byte(key), 0600); err != nil {
+	if err := os.WriteFile("/tmp/toolbox.zap", []byte(key), 0600); err != nil {
 		os.Exit(exitCantWriteZap)
 	}
 
@@ -82,7 +83,7 @@ func main() {
 	if err != nil {
 		os.Exit(exitCantObfuscate)
 	}
-	if err := ioutil.WriteFile(secretPath, b, 0600); err != nil {
+	if err := os.WriteFile(secretPath, b, 0600); err != nil {
 		os.Exit(exitCantWriteSecret)
 	}
 }

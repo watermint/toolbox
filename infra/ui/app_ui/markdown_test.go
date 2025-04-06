@@ -1,7 +1,7 @@
 package app_ui
 
 import (
-	"io/ioutil"
+	"io"
 	"strconv"
 	"testing"
 
@@ -17,7 +17,7 @@ func TestMdImpl(t *testing.T) {
 		m.Key(): "Ping {{.Message}}",
 	})
 	lg := esl.Default()
-	c := NewMarkdown(mc, lg, ioutil.Discard, es_dialogue.DenyAll())
+	c := NewMarkdown(mc, lg, io.Discard, es_dialogue.DenyAll())
 	c.Header(m)
 	c.SubHeader(m)
 	c.Info(m)

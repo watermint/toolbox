@@ -4,6 +4,14 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/json"
+	"io"
+	"os"
+	"path/filepath"
+	"sort"
+	"strings"
+	"sync"
+	"text/template"
+
 	"github.com/google/go-cmp/cmp"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -15,14 +23,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_ui"
-	"io"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"sort"
-	"strings"
-	"sync"
-	"text/template"
 )
 
 const (
@@ -90,7 +90,7 @@ func (z *Diff) loadSpec(c app_control.Control, relName string) (r map[string]*dc
 	defer func() {
 		_ = g.Close()
 	}()
-	j, err := ioutil.ReadAll(g)
+	j, err := io.ReadAll(g)
 	if err != nil {
 		l.Error("unable to read spec", esl.Error(err))
 		return nil, err

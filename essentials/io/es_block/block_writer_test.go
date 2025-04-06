@@ -1,13 +1,13 @@
 package es_block
 
 import (
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"reflect"
 	"testing"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 func TestBlockWriter(t *testing.T) {
@@ -45,7 +45,7 @@ func TestBlockWriter(t *testing.T) {
 		)
 		bw.Wait()
 
-		fileContent, err := ioutil.ReadFile(path)
+		fileContent, err := os.ReadFile(path)
 		if err != nil {
 			t.Error(err)
 		}
@@ -78,7 +78,7 @@ func TestBlockWriter(t *testing.T) {
 		)
 		bw.Wait()
 
-		fileContent, err := ioutil.ReadFile(path)
+		fileContent, err := os.ReadFile(path)
 		if err != nil {
 			t.Error(err)
 		}

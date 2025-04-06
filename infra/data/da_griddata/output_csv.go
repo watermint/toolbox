@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"encoding/csv"
 	"fmt"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func NewCsvWriter() PlainGridDataWriter {
@@ -43,6 +44,6 @@ func (z csvWriter) WriteRow(l esl.Logger, w io.Writer, formatter GridDataFormatt
 		l.Debug("Unable to write a row", esl.Error(err))
 		return err
 	}
-	//	_, err = w.Write([]byte("\n"))
+	// Option to write an additional newline is currently disabled.
 	return nil
 }

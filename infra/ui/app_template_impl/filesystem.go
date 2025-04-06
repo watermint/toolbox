@@ -2,15 +2,16 @@ package app_template_impl
 
 import (
 	"bytes"
+	"html/template"
+	"io"
+	"net/http"
+
 	"github.com/gin-gonic/gin/render"
 	"github.com/tdewolff/minify"
 	"github.com/tdewolff/minify/html"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/infra/control/app_control"
 	"github.com/watermint/toolbox/infra/ui/app_template"
-	"html/template"
-	"io/ioutil"
-	"net/http"
 )
 
 func NewDev(fs http.FileSystem, ctl app_control.Control) app_template.Template {
@@ -65,7 +66,7 @@ func (z *DevFileSystem) tmpl(name string) *template.Template {
 			ll.Error("Unable to open resource", esl.Error(err))
 			return nil
 		}
-		b, err := ioutil.ReadAll(f)
+		b, err := io.ReadAll(f)
 		if err != nil {
 			ll.Error("Unable to read resource", esl.Error(err))
 			return nil

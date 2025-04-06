@@ -3,6 +3,10 @@ package app_feature_impl
 import (
 	"encoding/json"
 	"errors"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/watermint/toolbox/essentials/kvs/kv_storage"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_replay"
@@ -12,10 +16,6 @@ import (
 	"github.com/watermint/toolbox/infra/control/app_opt"
 	"github.com/watermint/toolbox/infra/control/app_workspace"
 	"github.com/watermint/toolbox/infra/report/rp_artifact_feature"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strings"
 )
 
 const (
@@ -168,7 +168,7 @@ func (z featureImpl) loadConfigPath(path string) (values map[string]interface{},
 	}
 
 	l.Debug("load config", esl.String("path", path))
-	b, err := ioutil.ReadFile(path)
+	b, err := os.ReadFile(path)
 	if err != nil {
 		l.Debug("Unable to read config", esl.Error(err))
 		return
@@ -211,7 +211,7 @@ func (z featureImpl) saveConfig(key string, v interface{}) (err error) {
 		l.Debug("Unable to marshal", esl.Error(err))
 		return err
 	}
-	if err := ioutil.WriteFile(configPath, b, 0644); err != nil {
+	if err := os.WriteFile(configPath, b, 0644); err != nil {
 		l.Debug("Unable to write config", esl.Error(err))
 		return err
 	}

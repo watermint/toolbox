@@ -2,10 +2,11 @@ package app_opt
 
 import (
 	"encoding/json"
+	"os"
+	"runtime"
+
 	"github.com/watermint/toolbox/essentials/model/mo_string"
 	"github.com/watermint/toolbox/infra/control/app_budget"
-	"io/ioutil"
-	"runtime"
 )
 
 const (
@@ -114,7 +115,7 @@ func (z *CommonOpts) ExtraLoad() error {
 		return nil
 	}
 
-	data, err := ioutil.ReadFile(z.Extra.Value())
+	data, err := os.ReadFile(z.Extra.Value())
 	if err != nil {
 		return err
 	}

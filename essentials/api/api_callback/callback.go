@@ -7,6 +7,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"html/template"
+	"io"
+	"net/http"
+	"os"
+	"path/filepath"
+	"strconv"
+	"sync"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/render"
 	"github.com/watermint/toolbox/essentials/log/esl"
@@ -20,14 +29,6 @@ import (
 	"github.com/watermint/toolbox/infra/ui/app_msg"
 	"github.com/watermint/toolbox/infra/ui/app_template_impl"
 	"go.uber.org/atomic"
-	"html/template"
-	"io/ioutil"
-	"net/http"
-	"os"
-	"path/filepath"
-	"strconv"
-	"sync"
-	"time"
 )
 
 const (
@@ -178,7 +179,7 @@ func (z *callbackImpl) ping() error {
 			l.Debug("ping failure", esl.Error(err))
 			continue
 		}
-		b, err := ioutil.ReadAll(res.Body)
+		b, err := io.ReadAll(res.Body)
 		if err != nil {
 			l.Debug("unable to read body", esl.Error(err))
 			continue

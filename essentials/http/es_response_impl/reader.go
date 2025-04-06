@@ -4,15 +4,15 @@ import (
 	"bufio"
 	"bytes"
 	"errors"
+	"io"
+	"math/rand"
+	"os"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"github.com/watermint/toolbox/essentials/network/nw_bandwidth"
-	"io"
-	"io/ioutil"
-	"math/rand"
-	"os"
-	"time"
 )
 
 const (
@@ -83,7 +83,7 @@ func read(ctx es_client.Client, resBody io.ReadCloser, readBufSize, readChunkSiz
 	}
 
 	// Create file
-	bodyFile, err := ioutil.TempFile("", ctx.ClientHash())
+	bodyFile, err := os.CreateTemp("", ctx.ClientHash())
 	if err != nil {
 		l.Debug("Unable to create file", esl.Error(err))
 		return nil, err

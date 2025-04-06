@@ -2,6 +2,9 @@ package build
 
 import (
 	"encoding/json"
+	"os"
+	"path/filepath"
+
 	"github.com/watermint/toolbox/essentials/go/es_project"
 	"github.com/watermint/toolbox/essentials/io/es_stdout"
 	"github.com/watermint/toolbox/essentials/model/mo_path"
@@ -10,9 +13,6 @@ import (
 	"github.com/watermint/toolbox/infra/recipe/rc_exec"
 	"github.com/watermint/toolbox/infra/recipe/rc_recipe"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 )
 
 type License struct {
@@ -33,7 +33,7 @@ func (z *License) Exec(c app_control.Control) error {
 	if err != nil {
 		return err
 	}
-	licenseBody, err := ioutil.ReadFile(filepath.Join(prjBase, "LICENSE.md"))
+	licenseBody, err := os.ReadFile(filepath.Join(prjBase, "LICENSE.md"))
 	if err != nil {
 		return err
 	}
@@ -58,7 +58,7 @@ func (z *License) Exec(c app_control.Control) error {
 		_, err := out.Write(licensesData)
 		return err
 	} else {
-		return ioutil.WriteFile(z.DestPath.Path(), licensesData, 0644)
+		return os.WriteFile(z.DestPath.Path(), licensesData, 0644)
 	}
 }
 

@@ -3,7 +3,6 @@ package app_ui
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"strings"
 
 	"github.com/watermint/toolbox/essentials/ambient/ea_notification"
@@ -17,7 +16,7 @@ import (
 )
 
 func NewDiscard(mc app_msg_container.Container, lg esl.Logger) UI {
-	out := ioutil.Discard
+	out := io.Discard
 	return NewConsole(
 		mc,
 		lg,
