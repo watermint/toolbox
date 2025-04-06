@@ -1,7 +1,6 @@
 package qt_file
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -9,7 +8,7 @@ import (
 )
 
 func MakeDummyFile(name string) (path string, err error) {
-	d, err := ioutil.TempFile("", name)
+	d, err := os.CreateTemp("", name)
 	if err != nil {
 		return "", err
 	}
@@ -37,7 +36,7 @@ func MakeTestCsv(name string) (path string, err error) {
 }
 
 func MakeTestFile(name string, content string) (path string, err error) {
-	d, err := ioutil.TempFile("", name)
+	d, err := os.CreateTemp("", name)
 	if err != nil {
 		return "", err
 	}
@@ -63,12 +62,12 @@ func TestWithTestFolder(t *testing.T, name string, withContent bool, f func(path
 }
 
 func MakeTestFolder(name string, withContent bool) (path string, err error) {
-	path, err = ioutil.TempDir("", name)
+	path, err = os.MkdirTemp("", name)
 	if err != nil {
 		return "", err
 	}
 	if withContent {
-		err := ioutil.WriteFile(filepath.Join(path, "test.dat"), []byte(time.Now().String()), 0644)
+		err := os.WriteFile(filepath.Join(path, "test.dat"), []byte(time.Now().String()), 0644)
 		if err != nil {
 			os.RemoveAll(path)
 			return "", err
