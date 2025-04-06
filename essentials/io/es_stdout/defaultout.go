@@ -2,13 +2,13 @@ package es_stdout
 
 import (
 	"errors"
+	"io"
+	"os"
+	"time"
+
 	"github.com/mattn/go-colorable"
 	"github.com/watermint/toolbox/essentials/terminal/es_terminfo"
 	"github.com/watermint/toolbox/quality/infra/qt_secure"
-	"io"
-	"io/ioutil"
-	"os"
-	"time"
 )
 
 const (
@@ -31,11 +31,11 @@ type deadlineWriter interface {
 
 func newDefaultOut(test, quiet bool) io.WriteCloser {
 	if quiet {
-		return &syncOut{co: ioutil.Discard}
+		return &syncOut{co: io.Discard}
 	}
 	if test {
 		if qt_secure.IsSecureEndToEndTest() {
-			return &syncOut{co: ioutil.Discard}
+			return &syncOut{co: io.Discard}
 		} else {
 			return &syncOut{co: os.Stdout}
 		}
@@ -50,11 +50,11 @@ func newDefaultOut(test, quiet bool) io.WriteCloser {
 
 func newDefaultErr(test, quiet bool) io.WriteCloser {
 	if quiet {
-		return &syncOut{co: ioutil.Discard}
+		return &syncOut{co: io.Discard}
 	}
 	if test {
 		if qt_secure.IsSecureEndToEndTest() {
-			return &syncOut{co: ioutil.Discard}
+			return &syncOut{co: io.Discard}
 		} else {
 			return &syncOut{co: os.Stderr}
 		}
@@ -68,7 +68,7 @@ func newDefaultErr(test, quiet bool) io.WriteCloser {
 }
 
 func NewDiscard() io.WriteCloser {
-	return &syncOut{co: ioutil.Discard}
+	return &syncOut{co: io.Discard}
 }
 
 func NewDefaultOut(feature Feature) io.WriteCloser {

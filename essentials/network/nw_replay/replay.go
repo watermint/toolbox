@@ -4,6 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
+	"math/rand"
+	"net/http"
+	"time"
+
 	"github.com/watermint/toolbox/essentials/api/api_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/essentials/http/es_response_impl"
@@ -13,10 +18,6 @@ import (
 	"github.com/watermint/toolbox/essentials/network/nw_client"
 	"github.com/watermint/toolbox/essentials/network/nw_request"
 	"github.com/watermint/toolbox/quality/infra/qt_errors"
-	"io/ioutil"
-	"math/rand"
-	"net/http"
-	"time"
 )
 
 type Response struct {
@@ -32,7 +33,7 @@ func (z Response) Http() *http.Response {
 		Status:     http.StatusText(z.Code),
 		StatusCode: z.Code,
 		Proto:      z.Proto,
-		Body:       ioutil.NopCloser(bytes.NewReader([]byte(z.Body))),
+		Body:       io.NopCloser(bytes.NewReader([]byte(z.Body))),
 	}
 	r.Header = http.Header{}
 	for k, v := range z.Headers {

@@ -2,15 +2,16 @@ package es_demo
 
 import (
 	"bytes"
+	"image"
+	"image/gif"
+	"io"
+	"os"
+
 	"github.com/golang/freetype/truetype"
 	"github.com/watermint/toolbox/essentials/log/esl"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/gofont/gomono"
 	"golang.org/x/image/math/fixed"
-	"image"
-	"image/gif"
-	"io"
-	"io/ioutil"
 )
 
 // Image terminal emulator.
@@ -71,7 +72,7 @@ func (z *termImpl) Write(p []byte) (n int, err error) {
 		panic(err)
 	}
 
-	dest, err := ioutil.TempFile("", "dummy")
+	dest, err := os.CreateTemp("", "dummy")
 	if err != nil {
 		panic(err)
 	}

@@ -2,14 +2,14 @@ package es_download
 
 import (
 	"encoding/json"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"github.com/watermint/toolbox/infra/control/app_control"
-	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
+	"github.com/watermint/toolbox/infra/control/app_control"
+	"github.com/watermint/toolbox/quality/recipe/qtr_endtoend"
 )
 
 func TestDownload(t *testing.T) {
@@ -27,7 +27,7 @@ func TestDownload(t *testing.T) {
 			return
 		}
 
-		r, err := ioutil.ReadFile(p)
+		r, err := os.ReadFile(p)
 		if err != nil {
 			t.Error(err)
 			return

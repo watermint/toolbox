@@ -2,9 +2,10 @@ package eq_pipe_preserve
 
 import (
 	"archive/zip"
-	"github.com/watermint/toolbox/essentials/log/esl"
-	"io/ioutil"
+	"io"
 	"path/filepath"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 func NewRestorer(l esl.Logger, basePath, sessionId string) Restorer {
@@ -49,7 +50,7 @@ func (z *simpleRestorer) Restore(infoLoader func(info []byte) error, loader func
 		}
 
 		ll.Debug("Read data file")
-		d, err := ioutil.ReadAll(f)
+		d, err := io.ReadAll(f)
 		_ = f.Close()
 		if err != nil {
 			ll.Debug("Unable to read the data file", esl.Error(err))

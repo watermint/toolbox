@@ -3,12 +3,12 @@ package es_close
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"testing"
 )
 
 func TestWriteCloser_Write(t *testing.T) {
-	f, err := ioutil.TempFile("", "wc")
+	f, err := os.CreateTemp("", "wc")
 	if err != nil {
 		t.Error(err)
 	}
@@ -27,7 +27,7 @@ func TestWriteCloser_Write(t *testing.T) {
 		t.Error(n, err)
 	}
 
-	g, err := ioutil.ReadFile(p)
+	g, err := os.ReadFile(p)
 	if err != nil {
 		t.Error(err)
 	}

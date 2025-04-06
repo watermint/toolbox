@@ -1,12 +1,12 @@
 package es_response_impl
 
 import (
+	"os"
+	"testing"
+
 	"github.com/watermint/toolbox/essentials/http/es_client"
 	"github.com/watermint/toolbox/essentials/http/es_response"
 	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
-	"os"
-	"testing"
 )
 
 func TestBodyMemoryImpl_Success(t *testing.T) {
@@ -35,7 +35,7 @@ func TestBodyMemoryImpl_Success(t *testing.T) {
 	}
 	if f, err := bm.AsFile(); err != nil {
 		t.Error(err)
-		if c2, err := ioutil.ReadFile(f); err != nil {
+		if c2, err := os.ReadFile(f); err != nil {
 			t.Error(err)
 			if string(content) != string(c2) {
 				t.Error(c2)

@@ -1,13 +1,14 @@
 package es_response_impl
 
 import (
-	"github.com/watermint/toolbox/essentials/http/es_client"
-	"github.com/watermint/toolbox/essentials/http/es_response"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
 	"testing"
+
+	"github.com/watermint/toolbox/essentials/http/es_client"
+	"github.com/watermint/toolbox/essentials/http/es_response"
 )
 
 func TestResImpl(t *testing.T) {
@@ -19,7 +20,7 @@ func TestResImpl(t *testing.T) {
 			"Content-Length": []string{strconv.FormatInt(int64(len(content)), 10)},
 			"X-Toolbox":      []string{"true"},
 		},
-		Body:          ioutil.NopCloser(strings.NewReader(content)),
+		Body:          io.NopCloser(strings.NewReader(content)),
 		ContentLength: int64(len(content)),
 	}
 

@@ -3,11 +3,11 @@ package es_zip
 import (
 	"archive/zip"
 	"errors"
-	"github.com/watermint/toolbox/essentials/log/esl"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
+
+	"github.com/watermint/toolbox/essentials/log/esl"
 )
 
 var (
@@ -100,7 +100,7 @@ func (z *zwImpl) AddFile(srcFilePath string, relPath string) error {
 
 func (z *zwImpl) AddFolder(srcFolderPath string, relPath string) error {
 	l := z.logger.With(esl.String("srcFolderPath", srcFolderPath), esl.String("relPath", relPath))
-	entries, err := ioutil.ReadDir(srcFolderPath)
+	entries, err := os.ReadDir(srcFolderPath)
 	if err != nil {
 		l.Debug("Unable to read the folder", esl.Error(err))
 		return err

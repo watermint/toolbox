@@ -1,16 +1,17 @@
 package es_file_copy
 
 import (
-	"github.com/watermint/toolbox/quality/infra/qt_file"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/watermint/toolbox/quality/infra/qt_file"
 )
 
 func TestCopy(t *testing.T) {
 	qt_file.TestWithTestFolder(t, "copy", false, func(path string) {
 		srcPath := filepath.Join(path, "copy-src.txt")
-		err := ioutil.WriteFile(srcPath, []byte("0123abc"), 0644)
+		err := os.WriteFile(srcPath, []byte("0123abc"), 0644)
 		if err != nil {
 			t.Error(err)
 			return
@@ -23,7 +24,7 @@ func TestCopy(t *testing.T) {
 			return
 		}
 
-		dstContent, err := ioutil.ReadFile(dstPath)
+		dstContent, err := os.ReadFile(dstPath)
 		if err != nil {
 			t.Error(err)
 		}
